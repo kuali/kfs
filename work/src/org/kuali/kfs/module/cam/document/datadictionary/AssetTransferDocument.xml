@@ -47,7 +47,6 @@
         <ref bean="AssetTransferDocument-representativeUniversalIdentifier"/>
         <ref bean="AssetTransferDocument-assetRepresentative.principalName"/>
         <ref bean="AssetTransferDocument-assetRepresentative.name"/>
-        <ref bean="AssetTransferDocument-objectId"/>
         <ref bean="AssetTransferDocument-documentNumber"/>
         <ref bean="AssetTransferDocument-oldOrganizationOwnerChartOfAccountsCode"/>
         <ref bean="AssetTransferDocument-oldOrganizationOwnerAccountNumber"/>
@@ -224,10 +223,7 @@
     <property name="shortLabel" value="Representative"/>
     <property name="required" value="false"/>
   </bean>
-  <bean id="AssetTransferDocument-objectId" parent="AssetTransferDocument-objectId-parentBean"/>
 
-  <bean id="AssetTransferDocument-objectId-parentBean" abstract="true" parent="GenericAttributes-objectId">
-  </bean>
   <bean id="AssetTransferDocument-documentNumber" parent="AssetTransferDocument-documentNumber-parentBean"/>
 
   <bean id="AssetTransferDocument-documentNumber-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">

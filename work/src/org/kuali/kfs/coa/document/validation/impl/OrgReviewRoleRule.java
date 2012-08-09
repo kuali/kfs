@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.coa.identity.KfsKimDocRoleMember;
 import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
@@ -33,13 +32,9 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.criteria.PredicateUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
-import org.kuali.rice.kim.api.group.Group;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.DelegateMemberQueryResults;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMembership;
@@ -122,21 +117,20 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
             putFieldError(OrgReviewRole.ACTIVE_TO_DATE, "error.document.orgReview.invalidEndDate", label);
             valid = false;
         }
-        
+
         return valid;
     }
-    
+
     protected boolean validateRoleMember(OrgReviewRole orr){
         boolean valid = true;
         if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
-            Person principal = orr.getPerson();
-            if(principal == null || StringUtils.isEmpty(principal.getPrincipalId())){
+            if (orr.getPerson() == null) {
                 String label = getDataDictionaryService().getAttributeLabel(OrgReviewRole.class, OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME);
                 putFieldError(OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME, "error.document.orgReview.invalidRoleMember", label );
                 valid = false;
             }
         }
-        if(StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){            
+        if(StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
             if(orr.getRole() == null){
                 String label = getDataDictionaryService().getAttributeLabel(OrgReviewRole.class, OrgReviewRole.ROLE_NAME_FIELD_NAME);
                 putFieldError(OrgReviewRole.ROLE_NAME_FIELD_NAME, "error.document.orgReview.invalidRoleMember", label );
@@ -164,10 +158,10 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
             if(roleDelegationMembers!=null){
                 for(DelegateMember delegationMember: roleDelegationMembers){
                     boolean attributesUnique = areAttributesUnique(orr, delegationMember.getAttributes());
-                    if(!attributesUnique 
-                            && StringUtils.isNotBlank(orr.getMemberId()) 
+                    if(!attributesUnique
+                            && StringUtils.isNotBlank(orr.getMemberId())
                             && orr.getMemberId().equals(delegationMember.getMemberId())
-                            && (StringUtils.isNotBlank(orr.getRoleMemberId()) 
+                            && (StringUtils.isNotBlank(orr.getRoleMemberId())
                                     && StringUtils.isNotBlank(delegationMember.getRoleMemberId()))
                             ){
                        putFieldError(orr.getMemberFieldName(), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
@@ -178,7 +172,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         }
         return true;
     }
-    
+
     protected boolean validateDelgationAmountsWithinRoleMemberBoundaries( OrgReviewRole orr ) {
         boolean valid = true;
         if(StringUtils.isNotEmpty(orr.getRoleMemberId())){
@@ -211,19 +205,19 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         }
         return valid;
     }
-    
+
     protected boolean validateDelegation(OrgReviewRole orr, boolean isEdit){
         boolean valid = true;
-        
+
         if ( orr.getDelegationType() == null  ) {
             putFieldError( OrgReviewRole.DELEGATION_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED, "Delegation Type Code");
             valid = false;
         }
-        
+
         if(!isEdit){
             valid &= verifyUniqueDelegationMember(orr);
         }
-        
+
         valid &= validateDelgationAmountsWithinRoleMemberBoundaries(orr);
         return valid;
     }
@@ -239,7 +233,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
 
     /**
      * validate if the newly entered role members are already assigned to the role
-     * 
+     *
      * @param orr
      * @param isEdit
      * @return

@@ -15,47 +15,6 @@
  limitations under the License.
 -->
         
-    <bean id="GenericAttributes" parent="GenericAttributes-parentBean"/>
-
-	<bean id="GenericAttributes-parentBean" abstract="true" parent="BusinessObjectEntry">
-	  <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.GenericAttributes"/>
-      <property name="objectLabel" value="Generic Attributes"/>
-	  <property name="attributes">
-		<list>
-		  <ref bean="GenericAttributes-oneDigitTextCode"/>
-		  <ref bean="GenericAttributes-twoDigitTextCode"/>
-		  <ref bean="GenericAttributes-genericDate"/>
-		  <ref bean="GenericAttributes-genericTimestamp"/>
-		  <ref bean="GenericAttributes-genericBoolean"/>
-		  <ref bean="GenericAttributes-activeIndicator"/>
-		  <ref bean="GenericAttributes-genericAmount"/>
-		  <ref bean="GenericAttributes-genericBigText"/>
-		  <ref bean="GenericAttributes-emailAddress"/>
-		  <ref bean="GenericAttributes-universityFiscalAccountingPeriod"/>
-		  <ref bean="GenericAttributes-transactionEntrySequenceId"/>
-		  <ref bean="GenericAttributes-sequenceNumber"/>
-		  <ref bean="GenericAttributes-itemSequenceNumber"/>
-		  <ref bean="GenericAttributes-transactionEntrySequenceNumber"/>		  
-		  <ref bean="GenericAttributes-genericFiscalYear"/>
-		  <ref bean="GenericAttributes-versionNumber"/>
-		  <ref bean="GenericAttributes-objectId"/>
-		  <ref bean="GenericAttributes-createDate"/>
-		  <ref bean="GenericAttributes-initiatorNetworkId"/>
-		  <ref bean="GenericAttributes-percent"/>
-		  <ref bean="GenericAttributes-maxDollarAmount"/>
-		  <ref bean="GenericAttributes-minDollarAmount"/>
-		  <ref bean="GenericAttributes-totalDollarAmount"/>
-		  <ref bean="GenericAttributes-newCollectionRecord"/>
-		  <ref bean="GenericAttributes-searchType"/>
-		  <ref bean="GenericAttributes-displayType"/>
-		  <ref bean="GenericAttributes-documentTotalAmount"/>
-		  <ref bean="GenericAttributes-routingAttributeTitle"/>
-		  <ref bean="GenericAttributes-financialDocumentStatusName"/>
-		  <ref bean="GenericAttributes-financialSystemDocumentTypeCode"/>
-		  <ref bean="GenericAttributes-referenceTypeCode"/>
-	    </list>
-	  </property>
-    </bean>
 
 <!-- Attribute Definitions -->
 
@@ -83,6 +42,7 @@
   <bean id="ExactlyOneCharacterValidationPattern" parent="AnyCharacterValidationPattern" p:exactLength="1"/>
   <bean id="ExactlyTwoCharacterValidationPattern" parent="AnyCharacterValidationPattern" p:exactLength="2"/>
   <bean id="GenericAmountValiationPattern" parent="FixedPointValidationPattern" p:precision="19" p:scale="2" p:allowNegative="true" />
+  <bean id="PositiveOnlyAmountValiationPattern" parent="FixedPointValidationPattern" p:precision="19" p:scale="2" p:allowNegative="false" />
   <bean id="AnyCharacterValidation" parent="AnyCharacterValidationPattern" />
   <bean id="AnyCharacterWithWhitespaceValidation" parent="AnyCharacterValidation" p:allowWhitespace="true"/>
   <bean id="AlphaNumericValidation" parent="AlphaNumericValidationPattern" />
@@ -146,8 +106,8 @@
     <property name="control" ref="KfsCheckboxControl" />
     <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   </bean>
+  
   <bean id="GenericAttributes-activeIndicator" parent="GenericAttributes-activeIndicator-parentBean"/>
-
   <bean id="GenericAttributes-activeIndicator-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="activeIndicator"/>
     <property name="forceUppercase" value="false"/>
@@ -293,18 +253,6 @@
     <property name="control" ref="HiddenControl" />
   </bean>
 
-  <bean id="GenericAttributes-objectId" parent="GenericAttributes-objectId-parentBean"/>
-  <bean id="GenericAttributes-objectId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="objectId"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Object Id"/>
-    <property name="shortLabel" value="Id"/>
-    <property name="maxLength" value="36"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="36"/>
-    </property>
-  </bean>
-
   <bean id="GenericAttributes-createDate" parent="GenericAttributes-createDate-parentBean"/>
   <bean id="GenericAttributes-createDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="createDate"/>
@@ -315,25 +263,9 @@
     <property name="control">
       <ref bean="TenCharacterTextControl" />
     </property>
-    
-    
   </bean>
-  <bean id="GenericAttributes-initiatorNetworkId" parent="GenericAttributes-initiatorNetworkId-parentBean"/>
-
-  <bean id="GenericAttributes-initiatorNetworkId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="initiatorNetworkId"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Initiator Network Id"/>
-    <property name="shortLabel" value="Initiator"/>
-    <property name="maxLength" value="36"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="36"/>
-    </property>
-    
-    
-  </bean>
+  
   <bean id="GenericAttributes-percent" parent="GenericAttributes-percent-parentBean"/>
-
   <bean id="GenericAttributes-percent-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="percent"/>
     <property name="forceUppercase" value="false"/>
@@ -342,52 +274,26 @@
     <property name="maxLength" value="20"/>
     <property name="control">
       <ref bean="TenCharacterTextControl" />
-    </property>
-    
-    
+    </property>    
   </bean>
-  <bean id="GenericAttributes-maxDollarAmount" parent="GenericAttributes-maxDollarAmount-parentBean"/>
 
-  <bean id="GenericAttributes-maxDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="GenericAttributes-maxDollarAmount" parent="GenericAttributes-maxDollarAmount-parentBean"/>
+  <bean id="GenericAttributes-maxDollarAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="maxDollarAmount"/>
-    <property name="forceUppercase" value="false"/>
     <property name="label" value="Maximum Amount"/>
     <property name="shortLabel" value="Max Amt"/>
-    <property name="maxLength" value="20"/>
-    <property name="control">
-      <ref bean="TenCharacterTextControl" />
-    </property>
+    <property name="control" ref="PositiveOnlyAmountValiationPattern" />
   </bean>
 
   <bean id="GenericAttributes-minDollarAmount" parent="GenericAttributes-minDollarAmount-parentBean"/>
-  <bean id="GenericAttributes-minDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="GenericAttributes-minDollarAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="minDollarAmount"/>
-    <property name="forceUppercase" value="false"/>
     <property name="label" value="Minimum Amount"/>
     <property name="shortLabel" value="Min Amt"/>
-    <property name="maxLength" value="20"/>
-    <property name="control">
-      <ref bean="TenCharacterTextControl" />
-    </property>
-    
-    
+    <property name="control" ref="PositiveOnlyAmountValiationPattern" />
   </bean>
-  <bean id="GenericAttributes-totalDollarAmount" parent="GenericAttributes-totalDollarAmount-parentBean"/>
-
-  <bean id="GenericAttributes-totalDollarAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="totalDollarAmount"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Total Amount"/>
-    <property name="shortLabel" value="Total Amt"/>
-    <property name="maxLength" value="20"/>
-    <property name="control">
-      <ref bean="TenCharacterTextControl" />
-    </property>
-    
-    
-  </bean>
+  
   <bean id="GenericAttributes-newCollectionRecord" parent="GenericAttributes-newCollectionRecord-parentBean"/>
-
   <bean id="GenericAttributes-newCollectionRecord-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="newCollectionRecord"/>
     <property name="forceUppercase" value="false"/>
@@ -397,28 +303,8 @@
     <property name="control" ref="HiddenControl" />
     <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   </bean>
-  <bean id="GenericAttributes-searchType" parent="GenericAttributes-searchType-parentBean"/>
-
-  <bean id="GenericAttributes-searchType-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="searchType"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Search Type"/>
-    <property name="shortLabel" value="Search"/>
-    <property name="maxLength" value="10"/>
-    <property name="control" ref="HiddenControl" />
-  </bean>
-  <bean id="GenericAttributes-displayType" parent="GenericAttributes-displayType-parentBean"/>
-
-  <bean id="GenericAttributes-displayType-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="displayType"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Search Result Type"/>
-    <property name="shortLabel" value="Result"/>
-    <property name="maxLength" value="10"/>
-    <property name="control" ref="HiddenControl" />
-  </bean>
+  
   <bean id="GenericAttributes-documentTotalAmount" parent="GenericAttributes-documentTotalAmount-parentBean"/>
-
   <bean id="GenericAttributes-documentTotalAmount-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentTotalAmount"/>
     <property name="forceUppercase" value="false"/>
@@ -427,18 +313,8 @@
     <property name="maxLength" value="10"/>
     <property name="control" ref="HiddenControl" />
   </bean>
-  <bean id="GenericAttributes-routingAttributeTitle" parent="GenericAttributes-routingAttributeTitle-parentBean"/>
 
-  <bean id="GenericAttributes-routingAttributeTitle-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="routingAttributeTitle"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Not Used"/>
-    <property name="shortLabel" value="Not Used"/>
-    <property name="maxLength" value="20"/>
-    <property name="control" ref="HiddenControl" />
-  </bean>
   <bean id="GenericAttributes-financialDocumentStatusName" parent="GenericAttributes-financialDocumentStatusName-parentBean"/>
-
   <bean id="GenericAttributes-financialDocumentStatusName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialDocumentStatusName"/>
     <property name="forceUppercase" value="false"/>
@@ -452,7 +328,6 @@
   </bean>
   
   <bean id="GenericAttributes-financialSystemDocumentTypeCode" parent="GenericAttributes-financialSystemDocumentTypeCode-parentBean"/>
-
   <bean id="GenericAttributes-financialSystemDocumentTypeCode-parentBean" abstract="true" parent="DocumentType-name">
     <property name="name" value="financialSystemDocumentTypeCode"/>
     <property name="label" value="Document Type"/>
@@ -463,19 +338,15 @@
   </bean>
   
   <bean id="GenericAttributes-referenceTypeCode" parent="GenericAttributes-referenceTypeCode-parentBean"/>
-
-  <bean id="GenericAttributes-referenceTypeCode-parentBean" abstract="true" parent="DocumentType-name">
+  <bean id="GenericAttributes-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
     <property name="shortLabel" value="Ref Doc Type Code"/>
     <property name="label" value="Reference Document Type Code"/>
     <property name="name" value="referenceTypeCode"/>
-    <property name="control">
-      <ref bean="TenCharacterTextControl" />
-    </property>
   </bean>
   
-  <bean id="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode" parent="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode-parentBean"/>
-  
+  <bean id="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode" parent="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode-parentBean"/> 
   <bean id="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode-parentBean" parent="GenericAttributes-financialSystemDocumentTypeCode" abstract="true">
   	<property name="maxLength" value="4"/>
   </bean>
+  
 </beans>

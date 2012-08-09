@@ -852,37 +852,22 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
 
 
     public boolean hasRole(){
-        return StringUtils.isNotBlank(roleMemberRoleNamespaceCode) && StringUtils.isNotBlank(roleMemberRoleName);
+        getRole();
+        return StringUtils.isNotBlank(roleMemberRoleName);
     }
 
     public boolean hasGroup(){
-        return StringUtils.isNotBlank(groupMemberGroupNamespaceCode) && StringUtils.isNotBlank(groupMemberGroupName);
+        getGroup();
+        return StringUtils.isNotBlank(groupMemberGroupName);
     }
 
     public boolean hasPrincipal(){
+        getPerson();
         return StringUtils.isNotBlank(principalMemberPrincipalName);
     }
 
     public boolean hasAnyMember(){
         return hasRole() || hasGroup() || hasPrincipal();
-    }
-
-    public KfsKimDocRoleMember getRoleMemberOfType(MemberType memberType){
-        KfsKimDocRoleMember member = new KfsKimDocRoleMember(getRoleId(), memberType);
-        if(MemberType.ROLE.equals(memberType)){
-            member.setMemberName(roleMemberRoleName);
-            member.setMemberNamespaceCode(roleMemberRoleNamespaceCode);
-            return member;
-        } else if(MemberType.GROUP.equals(memberType)){
-            member.setMemberName(groupMemberGroupName);
-            member.setMemberNamespaceCode(groupMemberGroupNamespaceCode);
-            return member;
-        } else if(MemberType.PRINCIPAL.equals(memberType)){
-            member.setMemberName(principalMemberPrincipalName);
-            member.setMemberNamespaceCode("");
-            return member;
-        }
-        return null;
     }
 
     public void setRoleMember( RoleMemberContract roleMember ) {
@@ -1023,20 +1008,20 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     public String getMemberTypeCode() {
         return memberTypeCode;
     }
-    
+
     public MemberType getMemberType() {
         if ( StringUtils.isBlank(memberTypeCode) ) {
             return null;
         }
         return MemberType.fromCode(memberTypeCode);
     }
-    
+
     /**
      * Gets the group attribute.
      * @return Returns the group.
      */
     public GroupEbo getGroup() {
-        if ( group == null || !StringUtils.equals(group.getId(), groupMemberGroupId)) {
+        if ( (group == null || !StringUtils.equals(group.getId(), groupMemberGroupId)) && StringUtils.isNotBlank(groupMemberGroupId) ) {
             ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(GroupEbo.class);
             if ( moduleService != null ) {
                 Map<String,Object> keys = new HashMap<String, Object>(1);
@@ -1047,6 +1032,42 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
             } else {
                 throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
             }
+        } else if ( StringUtils.isNotBlank(groupMemberGroupName) ) {
+            ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(GroupEbo.class);
+            if ( moduleService != null ) {
+                // if we have both a namespace and a name
+                if ( StringUtils.isNotBlank(groupMemberGroupNamespaceCode) ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, groupMemberGroupNamespaceCode);
+                    keys.put(KimConstants.UniqueKeyConstants.GROUP_NAME, groupMemberGroupName);
+                    List<GroupEbo> groups = moduleService.getExternalizableBusinessObjectsList(GroupEbo.class, keys);
+                    // this *should* only retrieve a single record
+                    if ( groups != null && !groups.isEmpty() ) {
+                        group = groups.get(0);
+                        groupMemberGroupId = group.getId();
+                    } else {
+                        group = null;
+                        groupMemberGroupId = "";
+                    }
+                } else { // if we only have the name - see if it's unique
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(KimConstants.UniqueKeyConstants.GROUP_NAME, groupMemberGroupName);
+                    List<GroupEbo> groups = moduleService.getExternalizableBusinessObjectsList(GroupEbo.class, keys);
+                    // if retrieves a single record, then it's unique, we set it and the namespace
+                    if ( groups != null && groups.size() == 1 ) {
+                        group = groups.get(0);
+                        groupMemberGroupId = group.getId();
+                        groupMemberGroupNamespaceCode = group.getNamespaceCode();
+                    } else {
+                        group = null;
+                        groupMemberGroupId = "";
+                    }
+                }
+            } else {
+                throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+            }
+        } else {
+            group = null;
         }
         return group;
     }
@@ -1115,17 +1136,53 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * @return Returns the role.
      */
     public RoleEbo getRole() {
-        if ( role == null || !StringUtils.equals(role.getId(), roleMemberRoleId)) {
+        if ( (role == null || !StringUtils.equals(role.getId(), roleMemberRoleId)) && StringUtils.isNotBlank(roleMemberRoleId) ) {
             ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(RoleEbo.class);
             if ( moduleService != null ) {
                 Map<String,Object> keys = new HashMap<String, Object>(1);
-                keys.put(KimConstants.PrimaryKeyConstants.ID, roleMemberRoleId);
+                keys.put(KimConstants.PrimaryKeyConstants.ROLE_ID, roleMemberRoleId);
                 role = moduleService.getExternalizableBusinessObject(RoleEbo.class, keys);
                 roleMemberRoleNamespaceCode = role.getNamespaceCode();
                 roleMemberRoleName = role.getName();
             } else {
                 throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
             }
+        } else if ( StringUtils.isNotBlank(roleMemberRoleName) ) {
+            ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(RoleEbo.class);
+            if ( moduleService != null ) {
+                // if we have both a namespace and a name
+                if ( StringUtils.isNotBlank(roleMemberRoleNamespaceCode) ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, roleMemberRoleNamespaceCode);
+                    keys.put(KimConstants.UniqueKeyConstants.NAME, roleMemberRoleName);
+                    List<RoleEbo> roles = moduleService.getExternalizableBusinessObjectsList(RoleEbo.class, keys);
+                    // this *should* only retrieve a single record
+                    if ( roles != null && !roles.isEmpty() ) {
+                        role = roles.get(0);
+                        roleMemberRoleId = role.getId();
+                    } else {
+                        role = null;
+                        roleMemberRoleId = "";
+                    }
+                } else { // if we only have the name - see if it's unique
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(KimConstants.UniqueKeyConstants.NAME, roleMemberRoleName);
+                    List<RoleEbo> roles = moduleService.getExternalizableBusinessObjectsList(RoleEbo.class, keys);
+                    // if retrieves a single record, then it's unique, we set it and the namespace
+                    if ( roles != null && roles.size() == 1 ) {
+                        role = roles.get(0);
+                        roleMemberRoleId = role.getId();
+                        roleMemberRoleNamespaceCode = role.getNamespaceCode();
+                    } else {
+                        role = null;
+                        roleMemberRoleId = "";
+                    }
+                }
+            } else {
+                throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+            }
+        } else {
+            role = null;
         }
         return role;
     }

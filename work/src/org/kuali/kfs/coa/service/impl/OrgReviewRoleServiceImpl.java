@@ -31,7 +31,6 @@ import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.criteria.PredicateUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -189,7 +188,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
      */
     @Override
     @Cacheable(value=OrgReviewRole.CACHE_NAME,key="#p0")
-    public List<String> getRolesToConsider(String documentTypeName) throws ValidationException {       
+    public List<String> getRolesToConsider(String documentTypeName) throws ValidationException {
         List<String> rolesToConsider = new ArrayList<String>(2);
         if(StringUtils.isBlank(documentTypeName) || KFSConstants.ROOT_DOCUMENT_TYPE.equals(documentTypeName) ){
             rolesToConsider.add(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
@@ -376,21 +375,12 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 
     protected KfsKimDocRoleMember getRoleMemberToSave(Role role, OrgReviewRole orr){
         KfsKimDocRoleMember roleMember = null;
-        if(StringUtils.isNotEmpty(orr.getRoleMemberRoleNamespaceCode()) && StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
-            String memberId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
-            roleMember = new KfsKimDocRoleMember(role.getId(), MemberType.ROLE, memberId);
-        }
-        if(roleMember==null){
-            if(StringUtils.isNotEmpty(orr.getGroupMemberGroupNamespaceCode()) && StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
-                Group groupInfo = KimApiServiceLocator.getGroupService().getGroupByNamespaceCodeAndName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
-                roleMember = new KfsKimDocRoleMember(role.getId(), MemberType.GROUP, groupInfo.getId() );
-            }
-        }
-        if(roleMember==null){
-            if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
-                Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(orr.getPrincipalMemberPrincipalName());
-                roleMember = new KfsKimDocRoleMember(role.getId(), MemberType.PRINCIPAL, principal.getPrincipalId());
-            }
+        if ( orr.getPerson() != null ) {
+            roleMember = new KfsKimDocRoleMember(role.getId(), MemberType.PRINCIPAL, orr.getPerson().getPrincipalId());
+        } else if ( orr.getGroup() != null ) {
+            roleMember = new KfsKimDocRoleMember(role.getId(), MemberType.GROUP, orr.getGroup().getId() );
+        } else if( orr.getRole() != null ){
+            roleMember = new KfsKimDocRoleMember(role.getId(), MemberType.ROLE, orr.getRole().getId() );
         }
         if ( roleMember != null ) {
             if(orr.isEdit()){

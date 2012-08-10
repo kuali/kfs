@@ -1320,7 +1320,7 @@
 		<field-descriptor name="travelerId" column="TRAVELER_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="airNumber" column="AIR_NUMBER" jdbc-type="VARCHAR"/>
 		<field-descriptor name="billingCycleDate" column="BILLING_CYCLE_DT" jdbc-type="DATE"/>
-		<field-descriptor name="creditCardAgencyCode" column="CREDIT_AGENCY_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="creditCardOrAgencyCode" column="CREDIT_AGENCY_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="creationDate" column="CREATION_DT" jdbc-type="DATE"/>
 		<field-descriptor name="creationTimestamp" column="CREATION_TIMESTAMP" jdbc-type="TIMESTAMP"/>
 		<field-descriptor name="departureDate" column="DEPARTURE_DT" jdbc-type="DATE"/>

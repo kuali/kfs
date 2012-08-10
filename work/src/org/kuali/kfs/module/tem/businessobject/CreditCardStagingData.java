@@ -37,7 +37,7 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
     private Integer travelerId;
     private String airNumber;
     private Date billingCycleDate;
-    private String creditCardAgencyCode;
+    private String creditCardOrAgencyCode;
     private Integer creditCardAgencyId;
     private Date creationDate;
     private Timestamp creationTimestamp;
@@ -118,13 +118,13 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
 
 
     @Column(name = "CREDIT_AGENCY_CD", length = 4, nullable = true)
-    public String getCreditCardAgencyCode() {
-        return creditCardAgencyCode;
+    public String getCreditCardOrAgencyCode() {
+        return creditCardOrAgencyCode;
     }
 
 
-    public void setCreditCardAgencyCode(String creditCardAgencyCode) {
-        this.creditCardAgencyCode = creditCardAgencyCode;
+    public void setCreditCardOrAgencyCode(String creditCardOrAgencyCode) {
+        this.creditCardOrAgencyCode = creditCardOrAgencyCode;
     }
 
 

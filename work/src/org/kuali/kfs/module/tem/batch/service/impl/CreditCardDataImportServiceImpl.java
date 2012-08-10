@@ -233,9 +233,9 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
      */
     @Override
     public boolean validateAndSetCreditCardAgency(CreditCardStagingData creditCardData){
-        CreditCardAgency ccAgency = creditCardAgencyService.getCreditCardAgencyByCode(creditCardData.getCreditCardAgencyCode());
+        CreditCardAgency ccAgency = creditCardAgencyService.getCreditCardAgencyByCode(creditCardData.getCreditCardOrAgencyCode());
         if (ObjectUtils.isNull(ccAgency)) {
-            LOG.error("Mandatory Field Credit Card Or Agency Code is invalid: " + creditCardData.getCreditCardAgencyCode());
+            LOG.error("Mandatory Field Credit Card Or Agency Code is invalid: " + creditCardData.getCreditCardOrAgencyCode());
             creditCardData.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_INVALID_CC_AGENCY);
             return false;
         }

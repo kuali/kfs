@@ -6447,13 +6447,10 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="DOBJ_MAINT_CD_ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <column name="CTRL_ATTRIB_TYP_CD" required="true" size="1" type="VARCHAR"/>
+        <column name="CTRL_ATTRIB_TYP_CD" size="1" type="VARCHAR"/>
         <column name="RSRCH_RSK_TYP_DESC" size="30" type="VARCHAR"/>
         <column name="RSRCH_RSK_TYP_SORT_NBR" size="2" type="DECIMAL"/>
         <column name="RSRCH_RSK_TYP_NTFCTN_VAL" size="8" type="VARCHAR"/>
-        <foreign-key foreignTable="ER_CTRL_ATTRIB_TYP_T" name="ER_RSRCH_RSK_TYP_TR1">
-            <reference foreign="CTRL_ATTRIB_TYP_CD" local="CTRL_ATTRIB_TYP_CD"/>
-        </foreign-key>
         <unique name="ER_RSRCH_RSK_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

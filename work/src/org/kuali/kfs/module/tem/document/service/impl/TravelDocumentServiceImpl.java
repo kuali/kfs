@@ -1934,4 +1934,5 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         this.universityDateService = universityDateService;
     }
 
+    public void adjustEncumbranceForAmendment(final TravelDocument taDocument) {}
 }

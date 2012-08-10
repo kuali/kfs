@@ -138,9 +138,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         //copy over all possible elements from this self to TravelAuthorizationDocument except document header 
         BeanUtils.copyProperties(this, copytToDocument, new String[]{KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME});
         
-        //CLEANUP ?? SW: this part seems silly - take the given copyTo document, clone the header and then set it back
         FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
         BeanUtils.copyProperties(copytToDocument.getDocumentHeader(), documentHeader);
+        documentHeader.setOrganizationDocumentNumber(this.getDocumentHeader().getOrganizationDocumentNumber());
         copytToDocument.setDocumentHeader(documentHeader);
         
         copytToDocument.setTransportationModes(getTravelDocumentService().copyTransportationModeDetails(getTransportationModes(), documentID));

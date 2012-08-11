@@ -589,7 +589,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
                     }
                 }
 
-                getTravelDocumentService().adjustEncumbranceForAmendment(this);
+                getTravelEncumbranceService().adjustEncumbranceForAmendment(this);
             }
         }
     }

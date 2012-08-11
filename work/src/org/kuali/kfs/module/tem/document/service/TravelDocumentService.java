@@ -31,6 +31,7 @@ import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
@@ -46,7 +47,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * Travel Document Service
  */
 public interface TravelDocumentService {
-    Map<String, List<Document>> getDocumentsRelatedTo(final String documentNumber) throws WorkflowException;
 
     public String getMessageFrom(final String messageType, String... args);
 
@@ -71,13 +71,33 @@ public interface TravelDocumentService {
     void updatePerDiemItemsFor(final TravelDocument document, final List<PerDiemExpense> perDiemList, final Integer perDiemId, final Timestamp start, final Timestamp end);
 
     /**
-     * Get DV, TA, TAA, TAC, TR, and AV documents related to the given <code>document</code>. travel document either have a travel
-     * document number or they have the value of the <code>document</code> in their organization doc ids.
+     * Wrapper function to retrieve by document number 
      * 
-     * @param document {@link TravelDocument} to get other document instances related to
-     * @return A {@link Map} of {@link Document} instances where the key is the document type name
+     * @param document
+     * @return
+     * @throws WorkflowException
      */
     Map<String, List<Document>> getDocumentsRelatedTo(final TravelDocument document) throws WorkflowException;
+    
+    /**
+     *  Get DV, TA, TAA, TAC, TR, and AV documents related to the given <code>travelDocumentIdentifier</code>. travel document either
+     * have a TEM document number or they have the value of the <code>travelDocumentIdentifier</code> in their organization doc
+     * ids.
+     * 
+     * @param documentNumber
+     * @return
+     * @throws WorkflowException
+     */
+    Map<String, List<Document>> getDocumentsRelatedTo(final String documentNumber) throws WorkflowException;
+    
+    /**
+     * Get related document lists filtering by the document type
+     * 
+     * @param document
+     * @param documentType
+     * @return
+     */
+    List<Document> getDocumentsRelatedTo(final TravelDocument document, String... documentType);
 
     /**
      * This method will add fyi notes to initiator when document is cancelled, closed, etc.
@@ -217,6 +237,8 @@ public interface TravelDocumentService {
 
     public boolean isFinal(TravelDocument document);  
 
+    public boolean isTravelAuthorizationProcessed(TravelAuthorizationDocument document);
+    
     public boolean isUnsuccessful(TravelDocument document);
 
     public Integer calculatePerDiemPercentageFromTimestamp(PerDiemExpense perDiemExpense, Timestamp tripEnd);

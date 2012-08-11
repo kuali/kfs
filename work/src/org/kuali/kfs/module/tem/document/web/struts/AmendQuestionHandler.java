@@ -32,6 +32,8 @@ import static org.kuali.kfs.sys.KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME;
 import static org.kuali.rice.kns.util.ObjectUtils.isNotNull;
 import static org.kuali.rice.kns.util.ObjectUtils.isNull;
 
+import java.util.List;
+
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
@@ -41,10 +43,12 @@ import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
+import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.dao.DocumentDao;
+import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -58,6 +62,7 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
     private KualiConfigurationService kualiConfigurationService;
     private DataDictionaryService dataDictionaryService;
     private TravelService travelService;
+    private TravelDocumentService travelDocumentService;
     private DocumentService documentService;
     private DocumentDao documentDao;
     private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
@@ -110,8 +115,8 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             newNote.setNoteText(noteText.toString());
             ((TravelDocumentBase) document).updateAppDocStatus(newStatus);
             getDocumentDao().save(document);
-                        
             String headerID = document.getDocumentHeader().getDocumentNumber();
+            
             TravelAuthorizationAmendmentDocument taaDocument = ((TravelAuthorizationDocument) document).toCopyTAA();
             getDocumentService().addNoteToDocument(taaDocument, newNote); 
             Note secondNote = getDocumentService().createNoteFromDocument(document, getMessageFrom(TemKeyConstants.TA_MESSAGE_AMEND_DOCUMENT_TEXT));
@@ -125,10 +130,19 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             ((TravelDocumentBase) taaDocument).updateAppDocStatus(TravelAuthorizationStatusCodeKeys.CHANGE_IN_PROCESS);
             
             // add relationship            
-            String documentType = document instanceof TravelAuthorizationAmendmentDocument ? "TAA" : "TA";            
-            String relationDescription = documentType + " - TAA";
+            String documentType = document instanceof TravelAuthorizationAmendmentDocument ? TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT : TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT;            
+            String relationDescription = documentType + " - " + TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT;
             accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(document.getDocumentNumber(), taaDocument.getDocumentNumber(), relationDescription));
-                        
+
+            // add an additional relationship to the original TA
+            if (documentType.equals(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT)){
+                relationDescription = TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT + " - " + TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT;
+                
+                List<Document> travelAuthDocs = travelDocumentService.getDocumentsRelatedTo(document, TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+                //there should only be one travel auth document
+                accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(travelAuthDocs.get(0).getDocumentNumber(), taaDocument.getDocumentNumber(), relationDescription));
+            }
+            
             if (isNotNull(returnActionForward)) {
                 return returnActionForward;
             }
@@ -286,5 +300,10 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
 
     public void setAccountingDocumentRelationshipService(AccountingDocumentRelationshipService accountingDocumentRelationshipService) {
         this.accountingDocumentRelationshipService = accountingDocumentRelationshipService;
+    }
+    
+
+    public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
+        this.travelDocumentService = travelDocumentService;
     }
 }

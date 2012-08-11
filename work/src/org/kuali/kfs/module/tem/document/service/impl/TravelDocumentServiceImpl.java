@@ -467,11 +467,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     /**
-     * Get DV, TA, TAA, TAC, TR, and AV documents related to the given <code>document</code>. travel document either have a travel
-     * document number or they have the value of the <code>document</code> in their organization doc ids.
-     * 
-     * @param document {@link TravelDocument} to get other document instances related to
-     * @return A {@link Map} of {@link Document} instances where the key is the document type name
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getDocumentsRelatedTo(org.kuali.kfs.module.tem.document.TravelDocument)
      */
     @Override
     public Map<String, List<Document>> getDocumentsRelatedTo(final TravelDocument document) throws WorkflowException {
@@ -479,12 +475,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     /**
-     * Get DV, TA, TAA, TAC, TR, and AV documents related to the given <code>travelDocumentIdentifier</code>. travel document either
-     * have a TEM document number or they have the value of the <code>travelDocumentIdentifier</code> in their organization doc
-     * ids.
-     * 
-     * @param travelDocumentIdentifier integer that links all travel related documents together
-     * @return A {@link Map} of {@link Document} instances where the key is the document type name
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getDocumentsRelatedTo(java.lang.String)
      */
     @Override
     public Map<String, List<Document>> getDocumentsRelatedTo(final String documentNumber) throws WorkflowException {
@@ -519,6 +510,27 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
 
         return retval;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getDocumentsRelatedTo(org.kuali.kfs.module.tem.document.TravelDocument, java.lang.String[])
+     */
+    @Override
+    public List<Document> getDocumentsRelatedTo(final TravelDocument document, String... documentTypeList){
+        List<Document> relatedDocumentList = new ArrayList<Document>();
+        Map<String, List<Document>> relatedDocumentMap;
+        try {
+            relatedDocumentMap = getDocumentsRelatedTo(document);
+            for (String documentType : documentTypeList){
+                if (relatedDocumentMap.containsKey(documentType)){
+                    relatedDocumentList.addAll(relatedDocumentMap.get(documentType));
+                }
+            }
+        }
+        catch (WorkflowException ex) {
+            LOG.error(ex.getMessage(), ex);
+        }
+        return relatedDocumentList;
     }
 
     /**
@@ -614,15 +626,19 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return retval;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#find(java.lang.Class, java.lang.String)
+     */
     @Override
     public <T> List<T> find(final Class<T> travelDocumentClass, final String travelDocumentNumber) throws WorkflowException {
-        final List ids = getTravelDocumentDao().findDocumentNumbers(travelDocumentClass, travelDocumentNumber);
+        final List<String> ids = getTravelDocumentDao().findDocumentNumbers(travelDocumentClass, travelDocumentNumber);
 
-        if (ids.size() > 0) {
-            return (List<T>) getDocumentService().getDocumentsByListOfDocumentHeaderIds(travelDocumentClass, ids);
+        List<T> resultDocumentLists = new ArrayList<T>();
+        //retrieve the actual documents
+        if (!ids.isEmpty()) {
+            resultDocumentLists = getDocumentService().getDocumentsByListOfDocumentHeaderIds(travelDocumentClass, ids);
         }
-
-        return new ArrayList();
+        return resultDocumentLists;
     }
 
     /**
@@ -1201,6 +1217,16 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return document.getDocumentHeader().getWorkflowDocument().stateIsFinal();
     }
     
+    /**
+     * 
+     * @param document
+     * @return
+     */
+     @Override
+    public boolean isTravelAuthorizationProcessed(TravelAuthorizationDocument document){
+        return (isFinal(document) || isProcessed(document)) && isOpen(document);
+    }
+    
     @Override
     public boolean isUnsuccessful(TravelDocument document) {
         String status = document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
@@ -1240,6 +1266,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     }
     
     /**
+     * CLEAN UP
+     * 
      * Find the current travel authorization.  This includes any amendments.
      * @param trDocument
      * @return
@@ -1260,15 +1288,14 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         else if (taaDocs != null && taaDocs.size() > 0){
             for (Document tempDocument : taaDocs){
                 //Find the doc that is the open to perform actions against.
-                if ((isFinal((TravelAuthorizationDocument)tempDocument)
-                        || isProcessed((TravelAuthorizationDocument)tempDocument))
-                        && isOpen((TravelAuthorizationDocument)tempDocument)){
+                if (isTravelAuthorizationProcessed((TravelAuthorizationDocument)tempDocument)){
                     return (TravelAuthorizationDocument) tempDocument;
                 }
             }           
         }
         //return TA doc if no amendments exist
         else{
+            //CLEANUP - this may happen when the Travel document did not link to an TA for some reason..
             if(taDocs == null || taDocs.isEmpty()){
                 List<TravelAuthorizationDocument> tempTaDocs = find(TravelAuthorizationDocument.class, document.getTravelDocumentIdentifier());
                 taDocs = new ArrayList<Document>();
@@ -1286,23 +1313,16 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     public KualiDecimal getTotalCumulativeReimbursements(TravelDocument document) {
         KualiDecimal trTotal = KualiDecimal.ZERO;
-        List<Document> trDocs = null;
-        try {
-            trDocs = getDocumentsRelatedTo(document).get(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
+        
+        List<Document> relatedTravelReimbursementDocuments = getDocumentsRelatedTo(document, TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
+        for(Document trDoc: relatedTravelReimbursementDocuments) {
+            List<AccountingLine> lines = ((TravelReimbursementDocument)trDoc).getSourceAccountingLines();
+            for(AccountingLine line: lines) {
+                trTotal = trTotal.add(line.getAmount());
+            }
         }
-        catch (WorkflowException ex) {
-            ex.printStackTrace();
-        }
-        if(trDocs != null && trDocs.size() > 0) {
-            for(Document trDoc: trDocs) {
-                List<AccountingLine> lines = ((TravelReimbursementDocument)trDoc).getSourceAccountingLines();
-                for(AccountingLine line: lines) {
-                    trTotal = trTotal.add(line.getAmount());
-                }
-                
-            } 
-        }
-        if (document.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)){
+        
+        if (document.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)){
             List<AccountingLine> lines = document.getSourceAccountingLines();
             for(AccountingLine line: lines) {
                 trTotal = trTotal.add(line.getAmount());
@@ -1797,25 +1817,11 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public void revertOriginalDocument(TravelDocument travelDocument, String status) {
-        Map<String, List<Document>> relatedDocs = new HashMap<String, List<Document>>();
-        try {
-            relatedDocs = getDocumentsRelatedTo(travelDocument);
-        }
-        catch (WorkflowException ex1) {
-            ex1.printStackTrace();
-        }
-        List<Document> taDocs = relatedDocs.get(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
-        List<Document> taaDocs = relatedDocs.get(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
+        
+        List<Document> relatedDocumentList = getDocumentsRelatedTo(travelDocument, TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT,
+                TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
 
-        if (taDocs == null) {
-            taDocs = new ArrayList<Document>();
-        }
-
-        if (taaDocs != null) {
-            taDocs.addAll(taaDocs);
-        }
-
-        for (Document taDocument : taDocs) {
+        for (Document taDocument : relatedDocumentList) {
             if (taDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus().equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)) {
                 TravelAuthorizationDocument taDoc = (TravelAuthorizationDocument) taDocument;
                 taDoc.updateAppDocStatus(status);

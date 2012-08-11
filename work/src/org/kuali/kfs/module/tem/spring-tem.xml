@@ -1155,6 +1155,7 @@
 		class="org.kuali.kfs.module.tem.document.web.struts.AmendQuestionHandler">
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="travelService" ref="temTravelService" />
+        <property name="travelDocumentService" ref="temTravelDocumentService" />
 		<property name="documentDao" ref="documentDao" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />

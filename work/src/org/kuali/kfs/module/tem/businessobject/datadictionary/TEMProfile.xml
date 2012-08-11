@@ -835,7 +835,7 @@
 				<!-- <bean parent="FieldDefinition" p:attributeName="homeDeptOrgCode" 
 					/> -->
 				<bean parent="FieldDefinition" p:attributeName="defaultAccount" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 			</list>
 		</property>
 		<property name="resultFields">

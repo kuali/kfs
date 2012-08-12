@@ -1313,7 +1313,7 @@
           <start name="AdHoc" nextNode="RequiresImageAttachment" nextAppDocStatus="Awaiting AP Review"/>
           <split name="RequiresImageAttachment" nextNode="PurchaseWasReceived">
             <branch name="True">
-              <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment" nextAppDocStatus="Awaiting AP Review" />
+              <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment" nextAppDocStatus="Awaiting Receiving" />
             </branch>
             <branch name="False">
               <simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment" nextAppDocStatus="Awaiting Receiving"/>

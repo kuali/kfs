@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -55,7 +56,7 @@ public class KFSPurapDocumentSearchCustomizer extends KFSDocumentSearchCustomize
         if ( defaultResults.size() > 0 ) {
             for (DocumentAttribute documentAttribute : defaultResults.get(0).getDocumentAttributes()) {
                 if (KFSPropertyConstants.PURAP_DOC_ID.equals(documentAttribute.getName())) {
-                    isAuthorizedToViewPurapDocId = isAuthorizedToViewPurapDocId();
+                    isAuthorizedToViewPurapDocId = isAuthorizedToViewPurapDocId(documentSearchCriteria.getDocSearchUserId());
                 }
             }
         }
@@ -92,14 +93,14 @@ public class KFSPurapDocumentSearchCustomizer extends KFSDocumentSearchCustomize
         return super.isCustomizeResultsEnabled(documentTypeName);
     }
 
-    protected boolean isAuthorizedToViewPurapDocId() {
+    protected boolean isAuthorizedToViewPurapDocId(String principalId) {
         //prevent a NPE when user has not logged in yet..
         //KFSMI-8771
-     //   if (GlobalVariables.getUserSession().getPerson() == null) {
-    //        return false;
-    //    }
+        if (StringUtils.isBlank(principalId)) {
+            return false;
+        }
         
-        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+      //  String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
         String namespaceCode = KFSConstants.CoreModuleNamespaces.KNS;
         String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
 
@@ -113,5 +114,4 @@ public class KFSPurapDocumentSearchCustomizer extends KFSDocumentSearchCustomize
         boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
         return isAuthorized;
     }
-
 }

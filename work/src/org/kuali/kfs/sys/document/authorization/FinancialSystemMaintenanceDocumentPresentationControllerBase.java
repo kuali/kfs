@@ -20,11 +20,13 @@ import java.util.Set;
 import org.kuali.kfs.coa.service.AccountPersistenceStructureService;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class FinancialSystemMaintenanceDocumentPresentationControllerBase extends MaintenanceDocumentPresentationControllerBase {
+    private static ParameterEvaluatorService parameterEvaluatorService;
 
     /**
      * the following three methods still accept the deprecated class as argument in order to bridge the gap between old and new maintenance API
@@ -52,4 +54,12 @@ public class FinancialSystemMaintenanceDocumentPresentationControllerBase extend
         return readOnlyPropertyNames;
     }
 
+    protected ParameterEvaluatorService getParameterEvaluatorService() {
+        if (parameterEvaluatorService == null) {
+            parameterEvaluatorService = SpringContext.getBean(ParameterEvaluatorService.class);
+        }
+        return parameterEvaluatorService;
+    }
+
+    
 }

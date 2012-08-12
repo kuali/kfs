@@ -73,11 +73,11 @@
 
   	<bean id="AssetGlobalMaintenanceDocument-UniversityFiscalPeriodName" parent="AssetGlobalMaintenanceDocument-UniversityFiscalPeriodName-parentBean"/>
   	<bean id="AssetGlobalMaintenanceDocument-UniversityFiscalPeriodName-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    	<property name="id" value="universityFiscalPeriodName"/>
+    	<property name="id" value="Accounting Period"/>
     	<property name="title" value="Accounting Period"/>
     	<property name="maintainableItems">
       		<list>
-        		<bean parent="MaintainableFieldDefinition" p:name="universityFiscalPeriodName" p:required="true"/>
+        		<bean parent="MaintainableFieldDefinition" p:name="universityFiscalPeriodName" p:required="false"/>
       		</list>
     	</property>
   	</bean>
@@ -85,7 +85,7 @@
 	<!-- CSU 6702 BEGIN -->
   	<bean id="AssetGlobalMaintenanceDocument-AccountingPeriod" parent="AssetGlobalMaintenanceDocument-AccountingPeriod-parentBean"/>
   	<bean id="AssetGlobalMaintenanceDocument-AccountingPeriod-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    	<property name="id" value="accountingPeriodCompositeString"/>
+    	<property name="id" value="Accounting Period"/>
     	<property name="title" value="Accounting Period Composite String"/>
     	<property name="maintainableItems">
       		<list>

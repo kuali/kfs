@@ -63,7 +63,7 @@
 <!-- Maintenance Section Definitions -->
   	<bean id="AssetRetirementGlobalMaintenanceDocument-AccountingPeriod" parent="AssetGlobalMaintenanceDocument-AccountingPeriod-parentBean"/>
   	<bean id="AssetRetirementGlobalMaintenanceDocument-AccountingPeriod-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    	<property name="id" value="accountingPeriodCompositeString"/>
+    	<property name="id" value="Accounting Period"/>
     	<property name="title" value="Accounting Period"/>
     	<property name="maintainableItems">
       		<list>

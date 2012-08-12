@@ -132,6 +132,16 @@ public class AssetGlobalPresentationController extends FinancialSystemMaintenanc
         MaintenanceDocument document = (MaintenanceDocument) businessObject;
         AssetGlobal assetGlobal = (AssetGlobal) document.getNewMaintainableObject().getBusinessObject();
 
+        // check account period selection is enabled
+        // PERFORMANCE: cache this setting - move call to service
+        // check accounting period is enabled for doc type in system parameter
+        String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+        // PERFORMANCE: cache this setting - move call to service
+        ParameterEvaluator evaluator = getParameterEvaluatorService().getParameterEvaluator(KFSConstants.CoreModuleNamespaces.KFS, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES, docType);
+        if (!evaluator.evaluationSucceeds()) {
+            fields.add(KFSConstants.ACCOUNTING_PERIOD_TAB_ID);
+        }
+        
         // hide "Asset Information", "Recalculate Total Amount" tabs if not "Asset Separate" doc
         if (!SpringContext.getBean(AssetGlobalService.class).isAssetSeparate(assetGlobal)) {
             fields.add(CamsConstants.AssetGlobal.SECTION_ID_ASSET_INFORMATION);

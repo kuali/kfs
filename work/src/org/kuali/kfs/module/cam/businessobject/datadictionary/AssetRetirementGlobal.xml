@@ -382,9 +382,9 @@
     <property name="validationPattern">
       <ref bean="AnyCharacterValidation" />
     </property>
-    <property name="required" value="true"/>
+    <property name="required" value="false"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.YearEndAccountingPeriodValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.options.CamsYearEndAccountingPeriodValuesFinder" p:includeKeyInLabel="false"/>
     </property>    
   </bean>    
   

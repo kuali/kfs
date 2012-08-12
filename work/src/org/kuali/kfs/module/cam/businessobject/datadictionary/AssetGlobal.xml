@@ -360,7 +360,7 @@
   <bean id="AssetGlobal-universityFiscalPeriodName-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalPeriodName">
     <property name="name" value="universityFiscalPeriodName"/>
     <property name="label" value="Accounting Period"/>
-    <property name="required" value="true"/>
+    <property name="required" value="false"/>
     <property name="maxLength" value="50"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterValidation" />

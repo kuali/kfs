@@ -1318,5 +1318,7 @@ public class KFSConstants {
     public static final String YEAR_END_ACCOUNTING_PERIOD_EDIT_DOCUMENT_ACTION = "AccountingPeriodEditAction";
     public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION = "AccountingPeriodViewAction";
     // CSU 6702 END
+    
+    public static final String ACCOUNTING_PERIOD_TAB_ID = "Accounting Period";
 }
 

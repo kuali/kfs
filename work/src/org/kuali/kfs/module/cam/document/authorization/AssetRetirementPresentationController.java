@@ -33,7 +33,6 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocume
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -118,13 +117,22 @@ public class AssetRetirementPresentationController extends FinancialSystemMainte
         }
     }
 
-
     @Override
     public Set<String> getConditionallyHiddenSectionIds(BusinessObject businessObject) {
         Set<String> fields = super.getConditionallyHiddenSectionIds(businessObject);
 
         MaintenanceDocument document = (MaintenanceDocument) businessObject;
         AssetRetirementGlobal assetRetirementGlobal = (AssetRetirementGlobal) document.getNewMaintainableObject().getBusinessObject();
+
+        // check account period selection is enabled
+        // PERFORMANCE: cache this setting - move call to service
+        // check accounting period is enabled for doc type in system parameter
+        String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+        // PERFORMANCE: cache this setting - move call to service
+        ParameterEvaluator evaluator = getParameterEvaluatorService().getParameterEvaluator(KFSConstants.CoreModuleNamespaces.KFS, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES, docType);
+        if (!evaluator.evaluationSucceeds()) {
+            fields.add(KFSConstants.ACCOUNTING_PERIOD_TAB_ID);
+        }
 
         // If retirement reason code is not defined in NON_VIEWABLE_SECTION_MAP, hide all retirement detail sections.
         String[] nonViewableSections = NON_VIEWABLE_SECTION_MAP.get(assetRetirementGlobal.getRetirementReasonCode());

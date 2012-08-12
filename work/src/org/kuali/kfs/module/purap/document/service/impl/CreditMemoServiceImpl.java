@@ -34,6 +34,7 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccount;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -327,6 +328,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         for (Iterator iter = poDocument.getItems().iterator(); iter.hasNext();) {
             PurchaseOrderItem poItem = (PurchaseOrderItem) iter.next();
 
+            poItem.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+            
             // only items of type above the line can be considered for being invoiced
             if (poItem.getItemType().isAdditionalChargeIndicator()) {
                 continue;
@@ -379,6 +382,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         for (CreditMemoItem item : (List<CreditMemoItem>) cmDocument.getItems()) {
 
             // skip above the line
+            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+            
             if (item.getItemType().isLineItemIndicator()) {
                 continue;
             }
@@ -696,6 +701,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      */
     @Override
     public boolean poItemEligibleForAp(AccountsPayableDocument apDoc, PurchaseOrderItem poItem) {
+        poItem.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+        
         // if the po item is not active... skip it
         if (!poItem.isItemActiveIndicator()) {
             return false;
@@ -856,6 +863,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         PaymentRequestDocument preqDocument = cmDocument.getPaymentRequestDocument();
 
         for (PaymentRequestItem preqItemToTemplate : (List<PaymentRequestItem>) preqDocument.getItems()) {
+            preqItemToTemplate.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+            
             if (preqItemToTemplate.getItemType().isLineItemIndicator() && ((preqItemToTemplate.getItemType().isQuantityBasedGeneralLedgerIndicator() && preqItemToTemplate.getItemQuantity().isNonZero())
                     || (preqItemToTemplate.getItemType().isAmountBasedGeneralLedgerIndicator() && preqItemToTemplate.getTotalAmount().isNonZero()))) {
                 cmDocument.getItems().add(new CreditMemoItem(cmDocument, preqItemToTemplate, preqItemToTemplate.getPurchaseOrderItem(), expiredOrClosedAccountList));
@@ -922,6 +931,8 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     protected void populateItemLinesFromPO(VendorCreditMemoDocument cmDocument, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
         List<PurchaseOrderItem> invoicedItems = getPOInvoicedItems(cmDocument.getPurchaseOrderDocument());
         for (PurchaseOrderItem poItem : invoicedItems) {
+            poItem.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+            
             if ((poItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && poItem.getItemInvoicedTotalQuantity().isNonZero())
                     || (poItem.getItemType().isAmountBasedGeneralLedgerIndicator() && poItem.getItemInvoicedTotalAmount().isNonZero())) {
                 CreditMemoItem creditMemoItem = new CreditMemoItem(cmDocument, poItem, expiredOrClosedAccountList);

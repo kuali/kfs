@@ -342,6 +342,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
 
         for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+            
             if (item.getItemType().isLineItemIndicator() && item.getExtendedPrice() != null) {
                 lineItemPreTaxTotal = lineItemPreTaxTotal.add(item.getExtendedPrice());
             }
@@ -360,6 +361,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
 
         for (CreditMemoItem item : (List<CreditMemoItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+            
             if (item.getItemType().isLineItemIndicator() && item.getTotalAmount() != null) {
                 lineItemTotal = lineItemTotal.add(item.getTotalAmount());
             }

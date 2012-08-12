@@ -437,6 +437,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public void renumberItems(int start) {
         for (int i = start; i < items.size(); i++) {
             PurApItem item = items.get(i);
+            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+            
             // only set the item line number for above the line items
             if (item.getItemType().isLineItemIndicator()) {
                 item.setItemLineNumber(new Integer(i + 1));
@@ -471,6 +473,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public int getItemLinePosition() {
         int belowTheLineCount = 0;
         for (PurApItem item : items) {
+            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
             if (item.getItemType().isAdditionalChargeIndicator()) {
                 belowTheLineCount++;
             }

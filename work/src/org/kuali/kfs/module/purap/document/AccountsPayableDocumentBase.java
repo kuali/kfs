@@ -510,6 +510,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     @Override
     public AccountsPayableItem getAPItemFromPOItem(PurchaseOrderItem poi) {
         for (AccountsPayableItem preqItem : (List<AccountsPayableItem>) this.getItems()) {
+            preqItem.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE); 
+            
             if (preqItem.getItemType().isLineItemIndicator()) {
                 if (preqItem.getItemLineNumber().compareTo(poi.getItemLineNumber()) == 0) {
                     return preqItem;
@@ -551,7 +553,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
 
             final KualiDecimal itemExtendedPrice = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();;
-            if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+            if (item.getItemType() != null && item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
                 KualiDecimal newExtendedPrice = item.calculateExtendedPrice();
                 item.setExtendedPrice(newExtendedPrice);
             }

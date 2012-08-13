@@ -1000,7 +1000,13 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             }
         }
 
-        this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
+        //KFSMI-8935: When an employee is inactive, the Payment Type field on DV documents should display the message "Is this payee an employee" = No
+        if (employee.isActive()) {
+            this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
+        } else {
+            this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(false);
+        }
+        
         // I'm assuming that if a tax id type code other than 'TAX' is present, then the employee must be foreign
         for ( String externalIdentifierTypeCode : employee.getExternalIdentifiers().keySet() ) {
             if (KimConstants.PersonExternalIdentifierTypes.TAX.equals(externalIdentifierTypeCode)) {

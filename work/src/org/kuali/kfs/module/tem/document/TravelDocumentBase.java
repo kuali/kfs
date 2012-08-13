@@ -1930,5 +1930,14 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     public boolean hasCustomDVDistribution(){
        return false;
     }
+    
+    /**
+     * Check trip type to determine if it should be generating encumbrance / dis-encumbrance
+     * 
+     * @return
+     */
+    public boolean isTripGenerateEncumbrance(){
+        return getTripType() != null && getTripType().isGenerateEncumbrance();
+    }
    
 }

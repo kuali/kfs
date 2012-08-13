@@ -101,7 +101,7 @@ public interface TravelReimbursementService {
      *
      * @param reimbursement to use for creating the {@link CustomerCreditMemoDocument}
      */
-    TravelAuthorizationDocument getRelatedOpenTravelAuthorizationDocument(final TravelReimbursementDocument reimbursement) throws WorkflowException;
+    TravelAuthorizationDocument getRelatedOpenTravelAuthorizationDocument(final TravelReimbursementDocument reimbursement) ;
     
     /**
      * Notification when the original trip date is changed. A note is left on the workflow document detailing

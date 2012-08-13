@@ -18,8 +18,6 @@ package org.kuali.kfs.module.tem.document;
 import static org.kuali.kfs.module.tem.TemConstants.DISBURSEMENT_VOUCHER_DOCTYPE;
 
 import java.util.List;
-import java.util.Map;
-
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -27,7 +25,6 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
-import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -149,22 +146,14 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
      */
     public KualiDecimal getTotalPaidAmountToVendor() {
         KualiDecimal totalPaidAmountToVendor = KualiDecimal.ZERO;
-        try {
-            Map<String, List<Document>> relateddocs = SpringContext.getBean(TravelDocumentService.class).getDocumentsRelatedTo(this);
-            List<Document> relatedDVs = relateddocs.get(DISBURSEMENT_VOUCHER_DOCTYPE);
-            if (relatedDVs != null && relatedDVs.size() > 0) {
-                for (Document document : relatedDVs) {
-                    if (document instanceof DisbursementVoucherDocument) {
-                        DisbursementVoucherDocument dv = (DisbursementVoucherDocument) document;
-                        if (dv.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                            totalPaidAmountToVendor = totalPaidAmountToVendor.add(dv.getDisbVchrCheckTotalAmount());
-                        }
-                    }
+        List<Document> relatedDisbursementList = getTravelDocumentService().getDocumentsRelatedTo(this, DISBURSEMENT_VOUCHER_DOCTYPE);
+        for (Document document : relatedDisbursementList) {
+            if (document instanceof DisbursementVoucherDocument) {
+                DisbursementVoucherDocument dv = (DisbursementVoucherDocument) document;
+                if (dv.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                    totalPaidAmountToVendor = totalPaidAmountToVendor.add(dv.getDisbVchrCheckTotalAmount());
                 }
             }
-        }
-        catch (WorkflowException ex) {
-            ex.printStackTrace();
         }
         return totalPaidAmountToVendor;
     }
@@ -176,29 +165,27 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
      */
     public KualiDecimal getTotalPaidAmountToRequests() {
         KualiDecimal totalPaidAmountToRequests = KualiDecimal.ZERO;
+            
+        List<Document> relatedRequisitionDocuments = getTravelDocumentService().getDocumentsRelatedTo(this, 
+                TemConstants.REQUISITION_DOCTYPE);
+        
         try {
-            Map<String, List<Document>> relateddocs = SpringContext.getBean(TravelDocumentService.class).getDocumentsRelatedTo(this);
-            List<Document> relatedDVs = relateddocs.get("REQS");
-            if (relatedDVs != null && relatedDVs.size() > 0) {
-                for (Document document : relatedDVs) {
-                    if (document instanceof RequisitionDocument) {
-                        RequisitionDocument reqs = (RequisitionDocument) document;
-                        PurApRelatedViews relatedviews = reqs.getRelatedViews();
-                        if (relatedviews != null && relatedviews.getRelatedPaymentRequestViews() != null && relatedviews.getRelatedPaymentRequestViews().size() > 0) {
-                            List<PaymentRequestView> preqViews = relatedviews.getRelatedPaymentRequestViews();
-                            for (PaymentRequestView preqView : preqViews) {
-                                PaymentRequestDocument preqDocument = (PaymentRequestDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(preqView.getDocumentNumber());
-                                if (preqDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-                                    totalPaidAmountToRequests = totalPaidAmountToRequests.add(preqDocument.getVendorInvoiceAmount());
-                                }
-                            }
+            for (Document document : relatedRequisitionDocuments) {
+                PurApRelatedViews relatedviews = ((RequisitionDocument) document).getRelatedViews();
+                if (relatedviews != null && relatedviews.getRelatedPaymentRequestViews() != null && relatedviews.getRelatedPaymentRequestViews().size() > 0) {
+                    List<PaymentRequestView> preqViews = relatedviews.getRelatedPaymentRequestViews();
+                    for (PaymentRequestView preqView : preqViews) {
+                        PaymentRequestDocument preqDocument;
+                        
+                        preqDocument = (PaymentRequestDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(preqView.getDocumentNumber());
+                        if (preqDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                            totalPaidAmountToRequests = totalPaidAmountToRequests.add(preqDocument.getVendorInvoiceAmount());
                         }
                     }
                 }
             }
-        }
-        catch (WorkflowException ex) {
-            ex.printStackTrace();
+        } catch (WorkflowException ex) {
+            LOG.error(ex.getMessage(), ex);
         }
         return totalPaidAmountToRequests;
     }

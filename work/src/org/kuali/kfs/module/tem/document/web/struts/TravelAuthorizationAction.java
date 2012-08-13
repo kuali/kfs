@@ -49,6 +49,7 @@ import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
@@ -65,7 +66,6 @@ import org.kuali.kfs.module.tem.document.web.bean.TravelAuthorizationMvcWrapperB
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.dao.DocumentDao;
@@ -101,17 +101,17 @@ public class TravelAuthorizationAction extends TravelActionBase {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final ActionForward retval = super.execute(mapping, form, request, response);
         TravelAuthorizationForm reqForm = (TravelAuthorizationForm) form;
-        TravelAuthorizationDocument travelReqDoc = (TravelAuthorizationDocument) reqForm.getDocument();
+        TravelAuthorizationDocument travelAuthDocument = (TravelAuthorizationDocument) reqForm.getDocument();
 
-        if (travelReqDoc.getTraveler() != null && travelReqDoc.getTraveler().getPrincipalId() != null) {
-            travelReqDoc.getTraveler().setPrincipalName(getPersonService().getPerson(travelReqDoc.getTraveler().getPrincipalId()).getPrincipalName());
+        if (travelAuthDocument.getTraveler() != null && travelAuthDocument.getTraveler().getPrincipalId() != null) {
+            travelAuthDocument.getTraveler().setPrincipalName(getPersonService().getPerson(travelAuthDocument.getTraveler().getPrincipalId()).getPrincipalName());
         }
         
         setButtonPermissions(reqForm);
         setEmergencyContactMasking(reqForm);
         List<String> perDiemCats = getParameterService().getParameterValues(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, ENABLE_PER_DIEM_CATEGORIES);
         String perDiemPercentage = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE);
-        final String travelIdentifier = travelReqDoc.getTravelDocumentIdentifier();
+        final String travelIdentifier = travelAuthDocument.getTravelDocumentIdentifier();
         
         reqForm.parsePerDiemCategories(perDiemCats);
         reqForm.setPerDiemPercentage(perDiemPercentage);
@@ -132,18 +132,18 @@ public class TravelAuthorizationAction extends TravelActionBase {
             reqForm.setSelectedTransportationModes(Arrays.asList(transpoModes));
         }
         else {
-            reqForm.setSelectedTransportationModes(travelReqDoc.getTransportationModeCodes());
+            reqForm.setSelectedTransportationModes(travelAuthDocument.getTransportationModeCodes());
         }
-        refreshTransportationModesAfterButtonAction(travelReqDoc, request, reqForm);
+        refreshTransportationModesAfterButtonAction(travelAuthDocument, request, reqForm);
         
-        if(ObjectUtils.isNotNull(travelReqDoc.getActualExpenses())){
-            travelReqDoc.enableExpenseTypeSpecificFields(travelReqDoc.getActualExpenses());
+        if(ObjectUtils.isNotNull(travelAuthDocument.getActualExpenses())){
+            travelAuthDocument.enableExpenseTypeSpecificFields(travelAuthDocument.getActualExpenses());
         }
 
         debug("Got ", reqForm.getRelatedDocuments().size(), " related documents");
 
         if (!isReturnFromObjectCodeLookup(reqForm, request)) {
-            getTravelEncumbranceService().updateEncumbranceObjectCode(travelReqDoc, reqForm.getNewSourceLine());
+            getTravelEncumbranceService().updateEncumbranceObjectCode(travelAuthDocument, reqForm.getNewSourceLine());
         }
 
         getMessages(reqForm);
@@ -151,16 +151,16 @@ public class TravelAuthorizationAction extends TravelActionBase {
         // update the list of related documents
         refreshRelatedDocuments(reqForm);
         
-        if (((TravelFormBase) form).getMethodToCall().equalsIgnoreCase("docHandler") && travelReqDoc.getPrimaryDestinationId() != null){
-            if (travelReqDoc.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
-                travelReqDoc.getPrimaryDestination().setPrimaryDestinationName(travelReqDoc.getPrimaryDestinationName());
-                travelReqDoc.getPrimaryDestination().setCounty(travelReqDoc.getPrimaryDestinationCounty());
-                travelReqDoc.getPrimaryDestination().setCountryState(travelReqDoc.getPrimaryDestinationCountryState());
+        if (((TravelFormBase) form).getMethodToCall().equalsIgnoreCase("docHandler") && travelAuthDocument.getPrimaryDestinationId() != null){
+            if (travelAuthDocument.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
+                travelAuthDocument.getPrimaryDestination().setPrimaryDestinationName(travelAuthDocument.getPrimaryDestinationName());
+                travelAuthDocument.getPrimaryDestination().setCounty(travelAuthDocument.getPrimaryDestinationCounty());
+                travelAuthDocument.getPrimaryDestination().setCountryState(travelAuthDocument.getPrimaryDestinationCountryState());
             }
         }
         
-        request.setAttribute(CERTIFICATION_STATEMENT_ATTRIBUTE, getCertificationStatement(travelReqDoc));
-        request.setAttribute(EMPLOYEE_TEST_ATTRIBUTE, isEmployee(travelReqDoc.getTraveler()));
+        request.setAttribute(CERTIFICATION_STATEMENT_ATTRIBUTE, getCertificationStatement(travelAuthDocument));
+        request.setAttribute(EMPLOYEE_TEST_ATTRIBUTE, isEmployee(travelAuthDocument.getTraveler()));
         
         // force recalculate    
         if(!getCalculateIgnoreList().contains(reqForm.getMethodToCall())){
@@ -341,19 +341,11 @@ public class TravelAuthorizationAction extends TravelActionBase {
         if (reqForm.getTravelAuthorizationDocument().getTripBegin() != null) {
             can &= today.before(reqForm.getTravelAuthorizationDocument().getTripBegin());
         }
+        
         if (can && reqForm.getRelatedDocuments() == null) {
-            Map<String, List<Document>> relatedDocuments = null;
-            try {
-                relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(reqForm.getTravelDocument());
-            }
-            catch (WorkflowException ex) {
-                // TODO Auto-generated catch block
-                ex.printStackTrace();
-            }
             //If there are TR's, disabled amend
-            List<Document> trList = relatedDocuments.get(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
-            can = (trList == null || trList.size() == 0);
-            
+            List<Document> trRelatedDocumentList = getTravelDocumentService().getDocumentsRelatedTo(reqForm.getTravelDocument(), TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
+            can = trRelatedDocumentList.isEmpty();
         }
         
         if (can) {
@@ -818,7 +810,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
     @Override
     public ActionForward updatePerDiemExpenses(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TravelAuthorizationForm taForm = (TravelAuthorizationForm) form;
-        TravelDocumentBase document = taForm.getTravelAuthorizationDocument();
+        TravelAuthorizationDocument document = taForm.getTravelAuthorizationDocument();
         
         ActionForward forward = super.updatePerDiemExpenses(mapping, form, request, response);
         taForm.getNewSourceLine().setAmount(this.getAccountingLineAmountToFillin(taForm));
@@ -1057,14 +1049,14 @@ public class TravelAuthorizationAction extends TravelActionBase {
         debug("Cancel TA started");
 
         TravelAuthorizationForm taForm = (TravelAuthorizationForm) form;
-        TravelDocumentBase taDocument = taForm.getTravelAuthorizationDocument();
+        TravelAuthorizationDocument taDocument = taForm.getTravelAuthorizationDocument();
         
         final Note newNote = getDocumentService().createNoteFromDocument(taDocument, TemConstants.TA_CANCELLED_MESSAGE);
         //newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.DOCUMENT_HEADER_NOTE_TYPE.getCode());
         getDocumentService().addNoteToDocument(taDocument, newNote);
         
         taDocument.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.CANCELLED);
-        getTravelEncumbranceService().disencumberFunds(taDocument);
+        getTravelEncumbranceService().liquidateEncumbranceForCancelTA(taDocument);
         SpringContext.getBean(DocumentService.class).saveDocument(taDocument);
         
         // send FYI for to initiator and traveler

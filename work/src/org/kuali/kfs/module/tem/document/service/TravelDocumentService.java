@@ -237,7 +237,21 @@ public interface TravelDocumentService {
 
     public boolean isFinal(TravelDocument document);  
 
+    /**
+     * Check if the Travel authorization document has been successfully processed
+     * 
+     * @param document
+     * @return
+     */
     public boolean isTravelAuthorizationProcessed(TravelAuthorizationDocument document);
+    
+    /**
+     * Check if the Travel authroization document is processed AND is open for reimbursement in the app doc status
+     * 
+     * @param document
+     * @return
+     */
+    public boolean isTravelAuthorizationOpened(TravelAuthorizationDocument document);
     
     public boolean isUnsuccessful(TravelDocument document);
 

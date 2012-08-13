@@ -1182,7 +1182,8 @@
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="travelDocumentService" ref="temTravelDocumentService" />
         <property name="travelEncumbranceService" ref="travelEncumbranceService" />
-		<property name="documentDao" ref="documentDao" />
+	    <property name="documentService" ref="documentService" />
+  	    <property name="documentDao" ref="documentDao" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
 	</bean>

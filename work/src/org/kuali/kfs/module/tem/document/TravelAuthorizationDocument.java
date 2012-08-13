@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-
 import java.beans.PropertyChangeEvent;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -24,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,6 +29,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
@@ -67,7 +65,6 @@ import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.CountryService;
@@ -80,6 +77,8 @@ import org.springframework.beans.BeanUtils;
 @Entity
 @Table(name = "TEM_TRVL_AUTH_DOC_T")
 public class TravelAuthorizationDocument extends TravelDocumentBase {
+    
+    protected static Logger LOG = Logger.getLogger(TravelAuthorizationDocument.class);
     
     private KualiDecimal perDiemAdjustment;
 
@@ -160,14 +159,13 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         copytToDocument.setGeneralLedgerPendingEntries(new ArrayList<GeneralLedgerPendingEntry>());
         List<TemSourceAccountingLine> newList = new ArrayList<TemSourceAccountingLine>();
         int sequence = 1;
-        for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)copytToDocument.getSourceAccountingLines()){
-            
-            //CLEANUP is it only CTS that is not being copied? how about encumbrance and agency? those will be replicated.....
-            if (!line.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)){
+        for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)copytToDocument.getEncumbranceSourceAccountingLines()){
+            //is it only CTS that is not being copied? how about encumbrance and agency? those will be replicated.....
+            //if (!line.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)){
                 line.setSequenceNumber(new Integer(sequence));
                 sequence++;
                 newList.add(line);
-            }
+            //}
         }
         copytToDocument.setSourceAccountingLines(newList);
     }
@@ -440,43 +438,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
-     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
-     */
-    @Override
-    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-
-        boolean customized = super.customizeOffsetGeneralLedgerPendingEntry(accountingLine, explicitEntry, offsetEntry);
-
-        // set the encumbrance update code
-        offsetEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
-
-        // set the offset entry to Credit "C"
-        offsetEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-        offsetEntry.setDocumentNumber(this.getDocumentNumber());
-
-        String referenceDocumentNumber = this.getTravelDocumentIdentifier();
-        if (ObjectUtils.isNotNull(referenceDocumentNumber)) {
-            offsetEntry.setReferenceFinancialDocumentNumber(referenceDocumentNumber);
-            offsetEntry.setReferenceFinancialDocumentTypeCode(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
-            offsetEntry.setReferenceFinancialSystemOriginationCode(TemConstants.ORIGIN_CODE);
-        }
-
-        // need to pull the Balance Type from the trip type
-        this.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
-        TripType tripType = this.getTripType();
-        if (ObjectUtils.isNotNull(tripType)) {
-            // check to make sure they're the same
-            String balanceType = tripType.getEncumbranceBalanceType();
-            offsetEntry.setFinancialBalanceTypeCode(balanceType);
-            customized = true;
-        }
-
-        return customized;
-    }
-
-
-    /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
@@ -505,6 +466,37 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
             explicitEntry.setFinancialBalanceTypeCode(balanceType);
         }
     }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
+     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
+     */
+    @Override
+    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+
+        boolean customized = super.customizeOffsetGeneralLedgerPendingEntry(accountingLine, explicitEntry, offsetEntry);
+
+        // set the encumbrance update code
+        offsetEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
+
+        // set the offset entry to Credit "C"
+        offsetEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+        offsetEntry.setDocumentNumber(this.getDocumentNumber());
+
+        String referenceDocumentNumber = this.getTravelDocumentIdentifier();
+        if (ObjectUtils.isNotNull(referenceDocumentNumber)) {
+            offsetEntry.setReferenceFinancialDocumentNumber(referenceDocumentNumber);
+            offsetEntry.setReferenceFinancialDocumentTypeCode(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+            offsetEntry.setReferenceFinancialSystemOriginationCode(TemConstants.ORIGIN_CODE);
+        }
+        
+        String balanceType = getTravelEncumbranceService().getEncumbranceBalanceTypeByTripType(this);
+        if (StringUtils.isNotEmpty(balanceType)) {
+            offsetEntry.setFinancialBalanceTypeCode(balanceType);
+            customized &= true;
+        }
+        return customized;
+    }
 
     /**
      * @see org.kuali.rice.kns.document.Document#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
@@ -513,9 +505,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
-        debug("Handling route status change");
+        LOG.debug("Handling route status change");
 
-        debug("route status is ", statusChangeEvent.getNewRouteStatus());
+        LOG.debug("route status is " + statusChangeEvent.getNewRouteStatus());
 
         // in this case the status has already been updated and we need to update the internal status code
         String currStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
@@ -527,71 +519,62 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
             updateAppDocStatus(TravelAuthorizationStatusCodeKeys.getDisapprovedAppDocStatusMap().get(getAppDocStatus()));
         }
         
-        if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getNewRouteStatus()) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
-            debug("New route status is ", statusChangeEvent.getNewRouteStatus());
+        if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
+            LOG.debug("New route status is " + statusChangeEvent.getNewRouteStatus());
                         
-            // for some reason when it goes to final it never updates to the last status
+            // for some reason when it goes to final it never updates to the last status, updating TA status to OPEN REIMBURSEMENT
             updateAppDocStatus(TravelAuthorizationStatusCodeKeys.OPEN_REIMB);
             
-            if (!(this instanceof TravelAuthorizationCloseDocument)) {
-                if (!(KEWConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getOldRouteStatus()) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getOldRouteStatus()))) {
-                    getTravelAuthorizationService().createTravelAdvanceDVDocument(this);
-                    getTravelAuthorizationService().createCustomerInvoice(this);
-                    
-                    //If the hold new fiscal year encumbrance indicator is true and the trip end date
-                    //is after the current fiscal year end date then mark all the gl pending entries 
-                    //as 'H' (Hold) otherwise mark all the gl pending entries as 'A' (approved)
-                    if (getGeneralLedgerPendingEntries() != null && !getGeneralLedgerPendingEntries().isEmpty()) {
-                    	if(getParameterService().getIndicatorParameter(TemConstants.PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.HOLD_NEW_FY_ENCUMBRANCES_IND)) {
-                			UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
-                			java.util.Date endDate = universityDateService.getLastDateOfFiscalYear(universityDateService.getCurrentFiscalYear());
-                			if (ObjectUtils.isNotNull(getTripEnd()) && getTripEnd().after(endDate)) {
-                				for(GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
-                					glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.HOLD);
-                	            }
-                			}
-                        } else {
-    	                    for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
-    	                        glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
-    	                    }
-                        }
-                        SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
-                    }
-                }
-            }
-
-            if (this instanceof TravelAuthorizationAmendmentDocument) {
-                Map<String, List<Document>> relatedDocs = null;
-                try {
-                    relatedDocs = getTravelDocumentService().getDocumentsRelatedTo(this);            
-                }
-                catch (WorkflowException ex) {
-                    ex.printStackTrace();
-                }
+            if (this instanceof TravelAuthorizationAmendmentDocument || this instanceof TravelAuthorizationDocument) {
+                getTravelAuthorizationService().createTravelAdvanceDVDocument(this);
+                getTravelAuthorizationService().createCustomerInvoice(this);
                 
-                if (relatedDocs != null) {
-                    List<Document> taDocs = relatedDocs.get(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
-                    List<Document> taaDocs = relatedDocs.get(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
-
-                    if (taDocs == null) {
-                        taDocs = new ArrayList<Document>();
-                    }
-
-                    if (taaDocs != null) {
-                        taDocs.addAll(taaDocs);
-                    }
-
-                    for (int i = 0; i < taDocs.size(); i++) {
-                        TravelAuthorizationDocument taDocument = (TravelAuthorizationDocument) taDocs.get(i);
-                        if (!taDocument.getDocumentNumber().equals(this.getDocumentNumber())) {
-                            taDocument.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
+                //If the hold new fiscal year encumbrance indicator is true and the trip end date is after the current fiscal year end date then mark all the gl pending entries 
+                //as 'H' (Hold) otherwise mark all the gl pending entries as 'A' (approved)
+                if (getGeneralLedgerPendingEntries() != null && !getGeneralLedgerPendingEntries().isEmpty()) {
+                    if(getParameterService().getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.HOLD_NEW_FY_ENCUMBRANCES_IND)) {
+                        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+                        java.util.Date endDate = universityDateService.getLastDateOfFiscalYear(universityDateService.getCurrentFiscalYear());
+                        if (ObjectUtils.isNotNull(getTripEnd()) && getTripEnd().after(endDate)) {
+                            for(GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
+                                glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.HOLD);
+                            }
+                        }
+                    } else {
+                        for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
+                            glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
                         }
                     }
+                    SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
                 }
-
-                getTravelEncumbranceService().adjustEncumbranceForAmendment(this);
             }
         }
+    }
+
+    /**
+     * NOTE: need to find out all reference to TA's source accounting lines
+     * 
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLines()
+     */
+    @Override
+    public List getSourceAccountingLines() {
+        return super.getSourceAccountingLines();
+    }
+    
+    /**
+     * Get all of the encumbrance source accounting lines (for estimated expenses) - do not include any import
+     * expense lines 
+     * 
+     * @return
+     */
+    public List<TemSourceAccountingLine> getEncumbranceSourceAccountingLines() {
+        List<TemSourceAccountingLine> encumbranceLines = new ArrayList<TemSourceAccountingLine>();
+        for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>) getSourceAccountingLines()){
+            if (TemConstants.ENCUMBRANCE.equals(line.getCardType())){
+                encumbranceLines.add(line);
+            }
+        }
+        return encumbranceLines;
     }
 
     /**
@@ -621,6 +604,10 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
        throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
 
+    /**
+     * 
+     * @return
+     */
     private boolean requiresTravelerApprovalRouting() {
       //If there's travel advances, route to traveler if necessary
         if (requiresTravelAdvanceReviewRouting()){
@@ -637,6 +624,10 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         return false;
     }
 
+    /**
+     * 
+     * @return
+     */
     private boolean requiresTravelAdvanceReviewRouting() {
         if (this.getTravelAdvances().size() > 0) {
             KualiDecimal total = KualiDecimal.ZERO;

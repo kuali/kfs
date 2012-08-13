@@ -17,6 +17,8 @@ package org.kuali.kfs.module.tem.document;
 
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.util.KEWConstants;
 
 public class TravelAuthorizationCloseDocument extends TravelAuthorizationDocument {
     
@@ -25,4 +27,20 @@ public class TravelAuthorizationCloseDocument extends TravelAuthorizationDocumen
         return true;
     }
     
+    /**
+     * @see org.kuali.rice.kns.document.Document#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     */
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        
+        super.doRouteStatusChange(statusChangeEvent);
+      
+        //doc is final / processed
+        if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
+            
+            if (isTripGenerateEncumbrance()){
+                getTravelEncumbranceService().disencumberTravelAuthorizationClose(this);
+            }
+        }
+    }
 }

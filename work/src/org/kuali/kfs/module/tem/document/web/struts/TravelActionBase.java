@@ -300,7 +300,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         request.setAttribute(FISCAL_OFFICER_TEST_ATTRIBUTE, setFiscalOfficer((TravelFormBase) form));
         request.setAttribute(DELINQUENT_TEST_ATTRIBUTE, document.getDelinquentAction());
 
-        final Map<String, List<Document>> relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(travelFormBase.getDocId());
+        final Map<String, List<Document>> relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(document);
         travelFormBase.setRelatedDocuments(relatedDocuments);
         travelFormBase.setDistribution(getAccountingDistributionService().buildDistributionFrom(travelFormBase.getTravelDocument()));
         

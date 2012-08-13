@@ -569,22 +569,16 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#getRelatedOpenTravelAuthorizationDocument(org.kuali.kfs.module.tem.document.TravelReimbursementDocument)
      */
     @Override
-    public TravelAuthorizationDocument getRelatedOpenTravelAuthorizationDocument(final TravelReimbursementDocument reimbursement) throws WorkflowException{
+    public TravelAuthorizationDocument getRelatedOpenTravelAuthorizationDocument(final TravelReimbursementDocument reimbursement) {
         TravelAuthorizationDocument travelAuthorizationDocument = new TravelAuthorizationDocument();
-        Map<String, List<Document>> relatedDocuments = travelDocumentService.getDocumentsRelatedTo(reimbursement);
-
-        List<Document> travelAuthDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
-        List<Document> travelAuthAmendDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
-        
-        //adding all TAA docs to the list if they exists
-        if (travelAuthAmendDocs != null){
-            travelAuthDocs.addAll(travelAuthAmendDocs);
-        }
+     
+        List<Document> travelAuthDocs = travelDocumentService.getDocumentsRelatedTo(reimbursement, 
+                TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT, TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
         
         for (Document document : travelAuthDocs) {
             // Find the doc that is the open to perform actions against - only one of the TAA/TA should be found
             TravelAuthorizationDocument travelDocument = (TravelAuthorizationDocument) document;
-            if ((travelDocumentService.isFinal(travelDocument) || travelDocumentService.isProcessed(travelDocument)) && travelDocumentService.isOpen(travelDocument)) {
+            if (travelDocumentService.isTravelAuthorizationOpened(travelDocument)) {
                 travelAuthorizationDocument = travelDocument;
                 break;
             }

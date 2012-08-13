@@ -1224,8 +1224,18 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
      @Override
     public boolean isTravelAuthorizationProcessed(TravelAuthorizationDocument document){
-        return (isFinal(document) || isProcessed(document)) && isOpen(document);
+        return isFinal(document) || isProcessed(document);
     }
+     
+     /**
+      * 
+      * @param document
+      * @return
+      */
+      @Override
+     public boolean isTravelAuthorizationOpened(TravelAuthorizationDocument document){
+         return isTravelAuthorizationProcessed(document) && isOpen(document);
+     }
     
     @Override
     public boolean isUnsuccessful(TravelDocument document) {
@@ -1288,7 +1298,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         else if (taaDocs != null && taaDocs.size() > 0){
             for (Document tempDocument : taaDocs){
                 //Find the doc that is the open to perform actions against.
-                if (isTravelAuthorizationProcessed((TravelAuthorizationDocument)tempDocument)){
+                if (isTravelAuthorizationOpened((TravelAuthorizationDocument)tempDocument)){
                     return (TravelAuthorizationDocument) tempDocument;
                 }
             }           

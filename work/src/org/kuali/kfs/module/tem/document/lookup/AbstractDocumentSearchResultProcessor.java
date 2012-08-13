@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.document.lookup;
 
 import static org.kuali.kfs.module.tem.TemConstants.DISBURSEMENT_VOUCHER_DOCTYPE;
+import static org.kuali.kfs.module.tem.TemConstants.REQUISITION_DOCTYPE;
 import static org.kuali.kfs.module.tem.TemKeyConstants.AGENCY_SITES_URL;
 
 import java.util.HashMap;
@@ -70,10 +71,10 @@ public abstract class AbstractDocumentSearchResultProcessor {
     }
 
     public String createRequisitionLink(DocSearchDTO docCriteriaDTO, String title) {
-        final DocumentType docType = getDocumentTypeService().findByName("REQS");
+        final DocumentType docType = getDocumentTypeService().findByName(REQUISITION_DOCTYPE);
 
         if (docType == null) {
-            throw new RuntimeException(String.format("DocType with name %s does not exist!", "REQS"));
+            throw new RuntimeException(String.format("DocType with name %s does not exist!", REQUISITION_DOCTYPE));
         }
         String linkPopup = "target=\"_blank\"";
         

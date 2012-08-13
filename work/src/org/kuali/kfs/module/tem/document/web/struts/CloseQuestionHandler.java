@@ -92,9 +92,12 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
             
             String headerID = document.getDocumentHeader().getDocumentNumber();
             TravelAuthorizationCloseDocument tacDocument = ((TravelAuthorizationDocument) document).toCopyTAC();
-            documentService.addNoteToDocument(tacDocument, newNoteTAC);            
-            travelEncumbranceService.adjustEncumbranceForClose(tacDocument);                        
-            //getDocumentService().saveDocument(tacDocument);
+            documentService.addNoteToDocument(tacDocument, newNoteTAC);          
+            
+            //moved to doc status change
+//            if (tacDocument.isTripGenerateEncumbrance()){
+//                travelEncumbranceService.disencumberTravelAuthorizationClose(tacDocument);
+//            }
             
             TravelAuthorizationForm form = (TravelAuthorizationForm) ((StrutsInquisitor) asker).getForm();
             form.setDocTypeName(TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
@@ -120,17 +123,30 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
         }
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.web.struts.QuestionHandler#askQuestion(org.kuali.kfs.module.tem.document.web.struts.Inquisitive)
+     */
     @Override
     public <T> T askQuestion(final Inquisitive<TravelDocument,?> asker) throws Exception {
         T retval = (T) asker.confirm(CLOSE_TA_QUESTION, CONFIRM_CLOSE_QUESTION_TEXT, false);
         return retval;
- 
     }
   
+    /**
+     * 
+     * @param messageType
+     * @return
+     */
     public String getMessageFrom(final String messageType) {
         return kualiConfigurationService.getPropertyString(messageType);
     }
 
+    /**
+     * 
+     * @param notePrefix
+     * @param reason
+     * @return
+     */
     public String getReturnToFiscalOfficerNote(final String notePrefix, String reason) {
         String noteText = "";
         // Have to check length on value entered.
@@ -155,20 +171,10 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
         return noteText;
     }
 
-    /**
-     * Sets the kualiConfigurationService attribute.
-     * 
-     * @return Returns the kualiConfigurationService.
-     */
     public void setConfigurationService(final KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
-    /**
-     * Sets the dataDictionaryService attribute.
-     * 
-     * @return Returns the dataDictionaryService.
-     */
     public void setDataDictionaryService(final DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }

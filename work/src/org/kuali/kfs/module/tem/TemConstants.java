@@ -576,6 +576,7 @@ public class TemConstants extends JSTLConstants {
     public static final String MILEAGE_EXPENSE = "MM";
 
     public static final String DISBURSEMENT_VOUCHER_DOCTYPE = "DV";
+    public static final String REQUISITION_DOCTYPE = "REQS";
 
     public static final String ASSIGN_ACCOUNTS_DISABLED_MESSAGE = "All amounts have been assigned accounts.";
 

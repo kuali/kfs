@@ -159,7 +159,9 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
                     }
                 }
                 else {
-                    addExtraButton("methodToCall.cancel", externalImageURL + "buttonsmall_cancel.gif", "Cancel");
+                    if (!paymentRequestDocument.getFinancialSystemDocumentHeader().getWorkflowDocument().isDisapproved()) {
+                        addExtraButton("methodToCall.cancel", externalImageURL + "buttonsmall_cancel.gif", "Cancel");
+                    }
                 }
             }
         }

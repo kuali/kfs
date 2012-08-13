@@ -23,6 +23,8 @@ import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Purchase Order View Business Object.
@@ -150,6 +152,11 @@ public class PurchaseOrderView extends AbstractRelatedView {
      */
     @Override
     public String getDocumentTypeName() {
+        Document document = findDocument(this.getDocumentNumber());
+        if (ObjectUtils.isNotNull(document)) {
+            return document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+        }
+        
         return KFSConstants.FinancialDocumentTypeCodes.PURCHASE_ORDER;
     }
 }

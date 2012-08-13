@@ -307,11 +307,10 @@
 			<column name='PARM_TYP_CD' value='CONFG' />
 			<column name='VAL' value='--' />
 			<column name='PARM_DESC_TXT'
-				value='Defines the default benefit rate category code on the account maintenance document for all accounts. This default code is used when the  DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE does not apply to an account. (two dashes) implies the category code is not applicable. The default cannot be null.' />
+				value="Defines the default benefit rate category code on the account maintenance document for all accounts. This default code is used when the  DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE does not apply to an account. -- (two dashes) implies the category code is not applicable. The default cannot be null." />
 			<column name='EVAL_OPRTR_CD' value='A' />
 			<column name='APPL_ID' value='KFS' />
 		</insert>
-
 	</changeSet>
 	
 	<changeSet author="KFS50" id="KFSMI-6702">	
@@ -986,13 +985,6 @@
 		<update tableName="KRCR_PARM_T">
 			<column name="VAL" value="knoreceipt-l@indiana.edu" />
 			<where>VAL = 'kbatch-l@indiana.edu' AND APPL_ID = 'KFS'</where>
-		</update>		
-	</changeSet>
-
-	<changeSet author="KFS50" id="FIX_PARAM_DESC">
-		<update tableName="KRCR_PARM_T">
-			<column name="PARM_DESC_TXT" value="Defines the default benefit rate category code on the account maintenance document for all accounts. This default code is used when the  DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE does not apply to an account. -- (two dashes) implies the category code is not applicable. The default cannot be null." />
-			<where>PARM_NM = 'DEFAULT_BENEFIT_RATE_CATEGORY_CODE' AND NMSPC_CD='KFS-COA' AND CMPNT_CD = 'Account' AND APPL_ID = 'KFS'</where>
 		</update>		
 	</changeSet>
 

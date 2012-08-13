@@ -552,10 +552,12 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         for (AccountsPayableItem item : (List<AccountsPayableItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
 
-            final KualiDecimal itemExtendedPrice = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();;
-            if (item.getItemType() != null && item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
-                KualiDecimal newExtendedPrice = item.calculateExtendedPrice();
-                item.setExtendedPrice(newExtendedPrice);
+            final KualiDecimal itemExtendedPrice = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();
+            if ( ObjectUtils.isNotNull( item.getItemType() ) ) {
+                if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                    KualiDecimal newExtendedPrice = item.calculateExtendedPrice();
+                    item.setExtendedPrice(newExtendedPrice);
+                }
             }
         }
     }

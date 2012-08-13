@@ -71,6 +71,25 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAction.class);
 
     /**
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+        
+        DisbursementVoucherForm dvForm = (DisbursementVoucherForm) kualiDocumentFormBase;
+        DisbursementVoucherDocument dvDoc = (DisbursementVoucherDocument) dvForm.getDocument();
+        
+        // do not execute the further refreshing logic if a payee is not selected
+        String payeeIdNumber = dvDoc.getDvPayeeDetail().getDisbVchrPayeeIdNumber();
+        //KFSMI-8935: f the person is inactive then Is this payee an employee: No else Is this payee an employee:Yes
+        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
+        if (person != null) {
+            ((DisbursementVoucherDocument) dvForm.getDocument()).templateEmployee(person);
+        }
+    }
+    
+    /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */

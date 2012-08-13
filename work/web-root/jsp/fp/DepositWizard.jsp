@@ -296,10 +296,16 @@ function checkCheckAllOrNone() {
 							readOnly="true" /></div>
 						</td>
 						<td>
-						<div align="center"><kul:htmlControlAttribute
-							property="checkFreeCashReceipt[${ctr}].documentHeader.workflowDocument.createDate"
-							attributeEntry="${dummyAttributes.genericTimestamp}"
-							readOnly="true" /></div>
+						<div align="center">
+							<c:set var="createDate" value="${KualiForm.document.checkFreeCashReceipt[ctr].documentHeader.workflowDocument.createDate}" />
+							<c:out value="${createDate}" />
+						<!--  
+							<kul:htmlControlAttribute
+								property="checkFreeCashReceipt[${ctr}].documentHeader.workflowDocument.createDate"
+								attributeEntry="${dummyAttributes.genericTimestamp}"
+								readOnly="true" />
+						-->	
+							</div>
 						</td>
 						<td>&nbsp;</td>
 						<td>

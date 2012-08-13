@@ -106,14 +106,16 @@ public class CapitalAccountingLinesObjectSubtypeValidations extends GenericValid
                 if (ObjectUtils.isNotNull(matchAccountingLine)) {
                     matchAccountingLine.refreshReferenceObject("objectCode");  
                 }
-                if (validObjectSubTypes.contains(matchAccountingLine.getObjectCode().getFinancialObjectSubTypeCode())) {
-                    if (!objectSubTypeList.isEmpty()) {
-                        if (!objectSubTypeList.contains(matchAccountingLine.getObjectCode().getFinancialObjectSubTypeCode())) {
-                            //different object subtypes
-                            return true;
+                if ( ObjectUtils.isNotNull( matchAccountingLine.getObjectCode() ) ) {
+                    if (validObjectSubTypes.contains(matchAccountingLine.getObjectCode().getFinancialObjectSubTypeCode())) {
+                        if (!objectSubTypeList.isEmpty()) {
+                            if (!objectSubTypeList.contains(matchAccountingLine.getObjectCode().getFinancialObjectSubTypeCode())) {
+                                //different object subtypes
+                                return true;
+                            }
                         }
+                        objectSubTypeList.add(matchAccountingLine.getObjectCode().getFinancialObjectSubTypeCode());
                     }
-                    objectSubTypeList.add(matchAccountingLine.getObjectCode().getFinancialObjectSubTypeCode());
                 }
             }
         }

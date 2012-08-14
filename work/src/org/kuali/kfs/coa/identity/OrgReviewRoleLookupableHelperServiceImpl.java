@@ -204,7 +204,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             searchCriteria.put(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, namespaceCode);
         }
         if( StringUtils.isNotBlank(roleName) ) {
-            searchCriteria.put(KimConstants.UniqueKeyConstants.ROLE_NAME, getQueryString(roleName));
+            searchCriteria.put(KimConstants.UniqueKeyConstants.NAME, getQueryString(roleName));
         }
         if ( searchCriteria.isEmpty() ) {
             return Collections.emptyList();

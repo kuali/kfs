@@ -110,7 +110,8 @@ public class TemKeyConstants extends JSTLConstants {
     public static final String ERROR_TA_BLANKET_TYPE_NO_EXPENSES = "error.document.tem.blanketTypeNoExpenses";
     public static final String ERROR_TA_NO_MILEAGE_RATE = "error.document.tem.noMileageRate";
     public static final String ERROR_TA_NO_NEGATIVE_AMOUNT = "error.document.tem.noMileageRate";
-    public static final String ERROR_TA_MEAL_AND_INC_NOT_VALID = "error.document.tem.invalidMealsAndIncidentals";    
+    public static final String ERROR_TA_MEAL_AND_INC_NOT_VALID = "error.document.tem.invalidMealsAndIncidentals";
+    public static final String ERROR_TA_ENCUMBRANCE_OBJ_CD_INVALID = "error.document.tem.invalid.encumbrance.object.code";
     public static final String ERROR_TRAVELER_TYPES_NOT_CONFIGURED = "error.document.tem.travelerSearch";
     public static final String ERROR_TRAVELER_TYPES_NOT_SELECTED = "error.document.tem.travelerSearchEmployeeType";
     public static final String ERROR_PHONE_NUMBER = "error.document.tem.phoneNumber";

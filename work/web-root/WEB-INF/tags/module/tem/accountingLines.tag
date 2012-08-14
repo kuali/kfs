@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 	<a name="${TEMConstants.SOURCE_ANCHOR }" id="${TEMConstants.SOURCE_ANCHOR }"></a>
-	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.SOURCE_ACCOUNTING_LINE_ERROR_PATTERN}">
+	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="sourceAccountingLines,newSourceLine*">
 		<c:if test="${fullEntryMode }">
 			<div class="tab-container" align="left">
 		    	<c:if test="${fn:length(KualiForm.document.sourceAccountingLines) > 0}" >

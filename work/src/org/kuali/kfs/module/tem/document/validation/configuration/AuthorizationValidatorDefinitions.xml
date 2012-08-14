@@ -63,7 +63,8 @@
 				<bean parent="TravelModule-accommodationInfoRequiredValidation" scope="prototype" />
 				<bean parent="TravelModule-tripDetailEstimateGreaterThanZeroValidation" scope="prototype" />
    				<bean parent="TravelModule-expenseTotalsValidation" scope="prototype" />
-    			<bean parent="TravelModule-accountingTotalsValidation" scope="prototype" />
+    		    <bean parent="TravelModule-accountingLineEncumbranceObjectCodeValidation" scope="prototype" />	
+                <bean parent="TravelModule-accountingTotalsValidation" scope="prototype" />
     			<!-- bean parent="TravelModule-customerExistValidation" scope="prototype" / -->
     			<bean parent="TravelModule-blanketTripTypeValidation" scope="prototype" />
     			<bean parent="TravelModule-tripDetailLodgingValidation" scope="prototype" />

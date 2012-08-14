@@ -63,6 +63,9 @@
 		
 	<bean id="TravelModule-accountingLineBlanketTripTypeValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthAccountingLineBlanketTripTypeValidation" />
+
+    <bean id="TravelModule-accountingLineEncumbranceObjectCodeValidation"
+        class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthAccountingLineEncumbranceObjectCodeValidation" />
 		
 	<bean id="TravelModule-otherExpenseBlanketTripTypeValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthOtherExpenseBlanketTripTypeValidation" />

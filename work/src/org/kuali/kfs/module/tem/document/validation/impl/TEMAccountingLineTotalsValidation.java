@@ -62,6 +62,8 @@ public class TEMAccountingLineTotalsValidation extends GenericValidation {
         }
         
         if (travelDocument.getSourceAccountingLines() != null && !travelDocument.getSourceAccountingLines().isEmpty()) {
+            
+            //check the current accounting line
             for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)travelDocument.getSourceAccountingLines()){
                 String key = line.getFinancialObjectCode() + "_" + line.getCardType();
                 if (amounts.containsKey(key)){
@@ -78,7 +80,7 @@ public class TEMAccountingLineTotalsValidation extends GenericValidation {
                 }
                 else{
                     if (!(event.getDocument() instanceof TravelAuthorizationDocument)) {
-                        GlobalVariables.getMessageMap().putError(KNSPropertyConstants.DOCUMENT + "." + KNSPropertyConstants.DOCUMENT + "." + TemPropertyConstants.SOURCE_ACCOUNTING_LINE + "[" + (line.getSequenceNumber().intValue()-1) + "]." + TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE, line.getFinancialObjectCode(), line.getCardType());
+                        GlobalVariables.getMessageMap().putError(KNSPropertyConstants.DOCUMENT + "." + TemPropertyConstants.SOURCE_ACCOUNTING_LINE + "[" + (line.getSequenceNumber().intValue()-1) + "]." + TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE, line.getFinancialObjectCode(), line.getCardType());
                         rulePassed = false;
                     }
                 }
@@ -87,13 +89,11 @@ public class TEMAccountingLineTotalsValidation extends GenericValidation {
             List errors = GlobalVariables.getMessageMap().getErrorPath();
             if (rulePassed){
                 GlobalVariables.getMessageMap().clearErrorPath();
-                Iterator<String> it = amounts.keySet().iterator();
-                while(it.hasNext()){
-                    String key = it.next();
+                for (String key : amounts.keySet()){
                     KualiDecimal tempAmount = amounts.get(key);
                     if (!tempAmount.isZero()){
                         String[] parts = key.split("_");
-                        if (lineIndexes.containsKey(parts)){
+                        if (lineIndexes.containsKey(key)){
                             GlobalVariables.getMessageMap().putError(KNSPropertyConstants.DOCUMENT + "." + TemPropertyConstants.SOURCE_ACCOUNTING_LINE + "[" + (lineIndexes.get(key).intValue()-1) + "]." + TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE_TOTAL, parts[0], parts[1], finalAmounts.get(key).toString());                             
                         }
                         else{

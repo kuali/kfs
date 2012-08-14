@@ -17,7 +17,9 @@ package org.kuali.kfs.module.tem.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.tem.businessobject.AirfareSource;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -27,12 +29,13 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class AirfareSourceValuesFinder extends KeyValuesBase {
 
-
     @Override
-    public List getKeyValues() {
-        List keyValues = new ArrayList();
+    public List<KeyLabelPair> getKeyValues() {
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
 
-        Collection<AirfareSource> bos = SpringContext.getBean(BusinessObjectService.class).findAll(AirfareSource.class);
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("active", Boolean.TRUE.toString());
+        Collection<AirfareSource> bos = SpringContext.getBean(BusinessObjectService.class).findMatching(AirfareSource.class, criteria);
 
         keyValues.add(new KeyLabelPair("", ""));
         for (AirfareSource typ : bos) {

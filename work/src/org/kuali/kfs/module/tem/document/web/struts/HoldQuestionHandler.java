@@ -63,7 +63,7 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
         if (asker.denied(HOLD_TA_QUESTION)) {
             return (T) asker.back();
         }
-        else if (asker.confirmed(CONFIRM_AMENDMENT_QUESTION)) {
+        else if (asker.confirmed(CONFIRM_HOLD_QUESTION)) {
             return (T) asker.end();
             // This is the case when the user clicks on "OK" in the end.
             // After we inform the user that the close has been rerouted, we'll redirect to the portal page.
@@ -95,31 +95,24 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
 
         final String messageType = TA_MESSAGE_HOLD_DOCUMENT;
         final TravelDocument document = asker.getDocument();
+        
         // String previousDocumentId = ((StrutsInquisitor) asker).getForm().getDocId();
-        String previousDocumentId = null;
         try {
             // Below used as a place holder to allow code to specify actionForward to return if not a 'success question'
-            T returnActionForward = null;
-            String newStatus = null;
-
-            returnActionForward = (T) ((StrutsInquisitor) asker).getMapping().findForward(MAPPING_BASIC);
-            newStatus = TravelAuthorizationStatusCodeKeys.REIMB_HELD;
+            T returnActionForward =  (T) ((StrutsInquisitor) asker).getMapping().findForward(MAPPING_BASIC);
             
             final Note newNote = getDocumentService().createNoteFromDocument(document, noteText.toString());
             //newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.DOCUMENT_HEADER_NOTE_TYPE.getCode());
             getDocumentService().addNoteToDocument(document, newNote); 
             
-            
             //save the new state on the document
-            ((TravelDocumentBase) document).updateAppDocStatus(newStatus);
+            document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.REIMB_HELD);
             getDocumentDao().save(document);
+            
             //send FYI for to initiator and traveler   
             getTravelDocumentService().addAdHocFYIRecipient(document,document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getInitiatorPrincipalId());
             getTravelDocumentService().addAdHocFYIRecipient(document,document.getTraveler().getPrincipalId());
             SpringContext.getBean(WorkflowDocumentService.class).sendWorkflowNotification(document.getDocumentHeader().getWorkflowDocument(), null, document.getAdHocRoutePersons());
-            
-            
-            
             
             if (isNotNull(returnActionForward)) {
                 return returnActionForward;

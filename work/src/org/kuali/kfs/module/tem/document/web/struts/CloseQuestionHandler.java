@@ -70,14 +70,9 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
         }
         TravelDocument document = asker.getDocument();
      
-        // String previousDocumentId = ((StrutsInquisitor) asker).getForm().getDocId();
-        String previousDocumentId = null;
         try {
             // Below used as a place holder to allow code to specify actionForward to return if not a 'success question'
-            T returnActionForward = null;
-            String newStatus = null;
-
-            returnActionForward = (T) ((StrutsInquisitor) asker).getMapping().findForward(MAPPING_BASIC);
+            T returnActionForward = (T) ((StrutsInquisitor) asker).getMapping().findForward(MAPPING_BASIC);
             
             String message = getMessageFrom(TA_MESSAGE_CLOSE_DOCUMENT_TEXT);
             String user = GlobalVariables.getUserSession().getPerson().getLastName() + ", " + GlobalVariables.getUserSession().getPerson().getFirstName();

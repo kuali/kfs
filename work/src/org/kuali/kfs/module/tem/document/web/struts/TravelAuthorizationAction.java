@@ -67,6 +67,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.document.Document;
@@ -210,8 +211,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
         TravelAuthorizationDocument document = reqForm.getTravelAuthorizationDocument();
 
         if (document.getAppDocStatus().equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD)) {
-            Note note = document.getDocumentHeader().getBoNote(document.getDocumentHeader().getBoNotes().size() - 1);
-            String name = note.getAuthorUniversal().getLastName() + ", " + note.getAuthorUniversal().getFirstName();
+            String name = SpringContext.getBean(PersonService.class).getPerson(GlobalVariables.getUserSession().getPrincipalId()).getName();
             GlobalVariables.getMessageList().add(TemKeyConstants.TA_MESSAGE_HOLD_DOCUMENT_TEXT, new String[] { name });
         }
         else if (document.getAppDocStatus().equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION)) {

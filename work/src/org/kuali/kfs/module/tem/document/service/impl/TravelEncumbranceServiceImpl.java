@@ -247,18 +247,15 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
 
             processRelatedDocuments(document);
 
-            /*
-             * Adjust current encumbrances with the new amounts If new pending entry is found in encumbrance map, create a pending
-             * entry to balance the difference by either crediting or debiting. If not found just continue on to be processed as
-             * normal.
-             */
+            
+            //Adjust current encumbrances with the new amounts If new pending entry is found in encumbrance map, create a pending
+            // entry to balance the difference by either crediting or debiting. If not found just continue on to be processed as
+            // normal.
             Iterator<GeneralLedgerPendingEntry> pendingEntriesIterator = document.getGeneralLedgerPendingEntries().iterator();
             while (pendingEntriesIterator.hasNext()) {
                 GeneralLedgerPendingEntry pendingEntry = pendingEntriesIterator.next();
-                /*
-                 * New for M3 - Skip glpe's created for imported expenses.
-                 */
-                if (!pendingEntry.getOrganizationReferenceId().contains(TemConstants.IMPORTED_FLAG)){
+                
+                if (! StringUtils.defaultString(pendingEntry.getOrganizationReferenceId()).contains(TemConstants.IMPORTED_FLAG)){
                     StringBuffer key = new StringBuffer();
                     key.append(pendingEntry.getAccountNumber());
                     key.append(pendingEntry.getSubAccountNumber());
@@ -266,10 +263,9 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
                     key.append(pendingEntry.getFinancialSubObjectCode());
                     key.append(pendingEntry.getReferenceFinancialDocumentNumber());
                     Encumbrance encumbrance = encumbranceMap.get(key.toString());
-                    /*
-                     * If encumbrance found, find and calculate difference. If the difference is zero don't add to new list of glpe's If
-                     * encumbrance is not found and glpe is not an offset glpe, add it and it's offset to the new list
-                     */
+                    
+                     //If encumbrance found, find and calculate difference. If the difference is zero don't add to new list of glpe's If
+                     // encumbrance is not found and glpe is not an offset glpe, add it and it's offset to the new list
                     if (encumbrance != null) {
                         KualiDecimal difference = encumbrance.getAccountLineEncumbranceOutstandingAmount().subtract(pendingEntry.getTransactionLedgerEntryAmount());
                         if (difference.isGreaterThan(KualiDecimal.ZERO)) {
@@ -296,12 +292,10 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
                 }
             }
 
-            /*
-             * Loop through and remove encumbrances from map. This is done here because there is a possibility of pending entries
-             * with the same account number.
-             */
+             //Loop through and remove encumbrances from map. This is done here because there is a possibility of pending entries
+             //with the same account number.
             for (GeneralLedgerPendingEntry pendingEntry : document.getGeneralLedgerPendingEntries()) {
-                if (!pendingEntry.getOrganizationReferenceId().contains(TemConstants.IMPORTED_FLAG)){
+                if (!StringUtils.defaultString(pendingEntry.getOrganizationReferenceId()).contains(TemConstants.IMPORTED_FLAG)){
                     if (!pendingEntry.isTransactionEntryOffsetIndicator()) {
                         StringBuffer key = new StringBuffer();
                         key.append(pendingEntry.getAccountNumber());
@@ -314,9 +308,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
                 }
             }
 
-            /*
-             * Find any remaining encumbrances that no longer should exist in the new TAA.
-             */
+            //Find any remaining encumbrances that no longer should exist in the new TAA.
             if (!encumbranceMap.isEmpty()) {
                 for (final Encumbrance encumbrance : encumbranceMap.values()) {
                     liquidateEncumbrance(encumbrance, sequenceHelper, document);

@@ -129,6 +129,9 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             
             ((TravelDocumentBase) taaDocument).updateAppDocStatus(TravelAuthorizationStatusCodeKeys.CHANGE_IN_PROCESS);
             
+            //save the TAA document once so it will not be lost
+            getDocumentService().saveDocument(taaDocument);
+            
             // add relationship            
             String documentType = document instanceof TravelAuthorizationAmendmentDocument ? TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT : TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT;            
             String relationDescription = documentType + " - " + TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT;

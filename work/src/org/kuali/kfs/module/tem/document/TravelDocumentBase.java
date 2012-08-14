@@ -214,6 +214,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * 
      * @param status
      */
+    @Override
     public void updateAppDocStatus(String newStatus) {
         debug("new status is: " + newStatus);
 

@@ -109,9 +109,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     public TravelAuthorizationAmendmentDocument toCopyTAA() throws WorkflowException {
         TravelAuthorizationAmendmentDocument doc = (TravelAuthorizationAmendmentDocument) SpringContext.getBean(DocumentService.class).getNewDocument(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
-        String documentID = doc.getDocumentNumber();
-
-        toCopyTravelAuthorizationDocument(doc, documentID);       
+        toCopyTravelAuthorizationDocument(doc);       
         
         doc.getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
         
@@ -120,9 +118,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     public TravelAuthorizationCloseDocument toCopyTAC() throws WorkflowException {
         TravelAuthorizationCloseDocument doc = (TravelAuthorizationCloseDocument) SpringContext.getBean(DocumentService.class).getNewDocument(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
-        String documentID = doc.getDocumentNumber();
-
-        toCopyTravelAuthorizationDocument(doc, documentID);
+        toCopyTravelAuthorizationDocument(doc);
         
         return doc;
     }
@@ -132,42 +128,43 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
      * @param doc
      * @param documentID
      */
-    private void toCopyTravelAuthorizationDocument(TravelAuthorizationDocument copytToDocument, String documentID) {
+    private void toCopyTravelAuthorizationDocument(TravelAuthorizationDocument copyToDocument) {
+        String documentID = copyToDocument.getDocumentNumber();
 
         //copy over all possible elements from this self to TravelAuthorizationDocument except document header 
-        BeanUtils.copyProperties(this, copytToDocument, new String[]{KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME});
+        BeanUtils.copyProperties(this, copyToDocument, new String[]{KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME});
         
         FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
-        BeanUtils.copyProperties(copytToDocument.getDocumentHeader(), documentHeader);
+        BeanUtils.copyProperties(copyToDocument.getDocumentHeader(), documentHeader);
         documentHeader.setOrganizationDocumentNumber(this.getDocumentHeader().getOrganizationDocumentNumber());
-        copytToDocument.setDocumentHeader(documentHeader);
+        copyToDocument.setDocumentHeader(documentHeader);
         
-        copytToDocument.setTransportationModes(getTravelDocumentService().copyTransportationModeDetails(getTransportationModes(), documentID));
-        copytToDocument.setPerDiemExpenses(getTravelDocumentService().copyPerDiemExpenses(getPerDiemExpenses(), documentID));
-        copytToDocument.setSpecialCircumstances(getTravelDocumentService().copySpecialCircumstances(getSpecialCircumstances(), documentID));
-        copytToDocument.setTravelerDetailId(null);
-        copytToDocument.setTraveler(getTravelerService().copyTravelerDetail(getTraveler(), documentID));
-        copytToDocument.setGroupTravelers(getTravelDocumentService().copyGroupTravelers(getGroupTravelers(), documentID));               
-        copytToDocument.setTravelAdvances(getTravelDocumentService().copyTravelAdvances(getTravelAdvances(), documentID));
-        copytToDocument.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(getActualExpenses(), documentID));
-        copytToDocument.setImportedExpenses(new ArrayList<ImportedExpense>());
+        copyToDocument.setTransportationModes(getTravelDocumentService().copyTransportationModeDetails(getTransportationModes(), documentID));
+        copyToDocument.setPerDiemExpenses(getTravelDocumentService().copyPerDiemExpenses(getPerDiemExpenses(), documentID));
+        copyToDocument.setSpecialCircumstances(getTravelDocumentService().copySpecialCircumstances(getSpecialCircumstances(), documentID));
+        copyToDocument.setTravelerDetailId(null);
+        copyToDocument.setTraveler(getTravelerService().copyTravelerDetail(getTraveler(), documentID));
+        copyToDocument.setGroupTravelers(getTravelDocumentService().copyGroupTravelers(getGroupTravelers(), documentID));               
+        copyToDocument.setTravelAdvances(getTravelDocumentService().copyTravelAdvances(getTravelAdvances(), documentID));
+        copyToDocument.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(getActualExpenses(), documentID));
+        copyToDocument.setImportedExpenses(new ArrayList<ImportedExpense>());
         
-        copytToDocument.getDocumentHeader().getBoNotes().clear();
-        copytToDocument.getDocumentHeader().setDocumentDescription(getDocumentHeader().getDocumentDescription());
-        copytToDocument.setTravelDocumentIdentifier(getTravelDocumentIdentifier());
-        copytToDocument.setDocumentNumber(documentID);
-        copytToDocument.setGeneralLedgerPendingEntries(new ArrayList<GeneralLedgerPendingEntry>());
+        copyToDocument.getDocumentHeader().getBoNotes().clear();
+        copyToDocument.getBoNotes().clear();
+        copyToDocument.getDocumentHeader().setDocumentDescription(getDocumentHeader().getDocumentDescription());
+        copyToDocument.setTravelDocumentIdentifier(getTravelDocumentIdentifier());
+        copyToDocument.setDocumentNumber(documentID);
+        copyToDocument.setGeneralLedgerPendingEntries(new ArrayList<GeneralLedgerPendingEntry>());
+        
+        //reset to only include the encumbrance line
         List<TemSourceAccountingLine> newList = new ArrayList<TemSourceAccountingLine>();
         int sequence = 1;
-        for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)copytToDocument.getEncumbranceSourceAccountingLines()){
-            //is it only CTS that is not being copied? how about encumbrance and agency? those will be replicated.....
-            //if (!line.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)){
-                line.setSequenceNumber(new Integer(sequence));
-                sequence++;
-                newList.add(line);
-            //}
+        for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)copyToDocument.getEncumbranceSourceAccountingLines()){
+            line.setSequenceNumber(new Integer(sequence));
+            sequence++;
+            newList.add(line);
         }
-        copytToDocument.setSourceAccountingLines(newList);
+        copyToDocument.setSourceAccountingLines(newList);
     }
     
     /**
@@ -522,10 +519,10 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
             LOG.debug("New route status is " + statusChangeEvent.getNewRouteStatus());
                         
-            // for some reason when it goes to final it never updates to the last status, updating TA status to OPEN REIMBURSEMENT
-            updateAppDocStatus(TravelAuthorizationStatusCodeKeys.OPEN_REIMB);
-            
-            if (this instanceof TravelAuthorizationAmendmentDocument || this instanceof TravelAuthorizationDocument) {
+            if (!(this instanceof TravelAuthorizationCloseDocument)) {
+                // for some reason when it goes to final it never updates to the last status, updating TA status to OPEN REIMBURSEMENT
+                updateAppDocStatus(TravelAuthorizationStatusCodeKeys.OPEN_REIMB);
+                
                 getTravelAuthorizationService().createTravelAdvanceDVDocument(this);
                 getTravelAuthorizationService().createCustomerInvoice(this);
                 

@@ -78,26 +78,19 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
             String newStatus = null;
 
             returnActionForward = (T) ((StrutsInquisitor) asker).getMapping().findForward(MAPPING_BASIC);
-            newStatus = TravelAuthorizationStatusCodeKeys.RETIRED_VERSION;
             
             String message = getMessageFrom(TA_MESSAGE_CLOSE_DOCUMENT_TEXT);
             String user = GlobalVariables.getUserSession().getPerson().getLastName() + ", " + GlobalVariables.getUserSession().getPerson().getFirstName();
             String note = replace(message, "{0}", user);
             
-            final Note newNote = documentService.createNoteFromDocument(document, note);
-            final Note newNoteTAC = documentService.createNoteFromDocument(document, note);
-            documentService.addNoteToDocument(document, newNote); 
-            ((TravelDocumentBase) document).updateAppDocStatus(newStatus);
+            final Note taNote = documentService.createNoteFromDocument(document, note);
+            documentService.addNoteToDocument(document, taNote); 
+            document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
             documentDao.save(document);
             
-            String headerID = document.getDocumentHeader().getDocumentNumber();
             TravelAuthorizationCloseDocument tacDocument = ((TravelAuthorizationDocument) document).toCopyTAC();
-            documentService.addNoteToDocument(tacDocument, newNoteTAC);          
-            
-            //moved to doc status change
-//            if (tacDocument.isTripGenerateEncumbrance()){
-//                travelEncumbranceService.disencumberTravelAuthorizationClose(tacDocument);
-//            }
+            final Note tacNote= documentService.createNoteFromDocument(tacDocument, note);
+            documentService.addNoteToDocument(tacDocument, tacNote);          
             
             TravelAuthorizationForm form = (TravelAuthorizationForm) ((StrutsInquisitor) asker).getForm();
             form.setDocTypeName(TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);

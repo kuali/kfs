@@ -53,6 +53,8 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
 
     void initiateDocument();
 
+    public void updateAppDocStatus(String newStatus);
+    
     @Override
     String getTravelDocumentIdentifier();
 

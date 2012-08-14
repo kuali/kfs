@@ -72,6 +72,9 @@ public class NonEmployeeCertificationReport extends ReportInfoHolder{
         setReportFileName("NonEmployeeCertification" + PDF_FILE_EXTENSION);
         setReportTitle("Non-Employee Certification #");
         setReportTemplateName("NonEmployeeCertification");
+        
+        //default destination to blank
+        setDestination("");
     }
     
     /**

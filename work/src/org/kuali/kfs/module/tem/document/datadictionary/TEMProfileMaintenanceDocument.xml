@@ -60,12 +60,12 @@
 				<bean parent="MaintainableFieldDefinition" p:name="defaultSubAccount" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="defaultProjectCode" p:required="false" />
 				<bean parent="MaintainableSubSectionHeaderDefinition" p:name="Address"/>
-				<bean parent="MaintainableFieldDefinition" p:name="temProfileAddress.streetAddressLine1" p:required="false" p:noLookup="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="temProfileAddress.streetAddressLine2" p:required="false" p:noLookup="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="temProfileAddress.cityName" p:required="false" p:noLookup="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="temProfileAddress.streetAddressLine1" p:required="true" p:noLookup="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="temProfileAddress.streetAddressLine2" p:required="true" p:noLookup="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="temProfileAddress.cityName" p:required="true" p:noLookup="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="temProfileAddress.stateCode" p:required="false" p:noLookup="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="temProfileAddress.zipCode" p:required="false" p:noLookup="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="temProfileAddress.countryCode" p:required="false" p:noLookup="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="temProfileAddress.countryCode" p:required="true" p:noLookup="true" />
 				<bean parent="MaintainableSubSectionHeaderDefinition" p:name="Contact Info"/>
 				<bean parent="MaintainableFieldDefinition" p:name="phoneNumber" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="emailAddress" p:required="false" />

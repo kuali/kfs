@@ -61,7 +61,7 @@ public class WorkflowTestUtils {
         boolean success = ChangeMonitor.waitUntilChange(monitor, MAX_WAIT_SECONDS, INITIAL_PAUSE_SECONDS);
         if ( !success ) {
             WorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(documentNumber, UserNameFixture.kfs.getPerson() );
-            Assert.fail( "waitForNodeChange(" + documentNumber + "," + desiredNodeName + ") timed out. Document was at the " + document.getCurrentNodeNames() + " node.\n" + document.getRequestedActions() );
+            Assert.fail( "waitForNodeChange(" + documentNumber + "," + desiredNodeName + ") timed out. Document was " + document.getStatus() + " at the " + document.getCurrentNodeNames() + " node.\n" + document.getRequestedActions() );
         }
     }
 
@@ -71,7 +71,7 @@ public class WorkflowTestUtils {
         boolean success = ChangeMonitor.waitUntilChange(monitor, MAX_WAIT_SECONDS, INITIAL_PAUSE_SECONDS);
         if ( !success ) {
             document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(document.getDocumentId(), UserNameFixture.kfs.getPerson() );
-            Assert.fail( "waitForNodeChange(" + document.getDocumentId() + "," + desiredNodeName + ") timed out. Document was at the " + document.getCurrentNodeNames() + " node.\n" + document.getRootActionRequests() );
+            Assert.fail( "waitForNodeChange(" + document.getDocumentId() + "," + desiredNodeName + ") timed out. Document was " + document.getStatus() + " at the " + document.getCurrentNodeNames() + " node.\n" + document.getRootActionRequests() );
         }
     }
 

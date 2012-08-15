@@ -637,7 +637,7 @@ public class CashManagementServiceImpl implements CashManagementService {
     public List<CashReceiptDocument> retrieveCashReceipts(Deposit deposit) {
         List<CashReceiptDocument> cashReceiptDocuments = new ArrayList<CashReceiptDocument>();
 
-        if (ObjectUtils.isNull(deposit.getDepositCashReceiptControl())) {
+        if (ObjectUtils.isNull(deposit.getDepositCashReceiptControl()) || deposit.getDepositCashReceiptControl().isEmpty() ) {
             deposit.refreshReferenceObject("depositCashReceiptControl");
         }
         

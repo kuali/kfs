@@ -125,13 +125,10 @@
 		<property name="description" value="Final Reimbursement" />
 	</bean>
 	<bean id="TravelReimbursementDocument-temProfileId" parent="TravelReimbursementDocument-temProfileId-parentBean" />
-	<bean id="TravelReimbursementDocument-temProfileId-parentBean" parent="AttributeDefinition">
+	<bean id="TravelReimbursementDocument-temProfileId-parentBean" abstract="true" parent="TEMProfile-profileId">
 		<property name="name" value="temProfileId" />
 		<property name="label" value="Traveler Detail Id" />
 		<property name="shortLabel" value="Traveler Detail Id" />
-		<property name="maxLength" value="32" />
-		<property name="summary" value="Traveler Detail Id" />
-		<property name="description" value="Traveler Detail Id" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
@@ -196,17 +193,16 @@
 		<property name="description" value="Contact Campus Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="2"/></property>
 	</bean>
-	<bean id="TravelReimbursementDocument-tripTypeCode" parent="TravelReimbursementDocument-tripTypeCode-parentBean" />
-	<bean id="TravelReimbursementDocument-tripTypeCode-parentBean" parent="AttributeDefinition">
-		<property name="name" value="tripTypeCode" />
-		<property name="label" value="Trip Type Code" />
-		<property name="shortLabel" value="Trip Type Code" />
-		<property name="required" value="true" />
-		<property name="maxLength" value="3" />
-		<property name="summary" value="Trip Type Code" />
-		<property name="description" value="Trip Type Code" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
+	
+  <bean id="TravelReimbursementDocument-tripTypeCode" parent="TravelReimbursementDocument-tripTypeCode-parentBean" />
+	<bean id="TravelReimbursementDocument-tripTypeCode-parentBean" abstract="true" parent="PrimaryDestination-tripTypeCode">
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.TripTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
 	</bean>
+  
 	<bean id="TravelReimbursementDocument-tripBegin" parent="TravelReimbursementDocument-tripBegin-parentBean" />
 	<bean id="TravelReimbursementDocument-tripBegin-parentBean" parent="AttributeDefinition">
 		<property name="name" value="tripBegin" />
@@ -234,49 +230,32 @@
 	    </property>		
 	</bean>
     <bean id="TravelReimbursementDocument-primaryDestinationId" parent="TravelReimbursementDocument-primaryDestinationId-parentBean" />
-    <bean id="TravelReimbursementDocument-primaryDestinationId-parentBean" parent="AttributeDefinition">
+    <bean id="TravelReimbursementDocument-primaryDestinationId-parentBean" abstract="true" parent="PrimaryDestination-id">
         <property name="name" value="primaryDestinationId" />
-        <property name="label" value="Primary Destination Id" />
-        <property name="shortLabel" value="Primary Destination Id" />
-        <property name="maxLength" value="32" />
-        <property name="summary" value="Primary Destination Id" />
-        <property name="description" value="Primary Destination Id" />
-        <property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
-        <property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
-    </bean>
-    <bean id="TravelReimbursementDocument-primaryDestinationName" parent="TravelReimbursementDocument-primaryDestinationName-parentBean" />
-    <bean id="TravelReimbursementDocument-primaryDestinationName-parentBean" parent="AttributeDefinition">
-        <property name="name" value="primaryDestinationName" />
-        <property name="label" value="Primary Destination" />
-        <property name="shortLabel" value="Primary Destination" />
-        <property name="maxLength" value="100" />
         <property name="required" value="false" />
-        <property name="summary" value="Primary Destination" />
-        <property name="description" value="Primary Destination" />
-        <property name="control"><bean parent="TextControlDefinition" p:size="75"/></property>
     </bean>
+    
+    <bean id="TravelReimbursementDocument-primaryDestinationName" parent="TravelReimbursementDocument-primaryDestinationName-parentBean" />
+    <bean id="TravelReimbursementDocument-primaryDestinationName-parentBean" abstract="true" parent="PrimaryDestination-primaryDestinationName" />
+    
     <bean id="TravelReimbursementDocument-primaryDestinationCountryState" parent="TravelReimbursementDocument-primaryDestinationCountryState-parentBean" />
-    <bean id="TravelReimbursementDocument-primaryDestinationCountryState-parentBean" parent="AttributeDefinition">
+    <bean id="TravelReimbursementDocument-primaryDestinationCountryState-parentBean" abstract="true" parent="PrimaryDestination-countryState">
         <property name="name" value="primaryDestinationCountryState" />
         <property name="label" value="Primary Destination Country/State" />
         <property name="shortLabel" value="Primary Destination Country/State" />
-        <property name="maxLength" value="100" />
         <property name="required" value="false" />
-        <property name="summary" value="Primary Destination Country/State" />
-        <property name="description" value="Primary Destination Country/State" />
         <property name="control"><bean parent="TextControlDefinition" p:size="50"/></property>
     </bean>
+    
     <bean id="TravelReimbursementDocument-primaryDestinationCounty" parent="TravelReimbursementDocument-primaryDestinationCounty-parentBean" />
-    <bean id="TravelReimbursementDocument-primaryDestinationCounty-parentBean" parent="AttributeDefinition">
+    <bean id="TravelReimbursementDocument-primaryDestinationCounty-parentBean" abstract="true" parent="PrimaryDestination-county">
         <property name="name" value="primaryDestinationCounty" />
         <property name="label" value="Primary Destination County" />
         <property name="shortLabel" value="Primary Destination County" />
-        <property name="maxLength" value="100" />
         <property name="required" value="false" />
-        <property name="summary" value="Primary Destination County" />
-        <property name="description" value="Primary Destination County" />
         <property name="control"><bean parent="TextControlDefinition" p:size="50"/></property>
     </bean>
+    
 	<bean id="TravelReimbursementDocument-tripDescription" parent="TravelReimbursementDocument-tripDescription-parentBean" />
 	<bean id="TravelReimbursementDocument-tripDescription-parentBean" parent="AttributeDefinition">
 		<property name="name" value="tripDescription" />

@@ -110,13 +110,15 @@
     </tr>
 	<tr>
         <th class="bord-l-b">
-            <div align="right">Primary Destination - Country/State:</div>
+            <div align="right"><kul:htmlAttributeLabel
+            attributeEntry="${documentAttributes.primaryDestinationCountryState}" /></div>
         </th>
         <td class="datacell"><kul:htmlControlAttribute
             attributeEntry="${documentAttributes.primaryDestinationCountryState}"
             property="document.primaryDestinationCountryState" readOnly="${!destinationNotFound}" /></td>
         <th class="bord-l-b">
-            <div align="right">Primary Destination - County:</div>
+            <div align="right"><kul:htmlAttributeLabel
+            attributeEntry="${documentAttributes.primaryDestinationCounty}" /></div>
         </th>
         <td class="datacell"><kul:htmlControlAttribute
             attributeEntry="${documentAttributes.primaryDestinationCounty}"

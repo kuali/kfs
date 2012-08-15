@@ -226,7 +226,7 @@
 		<property name="name" value="travelAdvancePolicy" />
 		<property name="label" value="Travel Advance Policy" />
 		<property name="shortLabel" value="Travel Advance Policy" />
-		<property name="required" value="false" />
+		<property name="required" value="true" />
 		<property name="summary" value="Travel Advance Policy" />
 		<property name="description" value="Travel Advance Policy" />
 	</bean>

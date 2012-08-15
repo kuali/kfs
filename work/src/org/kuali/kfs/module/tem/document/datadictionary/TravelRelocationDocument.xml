@@ -41,10 +41,6 @@
 			<ref bean="TravelRelocationDocument-tripTypeCode" />
 			<ref bean="TravelRelocationDocument-tripBegin" />
 			<ref bean="TravelRelocationDocument-tripEnd" />
-            <ref bean="TravelEntertainmentDocument-primaryDestinationId" />
-            <ref bean="TravelEntertainmentDocument-primaryDestinationName" />
-            <ref bean="TravelEntertainmentDocument-primaryDestinationCountryState" />
-            <ref bean="TravelEntertainmentDocument-primaryDestinationCounty" />
 			<ref bean="TravelRelocationDocument-tripDescription" />
 			<ref bean="TravelRelocationDocument-expenseLimit" />
 			<ref bean="TravelRelocationDocument-temProfileId" />
@@ -156,50 +152,6 @@
 		<property name="summary" value="Moving End" />
 		<property name="description" value="Moving End" />
 	</bean>
-	<bean id="TravelEntertainmentDocument-primaryDestinationName" parent="TravelEntertainmentDocument-primaryDestinationName-parentBean" />
-    <bean id="TravelEntertainmentDocument-primaryDestinationName-parentBean" parent="AttributeDefinition">
-        <property name="name" value="primaryDestinationName" />
-        <property name="label" value="Primary Destination" />
-        <property name="shortLabel" value="Primary Destination" />
-        <property name="maxLength" value="100" />
-        <property name="required" value="false" />
-        <property name="summary" value="Primary Destination" />
-        <property name="description" value="Primary Destination" />
-        <property name="control"><bean parent="TextControlDefinition" p:size="75"/></property>
-    </bean>
-    <bean id="TravelEntertainmentDocument-primaryDestinationCountryState" parent="TravelEntertainmentDocument-primaryDestinationCountryState-parentBean" />
-    <bean id="TravelEntertainmentDocument-primaryDestinationCountryState-parentBean" parent="AttributeDefinition">
-        <property name="name" value="primaryDestinationCountryState" />
-        <property name="label" value="Primary Destination Country/State" />
-        <property name="shortLabel" value="Primary Destination Country/State" />
-        <property name="maxLength" value="100" />
-        <property name="required" value="false" />
-        <property name="summary" value="Primary Destination Country/State" />
-        <property name="description" value="Primary Destination Country/State" />
-        <property name="control"><bean parent="TextControlDefinition" p:size="50"/></property>
-    </bean>
-    <bean id="TravelEntertainmentDocument-primaryDestinationCounty" parent="TravelEntertainmentDocument-primaryDestinationCounty-parentBean" />
-    <bean id="TravelEntertainmentDocument-primaryDestinationCounty-parentBean" parent="AttributeDefinition">
-        <property name="name" value="primaryDestinationCounty" />
-        <property name="label" value="Primary Destination County" />
-        <property name="shortLabel" value="Primary Destination County" />
-        <property name="maxLength" value="100" />
-        <property name="required" value="false" />
-        <property name="summary" value="Primary Destination County" />
-        <property name="description" value="Primary Destination County" />
-        <property name="control"><bean parent="TextControlDefinition" p:size="50"/></property>
-    </bean>
-    <bean id="TravelEntertainmentDocument-primaryDestinationId" parent="TravelEntertainmentDocument-primaryDestinationId-parentBean" />
-    <bean id="TravelEntertainmentDocument-primaryDestinationId-parentBean" parent="AttributeDefinition">
-        <property name="name" value="primaryDestinationId" />
-        <property name="label" value="Primary Destination Id" />
-        <property name="shortLabel" value="Primary Destination Id" />
-        <property name="maxLength" value="32" />
-        <property name="summary" value="Primary Destination Id" />
-        <property name="description" value="Primary Destination Id" />
-        <property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
-        <property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
-    </bean>
 	<bean id="TravelRelocationDocument-tripDescription" parent="TravelRelocationDocument-tripDescription-parentBean" />
 	<bean id="TravelRelocationDocument-tripDescription-parentBean" parent="AttributeDefinition">
 		<property name="name" value="tripDescription" />

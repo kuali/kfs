@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">	<bean id="TravelAuthorizationDocument" parent="TravelAuthorizationDocument-parentBean" />
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">	
+
+    <bean id="TravelAuthorizationDocument" parent="TravelAuthorizationDocument-parentBean" />
 	<bean id="TravelAuthorizationDocument-parentBean" abstract="true" parent="AccountingDocumentEntry" >
 		<property name="documentTypeName" value="TA" />
 		<property name="documentClass" value="org.kuali.kfs.module.tem.document.TravelAuthorizationDocument" />
@@ -112,31 +114,23 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 	</bean>
 	<bean id="TravelAuthorizationDocument-temProfileId" parent="TravelAuthorizationDocument-temProfileId-parentBean" />
-	<bean id="TravelAuthorizationDocument-temProfileId-parentBean" parent="AttributeDefinition">
+	<bean id="TravelAuthorizationDocument-temProfileId-parentBean" abstract="true" parent="TEMProfile-profileId">
 		<property name="name" value="temProfileId" />
 		<property name="label" value="Traveler Detail Id" />
 		<property name="shortLabel" value="Traveler Detail Id" />
-		<property name="maxLength" value="32" />
-		<property name="summary" value="Traveler Detail Id" />
-		<property name="description" value="Traveler Detail Id" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
+  
 	<bean id="TravelAuthorizationDocument-tripTypeCode" parent="TravelAuthorizationDocument-tripTypeCode-parentBean" />
-	<bean id="TravelAuthorizationDocument-tripTypeCode-parentBean" parent="AttributeDefinition">
-		<property name="name" value="tripTypeCode" />
-		<property name="label" value="Trip Type" />
-		<property name="shortLabel" value="Trip Type" />
-		<property name="required" value="true" />
-		<property name="maxLength" value="3" />
-		<property name="summary" value="Trip Type Code" />
-		<property name="description" value="Trip Type Code" />
+	<bean id="TravelAuthorizationDocument-tripTypeCode-parentBean" abstract="true" parent="PrimaryDestination-tripTypeCode">
 		<property name="control">
 			<bean parent="SelectControlDefinition"
 				p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.TripTypeValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
+  
 	<bean id="TravelAuthorizationDocument-tripBegin" parent="TravelAuthorizationDocument-tripBegin-parentBean" />
 	<bean id="TravelAuthorizationDocument-tripBegin-parentBean" parent="AttributeDefinition">
 		<property name="name" value="tripBegin" />
@@ -163,50 +157,34 @@
 	      <bean parent="TextControlDefinition" p:size="20"/>
 	    </property>		
 	</bean>
-    <bean id="TravelAuthorizationDocument-primaryDestinationName" parent="TravelAuthorizationDocument-primaryDestinationName-parentBean" />
-    <bean id="TravelAuthorizationDocument-primaryDestinationName-parentBean" parent="AttributeDefinition">
-        <property name="name" value="primaryDestinationName" />
-        <property name="label" value="Primary Destination" />
-        <property name="shortLabel" value="Primary Destination" />
-        <property name="maxLength" value="100" />
+  
+    <bean id="TravelAuthorizationDocument-primaryDestinationId" parent="TravelAuthorizationDocument-primaryDestinationId-parentBean" />
+    <bean id="TravelAuthorizationDocument-primaryDestinationId-parentBean" abstract="true" parent="PrimaryDestination-id">
+        <property name="name" value="primaryDestinationId" />
         <property name="required" value="false" />
-        <property name="summary" value="Primary Destination" />
-        <property name="description" value="Primary Destination" />
-        <property name="control"><bean parent="TextControlDefinition" p:size="75"/></property>
     </bean>
+  
+    <bean id="TravelAuthorizationDocument-primaryDestinationName" parent="TravelAuthorizationDocument-primaryDestinationName-parentBean" />
+    <bean id="TravelAuthorizationDocument-primaryDestinationName-parentBean" abstract="true" parent="PrimaryDestination-primaryDestinationName" />
+    
     <bean id="TravelAuthorizationDocument-primaryDestinationCountryState" parent="TravelAuthorizationDocument-primaryDestinationCountryState-parentBean" />
-    <bean id="TravelAuthorizationDocument-primaryDestinationCountryState-parentBean" parent="AttributeDefinition">
+    <bean id="TravelAuthorizationDocument-primaryDestinationCountryState-parentBean" abstract="true" parent="PrimaryDestination-countryState">
         <property name="name" value="primaryDestinationCountryState" />
         <property name="label" value="Primary Destination Country/State" />
         <property name="shortLabel" value="Primary Destination Country/State" />
-        <property name="maxLength" value="100" />
         <property name="required" value="false" />
-        <property name="summary" value="Primary Destination Country/State" />
-        <property name="description" value="Primary Destination Country/State" />
         <property name="control"><bean parent="TextControlDefinition" p:size="50"/></property>
     </bean>
+    
     <bean id="TravelAuthorizationDocument-primaryDestinationCounty" parent="TravelAuthorizationDocument-primaryDestinationCounty-parentBean" />
-    <bean id="TravelAuthorizationDocument-primaryDestinationCounty-parentBean" parent="AttributeDefinition">
+    <bean id="TravelAuthorizationDocument-primaryDestinationCounty-parentBean" abstract="true" parent="PrimaryDestination-county">
         <property name="name" value="primaryDestinationCounty" />
         <property name="label" value="Primary Destination County" />
         <property name="shortLabel" value="Primary Destination County" />
-        <property name="maxLength" value="100" />
         <property name="required" value="false" />
-        <property name="summary" value="Primary Destination County" />
-        <property name="description" value="Primary Destination County" />
         <property name="control"><bean parent="TextControlDefinition" p:size="50"/></property>
     </bean>
-    <bean id="TravelAuthorizationDocument-primaryDestinationId" parent="TravelAuthorizationDocument-primaryDestinationId-parentBean" />
-    <bean id="TravelAuthorizationDocument-primaryDestinationId-parentBean" parent="AttributeDefinition">
-        <property name="name" value="primaryDestinationId" />
-        <property name="label" value="Primary Destination Id" />
-        <property name="shortLabel" value="Primary Destination Id" />
-        <property name="maxLength" value="32" />
-        <property name="summary" value="Primary Destination Id" />
-        <property name="description" value="Primary Destination Id" />
-        <property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
-        <property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
-    </bean>
+    
 	<bean id="TravelAuthorizationDocument-tripDescription" parent="TravelAuthorizationDocument-tripDescription-parentBean" />
 	<bean id="TravelAuthorizationDocument-tripDescription-parentBean" parent="AttributeDefinition">
 		<property name="name" value="tripDescription" />

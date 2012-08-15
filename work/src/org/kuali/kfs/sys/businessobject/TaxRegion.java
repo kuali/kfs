@@ -197,7 +197,7 @@ public class TaxRegion extends PersistableBusinessObjectBase implements MutableI
         TaxRegionRate selectedTaxRegionRate = null;
 
         for (TaxRegionRate taxRegionRate : taxRegionRates) {
-            if (taxRegionRate.getEffectiveDate().before(dateOfTransaction)) {
+            if (taxRegionRate.getEffectiveDate().getTime() <= dateOfTransaction.getTime() ) {
                 selectedTaxRegionRate = taxRegionRate;
             }
         }

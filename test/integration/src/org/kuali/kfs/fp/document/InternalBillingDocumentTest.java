@@ -52,15 +52,14 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * This class is used to test InternalBillingDocument.
  */
 @ConfigureContext(session = khuntley)
-// @RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class InternalBillingDocumentTest extends KualiTestBase {
-    public static final Class<InternalBillingDocument> DOCUMENT_CLASS = InternalBillingDocument.class;
+    protected static final Class<InternalBillingDocument> DOCUMENT_CLASS = InternalBillingDocument.class;
 
-    private Document getDocumentParameterFixture() throws Exception {
+    protected Document getDocumentParameterFixture() throws Exception {
         return DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), InternalBillingDocument.class);
     }
 
-    private List<AccountingLineFixture> getTargetAccountingLineParametersFromFixtures() {
+    protected List<AccountingLineFixture> getTargetAccountingLineParametersFromFixtures() {
         List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
         list.add(LINE2);
         list.add(LINE3);
@@ -68,7 +67,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         return list;
     }
 
-    private List<AccountingLineFixture> getSourceAccountingLineParametersFromFixtures() {
+    protected List<AccountingLineFixture> getSourceAccountingLineParametersFromFixtures() {
         List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
         list.add(LINE2);
         list.add(LINE3);
@@ -77,7 +76,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
     }
 
 
-    private int getExpectedPrePeCount() {
+    protected int getExpectedPrePeCount() {
         return 12;
     }
 
@@ -113,7 +112,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
             // an expected exception
             failedAsExpected = true;
         }
-        assertTrue(failedAsExpected);
+        assertTrue("document should have failed validation: " + dumpMessageMapErrors(),failedAsExpected);
     }
 
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
@@ -149,7 +148,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
             // an expected exception
             failedAsExpected = true;
         }
-        assertTrue(failedAsExpected);
+        assertTrue("document should have failed validation: " + dumpMessageMapErrors(),failedAsExpected);
     }
 
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
@@ -186,7 +185,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
             // an expected exception
             failedAsExpected = true;
         }
-        assertTrue(failedAsExpected);
+        assertTrue("document should have failed validation: " + dumpMessageMapErrors(),failedAsExpected);
     }
 
     /**
@@ -227,7 +226,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
             // an expected exception
             failedAsExpected = true;
         }
-        assertTrue(failedAsExpected);
+        assertTrue("document should have failed validation: " + dumpMessageMapErrors(),failedAsExpected);
     }
 
     @AnnotationTestSuite(CrossSectionSuite.class)
@@ -308,7 +307,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         catch (ValidationException e) {
             failedAsExpected = GlobalVariables.getMessageMap().containsMessageKey(KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
         }
-        assertTrue("document should have failed validation",failedAsExpected);
+        assertTrue("document should have failed validation: " + dumpMessageMapErrors(),failedAsExpected);
     }
 
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
@@ -345,7 +344,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
             // an expected exception
             failedAsExpected = true;
         }
-        assertTrue(failedAsExpected);
+        assertTrue( "Test did not fail as expected: " + dumpMessageMapErrors(), failedAsExpected);
     }
 
 
@@ -397,7 +396,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
 
 
     // test util methods
-    private List<SourceAccountingLine> generateSouceAccountingLines() throws Exception {
+    protected List<SourceAccountingLine> generateSouceAccountingLines() throws Exception {
         List<SourceAccountingLine> sourceLines = new ArrayList<SourceAccountingLine>();
         // set accountinglines to document
         for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
@@ -407,7 +406,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         return sourceLines;
     }
 
-    private List<TargetAccountingLine> generateTargetAccountingLines() throws Exception {
+    protected List<TargetAccountingLine> generateTargetAccountingLines() throws Exception {
         List<TargetAccountingLine> targetLines = new ArrayList<TargetAccountingLine>();
         for (AccountingLineFixture targetFixture : getTargetAccountingLineParametersFromFixtures()) {
             targetLines.add(targetFixture.createTargetAccountingLine());
@@ -416,7 +415,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         return targetLines;
     }
 
-    private InternalBillingDocument buildDocument() throws Exception {
+    protected InternalBillingDocument buildDocument() throws Exception {
         // put accounting lines into document parameter for later
         InternalBillingDocument document = (InternalBillingDocument) getDocumentParameterFixture();
 
@@ -432,30 +431,30 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         return document;
     }
 
-    private void updateSourceAccountingLine(AccountingDocument document, int index, String newAmount) {
+    protected void updateSourceAccountingLine(AccountingDocument document, int index, String newAmount) {
         SourceAccountingLine sourceLine = document.getSourceAccountingLine(index);
         sourceLine.setAmount(new KualiDecimal(newAmount));
     }
 
-    private void updateTargetAccountingLine(AccountingDocument document, int index, String newAmount) {
+    protected void updateTargetAccountingLine(AccountingDocument document, int index, String newAmount) {
         TargetAccountingLine targetLine = document.getTargetAccountingLine(index);
         targetLine.setAmount(new KualiDecimal(newAmount));
     }
 
 
-    private void deleteSourceAccountingLine(AccountingDocument document, int index) {
+    protected void deleteSourceAccountingLine(AccountingDocument document, int index) {
         List sourceLines = document.getSourceAccountingLines();
         sourceLines.remove(index);
         document.setSourceAccountingLines(sourceLines);
     }
 
-    private void deleteTargetAccountingLine(AccountingDocument document, int index) {
+    protected void deleteTargetAccountingLine(AccountingDocument document, int index) {
         List targetLines = document.getTargetAccountingLines();
         targetLines.remove(index);
         document.setTargetAccountingLines(targetLines);
     }
 
-    private UserNameFixture getInitialUserName() {
+    protected UserNameFixture getInitialUserName() {
         return khuntley; // replace rjweiss with khuntley
     }
 
@@ -463,19 +462,19 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         return rorenfro;
     }
 
-    private SourceAccountingLine getSourceAccountingLineAccessibleAccount() throws Exception {
+    protected SourceAccountingLine getSourceAccountingLineAccessibleAccount() throws Exception {
         return LINE2.createSourceAccountingLine();
     }
 
-    private TargetAccountingLine getTargetAccountingLineInaccessibleAccount() throws Exception {
+    protected TargetAccountingLine getTargetAccountingLineInaccessibleAccount() throws Exception {
         return LINE3.createTargetAccountingLine();
     }
 
-    private TargetAccountingLine getTargetAccountingLineAccessibleAccount() throws Exception {
+    protected TargetAccountingLine getTargetAccountingLineAccessibleAccount() throws Exception {
         return LINE2.createTargetAccountingLine();
     }
 
-    private SourceAccountingLine getSourceAccountingLineInaccessibleAccount() throws Exception {
+    protected SourceAccountingLine getSourceAccountingLineInaccessibleAccount() throws Exception {
         return LINE3.createSourceAccountingLine();
     }
 

@@ -31,6 +31,7 @@
   <bean id="KfsCheckboxControl" parent="CheckboxControlDefinition"/>
   <bean id="GenericAmountControl" parent="CurrencyControlDefinition" p:formattedMaxLength="26" p:size="10"/>
   <bean id="GenericBigTextControl" parent="TextareaControlDefinition" p:rows="5" p:cols="40"/>
+  <bean id="PhoneNumberTextControl" parent="TextControlDefinition" p:size="40"/>
   <bean id="StateCodeSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder" p:includeKeyInLabel="false"/>
   <bean id="IndicatorYNNullSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorYNNullValuesFinder" p:includeKeyInLabel="false"/>
   <bean id="IndicatorYNOnlySelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
@@ -50,6 +51,7 @@
   <bean id="NumericValidation" parent="NumericValidationPattern" />
   <bean id="FloatingPointValidation" parent="FloatingPointValidationPattern"/>
   <bean id="FloatingPointAllowNegativeValidation" parent="FloatingPointValidation" p:allowNegative="true" />
+  <bean id="PhoneNumberValidation" parent="PhoneNumberValidationPattern"/>
   
   <bean id="GenericAttributes-oneDigitTextCode" parent="GenericAttributes-oneDigitTextCode-parentBean"/>
   <bean id="GenericAttributes-oneDigitTextCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -347,6 +349,23 @@
   <bean id="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode" parent="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode-parentBean"/> 
   <bean id="GenericAttributes-generalLedgerFinancialSystemDocumentTypeCode-parentBean" parent="GenericAttributes-financialSystemDocumentTypeCode" abstract="true">
   	<property name="maxLength" value="4"/>
+  </bean>
+
+  <bean id="GenericAttributes-phoneNumberNoValidation" parent="GenericAttributes-phoneNumberNoValidation-parentBean"/>
+  <bean id="GenericAttributes-phoneNumberNoValidation-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="phoneNumberNoValidation"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Phone Number"/>
+    <property name="shortLabel" value="Phone"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern" ref="AnyCharacterWithWhitespaceValidation" />
+    <property name="control" ref="PhoneNumberTextControl" />
+  </bean>
+
+  <bean id="GenericAttributes-phoneNumberWithValidation" parent="GenericAttributes-phoneNumberWithValidation-parentBean"/>
+  <bean id="GenericAttributes-phoneNumberWithValidation-parentBean" abstract="true" parent="GenericAttributes-phoneNumberNoValidation">
+    <property name="name" value="phoneNumberWithValidation"/>
+    <property name="validationPattern" ref="PhoneNumberValidation" />
   </bean>
   
 </beans>

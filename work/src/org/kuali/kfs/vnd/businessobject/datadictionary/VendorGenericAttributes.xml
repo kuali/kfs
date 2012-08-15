@@ -95,28 +95,9 @@
     </property>
   </bean>
 
-  <bean id="VendorGenericAttributes-phoneNumberNoValidation" parent="VendorGenericAttributes-phoneNumberNoValidation-parentBean"/>
-  <bean id="VendorGenericAttributes-phoneNumberNoValidation-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="phoneNumberNoValidation"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Phone Number"/>
-    <property name="shortLabel" value="Phone"/>
-    <property name="maxLength" value="40"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="42"/>
-    </property>
-  </bean>
+  <bean id="VendorGenericAttributes-phoneNumberNoValidation" parent="GenericAttributes-phoneNumberNoValidation" />
 
-  <bean id="VendorGenericAttributes-phoneNumberWithValidation" parent="VendorGenericAttributes-phoneNumberWithValidation-parentBean"/>
-  <bean id="VendorGenericAttributes-phoneNumberWithValidation-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
-    <property name="name" value="phoneNumberWithValidation"/>
-    <property name="validationPattern">
-      <bean parent="PhoneNumberValidationPattern"/>
-    </property>
-  </bean>
+  <bean id="VendorGenericAttributes-phoneNumberWithValidation" parent="GenericAttributes-phoneNumberWithValidation" />
 
   <bean id="AddressLineTextControl" parent="TextControlDefinition" p:size="45"/>
 

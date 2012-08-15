@@ -303,7 +303,7 @@
   </bean>
   <bean id="LineItemReceivingDocument-deliveryToPhoneNumber" parent="LineItemReceivingDocument-deliveryToPhoneNumber-parentBean"/>
 
-  <bean id="LineItemReceivingDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
+  <bean id="LineItemReceivingDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="GenericAttributes-phoneNumberWithValidation">
     <property name="name" value="deliveryToPhoneNumber"/>
   </bean>
   <bean id="LineItemReceivingDocument-shipmentBillOfLadingNumber" parent="LineItemReceivingDocument-shipmentBillOfLadingNumber-parentBean"/>

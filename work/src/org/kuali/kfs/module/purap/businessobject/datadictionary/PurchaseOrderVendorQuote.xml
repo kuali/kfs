@@ -235,7 +235,7 @@
   </bean>
   <bean id="PurchaseOrderVendorQuote-vendorPhoneNumber" parent="PurchaseOrderVendorQuote-vendorPhoneNumber-parentBean"/>
 
-  <bean id="PurchaseOrderVendorQuote-vendorPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
+  <bean id="PurchaseOrderVendorQuote-vendorPhoneNumber-parentBean" abstract="true" parent="GenericAttributes-phoneNumberNoValidation">
     <property name="name" value="vendorPhoneNumber"/>
     <property name="label" value="Vendor Phone Number"/>
     <property name="shortLabel" value="Vendor Phone"/>

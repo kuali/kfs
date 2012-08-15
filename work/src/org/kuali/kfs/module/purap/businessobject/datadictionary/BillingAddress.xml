@@ -105,7 +105,7 @@
   </bean>
   <bean id="BillingAddress-billingPhoneNumber" parent="BillingAddress-billingPhoneNumber-parentBean"/>
 
-  <bean id="BillingAddress-billingPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
+  <bean id="BillingAddress-billingPhoneNumber-parentBean" abstract="true" parent="GenericAttributes-phoneNumberWithValidation">
     <property name="name" value="billingPhoneNumber"/>
     <property name="label" value="Billing Phone Number"/>
   </bean>

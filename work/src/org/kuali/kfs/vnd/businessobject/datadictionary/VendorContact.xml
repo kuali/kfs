@@ -142,13 +142,13 @@
 	<bean id="VendorContact-phoneNumberForLookup" parent="VendorContact-phoneNumberForLookup-parentBean" />
 
 	<bean id="VendorContact-phoneNumberForLookup-parentBean" abstract="true"
-		parent="VendorGenericAttributes-phoneNumberNoValidation">
+		parent="GenericAttributes-phoneNumberNoValidation">
 		<property name="name" value="phoneNumberForLookup" />
 	</bean>
 	<bean id="VendorContact-faxForLookup" parent="VendorContact-faxForLookup-parentBean" />
 
 	<bean id="VendorContact-faxForLookup-parentBean" abstract="true"
-		parent="VendorGenericAttributes-phoneNumberNoValidation">
+		parent="GenericAttributes-phoneNumberNoValidation">
 		<property name="name" value="faxForLookup" />
 		<property name="label" value="Fax Number" />
 		<property name="shortLabel" value="Fax" />
@@ -156,7 +156,7 @@
 	<bean id="VendorContact-tollFreeForLookup" parent="VendorContact-tollFreeForLookup-parentBean" />
 
 	<bean id="VendorContact-tollFreeForLookup-parentBean" abstract="true"
-		parent="VendorGenericAttributes-phoneNumberNoValidation">
+		parent="GenericAttributes-phoneNumberNoValidation">
 		<property name="name" value="tollFreeForLookup" />
 		<property name="label" value="Toll Free Number" />
 		<property name="shortLabel" value="Toll Free" />

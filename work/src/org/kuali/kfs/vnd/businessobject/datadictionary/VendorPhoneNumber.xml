@@ -78,7 +78,7 @@
 	<bean id="VendorPhoneNumber-vendorPhoneNumber" parent="VendorPhoneNumber-vendorPhoneNumber-parentBean" />
 
 	<bean id="VendorPhoneNumber-vendorPhoneNumber-parentBean"
-		abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
+		abstract="true" parent="GenericAttributes-phoneNumberNoValidation">
 		<property name="name" value="vendorPhoneNumber" />
 		<property name="required" value="true" />
 	</bean>

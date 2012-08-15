@@ -617,7 +617,7 @@
   </bean>
   <bean id="RequisitionDocument-deliveryToPhoneNumber" parent="RequisitionDocument-deliveryToPhoneNumber-parentBean"/>
 
-  <bean id="RequisitionDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
+  <bean id="RequisitionDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="GenericAttributes-phoneNumberWithValidation">
     <property name="name" value="deliveryToPhoneNumber"/>
   </bean>
   <bean id="RequisitionDocument-externalOrganizationB2bSupplierIdentifier" parent="RequisitionDocument-externalOrganizationB2bSupplierIdentifier-parentBean"/>
@@ -670,7 +670,7 @@
   </bean>
   <bean id="RequisitionDocument-institutionContactPhoneNumber" parent="RequisitionDocument-institutionContactPhoneNumber-parentBean"/>
 
-  <bean id="RequisitionDocument-institutionContactPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
+  <bean id="RequisitionDocument-institutionContactPhoneNumber-parentBean" abstract="true" parent="GenericAttributes-phoneNumberWithValidation">
     <property name="name" value="institutionContactPhoneNumber"/>
     <property name="label" value="Contact Phone"/>
     <property name="shortLabel" value="Number"/>
@@ -785,7 +785,7 @@
   </bean>
   <bean id="RequisitionDocument-requestorPersonPhoneNumber" parent="RequisitionDocument-requestorPersonPhoneNumber-parentBean"/>
 
-  <bean id="RequisitionDocument-requestorPersonPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
+  <bean id="RequisitionDocument-requestorPersonPhoneNumber-parentBean" abstract="true" parent="GenericAttributes-phoneNumberWithValidation">
     <property name="name" value="requestorPersonPhoneNumber"/>
     <property name="label" value="Requestor Phone"/>
     <property name="shortLabel" value="Phone Number"/>
@@ -804,7 +804,7 @@
   </bean>
   <bean id="RequisitionDocument-vendorFaxNumber" parent="RequisitionDocument-vendorFaxNumber-parentBean"/>
 
-  <bean id="RequisitionDocument-vendorFaxNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
+  <bean id="RequisitionDocument-vendorFaxNumber-parentBean" abstract="true" parent="GenericAttributes-phoneNumberWithValidation">
     <property name="name" value="vendorFaxNumber"/>
     <property name="label" value="Fax Number"/>
     <property name="shortLabel" value="Number"/>
@@ -826,7 +826,7 @@
   </bean>
   <bean id="RequisitionDocument-vendorPhoneNumber" parent="RequisitionDocument-vendorPhoneNumber-parentBean"/>
 
-  <bean id="RequisitionDocument-vendorPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberNoValidation">
+  <bean id="RequisitionDocument-vendorPhoneNumber-parentBean" abstract="true" parent="GenericAttributes-phoneNumberNoValidation">
     <property name="name" value="vendorPhoneNumber"/>
     <property name="shortLabel" value="Number"/>
   </bean>

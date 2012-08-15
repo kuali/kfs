@@ -327,7 +327,7 @@
   
   <bean id="BulkReceivingDocument-deliveryToPhoneNumber" parent="BulkReceivingDocument-deliveryToPhoneNumber-parentBean"/>
 
-  <bean id="BulkReceivingDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
+  <bean id="BulkReceivingDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="GenericAttributes-phoneNumberWithValidation">
     <property name="name" value="deliveryToPhoneNumber"/>
   </bean>
   
@@ -665,7 +665,7 @@
   
   <bean id="BulkReceivingDocument-institutionContactPhoneNumber" parent="BulkReceivingDocument-institutionContactPhoneNumber-parentBean"/>
 
-  <bean id="BulkReceivingDocument-institutionContactPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
+  <bean id="BulkReceivingDocument-institutionContactPhoneNumber-parentBean" abstract="true" parent="GenericAttributes-phoneNumberWithValidation">
     <property name="name" value="institutionContactPhoneNumber"/>
     <property name="label" value="Contact Phone"/>
     <property name="shortLabel" value="Number"/>

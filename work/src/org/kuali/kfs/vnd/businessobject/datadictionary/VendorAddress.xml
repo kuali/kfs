@@ -130,7 +130,7 @@
 	<bean id="VendorAddress-vendorFaxNumber" parent="VendorAddress-vendorFaxNumber-parentBean" />
 
 	<bean id="VendorAddress-vendorFaxNumber-parentBean" abstract="true"
-		parent="VendorGenericAttributes-phoneNumberWithValidation">
+		parent="GenericAttributes-phoneNumberWithValidation">
 		<property name="name" value="vendorFaxNumber" />
 		<property name="label" value="Vendor Fax Number" />
 		<property name="shortLabel" value="Vendor Fax Number" />

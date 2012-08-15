@@ -285,7 +285,7 @@
   </bean>
   <bean id="CorrectionReceivingDocument-deliveryToPhoneNumber" parent="CorrectionReceivingDocument-deliveryToPhoneNumber-parentBean"/>
 
-  <bean id="CorrectionReceivingDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="VendorGenericAttributes-phoneNumberWithValidation">
+  <bean id="CorrectionReceivingDocument-deliveryToPhoneNumber-parentBean" abstract="true" parent="GenericAttributes-phoneNumberWithValidation">
     <property name="name" value="deliveryToPhoneNumber"/>
   </bean>
   <bean id="CorrectionReceivingDocument-shipmentBillOfLadingNumber" parent="CorrectionReceivingDocument-shipmentBillOfLadingNumber-parentBean"/>

@@ -14,37 +14,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-        
-<bean id="VendorGenericAttributes" parent="VendorGenericAttributes-parentBean"/>
-
-<bean id="VendorGenericAttributes-parentBean" abstract="true" parent="BusinessObjectEntry">
-	<property name="objectLabel" value="Vendor Generic Attributes"/>
-	<property name="businessObjectClass" value="org.kuali.kfs.vnd.businessobject.VendorGenericAttributes"/>
-	<property name="attributes">
-		<list>
-			<ref bean="VendorGenericAttributes-stateCode"/>
-			<ref bean="VendorGenericAttributes-campusCode"/>
-			<ref bean="VendorGenericAttributes-yesNoWithBlankIndicator"/>
-			<ref bean="VendorGenericAttributes-yesNoWithoutBlankIndicator"/>
-			<ref bean="VendorGenericAttributes-hiddenIndicator"/>
-			<ref bean="VendorGenericAttributes-phoneNumberNoValidation"/>
-			<ref bean="VendorGenericAttributes-phoneNumberWithValidation"/>
-			<ref bean="VendorGenericAttributes-line1Address"/>
-			<ref bean="VendorGenericAttributes-line2Address"/>
-			<ref bean="VendorGenericAttributes-zipCode"/>
-			<ref bean="VendorGenericAttributes-cityName"/>
-			<ref bean="VendorGenericAttributes-countryCode"/>
-			<ref bean="VendorGenericAttributes-internationalProvinceName"/>
-			<ref bean="VendorGenericAttributes-attentionName"/>
-			<ref bean="VendorGenericAttributes-genericUrlAddress"/>
-			<ref bean="VendorGenericAttributes-vendorHeaderGeneratedIdentifier"/>
-			<ref bean="VendorGenericAttributes-vendorDetailAssignedIdentifier"/>
-		</list>
-	</property>
-</bean>
-
-<!-- Attribute Definitions -->
-
 
   <bean id="VendorGenericAttributes-stateCode" parent="VendorGenericAttributes-stateCode-parentBean"/>
   <bean id="VendorGenericAttributes-stateCode-parentBean" abstract="true" parent="State-code">
@@ -94,10 +63,6 @@
       <ref bean="HiddenControl" />
     </property>
   </bean>
-
-  <bean id="VendorGenericAttributes-phoneNumberNoValidation" parent="GenericAttributes-phoneNumberNoValidation" />
-
-  <bean id="VendorGenericAttributes-phoneNumberWithValidation" parent="GenericAttributes-phoneNumberWithValidation" />
 
   <bean id="AddressLineTextControl" parent="TextControlDefinition" p:size="45"/>
 

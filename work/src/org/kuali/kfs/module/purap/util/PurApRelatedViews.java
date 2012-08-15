@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.AbstractRelatedView;
 import org.kuali.kfs.module.purap.businessobject.BulkReceivingView;
@@ -124,26 +125,30 @@ public class PurApRelatedViews {
             poIDstr = view.getPurapDocumentIdentifier().toString();
         }
 
-        if ((document != null) && (document.getDocumentHeader().getWorkflowDocument() != null)) {
-            if (!document.getDocumentHeader().getWorkflowDocument().getStatus().equals(DocumentStatus.FINAL)) {
-                String principalId =  GlobalVariables.getUserSession().getPrincipalId();
-                String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
-                String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
+        if (PurapConstants.PurapDocTypeCodes.PO_DOCUMENT.equals(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName())) {
+            if ((document != null) && (document.getDocumentHeader().getWorkflowDocument() != null)) {
+                if (!document.getDocumentHeader().getWorkflowDocument().getStatus().equals(DocumentStatus.FINAL)) {
 
-                Map<String,String> roleQualifiers = new HashMap<String,String>();
+                    String principalId =  GlobalVariables.getUserSession().getPrincipalId();
+                    
+                    String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
+                    String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
 
-                Map<String,String> permissionDetails = new HashMap<String,String>();
-                permissionDetails.put(KimConstants.AttributeConstants.COMPONENT_NAME, PurchaseOrderDocument.class.getSimpleName());
-                permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, PurapPropertyConstants.PURAP_DOC_ID);
+                    Map<String,String> roleQualifiers = new HashMap<String,String>();
 
-                IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-                Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
-                if (!isAuthorized) {
-                    //not authorized to see... so mask the po number string
-                    poIDstr = "";
-                    int strLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(PurApGenericAttributes.class.getName(), PurapPropertyConstants.PURAP_DOC_ID);
-                    for (int i = 0; i < strLength; i++) {
-                        poIDstr = poIDstr.concat("*");
+                    Map<String,String> permissionDetails = new HashMap<String,String>();
+                    permissionDetails.put(KimConstants.AttributeConstants.COMPONENT_NAME, PurchaseOrderDocument.class.getSimpleName());
+                    permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, PurapPropertyConstants.PURAP_DOC_ID);
+
+                    IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+                    Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
+                    if (!isAuthorized) {
+                        //not authorized to see... so mask the po number string
+                        poIDstr = "";
+                        int strLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(PurApGenericAttributes.class.getName(), PurapPropertyConstants.PURAP_DOC_ID);
+                        for (int i = 0; i < strLength; i++) {
+                            poIDstr = poIDstr.concat("*");
+                        }
                     }
                 }
             }

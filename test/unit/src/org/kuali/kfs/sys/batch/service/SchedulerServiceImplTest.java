@@ -142,6 +142,9 @@ public class SchedulerServiceImplTest extends KualiTestBase {
         Scheduler scheduler = (Scheduler) SpringContext.getService("scheduler");
         try {
             JobDetail jobDetail = scheduler.getJobDetail(jobName, groupName);
+            if ( jobDetail == null ) {
+                fail( "Unable to retrieve JobDetail object for " + groupName + " : " + jobName );
+            }
             if ( jobDetail.getJobDataMap() == null ) {
                 jobDetail.setJobDataMap( new JobDataMap() );
             }

@@ -157,6 +157,10 @@ public class OrgReviewRoleMaintainableImplTest extends OrgReviewRoleTestBase {
     };
 
     protected static String[] DELEGATE_READ_ONLY_PROP_NAMES = {
+        OrgReviewRole.REVIEW_ROLES_INDICATOR_FIELD_NAME,
+        OrgReviewRole.CHART_CODE_FIELD_NAME,
+        OrgReviewRole.ORG_CODE_FIELD_NAME,
+        OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME,
         OrgReviewRole.FORCE_ACTION_FIELD_NAME,
         OrgReviewRole.ACTION_TYPE_CODE_FIELD_NAME,
         OrgReviewRole.ACTION_POLICY_CODE_FIELD_NAME,
@@ -233,12 +237,6 @@ public class OrgReviewRoleMaintainableImplTest extends OrgReviewRoleTestBase {
                     for ( String readOnlyPropertyName : ORG_HIER_READ_ONLY_PROP_NAMES ) {
                         if ( field.getPropertyName().equals(readOnlyPropertyName) ) {
                             assertTrue( readOnlyPropertyName + " should have been read only", field.isReadOnly() );
-                            fieldChecked = true;
-                        }
-                    }
-                    for ( String fieldName : EDIT_READ_ONLY_PROP_NAMES ) {
-                        if ( StringUtils.equals(fieldName, field.getPropertyName() ) ) {
-                            assertTrue( fieldName + " should have been read only", field.isReadOnly() );
                             fieldChecked = true;
                         }
                     }

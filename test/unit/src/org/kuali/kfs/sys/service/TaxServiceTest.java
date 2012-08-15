@@ -68,18 +68,18 @@ public class TaxServiceTest extends KualiTestBase {
 
         List<TaxDetail> taxDetails = taxService.getSalesTaxDetails(dateTimeService.convertToSqlDate(DATE_OF_TRANSACTION), TaxRegionPostalCodeFixture.PO_46113.postalCode, AMOUNT);
         // there should only be one tax detail
-        assertTrue(taxDetails.size() == 1);
+        assertEquals( "wrong number of details retrieved", 1, taxDetails.size());
 
         // verify that tax detail was set correctly
         TaxDetail taxDetail = taxDetails.get(0);
-        assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.taxRegionCode.equals(taxDetail.getRateCode()));
-        assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.taxRegionName.equals(taxDetail.getRateName()));
-        assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.chartOfAccountsCode.equals(taxDetail.getChartOfAccountsCode()));
-        assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.accountNumber.equals(taxDetail.getAccountNumber()));
-        assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.financialObjectCode.equals(taxDetail.getFinancialObjectCode()));
-        assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.taxRegionTypeCode.equals(taxDetail.getTypeCode()));
-        assertTrue(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate.equals(taxDetail.getTaxRate()));
-        assertTrue(taxDetail.getTaxAmount().equals(AMOUNT.multiply(new KualiDecimal(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate))));
+        assertEquals( "code mismatch", TaxRegionFixture.TAX_REGION_NO_USE_TAX.taxRegionCode, taxDetail.getRateCode());
+        assertEquals( "name mismatch", TaxRegionFixture.TAX_REGION_NO_USE_TAX.taxRegionName, taxDetail.getRateName());
+        assertEquals( "chart mismatch", TaxRegionFixture.TAX_REGION_NO_USE_TAX.chartOfAccountsCode, taxDetail.getChartOfAccountsCode());
+        assertEquals( "account mismatch", TaxRegionFixture.TAX_REGION_NO_USE_TAX.accountNumber, taxDetail.getAccountNumber());
+        assertEquals( "object mismatch", TaxRegionFixture.TAX_REGION_NO_USE_TAX.financialObjectCode, taxDetail.getFinancialObjectCode());
+        assertEquals( "type code mismatch", TaxRegionFixture.TAX_REGION_NO_USE_TAX.taxRegionTypeCode, taxDetail.getTypeCode());
+        assertEquals( "tax rate mismatch", TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate, taxDetail.getTaxRate());
+        assertEquals( "tax amount mismatch", AMOUNT.multiply(new KualiDecimal(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate)), taxDetail.getTaxAmount());
     }
 
     /**
@@ -97,18 +97,18 @@ public class TaxServiceTest extends KualiTestBase {
         List<TaxDetail> taxDetails = taxService.getUseTaxDetails(dateTimeService.convertToSqlDate(DATE_OF_TRANSACTION), TaxRegionPostalCodeFixture.PO_46113.postalCode, AMOUNT);
 
         // there should only be one use tax detail, even though there are 2 tax regions tied to the same postal code
-        assertTrue(taxDetails.size() == 1);
+        assertEquals( "wrong number of details retrieved", 1, taxDetails.size());
 
         // verify that use tax detail was set correctly
         TaxDetail taxDetail = taxDetails.get(0);
-        assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.taxRegionCode.equals(taxDetail.getRateCode()));
-        assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.taxRegionName.equals(taxDetail.getRateName()));
-        assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.chartOfAccountsCode.equals(taxDetail.getChartOfAccountsCode()));
-        assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.accountNumber.equals(taxDetail.getAccountNumber()));
-        assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.financialObjectCode.equals(taxDetail.getFinancialObjectCode()));
-        assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.taxRegionTypeCode.equals(taxDetail.getTypeCode()));
-        assertTrue(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate.equals(taxDetail.getTaxRate()));
-        assertTrue(taxDetail.getTaxAmount().equals(AMOUNT.multiply(new KualiDecimal(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate))));            
+        assertEquals( "code mismatch", TaxRegionFixture.TAX_REGION_WITH_USE_TAX.taxRegionCode, taxDetail.getRateCode());
+        assertEquals( "name mismatch", TaxRegionFixture.TAX_REGION_WITH_USE_TAX.taxRegionName, taxDetail.getRateName());
+        assertEquals( "chart mismatch", TaxRegionFixture.TAX_REGION_WITH_USE_TAX.chartOfAccountsCode, taxDetail.getChartOfAccountsCode());
+        assertEquals( "account mismatch", TaxRegionFixture.TAX_REGION_WITH_USE_TAX.accountNumber, taxDetail.getAccountNumber());
+        assertEquals( "object mismatch", TaxRegionFixture.TAX_REGION_WITH_USE_TAX.financialObjectCode, taxDetail.getFinancialObjectCode());
+        assertEquals( "type code mismatch", TaxRegionFixture.TAX_REGION_WITH_USE_TAX.taxRegionTypeCode, taxDetail.getTypeCode());
+        assertEquals( "tax rate mismatch", TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate, taxDetail.getTaxRate());
+        assertEquals( "tax amount mismatch", AMOUNT.multiply(new KualiDecimal(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate)), taxDetail.getTaxAmount());
     }
 
     /**
@@ -126,7 +126,7 @@ public class TaxServiceTest extends KualiTestBase {
         KualiDecimal totalSalesTaxAmount = taxService.getTotalSalesTaxAmount(dateTimeService.convertToSqlDate(DATE_OF_TRANSACTION), TaxRegionPostalCodeFixture.PO_46113.postalCode, AMOUNT);
         
         BigDecimal totalTaxRate =  TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate.add(TaxRegionRateFixture.TAX_REGION_RATE_07.taxRate);
-        assertTrue(AMOUNT.multiply(new KualiDecimal(totalTaxRate)).equals(totalSalesTaxAmount));
+        assertEquals( "tax amount mismatch", AMOUNT.multiply(new KualiDecimal(totalTaxRate)), totalSalesTaxAmount );
     }
 
     /**

@@ -1260,4 +1260,25 @@
 	      <replace replace="sys_guid()" with="uuid()" />
 	    </modifySql>
 	</changeSet>
+	
+	<changeSet id="REMOVE_RA_DOC_RESP" author="KFS50">
+		<comment>Remove responsbility for document not present in KFS since version 2.0.</comment>
+		<delete tableName="KRIM_ROLE_RSP_ACTN_T">
+			<where>role_rsp_id IN (
+				SELECT role_rsp_id FROM KRIM_ROLE_RSP_T
+					WHERE rsp_id = (select rsp_id from KRIM_RSP_T where nmspc_cd = 'KFS-CG' AND nm = 'Review RA ProjectManagement')
+				)
+			</where>
+		</delete>
+		<delete tableName="KRIM_ROLE_RSP_T">
+			<where>rsp_id = (select rsp_id from KRIM_RSP_T where nmspc_cd = 'KFS-CG' AND nm = 'Review RA ProjectManagement')</where>
+		</delete>
+		<delete tableName="KRIM_RSP_ATTR_DATA_T">
+			<where>rsp_id = (select rsp_id from KRIM_RSP_T where nmspc_cd = 'KFS-CG' AND nm = 'Review RA ProjectManagement')</where>
+		</delete>
+		<delete tableName="KRIM_RSP_T">
+			<where>nmspc_cd = 'KFS-CG' AND nm = 'Review RA ProjectManagement'</where>
+		</delete>
+	</changeSet>
+	
 </databaseChangeLog>

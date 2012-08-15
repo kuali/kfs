@@ -24,6 +24,7 @@ import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateType;
 import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 @ConfigureContext
 public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
@@ -259,12 +260,8 @@ public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
     }
 
     public void testValidateDocumentType() {
-        try {
-            orgReviewRoleService.validateDocumentType("COAT");
-            fail( "An exception should have been thrown for document type COAT" );
-        } catch ( ValidationException ex ) {
-            System.err.println( ex.getMessage() );
-        }
+        orgReviewRoleService.validateDocumentType("COAT");
+        assertFalse( "An error should have been added to the MessageMap for the COAT document type: " + dumpMessageMapErrors(), GlobalVariables.getMessageMap().getErrorMessagesForProperty(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME).isEmpty() );
     }
 
     public void testHasOrganizationHierarchy() {

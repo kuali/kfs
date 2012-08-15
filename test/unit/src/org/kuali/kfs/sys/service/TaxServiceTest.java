@@ -37,15 +37,15 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 @ConfigureContext(session = khuntley)
 public class TaxServiceTest extends KualiTestBase {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TaxServiceTest.class);
 
-    private TaxService taxService;
-    private DateTimeService dateTimeService;
-    private BusinessObjectService businessObjectService;
+    protected TaxService taxService;
+    protected DateTimeService dateTimeService;
+    protected BusinessObjectService businessObjectService;
 
-    private final static String DATE_OF_TRANSACTION = "01/02/2008";
-    private final static KualiDecimal AMOUNT = new KualiDecimal(100);
+    protected final static String DATE_OF_TRANSACTION = "01/02/2008";
+    protected final static KualiDecimal AMOUNT = new KualiDecimal(100);
     
-    public static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TaxServiceTest.class);
     
     @Override
     protected void setUp() throws Exception {
@@ -56,46 +56,30 @@ public class TaxServiceTest extends KualiTestBase {
     }
 
     /**
-     * @see junit.framework.TestCase#tearDown()
-     */
-    @Override
-    protected void tearDown() throws Exception {
-        taxService = null;
-        dateTimeService = null;
-        businessObjectService = null;
-        super.tearDown();
-    }
-
-    /**
      * This method tests that the sales tax details get set correctly
      * 
      * @throws Exception
      */
-    public void testGetSalesTaxDetails(){
+    public void testGetSalesTaxDetails() throws Exception {
 
         TaxRegion taxRegion = TaxRegionFixture.TAX_REGION_NO_USE_TAX.createTaxRegion(new TaxRegionRateFixture[] { TaxRegionRateFixture.TAX_REGION_RATE_05 }, new TaxRegionPostalCodeFixture[] { TaxRegionPostalCodeFixture.PO_46113 }, null);
 
         businessObjectService.save(taxRegion);
 
-        try {
-            List<TaxDetail> taxDetails = taxService.getSalesTaxDetails(dateTimeService.convertToSqlDate(DATE_OF_TRANSACTION), TaxRegionPostalCodeFixture.PO_46113.postalCode, AMOUNT);
-            // there should only be one tax detail
-            assertTrue(taxDetails.size() == 1);
+        List<TaxDetail> taxDetails = taxService.getSalesTaxDetails(dateTimeService.convertToSqlDate(DATE_OF_TRANSACTION), TaxRegionPostalCodeFixture.PO_46113.postalCode, AMOUNT);
+        // there should only be one tax detail
+        assertTrue(taxDetails.size() == 1);
 
-            // verify that tax detail was set correctly
-            TaxDetail taxDetail = taxDetails.get(0);
-            assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.taxRegionCode.equals(taxDetail.getRateCode()));
-            assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.taxRegionName.equals(taxDetail.getRateName()));
-            assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.chartOfAccountsCode.equals(taxDetail.getChartOfAccountsCode()));
-            assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.accountNumber.equals(taxDetail.getAccountNumber()));
-            assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.financialObjectCode.equals(taxDetail.getFinancialObjectCode()));
-            assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.taxRegionTypeCode.equals(taxDetail.getTypeCode()));
-            assertTrue(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate.equals(taxDetail.getTaxRate()));
-            assertTrue(taxDetail.getTaxAmount().equals(AMOUNT.multiply(new KualiDecimal(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate))));
-            
-        } catch (Exception e){
-            LOG.error(e.getMessage());
-        }
+        // verify that tax detail was set correctly
+        TaxDetail taxDetail = taxDetails.get(0);
+        assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.taxRegionCode.equals(taxDetail.getRateCode()));
+        assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.taxRegionName.equals(taxDetail.getRateName()));
+        assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.chartOfAccountsCode.equals(taxDetail.getChartOfAccountsCode()));
+        assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.accountNumber.equals(taxDetail.getAccountNumber()));
+        assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.financialObjectCode.equals(taxDetail.getFinancialObjectCode()));
+        assertTrue(TaxRegionFixture.TAX_REGION_NO_USE_TAX.taxRegionTypeCode.equals(taxDetail.getTypeCode()));
+        assertTrue(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate.equals(taxDetail.getTaxRate()));
+        assertTrue(taxDetail.getTaxAmount().equals(AMOUNT.multiply(new KualiDecimal(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate))));
     }
 
     /**
@@ -103,40 +87,34 @@ public class TaxServiceTest extends KualiTestBase {
      * 
      * @throws Exception
      */
-    public void testGetUseTaxDetails(){
+    public void testGetUseTaxDetails() throws Exception {
 
         TaxRegion taxRegionNoUseTax = TaxRegionFixture.TAX_REGION_NO_USE_TAX.createTaxRegion(new TaxRegionRateFixture[] { TaxRegionRateFixture.TAX_REGION_RATE_05 }, new TaxRegionPostalCodeFixture[] { TaxRegionPostalCodeFixture.PO_46113 }, null);
         TaxRegion taxRegionUseTax = TaxRegionFixture.TAX_REGION_WITH_USE_TAX.createTaxRegion(new TaxRegionRateFixture[] { TaxRegionRateFixture.TAX_REGION_RATE_05 }, new TaxRegionPostalCodeFixture[] { TaxRegionPostalCodeFixture.PO_46113 }, null);
 
         businessObjectService.save(taxRegionNoUseTax);
         businessObjectService.save(taxRegionUseTax);
-        
-        try {
-            List<TaxDetail> taxDetails = taxService.getUseTaxDetails(dateTimeService.convertToSqlDate(DATE_OF_TRANSACTION), TaxRegionPostalCodeFixture.PO_46113.postalCode, AMOUNT);
+        List<TaxDetail> taxDetails = taxService.getUseTaxDetails(dateTimeService.convertToSqlDate(DATE_OF_TRANSACTION), TaxRegionPostalCodeFixture.PO_46113.postalCode, AMOUNT);
 
-            // there should only be one use tax detail, even though there are 2 tax regions tied to the same postal code
-            assertTrue(taxDetails.size() == 1);
+        // there should only be one use tax detail, even though there are 2 tax regions tied to the same postal code
+        assertTrue(taxDetails.size() == 1);
 
-            // verify that use tax detail was set correctly
-            TaxDetail taxDetail = taxDetails.get(0);
-            assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.taxRegionCode.equals(taxDetail.getRateCode()));
-            assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.taxRegionName.equals(taxDetail.getRateName()));
-            assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.chartOfAccountsCode.equals(taxDetail.getChartOfAccountsCode()));
-            assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.accountNumber.equals(taxDetail.getAccountNumber()));
-            assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.financialObjectCode.equals(taxDetail.getFinancialObjectCode()));
-            assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.taxRegionTypeCode.equals(taxDetail.getTypeCode()));
-            assertTrue(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate.equals(taxDetail.getTaxRate()));
-            assertTrue(taxDetail.getTaxAmount().equals(AMOUNT.multiply(new KualiDecimal(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate))));            
-            
-        } catch (Exception e){
-            LOG.error(e.getMessage());
-        }
+        // verify that use tax detail was set correctly
+        TaxDetail taxDetail = taxDetails.get(0);
+        assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.taxRegionCode.equals(taxDetail.getRateCode()));
+        assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.taxRegionName.equals(taxDetail.getRateName()));
+        assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.chartOfAccountsCode.equals(taxDetail.getChartOfAccountsCode()));
+        assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.accountNumber.equals(taxDetail.getAccountNumber()));
+        assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.financialObjectCode.equals(taxDetail.getFinancialObjectCode()));
+        assertTrue(TaxRegionFixture.TAX_REGION_WITH_USE_TAX.taxRegionTypeCode.equals(taxDetail.getTypeCode()));
+        assertTrue(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate.equals(taxDetail.getTaxRate()));
+        assertTrue(taxDetail.getTaxAmount().equals(AMOUNT.multiply(new KualiDecimal(TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate))));            
     }
 
     /**
      * This method tests that the total sales tax amount is correct.
      */
-    public void testGetTotalSalesTaxAmount(){
+    public void testGetTotalSalesTaxAmount()  throws Exception {
 
         TaxRegion taxRegionPostalCode = TaxRegionFixture.TAX_REGION_NO_USE_TAX.createTaxRegion(new TaxRegionRateFixture[] { TaxRegionRateFixture.TAX_REGION_RATE_05 }, new TaxRegionPostalCodeFixture[] { TaxRegionPostalCodeFixture.PO_46113 }, null);
         TaxRegion taxRegionState = TaxRegionFixture.TAX_REGION_WITH_USE_TAX.createTaxRegion(new TaxRegionRateFixture[] { TaxRegionRateFixture.TAX_REGION_RATE_07 }, null, new TaxRegionStateFixture[] { TaxRegionStateFixture.IN });
@@ -144,16 +122,11 @@ public class TaxServiceTest extends KualiTestBase {
         businessObjectService.save(taxRegionPostalCode);
         businessObjectService.save(taxRegionState);
 
-        try {
-            //total sales tax amount
-            KualiDecimal totalSalesTaxAmount = taxService.getTotalSalesTaxAmount(dateTimeService.convertToSqlDate(DATE_OF_TRANSACTION), TaxRegionPostalCodeFixture.PO_46113.postalCode, AMOUNT);
-            
-            BigDecimal totalTaxRate =  TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate.add(TaxRegionRateFixture.TAX_REGION_RATE_07.taxRate);
-            assertTrue(AMOUNT.multiply(new KualiDecimal(totalTaxRate)).equals(totalSalesTaxAmount));
-            
-        } catch (Exception e){
-            LOG.error(e.getMessage());
-        }
+        //total sales tax amount
+        KualiDecimal totalSalesTaxAmount = taxService.getTotalSalesTaxAmount(dateTimeService.convertToSqlDate(DATE_OF_TRANSACTION), TaxRegionPostalCodeFixture.PO_46113.postalCode, AMOUNT);
+        
+        BigDecimal totalTaxRate =  TaxRegionRateFixture.TAX_REGION_RATE_05.taxRate.add(TaxRegionRateFixture.TAX_REGION_RATE_07.taxRate);
+        assertTrue(AMOUNT.multiply(new KualiDecimal(totalTaxRate)).equals(totalSalesTaxAmount));
     }
 
     /**
@@ -185,7 +158,7 @@ public class TaxServiceTest extends KualiTestBase {
         }
 
 
-        public TaxRegion createTaxRegion(TaxRegionRateFixture[] taxRegionRateFixtures, TaxRegionPostalCodeFixture[] taxRegionPostalCodeFixtures, TaxRegionStateFixture[] taxRegionStateFixtures) {
+        public TaxRegion createTaxRegion(TaxRegionRateFixture[] taxRegionRateFixtures, TaxRegionPostalCodeFixture[] taxRegionPostalCodeFixtures, TaxRegionStateFixture[] taxRegionStateFixtures) throws Exception {
             TaxRegion taxRegion = new TaxRegion();
             taxRegion.setTaxRegionCode(this.taxRegionCode);
             taxRegion.setTaxRegionName(this.taxRegionName);
@@ -223,8 +196,8 @@ public class TaxServiceTest extends KualiTestBase {
      */
     private enum TaxRegionRateFixture {
 
-        TAX_REGION_RATE_05("01/01/2008", new BigDecimal(.05)),
-        TAX_REGION_RATE_07("01/01/2008", new BigDecimal(.07)), ;
+        TAX_REGION_RATE_05(DATE_OF_TRANSACTION, new BigDecimal("0.05")),
+        TAX_REGION_RATE_07(DATE_OF_TRANSACTION, new BigDecimal("0.07")), ;
 
         public String effectiveDate;
         public BigDecimal taxRate;
@@ -234,20 +207,16 @@ public class TaxServiceTest extends KualiTestBase {
             this.taxRate = taxRate;
         }
 
-        public TaxRegionRate createTaxRegionRate() {
+        public TaxRegionRate createTaxRegionRate() throws Exception {
             TaxRegionRate taxRegionRate = new TaxRegionRate();
             taxRegionRate.setTaxRate(this.taxRate);
-            try {
-                taxRegionRate.setEffectiveDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate(this.effectiveDate));
-            } catch( Exception e ){
-                LOG.error(e.getMessage());
-            }
+            taxRegionRate.setEffectiveDate(SpringContext.getBean(DateTimeService.class).convertToSqlDate(this.effectiveDate));
 
             return taxRegionRate;
         }
 
-        public void addTo(TaxRegion taxRegion) {
-            TaxRegionRate taxRegionRate = this.createTaxRegionRate();
+        public void addTo(TaxRegion taxRegion) throws Exception {
+            TaxRegionRate taxRegionRate = createTaxRegionRate();
             taxRegionRate.setTaxRegionCode(taxRegion.getTaxRegionCode());
             taxRegion.getTaxRegionRates().add(taxRegionRate);
         }

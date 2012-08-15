@@ -52,6 +52,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -116,7 +117,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
             return;
         }
 
-        WorkflowDocumentService workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
+        WorkflowDocumentService workflowDocumentService = KewApiServiceLocator.getWorkflowDocumentService();
         SalaryExpenseTransferDocument document = (SalaryExpenseTransferDocument) getDocumentService().getNewDocument(SalaryExpenseTransferDocument.class);
 
         document.setEmplid(sourceAccountingLines.get(0).getEmplid());
@@ -149,7 +150,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
          }
 
         SpringContext.getBean(DocumentService.class).blanketApproveDocument(document, annotation, adHocRecipientList);
-         SpringContext.getBean(SessionDocumentService.class).addDocumentToUserSession(GlobalVariables.getUserSession(), document.getDocumentHeader().getWorkflowDocument());
+        SpringContext.getBean(SessionDocumentService.class).addDocumentToUserSession(GlobalVariables.getUserSession(), document.getDocumentHeader().getWorkflowDocument());
 
     }
 

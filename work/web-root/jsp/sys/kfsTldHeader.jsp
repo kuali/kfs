@@ -52,7 +52,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/module/tem/relo" prefix="tem-relo" %>
 <%@ taglib tagdir="/WEB-INF/tags/module/tem/expenses" prefix="tem-exp" %>
 <%@ taglib tagdir="/WEB-INF/tags/module/tem/arranger" prefix="tem-arranger" %>
-<%@ taglib uri="/WEB-INF/tags/module/tem/tem-html.tld" prefix="tem-html"%>
+<%@ taglib uri="/WEB-INF/tlds/tem-html.tld" prefix="tem-html"%>
 
 <%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal"%>
 <%@ taglib tagdir="/WEB-INF/tags/portal/channel" prefix="channel"%>

@@ -22,6 +22,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
+import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
@@ -78,6 +79,16 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
             if (!document.getTripType().isBlanketTravel() && (document.getDocumentGrandTotal().isLessEqual(KualiDecimal.ZERO))) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.TRVL_AUTH_TOTAL_ESTIMATE, TemKeyConstants.ERROR_DOCUMENT_TOTAL_ESTIMATED);
                 rulePassed = false;
+            }
+            
+            //validate the primary destination if selected indicator
+            if (!document.getPrimaryDestinationIndicator()){
+                PrimaryDestination destination = document.getPrimaryDestination();
+                //primary destination trip type code should match the document
+                if (!document.getTripTypeCode().equals(destination.getTripTypeCode())) {
+                    GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TravelAuthorizationFields.TRIP_TYPE, TemKeyConstants.ERROR_TRIP_TYPE_CD_PRI_DEST_MISMATCH);
+                    rulePassed = false;
+                }
             }
 
             if (document.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) {

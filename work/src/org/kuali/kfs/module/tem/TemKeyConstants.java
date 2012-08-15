@@ -104,6 +104,7 @@ public class TemKeyConstants extends JSTLConstants {
     public static final String ERROR_TA_TRIP_BEGIN_EMPTY = "error.document.tem.tripBeginEmpty";
     public static final String ERROR_TA_TRIP_END_EMPTY= "error.document.tem.tripEndEmpty";
     public static final String ERROR_TA_TRIP_TYPE_CD_EMPTY = "error.document.tem.tripTypeCodeEmpty";
+    public static final String ERROR_TRIP_TYPE_CD_PRI_DEST_MISMATCH = "error.document.tem.trip.type.primary.destination.mismatch";
     public static final String ERROR_TA_AR_CUST_NOT_FOUND = "error.document.tem.arCustomerNotFound";
     public static final String ERROR_TA_PRINCPL_ID_REQ_FOR_EMPLOYEE = "error.document.tem.principalIdRequiredForEmployee";
     public static final String ERROR_TA_BLANKET_TYPE_NO_ESTIMATE = "error.document.tem.blanketTypeNoEstimate";

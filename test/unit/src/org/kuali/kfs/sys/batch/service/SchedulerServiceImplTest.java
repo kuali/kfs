@@ -100,16 +100,16 @@ public class SchedulerServiceImplTest extends KualiTestBase {
      */
     public void testUnscheduleJob() throws Exception {
         SchedulerService s = SpringContext.getBean(SchedulerService.class);
-        BatchJobStatus job = s.getJob(SchedulerService.SCHEDULED_GROUP, "scrubberJob");
+        BatchJobStatus job = s.getJob(SchedulerService.SCHEDULED_GROUP, "autoDisapproveJob");
         assertNotNull("job must not be null", job);
 
         assertTrue("must return isScheduled == true", job.isScheduled());
 
         s.removeScheduled(job.getName());
-        job = s.getJob(SchedulerService.SCHEDULED_GROUP, "scrubberJob");
+        job = s.getJob(SchedulerService.SCHEDULED_GROUP, "autoDisapproveJob");
         assertNull("new attempt to retrieve job must be null", job);
 
-        job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob");
+        job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "autoDisapproveJob");
         assertNotNull("job must not be null", job);
         assertFalse("must return isScheduled == false", job.isScheduled());
     }

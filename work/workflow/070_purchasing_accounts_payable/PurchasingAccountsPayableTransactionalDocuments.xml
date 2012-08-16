@@ -204,6 +204,7 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <split name="HasAccountingLines">
           <type>
@@ -220,16 +221,19 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <role name="SubAccount">
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <role name="Account">
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
           <mandatoryRoute>
             true
           </mandatoryRoute>
@@ -238,11 +242,13 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <role name="Commodity">
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <split name="AmountRequiresSeparationOfDutiesReview">
           <type>
@@ -253,6 +259,7 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <join name="Join"/>
         <simple name="NoOp">
@@ -1179,6 +1186,7 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
       </routeNodes>
     </documentType>
@@ -1248,6 +1256,7 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <join name="JoinRequiresImageAttachment"/>
         <simple name="NoOpRequiresImageAttachment">
@@ -1259,6 +1268,7 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
       </routeNodes>
     </documentType>
@@ -1354,6 +1364,7 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <join name="JoinRequiresImageAttachment"/>
         <simple name="NoOpRequiresImageAttachment">
@@ -1370,6 +1381,7 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <join name="JoinReceiving"/>
         <simple name="NoOpReceiving">
@@ -1381,11 +1393,13 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <role name="Account">
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
           <mandatoryRoute>
             true
           </mandatoryRoute>
@@ -1394,6 +1408,7 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <split name="VendorIsEmployeeOrNonResidentAlien">
           <type>
@@ -1404,6 +1419,7 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <join name="JoinVendorIsEmployeeOrNonResidentAlien"/>
         <simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
@@ -1518,6 +1534,7 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <join name="Join"/>
         <simple name="NoOp">

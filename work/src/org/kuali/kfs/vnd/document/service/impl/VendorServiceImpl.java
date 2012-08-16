@@ -63,7 +63,7 @@ public class VendorServiceImpl implements VendorService {
     protected DateTimeService dateTimeService;
     protected VendorDao vendorDao;
     protected NoteService noteService;
-    
+
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#saveVendorHeader(org.kuali.kfs.vnd.businessobject.VendorDetail)
      */
@@ -146,15 +146,16 @@ public class VendorServiceImpl implements VendorService {
                     return contractOrg.getVendorContractPurchaseOrderLimitAmount();
                 }
                 // otherwise return null, as if there's no contract
-                else
+                else {
                     return null;
+                }
             }
         }
 
         // didn't search the contract-org table or not found in the table but contract exists, return the default APO limit in
         // contract
         if ( contractId != null ) {
-            VendorContract contract = (VendorContract) businessObjectService.findBySinglePrimaryKey(VendorContract.class, contractId);
+            VendorContract contract = businessObjectService.findBySinglePrimaryKey(VendorContract.class, contractId);
             if (contract != null) {
                 return contract.getOrganizationAutomaticPurchaseOrderLimit();
             }
@@ -390,7 +391,6 @@ public class VendorServiceImpl implements VendorService {
         return false;
     }
 
-    @Override
     public void createVendorNote(VendorDetail vendorDetail, String vendorNote) {
         try {
             if (StringUtils.isNotBlank(vendorNote)) {
@@ -399,14 +399,13 @@ public class VendorServiceImpl implements VendorService {
                 newBONote.setNotePostedTimestampToCurrent();
                 newBONote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
                 Note note = noteService.createNote(newBONote, vendorDetail, GlobalVariables.getUserSession().getPrincipalId());
-                noteService.save(note); 
+                noteService.save(note);
             }
         } catch (Exception e){
             throw new RuntimeException("Problems creating note for Vendor " + vendorDetail);
         }
     }
 
-    @Override
     public List<Note> getVendorNotes(VendorDetail vendorDetail) {
         List<Note> notes = new ArrayList<Note>();
         if (ObjectUtils.isNotNull(vendorDetail)) {
@@ -415,12 +414,6 @@ public class VendorServiceImpl implements VendorService {
         return notes;
     }
 
-    @Override
-    public NoteService getNoteService() {
-        return noteService;
-    }
-
-    @Override
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
     }
@@ -470,14 +463,15 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#isVendorContractExpired(org.kuali.kfs.vnd.businessobject.VendorDetail)
      */
+    @Override
     public boolean isVendorContractExpired(Document document, VendorDetail vendorDetail) {
         boolean isExpired = false;
-        
+
         Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        
+
         List<VendorContract> vendorContracts = vendorDetail.getVendorContracts();
         List<Note> notes = document.getNotes();
-        
+
         for (VendorContract vendorContract : vendorContracts) {
             if (currentDate.compareTo(vendorContract.getVendorContractEndDate()) > 0 || !vendorContract.isActive()) {
                 Note newNote = new Note();
@@ -489,10 +483,10 @@ public class VendorServiceImpl implements VendorService {
                 return true;
             }
         }
-        
+
         return isExpired;
     }
-    
+
     @Override
     public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus) {
         return vendorDao.getVendorB2BContract(vendorDetail, campus, dateTimeService.getCurrentSqlDate());

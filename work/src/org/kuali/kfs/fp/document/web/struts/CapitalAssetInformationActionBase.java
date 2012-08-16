@@ -1627,31 +1627,33 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         String tabIdForCreateCapitalAsset = WebUtils.generateTabKey(KFSConstants.CapitalAssets.CREATE_CAPITAL_ASSETS_TAB_TITLE);
         String tabIdForModifyCapitalAsset = WebUtils.generateTabKey(KFSConstants.CapitalAssets.MODIFY_CAPITAL_ASSETS_TAB_TITLE);
         
+        tabStates.remove(tabIdForAccountingLinesForCapitalization);
+        tabStates.remove(tabIdForCreateCapitalAsset);
+        tabStates.remove(tabIdForModifyCapitalAsset);
+        
         //if there are any capital accounting lines for capitalization exists then
         if (caldb.getCapitalAccountingLines().size() > 0) {
-            newTabStates.put(tabIdForAccountingLinesForCapitalization, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_OPEN);
+            tabStates.put(tabIdForAccountingLinesForCapitalization, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_OPEN);
         }
         else {
-            newTabStates.put(tabIdForAccountingLinesForCapitalization, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_CLOSE);
+            tabStates.put(tabIdForAccountingLinesForCapitalization, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_CLOSE);
         }
 
         if (checkCreateAssetsExist(capitalAccountingLinesFormBase)) {
-            newTabStates.put(tabIdForCreateCapitalAsset, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_OPEN);  
+            tabStates.put(tabIdForCreateCapitalAsset, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_OPEN);  
         }
         else {
-            newTabStates.put(tabIdForCreateCapitalAsset, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_CLOSE);  
+            tabStates.put(tabIdForCreateCapitalAsset, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_CLOSE);  
         }
         
         if (checkModifyAssetsExist(capitalAccountingLinesFormBase)) {
-            newTabStates.put(tabIdForModifyCapitalAsset, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_OPEN);  
+            tabStates.put(tabIdForModifyCapitalAsset, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_OPEN);  
         }
         else {
-            newTabStates.put(tabIdForModifyCapitalAsset, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_CLOSE);  
+            tabStates.put(tabIdForModifyCapitalAsset, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_CLOSE);  
         }
         
-        newTabStates.putAll(tabStates);
-        
-        kualiForm.setTabStates(newTabStates);
+        kualiForm.setTabStates(tabStates);
     }
     
     /**

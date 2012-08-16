@@ -14,7 +14,7 @@
 		</modifySql>
 	</changeSet>	
 
-	<changeSet author="KFS50" id='KFSMI-8999_REMOVE_OBSOLETE_FK_NOT_NULL_CONSTRAINTS_mysql'>
+	<changeSet author="KFS50" id="KFSMI-8999_REMOVE_OBSOLETE_FK_NOT_NULL_CONSTRAINTS_mysql" dbms="mysql">
 		<comment>For Mysql, we additionally need to drop the index for the foreign key constraint.</comment>
 		<dropIndex tableName="ER_RSRCH_RSK_TYP_T" indexName="ER_RSRCH_RSK_TYP_TR1"/>
 	</changeSet>	

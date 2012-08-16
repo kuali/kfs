@@ -349,4 +349,11 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      */
     public boolean hasCustomDVDistribution();
     
+    /**
+     * Adds a {@link GroupTraveler} instance to the {@link TravelDocument}. Handles all the
+     * under-the-hood stuff like setting the documentnumber.
+     * 
+     * @param traveler {@link GroupTraveler} instance that is valid
+     */
+    void addGroupTravelerLine(final GroupTraveler traveler);
 }

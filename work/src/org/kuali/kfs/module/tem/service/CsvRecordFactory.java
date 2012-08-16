@@ -1,0 +1,169 @@
+/*
+ * Copyright 2012 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl2.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kfs.module.tem.service;
+
+import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
+import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang.StringUtils.replace;
+import static java.util.Collections.synchronizedMap;
+
+import java.beans.PropertyDescriptor;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
+import org.kuali.rice.kns.util.KualiDecimal;
+
+import org.apache.commons.beanutils.PropertyUtils;
+
+
+/**
+ * Interface defining the structure for a CSV flat file record of stuff
+ *
+ * @author Leo Przybylski (leo [at] rsmart.com)
+ *
+ * @see org.kuali.kfs.module.tem.businessobject.GroupTravelerCsvRecord;
+ */
+public class CsvRecordFactory<RecordType>  {
+    final Class<RecordType> recordType;
+    private Map<String,String> headerMap;
+    
+
+    public CsvRecordFactory(final Class<RecordType> recordType) {
+        this.recordType = recordType;
+    }
+    
+    public void setHeaderMap(final Map<String, String> headerMap) {
+        this.headerMap = headerMap;
+    }
+    
+    public Map<String, String> getHeaderMap() {
+        return this.headerMap;
+    }
+
+    public class CsvRecordInvocationHandler implements InvocationHandler {
+        protected Map<String, List<Integer>> header;
+        protected String[] line;
+        
+        public CsvRecordInvocationHandler(final Map<String, List<Integer>> header, final String[] record) {
+            setHeader(header);
+            setRecord(record);
+        }
+
+        protected void setRecord(final String[] record) {
+            this.line = record;
+        }
+
+        protected void setHeader(final Map<String, List<Integer>> header) {
+            this.header = header;
+        }
+
+        protected PropertyDescriptor propertyFor(final PropertyDescriptor[] properties, final Method method) {
+            for (final PropertyDescriptor property: properties) {
+                if (method.getName().equals(property.getReadMethod().getName())) {
+                    return property;
+                }
+            }
+            
+            return null;
+        }
+
+        protected String headerFor(final PropertyDescriptor property) {
+            debug("Checking for header that matches property ", property.getName());
+            if (headerMap.size() < 1) {
+                warn("Your header map is empty. Won't ever resolve any properties");
+            }
+            for (final Map.Entry<String,String> entry : headerMap.entrySet()) {
+                debug("Checking ", entry.getValue());
+                if (property.getName().equals(entry.getValue())) {
+                    if (header.containsKey(entry.getKey())) {
+                        return entry.getKey();
+                    }
+                }
+            }
+            return null;
+        }
+
+        public Object invoke(Object proxy, Method method, Object[] args) {
+            Object retval = null;
+            
+            final PropertyDescriptor[] properties = PropertyUtils.getPropertyDescriptors(recordType);
+            final PropertyDescriptor property = propertyFor(properties, method);
+            final String headerField = headerFor(property);
+            
+            final List<Integer> columns = header.get(headerField);
+            StringBuffer value = new StringBuffer();
+            
+            if (columns != null) {
+                for (final Integer column : columns) {
+                    value.append(line[column]).append(" ");
+                }
+            }
+                
+            if (KualiDecimal.class.equals(method.getReturnType())) {
+                if (value == null || isBlank(value.toString())) {
+                    return KualiDecimal.ZERO;
+                }
+                retval = new KualiDecimal(convertToBigDecimal(value.toString().trim()));
+            }
+            else if (BigDecimal.class.equals(method.getReturnType())) {
+                if (value == null || isBlank(value.toString())) {
+                    return BigDecimal.ZERO;
+                }
+                retval = convertToBigDecimal(value.toString().trim());
+            }
+            else if (Boolean.class.equals(method.getReturnType())
+                     || boolean.class.equals(method.getReturnType())) {                
+                retval = new Boolean(value.toString().trim());
+                debug(headerField, " is ", retval);
+            }
+            else if (java.sql.Date.class.equals(method.getReturnType())) {
+                if (!isBlank(value.toString())) {
+                    try {
+                        retval = new java.sql.Date(new SimpleDateFormat("MM/dd/yyyy").parse(value.toString().trim()).getTime());
+                    }
+                    catch (Exception e) {
+                        // Ignore
+                    }
+                }
+            }
+            else {
+                retval = value.toString().trim();
+            }
+            return retval;
+        }
+
+        public BigDecimal convertToBigDecimal(final String toConvert) {
+            if (isBlank(toConvert)) {
+                return BigDecimal.ZERO;
+            }
+            return new BigDecimal(replace(replace(toConvert, "$", ""), ",", ""));
+        }
+    }
+    
+    public <RecordType> RecordType newInstance(final Map<String, List<Integer>> header, final String[] record) throws Exception {
+        return (RecordType) Proxy.newProxyInstance(recordType.getClassLoader(), 
+                                                   new Class[] { recordType }, 
+                                                   new CsvRecordInvocationHandler(header, record));
+    }
+}

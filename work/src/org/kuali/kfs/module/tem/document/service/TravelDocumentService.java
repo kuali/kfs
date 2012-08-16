@@ -382,4 +382,13 @@ public interface TravelDocumentService {
      * @param header
      */
     void trimFinancialSystemDocumentHeader(FinancialSystemDocumentHeader header);
+
+    /**
+     * Import {@link GroupTraveler} instances into a {@link TravelDocument} via CSV data
+     * 
+     *  @param document to add {@link GroupTraveler} instances to
+     *  @param csvData
+     *  @throws Exception when there's an error parsing the CSV data
+     */
+    List<GroupTraveler> importGroupTravelers(final TravelDocument document, final String csvData) throws Exception;
 }

@@ -25,13 +25,24 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DT
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.ENABLE_PER_DIEM_CATEGORIES;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.HOSTED_MEAL_EXPENSE_TYPES;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_TRAVELER_TYPE_CODES;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
+import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_INVALID_FILE_FORMAT;
+import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_INVALID_NUMERIC_VALUE;
+import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_LINE;
+import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_PROPERTY;
+import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_WRONG_PROPERTY_NUMBER;
+import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_UPLOADPARSER_EXCEEDED_MAX_LENGTH;
+import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_UPLOADPARSER_INVALID_VALUE;
+import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
 import static org.kuali.rice.kns.util.GlobalVariables.getMessageList;
+import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static java.util.Arrays.asList;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,13 +53,13 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.gl.service.EncumbranceService;
@@ -65,6 +76,7 @@ import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
+import org.kuali.kfs.module.tem.businessobject.GroupTravelerCsvRecord;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.MileageRateObjCode;
@@ -86,6 +98,8 @@ import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipS
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
+import org.kuali.kfs.module.tem.exception.UploadParserException;
+import org.kuali.kfs.module.tem.service.CsvRecordFactory;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -95,6 +109,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -112,6 +127,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.exception.InfrastructureException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -128,16 +144,17 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.web.format.FormatException;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
+import au.com.bytecode.opencsv.CSVReader;
+
 
 /**
  * Travel Service Implementation
  */
 public class TravelDocumentServiceImpl implements TravelDocumentService {
-    
-    protected static Logger LOG = Logger.getLogger(TravelDocumentServiceImpl.class);
     
     protected DataDictionaryService dataDictionaryService;
     protected DocumentService documentService;
@@ -153,6 +170,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     private StateService stateService;
     private PersistenceStructureService persistenceStructureService;
     protected UniversityDateService universityDateService;
+    protected List<String> defaultAcceptableFileExtensions;
+    protected CsvRecordFactory csvRecordFactory;
     
     /**
      * Creates and populates an individual per diem item.
@@ -371,7 +390,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 }
             }
         }
-        catch (ParseException ex) {
+        catch (java.text.ParseException ex) {
             error("Unable to convert timestamp to sql date. Unable to populate PerDiemExpense with MileageRate.");
             ex.printStackTrace();
         }
@@ -528,7 +547,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             }
         }
         catch (WorkflowException ex) {
-            LOG.error(ex.getMessage(), ex);
+            error(ex.getMessage(), ex);
         }
         return relatedDocumentList;
     }
@@ -673,20 +692,22 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
         
         // Add adhoc for initiator      
-        if(!adHocRoutePersonIds.contains(initiatorUserId)){
-            if(initiatorUserId != null){
-                Person finSysUser = SpringContext.getBean(PersonService.class).getPerson(initiatorUserId);
-                    if(finSysUser != null){
-                    AdHocRoutePerson recipient = buildAdHocRecipient(finSysUser.getPrincipalName(), actionRequested);       
-                    DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(document);    
-                    if (documentAuthorizer.canReceiveAdHoc(document, finSysUser, actionRequested)) {               
+        if (!adHocRoutePersonIds.contains(initiatorUserId)) {
+            if (initiatorUserId != null) {
+                final Person finSysUser = SpringContext.getBean(PersonService.class).getPerson(initiatorUserId);
+                if (finSysUser != null) {
+                    final AdHocRoutePerson recipient = buildAdHocRecipient(finSysUser.getPrincipalName(), actionRequested);       
+                    final DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(document);    
+                    if (documentAuthorizer.canReceiveAdHoc(document, finSysUser, actionRequested)) {
                         adHocRoutePersons.add(recipient);
                     }
-                }else{
-                    LOG.warn("finSysUser is null.");
                 }
-            }else{
-                LOG.warn("initiatorUserId is null.");
+                else {
+                    warn("finSysUser is null.");
+                }
+            }
+            else {
+                warn("initiatorUserId is null.");
             }
         }
     }
@@ -1048,8 +1069,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             List<String> roleIds = new ArrayList<String>();
             roleIds.add(arrangerRoleId);
             return roleService.principalHasRole(user.getPrincipalId(), roleIds, null);
-        } catch(NullPointerException e){
-            LOG.error("NPE.", e);
+        } 
+        catch (NullPointerException e) {
+            error("NPE.", e);
         }
         
         return false;   
@@ -1081,11 +1103,12 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 	            }
             }
             
-            if(roleService.principalHasRole(user.getPrincipalId(), roleIds, qualification)) {
+            if (roleService.principalHasRole(user.getPrincipalId(), roleIds, qualification)) {
             	return true;
             }
-        }catch(NullPointerException e){
-            LOG.error("NPE.", e);
+        }
+        catch (NullPointerException e) {
+            error("NPE.", e);
         }
         
         return false;   
@@ -1439,6 +1462,295 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return sb.toString();
     }
     
+        /**
+     *
+     * This method imports the file and convert it to a list of objects (of the class specified in the parameter)
+     * @param formFile
+     * @param c
+     * @param attributeNames
+     * @param tabErrorKey
+     * @return
+     */
+    //TODO: re-evaluate KUALITEM-954 in regards to defaultValues and attributeMaxLength. Validation should not happen at parsing (these param are only used by importAttendees in TravelEntertainmentAction).
+    public <T> List<T> importFile(final String fileContents, Class<T> c, String[] attributeNames, Map<String, List<String>> defaultValues, Integer[] attributeMaxLength, String tabErrorKey) {
+        if(attributeMaxLength != null && attributeNames.length != attributeMaxLength.length){
+            throw new UploadParserException("Invalid parser configuration, the number of attribute names and attribute max length should be the same");
+        }
+
+        return importFile(fileContents, c, attributeNames, defaultValues, attributeMaxLength, tabErrorKey, getDefaultAcceptableFileExtensions());
+    }
+    
+    /**
+     *
+     * This method imports the file and convert it to a list of objects (of the class specified in the parameter)
+     * @param formFile
+     * @param c
+     * @param attributeNames
+     * @param tabErrorKey
+     * @param fileExtensions
+     * @return
+     */
+    public <T> List<T> importFile(final String fileContents, Class<T> c, String[] attributeNames,Map<String, List<String>> defaultValues, Integer[] attributeMaxLength, String tabErrorKey, List<String> fileExtensions) {
+        final List<T> importedObjects = new ArrayList<T>();
+
+        // parse file line by line
+        Integer lineNo = 0;
+        boolean failed = false;
+        for (final String line : fileContents.split("\n")) {
+            lineNo++;
+            try {
+                final T o = parseLine(line, c, attributeNames, defaultValues, attributeMaxLength, lineNo, tabErrorKey);
+                importedObjects.add(o);
+            }
+            catch (UploadParserException e) {
+                // continue to parse the rest of the lines after the current line fails
+                // error messages are already dealt with inside parseFile, so no need to do anything here
+                failed = true;
+            }
+        }
+
+        if (failed) {
+            throw new UploadParserException("errors in parsing lines in file ", ERROR_UPLOADPARSER_LINE, null);
+        }
+
+        return importedObjects;
+    }
+    
+    /**
+     *
+     * This method parses a CSV line
+     * @param line
+     * @param c
+     * @param attributeNames
+     * @param lineNo
+     * @param tabErrorKey
+     * @return
+     */
+    protected <T> T parseLine(String line, Class<T> c, String[] attributeNames,Map<String, List<String>> defaultValues, Integer[] attributeMaxLength, Integer lineNo, String tabErrorKey) {
+        final Map<String, String> objectMap = retrieveObjectAttributes(line, attributeNames, defaultValues, attributeMaxLength, lineNo, tabErrorKey);
+        final T obj = genObjectWithRetrievedAttributes(objectMap, c, lineNo, tabErrorKey);
+        ((PersistableBusinessObject) obj).refresh();
+        return obj;
+    }
+    
+    /**
+     *
+     * This method generates an object instance and populates it with the specified attribute map.
+     * @param objectMap
+     * @param c
+     * @param lineNo
+     * @param tabErrorKey
+     * @return
+     */
+    protected <T> T genObjectWithRetrievedAttributes(final Map<String, String> objectMap, 
+                                                             final Class<T> c, final Integer lineNo, final String tabErrorKey) {
+        T object;
+        try {
+            object = (T) c.newInstance();
+        }
+        catch (Exception e) {
+            throw new InfrastructureException("unable to complete line population.", e);
+        }
+
+        boolean failed = false;
+        for (final Map.Entry<String, String> entry : objectMap.entrySet()) {
+            try {
+                try {
+                    ObjectUtils.setObjectProperty(object, entry.getKey(), entry.getValue());
+                }
+                catch (FormatException e) {
+                    String[] errorParams = { entry.getValue(), entry.getKey(), "" + lineNo };
+                    throw new UploadParserException("invalid numeric property value: " 
+                            + entry.getKey() + " = " + entry.getValue() + " (line " + lineNo + ")", ERROR_UPLOADPARSER_INVALID_NUMERIC_VALUE, errorParams);
+                }
+            }
+            catch (UploadParserException e) {
+                // continue to parse the rest of the properties after the current property fails
+                GlobalVariables.getMessageMap().putError(tabErrorKey, e.getErrorKey(), e.getErrorParameters());
+                failed = true;
+            }
+            catch (Exception e) {
+                throw new InfrastructureException("unable to complete line population.", e);
+            }
+        }
+
+        if (failed) {
+            throw new UploadParserException("empty or invalid properties in line " + lineNo + ")", ERROR_UPLOADPARSER_PROPERTY, ""+lineNo);
+        }
+        return object;
+    }
+    
+    /**
+     *
+     * This method retrieves the attributes as key-value string pairs into a map.
+     * @param line
+     * @param attributeNames
+     * @param lineNo
+     * @param tabErrorKey
+     * @return
+     */
+    protected Map<String, String> retrieveObjectAttributes(String line,
+                                                           String[] attributeNames,
+                                                           Map<String, List<String>> defaultValues,
+                                                           Integer[] attributeMaxLength,
+                                                           Integer lineNo, String tabErrorKey) {
+        String[] attributeValues = StringUtils.splitPreserveAllTokens(line, ',');
+        if (attributeNames.length != attributeValues.length) {
+            String[] errorParams = { "" + attributeNames.length, "" + attributeValues.length, "" + lineNo };
+            GlobalVariables.getMessageMap().putError(tabErrorKey, ERROR_UPLOADPARSER_WRONG_PROPERTY_NUMBER, errorParams);
+            throw new UploadParserException("wrong number of properties: " + attributeValues.length + " exist, " + attributeNames.length + " expected (line " + lineNo + ")", ERROR_UPLOADPARSER_WRONG_PROPERTY_NUMBER, errorParams);
+        }
+
+        for (int i = 0; i < attributeNames.length; i++) {
+            if (defaultValues != null && defaultValues.get(attributeNames[i]) != null) {
+                List<String> defaultValue = defaultValues.get(attributeNames[i]);
+                boolean found = false;
+                for (String value : defaultValue) {
+                    if (attributeValues[i].equalsIgnoreCase(value))
+                        found = true;
+                }
+                if (!found) {
+                    GlobalVariables.getMessageMap().putWarning(tabErrorKey, MESSAGE_UPLOADPARSER_INVALID_VALUE, attributeNames[i], attributeValues[i], (" " + lineNo));
+                    throw new UploadParserException("Invalid value " + attributeValues[i] + " exist, " + "in line (" + lineNo + ")", ERROR_UPLOADPARSER_WRONG_PROPERTY_NUMBER);
+                }
+            }
+
+            if (attributeMaxLength != null) {
+                if (attributeValues[i] != null && attributeValues[i].length() > attributeMaxLength[i]) {
+                    attributeValues[i] = attributeValues[i].substring(0, attributeMaxLength[i]);
+                    String[] errorParams = { "" + attributeNames[i], "" + attributeMaxLength[i], "" + lineNo };
+                    GlobalVariables.getMessageMap().putWarning(tabErrorKey, MESSAGE_UPLOADPARSER_EXCEEDED_MAX_LENGTH, errorParams);
+                }
+            }
+        }
+
+        Map<String, String> objectMap = new HashMap<String, String>();
+        for (int i = 0; i < attributeNames.length; i++) {
+            objectMap.put(attributeNames[i], attributeValues[i]);
+        }
+
+        return objectMap;
+    }
+
+    /**
+     * Parses a header into some usable form that can be used to parse records from the
+     * CSV
+     *
+     * @param csvHeader is an array of columns for a csv record
+     * @return a {@link Map} keyed by field names to their column numbers
+     */
+    protected Map<String, List<Integer>> parseHeader(final String[] csvHeader) {
+        final Map<String, List<Integer>> retval = new HashMap<String, List<Integer>>();
+
+        for (Integer i = 0; i < csvHeader.length; i++) {
+
+            if (isBlank(csvHeader[i].trim())) {
+                final String formattedName = nextHeader(csvHeader, i);
+                final Integer start = i;
+                final Integer end = csvHeader.length > i ? nextBlankHeader(csvHeader, i) : i;
+
+                final List<Integer> indexes = new ArrayList<Integer>();
+
+                for (Integer y = start; y < end; y++) {
+                    indexes.add(y);
+                }
+                retval.put(formattedName, indexes);
+            }
+            else {
+                final String formattedName = toCamelCase(csvHeader[i]);
+
+                if (isNotBlank(formattedName)) {
+                    retval.put(formattedName, asList(new Integer[] { i }));
+                }
+            }
+        }   
+        return retval;
+    }
+
+    protected String nextHeader(final String[] headers, final int start) {
+        for (int i = start + 1; i < headers.length; i++) {
+            if (isNotBlank(headers[i])) {
+                return toCamelCase(headers[i]);
+            }
+        }
+        return "";
+    }
+
+
+    protected Integer nextBlankHeader(final String[] headers, final int start) {
+        for (int i = start + 1; i < headers.length; i++) {
+            if (isBlank(headers[i])) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    protected String toProperCase(final String s) {
+        if (s == null || s.length() < 1) {
+            return "";
+        }
+
+        final char[] arr = s.toLowerCase().toCharArray();
+        arr[0] = Character.toUpperCase(arr[0]);
+
+        return new String(arr);
+    }
+    
+    protected String toCamelCase(final String s) {
+        final StringBuffer buffer = new StringBuffer();
+
+        final List<String> words = new LinkedList<String>(asList(s.toLowerCase().trim().replace('_', ' ').split(" ")));
+        buffer.append(words.remove(0));
+
+        for (final String word : words) {
+            buffer.append(toProperCase(word));
+        }
+        return buffer.toString();
+    }    
+    /**
+     * 
+     */
+    @Override
+    public List<GroupTraveler> importGroupTravelers(final TravelDocument document, final String csvData) throws Exception {
+        final List<GroupTraveler> retval = new LinkedList<GroupTraveler>();
+        final BufferedReader bufferedFileReader = new BufferedReader(new StringReader(csvData));
+        final CSVReader csvReader = new CSVReader(bufferedFileReader);
+    
+        final List<String[]> rows;
+        try {
+            rows = csvReader.readAll();
+        }
+        catch (IOException ex) {
+            // TODO Auto-generated catch block
+            ex.printStackTrace();
+            throw new ParseException("Could not  parse CSV file data", ex);
+        }
+        finally {
+            try {
+                csvReader.close();
+            }
+            catch (Exception e) {}
+        }
+        
+        final Map<String,List<Integer>> header = parseHeader(rows.remove(0));
+            
+        for (final String[] row : rows) {
+            final GroupTravelerCsvRecord record = createGroupTravelerCsvRecord(header, row);
+            final GroupTraveler traveler = new GroupTraveler();
+            traveler.setGroupTravelerEmpId(record.getGroupTravelerEmpId());
+            traveler.setName(record.getName());
+            traveler.setTravelerTypeCode(record.getTravelerTypeCode());
+            retval.add(traveler);
+        }
+
+        return retval;
+    }
+    
+    protected GroupTravelerCsvRecord createGroupTravelerCsvRecord(final Map<String, List<Integer>> header, final String[] record) throws Exception {
+        return (GroupTravelerCsvRecord) getCsvRecordFactory().newInstance(header, record);
+    }
+
     /**
      * 
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#copyGroupTravelers(java.util.List, java.lang.String)
@@ -1951,4 +2263,20 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     public void adjustEncumbranceForAmendment(final TravelDocument taDocument) {}
+
+    public List<String> getDefaultAcceptableFileExtensions() {
+        return defaultAcceptableFileExtensions;
+    }
+    
+    public void setDefaultAcceptableFileExtensions(final List<String> defaultAcceptableFileExtensions) {
+        this.defaultAcceptableFileExtensions = defaultAcceptableFileExtensions;
+    }
+
+    public void setCsvRecordFactory(final CsvRecordFactory recordFactory) {
+        this.csvRecordFactory = recordFactory;
+    }
+
+    public CsvRecordFactory getCsvRecordFactory() {
+        return this.csvRecordFactory;
+    }
 }

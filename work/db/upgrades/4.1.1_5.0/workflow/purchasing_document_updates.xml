@@ -1417,5 +1417,43 @@
 				</simple>
 			</routeNodes>
 		</documentType>
+	    <documentType>
+	      <name>
+	        EIRT
+	      </name>
+	      <parent>
+	        AP
+	      </parent>
+	      <label>
+	        Electronic Invoice Reject Document
+	      </label>
+	      <docHandler>
+	        ${kfs.url}/purapElectronicInvoiceReject.do?methodToCall=docHandler
+	      </docHandler>
+	      <docSearchHelpURL>
+	        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Felectronicinvoicerejects.htm
+	      </docSearchHelpURL>
+	      <active>
+	        true
+	      </active>
+	      <routingVersion>
+	        2
+	      </routingVersion>
+	      <routePaths>
+	        <routePath>
+	          <start name="AdHoc" nextNode="Management"/>
+	          <role name="Management"/>
+	        </routePath>
+	      </routePaths>
+	      <routeNodes>
+	        <start name="AdHoc"/>
+	        <role name="Management">
+	          <qualifierResolverClass>
+	            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+	          </qualifierResolverClass>
+	          <activationType>P</activationType>
+	        </role>
+	      </routeNodes>
+	    </documentType>
 	</documentTypes>
 </data>

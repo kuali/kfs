@@ -583,6 +583,7 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <join name="Join"/>
         <simple name="NoOp">
@@ -837,6 +838,7 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
       </routeNodes>
     </documentType>

@@ -52,7 +52,7 @@
   <bean id="ElectronicPaymentClaim-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
   	<property name="forceUppercase" value="true"/>
     <property name="label" value="Generating Document Number"/>
-    <property name="shortLabel" value="Genenerating Doc #"/>
+    <property name="shortLabel" value="Generating Doc #"/>
   </bean>
   <bean id="ElectronicPaymentClaim-financialDocumentLineNumber" parent="ElectronicPaymentClaim-financialDocumentLineNumber-parentBean"/>
 

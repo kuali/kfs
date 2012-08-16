@@ -69,6 +69,11 @@
 				<bean parent="PurchaseOrderAmendment-accountValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>
+				
+				<!--MSU Contribution KFSMI-8582 DTT-330 KFSCNTRB-943  -->
+  				<bean parent="PurapRequisition-RoomBuildingInActiveValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>	
   			</list>
   		</property>
   	</bean>

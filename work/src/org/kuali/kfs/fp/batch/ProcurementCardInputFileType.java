@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -76,8 +77,11 @@ public class ProcurementCardInputFileType extends XmlBatchInputFileTypeBase {
      */
     public boolean validate(Object parsedFileContents) {
         List<ProcurementCardTransaction> pctrans = (List<ProcurementCardTransaction>)parsedFileContents;
+        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME)) {
+            return true;  // we're using accounting defaults, don't worry about account numbers from the file...
+        }
+
         boolean valid = true;
-        
         // add validation for chartCode-accountNumber, as chartCode is not required in xsd due to accounts-cant-cross-charts option
         AccountService acctserv = SpringContext.getBean(AccountService.class);
         for (ProcurementCardTransaction pctran : pctrans) {

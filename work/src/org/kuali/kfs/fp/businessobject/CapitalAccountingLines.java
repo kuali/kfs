@@ -36,6 +36,7 @@ public class CapitalAccountingLines extends TransientBusinessObjectBase {
     protected String subAccountNumber;
     protected String financialSubObjectCode;
     protected String projectCode;
+    protected String organizationReferenceId;
     protected String financialDocumentLineDescription;
     protected KualiDecimal amount;
     protected boolean selectLine;
@@ -211,6 +212,14 @@ public class CapitalAccountingLines extends TransientBusinessObjectBase {
      */
     public void setProjectCode(String projectCode) {
         this.projectCode = projectCode;
+    }
+    
+    public String getOrganizationReferenceId() {
+        return organizationReferenceId;
+    }
+
+    public void setOrganizationReferenceId(String organizationReferenceId) {
+        this.organizationReferenceId = organizationReferenceId;
     }
 
     /**

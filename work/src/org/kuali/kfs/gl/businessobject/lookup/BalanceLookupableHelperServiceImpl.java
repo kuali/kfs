@@ -30,9 +30,12 @@ import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
 import org.kuali.kfs.gl.businessobject.inquiry.BalanceInquirableImpl;
 import org.kuali.kfs.gl.service.BalanceService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
@@ -360,4 +363,25 @@ public class BalanceLookupableHelperServiceImpl extends AbstractGeneralLedgerLoo
         this.balanceService = balanceService;
     }
 
+    /**
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
+     */
+    @Override
+    public List<Row> getRows() {
+        List<Row> superResults = super.getRows();
+        if (superResults != null) {
+            for (Row row : superResults) {
+                for (Field field : row.getFields()) {
+                    if (KFSPropertyConstants.ACCOUNT_NUMBER.equals(field.getPropertyName())) {
+                        // because of limitations in BO Metadata service, the account quickfinder was going to prior year account instead of account, therefore
+                        // need to force it to go to Account (or whatever's mapped to the "account" reference in OJB
+                        Class clazz = getPersistenceStructureService().getBusinessObjectAttributeClass(businessObjectClass, KFSPropertyConstants.ACCOUNT);
+                        field.setQuickFinderClassNameImpl(clazz.getName());
+                        return superResults;
+                    }
+                }
+            }
+        }
+        return superResults;
+    }
 }

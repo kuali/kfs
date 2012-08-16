@@ -113,13 +113,8 @@
     <property name="title" value="Asset Detail Information"/>
     <property name="maintainableItems">
       <list>
-      	<!-- CSU 6702 BEGIN -->
-        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerChartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="accountNameLookup"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccountNumber" p:required="true" p:webUILeaveFieldFunction="accountNameLookup"/>
-      
-        <!-- bean parent="MaintainableFieldDefinition" p:name="organizationOwnerChartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="onblur_chartCode"/ -->
-        <!-- bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccountNumber" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber"/ -->
-      	<!-- CSU 6702 END -->
+        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerChartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="onblur_chartCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccountNumber" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber_org"/>
         <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccount.organizationCode" p:required="false" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="agencyNumber" p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="inventoryStatusCode" p:required="true"/>
@@ -254,10 +249,7 @@
            <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:readOnlyAfterAdd="true" p:required="true"/>
            <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:readOnlyAfterAdd="true" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber_pay"/>
            <bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" p:readOnlyAfterAdd="true"/>
-              <!-- CSU 6702 BEGIN -->
-              <bean parent="MaintainableFieldDefinition" p:readOnlyAfterAdd="true" p:name="financialObjectCode" p:required="true" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.ObjectCode" p:overrideFieldConversions="chartOfAccountsCode:chartOfAccountsCode,financialObjectCode:financialObjectCode"/>
-              <!-- bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:readOnlyAfterAdd="true" p:required="true" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.ObjectCode" p:overrideFieldConversions="chartOfAccountsCode:chartOfAccountsCode,financialObjectCode:financialObjectCode"/ -->
-              <!-- CSU 6702 END -->              
+           <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:readOnlyAfterAdd="true" p:required="true" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.ObjectCode" p:overrideFieldConversions="chartOfAccountsCode:chartOfAccountsCode,financialObjectCode:financialObjectCode"/>             
            <bean parent="MaintainableFieldDefinition" p:name="financialSubObjectCode" p:readOnlyAfterAdd="true" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.SubObjectCode" p:overrideFieldConversions="financialSubObjectCode:financialSubObjectCode,chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,financialObjectCode:financialObjectCode"/>
            <bean parent="MaintainableFieldDefinition" p:name="projectCode" p:readOnlyAfterAdd="true"/>
            <bean parent="MaintainableFieldDefinition" p:name="organizationReferenceId" p:readOnlyAfterAdd="true"/>

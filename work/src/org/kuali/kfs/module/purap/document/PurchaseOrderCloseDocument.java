@@ -25,6 +25,7 @@ import java.util.List;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -131,5 +132,24 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
             }
         }
         return accountingLines;
+    }
+    
+    //MSU Contribution KFSMI-8643 DTT-3800 KFSCNTRB-956
+    @Override
+    public List<String> getWorkflowEngineDocumentIdsToLock() {
+        List<String> docIdStrings = new ArrayList<String>();
+        docIdStrings.add(getDocumentNumber());
+        String currentDocumentTypeName = this.getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+
+        List<PurchaseOrderView> relatedPoViews = getRelatedViews().getRelatedPurchaseOrderViews();
+        for (PurchaseOrderView poView : relatedPoViews) {
+            if(poView.isPurchaseOrderCurrentIndicator()){
+                docIdStrings.add(poView.getDocumentNumber());
+            }
+        }
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug("***** getWorkflowEngineDocumentIdsToLock(" + this.documentNumber + ") = '" + docIdStrings + "'");
+        }
+        return docIdStrings;
     }
 }

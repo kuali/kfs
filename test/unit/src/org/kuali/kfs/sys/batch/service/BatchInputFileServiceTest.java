@@ -57,9 +57,11 @@ public class BatchInputFileServiceTest extends KualiTestBase {
     private String testFileIdentifier;
     private InputStream validPCDOFileContents;
     private InputStream validCollectorFileContents;
+    private InputStream validSampleFileContents;
 
     private BatchInputFileType pcdoBatchInputFileType;
     private BatchInputFileType collectorBatchInputFileType;
+    private BatchInputFileType sampleBatchInputFileType;
 
     private Person validWorkgroupUser;
     private Person invalidWorkgroupUser;
@@ -76,10 +78,13 @@ public class BatchInputFileServiceTest extends KualiTestBase {
         batchInputFileService = SpringContext.getBean(BatchInputFileService.class);
         pcdoBatchInputFileType = SpringContext.getBean(ProcurementCardInputFileType.class);
         collectorBatchInputFileType = SpringContext.getBean(CollectorXmlInputFileType.class);
+        sampleBatchInputFileType = SpringContext.getBean(BatchInputFileType.class,"sampleTest2FlatFileInputFileType");
 
         testFileIdentifier = "junit" + RandomUtils.nextInt();
         validPCDOFileContents = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputValidPCDO.xml");
         validCollectorFileContents = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputValidCollector.xml");
+        validSampleFileContents = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputFileWithNoExtension");
+        
 
         validWorkgroupUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName(Data4.USER_ID2);
         invalidWorkgroupUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName(Data4.USER_ID1);
@@ -115,13 +120,14 @@ public class BatchInputFileServiceTest extends KualiTestBase {
      * Checks file was created succesfully for valid call to save method.
      */
     public final void testSave_valid() throws Exception {
-        String savedFileName = batchInputFileService.save(validWorkgroupUser, pcdoBatchInputFileType, testFileIdentifier, validPCDOFileContents, new ArrayList());
+        String savedFileName = batchInputFileService.save(validWorkgroupUser, pcdoBatchInputFileType, testFileIdentifier, validSampleFileContents, new ArrayList());
 
         File expectedFile = new File(savedFileName);
         createdTestFiles.add(expectedFile);
 
         assertTrue("uploaded pcdo file not found", expectedFile.exists());
         assertTrue("uploaded pcdo file is empty", expectedFile.length() > 0);
+
 
         checkForDoneFile(expectedFile);
 
@@ -140,6 +146,24 @@ public class BatchInputFileServiceTest extends KualiTestBase {
 
         checkForDoneFile(expectedFile);
     }
+    
+    
+    public final void testSaveFileWithNoExtension() throws Exception {
+        
+        String savedFileName = batchInputFileService.save(validWorkgroupUser, sampleBatchInputFileType , testFileIdentifier, validPCDOFileContents, new ArrayList());
+
+        File expectedFile = new File(savedFileName);
+        createdTestFiles.add(expectedFile);
+        assertTrue("uploaded sample file with no extension not found", expectedFile.exists());
+
+
+        checkForDoneFile(expectedFile);
+
+        // remove file 
+        expectedFile.delete();
+
+    }
+      
 
     /**
      * Checks for a done file with the same name as the given batch file.

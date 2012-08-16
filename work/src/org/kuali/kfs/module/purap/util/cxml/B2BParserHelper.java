@@ -46,7 +46,14 @@ public class B2BParserHelper {
         builderFactory.setIgnoringElementContentWhitespace(true); 
 
         try {
-          builder = builderFactory.newDocumentBuilder();  // Create the parser
+            // This is a funky one. Without setting this "load-external-dtd" feature, even though we're
+            // explicitly setting non-validating, the parser will still reach out and retrieve that DTD. If
+            // the xml.cxml.org site happens to be down, it'll hang or fail on that dependency.
+            //
+            // http://xerces.apache.org/xerces2-j/features.html#nonvalidating.load-external-dtd
+            builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            
+            builder = builderFactory.newDocumentBuilder(); // Create the parser
         } catch(ParserConfigurationException e) {
             throw new RuntimeException(e);
         } 

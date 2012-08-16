@@ -169,7 +169,8 @@
 		<property name="accountService" ref="accountService" />
 		<property name="reportWriterService" ref="addPriorYearAccountsReportWriterService" />
 		<property name="persistenceStructureService" ref="persistenceStructureService" />
-        <property name="businessObjectService" ref="businessObjectService" />
+    	<property name="persistenceServiceOjb" ref="persistenceServiceOjb" />
+    	<property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService" />
 	</bean>
 

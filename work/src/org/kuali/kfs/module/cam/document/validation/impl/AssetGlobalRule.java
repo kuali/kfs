@@ -65,6 +65,7 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.datadictionary.ReferenceDefinition;
 import org.kuali.rice.krad.document.Document;
@@ -72,6 +73,7 @@ import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
@@ -882,7 +884,10 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
         else {
             // append doc type to existing doc header description
             if (!document.getDocumentHeader().getDocumentDescription().toLowerCase().contains(CamsConstants.AssetSeparate.SEPARATE_AN_ASSET_DESCRIPTION.toLowerCase())) {
-                document.getDocumentHeader().setDocumentDescription(CamsConstants.AssetSeparate.SEPARATE_AN_ASSET_DESCRIPTION + " " + document.getDocumentHeader().getDocumentDescription());
+                Integer maxDocumentDescription = ddService.getAttributeMaxLength(DocumentHeader.class, KRADPropertyConstants.DOCUMENT_DESCRIPTION);
+                String documentDescription = CamsConstants.AssetSeparate.SEPARATE_AN_ASSET_DESCRIPTION + " " + document.getDocumentHeader().getDocumentDescription();
+                documentDescription = StringUtils.left(documentDescription, maxDocumentDescription);
+                document.getDocumentHeader().setDocumentDescription(documentDescription);
             }
         }
 

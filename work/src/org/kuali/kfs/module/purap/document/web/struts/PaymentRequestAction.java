@@ -47,6 +47,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -515,5 +516,25 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         taxService.clearTax(document);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+     //MSU Contribution KFSMI-8558 DTT-3765 KFSCNTRB-963
+    @Override
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentRequestForm preqForm = (PaymentRequestForm) form;
+
+        PaymentRequestDocument preqDocument = (PaymentRequestDocument) preqForm.getDocument();
+        
+        ActionForward forward = mapping.findForward(RiceConstants.MAPPING_BASIC);
+        if(preqDocument.getPurchaseOrderDocument().isPendingActionIndicator()) {
+            GlobalVariables.getMessageMap().putError(
+                    KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DOCUMENT_NUMBER, 
+                    PurapKeyConstants.ERROR_PAYMENT_REQUEST_CANNOT_BE_CANCELLED);
+        }
+        else {
+            forward = super.cancel(mapping, form, request, response);
+        }
+
+        return forward;
     }
 }

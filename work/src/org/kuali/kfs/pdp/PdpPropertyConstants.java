@@ -66,8 +66,6 @@ public class PdpPropertyConstants {
     public static final String PAYMENT_GROUP = "paymentGroup";
     public static final String PAYMENT_GROUP_HISTORY = "paymentGroupHistory";
     public static final String PROCESS_IND = "processInd";
-    public static final String TRANSACTION_CODE = "transactionCode";
-    public static final String TRANSACTION_TYPE = "transactionCode";
     public static final String PAYMENT_STATUS_CODE = "paymentStatusCode";
     public static final String PAYMENT_STATUS = "paymentStatus";
     public static final String ADVICE_EMAIL_SENT_DATE = "adviceEmailSentDate";

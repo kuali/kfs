@@ -27,10 +27,12 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.B2BShoppingService;
 import org.kuali.kfs.module.purap.exception.B2BConnectionException;
 import org.kuali.kfs.module.purap.exception.B2BShoppingException;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.util.cxml.B2BParserHelper;
 import org.kuali.kfs.module.purap.util.cxml.B2BShoppingCart;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -61,7 +63,7 @@ public class B2BAction extends KualiAction {
             if (requisitions.size() > 1) {
                 request.getSession().setAttribute("multipleB2BRequisitions", "true");
             }
-            request.setAttribute("forward", "/portal.do?channelTitle=Requisition&channelUrl=purapRequisition.do?methodToCall=displayB2BRequisition");
+            request.setAttribute("forward", SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapPropertyConstants.B2B_PUNCH_BACK_ACTION_FORWARDING_URL));
             request.getSession().setAttribute("docId", ((RequisitionDocument) requisitions.get(0)).getDocumentNumber());
         }
         else {

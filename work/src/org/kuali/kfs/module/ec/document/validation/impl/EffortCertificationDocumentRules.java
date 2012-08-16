@@ -112,7 +112,8 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     public boolean processUpdateDetailLineRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
         LOG.debug("processUpdateDetailLineRules() start");
 
-        if (!this.processAddDetailLineRules(document, detailLine)) {
+        // Don't execute add rules unless this is a new line
+        if (detailLine.isNewLineIndicator() && !this.processAddDetailLineRules(document, detailLine)) {
             return false;
         }
 

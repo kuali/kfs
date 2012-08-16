@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.dataaccess.impl;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -217,7 +218,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
 
         return returnList;
     }
-
+    
     /**
      * Retrieves a document number for a payment request by user defined criteria.
      * 

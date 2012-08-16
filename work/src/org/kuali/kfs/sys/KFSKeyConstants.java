@@ -286,6 +286,7 @@ public class KFSKeyConstants {
 
     // PayeeAchAccount errors
     public static final String ERROR_DOCUMENT_PAYEEACHACCOUNTMAINT_DUPLICATE_RECORD = "error.document.payeeAchAccountMaintenance.duplicateAccount";
+    public static final String ERROR_DOCUMENT_PAYEEACHACCOUNTMAINT_TRANSACTION_TYPE_NOT_ALLOWED = "error.document.payeeAchAccountMaintenance.transactionType.notAllowed";
 
     // BankAccount errors
     public static final String ERROR_DOCUMENT_BANKACCMAINT_INVALID_BANK = "error.document.bankAcctMaintenance.invalidBank";
@@ -908,10 +909,12 @@ public class KFSKeyConstants {
     public static final String WARNING_DV_PREPAID_TRAVEL_TAB = "warning.dv.paymentReason.prepaidTravelTab";
     public static final String WARNING_DV_NON_EMPLOYEE_TRAVEL_TAB = "warning.dv.paymentReason.nonEmployeeTravelTab";
 
-    public static final String ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION = "error.dv.vendorNamePersonNameConfusion";
-    public static final String ERROR_DV_VENDOR_EMPLOYEE_CONFUSION = "error.dv.vendorEmployeeConfusion";
-    public static final String ERROR_DV_NAME_NOT_FILLED_ENOUGH = "error.dv.nameNotFilledEnough";
     public static final String ERROR_DV_LOOKUP_NEEDS_SOME_FIELD = "error.dv.lookupNeedsSomeField";
+    public static final String ERROR_DV_VENDOR_EMPLOYEE_CONFUSION = "error.dv.vendorEmployeeConfusion";
+    public static final String ERROR_DV_LAST_FIRST_NAME_NOT_FILLED = "error.dv.lastFirstNameNotFilled";
+    public static final String ERROR_DV_NAME_NOT_FILLED_ENOUGH = "error.dv.nameNotFilledEnough";
+    public static final String WARNING_DV_PAYEE_ID_UNIQUE = "warning.dv.payeeIdUnique";
+    public static final String ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION = "error.dv.vendorNamePersonNameConfusion";
     public static final String ERROR_DV_LOOKUP_TAX_NUMBER_EMPLOYEE_DETAILS_CONFUSION = "error.dv.vendorTaxNumberEmployeeDetailsConfusion";
 
     public static final class Balancing {

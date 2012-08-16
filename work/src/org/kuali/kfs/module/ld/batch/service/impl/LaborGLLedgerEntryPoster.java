@@ -18,9 +18,11 @@ package org.kuali.kfs.module.ld.batch.service.impl;
 import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.gl.batch.service.PostTransaction;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.module.ld.LaborConstants;
+import org.kuali.kfs.module.ld.batch.service.LaborAccountingCycleCachingService;
 import org.kuali.kfs.module.ld.businessobject.LaborGeneralLedgerEntry;
 import org.kuali.kfs.module.ld.service.LaborGeneralLedgerEntryService;
 import org.kuali.kfs.module.ld.util.DebitCreditUtil;
@@ -38,6 +40,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborGLLedgerEntryPoster.class);
     
     private LaborGeneralLedgerEntryService laborGeneralLedgerEntryService;
+    private LaborAccountingCycleCachingService laborAccountingCycleCachingService;
 
     /**
      * @see org.kuali.kfs.gl.batch.service.PostTransaction#post(org.kuali.kfs.gl.businessobject.Transaction, int, java.util.Date)
@@ -49,8 +52,11 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
 
         laborGeneralLedgerEntry.setTransactionDate(new Date(postDate.getTime()));
 
-        if(! transaction.getFinancialBalanceTypeCode().equalsIgnoreCase("CB")){
+        BalanceType balanceType = getBalanceType(transaction.getFinancialBalanceTypeCode());
+        if (balanceType.isFinancialOffsetGenerationIndicator()){
             laborGeneralLedgerEntry.setTransactionDebitCreditCode(this.getDebitCreditCode(transaction));
+        } else {
+            laborGeneralLedgerEntry.setTransactionDebitCreditCode(" ");
         }
         laborGeneralLedgerEntry.setTransactionLedgerEntryAmount(this.getTransactionAmount(transaction));
         
@@ -68,6 +74,14 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
             throw new RuntimeException(e);
         }
         return operationType;
+    }
+    
+    protected BalanceType getBalanceType(String balanceTypeCode) {
+        return laborAccountingCycleCachingService.getBalanceType(balanceTypeCode);
+    }
+    
+    public void setLaborAccountingCycleCachingService(LaborAccountingCycleCachingService laborAccountingCycleCachingService) {
+        this.laborAccountingCycleCachingService = laborAccountingCycleCachingService;
     }
 
     /**

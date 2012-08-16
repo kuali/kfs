@@ -1276,10 +1276,14 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         capitalAssetAccountLine.setDocumentNumber(capitalAsset.getDocumentNumber());
         capitalAssetAccountLine.setChartOfAccountsCode(capitalAccountingLine.getChartOfAccountsCode());
         capitalAssetAccountLine.setAccountNumber(capitalAccountingLine.getAccountNumber());
+        capitalAssetAccountLine.setSubAccountNumber(capitalAccountingLine.getSubAccountNumber());
         capitalAssetAccountLine.setFinancialDocumentLineTypeCode(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE);
         capitalAssetAccountLine.setCapitalAssetAccountLineNumber(getNextAccountingLineNumber(capitalAccountingLine, capitalAsset));
         capitalAssetAccountLine.setCapitalAssetLineNumber(capitalAsset.getCapitalAssetLineNumber());
         capitalAssetAccountLine.setFinancialObjectCode(capitalAccountingLine.getFinancialObjectCode());
+        capitalAssetAccountLine.setFinancialSubObjectCode(capitalAccountingLine.getFinancialSubObjectCode());
+        capitalAssetAccountLine.setProjectCode(capitalAccountingLine.getProjectCode());
+        capitalAssetAccountLine.setOrganizationReferenceId(capitalAccountingLine.getOrganizationReferenceId());
         capitalAssetAccountLine.setSequenceNumber(capitalAccountingLine.getSequenceNumber());
         capitalAssetAccountLine.setAmount(KualiDecimal.ZERO);
         capitalAsset.getCapitalAssetAccountsGroupDetails().add(capitalAssetAccountLine);

@@ -54,11 +54,11 @@ public class LaborPendingEntryGenerator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborPendingEntryGenerator.class);
 
     /**
-     * generate the expense pending entries based on the given document and accouting line
+     * generate the expense pending entries based on the given document and accounting line
      * 
      * @param document the given accounting document
      * @param accountingLine the given accounting line
-     * @param sequenceHelper the given squence helper
+     * @param sequenceHelper the given sequence helper
      * @return a set of expense pending entries
      */
     public static List<LaborLedgerPendingEntry> generateExpensePendingEntries(LaborLedgerPostingDocument document, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
@@ -66,15 +66,12 @@ public class LaborPendingEntryGenerator {
         LaborLedgerPendingEntry expensePendingEntry = SpringContext.getBean(LaborPendingEntryConverterService.class).getExpensePendingEntry(document, accountingLine, sequenceHelper);
         expensePendingEntries.add(expensePendingEntry);
 
-        // if the AL's pay FY and period do not match the University fiscal year and period need to create a reversal entry for
-        // current period
-        if (!isAccountingLinePayFYPeriodMatchesUniversityPayFYPeriod(document, accountingLine)) {
-            LaborLedgerPendingEntry expenseA21PendingEntry = SpringContext.getBean(LaborPendingEntryConverterService.class).getExpenseA21PendingEntry(document, accountingLine, sequenceHelper);
-            expensePendingEntries.add(expenseA21PendingEntry);
+        // KFSMI-6863: always create A2 entries regardless of fiscal period
+        LaborLedgerPendingEntry expenseA21PendingEntry = SpringContext.getBean(LaborPendingEntryConverterService.class).getExpenseA21PendingEntry(document, accountingLine, sequenceHelper);
+        expensePendingEntries.add(expenseA21PendingEntry);
 
-            LaborLedgerPendingEntry expenseA21ReversalPendingEntry = SpringContext.getBean(LaborPendingEntryConverterService.class).getExpenseA21ReversalPendingEntry(document, accountingLine, sequenceHelper);
-            expensePendingEntries.add(expenseA21ReversalPendingEntry);
-        }
+        LaborLedgerPendingEntry expenseA21ReversalPendingEntry = SpringContext.getBean(LaborPendingEntryConverterService.class).getExpenseA21ReversalPendingEntry(document, accountingLine, sequenceHelper);
+        expensePendingEntries.add(expenseA21ReversalPendingEntry);
 
         //refresh nonupdateable references for financial object...
         refreshObjectCodeNonUpdateableReferences(expensePendingEntries);
@@ -87,7 +84,7 @@ public class LaborPendingEntryGenerator {
      * 
      * @param document the given accounting document
      * @param accountingLine the given accounting line
-     * @param sequenceHelper the given squence helper
+     * @param sequenceHelper the given sequence helper
      * @return a set of benefit pending entries
      */
     public static List<LaborLedgerPendingEntry> generateBenefitPendingEntries(LaborLedgerPostingDocument document, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
@@ -147,28 +144,26 @@ public class LaborPendingEntryGenerator {
 
     /**
      * generate the benefit pending entries with the given benefit amount and finge benefit object code based on the given document
-     * and accouting line
+     * and accounting line
      * 
      * @param document the given accounting document
      * @param accountingLine the given accounting line
-     * @param sequenceHelper the given squence helper
+     * @param sequenceHelper the given sequence helper
      * @param benefitAmount the given benefit amount
-     * @param fringeBenefitObjectCode the given finge benefit object code
-     * @return a set of benefit pending entries with the given benefit amount and finge benefit object code
+     * @param fringeBenefitObjectCode the given fringe benefit object code
+     * @return a set of benefit pending entries with the given benefit amount and fringe benefit object code
      */
     public static List<LaborLedgerPendingEntry> generateBenefitPendingEntries(LaborLedgerPostingDocument document, ExpenseTransferAccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {
         List<LaborLedgerPendingEntry> benefitPendingEntries = new ArrayList<LaborLedgerPendingEntry>();
         LaborLedgerPendingEntry benefitPendingEntry = SpringContext.getBean(LaborPendingEntryConverterService.class).getBenefitPendingEntry(document, accountingLine, sequenceHelper, benefitAmount, fringeBenefitObjectCode);
         benefitPendingEntries.add(benefitPendingEntry);
 
-        // if the AL's pay FY and period do not match the University fiscal year and period
-        if (!isAccountingLinePayFYPeriodMatchesUniversityPayFYPeriod(document, accountingLine)) {
-            LaborLedgerPendingEntry benefitA21PendingEntry = SpringContext.getBean(LaborPendingEntryConverterService.class).getBenefitA21PendingEntry(document, accountingLine, sequenceHelper, benefitAmount, fringeBenefitObjectCode);
-            benefitPendingEntries.add(benefitA21PendingEntry);
+        // KFSMI-6863: always create A2 entries regardless of fiscal period
+        LaborLedgerPendingEntry benefitA21PendingEntry = SpringContext.getBean(LaborPendingEntryConverterService.class).getBenefitA21PendingEntry(document, accountingLine, sequenceHelper, benefitAmount, fringeBenefitObjectCode);
+        benefitPendingEntries.add(benefitA21PendingEntry);
 
-            LaborLedgerPendingEntry benefitA21ReversalPendingEntry = SpringContext.getBean(LaborPendingEntryConverterService.class).getBenefitA21ReversalPendingEntry(document, accountingLine, sequenceHelper, benefitAmount, fringeBenefitObjectCode);
-            benefitPendingEntries.add(benefitA21ReversalPendingEntry);
-        }
+        LaborLedgerPendingEntry benefitA21ReversalPendingEntry = SpringContext.getBean(LaborPendingEntryConverterService.class).getBenefitA21ReversalPendingEntry(document, accountingLine, sequenceHelper, benefitAmount, fringeBenefitObjectCode);
+        benefitPendingEntries.add(benefitA21ReversalPendingEntry);
 
         //refresh nonupdateable references for financial object...
         refreshObjectCodeNonUpdateableReferences(benefitPendingEntries);   
@@ -178,10 +173,10 @@ public class LaborPendingEntryGenerator {
 
     /**
      * generate the benefit clearing pending entries with the given benefit amount and fringe benefit object code based on the given
-     * document and accouting line
+     * document and accounting line
      * 
      * @param document the given accounting document
-     * @param sequenceHelper the given squence helper
+     * @param sequenceHelper the given sequence helper
      * @param accountNumber the given clearing account number
      * @param chartOfAccountsCode the given clearing chart of accounts code
      * @return a set of benefit clearing pending entries

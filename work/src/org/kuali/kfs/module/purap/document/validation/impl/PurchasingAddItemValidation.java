@@ -167,6 +167,16 @@ public class PurchasingAddItemValidation extends PurchasingAccountsPayableAddIte
                 }
             }
         }
+        
+        //MSU Contribution KFSMI-5041 DTT-3371 KFSCNTRB-955
+        // Validations for non-quantity based item type
+         if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator() && StringUtils.isNotBlank(purItem.getItemUnitOfMeasureCode())) {
+             valid = false;
+             String attributeLabel = dataDictionaryService.
+                                     getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+                                     getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE).getLabel(); 
+             GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.ERROR_ITEM_UOM_NOT_ALLOWED, attributeLabel + " in " + item.getItemIdentifierString());
+         }
 
         return valid;
     }

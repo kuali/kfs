@@ -51,7 +51,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This class is the base action form for all financial documents.
  */
 public class KualiAccountingDocumentFormBase extends FinancialSystemTransactionalDocumentFormBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountingDocumentFormBase.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountingDocumentFormBase.class);
 
     protected SourceAccountingLine newSourceLine;
     protected TargetAccountingLine newTargetLine;

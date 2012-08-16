@@ -189,7 +189,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, campusCode, false);
         for (DisbursementVoucherDocument document : dvd) {
-            addPayment(document, batch, processRunDate);
+            addPayment(document, batch, processRunDate, false);
             count++;
             totalAmount = totalAmount.add(document.getDisbVchrCheckTotalAmount());
         }
@@ -216,7 +216,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, campusCode, true);
         for (DisbursementVoucherDocument document : dvd) {
-            addPayment(document, batch, processRunDate);
+            addPayment(document, batch, processRunDate, false);
             count++;
             totalAmount = totalAmount.add(document.getDisbVchrCheckTotalAmount());
         }
@@ -235,10 +235,13 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param batch The batch file used to build a payment group and detail.
      * @param processRunDate The date the batch file is to post.
      */
-    protected void addPayment(DisbursementVoucherDocument document, Batch batch, Date processRunDate) {
+    protected void addPayment(DisbursementVoucherDocument document, Batch batch, Date processRunDate, boolean immediate) {
         LOG.debug("addPayment() started");
 
         PaymentGroup pg = buildPaymentGroup(document, batch);
+        if (immediate) {
+            pg.setProcessImmediate(Boolean.TRUE);
+        }
         PaymentDetail pd = buildPaymentDetail(document, batch, processRunDate);
 
         pd.setPaymentGroup(pg);
@@ -913,7 +916,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         Batch batch = createBatch(disbursementVoucher.getCampusCode(), user, processRunDate);
         KualiDecimal totalAmount = KualiDecimal.ZERO;
 
-        addPayment(disbursementVoucher, batch, processRunDate);
+        addPayment(disbursementVoucher, batch, processRunDate, true);
         totalAmount = totalAmount.add(disbursementVoucher.getDisbVchrCheckTotalAmount());
 
         batch.setPaymentCount(new KualiInteger(1));

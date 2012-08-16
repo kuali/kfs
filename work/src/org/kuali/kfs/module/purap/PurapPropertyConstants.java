@@ -226,4 +226,9 @@ public class PurapPropertyConstants {
     //BULK RECEIVING DOCUMENT
     public static final String VENDOR_DATE = "vendorName";
     
+    public static final String B2B_PUNCH_BACK_ACTION_FORWARDING_URL = "b2b.punch.back.action.forwarding.url";
+    
+    //MSU Contribution KFSMI-5041 DTT-3371 KFSCNTRB-955
+    public static final String ITEM_UNIT_OF_MEASURE_CODE = "itemUnitOfMeasureCode";
+    
 }

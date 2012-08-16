@@ -42,12 +42,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcessPdpCancelPaidServiceImpl.class);
 
-    private PaymentGroupService paymentGroupService;
-    private PaymentDetailService paymentDetailService;
-    private ParameterService parameterService;
-    private DateTimeService dateTimeService;
-    private PurchasingAccountsPayableModuleService purchasingAccountsPayableModuleService;
-    private DisbursementVoucherExtractService dvExtractService;
+    protected PaymentGroupService paymentGroupService;
+    protected PaymentDetailService paymentDetailService;
+    protected ParameterService parameterService;
+    protected DateTimeService dateTimeService;
+    protected PurchasingAccountsPayableModuleService purchasingAccountsPayableModuleService;
+    protected DisbursementVoucherExtractService dvExtractService;
 
     /**
      * @see org.kuali.kfs.module.purap.service.ProcessPdpCancelPaidService#processPdpCancels()

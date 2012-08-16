@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.action.ValidActions;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.document.Document;
@@ -68,7 +69,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isEnroute()) {
             ValidActions validActions = workflowDocument.getValidActions();
-            return validActions.getValidActions().contains(KewApiConstants.ACTION_TAKEN_APPROVED_CD);
+            return validActions.getValidActions().contains(ActionType.APPROVE);
         }
 
         return super.canApprove(document);
@@ -88,7 +89,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
 
             // CM document can only be routed if it contains a Final Deposit
             ValidActions validActions = workflowDocument.getValidActions();
-            return validActions.getValidActions().contains(KewApiConstants.ACTION_TAKEN_BLANKET_APPROVE_CD);
+            return validActions.getValidActions().contains(ActionType.BLANKET_APPROVE);
         }
 
         return super.canBlanketApprove(document);
@@ -108,7 +109,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
 
             // CM document can only be routed if it contains a Final Deposit
             ValidActions validActions = workflowDocument.getValidActions();
-            return validActions.getValidActions().contains(KewApiConstants.ACTION_TAKEN_CANCELED_CD);
+            return validActions.getValidActions().contains(ActionType.CANCEL);
         }
 
         return super.canCancel(document);
@@ -122,7 +123,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isEnroute()) {
             ValidActions validActions = workflowDocument.getValidActions();
-            return validActions.getValidActions().contains(KewApiConstants.ACTION_TAKEN_DENIED_CD);
+            return validActions.getValidActions().contains(ActionType.DISAPPROVE);
         }
 
         return super.canDisapprove(document);
@@ -142,7 +143,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
 
             // CM document can only be routed if it contains a Final Deposit
             ValidActions validActions = workflowDocument.getValidActions();
-            return validActions.getValidActions().contains(KewApiConstants.ACTION_TAKEN_ROUTED_CD);
+            return validActions.getValidActions().contains(ActionType.ROUTE);
         }
 
         return super.canRoute(document);
@@ -162,7 +163,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
 
             // CM document can only be saved (via the save button) if the CashDrawer is not closed
             ValidActions validActions = workflowDocument.getValidActions();
-            return validActions.getValidActions().contains(KewApiConstants.ACTION_TAKEN_SAVED_CD);
+            return validActions.getValidActions().contains(ActionType.SAVE);
         }
 
         return super.canRoute(document);
@@ -176,7 +177,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isEnroute()) {
             ValidActions validActions = workflowDocument.getValidActions();
-            return validActions.getValidActions().contains(KewApiConstants.ACTION_TAKEN_FYI_CD);
+            return validActions.getValidActions().contains(ActionType.ADHOC_REQUEST);
         }
 
         return super.canAddAdhocRequests(document);

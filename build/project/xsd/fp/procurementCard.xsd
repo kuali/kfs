@@ -88,9 +88,9 @@
                <xsd:element maxOccurs="1" minOccurs="1" ref="financialDocumentTotalAmount" />
                <xsd:element maxOccurs="1" minOccurs="1" ref="transactionDebitCreditCode" />
                <xsd:element maxOccurs="1" minOccurs="0" ref="chartOfAccountsCode" />
-               <xsd:element maxOccurs="1" minOccurs="1" ref="accountNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="accountNumber" />
                <xsd:element maxOccurs="1" minOccurs="0" ref="subAccountNumber" />
-               <xsd:element maxOccurs="1" minOccurs="1" ref="financialObjectCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="financialObjectCode" />
                <xsd:element maxOccurs="1" minOccurs="0" ref="financialSubObjectCode" />
                <xsd:element maxOccurs="1" minOccurs="0" ref="projectCode" />
                <xsd:element maxOccurs="1" minOccurs="0" ref="transactionCycleStartDate" />

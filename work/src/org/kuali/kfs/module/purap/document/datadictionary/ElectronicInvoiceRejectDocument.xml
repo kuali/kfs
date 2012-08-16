@@ -360,7 +360,8 @@
     <property name="shortLabel" value="Invoice Number"/>
     <property name="maxLength" value="100"/>
     <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
+    <!--MSU Contribution KFSMI-8483 DTT-580 KFSCNTRB-974 -->
+       <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
     </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="20"/>
@@ -1056,9 +1057,7 @@
     <property name="label" value="Invoice Ship To Postal Code"/>
     <property name="shortLabel" value="Postal Code"/>
     <property name="maxLength" value="200"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
+    <!-- MSU Contribution KFSMI-8483 DTT 3196 KFSCNTRB-974 Deleted validation pattern-->
     <property name="control">
       <bean parent="TextControlDefinition" p:size="202"/>
     </property>
@@ -1205,9 +1204,7 @@
     <property name="label" value="Invoice Ship To Postal Code"/>
     <property name="shortLabel" value="Postal Code"/>
     <property name="maxLength" value="200"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
+     <!--MSU Contribution KFSMI-8483 DTT-3196  KFSCNTRB-974 -->
     <property name="control">
       <bean parent="TextControlDefinition" p:size="202"/>
     </property>
@@ -1340,9 +1337,7 @@
     <property name="label" value="Invoice Ship To Postal Code"/>
     <property name="shortLabel" value="Postal Code"/>
     <property name="maxLength" value="200"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
+     <!--MSU Contribution KFSMI-8483 DTT-3196  KFSCNTRB-974 -->
     <property name="control">
       <bean parent="TextControlDefinition" p:size="202"/>
     </property>

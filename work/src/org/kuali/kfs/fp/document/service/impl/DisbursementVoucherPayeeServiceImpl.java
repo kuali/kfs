@@ -232,9 +232,10 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
         Map<String, String> fieldConversionMap = new HashMap<String, String>();
 
         fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, VendorPropertyConstants.VENDOR_TAX_NUMBER);
+        fieldConversionMap.put(KFSPropertyConstants.PAYEE_NAME, VendorPropertyConstants.VENDOR_NAME);
 
-        fieldConversionMap.put(KFSPropertyConstants.VENDOR_NAME, KFSPropertyConstants.VENDOR_NAME);
-        fieldConversionMap.put(KFSPropertyConstants.VENDOR_NUMBER, KFSPropertyConstants.VENDOR_NUMBER);
+        fieldConversionMap.put(KFSPropertyConstants.VENDOR_NAME, VendorPropertyConstants.VENDOR_NAME);
+        fieldConversionMap.put(KFSPropertyConstants.VENDOR_NUMBER, VendorPropertyConstants.VENDOR_NUMBER);
 
         fieldConversionMap.put(KFSPropertyConstants.PERSON_FIRST_NAME, VendorPropertyConstants.VENDOR_FIRST_NAME);
         fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, VendorPropertyConstants.VENDOR_LAST_NAME);
@@ -251,13 +252,14 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     public Map<String, String> getFieldConversionBetweenPayeeAndPerson() {
         Map<String, String> fieldConversionMap = new HashMap<String, String>();
 
-    //    fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, KIMPropertyConstants.Person.EXTERNAL_ID);
+        //fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, KIMPropertyConstants.Person.EXTERNAL_ID);
 
+        fieldConversionMap.put(KFSPropertyConstants.PAYEE_NAME, KIMPropertyConstants.Person.NAME);
         fieldConversionMap.put(KFSPropertyConstants.PERSON_FIRST_NAME, KIMPropertyConstants.Person.FIRST_NAME);
         fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, KIMPropertyConstants.Person.LAST_NAME);
 
         fieldConversionMap.put(KFSPropertyConstants.EMPLOYEE_ID, KIMPropertyConstants.Person.EMPLOYEE_ID);
-        fieldConversionMap.put(KFSPropertyConstants.ACTIVE, KFSPropertyConstants.ACTIVE);
+        fieldConversionMap.put(KFSPropertyConstants.ACTIVE, KIMPropertyConstants.Person.ACTIVE);
 
         return fieldConversionMap;
     }

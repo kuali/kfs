@@ -41,6 +41,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PaymentRequestDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
 
+	Boolean canHold;
+	Boolean canRequestCancel;
+	Boolean canEditPreExtraction;
     
     @Override
     public boolean canSave(Document document) {
@@ -324,13 +327,17 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
      * @return True if the document state allows placing the Payment Request on hold.
      */
     protected boolean canHold(PaymentRequestDocument paymentRequestDocument) {
-        boolean can = !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isExtracted();
-        if (can) {
-            can = SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getFinancialSystemDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId());            
-            can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(paymentRequestDocument.getApplicationDocumentStatus());
+        if (canHold == null) {
+
+            boolean can = !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isExtracted();
+            if (can) {
+                can = SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getFinancialSystemDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId());            
+                can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(paymentRequestDocument.getApplicationDocumentStatus());
+            }
+            canHold = can;
         }
-        
-        return can;
+
+        return canHold;
     }
 
     /**
@@ -343,13 +350,15 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
      * @return True if the document state allows placing the request that the Payment Request be canceled.
      */
     protected boolean canRequestCancel(PaymentRequestDocument paymentRequestDocument) {
-        boolean can = !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isExtracted();
-        if (can) {
-            can = SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getFinancialSystemDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId());
-            can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(paymentRequestDocument.getApplicationDocumentStatus());
+        if (canRequestCancel == null) {
+            boolean can = !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isExtracted();
+            if (can) {
+                can = SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getFinancialSystemDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId());
+                can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(paymentRequestDocument.getApplicationDocumentStatus());
+            }
+            canRequestCancel = can;
         }
-
-        return can;
+        return canRequestCancel;
     }
 
     /**
@@ -381,9 +390,13 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     }
 
     protected boolean canEditPreExtraction(PaymentRequestDocument paymentRequestDocument) {
-        return (!paymentRequestDocument.isExtracted() &&
-                !SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getFinancialSystemDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId()) &&
-                !PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequestDocument.getApplicationDocumentStatus()));
+        if (canEditPreExtraction == null) {
+            boolean can = (!paymentRequestDocument.isExtracted() &&
+                    !SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getFinancialSystemDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId()) &&
+                    !PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequestDocument.getApplicationDocumentStatus()));
+            canEditPreExtraction = can;
+        }
+        return canEditPreExtraction;
     }
 
 }

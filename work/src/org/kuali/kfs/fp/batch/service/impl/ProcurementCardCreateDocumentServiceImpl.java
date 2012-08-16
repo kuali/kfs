@@ -34,6 +34,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ProjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.coa.service.ProjectCodeService;
+import org.kuali.kfs.coa.service.SubAccountService;
+import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.fp.batch.ProcurementCardAutoApproveDocumentsStep;
 import org.kuali.kfs.fp.batch.ProcurementCardCreateDocumentsStep;
 import org.kuali.kfs.fp.batch.ProcurementCardLoadStep;
@@ -54,6 +66,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -81,7 +94,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @see org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService
  */
-@Transactional
+
 public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCardCreateDocumentService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardCreateDocumentServiceImpl.class);
 
@@ -108,6 +121,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      */
     @Override
     @SuppressWarnings("rawtypes")
+    @Transactional
     public boolean createProcurementCardDocuments() {
         List documents = new ArrayList();
         List cardTransactions = retrieveTransactions();
@@ -316,8 +330,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 }
             }
 
-            // set the card holder record on the document from the first transaction
-            createCardHolderRecord(pcardDocument, (ProcurementCardTransaction) transactions.get(0));
+            ProcurementCardTransaction trans = (ProcurementCardTransaction) transactions.get(0);
+            String errors = validateTransaction(trans);
+            createCardHolderRecord(pcardDocument, trans);
 
             // for each transaction, create transaction detail object and then acct lines for the detail
             int transactionLineNumber = 1;
@@ -659,6 +674,118 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             errorText += " Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.";
 
             targetLine.setProjectCode("");
+        }
+
+        // clear out GlobalVariable message map, since we have taken care of the errors
+        GlobalVariables.setMessageMap(new MessageMap());
+
+        return errorText;
+    }
+    
+    /**
+     * Validates the chart of account attributes for existence and active indicator. Will substitute for defined 
+     * default parameters or set fields to empty that if they have errors.
+     * 
+     * @param transaction The transaction to be validated.
+     * @return String with error messages discovered during validation.  An empty string indicates no validation errors were found.
+     */
+    protected String validateTransaction(ProcurementCardTransaction transaction) {
+        String errorText = "";
+
+        if (getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME)) {
+            final ProcurementCardDefault procurementCardDefault = retrieveProcurementCardDefault(transaction.getTransactionCreditCardNumber());
+            if (ObjectUtils.isNull(procurementCardDefault)) {
+                final String tempErrorText = "Procurement Card Accounting Line Defaults are turned on but no Procurement Card Default record could be retrieved for transaction: "+transaction.getTransactionReferenceNumber() + " by card number.";
+                if ( LOG.isInfoEnabled() ) {
+                    LOG.info(tempErrorText);
+                }
+                errorText += " " + tempErrorText;
+            }
+        } 
+        else {
+            transaction.refresh();
+            
+            final ChartService chartService = SpringContext.getBean(ChartService.class);
+            if (transaction.getChartOfAccountsCode() == null || ObjectUtils.isNull(chartService.getByPrimaryId(transaction.getChartOfAccountsCode()))) {
+                String tempErrorText = "Chart " + transaction.getChartOfAccountsCode() + " is invalid; using error Chart Code.";
+                if ( LOG.isInfoEnabled() ) {
+                    LOG.info(tempErrorText);
+                }
+                errorText += " " + tempErrorText;    
+                transaction.setChartOfAccountsCode(getErrorChartCode());
+                transaction.refresh();
+            }   
+            
+            final AccountService accountService = SpringContext.getBean(AccountService.class);
+            if (transaction.getAccountNumber() == null || ObjectUtils.isNull(accountService.getByPrimaryIdWithCaching(transaction.getChartOfAccountsCode(), transaction.getAccountNumber())) || accountService.getByPrimaryIdWithCaching(transaction.getChartOfAccountsCode(), transaction.getAccountNumber()).isExpired()) {
+                String tempErrorText = "Chart " + transaction.getChartOfAccountsCode() + " Account " + transaction.getAccountNumber() + " is invalid; using error account.";
+                if ( LOG.isInfoEnabled() ) {
+                    LOG.info(tempErrorText);
+                }
+                errorText += " " + tempErrorText;    
+                transaction.setChartOfAccountsCode(getErrorChartCode());
+                transaction.setAccountNumber(getErrorAccountNumber());
+                transaction.refresh();
+            }
+            
+            final UniversityDateService uds = SpringContext.getBean(UniversityDateService.class);
+            final ObjectCodeService ocs = SpringContext.getBean(ObjectCodeService.class);
+            if (transaction.getFinancialObjectCode() == null || ObjectUtils.isNull(ocs.getByPrimaryIdWithCaching(uds.getCurrentFiscalYear(), transaction.getChartOfAccountsCode(), transaction.getFinancialObjectCode()))) {
+                String tempErrorText = "Chart " + transaction.getChartOfAccountsCode() + " Object Code " + transaction.getFinancialObjectCode() + " is invalid; using default Object Code.";
+                if ( LOG.isInfoEnabled() ) {
+                    LOG.info(tempErrorText);
+                }
+                errorText += " " + tempErrorText;
+    
+                transaction.setFinancialObjectCode(getDefaultObjectCode());
+                transaction.refresh();
+            }    
+            
+            if (StringUtils.isNotBlank(transaction.getSubAccountNumber())) {
+                SubAccountService sas = SpringContext.getBean(SubAccountService.class);
+                SubAccount subAccount = sas.getByPrimaryIdWithCaching(transaction.getChartOfAccountsCode(), transaction.getAccountNumber(), transaction.getSubAccountNumber());            
+            
+                if (ObjectUtils.isNull(subAccount)) {
+                    String tempErrorText = "Chart " + transaction.getChartOfAccountsCode() + " Account " + transaction.getAccountNumber() + " Sub Account " + transaction.getSubAccountNumber() + " is invalid; Setting Sub Account to blank.";
+                    if ( LOG.isInfoEnabled() ) {
+                        LOG.info(tempErrorText);
+                    }
+                    errorText += " " + tempErrorText;
+    
+                    transaction.setSubAccountNumber("");
+                }
+            }
+                
+            if (StringUtils.isNotBlank(transaction.getFinancialSubObjectCode())) {
+    
+                SubObjectCodeService socs = SpringContext.getBean(SubObjectCodeService.class);
+                SubObjectCode soc = socs.getByPrimaryIdForCurrentYear(transaction.getChartOfAccountsCode(), transaction.getAccountNumber(), transaction.getFinancialObjectCode(), transaction.getFinancialSubObjectCode());
+            
+                if (ObjectUtils.isNull(soc)) {
+                    String tempErrorText = "Chart " + transaction.getChartOfAccountsCode() + " Account " + transaction.getAccountNumber() + " Object Code " + transaction.getFinancialObjectCode() + " Sub Object Code " + transaction.getFinancialSubObjectCode() + " is invalid; setting Sub Object to blank.";
+                    if ( LOG.isInfoEnabled() ) {
+                        LOG.info(tempErrorText);
+                    }
+                    errorText += " " + tempErrorText;
+    
+                    transaction.setFinancialSubObjectCode("");
+                }
+            }
+                        
+            if (StringUtils.isNotBlank(transaction.getProjectCode())) {
+            
+                ProjectCodeService pcs = SpringContext.getBean(ProjectCodeService.class);
+                ProjectCode pc = pcs.getByPrimaryId(transaction.getProjectCode());
+            
+                if (ObjectUtils.isNull(pc)) {
+                    if ( LOG.isInfoEnabled() ) {
+                        LOG.info("Project Code " + transaction.getProjectCode() + " is invalid; setting to blank.");
+                    }
+                    errorText += " Project Code " + transaction.getProjectCode() + " is invalid; setting to blank.";
+    
+                    transaction.setProjectCode("");
+                }
+            }
         }
 
         // clear out GlobalVariable message map, since we have taken care of the errors

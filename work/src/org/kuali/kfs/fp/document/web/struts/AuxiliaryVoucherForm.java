@@ -40,6 +40,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Struts form so <code>{@link AuxiliaryVoucherDocument}</code> can be accessed and modified through UI.
@@ -91,6 +92,11 @@ public class AuxiliaryVoucherForm extends VoucherForm {
      * @return the modified reversal date
      */
     protected Date getAvReversalDate() {
+        Date documentReveralDate = getAuxiliaryVoucherDocument().getReversalDate();      
+        if (ObjectUtils.isNotNull(documentReveralDate)) {
+            return documentReveralDate;
+        }
+        
         java.sql.Date avReversalDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
 
         Calendar cal = Calendar.getInstance();
@@ -109,7 +115,11 @@ public class AuxiliaryVoucherForm extends VoucherForm {
      //   if (cal.get(Calendar.DAY_OF_MONTH) > KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_DAY_OF_MONTH) {
       //      cal.add(Calendar.MONTH, 1);
       //  }
-        cal.set(Calendar.DAY_OF_MONTH, KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_DAY_OF_MONTH);
+        
+        int reversalDateDefaultDayOfMonth = this.getReversalDateDefaultDayOfMonth();
+        
+        cal.set(Calendar.DAY_OF_MONTH, reversalDateDefaultDayOfMonth);
+        
         long timeInMillis = cal.getTimeInMillis();
         avReversalDate.setTime(timeInMillis);
         
@@ -277,4 +287,25 @@ public class AuxiliaryVoucherForm extends VoucherForm {
         
         return accountingPeriodLabelList;
     }
+    
+    public static final String REVERSAL_DATE_DEFAULT_DAY_OF_THE_MONTH_PARM_NAME = "REVERSAL_DATE_DEFAULT_DAY_OF_THE_MONTH";
+    
+    /**
+     * get the reversal date default day of month defined as an application parameter
+     */
+    protected int getReversalDateDefaultDayOfMonth() {
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String defaultDayOfMonth = parameterService.getParameterValueAsString(AuxiliaryVoucherDocument.class, REVERSAL_DATE_DEFAULT_DAY_OF_THE_MONTH_PARM_NAME);
+        
+        try {
+            Integer reversalDateDefaultDayOfMonth = Integer.parseInt(defaultDayOfMonth);
+            
+            return reversalDateDefaultDayOfMonth;
+        }
+        catch(Exception e){
+            LOG.info("Invalid value was assigned to the paremeter: " + REVERSAL_DATE_DEFAULT_DAY_OF_THE_MONTH_PARM_NAME + ". The default value " + KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_DAY_OF_MONTH + " is applied.");
+        }
+    
+        return KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_DAY_OF_MONTH;
+    } 
 }

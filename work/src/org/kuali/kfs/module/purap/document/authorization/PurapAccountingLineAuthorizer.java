@@ -21,16 +21,17 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -45,7 +46,6 @@ import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.document.DocumentPresentationController;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Authorizer which deals with financial processing document issues, specifically sales tax lines on documents
@@ -126,14 +126,12 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
     }
     
     private boolean showAmountOnly(AccountingDocument accountingDocument) {
-        final FinancialSystemTransactionalDocumentPresentationController presentationController = getPresentationController(accountingDocument);
-        final FinancialSystemTransactionalDocumentAuthorizerBase authorizer = getDocumentAuthorizer(accountingDocument);
-        if (presentationController == null || authorizer == null) {
-            throw new RuntimeException("Null presentation controller or document authorizer for document "+accountingDocument.getClass().getName());
-        }
-        Set<String> editModes = presentationController.getEditModes(accountingDocument);
-        editModes = authorizer.getEditModes(accountingDocument, GlobalVariables.getUserSession().getPerson(), editModes);
-        return editModes.contains(PurapAuthorizationConstants.PaymentRequestEditMode.FULL_DOCUMENT_ENTRY_COMPLETED);
+        PurapService purapService = SpringContext.getBean(PurapService.class);
+        if (accountingDocument instanceof PurchasingAccountsPayableDocument)
+            if (purapService.isFullDocumentEntryCompleted((PurchasingAccountsPayableDocument)accountingDocument)) {
+                return true;
+            }
+        return false;
     }
     
     /**

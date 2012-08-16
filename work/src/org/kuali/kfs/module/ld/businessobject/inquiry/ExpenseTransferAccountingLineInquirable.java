@@ -22,6 +22,8 @@ import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLin
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -44,25 +46,29 @@ public class ExpenseTransferAccountingLineInquirable extends KfsInquirableImpl {
                 ExpenseTransferSourceAccountingLine sourceAccountingLine = (ExpenseTransferSourceAccountingLine) businessObject;
                 parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, sourceAccountingLine.getChartOfAccountsCode());
                 parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, sourceAccountingLine.getAccountNumber());
-                parameters.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, sourceAccountingLine.getSubAccountNumber());
+                parameters.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, ObjectUtils.isNotNull(sourceAccountingLine.getSubAccountNumber()) ? sourceAccountingLine.getSubAccountNumber() : "");
                 parameters.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, sourceAccountingLine.getObjectCode().getFinancialObjectCode());
-                parameters.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, sourceAccountingLine.getPayrollEndDateFiscalYear());
-                parameters.put(KFSPropertyConstants.AMOUNT, sourceAccountingLine.getAmount());
+                parameters.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, sourceAccountingLine.getPayrollEndDateFiscalYear().toString());
+                parameters.put(KFSPropertyConstants.AMOUNT, sourceAccountingLine.getAmount().toString());
                 parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, FRINGE_BENEFIT_METHOD_TO_CALL);
             }
             else if(businessObject instanceof ExpenseTransferTargetAccountingLine ){
                 ExpenseTransferTargetAccountingLine targetAccountingLine = (ExpenseTransferTargetAccountingLine) businessObject;
                 parameters.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, targetAccountingLine.getChartOfAccountsCode());
                 parameters.put(KFSPropertyConstants.ACCOUNT_NUMBER, targetAccountingLine.getAccountNumber());
-                parameters.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, targetAccountingLine.getSubAccountNumber());
+                parameters.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, ObjectUtils.isNotNull(targetAccountingLine.getSubAccountNumber()) ? targetAccountingLine.getSubAccountNumber() : "");
                 parameters.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, targetAccountingLine.getObjectCode().getFinancialObjectCode());
-                parameters.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, targetAccountingLine.getPayrollEndDateFiscalYear());
-                parameters.put(KFSPropertyConstants.AMOUNT, targetAccountingLine.getAmount());
+                parameters.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR, targetAccountingLine.getPayrollEndDateFiscalYear().toString());
+                parameters.put(KFSPropertyConstants.AMOUNT, targetAccountingLine.getAmount().toString());
                 parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, FRINGE_BENEFIT_METHOD_TO_CALL);
             }
 
             String fieldValue = objFieldValue == null ? KFSConstants.EMPTY_STRING : objFieldValue.toString();
-            final String url =  UrlFactory.parameterizeUrl(FRINGE_BENEFIT_INQUIRY_PAGE_NAME, parameters);
+           // build out base path for return location, use config service
+            String basePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY);
+
+            final String url =  UrlFactory.parameterizeUrl(basePath + FRINGE_BENEFIT_INQUIRY_PAGE_NAME, parameters);
+            
 
             return new AnchorHtmlData(url, "");
         }

@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document;
 
+import org.kuali.kfs.sys.document.AccountingDocument;
+
 
 public class PurchaseOrderSplitDocument extends PurchaseOrderDocument {
     
@@ -23,6 +25,12 @@ public class PurchaseOrderSplitDocument extends PurchaseOrderDocument {
      */
     public PurchaseOrderSplitDocument() {
         super();
+    }
+    
+    //MSU Contribution KFSMI-8600 DTT-3159 KFSCNTRB-953
+    @Override
+    public Class<? extends AccountingDocument> getDocumentClassForAccountingLineValueAllowedValidation() {
+        return PurchaseOrderDocument.class;
     }
     
 }

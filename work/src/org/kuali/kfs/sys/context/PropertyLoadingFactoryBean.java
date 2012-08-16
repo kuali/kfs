@@ -38,6 +38,7 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
     private static final String HTTP_URL_PROPERTY_NAME = "http.url";
     private static final String KSB_REMOTING_URL_PROPERTY_NAME = "ksb.remoting.url";
     private static final String REMOTING_URL_SUFFIX = "/remoting";
+    private static final String ADDITIONAL_KFS_CONFIG_LOCATIONS_PARAM = "additional.kfs.config.locations";
     private Properties props = new Properties();
     private boolean testMode;
     private boolean secureMode;
@@ -118,7 +119,29 @@ public class PropertyLoadingFactoryBean implements FactoryBean<Properties> {
             }
             BASE_PROPERTIES.putAll(riceXmlConfigurer.getProperties());            
             loadProperties(BASE_PROPERTIES, new StringBuilder("classpath:").append(CONFIGURATION_FILE_NAME).append(".properties").toString());
+            
+            loadExternalProperties(BASE_PROPERTIES);
+
         }
+    }
+    
+    /**
+     * Loads properties from an external file.  Also merges in all System properties
+     * @param props the properties object
+     */
+    private static void loadExternalProperties(Properties props) {
+        String externalConfigLocationPaths = System.getProperty(PropertyLoadingFactoryBean.ADDITIONAL_KFS_CONFIG_LOCATIONS_PARAM);
+        if (StringUtils.isNotEmpty(externalConfigLocationPaths)) {
+            String[] files = externalConfigLocationPaths.split(","); 
+            for (String f: files) { 
+                if (StringUtils.isNotEmpty(f)) { 
+                    System.err.println("Loading properties from " + f);
+                    loadProperties(props, new StringBuffer("file:").append(f).toString()); 
+                } 
+            }
+        }
+
+        props.putAll(System.getProperties());
     }
 
     public void setTestMode(boolean testMode) {

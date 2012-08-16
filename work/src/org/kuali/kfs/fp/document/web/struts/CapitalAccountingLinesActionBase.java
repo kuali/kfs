@@ -493,6 +493,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
                 capitalAccountingLine.setFinancialSubObjectCode(line.getFinancialSubObjectCode());
                 capitalAccountingLine.setSubAccountNumber(line.getSubAccountNumber());
                 capitalAccountingLine.setProjectCode(line.getProjectCode());
+                capitalAccountingLine.setOrganizationReferenceId(line.getOrganizationReferenceId());
                 capitalAccountingLine.setAmount(line.getAmount());
                 capitalAccountingLine.setFinancialDocumentLineDescription(line.getFinancialDocumentLineDescription());
                 found = true;
@@ -533,6 +534,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         cal.setFinancialObjectCode(line.getFinancialObjectCode());
         cal.setFinancialSubObjectCode(line.getFinancialSubObjectCode());
         cal.setProjectCode(line.getProjectCode());
+        cal.setOrganizationReferenceId(line.getOrganizationReferenceId());
         cal.setFinancialDocumentLineDescription(line.getFinancialDocumentLineDescription());
         cal.setAmount(line.getAmount());
         cal.setAccountLinePercent(null);

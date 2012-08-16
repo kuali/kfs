@@ -32,10 +32,15 @@ public class CapitalAssetAccountsGroupDetails extends PersistableBusinessObjectB
     private Integer capitalAssetAccountLineNumber;
     private Integer sequenceNumber;
 
+    // accounting line info
     private String financialDocumentLineTypeCode;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String financialObjectCode;
+    private String subAccountNumber;
+    private String financialSubObjectCode;
+    private String projectCode;
+    private String organizationReferenceId;
     private KualiDecimal amount;
 
     private CapitalAssetInformation capitalAssetInformation;
@@ -272,4 +277,37 @@ public class CapitalAssetAccountsGroupDetails extends PersistableBusinessObjectB
 
         this.amount = amount;
     }
+
+    public String getSubAccountNumber() {
+        return subAccountNumber;
+    }
+
+    public void setSubAccountNumber(String subAccountNumber) {
+        this.subAccountNumber = subAccountNumber;
+    }
+
+    public String getFinancialSubObjectCode() {
+        return financialSubObjectCode;
+    }
+
+    public void setFinancialSubObjectCode(String financialSubObjectCode) {
+        this.financialSubObjectCode = financialSubObjectCode;
+    }
+
+    public String getProjectCode() {
+        return projectCode;
+    }
+
+    public void setProjectCode(String projectCode) {
+        this.projectCode = projectCode;
+    }
+
+    public String getOrganizationReferenceId() {
+        return organizationReferenceId;
+    }
+
+    public void setOrganizationReferenceId(String organizationReferenceId) {
+        this.organizationReferenceId = organizationReferenceId;
+    }
+        
 }

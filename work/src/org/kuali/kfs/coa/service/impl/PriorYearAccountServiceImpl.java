@@ -38,6 +38,7 @@ import org.kuali.kfs.sys.KFSConstants.ChartApcParms;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +54,7 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
     protected AccountService accountService;
     protected ReportWriterService reportWriterService;
     protected PersistenceStructureService persistenceStructureService;
+    protected PersistenceService persistenceServiceOjb;
     protected BusinessObjectService businessObjectService;
     protected ParameterService parameterService;
     
@@ -102,9 +104,11 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
     /**
      * @see org.kuali.kfs.coa.service.PriorYearAccountService#addPriorYearAccountsFromParameter()
      */
-    public void addPriorYearAccountsFromParameter() {
+    public void addPriorYearAccountsFromParameter() {        
         /*
         Collection<String> accountsColl = new ArrayList<String>();
+        accountsColl.add("BL-9923234");
+        accountsColl.add("BL-1024600");
         accountsColl.add("0000000");
         accountsColl.add("BL-0000000");
         accountsColl.add("UA-2131401");      
@@ -112,6 +116,10 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
         accountsColl.add("BA-6044901");
         accountsColl.add("UA-7014960");
         */
+        
+        // clear cache so that batch job will be reading most up-to-date data from Account and PriorYearAccount tables
+        persistenceServiceOjb.clearCache();
+
         String param = ChartApcParms.PRIOR_YEAR_ACCOUNTS_TO_BE_ADDED;
         Collection<String> accountsColl = parameterService.getParameterValuesAsString(AddPriorYearAccountsStep.class, param);
         Iterator<String> accountsIter = accountsColl.iterator();
@@ -138,8 +146,16 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
                 continue;
             }
 
-            // check whether account exists, report error if not      
-            Account account = accountService.getByPrimaryId(chartCode, accountNumber);
+            // check whether account exists, report error if not   
+            // TODO switch back to accountService.getByPrimaryId when cache issue is fixed
+            // not using accountService.getByPrimaryId here because there is an issue with Account cache
+            // using businessObjectService instead will skip cache issue
+            // Account account = accountService.getByPrimaryId(chartCode, accountNumber);
+            Map<String, Object> keys = new HashMap<String, Object>(2);
+            keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
+            keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+            Account account = businessObjectService.findByPrimaryKey(Account.class, keys);
+            
             if (ObjectUtils.isNull(account)) {
                 countError++;
                 errmsg = accountStr + " : doesn't exist in Account table."; 
@@ -188,6 +204,10 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
         this.persistenceStructureService = persistenceStructureService;
     }
     
+    public void setPersistenceServiceOjb(PersistenceService persistenceServiceOjb) {
+        this.persistenceServiceOjb = persistenceServiceOjb;
+    }
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

@@ -309,6 +309,11 @@ public class AccountingLineParserBase implements AccountingLineParser {
             lineNo = 0;
             while ((accountingLineAsString = br.readLine()) != null) {
                 lineNo++;
+                
+                if (StringUtils.isBlank(StringUtils.remove(StringUtils.deleteWhitespace(accountingLineAsString),KFSConstants.COMMA))) {
+                    continue;
+                }
+                
                 AccountingLine accountingLine = null;
 
                 try {

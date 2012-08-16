@@ -45,6 +45,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.exception.ItemParserException;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -295,6 +296,11 @@ public class ItemParserBase implements ItemParser {
         try {
             while ( (itemLine = br.readLine()) != null ) {
                 lineNo++;
+                
+                if(StringUtils.isBlank(StringUtils.remove(StringUtils.deleteWhitespace(itemLine),KFSConstants.COMMA))) {
+                    continue;
+                }
+                
                 try {
                     PurApItem item = parseItem( itemLine, itemClass, documentNumber );
                     importedItems.add(item);

@@ -83,6 +83,10 @@ function checkCheckAllOrNone() {
 					<kul:htmlAttributeHeaderCell labelFor="depositTicketNumber"
 						attributeEntry="${depositAttributes.depositTicketNumber}"
 						hideRequiredAsterisk="true" horizontal="true" align="left" />
+					<th><c:choose>
+						<c:when test="${KualiForm.depositFinal}"><bean:message key="cashManagement.document.deposit.depositTargetAmount"/></c:when>
+						<c:otherwise><bean:message key="cashManagement.document.deposit.undepositedCheckTotal"/></c:otherwise>
+					</c:choose></th>
 				</tr>
 				<tr>
                     <sys:bankControl property="bankCode" objectProperty="bank" depositOnly="true" readOnly="${readOnly}" style="infoline" />				
@@ -95,6 +99,10 @@ function checkCheckAllOrNone() {
 						property="depositTicketNumber"
 						attributeEntry="${depositAttributes.depositTicketNumber}" /> <br />
 					&nbsp;</td>
+					<td class="infoline">$&nbsp;<c:choose>
+						<c:when test="${KualiForm.depositFinal}"><c:out value="${KualiForm.targetDepositAmount}"/></c:when>
+						<c:otherwise><c:out value="${KualiForm.currentCheckTotal}" /></c:otherwise>
+					</c:choose></td>
 				</tr>
 			</table>
 			</div>

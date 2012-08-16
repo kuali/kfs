@@ -30,11 +30,11 @@
 
             <logic:iterate name="KualiForm" id="benefitInquiry" property="benefitInquiry" indexId="ctr">
               <tr>
-                <td>
-                 <kul:htmlControlAttribute property="benefitInquiry[${ctr}].fringeBenefitObjectCode" attributeEntry="${benefitInq.fringeBenefitObjectCode}" readOnly="true" />
+                 <td>
+                 <bean:write name="benefitInquiry" property="fringeBenefitObjectCode" />
                 </td>
                 <td>
-                 <kul:htmlControlAttribute property="benefitInquiry[${ctr}].benefitAmount" attributeEntry="${benefitInq.benefitAmount}" readOnly="true" />
+                  <bean:write name="benefitInquiry" property="benefitAmount" />
                 </td>
               </tr>
             </logic:iterate>

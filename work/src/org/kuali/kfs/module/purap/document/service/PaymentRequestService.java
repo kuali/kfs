@@ -41,7 +41,7 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @return         The List of payment request documents given the purchase order id.
      */
     public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId);
-
+    
     /**
      * Obtains a list of payment request documents given the purchase order id, the invoice amount
      * and the invoice date.

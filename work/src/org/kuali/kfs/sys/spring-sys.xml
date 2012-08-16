@@ -60,8 +60,10 @@
                 <value>clearCacheJob</value>
 				<value>purgeReportsAndStagingJob</value>
 				<value>autoDisapproveJob</value>
-		                <value>dailyEmailJob</value>
-                		<value>weeklyEmailJob</value>
+		        <value>dailyEmailJob</value>
+                <value>weeklyEmailJob</value>
+                <value>modulesLockJob</value>
+				<value>modulesUnlockJob</value>
             </list>
         </property>
         <property name="fiscalYearMakers">
@@ -887,6 +889,160 @@
     </bean>
 
     <bean id="weeklyEmailStep" class="org.kuali.kfs.sys.batch.WeeklyEmailStep" parent="step" />
+    
+    <bean id="modulesLockJob" parent="modulesLockJob-parentBean"/>
+    <bean id="modulesLockJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
+		<property name="steps">
+			<list>
+				<ref bean="lockARModuleStep" />
+				<ref bean="lockLDModuleStep" />
+				<ref bean="lockGLModuleStep" />
+				<ref bean="lockBCModuleStep" />
+				<ref bean="lockCABModuleStep" />
+				<ref bean="lockCOAModuleStep" />
+				<ref bean="lockCAMModuleStep" />
+				<ref bean="lockPURAPModuleStep" />
+				<ref bean="lockSYSModuleStep" />
+				<ref bean="lockVNDModuleStep" />
+				<ref bean="lockFPModuleStep" />
+				<ref bean="lockECModuleStep" />
+				<ref bean="lockPDPModuleStep" />
+				<ref bean="lockCGModuleStep" />
+				<ref bean="lockENDOWModuleStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="lockARModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="KFS-AR"/>
+	</bean>    
+	<bean id="lockLDModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="KFS-LD"/>
+	</bean>
+	<bean id="lockGLModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="KFS-GL"/>
+	</bean>
+	<bean id="lockBCModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="KFS-BC"/>
+	</bean>
+	<bean id="lockCABModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="KFS-CAB"/>
+	</bean>
+	<bean id="lockCOAModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="KFS-COA"/>
+	</bean>
+	<bean id="lockCAMModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="KFS-CAM"/>
+	</bean>
+	<bean id="lockPURAPModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="KFS-PURAP"/>
+	</bean>
+	<bean id="lockSYSModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="KFS-SYS"/>
+	</bean>
+	<bean id="lockVNDModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="KFS-VND"/>
+	</bean>
+	<bean id="lockFPModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="KFS-FP"/>
+	</bean>
+	<bean id="lockECModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="KFS-EC"/>
+	</bean>
+	<bean id="lockPDPModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="KFS-PDP"/>
+	</bean>
+	<bean id="lockCGModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="KFS-CG"/>
+	</bean>
+	<bean id="lockENDOWModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="KFS-ENDOW"/>
+	</bean>
+	
+	<bean id="modulesUnlockJob" parent="modulesUnlockJob-parentBean"/>
+	<bean id="modulesUnlockJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
+		<property name="steps">
+			<list>
+				<ref bean="unlockARModuleStep" />
+				<ref bean="unlockLDModuleStep" />
+				<ref bean="unlockGLModuleStep" />
+				<ref bean="unlockBCModuleStep" />
+				<ref bean="unlockCABModuleStep" />
+				<ref bean="unlockCOAModuleStep" />
+				<ref bean="unlockCAMModuleStep" />
+				<ref bean="unlockPURAPModuleStep" />
+				<ref bean="unlockSYSModuleStep" />
+				<ref bean="unlockVNDModuleStep" />
+				<ref bean="unlockFPModuleStep" />
+				<ref bean="unlockECModuleStep" />
+				<ref bean="unlockPDPModuleStep" />
+				<ref bean="unlockCGModuleStep" />
+				<ref bean="unlockENDOWModuleStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="unlockARModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="KFS-AR"/>
+	</bean>
+	<bean id="unlockLDModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="KFS-LD"/>
+	</bean>
+	<bean id="unlockGLModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="KFS-GL"/>
+	</bean>
+	<bean id="unlockBCModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="KFS-BC"/>
+	</bean>
+	<bean id="unlockCABModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="KFS-CAB"/>
+	</bean>
+	<bean id="unlockCOAModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="KFS-COA"/>
+	</bean>
+	<bean id="unlockCAMModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="KFS-CAM"/>
+	</bean>
+	<bean id="unlockPURAPModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="KFS-PURAP"/>
+	</bean>
+	<bean id="unlockSYSModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="KFS-SYS"/>
+	</bean>
+	<bean id="unlockVNDModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="KFS-VND"/>
+	</bean>
+	<bean id="unlockFPModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="KFS-FP"/>
+	</bean>
+	<bean id="unlockECModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="KFS-EC"/>
+	</bean>
+	<bean id="unlockPDPModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="KFS-PDP"/>
+	</bean>
+	<bean id="unlockCGModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="KFS-CG"/>
+	</bean>
+	<bean id="unlockENDOWModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="KFS-ENDOW"/>
+	</bean>
+	
+	<bean id="lockModuleStep" class="org.kuali.kfs.sys.batch.LockModuleStep" parent="step">
+		<property name="lockModuleService" ref="lockModuleService" />
+		<property name="lockModule" value="true" />
+	</bean>
+	
+	<bean id="unlockModuleStep" class="org.kuali.kfs.sys.batch.LockModuleStep" parent="step">
+		<property name="lockModuleService" ref="lockModuleService" />
+		<property name="lockModule" value="false" />
+	</bean>
+	
+	<bean id="lockModuleService" parent="lockModuleService-parentBean"/>
+	<bean id="lockModuleService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.LockModuleServiceImpl" abstract="true">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="parameterService" ref="parameterService" />
+	</bean>
     
     <bean id="FlatFileParser" abstract="true" class="org.kuali.kfs.sys.batch.FlatFileParserBase">    
 		<property name="dateTimeService" ref="dateTimeService" />

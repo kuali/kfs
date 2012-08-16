@@ -19,18 +19,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.pdp.PdpConstants.PayeeIdTypeCodes;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.pdp.PdpConstants.PayeeIdTypeCodes;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiInteger;
-import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -114,7 +114,6 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
         this.bankAccountNumber = bankAccountNumber;
     }
 
-
     /**
      * Gets the payee's name from KIM or Vendor data, if the payee type is Employee, Entity or Vendor;
      * otherwise returns the stored field value.
@@ -128,31 +127,21 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
             if (ObjectUtils.isNotNull(person)) {
                 return person.getName();
             }
-            else {
-                return null;
-            }
         }
         // for Entity, retrieve from Entity table by entity ID
         else if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.ENTITY)) {
             if(ObjectUtils.isNotNull(payeeIdNumber)) {
-                EntityDefault entity = SpringContext.getBean(IdentityService.class).getEntityDefault(payeeIdNumber);
-                if (ObjectUtils.isNotNull(entity)) {
+                EntityDefault entity = KimApiServiceLocator.getIdentityService().getEntityDefault(payeeIdNumber);
+                if (ObjectUtils.isNotNull(entity) && ObjectUtils.isNotNull(entity.getName())) {
                     return entity.getName().getCompositeName();
                 }
-                else {
-                    return null;
-                }
             }
-            return payeeName;
         }
         // for Vendor, retrieves from Vendor table by vendor number
         else if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.VENDOR_ID)) {
             VendorDetail vendor = SpringContext.getBean(VendorService.class).getVendorDetail(payeeIdNumber);
             if (ObjectUtils.isNotNull(vendor)) {
                 return vendor.getVendorName();
-            }
-            else {
-                return null;
             }
         }
 
@@ -182,14 +171,11 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
             if (ObjectUtils.isNotNull(person)) {
                 return person.getEmailAddress();
             }
-            else {
-                return null;
-            }
         }
         // for Entity, retrieve from Entity table by entity ID then from Person table
         else if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.ENTITY)) {
             if(ObjectUtils.isNotNull(payeeIdNumber)) {
-                EntityDefault entity = SpringContext.getBean(IdentityService.class).getEntityDefault(payeeIdNumber);
+                EntityDefault entity = KimApiServiceLocator.getIdentityService().getEntityDefault(payeeIdNumber);
                 if (ObjectUtils.isNotNull(entity)) {
                     List<Principal> principals = entity.getPrincipals();
                     if (principals.size() > 0 && ObjectUtils.isNotNull(principals.get(0))) {
@@ -198,19 +184,9 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
                         if (ObjectUtils.isNotNull(person)) {
                             return person.getEmailAddress();
                         }
-                        else {
-                            return null;
-                        }
                     }
-                    else {
-                        return null;
-                    }
-                }
-                else {
-                    return null;
                 }
             }
-            return payeeEmailAddress;
         }
 
         // otherwise returns the field value

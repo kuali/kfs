@@ -70,6 +70,7 @@ public class CashReceiptAction extends CapitalAccountingLinesActionBase {
             // handle changes to checks (but only if current checkEntryMode is 'detail')
             if (CashReceiptDocument.CHECK_ENTRY_DETAIL.equals(cdoc.getCheckEntryMode())) {
                 cdoc.setTotalCheckAmount(cdoc.calculateCheckTotal()); // recalc b/c changes to the amounts could have happened
+                cdoc.setTotalConfirmedCheckAmount(cdoc.calculateConfirmedCheckTotal());
                 processChecks(cdoc, cform);
             }
 

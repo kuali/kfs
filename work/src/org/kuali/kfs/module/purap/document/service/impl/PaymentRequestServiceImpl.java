@@ -138,7 +138,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     protected FinancialSystemWorkflowHelperService financialSystemWorkflowHelperService;
     protected KualiRuleService kualiRuleService;
     protected PersonService personService;
-    
+
     /**
      * NOTE: unused
      *
@@ -226,12 +226,18 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     @Override
     public boolean autoApprovePaymentRequests() {
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info("Starting autoApprovePaymentRequests.");
+        }
         boolean hadErrorAtLeastOneError = true;
         // should objects from existing user session be copied over
         Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
 
         List<String> docNumbers = paymentRequestDao.getEligibleForAutoApproval(todayAtMidnight);
         docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE);
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info(" -- Initial filtering complete, returned " + new Integer(docNumbers.size()).toString() + " docs.");
+        }
 
         List<PaymentRequestDocument> docs = new ArrayList<PaymentRequestDocument>();
         for (String docNumber : docNumbers) {
@@ -246,6 +252,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         if (docs != null) {
             String samt = parameterService.getParameterValueAsString(PaymentRequestDocument.class, PurapParameterConstants.PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT);
             KualiDecimal defaultMinimumLimit = new KualiDecimal(samt);
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(" -- Using default limit value of " + defaultMinimumLimit.toString() + ".");
+            }
             for (PaymentRequestDocument paymentRequestDocument : docs) {
                 hadErrorAtLeastOneError |= !autoApprovePaymentRequest(paymentRequestDocument, defaultMinimumLimit);
             }
@@ -354,16 +363,25 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     protected boolean isEligibleForAutoApproval(PaymentRequestDocument document, KualiDecimal defaultMinimumLimit) {
         // Check if vendor is foreign.
         if (document.getVendorDetail().getVendorHeader().getVendorForeignIndicator().booleanValue()) {
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(" -- PayReq ["+document.getDocumentNumber()+"] skipped due to a Foreign Vendor.");
+            }
             return false;
         }
 
         // check to make sure the payment request isn't scheduled to stop in tax review.
         if (purapWorkflowIntegrationService.willDocumentStopAtGivenFutureRouteNode(document, PaymentRequestStatuses.NODE_VENDOR_TAX_REVIEW)) {
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(" -- PayReq ["+document.getDocumentNumber()+"] skipped due to requiring Tax Review.");
+            }
             return false;
         }
 
         // Change to not auto approve if positive approval required indicator set to Yes
         if (document.isPaymentRequestPositiveApprovalIndicator()) {
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(" -- PayReq ["+document.getDocumentNumber()+"] skipped due to a Positive Approval Required Indicator set to Yes.");
+            }
             return false;
         }
 
@@ -383,6 +401,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             autoApproveMap.put("active", true);
             AutoApproveExclude autoApproveExclude = (AutoApproveExclude) businessObjectService.findByPrimaryKey(AutoApproveExclude.class, autoApproveMap);
             if (autoApproveExclude != null) {
+                if ( LOG.isInfoEnabled() ) {
+                LOG.info(" -- PayReq ["+document.getDocumentNumber()+"] skipped due to source accounting line " + line.getSequenceNumber() +
+                        " using Chart/Account [" + line.getChartOfAccountsCode() + "-" + line.getAccountNumber() +
+                        "], which is excluded in the Auto Approve Exclusions table.");
+                }
                 return false;
             }
 
@@ -393,6 +416,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         // If Receiving required is set, it's not needed to check the negative payment request approval limit
         if (document.isReceivingDocumentRequiredIndicator()) {
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(" -- PayReq ["+document.getDocumentNumber()+"] auto-approved (ignored dollar limit) due to Receiving Document Required Indicator set to Yes.");
+            }
             return true;
         }
 
@@ -403,7 +429,20 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         // The document is eligible for auto-approval if the document total is below the limit.
         if (document.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().isLessThan(minimumAmount)) {
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info(" -- PayReq ["+document.getDocumentNumber()+"] auto-approved due to document Total [" + 
+                        document.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount() + "] being less than " + 
+                        (minimumAmount == defaultMinimumLimit ? "Default Auto-Approval Limit " : "Configured Auto-Approval Limit ") +
+                        "of " + (minimumAmount == null ? "null" : minimumAmount.toString()) + ".");
+            }
             return true;
+        }
+
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info(" -- PayReq ["+document.getDocumentNumber()+"] skipped due to document Total [" + 
+                    document.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount() + "] being greater than " + 
+                    (minimumAmount == defaultMinimumLimit ? "Default Auto-Approval Limit " : "Configured Auto-Approval Limit ") +
+                    "of " + (minimumAmount == null ? "null" : minimumAmount.toString()) + ".");
         }
 
         return false;
@@ -1146,7 +1185,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     //there is a check in that method to throw NPE if accounts percents == 0..
                     //KFSMI-8487
                     if (summaryAccounts != null) {
-                        distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, PaymentRequestAccount.class);
+                    distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, PaymentRequestAccount.class);
                     }
                     if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
                         purapAccountingService.updatePreqAccountAmountsWithTotal(distributedAccounts, item.getTotalAmount());
@@ -1177,9 +1216,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                         //there is a check in that method to throw NPE if accounts percents == 0..
                         //KFSMI-8487
                         if (summaryAccounts != null) {
-                            distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"), PaymentRequestAccount.class);
-                        }
+                        distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"), PaymentRequestAccount.class);
                     }
+                }
                 }
                 if (CollectionUtils.isNotEmpty(distributedAccounts) && CollectionUtils.isEmpty(item.getSourceAccountingLines())) {
                     item.setSourceAccountingLines(distributedAccounts);
@@ -1203,15 +1242,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         document.addNote(noteObj);
         noteService.save(noteObj);
 
-        // retrieve and save with hold indicator set to true
-        PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
-        preqDoc.setHoldIndicator(true);
-        preqDoc.setLastActionPerformedByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
-        purapService.saveDocumentNoValidation(preqDoc);
-
-        // must also save it on the incoming document
+        //MSU Contribution KFSMI-8456 DT 3822 KFSCNTRB-959
+       
         document.setHoldIndicator(true);
         document.setLastActionPerformedByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        purapService.saveDocumentNoValidation(document);
 
         return document;
     }
@@ -1226,17 +1261,13 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         document.addNote(noteObj);
         noteService.save(noteObj);
 
-        // retrieve and save with hold indicator set to false
-        PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
-        preqDoc.setHoldIndicator(false);
-        preqDoc.setLastActionPerformedByPersonId(null);
-        purapService.saveDocumentNoValidation(preqDoc);
-
-        // must also save it on the incoming document
+        //MSU Contribution KFSMI-8456 DT 3822 KFSCNTRB-959
+       
         document.setHoldIndicator(false);
         document.setLastActionPerformedByPersonId(null);
+        purapService.saveDocumentNoValidation(document);
 
-        return preqDoc;
+        return document;
     }
 
     /**
@@ -1250,17 +1281,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         document.addNote(noteObj);
         noteService.save(noteObj);
 
-        // retrieve and save with hold indicator set to true
-        PaymentRequestDocument preqDoc = getPaymentRequestByDocumentNumber(paymentRequestDao.getDocumentNumberByPaymentRequestId(document.getPurapDocumentIdentifier()));
-        preqDoc.setPaymentRequestedCancelIndicator(true);
-        preqDoc.setLastActionPerformedByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
-        preqDoc.setAccountsPayableRequestCancelIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
-        purapService.saveDocumentNoValidation(preqDoc);
-
-        // must also save it on the incoming document
+        //MSU Contribution KFSMI-8456 DTT 3822 KFSCNTRB-959
         document.setPaymentRequestedCancelIndicator(true);
         document.setLastActionPerformedByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
         document.setAccountsPayableRequestCancelIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        purapService.saveDocumentNoValidation(document);
     }
 
     /**

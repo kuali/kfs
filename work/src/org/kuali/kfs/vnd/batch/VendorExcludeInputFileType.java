@@ -19,11 +19,13 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -34,6 +36,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import au.com.bytecode.opencsv.CSVReader;
 
 public class VendorExcludeInputFileType extends BatchInputFileTypeBase{
+    private static final Logger LOG = Logger.getLogger(VendorExcludeInputFileType.class);
 
     private static final String FILE_NAME_PREFIX = "epls_debarred_vendors_";
     public static final int[] FIELD_SIZES = {200, 150, 50, 50, 20, 2, 20, 1000, 1000}; //Size limits for the fields
@@ -98,62 +101,114 @@ public class VendorExcludeInputFileType extends BatchInputFileTypeBase{
 
     @Override
     public Object parse(byte[] fileByteContent) throws ParseException {
-        CSVReader reader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(fileByteContent)));
+        LOG.info("Parsing Vendor Exclude Input File ...");
+        
+        // create CSVReader, using conventional separator, quote, null escape char, skip first line, use strict quote, ignore leading white space 
+        int skipLine = 1; // skip the first line, which is the header line
+        Reader inReader = new InputStreamReader(new ByteArrayInputStream(fileByteContent));
+        CSVReader reader = new CSVReader(inReader, ',', '"', Character.MIN_VALUE, skipLine, true, true);
+        
         List <DebarredVendorDetail> debarredVendors = new ArrayList<DebarredVendorDetail>();
         String[] nextLine;
         DebarredVendorDetail vendor;
-        try {
-            nextLine = reader.readNext(); // skip first line
+        int lineNumber = skipLine; 
+        
+        try {           
             while ((nextLine = reader.readNext()) != null) {
+                lineNumber++; 
+                LOG.debug("Line " + lineNumber + ": " + nextLine[0]);
+                
                 vendor = new DebarredVendorDetail();
-                StringBuffer name = new StringBuffer();
-                if (StringUtils.isEmpty(nextLine[0])) {
-                    //If the name is empty then there must be a first/middle/last name
-                    name.append(StringUtils.remove(nextLine[1], "\"") + " " + StringUtils.remove(nextLine[2], "\""));
-                    if (nextLine.length > 3) {
-                        name.append(" " + StringUtils.remove(nextLine[3], "\""));
-                    }
-                    if (nextLine.length > 4) {
-                        name.append(" " + StringUtils.remove(nextLine[4], "\""));
-                    }
-                    if (nextLine.length > 5) {
-                        name.append(" " + StringUtils.remove(nextLine[5], "\""));
-                    }
-                } else {
-                    name.append(StringUtils.remove(nextLine[0], "\""));
+                boolean emptyLine = true; 
+                
+                // this should never happen, as for an empty line, CSVReader.readNext returns a string array with an empty string as the only element 
+                // but just in case somehow a zero sized array is returned, we skip it.
+                if (nextLine.length == 0) {
+                    continue;                   
                 }
-                vendor.setName(StringUtils.left(name.toString(), FIELD_SIZES[0]));
-                if (nextLine.length > 6) {
+
+                StringBuffer name = new StringBuffer();  
+                // if the name field is not empty, use that as vendor name 
+                if (StringUtils.isNotEmpty(nextLine[0])) {                    
+                    name.append(nextLine[0]);
+                }
+                // otherwise, there should be a first/middle/last name, which we concatenate into vendor name
+                else {
+                    if (nextLine.length > 1 && !StringUtils.isNotEmpty(nextLine[1])) {
+                        name.append(" " + nextLine[1]);
+                    }
+                    if (nextLine.length > 2 && !StringUtils.isNotEmpty(nextLine[2])) {
+                        name.append(" " + nextLine[2]);
+                    }
+                    if (nextLine.length > 3 && !StringUtils.isNotEmpty(nextLine[3])) {
+                        name.append(" " + nextLine[3]);
+                    }
+                    if (nextLine.length > 4 && !StringUtils.isNotEmpty(nextLine[4])) {
+                        name.append(" " + nextLine[4]);
+                    }
+                    if (nextLine.length > 5 && StringUtils.isNotEmpty(nextLine[5])) {
+                        name.append(" " + nextLine[5]);
+                    }
+                }
+                if (StringUtils.isNotEmpty(name.toString())) {
+                    vendor.setName(StringUtils.left(name.toString(), FIELD_SIZES[0]));
+                    emptyLine = false;
+                }
+                
+                if (nextLine.length > 6 && StringUtils.isNotEmpty(nextLine[6])) {
                     vendor.setAddress1(StringUtils.left(nextLine[6], FIELD_SIZES[1]));
+                    emptyLine = false;
                 }
-                if (nextLine.length > 7) {
+                if (nextLine.length > 7 && StringUtils.isNotEmpty(nextLine[7])) {
                     vendor.setAddress2(StringUtils.left(nextLine[7], FIELD_SIZES[2]));
+                    emptyLine = false;
                 }
-                if (nextLine.length > 8) {
+                if (nextLine.length > 8 && StringUtils.isNotEmpty(nextLine[8])) {
                     vendor.setCity(StringUtils.left(nextLine[8], FIELD_SIZES[3]));
+                    emptyLine = false;
                 }
-                if (nextLine.length > 9) {
+                if (nextLine.length > 9 && StringUtils.isNotEmpty(nextLine[9])) {
                     vendor.setProvince(StringUtils.left(nextLine[9], FIELD_SIZES[4]));
+                    emptyLine = false;
                 }
-                if (nextLine.length > 10) {
+                if (nextLine.length > 10 && StringUtils.isNotEmpty(nextLine[10])) {
                     vendor.setState(StringUtils.left(nextLine[10], FIELD_SIZES[5]));
+                    emptyLine = false;
                 }
-                if (nextLine.length > 11) {
+                if (nextLine.length > 11 && StringUtils.isNotEmpty(nextLine[11])) {
                     vendor.setZip(StringUtils.left(nextLine[11], FIELD_SIZES[6]));
+                    emptyLine = false;
                 }
-                if (nextLine.length > 13) {
+                if (nextLine.length > 13 && StringUtils.isNotEmpty(nextLine[13])) {
                     vendor.setAliases(StringUtils.left(StringUtils.remove(nextLine[13], "\""), FIELD_SIZES[7]));
+                    emptyLine = false;
                 }
-                vendor.setLoadDate(new Date(new java.util.Date().getTime()));
-                if (nextLine.length > 18) {
+                if (nextLine.length > 18 && StringUtils.isNotEmpty(nextLine[18])) {
                     vendor.setDescription(StringUtils.left(nextLine[18], FIELD_SIZES[8]));
+                    emptyLine = false;
                 }
-                debarredVendors.add(vendor);
+                
+                if (emptyLine) {
+                    /* give warnings on a line that doesn't have any useful vendor info
+                    LOG.warn("Note: line " + lineNumber + " in the Vendor Exclude Input File is skipped since all parsed fields are empty.");
+                    */
+                    // throw parser exception on a line that doesn't have any useful vendor info.
+                    // Since the file usually doesn't contain empty lines or lines with empty fields, this happening usually is a good indicator that 
+                    // some line ahead has wrong data format, for ex, missing a quote on a field, which could mess up the following fields and lines. 
+                    throw new ParseException("Line " + lineNumber + " in the Vendor Exclude Input File contains no valid field or only empty fields within quote pairs. Please check the lines ahead to see if any field is missing quotes.");
+                }
+                else {
+                    vendor.setLoadDate(new Date(new java.util.Date().getTime()));
+                    debarredVendors.add(vendor);
+                }
             }
         }
         catch (IOException ex) {
-            throw new ParseException(ex.getMessage());
+            throw new ParseException("Error reading Vendor Exclude Input File at line " + lineNumber + ": " + ex.getMessage());
         }
+        
+        LOG.info("Total number of lines read from Vendor Exclude Input File: " + lineNumber);
+        LOG.info("Total number of vendors parsed from Vendor Exclude Input File: " + debarredVendors.size());
         return debarredVendors;
     }
 

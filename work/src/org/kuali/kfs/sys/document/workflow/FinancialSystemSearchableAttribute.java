@@ -130,16 +130,19 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
 
             Field chartField = FieldUtils.getPropertyField(alClass, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, true);
             chartField.setFieldDataType(SearchableAttributeConstants.DATA_TYPE_STRING);
+            chartField.setColumnVisible(false);
             LookupUtils.setFieldQuickfinder(alBusinessObject, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartField, Collections.singletonList(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
             docSearchRows.add(new Row(Collections.singletonList(chartField)));
 
             Field orgField = FieldUtils.getPropertyField(Organization.class, KFSPropertyConstants.ORGANIZATION_CODE, true);
             orgField.setFieldDataType(SearchableAttributeConstants.DATA_TYPE_STRING);
+            orgField.setColumnVisible(false);
             LookupUtils.setFieldQuickfinder(new Account(), KFSPropertyConstants.ORGANIZATION_CODE, orgField, Collections.singletonList(KFSPropertyConstants.ORGANIZATION_CODE));
             docSearchRows.add(new Row(Collections.singletonList(orgField)));
 
             Field accountField = FieldUtils.getPropertyField(alClass, KFSPropertyConstants.ACCOUNT_NUMBER, true);
             accountField.setFieldDataType(SearchableAttributeConstants.DATA_TYPE_STRING);
+            accountField.setColumnVisible(false);
             LookupUtils.setFieldQuickfinder(alBusinessObject, KFSPropertyConstants.ACCOUNT_NUMBER, accountField, Collections.singletonList(KFSPropertyConstants.ACCOUNT_NUMBER));
             docSearchRows.add(new Row(Collections.singletonList(accountField)));
         }

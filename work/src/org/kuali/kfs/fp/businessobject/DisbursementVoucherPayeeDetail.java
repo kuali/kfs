@@ -74,9 +74,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     private String disbVchrVendorDetailAssignedIdNumber;
     private String disbVchrVendorAddressIdNumber;
     private boolean hasMultipleVendorAddresses = false;
-
-    // The following universal user-associated attributes are for convenience only and are not mapped to OJB or the the DB.
-    private String disbVchrEmployeeIdNumber;
     
     private StateEbo disbVchrPayeeState;
     private CountryEbo disbVchrPayeeCountry;    
@@ -249,25 +246,10 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      */
     public String getDisbVchrEmployeeIdNumber() {
         if (this.isEmployee()) {
-            if (StringUtils.isBlank(disbVchrEmployeeIdNumber)) {
-                disbVchrEmployeeIdNumber = disbVchrPayeeIdNumber;
-            }
+            return disbVchrPayeeIdNumber;
         }
         else { // Return null if payee is not a employee
             return null;
-        }
-        return disbVchrEmployeeIdNumber;
-    }
-
-    /**
-     * This method...
-     * 
-     * @param disbVchrPersonIdNumber
-     */
-    public void setDisbVchrEmployeeIdNumber(String disbVchrEmployeeIdNumber) {
-        // This field should only be set if the payee type is "E", otherwise, ignore any calls
-        if (this.isEmployee()) {
-            this.disbVchrEmployeeIdNumber = disbVchrEmployeeIdNumber;
         }
     }
 

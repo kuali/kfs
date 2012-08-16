@@ -23,7 +23,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
 import org.kuali.kfs.fp.businessobject.lookup.AbstractPayeeLookupableHelperServiceImpl;
-import org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.businessobject.ACHPayee;
@@ -32,7 +31,6 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
-import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
@@ -190,20 +188,6 @@ public class ACHPayeeLookupableHelperServiceImpl extends AbstractPayeeLookupable
         if (GlobalVariables.getMessageMap().hasErrors()) {
             throw new ValidationException("errors in search criteria");
         }
-    }
-
-    /**
-     * Override to not filter rows based on payment reason
-     * 
-     * @see org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl#filterReturnUrl(java.util.List,
-     *      java.util.List, java.lang.String)
-     *      
-     * KRAD Conversion: Performs customization of the result list of rows.
-     *      
-     * No use of data dictionary
-     */
-    @Override
-    protected void filterReturnUrl(List<ResultRow> resultRowList, List<DisbursementPayee> payeeList, String paymentReasonCode) {
     }
 
 }

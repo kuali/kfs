@@ -33,6 +33,7 @@ public interface DisbursementVoucherExtractService {
     
     /**
      * Pulls all disbursement voucher which pay checks and which are marked as "immediate payment" from the database and builds payment information for them 
+     * @deprecated this method is not used in batch any longer (immediate extract of DV's occurs in the DV's own route status change handler) and the code seems a bit fishy at this point, so likely, institutions shouldn't be using this
      */
     public void extractImmediatePayments();
     

@@ -60,6 +60,9 @@ public class DepositWizardForm extends KualiForm {
     private CurrencyDetail currencyDetail;
     private CoinDetail coinDetail;
     
+    private KualiDecimal targetDepositAmount;
+    private KualiDecimal currentCheckTotal;
+    
     // carried over editing modes and document actions to make the bank tags happy
     protected Map editingMode;
     protected Map documentActions;
@@ -451,6 +454,58 @@ public class DepositWizardForm extends KualiForm {
      */
     public void setEditingMode(Map editingMode) {
         this.editingMode = editingMode;
+    }
+    
+    /**
+     * @return the total target amount which needs deposited
+     */
+    public KualiDecimal getTargetDepositAmount() {
+        return targetDepositAmount;
+    }
+
+    /**
+     * Adds a cash receipt to the target total amount for the given deposit (if the deposit was final)
+     * The amount to add is: confirmed check amount + confirmed currency amount + confirmed coin amount - change request
+     * currency amount - change request coin amount
+     * @param crDoc
+     */
+    public void addCashReceiptToTargetTotal(CashReceiptDocument crDoc) {
+        if (targetDepositAmount == null) {
+            targetDepositAmount = KualiDecimal.ZERO;
+        }
+        if (crDoc.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED) || crDoc.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.CashReceipt.FINAL)) {
+            targetDepositAmount = targetDepositAmount.add(crDoc.getTotalConfirmedCheckAmount());
+        }
+        targetDepositAmount = targetDepositAmount.add(crDoc.getConfirmedCurrencyDetail().getTotalAmount()).subtract(crDoc.getChangeCurrencyDetail().getTotalAmount()).add(crDoc.getConfirmedCoinDetail().getTotalAmount()).subtract(crDoc.getChangeCoinDetail().getTotalAmount());
+    }
+
+    /**
+     * Adds total undeposited cashiering transaction amount to the target total
+     * @param transaction
+     */
+    public void addCashieringTransactionToTargetTotal(KualiDecimal undepositedCheckAmount) {
+        if (targetDepositAmount == null) {
+            targetDepositAmount = KualiDecimal.ZERO;
+        }
+        targetDepositAmount = targetDepositAmount.subtract(undepositedCheckAmount);
+    }
+
+    /**
+     * @return the current amount for checks needing depositing
+     */
+    public KualiDecimal getCurrentCheckTotal() {
+        return currentCheckTotal;
+    }
+
+    /**
+     * Adds the check total for a cash receipt to checks
+     * @param crDoc
+     */
+    public void addCashReceiptToChecks(CashReceiptDocument crDoc) {
+        if (currentCheckTotal == null) {
+            currentCheckTotal = KualiDecimal.ZERO;
+        }
+        currentCheckTotal = currentCheckTotal.add(crDoc.getTotalConfirmedCheckAmount());
     }
 
     /**

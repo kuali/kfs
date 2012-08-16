@@ -34,11 +34,14 @@ public class PurchasingAccountsPayableAccountPercentValidation extends GenericVa
      */
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-        
+        boolean isAnyAccountingLineZero = false;
         // validate that the percents total 100 for each item
         BigDecimal totalPercent = BigDecimal.ZERO;
         BigDecimal desiredPercent = new BigDecimal("100");
         for (PurApAccountingLine account : itemForValidation.getSourceAccountingLines()) {
+            if(account.getAccountLinePercent() != null && account.getAccountLinePercent().compareTo(BigDecimal.ZERO) == 0){
+                isAnyAccountingLineZero = true;
+            }
             if (account.getAccountLinePercent() != null) {
                 totalPercent = totalPercent.add(account.getAccountLinePercent());
             }
@@ -48,6 +51,12 @@ public class PurchasingAccountsPayableAccountPercentValidation extends GenericVa
         }
         if (desiredPercent.compareTo(totalPercent) != 0) {
             GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_TOTAL, itemForValidation.getItemIdentifierString());
+            valid = false;
+        }
+        
+        //MSU Contribution KFSMI-8470 DTT-3147 KFSCNTRB-962
+        if(isAnyAccountingLineZero && itemForValidation.getSourceAccountingLines().size() > 1){
+            GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_ZERO, itemForValidation.getItemIdentifierString());
             valid = false;
         }
 

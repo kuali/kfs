@@ -275,7 +275,10 @@ public class LaborCorrectionAction extends CorrectionAction {
                 else {
                     laborCorrectionForm.setDataLoadedFlag(false);
                 }
-                laborCorrectionForm.setShowOutputFlag(false);
+                laborCorrectionForm.setShowOutputFlag(documentActions.containsKey(KRADConstants.KUALI_ACTION_CAN_APPROVE));
+                if (laborCorrectionForm.getShowOutputFlag() && !laborCorrectionForm.isRestrictedFunctionalityMode()) {
+                    updateEntriesFromCriteria(laborCorrectionForm, false);
+                }
                 laborCorrectionForm.setInputFileName(laborDocument.getCorrectionInputFileName());
                 if (laborDocument.getCorrectionInputFileName() != null) {
                     laborCorrectionForm.setChooseSystem(CorrectionDocumentService.SYSTEM_UPLOAD);
@@ -1134,7 +1137,7 @@ public class LaborCorrectionAction extends CorrectionAction {
             present = originEntryGroupService.getGroupExists(((LaborCorrectionDocument) laborCorrectionForm.getDocument()).getCorrectionInputFileName());
         }
         else {
-            present = SpringContext.getBean(CorrectionDocumentService.class).areInputOriginEntriesPersisted((LaborCorrectionDocument) laborCorrectionForm.getDocument());
+            present = SpringContext.getBean(LaborCorrectionDocumentService.class).areInputOriginEntriesPersisted((LaborCorrectionDocument) laborCorrectionForm.getDocument());
         }
         if (!present) {
             GlobalVariables.getMessageMap().putError(SYSTEM_AND_EDIT_METHOD_ERROR_KEY, KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_PERSISTED_ORIGIN_ENTRIES_MISSING);

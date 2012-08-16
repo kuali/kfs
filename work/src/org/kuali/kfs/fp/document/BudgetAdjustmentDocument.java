@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -906,65 +907,71 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      * is not contract and grants 5) current income/expense decrease amount must equal increase amount
      * @return false if auto-approval can occur (and therefore, full approval is not required); true if a full approval is required
      */
+    //MSU Contribution DTT-3059, DTT-3235 KFSMI-8689 KFSCNTRB-941 - Re-implemented this method to execute the rules correctly
     protected boolean requiresFullApproval() {
-        boolean fullApprovalRequired = false;
-
-        // new list so that sourceAccountingLines isn't modified by addAll statement. Important for
-        // total calculations below.
-        List accountingLines = new ArrayList();
+        List<BudgetAdjustmentAccountingLine> accountingLines = new ArrayList<BudgetAdjustmentAccountingLine>();
         accountingLines.addAll(getSourceAccountingLines());
         accountingLines.addAll(getTargetAccountingLines());
 
-        /* only one account can be present on document and only current adjustments allowed */
-        String chart = "";
-        String accountNumber = "";
-        for (Iterator iter = accountingLines.iterator(); iter.hasNext();) {
-            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
-            if (StringUtils.isNotBlank(accountNumber)) {
-                if (!accountNumber.equals(line.getAccountNumber()) && !chart.equals(line.getChartOfAccountsCode())) {
-                    fullApprovalRequired = true;
-                    break;
-                }
-            }
+        HashSet<String> distinctAccts = new HashSet<String>();
+        HashSet<String> distinctObjs = new HashSet<String>();
+        String accountKey = "";
+        String objCdKey = "";
 
-            if (line.getBaseBudgetAdjustmentAmount().isNonZero()) {
-                fullApprovalRequired = true;
-                break;
+        for (BudgetAdjustmentAccountingLine account : accountingLines) {
+            if(account.getBaseBudgetAdjustmentAmount().isNonZero()){
+                return true;
             }
-            chart = line.getChartOfAccountsCode();
-            accountNumber = line.getAccountNumber();
+            accountKey = account.getChartOfAccountsCode() + "-" + account.getAccountNumber();
+            objCdKey = account.getPostingYear() + "-" + account.getChartOfAccountsCode() + "-" + account.getFinancialObjectCode();
+            distinctAccts.add(accountKey);
+            distinctObjs.add(objCdKey);
+            if (distinctAccts.size() > 1 || distinctObjs.size() > 1) {
+                return true;
+            }
         }
 
+        String chart = "";
+        String accountNumber = "";
+
         // check remaining conditions
-        if (!fullApprovalRequired) {
-            // initiator should be fiscal officer or primary delegate for account
-            Person initiator = KimApiServiceLocator.getPersonService().getPerson(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-            List userAccounts = SpringContext.getBean(AccountService.class).getAccountsThatUserIsResponsibleFor(initiator);
+        // initiator should be fiscal officer or primary delegate for account
+        Person initiator = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        List userAccounts = SpringContext.getBean(AccountService.class).getAccountsThatUserIsResponsibleFor(initiator);
+        //DTT:3059-Loop over all the accounts present on the document and see if user account responsibility includes them
+        for (Iterator iter1 = accountingLines.iterator(); iter1.hasNext();) {
+
+            BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter1.next();
+            chart = line.getChartOfAccountsCode();
+            accountNumber = line.getAccountNumber();
+
             Account userAccount = null;
-            for (Iterator iter = userAccounts.iterator(); iter.hasNext();) {
-                AccountResponsibility account = (AccountResponsibility) iter.next();
-                if (accountNumber.equals(account.getAccount().getAccountNumber()) && chart.equals(account.getAccount().getChartOfAccountsCode())) {
+            for (Iterator iter2 = userAccounts.iterator(); iter2.hasNext();) {
+                AccountResponsibility account = (AccountResponsibility) iter2.next();
+                if (chart.equals(account.getAccount().getChartOfAccountsCode()) && accountNumber.equals(account.getAccount().getAccountNumber())) {
                     userAccount = account.getAccount();
                     break;
                 }
             }
 
             if (userAccount == null) {
-                fullApprovalRequired = true;
+                return true;
             }
             else {
                 // fund group should not be CG
                 if (userAccount.isForContractsAndGrants()) {
-                    fullApprovalRequired = true;
+                    return true;
                 }
 
                 // current income/expense decrease amount must equal increase amount
                 if (!getSourceCurrentBudgetIncomeTotal().equals(getTargetCurrentBudgetIncomeTotal()) || !getSourceCurrentBudgetExpenseTotal().equals(getTargetCurrentBudgetExpenseTotal())) {
-                    fullApprovalRequired = true;
+                    return true;
                 }
-            }
-        }
-        
-        return fullApprovalRequired;
+            }// End of else block.
+
+        }// End of for loop
+
+        return false;
+
     }
 }

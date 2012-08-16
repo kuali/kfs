@@ -446,7 +446,10 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                 else {
                     correctionForm.setDataLoadedFlag(false);
                 }
-                correctionForm.setShowOutputFlag(false);
+                correctionForm.setShowOutputFlag(documentActions.containsKey(KRADConstants.KUALI_ACTION_CAN_APPROVE));
+                if (correctionForm.getShowOutputFlag() && !correctionForm.isRestrictedFunctionalityMode()) {
+                    updateEntriesFromCriteria(correctionForm, false);
+                }
                 correctionForm.setInputFileName(document.getCorrectionInputFileName());
                 if (document.getCorrectionInputFileName() != null) {
                     correctionForm.setChooseSystem(CorrectionDocumentService.SYSTEM_UPLOAD);

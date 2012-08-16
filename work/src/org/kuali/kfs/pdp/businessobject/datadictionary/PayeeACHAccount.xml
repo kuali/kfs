@@ -93,7 +93,7 @@
     <property name="label" value="Bank Account Number"/>
     <property name="shortLabel" value="Bank Account Number"/>
     <property name="forceUppercase" value="true"/>
-    <property name="maxLength" value="17"/>
+    <property name="maxLength" value="40"/>
     <property name="validationPattern">
       <ref bean="AlphaNumericValidation" />
     </property>
@@ -231,7 +231,7 @@
 
   <bean id="PayeeACHAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Payee ACH Account Lookup"/>
-    
+    <property name="lookupableID" value="payeeACHAccountLookupable" />    
     <property name="defaultSort">
       <bean parent="SortDefinition">
         <property name="attributeNames">
@@ -258,6 +258,7 @@
         <bean parent="FieldDefinition" p:attributeName="payeeName"/>
         <bean parent="FieldDefinition" p:attributeName="payeeEmailAddress"/>
         <bean parent="FieldDefinition" p:attributeName="payeeIdentifierTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="achTransactionType"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>

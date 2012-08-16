@@ -178,6 +178,7 @@ public class SubAccountTrickleDownInactivationServiceImpl implements SubAccountT
                     String noteText = MessageFormat.format(noteTextTemplate, subAccountString);
                     Note note = noteService.createNote(noteTemplate, noteParent, GlobalVariables.getUserSession().getPrincipalId());
                     note.setNoteText(noteText);
+                    note.setNotePostedTimestampToCurrent();
                     noteService.save(note);
                 }
             }

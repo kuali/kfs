@@ -108,7 +108,7 @@
 		<property name="accountingLineView" ref="labor-SalaryExpenseTransferDocument-Source-accountingLineView"/>
    	 	<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine"/>
     	<property name="groupLabel" value="From"/>
-    	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseTransferAccountingLineAuthorizer"/>
+    	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.SalaryExpenseTransferAccountingLineAuthorizer"/>
     	<property name="importedLinePropertyPrefix" value="source"/>
     	<property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
     	<property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/>
@@ -121,7 +121,7 @@
 		<property name="accountingLineView" ref="labor-SalaryExpenseTransferDocument-Target-accountingLineView"/>
    	 	<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.TargetAccountingLine"/>
     	<property name="groupLabel" value="To"/>
-    	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseTransferAccountingLineAuthorizer"/>
+    	<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.SalaryExpenseTransferAccountingLineAuthorizer"/>
     	<property name="importedLinePropertyPrefix" value="target"/>
     	<property name="totals" ref="AccountingDocument-targetGroupTotals"/>
     	<property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*"/>

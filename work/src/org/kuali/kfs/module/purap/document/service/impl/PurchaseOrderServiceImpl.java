@@ -31,6 +31,8 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrBuilder;
+import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
@@ -75,6 +77,7 @@ import org.kuali.kfs.module.purap.util.ThresholdHelper;
 import org.kuali.kfs.module.purap.util.ThresholdHelper.ThresholdSummary;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent;
@@ -1602,20 +1605,23 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         Map fiscalOfficers = new HashMap();
         AdHocRoutePerson adHocRoutePerson = null;
 
-        for(PurchaseOrderItem poItem: (List<PurchaseOrderItem>)po.getItems()){
+        for(SourceAccountingLine account: (List<SourceAccountingLine>)po.getGlOnlySourceAccountingLines()){
                      // loop through accounts and pull off fiscal officer
-                    for(PurApAccountingLine account : poItem.getSourceAccountingLines()){
+                //    for(PurApAccountingLine account : poItem.getSourceAccountingLines()){
                         //check for dupes of fiscal officer
-                        if( fiscalOfficers.containsKey(account.getAccount().getAccountFiscalOfficerUser().getPrincipalName()) == false ){
+                    Account acct = SpringContext.getBean(AccountService.class).getByPrimaryId(account.getChartOfAccountsCode(), account.getAccountNumber());
+                    String principalName  = acct.getAccountFiscalOfficerUser().getPrincipalName();   
+                    //String principalName = account.getAccount().getAccountFiscalOfficerUser().getPrincipalName();
+                        if( fiscalOfficers.containsKey(principalName) == false ){
                             //add fiscal officer to list
-                            fiscalOfficers.put(account.getAccount().getAccountFiscalOfficerUser().getPrincipalName(), account.getAccount().getAccountFiscalOfficerUser().getPrincipalName());
+                            fiscalOfficers.put(principalName, principalName);
                             //create AdHocRoutePerson object and add to list
                             adHocRoutePerson = new AdHocRoutePerson();
-                            adHocRoutePerson.setId(account.getAccount().getAccountFiscalOfficerUser().getPrincipalName());
+                            adHocRoutePerson.setId(principalName);
                             adHocRoutePerson.setActionRequested(KewApiConstants.ACTION_REQUEST_FYI_REQ);
                             adHocRoutePersons.add(adHocRoutePerson);
                         }
-                    }
+                  //  }
         }
 
         return adHocRoutePersons;

@@ -27,9 +27,21 @@ public class VendorCreditMemoTotalMatchesVendorAmountValidation extends GenericV
         boolean valid = true;
         VendorCreditMemoDocument cmDocument = (VendorCreditMemoDocument)event.getDocument();
         
-        if (cmDocument.getGrandTotal().compareTo(cmDocument.getCreditMemoAmount()) != 0 && !cmDocument.isUnmatchedOverride()) {
-            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.ERROR_CREDIT_MEMO_INVOICE_AMOUNT_NONMATCH);
-            valid = false;
+        // If UseTax is included, then the invoiceInitialAmount should be compared against the 
+        // total amount NOT INCLUDING tax.
+        if (cmDocument.isUseTaxIndicator()) {
+            if (cmDocument.getGrandPreTaxTotal().compareTo(cmDocument.getCreditMemoAmount()) != 0 && !cmDocument.isUnmatchedOverride()) {
+                KNSGlobalVariables.getMessageList().add(PurapKeyConstants.ERROR_CREDIT_MEMO_INVOICE_AMOUNT_NONMATCH);
+                valid = false;
+            }
+        }
+        // If NO UseTax, then the invoiceInitialAmount should be compared against the total amount
+        // INCLUDING sales tax (since if the vendor invoices with sales tax), then we pay it.
+        else {
+            if (cmDocument.getGrandTotal().compareTo(cmDocument.getCreditMemoAmount()) != 0 && !cmDocument.isUnmatchedOverride()) {
+                KNSGlobalVariables.getMessageList().add(PurapKeyConstants.ERROR_CREDIT_MEMO_INVOICE_AMOUNT_NONMATCH);
+                valid = false;
+            }
         }
 
         return valid;

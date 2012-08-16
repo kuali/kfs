@@ -175,6 +175,10 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         }
 
         File baseDir = new File(baseDirName);
+        if (!baseDir.exists()){
+            throw new RuntimeException("Base dir [" + baseDirName + "] doesn't exists in the system");
+        }
+
         File[] filesToBeProcessed = baseDir.listFiles(new FileFilter() {
                                                             @Override
                                                             public boolean accept(File file) {
@@ -187,9 +191,6 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
                                                             }
                                                         });
 
-        if (!baseDir.exists()){
-            throw new RuntimeException("Base dir [" + baseDirName + "] doesn't exists in the system");
-        }
 
         ElectronicInvoiceLoad eInvoiceLoad = new ElectronicInvoiceLoad();
 
@@ -223,10 +224,16 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         StringBuilder emailMsg = new StringBuilder();
 
         for (int i = 0; i < filesToBeProcessed.length; i++) {
+            
+            // MSU Contribution DTT-3014 KFSMI-8483 KFSCNTRB-974
+            File xmlFile = filesToBeProcessed[i];
+            LOG.info("Processing " + xmlFile.getName() + "....");
 
-            LOG.info("Processing " + filesToBeProcessed[i].getName() + "....");
-
-            byte[] modifiedXML = addNamespaceDefinition(eInvoiceLoad, filesToBeProcessed[i]);
+            byte[] modifiedXML = null;
+            //process only if file exists and not empty
+            if (xmlFile.length() != 0L) {
+                modifiedXML = addNamespaceDefinition(eInvoiceLoad, xmlFile);
+            }
 
             boolean isRejected = false;
 
@@ -234,9 +241,9 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
                 isRejected = true;
             } else {
                 try {
-                    isRejected = processElectronicInvoice(eInvoiceLoad, filesToBeProcessed[i], modifiedXML);
+                    isRejected = processElectronicInvoice(eInvoiceLoad, xmlFile, modifiedXML);
                 } catch (Exception e) {
-                    String msg = filesToBeProcessed[i].getName() + "\n";
+                    String msg = xmlFile.getName() + "\n";
                     LOG.error(msg);
 
                     //since getMessage() is empty we'll compose the stack trace and nicely format it.
@@ -272,21 +279,21 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
              */
             if (isRejected) {
                 if (LOG.isInfoEnabled()){
-                    LOG.info(filesToBeProcessed[i].getName() + " has been rejected");
+                    LOG.info(xmlFile.getName() + " has been rejected");
                 }
                 if (moveFiles) {
                     if (LOG.isInfoEnabled()){
-                        LOG.info(filesToBeProcessed[i].getName() + " has been marked to move to " + rejectDirName);
+                        LOG.info(xmlFile.getName() + " has been marked to move to " + rejectDirName);
                     }
-                    eInvoiceLoad.addRejectFileToMove(filesToBeProcessed[i], rejectDirName);
+                    eInvoiceLoad.addRejectFileToMove(xmlFile, rejectDirName);
                 }
             } else {
                 if (LOG.isInfoEnabled()){
-                    LOG.info(filesToBeProcessed[i].getName() + " has been accepted");
+                    LOG.info(xmlFile.getName() + " has been accepted");
                 }
                 if (moveFiles) {
-                    if (!moveFile(filesToBeProcessed[i], acceptDirName)) {
-                        String msg = filesToBeProcessed[i].getName() + " unable to move";
+                    if (!moveFile(xmlFile, acceptDirName)) {
+                        String msg = xmlFile.getName() + " unable to move";
                         LOG.error(msg);
                         throw new PurError(msg);
                     }
@@ -294,8 +301,8 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
             }
 
             if (!moveFiles){
-                String fullPath = FilenameUtils.getFullPath(filesToBeProcessed[i].getAbsolutePath());
-                String fileName = FilenameUtils.getBaseName(filesToBeProcessed[i].getAbsolutePath());
+                String fullPath = FilenameUtils.getFullPath(xmlFile.getAbsolutePath());
+                String fileName = FilenameUtils.getBaseName(xmlFile.getAbsolutePath());
                 File processedFile = new File(fullPath + File.separator + fileName + ".processed");
                 try {
                     FileUtils.touch(processedFile);
@@ -306,7 +313,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
             }
 
             //  delete the .done file
-            deleteDoneFile(filesToBeProcessed[i]);
+            deleteDoneFile(xmlFile);
         }
 
         emailTextErrorList.append("\nFAILED FILES\n");
@@ -852,6 +859,9 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
 
             eInvoiceRejectDocument.setFileLevelData(eInvoice);
             eInvoiceRejectDocument.setInvoiceOrderLevelData(eInvoice, electronicInvoiceOrder);
+            
+            //MSU fix
+            SpringContext.getBean(DocumentService.class).saveDocument(eInvoiceRejectDocument);
 
             String noteText = "Invoice file";
             attachInvoiceXMLWithRejectDoc(eInvoiceRejectDocument, getInvoiceFile(eInvoice.getFileName()), noteText);

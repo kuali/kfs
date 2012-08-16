@@ -37,6 +37,12 @@
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.AccountDelegateModelRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationRoutingModelPreRules"/>
+    <property name="defaultExistenceChecks">
+ 	  <list>
+ 	    <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode" /> 
+ 	    <bean parent="ReferenceDefinition" p:attributeName="organization" p:attributeToHighlightOnFail="organizationCode" /> 
+ 	  </list>   
+ 	</property>
     <property name="workflowAttributes">
     	<ref bean="AccountDelegateModelMaintenanceDocument-workflowAttributes"/>
     </property>

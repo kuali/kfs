@@ -388,6 +388,9 @@
 		<condition property="b2b.punch.out.url" value="${b2b.production.punch.out.url}" else="${b2b.test.punch.out.url}">
 			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
 		</condition>
+		<condition property="b2b.punch.back.action.forwarding.url" value="${b2b.production.punch.back.action.forwarding.url}" else="${b2b.test.punch.back.action.forwarding.url}">
+			<equals arg1="${build.environment}" arg2="${production.environment.code}" />
+		</condition>
 	</target>
 
 	<target name="init-other-properties" depends="init-property-files">
@@ -1042,7 +1045,7 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 		</unzip>
 	</target>
 	
-	<target name="build-eclipse-classpath" depends="init-properties">
+	<target name="build-eclipse-classpath" depends="init-properties" unless="dont.build.eclipse.classpath">
 		<!-- this property is here to make it easy to test without replacing the classpath -->
 		<property name="classpath.file" value=".classpath"/>
     	<echo append="false" file="${classpath.file}" message="${classpath.prefix}" />

@@ -194,4 +194,14 @@
 			<replace replace="VARCHAR2" with="VARCHAR" />
 		</modifySql>
 	</changeSet>
+	
+	<changeSet author="KFS501" id="KFSCNTRB812_ADD_INDEXES_WHERE_KFS_IS_DOING_TABLE_SCANS">
+		<createIndex tableName="PUR_VNDR_ADDR_T" indexName="PUR_VNDR_ADDR_TI1">
+			<column name="VNDR_HDR_GNRTD_ID"/>
+			<column name="VNDR_DTL_ASND_ID"/>
+		</createIndex>
+		<rollback>
+			<dropIndex tableName="PUR_VNDR_ADDR_T" indexName="PUR_VNDR_ADDR_TI1"/>
+		</rollback>
+	</changeSet>
 </databaseChangeLog>

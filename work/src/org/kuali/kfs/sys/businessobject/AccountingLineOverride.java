@@ -333,11 +333,16 @@ public class AccountingLineOverride {
      * @return whether the given account needs an expired account override.
      */
     public static boolean needsExpiredAccountOverride(AccountingLine line, boolean isDocumentFinalOrProcessed ) {
-        if(isDocumentFinalOrProcessed && CODE.EXPIRED_ACCOUNT.equals(line.getOverrideCode()) ) {
-            return true;
+        if(isDocumentFinalOrProcessed){
+            if(CODE.EXPIRED_ACCOUNT.equals(line.getOverrideCode())) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         else {
-            return !ObjectUtils.isNull(line.getAccount()) && line.getAccount().isActive() && line.getAccount().isExpired();
+            return  !ObjectUtils.isNull(line.getAccount()) && line.getAccount().isActive() && line.getAccount().isExpired();
         }
     }
 

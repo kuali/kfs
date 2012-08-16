@@ -85,6 +85,7 @@ import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -547,6 +548,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(poToSplit);
             
             PurchaseOrderSplitDocument splitPO = SpringContext.getBean(PurchaseOrderService.class).createAndSavePurchaseOrderSplitDocument(movingPOItems, poToSplit, copyNotes, noteText);
+
+            Long nextLinkIdentifier = SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("AP_PUR_DOC_LNK_ID");
+            splitPO.setAccountsPayablePurchasingDocumentLinkIdentifier(nextLinkIdentifier.intValue());
             
             purchaseOrderForm.setDocument(splitPO);
             purchaseOrderForm.setDocId(splitPO.getDocumentNumber());

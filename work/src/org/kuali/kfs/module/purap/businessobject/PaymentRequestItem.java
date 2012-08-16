@@ -146,9 +146,17 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             PurchaseOrderDocument po = getPaymentRequest().getPurchaseOrderDocument();
             PurchaseOrderItem poi = null;
             if (this.getItemType().isLineItemIndicator()) {
-                List<PurchaseOrderItem> items = po.getItems();
-                poi = items.get(this.getItemLineNumber().intValue() - 1);
-                // throw error if line numbers don't match
+                //MSU Contribution DTT-3014 KFSMI-8483 KFSCNTRB-974
+                List items = po.getItems();
+                if (items != null) {
+                    for (Object object : items) {
+                        PurchaseOrderItem item = (PurchaseOrderItem) object;
+                        if (item != null && item.getItemLineNumber().equals(this.getItemLineNumber())) {
+                            poi = item;
+                            break;
+                        }
+                    }
+                }
             }
             else {
                 poi = (PurchaseOrderItem) SpringContext.getBean(PurapService.class).getBelowTheLineByType(po, this.getItemType());

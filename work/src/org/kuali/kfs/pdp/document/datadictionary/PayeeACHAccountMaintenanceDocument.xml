@@ -38,7 +38,6 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>achAccountGeneratedIdentifier</value>
         <value>payeeIdentifierTypeCode</value>
         <value>payeeIdNumber</value>
         <value>achTransactionType</value>

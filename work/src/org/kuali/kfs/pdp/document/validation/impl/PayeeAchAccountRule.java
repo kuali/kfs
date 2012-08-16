@@ -22,9 +22,11 @@ import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Performs business rules for the Payee ACH Account maintenance document
@@ -66,14 +68,12 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomRouteDocumentBusinessRules called");
-
-        boolean validEntry = true;
-
         setupConvenienceObjects();
 
-        validEntry &= checkForDuplicateRecord();
-
-        return validEntry;
+        // no need to do further checking if user is not even allowed to submit new BO
+        if (!checkTransactionTypeAllowed()) return false;
+        
+        return checkForDuplicateRecord();
     }
 
     /**
@@ -114,4 +114,23 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
+    /**
+     * Checks if the user is allowed to submit the new created/edited PayeeAchAccount based on its current transactionType.  
+     * This checking is needed to prevent the following scenarios which bypass the document level authorization checking:
+     * #1 A Bursar user creates a blank PayeeAchAccount, sets the transactionType to TR and submits;
+     * #2 A Bursar user copies a PayeeAchAccount with transactionType BZ, changes the transactionType to TR and submits;
+     * #3 A Bursar user edits a PayeeAchAccount with transactionType BZ, changes the transactionType to TR and submits.
+     */
+    protected boolean checkTransactionTypeAllowed() {
+        String docTypeName = maintDocDictionaryService.getDocumentTypeName(PayeeACHAccount.class);
+        Person user = GlobalVariables.getUserSession().getPerson();
+        boolean allowed = businessObjectAuthorizationService.canMaintain(newPayeeAchAccount, user, docTypeName);
+        String transType = newPayeeAchAccount.getAchTransactionType();
+
+        if (!allowed) {
+            putFieldError(PdpPropertyConstants.ACH_TRANSACTION_TYPE, KFSKeyConstants.ERROR_DOCUMENT_PAYEEACHACCOUNTMAINT_TRANSACTION_TYPE_NOT_ALLOWED, transType);
+        }
+        return allowed;
+    }
+    
 }

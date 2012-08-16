@@ -752,7 +752,16 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 String currentNodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(this.getDocumentHeader().getWorkflowDocument());
                 String cancelledStatus = PurapConstants.PaymentRequestStatuses.getPaymentRequestAppDocDisapproveStatuses().get(currentNodeName); 
                 
-                if (ObjectUtils.isNotNull(cancelledStatus)) {                    				
+                //**START AZ** KATTS-37 KevinMcO
+                if (StringUtils.isBlank(cancelledStatus) &&
+                        StringUtils.isBlank(PurapConstants.PaymentRequestStatuses.getPaymentRequestAppDocDisapproveStatuses().get(currentNodeName)) &&
+                        (PaymentRequestStatuses.APPDOC_INITIATE.equals(getStatusCode()) || PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(getStatusCode()))) {
+                cancelledStatus = PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS;
+                }
+                //**END AZ** 
+                
+                if (ObjectUtils.isNotNull(cancelledStatus)) {
+                    SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, currentNodeName);
                     updateAndSaveAppDocStatus(cancelledStatus);
                 }
                 else {

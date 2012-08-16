@@ -90,7 +90,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	 * 
 	 */
 	public void setCustomerNumber(String customerNumber) {
-		this.customerNumber = null == customerNumber ? null : customerNumber.toUpperCase();
+		this.customerNumber = customerNumber;
 	}
 
 	/**

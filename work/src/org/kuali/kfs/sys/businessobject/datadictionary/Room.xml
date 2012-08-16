@@ -206,5 +206,6 @@
       </list>
     </property>
     <property name="multipleValuesResultSetLimit" value="-1"/>
+    <property name="resultSetLimit" value="-1"/>
   </bean>
 </beans>

@@ -387,26 +387,26 @@
           <property name="maintainableFields">
             <list>
               <bean parent="MaintainableFieldDefinition" p:name="componentNumber" p:unconditionallyReadOnly="true" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentDescription" p:required="true" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentConditionCode" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentVendorName" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentManufacturerName" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentManufacturerModelNumber" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentSerialNumber" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentOrganizationTagNumber" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentContactPhoneNumber" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentOrganizationText" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentEstimatedLifetimeLimit" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentReplacementAmount" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="governmentTagNumber" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="nationalStockNumber" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyNumber" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyContactName" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyPhoneNumber" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyPurchaseOrderNumber" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyBeginningDate" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyEndingDate" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyText" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentDescription" p:required="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentConditionCode" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentVendorName" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentManufacturerName" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentManufacturerModelNumber" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentSerialNumber" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentOrganizationTagNumber" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentContactPhoneNumber" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentOrganizationText" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentEstimatedLifetimeLimit" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentReplacementAmount" />
+              <bean parent="MaintainableFieldDefinition" p:name="governmentTagNumber" />
+              <bean parent="MaintainableFieldDefinition" p:name="nationalStockNumber" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyContactName" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyPhoneNumber" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyPurchaseOrderNumber" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyBeginningDate" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyEndingDate" />
+              <bean parent="MaintainableFieldDefinition" p:name="componentWarrantyText" />
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
               <bean parent="MaintainableFieldDefinition" p:name="active"/>
             </list>

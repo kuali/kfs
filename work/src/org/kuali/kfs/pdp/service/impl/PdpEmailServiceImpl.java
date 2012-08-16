@@ -33,6 +33,7 @@ import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.batch.ExtractAchPaymentsStep;
 import org.kuali.kfs.pdp.batch.LoadPaymentsStep;
+import org.kuali.kfs.pdp.batch.SendAchAdviceNotificationsStep;
 import org.kuali.kfs.pdp.businessobject.ACHBank;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
@@ -165,16 +166,11 @@ public class PdpEmailServiceImpl implements PdpEmailService {
     @SuppressWarnings("rawtypes")
     public void alterMessageWhenNonProductionInstance( MailMessage message, String environmentCode ) {
         if (! ConfigContext.getCurrentContextConfig().isProductionEnvironment()) {
-            if ( environmentCode == null ) {
-                environmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
-            }
-            // Add the environment code to the subject
-            message.setSubject(environmentCode + ": " + message.getSubject());
             // insert the original recipients into the beginning of the message
             StringBuilder recipients = new StringBuilder();
-            recipients.append("To : ").append(message.getToAddresses().toString()).append('\n');
-            recipients.append("Cc : ").append(message.getCcAddresses().toString()).append('\n');
-            recipients.append("Bcc: ").append(message.getBccAddresses().toString()).append('\n');
+            recipients.append("Intended To : ").append(message.getToAddresses().toString()).append('\n');
+            recipients.append("Intended Cc : ").append(message.getCcAddresses().toString()).append('\n');
+            recipients.append("Intended Bcc: ").append(message.getBccAddresses().toString()).append('\n');
             recipients.append('\n');
             message.setMessage( recipients.toString() + message.getMessage() );
             // Clear out the recipients
@@ -431,7 +427,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
             message.setSubject(getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_SUBJECT));
         }
         else {
-            message.setSubject(environmentCode + "-" + getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_SUBJECT));
+            message.setSubject(getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_SUBJECT));
         }
 
         // Get recipient email address
@@ -519,23 +515,42 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         LOG.debug("sendAchAdviceEmail() starting");
 
         MailMessage message = new MailMessage();
+        //String productionEnvironmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        //String environmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
+        String fromAddresses = customer.getAdviceReturnEmailAddr();
+        String toAddresses = paymentGroup.getAdviceEmailAddress();
+        Collection<String> ccAddresses = parameterService.getParameterValuesAsString(SendAchAdviceNotificationsStep.class, PdpParameterConstants.ACH_SUMMARY_CC_EMAIL_ADDRESSES_PARMAETER_NAME);
+        String batchAddresses = mailService.getBatchMailingList();
+        String subject = customer.getAdviceSubjectLine();
+ 
+        message.addToAddress(toAddresses);
+        message.getCcAddresses().addAll(ccAddresses);
+        //message.addBccAddress(ccAddresses);
+        message.setFromAddress(fromAddresses);
+        message.setSubject(subject);
 
-        String productionEnvironmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
+        /* NOTE: The following code is unnecessary and counter-productive, because alterMessageWhenNonProductionInstance called below handles non-prd env 
+         * email to/cc addresses and subject properly, while Rice MailService handles adding app and env code in front of the subject line.
+         * There's no need to add another layer to replace these addresses and subject. Replacing the real address with batchAddress will only result
+         * in wiping out the original real addresses, which would have been added to the message body by MailService, for testing purpose.         
         if (StringUtils.equals(productionEnvironmentCode, environmentCode)) {
-            message.addToAddress(paymentGroup.getAdviceEmailAddress());
-            message.addCcAddress(paymentGroup.getAdviceEmailAddress());
-            message.addBccAddress(paymentGroup.getAdviceEmailAddress());
-            message.setFromAddress(customer.getAdviceReturnEmailAddr());
-            message.setSubject(customer.getAdviceSubjectLine());
+            message.addToAddress(toAddresses);
+            message.addCcAddress(ccAddresses);
+            message.addBccAddress(ccAddresses);
+            message.setFromAddress(fromAddresses);
+            message.setSubject(subject);
         }
         else {
-            message.addToAddress(mailService.getBatchMailingList());
-            message.addCcAddress(mailService.getBatchMailingList());
-            message.addBccAddress(mailService.getBatchMailingList());
+            message.addToAddress(batchAddresses);
+            message.addCcAddress(batchAddresses);
+            message.addBccAddress(batchAddresses);
+            message.setFromAddress(fromAddresses);
+            message.setSubject(environmentCode + ": " + subject + ":" + toAddresses);            
         }
+        */
+        
         if (LOG.isDebugEnabled()) {
-            LOG.debug("sending email to " + paymentGroup.getAdviceEmailAddress() + " for disb # " + paymentGroup.getDisbursementNbr());
+            LOG.debug("sending email to " + toAddresses + " for disb # " + paymentGroup.getDisbursementNbr());
         }
 
         StringBuilder body = new StringBuilder();

@@ -48,6 +48,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTrickleDownInactivationService {
+    
+    //MSU Contribution DTT-3791 KFSMI-8645 KFSCNTRB-976
+    private static final int NO_OF_SUB_OBJECTS_PER_NOTE = 15;
+
     private static final Logger LOG = Logger.getLogger(SubObjectTrickleDownInactivationServiceImpl.class);
     
     protected BusinessObjectService businessObjectService;
@@ -202,6 +206,7 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
                     String noteText = MessageFormat.format(noteTextTemplate, subAccountString);
                     Note note = noteService.createNote(noteTemplate, noteParent, GlobalVariables.getUserSession().getPrincipalId());
                     note.setNoteText(noteText);
+                    note.setNotePostedTimestampToCurrent();
                     noteService.save(note);
                 }
             }
@@ -222,6 +227,7 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
                     String noteText = MessageFormat.format(noteTextTemplate, subObjectString, entry.getValue());
                     Note note = noteService.createNote(noteTemplate, noteParent, GlobalVariables.getUserSession().getPrincipalId());
                     note.setNoteText(noteText);
+                    note.setNotePostedTimestampToCurrent();
                     noteService.save(note);
                 }
             }
@@ -247,7 +253,9 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
     }
     
     protected int getNumSubObjectsPerNote() {
-        return 20;
+        //MSU Contribution DTT-3791 KFSMI-8645 KFSCNTRB-976 - Account Document in Exception reduced the no of sub objects 
+        //per note from 20 to 15 to reduce the note text length 
+        return NO_OF_SUB_OBJECTS_PER_NOTE;
     }
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

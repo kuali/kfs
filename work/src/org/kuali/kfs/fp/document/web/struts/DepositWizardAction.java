@@ -115,6 +115,9 @@ public class DepositWizardAction extends KualiAction {
         } else { // for recalculation
             loadCashReceipts(dwForm);
             loadUndepositedCashieringChecks(dwForm);
+            if (dwForm.getTargetDepositAmount() == null) {
+                calculateTargetFinalDepositAmount(dwForm);
+            }
             //loadEditModesAndDocumentActions(dwForm);
         }
 
@@ -164,6 +167,9 @@ public class DepositWizardAction extends KualiAction {
 
         loadCashReceipts(dform);
         loadUndepositedCashieringChecks(dform);
+        if (dform.isDepositFinal() && dform.getTargetDepositAmount() == null) {
+            calculateTargetFinalDepositAmount(dform);
+        }
         loadEditModesAndDocumentActions(dform);
     }
 
@@ -206,7 +212,33 @@ public class DepositWizardAction extends KualiAction {
                     dform.getCheckFreeCashReceipts().add(receipt);
                 }
             }
+            dform.addCashReceiptToChecks(receipt);
         }
+    }
+    
+    /**
+     * Loads cashiering transactions for final deposit target amount
+     * @param dwform
+     */
+    private void calculateTargetFinalDepositAmount(DepositWizardForm dwform) {
+        final CashReceiptService cashReceiptService = SpringContext.getBean(CashReceiptService.class);
+        final List<CashReceiptDocument> interestingReceipts = 
+                cashReceiptService.getCashReceipts(dwform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL });
+        for (CashReceiptDocument crDoc : interestingReceipts) {
+            crDoc.refreshCashDetails();
+            dwform.addCashReceiptToTargetTotal(crDoc);
+        }
+
+        final CashManagementService cashManagementService = SpringContext.getBean(CashManagementService.class);
+        KualiDecimal toBeDepositedChecksTotal = KualiDecimal.ZERO;
+        for (Check check : cashManagementService.selectUndepositedCashieringChecks(dwform.getCashManagementDocId())) {
+            toBeDepositedChecksTotal = toBeDepositedChecksTotal.add(check.getAmount());
+        }
+        // since final, include deposited checks as well (see KFSCNTRB-160)
+        for (Check check : cashManagementService.selectDepositedCashieringChecks(dwform.getCashManagementDocId())) {
+            toBeDepositedChecksTotal = toBeDepositedChecksTotal.add(check.getAmount());
+        }
+        dwform.addCashieringTransactionToTargetTotal(toBeDepositedChecksTotal);
     }
 
     /**
@@ -350,6 +382,9 @@ public class DepositWizardAction extends KualiAction {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         loadCashReceipts((DepositWizardForm) form);
         loadUndepositedCashieringChecks((DepositWizardForm) form);
+        if (((DepositWizardForm) form).isDepositFinal() && ((DepositWizardForm)form).getTargetDepositAmount() == null) {
+            calculateTargetFinalDepositAmount((DepositWizardForm) form);
+        }
         loadEditModesAndDocumentActions((DepositWizardForm) form);
 
         return super.refresh(mapping, form, request, response);
@@ -389,7 +424,11 @@ public class DepositWizardAction extends KualiAction {
 
         CurrencyFormatter formatter = new CurrencyFormatter();
 
-        // reload edit modes - just in case we have to return to the deposit wizard page
+        // reload edit modes and summary totals - just in case we have to return to the deposit wizard page
+        loadCashReceipts((DepositWizardForm) form);
+        if (((DepositWizardForm) form).isDepositFinal() && ((DepositWizardForm)form).getTargetDepositAmount() == null) {
+            calculateTargetFinalDepositAmount((DepositWizardForm) form);
+        }
         loadEditModesAndDocumentActions(dform);
 
         // validate Bank
@@ -487,33 +526,35 @@ public class DepositWizardAction extends KualiAction {
                             toBeDepositedChecksTotal = toBeDepositedChecksTotal.add(check.getAmount());
                         }
                     }
+                    // add the rest of the deposited cashiering checks to the toBeDepositedChecksTotal
+                    for (Check check : cashManagementService.selectDepositedCashieringChecks(dform.getCashManagementDocId())) {
+                        toBeDepositedChecksTotal = toBeDepositedChecksTotal.add(check.getAmount());
+                    }
 
                     // does the cash drawer have enough currency and coin to fulfill the requested deposit?
                     checkEnoughCurrencyForDeposit(dform);
                     checkEnoughCoinForDeposit(dform);
 
                     // does this deposit have currency and coin to match all currency and coin from CRs?
-                    List<CashReceiptDocument> interestingReceipts = cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM });
-                    // List<CashReceiptDocument> interestingReceipts =
-                    // cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED,
-                    // CashReceipt.INTERIM, CashReceipt.FINAL });
+                    List<CashReceiptDocument> interestingReceipts = cashReceiptService.getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL });
                     CurrencyDetail currencyTotal = new CurrencyDetail();
                     CoinDetail coinTotal = new CoinDetail();
                     for (CashReceiptDocument receipt : interestingReceipts) {
                         receipt.refreshCashDetails();
                         if (receipt.getCurrencyDetail() != null) {
-                            currencyTotal.add(receipt.getCurrencyDetail());
+                            currencyTotal.add(receipt.getConfirmedCurrencyDetail());
+                            currencyTotal.subtract(receipt.getChangeCurrencyDetail());
                         }
                         if (receipt.getCoinDetail() != null) {
-                            coinTotal.add(receipt.getCoinDetail());
+                            coinTotal.add(receipt.getConfirmedCoinDetail());
+                            coinTotal.subtract(receipt.getChangeCoinDetail());
                         }
                     }
 
                     KualiDecimal cashReceiptCashTotal = currencyTotal.getTotalAmount().add(coinTotal.getTotalAmount());
-                    KualiDecimal depositedCashieringChecksTotal = cashManagementService.calculateDepositedCheckTotal(dform.getCashManagementDocId());
                     // remove the cashiering checks amounts from the cash receipts total; cashiering checks act as if they were CR
                     // currency/coin that gets deposited
-                    cashReceiptCashTotal = cashReceiptCashTotal.subtract(depositedCashieringChecksTotal).subtract(toBeDepositedChecksTotal);
+                    cashReceiptCashTotal = cashReceiptCashTotal.subtract(toBeDepositedChecksTotal);
                     KualiDecimal depositedCashTotal = dform.getCurrencyDetail().getTotalAmount().add(dform.getCoinDetail().getTotalAmount());
                     if (!cashReceiptCashTotal.equals(depositedCashTotal)) {
                         GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_CASH_DEPOSIT_DID_NOT_BALANCE, new String[] { formatter.format(depositedCashTotal).toString(), formatter.format(cashReceiptCashTotal).toString() });

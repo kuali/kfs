@@ -34,6 +34,7 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
 import org.kuali.kfs.module.cam.businessobject.Asset;
+import org.kuali.kfs.module.cam.businessobject.AssetLocation;
 import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.module.cam.document.validation.event.ValidateBarcodeInventoryEvent;
@@ -255,6 +256,9 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
      */
     public boolean processFile(File file, AssetBarCodeInventoryInputFileForm form) {
         LOG.debug("processFile(File file) - start");
+        
+        // Removing *.done files that are created automatically by the framework.
+        this.removeDoneFile(file);
 
         BufferedReader input = null;
         String fileName = file.getName();
@@ -325,9 +329,6 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
                 ln++;
             }
             processBarcodeInventory(barcodeInventoryErrorDetails, form);
-
-            // Removing *.done files that are created automatically by the framework.
-            this.removeDoneFile(file);
 
             return true;
         }
@@ -509,7 +510,16 @@ public class AssetBarcodeInventoryLoadServiceImpl implements AssetBarcodeInvento
         if (updateWithDateAssetWasScanned) {
             asset.setLastInventoryDate(barcodeInventoryErrorDetail.getUploadScanTimestamp());
         } else {
-            asset.setLastInventoryDate(new Timestamp(this.dateTimeService.getCurrentSqlDate().getTime()));
+            asset.setLastInventoryDate(new Timestamp(dateTimeService.getCurrentSqlDate().getTime()));
+        }
+        
+        // Purposefully deleting off-campus locations when loading locations via barcode scanning.
+        List<AssetLocation> assetLocations = asset.getAssetLocations();
+        for (AssetLocation assetLocation : assetLocations) {
+            if(CamsConstants.AssetLocationTypeCode.OFF_CAMPUS.equals(assetLocation.getAssetLocationTypeCode())) {
+                assetLocations.remove(assetLocation);
+                break;
+            }
         }
 
         // Updating asset information

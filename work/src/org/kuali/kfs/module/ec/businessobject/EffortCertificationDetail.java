@@ -923,7 +923,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      */
     public static KualiDecimal calculateFringeBenefit(EffortCertificationDetail detailLine, KualiDecimal payrollAmount) {
         LaborModuleService laborModuleService = SpringContext.getBean(LaborModuleService.class);
-        Integer fiscalYear = detailLine.getUniversityFiscalYear();
+        Integer fiscalYear = EffortCertificationParameterFinder.getCreateReportFiscalYear();
         String chartOfAccountsCode = detailLine.getChartOfAccountsCode();
         String objectCode = detailLine.getFinancialObjectCode();
         String accountNumber = detailLine.getAccountNumber();

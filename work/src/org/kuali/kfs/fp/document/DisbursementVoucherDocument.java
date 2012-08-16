@@ -67,6 +67,7 @@ import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -1100,7 +1101,14 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     @Override
     public void prepareForSave() {
         if (this instanceof AmountTotaling) {
-            getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
+            if (getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.ENROUTE)) {
+                if (getParameterService().parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, UPDATE_TOTAL_AMOUNT_IN_POST_PROCESSING_PARAMETER_NAME)
+                        && getParameterService().getParameterValueAsBoolean(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, UPDATE_TOTAL_AMOUNT_IN_POST_PROCESSING_PARAMETER_NAME)) {
+                    getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
+                }
+            } else {
+                getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
+            }
         }
 
         if (dvWireTransfer != null) {
@@ -1226,19 +1234,13 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         // clear waive wire
         getDvWireTransfer().setDisbursementVoucherWireTransferFeeWaiverIndicator(false);
 
-        // check vendor id number to see if still valid, if so retrieve their last information and set in the detail inform.
+        // check vendor id number to see if still valid, if not, clear dvPayeeDetail; otherwise, use the current dvPayeeDetail as is
         if (!StringUtils.isBlank(getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {
             VendorDetail vendorDetail = getVendorService().getVendorDetail(dvPayeeDetail.getDisbVchrVendorHeaderIdNumberAsInteger(), dvPayeeDetail.getDisbVchrVendorDetailAssignedIdNumberAsInteger());
-            VendorAddress vendorAddress = new VendorAddress();
-            vendorAddress.setVendorAddressGeneratedIdentifier(dvPayeeDetail.getDisbVchrVendorAddressIdNumberAsInteger());
-            vendorAddress = (VendorAddress) SpringContext.getBean(BusinessObjectService.class).retrieve(vendorAddress);
-
             if (vendorDetail == null) {
+                dvPayeeDetail = new DisbursementVoucherPayeeDetail();;
                 getDvPayeeDetail().setDisbVchrPayeeIdNumber(StringUtils.EMPTY);
                 KNSGlobalVariables.getMessageList().add(KFSKeyConstants.WARNING_DV_PAYEE_NONEXISTANT_CLEARED);
-            }
-            else {
-                templateVendor(vendorDetail, vendorAddress);
             }
         }
 
@@ -1940,5 +1942,23 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     public void setDisbExcptAttachedIndicator(boolean disbExcptAttachedIndicator) {
         this.disbExcptAttachedIndicator = disbExcptAttachedIndicator;
+    }
+    
+    //MSU Contribution AER:RQ_AP_0760 KFSMI-8876 KFSCNTRB-980
+    
+    /**
+     * RQ_AP_0760: Ability to view disbursement information on the
+     * Disbursement Voucher Document.
+     * 
+     * This method returns the document type of payment detail of the
+     * Disbursement Voucher Document. It is invoked when the user clicks
+     * on the disbursement info button on the Pre-Disbursement Processor
+     * Status tab on Disbursement Voucher Document.
+     * 
+     * 
+     * @return
+     */
+    public String getPaymentDetailDocumentType() {
+        return DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH;
     }
 }

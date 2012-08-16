@@ -488,7 +488,10 @@
 	<bean id="PaymentRequest-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
   			<list>
-  				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype"/>		  			
+  				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype"/>
+  				<!-- MSU Contribution KFSMI-8434 DTT-3284 -->
+  				<bean parent="PurchasingAccountsPayable-checkNegativeAccountsValidation" scope="prototype"/>
+  						  			
 			</list>
 		</property>
 	</bean>

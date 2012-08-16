@@ -394,7 +394,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * @param vendorDetail the VendorDetail object to be validated
      * @return boolean true if the vendorDetail passes the unique tax # and tax type validation.
      */
-    boolean validateParentVendorTaxNumber(VendorDetail vendorDetail) {
+   boolean validateParentVendorTaxNumber(VendorDetail vendorDetail) {
         boolean valid = true;
         boolean isParent = vendorDetail.isVendorParentIndicator();
         Map criteria = new HashMap();

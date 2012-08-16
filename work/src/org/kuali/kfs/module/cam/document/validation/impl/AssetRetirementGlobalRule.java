@@ -48,10 +48,12 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -133,7 +135,10 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         // add doc header description if retirement reason is "MERGED"
         if (CamsConstants.AssetRetirementReasonCode.MERGED.equals(assetRetirementGlobal.getRetirementReasonCode())) {
             if (!document.getDocumentHeader().getDocumentDescription().toLowerCase().contains(CamsConstants.AssetRetirementGlobal.MERGE_AN_ASSET_DESCRIPTION.toLowerCase())) {
-                document.getDocumentHeader().setDocumentDescription(CamsConstants.AssetRetirementGlobal.MERGE_AN_ASSET_DESCRIPTION + " " + document.getDocumentHeader().getDocumentDescription());
+                Integer maxDocumentDescription = ddService.getAttributeMaxLength(DocumentHeader.class, KRADPropertyConstants.DOCUMENT_DESCRIPTION);
+                String documentDescription = CamsConstants.AssetRetirementGlobal.MERGE_AN_ASSET_DESCRIPTION + " " + document.getDocumentHeader().getDocumentDescription();
+                documentDescription = StringUtils.left(documentDescription, maxDocumentDescription);
+                document.getDocumentHeader().setDocumentDescription(documentDescription);
             }
         }
         // get asset locks

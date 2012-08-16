@@ -98,8 +98,11 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -372,6 +375,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         managedLists.add(this.getGeneralLedgerPendingEntries());
         if (allowDeleteAwareCollection) {
             managedLists.add(this.getPurchaseOrderVendorQuotes());
+            //MSU Contribution DTT-2960 KFSMI-8608 KFSCNTRB-954
+            managedLists.add(this.getPurchaseOrderVendorStipulations());
         }
         return managedLists;
     }
@@ -641,7 +646,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                         updateAndSaveAppDocStatus(disapprovalStatus);
 
                         RequisitionDocument req = getPurApSourceDocumentIfPossible();
-                        appSpecificRouteDocumentToUser(this.getFinancialSystemDocumentHeader().getWorkflowDocument(), req.getFinancialSystemDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
+                        String principalId = req.getFinancialSystemDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId();
+                        appSpecificRouteDocumentToUser(this.getFinancialSystemDocumentHeader().getWorkflowDocument(), principalId, "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
                         return;
                     }
                     logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
@@ -683,12 +689,12 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      * @param responsibility the responsibility specified in the request.
      * @throws WorkflowException
      */
-    public void appSpecificRouteDocumentToUser(WorkflowDocument workflowDocument, String routePrincipalId, String annotation, String responsibility) throws WorkflowException {
+    public void appSpecificRouteDocumentToUser(WorkflowDocument workflowDocument, String routePrincipalName, String annotation, String responsibility) throws WorkflowException {
         if (ObjectUtils.isNotNull(workflowDocument)) {
             String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
             String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
             String currentNodeName = getCurrentRouteNodeName(workflowDocument);
-            workflowDocument.adHocToPrincipal( ActionRequestType.FYI, currentNodeName, annotationNote, routePrincipalId, responsibilityNote, true);
+            workflowDocument.adHocToPrincipal( ActionRequestType.FYI, currentNodeName, annotationNote, routePrincipalName, responsibilityNote, true);
         }
     }
 

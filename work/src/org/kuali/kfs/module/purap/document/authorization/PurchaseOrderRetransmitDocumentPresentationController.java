@@ -18,6 +18,8 @@ package org.kuali.kfs.module.purap.document.authorization;
 import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument;
 import org.kuali.rice.krad.document.Document;
 
@@ -37,5 +39,15 @@ public class PurchaseOrderRetransmitDocumentPresentationController extends Purch
             editModes.add(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB);
         }
         return editModes;
+    }
+    
+    //MSU Contribution KFSMI-8595 DTT-2396 KFSCNTRB-946
+    @Override
+    protected boolean canPreviewPrintPo(PurchaseOrderDocument poDocument) {
+        boolean canPreviewPrintPo = super.canPreviewPrintPo(poDocument);
+        if (canPreviewPrintPo) {
+            return !(poDocument.getDocumentHeader().getWorkflowDocument().isEnroute() && PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS.equals(poDocument.getApplicationDocumentStatus()));
+        }
+        return canPreviewPrintPo;
     }
 }

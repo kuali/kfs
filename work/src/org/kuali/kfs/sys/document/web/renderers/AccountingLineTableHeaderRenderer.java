@@ -134,7 +134,7 @@ public class AccountingLineTableHeaderRenderer implements Renderer {
         subheading.append("\" target=\"helpWindow\">");
         subheading.append("<img src=\"");
         subheading.append(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("kr.externalizable.images.url"));
-        subheading.append("my_cp_inf.gif\" title=\"Accounting Lines Help\" src=\"Accounting Lines Help\" hspace=\"5\" border=\"0\" align=\"middle\" />");
+        subheading.append("my_cp_inf.gif\" title=\"Accounting Lines Help\" alt=\"Accounting Lines Help\" hspace=\"5\" border=\"0\" align=\"middle\" />");
         subheading.append("</a>");
         
         return subheading.toString();

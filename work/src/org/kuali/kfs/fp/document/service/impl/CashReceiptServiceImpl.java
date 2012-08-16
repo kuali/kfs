@@ -48,6 +48,7 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.campus.CampusService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +58,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class CashReceiptServiceImpl implements CashReceiptService {
+    org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashReceiptServiceImpl.class);
 
     protected BusinessObjectService businessObjectService;
     protected CashManagementDao cashManagementDao;
@@ -203,7 +205,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             CashReceiptDocument cr = (CashReceiptDocument) i.next();
             DocumentHeader docHeader = cr.getDocumentHeader();
             WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(GlobalVariables.getUserSession().getPrincipalId(), docHeader.getDocumentNumber());
-
+    
             docHeader.setWorkflowDocument(workflowDocument);
         }
     }

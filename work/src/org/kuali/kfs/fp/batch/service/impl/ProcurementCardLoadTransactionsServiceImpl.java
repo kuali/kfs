@@ -44,9 +44,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 public class ProcurementCardLoadTransactionsServiceImpl extends InitiateDirectoryBase implements ProcurementCardLoadTransactionsService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardLoadTransactionsServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
-    private BatchInputFileService batchInputFileService;
-    private BatchInputFileType procurementCardInputFileType;
+    protected BusinessObjectService businessObjectService;
+    protected BatchInputFileService batchInputFileService;
+    protected BatchInputFileType procurementCardInputFileType;
 
     /**
      * @see org.kuali.kfs.fp.batch.service.ProcurementCardLoadTransactionsService#loadProcurementCardFile(java.lang.String, org.kuali.kfs.sys.service.ReportWriterService)

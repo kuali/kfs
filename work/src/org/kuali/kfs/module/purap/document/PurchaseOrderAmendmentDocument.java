@@ -17,26 +17,39 @@
 package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
+import static org.kuali.rice.core.api.util.type.KualiDecimal.ZERO;
+import static org.kuali.rice.core.api.util.type.KualiDecimal.ZERO;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
+import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
@@ -166,5 +179,72 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         if (nodeName.equals(PurapWorkflowConstants.HAS_NEW_UNORDERED_ITEMS)) return isNewUnorderedItem();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
-    } 
+    }
+    
+    //MSU Contribution KFSMI-8600 DTT-3159 KFSCNTRB-953
+    @Override
+    public Class<? extends AccountingDocument> getDocumentClassForAccountingLineValueAllowedValidation() {
+        return PurchaseOrderDocument.class;
+    }
+    
+    //MSU Contribution DTT-3812 KFSMI-8642 KFSCNTRB-957
+    @Override
+    public void customPrepareForSave(KualiDocumentEvent event) {
+        super.customPrepareForSave(event);
+
+        // Set outstanding encumbered quantity/amount on items
+        List<PurchaseOrderItem> poItems = (List<PurchaseOrderItem>) this.getItems();
+        for (PurchaseOrderItem item : poItems) {
+            if (item.isItemActiveIndicator()) {
+                KualiDecimal invoicedTotalQuantity = item.getItemInvoicedTotalQuantity();
+                if (item.getItemInvoicedTotalQuantity() == null) {
+                    invoicedTotalQuantity = ZERO;
+                    item.setItemInvoicedTotalQuantity(ZERO);
+                }
+
+                if (item.getItemInvoicedTotalAmount() == null) {
+                    item.setItemInvoicedTotalAmount(ZERO);
+                }
+                if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                    KualiDecimal itemQuantity = item.getItemQuantity() == null ? ZERO : item.getItemQuantity();
+                    KualiDecimal outstandingEncumberedQuantity = itemQuantity.subtract(invoicedTotalQuantity);
+                    item.setItemOutstandingEncumberedQuantity(outstandingEncumberedQuantity);
+                }
+                KualiDecimal outstandingEncumbrance = null;
+
+                // If the item is amount based (not quantity based)
+                if (item.getItemType().isAmountBasedGeneralLedgerIndicator()) {
+                    KualiDecimal totalAmount = item.getTotalAmount() == null ? ZERO : item.getTotalAmount();
+                    outstandingEncumbrance = totalAmount.subtract(item.getItemInvoicedTotalAmount());
+                    item.setItemOutstandingEncumberedAmount(outstandingEncumbrance);
+                }
+                else {
+                    // if the item is quantity based
+                    BigDecimal itemUnitPrice = ObjectUtils.isNull(item.getItemUnitPrice()) ? BigDecimal.ZERO : item.getItemUnitPrice();
+                    outstandingEncumbrance = new KualiDecimal(item.getItemOutstandingEncumberedQuantity().bigDecimalValue().multiply(itemUnitPrice));
+                    item.setItemOutstandingEncumberedAmount(outstandingEncumbrance);
+                }
+
+                List accountLines = (List) item.getSourceAccountingLines();
+                Collections.sort(accountLines);
+
+                updateEncumbranceOnAccountingLines(outstandingEncumbrance, accountLines);
+            }
+        }
+
+        List<SourceAccountingLine> sourceLines = SpringContext.getBean(PurapAccountingService.class).generateSummaryWithNoZeroTotals(this.getItems());
+        this.setSourceAccountingLines(sourceLines);
+    }
+
+    //MSU Contribution DTT-3812 KFSMI-8642 KFSCNTRB-957
+    protected void updateEncumbranceOnAccountingLines(KualiDecimal outstandingEcumbrance, List accountLines) {
+        for (Object accountLineObject : accountLines) {
+            PurchaseOrderAccount accountLine = (PurchaseOrderAccount) accountLineObject;
+            if (!accountLine.isEmpty()) {
+                BigDecimal linePercent = accountLine.getAccountLinePercent();
+                KualiDecimal accountOutstandingEncumbrance = new KualiDecimal(outstandingEcumbrance.bigDecimalValue().multiply(linePercent).divide(KFSConstants.ONE_HUNDRED.bigDecimalValue()));
+                accountLine.setItemAccountOutstandingEncumbranceAmount(accountOutstandingEncumbrance);
+            }
+        }
+    }
 }

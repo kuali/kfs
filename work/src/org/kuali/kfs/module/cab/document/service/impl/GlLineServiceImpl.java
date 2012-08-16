@@ -65,11 +65,11 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class GlLineServiceImpl implements GlLineService {
     private static final String CAB_DESC_PREFIX = "CAB created for FP ";
-    
     protected BusinessObjectService businessObjectService;
     protected AssetGlobalService assetGlobalService;
     protected ObjectTypeService objectTypeService;
-    
+
+
     /**
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#createAssetGlobalDocument(java.util.List,
      *      org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
@@ -138,9 +138,9 @@ public class GlLineServiceImpl implements GlLineService {
                         entry.getChartOfAccountsCode().equals(accountingLine.getChartOfAccountsCode()) &&
                         entry.getAccountNumber().equals(accountingLine.getAccountNumber()) &&
                         entry.getFinancialObjectCode().equals(accountingLine.getFinancialObjectCode())) {
-                    
+                                
                     KualiDecimal lineAmount = accountingLine.getAmount();
-                    
+
                     //update submitted amount on the gl entry and save the results.
                     updateTransactionSumbitGlEntryAmount(entry, lineAmount);
                 }
@@ -238,6 +238,8 @@ public class GlLineServiceImpl implements GlLineService {
         
         for (CapitalAssetInformation capitalAsset : assetInformation) {
             addToCapitalAssets(matchingAssets, capitalAsset, entry, capitalAssetLineType);
+            
+            
         }
         
         return matchingAssets;
@@ -438,16 +440,23 @@ public class GlLineServiceImpl implements GlLineService {
             
             for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
                 AssetPaymentDetail detail = new AssetPaymentDetail();
+                //TODO 
+                // sub-object code, as well as sub-account, project code, and org ref id, shall not be populated from GL entry;
+                // instead, they need to be passed from the original FP document for each individual accounting line to be stored in CapitalAssetAccountsGroupDetails,  
+                // and copied into each corresponding accounting line in Asset Payment here.
+                
                 detail.setDocumentNumber(document.getDocumentNumber());
                 detail.setSequenceNumber(paymentSequenceNumber++);
                 detail.setPostingYear(entry.getUniversityFiscalYear());
                 detail.setPostingPeriodCode(entry.getUniversityFiscalPeriodCode());
                 detail.setChartOfAccountsCode(accountingLine.getChartOfAccountsCode());
                 detail.setAccountNumber(replaceFiller(accountingLine.getAccountNumber()));
-                detail.setSubAccountNumber(replaceFiller(entry.getSubAccountNumber()));
-                detail.setFinancialObjectCode(replaceFiller(accountingLine.getFinancialObjectCode()));
-                detail.setProjectCode(replaceFiller(entry.getProjectCode()));
-                detail.setOrganizationReferenceId(replaceFiller(entry.getOrganizationReferenceId()));
+                detail.setSubAccountNumber(replaceFiller(accountingLine.getSubAccountNumber()));
+                detail.setFinancialObjectCode(replaceFiller(accountingLine.getFinancialObjectCode()));               
+                detail.setFinancialSubObjectCode(replaceFiller(accountingLine.getFinancialSubObjectCode()));                  
+                detail.setProjectCode(replaceFiller(accountingLine.getProjectCode()));
+                detail.setOrganizationReferenceId(replaceFiller(accountingLine.getOrganizationReferenceId()));
+                //detail.setAmount(KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode) ? accountingLine.getAmount().negated() : accountingLine.getAmount());
                 detail.setAmount(getAccountingLineAmountForPaymentDetail(entry, accountingLine));
                 detail.setExpenditureFinancialSystemOriginationCode(replaceFiller(entry.getFinancialSystemOriginationCode()));
                 detail.setExpenditureFinancialDocumentNumber(entry.getDocumentNumber());
@@ -533,6 +542,7 @@ public class GlLineServiceImpl implements GlLineService {
     }
     
     /**
+     * NOTE: This method is not used anywhere in project.
      * Creates asset payment detail based on GL line. to CAB
      * 
      * @param entry GeneralLedgerEntry
@@ -561,10 +571,9 @@ public class GlLineServiceImpl implements GlLineService {
         detail.setExpenditureFinancialDocumentPostedDate(entry.getTransactionDate());
         detail.setPurchaseOrderNumber(replaceFiller(entry.getReferenceFinancialDocumentNumber()));
         detail.setTransferPaymentIndicator(false);
-        
         return detail;
     }
-    
+
     /**
      * retrieves the amount from the capital asset
      * @param entry

@@ -901,8 +901,18 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         // When updating an account expiration date, the date must be today or later
         // Only run this test if this maintenance doc
         // is an edit doc
+        
+       //MSU Contribution KFSMI-8567 DTT-565 KFSCNTRB-972
         if (isUpdatedExpirationDateInvalid(maintenanceDocument)) {
-            putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
+            Account newAccount = (Account) maintenanceDocument.getNewMaintainableObject().getBusinessObject();            
+            if(newAccount.isClosed()){
+                /*If the Account is being closed and the date is before today's date, the EXP date can only be today*/
+                putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
+            }
+            else{
+                /*If the Account is not being closed and the date is before today's date, the EXP date can only be today or at a later date*/
+                putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
+            }
             success &= false;
         }
 

@@ -148,7 +148,7 @@
 									</td>
 									<td class="datacell" nowrap>
 									    <kul:htmlControlAttribute
-										    attributeEntry="${itemAttributes.invoiceCatalogNumber}"
+										    attributeEntry="${itemAttributes.invoiceItemCatalogNumber}"
 										    property="document.invoiceRejectItems[${ctr}].invoiceItemCatalogNumber"
 										    readOnly="true" /><br />
 									    <kul:htmlControlAttribute
@@ -312,10 +312,8 @@
 	                    <kul:htmlControlAttribute attributeEntry="${vendorAttributes.vendorName}" property="document.currentPurchaseOrderDocument.vendorName" readOnly="true" />
 	                </td>
 	                <th align="right" valign="middle" class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${purchaseOrderStatusAttributes.statusDescription}" useShortLabel="true" /></div>
 	                </th>
 	                <td align="left" valign="middle" class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${purchaseOrderStatusAttributes.statusDescription}" property="document.currentPurchaseOrderDocument.applicationDocumentStatus" readOnly="true" />
 	                </td>
 	            </tr>
 
@@ -369,31 +367,31 @@
 									</td>
 									<td class="datacell">
 									    <kul:htmlControlAttribute
-										    attributeEntry="${purapItemAttributes.invoiceItemUnitOfMeasureCode}"
+										    attributeEntry="${purapItemAttributes.itemUnitOfMeasureCode}"
 										    property="document.currentPurchaseOrderDocument.items[${ctr}].itemUnitOfMeasureCode"
 										    readOnly="true" />
 									</td>
 									<td class="datacell">
 									    <kul:htmlControlAttribute
-										    attributeEntry="${purapItemAttributes.invoiceCatalogNumber}"
+										    attributeEntry="${purapItemAttributes.itemCatalogNumber}"
 										    property="document.currentPurchaseOrderDocument.items[${ctr}].itemCatalogNumber"
 										    readOnly="true" />
 									</td>
 									<td class="datacell">
 									    <kul:htmlControlAttribute
-										    attributeEntry="${purapItemAttributes.itemReferenceDescription}"
+										    attributeEntry="${purapItemAttributes.itemDescription}"
 										    property="document.currentPurchaseOrderDocument.items[${ctr}].itemDescription"
 										    readOnly="true" />
 									</td>
 									<td class="datacell">
 									    <kul:htmlControlAttribute
-										    attributeEntry="${purapItemAttributes.invoiceUnitPrice}"
+										    attributeEntry="${purapItemAttributes.itemUnitPrice}"
 										    property="document.currentPurchaseOrderDocument.items[${ctr}].itemUnitPrice"
 										    readOnly="true" />
 									</td>
 									<td class="datacell">
 									    <kul:htmlControlAttribute
-										    attributeEntry="${purapItemAttributes.extendedAmount}"
+										    attributeEntry="${purapItemAttributes.extendedPrice}"
 										    property="document.currentPurchaseOrderDocument.items[${ctr}].extendedPrice"
 										    readOnly="true" />
 									</td>									
@@ -448,7 +446,7 @@
 								</th>
 								<td>
 				                    <kul:htmlControlAttribute
-				                        attributeEntry="${DataDictionary.RequisitionDocument.totalPreTaxDollarAmount}"
+				                        attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalPreTaxDollarAmount}"
 				                        property="document.currentPurchaseOrderDocument.totalPreTaxDollarAmount"
 				                        readOnly="true" />
 								</td>
@@ -459,7 +457,7 @@
 								</th>
 								<td>
 				                    <kul:htmlControlAttribute
-				                        attributeEntry="${DataDictionary.RequisitionDocument.totalTaxAmount}"
+				                        attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalTaxAmount}"
 				                        property="document.currentPurchaseOrderDocument.totalTaxAmount"
 				                        readOnly="true" />
 								</td>
@@ -470,7 +468,7 @@
 								</th>
 								<td>
 				                    <kul:htmlControlAttribute
-				                        attributeEntry="${DataDictionary.RequisitionDocument.totalDollarAmount}"
+				                        attributeEntry="${DataDictionary.RequisitionDocument.attributes.totalDollarAmount}"
 				                        property="document.currentPurchaseOrderDocument.totalDollarAmount"
 				                        readOnly="true" />
 								</td>

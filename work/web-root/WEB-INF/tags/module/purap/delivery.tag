@@ -76,6 +76,10 @@
                     <kul:htmlControlAttribute 
                         attributeEntry="${documentAttributes.deliveryBuildingName}" 
                         property="document.deliveryBuildingName" readOnly="true" tabindexOverride="${tabindexOverrideBase + 0}"/>&nbsp;
+                        <!-- MSU Contribution DTT-330 KFSMI-8582 KFSCNTRB-943 -->
+                        <c:if test="${hasErrors}">
+              				<kul:fieldShowErrorIcon />
+            			</c:if>
                     <c:if test="${(fullEntryMode or amendmentEntry) && !deliveryReadOnly}">
                         <kul:lookup boClassName="org.kuali.kfs.sys.businessobject.Building"
                             lookupParameters="document.deliveryCampusCode:campusCode"

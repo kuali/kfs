@@ -116,11 +116,14 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAcco
         Integer universityFiscalYear = ((PaymentRequestDocument)getDocument()).getPostingYearPriorOrCurrent();
         SubObjectCode subObjectCodeForValidation = (SpringContext.getBean(SubObjectCodeService.class).getByPrimaryId(universityFiscalYear, subObjectCode.getChartOfAccountsCode(), subObjectCode.getAccountNumber(), subObjectCode.getFinancialObjectCode(), subObjectCode.getFinancialSubObjectCode()));
 
- 
+        //MSU Contribution KFSMI-8345 DTT-4169 KFSCNTRB-960
         // check active flag
-        if (!subObjectCodeForValidation.isActive()) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
-            return false;
+        if(!subObjectCodeForValidation.isActive()) {
+            if( ((PaymentRequestDocument)getDocument()).getApplicationDocumentStatus().equals(PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW)){
+                GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+                return false;
+            }
+             
         }
 
         return true;
@@ -138,6 +141,14 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAcco
         if (ObjectUtils.isNull(subAccount)) {
             GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
             return false;
+        }
+        //MSU Contribution KFSMI-8345 DTT-4023 KFSCNTRB-960
+        if(!subAccount.isActive()){
+            if( ((PaymentRequestDocument)getDocument()).getApplicationDocumentStatus().equals(PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW)){
+                GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+                return false;
+            }
+             
         }
         return true;
     }

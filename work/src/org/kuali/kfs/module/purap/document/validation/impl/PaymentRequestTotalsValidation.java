@@ -37,12 +37,30 @@ public class PaymentRequestTotalsValidation extends GenericValidation {
         PaymentRequestDocument document = (PaymentRequestDocument)event.getDocument();
         GlobalVariables.getMessageMap().clearErrorPath();
         GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
+        String[] excludeArray = { PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE };
 
-        List excludeDiscount = new ArrayList();
-        excludeDiscount.add(PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE);
-        if ((ObjectUtils.isNull(document.getVendorInvoiceAmount())) || (this.getTotalExcludingItemTypes(document.getItems(), excludeDiscount).compareTo(document.getVendorInvoiceAmount()) != 0 && !document.isUnmatchedOverride())) {
+        // if NO invoice amount
+        if (ObjectUtils.isNull(document.getVendorInvoiceAmount())) {
             if (!KNSGlobalVariables.getMessageList().contains(PurapKeyConstants.WARNING_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID)) {
                 KNSGlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID);                
+            }
+        }
+        //  if UseTax is included, then the invoiceInitialAmount should be compared against the
+        // total amount NOT INCLUDING tax
+        else if (document.isUseTaxIndicator()) {
+            if (document.getTotalPreTaxDollarAmountAllItems(excludeArray).compareTo(document.getVendorInvoiceAmount()) != 0 && !document.isUnmatchedOverride()) {
+                if (!KNSGlobalVariables.getMessageList().contains(PurapKeyConstants.WARNING_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID)) {
+                    KNSGlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID);                
+                }
+            }
+        }
+        //  if NO UseTax, then the invoiceInitialAmount should be compared against the 
+        // total amount INCLUDING sales tax (since if the vendor invoices with sales tax, then we pay it)
+        else {
+            if (document.getTotalDollarAmountAllItems(excludeArray).compareTo(document.getVendorInvoiceAmount()) != 0 && !document.isUnmatchedOverride()) {
+                if (!KNSGlobalVariables.getMessageList().contains(PurapKeyConstants.WARNING_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID)) {
+                    KNSGlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID);                
+                }
             }
         }
         

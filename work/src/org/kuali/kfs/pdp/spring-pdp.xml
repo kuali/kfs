@@ -623,16 +623,26 @@
 			<ref bean="bankChangeHistoryLookupableHelperService" />
 		</property>
 	</bean>	
-    <bean id="achPayeeLookupable" parent="achPayeeLookupable-parentBean"/>
 	
+    <bean id="achPayeeLookupable" parent="achPayeeLookupable-parentBean"/>	
 	<bean id="achPayeeLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="achPayeeLookupableHelperService" />
 		</property>
 	</bean>
-     <bean id="achPayeeLookupableHelperService" parent="achPayeeLookupableHelperService-parentBean" scope="prototype" />
- 
+	
+    <bean id="achPayeeLookupableHelperService" parent="achPayeeLookupableHelperService-parentBean" scope="prototype" />
 	<bean id="achPayeeLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.ACHPayeeLookupableHelperServiceImpl" scope="prototype" parent="payeeLookupableHelperServiceImpl-parentBean" abstract="true" />
+
+    <bean id="payeeACHAccountLookupable" parent="payeeACHAccountLookupable-parentBean"/>	
+	<bean id="payeeACHAccountLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+		<property name="lookupableHelperService">
+			<ref bean="payeeACHAccountLookupableHelperService" />
+		</property>
+	</bean>
+	
+    <bean id="payeeACHAccountLookupableHelperService" parent="payeeACHAccountLookupableHelperService-parentBean" scope="prototype" />
+	<bean id="payeeACHAccountLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.PayeeACHAccountLookupableHelperServiceImpl" scope="prototype" parent="payeeLookupableHelperServiceImpl-parentBean" abstract="true" />
 
     <bean id="customerRoleTypeService" parent="customerRoleTypeService-parentBean"/>
     <bean id="customerRoleTypeService-parentBean" class="org.kuali.kfs.pdp.identity.CustomerRoleTypeServiceImpl" abstract="true" />

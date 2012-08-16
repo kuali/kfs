@@ -19,7 +19,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,9 +30,9 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.CodedAttribute;
-import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -166,7 +165,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
             if (StringUtils.isBlank(pdEmplStatusCode) || Arrays.asList(PROJECT_DIRECTOR_INVALID_STATUSES).contains(pdEmplStatusCode)) {
                 String pdEmplStatusName = "INVALID STATUS CODE " + pdEmplStatusCode;
                 if ( StringUtils.isNotBlank(pdEmplStatusCode) ) {
-                    CodedAttribute empStatus = SpringContext.getBean(IdentityService.class).getEmploymentStatus(pdEmplStatusCode);
+                    CodedAttribute empStatus = KimApiServiceLocator.getIdentityService().getEmploymentStatus(pdEmplStatusCode);
                     if ( empStatus != null ) {
                         pdEmplStatusName = empStatus.getName();
                     }

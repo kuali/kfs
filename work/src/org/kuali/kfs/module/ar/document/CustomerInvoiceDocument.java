@@ -1268,7 +1268,10 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
         }
 
         // Force upper case
-        setBilledByOrganizationCode(getBilledByOrganizationCode().toUpperCase());
+        //TODO Force to upper case here since DD forceUpperCase doesn't work. Revert this temp fix after Rice fix.
+        setBilledByOrganizationCode(StringUtils.upperCase(billedByOrganizationCode));
+        accountsReceivableDocumentHeader.setProcessingOrganizationCode(StringUtils.upperCase(accountsReceivableDocumentHeader.getProcessingOrganizationCode()));
+        accountsReceivableDocumentHeader.setCustomerNumber(StringUtils.upperCase(accountsReceivableDocumentHeader.getCustomerNumber()));
 
         if (ObjectUtils.isNull(getCustomerShipToAddressIdentifier())) {
             setCustomerShipToAddress(null);

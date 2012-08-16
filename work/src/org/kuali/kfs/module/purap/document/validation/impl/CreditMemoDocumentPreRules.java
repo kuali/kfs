@@ -89,4 +89,31 @@ public class CreditMemoDocumentPreRules extends AccountsPayableDocumentPreRulesB
         return PurapConstants.CAMSWarningStatuses.CREDIT_MEMO_STATUS_WARNING_NO_CAMS_DATA.contains(purapDocument.getApplicationDocumentStatus());
     }
     
+    /**
+     * Determines if the amount entered on the init tab is mismatched with the grand total of the document.
+     * 
+     * @param accountsPayableDocument
+     * @return
+     */
+    @Override
+    protected boolean validateInvoiceTotalsAreMismatched(AccountsPayableDocument accountsPayableDocument) {
+        boolean mismatched = false;
+        String[] excludeArray = { PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE };
+
+        //  if UseTax is included, then the invoiceInitialAmount should be compared against the 
+        // total amount NOT INCLUDING tax
+        if (accountsPayableDocument.isUseTaxIndicator()) {
+            if (accountsPayableDocument.getTotalPreTaxDollarAmountAllItems(excludeArray).compareTo(accountsPayableDocument.getInitialAmount()) != 0 && !accountsPayableDocument.isUnmatchedOverride()) {
+                mismatched = true;
+            }
+        }
+        //  if NO UseTax, then the invoiceInitialAmount should be compared against the 
+        // total amount INCLUDING sales tax (since if the vendor invoices with sales tax, then we pay it)
+        else {
+            if (accountsPayableDocument.getTotalDollarAmountAllItems(excludeArray).compareTo(accountsPayableDocument.getInitialAmount()) != 0 && !accountsPayableDocument.isUnmatchedOverride()) {
+                mismatched = true;
+            }
+        }
+        return mismatched;
+    }
 }

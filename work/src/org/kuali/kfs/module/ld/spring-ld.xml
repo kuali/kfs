@@ -612,6 +612,9 @@
         <property name="laborGeneralLedgerEntryService">
             <ref bean="laborGeneralLedgerEntryService" />
         </property>
+        <property name="laborAccountingCycleCachingService">
+            <ref bean="laborAccountingCycleCachingService" />
+        </property>
     </bean>
 
     <bean id="laborPosterTransactionValidator" class="org.kuali.kfs.module.ld.batch.service.impl.LaborPosterTransactionValidator" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="work/src"/>
+	<classpathentry excluding="org/kuali/kfs/module/tem/batch/WebappWatchStep.java" kind="src" path="work/src"/>
 	<classpathentry kind="src" output="test/classes" path="test/infrastructure/src"/>
 	<classpathentry kind="src" output="test/classes" path="test/unit/src"/>
 	<classpathentry kind="src" output="test/classes" path="test/integration/src"/>
@@ -11,428 +11,414 @@
 			<accessrule kind="nonaccessible" pattern="sunw/**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-api-1.0.3.3-m2-SNAPSHOT.jar" sourcepath="build/rice-sources/rice-api-1.0.3.3-m2-SNAPSHOT-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-impl-1.0.3.3-m2-SNAPSHOT.jar" sourcepath="build/rice-sources/rice-impl-1.0.3.3-m2-SNAPSHOT-sources.jar"><!-- rice IMPL lib -->
-	<accessrules>
-		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
-	</accessrules>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-api-1.0.3.3-m2-SNAPSHOT.jar" sourcepath="build/rice-sources/rice-api-1.0.3.3-m2-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-impl-1.0.3.3-m2-SNAPSHOT.jar" sourcepath="build/rice-sources/rice-impl-1.0.3.3-m2-SNAPSHOT-sources.jar">
+		<accessrules>
+			<accessrule kind="discouraged" pattern="**"/>
+		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/FastInfoset-1.2.2.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/barcode4j.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/c1searchengine.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-digester-1.7.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-net-ftp-2.0.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/db-ojb-1.0.4-patch8.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/dwr-1.1.4.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/fop-0.20.5.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/itext-1.4.8.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/jasperreports-2.0.4.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/jaxrpc-1.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/jrobin-1.5.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/jsearch.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/opencsv-2.3.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/velocity-1.5.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/xml-apis-1.3.02.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/antlr-2.7.6.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/axiom-api-1.2.5.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/axiom-impl-1.2.5.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/bcel-5.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/bsf-2.4.0.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/carol-2.0.5.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-beanutils-1.7.0.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-codec-1.3.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-collections-3.2.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-fileupload-1.2.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-io-1.4.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-lang-2.3.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-logging-1.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-transaction-1.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-validator-1.1.4.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/concurrent-1.3.4.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-api-2.2.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-common-schemas-2.2.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-common-utilities-2.2.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-bindings-soap-2.2.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-bindings-xml-2.2.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-core-2.2.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-databinding-aegis-2.2.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-databinding-jaxb-2.2.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-frontend-jaxrs-2.2.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-frontend-jaxws-2.2.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-frontend-simple-2.2.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-transports-http-2.2.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-ws-addr-2.2.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-ws-security-2.2.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-tools-common-2.2.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/displaytag-1.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/dom4j-1.6.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/ehcache-1.2.3.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/groovy-all-minimal-1.5.4.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/hibernate-3.2.6.ga.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/hibernate-annotations-3.3.0.ga.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/hibernate-commons-annotations-3.0.0.ga.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/hibernate-entitymanager-3.3.1.ga.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/hibernate-validator-3.0.0.ga.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/howl-logger-0.1.11.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/itext-1.3.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/javassist-3.3.ga.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/jaxb-api-2.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/jaxb-impl-2.1.13.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/jaxb-xjc-2.1.13.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/jettison-1.2.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/js-1.6R5.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/jsr311-api-1.0.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/jstl-1.1.2.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/jta-1.0.1B.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/mail-1.4.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/neethi-2.0.4.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/nekohtml-0.9.5.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/oro-2.0.8.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/oscache-2.3.2.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/persistence-api-1.0.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/quartz-1.6.0.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/saaj-api-1.3.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/slf4j-api-1.6.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/slf4j-log4j12-1.6.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-aop-2.5.6.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-beans-2.5.6.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-context-2.5.6.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-context-support-2.5.6.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-core-2.5.6.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-jdbc-2.5.6.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-modules-ojb-0.8a.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-orm-2.5.6.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-tx-2.5.6.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-web-2.5.6.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-webmvc-2.5.6.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/standard-1.1.2.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/struts-1.2.9.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/xalan-2.7.0.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/xercesImpl-2.9.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/xmlbeans-2.4.0.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/xom-1.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/xstream-1.2.2.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/server-lib/jsp-api.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/server-lib/servlet-api.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/commons-cli-1.0.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/commons-logging-1.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/connector-1_5.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/howl.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/jta-spec1_0_1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/objectweb-datasource.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/ow_carol.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/apache-mime4j-0.6.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/cobertura.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/cssparser-0.9.5.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/guava-r09.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/htmlunit-2.8.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/htmlunit-core-js-2.8.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/httpclient-4.0.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/httpcore-4.0.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/httpcore-4.1.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/httpmime-4.0.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/jakarta-oro-2.0.8.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/jetty-6.1.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/jetty-all-server-7.4.1.v20110513.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/jetty-util-6.1.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/json-20090211.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/junit-4.9b2.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/nekohtml-1.9.14.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/sac-1.3.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/selenium-java-2.0b3.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/serializer-2.7.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/log4j-1.2.16.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/avalon-framework-cvs-20020806.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/FastInfoset-1.2.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/c1searchengine.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-digester-1.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-net-ftp-2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/db-ojb-1.0.4-patch8.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/dwr-1.1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/fop-0.20.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/itext-1.4.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/jasperreports-2.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/jaxrpc-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/jrobin-1.5.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/jsearch.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/opencsv-2.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/velocity-1.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/xml-apis-1.3.02.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/barcode4j.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/antlr-2.7.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/axiom-api-1.2.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/axiom-impl-1.2.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/bcel-5.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/bsf-2.4.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/carol-2.0.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-beanutils-1.7.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-codec-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-collections-3.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-fileupload-1.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-io-1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-lang-2.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-logging-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-transaction-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-validator-1.1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/concurrent-1.3.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-api-2.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-common-schemas-2.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-common-utilities-2.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-bindings-soap-2.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-bindings-xml-2.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-core-2.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-databinding-aegis-2.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-databinding-jaxb-2.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-frontend-jaxrs-2.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-frontend-jaxws-2.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-frontend-simple-2.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-transports-http-2.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-ws-addr-2.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-rt-ws-security-2.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cxf-tools-common-2.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/displaytag-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/dom4j-1.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/ehcache-1.2.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/groovy-all-minimal-1.5.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/hibernate-3.2.6.ga.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/hibernate-annotations-3.3.0.ga.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/hibernate-commons-annotations-3.0.0.ga.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/hibernate-entitymanager-3.3.1.ga.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/hibernate-validator-3.0.0.ga.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/howl-logger-0.1.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/itext-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/javassist-3.3.ga.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/jaxb-api-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/jaxb-impl-2.1.13.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/jaxb-xjc-2.1.13.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/jettison-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/js-1.6R5.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/jsr311-api-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/jstl-1.1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/jta-1.0.1B.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/mail-1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/neethi-2.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/nekohtml-0.9.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/oro-2.0.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/oscache-2.3.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/persistence-api-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/quartz-1.6.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/saaj-api-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/slf4j-api-1.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/slf4j-log4j12-1.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-aop-2.5.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-beans-2.5.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-context-2.5.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-context-support-2.5.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-core-2.5.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-jdbc-2.5.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-modules-ojb-0.8a.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-orm-2.5.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-tx-2.5.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-web-2.5.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/spring-webmvc-2.5.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/standard-1.1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/struts-1.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/xalan-2.7.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/xercesImpl-2.9.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/xmlbeans-2.4.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/xom-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/xstream-1.2.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/server-lib/jsp-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/server-lib/servlet-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/commons-cli-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/commons-logging-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/connector-1_5.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/howl.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/jta-spec1_0_1.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/objectweb-datasource.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/ow_carol.jar"/>
+	<classpathentry exported="true" kind="lib" path="test/lib/cobertura.jar"/>
+	<classpathentry exported="true" kind="lib" path="test/lib/jakarta-oro-2.0.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="test/lib/jetty-all-server-7.4.1.v20110513.jar"/>
+	<classpathentry exported="true" kind="lib" path="test/lib/junit-4.9b2.jar"/>
+	<classpathentry exported="true" kind="lib" path="test/lib/guava-r09.jar"/>
+	<classpathentry exported="true" kind="lib" path="test/lib/selenium-java-2.0b3.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/log4j-1.2.16.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/avalon-framework-cvs-20020806.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/backport-util-concurrent-2.1.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/backport-util-concurrent-2.1.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/batik-1.6.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/batik-1.6.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-dbcp-1.4.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-dbcp-1.4.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-pool-1.5.4.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-pool-1.5.4.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/geronimo-annotation_1.0_spec-1.1.1.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/geronimo-annotation_1.0_spec-1.1.1.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/javamelody-1.31.0.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/javamelody-1.31.0.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/opensaml-1.1.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/opensaml-1.1.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/taglibs-jstl-1.1.2.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/taglibs-jstl-1.1.2.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/taglibs-log.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/taglibs-log.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/taglibs-standard-1.1.2.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/taglibs-standard-1.1.2.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/xalan-serializer-2.7.0.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/xalan-serializer-2.7.0.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/XmlSchema-1.4.5.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/XmlSchema-1.4.5.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/abdera-core-1.0.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/abdera-core-1.0.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/abdera-extensions-json-1.0.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/abdera-extensions-json-1.0.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/abdera-extensions-main-1.0.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/abdera-extensions-main-1.0.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/abdera-i18n-1.0.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/abdera-i18n-1.0.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/abdera-parser-1.0.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/abdera-parser-1.0.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/activation-1.1.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/activation-1.1.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/aopalliance-1.0.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/aopalliance-1.0.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/asm-2.2.3.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/asm-2.2.3.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/asm-attrs-1.5.3.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/asm-attrs-1.5.3.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/bcprov-jdk15-1.45.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/bcprov-jdk15-1.45.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cas-client-core-3.1.6.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cas-client-core-3.1.6.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/cglib-nodep-2.1_3.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/cglib-nodep-2.1_3.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-httpclient-3.0.1.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-httpclient-3.0.1.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/connector-api-1.5.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/connector-api-1.5.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/geronimo-annotation_1.0_spec-1.1.1.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/geronimo-annotation_1.0_spec-1.1.1.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/geronimo-jaxws_2.1_spec-1.0.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/geronimo-jaxws_2.1_spec-1.0.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/geronimo-stax-api_1.0_spec-1.0.1.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/geronimo-stax-api_1.0_spec-1.0.1.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/geronimo-ws-metadata_2.0_spec-1.1.2.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/geronimo-ws-metadata_2.0_spec-1.1.2.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/jaxen-1.1.1.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/jaxen-1.1.1.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/jboss-common-core-2.0.4.GA.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/jboss-common-core-2.0.4.GA.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/jdom-1.0.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/jdom-1.0.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/jotm-2.0.10.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/jotm-2.0.10.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/jotm_jrmp_stubs-2.0.10.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/jotm_jrmp_stubs-2.0.10.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/saaj-impl-1.3.2.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/saaj-impl-1.3.2.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/struts-el-1.2.9.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/struts-el-1.2.9.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/wsdl4j-1.6.2.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/wsdl4j-1.6.2.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/wss4j-1.5.8.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/wss4j-1.5.8.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/wstx-asl-3.2.9.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/wstx-asl-3.2.9.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/xapool-1.5.0-patch3.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/xapool-1.5.0-patch3.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/xml-resolver-1.2.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/xml-resolver-1.2.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/xmlsec-1.4.3.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/xmlsec-1.4.3.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/xpp3_min-1.1.3.4.O.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/xpp3_min-1.1.3.4.O.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/server-lib/commons-el.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/server-lib/commons-el.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/server-lib/jasper-compiler-jdt.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/server-lib/jasper-compiler-jdt.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/server-lib/jasper-compiler.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/server-lib/jasper-compiler.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/server-lib/jasper-runtime.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/server-lib/jasper-runtime.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/drivers/mysql-connector-java-5.1.13-bin.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/drivers/mysql-connector-java-5.1.13-bin.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/drivers/ojdbc6.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/drivers/ojdbc6.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/jotm-2.0.10.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/jotm-2.0.10.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/jotm_iiop_stubs.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/jotm_iiop_stubs.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/jotm_jrmp_stubs.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/jotm_jrmp_stubs.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/p6spy-1.3-patched.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/p6spy-1.3-patched.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/external/appserver/xapool-1.5.0-patch3.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/external/appserver/xapool-1.5.0-patch3.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="test/lib/asm-3.0.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="test/lib/asm-3.0.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="test/lib/asm-tree-3.0.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="test/lib/asm-tree-3.0.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="test/lib/connector-api-1.5.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="test/lib/connector-api-1.5.jar">
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>

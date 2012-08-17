@@ -30,7 +30,7 @@ public class AccountingDistribution implements java.io.Serializable {
     private KualiDecimal subTotal;
     private KualiDecimal remainingAmount;
     private Boolean selected = Boolean.TRUE;
-    private Boolean disabled = Boolean.TRUE;
+    private Boolean disabled = Boolean.FALSE;
 
     /**
      * Gets the selected attribute. 

@@ -1782,15 +1782,13 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         List<String> paymentRequestDocNumbers = new ArrayList<String>();
 
-        Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
-        String principalId = systemUser.getPrincipalId();
-        
         DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
         documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
         documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
-
+        documentSearchCriteriaDTO.setApplicationDocumentStatuses(Arrays.asList(appDocStatus));
+        
         DocumentSearchResults reqDocumentsList = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                principalId, documentSearchCriteriaDTO.build());
+                "", documentSearchCriteriaDTO.build());
 
         for (DocumentSearchResult reqDocument : reqDocumentsList.getSearchResults()) {
             ///use the appDocStatus from the KeyValueDTO result to look up custom status
@@ -1828,8 +1826,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
         documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
 
+        //we are passing blank value for principal id since we do not want to 
+        //save the search results.
         DocumentSearchResults reqDocumentsList = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                GlobalVariables.getUserSession().getPrincipalId(), documentSearchCriteriaDTO.build());
+                "", documentSearchCriteriaDTO.build());
 
         for (DocumentSearchResult reqDocument : reqDocumentsList.getSearchResults()) {
             ///use the appDocStatus from the KeyValueDTO result to look up custom status
@@ -1875,7 +1875,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
 
         DocumentSearchResults reqDocumentsList = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                GlobalVariables.getUserSession().getPrincipalId(), documentSearchCriteriaDTO.build());
+                "", documentSearchCriteriaDTO.build());
 
         for (DocumentSearchResult reqDocument : reqDocumentsList.getSearchResults()) {
             ///use the appDocStatus from the KeyValueDTO result to look up custom status

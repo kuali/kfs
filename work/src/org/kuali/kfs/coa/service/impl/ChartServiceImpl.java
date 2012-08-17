@@ -54,7 +54,7 @@ public class ChartServiceImpl implements ChartService {
      * @see org.kuali.kfs.coa.service.ChartService#getByPrimaryId(java.lang.String)
      */
     @Override
-    @Cacheable(value=Chart.CACHE_NAME,key="#p0")
+    @Cacheable(value=Chart.CACHE_NAME,key="'chartOfAccountsCode='+#p0")
     public Chart getByPrimaryId(String chartOfAccountsCode) {
         return businessObjectService.findBySinglePrimaryKey(Chart.class, chartOfAccountsCode);
     }

@@ -36,7 +36,7 @@ public class OptionsServiceImpl implements OptionsService {
     }
 
     @Override
-    @Cacheable(value=SystemOptions.CACHE_NAME, key="#p0")
+    @Cacheable(value=SystemOptions.CACHE_NAME, key="'universityFiscalYear='+#p0")
     public SystemOptions getOptions(Integer universityFiscalYear) {
         return SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SystemOptions.class, universityFiscalYear);
     }

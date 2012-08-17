@@ -117,7 +117,7 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
      * @see org.kuali.kfs.coa.service.AccountingPeriodService#getByDate(java.sql.Date)
      */
     @Override
-    @Cacheable(value=AccountingPeriod.CACHE_NAME, key="#p0")
+    @Cacheable(value=AccountingPeriod.CACHE_NAME, key="'date='+#p0")
     public AccountingPeriod getByDate(Date date) {
         Map<String,Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_DATE, date);

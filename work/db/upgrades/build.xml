@@ -46,7 +46,7 @@ DOCUMENT ROUTE NODES
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
         	SELECT t.doc_typ_nm, n.nm, 
         	    	SUBSTR( n.typ, -(INSTR( REVERSE( n.typ ), '.' ) - 1) ) AS node_type,
-        	   		n.actvn_typ, COALESCE( n.next_doc_stat, ' ' ) AS next_app_doc_status, 
+        	   		COALESCE( n.next_doc_stat, ' ' ) AS next_app_doc_status, 
         			b.BRCH_NM AS branch_name, COALESCE( nn.nm, ' ' ) AS NEXT_NODE_NM,
                     cp.KEY_CD, cp.VAL
         	    FROM  KREW_DOC_TYP_T t

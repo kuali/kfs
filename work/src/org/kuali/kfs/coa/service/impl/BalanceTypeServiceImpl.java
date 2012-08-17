@@ -48,7 +48,7 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      * @return A fully populated object instance.
      */
     @Override
-    @Cacheable(value=BalanceType.CACHE_NAME, key="#p0")
+    @Cacheable(value=BalanceType.CACHE_NAME, key="'code='+#p0")
     public BalanceType getBalanceTypeByCode(String code) {
        return businessObjectService.findBySinglePrimaryKey(BalanceType.class, code);
     }

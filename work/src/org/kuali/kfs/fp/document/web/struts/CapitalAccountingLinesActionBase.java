@@ -632,6 +632,9 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
             createCapitalAssetsForSelectedAccountingLines(form , calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR, distributionAmountCode);
         }
         
+        //restore the tab states....
+        setTabStatesForCapitalAssets(form);    
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);        
     }
     
@@ -683,6 +686,9 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         else {
             createCapitalAssetsForSelectedAccountingLines(form , calfb, KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR, distributionAmountCode);
         }
+        
+        //restore the tab states....
+        setTabStatesForCapitalAssets(form);    
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

@@ -48,7 +48,7 @@ public class BankServiceImpl implements BankService {
      * @see org.kuali.kfs.fp.service.BankService#getByPrimaryId(java.lang.String)
      */
     @Override
-    @Cacheable(value=Bank.CACHE_NAME, key="#p0")
+    @Cacheable(value=Bank.CACHE_NAME, key="'bankCode='+#p0")
     public Bank getByPrimaryId(String bankCode) {
         return businessObjectService.findBySinglePrimaryKey(Bank.class, bankCode);
     }
@@ -57,7 +57,7 @@ public class BankServiceImpl implements BankService {
      * @see org.kuali.kfs.sys.service.BankService#getDefaultBankByDocType(java.lang.String)
      */
     @Override
-    @Cacheable(value=Bank.CACHE_NAME, key="'DefaultByDocType'+#p0")
+    @Cacheable(value=Bank.CACHE_NAME, key="'DefaultByDocType-'+#p0")
     public Bank getDefaultBankByDocType(String documentTypeCode) {
         if (parameterService.parameterExists(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE)) {
             List<String> parmValues = new ArrayList<String>( parameterService.getSubParameterValuesAsString(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE, documentTypeCode) );
@@ -83,7 +83,7 @@ public class BankServiceImpl implements BankService {
      * @see org.kuali.kfs.sys.service.BankService#getDefaultBankByDocType(java.lang.Class)
      */
     @Override
-    @Cacheable(value=Bank.CACHE_NAME, key="'DefaultByDocClass'+#p0")
+    @Cacheable(value=Bank.CACHE_NAME, key="'DefaultByDocClass-'+#p0")
     public Bank getDefaultBankByDocType(Class<?> documentClass) {
         String documentTypeCode = dataDictionaryService.getDocumentTypeNameByClass(documentClass);
 

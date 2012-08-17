@@ -40,7 +40,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
      * @see org.kuali.kfs.coa.service.ObjectTypeService#getByPrimaryKey(java.lang.String)
      */
     @Override
-    @Cacheable(value=ObjectType.CACHE_NAME,key="#p0")
+    @Cacheable(value=ObjectType.CACHE_NAME,key="'objectTypeCode='+#p0")
     public ObjectType getByPrimaryKey(String objectTypeCode) {
         return businessObjectService.findBySinglePrimaryKey(ObjectType.class, objectTypeCode);
     }

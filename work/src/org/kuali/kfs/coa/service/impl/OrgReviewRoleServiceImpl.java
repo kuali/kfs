@@ -187,7 +187,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
      * @return
      */
     @Override
-    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="#p0")
+    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="'{getRolesToConsider}'+#p0")
     public List<String> getRolesToConsider(String documentTypeName) throws ValidationException {
         List<String> rolesToConsider = new ArrayList<String>(2);
         if(StringUtils.isBlank(documentTypeName) || KFSConstants.ROOT_DOCUMENT_TYPE.equals(documentTypeName) ){

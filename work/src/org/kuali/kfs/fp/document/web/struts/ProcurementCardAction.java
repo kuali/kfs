@@ -36,6 +36,9 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -47,6 +50,15 @@ import org.kuali.rice.krad.util.KRADConstants;
 public class ProcurementCardAction extends CapitalAccountingLinesActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardAction.class);
 
+    @Override
+    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.loadDocument(kualiDocumentFormBase);
+        ProcurementCardDocument procureCardDocument = (ProcurementCardDocument)kualiDocumentFormBase.getDocument();
+        int transactionsCount = procureCardDocument.getTransactionEntries().size();
+        ProcurementCardForm procurementCardForm = (ProcurementCardForm)kualiDocumentFormBase;
+        procurementCardForm.buildNewTargetAccountingLines(transactionsCount);
+    }
+    
     /**
      * Override to accomodate multiple target lines.
      * 
@@ -77,26 +89,24 @@ public class ProcurementCardAction extends CapitalAccountingLinesActionBase {
         ProcurementCardForm procurementCardForm = (ProcurementCardForm) form;
         ProcurementCardDocument procurementCardDocument = (ProcurementCardDocument) procurementCardForm.getDocument();
 
-        // get index of new target line
-        int newTargetIndex = super.getSelectedLine(request);
-        ProcurementCardTargetAccountingLine line = (ProcurementCardTargetAccountingLine) procurementCardForm.getNewTargetLines().get(newTargetIndex);
-        
-        // populate chartOfAccountsCode from account number if accounts cant cross chart and Javascript is turned off
-        //SpringContext.getBean(AccountService.class).populateAccountingLineChartIfNeeded(line);
+        int targetContainerIndex = this.getSelectedContainer(request);
+        ProcurementCardTargetAccountingLine line = (ProcurementCardTargetAccountingLine)procurementCardForm.getNewTargetLines().get(targetContainerIndex);       
 
-        ProcurementCardTransactionDetail transactionDetail = (ProcurementCardTransactionDetail) procurementCardDocument.getTransactionEntries().get(newTargetIndex);
+        ProcurementCardTransactionDetail transactionDetail = (ProcurementCardTransactionDetail) procurementCardDocument.getTransactionEntries().get(targetContainerIndex);
         line.setFinancialDocumentTransactionLineNumber(transactionDetail.getFinancialDocumentTransactionLineNumber());
 
         // check any business rules
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(newTargetIndex) + "]", procurementCardForm.getDocument(), (AccountingLine) line));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(targetContainerIndex) + "]", procurementCardForm.getDocument(), (AccountingLine) line));
 
         if (rulePassed) {
             // add accountingLine
             SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(line);
             insertAccountingLine(false, procurementCardForm, line);
-
-            // clear the used newTargetIndex
-            procurementCardForm.getNewTargetLines().set(newTargetIndex, new ProcurementCardTargetAccountingLine());
+            
+            ProcurementCardTargetAccountingLine newLine = new ProcurementCardTargetAccountingLine();
+            newLine.setTransactionContainerIndex(targetContainerIndex);
+            
+            procurementCardForm.getNewTargetLines().set(targetContainerIndex, newLine);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

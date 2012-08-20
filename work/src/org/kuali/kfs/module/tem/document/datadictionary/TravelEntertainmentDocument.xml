@@ -291,134 +291,32 @@
 		<property name="shortLabel" value="ENT Status" />
 	</bean>
 	
-<bean id="TravelEntertainmentDocument-workflowAttributes" parent="TravelEntertainmentDocument-workflowAttributes-parentBean"/>
-  <bean id="TravelEntertainmentDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-    	<property name="searchingTypeDefinitions">
-    		<list>
-    		<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelEntertainmentDocument"/>
-    						<property name="attributeName" value="tripBegin"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>tripBegin</value>
-    					</list>
-    				</property>
-    			</bean>
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelEntertainmentDocument"/>
-    						<property name="attributeName" value="hostProfileId"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>hostProfileId</value>
-    					</list>
-    				</property>
-    			</bean>
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelEntertainmentDocument"/>
-    						<property name="attributeName" value="eventTitle"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>eventTitle</value>
-    					</list>
-    				</property>
-    			</bean>
-    			
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelEntertainmentDocument"/>
-    						<property name="attributeName" value="spouseIncludedForSearching"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>spouseIncludedForSearching</value>
-    					</list>
-    				</property>
-    			</bean>
-    			
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TravelerDetail"/>
-    						<property name="attributeName" value="cityName"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>traveler.cityName</value>
-    					</list>
-    				</property>
-    			</bean>
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TravelerDetail"/>
-    						<property name="attributeName" value="stateCode"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>traveler.stateCode</value>
-    					</list>
-    				</property>
-    			</bean>
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TravelerDetail"/>
-    						<property name="attributeName" value="countryCode"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>traveler.countryCode</value>
-    					</list>
-    				</property>
-    			</bean>
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TravelerDetail"/>
-    						<property name="attributeName" value="zipCode"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>traveler.zipCode</value>
-    					</list>
-    				</property>
-    			</bean>
-    		</list>
-    	</property>
-    	
-    	<property name="routingTypeDefinitions">
-			<map>
-				<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly" />
-				<entry key="OrganizationHierarchy"
-					value-ref="RoutingType-TravelAuthorizationDocument-OrganizationHierarchy" />
-				<entry key="AccountingOrganizationHierarchy"
-					value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly" />
-				<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
-				<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
-				 <!--  <entry key="ENTSpecialRequestReviewer" value-ref="RoutingType-AccountingDocument-ENTSpecialRequestReviewer" />
-				<entry key="ENTTaxManager" value-ref="RoutingType-AccountingDocument-ENTTaxManager" />
-				<entry key="EntertainmentManager" value-ref="RoutingType-AccountingDocument-EntertainmentManager" />
-				-->
-			</map>
-		</property>
+  <bean id="TravelEntertainmentDocument-workflowAttributes" parent="TravelEntertainmentDocument-workflowAttributes-parentBean"/>
+  
+  <bean id="TravelEntertainmentDocument-workflowAttributes-parentBean" abstract="true" parent="TravelDocument-workflowAttributes">
+    <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelEntertainmentDocument" />
+	<property name="searchingTypeDefinitions">
+		<list>
+		    <bean parent="TravelMoudle-SearchingTypeDefinition-tripBegin" />
+            <bean parent="TravelMoudle-SearchingTypeDefinition-temProfileId" />
+			<bean parent="TravelMoudle-SearchingTypeDefinition-eventTitle" />
+            <bean parent="TravelMoudle-SearchingTypeDefinition-spouseIncludedForSearching" />
+            <bean parent="TravelMoudle-SearchingTypeDefinition-traveler.cityName" />
+            <bean parent="TravelMoudle-SearchingTypeDefinition-traveler.stateCode" />
+            <bean parent="TravelMoudle-SearchingTypeDefinition-traveler.countryCode" />
+            <bean parent="TravelMoudle-SearchingTypeDefinition-traveler.zipCode" />
+		</list>
+	</property>
+	
+	<property name="routingTypeDefinitions">
+		<map>
+			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly" />
+			<entry key="OrganizationHierarchy" value-ref="RoutingType-TravelAuthorizationDocument-OrganizationHierarchy" />
+			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly" />
+			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
+			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+		</map>
+	</property>
 	</bean>
 	
    <!-- Validations -->  

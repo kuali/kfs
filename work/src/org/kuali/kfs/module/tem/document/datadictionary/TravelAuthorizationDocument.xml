@@ -383,9 +383,9 @@
     </property>
   </bean>
 
-  <import resource="TEMDocumentWorkflow.xml"/>
+  <bean id="TravelAuthorizationDocument-workflowAttributes" parent="TravelAuthorizationDocument-workflowAttributes-parentBean"/>
 
-  <bean id="TravelAuthorizationDocument-workflowAttributes" parent="TEMDocument-workflowAttributes">
+  <bean id="TravelAuthorizationDocument-workflowAttributes-parentBean" abstract="true" parent="TravelDocument-workflowAttributes">
     <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelAuthorizationDocument" />
   </bean>
 

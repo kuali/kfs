@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">	
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:p="http://www.springframework.org/schema/p" 
+    xmlns:dd="http://rice.kuali.org/dd" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans         
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         
+        http://rice.kuali.org/dd         
+        http://rice.kuali.org/dd/dd.xsd">	
 
     <bean id="TravelReimbursementDocument" parent="TravelReimbursementDocument-parentBean" />
 	<bean id="TravelReimbursementDocument-parentBean" abstract="true" parent="AccountingDocumentEntry" >
@@ -394,7 +401,7 @@
     </property>
   </bean>
 
-  <bean id="TravelReimbursementDocument-workflowAttributes" parent="TravelReimbursementDocument-workflowAttributes-parent">
+  <bean id="TravelReimbursementDocument-workflowAttributes" parent="TravelReimbursementDocument-workflowAttributes-parent" />
 
   <bean id="TravelReimbursementDocument-workflowAttributes-parent" abstract="true" parent="TravelDocument-workflowAttributes">
     <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelReimbursementDocument" />

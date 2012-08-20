@@ -205,6 +205,13 @@
 						</list>
 					</property>
 				</bean>
+		        <bean parent="RelationshipDefinition" p:objectAttributeName="accountDescription.campus">
+		        	<property name="primitiveAttributes">
+		        		<list>
+		        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountDescription.campusCode" p:targetName="code" />
+		        		</list>
+		        	</property>
+		        </bean>
      	 	</list>
     	</property>
     	<property name="inactivationBlockingDefinitions">

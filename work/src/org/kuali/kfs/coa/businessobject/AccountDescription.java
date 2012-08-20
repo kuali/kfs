@@ -16,192 +16,115 @@
 
 package org.kuali.kfs.coa.businessobject;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.Building;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 
-/**
- * 
- */
 public class AccountDescription extends PersistableBusinessObjectBase {
-
     private static final long serialVersionUID = 6233459415790165510L;
 
-    private String chartOfAccountsCode;
-    private String accountNumber;
-    private String campusDescription;
-    private String organizationDescription;
-    private String responsibilityCenterDescription;
-    private String campusCode;
-    private String buildingCode;
-    private Building building;
+    protected String chartOfAccountsCode;
+    protected String accountNumber;
+    protected String campusDescription;
+    protected String organizationDescription;
+    protected String responsibilityCenterDescription;
+    protected String campusCode;
+    protected String buildingCode;
+    
+    protected CampusEbo campus;
+    protected Building building;
 
-    /**
-     * Default constructor.
-     */
-    public AccountDescription() {
-
-    }
-
-    /**
-     * Gets the chartOfAccountsCode attribute.
-     * 
-     * @return Returns the chartOfAccountsCode
-     */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
 
-    /**
-     * Sets the chartOfAccountsCode attribute.
-     * 
-     * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
-
-    /**
-     * Gets the accountNumber attribute.
-     * 
-     * @return Returns the accountNumber
-     */
     public String getAccountNumber() {
         return accountNumber;
     }
 
-    /**
-     * Sets the accountNumber attribute.
-     * 
-     * @param accountNumber The accountNumber to set.
-     */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
 
-
-    /**
-     * Gets the campusDescription attribute.
-     * 
-     * @return Returns the campusDescription
-     */
     public String getCampusDescription() {
         return campusDescription;
     }
 
-    /**
-     * Sets the campusDescription attribute.
-     * 
-     * @param campusDescription The campusDescription to set.
-     */
     public void setCampusDescription(String campusDescription) {
         this.campusDescription = campusDescription;
     }
 
-
-    /**
-     * Gets the organizationDescription attribute.
-     * 
-     * @return Returns the organizationDescription
-     */
     public String getOrganizationDescription() {
         return organizationDescription;
     }
 
-    /**
-     * Sets the organizationDescription attribute.
-     * 
-     * @param organizationDescription The organizationDescription to set.
-     */
     public void setOrganizationDescription(String organizationDescription) {
         this.organizationDescription = organizationDescription;
     }
 
-
-    /**
-     * Gets the responsibilityCenterDescription attribute.
-     * 
-     * @return Returns the responsibilityCenterDescription
-     */
     public String getResponsibilityCenterDescription() {
         return responsibilityCenterDescription;
     }
 
-    /**
-     * Sets the responsibilityCenterDescription attribute.
-     * 
-     * @param responsibilityCenterDescription The responsibilityCenterDescription to set.
-     */
     public void setResponsibilityCenterDescription(String responsibilityCenterDescription) {
         this.responsibilityCenterDescription = responsibilityCenterDescription;
     }
 
-
-    /**
-     * Gets the campusCode attribute.
-     * 
-     * @return Returns the campusCode
-     */
     public String getCampusCode() {
         return campusCode;
     }
 
-    /**
-     * Sets the campusCode attribute.
-     * 
-     * @param campusCode The campusCode to set.
-     */
     public void setCampusCode(String campusCode) {
         this.campusCode = campusCode;
     }
 
-
-    /**
-     * Gets the buildingCode attribute.
-     * 
-     * @return Returns the buildingCode
-     */
     public String getBuildingCode() {
         return buildingCode;
     }
 
-    /**
-     * Sets the buildingCode attribute.
-     * 
-     * @param buildingCode The buildingCode to set.
-     */
     public void setBuildingCode(String buildingCode) {
         this.buildingCode = buildingCode;
     }
 
-    /**
-     * Gets the building attribute.
-     * 
-     * @return Returns the building.
-     */
     public Building getBuilding() {
         return building;
     }
 
-    /**
-     * Sets the building attribute value.
-     * 
-     * @param building The building to set.
-     * @deprecated
-     */
     public void setBuilding(Building building) {
         this.building = building;
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("accountNumber", this.accountNumber);
-        return m;
+    public CampusEbo getCampus() {
+        if ( StringUtils.isBlank(campusCode) ) {
+            campus = null;
+        } else {
+            if ( campus == null || !StringUtils.equals( campus.getCode(),campusCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CampusEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, campusCode);
+                    campus = moduleService.getExternalizableBusinessObject(CampusEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        return campus;
+    }
+
+    public void setCampus(CampusEbo campus) {
+        this.campus = campus;
     }
 }

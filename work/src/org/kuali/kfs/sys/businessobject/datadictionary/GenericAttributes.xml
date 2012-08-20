@@ -38,6 +38,7 @@
 
   <bean id="IndicatorYNSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.YesNoValuesFinder" p:includeKeyInLabel="false"/>
 
+  <bean id="CampusSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.CampusWithBlankValuesFinder" p:includeKeyInLabel="false" />
 
 
   <bean id="ExactlyOneCharacterValidationPattern" parent="AnyCharacterValidationPattern" p:exactLength="1"/>
@@ -73,6 +74,15 @@
     <property name="maxLength" value="2"/>
     <property name="validationPattern" ref="ExactlyTwoCharacterValidationPattern" />
     <property name="control" ref="TwoCharacterTextControl" />
+  </bean>
+
+  <bean id="GenericAttributes-name" parent="GenericAttributes-name-parentBean" abstract="true" />
+  <bean id="GenericAttributes-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name"/>
+    <property name="label" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern" ref="AnyCharacterWithWhitespaceValidation" />
+    <property name="control" ref="StandardNameTextControl" />
   </bean>
 
   <bean id="GenericAttributes-genericDate" parent="GenericAttributes-genericDate-parentBean"/>

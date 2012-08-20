@@ -41,7 +41,7 @@
 
 		<td class="datacell" colspan="3">
 			<div align="left">
-				<kul:htmlControlAttribute attributeEntry="${documentAttributes.hostName}" property="document.hostName" readOnly="true" />
+				<kul:htmlControlAttribute attributeEntry="${documentAttributes.hostName}" property="document.hostName" />
 				<c:if test="${fullEntryMode}">
 					<!--<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TEMProfile" lookupParameters="document.host.travelerTypeCode:travelerTypeCode"
 						fieldConversions="travelerTypeCode:document.host.travelerTypeCode,principalId:document.host.principalId,firstName:document.host.firstName,middleName:document.host.middleName,lastName:document.host.lastName" />

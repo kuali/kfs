@@ -72,7 +72,7 @@
                 			readOnlyFields="travelExpenseTypeCode.prepaidExpense"/>
 					</c:when>
 					<c:otherwise>
-						<c:out value="${detailObject.travelCompanyCodeName}" />
+						<c:out value="${detailObject.travelCompanyCodeName}" />&nbsp;
 					</c:otherwise>
 				</c:choose>
 			</td>
@@ -107,7 +107,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${otherExpenseAttributes.taxable}"
 						property="${expense}.taxable"
-						readOnly="!fullEntryMode || lineNumber !=null }" />
+						readOnly="${!fullEntryMode || lineNumber !=null }" />
             	</div>
             </td>
             <td valign="top" nowrap class="infoline">

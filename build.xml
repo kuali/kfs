@@ -864,6 +864,7 @@ Excludes: ${tests.compile.excludes}
 	        <sysproperty key="net.sourceforge.cobertura.datafile"
 		file="${test.directory}/cobertura.ser" />
 			<jvmarg value="-DKualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues" />
+			<jvmarg value="-Dorg.terracotta.quartz.skipUpdateCheck=true" />
 			<jvmarg value="-Xms${run.tests.min.memory}" />
 			<jvmarg value="-Xmx${run.tests.max.memory}" />
 			<jvmarg value="-XX:MaxPermSize=${run.tests.max.permsize}" />
@@ -991,6 +992,7 @@ Excludes: ${tests.compile.excludes}
 			<jvmarg value="-Xms${run.postloadencrypt.min.memory}" />
 			<jvmarg value="-Xmx${run.postloadencrypt.max.memory}" />
 			<jvmarg value="-XX:MaxPermSize=${run.postloadencrypt.max.permsize}" />
+			<jvmarg value="-Dorg.terracotta.quartz.skipUpdateCheck=true" />
 			<arg value="postDataLoadEncryptionStep" />
 			<classpath>
 				<pathelement location="${classes.directory}" />
@@ -1019,6 +1021,7 @@ The workflow files you want to run must exist in the pending subdirectory and wi
             <jvmarg value="-Xmx1g" />
             <jvmarg value="-XX:MaxPermSize=256m" />
         	<jvmarg value="-Drice.krad.componentPublishing.enabled=false" />
+			<jvmarg value="-Dorg.terracotta.quartz.skipUpdateCheck=true" />
             <arg value="${workflow.dir}" />
             <classpath>
                 <pathelement location="${classes.directory}" />
@@ -1418,6 +1421,7 @@ Admin Password = $${impex.admin.password} (not shown)
 			<jvmarg value="-Doracle.net.CONNECT_TIMEOUT=10000" />
 			<jvmarg value="-Djava.awt.headless=true" />
 			<jvmarg value="-Dorg.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING=false" />
+			<jvmarg value="-Dorg.terracotta.quartz.skipUpdateCheck=true" />
 			
 			<jvmarg value="-DTOMCAT_DIR=${appserver.home}" />
 			<jvmarg value="-Dadditional.config.locations=${appserver.config.dir}/rice-config.xml" />

@@ -240,6 +240,7 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
             return false;
         }
         creditCardData.setCreditCardAgency(ccAgency);
+        creditCardData.setCreditCardAgencyId(ccAgency.getId());
         return true;
     }
     

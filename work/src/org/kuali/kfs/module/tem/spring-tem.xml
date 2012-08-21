@@ -1046,6 +1046,7 @@
 		<property name="temBatchService" ref="temBatchService"/>
 		<property name="temProfileService" ref="temProfileService" />
 		<property name="travelExpenseService" ref="travelExpenseService" />
+        <property name="creditCardAgencyService" ref="creditCardAgencyService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="creditCardDataFileErrorDirectory" value="${staging.directory}/tem/creditCardData/error" />
 		<property name="creditCardDataImportFileTypes">

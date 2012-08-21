@@ -99,7 +99,7 @@
                     </split>
 					<role name="OrganizationHierarchy" nextNode="TravelRequiresDivisionApproval" />
 				    <split name="TravelRequiresDivisionApproval" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Division Review">
-				    <branch name="True">
+				        <branch name="True">
                             <role name="DivisionReviewer" nextNode="JoinRequiresDivisionReview" />
                         </branch>
                         <branch name="False">
@@ -226,6 +226,8 @@
                     </qualifierResolverClass>
                     <activationType>P</activationType>
                 </role>
+                
+                
 				<split name="TravelIsInternationalTravel">
                     <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
                     </type>
@@ -240,6 +242,8 @@
                     </qualifierResolverClass>
                     <activationType>P</activationType>
                 </role>
+                
+                
                 <split name="TravelNeedsRiskManagement">
                     <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
                     </type>
@@ -270,6 +274,7 @@
 						P
           			</activationType>
 				</role>
+                
 				<split name="TravelAdvanceRequested">
                     <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
                     </type>
@@ -277,6 +282,13 @@
                 <simple name="NoOpTravelAdvanceRequested">
                     <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
                 </simple>
+                <join name="JoinTravelAdvanceRequested" />
+                <role name="APTravel">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
                 
                 <join name="JoinSeparationOfDutiesReviewer" />
 				<simple name="NoOpSeparationOfDutiesReviewer">
@@ -290,13 +302,6 @@
                     <activationType>P</activationType>
                 </role>
                 
-                <join name="JoinTravelAdvanceRequested" />
-                <role name="APTravel">
-                    <qualifierResolverClass>
-                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
-                    </qualifierResolverClass>
-                    <activationType>P</activationType>
-                </role>
 			</routeNodes>
 		</documentType>
 	</documentTypes>

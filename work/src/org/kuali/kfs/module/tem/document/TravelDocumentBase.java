@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemKeyConstants.AGENCY_SITES_URL;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ENABLE_AGENCY_SITES_URL;
 import static org.kuali.kfs.module.tem.TemKeyConstants.PASS_TRIP_ID_TO_AGENCY_SITES;
@@ -50,6 +49,7 @@ import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ClassOfService;
@@ -1259,7 +1259,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     @Override
     public String getDelinquentAction(){
         if(tripEnd != null){
-            List<String> delinquentRules = getParameterService().getParameterValues(PARAM_NAMESPACE, TemConstants.TravelParameters.DOCUMENT_DTL_TYPE, TemConstants.TravelParameters.NUMBER_OF_TR_DELINQUENT_DAYS);                    
+            List<String> delinquentRules = getParameterService().getParameterValues(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.NUMBER_OF_TR_DELINQUENT_DAYS);                    
             String action = null;  
                    
             if(delinquentRules != null){
@@ -1398,7 +1398,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * @return
      */
     protected boolean requiresDivisionApprovalRouting() {
-        if (getTravelDocumentService().getTotalAuthorizedEncumbrance(this).isGreaterEqual(new KualiDecimal(getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.CUMULATIVE_REIMBURSABLE_AMT_WITHOUT_DIV_APPROVAL)))) {
+        if (getTravelDocumentService().getTotalAuthorizedEncumbrance(this).isGreaterEqual(new KualiDecimal(getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CUMULATIVE_REIMBURSABLE_AMT_WITHOUT_DIV_APPROVAL)))) {
             return true;
         }
         return false;
@@ -1409,7 +1409,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * @return
      */
     protected boolean requiresInternationalTravelReviewRouting() {
-        if (ObjectUtils.isNotNull(this.getTripTypeCode()) && getParameterService().getParameterValues(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.INTERNATIONAL_TRIP_TYPE_CODES).contains(this.getTripTypeCode())) {
+        if (ObjectUtils.isNotNull(this.getTripTypeCode()) && getParameterService().getParameterValues(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INTERNATIONAL_TRIP_TYPE_CODES).contains(this.getTripTypeCode())) {
             return true;
         }
         return false;
@@ -1435,7 +1435,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * @return
      */
     protected boolean requiresSeparationOfDutiesRouting(){
-        String code = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.SEPARATION_OF_DUTIES_ROUTING_OPTION);
+        String code = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.SEPARATION_OF_DUTIES_ROUTING_OPTION);
 
         if (code.equals(TemConstants.SEP_OF_DUTIES_FO)){
             if (!requiresAccountApprovalRouting()){
@@ -1453,7 +1453,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             
             if (getTraveler().getPrincipalId() != null){
                 RoleService service = SpringContext.getBean(RoleManagementService.class);
-                List<String> principalIds = (List<String>) service.getRoleMemberPrincipalIds(PARAM_NAMESPACE, TemConstants.TEMRoleNames.DIVISION_REVIEWER, null);
+                List<String> principalIds = (List<String>) service.getRoleMemberPrincipalIds(TemConstants.PARAM_NAMESPACE, TemConstants.TEMRoleNames.DIVISION_REVIEWER, null);
                 for (String id : principalIds){
                     if (id.equals(getTraveler().getPrincipalId())){
                         return true;
@@ -1885,7 +1885,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Created by " + this.getDocumentTypeName() + " document" + (this.getTravelDocumentIdentifier() == null?".":": " + this.getTravelDocumentIdentifier()));
         disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(this.getTravelDocumentIdentifier());
-        String reasonCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE ,TravelParameters.VENDOR_PAYMENT_DV_REASON_CODE);
+        String reasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.VENDOR_PAYMENT_DV_REASON_CODE);
         
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(reasonCode);
         disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);

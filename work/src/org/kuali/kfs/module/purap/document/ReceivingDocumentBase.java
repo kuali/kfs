@@ -80,7 +80,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     protected String deliveryToPhoneNumber;
     protected Date deliveryRequiredDate;
     protected String deliveryInstructionText;
-    protected String deliveryRequiredDateReasonCode;        
+    protected String deliveryRequiredDateReasonCode;
 
     protected Integer alternateVendorHeaderGeneratedIdentifier;
     protected Integer alternateVendorDetailAssignedIdentifier;
@@ -96,7 +96,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     protected CountryEbo vendorCountry;
     protected Carrier carrier;
     protected VendorDetail vendorDetail;
-    protected DeliveryRequiredDateReason deliveryRequiredDateReason;    
+    protected DeliveryRequiredDateReason deliveryRequiredDateReason;
     protected Integer purchaseOrderIdentifier;
     protected Integer accountsPayablePurchasingDocumentLinkIdentifier;
     protected transient PurchaseOrderDocument purchaseOrderDocument;
@@ -356,9 +356,12 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
 
     @Override
     public String getDeliveryCountryName() {
-        Country country = SpringContext.getBean(CountryService.class).getCountry(getDeliveryCountryCode());
-        if (country != null)
-            return country.getName();
+        if ( StringUtils.isNotBlank(getDeliveryCountryCode()) ) {
+            Country country = SpringContext.getBean(CountryService.class).getCountry(getDeliveryCountryCode());
+            if (country != null) {
+                return country.getName();
+            }
+        }
         return null;
     }
 
@@ -479,10 +482,10 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
                 }
             }
         }
-        
+
         return vendorCountry;
     }
-    
+
     /**
      * @deprecated
      */
@@ -688,10 +691,12 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         return true;
     }
 
+    @Override
     public String getAppDocStatus() {
         return this.getApplicationDocumentStatus();
     }
 
+    @Override
     public void setAppDocStatus(String appDocStatus) {
         this.setApplicationDocumentStatus(appDocStatus);
     }

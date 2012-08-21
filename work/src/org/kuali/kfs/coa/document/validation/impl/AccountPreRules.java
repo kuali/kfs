@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -74,6 +74,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
      * This does not fail on rule failures
      * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#doCustomPreRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
+    @Override
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
         checkForContinuationAccounts(); // run this first to avoid side effects
@@ -165,7 +166,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
      * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
      * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
      * all sub-objects from the DB by their primary keys, if available.
-     * 
+     *
      * @param document - the maintenanceDocument being evaluated
      */
     protected void setupConvenienceObjects(MaintenanceDocument document) {
@@ -177,7 +178,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
 
     /**
      * This method sets up some defaults for new Account
-     * 
+     *
      * @param maintenanceDocument
      */
     protected void newAccountDefaults(MaintenanceDocument maintenanceDocument) {
@@ -191,7 +192,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
         // TODO: this is not needed any more, is in maintdoc xml defaults
         DateTime ts = new DateTime(maintenanceDocument.getDocumentHeader().getWorkflowDocument().getDateCreated());
         Date newts = new Date(ts.getMillis());
-        
+
         if (ts != null) {
             // On new Accounts AccountCreateDate is defaulted to the doc creation date
             if (newAccount.getAccountCreateDate() == null) {
@@ -206,15 +207,15 @@ public class AccountPreRules extends MaintenancePreRulesBase {
 
     /**
      * This method lookups state and city from populated zip, set the values on the form
-     * 
+     *
      * @param maintenanceDocument
      */
     protected void setStateFromZip(MaintenanceDocument maintenanceDocument) {
 
         // acct_zip_cd, acct_state_cd, acct_city_nm all are populated by looking up
         // the zip code and getting the state and city from that
-        if (!StringUtils.isBlank(newAccount.getAccountZipCode())) {
-            PostalCode zip = postalZipCodeService.getPostalCode( "US"/*RICE_20_REFACTORME*/, newAccount.getAccountZipCode() );
+        if (StringUtils.isNotBlank(newAccount.getAccountZipCode()) && StringUtils.isNotBlank(newAccount.getAccountCountryCode())  ) {
+            PostalCode zip = postalZipCodeService.getPostalCode( newAccount.getAccountCountryCode(), newAccount.getAccountZipCode() );
 
             // If user enters a valid zip code, override city name and state code entered by user
             if (ObjectUtils.isNotNull(zip)) { // override old user inputs

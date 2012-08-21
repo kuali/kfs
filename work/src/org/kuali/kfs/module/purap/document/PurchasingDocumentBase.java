@@ -387,9 +387,11 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     @Override
     public String getBillingCountryName() {
-        Country country = SpringContext.getBean(CountryService.class).getCountry(getBillingCountryCode());
-        if (country != null) {
-            return country.getName();
+        if ( StringUtils.isNotBlank(getBillingCountryCode()) ) {
+            Country country = SpringContext.getBean(CountryService.class).getCountry(getBillingCountryCode());
+            if (country != null) {
+                return country.getName();
+            }
         }
         return null;
     }
@@ -484,9 +486,11 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     @Override
     public String getReceivingCountryName() {
-        Country country = SpringContext.getBean(CountryService.class).getCountry(getReceivingCountryCode());
-        if (country != null) {
-            return country.getName();
+        if ( StringUtils.isNotBlank(getReceivingCountryCode()) ) {
+            Country country = SpringContext.getBean(CountryService.class).getCountry(getReceivingCountryCode());
+            if (country != null) {
+                return country.getName();
+            }
         }
         return null;
     }
@@ -648,9 +652,11 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     @Override
     public String getDeliveryCountryName() {
-        Country country = SpringContext.getBean(CountryService.class).getCountry(getDeliveryCountryCode());
-        if (country != null) {
-            return country.getName();
+        if ( StringUtils.isNotBlank(getDeliveryCountryCode()) ) {
+            Country country = SpringContext.getBean(CountryService.class).getCountry(getDeliveryCountryCode());
+            if (country != null) {
+                return country.getName();
+            }
         }
         return null;
     }

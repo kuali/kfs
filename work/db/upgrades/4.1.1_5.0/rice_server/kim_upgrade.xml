@@ -1282,5 +1282,37 @@
 			<where>nmspc_cd = 'KFS-CG' AND nm = 'Review RA ProjectManagement'</where>
 		</delete>
 	</changeSet>
-	
+
+	<changeSet author="KFS50" id="KFSMI9071_DISABLE_ADHOC_ROUTE_FOR_COMPLETION_IN_KFS">
+		<comment>Create a new permission without assigning to a role to disble Adhoc route for completion in KFS.</comment>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSMI9071-PRM1" />
+			<column name="OBJ_ID" value="KFSMI9071-PRM1"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Send Ad Hoc Request') " />
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="NM" value="Send Complete Request KFS" />
+			<column name="DESC_TXT" value="Authorizes users to send Complete ad hoc requests for KFS Documents." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI9071-PRM1ATT1" />
+			<column name="OBJ_ID" value="KFSMI9071-PRM1ATT1"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI9071-PRM1" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Send Ad Hoc Request') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') " />
+			<column name="ATTR_VAL" value="KFS" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI9071-PRM1ATT2" />
+			<column name="OBJ_ID" value="KFSMI9071-PRM1ATT2"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI9071-PRM1" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Send Ad Hoc Request') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'actionRequestCd') " />
+			<column name="ATTR_VAL" value="C" />
+		</insert>
+	</changeSet>
+		
 </databaseChangeLog>

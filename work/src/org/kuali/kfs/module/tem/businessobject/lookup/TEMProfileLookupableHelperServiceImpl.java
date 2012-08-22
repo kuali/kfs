@@ -211,16 +211,6 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         String url = "<div class=\"createnew\" title=\"Create TEM Profile\">";
 
         String imageBaseUrl = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
-        if (canCreateNewProfile) {
-            Properties createParameters = new Properties();
-            createParameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
-            createParameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, this.businessObjectClass.getName());
-
-            String createUrl = UrlFactory.parameterizeUrl(KNSConstants.MAINTENANCE_ACTION, createParameters);
-
-            // first add in the old create new button
-            url += "<a href=\"" + createUrl + "\"><img src=\"images/tinybutton-createnew.gif\" alt=\"refresh\"></a>&nbsp;";
-        }
 
         Properties myProfileParameters = new Properties();
         myProfileParameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);

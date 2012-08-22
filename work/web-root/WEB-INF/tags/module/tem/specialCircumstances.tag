@@ -22,13 +22,13 @@
 <c:set var="isTR" value="${KualiForm.docTypeName == TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT}" />
 <c:set var="isLimitEditable" value="${fullEntryMode || fiscalOfficer}" />
 
-<kul:tab tabTitle="Special Circumstances" defaultOpen="false" tabErrorKey="${TemKeyConstants.TRVL_AUTH_SPECIAL_CIRCUMSTANCES_ERRORS}">
+<kul:tab tabTitle="Special Circumstances" defaultOpen="${KualiForm.document.specialCircumstancesDefaultOpen}" tabErrorKey="${TemKeyConstants.TRVL_AUTH_SPECIAL_CIRCUMSTANCES_ERRORS}">
     <div class="tab-container" align=center > 
 		<h3>Special Circumstances</h3>
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Special Circumstances">
           <tr>
             <td>&nbsp;</td> 
-            <td>If there is an expense limit imposed by department or grant or some other budgetary restrictions on this trip, please enter the expense limit here <kul:htmlControlAttribute
+            <td>If there is an expense limit imposed by department or grant or some other budgetary restrictions on this trip, please enter the expense limit here $<kul:htmlControlAttribute
 				attributeEntry="${documentAttributes.expenseLimit}"
 				property="document.expenseLimit"
 				readOnly="${!isLimitEditable}" /></td>

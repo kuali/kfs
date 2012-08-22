@@ -1953,5 +1953,26 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     public boolean isTripGenerateEncumbrance(){
         return getTripType() != null && getTripType().isGenerateEncumbrance();
     }
+    
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#isSpecialCircumstancesDefaultOpen()
+     */
+    @Override
+    public boolean isSpecialCircumstancesDefaultOpen(){
+        boolean isOpen = false;
+        if (expenseLimit != null){
+            isOpen = true;
+        }else{
+            //open if any of the checkbox is selected (but not for text)
+            for (SpecialCircumstances circumstance : getSpecialCircumstances()){
+                if (circumstance.getResponse()){
+                    isOpen = true;
+                    break;
+                }
+            }
+        }
+        return isOpen;
+    }
    
 }

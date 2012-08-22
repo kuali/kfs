@@ -356,4 +356,15 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      * @param traveler {@link GroupTraveler} instance that is valid
      */
     void addGroupTravelerLine(final GroupTraveler traveler);
+    
+    /**
+     * Determine if special circumstances tab should be open 
+     * 
+     * Rule for default open: 
+     * 1. Amount provided for expense limit
+     * 2. Any of the special circumstances question (with boolean option) is selected
+     * 
+     * @return
+     */
+    public boolean isSpecialCircumstancesDefaultOpen();
 }

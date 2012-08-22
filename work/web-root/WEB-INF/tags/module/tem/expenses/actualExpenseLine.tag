@@ -107,7 +107,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${otherExpenseAttributes.taxable}"
 						property="${expense}.taxable"
-						readOnly="${!fullEntryMode || lineNumber !=null }" />
+						readOnly="${documentAttributes.taxSelectable || !fullEntryMode || lineNumber !=null }" />
             	</div>
             </td>
             <td valign="top" nowrap class="infoline">

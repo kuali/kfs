@@ -30,7 +30,7 @@
 					<th><kul:htmlAttributeLabel attributeEntry="${travelAdvanceAttributes.travelAdvanceRequested}" /> </th>
 					<td class="datacell">${invoice.travelAdvanceRequested}</td>
 					<th><kul:htmlAttributeLabel attributeEntry="${travelAdvanceAttributes.dueDate}" /> </th>
-					<td class="datacell">${invoice.dueDate==null?'&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp':invoice.dueDate}</td>
+					<td class="datacell">${invoice.dueDate==null ? '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' : invoice.dueDate}</td>
 					<th><kul:htmlAttributeLabel attributeEntry="${travelAdvanceAttributes.amountDue}" /> </th>
 					<td class="datacell">${invoice.amountDue}</td>
 					<th><kul:htmlAttributeLabel attributeEntry="${travelAdvanceAttributes.arInvoiceDocNumber}" /> </th>

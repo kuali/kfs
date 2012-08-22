@@ -40,6 +40,7 @@ public class TEMDocumentExpenseRoutingValidation extends GenericValidation {
             GlobalVariables.getMessageMap().addToErrorPath(TemPropertyConstants.ACTUAL_EXPENSES + "[" + counter + "]");
             success = validation.validateGeneralRules(actualExpense, travelDocument) 
                         && validation.validateAirfareRules(actualExpense, travelDocument) 
+                        && validation.validateRentalCarRules(actualExpense, travelDocument)
                         && validation.validateLodgingRules(actualExpense, travelDocument) 
                         && validation.validateLodgingAllowanceRules(actualExpense, travelDocument) 
                         && validation.validatePerDiemRules(actualExpense, travelDocument) 

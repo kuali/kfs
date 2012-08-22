@@ -51,7 +51,8 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
         
         if (success) {
             success = (validateGeneralRules(actualExpense, document) &&
-                    validateAirfareRules(actualExpense, document) &&                  
+                    validateAirfareRules(actualExpense, document) &&        
+                    validateRentalCarRules(actualExpense, document) && 
                     validateLodgingRules(actualExpense, document) &&
                     validateLodgingAllowanceRules(actualExpense, document) &&
                     validatePerDiemRules(actualExpense, document) &&

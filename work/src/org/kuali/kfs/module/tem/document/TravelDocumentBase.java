@@ -1338,6 +1338,27 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
 
     /**
+     * Get all Actual expenses with details
+     * 
+     * If expenses have details, use that information instead of the original expense
+     * 
+     * @return
+     */
+    public List<TEMExpense> getAllActualExpensesWithDetails(){
+        List<TEMExpense> expenseList = new ArrayList<TEMExpense>();
+        if (ObjectUtils.isNotNull(getActualExpenses())) {
+            for (ActualExpense ae : getActualExpenses()) {
+                if (ae.getExpenseDetails().isEmpty()) {
+                    expenseList.addAll(ae.getExpenseDetails());
+                } else {
+                    expenseList.add(ae);
+                }
+            }
+        }
+        return expenseList;
+    }
+    
+    /**
      * 
      * @return
      */
@@ -1466,26 +1487,16 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
     
     /**
+     * Check all actual expenses and details
      * 
      * @return
      */
     protected boolean requiresSpecialRequestReviewRouting() {
-        if (ObjectUtils.isNotNull(this.getActualExpenses())) {
-            for (ActualExpense ae : this.getActualExpenses()) {
-                if (checkActualExpenseSpecialRequest(ae)) {
-                    return true;
-                }
-                
-                if (ae.getExpenseDetails() != null && !ae.getExpenseDetails().isEmpty()) {
-                    for (TEMExpense aeDetail : ae.getExpenseDetails()) {
-                        if (checkActualExpenseSpecialRequest(aeDetail)) {
-                            return true;
-                        }
-                    }
-                }
+        for (TEMExpense expense: getAllActualExpensesWithDetails()) {
+            if (checkActualExpenseSpecialRequest(expense)) {
+                return true;
             }
         }
-
         return false;
     }
 
@@ -1495,16 +1506,18 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * @return
      */
     private boolean checkActualExpenseSpecialRequest(TEMExpense expense) {
-        Map<String, String> searchMap = new HashMap<String, String>();
-        searchMap.put(KNSPropertyConstants.CODE, expense.getClassOfServiceCode());
-                       
-        ClassOfService classOfService = (ClassOfService) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ClassOfService.class, searchMap);
-        if (classOfService != null) {
+        
+        //check class of service for this expense 
+        if (StringUtils.isNotEmpty(expense.getClassOfServiceCode())){
+            Map<String, String> searchMap = new HashMap<String, String>();
+            searchMap.put(KNSPropertyConstants.CODE, expense.getClassOfServiceCode());
+            ClassOfService classOfService = (ClassOfService) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ClassOfService.class, searchMap);
             if (classOfService.isApprovalRequired()) {
                 return true;
             }
         }
-        
+
+        //check if the expense type code requires special request
         TemTravelExpenseTypeCode expenseTypeCode = expense.getTravelExpenseTypeCode();
         if (expenseTypeCode.getSpecialRequestRequired() != null && expenseTypeCode.getSpecialRequestRequired()) {
             return true;

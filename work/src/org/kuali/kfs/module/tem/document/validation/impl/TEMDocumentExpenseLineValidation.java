@@ -19,10 +19,11 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -31,6 +32,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class TEMDocumentExpenseLineValidation extends GenericValidation {
@@ -108,6 +110,31 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
             GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_NOTES_JUSTIFICATION);
         }
 
+        return success;
+    }
+    
+    /**
+     * This method validates following rules 
+     * 
+     *  1.If the Approval Required flag = "Y" for the rental car type, the document routes to the Special Request approver routing. 
+     *  Display a warning, "Enter justification in the Notes field". (This is under Rental Car Specific Rules)
+     * 
+     * @param expenseDetail
+     * @param document
+     * @return
+     */
+    public boolean validateRentalCarRules(ActualExpense expense, TravelDocument document) {
+        boolean success = true;
+        MessageMap message = GlobalVariables.getMessageMap();
+        
+        // Check to see care rental needs special request approval
+        if (ObjectUtils.isNotNull(expense.getTravelExpenseTypeCode()) && expense.getTravelExpenseTypeCode().getSpecialRequestRequired()) {
+            if (StringUtils.isBlank(expense.getDescription())) {
+                if (!message.containsMessageKey(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE)){
+                    GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_NOTES_JUSTIFICATION);
+                }
+            }
+        }
         return success;
     }
     

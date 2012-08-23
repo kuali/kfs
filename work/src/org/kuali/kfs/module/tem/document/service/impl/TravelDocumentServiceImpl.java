@@ -1509,7 +1509,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
 
         if (failed) {
-            throw new UploadParserException("errors in parsing lines in file ", ERROR_UPLOADPARSER_LINE, null);
+            throw new UploadParserException("errors in parsing lines in file ", ERROR_UPLOADPARSER_LINE);
         }
 
         return importedObjects;

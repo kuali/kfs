@@ -157,7 +157,7 @@ public class CsvRecordFactory<RecordType>  {
         }
     }
     
-    public <RecordType> RecordType newInstance(final Map<String, List<Integer>> header, final String[] record) throws Exception {
+    public RecordType newInstance(final Map<String, List<Integer>> header, final String[] record) throws Exception {
         return (RecordType) Proxy.newProxyInstance(recordType.getClassLoader(), 
                                                    new Class[] { recordType }, 
                                                    new CsvRecordInvocationHandler(header, record));

@@ -15,9 +15,9 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ taglib uri="/WEB-INF/tlds/temfunc.tld" prefix="temfunc"%>
-<%@ attribute name="lineNumber" required="false" description="Line number for the record." %>
-<%@ attribute name="expense" required="false" description="The expense to create the form for." %>
-<%@ attribute name="detailObject" required="true" description="The actual object" type="org.kuali.kfs.module.tem.businessobject.ActualExpense"%>
+<%@ attribute name="lineNumber"   required="false" description="Line number for the record." %>
+<%@ attribute name="expense"      required="false" description="The expense to create the form for." %>
+<%@ attribute name="detailObject" required="true"  description="The actual object" type="org.kuali.kfs.module.tem.businessobject.ActualExpense"%>
 
 <c:set var="otherExpenseAttributes" value="${DataDictionary.ActualExpense.attributes}" />
 <jsp:useBean id="paramMap" class="java.util.HashMap" />
@@ -116,7 +116,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${otherExpenseAttributes.travelExpenseTypeCode.receiptRequired}"
 						property="${expense}.travelExpenseTypeCode.receiptRequired"
-						readOnly="${!fullEntryMode || lineNumber !=null }" />
+						readOnly="${! fullEntryMode || lineNumber !=null }" />
 					</c:if>
 				</div>
             </td>

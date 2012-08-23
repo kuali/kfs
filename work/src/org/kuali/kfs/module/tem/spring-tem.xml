@@ -632,6 +632,9 @@
     <bean id="addActualExpenseDetailEvent" class="org.kuali.kfs.module.tem.document.web.struts.AddActualExpenseDetailEvent">
     </bean>  
     <bean id="removeActualExpenseDetailEvent" class="org.kuali.kfs.module.tem.document.web.struts.RemoveActualExpenseDetailEvent">
+      <property name="accountingDistributionService" ref="temAccountingDistributionService" />
+      <property name="travelDocumentService"         ref="temTravelDocumentService" />
+      <property name="ruleService"                   ref="kualiRuleService" />
     </bean>
     
     

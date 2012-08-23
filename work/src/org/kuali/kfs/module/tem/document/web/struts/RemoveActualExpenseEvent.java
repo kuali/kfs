@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document.web.struts;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
+import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
 
 import java.util.List;
 import java.util.Observable;
@@ -26,12 +26,15 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KualiRuleService;
 
 public class RemoveActualExpenseEvent implements Observer {
     private static final int WRAPPER_ARG_IDX       = 0;
     private static final int SELECTED_LINE_ARG_IDX = 1;
+    
+    private TravelDocumentService travelDocumentService;
+    private AccountingDistributionService accountingDistributionService;
+    private KualiRuleService ruleService;
     
     @Override
     public void update(Observable arg0, Object arg1) {
@@ -53,8 +56,7 @@ public class RemoveActualExpenseEvent implements Observer {
         wrapper.getNewActualExpenseLines().remove(deleteIndex.intValue());
                 
         List<ActualExpense> actualExpenses = wrapper.getNewActualExpenseLines();
-                
-        //wrapper.getNewActualExpenseLines().add(new ActualExpense());
+        
         wrapper.setDistribution(getAccountingDistributionService().buildDistributionFrom(document));
     }
   
@@ -64,7 +66,11 @@ public class RemoveActualExpenseEvent implements Observer {
      * @return Returns the travelReimbursementService.
      */
     protected TravelDocumentService getTravelDocumentService() {
-        return SpringContext.getBean(TravelDocumentService.class);
+        return travelDocumentService;
+    }
+    
+    public void setTravelDocumentService(final TravelDocumentService travelDocumentService) {
+        this.travelDocumentService = travelDocumentService;
     }
 
     /**
@@ -73,10 +79,21 @@ public class RemoveActualExpenseEvent implements Observer {
      * @return Returns the kualiRuleseService.
      */
     protected KualiRuleService getRuleService() {
-        return SpringContext.getBean(KualiRuleService.class);
+        return ruleService;
+    }
+    
+    public void setRuleService(final KualiRuleService ruleService) {
+        this.ruleService = ruleService;
     }
     
     protected AccountingDistributionService getAccountingDistributionService() {
-        return SpringContext.getBean(AccountingDistributionService.class);
+        if (accountingDistributionService == null) {
+            accountingDistributionService = org.kuali.kfs.sys.context.SpringContext.getBean(AccountingDistributionService.class);
+        }
+        return accountingDistributionService;
     }  
+    
+    public void setAccountingDistributionService(final AccountingDistributionService accountingDistributionService) {
+        this.accountingDistributionService = accountingDistributionService;
+    }
 }

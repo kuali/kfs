@@ -59,10 +59,10 @@
 							        <td colspan="11">
 	          							<table cellpadding="0" cellspacing="0" class="datatable">
 	          								<tem-exp:actualExpenseDetailHeader detailObject="${KualiForm.document.actualExpenses[ctr]}" />
-	          								<c:if test="${fullEntryMode}">			
+	          								<c:if test="${fullEntryMode}">
 												<tem-exp:actualExpenseDetailLine 
 													lineNumber="${ctr}" 
-													detail="newActualExpenseLines[${ctr}]" 
+													detail="document.actualExpenses[${ctr}]" 
 													detailObject="${KualiForm.document.actualExpenses[ctr]}"
 													parentObject="${KualiForm.document.actualExpenses[ctr]}"  />
 											</c:if>

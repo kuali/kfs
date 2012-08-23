@@ -15,11 +15,11 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ taglib uri="/WEB-INF/tlds/temfunc.tld" prefix="temfunc"%>
-<%@ attribute name="detail" required="false" description="The expense detail to create the form for."%>
-<%@ attribute name="lineNumber" required="true" description="Line number for the record."%>
+<%@ attribute name="detail"           required="false" description="The expense detail to create the form for."%>
+<%@ attribute name="lineNumber"       required="true"  description="Line number for the record."%>
 <%@ attribute name="detailLineNumber" required="false" description="Detail line number"%>
-<%@ attribute name="detailObject" required="true" description="The actual object" type="org.kuali.kfs.module.tem.businessobject.ActualExpense"%>
-<%@ attribute name="parentObject" required="true" description="The parent object" type="org.kuali.kfs.module.tem.businessobject.ActualExpense"%>
+<%@ attribute name="detailObject"     required="true"  description="The actual object" type="org.kuali.kfs.module.tem.businessobject.ActualExpense"%>
+<%@ attribute name="parentObject"     required="true"  description="The parent object" type="org.kuali.kfs.module.tem.businessobject.ActualExpense"%>
 
 <c:set var="otherExpenseAttributes" value="${DataDictionary.ActualExpense.attributes}" />
 <jsp:useBean id="paramMap" class="java.util.HashMap" />
@@ -123,7 +123,7 @@
 			<c:if test="${detailObject.travelExpenseTypeCode.receiptRequired}">
 				<kul:htmlControlAttribute
 					attributeEntry="${otherExpenseAttributes.missingReceipt}"
-					property="${expense}.missingReceipt"
+					property="${detail}.missingReceipt"
 					readOnly="${!fullEntryMode}" />
 			</c:if>
 			<c:if test="${!detailObject.travelExpenseTypeCode.receiptRequired}">

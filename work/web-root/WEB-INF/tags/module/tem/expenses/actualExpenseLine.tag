@@ -115,8 +115,7 @@
             		<c:if test="${! empty detailObject.travelExpenseTypeCode}" >
 					<kul:htmlControlAttribute
 						attributeEntry="${otherExpenseAttributes.travelExpenseTypeCode.receiptRequired}"
-						property="${expense}.travelExpenseTypeCode.receiptRequired"
-						readOnly="${! fullEntryMode || lineNumber !=null }" />
+						property="${expense}.travelExpenseTypeCode.receiptRequired" readOnly="true" />
 					</c:if>
 				</div>
             </td>

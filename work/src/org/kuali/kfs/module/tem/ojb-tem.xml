@@ -698,6 +698,7 @@
         <field-descriptor name="tripTypeCode" column="TRIP_TYP_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="tripBegin" column="TRIP_BGN_DT" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="tripEnd" column="TRIP_END_DT" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="paymentMethod" column="PAYMENT_METHOD" jdbc-type="VARCHAR"/>
         <field-descriptor name="primaryDestinationId" column="PRIMARY_DEST_ID" jdbc-type="INTEGER"/>
         <field-descriptor name="primaryDestinationName" column="primary_dest_name" jdbc-type="VARCHAR"/>
         <field-descriptor name="primaryDestinationCountryState" column="primary_dest_cntry_st" jdbc-type="VARCHAR"/>
@@ -772,6 +773,7 @@
         <field-descriptor name="tripTypeCode" column="TRIP_TYP_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="tripBegin" column="TRIP_BGN_DT" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="tripEnd" column="TRIP_END_DT" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="paymentMethod" column="PAYMENT_METHOD" jdbc-type="VARCHAR"/>
         <field-descriptor name="primaryDestinationId" column="primary_dest_id" jdbc-type="INTEGER"/>
         <field-descriptor name="primaryDestinationName" column="primary_dest_name" jdbc-type="VARCHAR"/>
         <field-descriptor name="primaryDestinationCountryState" column="primary_dest_cntry_st" jdbc-type="VARCHAR"/>

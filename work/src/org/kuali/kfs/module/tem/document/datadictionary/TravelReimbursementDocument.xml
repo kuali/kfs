@@ -53,6 +53,7 @@
 			<ref bean="TravelReimbursementDocument-tripTypeCode" />
 			<ref bean="TravelReimbursementDocument-tripBegin" />
 			<ref bean="TravelReimbursementDocument-tripEnd" />
+            <ref bean="TravelReimbursementDocument-paymentMethod" />
 			<ref bean="TravelReimbursementDocument-primaryDestinationId" />
             <ref bean="TravelReimbursementDocument-primaryDestinationName" />
             <ref bean="TravelReimbursementDocument-primaryDestinationCountryState" />
@@ -238,6 +239,10 @@
 	      <bean parent="TextControlDefinition" p:size="20"/>
 	    </property>		
 	</bean>
+    
+    <bean id="TravelReimbursementDocument-paymentMethod" parent="TravelReimbursementDocument-paymentMethod-parentBean" />
+    <bean id="TravelReimbursementDocument-paymentMethod-parentBean" abstract="true" parent="TravelDocument-paymentMethod" />
+    
     <bean id="TravelReimbursementDocument-primaryDestinationId" parent="TravelReimbursementDocument-primaryDestinationId-parentBean" />
     <bean id="TravelReimbursementDocument-primaryDestinationId-parentBean" abstract="true" parent="PrimaryDestination-id">
         <property name="name" value="primaryDestinationId" />

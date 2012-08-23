@@ -82,7 +82,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     private String description;
     private String purposeCode;
     private Purpose purpose;
-    private String paymentMethod;
 
     private Boolean attendeeListAttached;
     private Integer numberOfAttendees;
@@ -212,15 +211,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
 
     public void setAttendee(List<Attendee> attendee) {
         this.attendee = attendee;
-    }
-
-    @Column(name = "PAYMENT_METHOD", nullable = true, length = 15)
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
     }
 
     @Column(name = "HOST_NAME", nullable = true, length = 40)
@@ -554,11 +544,10 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateVendorPayment(disbursementVoucherDocument);
         
-        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
         String locationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE);
         String checkStubText = this.getTravelDocumentIdentifier() + ", " + this.getEventTitle();
+
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
-        
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
         disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
         

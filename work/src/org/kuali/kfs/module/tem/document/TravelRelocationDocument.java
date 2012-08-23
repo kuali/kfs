@@ -417,14 +417,12 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateVendorPayment(disbursementVoucherDocument);
         
-        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
         String locationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_RELOCATION.class, TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE);
         String startDate = new SimpleDateFormat("MM/dd/yyyy").format(getTripBegin());
         String endDate = new SimpleDateFormat("MM/dd/yyyy").format(getTripEnd());
         String checkStubText = getTravelDocumentIdentifier() + ", " + startDate + " - " + endDate + ", " + getToCity() + ", " + getToStateCode();
         
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
-        
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
         disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
     }

@@ -58,6 +58,7 @@
                 <ref bean="TravelRelocationDocument-toCity" />
                 <ref bean="TravelRelocationDocument-toStateCode" />
                 <ref bean="TravelRelocationDocument-toCountryCode" />
+                <ref bean="TravelRelocationDocument-paymentMethod" />
                 <ref bean="TravelRelocationDocument-reasonCode" />
                 <ref bean="TravelRelocationDocument-jobClsCode" />
                 <ref bean="TravelRelocationDocument-titleCode" />
@@ -329,6 +330,11 @@
                 p:includeKeyInLabel="false" />
         </property>
     </bean>
+    
+    <bean id="TravelRelocationDocument-paymentMethod" parent="TravelRelocationDocument-paymentMethod-parentBean" />
+    <bean id="TravelRelocationDocument-paymentMethod-parentBean" abstract="true" parent="TravelDocument-paymentMethod" />
+    
+    
     <bean id="TravelRelocationDocument-reasonCode" parent="TravelRelocationDocument-reasonCode-parentBean" />
     <bean id="TravelRelocationDocument-reasonCode-parentBean" parent="AttributeDefinition">
         <property name="name" value="reasonCode" />

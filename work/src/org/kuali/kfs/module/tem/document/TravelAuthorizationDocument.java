@@ -723,23 +723,28 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         // set accounting (this should have been bypassed in the super class)
         KualiDecimal totalAmount = KualiDecimal.ZERO;
         for (TravelAdvance advance : getTravelAdvances()) {
-            SourceAccountingLine accountingLine = new SourceAccountingLine();
-
-            //if the parameter fields are empty, use that of the advance
-            accountingLine.setChartOfAccountsCode(StringUtils.defaultIfEmpty(advancePaymentChartCode, advance.getAcct().getChartOfAccountsCode()));
-            accountingLine.setAccountNumber(StringUtils.defaultIfEmpty(advancePaymentAccountNumber, advance.getAccountNumber()));
-            accountingLine.setFinancialObjectCode(StringUtils.defaultIfEmpty(advancePaymentObjectCode, StringUtils.defaultString(advance.getFinancialObjectCode())));
-            accountingLine.setFinancialSubObjectCode(StringUtils.defaultString(advance.getFinancialSubObjectCode()));
-            accountingLine.setSubAccountNumber(StringUtils.defaultString(advance.getSubAccountNumber()));
-            accountingLine.setAmount(advance.getTravelAdvanceRequested());
-            accountingLine.setPostingYear(disbursementVoucherDocument.getPostingYear());
-            accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
-
-            disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
-
-            totalAmount = totalAmount.add(advance.getTravelAdvanceRequested());
-            if (advance.getDueDate() != null) {
-                disbursementVoucherDocument.setDisbursementVoucherDueDate(advance.getDueDate());
+            if (StringUtils.isBlank(advance.getArInvoiceDocNumber())) {
+                SourceAccountingLine accountingLine = new SourceAccountingLine();
+    
+                //if the parameter fields are empty, use that of the advance
+                accountingLine.setChartOfAccountsCode(StringUtils.defaultIfEmpty(advancePaymentChartCode, advance.getAcct().getChartOfAccountsCode()));
+                accountingLine.setAccountNumber(StringUtils.defaultIfEmpty(advancePaymentAccountNumber, advance.getAccountNumber()));
+                accountingLine.setFinancialObjectCode(StringUtils.defaultIfEmpty(advancePaymentObjectCode, StringUtils.defaultString(advance.getFinancialObjectCode())));
+                accountingLine.setFinancialSubObjectCode(StringUtils.defaultString(advance.getFinancialSubObjectCode()));
+                accountingLine.setSubAccountNumber(StringUtils.defaultString(advance.getSubAccountNumber()));
+                accountingLine.setAmount(advance.getTravelAdvanceRequested());
+                accountingLine.setPostingYear(disbursementVoucherDocument.getPostingYear());
+                accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
+    
+                disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
+                totalAmount = totalAmount.add(advance.getTravelAdvanceRequested());
+                
+                //in case of multiple unprocessed advance, this becomes an issue what the due date and payment method will be set to
+                // this is now setting to the latest advance's information
+                if (advance.getDueDate() != null) {
+                    disbursementVoucherDocument.setDisbursementVoucherDueDate(advance.getDueDate());
+                }
+                disbursementVoucherDocument.setDisbVchrPaymentMethodCode(advance.getPaymentMethod());
             }
         }
         disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);

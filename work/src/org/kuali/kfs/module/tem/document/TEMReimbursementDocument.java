@@ -18,12 +18,16 @@ package org.kuali.kfs.module.tem.document;
 import static org.kuali.kfs.module.tem.TemConstants.DISBURSEMENT_VOUCHER_DOCTYPE;
 
 import java.util.List;
+
+import javax.persistence.Column;
+
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.DisbursementVoucherPaymentMethods;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -36,12 +40,26 @@ import org.springframework.beans.BeanUtils;
 
 public abstract class TEMReimbursementDocument extends TravelDocumentBase {
     
+    private String paymentMethod = DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE;
+    
+    @Column(name = "PAYMENT_METHOD", nullable = true, length = 15)
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+    
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
     @Override
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateDisbursementVoucherFields(disbursementVoucherDocument);
+        
+        //modify for any of the reimbursement doc to use the payment option instead of default
+        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(getPaymentMethod());
     }
 
     /**

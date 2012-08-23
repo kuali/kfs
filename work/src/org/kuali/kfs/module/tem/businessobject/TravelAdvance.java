@@ -30,6 +30,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.module.tem.TemConstants.DisbursementVoucherPaymentMethods;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
@@ -49,7 +50,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
     private String arCustomerId;
     private String arInvoiceDocNumber;
     private Date dueDate;
-    private String paymentMethod = "P";
+    private String paymentMethod = DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE;
     private Date taxRamificationNotificationDate;
 
     private String chartOfAccountsCode;

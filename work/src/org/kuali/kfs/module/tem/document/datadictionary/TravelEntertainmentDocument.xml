@@ -223,17 +223,9 @@
 		<property name="description" value="Purpose" />
 		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.PurposeValuesFinder" p:includeKeyInLabel="false"/></property>
 	</bean>
-	<bean id="TravelEntertainmentDocument-paymentMethod" parent="TravelEntertainmentDocument-paymentMethod-parentBean" />
-	<bean id="TravelEntertainmentDocument-paymentMethod-parentBean" parent="AttributeDefinition">
-		<property name="name" value="paymentMethod" />
-		<property name="label" value="Payment Method" />
-		<property name="shortLabel" value="Payment Method" />
-		<property name="required" value="true" />
-		<property name="maxLength" value="40" />
-		<property name="summary" value="Payment Method" />
-		<property name="description" value="Payment Method" />
-		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder" p:includeKeyInLabel="false"/></property>
-	</bean>
+	
+    <bean id="TravelEntertainmentDocument-paymentMethod" parent="TravelEntertainmentDocument-paymentMethod-parentBean" />
+	<bean id="TravelEntertainmentDocument-paymentMethod-parentBean" abstract="true" parent="TravelDocument-paymentMethod" />
 	
 	<bean id="TravelEntertainmentDocument-versionNumber" parent="TravelEntertainmentDocument-versionNumber-parentBean" />
 	<bean id="TravelEntertainmentDocument-versionNumber-parentBean" parent="GenericAttributes-versionNumber">

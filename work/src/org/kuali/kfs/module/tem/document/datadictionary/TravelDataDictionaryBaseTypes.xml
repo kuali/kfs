@@ -21,36 +21,23 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
         http://rice.kuali.org/dd
         http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="TravelDocument-paymentMethod" parent="TravelDocument-paymentMethod-parentBean" />
+    <bean id="TravelDocument-paymentMethod-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="paymentMethod" />
+        <property name="label" value="Payment Method" />
+        <property name="shortLabel" value="Payment Method" />
+        <property name="required" value="true" />
+        <property name="maxLength" value="40" />
+        <property name="summary" value="Payment Method" />
+        <property name="description" value="Payment Method" />
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
                 
-  	<bean id="SearchingTypeDefinitions-TravelDocumentFamily" 
-      parent="SearchingTypeDefinitions-TravelDocumentFamily-parentBean" />
-  	
-  	<bean id="SearchingTypeDefinitions-TravelDocumentFamily-parentBean" 
-       class="org.springframework.beans.factory.config.ListFactoryBean" 
-    abstract="true">
-  		<property name="sourceList">
-  			<list>
-                <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
-    				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
-    						<property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelAuthorizationDocument"/>
-    						<property name="attributeName" value="travelDocumentIdentifier"/>
-    						<property name="showAttributeInSearchCriteria" value="true"/>
-    						<property name="showAttributeInResultSet" value="true"/>
-    					</bean>
-    				</property>
-    				<property name="documentValues">
-    					<list>
-    						<value>travelDocumentIdentifier</value>
-    					</list>
-    				</property>
-    			</bean>
-    		</list>
-    	</property>
-  	</bean>
-  	
   	<bean id="TravelDocument-sourceAccountingLineGroup" parent="TravelDocument-sourceAccountingLineGroup-parentBean" />
-	<bean id="TravelDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	<bean id="TravelDocument-sourceAccountingLineGroup-parentBean" abstract="true" parent="AccountingLineGroup" >
 		<property name="accountingLineView" ref="TravelDocument-accountingLineView" />
 		<property name="accountingLineClass" value="org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine" />
 		<property name="groupLabel" value="Source" />
@@ -62,7 +49,7 @@
 	</bean>
 	
 	<bean id="TravelDocument-accountDistributionSourceAccountingLineGroup" parent="TravelDocument-accountDistributionSourceAccountingLineGroup-parentBean"/>  
-    <bean id="TravelDocument-accountDistributionSourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+    <bean id="TravelDocument-accountDistributionSourceAccountingLineGroup-parentBean" abstract="true" parent="AccountingLineGroup" >
 	    <property name="accountingLineView" ref="TravelDocument-accountDistributionAccountingLineView"/>
 	    <property name="accountingLineClass" value="org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine"/>
     	<property name="groupLabel" value="Assign Accounts"/>
@@ -74,7 +61,7 @@
     </bean>
     
 	<bean id="TravelDocument-accountingLineView" parent="TravelDocument-accountingLineView-parent" />
-	<bean id="TravelDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+	<bean id="TravelDocument-accountingLineView-parent" abstract="true" parent="AccountingLineView">
 		<property name="elements">
 			<list>
 				<bean parent="AccountingLineView-sequenceNumber" />
@@ -153,7 +140,7 @@
 	</bean>  
 	
 	<bean id="TravelDocument-accountDistributionAccountingLineView" parent="TravelDocument-accountDistributionAccountingLineView-parent" />
-	<bean id="TravelDocument-accountDistributionAccountingLineView-parent" parent="AccountingLineView" abstract="true">
+	<bean id="TravelDocument-accountDistributionAccountingLineView-parent" abstract="true" parent="AccountingLineView">
 		<property name="elements">
 			<list>
 				<bean parent="AccountingLineView-sequenceNumber" />

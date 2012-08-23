@@ -30,10 +30,10 @@
 		</property>
 		<property name="dataDictionaryPackages">
 			<list>
+    				<value>org/kuali/kfs/module/tem/datadictionary</value>
+    				<value>org/kuali/kfs/module/tem/businessobject/datadictionary</value>
 				<value>org/kuali/kfs/module/tem/batch/businessobject/datadictionary</value>
-				<value>org/kuali/kfs/module/tem/businessobject/datadictionary</value>
 				<value>org/kuali/kfs/module/tem/document/datadictionary</value>
-				<value>org/kuali/kfs/module/tem/datadictionary</value>
 			</list>
 		</property>
 		<property name="scriptConfigurationFilePaths">
@@ -481,6 +481,12 @@
 		<property name="stateService" ref="stateService" />
 		<property name="persistenceStructureService" ref="persistenceStructureService"/>
 		<property name="universityDateService" ref="universityDateService" />
+	     	<property name="defaultAcceptableFileExtensions">
+     	            <list>
+       	                 <value>csv</value>
+    	            </list>
+    		</property>
+                <property name="csvRecordFactory" ref="groupTravelerCsvRecordFactory" />
 	</bean>
   
     <bean id="travelDisbursementService" parent="travelDisbursementService-parentBean" />
@@ -657,6 +663,10 @@
 	<bean id="temBatchService" parent="temBatchService-parentBean" />
 	<bean id="temBatchService-parentBean" class="org.kuali.kfs.module.tem.batch.service.impl.TemBatchServiceImpl">
 	</bean>
+
+    <bean id="uploadGroupTravelersEvent" class="org.kuali.kfs.module.tem.document.web.struts.UploadGroupTravelersEvent">
+        <property name="travelDocumentService" ref="temTravelDocumentService" />        
+    </bean>
 	
     <bean id="perDiemTxtInputFileType" parent="perDiemTxtInputFileType-parentBean"/>
     <bean id="perDiemTxtInputFileType-parentBean" class="org.kuali.kfs.module.tem.batch.PerDiemTxtInputFileType">
@@ -1143,6 +1153,11 @@
 						<ref bean="deleteDistributionAccountingLineEvent" />
 					</list>
 				</entry>
+    				<entry key="uploadGroupTravelerImportFile">
+					<list>
+						<ref bean="uploadGroupTravelersEvent" />
+					</list>
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -1324,4 +1339,20 @@
 		<property name="travelerService" ref="travelerService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
     </bean>
+    <!-- CSV Refactory Stuff -->
+    <bean id="groupTravelerCsvRecordFactory" class="org.kuali.kfs.module.tem.service.CsvRecordFactory">
+      <constructor-arg type="java.lang.Class">
+        <bean class="java.lang.Class" factory-method="forName">
+           <constructor-arg value="org.kuali.kfs.module.tem.businessobject.GroupTravelerCsvRecord"/>
+        </bean>
+      </constructor-arg>
+      <property name="headerMap">
+        <map>
+            <entry key="travelerTypeCode"    value="travelerTypeCode" />
+            <entry key="groupTravelerEmplId" value="groupTravelerEmplId" />
+            <entry key="name"                value="name" />
+        </map>
+      </property>
+    </bean>
+
 </beans>

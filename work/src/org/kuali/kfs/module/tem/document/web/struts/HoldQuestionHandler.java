@@ -17,7 +17,6 @@ package org.kuali.kfs.module.tem.document.web.struts;
 
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.replace;
-import static org.kuali.kfs.module.tem.TemConstants.CONFIRM_AMENDMENT_QUESTION;
 import static org.kuali.kfs.module.tem.TemConstants.CONFIRM_HOLD_QUESTION;
 import static org.kuali.kfs.module.tem.TemConstants.HOLD_NOTE_PREFIX;
 import static org.kuali.kfs.module.tem.TemConstants.HOLD_TA_QUESTION;
@@ -34,7 +33,6 @@ import static org.kuali.rice.kns.util.ObjectUtils.isNotNull;
 
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.util.KEWConstants;

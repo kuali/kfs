@@ -15,11 +15,6 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
-import org.kuali.rice.kns.util.KualiDecimal;
-
-import java.sql.Date;
-import java.util.Map;
-
 
 /**
  * Interface defining the structure for a CSV flat file record of stuff

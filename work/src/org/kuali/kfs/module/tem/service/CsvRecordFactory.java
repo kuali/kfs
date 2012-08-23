@@ -18,13 +18,9 @@ package org.kuali.kfs.module.tem.service;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.replace;
-import static java.util.Collections.synchronizedMap;
-
 import java.beans.PropertyDescriptor;
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

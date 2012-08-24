@@ -47,18 +47,20 @@ public class TemKeyConstants extends JSTLConstants {
     public static final String TA_MESSAGE_AMEND_DOCUMENT_CANCELLED_TEXT = "travelAuthorization.message.amend.cancelled.text";
     
     // errors
-    public static final String ERROR_TA_AUTH_EMERGENCY_CONTACT_REQUIRED = "error.document.tem.emergencyContactRequired";
-    public static final String ERROR_TA_AUTH_MODE_OF_TRANSPORT_REQUIRED = "error.document.tem.modeOfTransportRequired";
-    public static final String ERROR_TA_AUTH_END_DATE_BEFORE_BEGIN = "error.document.tem.endDateBeforeBegin";
-    public static final String ERROR_ACTUAL_EXPENSE_OTHER_MILEAGE_RATE_EXCEED= "error.document.tem.actualexpense.mileagerateexceed";
-    public static final String ERROR_ACTUAL_EXPENSE_DETAIL_AMOUNT_EXCEED= "error.document.tem.actualexpense.totaldetailamountexceed";
-    public static final String ERROR_ACTUAL_EXPENSE_LODGING_ENTERED= "error.document.tem.actualexpense.lodgingentered";
-    public static final String ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY= "error.document.tem.actualexpense.duplicateexpenseentry";
-    public static final String ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY_DAILY="error.document.tem.actualexpense.duplicateexpenseentrydaily";
-    public static final String ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_DAILY="error.document.tem.actualexpense.maxamountperpersondaily";
-    public static final String ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_OCCU="error.document.tem.actualexpense.maxamountperoccurrence";
-    public static final String ERROR_DELINQUENT_MSG_REQUIRED = "error.document.tem.delinquentMessageRequired";
-    public static final String WARNING_NOTES_JUSTIFICATION = "warning.document.tem.actualexpense.notesJustification";
+    public static final String ERROR_TA_AUTH_EMERGENCY_CONTACT_REQUIRED   = "error.document.tem.emergencyContactRequired";
+    public static final String ERROR_TA_AUTH_MODE_OF_TRANSPORT_REQUIRED   = "error.document.tem.modeOfTransportRequired";
+    public static final String ERROR_TA_AUTH_END_DATE_BEFORE_BEGIN        = "error.document.tem.endDateBeforeBegin";
+    public static final String ERROR_ACTUAL_EXPENSE_OTHER_MILEAGE_RATE_EXCEED = "error.document.tem.actualexpense.mileagerateexceed";
+    public static final String ERROR_ACTUAL_EXPENSE_DETAIL_AMOUNT_EXCEED  = "error.document.tem.actualexpense.totaldetailamountexceed";
+    public static final String ERROR_ACTUAL_EXPENSE_LODGING_ENTERED       = "error.document.tem.actualexpense.lodgingentered";
+    public static final String ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY       = "error.document.tem.actualexpense.duplicateexpenseentry";
+    public static final String ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY_DAILY = "error.document.tem.actualexpense.duplicateexpenseentrydaily";
+    public static final String ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_DAILY     = "error.document.tem.actualexpense.maxamountperpersondaily";
+    public static final String ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_OCCU      = "error.document.tem.actualexpense.maxamountperoccurrence";
+    public static final String ERROR_DELINQUENT_MSG_REQUIRED              = "error.document.tem.delinquentMessageRequired";
+    
+    public static final String WARNING_NOTES_JUSTIFICATION             = "warning.document.tem.actualexpense.notesJustification";
+    public static final String WARNING_PERDIEM_EXPENSE_LODGING_ENTERED = "warning.document.tem.perdiemexpense.lodgingentered";
 
     // errors
     public static final String TRVL_AUTH_TRVL_ADVANCE_ERRORS = "newTravelAdvanceLine.*,document.travelAdvances*";

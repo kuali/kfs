@@ -526,7 +526,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Retrieve the Mileage date of per diem
+     * Assign the Mileage date of per diem
      * 
      * @param mileageDate as Date
      */

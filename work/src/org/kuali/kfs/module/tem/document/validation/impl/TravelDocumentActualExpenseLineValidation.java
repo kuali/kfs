@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent;
@@ -167,7 +168,13 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
     }
 
     /**
-     * This method validates following rules 1.Validates if lodging allowance is entered for the same day
+     * This method validates following rules 
+     * <ol>
+     *  <li>Validates if lodging allowance is entered for the same day</li>
+     *  <li>Per Diem lodging allowance can also not be entered on the same day</li>
+     * </ol>
+     * 
+     * Warn if there is any lodging allowance in the Per Diem section
      * 
      * @param actualExpense
      * @param document
@@ -187,7 +194,13 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
     }
 
     /**
-     * This method validated following rules 1.Validates whether lodging entered for the same day
+     * This method validated following rules 
+     * <ol>
+     *  <li>Validates if lodging allowance is entered for the same day</li>
+     *  <li>Per Diem lodging allowance can also not be entered on the same day</li>
+     * </ol>
+     * 
+     * Warn if there is any lodging allowance in the Per Diem section
      * 
      * @param actualExpense
      * @param document
@@ -207,9 +220,30 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
                 success = false;
                 GlobalVariables.getMessageMap().putError(TemPropertyConstants.CURRENCY_RATE, TemKeyConstants.ERROR_ACTUAL_EXPENSE_LODGING_ENTERED);
             }
+            
+            if (isPerDiemLodgingEntered(document)) {
+                GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_PERDIEM_EXPENSE_LODGING_ENTERED);
+            }
         }
 
         return success;
+    }
+    
+    /**
+     * Determines if a {@link PerDiemExpense} for lodging is entered. This is necessary to
+     * display a warning that lodging is being entered in two separate sections which is just plain
+     * weird
+     * 
+     * @param document {@link TravelDocument} instance to check
+     * @return true if there's perdiem lodging entered
+     */
+    protected Boolean isPerDiemLodgingEntered(final TravelDocument document) {
+        for (PerDiemExpense perDiemExpense : document.getPerDiemExpenses()) {
+            if (KualiDecimal.ZERO.isLessThan(perDiemExpense.getLodging())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private Boolean isLodgingAllowanceEntered(ActualExpense ote, TravelDocument document) {
@@ -218,11 +252,19 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
                     && (!ote.equals(actualExpense))
                     && (ote.getExpenseDate() != null 
                             && ote.getExpenseDate().equals(actualExpense.getExpenseDate()))) {
-                return Boolean.TRUE;
+                return true;
             }
         }
 
-        return Boolean.FALSE;
+        for (PerDiemExpense perDiemExpense : document.getPerDiemExpenses()) {
+            if (KualiDecimal.ZERO.isLessThan(perDiemExpense.getLodging())
+                    && (ote.getExpenseDate() != null 
+                            && ote.getExpenseDate().equals(perDiemExpense.getMileageDate()))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private Boolean isLodgingEntered(ActualExpense ote, TravelDocument document) {

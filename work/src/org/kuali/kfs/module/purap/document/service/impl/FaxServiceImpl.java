@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
@@ -93,16 +94,14 @@ public class FaxServiceImpl implements FaxService {
         LOG.debug("faxPurchaseOrderPdf() started with locations");
 
         // Get the vendor's country name.
-        if (po.getVendorCountryCode() != null) {
+        if ( StringUtils.isNotBlank( po.getVendorCountryCode() ) ) {
             Country vendorCountry = countryService.getCountry(po.getVendorCountryCode());
             if (vendorCountry != null) {
                 po.setVendorCountryCode(vendorCountry.getCode());
-            }
-            else {
+            } else {
                 po.setVendorCountryCode("NA");
             }
-        }
-        else {
+        } else {
             po.setVendorCountryCode("NA");
         }
 
@@ -182,7 +181,7 @@ public class FaxServiceImpl implements FaxService {
         try {
 
           // Get the vendor's country name.
-          if (povq.getVendorCountryCode() != null) {
+          if ( StringUtils.isNotBlank( povq.getVendorCountryCode() ) ) {
               Country vendorCountry = countryService.getCountry(po.getVendorCountryCode());
               if (vendorCountry != null) {
                   povq.setVendorCountryCode(vendorCountry.getCode());

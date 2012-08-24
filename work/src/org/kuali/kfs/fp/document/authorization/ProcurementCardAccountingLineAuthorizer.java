@@ -16,6 +16,7 @@
 package org.kuali.kfs.fp.document.authorization;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -54,11 +55,12 @@ public class ProcurementCardAccountingLineAuthorizer extends FinancialProcessing
      */
     @Override
     protected String getAddMethod(AccountingLine accountingLine, String accountingLineProperty) {
+        Integer lineIndex = ((ProcurementCardTargetAccountingLine) accountingLine).getTransactionContainerIndex();
+        String lineIndexString = lineIndex.toString();
+        
         String infix = getActionInfixForNewAccountingLine(accountingLine, accountingLineProperty);
-        String lineIndex = this.getLineContainerIndex(accountingLineProperty);
-        String lineContainer = this.getLineContainer(accountingLineProperty) + ".";        
-
-        return KFSConstants.INSERT_METHOD + infix + "Line." + lineContainer + "line" + lineIndex + ".anchoraccounting" + infix + "Anchor";
+        
+        return KFSConstants.INSERT_METHOD + infix + "Line" + ".transactionEntries[" + lineIndex + "]";
     }
 
     /**

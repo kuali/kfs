@@ -82,7 +82,7 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
         poqv.setVendorPhoneNumber("1-800-DUSTY-CELL");
         poqv.setVendorPostalCode("48864");
 
-        CountryEbo country = CountryBo.from(countryService.getCountry("US"));
+        CountryEbo country = CountryBo.from(countryService.getCountry(KFSConstants.COUNTRY_CODE_UNITED_STATES));
         poqv.setVendorCountry(country);
         PurchaseOrderItem poi = new PurchaseOrderItem();
         ItemType it = new ItemType();

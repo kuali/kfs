@@ -190,13 +190,13 @@ public final class AccountingDocumentTestUtils {
 
     public static void testConvertIntoErrorCorrection(AccountingDocument document, int expectedPrePECount, DocumentService documentService, TransactionalDocumentDictionaryService dictionaryService) throws Exception {
         if (((FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(document.getClass().getName())).getAllowsErrorCorrection()) {
-            String documentHeaderId = document.getDocumentNumber();
-            LOG.debug("documentHeaderId = " + documentHeaderId);
+            String documentNumber = document.getDocumentNumber();
+            LOG.info("Submitting and blanket approving documentNumber to final to test error correction: " + documentNumber);
             // route the original doc, wait for status change
             blanketApproveDocument(document, "blanket approving errorCorrection source document", null, documentService);
             WorkflowTestUtils.waitForDocumentApproval(document.getDocumentNumber());
             // re-pull the document to get any updates made by KEW and the post-processor
-            document = (AccountingDocument) documentService.getByDocumentHeaderId(documentHeaderId);
+            document = (AccountingDocument) documentService.getByDocumentHeaderId(documentNumber);
 
             // collect some preCorrect data
             String preCorrectId = document.getDocumentNumber();
@@ -205,8 +205,8 @@ public final class AccountingDocumentTestUtils {
             int preCorrectPECount = document.getGeneralLedgerPendingEntries().size();
             // int preCorrectNoteCount = document.getDocumentHeader().getNotes().size();
 
-            List<? extends SourceAccountingLine> preCorrectSourceLines = (List<? extends SourceAccountingLine>) ObjectUtils.deepCopy(new ArrayList(document.getSourceAccountingLines()));
-            List<? extends TargetAccountingLine> preCorrectTargetLines = (List<? extends TargetAccountingLine>) ObjectUtils.deepCopy(new ArrayList(document.getTargetAccountingLines()));
+            List<? extends SourceAccountingLine> preCorrectSourceLines = (List<? extends SourceAccountingLine>) ObjectUtils.deepCopy(new ArrayList<SourceAccountingLine>(document.getSourceAccountingLines()));
+            List<? extends TargetAccountingLine> preCorrectTargetLines = (List<? extends TargetAccountingLine>) ObjectUtils.deepCopy(new ArrayList<TargetAccountingLine>(document.getTargetAccountingLines()));
             // validate preCorrect state
             Assert.assertNotNull(preCorrectId);
             Assert.assertNull(preCorrectCorrectsId);
@@ -218,11 +218,11 @@ public final class AccountingDocumentTestUtils {
             ((Correctable) document).toErrorCorrection();
             // compare to preCorrect state
             String postCorrectId = document.getDocumentNumber();
-            LOG.debug("postcorrect documentHeaderId = " + postCorrectId);
+            LOG.info("postcorrect documentHeaderId = " + postCorrectId);
             Assert.assertFalse(postCorrectId.equals(preCorrectId));
             // pending entries should be cleared
             int postCorrectPECount = document.getGeneralLedgerPendingEntries().size();
-            LOG.debug("postcorrect PE count = " + postCorrectPECount);
+            LOG.info("postcorrect PE count = " + postCorrectPECount);
             Assert.assertEquals(0, postCorrectPECount);
             // TODO: revisit this is it still needed
             // // count 1 note, compare to "correction" text
@@ -233,7 +233,7 @@ public final class AccountingDocumentTestUtils {
             // assertTrue(note.getFinancialDocumentNoteText().indexOf("correction") != -1);
             // correctsId should be equal to old id
             String correctsId = document.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber();
-            LOG.debug("postcorrect correctsId = " + correctsId);
+            LOG.info("postcorrect correctsId = " + correctsId);
             Assert.assertEquals(preCorrectId, correctsId);
             // accounting lines should have sign reversed on amounts
             List<SourceAccountingLine> postCorrectSourceLines = document.getSourceAccountingLines();
@@ -242,7 +242,7 @@ public final class AccountingDocumentTestUtils {
                 SourceAccountingLine preCorrectLine = preCorrectSourceLines.get(i);
                 SourceAccountingLine postCorrectLine = postCorrectSourceLines.get(i);
 
-                LOG.debug("postcorrect line(docId,amount) = " + i + "(" + postCorrectId + "," + postCorrectLine.getAmount());
+                LOG.info("postcorrect line(docId,amount) = " + i + "(" + postCorrectId + "," + postCorrectLine.getAmount());
                 assertEquality(postCorrectId, postCorrectLine.getDocumentNumber());
                 assertEquality(preCorrectLine.getAmount().negated(), postCorrectLine.getAmount());
             }
@@ -253,7 +253,7 @@ public final class AccountingDocumentTestUtils {
                 TargetAccountingLine preCorrectLine = preCorrectTargetLines.get(i);
                 TargetAccountingLine postCorrectLine = postCorrectTargetLines.get(i);
 
-                LOG.debug("postcorrect line(docId,amount) = " + i + "(" + postCorrectId + "," + postCorrectLine.getAmount());
+                LOG.info("postcorrect line(docId,amount) = " + i + "(" + postCorrectId + "," + postCorrectLine.getAmount());
                 assertEquality(postCorrectId, postCorrectLine.getDocumentNumber());
                 assertEquality(preCorrectLine.getAmount().negated(), postCorrectLine.getAmount());
             }
@@ -363,12 +363,13 @@ public final class AccountingDocumentTestUtils {
 
     // helper methods
     public static void blanketApproveDocument(Document document, String annotation, List<AdHocRouteRecipient> adHocRoutingRecipients, DocumentService documentService) throws WorkflowException {
+        LOG.info( "Blanket Approving Document: " + document.getDocumentNumber() + " / " + annotation );
         try {
             documentService.blanketApproveDocument(document, annotation, adHocRoutingRecipients);
-        }
-        catch (ValidationException e) {
+        } catch (ValidationException e) {
             // If the business rule evaluation fails then give us more info for debugging this test.
             Assert.fail(e.getMessage() + ", " + dumpMessageMapErrors());
+            LOG.error( "Blanket Approval failed: " + document, e );
         }
     }
 

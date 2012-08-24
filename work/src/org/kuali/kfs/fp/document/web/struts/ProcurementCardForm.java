@@ -50,7 +50,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  */
 public class ProcurementCardForm extends CapitalAccountingLinesFormBase implements CapitalAssetEditable{
     protected static final long serialVersionUID = 1L;
-    protected List newTargetLines;
+    protected List<ProcurementCardTargetAccountingLine> newTargetLines;
     protected List<Boolean> transactionCreditCardNumbersViewStatus;
     protected final static String TARGET_ACCOUNTING_LINE_GROUP_NAME = "target";
     
@@ -102,9 +102,18 @@ public class ProcurementCardForm extends CapitalAccountingLinesFormBase implemen
         super();
         
         this.newTargetLines = new ArrayList<ProcurementCardTargetAccountingLine>();
+       // buildNewTargetAccountingLines();
         capitalAssetInformation = new ArrayList<CapitalAssetInformation>();
     }
 
+    public void buildNewTargetAccountingLines(int transactionsCount) {
+        for (int i=0; i < transactionsCount; i++) {
+            ProcurementCardTargetAccountingLine newLine = new ProcurementCardTargetAccountingLine();
+            newLine.setTransactionContainerIndex(i);
+            this.newTargetLines.add(i, newLine);
+        }
+    }
+    
     @Override
     protected String getDefaultDocumentTypeName() {
         return "PCDO";

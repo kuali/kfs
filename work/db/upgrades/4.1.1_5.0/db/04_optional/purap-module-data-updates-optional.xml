@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+	<changeSet author="KFS50" id='KFSMI-8733_PurAP_status_code_and_tables_data_cleanup'>
+		<comment>Run these scripts if you want to just NULL the values in statuscode tables....</comment>
+		<!-- NULL the values for the column REQS_STAT_CD for requisitions -->
+		<update tableName="PUR_REQS_T">
+			<column name="REQS_STAT_CD" value="NULL"/>
+		</update>
+		<!-- NULL the values for the column PO_STAT_CD for purchase orders -->
+		<update tableName="PUR_PO_T">
+			<column name="PO_STAT_CD" value="NULL"/>
+		</update>
+		<!-- NULL the values for the column PMT_RQST_STAT_CD for payment requests -->
+		<update tableName="AP_PMT_RQST_T">
+			<column name="PMT_RQST_STAT_CD" value="NULL"/>
+		</update>
+		<!-- NULL the values for the column CRDT_MEMO_STAT_CD for vendor credit memos -->
+		<update tableName="AP_CRDT_MEMO_T">
+			<column name="CRDT_MEMO_STAT_CD" value="NULL"/>
+		</update>
+		<!-- NULL the values for the column RCVNG_LN_STAT_CD for receiving line item -->
+		<update tableName="PUR_RCVNG_LN_T">
+			<column name="RCVNG_LN_STAT_CD" value="NULL"/>
+		</update>
+	</changeSet>
+</databaseChangeLog>

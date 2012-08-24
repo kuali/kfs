@@ -31,6 +31,17 @@
         <ref bean="AccountDescription-buildingCode"/>
       </list>
     </property>
+	<property name="relationships">
+		<list>
+	        <bean parent="RelationshipDefinition" p:objectAttributeName="campus">
+	        	<property name="primitiveAttributes">
+	        		<list>
+	        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="campusCode" p:targetName="code" />
+	        		</list>
+	        	</property>
+	        </bean>
+	    </list>
+	</property>        
   </bean>
 
 <!-- Attribute Definitions -->
@@ -43,45 +54,24 @@
   <bean id="AccountDescription-accountNumber-parentBean" abstract="true" parent="Account-accountNumber" />
 
   <bean id="AccountDescription-campusDescription" parent="AccountDescription-campusDescription-parentBean"/>
-  <bean id="AccountDescription-campusDescription-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AccountDescription-campusDescription-parentBean" abstract="true" parent="GenericAttributes-name">
     <property name="name" value="campusDescription"/>
     <property name="label" value="Campus Description"/>
     <property name="shortLabel" value="CampusDesc"/>
-    <property name="maxLength" value="40"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" p:maxLength="40"/>
-    </property>
-    <property name="control">
-      <ref bean="StandardNameTextControl" />
-    </property>
   </bean>
 
   <bean id="AccountDescription-organizationDescription" parent="AccountDescription-organizationDescription-parentBean"/>
-  <bean id="AccountDescription-organizationDescription-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AccountDescription-organizationDescription-parentBean" abstract="true" parent="GenericAttributes-name">
     <property name="name" value="organizationDescription"/>
     <property name="label" value="Organization Description"/>
     <property name="shortLabel" value="OrgDesc"/>
-    <property name="maxLength" value="40"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" p:maxLength="40"/>
-    </property>
-    <property name="control">
-      <ref bean="StandardNameTextControl" />
-    </property>
   </bean>
 
   <bean id="AccountDescription-responsibilityCenterDescription" parent="AccountDescription-responsibilityCenterDescription-parentBean"/>
-  <bean id="AccountDescription-responsibilityCenterDescription-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="AccountDescription-responsibilityCenterDescription-parentBean" abstract="true" parent="GenericAttributes-name">
     <property name="name" value="responsibilityCenterDescription"/>
     <property name="label" value="Responsibility Center Description"/>
     <property name="shortLabel" value="RespCtrDesc"/>
-    <property name="maxLength" value="40"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" p:maxLength="40"/>
-    </property>
-    <property name="control">
-      <ref bean="StandardNameTextControl" />
-    </property>
   </bean>
 
   <bean id="AccountDescription-campusCode" parent="AccountDescription-campusCode-parentBean"/>
@@ -90,9 +80,7 @@
     <property name="label" value="Building Campus Code"/>
     <property name="shortLabel" value="BldgCmpCd"/>
     <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.CampusWithBlankValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="CampusSelectControl" />
   </bean>
   
   <bean id="AccountDescription-buildingCode" parent="AccountDescription-buildingCode-parentBean"/>

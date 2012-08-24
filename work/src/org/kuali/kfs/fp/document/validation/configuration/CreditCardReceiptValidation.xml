@@ -81,6 +81,11 @@
 				</bean> 
  				<bean parent="CreditCardReceipt-routeDocument-creditCardReceiptsValidation" scope="prototype" />
 
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="accountingLine" />
+				</bean>
+
 				<bean parent="CapitalAccountingLines-capitalAccountingLinesValidations" scope="prototype" />
   				
   				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />
@@ -159,6 +164,10 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="accountingLine" />
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -188,7 +197,11 @@
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
-				</bean>				
+				</bean>	
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="accountingLine" />
+				</bean>
 			</list>
 		</property>
 	</bean>

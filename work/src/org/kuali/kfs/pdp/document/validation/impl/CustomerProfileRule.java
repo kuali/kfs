@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,8 +26,8 @@ import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.CustomerBank;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -82,7 +82,7 @@ public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
         }
         return isValid;
     }
-    
+
     /**
      * KFSMI-3771
      * This method checks if the Disbursement Bank information is provided in the Customer profile.
@@ -91,30 +91,30 @@ public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      * @param MaintenanceDocument  - CustomerProfileMaintenanceDocument
      * @return boolean - true if business rules are satisfied; false otherwise.
-     */    
+     */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        
+
         boolean isValid = true;
         isValid &= super.processCustomRouteDocumentBusinessRules(document);
-        
+
         CustomerProfile customerProfile = (CustomerProfile) document.getNewMaintainableObject().getBusinessObject();
-        
+
         if (customerProfile != null) {
             customerProfile.refreshNonUpdateableReferences();
             setStateFromZip(customerProfile);
         }
-        
+
         boolean checkBankPresent = false;
         boolean ACHBankPresent = false;
-        
+
         //Check if the customer profile has ACH transaction type information present.
-        boolean customerHasACHType = customerProfile.getAchTransactionType() != null ? true : false;       
-        
+        boolean customerHasACHType = customerProfile.getAchTransactionType() != null ? true : false;
+
         //Check if customer profile has bank information
         if (customerProfile.getCustomerBanks().isEmpty()){
             putFieldError(KRADConstants.MAINTENANCE_ADD_PREFIX+"customerBanks."+PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpKeyConstants.Format.ErrorMessages.ERROR_FORMAT_BANK_MISSING, customerProfile.getId().toString());
-            
+
             isValid = false;
         }else{
             for (CustomerBank customerBank : customerProfile.getCustomerBanks()){
@@ -129,51 +129,51 @@ public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
                     putFieldError(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpKeyConstants.ERROR_PDP_CHECK_BANK_NOT_ALLOWED, bank.getBankCode() + " (" + bank.getBankName() + ")");
                     isValid = false;
                 }
-                
+
                 //Check if customer profile has Check type Bank information
                 if(customerBank.getDisbursementTypeCode().equalsIgnoreCase(PdpConstants.DisbursementTypeCodes.CHECK)){
                     checkBankPresent = true;
-                }                 
-                //Check if customer profile has ACH type Bank information 
+                }
+                //Check if customer profile has ACH type Bank information
                 if(customerBank.getDisbursementTypeCode().equalsIgnoreCase(PdpConstants.DisbursementTypeCodes.ACH)){
                         ACHBankPresent = true;
-                 }                 
+                 }
                 if(checkBankPresent && ACHBankPresent){
                     break;
-                }            
+                }
             }
-            
+
             //Generate error message if check bank is not present.
             if(!checkBankPresent){
                 isValid = false;
                 putFieldError(KRADConstants.MAINTENANCE_ADD_PREFIX+"customerBanks."+PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpKeyConstants.ERROR_PDP_CHECK_BANK_REQUIRED);
             }
-            
+
             //Generate error message if ACH bank is not present for profile with ACH disbursement type.
             if(customerHasACHType && !ACHBankPresent){
                 isValid = false;
-                putFieldError(KRADConstants.MAINTENANCE_ADD_PREFIX+"customerBanks."+PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpKeyConstants.ERROR_PDP_ACH_BANK_REQUIRED); 
+                putFieldError(KRADConstants.MAINTENANCE_ADD_PREFIX+"customerBanks."+PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpKeyConstants.ERROR_PDP_ACH_BANK_REQUIRED);
             }
-            
+
         }
-        
-        // KFSMI-5158 Uniqueness check only for new Customer Profiles 
-        if (document.isNew()) { 
-            isValid &= verifyChartUnitSubUnitIsUnique(customerProfile); 
+
+        // KFSMI-5158 Uniqueness check only for new Customer Profiles
+        if (document.isNew()) {
+            isValid &= verifyChartUnitSubUnitIsUnique(customerProfile);
         }
-        
+
         return isValid;
-    } 
-    
+    }
+
     //KFSMI-8330
     /**
      * sets city name and state code on the form
-     * 
+     *
      * @param customerProfile
      */
     protected void setStateFromZip(CustomerProfile customerProfile) {
-        if (!StringUtils.isBlank(customerProfile.getZipCode())) {
-            PostalCode zip = SpringContext.getBean(PostalCodeService.class).getPostalCode( "US"/*RICE_20_REFACTORME*/, customerProfile.getZipCode() );
+        if (StringUtils.isNotBlank(customerProfile.getZipCode()) && StringUtils.isNotBlank(customerProfile.getCountryCode()) ) {
+            PostalCode zip = SpringContext.getBean(PostalCodeService.class).getPostalCode( customerProfile.getCountryCode(), customerProfile.getZipCode() );
 
             // If user enters a valid zip code, override city name and state code entered by user
             if (ObjectUtils.isNotNull(zip)) { // override old user inputs
@@ -182,7 +182,7 @@ public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
             }
         }
     }
-    
+
     /**
      * Verifies that the chart/unit/sub-unit combination on this customer profile is unique
      * @param customerProfile the customer profile to check
@@ -190,22 +190,22 @@ public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean verifyChartUnitSubUnitIsUnique(CustomerProfile customerProfile) {
         boolean result = true;
-        
+
         if (!StringUtils.isBlank(customerProfile.getChartCode()) && !StringUtils.isBlank(customerProfile.getUnitCode()) && !StringUtils.isBlank(customerProfile.getSubUnitCode())) {
             final BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
             Map<String, Object> searchKeys = new HashMap<String, Object>();
             searchKeys.put(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE, customerProfile.getChartCode());
             searchKeys.put(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_UNIT_CODE, customerProfile.getUnitCode());
             searchKeys.put(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_SUB_UNIT_CODE, customerProfile.getSubUnitCode());
-            
+
             final Collection foundCustomerProfiles = businessObjectService.findMatching(CustomerProfile.class, searchKeys);
             if (foundCustomerProfiles != null && foundCustomerProfiles.size() > 0) {
                 result = false;
                 putFieldError(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_UNIT_CODE, PdpKeyConstants.ERROR_CUSTOMER_PROFILE_CHART_UNIT_SUB_UNIT_NOT_UNIQUE, new String[] { customerProfile.getChartCode(), customerProfile.getUnitCode(), customerProfile.getSubUnitCode()});
             }
         }
-        
+
         return result;
     }
-    
+
 }

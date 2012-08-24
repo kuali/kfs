@@ -86,9 +86,8 @@
 										readOnly="true" />
 								</td>
 								<c:set var="tempValue" value="${temfunc:add(dist.remainingAmount,tempValue)}" />
-								<!-- c:set var="tempValue" value="${temfunc:add((dist.disabled?0:dist.remainingAmount),tempValue)}" / -->
-								<c:set var="selectedCount" value="${selectedCount + (dist.selected?1:0)}" />
-								<c:set var="selectedValue" value="${temfunc:add(selectedValue,(dist.selected?dist.subTotal:0))}" />
+								<c:set var="selectedCount" value="${selectedCount + (dist.selected ? 1 : 0)}" />
+								<c:set var="selectedValue" value="${temfunc:add(selectedValue,(dist.selected ? dist.subTotal : 0))}" />
 							</tr>
 						</logic:iterate>
 					</c:when>

@@ -3,7 +3,7 @@
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 	<changeSet author="KFS50" id="KFS_50_Data_AST_PMT_DST_CD">
-		<comment>KFSMI-KFSMI-5998 </comment>
+		<comment>KFSMI-5998 </comment>
 		<insert tableName="CM_AST_PMT_DST_CD_T">
 			<column name="AST_PMT_DST_CD" value="1" />
 			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
@@ -46,43 +46,6 @@
 		<modifySql dbms="oracle">
 			<replace replace="SYS_GUID" with="sys_guid()" />
 		</modifySql>
-	</changeSet>
-	<changeSet author="KFS50" id="KFS_50_Data_CM_CPTLAST_T_oracle"
-		context="manualRun" dbms="oracle">
-		<comment>KFSMI-6628 sql script to correct Total Costs in the Asset Detail Tab</comment>
-		<sql><![CDATA[
-			update CM_CPTLAST_T set cptlast_totcst_amt = (select
-			sum(acct_charge_amt)
-			from CM_AST_PAYMENT_T s where
-			s.cptlast_nbr=CM_CPTLAST_T.cptlast_nbr)
-			where rowid in (select t.rowid
-			from CM_CPTLAST_T t where exists (select *
-			from (select
-			sum(s.acct_charge_amt) pmt_sum, s.cptlast_nbr ast_nbr from
-			CM_AST_PAYMENT_T s, CM_CPTLAST_T t
-			where s.cptlast_nbr = t.cptlast_nbr
-			group by s.cptlast_nbr)
-			where ast_nbr = t.cptlast_nbr
-			and pmt_sum <>
-			t.cptlast_totcst_amt));
-		]]></sql>
-	</changeSet>
-	<changeSet author="KFS50" id="KFS_50_Data_CM_CPTLAST_T_MySQL"
-		context="manualRun" dbms="mysql">
-		<comment>KFSMI-6628 sql script to correct Total Costs in the Asset Detail Tab</comment>
-		<sql><![CDATA[
-			update CM_CPTLAST_T as T5
-			INNER JOIN
-			(select * from CM_CPTLAST_T as T2, (select sum(s.acct_charge_amt) pmt_sum,
-			s.cptlast_nbr ast_nbr
-			from CM_AST_PAYMENT_T as s, CM_CPTLAST_T as t
-			where s.cptlast_nbr = t.cptlast_nbr
-			group by s.cptlast_nbr) as T1 where T1.ast_nbr = T2.CPTLAST_NBR and
-			T1.pmt_sum<> T2.cptlast_totcst_amt) as T4 ON (T4.cptlast_nbr =
-			T5.cptlast_nbr)
-			set T5.cptlast_totcst_amt = (select sum(acct_charge_amt) from
-			CM_AST_PAYMENT_T as s where s.cptlast_nbr=T5.cptlast_nbr)
-		]]></sql>
 	</changeSet>
 
 	<changeSet author="KFS50" id="KFSMI7058_ASSET_PMT_DOC_SAMPLE_DATA">

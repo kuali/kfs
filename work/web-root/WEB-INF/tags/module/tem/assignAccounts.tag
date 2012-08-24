@@ -17,7 +17,7 @@
 	<a name="${TEMConstants.DISTRIBUTION_ANCHOR }" id="${TEMConstants.DISTRIBUTION_ANCHOR }"></a>
 	<kul:tab tabTitle="Assign Accounts" defaultOpen="${fullEntryMode }" tabErrorKey="${TemKeyConstants.TRVL_ACCOUNT_DIST}">
 	<c:choose>
-		<c:when test="${KualiForm.selectedDistributionRemainingAmount > 0 }">
+		<c:when test="${KualiForm.hasSelectedDistributionRemainingAmount}">
 			<sys-java:accountingLines>
 		        <sys-java:accountingLineGroup newLinePropertyName="accountDistributionnewSourceLine" collectionPropertyName="accountDistributionsourceAccountingLines" collectionItemPropertyName="accountDistributionsourceAccountingLines" attributeGroupName="accountDistribution" />
 		    </sys-java:accountingLines>

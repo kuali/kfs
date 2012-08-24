@@ -874,6 +874,10 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         }
         return distribution;
     }
+    
+    public Boolean getHasSelectedDistributionRemainingAmount() {
+        return KualiDecimal.ZERO.equals(getSelectedDistributionRemainingAmount());
+    }
 
     public KualiDecimal getSelectedDistributionRemainingAmount() {
         return getDistributionRemainingAmount(true);

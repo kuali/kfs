@@ -41,7 +41,6 @@ import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TravelService;
@@ -106,14 +105,11 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
         try {
             // Below used as a place holder to allow code to specify actionForward to return if not a 'success question'
             T returnActionForward = null;
-            String newStatus = null;
-
             returnActionForward = (T) ((StrutsInquisitor) asker).getMapping().findForward(MAPPING_BASIC);
-            newStatus = TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT;
             
             final Note newNote = getDocumentService().createNoteFromDocument(document, noteText.toString());
             newNote.setNoteText(noteText.toString());
-            ((TravelDocumentBase) document).updateAppDocStatus(newStatus);
+            document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT);
             getDocumentDao().save(document);
             String headerID = document.getDocumentHeader().getDocumentNumber();
             
@@ -127,7 +123,7 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             form.setDocTypeName(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
             form.setDocument(taaDocument);
             
-            ((TravelDocumentBase) taaDocument).updateAppDocStatus(TravelAuthorizationStatusCodeKeys.CHANGE_IN_PROCESS);
+             taaDocument.setAppDocStatus(TravelAuthorizationStatusCodeKeys.CHANGE_IN_PROCESS);
             
             //save the TAA document once so it will not be lost
             getDocumentService().saveDocument(taaDocument);

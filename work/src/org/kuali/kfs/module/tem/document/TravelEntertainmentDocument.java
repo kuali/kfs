@@ -57,7 +57,6 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
@@ -65,7 +64,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 @Entity
 @Table(name = "TEM_ENT_DOC_T")
@@ -326,20 +324,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-
-        LOG.debug("Handling route status change");
-        LOG.debug("route status is " + statusChangeEvent.getNewRouteStatus());
-        
-        String currStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
-        
-        if (ObjectUtils.isNotNull(currStatus)) {
-            updateAppDocStatus(currStatus);
-        }
-        
-        if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
-         // update app doc status from the disapprove map
-            updateAppDocStatus(TemConstants.EntertainmentStatusCodeKeys.getDisapprovedAppDocStatusMap().get(getAppDocStatus()));
-        }
         
         if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getNewRouteStatus()) 
                 || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
@@ -371,27 +355,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
                     }
                 }
                 getBusinessObjectService().save(getGeneralLedgerPendingEntries());
-            }
-        }
-    }
-
-    @Override
-    public void updateAppDocStatus(String newStatus) {
-        LOG.debug("new status is: " + newStatus);
-
-        // get current workflow status and compare to status change
-        String currStatus = getAppDocStatus();
-        if (ObjectUtils.isNull(currStatus) || !newStatus.equalsIgnoreCase(currStatus)) {
-            // update
-            setAppDocStatus(newStatus);
-        }
-        if ((this.getDocumentHeader().getWorkflowDocument().stateIsFinal() || getDocumentHeader().getWorkflowDocument().stateIsProcessed())) {
-            WorkflowDocumentService workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
-            try {
-                workflowDocumentService.save(this.getDocumentHeader().getWorkflowDocument(), null);
-            }
-            catch (WorkflowException ex) {
-                ex.printStackTrace();
             }
         }
     }
@@ -551,6 +514,14 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
         disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
         
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getDisapprovedAppDocStatusMap()
+     */
+    @Override
+    public Map<String, String> getDisapprovedAppDocStatusMap() {
+        return EntertainmentStatusCodeKeys.getDisapprovedAppDocStatusMap();
     }
 
 }

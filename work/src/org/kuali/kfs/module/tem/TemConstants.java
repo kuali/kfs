@@ -255,6 +255,8 @@ public class TemConstants extends JSTLConstants {
         public static final String EXPORT_FILE_FORMAT = "EXPORT_FILE_FORMAT";
     }
 
+    public static final String TRAVEL_DOC_APP_DOC_STATUS_INIT = "Initiated";
+    
     public static class TravelAuthorizationStatusCodeKeys {
         public static final String IN_PROCESS = "In Process";
         public static final String AWAIT_ORG = "Awaiting Organization Review";
@@ -329,6 +331,20 @@ public class TemConstants extends JSTLConstants {
         
         public static final String IN_PROCESS = "In Process";
         public static final String CANCELLED = "Cancelled";
+        
+        public static HashMap<String, String> getDisapprovedAppDocStatusMap() {
+            HashMap<String, String> disapprovedAppDocStatusMap;
+            
+            disapprovedAppDocStatusMap = new HashMap<String, String>();
+            disapprovedAppDocStatusMap.put(AWAIT_TRAVELER,  DAPRVD_TRAVELER);
+            disapprovedAppDocStatusMap.put(AWAIT_FISCAL, DAPRVD_FISCAL);
+            disapprovedAppDocStatusMap.put(AWAIT_ORG, DAPRVD_ORG);
+            disapprovedAppDocStatusMap.put(AWAIT_DIV,  DAPRVD_DIV);
+            disapprovedAppDocStatusMap.put(AWAIT_INTL,  DAPRVD_INTL);
+            disapprovedAppDocStatusMap.put(AWAIT_SUB,  DAPRVD_SUB);
+            disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD); 
+            return disapprovedAppDocStatusMap;
+        }
     }
 
     public static class TravelRelocationStatusCodeKeys {

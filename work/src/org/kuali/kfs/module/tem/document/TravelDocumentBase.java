@@ -39,15 +39,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
@@ -103,6 +102,7 @@ import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.comparator.StringValueComparator;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
@@ -110,6 +110,8 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
  */
 public abstract class TravelDocumentBase extends AccountingDocumentBase implements TravelDocument, Copyable {
 
+    protected static Logger LOG = Logger.getLogger(TravelDocumentBase.class);
+    
     private TripType tripType;
     private String tripTypeCode;
     private Timestamp tripBegin;
@@ -201,6 +203,10 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         return SpringContext.getBean(SequenceAccessorService.class);
     }
     
+    protected WorkflowDocumentService getWorkflowDocumentService() {
+        return SpringContext.getBean(WorkflowDocumentService.class);
+    }
+    
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getAccountingDistributionService()
      */
@@ -210,49 +216,64 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
     
     /**
-     * This method updates both the workflow and the internal TravelStatus objects
+     * This method updates both the internal travel document status value and the app doc status
+     * in the document header of workflow
+     * 
+     * NOTE: force to update the app doc status when workflow state  is F, P or D
      * 
      * @param status
      */
     @Override
-    public void updateAppDocStatus(String newStatus) {
-        debug("new status is: " + newStatus);
-
-        // get current workflow status and compare to status change
-        String currStatus = getAppDocStatus();
-        if (ObjectUtils.isNull(currStatus) || !newStatus.equalsIgnoreCase(currStatus)) {
-            // update
-            setAppDocStatus(newStatus);
+    public boolean updateAppDocStatus(String status) {
+        boolean updated = false;
+        KualiWorkflowDocument workflow = getDocumentHeader().getWorkflowDocument();
+        //final, processed and dispproved will always need to update the app doc status
+        if ((workflow.stateIsFinal() || workflow.stateIsProcessed()) || workflow.stateIsDisapproved()){
+            setAppDocStatus(status);
+            updated = saveAppDocStatus();
         }
-        if ((this.getDocumentHeader().getWorkflowDocument().stateIsFinal() || getDocumentHeader().getWorkflowDocument().stateIsProcessed()) && (newStatus.equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD)
-                || newStatus.equals(TravelAuthorizationStatusCodeKeys.OPEN_REIMB))
-                || newStatus.equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)
-                || newStatus.equals(TravelAuthorizationStatusCodeKeys.CANCELLED)
-                || newStatus.equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION)
-                || newStatus.equals(TravelRelocationStatusCodeKeys.RELO_MANAGER_APPROVED)){
-            WorkflowDocumentService workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
-            try {
-                workflowDocumentService.save(this.getDocumentHeader().getWorkflowDocument(), null);
-            }
-            catch (WorkflowException ex) {
-                // TODO Auto-generated catch block
-                ex.printStackTrace();
-            }
-        }
+        return updated;
     }
-           
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getAppDocStatus()
+     */
     @Override
     public String getAppDocStatus() {
         String status = getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
-        if (StringUtils.isBlank(status)) {
-            status = "Initiated";
-        }
-        return status;
+        return StringUtils.defaultIfEmpty(status, TemConstants.TRAVEL_DOC_APP_DOC_STATUS_INIT);
     }
     
-    public void setAppDocStatus(String status) {
-        getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(status);
-        getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatusDate(Calendar.getInstance());
+    /**
+     * Update application doc status if it is different from the current stats
+     * 
+     * @param status
+     */
+    final public void setAppDocStatus(String status) {
+        // get current workflow status and compare to status change
+        String currStatus = getAppDocStatus();
+        if (StringUtils.isBlank(currStatus) || !status.equalsIgnoreCase(currStatus)) {
+            LOG.debug("NEW status is [" + status + "] was {" + currStatus + "}");
+            getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(status);
+            getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatusDate(Calendar.getInstance());
+        }
+    }
+    
+    /**
+     * Save the current document header with the updated app doc status
+     * 
+     * @return
+     */
+    final public boolean saveAppDocStatus() {
+        boolean saved = false;
+        try {
+            getWorkflowDocumentService().save(getDocumentHeader().getWorkflowDocument(), null);
+            saved = true;
+        }
+        catch (WorkflowException ex) {
+            LOG.error(ex.getMessage(), ex);
+        }
+        return saved;
     }
     
     /**
@@ -1839,6 +1860,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         this.refreshNonUpdateableReferences();
+        
         SpringContext.getBean(TravelDocumentNotificationService.class).sendNotificationOnChange(this, statusChangeEvent);
         super.doRouteStatusChange(statusChangeEvent);
         
@@ -1860,6 +1882,19 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                 getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCTS).updateExpense(this);
                 getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCorpCard).updateExpense(this);
             }            
+        }
+        
+        LOG.debug("Handling Route Status changing to [" + statusChangeEvent.getNewRouteStatus() + "]");
+        
+        //Update internal app doc status status
+        String currStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
+        if (ObjectUtils.isNotNull(currStatus)) {
+            updateAppDocStatus(currStatus);
+        }
+        
+        //for disapproval cases
+        if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
+            updateAppDocStatus(getDisapprovedAppDocStatusMap().get(getAppDocStatus()));
         }
     }
     
@@ -1974,5 +2009,12 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         }
         return isOpen;
     }
+    
+    /**
+     * Should be defined per each doc type 
+     * 
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getDisapprovedAppDocStatusMap()
+     */
+    public abstract Map<String, String> getDisapprovedAppDocStatusMap();
    
 }

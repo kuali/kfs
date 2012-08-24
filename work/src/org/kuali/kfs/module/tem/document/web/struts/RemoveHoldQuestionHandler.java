@@ -34,7 +34,6 @@ import static org.kuali.rice.kns.util.ObjectUtils.isNotNull;
 
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.bo.Note;
@@ -91,17 +90,13 @@ public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument
         try {
             // Below used as a place holder to allow code to specify actionForward to return if not a 'success question'
             T returnActionForward = null;
-            String newStatus = null;
-
             returnActionForward = (T) ((StrutsInquisitor) asker).getMapping().findForward(MAPPING_BASIC);
-            newStatus = TravelAuthorizationStatusCodeKeys.OPEN_REIMB;
             
             final Note newNote = getDocumentService().createNoteFromDocument(document, noteText.toString());
             getDocumentService().addNoteToDocument(document, newNote); 
             
-            
             //save the new state on the document
-            ((TravelDocumentBase) document).updateAppDocStatus(newStatus);
+             document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.OPEN_REIMB);
             getDocumentDao().save(document);
             
           //send FYI for to initiator and traveler   

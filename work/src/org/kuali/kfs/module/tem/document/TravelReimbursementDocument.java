@@ -357,7 +357,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
      */
     @Override
     public void initiateDocument() {
-        updateAppDocStatus(TemConstants.TravelReimbursementStatusCodeKeys.IN_PROCESS);
+        setAppDocStatus(TemConstants.TravelReimbursementStatusCodeKeys.IN_PROCESS);
         setActualExpenses(new ArrayList<ActualExpense>());
         setPerDiemExpenses(new ArrayList<PerDiemExpense>());
 
@@ -679,5 +679,14 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
 
     protected GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
         return SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+    }
+    
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getDisapprovedAppDocStatusMap()
+     */
+    @Override
+    public Map<String, String> getDisapprovedAppDocStatusMap() {
+        return TravelReimbursementStatusCodeKeys.getDisapprovedAppDocStatusMap();
     }
 }

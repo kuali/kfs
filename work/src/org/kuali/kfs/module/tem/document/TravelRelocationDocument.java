@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,7 +51,6 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
  * Travel Relocation Document
@@ -237,11 +237,31 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
     }
 
     /**
+     * This method updates both the internal travel document status value and the app doc status
+     * in the document header of workflow
+     * 
+     * @param status
+     */
+    @Override
+    public boolean updateAppDocStatus(String status) {
+        boolean updated = false;
+
+        //using the parent's update app doc status logic
+        updated = super.updateAppDocStatus(status);
+        
+        if (!updated && (status.equals(TravelRelocationStatusCodeKeys.RELO_MANAGER_APPROVED))){
+            setAppDocStatus(status);
+            updated = saveAppDocStatus();
+        }
+        return updated;
+    }
+    
+    /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#initiateDocument()
      */
     @Override
     public void initiateDocument() {
-        updateAppDocStatus(TemConstants.TravelRelocationStatusCodeKeys.IN_PROCESS);
+        setAppDocStatus(TemConstants.TravelRelocationStatusCodeKeys.IN_PROCESS);
         setActualExpenses(new ArrayList<ActualExpense>());
         setPerDiemExpenses(new ArrayList<PerDiemExpense>());
 
@@ -277,22 +297,6 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        
-        LOG.debug("Handling route status change");
-        LOG.debug("Current route status is: " + statusChangeEvent.getNewRouteStatus());
-               
-        // in this case the status has already been updated and we need to update the internal status code
-        String currStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
-        
-        if (ObjectUtils.isNotNull(currStatus)) {
-            updateAppDocStatus(currStatus);
-        }
-        
-        // disapproved - update internal app doc status
-        if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
-            // update app doc status from the disapprove map
-            updateAppDocStatus(TemConstants.TravelRelocationStatusCodeKeys.getDisapprovedAppDocStatusMap().get(getAppDocStatus()));
-        }
         
         if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getNewRouteStatus()) 
                 || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
@@ -426,5 +430,13 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
         disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
     }
+
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getDisapprovedAppDocStatusMap()
+     */
+    @Override
+    public Map<String, String> getDisapprovedAppDocStatusMap() {
+        return TravelRelocationStatusCodeKeys.getDisapprovedAppDocStatusMap();
+    }
 }

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -121,6 +122,27 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         toCopyTravelAuthorizationDocument(doc);
         
         return doc;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#updateAppDocStatus(java.lang.String)
+     */
+    @Override
+    public boolean updateAppDocStatus(String status) {
+        boolean updated = false;
+
+        //using the parent's update app doc status logic
+        updated = super.updateAppDocStatus(status);
+        
+        if (!updated && (status.equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD) 
+                || status.equals(TravelAuthorizationStatusCodeKeys.OPEN_REIMB)
+                || status.equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)
+                || status.equals(TravelAuthorizationStatusCodeKeys.CANCELLED)
+                || status.equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION))){
+            setAppDocStatus(status);
+            updated = saveAppDocStatus();
+        }
+        return updated;
     }
 
     /**
@@ -502,20 +524,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
-        LOG.debug("Handling route status change");
-
-        LOG.debug("route status is " + statusChangeEvent.getNewRouteStatus());
-
-        // in this case the status has already been updated and we need to update the internal status code
-        String currStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
-        if (ObjectUtils.isNotNull(currStatus)) {
-            updateAppDocStatus(currStatus);
-        }
-        if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
-            // first we need to see where we were so we can change the app doc status
-            updateAppDocStatus(TravelAuthorizationStatusCodeKeys.getDisapprovedAppDocStatusMap().get(getAppDocStatus()));
-        }
-        
         if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
             LOG.debug("New route status is " + statusChangeEvent.getNewRouteStatus());
                         
@@ -795,6 +803,14 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     @Override
     public boolean hasCustomDVDistribution(){
        return true;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getDisapprovedAppDocStatusMap()
+     */
+    @Override
+    public Map<String, String> getDisapprovedAppDocStatusMap() {
+        return TravelAuthorizationStatusCodeKeys.getDisapprovedAppDocStatusMap();
     }
    
 }

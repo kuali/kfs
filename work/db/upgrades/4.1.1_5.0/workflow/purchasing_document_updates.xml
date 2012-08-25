@@ -1236,7 +1236,7 @@
 					<split name="RequiresImageAttachment" nextNode="PurchaseWasReceived">
 						<branch name="True">
 							<role name="ImageAttachment" nextNode="JoinRequiresImageAttachment"
-								nextAppDocStatus="Awaiting Receiving" />
+								nextAppDocStatus="Awaiting AP Review" />
 						</branch>
 						<branch name="False">
 							<simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment"

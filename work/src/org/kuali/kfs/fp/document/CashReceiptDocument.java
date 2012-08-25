@@ -1239,13 +1239,5 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public void setSumTotalAmount(KualiDecimal sumTotalAmount) {
         this.sumTotalAmount = sumTotalAmount;
     }
-    
-    public java.util.Date getCreateDate() {
-        if (!ObjectUtils.isNull(getDocumentHeader()) && !ObjectUtils.isNull(getDocumentHeader().getWorkflowDocument())) {
-            java.util.Date createDate = new java.util.Date();
-            createDate.setTime(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
-        }
-        return new java.util.Date();
-    }
 }
 

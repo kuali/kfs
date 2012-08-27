@@ -107,7 +107,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         Iterator<TEMProfile> iter = profiles.iterator();
         while(iter.hasNext()) {
             TEMProfile profile = iter.next();
-            if(getTravelerService().canIncludeProfileInSearch(profile, user, isProfileAdmin, isAssignedArranger, isOrgArranger, isArrangerDoc, isRiskManagement)) {
+            if(getTravelerService().canIncludeProfileInSearch(profile, docType, user, isProfileAdmin, isAssignedArranger, isOrgArranger, isArrangerDoc, isRiskManagement)) {
                 getTravelerService().populateTEMProfile(profile);
             } else {
                 iter.remove();

@@ -36,10 +36,12 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.kfs.module.tem.businessobject.TemProfileEmergencyContact;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromCustomer;
@@ -110,12 +112,18 @@ public class TravelerServiceImpl implements TravelerService {
         return retval;
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.service.TravelerService#canIncludeProfileInSearch(org.kuali.kfs.module.tem.businessobject.TEMProfile, java.lang.String, org.kuali.rice.kim.bo.Person, boolean, boolean, boolean, boolean, boolean)
+     */
     @Override
-    public boolean canIncludeProfileInSearch(TEMProfile profile, Person user, boolean isProfileAdmin, boolean isAssignedArranger, boolean isOrgArranger, boolean isArrangerDoc, boolean isRiskManagement) {
+    public boolean canIncludeProfileInSearch(TEMProfile profile, String docType, Person user, boolean isProfileAdmin, boolean isAssignedArranger, boolean isOrgArranger, boolean isArrangerDoc, boolean isRiskManagement) {
         boolean canInclude = false;
-        if(isArrangerDoc || isRiskManagement) {
+        
+        //arrange doc, risk management or user look up self
+        if(isArrangerDoc || isRiskManagement || user.getPrincipalId().equals(profile.getPrincipalId())) {
             return true;
         }
+        
         if(isProfileAdmin || isOrgArranger) {
             //pull the org they are responsible for and filter on that
             Organization org = profile.getHomeDeptOrg();
@@ -131,15 +139,26 @@ public class TravelerServiceImpl implements TravelerService {
                 String roleOrganizationCode = roleQualifiers[1];
                 canInclude |= isParentOrg(org.getChartOfAccountsCode(), org.getOrganizationCode(), roleChartOfAccountsCode, roleOrganizationCode, true);
             } 
-            
-            
         } 
-        if(isAssignedArranger) {
+        
+        //check in arranger details if it does not already have the authority to view the profile
+        if(!canInclude && isAssignedArranger) {
             //pull the arranger's profiles it is responsible for
             canInclude |= getArrangerDocumentService().isArrangerForProfile(user.getPrincipalId(), profile.getProfileId());
-        }
-        if(user.getPrincipalId().equals(profile.getPrincipalId())) {
-            canInclude = true;
+            //it is the arranger, check for TA and TR specific 
+            if (canInclude){
+                List<String> authorizationDocTypes = new ArrayList<String>();
+                authorizationDocTypes.add(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+                authorizationDocTypes.add(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
+                authorizationDocTypes.add(TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
+                
+                TEMProfileArranger arranger = getArrangerDocumentService().findTemProfileArranger(user.getPrincipalId(), profile.getProfileId());
+                if (authorizationDocTypes.contains(docType)){
+                    canInclude = arranger.getTaInd();
+                }else if (TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT.equals(docType)){
+                    canInclude = arranger.getTrInd();
+                }
+            }
         }
         
         return canInclude;

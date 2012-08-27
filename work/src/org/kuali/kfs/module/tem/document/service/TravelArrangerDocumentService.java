@@ -24,6 +24,8 @@ public interface TravelArrangerDocumentService {
     
     public TEMProfileArranger findPrimaryTravelProfileArranger(String arrangerId, Integer profileId);
     
+    public TEMProfileArranger findTemProfileArranger(String principalId, Integer profileId);
+    
     public void removeTravelProfileArranger(TravelArrangerDocument arrangerDoc);
 
     public boolean isArrangerForProfile(String principalId, String profileId);

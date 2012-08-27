@@ -35,7 +35,7 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
         Integer profileId = arrangerDoc.getProfileId();
         String arrangerId = arrangerDoc.getArrangerId();
         
-        TEMProfileArranger profileArranger = findTemProfileArranger(profileId, arrangerId);
+        TEMProfileArranger profileArranger = findTemProfileArranger(arrangerId, profileId);
         if(ObjectUtils.isNull(profileArranger)) {
            profileArranger = createNewTravelProfileArranger(arrangerDoc);
         } else {
@@ -54,7 +54,7 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
     public void removeTravelProfileArranger(TravelArrangerDocument arrangerDoc) {
         Integer profileId = arrangerDoc.getProfileId();
         String arrangerId = arrangerDoc.getArrangerId();
-        TEMProfileArranger profileArranger = findTemProfileArranger(profileId, arrangerId);
+        TEMProfileArranger profileArranger = findTemProfileArranger(arrangerId, profileId);
         if(ObjectUtils.isNotNull(profileArranger)) {
             getBoService().delete(profileArranger);
         }
@@ -90,10 +90,10 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
     }
     
     @Override
-    public boolean isArrangerForProfile(String arrangerId, int profileId) {
-        if(ObjectUtils.isNotNull(profileId) && ObjectUtils.isNotNull(arrangerId)) {
+    public boolean isArrangerForProfile(String principalId, int profileId) {
+        if(ObjectUtils.isNotNull(profileId) && ObjectUtils.isNotNull(principalId)) {
             
-            if(ObjectUtils.isNotNull(findTemProfileArranger(profileId, arrangerId))) {
+            if(ObjectUtils.isNotNull(findTemProfileArranger(principalId, profileId))) {
                 return true;
             } else {
                 return false;
@@ -133,9 +133,13 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
         return profileArranger;
     }
 
-    private TEMProfileArranger findTemProfileArranger(Integer profileId, String arrangerId) {
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService#findTemProfileArranger(java.lang.Integer, java.lang.String)
+     */
+    @Override
+    public TEMProfileArranger findTemProfileArranger(String principalId, Integer profileId) {
         Map fieldValues = new HashMap();
-        fieldValues.put("principalId", arrangerId);
+        fieldValues.put("principalId", principalId);
         fieldValues.put("profileId", profileId);
         
         List<TEMProfileArranger> profileArrangers = new ArrayList<TEMProfileArranger>( getBoService().findMatching(TEMProfileArranger.class, fieldValues));

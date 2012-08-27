@@ -58,7 +58,19 @@ public interface TravelerService {
      */
     boolean isEmployee(final TravelerDetail traveler);
 
-    public boolean canIncludeProfileInSearch(TEMProfile profile, Person user, boolean isProfileAdmin, boolean isAssignedArranger, boolean isOrgArranger, boolean isArrangerDoc, boolean isRiskManagement);
+    /**
+     * 
+     * @param profile
+     * @param docType
+     * @param user
+     * @param isProfileAdmin
+     * @param isAssignedArranger
+     * @param isOrgArranger
+     * @param isArrangerDoc
+     * @param isRiskManagement
+     * @return
+     */
+    public boolean canIncludeProfileInSearch(TEMProfile profile, String docType, Person user, boolean isProfileAdmin, boolean isAssignedArranger, boolean isOrgArranger, boolean isArrangerDoc, boolean isRiskManagement);
     
     public void copyTEMProfileToCustomer(TEMProfile profile, AccountsReceivableCustomer customer);
     

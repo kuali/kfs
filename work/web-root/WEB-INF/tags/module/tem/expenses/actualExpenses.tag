@@ -51,7 +51,7 @@
 			  			<kul:subtab lookedUpCollectionName="expenseDetails${ctr}" width="${tableWidth}" 
 			  				subTabTitle="${KualiForm.expenseLabel} Details - ${KualiForm.document.actualExpenses[ctr].travelExpenseTypeCode.name} - ${lineCounter}" 
 			  				noShowHideButton="false" 
-			  				open="${(fn:length(KualiForm.document.actualExpenses[ctr].expenseDetails) > 0)|| KualiForm.document.actualExpenses[ctr].mileageIndicator || KualiForm.document.actualExpenses[ctr].airfareIndicator || KualiForm.document.actualExpenses[ctr].rentalCarIndicator }">
+			  				open="${KualiForm.document.actualExpenses[ctr].defaultTabOpen}">
 			  				<table cellpadding="0" cellspacing="0" class="datatable">
 								<c:set var="detailLineCounter" value="0" />
 							    <tr>

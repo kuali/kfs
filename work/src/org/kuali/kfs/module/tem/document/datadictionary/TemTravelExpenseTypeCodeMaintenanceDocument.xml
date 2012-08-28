@@ -14,45 +14,47 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-	
-<bean id="TemTravelExpenseTypeCodeMaintenanceDocument" parent="TravelExpenseTypeCodeMaintenanceDocument-parentBean">
-	<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode" />
-	<property name="documentTypeName" value="TETOC"/>
-	<property name="maintainableSections">
-		<list merge="false">
-			<ref bean="TemTravelExpenseTypeCodeMaintenanceDocument-EditTravelAndEntertainment" />
-		</list>
-	</property>
-</bean>
 
-<bean id="TemTravelExpenseTypeCodeMaintenanceDocument-EditTravelAndEntertainment" parent="TemTravelExpenseTypeCodeMaintenanceDocument-EditTravelExpenseType-parentBean" />
-	<bean id="TemTravelExpenseTypeCodeMaintenanceDocument-EditTravelExpenseType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Travel Expense Type" />
-		<property name="title" value="Edit Travel Expense Type" />
-		<property name="maintainableItems">
-			<list>
-		        <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
-		     	<bean parent="MaintainableFieldDefinition" p:name="tripType" p:required="true"/>
-		     	<bean parent="MaintainableFieldDefinition" p:name="travelerType" p:required="true"/>
-		     	<bean parent="MaintainableFieldDefinition" p:name="documentType" p:required="true"/>		        
-		        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="false"/>
-		        <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
-		        <bean parent="MaintainableFieldDefinition" p:name="prepaidExpense" p:required="true"/>
-		        <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active"/>	     				
-		     	<bean parent="MaintainableFieldDefinition" p:name="hostedMeal" p:required="false"/>
-		     	<bean parent="MaintainableFieldDefinition" p:name="longDescription" p:required="false"/>	     	
-		     	<bean parent="MaintainableFieldDefinition" p:name="individual" p:required="false"/>
-		     	<bean parent="MaintainableFieldDefinition" p:name="groupTravel" p:required="false"/>
-		     	<bean parent="MaintainableFieldDefinition" p:name="maximumAmount" p:required="false"/>
-		     	<bean parent="MaintainableFieldDefinition" p:name="maximumAmountPer" p:required="false"/>
-		     	<bean parent="MaintainableFieldDefinition" p:name="errorTypeCode" p:required="false"/>
-		     	<bean parent="MaintainableFieldDefinition" p:name="noteRequired" p:required="false"/>
-		     	<bean parent="MaintainableFieldDefinition" p:name="receiptRequired" p:required="false"/>
-		     	<bean parent="MaintainableFieldDefinition" p:name="receiptRequirementThreshold" p:required="false"/>
-		     	<bean parent="MaintainableFieldDefinition" p:name="taxable" p:required="false"/>
-		     	<bean parent="MaintainableFieldDefinition" p:name="receiptDisplayRequired" p:required="false"/>
-		     	<bean parent="MaintainableFieldDefinition" p:name="specialRequestRequired" p:required="false"/>		     	
-			</list>
-		</property>
-	</bean>
+    <bean id="TemTravelExpenseTypeCodeMaintenanceDocument" parent="TravelExpenseTypeCodeMaintenanceDocument-parentBean">
+        <property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode" />
+        <property name="documentTypeName" value="TETOC" />
+        <property name="maintainableSections">
+            <list merge="false">
+                <ref bean="TemTravelExpenseTypeCodeMaintenanceDocument-EditTravelExpenseType" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TemTravelExpenseTypeCodeMaintenanceDocument-EditTravelExpenseType" parent="TemTravelExpenseTypeCodeMaintenanceDocument-EditTravelExpenseType-parentBean" />
+    <bean id="TemTravelExpenseTypeCodeMaintenanceDocument-EditTravelExpenseType-parentBean"
+        abstract="true" parent="MaintainableSectionDefinition" >
+        <property name="id" value="Edit Travel Expense Type" />
+        <property name="title" value="Edit Travel Expense Type" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="code" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="tripType" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="travelerType" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="documentType" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="prepaidExpense" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active" />
+                <bean parent="MaintainableFieldDefinition" p:name="hostedMeal" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="longDescription" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="individual" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="groupTravel" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="maximumAmount" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="maximumAmountPer" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="errorTypeCode" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="noteRequired" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="receiptRequired" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="receiptRequirementThreshold" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="expenseDetailRequired" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="taxable" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="receiptDisplayRequired" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="specialRequestRequired" p:required="false" />
+            </list>
+        </property>
+    </bean>
 </beans>

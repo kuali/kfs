@@ -16,8 +16,6 @@
 package org.kuali.kfs.module.tem.document.validation.impl;
 
 import java.sql.Timestamp;
-import java.util.List;
-
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -52,6 +50,7 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
         
         if (success) {
             success = (validateGeneralRules(actualExpense, document) &&
+                    validateExpenseDetail(actualExpense, true) &&
                     validateAirfareRules(actualExpense, document) &&        
                     validateRentalCarRules(actualExpense, document) && 
                     validateLodgingRules(actualExpense, document) &&
@@ -76,68 +75,64 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
         boolean success = true;
         TemTravelExpenseTypeCode expenseTypeCode = actualExpense.getTravelExpenseTypeCode();
 
-        // setting timestamp to date to match the comparison.
-        /*
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        Date beginDate = null;
-        Date endDate = null;
-        Date expenseDate = null;
-
-        try {
-            // strip time component
-            if (document.getTripBegin() != null) {
-                beginDate = sdf.parse(sdf.format(document.getTripBegin()));
-            }
-            if (document.getTripEnd() != null) {
-                endDate = sdf.parse(sdf.format(document.getTripEnd()));
-            }
-            if (actualExpense.getExpenseDate() != null) {
-                expenseDate = sdf.parse(sdf.format(actualExpense.getExpenseDate()));
-            }
-        }
-        catch (ParseException ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
-        }
-
-        if (endDate != null && beginDate != null && expenseDate != null && (expenseDate.before(beginDate) || expenseDate.after(endDate))) {
-            GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_OTHER_EXP_DATE, TemKeyConstants.ERROR_EXPENSE_DATE_BEFORE_AFTER);
+        if (ObjectUtils.isNotNull(expenseTypeCode) && ObjectUtils.isNotNull(expenseTypeCode.getNoteRequired()) 
+                && expenseTypeCode.getNoteRequired() 
+                && (ObjectUtils.isNull(actualExpense.getDescription()) || actualExpense.getDescription().length() == 0)) {
             success = false;
-        }*/
 
-        if (success) {
-            if (ObjectUtils.isNotNull(expenseTypeCode) && ObjectUtils.isNotNull(expenseTypeCode.getNoteRequired()) 
-                    && expenseTypeCode.getNoteRequired() 
-                    && (ObjectUtils.isNull(actualExpense.getDescription()) || actualExpense.getDescription().length() == 0)) {
-                success = false;
-
-                GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, KFSKeyConstants.ERROR_REQUIRED, "Notes for expense type " + actualExpense.getTravelExpenseTypeCodeCode());
+            GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, KFSKeyConstants.ERROR_REQUIRED, "Notes for expense type " + actualExpense.getTravelExpenseTypeCodeCode());
+        }
+        else if (!actualExpense.isMileage()) {
+            success = actualExpense.getExpenseAmount().isGreaterThan(new KualiDecimal(0));
+            if (!success) {
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, KFSKeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "Expense Amount");
             }
-            else if (!actualExpense.isMileage()) {
-                success = actualExpense.getExpenseAmount().isGreaterThan(new KualiDecimal(0));
-                List errorpath = GlobalVariables.getMessageMap().getErrorPath();
-                if (!success) {
-                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, KFSKeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "Expense Amount");
+            else {
+                if (actualExpense.getCurrencyRate().isLessEqual(new KualiDecimal(0))) {
+                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.CURRENCY_RATE, KFSKeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "Currency Rate");
+                    success = false;
                 }
-                else {
-                    if (actualExpense.getCurrencyRate().isLessEqual(new KualiDecimal(0))) {
-                        GlobalVariables.getMessageMap().putError(TemPropertyConstants.CURRENCY_RATE, KFSKeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT, "Currency Rate");
-                        success = false;
+                
+                else if (isDuplicateEntry(actualExpense, document)) {
+                    success = false;
+                    if (expenseTypeCode != null && expenseTypeCode.isPerDaily()) {
+                        GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY_DAILY, actualExpense.getTravelExpenseTypeCodeCode());
                     }
-                    
-                    else if (isDuplicateEntry(actualExpense, document)) {
-                        success = false;
-                        if (expenseTypeCode != null && expenseTypeCode.isPerDaily()) {
-                            GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY_DAILY, actualExpense.getTravelExpenseTypeCodeCode());
-                        }
-                        else {
-                            GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY, actualExpense.getTravelExpenseTypeCodeCode(), actualExpense.getExpenseDate().toString());
-                        }
+                    else {
+                        GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY, actualExpense.getTravelExpenseTypeCodeCode(), actualExpense.getExpenseDate().toString());
                     }
                 }
             }
         }
 
+        return success;
+    }
+    
+
+    /**
+     * Validate if the expense is required to have detail to be entered.  Detail requirement is defined in the travel expense type code
+     * table
+     * 
+     * @param actualExpense
+     * @param isWarning
+     * @return
+     */
+    public boolean validateExpenseDetail(ActualExpense actualExpense, boolean isWarning) {
+        boolean success = true;
+        actualExpense.refreshReferenceObject("travelExpenseTypeCode");
+        TemTravelExpenseTypeCode expenseType = actualExpense.getTravelExpenseTypeCode();
+
+        if (ObjectUtils.isNotNull(expenseType)){
+            if (expenseType.getExpenseDetailRequired() && actualExpense.getExpenseDetails().isEmpty()){
+                //detail is required when adding the expense
+                if (isWarning){
+                    GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_DETAIL, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DETAIL_REQUIRED, expenseType.getName());
+                }else{
+                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_DETAIL, TemKeyConstants.ERROR_ACTUAL_EXPENSE_DETAIL_REQUIRED, expenseType.getName());
+                    success = false;                    
+                }
+            }
+        }
         return success;
     }
 

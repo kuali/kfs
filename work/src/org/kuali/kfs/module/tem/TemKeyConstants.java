@@ -57,6 +57,7 @@ public class TemKeyConstants extends JSTLConstants {
     public static final String ERROR_ACTUAL_EXPENSE_DUPLICATE_ENTRY_DAILY = "error.document.tem.actualexpense.duplicateexpenseentrydaily";
     public static final String ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_DAILY     = "error.document.tem.actualexpense.maxamountperpersondaily";
     public static final String ERROR_ACTUAL_EXPENSE_MAX_AMT_PER_OCCU      = "error.document.tem.actualexpense.maxamountperoccurrence";
+    public static final String ERROR_ACTUAL_EXPENSE_DETAIL_REQUIRED       = "error.document.tem.actualexpense.detail.required";
     public static final String ERROR_DELINQUENT_MSG_REQUIRED              = "error.document.tem.delinquentMessageRequired";
     
     public static final String WARNING_NOTES_JUSTIFICATION             = "warning.document.tem.actualexpense.notesJustification";

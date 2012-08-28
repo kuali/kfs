@@ -74,6 +74,10 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
         // details = new ArrayList<OtherExpenseDetail>();
     }
     
+    public boolean getDefaultTabOpen(){
+        return !getExpenseDetails().isEmpty() || getMileageIndicator() || getAirfareIndicator() || getRentalCarIndicator() || getTravelExpenseTypeCode().getExpenseDetailRequired();
+    }
+    
     /**
      * Sets the value of airfareSourceCode
      * 

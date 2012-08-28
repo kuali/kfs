@@ -942,6 +942,7 @@
 		<field-descriptor name="taxable" column="taxable_ind" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="receiptDisplayRequired" column="dsp_rcpt_req_ind" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="specialRequestRequired" column="spcl_rqst_req_ind" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="expenseDetailRequired" column="exp_detail_req_ind" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="active" column="actv_ind" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
     </class-descriptor>    
     

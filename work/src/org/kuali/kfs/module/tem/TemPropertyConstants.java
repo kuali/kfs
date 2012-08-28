@@ -76,6 +76,7 @@ public class TemPropertyConstants extends JSTLConstants {
     public static final String TRVL_AUTH_OTHER_EXP_DATE = "expenseDate";
     public static final String TEM_ACTUAL_EXPENSE_MILES = "miles";
     public static final String TEM_ACTUAL_EXPENSE_NOTCE = "description";
+    public static final String TEM_ACTUAL_EXPENSE_DETAIL = "detail";
 
     public static final String TRVL_DOC_TRAVELER_TYP_CD = "travelerTypeCode";
     public static final String TRVL_DOC_JOB_CLASSIFICATION_CD = "jobClsCode";

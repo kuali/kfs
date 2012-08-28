@@ -1,17 +1,21 @@
-***********************
-** KFS Release 5.0   **
-***********************
+**************************************************
+** KFS Release 5.0 -- INTERNAL PARTNER RELEASE  **
+**************************************************
+
+KFS URL: https://svn.kuali.org/repos/kfs/branches/release-5-0
+
+Rice URL: https://svn.kuali.org/repos/rice/branches/rice-2.1@34314
 
 ****** Documentation Links:
 
 Main Documentation Home:
-	https://test.kuali.org/confluence/display/KULDOC/Home
+	https://wiki.kuali.org/display/KULDOC/Home
 
 Technical Setup Documentation:
-	https://test.kuali.org/confluence/display/KULDOC/Technical+Documentation+5
+	https://wiki.kuali.org/display/KULDOC/Technical+Documentation+5
 
 Database Setup:
-	https://test.kuali.org/confluence/display/KULDOC/Database+5
+	https://wiki.kuali.org/display/KULDOC/Database+5
 
 ****** Quick Start:
 
@@ -22,8 +26,6 @@ Database Setup:
    and running your server.
 
 ****** What's Here:
-
-release-details.txt - What revisions of the code you're working with.
 
 kfs/                          - The main Kuali Financial System project. 
                                 Import this into Eclipse. 

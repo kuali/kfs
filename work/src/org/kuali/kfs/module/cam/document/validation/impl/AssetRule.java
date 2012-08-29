@@ -46,11 +46,11 @@ import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinde
 import org.kuali.kfs.module.cam.document.service.AssetComponentService;
 import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
-import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.module.cam.document.service.RetirementInfoService;
+import org.kuali.kfs.module.cam.document.service.AssetLocationService.LocationField;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.util.KfsDateUtils;
@@ -527,6 +527,11 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
      * @return boolean
      */
     protected boolean validateDepreciationData(Asset asset) {
+        //do not run the validation if the total cost amount is negative.
+      //see KFSMI-9226 for details.        
+        if (asset.getTotalCostAmount().compareTo(KualiDecimal.ZERO) < 0) {
+            return true;
+        }
         if (asset.getSalvageAmount() == null) {
             asset.setSalvageAmount(KualiDecimal.ZERO);
         }
@@ -537,13 +542,12 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
 
         // If the salvage amount is greater than the base amount, then data is invalid
         if (asset.getSalvageAmount().compareTo(asset.getBaseAmount()) > 0) {
-            putFieldError(CamsPropertyConstants.Asset.SALVAGE_AMOUNT, CamsKeyConstants.Asset.ERROR_INVALID_SALVAGE_AMOUNT);
-            return false;
+            GlobalVariables.getMessageMap().putWarning(MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.Asset.SALVAGE_AMOUNT, CamsKeyConstants.Asset.ERROR_INVALID_SALVAGE_AMOUNT);
         }
         
         // If book value is negative then depreciation data is invalid.
         if (asset.getBookValue().compareTo(KualiDecimal.ZERO) < 0) {
-            putFieldError(CamsPropertyConstants.Asset.BOOK_VALUE, CamsKeyConstants.Asset.ERROR_INVALID_BOOKVALUE_AMOUNT);
+            putFieldError(CamsPropertyConstants.Asset.BOOK_VALUE, CamsKeyConstants.Asset.ERROR_INVALID_BOOKVALUE_AMOUNT);            
             return false;
         }
         

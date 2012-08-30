@@ -61,6 +61,8 @@ import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.DateViewDateObjectFormatter;
+import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -696,7 +698,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     public Date getCreateDateForResult() {
-        return this.getFinancialSystemDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
+        Formatter formatter = new DateViewDateObjectFormatter();
+        return (Date)formatter.format(this.getFinancialSystemDocumentHeader().getWorkflowDocument().getDateCreated().toDate());
     }
 
     /**

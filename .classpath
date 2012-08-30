@@ -98,9 +98,7 @@
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/btm-2.1.2.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/carol-3.0.6.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/carol-interceptors-1.0.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-beanutils-1.8.3-kuali-2.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-beanutils-1.8.3-kuali-4.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-beanutils-1.8.3-kuali.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-chain-1.2.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-codec-1.6.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/commons-collections-3.2.1.jar" /><!-- KFS lib -->

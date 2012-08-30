@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<changeSet author="KFS50" id='KFSMI-5998_structure'>
+		<comment>KFSMI-5998 </comment>
+		<createTable tableName="CM_AST_PMT_DST_CD_T">
+			<column name="AST_PMT_DST_CD" type="VARCHAR2(1)">
+				<constraints primaryKey="true" primaryKeyName="CM_AST_PMT_DST_CD_TP1" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints nullable="false" unique="true" uniqueConstraintName="CM_AST_PMT_DST_CD_TC0" />
+			</column>
+			<column name="VER_NBR" type="NUMBER(8)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="AST_PMT_DST_NM" type="VARCHAR2(40)" />
+			<column name="AST_PMT_DST_COL_NM" type="VARCHAR2(40)" />
+			<column name="AST_PMT_DST_EDT" type="VARCHAR2(1)" />
+			<column name="ROW_ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
+		</createTable>
+
+		<addColumn tableName="CM_AST_PMT_AST_DTL_T">
+			<column name="CPTLAST_ALLOC_AMT" type="NUMBER(19,2)" defaultValueNumeric="0.00" />
+			<column name="CPTLAST_ALLOC_VAL" type="NUMBER(19,2)" />
+			<column name="CPTLAST_ALLOC_VAL_PCT" type="NUMBER(19,6)" />
+		</addColumn>
+
+		<addColumn tableName="CM_AST_PMT_DOC_T">
+			<column name="AST_PMT_DST_CD" type="VARCHAR2(1)" defaultValue="2" />
+		</addColumn>
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
+			<replace replace="DEFAULT Y" with="DEFAULT 'Y'" />
+			<replace replace="DEFAULT N" with="DEFAULT 'N'" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS50" id="KFSMI-6889_structure">
+		<comment>KFSMI-6889 Extend the column size for CPTLAST_DESC field </comment>
+		<modifyDataType tableName="CB_PRTG_T" columnName="CPTLAST_TOPS_DESC" newDataType="VARCHAR2(4000)" />
+		<modifyDataType tableName="CM_CPTLAST_T" columnName="CPTLAST_DESC" newDataType="VARCHAR2(4000)" />
+		<modifyDataType tableName="CM_AST_RETIRE_DOC_T" columnName="MERGED_TGT_CPTLAST_DESC" newDataType="VARCHAR2(4000)" />
+		<modifyDataType tableName="CM_CPTLAST_DOC_T" columnName="CPTLAST_DESC" newDataType="VARCHAR2(4000)" />
+		<modifyDataType tableName="CM_CPTLAST_DTL_T" columnName="CPTLAST_DESC" newDataType="VARCHAR2(4000)" />
+		<modifyDataType tableName="FP_CPTL_AST_INFO_T" columnName="CPTLAST_DESC" newDataType="VARCHAR2(4000)" />
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS50" id="KFSMI-7175_structure">
+		<comment>KFSMI-7175 We need to add a column to FP_CPTL_AST_INFO_T and CM_AST_PMT_DOC_T tables for enhancement work on KFSMI-7106</comment>
+		<addColumn tableName="CM_AST_PMT_DOC_T">
+			<column name="AST_PMT_DIST_CD_FROM_FP_IND" type="VARCHAR2(1)" defaultValue="N" />
+		</addColumn>
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
+			<replace replace="DEFAULT Y" with="DEFAULT 'Y'" />
+			<replace replace="DEFAULT N" with="DEFAULT 'N'" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS50" id="KFSMI-7145_structure">
+		<comment>KFSMI-7145 Add fields, create parameters, permissions, and roles for KSMI-6702 Contribution</comment>
+		<createTable tableName="CM_FSCL_YR_END_DEPR_HDR_T">
+			<column name="UNIV_FISCAL_YR" type="NUMBER(4)">
+				<constraints primaryKey="true" primaryKeyName="CM_FSCL_YR_END_DEPR_HDR_TP1"/>
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints nullable="false" unique="true" uniqueConstraintName="CM_FSCL_YR_END_DEPR_HDR_TC0" />
+			</column>
+			<column name="VER_NBR" type="NUMBER(8)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="YEAR_END_DEPR_RUN_DATE" type="DATE" />
+			<column name="YEAR_END_DEPR_ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
+		</createTable>
+
+		<createTable tableName="CM_FSCL_YR_END_DEPR_DTL_T">
+			<column name="UNIV_FISCAL_YR" type="NUMBER(4)">
+				<constraints primaryKey="true" primaryKeyName="CM_FSCL_YR_END_DEPR_DTL_TP1" />
+			</column>
+			<column name="CPTLAST_NBR" type="NUMBER(12)">
+				<constraints primaryKey="true" primaryKeyName="CM_FSCL_YR_END_DEPR_DTL_TP1" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints nullable="false" unique="true" uniqueConstraintName="CM_FSCL_YR_END_DEPR_DTL_TC0" />
+			</column>
+			<column name="VER_NBR" type="NUMBER(8)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="YEAR_END_DEPR_DTL_ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
+			<column name="YEAR_END_DEPR_DTL_PROC_IND" type="VARCHAR2(1)" defaultValue="N" />
+		</createTable>
+
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
+			<replace replace="DEFAULT Y" with="DEFAULT 'Y'" />
+			<replace replace="DEFAULT N" with="DEFAULT 'N'" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS50" id="KFSMI-6629_STRUCTURE_CHANGES">
+		<modifyDataType tableName='CM_CPTLAST_DTL_T' columnName='AST_OFFCMP_ADDR' newDataType='VARCHAR2(45)' />
+		<modifyDataType tableName='CM_AST_TRNFR_DOC_T' columnName='AST_OFFCMP_ADDR' newDataType='VARCHAR2(45)' />
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS50" id="KFSMI7058_ASSET_PMT_DOC_SEQUENCE_mysql" dbms="mysql">
+	  	<createTable tableName="CM_AST_PMT_DOC_TYP_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true" >
+	  			<constraints primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<modifySql>
+	  		<append value=" ENGINE = MyISAM AUTO_INCREMENT = 20 "/>
+	  	</modifySql>
+	</changeSet>
+	
+	<changeSet author="KFS50" id="KFSMI7058_ASSET_PMT_DOC_SEQUENCE_oracle" dbms="oracle">
+		<createSequence sequenceName="CM_AST_PMT_DOC_TYP_SEQ" startValue="20" incrementBy="1" />
+	</changeSet>
+
+	<changeSet author="KFS50" id="KFSMI7058_ASSET_PMT_DOC_TABLE">
+		<createTable tableName="CM_AST_PMT_DOC_TYP_T">
+			<column name="DOC_TYP_ID" type="NUMBER(7,0)">
+				<constraints primaryKey="true" primaryKeyName="CM_AST_PMT_DOC_TYP_T_TP1" />
+			</column>
+			<column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
+				<constraints nullable="false" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints nullable="false" unique="true" uniqueConstraintName="CM_AST_PMT_DOC_TYP_T_TC0" />
+			</column>
+			<column name="DOC_TYP_NM" type="VARCHAR2(4)" />
+			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
+		</createTable>
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
+			<replace replace="DEFAULT Y" with="DEFAULT 'Y'" />
+			<replace replace="DEFAULT N" with="DEFAULT 'N'" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS50" id="KFSCNTRB641_ADD_ACTIVE_INDICATORS_TO_CAMS_TABLES">
+		<comment>Adds active indicators to three CAMS tables.</comment>
+		<addColumn tableName="CM_AST_COMPONENT_T">
+			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValue="Y"/>
+		</addColumn>
+		<addColumn tableName="CM_AST_WRNTY_T">
+			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
+		</addColumn>
+		<addColumn tableName="CM_AST_RPR_HIST_T">
+			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
+		</addColumn>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+			<replace replace="DEFAULT Y" with="DEFAULT 'Y'" />
+			<replace replace="DEFAULT N" with="DEFAULT 'N'" />
+		</modifySql>
+	</changeSet>
+	
+	<changeSet author="KFS50" id="CM_STRUCTURE_CLEANUP_mysql" dbms="mysql">
+		<dropNotNullConstraint tableName="CM_AST_STATUS_T" columnName="ROW_ACTV_IND" columnDataType="VARCHAR(1)" />
+		<addDefaultValue tableName="CM_AST_STATUS_T" columnName="ROW_ACTV_IND" defaultValue="Y" />
+		<modifySql>
+			<replace replace="DEFAULT Y" with="DEFAULT 'Y'" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS50" id="CM_STRUCTURE_CLEANUP_oracle" dbms="oracle">
+		<sql>
+			ALTER TABLE CM_AST_STATUS_T MODIFY ( ROW_ACTV_IND VARCHAR2(1) DEFAULT 'Y' NULL )
+		</sql>
+	</changeSet>
+
+	<changeSet author="KFS50" id="CM_CPTLAST_DTL_T_CHG_AST_OFFCMPT_CITY_NM">
+		<comment>need to change the field length in CM_CPTLAST_DTL_T"."AST_OFFCMP_CITY_NM to 45.</comment>
+		<modifyDataType tableName="CM_CPTLAST_DTL_T" columnName="AST_OFFCMP_CITY_NM" newDataType="VARCHAR(45)" />
+	</changeSet>
+	
+	<changeSet author="KFS50" id="KFSMI8745_ADD_POST_YR_POST_PRD_CD_TO_CAMS_TABLES">
+		<comment>need to include these two columns: FDOC_POST_YR, and FDOC_POST_PRD_CD to CAMS tables.</comment>
+		<addColumn tableName="CM_CPTLAST_DOC_T">
+			<column name="FDOC_POST_YR" type="NUMBER(4,0)"/>
+			<column name="FDOC_POST_PRD_CD" type="VARCHAR2(2)"/>
+		</addColumn>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+			<replace replace="NUMBER" with="DECIMAL" />
+		</modifySql>
+	</changeSet>
+	
+</databaseChangeLog>

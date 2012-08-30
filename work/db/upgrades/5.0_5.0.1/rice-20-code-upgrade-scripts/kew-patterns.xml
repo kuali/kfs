@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules>
+
+	<rule name="KEW_moved_packages">
+		<pattern>
+			<match>org\.kuali\.rice\.kew\.edl</match>
+			<replacement>org.kuali.rice.edl.impl</replacement>
+		</pattern>
+	</rule>
+	
+	<rule name="KEW_undo_moved_package_exceptions">
+	</rule>
+	
+
+	<rule name="KEW_moved_classes" alsoRenameClass="true">
+		<pattern>
+			<match>org\.kuali\.rice\.kew\.dto\.ActionRequestDTO</match>
+			<replacement>org.kuali.rice.kew.api.action.ActionRequest</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.kew\.dto\.DocumentTypeDTO</match>
+			<replacement>org.kuali.rice.kew.api.docType.DocumentType</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.kew\.dto\.DocumentDocumentRouteStatusChangeDTO</match>
+			<replacement>org.kuali.rice.kew.framework.postprocessor.DocumentDocumentRouteStatusChange</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.kew\.dto\.ValidActionsDTO</match>
+			<replacement>org.kuali.rice.kew.api.action.ValidActions</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kew.dto.KeyValueDTO</match>
+			<replacement>org.kuali.rice.core.api.util.KeyValue</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.kew\.exception\.WorkflowRuntimeException</match>
+			<replacement>org.kuali.rice.kew.api.WorkflowRuntimeException</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.kew\.web\.session\.UserSession</match>
+			<replacement>org.kuali.rice.krad.UserSession</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kew.exception.InvalidXmlException</match>
+			<replacement>org.kuali.rice.core.api.util.xml.XmlException</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kew.exception.WorkflowException</match>
+			<replacement>org.kuali.rice.kew.api.exception.WorkflowException</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.kew\.util\.KEWConstants</match>
+			<replacement>org.kuali.rice.kew.api.KewApiConstants</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kew.batch.XmlConstants</match>
+			<replacement>org.kuali.rice.kew.xml.XmlConstants</replacement>
+		</pattern>
+		<!-- Correction entry -->
+		<pattern>
+			<match>org.kuali.rice.kew.xml.XmlConstants</match>
+			<replacement>org.kuali.rice.core.api.impex.xml.XmlConstants</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kew.bo.KewPersistableBusinessObjectBase</match>
+			<replacement>org.kuali.rice.krad.bo.PersistableBusinessObjectBase</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kew.user.AuthenticationUserId</match>
+			<replacement>org.kuali.rice.kew.identity.PrincipalName</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kew.rule.KRAMetaRuleExpression</match>
+			<replacement>org.kuali.rice.kew.rule.MetaRuleExpression</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kew.engine.node.KeyValuePair</match>
+			<replacement>org.kuali.rice.core.api.util.KeyValue</replacement>
+		</pattern>	
+		<pattern>
+			<match>org.kuali.rice.kns.service.PostProcessorService</match>
+			<replacement>org.kuali.rice.krad.service.PostProcessorService</replacement>
+		</pattern>
+
+		<pattern>
+			<match>org.kuali.rice.kew.doctype.service.DocumentTypeService</match>
+			<replacement>org.kuali.rice.kew.api.doctype.DocumentTypeService</replacement>
+		</pattern> 
+
+		<pattern>
+			<match>org.kuali.rice.kew.docsearch.SearchableAttribute</match>
+			<replacement>org.kuali.rice.kew.framework.document.lookup.SearchableAttribute</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kns.workflow.attribute.DataDictionarySearchableAttribute</match>
+			<replacement>org.kuali.rice.krad.workflow.attribute.DataDictionarySearchableAttribute</replacement>
+		</pattern>
+		
+	</rule>
+	
+	<rule name="KEW_special_replacements">
+		<pattern>
+			<match>stateIsProcessed</match>
+			<replacement>isProcessed</replacement>
+		</pattern>
+		<pattern>
+			<match>stateIsCanceled</match>
+			<replacement>isCanceled</replacement>
+		</pattern>
+		<pattern>
+			<match>stateIsFinal</match>
+			<replacement>isFinal</replacement>
+		</pattern>
+		<pattern>
+			<match>stateIsEnroute</match>
+			<replacement>isEnroute</replacement>
+		</pattern>
+		<pattern>
+			<match>stateIsException</match>
+			<replacement>isException</replacement>
+		</pattern>
+		<pattern>
+			<match>stateIsSaved</match>
+			<replacement>isSaved</replacement>
+		</pattern>
+		<pattern>
+			<match>stateIsDisapproved</match>
+			<replacement>isDisapproved</replacement>
+		</pattern>
+		<pattern>
+			<match>stateIsApproved</match>
+			<replacement>isApproved</replacement>
+		</pattern>
+		<pattern>
+			<match>stateIsInitiated</match>
+			<replacement>isInitiated</replacement>
+		</pattern>
+		<!--  KEW API Calls -->
+		
+		<pattern>
+			<match>getInitiatorNetworkId</match>
+			<replacement>getInitiatorPrincipalId</replacement>			
+		</pattern>			
+		<pattern>
+			<match>getRouteHeaderId</match>
+			<replacement>getDocumentNumber</replacement>			
+		</pattern>			
+		<pattern>
+			<match>getWorkflowDocument\(\)\.getRouteHeader\(\)</match>
+			<replacement>getWorkflowDocument()</replacement>
+		</pattern>
+		<pattern>
+			<match>getWorkflowDocument\(\)\.getCreateDate\(\)</match>
+			<replacement>getWorkflowDocument().getDateCreated()</replacement>
+		</pattern>
+		<pattern>
+			<match>workflowDocument\.getRouteHeader\(\)</match>
+			<replacement>workflowDocument</replacement>
+		</pattern>
+		<pattern>
+			<match>workflowDocument\.getCreateDate\(\)</match>
+			<replacement>workflowDocument.getDateCreated()</replacement>
+		</pattern>
+		<pattern>
+			<match>getDocRouteStatus</match>
+			<replacement>getStatus</replacement>
+		</pattern>
+		<pattern>
+			<match>(getWorkflowDocument\(\)|workflowDocument)\.getDocumentType\(\)</match>
+			<replacement>$1.getDocumentTypeName()</replacement>
+		</pattern>
+
+		
+		<pattern>
+			<match>SQLBuilder.cleanDate\(\)</match>
+			<replacement
+				addImport="org.kuali.rice.core.jdbc.SQLBuilder:org.kuali.rice.core.framework.persistence.jdbc.sql.SQLUtils">SQLUtils.cleanDate()</replacement>
+		</pattern>
+		<pattern>
+			<match>SQLBuilder.cleanNumericOfValidOperators\(\)</match>
+			<replacement
+				addImport="org.kuali.rice.core.jdbc.SQLBuilder:org.kuali.rice.core.framework.persistence.jdbc.sql.SQLUtils">SQLUtils.cleanNumericOfValidOperators()</replacement>
+		</pattern>
+		<pattern>
+			<match>DocSearchUtils.getSqlFormattedDate\(\)</match>
+			<replacement
+				addImport="org.kuali.rice.kew.docsearch.DocSearchUtils:org.kuali.rice.core.framework.persistence.jdbc.sql.SQLUtils">SQLUtils.getSqlFormattedDate()</replacement>
+		</pattern>
+		<pattern>
+			<match>DocSearchUtils.getEntryFormattedDate\(\)</match>
+			<replacement
+				addImport="org.kuali.rice.kew.docsearch.DocSearchUtils:org.kuali.rice.core.framework.persistence.jdbc.sql.SQLUtils">SQLUtils.getEntryFormattedDate()</replacement>
+		</pattern>
+		<pattern>
+			<match>DocSearchUtils.convertStringDateToTimestamp\(\)</match>
+			<replacement
+				addImport="org.kuali.rice.kew.docsearch.DocSearchUtils:org.kuali.rice.core.framework.persistence.jdbc.sql.SQLUtils">SQLUtils.convertStringDateToTimestamp()</replacement>
+		</pattern>
+		<pattern>
+			<match>Utilities.convertTimestamp\(\)</match>
+			<replacement
+				addImport="org.kuali.rice.kew.util.Utilities:org.kuali.rice.core.framework.persistence.jdbc.sql.SQLUtils">SQLUtils.convertTimestamp()</replacement>
+		</pattern>
+		<pattern>
+			<match>Utilities.convertCalendar\(\)</match>
+			<replacement
+				addImport="org.kuali.rice.kew.util.Utilities:org.kuali.rice.core.framework.persistence.jdbc.sql.SQLUtils">SQLUtils.convertCalendar()</replacement>
+		</pattern>
+
+		<pattern>
+			<match>(getWorkflowInfoService\(\)|workflowInfoService|new WorkflowInfo\(\))\.getDocType\(</match>
+			<replacement addImport="org.kuali.rice.kns.workflow.service.KualiWorkflowInfo:org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.kfs.sys.context.SpringContext">SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(</replacement>
+		</pattern>
+		<pattern>
+			<match>getDocTypeLabel\(\)</match>
+			<replacement>getLabel()</replacement>
+		</pattern>
+		<pattern>
+			<match>(getWorkflowInfoService\(\)|getWorkflowInfo\(\)|workflowInfoService|new WorkflowInfo\(\))\.</match>
+			<replacement addImport="org.kuali.rice.kns.workflow.service.KualiWorkflowInfo:org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.kfs.sys.context.SpringContext">SpringContext.getBean(WorkflowDocumentService.class).</replacement>
+		</pattern>
+		<pattern>
+			<match>SpringContext\.getBean\(WorkflowDocumentService\.class\)\.getRouteHeader</match>
+			<replacement addImport="org.kuali.rice.kns.workflow.service.KualiWorkflowInfo:org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.kfs.sys.context.SpringContext">SpringContext.getBean(WorkflowDocumentService.class).getDocument</replacement>
+		</pattern>
+
+		<pattern>
+			<match>import org.kuali.rice.kew.service.WorkflowInfo;</match>
+			<replacement></replacement>
+		</pattern>
+
+		<pattern>
+			<match>(public|protected|private)[\t ]+WorkflowInfo[ \t]+(workflowInfo|kualiWorkflowInfo);</match>
+			<replacement></replacement>
+		</pattern>
+		
+		<pattern>
+			<match>(.*) = new WorkflowInfo\(\)</match>
+			<replacement>//$1 = new WorkflowInfo()</replacement>
+		</pattern>
+
+
+	</rule>	
+</rules>

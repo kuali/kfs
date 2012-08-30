@@ -1,0 +1,37 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<changeSet author="KFS50" id="KFSMI-7011_constraints">
+		<addForeignKeyConstraint 
+						constraintName="FP_CPTL_AST_INFO_DTL_TR1"
+						baseTableName="FP_CPTL_AST_INFO_DTL_T" baseColumnNames="FDOC_NBR, CPTLAST_LINE_NBR"
+						referencedTableName="FP_CPTL_AST_INFO_T" referencedColumnNames="FDOC_NBR, CPTLAST_LINE_NBR" />
+
+		<addForeignKeyConstraint 
+						constraintName="FP_CPTL_AST_ACCT_GRP_DTL_TR1"
+						baseTableName="FP_CPTL_AST_ACCT_GRP_DTL_T" baseColumnNames="FDOC_NBR, CPTLAST_LINE_NBR"
+						referencedTableName="FP_CPTL_AST_INFO_T" referencedColumnNames="FDOC_NBR, CPTLAST_LINE_NBR" />
+	</changeSet>
+
+    <changeSet author="KFS50" id="KFSMI6285_STRUCTURE_CHANGES_constraints">
+        <addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR1"
+    		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="FIN_COA_CD"
+    		referencedTableName="CA_CHART_T" referencedColumnNames="FIN_COA_CD"
+		/>
+		<addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR2"
+    		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="FIN_COA_CD, ACCOUNT_NBR"
+    		referencedTableName="CA_ACCOUNT_T" referencedColumnNames="FIN_COA_CD, ACCOUNT_NBR"
+		/>
+		<addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR3"
+    		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR"
+    		referencedTableName="CA_SUB_ACCT_T" referencedColumnNames="FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR"
+		/>
+		<addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR4"
+    		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="PROJECT_CD"
+    		referencedTableName="CA_PROJECT_T" referencedColumnNames="PROJECT_CD"
+		/>
+	</changeSet>
+
+</databaseChangeLog>   
+      

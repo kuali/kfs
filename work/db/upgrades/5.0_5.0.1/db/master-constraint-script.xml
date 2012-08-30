@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<include file="03_constraints/ar-module-constraint-updates.xml"/>
+	<include file="03_constraints/cam-module-constraint-updates.xml"/>
+	<include file="03_constraints/fp-module-constraint-updates.xml"/>
+	<include file="03_constraints/purap-module-constraint-updates.xml"/>
+
+</databaseChangeLog>
+	

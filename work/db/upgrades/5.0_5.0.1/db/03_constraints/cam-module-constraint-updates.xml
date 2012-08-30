@@ -1,0 +1,13 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<changeSet author="KFS50" id="KFSMI-5998_constraints">
+		<addForeignKeyConstraint 
+				constraintName="CM_AST_PMT_DOC_TR1"
+				baseTableName="CM_AST_PMT_DOC_T"          baseColumnNames="AST_PMT_DST_CD"  
+				referencedTableName="CM_AST_PMT_DST_CD_T" referencedColumnNames="AST_PMT_DST_CD"/>
+	</changeSet>
+
+</databaseChangeLog>   
+      

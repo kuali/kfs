@@ -1,0 +1,16 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<changeSet author="KFS50" id="KFSCNTRB162_DEBARRED_VENDOR_TABLE_CONSTRAINTS">
+		<comment>Alters and creates tables as necessary for the debarred vendor tracking process.</comment>
+		<addForeignKeyConstraint constraintName="PUR_VNDR_EXCL_MTCH_TR1" 
+						baseTableName="PUR_VNDR_EXCL_MTCH_T" baseColumnNames="VNDR_HDR_GNRTD_ID" 
+						referencedTableName="PUR_VNDR_HDR_T" referencedColumnNames="VNDR_HDR_GNRTD_ID"/>
+		<addForeignKeyConstraint constraintName="PUR_VNDR_EXCL_MTCH_TR2" 
+						baseTableName="PUR_VNDR_EXCL_MTCH_T" baseColumnNames="VNDR_HDR_GNRTD_ID,VNDR_DTL_ASND_ID" 
+						referencedTableName="PUR_VNDR_DTL_T" referencedColumnNames="VNDR_HDR_GNRTD_ID,VNDR_DTL_ASND_ID"/>
+	</changeSet>
+
+</databaseChangeLog>   
+      

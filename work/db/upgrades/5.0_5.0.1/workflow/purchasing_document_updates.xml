@@ -1,0 +1,1459 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
+		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+		<ruleAttribute>
+			<name>KFSPurapDocumentSearchCustomizer</name>
+			<label>KFS Purchasing Document Search Customizer</label>
+			<className>{KFS}KFSPurapDocumentSearchCustomizer</className>
+			<type>DocumentSearchCustomizer</type>
+		      <applicationId>KFS</applicationId>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>PurapFinancialSystemSearchableAttribute</name>
+			<className>{KFS}PurapFinancialSystemSearchableAttribute</className>
+			<label>Purchasing Searchable Attribute</label>
+			<description>Financial System Searchable Attribute</description>
+			<type>SearchableAttribute</type>
+		      <applicationId>KFS</applicationId>
+		</ruleAttribute>
+		<ruleAttribute>
+			<name>NoFyiActionListAttribute</name>
+			<className>{KFS}PurchaseOrderActionListAttribute</className>
+			<label>No FYI</label>
+			<description>No FYI Action List Attribute</description>
+			<type>ActionListAttribute</type>
+		      <applicationId>KFS</applicationId>
+		</ruleAttribute>
+	</ruleAttributes>
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>
+				PUR
+			</name>
+			<parent>
+				PRAP
+			</parent>
+			<label>
+				PurchasingTransactionalDocument
+			</label>
+			<attributes>
+				<attribute>
+					<name>PurapFinancialSystemSearchableAttribute</name>
+				</attribute>
+				<attribute>
+					<name>KFSPurapDocumentSearchCustomizer</name>
+				</attribute>
+			</attributes>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				REQS
+			</name>
+			<parent>
+				PUR
+			</parent>
+			<label>
+				Requisition
+			</label>
+			<docHandler>
+				${kfs.url}/purapRequisition.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Frequisition.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Frequisitions.htm
+			</docSearchHelpURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<validApplicationStatuses>
+				<status>Awaiting Content Approval</status>
+				<status>Disapproved Content</status>
+				<status>Awaiting Accounting Lines</status>
+				<status>Disapproved Accounting Lines</status>
+				<status>Awaiting Sub Account</status>
+				<status>Disapproved Sub Account</status>
+				<status>Awaiting Fiscal Officer</status>
+				<status>Disapproved Fiscal</status>
+				<status>Awaiting Base Org Review</status>
+				<status>Disapproved Base Org Review</status>
+				<status>Awaiting Commodity Code</status>
+				<status>Disapproved Commodity Code</status>
+				<status>Awaiting Separation of Duties</status>
+				<status>Disapproved Separation of Duties</status>
+				<status>Awaiting Contract Manager Assignment</status>
+				<status>Closed</status>
+				<status>Cancelled</status>
+				<status>In Process</status>
+			</validApplicationStatuses>
+			<policies>
+				<policy>
+					<name>DOCUMENT_STATUS_POLICY</name>
+					<stringValue>app</stringValue>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="Organization" nextAppDocStatus="Awaiting Content Approval" />
+					<role name="Organization" nextNode="HasAccountingLines"
+						nextAppDocStatus="Awaiting Accounting Lines" />
+					<split name="HasAccountingLines" nextNode="SubAccount">
+						<branch name="True">
+							<simple name="NoOpHasAccountingLines" nextNode="JoinHasAccountingLines"
+								nextAppDocStatus="Awaiting Sub Account" />
+						</branch>
+						<branch name="False">
+							<role name="Initiator" nextNode="JoinHasAccountingLines"
+								nextAppDocStatus="Awaiting Sub Account" />
+						</branch>
+						<join name="JoinHasAccountingLines" />
+					</split>
+					<role name="SubAccount" nextNode="Account" nextAppDocStatus="Awaiting Fiscal Officer" />
+					<role name="Account" nextNode="AccountingOrganizationHierarchy"
+						nextAppDocStatus="Awaiting Base Org Review" />
+					<role name="AccountingOrganizationHierarchy" nextNode="Commodity"
+						nextAppDocStatus="Awaiting Commodity Code" />
+					<role name="Commodity" nextNode="AmountRequiresSeparationOfDutiesReview"
+						nextAppDocStatus="Awaiting Separation of Duties" />
+					<split name="AmountRequiresSeparationOfDutiesReview">
+						<branch name="True">
+							<role name="SeparationOfDuties" nextNode="Join" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="Organization">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role>
+				<split name="HasAccountingLines">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<simple name="NoOpHasAccountingLines">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<join name="JoinHasAccountingLines" />
+				<role name="Initiator">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role>
+				<role name="SubAccount">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role>
+				<role name="Account">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+					<mandatoryRoute>
+						true
+					</mandatoryRoute>
+				</role>
+				<role name="AccountingOrganizationHierarchy">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role>
+				<role name="Commodity">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role>
+				<split name="AmountRequiresSeparationOfDutiesReview">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="SeparationOfDuties">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role>
+				<join name="Join" />
+				<simple name="NoOp">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				PO
+			</name>
+			<parent>
+				PUR
+			</parent>
+			<label>
+				Purchase Order
+			</label>
+			<docHandler>
+				${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fpurchaseorder.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fpurchaseorders.htm
+			</docSearchHelpURL>
+			<active>
+				true
+			</active>
+			<attributes>
+				<attribute>
+					<name>PurapFinancialSystemSearchableAttribute</name>
+				</attribute>
+				<attribute>
+					<name>KFSPurapDocumentSearchCustomizer</name>
+				</attribute>
+				<attribute>
+					<name>NoFyiActionListAttribute</name>
+				</attribute>
+			</attributes>
+			<routingVersion>
+				2
+			</routingVersion>
+			<validApplicationStatuses>
+				<!-- Incomplete status start -->
+				<status>In Process</status>
+				<status>Awaiting Fiscal Officer Review</status>
+				<status>Awaiting New Unordered Item Review</status>
+				<status>Disapproved New Unordered Item Review</status>
+				<status>Awaiting Purchasing Approval</status>
+				<status>Awaiting Commodity Code Approval</status>
+				<status>Awaiting C and G Approval</status>
+				<status>Awaiting Budget Approval</status>
+				<status>Awaiting Tax Approval</status>
+				<status>Error occurred sending cxml</status>
+				<status>Error occurred sending fax</status>
+				<status>Out for Quote</status>
+				<status>Payment Hold</status>
+				<status>Pending Fax</status>
+				<status>Pending Print</status>
+				<status>Pending cxml</status>
+				<status>Waiting for Department</status>
+				<status>Waiting for Vendor</status>
+				<!-- Incomplete status end -->
+				<!-- complete status start -->
+				<status>Cancelled</status>
+				<status>Cancelled Change</status>
+				<status>Change in Process</status>
+				<status>Closed</status>
+				<status>Disapproved Budget</status>
+				<status>Disapproved C and G</status>
+				<status>Disapproved Change</status>
+				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
+				<status>Open</status>
+				<status>Pending Amendment</status>
+				<status>Pending Close</status>
+				<status>Pending Payment Hold</status>
+				<status>Pending Remove Hold</status>
+				<status>Pending Reopen</status>
+				<status>Pending Retransmit</status>
+				<status>Pending Void</status>
+				<status>Retired Version</status>
+				<status>Void</status>
+				<!-- complete status end -->
+			</validApplicationStatuses>
+			<policies>
+				<policy>
+					<name>DOCUMENT_STATUS_POLICY</name>
+					<stringValue>app</stringValue>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="RequiresContractManagementReview"
+						nextAppDocStatus="Awaiting Purchasing Approval" />
+					<split name="RequiresContractManagementReview" nextNode="Commodity">
+						<branch name="True">
+							<role name="ContractManagement" nextNode="JoinRequiresContractManagementReview" nextAppDocStatus="Awaiting Commodity Code Approval" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpRequiresContractManagementReview"
+								nextNode="JoinRequiresContractManagementReview" />
+						</branch>
+						<join name="JoinRequiresContractManagementReview" />
+					</split>
+					<role name="Commodity" nextNode="RequiresAwardReview"
+						nextAppDocStatus="Awaiting C and G Approval" />
+					<split name="RequiresAwardReview" nextNode="RequiresBudgetReview">
+						<branch name="True">
+							<role name="Award" nextNode="JoinRequiresAwardReview" nextAppDocStatus="Awaiting Budget Approval" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpRequiresAwardReview" nextNode="JoinRequiresAwardReview" nextAppDocStatus="Awaiting Budget Approval" />
+						</branch>
+						<join name="JoinRequiresAwardReview" />
+					</split>
+					<split name="RequiresBudgetReview" nextNode="VendorIsEmployeeOrNonResidentAlien">
+						<branch name="True">
+							<role name="Budget" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Tax Approval" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpBudget" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Tax Approval"/>
+						</branch>
+						<join name="JoinRequiresBudgetReview" />
+					</split>
+					<split name="VendorIsEmployeeOrNonResidentAlien">
+						<branch name="True">
+							<role name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien" nextAppDocStatus="Awaiting Tax Approval"/>
+						</branch>
+						<branch name="False">
+							<simple name="NoOpVendorIsEmployeeOrNonResidentAlien"
+								nextNode="JoinVendorIsEmployeeOrNonResidentAlien" />
+						</branch>
+						<join name="JoinVendorIsEmployeeOrNonResidentAlien" />
+					</split>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<split name="RequiresContractManagementReview">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="ContractManagement">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+				<join name="JoinRequiresContractManagementReview" />
+				<simple name="NoOpRequiresContractManagementReview">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<role name="Commodity">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+				<split name="RequiresAwardReview">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="Award">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+				<join name="JoinRequiresAwardReview" />
+				<simple name="NoOpRequiresAwardReview">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<split name="RequiresBudgetReview">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="Budget">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+				<join name="JoinRequiresBudgetReview" />
+				<simple name="NoOpBudget">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<split name="VendorIsEmployeeOrNonResidentAlien">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="Tax">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+				<join name="JoinVendorIsEmployeeOrNonResidentAlien" />
+				<simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+			</routeNodes>
+		</documentType>
+
+		<documentType>
+			<name>
+				POA
+			</name>
+			<parent>
+				PO
+			</parent>
+			<label>
+				Purchase Order Amendment
+			</label>
+			<docHandler>
+				${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fpurchaseorderamend.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<validApplicationStatuses>
+				<!-- Incomplete status start -->
+				<status>In Process</status>
+				<status>Awaiting Fiscal Officer Review</status>
+				<status>Awaiting New Unordered Item Review</status>
+				<status>Disapproved New Unordered Item Review</status>
+				<status>Awaiting Purchasing Approval</status>
+				<status>Awaiting Commodity Code Approval</status>
+				<status>Awaiting C and G Approval</status>
+				<status>Awaiting Budget Approval</status>
+				<status>Awaiting Tax Approval</status>
+				<status>Error occurred sending cxml</status>
+				<status>Error occurred sending fax</status>
+				<status>Out for Quote</status>
+				<status>Payment Hold</status>
+				<status>Pending Fax</status>
+				<status>Pending Print</status>
+				<status>Pending cxml</status>
+				<status>Waiting for Department</status>
+				<status>Waiting for Vendor</status>
+				<!-- Incomplete status end -->
+				<!-- complete status start -->
+				<status>Cancelled</status>
+				<status>Cancelled Change</status>
+				<status>Change in Process</status>
+				<status>Closed</status>
+				<status>Disapproved Budget</status>
+				<status>Disapproved C and G</status>
+				<status>Disapproved Change</status>
+				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
+				<status>Open</status>
+				<status>Pending Amendment</status>
+				<status>Pending Close</status>
+				<status>Pending Payment Hold</status>
+				<status>Pending Remove Hold</status>
+				<status>Pending Reopen</status>
+				<status>Pending Retransmit</status>
+				<status>Pending Void</status>
+				<status>Retired Version</status>
+				<status>Void</status>
+				<!-- complete status end -->
+			</validApplicationStatuses>
+			<policies>
+				<policy>
+					<name>DOCUMENT_STATUS_POLICY</name>
+					<stringValue>app</stringValue>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="HasNewUnorderedItems"
+						nextAppDocStatus="Awaiting New Unordered Item Review" />
+					<split name="HasNewUnorderedItems">
+						<branch name="True">
+							<role name="NewUnorderedItems" nextNode="Join" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<split name="HasNewUnorderedItems">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="NewUnorderedItems">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role>
+				<join name="Join" />
+				<simple name="NoOp">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+			</routeNodes>
+		</documentType>
+
+		<documentType>
+			<name>
+				POC
+			</name>
+			<parent>
+				PO
+			</parent>
+			<label>
+				Purchase Order Close
+			</label>
+			<docHandler>
+				${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fpurchaseorderclose.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<validApplicationStatuses>
+				<!-- Incomplete status start -->
+				<status>In Process</status>
+				<status>Awaiting Fiscal Officer Review</status>
+				<status>Awaiting New Unordered Item Review</status>
+				<status>Awaiting Purchasing Approval</status>
+				<status>Awaiting Commodity Code Approval</status>
+				<status>Awaiting C and G Approval</status>
+				<status>Awaiting Budget Approval</status>
+				<status>Awaiting Tax Approval</status>
+				<status>Error occurred sending cxml</status>
+				<status>Error occurred sending fax</status>
+				<status>Out for Quote</status>
+				<status>Payment Hold</status>
+				<status>Pending Fax</status>
+				<status>Pending Print</status>
+				<status>Pending cxml</status>
+				<status>Waiting for Department</status>
+				<status>Waiting for Vendor</status>
+				<!-- Incomplete status end -->
+				<!-- complete status start -->
+				<status>Cancelled</status>
+				<status>Cancelled Change</status>
+				<status>Change in Process</status>
+				<status>Closed</status>
+				<status>Disapproved Budget</status>
+				<status>Disapproved C and G</status>
+				<status>Disapproved Change</status>
+				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
+				<status>Open</status>
+				<status>Pending Amendment</status>
+				<status>Pending Close</status>
+				<status>Pending Payment Hold</status>
+				<status>Pending Remove Hold</status>
+				<status>Pending Reopen</status>
+				<status>Pending Retransmit</status>
+				<status>Pending Void</status>
+				<status>Retired Version</status>
+				<status>Void</status>
+				<!-- complete status end -->
+			</validApplicationStatuses>
+			<policies>
+				<policy>
+					<name>DOCUMENT_STATUS_POLICY</name>
+					<stringValue>app</stringValue>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				POPH
+			</name>
+			<parent>
+				PO
+			</parent>
+			<label>
+				Purchase Order Payment Hold
+			</label>
+			<docHandler>
+				${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fpurchaseorderpaymenthold.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<validApplicationStatuses>
+				<!-- Incomplete status start -->
+				<status>In Process</status>
+				<status>Awaiting Fiscal Officer Review</status>
+				<status>Awaiting New Unordered Item Review</status>
+				<status>Awaiting Purchasing Approval</status>
+				<status>Awaiting Commodity Code Approval</status>
+				<status>Awaiting C and G Approval</status>
+				<status>Awaiting Budget Approval</status>
+				<status>Awaiting Tax Approval</status>
+				<status>Error occurred sending cxml</status>
+				<status>Error occurred sending fax</status>
+				<status>Out for Quote</status>
+				<status>Payment Hold</status>
+				<status>Pending Fax</status>
+				<status>Pending Print</status>
+				<status>Pending cxml</status>
+				<status>Waiting for Department</status>
+				<status>Waiting for Vendor</status>
+				<!-- Incomplete status end -->
+				<!-- complete status start -->
+				<status>Cancelled</status>
+				<status>Cancelled Change</status>
+				<status>Change in Process</status>
+				<status>Closed</status>
+				<status>Disapproved Budget</status>
+				<status>Disapproved C and G</status>
+				<status>Disapproved Change</status>
+				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
+				<status>Open</status>
+				<status>Pending Amendment</status>
+				<status>Pending Close</status>
+				<status>Pending Payment Hold</status>
+				<status>Pending Remove Hold</status>
+				<status>Pending Reopen</status>
+				<status>Pending Retransmit</status>
+				<status>Pending Void</status>
+				<status>Retired Version</status>
+				<status>Void</status>
+				<!-- complete status end -->
+			</validApplicationStatuses>
+			<policies>
+				<policy>
+					<name>DOCUMENT_STATUS_POLICY</name>
+					<stringValue>app</stringValue>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+			</routeNodes>
+		</documentType>
+
+		<documentType>
+			<name>
+				PORH
+			</name>
+			<parent>
+				PO
+			</parent>
+			<label>
+				Purchase Order Remove Payment Hold
+			</label>
+			<docHandler>
+				${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fpurchaseorderremovepaymenthold.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<validApplicationStatuses>
+				<!-- Incomplete status start -->
+				<status>In Process</status>
+				<status>Awaiting Fiscal Officer Review</status>
+				<status>Awaiting New Unordered Item Review</status>
+				<status>Awaiting Purchasing Approval</status>
+				<status>Awaiting Commodity Code Approval</status>
+				<status>Awaiting C and G Approval</status>
+				<status>Awaiting Budget Approval</status>
+				<status>Awaiting Tax Approval</status>
+				<status>Error occurred sending cxml</status>
+				<status>Error occurred sending fax</status>
+				<status>Out for Quote</status>
+				<status>Payment Hold</status>
+				<status>Pending Fax</status>
+				<status>Pending Print</status>
+				<status>Pending cxml</status>
+				<status>Waiting for Department</status>
+				<status>Waiting for Vendor</status>
+				<!-- Incomplete status end -->
+				<!-- complete status start -->
+				<status>Cancelled</status>
+				<status>Cancelled Change</status>
+				<status>Change in Process</status>
+				<status>Closed</status>
+				<status>Disapproved Budget</status>
+				<status>Disapproved C and G</status>
+				<status>Disapproved Change</status>
+				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
+				<status>Open</status>
+				<status>Pending Amendment</status>
+				<status>Pending Close</status>
+				<status>Pending Payment Hold</status>
+				<status>Pending Remove Hold</status>
+				<status>Pending Reopen</status>
+				<status>Pending Retransmit</status>
+				<status>Pending Void</status>
+				<status>Retired Version</status>
+				<status>Void</status>
+				<!-- complete status end -->
+			</validApplicationStatuses>
+			<policies>
+				<policy>
+					<name>DOCUMENT_STATUS_POLICY</name>
+					<stringValue>app</stringValue>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="AccountsPayable" />
+					<role name="AccountsPayable" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="AccountsPayable">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				POR
+			</name>
+			<parent>
+				PO
+			</parent>
+			<label>
+				Purchase Order Reopen
+			</label>
+			<docHandler>
+				${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fpurchaseorderreopen.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<validApplicationStatuses>
+				<!-- Incomplete status start -->
+				<status>In Process</status>
+				<status>Awaiting Fiscal Officer Review</status>
+				<status>Awaiting New Unordered Item Review</status>
+				<status>Awaiting Purchasing Approval</status>
+				<status>Awaiting Commodity Code Approval</status>
+				<status>Awaiting C and G Approval</status>
+				<status>Awaiting Budget Approval</status>
+				<status>Awaiting Tax Approval</status>
+				<status>Error occurred sending cxml</status>
+				<status>Error occurred sending fax</status>
+				<status>Out for Quote</status>
+				<status>Payment Hold</status>
+				<status>Pending Fax</status>
+				<status>Pending Print</status>
+				<status>Pending cxml</status>
+				<status>Waiting for Department</status>
+				<status>Waiting for Vendor</status>
+				<!-- Incomplete status end -->
+				<!-- complete status start -->
+				<status>Cancelled</status>
+				<status>Cancelled Change</status>
+				<status>Change in Process</status>
+				<status>Closed</status>
+				<status>Disapproved Budget</status>
+				<status>Disapproved C and G</status>
+				<status>Disapproved Change</status>
+				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
+				<status>Open</status>
+				<status>Pending Amendment</status>
+				<status>Pending Close</status>
+				<status>Pending Payment Hold</status>
+				<status>Pending Remove Hold</status>
+				<status>Pending Reopen</status>
+				<status>Pending Retransmit</status>
+				<status>Pending Void</status>
+				<status>Retired Version</status>
+				<status>Void</status>
+				<!-- complete status end -->
+			</validApplicationStatuses>
+			<policies>
+				<policy>
+					<name>DOCUMENT_STATUS_POLICY</name>
+					<stringValue>app</stringValue>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				PORT
+			</name>
+			<parent>
+				PO
+			</parent>
+			<label>
+				Purchase Order Retransmit
+			</label>
+			<docHandler>
+				${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fpurchaseorderretransmit.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<validApplicationStatuses>
+				<!-- Incomplete status start -->
+				<status>In Process</status>
+				<status>Awaiting Fiscal Officer Review</status>
+				<status>Awaiting New Unordered Item Review</status>
+				<status>Awaiting Purchasing Approval</status>
+				<status>Awaiting Commodity Code Approval</status>
+				<status>Awaiting C and G Approval</status>
+				<status>Awaiting Budget Approval</status>
+				<status>Awaiting Tax Approval</status>
+				<status>Error occurred sending cxml</status>
+				<status>Error occurred sending fax</status>
+				<status>Out for Quote</status>
+				<status>Payment Hold</status>
+				<status>Pending Fax</status>
+				<status>Pending Print</status>
+				<status>Pending cxml</status>
+				<status>Waiting for Department</status>
+				<status>Waiting for Vendor</status>
+				<!-- Incomplete status end -->
+				<!-- complete status start -->
+				<status>Cancelled</status>
+				<status>Cancelled Change</status>
+				<status>Change in Process</status>
+				<status>Closed</status>
+				<status>Disapproved Budget</status>
+				<status>Disapproved C and G</status>
+				<status>Disapproved Change</status>
+				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
+				<status>Open</status>
+				<status>Pending Amendment</status>
+				<status>Pending Close</status>
+				<status>Pending Payment Hold</status>
+				<status>Pending Remove Hold</status>
+				<status>Pending Reopen</status>
+				<status>Pending Retransmit</status>
+				<status>Pending Void</status>
+				<status>Retired Version</status>
+				<status>Void</status>
+				<!-- complete status end -->
+			</validApplicationStatuses>
+			<policies>
+				<policy>
+					<name>DOCUMENT_STATUS_POLICY</name>
+					<stringValue>app</stringValue>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				POSP
+			</name>
+			<parent>
+				PO
+			</parent>
+			<label>
+				Purchase Order Split
+			</label>
+			<docHandler>
+				${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fpurchaseordersplit.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<validApplicationStatuses>
+				<!-- Incomplete status start -->
+				<status>In Process</status>
+				<status>Awaiting Fiscal Officer Review</status>
+				<status>Awaiting New Unordered Item Review</status>
+				<status>Awaiting Purchasing Approval</status>
+				<status>Awaiting Commodity Code Approval</status>
+				<status>Awaiting C and G Approval</status>
+				<status>Awaiting Budget Approval</status>
+				<status>Awaiting Tax Approval</status>
+				<status>Error occurred sending cxml</status>
+				<status>Error occurred sending fax</status>
+				<status>Out for Quote</status>
+				<status>Payment Hold</status>
+				<status>Pending Fax</status>
+				<status>Pending Print</status>
+				<status>Pending cxml</status>
+				<status>Waiting for Department</status>
+				<status>Waiting for Vendor</status>
+				<!-- Incomplete status end -->
+				<!-- complete status start -->
+				<status>Cancelled</status>
+				<status>Cancelled Change</status>
+				<status>Change in Process</status>
+				<status>Closed</status>
+				<status>Disapproved Budget</status>
+				<status>Disapproved C and G</status>
+				<status>Disapproved Change</status>
+				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
+				<status>Open</status>
+				<status>Pending Amendment</status>
+				<status>Pending Close</status>
+				<status>Pending Payment Hold</status>
+				<status>Pending Remove Hold</status>
+				<status>Pending Reopen</status>
+				<status>Pending Retransmit</status>
+				<status>Pending Void</status>
+				<status>Retired Version</status>
+				<status>Void</status>
+				<!-- complete status end -->
+			</validApplicationStatuses>
+			<policies>
+				<policy>
+					<name>DOCUMENT_STATUS_POLICY</name>
+					<stringValue>app</stringValue>
+				</policy>
+			</policies>
+		</documentType>
+		<documentType>
+			<name>
+				POV
+			</name>
+			<parent>
+				PO
+			</parent>
+			<label>
+				Purchase Order Void
+			</label>
+			<docHandler>
+				${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fpurchaseordervoidlhtm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<validApplicationStatuses>
+				<!-- Incomplete status start -->
+				<status>In Process</status>
+				<status>Awaiting Fiscal Officer Review</status>
+				<status>Awaiting New Unordered Item Review</status>
+				<status>Awaiting Purchasing Approval</status>
+				<status>Awaiting Commodity Code Approval</status>
+				<status>Awaiting C and G Approval</status>
+				<status>Awaiting Budget Approval</status>
+				<status>Awaiting Tax Approval</status>
+				<status>Error occurred sending cxml</status>
+				<status>Error occurred sending fax</status>
+				<status>Out for Quote</status>
+				<status>Payment Hold</status>
+				<status>Pending Fax</status>
+				<status>Pending Print</status>
+				<status>Pending cxml</status>
+				<status>Waiting for Department</status>
+				<status>Waiting for Vendor</status>
+				<!-- Incomplete status end -->
+				<!-- complete status start -->
+				<status>Cancelled</status>
+				<status>Cancelled Change</status>
+				<status>Change in Process</status>
+				<status>Closed</status>
+				<status>Disapproved Budget</status>
+				<status>Disapproved C and G</status>
+				<status>Disapproved Change</status>
+				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
+				<status>Open</status>
+				<status>Pending Amendment</status>
+				<status>Pending Close</status>
+				<status>Pending Payment Hold</status>
+				<status>Pending Remove Hold</status>
+				<status>Pending Reopen</status>
+				<status>Pending Retransmit</status>
+				<status>Pending Void</status>
+				<status>Retired Version</status>
+				<status>Void</status>
+				<!-- complete status end -->
+			</validApplicationStatuses>
+			<policies>
+				<policy>
+					<name>DOCUMENT_STATUS_POLICY</name>
+					<stringValue>app</stringValue>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				CM
+			</name>
+			<parent>
+				AP
+			</parent>
+			<label>
+				Vendor Credit Memo
+			</label>
+			<docHandler>
+				${kfs.url}/purapVendorCreditMemo.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fvendorcreditmemo.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcreditmemos.htm
+			</docSearchHelpURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<validApplicationStatuses>
+				<status>Initiated</status>
+				<status>In Process</status>
+				<status>Cancelled In Process</status>
+				<status>Void</status>
+				<status>Cancelled</status>
+				<status>Complete</status>
+				<status>Awaiting AP Review</status>
+			</validApplicationStatuses>
+			<policies>
+				<policy>
+					<name>DOCUMENT_STATUS_POLICY</name>
+					<stringValue>app</stringValue>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="RequiresImageAttachment"
+						nextAppDocStatus="Awaiting AP Review" />
+					<split name="RequiresImageAttachment" nextNode="Account">
+						<branch name="True">
+							<role name="ImageAttachment" nextNode="JoinRequiresImageAttachment" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment" />
+						</branch>
+						<join name="JoinRequiresImageAttachment" />
+					</split>
+					<role name="Account" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<split name="RequiresImageAttachment">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="ImageAttachment">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role>
+				<join name="JoinRequiresImageAttachment" />
+				<simple name="NoOpRequiresImageAttachment">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<role name="Account">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				PREQ
+			</name>
+			<parent>
+				AP
+			</parent>
+			<label>
+				Payment Request
+			</label>
+			<docHandler>
+				${kfs.url}/purapPaymentRequest.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fpaymentrequest.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fpaymentrequests.htm
+			</docSearchHelpURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<validApplicationStatuses>
+				<status>Initiated</status>
+				<status>In Process</status>
+				<status>Cancelled In Process</status>
+				<status>Cancelled</status>
+				<status>Department-Approved</status>
+				<status>Auto-Approved</status>
+				<status>Awaiting AP Review</status>
+				<status>Awaiting Receiving</status>
+				<status>Awaiting Sub-Account Manager Approval</status>
+				<status>Awaiting Fiscal Officer Approval</status>
+				<status>Awaiting Chart Approval</status>
+				<status>Awaiting Tax Approval</status>
+				<status>Pending Route Electronic Invoice</status>
+			</validApplicationStatuses>
+			<policies>
+				<policy>
+					<name>DOCUMENT_STATUS_POLICY</name>
+					<stringValue>app</stringValue>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="RequiresImageAttachment"
+						nextAppDocStatus="Awaiting AP Review" />
+					<split name="RequiresImageAttachment" nextNode="PurchaseWasReceived">
+						<branch name="True">
+							<role name="ImageAttachment" nextNode="JoinRequiresImageAttachment"
+								nextAppDocStatus="Awaiting AP Review" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment"
+								nextAppDocStatus="Awaiting Receiving" />
+						</branch>
+						<join name="JoinRequiresImageAttachment" />
+					</split>
+					<split name="PurchaseWasReceived" nextNode="SubAccount">
+						<branch name="True">
+							<role name="Receiving" nextNode="JoinReceiving"  nextAppDocStatus="Awaiting Sub-Account Manager Approval"/>
+						</branch>
+						<branch name="False">
+							<simple name="NoOpReceiving" nextNode="JoinReceiving" />
+						</branch>
+						<join name="JoinReceiving" />
+					</split>
+					<role name="SubAccount" nextNode="Account"
+						nextAppDocStatus="Awaiting Fiscal Officer Approval" />
+					<role name="Account" nextNode="AccountingOrganizationHierarchy"
+						nextAppDocStatus="Awaiting Chart Approval" />
+					<role name="AccountingOrganizationHierarchy" nextNode="VendorIsEmployeeOrNonResidentAlien"
+						nextAppDocStatus="Awaiting Tax Approval" />
+					<split name="VendorIsEmployeeOrNonResidentAlien">
+						<branch name="True">
+							<role name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOpVendorIsEmployeeOrNonResidentAlien"
+								nextNode="JoinVendorIsEmployeeOrNonResidentAlien" />
+						</branch>
+						<join name="JoinVendorIsEmployeeOrNonResidentAlien" />
+					</split>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<split name="RequiresImageAttachment">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="ImageAttachment">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role>
+				<join name="JoinRequiresImageAttachment" />
+				<simple name="NoOpRequiresImageAttachment">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<split name="PurchaseWasReceived">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="Receiving">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role>
+				<join name="JoinReceiving" />
+				<simple name="NoOpReceiving">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<role name="SubAccount">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role>
+				<role name="Account">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+					<mandatoryRoute>
+						true
+					</mandatoryRoute>
+				</role>
+				<role name="AccountingOrganizationHierarchy">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role>
+				<split name="VendorIsEmployeeOrNonResidentAlien">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="Tax">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role>
+				<join name="JoinVendorIsEmployeeOrNonResidentAlien" />
+				<simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				RCVL
+			</name>
+			<parent>
+				RCV
+			</parent>
+			<label>
+				Line Item Receiving
+			</label>
+			<docHandler>
+				${kfs.url}/purapLineItemReceiving.do?methodToCall=docHandler
+			</docHandler>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Freceiving.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<validApplicationStatuses>
+				<status>In Process</status>
+				<status>Cancelled</status>
+				<status>Awaiting Purchase Order Open Status</status>
+				<status>Complete</status>
+			</validApplicationStatuses>
+			<policies>
+				<policy>
+					<name>DOCUMENT_STATUS_POLICY</name>
+					<stringValue>app</stringValue>
+				</policy>
+			</policies>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="RelatesToOutstandingTransactions"
+						nextAppDocStatus="Awaiting Purchase Order Open Status" />
+					<split name="RelatesToOutstandingTransactions">
+						<branch name="True">
+							<role name="OutstandingTransactions" nextNode="Join" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="Join" />
+						</branch>
+						<join name="Join" />
+					</split>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<split name="RelatesToOutstandingTransactions">
+					<type>
+						org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<role name="OutstandingTransactions">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+			        <activationType>P</activationType>
+				</role>
+				<join name="Join" />
+				<simple name="NoOp">
+					<type>
+						org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+			</routeNodes>
+		</documentType>
+	    <documentType>
+	      <name>
+	        EIRT
+	      </name>
+	      <parent>
+	        AP
+	      </parent>
+	      <label>
+	        Electronic Invoice Reject Document
+	      </label>
+	      <docHandler>
+	        ${kfs.url}/purapElectronicInvoiceReject.do?methodToCall=docHandler
+	      </docHandler>
+	      <docSearchHelpURL>
+	        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Felectronicinvoicerejects.htm
+	      </docSearchHelpURL>
+	      <active>
+	        true
+	      </active>
+	      <routingVersion>
+	        2
+	      </routingVersion>
+	      <routePaths>
+	        <routePath>
+	          <start name="AdHoc" nextNode="Management"/>
+	          <role name="Management"/>
+	        </routePath>
+	      </routePaths>
+	      <routeNodes>
+	        <start name="AdHoc"/>
+	        <role name="Management">
+	          <qualifierResolverClass>
+	            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+	          </qualifierResolverClass>
+	          <activationType>P</activationType>
+	        </role>
+	      </routeNodes>
+	    </documentType>
+	</documentTypes>
+</data>

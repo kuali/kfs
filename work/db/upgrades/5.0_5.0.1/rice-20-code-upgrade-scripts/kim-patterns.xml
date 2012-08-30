@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules>
+
+	<rule name="KIM_moved_packages">
+	</rule>
+	
+	<rule name="KIM_undo_moved_package_exceptions">
+	</rule>
+	
+
+	<rule name="KIM_moved_classes" alsoRenameClass="true">
+<!-- 	
+		<pattern>
+			<match>org.kuali.rice.kim.util.KimCommonUtils</match>
+			<replacement>org.kuali.rice.krad.util.KRADUtils</replacement>
+		</pattern>
+  -->
+		<pattern>
+			<match>org.kuali.rice.kim.util.KimConstants</match>
+			<replacement>org.kuali.rice.kim.api.KimApiConstants</replacement>
+		</pattern>
+ 
+		<pattern>
+			<match>import org.kuali.rice.kim.util.KIMPropertyConstants</match>
+			<replacement>import org.kuali.rice.kim.impl.KIMPropertyConstants</replacement>
+		</pattern>
+	
+		<pattern>
+			<match>org\.kuali\.rice\.kim\.service\.support\.impl\.KimRoleTypeServiceBase</match>
+			<replacement>org.kuali.rice.kns.kim.role.RoleTypeServiceBase</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.kim\.service\.support\.KimRoleTypeService</match>
+			<replacement>org.kuali.rice.kim.framework.role.RoleTypeService</replacement>
+		</pattern>
+	
+		<pattern>
+			<match>org\.kuali\.rice\.kim\.bo\.Person</match>
+			<replacement>org.kuali.rice.kim.api.identity.Person</replacement>
+		</pattern>
+
+		<pattern>
+			<match>org.kuali.rice.kim.service.IdentityManagementService</match>
+			<replacement>org.kuali.rice.kim.api.services.IdentityManagementService</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kim.service.RoleManagementService</match>
+			<replacement>org.kuali.rice.kim.api.role.RoleService</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kim.service.KimTypeInfoService</match>
+			<replacement>org.kuali.rice.kim.api.type.KimTypeInfoService</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kim.service.PersonService</match>
+			<replacement>org.kuali.rice.kim.api.identity.PersonService</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kim.service.support.KimTypeService</match>
+			<replacement>org.kuali.rice.kim.framework.type.KimTypeService</replacement>
+		</pattern>
+
+		<pattern>
+			<match>org.kuali.rice.kim.bo.group.dto.GroupInfo</match>
+			<replacement>org.kuali.rice.kim.api.group.Group</replacement>
+		</pattern>
+		<!-- 
+		<pattern fileType="java">
+			<match>org.kuali.rice.kim.bo.Group</match>
+			<replacement>org.kuali.rice.kim.api.group.GroupContract</replacement>
+		</pattern>
+		<pattern fileType="java">
+			<match>GroupContractService</match>
+			<replacement>GroupService</replacement>
+		</pattern>		
+		 -->
+		<pattern>
+			<match>org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo</match>
+			<replacement>org.kuali.rice.kim.api.identity.principal.Principal</replacement>
+		</pattern>
+		
+		<pattern>
+			<match>org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo</match>
+			<replacement>org.kuali.rice.kim.api.role.RoleMembership</replacement>
+		</pattern>
+
+		<pattern>
+			<match>org.kuali.rice.kim.bo.role.dto.DelegateInfo</match>
+			<replacement>org.kuali.rice.kim.api.common.delegate.DelegateMember</replacement>
+		</pattern>		
+		<pattern>
+			<match>org.kuali.rice.kim.bo.role.dto.KimPermissionInfo</match>
+			<replacement>org.kuali.rice.kim.api.permission.Permission</replacement>
+		</pattern>		
+		<pattern>
+			<match>org.kuali.rice.kim.bo.entity.KimPrincipal</match>
+			<replacement>org.kuali.rice.kim.api.identity.principal.Principal</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kim.bo.role.dto.KimRoleInfo</match>
+			<replacement>org.kuali.rice.kim.api.role.Role</replacement>
+		</pattern>		
+		<pattern>
+			<match>org.kuali.rice.kim.bo.types.dto.KimTypeInfo</match>
+			<replacement>org.kuali.rice.kim.api.type.KimType</replacement>
+		</pattern>		
+		<pattern><!--  reverse adverse effects of the above -->
+			<match>KimTypeService</match>
+			<replacement>KimTypeInfoService</replacement>
+		</pattern>		
+		<pattern>
+			<match>org.kuali.rice.kim.service.GroupService</match>
+			<replacement>org.kuali.rice.kim.api.group.GroupService</replacement>
+		</pattern>		
+
+		<pattern>
+			<match>org.kuali.rice.kim.bo.role.dto.DelegateTypeInfo</match>
+			<replacement>org.kuali.rice.kim.api.common.delegate.DelegateTypeContract</replacement>
+		</pattern>
+
+		<pattern>
+			<match>org.kuali.rice.kim.service.support.KimDelegationTypeService</match>
+			<replacement>org.kuali.rice.kim.framework.type.KimDelegationTypeService</replacement>
+		</pattern>
+		
+		<pattern>
+			<match>org.kuali.rice.kim.bo.Role</match>
+			<replacement>org.kuali.rice.kim.api.role.Role</replacement>
+		</pattern>
+		
+		<pattern>
+			<match>org\.kuali\.rice\.kim\.bo\.types\.impl\.KimAttributeImpl</match>
+			<replacement>org.kuali.rice.kim.api.common.attribute.KimAttribute</replacement>
+		</pattern>
+		
+		<pattern>
+			<match>org\.kuali\.rice\.kns\.datadictionary\.KimDataDictionaryAttributeDefinition</match>
+			<replacement>org.kuali.rice.kns.kim.type.KimAttributeDefinition</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.kns\.datadictionary\.KimNonDataDictionaryAttributeDefinition</match>
+			<replacement>org.kuali.rice.kns.kim.type.KimAttributeDefinition</replacement>
+		</pattern>
+		
+		<pattern>
+			<match>org.kuali.rice.kim.bo.role.impl.KimDelegationImpl</match>
+			<replacement>org.kuali.rice.kim.api.common.delegate.DelegateType</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kim.bo.role.impl.KimDelegationMemberImpl</match>
+			<replacement>org.kuali.rice.kim.api.common.delegate.DelegateMember</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kim.service.support.KimDelegationTypeService</match>
+			<replacement>org.kuali.rice.kim.framework.common.delegate.DelegationTypeService</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase</match>
+			<replacement>org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kim.bo.entity.KimEntityAddress</match>
+			<replacement>org.kuali.rice.kim.api.identity.address.EntityAddress</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kim.bo.entity.KimEntityEntityType</match>
+			<replacement>org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kim.bo.entity.KimEntityEntityTypeInfo</match>
+			<replacement>org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kim.bo.entity.KimEntity</match>
+			<replacement>org.kuali.rice.kim.api.identity.entity.Entity</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kim.service.support.impl.KimGroupTypeServiceBase</match>
+			<replacement>org.kuali.rice.kns.kim.group.GroupTypeServiceBase</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kim.service.support.impl.KimPermissionTypeServiceBase</match>
+			<replacement>org.kuali.rice.kns.kim.permission.PermissionTypeServiceBase</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.kim.bo.types.dto.KimTypeAttributeInfo</match>
+			<replacement>org.kuali.rice.kim.api.type.KimTypeAttribute</replacement>
+		</pattern>
+
+	
+		<pattern>
+			<match>org.kuali.rice.core.jaxb.StringToKimEntityNameInfoMapAdapter</match>
+			<replacement>org.kuali.rice.kim.api.jaxb.StringToKimEntityNameInfoMapAdapter</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.core.jaxb.StringToKimEntityNamePrincipalInfoMapAdapter</match>
+			<replacement>org.kuali.rice.kim.api.jaxb.StringToKimEntityNamePrincipalInfoMapAdapter</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.core.jaxb.StringEntNmPrncpInfoMapEntry</match>
+			<replacement>org.kuali.rice.kim.api.jaxb.StringEntNmPrncpInfoMapEntry</replacement>
+		</pattern>
+		<pattern>
+			<match>org.kuali.rice.core.jaxb.StringEntityNameInfoMapEntry</match>
+			<replacement>org.kuali.rice.kim.api.jaxb.StringEntityNameInfoMapEntry</replacement>
+		</pattern>
+	
+	</rule>
+	
+	<rule name="KIM_special_replacements">
+		<pattern>
+			<match>([^A-Za-z])KimAttributes\.([A-Z]+)</match>
+			<replacement addImport="org.kuali.rice.kim.bo.impl.KimAttributes:org.kuali.rice.kim.bo.impl.KimAttributes;
+import org.kuali.rice.kim.api.KimConstants">$1KimConstants.AttributeConstants.$2</replacement>
+		</pattern>
+		<pattern>
+			<match>KimApiConstants\.(NAMESPACE_CODE|KimUIConstants|PrimaryKeyConstants|PermissionTemplateNames)</match>
+			<replacement addImport="org.kuali.rice.kim.api.KimApiConstants:org.kuali.rice.kim.api.KimApiConstants;
+import org.kuali.rice.kim.api.KimConstants">KimConstants.$1</replacement>
+		</pattern>
+
+		<pattern>
+			<match>new RoleMembershipContract</match>
+			<replacement addImport="org.kuali.rice.kim.api.role.RoleMembershipContract:org.kuali.rice.kim.api.role.RoleMembershipContract;
+import org.kuali.rice.kim.api.role.RoleMembership">RoleMembership.Builder.create</replacement>
+		</pattern>
+
+		<pattern>
+			<match>new DelegateTypeContract</match>
+			<replacement addImport="org.kuali.rice.kim.api.common.delegate.DelegateTypeContract:org.kuali.rice.kim.api.common.delegate.DelegateTypeContract;
+import org.kuali.rice.kim.api.common.delegate.DelegateType">DelegateType.Builder.create</replacement>
+		</pattern>
+		<!-- KIM: AttributeSet -->
+		
+		<pattern> <!--  remove the import - the class references need to be handled independently -->
+			<match>import org.kuali.rice.kim.bo.types.dto.AttributeSet;</match>
+			<replacement>import java.util.HashMap;
+import java.util.Map;</replacement>
+		</pattern>
+		<pattern>
+			<match>[ ]new AttributeSet\(</match>
+			<replacement><![CDATA[ new HashMap<String,String>(]]></replacement>
+		</pattern>
+		<pattern>
+			<match><![CDATA[([(< ])AttributeSet]]></match>
+			<replacement><![CDATA[$1Map<String,String>]]></replacement>
+		</pattern>
+		<pattern>
+			<match>getMessageMap\(\)\.clear\(\)</match>
+			<replacement><![CDATA[getMessageMap().clearErrorMessages()]]></replacement>
+		</pattern>
+		<pattern>
+			<match>getMessageMap\(\)\.size\(\)</match>
+			<replacement><![CDATA[getMessageMap().getErrorCount()]]></replacement>
+		</pattern>
+		<!-- KIM Services -->
+
+		<pattern>
+			<match><![CDATA[PersonService<Person>]]></match>
+			<replacement><![CDATA[PersonService]]></replacement>
+		</pattern>
+		<pattern>
+			<match>UiDocumentServiceImpl.getFullMemberName</match>
+			<replacement>UiDocumentServiceImpl.getMemberFullName</replacement>
+		</pattern>
+
+		<pattern>
+			<match>([rR]ole|[rR]oleInfo)\.getRole(Id|Name)\(\)</match>
+			<replacement>$1.get$2()</replacement>
+		</pattern>
+
+		<pattern>
+			<match>([Pp]ermission|[pP]ermissionInfo)\.getPermissionId\(\)</match>
+			<replacement>$1.getId()</replacement>
+		</pattern>
+		
+		<pattern>
+			<match>kimType\.getAttributeDefinition</match>
+			<replacement>kimType.getAttributeDefinitionById</replacement>
+		</pattern>
+
+		<pattern>
+			<match>typeService\.getAttributeDefinitions\(([^)]+)\)</match>
+			<replacement>typeService.getKimType($1).getAttributeDefinitions()</replacement>
+		</pattern>
+
+		<pattern>
+			<match>setNamespaceRequiredOnStoredAttributeSet</match>
+			<replacement>setNamespaceRequiredOnStoredMap</replacement>
+		</pattern>
+
+		<pattern>
+			<match>kpi\.getDetails</match>
+			<replacement>kpi.getAttributes</replacement>
+		</pattern>
+		
+		<pattern>
+			<match>RoleManagementService</match>
+			<replacement>RoleService</replacement>
+		</pattern>
+	</rule>	
+</rules>

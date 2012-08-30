@@ -62,7 +62,7 @@
 	          								<c:if test="${fullEntryMode}">
 												<tem-exp:actualExpenseDetailLine 
 													lineNumber="${ctr}" 
-													detail="document.actualExpenses[${ctr}]" 
+													detail="newActualExpenseLines[${ctr}]" 
 													detailObject="${KualiForm.document.actualExpenses[ctr]}"
 													parentObject="${KualiForm.document.actualExpenses[ctr]}"  />
 											</c:if>

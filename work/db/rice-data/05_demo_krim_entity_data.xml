@@ -29,5 +29,16 @@
 	<changeSet context="demo" author="kfs" id="KRIM_ENTITY_PRIV_PREF_T">
 		<loadData tableName="KRIM_ENTITY_PRIV_PREF_T" file="demo/krim_entity_priv_pref_t.csv" />
     </changeSet>
+
+	<changeSet context="demo" author="kfs" id="KRIM_GRP_T">
+		<loadData tableName="KRIM_GRP_T" file="demo/krim_grp_t.csv" />
+    </changeSet>
+	<changeSet context="demo" author="kfs" id="KRIM_GRP_ATTR_DATA_T">
+		<loadData tableName="KRIM_GRP_ATTR_DATA_T" file="demo/krim_grp_attr_data_t.csv" />
+    </changeSet>
+	<changeSet context="demo" author="kfs" id="KRIM_GRP_MBR_T">
+		<loadData tableName="KRIM_GRP_MBR_T" file="demo/krim_grp_mbr_t.csv" />
+    </changeSet>
+
 </databaseChangeLog>   
       

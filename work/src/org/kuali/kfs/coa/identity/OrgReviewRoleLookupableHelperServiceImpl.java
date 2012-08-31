@@ -482,12 +482,12 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
                 LOG.debug( "Converting Delegation Member: " + member );
             }
             if( StringUtils.isBlank(active) || activeInd == member.isActive() ) {
-                OrgReviewRole orgReviewRole = new OrgReviewRole();
-                orgReviewRole.setDelegateMember( null, member);
+                OrgReviewRole orr = new OrgReviewRole();
+                orgReviewRoleService.populateOrgReviewRoleFromDelegationMember(orr, member.getRoleMemberId(), member.getDelegationMemberId());
                 if ( LOG.isDebugEnabled() ) {
-                    LOG.debug( "Converted To OrgReviewRole: " + orgReviewRole );
+                    LOG.debug( "Converted To OrgReviewRole: " + orr );
                 }
-                orgReviewRoles.add(orgReviewRole);
+                orgReviewRoles.add(orr);
             }
         }
         return orgReviewRoles;

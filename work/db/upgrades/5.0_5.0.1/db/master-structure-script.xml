@@ -2,6 +2,7 @@
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+<!-- 
 	<include file="01_structure/ar-module-structure-updates.xml"/>
 	<include file="01_structure/cam-module-structure-updates.xml"/>
 	<include file="01_structure/cg-module-structure-updates.xml"/>
@@ -13,5 +14,6 @@
 	<include file="01_structure/purap-module-structure-updates.xml"/>
 	<include file="01_structure/sys-module-structure-updates.xml"/>
 	<include file="01_structure/vnd-module-structure-updates.xml"/>
+-->
 </databaseChangeLog>
 	

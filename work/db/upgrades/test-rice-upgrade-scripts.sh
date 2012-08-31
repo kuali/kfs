@@ -143,14 +143,10 @@ if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
 
 	rm -f $WORKSPACE/upgrade.sql
 	touch $WORKSPACE/upgrade.sql
-	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=kim_upgrade_pre_rice_20.xml updateSQL >> $WORKSPACE/upgrade.sql
-	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=rice-server-script.xml updateSQL >> $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=kew_upgrade.xml updateSQL >> $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=kim_upgrade.xml updateSQL >> $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=parameter_updates.xml updateSQL >> $WORKSPACE/upgrade.sql
 
-	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=kim_upgrade_pre_rice_20.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=rice-server-script.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=kew_upgrade.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=kim_upgrade.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=parameter_updates.xml update
@@ -179,7 +175,7 @@ if [[ "$RUN_UPGRADE_WORKFLOW" == "true" ]]; then
 		dont.filter.project.spring.ide=	
 	EOF
 	) > $WORKSPACE/kfs-build.properties
-	ant import-workflow-xml -Dworkflow.dir=$UPGRADE_SCRIPT_DIR/workflow/rice_provided -Duser.home=$WORKSPACE
+	#ant import-workflow-xml -Dworkflow.dir=$UPGRADE_SCRIPT_DIR/workflow/rice_provided -Duser.home=$WORKSPACE
 	ant import-workflow-xml -Dworkflow.dir=$UPGRADE_SCRIPT_DIR/workflow -Duser.home=$WORKSPACE
 	popd
 fi

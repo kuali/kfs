@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
@@ -434,7 +435,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     }
 
     public void setFromAmount(String fromAmount) {
-        if(StringUtils.isNotEmpty(fromAmount) && StringUtils.isNumeric(fromAmount) ) {
+        if(StringUtils.isNotEmpty(fromAmount) && NumberUtils.isNumber( fromAmount ) ) {
             this.fromAmount = new KualiDecimal(fromAmount);
         }
         else {
@@ -463,7 +464,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     }
 
     public void setToAmount(String toAmount) {
-        if(StringUtils.isNotEmpty(toAmount) && StringUtils.isNumeric(toAmount) ) {
+        if(StringUtils.isNotEmpty(toAmount) && NumberUtils.isNumber( toAmount ) ) {
             this.toAmount = new KualiDecimal(toAmount);
         }
         else {

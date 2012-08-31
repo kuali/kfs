@@ -2,6 +2,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
+	<changeSet id="FIX_GROUP_KIM_TYPE_IN_RESP" author="KFS501">
+		<comment>Fix reference to KIM type ID which was changed in KFS 5.0 to match new value.</comment>
+		<update tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_VAL" value="KFS68" />
+			<where>KIM_ATTR_DEFN_ID = '46' AND ATTR_VAL = '68'</where>
+		</update>
+	</changeSet>
+
 <!-- 
 	<changeSet author="KFS502" id="SAMPLE_NEW_PERM">
 		<insert tableName="KRIM_PERM_T">

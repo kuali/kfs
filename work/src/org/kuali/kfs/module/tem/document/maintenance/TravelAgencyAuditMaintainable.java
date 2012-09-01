@@ -19,15 +19,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
 
+import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
+
+/**
+ *
+ * 
+ * */
 public class TravelAgencyAuditMaintainable extends FinancialSystemMaintainable {
-    private static final Logger LOG = Logger.getLogger(TravelAgencyAuditMaintainable.class);
     
 	
     @Override

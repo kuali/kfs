@@ -24,6 +24,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
+/**
+ * Business rules validationf or the Travel Agency Audit and Correction
+ */
 public class TravelAgencyAuditValidation extends MaintenanceDocumentRuleBase {
     
     protected ExpenseImportByTripService expenseImportByTripService;

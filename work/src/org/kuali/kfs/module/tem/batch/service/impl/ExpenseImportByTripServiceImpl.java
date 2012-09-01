@@ -50,9 +50,14 @@ import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase implements ExpenseImportByTripService  {
-    public static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExpenseImportByTripServiceImpl.class);
-    
+import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
+
+/**
+ * Service for handling imported expenses using the IU method or "By Trip Id" method. 
+ * 
+ * @see org.kuali.kfs.module.tem.document.validation.impl.TravelAgencyAuditValidation
+ */
+public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase implements ExpenseImportByTripService  {    
     private TravelAuthorizationService travelAuthorizationService;
     private TemProfileService temProfileService;
     private BusinessObjectService businessObjectService;
@@ -60,7 +65,11 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
     private TravelExpenseService travelExpenseService;
     private ImportedExpensePendingEntryService importedExpensePendingEntryService;
 
-    List<String> errorMessages=new ArrayList<String>();
+    protected List<String> errorMessages;
+    
+    public ExpenseImportByTripServiceImpl() {
+        errorMessages = new ArrayList<String>();        
+    }
 
     /**
      * 
@@ -101,7 +110,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         }
         
         if (!requiredFieldsValid) {
-            LOG.error("Missing one or more required fields.");
+            error("Missing one or more required fields.");
             
         }
         
@@ -161,15 +170,14 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService#validateAgencyData(org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
      */
     @Override
-    public AgencyStagingData validateAgencyData(AgencyStagingData agencyData) {
-        
-        LOG.info("Validating agency data.");
+    public AgencyStagingData validateAgencyData(AgencyStagingData agencyData) {        
+        info("Validating agency data. tripId: ", agencyData.getTripId());
         
         errorMessages.clear();
 
         // Perform a duplicate check first. 
         if (isDuplicate(agencyData)) {
-            LOG.error("Duplicate Agency Data record. tripId: " + agencyData.getTripId());
+            error("Duplicate Agency Data record. tripId: ", agencyData.getTripId());
             return null;
         }
         
@@ -188,7 +196,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
             errorMessages.add(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_CCA);
         }
         
-        LOG.info("Finished validating agency data. tripId:" + agencyData.getTripId());
+        info("Finished validating agency data. tripId:", agencyData.getTripId());
         agencyData.setProcessingTimestamp(dateTimeService.getCurrentTimestamp());
         return agencyData;
     }
@@ -204,7 +212,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         if (ObjectUtils.isNotNull(ta)) {
             return ta;
         }
-        LOG.error("Unable to retrieve TA document for tripId: " + agencyData.getTripId());
+        error("Unable to retrieve TA document for tripId: ", agencyData.getTripId());
         setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_TRIPID);
         errorMessages.add(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID);
         
@@ -245,7 +253,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
             if (validationParams.contains(AgencyStagingDataValidation.VALIDATE_ACCOUNT)) {
                 if (!isAccountNumberValid(account.getTripChartCode(), account.getTripAccountNumber())) {
                     
-                    LOG.error("Invalid Account in Agency Data record. tripId: " + agencyData.getTripId() + " chart code: " + account.getTripChartCode() + " account: " + account.getTripAccountNumber());
+                    error("Invalid Account in Agency Data record. tripId: ", agencyData.getTripId() + " chart code: " + account.getTripChartCode() + " account: " + account.getTripAccountNumber());
                     account.setTripAccountNumber(profile.getDefaultAccount());
                     setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_ACCOUNT);
                     error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCOUNT_NUM, account.getTripChartCode(), account.getTripAccountNumber());
@@ -258,7 +266,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                 if (StringUtils.isNotEmpty(account.getTripSubAccountNumber()) && 
                     !isSubAccountNumberValid(account.getTripChartCode(), account.getTripAccountNumber(), account.getTripSubAccountNumber())) {
                     
-                    LOG.error("Invalid SubAccount in Agency Data record. tripId: " + agencyData.getTripId() + " chart code: " + account.getTripChartCode() + " account: " + account.getTripAccountNumber() + " subaccount: " + account.getTripSubAccountNumber());
+                    error("Invalid SubAccount in Agency Data record. tripId: ", agencyData.getTripId() + " chart code: " + account.getTripChartCode() + " account: " + account.getTripAccountNumber() + " subaccount: " + account.getTripSubAccountNumber());
                     
                     account.setTripSubAccountNumber(profile.getDefaultSubAccount());
                     setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBACCOUNT);
@@ -271,7 +279,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
             if (StringUtils.isNotEmpty(account.getProjectCode()) &&
                 !isProjectCodeValid(account.getProjectCode())) {
                 
-                LOG.error("Invalid Project in Agency Data record. tripId: " + agencyData.getTripId() + " project code: " + account.getProjectCode());
+                error("Invalid Project in Agency Data record. tripId: ", agencyData.getTripId(), " project code: " + account.getProjectCode());
                 
                 account.setProjectCode(profile.getDefaultProjectCode());
                 setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_PROJECT);
@@ -284,7 +292,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                 if (StringUtils.isNotEmpty(account.getObjectCode()) &&
                     !isObjectCodeValid(account.getTripChartCode(), account.getObjectCode())) {
                     
-                    LOG.error("Invalid Object Code in Agency Data record. tripId: " + agencyData.getTripId() + " chart code: " + account.getTripChartCode() + " object code: " + account.getObjectCode());
+                    error("Invalid Object Code in Agency Data record. tripId: ", agencyData.getTripId() + " chart code: " + account.getTripChartCode() + " object code: " + account.getObjectCode());
                     
                     account.setObjectCode(getObjectCode(agencyData));
                     setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_OBJECT);
@@ -299,7 +307,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                 if (StringUtils.isNotEmpty(account.getSubObjectCode()) && 
                     !isSubObjectCodeValid(account.getTripChartCode(), account.getTripAccountNumber(), account.getObjectCode(), account.getSubObjectCode())) {
                     
-                    LOG.error("Invalid SubObject Code in Agency Data record. tripId: " + agencyData.getTripId() + " chart code: " + account.getTripChartCode() + " object code: " + account.getObjectCode() + " subobject code: " + account.getSubObjectCode());
+                    error("Invalid SubObject Code in Agency Data record. tripId: ", agencyData.getTripId() + " chart code: " + account.getTripChartCode() + " object code: " + account.getObjectCode() + " subobject code: " + account.getSubObjectCode());
                     
                     setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBOBJECT);
                     error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUB_OBJECT_CODE, account.getTripChartCode(), account.getTripAccountNumber(), account.getObjectCode(), account.getSubObjectCode());
@@ -340,7 +348,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         if (ObjectUtils.isNull(agencyDataList) || agencyDataList.size() == 0) {
             return false;
         }
-        LOG.error("Found a duplicate entry for agencyData with tripId: " + agencyData.getTripId() + " matching agency id: " + agencyDataList.get(0).getId());
+        error("Found a duplicate entry for agencyData with tripId: ", agencyData.getTripId() + " matching agency id: " + agencyDataList.get(0).getId());
         //grab the id of the record that this is a dupe of (just the first one if multiple
         Integer dupeId = agencyDataList.get(0).getId();
         agencyData.setDuplicateRecordId(dupeId);
@@ -358,7 +366,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
     @Override
     public boolean reconciliateExpense(AgencyStagingData agencyData, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
 
-        LOG.info("Reconciling expense for agency data: " + agencyData.getId() + " tripId: " + agencyData.getTripId());
+        info("Reconciling expense for agency data: ", agencyData.getId(), " tripId: ", agencyData.getTripId());
         
         String expenseType = agencyData.getExpenseType();
         
@@ -384,7 +392,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         }
         
         if (ObjectUtils.isNotNull(ccData)) {
-            LOG.info("Found a match for Agency: " + agencyData.getId() + " Credit Card: " + ccData.getId() + " tripId: " + agencyData.getTripId());
+            debug("Found a match for Agency: ", agencyData.getId(), " Credit Card: ", ccData.getId(), " tripId: ", agencyData.getTripId());
             TemTravelExpenseTypeCode travelExpenseType = getTravelExpenseType(expenseTypeParamCode, agencyData.getTripId());
             HistoricalTravelExpense expense = travelExpenseService.createHistoricalTravelExpense(agencyData, ccData, travelExpenseType);
             AgencyServiceFee serviceFee = getAgencyServiceFee(agencyData.getDistributionCode());
@@ -429,7 +437,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                 
                 if (ObjectUtils.isNotNull(serviceFee)) {
                     // Agency Data has a DI Code that maps to an Agency Service Fee, create GLPEs for it.
-                    LOG.info("Processing Service Fee GLPE for agency: " + agencyData.getId() + " tripId: " + agencyData.getTripId());
+                    info("Processing Service Fee GLPE for agency: ", agencyData.getId(), " tripId: ", agencyData.getTripId());
                     
                     final boolean generateOffset = true;
                     List<GeneralLedgerPendingEntry> pendingEntries = importedExpensePendingEntryService.buildDebitPendingEntry(agencyData, info, sequenceHelper, info.getObjectCode(), currentFeeAmount, generateOffset);
@@ -456,16 +464,16 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                 agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_MOVED_TO_HISTORICAL);
             }
             else {
-                LOG.error("An errror occured while creating GLPEs for agency: " + agencyData.getId() + " tripId"+ agencyData.getTripId() + " Not creating historical expense for this agency record.");
+                error("An errror occured while creating GLPEs for agency: ", agencyData.getId(), " tripId", agencyData.getTripId(), " Not creating historical expense for this agency record.");
                 return false;
             }
             
         }
         else {
-            LOG.info("No match found for agency data: " + agencyData.getId() + " tripId:" + agencyData.getTripId());
+            info("No match found for agency data: ", agencyData.getId(), " tripId:", agencyData.getTripId());
         }
         
-        LOG.info("Finished reconciling expense for agency data: " + agencyData.getId() + " tripId: " + agencyData.getTripId());
+        info("Finished reconciling expense for agency data: ", agencyData.getId(), " tripId: ", agencyData.getTripId());
         return true;
     }
 
@@ -488,7 +496,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                 return travelExpenseService.getExpenseType(expenseTypeCode, ta.getDocumentTypeName(), ta.getTripTypeCode(), ta.getTraveler().getTravelerTypeCode());
             }
         }
-        LOG.error("Unable to retrieve TemTravelExpenseTypeCode");
+        error("Unable to retrieve TemTravelExpenseTypeCode");
         return new TemTravelExpenseTypeCode();
 
     }

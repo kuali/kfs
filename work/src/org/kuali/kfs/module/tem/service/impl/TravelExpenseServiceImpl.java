@@ -48,6 +48,11 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
+/**
+ * Service for handling travel expenses
+ * 
+ * @see org.kuali.kfs.module.tem.document.validation.impl.TravelAgencyAuditValidation
+ */
 public class TravelExpenseServiceImpl implements TravelExpenseService {
 
     private BusinessObjectService businessObjectService;

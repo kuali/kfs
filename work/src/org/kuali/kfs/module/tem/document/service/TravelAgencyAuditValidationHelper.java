@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.tem.document.validation.impl;
+package org.kuali.kfs.module.tem.document.service;
 
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
@@ -22,7 +22,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
  *  
  * @author Leo Przybylski (leo [at] rsmart.com)
  */
-public class TravelAgencyAuditValidationHelper  {
+public interface TravelAgencyAuditValidationHelper  {
     
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)

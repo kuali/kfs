@@ -20,7 +20,7 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditRep
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
-import org.kuali.kfs.module.tem.service.TravelAgencyAuditValidationHelper;
+import org.kuali.kfs.module.tem.document.service.TravelAgencyAuditValidationHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
@@ -38,9 +38,9 @@ public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditV
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        boolean result = super.processCustomRouteDocumentBusinessRules(document);
-        AgencyStagingData data = (AgencyStagingData)getNewBo();
+    public boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+        boolean result = true;
+        final AgencyStagingData data = (AgencyStagingData) getNewBo();
         if(this.getExpenseImportByTravelerService().isAccountingInfoMissing(data)) {
             putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
             result &= false;
@@ -65,9 +65,9 @@ public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditV
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
-    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        boolean result = super.processCustomRouteDocumentBusinessRules(document);
-        AgencyStagingData data = (AgencyStagingData)getNewBo();
+    public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+        boolean result = true;
+        final AgencyStagingData data = (AgencyStagingData) getNewBo();
         if(this.getExpenseImportByTravelerService().isAccountingInfoMissing(data)) {
             putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
             result &= false;
@@ -92,9 +92,8 @@ public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditV
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
-    protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        boolean result = super.processCustomApproveDocumentBusinessRules(document);
-        return result;
+    public boolean processCustomApproveDocumentBusinessRules(final MaintenanceDocument document) {
+        return true;
     }
 
     /**
@@ -109,7 +108,7 @@ public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditV
      * Sets the expenseImportByTravelerService attribute value.
      * @param expenseImportByTravelerService The expenseImportByTravelerService to set.
      */
-    public void setExpenseImportByTravelerService(ExpenseImportByTravelerService expenseImportByTravelerService) {
+    public void setExpenseImportByTravelerService(final ExpenseImportByTravelerService expenseImportByTravelerService) {
         this.expenseImportByTravelerService = expenseImportByTravelerService;
     }
     

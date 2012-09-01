@@ -34,8 +34,8 @@ public class TravelAgencyAuditValidation extends MaintenanceDocumentRuleBase {
     protected TravelAgencyAuditValidationHelper validationByTravelerHelper;
     
     public TravelAgencyAuditValidation() {
-        setValidationByTripHelper(SpringContext.getBean(TravelAgencyAuditValidationByTrip.class));
-        setValidationByTravelerHelper(SpringContext.getBean(TravelAgencyAuditValidationByTraveler.class));
+        setValidationByTripHelper((TravelAgencyAuditValidationHelper) SpringContext.getBean(TravelAgencyAuditValidationByTrip.class));
+        setValidationByTravelerHelper((TravelAgencyAuditValidationHelper) SpringContext.getBean(TravelAgencyAuditValidationByTraveler.class));
     }
 
     /**
@@ -43,7 +43,7 @@ public class TravelAgencyAuditValidation extends MaintenanceDocumentRuleBase {
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        boolean result = super.processCustomSouteDocumentBusinessRules(document);
+        boolean result = super.processCustomSaveDocumentBusinessRules(document);
         result &= getValidationHelper().processCustomSaveDocumentBusinessRules(document);
         return result;
     }
@@ -70,7 +70,7 @@ public class TravelAgencyAuditValidation extends MaintenanceDocumentRuleBase {
     
     protected TravelAgencyAuditValidationHelper getValidationHelper() {
         final AgencyStagingData data = (AgencyStagingData) getNewBo();
-        if (agencyData.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)) {
+        if (data.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)) {
             return getValidationByTravelerHelper();
         }
         return getValidationByTripHelper();

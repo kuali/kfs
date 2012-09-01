@@ -79,7 +79,7 @@ public class MessageBuilder {
     /**
      * Build the error message with the message body, invalid value and error type. The message body contains place holders.
      */
-    public static Message buildMessageWithPlaceHolder(String errorMessageKey, int errorType, Object... invalidValues) {
+    public static Message buildMessageWithPlaceHolder1(String errorMessageKey, int errorType, Object... invalidValues) {
         String errorMessageBody = getPropertyString(errorMessageKey);
         String errorMessage = MessageFormat.format(errorMessageBody, invalidValues);
         return new Message(errorMessage, errorType);

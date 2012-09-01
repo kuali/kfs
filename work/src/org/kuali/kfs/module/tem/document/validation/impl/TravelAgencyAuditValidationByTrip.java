@@ -23,6 +23,9 @@ import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.document.service.TravelAgencyAuditValidationHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Business rules validation for the Travel Agency Audit and Correction using the IU method of
@@ -31,6 +34,9 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
  * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class TravelAgencyAuditValidationByTrip implements TravelAgencyAuditValidationHelper {
+    public static final String MAINTAINABLE_ERROR_PREFIX = KNSConstants.MAINTENANCE_NEW_MAINTAINABLE;
+    public static final String DOCUMENT_ERROR_PREFIX = "document.";
+    public static final String MAINTAINABLE_ERROR_PATH = DOCUMENT_ERROR_PREFIX + "newMaintainableObject";
     
     protected ExpenseImportByTripService expenseImportByTripService;
     
@@ -40,7 +46,7 @@ public class TravelAgencyAuditValidationByTrip implements TravelAgencyAuditValid
     @Override
     public boolean processCustomSaveDocumentBusinessRules(final MaintenanceDocument document) {
         boolean result = true;
-        AgencyStagingData data = (AgencyStagingData)getNewBo();
+        final AgencyStagingData data = (AgencyStagingData) document.getNewMaintainableObject().getBusinessObject();
         if(this.getExpenseImportByTripService().isAccountingInfoMissing(data)) {
             putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
             result &= false;
@@ -67,7 +73,7 @@ public class TravelAgencyAuditValidationByTrip implements TravelAgencyAuditValid
     @Override
     public boolean processCustomRouteDocumentBusinessRules(final MaintenanceDocument document) {
         boolean result = true;
-        final AgencyStagingData data = (AgencyStagingData) getNewBo();
+        final AgencyStagingData data = (AgencyStagingData) document.getNewMaintainableObject().getBusinessObject();
         if(this.getExpenseImportByTripService().isAccountingInfoMissing(data)) {
             putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
             result &= false;

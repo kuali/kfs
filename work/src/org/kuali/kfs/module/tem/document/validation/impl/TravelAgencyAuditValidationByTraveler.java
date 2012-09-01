@@ -23,6 +23,9 @@ import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.document.service.TravelAgencyAuditValidationHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
 /**
  * Business rules validation for the Travel Agency Audit and Correction using the UCD method of importing
@@ -30,7 +33,10 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
  * 
  * @author Leo Przybylski (leo [at] rsmart.com)
  */
-public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditValdationHelper {
+public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditValidationHelper {
+    public static final String MAINTAINABLE_ERROR_PREFIX = KNSConstants.MAINTENANCE_NEW_MAINTAINABLE;
+    public static final String DOCUMENT_ERROR_PREFIX = "document.";
+    public static final String MAINTAINABLE_ERROR_PATH = DOCUMENT_ERROR_PREFIX + "newMaintainableObject";
     
     protected ExpenseImportByTravelerService expenseImportByTravelerService;
 
@@ -40,7 +46,8 @@ public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditV
     @Override
     public boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         boolean result = true;
-        final AgencyStagingData data = (AgencyStagingData) getNewBo();
+        final AgencyStagingData data = (AgencyStagingData) document.getNewMaintainableObject().getBusinessObject();
+        /*
         if(this.getExpenseImportByTravelerService().isAccountingInfoMissing(data)) {
             putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
             result &= false;
@@ -58,6 +65,7 @@ public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditV
             putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID);
             result &= false;
         }
+        */
         return result;
     }
 
@@ -67,7 +75,8 @@ public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditV
     @Override
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean result = true;
-        final AgencyStagingData data = (AgencyStagingData) getNewBo();
+        final AgencyStagingData data = (AgencyStagingData) document.getNewMaintainableObject().getBusinessObject();
+        /*
         if(this.getExpenseImportByTravelerService().isAccountingInfoMissing(data)) {
             putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
             result &= false;
@@ -85,6 +94,7 @@ public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditV
             putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID);
             result &= false;
         }
+        */
         return result;
     }
 

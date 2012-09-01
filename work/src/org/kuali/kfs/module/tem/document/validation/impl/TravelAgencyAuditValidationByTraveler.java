@@ -112,4 +112,40 @@ public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditV
         this.expenseImportByTravelerService = expenseImportByTravelerService;
     }
     
+    /**
+     *
+     * This method is a convenience method to add a property-specific error to the global errors list. This method makes sure that
+     * the correct prefix is added to the property name so that it will display correctly on maintenance documents.
+     *
+     * @param propertyName - Property name of the element that is associated with the error. Used to mark the field as errored in
+     *        the UI.
+     * @param errorConstant - Error Constant that can be mapped to a resource for the actual text message.
+     *
+     */
+    protected void putFieldError(String propertyName, String errorConstant) {
+        if (!errorAlreadyExists(MAINTAINABLE_ERROR_PREFIX + propertyName, errorConstant)) {
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(MAINTAINABLE_ERROR_PREFIX + propertyName, errorConstant);
+        }
+    }
+
+    /**
+     *
+     * Convenience method to determine whether the field already has the message indicated.
+     *
+     * This is useful if you want to suppress duplicate error messages on the same field.
+     *
+     * @param propertyName - propertyName you want to test on
+     * @param errorConstant - errorConstant you want to test
+     * @return returns True if the propertyName indicated already has the errorConstant indicated, false otherwise
+     *
+     */
+    protected boolean errorAlreadyExists(String propertyName, String errorConstant) {
+
+        if (GlobalVariables.getMessageMap().fieldHasMessage(propertyName, errorConstant)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

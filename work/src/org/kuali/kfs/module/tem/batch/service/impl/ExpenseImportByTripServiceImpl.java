@@ -182,12 +182,11 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         }
         
         // see if there's a TA for trip id (travelDocumentIdentifier)
-        TravelAuthorizationDocument ta = validateTripId(agencyData);
+        final TravelAuthorizationDocument ta = validateTripId(agencyData);
         if (ObjectUtils.isNotNull(ta)) {
-
             agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
 
-            TEMProfile profile = temProfileService.findTemProfileById(ta.getProfileId());
+            final TEMProfile profile = temProfileService.findTemProfileById(ta.getProfileId());
             agencyData.setTemProfileId(profile.getProfileId());
             agencyData = validateAccountingInfo(profile, agencyData, ta);
         }
@@ -208,7 +207,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
     @Override
     public TravelAuthorizationDocument validateTripId(AgencyStagingData agencyData) {
         
-        TravelAuthorizationDocument ta = getTravelAuthorizationDocument(agencyData.getTripId());
+        final TravelAuthorizationDocument ta = getTravelAuthorizationDocument(agencyData.getTripId());
         if (ObjectUtils.isNotNull(ta)) {
             return ta;
         }

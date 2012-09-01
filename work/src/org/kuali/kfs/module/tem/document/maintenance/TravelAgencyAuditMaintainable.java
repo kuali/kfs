@@ -28,9 +28,9 @@ import org.kuali.rice.kns.web.ui.Section;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
 
 /**
- *
- * 
- * */
+ * Maintainable instance for the travel agency audit maintenance document
+ *  
+ */
 public class TravelAgencyAuditMaintainable extends FinancialSystemMaintainable {
     
 	

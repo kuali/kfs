@@ -17,23 +17,25 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditReportFields.*;
 
+import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
+import org.kuali.kfs.module.tem.service.TravelAgencyAuditValidationHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 /**
- * Business rules validationf or the Travel Agency Audit and Correction
+ * Business rules validation for the Travel Agency Audit and Correction
  */
 public class TravelAgencyAuditValidation extends MaintenanceDocumentRuleBase {
     
-    protected ExpenseImportByTripService expenseImportByTripService;
+    protected TravelAgencyAuditValidationHelper validationByTripHelper;
+    protected TravelAgencyAuditValidationHelper validationByTravelerHelper;
     
     public TravelAgencyAuditValidation() {
-        super();
-        this.setExpenseImportByTripService(SpringContext.getBean(ExpenseImportByTripService.class));
+        setValidationByTripHelper(SpringContext.getBean(TravelAgencyAuditValidationByTrip.class));
+        setValidationByTravelerHelper(SpringContext.getBean(TravelAgencyAuditValidationByTraveler.class));
     }
 
     /**
@@ -41,25 +43,8 @@ public class TravelAgencyAuditValidation extends MaintenanceDocumentRuleBase {
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        boolean result = super.processCustomRouteDocumentBusinessRules(document);
-        AgencyStagingData data = (AgencyStagingData)getNewBo();
-        if(this.getExpenseImportByTripService().isAccountingInfoMissing(data)) {
-            putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
-            result &= false;
-        }
-        if (this.getExpenseImportByTripService().isTripDataMissing(data)) {
-            putFieldError(LODGING_NUMBER, TemKeyConstants.MESSAGE_AGENCY_DATA_MISSING_TRIP_DATA);
-            result &= false;
-        }
-        
-        if (this.getExpenseImportByTripService().isDuplicate(data)) {
-            putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_DUPLICATE_RECORD);
-            result &= false;
-        }
-        if(this.getExpenseImportByTripService().validateTripId(data) == null) {
-            putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID);
-            result &= false;
-        }
+        boolean result = super.processCustomSouteDocumentBusinessRules(document);
+        result &= getValidationHelper().processCustomSaveDocumentBusinessRules(document);
         return result;
     }
 
@@ -69,24 +54,7 @@ public class TravelAgencyAuditValidation extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean result = super.processCustomRouteDocumentBusinessRules(document);
-        AgencyStagingData data = (AgencyStagingData)getNewBo();
-        if(this.getExpenseImportByTripService().isAccountingInfoMissing(data)) {
-            putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
-            result &= false;
-        }
-        if (this.getExpenseImportByTripService().isTripDataMissing(data)) {
-            putFieldError(LODGING_NUMBER, TemKeyConstants.MESSAGE_AGENCY_DATA_MISSING_TRIP_DATA);
-            result &= false;
-        }
-        
-        if (this.getExpenseImportByTripService().isDuplicate(data)) {
-            putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_DUPLICATE_RECORD);
-            result &= false;
-        }
-        if(this.getExpenseImportByTripService().validateTripId(data) == null) {
-            putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID);
-            result &= false;
-        }
+        result &= getValidationHelper().processCustomRouteDocumentBusinessRules(document);
         return result;
     }
 
@@ -94,25 +62,50 @@ public class TravelAgencyAuditValidation extends MaintenanceDocumentRuleBase {
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
-    protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
+    protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {        
         boolean result = super.processCustomApproveDocumentBusinessRules(document);
+        result &= getValidationHelper().processCustomApproveDocumentBusinessRules(document);
         return result;
     }
-
-    /**
-     * Gets the expenseImportByTripService attribute. 
-     * @return Returns the expenseImportByTripService.
-     */
-    public ExpenseImportByTripService getExpenseImportByTripService() {
-        return expenseImportByTripService;
-    }
-
-    /**
-     * Sets the expenseImportByTripService attribute value.
-     * @param expenseImportByTripService The expenseImportByTripService to set.
-     */
-    public void setExpenseImportByTripService(ExpenseImportByTripService expenseImportByTripService) {
-        this.expenseImportByTripService = expenseImportByTripService;
-    }
     
+    protected TravelAgencyAuditValidationHelper getValidationHelper() {
+        final AgencyStagingData data = (AgencyStagingData) getNewBo();
+        if (agencyData.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)) {
+            return getValidationByTravelerHelper();
+        }
+        return getValidationByTripHelper();
+    }
+
+    /**
+     * Gets the validationByTravelerHelper attribute. 
+     * @return Returns the validationByTravelerHelper.
+     */
+    public TravelAgencyAuditValidationHelper getValidationByTravelerHelper() {
+        return validationByTravelerHelper;
+    }
+
+    /**
+     * Sets the validationByTravelerHelper attribute value.
+     * @param validationByTravelerHelper The validationByTravelerHelper to set.
+     */
+    public void setValidationByTravelerHelper(final TravelAgencyAuditValidationHelper validationByTravelerHelper) {
+        this.validationByTravelerHelper = validationByTravelerHelper;
+    }
+
+    /**
+     * Gets the validationByTripHelper attribute. 
+     * @return Returns the validationByTripHelper.
+     */
+    public TravelAgencyAuditValidationHelper getValidationByTripHelper() {
+        return validationByTripHelper;
+    }
+
+    /**
+     * Sets the validationByTripHelper attribute value.
+     * @param validationByTripHelper The validationByTripHelper to set.
+     */
+    public void setValidationByTripHelper(final TravelAgencyAuditValidationHelper validationByTripHelper) {
+        this.validationByTripHelper = validationByTripHelper;
+    }
+
 }

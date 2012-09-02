@@ -47,25 +47,7 @@ public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditV
     public boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         boolean result = true;
         final AgencyStagingData data = (AgencyStagingData) document.getNewMaintainableObject().getBusinessObject();
-        /*
-        if(this.getExpenseImportByTravelerService().isAccountingInfoMissing(data)) {
-            putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
-            result &= false;
-        }
-        if (this.getExpenseImportByTravelerService().isTripDataMissing(data)) {
-            putFieldError(LODGING_NUMBER, TemKeyConstants.MESSAGE_AGENCY_DATA_MISSING_TRIP_DATA);
-            result &= false;
-        }
-        
-        if (this.getExpenseImportByTravelerService().isDuplicate(data)) {
-            putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_DUPLICATE_RECORD);
-            result &= false;
-        }
-        if(this.getExpenseImportByTravelerService().validateTripId(data) == null) {
-            putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID);
-            result &= false;
-        }
-        */
+        result &= getExpenseImportByTravelerService().areMandatoryFieldsPresent(data);
         return result;
     }
 
@@ -76,25 +58,7 @@ public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditV
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean result = true;
         final AgencyStagingData data = (AgencyStagingData) document.getNewMaintainableObject().getBusinessObject();
-        /*
-        if(this.getExpenseImportByTravelerService().isAccountingInfoMissing(data)) {
-            putFieldError(ACCOUNTING_INFO, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCTG_INFO);
-            result &= false;
-        }
-        if (this.getExpenseImportByTravelerService().isTripDataMissing(data)) {
-            putFieldError(LODGING_NUMBER, TemKeyConstants.MESSAGE_AGENCY_DATA_MISSING_TRIP_DATA);
-            result &= false;
-        }
-        
-        if (this.getExpenseImportByTravelerService().isDuplicate(data)) {
-            putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_DUPLICATE_RECORD);
-            result &= false;
-        }
-        if(this.getExpenseImportByTravelerService().validateTripId(data) == null) {
-            putFieldError(TRIP_ID, TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID);
-            result &= false;
-        }
-        */
+        result &= getExpenseImportByTravelerService().areMandatoryFieldsPresent(data);
         return result;
     }
 

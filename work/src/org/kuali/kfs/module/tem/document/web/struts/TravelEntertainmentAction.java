@@ -331,7 +331,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
 
     public ActionForward addAttendeeLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final TravelFormBase travelForm = (TravelFormBase) form;
-        final TravelEntertainmentMVCWrapperBean mvcWrapper = newMvcDelegate(form);
+        final TravelEntertainmentMvcWrapperBean mvcWrapper = newMvcDelegate(form);
         mvcWrapper.setNewAttendeeLine(mvcWrapper.getNewAttendeeLines().get((int) getSelectedLine(request)));
         travelForm.getObservable().notifyObservers(mvcWrapper);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -355,7 +355,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
      * @return An ActionForward
      */
     public ActionForward importAttendees(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final TravelEntertainmentForm travelForm           = (TravelFormBase) form;
+        final TravelEntertainmentForm travelForm           = (TravelEntertainmentForm) form;
         final TravelEntertainmentMvcWrapperBean mvcWrapper = newMvcDelegate(form);
 
         travelForm.getObservable().notifyObservers(new Object[] { mvcWrapper, new String(travelForm.getAttendeesImportFile().getFileData()) });

@@ -1329,8 +1329,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         else {
             //CLEANUP - this may happen when the Travel document did not link to an TA for some reason..
             if (taDocs == null || taDocs.isEmpty()) {
-                List<TravelAuthorizationDocument> tempTaDocs = find(TravelAuthorizationDocument.class, document.getTravelDocumentIdentifier());
-                taDocs = new ArrayList<Document>();
+                final List<TravelAuthorizationDocument> tempTaDocs = find(TravelAuthorizationDocument.class, document.getTravelDocumentIdentifier());
+                taDocs.clear();
                 taDocs.addAll(tempTaDocs);
             }
             
@@ -1461,7 +1461,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return sb.toString();
     }
     
-        /**
+    /**
      *
      * This method imports the file and convert it to a list of objects (of the class specified in the parameter)
      * @param formFile
@@ -1470,8 +1470,10 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @param tabErrorKey
      * @return
      */
+    @Override
     //TODO: re-evaluate KUALITEM-954 in regards to defaultValues and attributeMaxLength. Validation should not happen at parsing (these param are only used by importAttendees in TravelEntertainmentAction).
-    public <T> List<T> importFile(final String fileContents, Class<T> c, String[] attributeNames, Map<String, List<String>> defaultValues, Integer[] attributeMaxLength, String tabErrorKey) {
+    public <T> List<T> importFile(final String fileContents, final Class<T> c, final String[] attributeNames, final Map<String,List<String>> defaultValues, 
+                                  final Integer[] attributeMaxLength, final String tabErrorKey) {
         if(attributeMaxLength != null && attributeNames.length != attributeMaxLength.length){
             throw new UploadParserException("Invalid parser configuration, the number of attribute names and attribute max length should be the same");
         }

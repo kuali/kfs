@@ -16,18 +16,28 @@
 package org.kuali.kfs.module.tem.document.web.struts;
 
 import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_ATTENDEE_LINE;
+import static org.kuali.kfs.module.tem.TemPropertyConstants.AttendeeProperties.ATTENDEE_TYPE;
+import static org.kuali.kfs.module.tem.TemPropertyConstants.AttendeeProperties.COMPANY;
+import static org.kuali.kfs.module.tem.TemPropertyConstants.AttendeeProperties.TITLE;
+import static org.kuali.kfs.module.tem.TemPropertyConstants.AttendeeProperties.NAME;
+import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
 import org.kuali.kfs.module.tem.businessobject.Attendee;
+import org.kuali.kfs.module.tem.businessobject.options.AttendeeTypeValuesFinder;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
+import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelEntertainmentDocumentService;
 import org.kuali.kfs.module.tem.document.validation.event.AddAttendeeLineEvent;
 import org.kuali.kfs.module.tem.document.web.bean.TravelEntertainmentMvcWrapperBean;
 import org.kuali.kfs.module.tem.exception.UploadParserException;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -41,6 +51,9 @@ public class ImportAttendeesEvent implements Observer {
     private static final int WRAPPER_ARG_IDX       = 0;
     private static final int FILE_CONTENTS_ARG_IDX = 1;
 
+    public static final String[]  ATTENDEE_ATTRIBUTE_NAMES = { ATTENDEE_TYPE, COMPANY, TITLE, NAME };
+    public static final Integer[] MAX_LENGTH               = {10,40,40,40};
+
     protected KualiRuleService kualiRuleService;
     protected TravelDocumentService travelDocumentService;
     protected TravelEntertainmentDocumentService travelEntertainmentDocumentService;
@@ -51,13 +64,13 @@ public class ImportAttendeesEvent implements Observer {
             return;
         }
         
-        final Object[] args = (Object[]) arg1;
+        final Object[] args = (Object[]) arg;
         debug(args[WRAPPER_ARG_IDX]);
         if (!(args[WRAPPER_ARG_IDX] instanceof TravelEntertainmentMvcWrapperBean)) {
             return;
         }
 
-        final TravelEntertainmentMVCWrapperBean wrapper = (TravelEntertainmentMVCWrapperBean) args[WRAPPER_ARG_IDX];
+        final TravelEntertainmentMvcWrapperBean wrapper = (TravelEntertainmentMvcWrapperBean) args[WRAPPER_ARG_IDX];
         final String fileContents                       = (String) args[FILE_CONTENTS_ARG_IDX];
         final TravelEntertainmentDocument document      = (TravelEntertainmentDocument) wrapper.getTravelDocument();
 
@@ -76,8 +89,10 @@ public class ImportAttendeesEvent implements Observer {
                 }
             }
             
-            defaultValues.put(TemPropertyConstants.AttendeeProperties.ATTENDEE_TYPE, defaultList);
-            importedAttendees = getTravelDocumentService().importFile(reqForm.getAttendeesImportFile(), Attendee.class, ATTENDEE_ATTRIBUTE_NAMES, defaultValues, MAX_LENGTH, tabErrorKey);
+            defaultValues.put(ATTENDEE_TYPE, defaultList);
+            importedAttendees = getTravelDocumentService().importFile(fileContents, Attendee.class, 
+                    ATTENDEE_ATTRIBUTE_NAMES, 
+                    defaultValues, MAX_LENGTH, tabErrorKey);
             // importedAttendees = UploadParser.importFile(reqForm.getAttendeesImportFile(), Attendee.class, ATTENDEE_ATTRIBUTE_NAMES, tabErrorKey);
             
             // validate imported items
@@ -114,7 +129,7 @@ public class ImportAttendeesEvent implements Observer {
 
 
     public TravelEntertainmentDocumentService getTravelEntertainmentDocumentService() {
-        return travelEntertainmocumentumentService;
+        return travelEntertainmentDocumentService;
     }
 
 

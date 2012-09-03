@@ -391,4 +391,17 @@ public interface TravelDocumentService {
      *  @throws Exception when there's an error parsing the CSV data
      */
     List<GroupTraveler> importGroupTravelers(final TravelDocument document, final String csvData) throws Exception;
+
+    /**
+     *
+     * This method imports the file and convert it to a list of objects (of the class specified in the parameter)
+     * @param formFile
+     * @param c
+     * @param attributeNames
+     * @param tabErrorKey
+     * @return
+     */
+    <T> List<T> importFile(final String fileContents, final Class<T> c, final String[] attributeNames, 
+                           final Map<String,List<String>> defaultValues, final Integer[] attributeMaxLength, final String tabErrorKey);
+
 }

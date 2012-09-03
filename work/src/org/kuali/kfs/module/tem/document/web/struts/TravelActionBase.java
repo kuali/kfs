@@ -1109,10 +1109,10 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      * @return An ActionForward
      */
     public ActionForward uploadGroupTravelerImportFile(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final TravelFormBase travelForm = (TravelFormBase) form;
+        final TravelFormBase travelForm       = (TravelFormBase) form;
         final TravelMvcWrapperBean mvcWrapper = newMvcDelegate(form);
 
-        travelForm.getObservable().notifyObservers(new Object[] { mvcWrapper, new String(reqForm.getGroupTravelerImportFile().getFileData()) });
+        travelForm.getObservable().notifyObservers(new Object[] { mvcWrapper, new String(travelForm.getGroupTravelerImportFile().getFileData()) });
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

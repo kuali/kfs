@@ -23,7 +23,7 @@ import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 /**
  * This class...
  */
-public interface TravelEntertainmentMVCWrapperBean extends TravelMvcWrapperBean {
+public interface TravelEntertainmentMvcWrapperBean extends TravelMvcWrapperBean {
 
     Attendee getNewAttendeeLine();
 

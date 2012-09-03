@@ -775,6 +775,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                             try {
                                 Note copyingNote = documentService.createNoteFromDocument(newDocument, note.getNoteText());
                                 newDocument.addNote(copyingNote);
+                                noteService.saveNoteList(notes);
                             }
                             catch (Exception e) {
                                 throw new RuntimeException(e);
@@ -782,23 +783,26 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                         }
                     }
                 }
+                newDocument.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
+
+                //fix references before saving
+                fixItemReferences(newDocument);
+
+                //need to save the document first before creating the note
+                purapService.saveDocumentNoValidation(newDocument);
+
                 // Modify the split note text and add the note.
                 splitNoteText = splitNoteText.substring(splitNoteText.indexOf(":") + 1);
                 splitNoteText = PurapConstants.PODocumentsStrings.SPLIT_NOTE_PREFIX_NEW_DOC + currentDocument.getPurapDocumentIdentifier() + " : " + splitNoteText;
                 try {
                     Note splitNote = documentService.createNoteFromDocument(newDocument, splitNoteText);
                     newDocument.addNote(splitNote);
+                    noteService.save(splitNote);
                 }
                 catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                newDocument.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
-
-                //fix references before saving
-                fixItemReferences(newDocument);
-
-                purapService.saveDocumentNoValidation(newDocument);
-
+                
                 return newDocument;
             }
             else {

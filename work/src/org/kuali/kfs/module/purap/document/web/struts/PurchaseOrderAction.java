@@ -85,6 +85,7 @@ import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -542,6 +543,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             try {
                 Note splitNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(poToSplit, noteText);
                 poToSplit.addNote(splitNote);
+                SpringContext.getBean(NoteService.class).save(splitNote);
             } catch ( Exception e ) {
                 throw new RuntimeException(e);
             }          

@@ -26,7 +26,7 @@ import org.kuali.kfs.module.tem.businessobject.Attendee;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.service.TravelEntertainmentDocumentService;
 import org.kuali.kfs.module.tem.document.validation.event.AddAttendeeLineEvent;
-import org.kuali.kfs.module.tem.document.web.bean.TravelEntertainmentMVCWrapperBean;
+import org.kuali.kfs.module.tem.document.web.bean.TravelEntertainmentMvcWrapperBean;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -36,10 +36,10 @@ public class AddAttendeesEvent implements Observer {
 
     @Override
     public void update(final Observable observable, Object arg) {
-        if (!(arg instanceof TravelEntertainmentMVCWrapperBean)) {
+        if (!(arg instanceof TravelEntertainmentMvcWrapperBean)) {
             return;
         }
-        final TravelEntertainmentMVCWrapperBean wrapper = (TravelEntertainmentMVCWrapperBean) arg;
+        final TravelEntertainmentMvcWrapperBean wrapper = (TravelEntertainmentMvcWrapperBean) arg;
 
         final TravelEntertainmentDocument document = (TravelEntertainmentDocument)wrapper.getTravelDocument();
         final Attendee newAttendeeLine = wrapper.getNewAttendeeLine();

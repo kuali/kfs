@@ -655,8 +655,15 @@
     
     <bean id="addAttendeesEvent" class="org.kuali.kfs.module.tem.document.web.struts.AddAttendeesEvent">
       <property name="travelEntertainmentDocumentService" ref="temEntertainmentDocumentService" />
-      <property name="kualiRuleService"                ref="kualiRuleService" />
+      <property name="kualiRuleService"                   ref="kualiRuleService" />
     </bean>
+
+    <bean id="importAttendeesEvent" class="org.kuali.kfs.module.tem.document.web.struts.ImportAttendeesEvent">
+        <property name="travelDocumentService"              ref="temTravelDocumentService" />        
+        <property name="travelEntertainmentDocumentService" ref="temEntertainmentDocumentService" />
+        <property name="ruleService"                        ref="kualiRuleService" />
+    </bean>
+
     <bean id="removeAttendeeEvent" class="org.kuali.kfs.module.tem.document.web.struts.RemoveAttendeeEvent">
     </bean>
     
@@ -666,8 +673,9 @@
 
     <bean id="uploadGroupTravelersEvent" class="org.kuali.kfs.module.tem.document.web.struts.UploadGroupTravelersEvent">
         <property name="travelDocumentService" ref="temTravelDocumentService" />        
+        <property name="kualiRuleService"      ref="kualiRuleService" />
     </bean>
-	
+
     <bean id="perDiemTxtInputFileType" parent="perDiemTxtInputFileType-parentBean"/>
     <bean id="perDiemTxtInputFileType-parentBean" class="org.kuali.kfs.module.tem.batch.PerDiemTxtInputFileType">
         <property name="directoryPath" value="${staging.directory}/tem/federalPerDiemTxt" />
@@ -1096,6 +1104,12 @@
 				<entry key="deleteAttendeeLine">
 					<list>
 						<ref bean="removeAttendeeEvent" />
+					</list>
+				</entry>
+    			</entry>
+    				<entry key="importAttendees">
+					<list>
+						<ref bean="importAttendeesEvent" />
 					</list>
 				</entry>
 				<entry key="addImportedExpenseLine">

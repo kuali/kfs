@@ -43,16 +43,14 @@ import org.kuali.kfs.module.tem.businessobject.options.AttendeeTypeValuesFinder;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.service.TravelEntertainmentDocumentService;
 import org.kuali.kfs.module.tem.document.validation.event.AddAttendeeLineEvent;
-import org.kuali.kfs.module.tem.document.web.bean.TravelEntertainmentMVCWrapperBean;
+import org.kuali.kfs.module.tem.document.web.bean.TravelEntertainmentMvcWrapperBean;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
-import org.kuali.kfs.module.tem.exception.UploadParserException;
 import org.kuali.kfs.module.tem.pdf.Coversheet;
 import org.kuali.kfs.module.tem.report.EntertainmentHostCertificationReport;
 import org.kuali.kfs.module.tem.report.NonEmployeeCertificationReport;
 import org.kuali.kfs.module.tem.report.service.NonEmployeeCertificationReportService;
 import org.kuali.kfs.module.tem.report.service.TravelEntertainmentHostCertificationService;
 import org.kuali.kfs.module.tem.report.util.BarcodeHelper;
-import org.kuali.kfs.module.tem.util.UploadParser;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.KeyLabelPair;
@@ -357,45 +355,11 @@ public class TravelEntertainmentAction extends TravelActionBase {
      * @return An ActionForward
      */
     public ActionForward importAttendees(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TravelEntertainmentForm reqForm = (TravelEntertainmentForm) form;
-        TravelEntertainmentDocument entDoc = (TravelEntertainmentDocument) reqForm.getDocument();
-        List<Object> importedAttendees = null;
-        String tabErrorKey = "attendee";
-        
-        try {
-            Map<String, List<String>> defaultValues = new HashMap<String, List<String>>();
-            List<String> defaultList = new ArrayList<String>();
-            AttendeeTypeValuesFinder finder = new AttendeeTypeValuesFinder();
-            List<KeyLabelPair> values = finder.getKeyValues();
-            for (KeyLabelPair pair : values) {
-                if (!pair.getLabel().equals("")) {
-                    defaultList.add(pair.getKey().toString());
-                    defaultList.add(pair.getLabel());
-                }
-            }
-            
-            defaultValues.put(TemPropertyConstants.AttendeeProperties.ATTENDEE_TYPE, defaultList);
-            importedAttendees = UploadParser.importFile(reqForm.getAttendeesImportFile(), Attendee.class, ATTENDEE_ATTRIBUTE_NAMES, defaultValues, MAX_LENGTH, tabErrorKey);
-            // importedAttendees = UploadParser.importFile(reqForm.getAttendeesImportFile(), Attendee.class, ATTENDEE_ATTRIBUTE_NAMES, tabErrorKey);
-            
-            // validate imported items
-            boolean allPassed = true;
-            int itemLineNumber = 0;
-            for (Object o : importedAttendees) {
-                allPassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAttendeeLineEvent<Attendee>(NEW_ATTENDEE_LINE, entDoc, (Attendee) o));
-            }
-            if (allPassed) {
-                for (Object o : importedAttendees) {
-                    Attendee attendee = (Attendee) o;
-                    attendee.setDocumentNumber(entDoc.getDocumentNumber());
-                    entDoc.getAttendee().add(attendee);
-                }
-            }
-        }
-        catch (UploadParserException e) {
-            GlobalVariables.getMessageMap().putError(tabErrorKey, e.getErrorKey(), e.getErrorParameters());
-        }
-        
+        final TravelEntertainmentForm travelForm           = (TravelFormBase) form;
+        final TravelEntertainmentMvcWrapperBean mvcWrapper = newMvcDelegate(form);
+
+        travelForm.getObservable().notifyObservers(new Object[] { mvcWrapper, new String(travelForm.getAttendeesImportFile().getFileData()) });
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -422,7 +386,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
 
     @Override
     protected Class<? extends TravelMvcWrapperBean> getMvcWrapperInterface() {
-        return TravelEntertainmentMVCWrapperBean.class;
+        return TravelEntertainmentMvcWrapperBean.class;
     }
 
 }

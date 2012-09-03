@@ -1307,13 +1307,13 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public TravelDocument findCurrentTravelAuthorization(TravelDocument document) throws WorkflowException{
-        Map<String, List<Document>> relatedDocuments = getDocumentsRelatedTo(document);
-        List<Document> taDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
-        List<Document> taaDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
-        List<Document> tacDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
+        final Map<String, List<Document>> relatedDocuments = getDocumentsRelatedTo(document);
+        final List<Document> taDocs  = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+        final List<Document> taaDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
+        final List<Document> tacDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
         
         //If TAC exists, it will always be the most current travel auth doc
-        if (tacDocs != null && tacDocs.size() > 0){
+        if (tacDocs != null && tacDocs.size() > 0) {
             return (TravelAuthorizationDocument) tacDocs.get(0);
         }
         //find the TAA with the correct status
@@ -1326,9 +1326,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             }           
         }
         //return TA doc if no amendments exist
-        else{
+        else {
             //CLEANUP - this may happen when the Travel document did not link to an TA for some reason..
-            if(taDocs == null || taDocs.isEmpty()){
+            if (taDocs == null || taDocs.isEmpty()) {
                 List<TravelAuthorizationDocument> tempTaDocs = find(TravelAuthorizationDocument.class, document.getTravelDocumentIdentifier());
                 taDocs = new ArrayList<Document>();
                 taDocs.addAll(tempTaDocs);

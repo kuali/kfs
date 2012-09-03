@@ -29,11 +29,11 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.module.tem.document.web.bean.TravelEntertainmentMVCWrapperBean;
+import org.kuali.kfs.module.tem.document.web.bean.TravelEntertainmentMvcWrapperBean;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
-public class TravelEntertainmentForm extends TravelFormBase implements TravelEntertainmentMVCWrapperBean {
+public class TravelEntertainmentForm extends TravelFormBase implements TravelEntertainmentMvcWrapperBean {
 
     private Date startDate;
     private Date endDate;

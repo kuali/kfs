@@ -102,7 +102,6 @@ import org.kuali.kfs.module.tem.report.service.TravelReportService;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
-import org.kuali.kfs.module.tem.util.UploadParser;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -1110,33 +1109,10 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      * @return An ActionForward
      */
     public ActionForward uploadGroupTravelerImportFile(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TravelFormBase reqForm = (TravelFormBase) form;
-        TravelDocumentBase travelDoc = (TravelDocumentBase) reqForm.getDocument();
+        final TravelFormBase travelForm = (TravelFormBase) form;
+        final TravelMvcWrapperBean mvcWrapper = newMvcDelegate(form);
 
-        List<Object> importedGroupTraveler = null;
-        String tabErrorKey = "groupTraveler";
-        try {
-            importedGroupTraveler = UploadParser.importFile(reqForm.getGroupTravelerImportFile(), GroupTraveler.class, GROUP_TRAVELER_ATTRIBUTE_NAMES, null, null, tabErrorKey);
-            // importedGroupTraveler = UploadParser.importFile(reqForm.getGroupTravelerImportFile(), GroupTraveler.class, GROUP_TRAVELER_ATTRIBUTE_NAMES, tabErrorKey);
-            
-            // validate imported items
-            boolean allPassed = true;
-            int itemLineNumber = 0;
-            for (Object o : importedGroupTraveler) {
-                allPassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddGroupTravelLineEvent("newGroupTravelerLine", travelDoc, (GroupTraveler) o));
-            }
-            if (allPassed) {
-                for (Object o : importedGroupTraveler) {
-                    GroupTraveler groupTraveler = (GroupTraveler) o;
-                    groupTraveler.setDocumentNumber(travelDoc.getDocumentNumber());
-                    groupTraveler.setFinancialDocumentLineNumber(travelDoc.getGroupTravelers().size() + 1);
-                    travelDoc.getGroupTravelers().add(groupTraveler);
-                }
-            }
-        }
-        catch (UploadParserException e) {
-            GlobalVariables.getMessageMap().putError(tabErrorKey, e.getErrorKey(), e.getErrorParameters());
-        }
+        travelForm.getObservable().notifyObservers(new Object[] { mvcWrapper, new String(reqForm.getGroupTravelerImportFile().getFileData()) });
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

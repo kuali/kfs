@@ -23,7 +23,7 @@ import java.util.Observer;
 
 import org.kuali.kfs.module.tem.businessobject.Attendee;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
-import org.kuali.kfs.module.tem.document.web.bean.TravelEntertainmentMVCWrapperBean;
+import org.kuali.kfs.module.tem.document.web.bean.TravelEntertainmentMvcWrapperBean;
 
 public class RemoveAttendeeEvent implements Observer {
     private static final int WRAPPER_ARG_IDX = 0;
@@ -37,11 +37,11 @@ public class RemoveAttendeeEvent implements Observer {
         
         final Object[] args = (Object[]) arg;
         debug(args[WRAPPER_ARG_IDX]);
-        if (!(args[WRAPPER_ARG_IDX] instanceof TravelEntertainmentMVCWrapperBean)) {
+        if (!(args[WRAPPER_ARG_IDX] instanceof TravelEntertainmentMvcWrapperBean)) {
             return;
         }
         
-        final TravelEntertainmentMVCWrapperBean wrapper = (TravelEntertainmentMVCWrapperBean) args[WRAPPER_ARG_IDX];
+        final TravelEntertainmentMvcWrapperBean wrapper = (TravelEntertainmentMvcWrapperBean) args[WRAPPER_ARG_IDX];
         final TravelEntertainmentDocument document = (TravelEntertainmentDocument) wrapper.getTravelDocument();
         final Integer deleteIndex = (Integer) args[SELECTED_LINE_ARG_IDX];
 

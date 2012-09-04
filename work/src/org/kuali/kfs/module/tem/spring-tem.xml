@@ -673,7 +673,7 @@
 
     <bean id="uploadGroupTravelersEvent" class="org.kuali.kfs.module.tem.document.web.struts.UploadGroupTravelersEvent">
         <property name="travelDocumentService" ref="temTravelDocumentService" />        
-        <property name="kualiRuleService"      ref="kualiRuleService" />
+        <property name="ruleService" ref="kualiRuleService" />
     </bean>
 
     <bean id="perDiemTxtInputFileType" parent="perDiemTxtInputFileType-parentBean"/>

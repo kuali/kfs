@@ -426,11 +426,13 @@ public class TemConstants extends JSTLConstants {
         public static final String REMOVE_HOLD_TA = "Remove Hold TA";
         public static final String CANCEL_TA = "Cancel TA";
         public static final String CLOSE_TA = "Close TA";
-        public static final String HIDE_BUTTONS = "Hide Buttons TA";
         public static final String RETURN_TO_FO = "Return to Fiscal Officer";
+        public static final String EDIT_TAXABLE_IND = "Edit Taxable Indicator";
+        
+        //CLEANUP - following does not exists
+        public static final String HIDE_BUTTONS = "Hide Buttons TA";
         public static final String CLOSE_RELO = "Close RELO";
         public static final String CANCEL_RELO = "Cancel RELO";
-        public static final String EDIT_TAXABLE_IND = "Edit Taxable Indicator";
     }
 
     public static final String DATE_CHANGED_MESSAGE = "The trip begin/end dates have been changed from %s - %s to %s - %s";

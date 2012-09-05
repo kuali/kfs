@@ -20,12 +20,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
 import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
+@SuppressWarnings("rawtypes")
 public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocumentService {
 
     private BusinessObjectService boService;
@@ -75,33 +77,41 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
         }
         return null;
     }
-    
 
-    @Override
-    public boolean isArrangerForProfile(String arrangerId, String profileId) {
-        if(ObjectUtils.isNotNull(profileId) && ObjectUtils.isNotNull(arrangerId)) {
-            Integer id = Integer.parseInt(profileId);
-            return isArrangerForProfile(arrangerId, id);
-            
-        } else {
-            return false;
-        }
-        
-    }
-    
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService#isArrangerForProfile(java.lang.String, int)
+     */
     @Override
     public boolean isArrangerForProfile(String principalId, int profileId) {
+        boolean isArranger = false;
         if(ObjectUtils.isNotNull(profileId) && ObjectUtils.isNotNull(principalId)) {
-            
-            if(ObjectUtils.isNotNull(findTemProfileArranger(principalId, profileId))) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
+            isArranger = ObjectUtils.isNotNull(findTemProfileArranger(principalId, profileId));
         }
         
+        return isArranger;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService#isTravelDocumentArrangerForProfile(java.lang.String, java.lang.String, int)
+     */
+    @Override
+    public boolean isTravelDocumentArrangerForProfile(String documentType, String principalId, int profileId) {
+        boolean isTravelArranger = false;
+
+        TEMProfileArranger arranger = findTemProfileArranger(principalId, profileId);
+        if (arranger != null){
+            List<String> authorizationDocTypes = new ArrayList<String>();
+            authorizationDocTypes.add(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+            authorizationDocTypes.add(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
+            authorizationDocTypes.add(TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
+            
+            if (authorizationDocTypes.contains(documentType)){
+                isTravelArranger = arranger.getTaInd();
+            }else if (TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT.equals(documentType)){
+                isTravelArranger = arranger.getTrInd();
+            }
+        }
+        return isTravelArranger;
     }
 
     @Override

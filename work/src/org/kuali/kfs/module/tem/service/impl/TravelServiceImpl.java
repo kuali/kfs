@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 The Kuali Foundation
+ * Copyright 2012 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,39 +15,41 @@
  */
 package org.kuali.kfs.module.tem.service.impl;
 
-import static org.apache.commons.lang.StringUtils.isBlank;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
+import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
 import org.kuali.kfs.module.tem.service.TravelService;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.RegexValidationPattern;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
  * Travel Service Implementation
  */
 public class TravelServiceImpl implements TravelService {
+    
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
     private AccountsReceivableModuleService accountsReceivableModuleService;
-    protected TravelDocumentDao travelDocumentDao;
-    /**
-     * Sets the travelDocumentDao attribute value.
-     * @param travelDocumentDao The travelDocumentDao to set.
-     */
-    public void setTravelDocumentDao(TravelDocumentDao travelDocumentDao) {
-        this.travelDocumentDao = travelDocumentDao;
-    }
+    private RoleService roleService;
+    private TravelArrangerDocumentService arrangerDocumentService;
+    private TravelDocumentDao travelDocumentDao;
 
     /**
      * Validate a phone number
@@ -69,7 +71,7 @@ public class TravelServiceImpl implements TravelService {
     public String validatePhoneNumber(final String countryCode, final String phoneNumber, String error){
         
         //Determine if the US phone format should be used or a very lax international format.
-        if (isBlank(countryCode) || (!countryCode.equals("US"))){
+        if (StringUtils.isBlank(countryCode) || (!countryCode.equals("US"))){
             RegexValidationPattern pattern = new RegexValidationPattern();
             pattern.setPattern(TemConstants.INT_PHONE_PATTERN);
             if (phoneNumber != null && pattern.matches(phoneNumber)){
@@ -101,8 +103,61 @@ public class TravelServiceImpl implements TravelService {
         }
         return null;
     }
+    
+    /**
+     * @see org.kuali.kfs.module.tem.service.TravelService#checkUserRole(org.kuali.rice.kim.bo.Person, java.lang.String, java.lang.String, javax.print.attribute.AttributeSet)
+     */
+    public boolean checkUserTEMRole(final Person user, String role) {
+        return checkUserRole(user, role, TemConstants.PARAM_NAMESPACE, null);
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.tem.service.TravelService#checkUserRole(org.kuali.rice.kim.bo.Person, java.lang.String, java.lang.String, javax.print.attribute.AttributeSet)
+     */
+    public boolean checkUserRole(final Person user, String role, String namespace, AttributeSet qualifications) {
+        final String arrangerRoleId = roleService.getRoleIdByName(namespace, role);
+        boolean hasRole = false;
+        if (arrangerRoleId != null){
+            List<String> roleIds = new ArrayList<String>();
+            roleIds.add(arrangerRoleId);
+             hasRole = roleService.principalHasRole(user.getPrincipalId(), roleIds, qualifications);
+        }
+        return hasRole;
+    }
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.TravelService#isUserInitiatorOrArranger(org.kuali.kfs.module.tem.document.TravelDocument, org.kuali.rice.kim.bo.Person)
+     */
+    public boolean isUserInitiatorOrArranger(TravelDocument document, Person user){
+        boolean isUser = false;
+        
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        String initiator = workflowDocument.getRouteHeader().getInitiatorPrincipalId();
+        String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
+        
+        if(initiator.equals(user.getPrincipalId()) || arrangerDocumentService.isTravelDocumentArrangerForProfile(docType, user.getPrincipalId(), document.getProfileId()) ) {
+            isUser = true;
+        }
+        return isUser;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.tem.service.TravelService#findAllDistinctPrimaryDestinations(java.lang.String)
+     */
     @Override
+    public List<PrimaryDestination> findAllDistinctPrimaryDestinations(String tripType){
+        return getTravelDocumentDao().findAllDistinctPrimaryDestinations(tripType);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.service.TravelService#findDefaultPrimaryDestinations(java.lang.Class, java.lang.String)
+     */
+    @SuppressWarnings("rawtypes")
+    @Override
+    public List findDefaultPrimaryDestinations(Class clazz, String countryCode) {
+        return getTravelDocumentDao().findDefaultPrimaryDestinations(clazz, countryCode);
+    }
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -111,29 +166,15 @@ public class TravelServiceImpl implements TravelService {
         return businessObjectService;
     }
 
-    /**
-     * Gets the parameterService attribute.
-     * 
-     * @return Returns the parameterService.
-     */
     public ParameterService getParameterService() {
         return parameterService;
     }
 
-    /**
-     * Sets the parameterService attribute value.
-     * 
-     * @param parameterService The parameterService to set.
-     */
     public void setParameterService(final ParameterService parameterService) {
         this.parameterService = parameterService;
     }
     
     protected AccountsReceivableModuleService getAccountsReceivableModuleService() {
-        if (accountsReceivableModuleService == null) {
-            this.accountsReceivableModuleService = SpringContext.getBean(AccountsReceivableModuleService.class);
-        }
-        
         return accountsReceivableModuleService;
     }
 
@@ -141,18 +182,27 @@ public class TravelServiceImpl implements TravelService {
         this.accountsReceivableModuleService = accountsReceivableModuleService;
     }    
     
-    @Override
-    public List<PrimaryDestination> findAllDistinctPrimaryDestinations(String tripType){
-        return getTravelDocumentDao().findAllDistinctPrimaryDestinations(tripType);
+    public void setTravelDocumentDao(TravelDocumentDao travelDocumentDao) {
+        this.travelDocumentDao = travelDocumentDao;
     }
     
     protected TravelDocumentDao getTravelDocumentDao() {
         return travelDocumentDao;
     }
 
-    @Override
-    public List findDefaultPrimaryDestinations(Class clazz, String countryCode) {
-        // TODO Auto-generated method stub
-        return getTravelDocumentDao().findDefaultPrimaryDestinations(clazz, countryCode);
+    public RoleService getRoleService() {
+        return roleService;
+    }
+
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
+    }
+
+    public TravelArrangerDocumentService getArrangerDocumentService() {
+        return arrangerDocumentService;
+    }
+
+    public void setArrangerDocumentService(TravelArrangerDocumentService arrangerDocumentService) {
+        this.arrangerDocumentService = arrangerDocumentService;
     }
 }

@@ -36,12 +36,10 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
-import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.kfs.module.tem.businessobject.TemProfileEmergencyContact;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromCustomer;
@@ -74,6 +72,7 @@ import org.springframework.beans.BeanUtils;
  * 
  */
 public class TravelerServiceImpl implements TravelerService {
+    
     private ParameterService parameterService;
     private PersonService<Person> personService;
     private TravelArrangerDocumentService arrangerDocumentService;
@@ -144,20 +143,11 @@ public class TravelerServiceImpl implements TravelerService {
         //check in arranger details if it does not already have the authority to view the profile
         if(!canInclude && isAssignedArranger) {
             //pull the arranger's profiles it is responsible for
-            canInclude |= getArrangerDocumentService().isArrangerForProfile(user.getPrincipalId(), profile.getProfileId());
-            //it is the arranger, check for TA and TR specific 
-            if (canInclude){
-                List<String> authorizationDocTypes = new ArrayList<String>();
-                authorizationDocTypes.add(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
-                authorizationDocTypes.add(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
-                authorizationDocTypes.add(TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
-                
-                TEMProfileArranger arranger = getArrangerDocumentService().findTemProfileArranger(user.getPrincipalId(), profile.getProfileId());
-                if (authorizationDocTypes.contains(docType)){
-                    canInclude = arranger.getTaInd();
-                }else if (TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT.equals(docType)){
-                    canInclude = arranger.getTrInd();
-                }
+            if (ObjectUtils.isNotNull(docType)){
+                canInclude |= getArrangerDocumentService().isTravelDocumentArrangerForProfile(docType, user.getPrincipalId(), profile.getProfileId());
+            }else{
+                // arranger for a non docType specific search, look up without the doctype comparison
+                canInclude |= getArrangerDocumentService().isArrangerForProfile(user.getPrincipalId(), profile.getProfileId());
             }
         }
         

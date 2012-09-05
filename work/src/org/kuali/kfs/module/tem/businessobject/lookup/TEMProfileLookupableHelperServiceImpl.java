@@ -21,7 +21,6 @@ import static org.kuali.kfs.module.tem.util.BufferedLogger.warn;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -40,11 +39,9 @@ import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.FieldDefinition;
@@ -57,12 +54,12 @@ import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    
     private TravelerService travelerService;
     private TravelService travelService;
-    private PersonService personService;
+    private PersonService<Person> personService;
     private IdentityManagementService identityManagementService;
     private TemProfileService temProfileService;
-    private RoleService roleService;
 
     private static final String[] addressLookupFields = { TEMProfileProperties.ADDRESS_1, TEMProfileProperties.ADDRESS_2, TEMProfileProperties.CITY_NAME, TEMProfileProperties.STATE, TEMProfileProperties.ZIP_CODE, TEMProfileProperties.COUNTRY };
 
@@ -78,10 +75,10 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         if(StringUtils.isNotEmpty(docNum)) {
         	docType = GlobalVariables.getUserSession().getWorkflowDocument(docNum).getDocumentType();
         }
-        boolean isProfileAdmin = isProfileAdministrator(user);
-        boolean isAssignedArranger = isAssignedTravelArranger(user);
-        boolean isOrgArranger = isOrgTravelArranger(user);
-        boolean isRiskManagement = isRiskManagement(user);
+        boolean isProfileAdmin = travelService.checkUserTEMRole(user, TemConstants.TEM_PROFILE_ADMIN);
+        boolean isAssignedArranger = travelService.checkUserTEMRole(user, TemConstants.TEM_ASSIGNED_PROFILE_ARRANGER);
+        boolean isOrgArranger = travelService.checkUserTEMRole(user, TemConstants.TEM_ORGANIZATION_PROFILE_ARRANGER);
+        boolean isRiskManagement = travelService.checkUserTEMRole(user, TemConstants.RISK_MANAGEMENT);
 
         boolean isArrangerDoc = false;
         if(TemConstants.TravelDocTypes.TRAVEL_ARRANGER_DOCUMENT.equals(docType)) {
@@ -103,14 +100,12 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
             }
         }
 
-        List<TEMProfile> profiles = (List<TEMProfile>) super.getSearchResults(fieldValues);
-        Iterator<TEMProfile> iter = profiles.iterator();
-        while(iter.hasNext()) {
-            TEMProfile profile = iter.next();
+        List<TEMProfile> searhResults = (List<TEMProfile>) super.getSearchResults(fieldValues);
+        List<TEMProfile> profiles = new ArrayList<TEMProfile>();
+        for (TEMProfile profile : searhResults){
             if(getTravelerService().canIncludeProfileInSearch(profile, docType, user, isProfileAdmin, isAssignedArranger, isOrgArranger, isArrangerDoc, isRiskManagement)) {
                 getTravelerService().populateTEMProfile(profile);
-            } else {
-                iter.remove();
+                profiles.add(profile);
             }
         }
 
@@ -122,8 +117,8 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
 
         // Get a list of people matching the fields kim fields.
         if (kimLookupNeeded(fieldValues)) {
-            List<PersonImpl> people = getPersonService().findPeople(kimLookupFields);
-            for (PersonImpl person : people) {
+            List<? extends Person> people = getPersonService().findPeople(kimLookupFields);
+            for (Person person : people) {
 
                 // See if the person has a tem profile.
                 TEMProfile profileFromKim = getTravelService().findTemProfileByPrincipalId(person.getPrincipalId());
@@ -132,8 +127,8 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
                     // Found the tem profile for this person, see if the tem profile search returned their profile.
                     getTravelerService().populateTEMProfile(profileFromKim);
                     Boolean isFound = false;
-                    for (TEMProfile p : profiles) {
-                        if (p.getProfileId() == profileFromKim.getProfileId()) {
+                    for (TEMProfile profile : profiles) {
+                        if (profile.getProfileId() == profileFromKim.getProfileId()) {
                             isFound = true;
                             break;
                         }
@@ -165,18 +160,16 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
                 return true;
             }
         }
-
         return false;
     }
-
 
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnHref(java.util.Properties,
      *      org.kuali.rice.kns.web.struts.form.LookupForm, java.util.List)
      */
+    @SuppressWarnings("rawtypes")
     @Override
     protected String getReturnHref(Properties parameters, LookupForm lookupForm, List returnKeys) {
-        // TODO Auto-generated method stub
         String url = super.getReturnHref(parameters, lookupForm, returnKeys);
         url = url.replaceAll(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, "document." + TemPropertyConstants.TEMProfileProperties.PROFILE_ID);
         return url;
@@ -249,6 +242,14 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         return url;
     }
 
+    /**
+     * 
+     * @param boClass
+     * @param fieldValues
+     * @param prefix
+     * @param lookupClassName
+     * @return
+     */
     private Map<String, String> convertFieldValues(Class<? extends BusinessObject> boClass, Map<String, String> fieldValues, String prefix, String lookupClassName) {
         Map<String, String> retval = new HashMap<String, String>();
 
@@ -280,52 +281,24 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         return retval;
     }
 
+    /**
+     * 
+     * @param boClass
+     * @param attributeName
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
     protected boolean containsAttribute(final Class boClass, final String attributeName) {
         return getDataDictionaryService().isAttributeDefined(boClass, attributeName);
     }
 
+    /**
+     * 
+     * @param className
+     * @return
+     */
     private Collection<FieldDefinition> getLookupFieldsFor(String className) {
         return getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(className).getLookupDefinition().getLookupFields();
-    }
-
-    public boolean isAssignedTravelArranger(final Person user) {
-        boolean checkProfileAssignedRole = checkPersonRole(user, TemConstants.TEM_ASSIGNED_PROFILE_ARRANGER, TemConstants.PARAM_NAMESPACE);
-
-        return checkProfileAssignedRole;
-
-    }
-
-    public boolean isOrgTravelArranger(final Person user) {
-
-        boolean checkOrgRole = checkPersonRole(user, TemConstants.TEM_ORGANIZATION_PROFILE_ARRANGER, TemConstants.PARAM_NAMESPACE);
-        return checkOrgRole;
-
-    }
-    
-    public boolean isRiskManagement(final Person user) {
-
-        boolean checkRiskManagement = checkPersonRole(user, TemConstants.RISK_MANAGEMENT, TemConstants.PARAM_NAMESPACE);
-        return checkRiskManagement;
-
-    }
-    
-    public boolean isProfileAdministrator(final Person user) {
-        return checkPersonRole(user, TemConstants.TEM_PROFILE_ADMIN, TemConstants.PARAM_NAMESPACE);
-    }
-
-    private boolean checkPersonRole(final Person user, String role, String parameterNamespace) {
-        try {
-            final String arrangerRoleId = roleService.getRoleIdByName(parameterNamespace, role);
-
-            List<String> roleIds = new ArrayList<String>();
-            roleIds.add(arrangerRoleId);
-            return roleService.principalHasRole(user.getPrincipalId(), roleIds, null);
-        }
-        catch (NullPointerException e) {
-            LOG.error("NPE.", e);
-        }
-
-        return false;
     }
 
     /**
@@ -336,7 +309,6 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     public TravelerService getTravelerService() {
         return travelerService;
     }
-
 
     /**
      * Sets the travelerService attribute value.
@@ -353,17 +325,16 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
      * 
      * @param personService The personService to set.
      */
-    public void setPersonService(PersonService personService) {
+    public void setPersonService(PersonService<Person> personService) {
         this.personService = personService;
     }
-
 
     /**
      * Gets the personService attribute.
      * 
      * @return Returns the personService.
      */
-    public PersonService getPersonService() {
+    public PersonService<Person> getPersonService() {
         return personService;
     }
 
@@ -422,26 +393,5 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     public void setTemProfileService(TemProfileService temProfileService) {
         this.temProfileService = temProfileService;
     }
-
-    /**
-     * Gets the roleService attribute.
-     * 
-     * @return Returns the roleService.
-     */
-    public RoleService getRoleService() {
-        return roleService;
-    }
-
-    /**
-     * Sets the roleService attribute value.
-     * 
-     * @param roleService The roleService to set.
-     */
-    public void setRoleService(RoleService roleService) {
-        this.roleService = roleService;
-    }
-    
-    
-
 
 }

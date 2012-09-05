@@ -56,7 +56,7 @@ public interface TravelDocumentService {
 
     List<SpecialCircumstances> findActiveSpecialCircumstances(String documentNumber, String documentType);
 
-    <T> List<T> find(final Class<T> travelDocumentClass, final String travelDocumentNumber) throws WorkflowException;
+    <T> List<T> find(final Class<T> travelDocumentClass, final String travelDocumentNumber);
 
     /**
      * Updates the perdiem items in a {@link TravelReimbursementDocument}. Can be used on an empty {@link Collection}. This means

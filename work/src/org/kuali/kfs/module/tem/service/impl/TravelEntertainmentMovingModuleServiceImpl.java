@@ -58,14 +58,10 @@ public class TravelEntertainmentMovingModuleServiceImpl implements TravelEnterta
 	
 	private Document find(String temDocId) {
 		TravelReimbursementDocument doc = null;
-		try {
 			List<TravelReimbursementDocument> results = travelDocumentService.find(TravelReimbursementDocument.class, temDocId);
 			if(results != null && !results.isEmpty()) {
 				doc = results.get(0);
 			}
-		} catch (WorkflowException ex) {
-			ex.printStackTrace();
-		}
 		return doc;
 	}
 

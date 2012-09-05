@@ -16,34 +16,21 @@
 package org.kuali.kfs.module.tem.document.authorization;
 
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
-import org.kuali.kfs.module.tem.document.TravelDocumentBase;
-import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.module.tem.identity.TemKimAttributes;
+import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
-/**
- * Class to determine if a {@link Person} has rights and permissions to perform specific actions against a
- * {@link TravelReimbursementDocument}
- * 
- * @author Leo Przybylski (leo [at] rsmart.com
- */
-public class TravelReimbursementAuthorizer extends AccountingDocumentAuthorizerBase implements ReturnToFiscalOfficerAuthorizer {
+public class TravelReimbursementAuthorizer extends TravelArrangeableAuthorizer {
 
     @Override
     public boolean canReturn(final TravelDocument taDoc, final Person user) {
@@ -73,33 +60,10 @@ public class TravelReimbursementAuthorizer extends AccountingDocumentAuthorizerB
 
     }
 
-    @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> attributes) {
-        super.addRoleQualification(businessObject, attributes);
-        TravelDocumentBase document = (TravelDocumentBase) businessObject;
-        // add the document amount
-        if (ObjectUtils.isNotNull(document.getProfileId())) {
-            attributes.put(TemKimAttributes.PROFILE_PRINCIPAL_ID, document.getProfileId().toString());
-        }
-    }
-
     public boolean canCertify(final TravelReimbursementDocument reimbursement, Person user) {
         return user.getPrincipalId().equals(reimbursement.getTraveler().getPrincipalId()) || !isEmployee(reimbursement.getTraveler());
     }
 
-    public boolean canSave(TravelDocument travelDocument, Person user) {
-        if(ObjectUtils.isNull(user)) {
-            return false;
-        }
-        
-        KualiWorkflowDocument workflowDocument = travelDocument.getDocumentHeader().getWorkflowDocument();
-        
-        //first check to see if the user is either the initiator or is a fiscal officer for this doc      
-        //Only initiator and FO can save doc enroute;
-        String initiator = workflowDocument.getRouteHeader().getInitiatorPrincipalId();
-        return initiator.equals(user.getPrincipalId()) || getTravelDocumentService().isResponsibleForAccountsOn(travelDocument, user.getPrincipalId());
-    }    
-    
     protected boolean isEmployee(final TravelerDetail traveler) {
         if (traveler == null) {
             return false;
@@ -110,8 +74,4 @@ public class TravelReimbursementAuthorizer extends AccountingDocumentAuthorizerB
     protected TravelerService getTravelerService() {
         return SpringContext.getBean(TravelerService.class);
     }
-    
-    protected TravelDocumentService getTravelDocumentService() {
-        return SpringContext.getBean(TravelDocumentService.class);
-    }   
 }

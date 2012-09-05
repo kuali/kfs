@@ -18,13 +18,17 @@ package org.kuali.kfs.module.tem.identity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.rice.kns.util.ObjectUtils;
 
+/**
+ * Check for Arranger Derived Role base on the TEM Profile ID and the Principal
+ */
 public class ArrangerDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
     
     TravelArrangerDocumentService arrangerDocumentService;
@@ -36,31 +40,23 @@ public class ArrangerDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
     public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
         //first we need to grab the profileId if it exists
         if(qualification!=null && !qualification.isEmpty()){
-            String profileId = qualification.get(TemPropertyConstants.TEMProfileProperties.PROFILE_ID);
-            
+            String profileId = qualification.get(TEMProfileProperties.PROFILE_ID);
+            String documentType = qualification.get(KimAttributes.DOCUMENT_TYPE_NAME);
             if(ObjectUtils.isNotNull(profileId)) {
-                return getArrangerDocumentService().isArrangerForProfile(principalId, profileId);
+                return arrangerDocumentService.isTravelDocumentArrangerForProfile(documentType, principalId, Integer.valueOf(profileId));
             }
-        } else {
-            return getArrangerDocumentService().isArranger(principalId);
-        }
+        } 
         
-        return false;
+        //Because workflow (route/save/copy) would not pick up the qualifer from Document Authorizor, but ONLY base on the permission template, we will
+        //simply check whether the person is an arranger (not particularly tied to a profile)
+        return arrangerDocumentService.isArranger(principalId);
     }
 
     @Override
     public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
         final List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>(1);
-        
         return members;
-    }
-    /**
-     * Gets the arrangerService attribute. 
-     * @return Returns the arrangerService.
-     */
-    public TravelArrangerDocumentService getArrangerDocumentService() {
-        return arrangerDocumentService;
     }
 
     /**
@@ -70,7 +66,5 @@ public class ArrangerDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
     public void setArrangerDocumentService(TravelArrangerDocumentService arrangerDocumentService) {
         this.arrangerDocumentService = arrangerDocumentService;
     }
-    
-    
 
 }

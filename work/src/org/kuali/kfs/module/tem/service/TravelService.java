@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 The Kuali Foundation
+ * Copyright 2012 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,14 +19,14 @@ import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 /**
  * Travel Service
  */
 public interface TravelService {
-    
-    void setBusinessObjectService(BusinessObjectService businessObjectService);
     
     /**
      * Validate a phone number
@@ -51,8 +51,50 @@ public interface TravelService {
      */
     public TEMProfile findTemProfileByPrincipalId(String principalId);
     
+    /**
+     * Check user role w/o qualification in TEM namespace
+     * 
+     * @param user
+     * @param role
+     * @return
+     */
+    public boolean checkUserTEMRole(Person user, String role);
     
+    /**
+     * Check for user role with added qualification
+     * 
+     * @param user
+     * @param role
+     * @param namespace
+     * @param qualifications
+     * @return
+     */
+    public boolean checkUserRole(Person user, String role, String namespace, AttributeSet qualifications);
+    
+    /**
+     * Determine if the user is the initiator or it is the arranger for the document (base on specific doc
+     * type)
+     * 
+     * @param document
+     * @param user
+     * @return
+     */
+    public boolean isUserInitiatorOrArranger(TravelDocument document, Person user);
+    
+    /**
+     * 
+     * @param tripType
+     * @return
+     */
     public List<PrimaryDestination> findAllDistinctPrimaryDestinations(String tripType);
     
+    /**
+     * Find default Primary destination base on provided class
+     * 
+     * @param clazz
+     * @param countryCode
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
     public List findDefaultPrimaryDestinations(Class clazz, String countryCode);
 }

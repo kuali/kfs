@@ -176,7 +176,6 @@
 		<property name="personService" ref="personService" />
 		<property name="identityManagementService" ref="kimIdentityManagementService" />
 		<property name="temProfileService" ref="temProfileService" />
-		<property name="roleService" ref="kimRoleService" />
 	</bean>
 	<bean id="temProfileLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
 		scope="prototype">
@@ -456,8 +455,10 @@
 		abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="parameterService" ref="parameterService" />
-		<property name="travelDocumentDao" ref="travelDocumentDao" />
-		<property name="accountsReceivableModuleService" ref="accountsReceivableModuleService" />		
+		<property name="accountsReceivableModuleService" ref="accountsReceivableModuleService" />
+        <property name="roleService" ref="kimRoleService" />
+        <property name="arrangerDocumentService" ref="temArrangerDocumentService" />
+        <property name="travelDocumentDao" ref="travelDocumentDao" />		
 	</bean>
 
 	<bean id="temTravelDocumentService" parent="temTravelDocumentService-parentBean" />
@@ -1106,8 +1107,7 @@
 						<ref bean="removeAttendeeEvent" />
 					</list>
 				</entry>
-    			</entry>
-    				<entry key="importAttendees">
+    			<entry key="importAttendees">
 					<list>
 						<ref bean="importAttendeesEvent" />
 					</list>

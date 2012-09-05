@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -32,8 +32,7 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
 
 /**
- *
- * @author Leo Przybylski (leo [at] rsmart.com)
+ * Check for Traveler Derived Role base on document traveler (for Travel Document) or proflie (Travel Arranger Document)
  */
 public class TravelerDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
 
@@ -52,55 +51,32 @@ public class TravelerDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
         validateRequiredAttributesAgainstReceived(qualification);
         final List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>(1);
         if (qualification!=null && !qualification.isEmpty()) {
+            
             final String documentNumber = qualification.get(KimAttributes.DOCUMENT_NUMBER);
             if ( StringUtils.isNotBlank( documentNumber ) ) {
-                TravelArrangerDocument doc = arrangerDocument(documentNumber);
-                if(doc != null) {
-                    members.add(new RoleMembershipInfo(null,null,doc.getProfile().getPrincipalId(),Role.PRINCIPAL_MEMBER_TYPE,null));
-                } else {
-                    final TravelDocument document = getTravelDocument(documentNumber);
-                    if (document != null){
-                        members.add( new RoleMembershipInfo(null,null,document.getTraveler().getPrincipalId(),Role.PRINCIPAL_MEMBER_TYPE,null) );
-                    }
-                }
                 
+                try{
+                    Document document = documentService.getByDocumentHeaderId(documentNumber);
+                    if (document != null){
+                        if(TravelDocTypes.TRAVEL_ARRANGER_DOCUMENT.equals(document.getDocumentHeader().getWorkflowDocument().getDocumentType())) {
+                            members.add(new RoleMembershipInfo(null, null, ((TravelArrangerDocument)document).getProfile().getPrincipalId(), Role.PRINCIPAL_MEMBER_TYPE, null));
+                        } else {
+                            members.add(new RoleMembershipInfo(null, null, ((TravelDocument)document).getTraveler().getPrincipalId(), Role.PRINCIPAL_MEMBER_TYPE, null));
+                        }
+                    }
+                } catch (WorkflowException e) {
+                    throw new RuntimeException("Workflow problem while trying to get document using doc id '" + documentNumber + "'", e);
+                }
             }
         }
         return members;
     }
 
-    private TravelArrangerDocument arrangerDocument(String documentNumber) {
-        try{
-            Document doc = getDocumentService().getByDocumentHeaderId(documentNumber);
-            if(TemConstants.TravelDocTypes.TRAVEL_ARRANGER_DOCUMENT.equals(doc.getDocumentHeader().getWorkflowDocument().getDocumentType())) {
-                return (TravelArrangerDocument)doc;
-            } else {
-                return null;
-            }
-        } catch (WorkflowException e) {
-            throw new RuntimeException("Workflow problem while trying to get document using doc id '" + documentNumber + "'", e);
-        }
-    }
-
+    /**
+     * 
+     * @param documentService
+     */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-
-    protected DocumentService getDocumentService() {
-        return documentService;
-    }
-
-
-    /**
-     * @param documentNumber
-     * @return
-     */
-    protected TravelDocument getTravelDocument(String documentNumber){
-        try{
-            return (TravelDocument)getDocumentService().getByDocumentHeaderId(documentNumber);
-        } catch (WorkflowException e) {
-            throw new RuntimeException("Workflow problem while trying to get document using doc id '" + documentNumber + "'", e);
-        }
-    }
-
 }

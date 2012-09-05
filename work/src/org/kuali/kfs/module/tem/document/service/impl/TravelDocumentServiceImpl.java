@@ -59,6 +59,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.gl.service.EncumbranceService;
@@ -154,6 +155,8 @@ import au.com.bytecode.opencsv.CSVReader;
  * Travel Service Implementation
  */
 public class TravelDocumentServiceImpl implements TravelDocumentService {
+    
+    protected static Logger LOG = Logger.getLogger(TravelDocumentServiceImpl.class);
     
     protected DataDictionaryService dataDictionaryService;
     protected DocumentService documentService;
@@ -648,13 +651,17 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#find(java.lang.Class, java.lang.String)
      */
     @Override
-    public <T> List<T> find(final Class<T> travelDocumentClass, final String travelDocumentNumber) throws WorkflowException {
+    public <T> List<T> find(final Class<T> travelDocumentClass, final String travelDocumentNumber) {
         final List<String> ids = getTravelDocumentDao().findDocumentNumbers(travelDocumentClass, travelDocumentNumber);
 
         List<T> resultDocumentLists = new ArrayList<T>();
         //retrieve the actual documents
-        if (!ids.isEmpty()) {
-            resultDocumentLists = getDocumentService().getDocumentsByListOfDocumentHeaderIds(travelDocumentClass, ids);
+        try {
+            if (!ids.isEmpty()) {
+                resultDocumentLists = getDocumentService().getDocumentsByListOfDocumentHeaderIds(travelDocumentClass, ids);
+            }
+        }catch (WorkflowException wfe){
+            LOG.error(wfe.getMessage(), wfe);
         }
         return resultDocumentLists;
     }

@@ -29,11 +29,10 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.TransactionalDocument;
-import org.kuali.rice.krad.rules.DocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class BulkReceivingDocumentRule extends DocumentRuleBase implements ContinuePurapRule {
+public class BulkReceivingDocumentRule extends org.kuali.rice.kns.rules.TransactionalDocumentRuleBase implements ContinuePurapRule {
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {       

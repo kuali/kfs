@@ -45,7 +45,7 @@ import org.kuali.rice.krad.rules.rule.event.BlanketApproveDocumentEvent;
 /**
  * A rule that uses the accounting rule engine to perform rule validations.
  */
-public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements AccountingRuleEngineRule {
+public class AccountingRuleEngineRuleBase extends org.kuali.rice.kns.rules.TransactionalDocumentRuleBase implements AccountingRuleEngineRule {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingRuleEngineRuleBase.class);
     
     /**

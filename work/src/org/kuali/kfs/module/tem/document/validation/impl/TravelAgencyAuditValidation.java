@@ -15,10 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
-import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditReportFields.*;
-
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
-import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.document.service.TravelAgencyAuditValidationHelper;
 import org.kuali.kfs.sys.context.SpringContext;

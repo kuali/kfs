@@ -1305,48 +1305,51 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     }
     
     /**
-     * CLEAN UP
-     * 
      * Find the current travel authorization.  This includes any amendments.
+     * 
      * @param trDocument
      * @return
      * @throws WorkflowException
      */
     @Override
     public TravelDocument findCurrentTravelAuthorization(TravelDocument document) throws WorkflowException{
+        
+        TravelDocument travelDocument = null;
+        
         final Map<String, List<Document>> relatedDocuments = getDocumentsRelatedTo(document);
-        final List<Document> taDocs  = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
-        final List<Document> taaDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
-        final List<Document> tacDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
+        List<Document> taDocs  = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+        List<Document> taaDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
+        List<Document> tacDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
         
         //If TAC exists, it will always be the most current travel auth doc
-        if (tacDocs != null && tacDocs.size() > 0) {
-            return (TravelAuthorizationDocument) tacDocs.get(0);
+        if (tacDocs != null && !tacDocs.isEmpty()) {
+            travelDocument =  (TravelAuthorizationDocument) tacDocs.get(0);
         }
         //find the TAA with the correct status
-        else if (taaDocs != null && taaDocs.size() > 0){
+        else if (taaDocs != null && !taaDocs.isEmpty()){
             for (Document tempDocument : taaDocs){
                 //Find the doc that is the open to perform actions against.
                 if (isTravelAuthorizationOpened((TravelAuthorizationDocument)tempDocument)){
-                    return (TravelAuthorizationDocument) tempDocument;
+                    travelDocument = (TravelAuthorizationDocument) tempDocument;
                 }
             }           
         }
         //return TA doc if no amendments exist
         else {
-            //CLEANUP - this may happen when the Travel document did not link to an TA for some reason..
-            if (taDocs == null || taDocs.isEmpty()) {
-                final List<TravelAuthorizationDocument> tempTaDocs = find(TravelAuthorizationDocument.class, document.getTravelDocumentIdentifier());
-                taDocs.clear();
-                taDocs.addAll(tempTaDocs);
-            }
+            //if the taDocs is null, initialize an empty list
+            taDocs = taDocs == null? new ArrayList<Document>() : taDocs;
             
-            if(taDocs != null && !taDocs.isEmpty()){
-                return (TravelAuthorizationDocument) taDocs.get(0);
+            if (taDocs.isEmpty()) {
+                //this should find the TA document for sure
+                final List<TravelAuthorizationDocument> tempTaDocs = find(TravelAuthorizationDocument.class, document.getTravelDocumentIdentifier());
+                if (!tempTaDocs.isEmpty()){
+                    travelDocument = tempTaDocs.get(0);
+                }
+            }else{
+                travelDocument = (TravelAuthorizationDocument) taDocs.get(0);
             }
         }
-        
-        return null;
+        return travelDocument;
     }
 
     @Override

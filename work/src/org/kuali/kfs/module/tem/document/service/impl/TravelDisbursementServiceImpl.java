@@ -332,9 +332,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
             Note dvNote = documentService.createNoteFromDocument(disbursementVoucherDocument, note);
             documentService.addNoteToDocument(disbursementVoucherDocument, dvNote);
 
-            boolean rulePassed = kualiRuleService.applyRules(new AttributedRouteDocumentEvent("", disbursementVoucherDocument));
-
-            if (rulePassed && !(TemConstants.DisbursementVoucherPaymentMethods.WIRE_TRANSFER_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode())
+            if (!(TemConstants.DisbursementVoucherPaymentMethods.WIRE_TRANSFER_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode())
                     || TemConstants.DisbursementVoucherPaymentMethods.FOREIGN_DRAFT_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode()))) {
                 
                 KualiWorkflowDocument originalWorkflowDocument = disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument();

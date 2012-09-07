@@ -493,7 +493,7 @@
     <bean id="travelDisbursementService" parent="travelDisbursementService-parentBean" />
     <bean id="travelDisbursementService-parentBean"
       class="org.kuali.kfs.module.tem.document.service.impl.TravelDisbursementServiceImpl" abstract="true">
-      <property name="documentService" ref="documentService" />
+      <property name="documentService" ref="blanketApproveWithoutRuleDocumentService" />
       <property name="businessObjectService" ref="businessObjectService" />
       <property name="dateTimeService" ref="dateTimeService" />
       <property name="travelerService" ref="travelerService" />
@@ -503,6 +503,8 @@
       <property name="kualiRuleService" ref="kualiRuleService" />
       <property name="travelDocumentService" ref="temTravelDocumentService" />
     </bean>
+    
+    <bean id="blanketApproveWithoutRuleDocumentService" class="org.kuali.kfs.module.tem.service.impl.BlanketApproveWithoutRuleDocumentServiceImpl"/>
     
     <bean id="travelEncumbranceService" parent="travelEncumbranceService-parentBean" />
     <bean id="travelEncumbranceService-parentBean"

@@ -334,5 +334,16 @@
         KFST
       </parent>
     </documentType>
+    <documentType>
+      <name>
+        TTSM
+      </name>
+      <label>
+        TemSimpleMaintenanceDocument
+      </label>
+      <parent>
+        FSSM
+      </parent>
+    </documentType>
   </documentTypes>
 </data>

@@ -52,6 +52,7 @@
 	<bean id="TravelModule-tripDetailMealsAndIncidentalsValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthTripDetailMealsAndIncidentalsValidation">
 		<property name="travelDocumentService" ref="temTravelDocumentService" />
+        <property name="parameterService" ref="parameterService" />
 	</bean>
 	
 	<bean id="TravelModule-accountingTotalsValidation"

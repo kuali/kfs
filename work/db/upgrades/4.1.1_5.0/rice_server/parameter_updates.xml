@@ -385,9 +385,12 @@
 	</changeSet>
 	
 	<changeSet author="KFS50" id="KFSMI-7172">	
-		<comment>KFSMI-7172 New Parameter UNORDERED_ITEM_DEFAULT_COMMODITY_CODE and new Commodity code 99200000 </comment>
+		<comment>KFSMI-7165 correct ACCOUNT_ADDRESS_TYPE name and description</comment>
 		<delete tableName="KRCR_PARM_T">
     		<where>NMSPC_CD='KFS-COA' AND CMPNT_CD='Account' AND PARM_NM='ACCOUNT_ADDRESS_TYPE'</where>
+		</delete>
+		<delete tableName="KRCR_PARM_T">
+    		<where>NMSPC_CD='KFS-COA' AND CMPNT_CD='ObjectCode' AND PARM_NM='ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND'</where>
 		</delete>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-COA" />
@@ -402,7 +405,6 @@
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>
-		
 	</changeSet>
 	
 	<changeSet author="KFS50" id="KFSMI-7146">	
@@ -415,7 +417,7 @@
 	</changeSet>
 	
 	<changeSet author="KFS50" id="KFSMI-7165">	
-		<comment>KFSMI-7165 correct ACCOUNT_ADDRESS_TYPE name and description</comment>
+		<comment>KFSMI-7172 New Parameter UNORDERED_ITEM_DEFAULT_COMMODITY_CODE and new Commodity code 99200000 </comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-PURAP" />
 			<column name="CMPNT_CD" value="PurchaseOrderAmendment" />
@@ -429,9 +431,6 @@
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>
-		<delete tableName="KRCR_PARM_T">
-    		<where>NMSPC_CD='KFS-COA' AND CMPNT_CD='ObjectCode' AND PARM_NM='ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND'</where>
-		</delete>
 	</changeSet>
 
 	<changeSet author="KFS50" id="KFSMI6342_UNORDERED_LINE_ITEM_MESSAGE_PARAMETER">

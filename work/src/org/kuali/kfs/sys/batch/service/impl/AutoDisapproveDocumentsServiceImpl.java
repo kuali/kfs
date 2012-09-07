@@ -420,7 +420,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
         
         document.addNote(approveNote);
         
-        documentService.superUserDisapproveDocument(document, "Disapproval of Outstanding Documents - Year End Cancelation Process");
+        documentService.superUserDisapproveDocumentWithoutSaving(document, "Disapproval of Outstanding Documents - Year End Cancellation Process");
     }
         
     /**

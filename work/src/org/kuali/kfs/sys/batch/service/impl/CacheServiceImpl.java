@@ -19,6 +19,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.CacheService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.impl.services.CoreImplServiceLocator;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 
 /**
@@ -41,23 +42,28 @@ public class CacheServiceImpl implements CacheService {
     }
 
     @Override
-    public void clearNamedCache(String cacheManagerName) {
-        CacheManager cm = CoreImplServiceLocator.getCacheManagerRegistry().getCacheManager(cacheManagerName);
+    public void clearNamedCache(String cacheName) {
+        CacheManager cm = CoreImplServiceLocator.getCacheManagerRegistry().getCacheManager(KFSConstants.KFS_CORE_DISTRIBUTED_CACHE_MANAGER);
         if ( cm != null ) {
-            cm.getCache(cacheManagerName).clear();
-            if ( LOG.isDebugEnabled() ) {
-                LOG.debug( "Cleared " + cacheManagerName + " cache." );
+            Cache cache = cm.getCache(cacheName);
+            if (cache != null) {
+                cache.clear();
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug( "Cleared " + cacheName + " cache in cache manager " + KFSConstants.KFS_CORE_DISTRIBUTED_CACHE_MANAGER + "." );
+                }
+            } else {
+                // this is at debug level intentionally, since not all BOs have caches
+                LOG.debug( "Unable to find cache for " + cacheName + " in cache manager " + KFSConstants.KFS_CORE_DISTRIBUTED_CACHE_MANAGER);
             }
         } else {
-            // this is at debug level intentionally, since not all BOs have caches
-            LOG.debug( "Unable to find cache manager for " + cacheManagerName );
+            LOG.info( "Unable to find cache manager " + KFSConstants.KFS_CORE_DISTRIBUTED_CACHE_MANAGER + " when attempting to clear " + cacheName );
         }
     }
 
     @Override
     public void clearKfsBusinessObjectCache(Class boClass) {
-        String cacheManagerName = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + boClass.getSimpleName();
-        clearNamedCache(cacheManagerName);
+        String cacheName = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + boClass.getSimpleName();
+        clearNamedCache(cacheName);
     }
-
+    
 }

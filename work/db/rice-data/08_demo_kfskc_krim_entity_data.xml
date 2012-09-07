@@ -1,0 +1,34 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+		
+	<changeSet context="kfskc_demo" author="kfs" id="KFSKC_DEMO_LOAD_KRIM_ENTITY_T">
+		<loadData tableName="KRIM_ENTITY_T" file="kfskc_demo/krim_entity_t.csv" />
+    </changeSet>
+	<changeSet context="kfskc_demo" author="kfs" id="KFSKC_DEMO_LOAD_KRIM_ENTITY_NM_T">
+		<loadData tableName="KRIM_ENTITY_NM_T" file="kfskc_demo/krim_entity_nm_t.csv" />
+    </changeSet>
+	<changeSet context="kfskc_demo" author="kfs" id="KFSKC_DEMO_LOAD_KRIM_ENTITY_ENT_TYP_T">
+		<loadData tableName="KRIM_ENTITY_ENT_TYP_T" file="kfskc_demo/krim_entity_ent_typ_t.csv" />
+    </changeSet>
+	<changeSet context="kfskc_demo" author="kfs" id="KFSKC_DEMO_LOAD_KRIM_PRNCPL_T">
+		<loadData tableName="KRIM_PRNCPL_T" file="kfskc_demo/krim_prncpl_t.csv" />
+    </changeSet>
+	<changeSet context="kfskc_demo" author="kfs" id="KFSKC_DEMO_LOAD_KRIM_ENTITY_ADDR_T">
+		<loadData tableName="KRIM_ENTITY_ADDR_T" file="kfskc_demo/krim_entity_addr_t.csv" />
+    </changeSet>
+	<changeSet context="kfskc_demo" author="kfs" id="KFSKC_DEMO_LOAD_KRIM_ENTITY_AFLTN_T">
+		<loadData tableName="KRIM_ENTITY_AFLTN_T" file="kfskc_demo/krim_entity_afltn_t.csv" />
+    </changeSet>
+	<changeSet context="kfskc_demo" author="kfs" id="KFSKC_DEMO_LOAD_KRIM_ENTITY_EMAIL_T">
+		<loadData tableName="KRIM_ENTITY_EMAIL_T" file="kfskc_demo/krim_entity_email_t.csv" />
+    </changeSet>
+	<changeSet context="kfskc_demo" author="kfs" id="KFSKC_DEMO_LOAD_KRIM_ENTITY_EMP_INFO_T">
+		<loadData tableName="KRIM_ENTITY_EMP_INFO_T" file="kfskc_demo/krim_entity_emp_info_t.csv" />
+    </changeSet>
+	<changeSet context="kfskc_demo" author="kfs" id="KFSKC_DEMO_LOAD_KRIM_ENTITY_PHONE_T">
+		<loadData tableName="KRIM_ENTITY_PHONE_T" file="kfskc_demo/krim_entity_phone_t.csv" />
+    </changeSet>
+    
+</databaseChangeLog>   
+      

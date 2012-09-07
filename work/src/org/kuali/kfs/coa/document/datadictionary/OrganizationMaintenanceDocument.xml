@@ -47,6 +47,7 @@
     <property name="documentTypeName" value="ORGN"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrgRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.coa.document.authorization.OrganizationDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.coa.document.authorization.OrganizationtMaintenanceDocumentPresentationController"/>
     
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.OrgPreRules"/>
     <property name="webScriptFiles">

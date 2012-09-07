@@ -39,6 +39,7 @@
         <ref bean="CashReceiptDocument-totalDollarAmount"/>
         <ref bean="CashReceiptDocument-sumTotalAmount"/>
         <ref bean="CashReceiptDocument-documentNumber"/>
+        <ref bean="CashReceiptDocument-createDate"/>
         <ref bean="CashReceiptDocument-checkEntryMode"/>
       </list>
     </property>
@@ -119,7 +120,20 @@
 
   <bean id="CashReceiptDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
   </bean>
-  
+  <bean id="CashReceiptDocument-createDate" parent="CashReceiptDocument-createDate-parentBean"/>
+
+  <bean id="CashReceiptDocument-createDate-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="createDate" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Create Date" />
+		<property name="shortLabel" value="Date" />
+		<property name="maxLength" value="15" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="15" />
+		</property>
+  </bean>
+
   <!-- validations -->
   
   <bean id="CashReceiptDocument-validations" parent="CashReceiptDocument-validations-parentBean"/>

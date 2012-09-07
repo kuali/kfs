@@ -34,11 +34,13 @@ import org.kuali.kfs.sys.batch.service.CacheService;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.ConfigurableDateService;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.ksb.util.KSBConstants;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -87,6 +89,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         if (contextConfiguration != null) {
             configure(contextConfiguration);
             SpringContext.getBean(ConfigurableDateService.class).setCurrentDate(new java.util.Date());
+            ConfigContext.getCurrentContextConfig().putProperty(KSBConstants.Config.MESSAGE_DELIVERY, KSBConstants.MESSAGING_SYNCHRONOUS );
         }
         try {
             setUp();

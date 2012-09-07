@@ -7,11 +7,8 @@
 Main Documentation Home:
 	https://test.kuali.org/confluence/display/KULDOC/Home
 
-Technical Setup Documentation:
-	https://test.kuali.org/confluence/display/KULDOC/Technical+Documentation+5
-
-Database Setup:
-	https://test.kuali.org/confluence/display/KULDOC/Database+5
+Technical Release Notes / Upgrade Documentation:
+	https://docs.google.com/a/kuali.org/#folders/0B1dW7BM9X5-rSlZHdkdLV3JKYjg
 
 ****** Quick Start:
 

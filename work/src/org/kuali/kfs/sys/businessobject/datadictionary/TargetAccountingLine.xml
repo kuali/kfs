@@ -88,327 +88,99 @@
 
 
   <bean id="TargetAccountingLine-balanceTypeCode" parent="TargetAccountingLine-balanceTypeCode-parentBean"/>
+  <bean id="TargetAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="SourceAccountingLine-balanceTypeCode" />
 
-  <bean id="TargetAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
-    <property name="name" value="balanceTypeCode"/>
-    <property name="required" value="false"/>
-  </bean>
   <bean id="TargetAccountingLine-referenceNumber" parent="TargetAccountingLine-referenceNumber-parentBean"/>
+  <bean id="TargetAccountingLine-referenceNumber-parentBean" abstract="true" parent="SourceAccountingLine-referenceNumber" />
 
-  <bean id="TargetAccountingLine-referenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="referenceNumber"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Reference Number"/>
-    <property name="shortLabel" value="Ref Number"/>
-    <property name="maxLength" value="14"/>
-    <property name="validationPattern">
-      <ref bean="AlphaNumericValidation" />
-    </property>
-    <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="16"/>
-    </property>
-    
-    
-  </bean>
   <bean id="TargetAccountingLine-sequenceNumber" parent="TargetAccountingLine-sequenceNumber-parentBean"/>
+  <bean id="TargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="SourceAccountingLine-sequenceNumber" />
 
-  <bean id="TargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
-    <property name="forceUppercase" value="true"/>
-    <property name="name" value="sequenceNumber"/>
-    <property name="required" value="false"/>
-  </bean>
   <bean id="TargetAccountingLine-financialObjectCode" parent="TargetAccountingLine-financialObjectCode-parentBean"/>
+  <bean id="TargetAccountingLine-financialObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-financialObjectCode" />
 
-  <bean id="TargetAccountingLine-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    
-  </bean>
   <bean id="TargetAccountingLine-accountNumber" parent="TargetAccountingLine-accountNumber-parentBean"/>
+  <bean id="TargetAccountingLine-accountNumber-parentBean" abstract="true" parent="SourceAccountingLine-accountNumber" />
 
-  <bean id="TargetAccountingLine-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
-  </bean>
   <bean id="TargetAccountingLine-organizationReferenceId" parent="TargetAccountingLine-organizationReferenceId-parentBean"/>
+  <bean id="TargetAccountingLine-organizationReferenceId-parentBean" abstract="true" parent="SourceAccountingLine-organizationReferenceId" />
 
-  <bean id="TargetAccountingLine-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="organizationReferenceId"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Organization Reference Id"/>
-    <property name="shortLabel" value="Org Ref Id"/>
-    <property name="maxLength" value="8"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="required" value="false"/>
-    <property name="control">
-      <ref bean="TenCharacterTextControl" />
-    </property>
-    
-    
-  </bean>
   <bean id="TargetAccountingLine-chartOfAccountsCode" parent="TargetAccountingLine-chartOfAccountsCode-parentBean"/>
+  <bean id="TargetAccountingLine-chartOfAccountsCode-parentBean" abstract="true" parent="SourceAccountingLine-chartOfAccountsCode" />
 
-  <bean id="TargetAccountingLine-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
-    <property name="control">
-      <ref bean="ChartSimpleSelectControl" />
-    </property>
-    
-  </bean>
   <bean id="TargetAccountingLine-postingYear" parent="TargetAccountingLine-postingYear-parentBean"/>
+  <bean id="TargetAccountingLine-postingYear-parentBean" abstract="true" parent="SourceAccountingLine-postingYear" />
 
-  <bean id="TargetAccountingLine-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
-    <property name="name" value="postingYear"/>
-    <property name="required" value="true"/>
-  </bean>
   <bean id="TargetAccountingLine-referenceOriginCode" parent="TargetAccountingLine-referenceOriginCode-parentBean"/>
+  <bean id="TargetAccountingLine-referenceOriginCode-parentBean" abstract="true" parent="SourceAccountingLine-referenceOriginCode" />
 
-  <bean id="TargetAccountingLine-referenceOriginCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="referenceOriginCode"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Reference Origin Code"/>
-    <property name="shortLabel" value="Ref Origin Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="required" value="false"/>
-    <property name="control">
-      <ref bean="FourCharacterTextControl" />
-    </property>
-    
-    
-  </bean>
   <bean id="TargetAccountingLine-overrideCode" parent="TargetAccountingLine-overrideCode-parentBean"/>
+  <bean id="TargetAccountingLine-overrideCode-parentBean" abstract="true" parent="SourceAccountingLine-overrideCode" />
 
-  <bean id="TargetAccountingLine-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="overrideCode"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Override Code"/>
-    <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="100"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="3"/>
-    </property>
-    
-    
-  </bean>
   <bean id="TargetAccountingLine-amount" parent="TargetAccountingLine-amount-parentBean"/>
+  <bean id="TargetAccountingLine-amount-parentBean" abstract="true" parent="SourceAccountingLine-amount" />
 
-  <bean id="TargetAccountingLine-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="amount"/>
-    <property name="required" value="true"/>
-    
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
-  </bean>
   <bean id="TargetAccountingLine-subAccountNumber" parent="TargetAccountingLine-subAccountNumber-parentBean"/>
+  <bean id="TargetAccountingLine-subAccountNumber-parentBean" abstract="true" parent="SourceAccountingLine-subAccountNumber" />
 
-  <bean id="TargetAccountingLine-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
-    <property name="label" value="Sub-Account Code"/>
-    <property name="required" value="false"/>
-    
-  </bean>
   <bean id="TargetAccountingLine-referenceTypeCode" parent="TargetAccountingLine-referenceTypeCode-parentBean"/>
-
-  <bean id="TargetAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode"/>
+  <bean id="TargetAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="SourceAccountingLine-referenceTypeCode"/>
 
   <bean id="TargetAccountingLine-projectCode" parent="TargetAccountingLine-projectCode-parentBean"/>
+  <bean id="TargetAccountingLine-projectCode-parentBean" abstract="true" parent="SourceAccountingLine-projectCode" />
 
-  <bean id="TargetAccountingLine-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
-    <property name="name" value="projectCode"/>
-    <property name="required" value="false"/>
-    
-    
-  </bean>
   <bean id="TargetAccountingLine-financialSubObjectCode" parent="TargetAccountingLine-financialSubObjectCode-parentBean"/>
+  <bean id="TargetAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-financialSubObjectCode" />
 
-  <bean id="TargetAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
-    <property name="required" value="false"/>
-    
-  </bean>
   <bean id="TargetAccountingLine-documentNumber" parent="TargetAccountingLine-documentNumber-parentBean"/>
+  <bean id="TargetAccountingLine-documentNumber-parentBean" abstract="true" parent="SourceAccountingLine-documentNumber" />
 
-  <bean id="TargetAccountingLine-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-    <property name="forceUppercase" value="true"/>
-    <property name="required" value="false"/>
-  </bean>
   <bean id="TargetAccountingLine-debitCreditCode" parent="TargetAccountingLine-debitCreditCode-parentBean"/>
+  <bean id="TargetAccountingLine-debitCreditCode-parentBean" abstract="true" parent="SourceAccountingLine-debitCreditCode" />
 
-  <bean id="TargetAccountingLine-debitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="debitCreditCode"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Credit or Debit Code"/>
-    <property name="shortLabel" value="Credit/Debit"/>
-    <property name="maxLength" value="1"/>
-    <property name="validationPattern">
-      <bean parent="CharsetValidationPattern" p:validChars="DC"/>
-    </property>
-    <property name="required" value="false"/>
-    <property name="control">
-      <ref bean="TwoCharacterTextControl" />
-    </property>
-    
-    
-  </bean>
   <bean id="TargetAccountingLine-encumbranceUpdateCode" parent="TargetAccountingLine-encumbranceUpdateCode-parentBean"/>
+  <bean id="TargetAccountingLine-encumbranceUpdateCode-parentBean" abstract="true" parent="SourceAccountingLine-encumbranceUpdateCode" />
 
-  <bean id="TargetAccountingLine-encumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="encumbranceUpdateCode"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Encumbrance Update Code"/>
-    <property name="shortLabel" value="Encumbrance Update"/>
-    <property name="maxLength" value="1"/>
-    <property name="validationPattern">
-      <bean parent="AlphaValidationPattern"/>
-    </property>
-    <property name="required" value="false"/>
-    <property name="control">
-      <ref bean="TwoCharacterTextControl" />
-    </property>
-    
-    
-  </bean>
   <bean id="TargetAccountingLine-objectTypeCode" parent="TargetAccountingLine-objectTypeCode-parentBean"/>
+  <bean id="TargetAccountingLine-objectTypeCode-parentBean" abstract="true" parent="SourceAccountingLine-objectTypeCode" />
 
-  <bean id="TargetAccountingLine-objectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
-    <property name="name" value="objectTypeCode"/>
-    <property name="required" value="false"/>
-  </bean>
   <bean id="TargetAccountingLine-accountExpiredOverride" parent="TargetAccountingLine-accountExpiredOverride-parentBean"/>
-
-  <bean id="TargetAccountingLine-accountExpiredOverride-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="accountExpiredOverride"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Account Expired Override"/>
-    <property name="shortLabel" value="Expired Override"/>
-    <property name="maxLength" value="1"/>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
-    
-    
-  </bean>
+  <bean id="TargetAccountingLine-accountExpiredOverride-parentBean" abstract="true" parent="SourceAccountingLine-accountExpiredOverride" />
   
   <bean id="TargetAccountingLine-nonFringeAccountOverride" parent="TargetAccountingLine-nonFringeAccountOverride-parentBean"/>
-
-  <bean id="TargetAccountingLine-nonFringeAccountOverride-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="nonFringeAccountOverride"/>
-    <property name="label" value="Non-fringe Account Override"/>
-    <property name="shortLabel" value="Non-fringe Override"/>
-    <property name="maxLength" value="1"/>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
-    
-    
-  </bean>
+  <bean id="TargetAccountingLine-nonFringeAccountOverride-parentBean" abstract="true" parent="SourceAccountingLine-nonFringeAccountOverride" />
   
   <bean id="TargetAccountingLine-objectBudgetOverride" parent="TargetAccountingLine-objectBudgetOverride-parentBean"/>
+  <bean id="TargetAccountingLine-objectBudgetOverride-parentBean" abstract="true" parent="SourceAccountingLine-objectBudgetOverride" />
 
-  <bean id="TargetAccountingLine-objectBudgetOverride-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="objectBudgetOverride"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Object Non-Budgeted Override"/>
-    <property name="shortLabel" value="Non-Budgeted Override"/>
-    <property name="maxLength" value="1"/>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
-    
-    
-  </bean>
   <bean id="TargetAccountingLine-financialDocumentLineDescription" parent="TargetAccountingLine-financialDocumentLineDescription-parentBean"/>
+  <bean id="TargetAccountingLine-financialDocumentLineDescription-parentBean" abstract="true" parent="SourceAccountingLine-financialDocumentLineDescription" />
 
-  <bean id="TargetAccountingLine-financialDocumentLineDescription-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="financialDocumentLineDescription"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Line Description"/>
-    <property name="shortLabel" value="Line Desc"/>
-    <property name="maxLength" value="40"/>
-    <property name="required" value="false"/>
-    <property name="control">
-      <ref bean="StandardNameTextControl" />
-    </property>
-    
-    
-  </bean>
   <bean id="TargetAccountingLine-salesTaxRequired" parent="TargetAccountingLine-salesTaxRequired-parentBean"/>
+  <bean id="TargetAccountingLine-salesTaxRequired-parentBean" abstract="true" parent="SourceAccountingLine-salesTaxRequired" />
 
-  <bean id="TargetAccountingLine-salesTaxRequired-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="salesTaxRequired"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Sales Tax Required"/>
-    <property name="shortLabel" value="Sales Tax Reqd"/>
-    <property name="maxLength" value="10"/>
-    <property name="required" value="false"/>
-    <property name="control">
-      <ref bean="HiddenControl" />
-    </property>
-    
-    
-  </bean>
   <bean id="TargetAccountingLine-salesTax.chartOfAccountsCode" parent="TargetAccountingLine-salesTax.chartOfAccountsCode-parentBean"/>
+  <bean id="TargetAccountingLine-salesTax.chartOfAccountsCode-parentBean" abstract="true" parent="SourceAccountingLine-salesTax.chartOfAccountsCode" />
 
-  <bean id="TargetAccountingLine-salesTax.chartOfAccountsCode-parentBean" abstract="true" parent="SalesTax-chartOfAccountsCode">
-    <property name="name" value="salesTax.chartOfAccountsCode"/>
-    <property name="label" value="Sales Tax Chart of Accounts Code"/>
-    <property name="shortLabel" value="Sales Tax Chart"/>
-    
-    
-  </bean>
   <bean id="TargetAccountingLine-salesTax.accountNumber" parent="TargetAccountingLine-salesTax.accountNumber-parentBean"/>
+  <bean id="TargetAccountingLine-salesTax.accountNumber-parentBean" abstract="true" parent="SourceAccountingLine-salesTax.accountNumber" />
 
-  <bean id="TargetAccountingLine-salesTax.accountNumber-parentBean" abstract="true" parent="SalesTax-accountNumber">
-    <property name="name" value="salesTax.accountNumber"/>
-    <property name="label" value="Sales Tax Account Number"/>
-    <property name="shortLabel" value="Sales Tax Account"/>
-    
-    
-  </bean>
   <bean id="TargetAccountingLine-salesTax.financialDocumentGrossSalesAmount" parent="TargetAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean"/>
+  <bean id="TargetAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean" abstract="true" parent="SourceAccountingLine-salesTax.financialDocumentGrossSalesAmount" />
 
-  <bean id="TargetAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentGrossSalesAmount">
-    <property name="name" value="salesTax.financialDocumentGrossSalesAmount"/>
-    <property name="label" value="Gross Sales Amount"/>
-    <property name="shortLabel" value="Gross Sales Amt."/>
-    
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
-  </bean>
   <bean id="TargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="TargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean"/>
+  <bean id="TargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" abstract="true" parent="SourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount" />
 
-  <bean id="TargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentTaxableSalesAmount">
-    <property name="name" value="salesTax.financialDocumentTaxableSalesAmount"/>
-    <property name="label" value="Taxable Sales Amount"/>
-    <property name="shortLabel" value="Taxable Sales Amt."/>
-    
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
-  </bean>
   <bean id="TargetAccountingLine-salesTax.financialDocumentSaleDate" parent="TargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean"/>
-
-  <bean id="TargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
-    <property name="name" value="salesTax.financialDocumentSaleDate"/>
-    <property name="label" value="Sale Date"/>
-  </bean>
+  <bean id="TargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SourceAccountingLine-salesTax.financialDocumentSaleDate" />
 
     <bean id="TargetAccountingLine-objectCode.financialObjectLevelCode" parent="TargetAccountingLine-objectCode.financialObjectLevelCode-parentBean"/>
-    <bean id="TargetAccountingLine-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectLevel-financialObjectLevelCode">
-         <property name="name" value="objectCode.financialObjectLevelCode"/>
-    </bean>
+    <bean id="TargetAccountingLine-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="SourceAccountingLine-objectCode.financialObjectLevelCode" />
         
     <bean id="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
-    <bean id="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
-         <property name="name" value="objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
-    </bean>
+    <bean id="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" />
    
     <bean id="TargetAccountingLine-account.organizationCode" parent="TargetAccountingLine-account.organizationCode-parentBean"/>
-    <bean id="TargetAccountingLine-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
-         <property name="name" value="account.organizationCode"/>
-    </bean>    
-    
+    <bean id="TargetAccountingLine-account.organizationCode-parentBean" abstract="true" parent="SourceAccountingLine-account.organizationCode" />
 
 </beans>

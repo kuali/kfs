@@ -306,7 +306,7 @@ function checkCheckAllOrNone() {
 						<td>
 						<div align="center">
 							<kul:htmlControlAttribute
-								property="checkFreeCashReceipt[${ctr}].documentHeader.workflowDocument.createDate"
+								property="checkFreeCashReceipt[${ctr}].createDate"
 								attributeEntry="${dummyAttributes.genericTimestamp}"
 								readOnly="true" />
 							</div>

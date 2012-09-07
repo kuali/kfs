@@ -43,10 +43,10 @@ import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.type.KimAttributeField;
-import org.kuali.rice.kim.framework.role.RoleTypeService;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 import org.kuali.rice.krad.util.MessageMap;
 
-public class DocumentDerivedRoleTypeServiceImpl implements RoleTypeService, BudgetConstructionNoAccessMessageSetting {
+public class DocumentDerivedRoleTypeServiceImpl extends RoleTypeServiceBase implements BudgetConstructionNoAccessMessageSetting {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DocumentDerivedRoleTypeServiceImpl.class);
 
     protected static final String UNMATCHABLE_QUALIFICATION = "!~!~!~!~!~";

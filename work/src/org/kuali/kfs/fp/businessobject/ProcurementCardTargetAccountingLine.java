@@ -23,6 +23,26 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
  */
 public class ProcurementCardTargetAccountingLine extends TargetAccountingLine {
     private Integer financialDocumentTransactionLineNumber;
+    protected int transactionContainerIndex;
+    
+    /**
+     * Gets the transactionContainerIndex attribute.
+     * 
+     * @return Returns the transactionContainerIndex
+     */
+    
+    public int getTransactionContainerIndex() {
+        return transactionContainerIndex;
+    }
+
+    /**	
+     * Sets the transactionContainerIndex attribute.
+     * 
+     * @param transactionContainerIndex The transactionContainerIndex to set.
+     */
+    public void setTransactionContainerIndex(int transactionContainerIndex) {
+        this.transactionContainerIndex = transactionContainerIndex;
+    }
 
     /**
      * @return Returns the financialDocumentTransactionLineNumber.

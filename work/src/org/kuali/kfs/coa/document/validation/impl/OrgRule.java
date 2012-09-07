@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -83,9 +83,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * <li>{@link OrgRule#checkDefaultAccountNumber(MaintenanceDocument)}</li>
      * </ul>
      * This rule fails on rule failure
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
+    @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
 
         boolean success = true;
@@ -118,9 +119,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * <li>{@link OrgRule#checkDefaultAccountNumber(MaintenanceDocument)}</li>
      * </ul>
      * This rule fails on rule failure
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
         boolean success = true;
@@ -154,9 +156,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * <li>{@link OrgRule#checkDefaultAccountNumber(MaintenanceDocument)}</li>
      * </ul>
      * This rule does not fail on rule failure
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.debug("Entering processCustomSaveDocumentBusinessRules()");
@@ -180,7 +183,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This checks to see if the org is active
-     * 
+     *
      * @return true if the org is inactive or false otherwise
      */
     protected boolean checkExistenceAndActive() {
@@ -202,7 +205,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * This checks to see if a user is authorized for plant fields modification. If not then it returns true (without activating
      * fields). If the org does not have to report to itself then it checks to see if the plant fields have been filled out
      * correctly and fails if they haven't
-     * 
+     *
      * @return false if user can edit plant fields but they have not been filled out correctly
      */
     protected boolean checkPlantAttributes() {
@@ -249,7 +252,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * This method enforces the business rules surrounding when an Org becomes closed/inactive. If we are editing and switching the
      * org to inactive or if it is a new doc and it is marked as inactive then we assume we are closing the org. If we are not then
      * we return true. If we are then we return false if there are still active accounts tied to the org
-     * 
+     *
      * @param document
      * @return false if trying to close org but it still has accounts that are active linked to it
      */
@@ -257,6 +260,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
         boolean orgBeingClosed = false;
+        boolean checkForChildObjects = true;
 
         // if its an edit, and its being closed
         if (document.isEdit()) {
@@ -269,6 +273,8 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         if (document.isNew()) {
             if (!newOrg.isActive()) {
                 orgBeingClosed = true;
+                // Since it's new, we don't need to check for accounts and orgs
+                checkForChildObjects = false;
             }
         }
 
@@ -281,60 +287,61 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         // do not allow the org to be closed while there are active accounts tied
         // to this org
-        List childAccounts = orgService.getActiveAccountsByOrg(newOrg.getChartOfAccountsCode(), newOrg.getOrganizationCode());
-        if (childAccounts.size() > 0) {
+        if ( checkForChildObjects ) {
+            List childAccounts = orgService.getActiveAccountsByOrg(newOrg.getChartOfAccountsCode(), newOrg.getOrganizationCode());
+            if (childAccounts.size() > 0) {
 
-            // get the first three accounts on the list for display
-            StringBuffer childAccountList = new StringBuffer();
-            int count = 0;
-            String delim = "";
-            for (Iterator iter = childAccounts.iterator(); iter.hasNext();) {
-                Account account = (Account) iter.next();
-                childAccountList.append(delim + account.getChartOfAccountsCode() + "-" + account.getAccountNumber());
-                count++;
-                if (count >= 1) {
-                    delim = ", ";
+                // get the first three accounts on the list for display
+                StringBuffer childAccountList = new StringBuffer();
+                int count = 0;
+                String delim = "";
+                for (Iterator iter = childAccounts.iterator(); iter.hasNext();) {
+                    Account account = (Account) iter.next();
+                    childAccountList.append(delim + account.getChartOfAccountsCode() + "-" + account.getAccountNumber());
+                    count++;
+                    if (count >= 1) {
+                        delim = ", ";
+                    }
+                    if (count >= 3) {
+                        break;
+                    }
                 }
-                if (count >= 3) {
-                    break;
+                if (childAccounts.size() > count) {
+                    childAccountList.append(", ... (" + (childAccounts.size() - count) + " more)");
                 }
-            }
-            if (childAccounts.size() > count) {
-                childAccountList.append(", ... (" + (childAccounts.size() - count) + " more)");
+
+                putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_OPEN_CHILD_ACCOUNTS_ON_ORG_CLOSURE, childAccountList.toString());
+                success &= false;
             }
 
-            putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_OPEN_CHILD_ACCOUNTS_ON_ORG_CLOSURE, childAccountList.toString());
-            success &= false;
+            // do not allow this org to be closed while there are still active orgs
+            // that have this org as their reportsToOrg
+            List childOrgs = orgService.getActiveChildOrgs(newOrg.getChartOfAccountsCode(), newOrg.getOrganizationCode());
+            if (childOrgs.size() > 0) {
+
+                // get the first three orgs on the list for display
+                StringBuffer childOrgsList = new StringBuffer();
+                int count = 0;
+                String delim = "";
+                for (Iterator iter = childOrgs.iterator(); iter.hasNext();) {
+                    Organization org = (Organization) iter.next();
+                    childOrgsList.append(delim + org.getChartOfAccountsCode() + "-" + org.getOrganizationCode());
+                    count++;
+                    if (count >= 1) {
+                        delim = ", ";
+                    }
+                    if (count >= 3) {
+                        break;
+                    }
+                }
+                if (childOrgs.size() > count) {
+                    childOrgsList.append(", ... (" + (childOrgs.size() - count) + " more)");
+                }
+
+                putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_OPEN_CHILD_ORGS_ON_ORG_CLOSURE, childOrgsList.toString());
+                success &= false;
+            }
         }
-
-        // do not allow this org to be closed while there are still active orgs
-        // that have this org as their reportsToOrg
-        List childOrgs = orgService.getActiveChildOrgs(newOrg.getChartOfAccountsCode(), newOrg.getOrganizationCode());
-        if (childOrgs.size() > 0) {
-
-            // get the first three orgs on the list for display
-            StringBuffer childOrgsList = new StringBuffer();
-            int count = 0;
-            String delim = "";
-            for (Iterator iter = childOrgs.iterator(); iter.hasNext();) {
-                Organization org = (Organization) iter.next();
-                childOrgsList.append(delim + org.getChartOfAccountsCode() + "-" + org.getOrganizationCode());
-                count++;
-                if (count >= 1) {
-                    delim = ", ";
-                }
-                if (count >= 3) {
-                    break;
-                }
-            }
-            if (childOrgs.size() > count) {
-                childOrgsList.append(", ... (" + (childOrgs.size() - count) + " more)");
-            }
-
-            putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_OPEN_CHILD_ORGS_ON_ORG_CLOSURE, childOrgsList.toString());
-            success &= false;
-        }
-
 
         // if org is being closed, end-date must be valid and present
         if (ObjectUtils.isNull(newOrg.getOrganizationEndDate())) {
@@ -347,7 +354,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This checks to see if the org is active and if it the HRMS org is active
-     * 
+     *
      * @param document
      * @return true if either the org is inactive or isHrmsOrgActivated is false
      */
@@ -378,7 +385,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This checks our {@link Parameter} rules to see if this org needs to report to itself
-     * 
+     *
      * @param organization
      * @return true if it does
      */
@@ -393,7 +400,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * <li>start date must be greater than or equal to today if new Document</li>
      * <li>Reports To Chart/Org should not be same as this Chart/Org</li>
      * </ul>
-     * 
+     *
      * @param document
      * @return true if it passes all the rules, false otherwise
      */
@@ -515,7 +522,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This checks that defaultAccount is present unless ( (orgType = U or C) and ( document is a "create new" or "edit" ))
-     * 
+     *
      * @param document
      * @return false if missing default account number and it is not an exempt type code
      */
@@ -545,7 +552,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * return true. If the old had a value, and the new is null/blank, return true. If both old and new had a value, and the values
      * are different (excluding trailing or leading whitespaces, and excluding case changes), return true. If none of the above,
      * return false.
-     * 
+     *
      * @param oldValue - Old value to test.
      * @param newValue - New value to test.
      * @return true or false, based on the algorithm described above.
@@ -576,7 +583,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method looks up in the ParameterService whether ther HRMS Org system is turned on.
-     * 
+     *
      * @return true or false depending on the app configuration
      */
     protected boolean isHrmsOrgActivated() {
@@ -587,9 +594,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      * This method sets the convenience objects like newOrg and oldOrg, so you have short and easy handles to the new and old
      * objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load all
      * sub-objects from the DB by their primary keys, if available.
-     * 
+     *
      * @param document - the maintenanceDocument being evaluated
      */
+    @Override
     public void setupConvenienceObjects() {
 
         // setup oldAccount convenience objects, make sure all possible sub-objects are populated
@@ -601,7 +609,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method tests whether the specified user is part of the group that grants authorization to the Plant fields.
-     * 
+     *
      * @param user - the user to test
      * @return true if user is part of the group, false otherwise
      */

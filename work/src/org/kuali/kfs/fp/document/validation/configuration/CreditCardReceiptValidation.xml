@@ -127,6 +127,7 @@
 				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
 					<property name="accountingDocumentParameterPropertyName" value="document" />
 					<property name="accountingLineParameterPropertyName" value="accountingLine" />
+					<property name="quitOnFail" value="true" />					
 				</bean>
 			</list>
 		</property>
@@ -159,6 +160,11 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
+					<property name="quitOnFail" value="true" />					
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -188,7 +194,12 @@
 						</list>
 					</property>
 					<property name="quitOnFail" value="true" />
-				</bean>				
+				</bean>	
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="accountingLine" />
+					<property name="quitOnFail" value="true" />					
+				</bean>
 			</list>
 		</property>
 	</bean>

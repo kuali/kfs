@@ -168,6 +168,10 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
             //validate if the newly entered delegation members are already assigned to the role
             if(roleDelegationMembers!=null){
                 for(DelegateMember delegationMember: roleDelegationMembers){
+                    // ignore if retrieved the current delegation member
+                    if ( delegationMember.getDelegationMemberId().equals(orr.getDelegationMemberId() )) {
+                        continue;
+                    }
                     boolean attributesUnique = areAttributesUnique(orr, delegationMember.getAttributes());
                     if(!attributesUnique
                             && StringUtils.isNotBlank(orr.getMemberId())
@@ -256,6 +260,10 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
             List<RoleMembership> roleMembershipInfoList = KimApiServiceLocator.getRoleService().getFirstLevelRoleMembers( Collections.singletonList(roleId));
             if(roleMembershipInfoList!=null){
                 for(RoleMembership roleMembershipInfo: roleMembershipInfoList){
+                    // ignore if retrieved the current role member
+                    if ( roleMembershipInfo.getId().equals(orr.getRoleMemberId() )) {
+                        continue;
+                    }
                     String memberId = orr.getMemberId();
                     boolean attributesUnique = areAttributesUnique(orr, roleMembershipInfo.getQualifier());
                     if(!attributesUnique && StringUtils.isNotEmpty(memberId) && memberId.equals(roleMembershipInfo.getMemberId()) &&

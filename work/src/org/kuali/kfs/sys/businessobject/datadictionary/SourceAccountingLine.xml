@@ -96,31 +96,43 @@
 
   <bean id="SourceAccountingLine-objectCode.financialObjectTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectTypeCode">
     <property name="name" value="objectCode.financialObjectTypeCode"/>
+    <property name="required" value="false" />
+    <property name="validationPattern"><null /></property>
   </bean>
   <bean id="SourceAccountingLine-objectCode.financialObjectSubTypeCode" parent="SourceAccountingLine-objectCode.financialObjectSubTypeCode-parentBean"/>
 
   <bean id="SourceAccountingLine-objectCode.financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode">
     <property name="name" value="objectCode.financialObjectSubTypeCode"/>
+    <property name="required" value="false" />
+    <property name="validationPattern"><null /></property>
   </bean>
   <bean id="SourceAccountingLine-objectCode.financialObjectLevelCode" parent="SourceAccountingLine-objectCode.financialObjectLevelCode-parentBean"/>
 
   <bean id="SourceAccountingLine-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectCode-financialObjectLevelCode">
     <property name="name" value="objectCode.financialObjectLevelCode"/>
+    <property name="required" value="false" />
+    <property name="validationPattern"><null /></property>
   </bean>
   <bean id="SourceAccountingLine-account.financialHigherEdFunctionCd" parent="SourceAccountingLine-account.financialHigherEdFunctionCd-parentBean"/>
 
   <bean id="SourceAccountingLine-account.financialHigherEdFunctionCd-parentBean" abstract="true" parent="Account-financialHigherEdFunctionCd">
     <property name="name" value="account.financialHigherEdFunctionCd"/>
+    <property name="required" value="false" />
+    <property name="validationPattern"><null /></property>
   </bean>
   <bean id="SourceAccountingLine-account.subFundGroupCode" parent="SourceAccountingLine-account.subFundGroupCode-parentBean"/>
 
   <bean id="SourceAccountingLine-account.subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
     <property name="name" value="account.subFundGroupCode"/>
+    <property name="required" value="false" />
+    <property name="validationPattern"><null /></property>
   </bean>
   <bean id="SourceAccountingLine-account.subFundGroup.fundGroupCode" parent="SourceAccountingLine-account.subFundGroup.fundGroupCode-parentBean"/>
 
   <bean id="SourceAccountingLine-account.subFundGroup.fundGroupCode-parentBean" abstract="true" parent="SubFundGroup-fundGroupCode">
     <property name="name" value="account.subFundGroup.fundGroupCode"/>
+    <property name="required" value="false" />
+    <property name="validationPattern"><null /></property>
   </bean>
   <bean id="SourceAccountingLine-balanceTypeCode" parent="SourceAccountingLine-balanceTypeCode-parentBean"/>
 
@@ -419,11 +431,15 @@
     <bean id="SourceAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="SourceAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
     <bean id="SourceAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
          <property name="name" value="objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+	    <property name="required" value="false" />
+	    <property name="validationPattern"><null /></property>
     </bean>
    
     <bean id="SourceAccountingLine-account.organizationCode" parent="SourceAccountingLine-account.organizationCode-parentBean"/>
     <bean id="SourceAccountingLine-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
          <property name="name" value="account.organizationCode"/>
+	    <property name="required" value="false" />
+	    <property name="validationPattern"><null /></property>
     </bean>
   
 

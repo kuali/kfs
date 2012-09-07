@@ -38,6 +38,7 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -101,6 +102,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     
     protected boolean recategorized;
 
+    protected String createDate;
     
     /**
      * Initializes the array lists and line incrementers.
@@ -996,6 +998,15 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
+     * 
+     * This method...
+     * @return
+     */
+    public String getCreateDate() {
+        return SpringContext.getBean(DateTimeService.class).toDateString(getDocumentHeader().getWorkflowDocument().getDateCreated().toDate());
+    }
+    
+    /**
      * Generate the primary key for a currency or coin detail related to this document
      * 
      * @return a map with a representation of the proper primary key
@@ -1227,14 +1238,6 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      */
     public void setSumTotalAmount(KualiDecimal sumTotalAmount) {
         this.sumTotalAmount = sumTotalAmount;
-    }
-    
-    public java.util.Date getCreateDate() {
-        if (!ObjectUtils.isNull(getDocumentHeader()) && !ObjectUtils.isNull(getDocumentHeader().getWorkflowDocument())) {
-            java.util.Date createDate = new java.util.Date();
-            createDate.setTime(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
-        }
-        return new java.util.Date();
     }
 }
 

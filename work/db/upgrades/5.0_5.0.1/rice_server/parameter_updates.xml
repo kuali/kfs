@@ -1,0 +1,23 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+<!-- 
+	<changeSet author="KFS501" id="SAMPLE">
+		<comment>KFSMI-6741 Create new system parameters for KFS-CAM</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CAM" />
+			<column name="CMPNT_CD" value="Asset" />
+			<column name="PARM_NM" value="VENDOR_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND" />
+			<column name="VAL" value="Y" />
+			<column name="OBJ_ID" value="KFSCAM102" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Indicates whether or not the vendor is required for a non-moveable asset." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+ -->	
+
+</databaseChangeLog>

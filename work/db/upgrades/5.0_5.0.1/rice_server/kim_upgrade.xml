@@ -1,0 +1,155 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet id="FIX_GROUP_KIM_TYPE_IN_RESP" author="KFS501">
+		<comment>Fix reference to KIM type ID which was changed in KFS 5.0 to match new value.</comment>
+		<update tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_VAL" value="KFS68" />
+			<where>KIM_ATTR_DEFN_ID = '46' AND ATTR_VAL = '68'</where>
+		</update>
+	</changeSet>
+
+<!-- 
+	<changeSet author="KFS502" id="SAMPLE_NEW_PERM">
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSAR6012" />
+			<column name="OBJ_ID" value="KFSAR6012" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" value="33" />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="NM" value="Upload Customer CSV Files" />
+			<column name="DESC_TXT"
+				value="Allows access to the Customer Upload Batch Upload page." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSAR6012-1" />
+			<column name="OBJ_ID" value="KFSAR6012-1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="KFSAR6012" />
+			<column name="KIM_TYP_ID" value="15" />
+			<column name="KIM_ATTR_DEFN_ID" value="1" />
+			<column name="ATTR_VAL" value="customerLoadCSVInputFileType" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSAR6012-1" />
+			<column name="OBJ_ID" value="KFSAR6012-1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="2" />
+			<column name="PERM_ID" value="KFSAR6012" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	</changeSet>
+	
+	<changeSet author="KFS50" id="SAMPLE_NEW_RESPONSIBILITY">		
+		<insert tableName="KRIM_RSP_T">
+			<column name="RSP_ID" value="126" />
+			<column name="OBJ_ID" value="KFSPURAP7037" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_TMPL_ID" value="1" />
+			<column name="NMSPC_CD" value="KFS-FP" />
+			<column name="NM" value="Review DV SeparationOfDuties" />
+			<column name="DESC_TXT" value="" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSFP7037A" />
+			<column name="OBJ_ID" value="KFSFP7037A" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="126" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="41" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSFP7037B" />
+			<column name="OBJ_ID" value="KFSFP7037B" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="126" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="16" />
+			<column name="ATTR_VAL" value="SeparationOfDuties" />
+		</insert>
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSFP7037C" />
+			<column name="OBJ_ID" value="KFSFP7037C" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="126" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="DV" />
+		</insert>
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSFP7037D" />
+			<column name="OBJ_ID" value="KFSFP7037D" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="126" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="40" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
+		<insert tableName="KRIM_ROLE_RSP_T">
+			<column name="ROLE_RSP_ID" value="KFSFP7037A" />
+			<column name="OBJ_ID" value="KFSFP7037A" />
+			<column name="VER_NBR" valueNumeric="4" />
+			<column name="ROLE_ID" value="55" />
+			<column name="RSP_ID" value="126" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_RSP_ACTN_T">
+			<column name="ROLE_RSP_ACTN_ID" value="KFSFP7037A" />
+			<column name="OBJ_ID" value="KFSFP7037A" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ACTN_TYP_CD" value="A" />
+			<column name="PRIORITY_NBR" valueNumeric="1" />
+			<column name="ACTN_PLCY_CD" value="F" />
+			<column name="ROLE_MBR_ID" value="*" />
+			<column name="ROLE_RSP_ID" value="KFSFP7037A" />
+			<column name="FRC_ACTN" value="N" />
+		</insert>
+	</changeSet>
+
+
+	<changeSet author="KFS50" id="SAMPLE_ROLE_TYPE">
+		<insert tableName="KRIM_ATTR_DEFN_T">
+			<column name="KIM_ATTR_DEFN_ID" value="KFSCNTRB199-ATTRDEF1" />
+			<column name="OBJ_ID" value="KFSCNTRB199-ATTRDEF1"/>
+			<column name="VER_NBR" value="1" />
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="NM" value="filePath" />
+			<column name="CMPNT_NM" value="org.kuali.kfs.sys.identity.KfsKimAttributes" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_TYP_T">
+			<column name="KIM_TYP_ID" value="KFSCNTRB199-TYP1"/>
+			<column name="OBJ_ID" value="KFSCNTRB199-TYP1"/>
+			<column name="VER_NBR" value="1" />
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="NM" value="Namespace or File Path" />
+			<column name="SRVC_NM" value="{KFS}namespaceOrFilePathPermissionTypeService" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_TYP_ATTR_T">
+			<column name="KIM_TYP_ATTR_ID" value="KFSCNTRB199-TYPATTR1" />
+			<column name="OBJ_ID" value="KFSCNTRB199-TYPATTR1"/>
+			<column name="VER_NBR" value="1" />
+			<column name="SORT_CD" value="a" />
+			<column name="KIM_TYP_ID" value="KFSCNTRB199-TYP1" />
+			<column name="KIM_ATTR_DEFN_ID" value="4" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_TYP_ATTR_T">
+			<column name="KIM_TYP_ATTR_ID" value="KFSCNTRB199-TYPATTR2" />
+			<column name="OBJ_ID" value="KFSCNTRB199-TYPATTR2"/>
+			<column name="VER_NBR" value="1" />
+			<column name="SORT_CD" value="b" />
+			<column name="KIM_TYP_ID" value="KFSCNTRB199-TYP1" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFSCNTRB199-ATTRDEF1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		
+	</changeSet>
+-->
+
+</databaseChangeLog>

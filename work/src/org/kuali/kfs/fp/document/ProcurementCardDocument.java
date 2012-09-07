@@ -49,7 +49,7 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
     protected ProcurementCardHolder procurementCardHolder;
 
     protected List transactionEntries;
-
+    protected ProcurementCardTargetAccountingLine newTargetLine;
     protected transient CapitalAssetManagementModuleService capitalAssetManagementModuleService;
 
     /**

@@ -50,6 +50,9 @@ public class BankServiceImpl implements BankService {
     @Override
     @Cacheable(value=Bank.CACHE_NAME, key="'bankCode='+#p0")
     public Bank getByPrimaryId(String bankCode) {
+        if ( StringUtils.isBlank(bankCode) ) {
+            return null;
+        }
         return businessObjectService.findBySinglePrimaryKey(Bank.class, bankCode);
     }
 

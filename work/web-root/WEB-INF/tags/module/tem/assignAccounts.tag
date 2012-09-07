@@ -46,82 +46,85 @@
 	</c:choose>
 	
 	</kul:tab>
-	<script type="text/javascript">
-	//$ = function () { var elements = new Array; for (var i = 0; i < arguments.length; i++) { var element = arguments[i]; if (typeof element == "string") { element = document.getElementById(element); } if (arguments.length == 1) { return element; } elements.push(element); } return elements; }
-	
-	function updatePercent(amountField){
+<script type="text/javascript">
+	function updatePercent(amountField) {
 		var currentAmount = parseFloat(document.getElementById("selectedDistributionAmount").value);
 		var thisFieldAmount = parseFloat(document.getElementById(amountField).value);
-		if (isNaN(thisFieldAmount)){
+		if (isNaN(thisFieldAmount)) {
 			thisFieldAmount = 0.00;
 			document.getElementById(amountField).value = "0.00";
 		}
 		var strName = amountField.split(".amount");
 		var percentField = document.getElementById(strName[0] + ".accountLinePercent");
-		var percent = thisFieldAmount*100/currentAmount;
-		percent = roundNumber(percent,5);
+		var percent = thisFieldAmount * 100 / currentAmount;
+		percent = roundNumber(percent, 5);
 		percentField.value = percent;
-		var success = updateNewFields(currentAmount);
-		if (!success){
-			var newAmount = parseFloat(document.getElementById("accountDistributionnewSourceLine.amount").value);
-			var newPercent = parseFloat(document.getElementById("accountDistributionnewSourceLine.accountLinePercent").value);
-			document.getElementById(amountField).value = thisFieldAmount + newAmount;
-			percentField.value = percent + newPercent;
-			document.getElementById("accountDistributionnewSourceLine.amount").value = "0.00";
-			document.getElementById("accountDistributionnewSourceLine.accountLinePercent").value = "0.00";
+		//if this is called from the new line, do not update itself again base on the collections
+		if (amountField.indexOf("[") != -1) {
+			var success = updateNewAssignAccountsPercentAmount(currentAmount);
+			if (!success) {
+				var newAmount = parseFloat(document.getElementById("accountDistributionnewSourceLine.amount").value);
+				var newPercent = parseFloat(document.getElementById("accountDistributionnewSourceLine.accountLinePercent").value);
+				document.getElementById(amountField).value = thisFieldAmount + newAmount;
+				percentField.value = percent + newPercent;
+				document.getElementById("accountDistributionnewSourceLine.amount").value = "0.00";
+				document.getElementById("accountDistributionnewSourceLine.accountLinePercent").value = "0.00";
+			}
 		}
 	}
-	function updateAmount(percentField)	{
+	function updateAmount(percentField) {
 		var currentAmount = parseFloat(document.getElementById("selectedDistributionAmount").value);
 		var thisFieldPercent = parseFloat(document.getElementById(percentField).value);
-		thisFieldPercent = roundNumber(thisFieldPercent,5);
-		if (isNaN(thisFieldPercent)){
+		thisFieldPercent = roundNumber(thisFieldPercent, 5);
+		if (isNaN(thisFieldPercent)) {
 			thisFieldAmount = 0.00;
 			document.getElementById(amountField).value = "0.00";
 		}
 		var strName = percentField.split(".accountLinePercent");
 		var amountField = document.getElementById(strName[0] + ".amount");
-		var amount = thisFieldPercent * currentAmount/100;
-		amount = roundNumber(amount,2);
+		var amount = thisFieldPercent * currentAmount / 100;
+		amount = roundNumber(amount, 2);
 		amountField.value = amount;
-		var success = updateNewFields(currentAmount);
-		if (!success){
-			var newAmount = parseFloat(document.getElementById("accountDistributionnewSourceLine.amount").value);
-			var newPercent = parseFloat(document.getElementById("accountDistributionnewSourceLine.accountLinePercent").value);
-			document.getElementById(percentField).value = thisFieldPercent + newPercent;
-			amountField.value = amount + newAmount;
-			document.getElementById("accountDistributionnewSourceLine.amount").value = "0.00";
-			document.getElementById("accountDistributionnewSourceLine.accountLinePercent").value = "0.00";
+		//if this is called from the new line, do not update itself again base on the collections
+		if (percentField.indexOf("[") != -1) {
+			var success = updateNewAssignAccountsPercentAmount(currentAmount);
+			if (!success) {
+				var newAmount = parseFloat(document.getElementById("accountDistributionnewSourceLine.amount").value);
+				var newPercent = parseFloat(document.getElementById("accountDistributionnewSourceLine.accountLinePercent").value);
+				document.getElementById(percentField).value = thisFieldPercent	+ newPercent;
+				amountField.value = amount + newAmount;
+				document.getElementById("accountDistributionnewSourceLine.amount").value = "0.00";
+				document.getElementById("accountDistributionnewSourceLine.accountLinePercent").value = "0.00";
+			}
 		}
 	}
-	function updateNewFields(currentAmount){
+	function updateNewAssignAccountsPercentAmount(currentAmount) {
 		var totalAmount = 0.00;
-			var totalPercent = 0.00;
-			var counter = 0;
-			var fieldPercent = document.getElementById("accountDistributionsourceAccountingLines[" + counter + "].accountLinePercent");
-			var fieldAmount = document.getElementById("accountDistributionsourceAccountingLines[" + counter + "].amount");
-			
-			while (fieldAmount != undefined || fieldAmount != null){
-				if (isNaN(parseFloat(fieldAmount.value))){
-					fieldAmount.value = "0.00";
-				}
-				else{
-					totalAmount += parseFloat(fieldAmount.value);
-				}
-				if (isNaN(parseFloat(fieldPercent.value))){
-					fieldAmount.value = "0.00";
-				}
-				else{
-					totalPercent += parseFloat(fieldPercent.value);
-				}
-				counter++;
-				fieldPercent = document.getElementById("accountDistributionsourceAccountingLines[" + counter + "].accountLinePercent");
-				fieldAmount = document.getElementById("accountDistributionsourceAccountingLines[" + counter + "].amount");
-			}
-			document.getElementById("accountDistributionnewSourceLine.amount").value = roundNumber(currentAmount - totalAmount,2);;
-			document.getElementById("accountDistributionnewSourceLine.accountLinePercent").value = roundNumber(100 - totalPercent,5);
-			return currentAmount - totalAmount >= 0;
-	}
-	
+		var totalPercent = 0.00;
+		var counter = 0;
+		var fieldPercent = document.getElementById("accountDistributionsourceAccountingLines["	+ counter + "].accountLinePercent");
+		var fieldAmount = document.getElementById("accountDistributionsourceAccountingLines["	+ counter + "].amount");
 
-	</script>
+		while (fieldAmount != null) {
+			if (isNaN(parseFloat(fieldAmount.value))) {
+				fieldAmount.value = "0.00";
+			} else {
+				totalAmount += parseFloat(fieldAmount.value);
+			}
+			if (isNaN(parseFloat(fieldPercent.value))) {
+				fieldAmount.value = "0.00";
+			} else {
+				totalPercent += parseFloat(fieldPercent.value);
+			}
+			counter++;
+			fieldPercent = document.getElementById("accountDistributionsourceAccountingLines["	+ counter + "].accountLinePercent");
+			fieldAmount = document.getElementById("accountDistributionsourceAccountingLines["	+ counter + "].amount");
+		}
+		//if there is any change from the existing assign accounting lines
+		if (totalAmount != "0.00") {
+			document.getElementById("accountDistributionnewSourceLine.amount").value = roundNumber(currentAmount - totalAmount, 2);
+			document.getElementById("accountDistributionnewSourceLine.accountLinePercent").value = roundNumber(	100 - totalPercent, 5);
+		}
+		return currentAmount - totalAmount >= 0;
+	}
+</script>

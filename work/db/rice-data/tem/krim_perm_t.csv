@@ -38,12 +38,6 @@ TEM-10035,KFS-TEM-PERM-035,1,33,KFS-TEM,Upload Batch Input File(s),Authorizes us
 TEM-10036,KFS-TEM-PERM-036,1,41,KFS-TEM,Modify Accounting Lines,Allows access to Modify the Accounting Lines on a TR doc,Y
 TEM-10037,KFS-TEM-PERM-037,1,41,KFS-TEM,Modify Accounting Lines,Allows access to Modify the Accounting Lines on a TR doc,Y
 TEM-10038,KFS-TEM-PERM-038,1,41,KFS-TEM,Modify Accounting Lines,Allows access to Modify the Accounting Lines on a TA doc,Y
-TEM-10039,KFS-TEM-PERM-039,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the citizenship country field in the Emergency Contacts tab in a Travel document.,Y
-TEM-10040,KFS-TEM-PERM-040,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the cell phone number field in the Emergency Contacts tab in a Travel Authorization document.,Y
-TEM-10041,KFS-TEM-PERM-041,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the contact relation field in the Emergency Contacts tab in a Travel Authorization document.,Y
-TEM-10042,KFS-TEM-PERM-042,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the contact name field in the Emergency Contacts tab in a Travel Authorization document.,Y
-TEM-10043,KFS-TEM-PERM-043,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the contact phone number field in the Emergency Contacts tab in a Travel Authorization document.,Y
-TEM-10044,KFS-TEM-PERM-044,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the contact email address field in the Emergency Contacts tab in a Travel Authorization document.,Y
 TEM-10045,KFS-TEM-PERM-045,1,4,KFS-TEM,Blanket Approve Document,Allows access to the Blanket Approval button on Taxable Ramification Documents.,Y
 TEM-10046,KFS-TEM-PERM-046,1,10,KFS-TEM,Initiate Document,Authorizes the initiation of Taxable Ramification Documents.,Y
 TEM-10047,KFS-TEM-PERM-047,1,10,KFS-TEM,Initiate Document,Authorizes the initiation of Travel Audit Report,Y

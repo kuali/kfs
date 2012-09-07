@@ -517,7 +517,6 @@ public class TravelReimbursementAction extends TravelActionBase {
         
         document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
         setButtonPermissions(reimbForm);
-        setContactMasking(reimbForm);
         debug("Found ", document.getActualExpenses().size(), " other expenses");
 
         if (reimbForm.getHistory() == null) {
@@ -594,13 +593,6 @@ public class TravelReimbursementAction extends TravelActionBase {
         
         getTravelDocumentService().showNoTravelAuthorizationError(document);
         return retval;
-    }
-
-    protected void setContactMasking(TravelReimbursementForm trForm) {
-        TravelReimbursementDocument document = trForm.getTravelReimbursementDocument();
-        TravelReimbursementDocumentPresentationController documentPresentationController = (TravelReimbursementDocumentPresentationController) getDocumentHelperService().getDocumentPresentationController(document);
-        
-        trForm.setCanUnmask(trForm.isUserDocumentInitiator() || documentPresentationController.enableForTravelManager(document.getDocumentHeader().getWorkflowDocument()));
     }
 
     /**

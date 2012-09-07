@@ -109,7 +109,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
         }
         
         setButtonPermissions(authForm);
-        setEmergencyContactMasking(authForm);
         List<String> perDiemCats = getParameterService().getParameterValues(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, ENABLE_PER_DIEM_CATEGORIES);
         String perDiemPercentage = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE);
         final String travelIdentifier = travelAuthDocument.getTravelDocumentIdentifier();
@@ -219,15 +218,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
         }
         else if (document.getAppDocStatus().equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)) {
             GlobalVariables.getMessageList().add(TemKeyConstants.TA_MESSAGE_AMEND_DOCUMENT_TEXT);
-        }
-    }
-
-    @Deprecated
-    private void setEmergencyContactMasking(TravelAuthorizationForm authForm) {
-        TravelAuthorizationDocument document = authForm.getTravelAuthorizationDocument();
-        if(document != null && document.getTraveler() != null){
-            String principalId = document.getTraveler().getPrincipalId();
-            authForm.setCanUnmask(authForm.isUserDocumentInitiator() || (principalId != null && GlobalVariables.getUserSession().getPerson().getPrincipalId().equals(principalId)));
         }
     }
 

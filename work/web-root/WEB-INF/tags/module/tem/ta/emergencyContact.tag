@@ -83,10 +83,12 @@
 				<th>
 				<div align=left><kul:htmlAttributeLabel
 					attributeEntry="${emergencyContactAttributes.primary}" /></div>
-				</th>				
+				</th>
+				<c:if test="${fullEntryMode}">				
 				<th>
 				<div align=center>Actions</div>
 				</th>
+				</c:if>
 			</tr>
 			<c:if test="${fullEntryMode}">
 				<tr>

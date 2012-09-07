@@ -429,7 +429,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             final Date toDate = typ.getMileageRate().getActiveToDate();
             if(ObjectUtils.isNull(searchDate)) {
                 //just add them all
-                keyValues.add(new KeyLabelPair(typ.getId(), typ.getMileageRate().getName()));
+                keyValues.add(new KeyLabelPair(typ.getMileageRateId(), typ.getMileageRate().getName()));
             } else if((fromDate.equals(searchDate) || fromDate.before(searchDate)) && (toDate.equals(searchDate) || toDate.after(searchDate))) {
                 if (typ.getMileageRate() != null && typ.getMileageRate().isActive()) {
                     keyValues.add(new KeyLabelPair(typ.getMileageRateId(), typ.getMileageRate().getCodeAndRate())); 
@@ -441,11 +441,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         Comparator<KeyLabelPair> labelComparator = new Comparator<KeyLabelPair>() {
             @Override
             public int compare(KeyLabelPair o1, KeyLabelPair o2) {
-                try{
-                    return o1.getLabel().compareTo(o2.getLabel());
-                }catch (NullPointerException e){
-                    return -1;
-                }
+                return o1.getLabel().compareTo(o2.getLabel());
             }
         };
 

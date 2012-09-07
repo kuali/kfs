@@ -45,7 +45,7 @@
 		<property name="required" value="true" />
 		<property name="summary" value="Code" />
 		<property name="description" value="Code" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="2"/></property>
+		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
 	</bean>
 	<bean id="MileageRate-name" parent="MileageRate-name-parentBean" />
 	<bean id="MileageRate-name-parentBean" parent="AttributeDefinition">

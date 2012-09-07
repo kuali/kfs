@@ -21,15 +21,15 @@ import org.kuali.rice.kim.bo.Person;
 /**
  * Supplies abstract method to define whether an authorizer can generically check for return to fiscal officer permissions
  * on a given {@link TravelDocument}
- *
- * author Leo Przybylski (leo [at] rsmart.com)
+ * 
  */
 public interface ReturnToFiscalOfficerAuthorizer {
     /**
+     * Return the document to Fiscal Officer
      * 
      * @param document
      * @param user
      * @return true if <code>user</code> is authorized to return the <code>document</code> to the fiscal officer
      */
-    boolean canReturn(TravelDocument document, Person user);
+    boolean canReturnToFisicalOfficer(TravelDocument document, Person user);
 }

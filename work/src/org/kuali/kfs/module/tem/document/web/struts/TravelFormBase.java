@@ -555,12 +555,17 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         this.calculated = calculated;
     }
 
+    /**
+     * Calculate seems to apply only to TA for now, moving the button creation into TA's form
+     * 
+     * ** None of TR, RELO or ENT is calling the button permission for calculate
+     * 
+     * @see org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase#getExtraButtons()
+     */
     @Override
     public List<ExtraButton> getExtraButtons() {
         extraButtons.clear();
         String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
-
-        addExtraButton("methodToCall.recalculateTripDetailTotal", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
 
         if (canReturn()) {
             addExtraButton("methodToCall.returnToFiscalOfficer", appExternalImageURL + "buttonsmall_return_to_fo.gif", "Return to Fiscal Officer");

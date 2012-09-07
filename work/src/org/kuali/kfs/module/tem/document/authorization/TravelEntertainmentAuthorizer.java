@@ -136,7 +136,7 @@ public class TravelEntertainmentAuthorizer extends TravelDocumentAuthorizer impl
     
 
     @Override
-    public boolean canReturn(TravelDocument travelDocument, Person user) {
+    public boolean canReturnToFisicalOfficer(TravelDocument travelDocument, Person user) {
         if(ObjectUtils.isNull(user)) {
             return false;
         }

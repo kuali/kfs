@@ -33,7 +33,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class TravelReimbursementAuthorizer extends TravelArrangeableAuthorizer {
 
     @Override
-    public boolean canReturn(final TravelDocument taDoc, final Person user) {
+    public boolean canReturnToFisicalOfficer(final TravelDocument taDoc, final Person user) {
         if (ObjectUtils.isNull(user)) {
             return false;
         }

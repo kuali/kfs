@@ -47,6 +47,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -281,7 +282,11 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     public List<ExtraButton> getExtraButtons() {
         super.getExtraButtons();
         Map<String, ExtraButton> buttonsMap = createButtonsMap();
-          
+        
+        if (canCalculate()){
+            String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+            addExtraButton("methodToCall.recalculateTripDetailTotal", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
+        }
         if (canAmend()) {
             extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.amendTa"));
         }

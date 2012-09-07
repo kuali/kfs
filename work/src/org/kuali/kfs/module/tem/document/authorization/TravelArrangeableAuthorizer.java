@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.document.authorization;
 
 import java.util.Map;
 
+import org.kuali.kfs.module.tem.TemConstants.TravelStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
@@ -30,6 +31,7 @@ import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuthorizerBase implements ReturnToFiscalOfficerAuthorizer {
 
@@ -56,16 +58,43 @@ abstract public class TravelArrangeableAuthorizer extends AccountingDocumentAuth
     }
 
     /**
+     * Only initiator, arranger and FO can save doc under the following criteria
+     * 
+     * 1) Initiator/Arranger - if the document is saved or initiated
+     * 
+     * SW: why does FO need to save if all they do is changing accounting lines??
+     * 2) FO - if the document is enrouted 
+     *           - on the Awaiting Fiscal Officer Review app doc status
+     *           - approval is requested
+     *  
      * @param travelDocument
      * @param user
      * @return
      */
     public boolean canSave(TravelDocument travelDocument, Person user) {
-        if (ObjectUtils.isNull(user)) {
-            return false;
+        boolean canSave = false;
+        
+        KualiWorkflowDocument workflowDocument = travelDocument.getDocumentHeader().getWorkflowDocument();
+        if (getTravelService().isUserInitiatorOrArranger(travelDocument, user) && (workflowDocument.stateIsInitiated() ||  workflowDocument.stateIsSaved())){
+            canSave = true;
+        }else if (getTravelDocumentService().isResponsibleForAccountsOn(travelDocument, user.getPrincipalId()) 
+                && workflowDocument.stateIsEnroute() && TravelStatusCodeKeys.AWAIT_FISCAL.equals(workflowDocument.getRouteHeader().getAppDocStatus())
+                && workflowDocument.isApprovalRequested()){
+            canSave = true;
         }
-        // Only initiator, arranger and FO can save doc enroute;
-        return getTravelService().isUserInitiatorOrArranger(travelDocument, user) || getTravelDocumentService().isResponsibleForAccountsOn(travelDocument, user.getPrincipalId());
+        
+        return canSave;
+    }
+
+    /**
+     * calculate and save falls in the exact same logic
+     * 
+     * @param travelDocument
+     * @param user
+     * @return
+     */
+    public boolean canCalculate(TravelDocument travelDocument, Person user) {
+        return canSave(travelDocument, user);
     }
 
     /**

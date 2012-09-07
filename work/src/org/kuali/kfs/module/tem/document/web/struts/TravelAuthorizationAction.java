@@ -244,7 +244,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
         setCanClose(authForm);
         setCanHold(authForm);
         setCanRemoveHold(authForm);
-        setCanReturn(authForm);
+        setCanReturnToFisicalOfficer(authForm);
         hideButtons(authForm);
     }
 
@@ -376,23 +376,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
         }
         
         authForm.setCanCalculate(can);
-    }
-    
-    /**
-     * Determines whether or not someone can amend a travel authorization
-     * 
-     * @param authForm
-     */
-    protected void setCanReturn(TravelAuthorizationForm authForm) {
-        boolean can = authForm.getTravelAuthorizationDocument().canReturn();
-
-        if (can) {
-            TravelAuthorizationAuthorizer documentAuthorizer = getDocumentAuthorizer(authForm);
-            String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(TravelAuthorizationAmendmentDocument.class);
-            can = documentAuthorizer.canReturn(authForm.getTravelAuthorizationDocument(), GlobalVariables.getUserSession().getPerson());
-        }
-
-        authForm.setCanReturn(can);
     }
 
     /**

@@ -144,7 +144,7 @@ public class TravelRelocationAuthorizer extends TravelDocumentAuthorizer impleme
     
 
     @Override
-    public boolean canReturn(TravelDocument travelDocument, Person user) {
+    public boolean canReturnToFisicalOfficer(TravelDocument travelDocument, Person user) {
         if(ObjectUtils.isNull(user)) {
             return false;
         }

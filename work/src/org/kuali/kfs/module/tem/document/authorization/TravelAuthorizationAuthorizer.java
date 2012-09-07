@@ -63,10 +63,10 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.authorization.ReturnToFiscalOfficerAuthorizer#canReturn(org.kuali.kfs.module.tem.document.TravelDocument, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.module.tem.document.authorization.ReturnToFiscalOfficerAuthorizer#canReturnToFisicalOfficer(org.kuali.kfs.module.tem.document.TravelDocument, org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public boolean canReturn(final TravelDocument travelDocument, final Person user) {
+    public boolean canReturnToFisicalOfficer(final TravelDocument travelDocument, final Person user) {
         if(ObjectUtils.isNull(user)) {
             return false;
         }
@@ -98,20 +98,6 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
         return getIdentityManagementService().isAuthorized(user.getPrincipalId(), nameSpaceCode,
                 TemConstants.PermissionNames.RETURN_TO_FO, permissionDetails, null);
         
-    }
-    
-    /**
-     * 
-     * @param travelDocument
-     * @param user
-     * @return
-     */
-    public boolean canCalculate(TravelAuthorizationDocument travelDocument, Person user) {
-        if(ObjectUtils.isNull(user)) {
-            return false;
-        }
-        //check to see if the user is either the initiator or is a fiscal officer for this doc      
-        return  getTravelService().isUserInitiatorOrArranger(travelDocument, user) || getTravelDocumentService().isResponsibleForAccountsOn(travelDocument, user.getPrincipalId());
     }
     
     /**
@@ -166,7 +152,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
             return false;
         }
         //if user is initiator or the arrange, do not allow to copy
-        return !getTravelService().isUserInitiatorOrArranger(travelDocument, user);
+        return getTravelService().isUserInitiatorOrArranger(travelDocument, user);
     }
     
     protected boolean getActionPermission(final TravelDocument travelDocument, final Person user, final String action, final boolean canInitiatorAct){

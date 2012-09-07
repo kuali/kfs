@@ -257,26 +257,35 @@ public class TemConstants extends JSTLConstants {
 
     public static final String TRAVEL_DOC_APP_DOC_STATUS_INIT = "Initiated";
     
-    public static class TravelAuthorizationStatusCodeKeys {
+    public static class TravelStatusCodeKeys {
         public static final String IN_PROCESS = "In Process";
-        public static final String AWAIT_ORG = "Awaiting Organization Review";
-        public static final String AWAIT_FISCAL = "Awaiting Fiscal Officer Review";
-        public static final String AWAIT_FISCAL_APP = "Awaiting Fiscal Officer Approver";
+        public static final String CANCELLED = "Cancelled";
+        
         public static final String AWAIT_TRVLR = "Awaiting Traveler Review";
+        public static final String AWAIT_FISCAL = "Awaiting Fiscal Officer Review";
+        public static final String AWAIT_ORG = "Awaiting Organization Review";        
         public static final String AWAIT_DIV = "Awaiting Division Review";
         public static final String AWAIT_INTL = "Awaiting International Travel Review";
-        public static final String AWAIT_RISK = "Awaiting Risk Management Review";
         public static final String AWAIT_SUB = "Awaiting Sub-Fund Review";
         public static final String AWAIT_AWARD = "Awaiting Award Review";
+        
+        public static final String DAPRVD_TRVLR = "Disapproved - Traveler";
+        public static final String DAPRVD_FISCAL = "Disapproved - Fiscal Officer";
+        public static final String DAPRVD_ORG = "Disapproved - Organization Review";
+        public static final String DAPRVD_DIV = "Disapproved - Division";
+        public static final String DAPRVD_INTL = "Disapproved - International Travel Review";
+        public static final String DAPRVD_SUB = "Disapproved - Sub-Fund Review";
+        public static final String DAPRVD_AWARD = "Disapproved - Award Review";
+    }
+    
+    public static class TravelAuthorizationStatusCodeKeys extends TravelStatusCodeKeys{
+        
         public static final String AWAIT_SPCL = "Awaiting Special Request Review";
+        public static final String AWAIT_RISK = "Awaiting Risk Management Review";
         public static final String AWAIT_TRVL_MGR = "Awaiting Travel Manager Review";
         public static final String REIMB_HELD = "Reimbursement On Hold";
-        public static final String CANCELLED = "Cancelled";
+        
         public static final String CLOSED = "Closed";
-        public static final String DAPRVD_ORG = "Disapproved - Org Review";
-        public static final String DAPRVD_FISCAL = "Disapproved - Fiscal Officer";
-        public static final String DAPRVD_DIV = "Disapproved - Division";
-        public static final String DAPRVD_INTL = "Disapproved - International Travel";
         public static final String DAPRVD_RISK = "Disapproved - Risk Management";
         public static final String DAPRVD_SUB = "Disapproved - Sub-Fund";
         public static final String DAPRVD_SPCL = "Disapproved - Special Request";
@@ -311,32 +320,14 @@ public class TemConstants extends JSTLConstants {
         return returnMap;
     }
 
-    public static class TravelReimbursementStatusCodeKeys {
-        public static final String AWAIT_TRAVELER = "Awaiting Traveler Review";
-        public static final String AWAIT_FISCAL = "Awaiting Fiscal Officer Review";
-        public static final String AWAIT_ORG = "Awaiting Organization Review";
-        public static final String AWAIT_DIV = "Awaiting Division Review";
-        public static final String AWAIT_INTL = "Awaiting International Travel Review";
-        public static final String AWAIT_SUB = "Awaiting Sub-Fund Review";
-        public static final String AWAIT_AWARD = "Awaiting Award Review";
+    public static class TravelReimbursementStatusCodeKeys extends TravelStatusCodeKeys{
         public static final String DEPT_APPROVED = "Department Approved";
-        
-        public static final String DAPRVD_TRAVELER = "Disapproved - Traveler";
-        public static final String DAPRVD_FISCAL = "Disapproved - Fiscal Officer";
-        public static final String DAPRVD_ORG = "Disapproved - Organization";
-        public static final String DAPRVD_DIV = "Disapproved - Division";
-        public static final String DAPRVD_INTL = "Disapproved - International Travel Reviewer";
-        public static final String DAPRVD_SUB = "Disapproved - Sub-Fund Review";
-        public static final String DAPRVD_AWARD = "Disapproved - Award Review";
-        
-        public static final String IN_PROCESS = "In Process";
-        public static final String CANCELLED = "Cancelled";
         
         public static HashMap<String, String> getDisapprovedAppDocStatusMap() {
             HashMap<String, String> disapprovedAppDocStatusMap;
             
             disapprovedAppDocStatusMap = new HashMap<String, String>();
-            disapprovedAppDocStatusMap.put(AWAIT_TRAVELER,  DAPRVD_TRAVELER);
+            disapprovedAppDocStatusMap.put(AWAIT_TRVLR,  DAPRVD_TRVLR);
             disapprovedAppDocStatusMap.put(AWAIT_FISCAL, DAPRVD_FISCAL);
             disapprovedAppDocStatusMap.put(AWAIT_ORG, DAPRVD_ORG);
             disapprovedAppDocStatusMap.put(AWAIT_DIV,  DAPRVD_DIV);

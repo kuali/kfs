@@ -97,7 +97,6 @@ import org.kuali.kfs.module.tem.document.validation.event.RecalculateTripDetailT
 import org.kuali.kfs.module.tem.document.validation.event.UpdateTripDetailsEvent;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
-import org.kuali.kfs.module.tem.exception.UploadParserException;
 import org.kuali.kfs.module.tem.report.service.TravelReportService;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.TravelerService;
@@ -248,20 +247,19 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     }
 
     /**
-     * Determines whether or not someone can amend a travel authorization
+     * Determines whether or not someone can return the document to fiscal officer
      * 
-     * @param reqForm
+     * @param form
      */
-    protected void setCanReturn(TravelFormBase reqForm) {
-        boolean can = reqForm.getTravelDocument().canReturn();
+    protected void setCanReturnToFisicalOfficer(TravelFormBase form) {
+        boolean can = form.getTravelDocument().canReturn();
 
         if (can) {
-            ReturnToFiscalOfficerAuthorizer documentAuthorizer = getDocumentAuthorizer(reqForm);
-            String documentTypeName = getDataDictionaryService().getDocumentTypeNameByClass(reqForm.getTravelDocument().getClass());
-            can = documentAuthorizer.canReturn(reqForm.getTravelDocument(), GlobalVariables.getUserSession().getPerson());
+            ReturnToFiscalOfficerAuthorizer documentAuthorizer = getDocumentAuthorizer(form);
+            can = documentAuthorizer.canReturnToFisicalOfficer(form.getTravelDocument(), GlobalVariables.getUserSession().getPerson());
         }
 
-        reqForm.setCanReturn(can);
+        form.setCanReturn(can);
     }
 
     @Override

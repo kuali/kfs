@@ -274,7 +274,6 @@
 "KFSSEC6003","KFSSEC6003","1","24","KFS-SEC","Inquire Into Records KFS-SEC","Authorizes inquiry of Access Security records.","Y"
 "KFSSEC6004","KFSSEC6004","1","16","KFS-SEC","Edit Document AccessSecuritySimpleMaintenanceDocument PreRoute","Authorizes edit of Access Security Simple Maintenance Documents.","Y"
 "KFSENDOW6005","KFSENDOW6005","1","10","KFS-ENDOW","Initiate Document TicklerMaintenanceDocument","Authorizes the initiation of the Tickler document","Y"
-"KFSENDOW6006","KFSENDOW6006","1","3","KFS-ENDOW","Administer Routing for Document TicklerMaintenanceDocument","Allows users to open Financial System Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).","Y"
 "KFSENDOW6007","KFSENDOW6007","1","9","KFS-ENDOW","Ad Hoc Review Document TicklerMaintenanceDocument F","Authorizes Kuali Users to take the FYI action on Tickler Document Ad Hoc routed to them.","Y"
 "KFSENDOW6008","KFSENDOW6008","1","29","KFS-ENDOW","Use Endowment Reporting Screens org.kuali.kfs.module.endow.web.struts.TrialBalanceAction","Authorizes the use of the Trial Balance reporting screen within the Endowment module.","Y"
 "KFSENDOW6009","KFSENDOW6009","1","29","KFS-ENDOW","Use Endowment Reporting Screens org.kuali.kfs.module.endow.web.struts.TransactionStatementAction","Authorizes the use of the Transaction Statement reporting screen within the Endowment module.","Y"
@@ -301,4 +300,4 @@ KFSMI8906-PRM,KFSMI8906-PRM,"1","41","KFS-PURAP","Modify Acct Lines PO Pur Proce
 "KFSMI8893-PRM1","KFSMI8893-PRM1",1,"68","KFS-FP","Recall Document FP","Enable Recall Document functionality for KFS FP documents.","Y"
 "KFSMI8893-PRM2","KFSMI8893-PRM2",1,"68","KFS-SYS","Recall Document KFS","Recall Document functionality for KFS documents.","Y"
 "KFSMI9071-PRM1","KFSMI9071-PRM1",1,"49","KFS-SYS","Send Complete Request KFS", "Authorizes users to send Complete ad hoc requests for KFS Documents","Y"
-"KFSMI-9372-1","KFSMI-9372-1",1,"3","KR-NS","Administer Routing for Document KFS","Allows users to open Financial System Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).","Y"
+"KFSMI-9372-1","KFSMI-9372-1",1,"KFSMI-9372-1","KR-SYS","Administer Routing for Document KFS","Allows users to open Financial System Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).","Y"

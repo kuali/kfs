@@ -15,10 +15,12 @@
  */
 package org.kuali.kfs.sys.document.validation.impl;
 
+import org.kuali.rice.kns.rules.DocumentRuleBase;
+
 
 
 /**
  * This class contains all of the business rules that are common to all ledger posting documents.
  */
-public class LedgerPostingDocumentRuleBase extends org.kuali.rice.kns.rules.TransactionalDocumentRuleBase {
+public class LedgerPostingDocumentRuleBase extends DocumentRuleBase {
 }

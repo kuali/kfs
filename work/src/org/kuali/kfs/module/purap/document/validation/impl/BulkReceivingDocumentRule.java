@@ -27,12 +27,13 @@ import org.kuali.kfs.module.purap.document.validation.ContinuePurapRule;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.rules.DocumentRuleBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.TransactionalDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class BulkReceivingDocumentRule extends org.kuali.rice.kns.rules.TransactionalDocumentRuleBase implements ContinuePurapRule {
+public class BulkReceivingDocumentRule extends DocumentRuleBase implements ContinuePurapRule {
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {       

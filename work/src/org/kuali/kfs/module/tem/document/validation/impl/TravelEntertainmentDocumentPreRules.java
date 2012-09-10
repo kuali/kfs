@@ -30,14 +30,15 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class TravelEntertainmentDocumentPreRules extends PromptBeforeValidationBase{
     
+    @SuppressWarnings("rawtypes")
     @Override
     public boolean doPrompts(Document document) {
-        boolean continueRoute = true;
-        boolean userClickedYes = false;
         
         TravelEntertainmentDocument entDoc = (TravelEntertainmentDocument) document;
         boolean attendeelistAttached = false;
         boolean nonEmployeeFormAttached = false;
+        boolean hostCertificationAttached = false;
+        
         List boNotes = entDoc.getBoNotes();
         if (ObjectUtils.isNotNull(boNotes)) {
             for (Object obj : boNotes) {
@@ -48,25 +49,30 @@ public class TravelEntertainmentDocumentPreRules extends PromptBeforeValidationB
                 if (ObjectUtils.isNotNull(note.getAttachment())&& TemConstants.AttachmentTypeCodes.NON_EMPLOYEE_FORM.equals(note.getAttachment().getAttachmentTypeCode())) {
                     nonEmployeeFormAttached = true;
                 }
+                if (ObjectUtils.isNotNull(note.getAttachment())&& TemConstants.AttachmentTypeCodes.ATTACHMENT_TYPE_ENT_HOST_CERT.equals(note.getAttachment().getAttachmentTypeCode())) {
+                    hostCertificationAttached = true;
+                }
+                
             }
         }
         
-        if((entDoc.getAttendeeListAttached()!=null&&entDoc.getAttendeeListAttached()&&!attendeelistAttached)||
-                (entDoc.getNonEmployeeCertified()!=null&&entDoc.getNonEmployeeCertified()&&!nonEmployeeFormAttached)){
-            continueRoute = false;
-            String attendeeQuestion="";
-            String nonEmployeeQuestion ="";
-            String proceed=SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TemKeyConstants.TEM_ENT_QUESTION_PROCEED);
-            if(entDoc.getAttendeeListAttached()!=null&&entDoc.getAttendeeListAttached()&&!attendeelistAttached)
-                attendeeQuestion= SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TemKeyConstants.TEM_ENT_DOC_ATTENDEE_LIST_QUESTION);
-            if(entDoc.getNonEmployeeCertified()!=null&&entDoc.getNonEmployeeCertified()&&!nonEmployeeFormAttached)
-                nonEmployeeQuestion= SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TemKeyConstants.TEM_ENT_NON_EMPLOYEE_FORM_QUESTION);
-           
-            userClickedYes = super.askOrAnalyzeYesNoQuestion("ENT_WARNING",attendeeQuestion+nonEmployeeQuestion+proceed);
-            if (!userClickedYes) {
-                this.event.setActionForwardName(KFSConstants.MAPPING_BASIC);
-            }
+        String question = "";
+        String proceed=SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TemKeyConstants.TEM_ENT_QUESTION_PROCEED);
+        if(entDoc.getAttendeeListAttached()!=null&&entDoc.getAttendeeListAttached()&&!attendeelistAttached){
+            question = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TemKeyConstants.TEM_ENT_DOC_ATTENDEE_LIST_QUESTION);
         }
-        return continueRoute ? true : userClickedYes;
+        else if (entDoc.getNonEmployeeCertified()!=null&&entDoc.getNonEmployeeCertified()&&!nonEmployeeFormAttached){
+            question = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TemKeyConstants.TEM_ENT_NON_EMPLOYEE_FORM_QUESTION);
+        }
+        else if (entDoc.getHostCertified()!=null&&entDoc.getHostCertified()&&!hostCertificationAttached){
+            question = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TemKeyConstants.TEM_ENT_HOST_CERTIFICATION_QUESTION);
+        }
+            
+        boolean userClickedYes = super.askOrAnalyzeYesNoQuestion("ENT_WARNING", question + proceed);
+        if (!userClickedYes) {
+            this.event.setActionForwardName(KFSConstants.MAPPING_BASIC);
+        }
+        
+        return userClickedYes;
     }
 }

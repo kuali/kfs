@@ -376,6 +376,15 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
     public boolean isSpecialCircumstancesDefaultOpen();
     
     /**
+     * Determine if emergency contact should be open
+     * 
+     * 1. International trip and the emergency contact is empty
+     * 
+     * @return
+     */
+    public boolean isEmergencyContactDefaultOpen();
+    
+    /**
      * Get the Travel Document disapproval app doc status map 
      * 
      * @return

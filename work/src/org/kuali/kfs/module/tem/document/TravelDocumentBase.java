@@ -52,6 +52,7 @@ import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ClassOfService;
+import org.kuali.kfs.module.tem.businessobject.EmergencyContact;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
@@ -1989,7 +1990,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         return getTripType() != null && getTripType().isGenerateEncumbrance();
     }
     
-    
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#isSpecialCircumstancesDefaultOpen()
      */
@@ -2006,6 +2006,19 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                     break;
                 }
             }
+        }
+        return isOpen;
+    }
+    
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#isSpecialCircumstancesDefaultOpen()
+     */
+    public boolean isEmergencyContactDefaultOpen(){
+        boolean isOpen = false;
+        List<String> internationalTrips = getParameterService().getParameterValues(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INTERNATIONAL_TRIP_TYPE_CODES);
+        if (internationalTrips.contains(getTripTypeCode())){
+            isOpen  = traveler.getEmergencyContacts().isEmpty();
         }
         return isOpen;
     }

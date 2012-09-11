@@ -269,7 +269,10 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
         return this.lodgingAllowanceIndicator;
     }
     
-    public void enableExpenseTypeSpecificFields(){        
+    public void enableExpenseTypeSpecificFields(){       
+        if (getTravelExpenseTypeCode() != null){
+            setTaxable(getTravelExpenseTypeCode().getTaxable());
+        }
         setAirfareIndicator(isAirfare());
         setMileageIndicator(isMileage());
         setRentalCarIndicator(isRentalCar());

@@ -84,6 +84,13 @@
 	<th>
 		<div align="left">
 			<kul:htmlAttributeLabel
+				attributeEntry="${otherExpenseAttributes.taxable}"
+				noColon="true" />
+		</div>
+	</th>
+	<th>
+		<div align="left">
+			<kul:htmlAttributeLabel
 				attributeEntry="${otherExpenseAttributes.missingReceipt}"
 				noColon="true" />
 		</div>

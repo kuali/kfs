@@ -26,7 +26,7 @@
 <c:set target="${paramMap}" property="tripType" value="${KualiForm.document.tripTypeCode}" />
 <c:set target="${paramMap}" property="travelerType" value="${KualiForm.document.traveler.travelerTypeCode}" />
 <c:set target="${paramMap}" property="documentType" value="${KualiForm.docTypeName}" />
-<c:set var="calcColspan" value="5" />
+<c:set var="calcColspan" value="6" />
 
 <tr>
 	<c:choose>
@@ -118,6 +118,14 @@
 				property="${detail}.nonReimbursable" readOnly="${!fullEntryMode || parentObject.nonReimbursable}" />
 		</div>
 	</td>
+	<td valign="top" nowrap class="infoline">
+		<div align="center">
+			<kul:htmlControlAttribute
+				attributeEntry="${otherExpenseAttributes.taxable}"
+				property="${detail}.taxable"
+				readOnly="${KualiForm.document.taxSelectable || !fullEntryMode || parentObject.taxSelectable }" />
+    	</div>
+    </td>
 	<td valign="top" class="infoline">
 		<div align="center">
 			<c:if test="${detailObject.travelExpenseTypeCode.receiptRequired}">

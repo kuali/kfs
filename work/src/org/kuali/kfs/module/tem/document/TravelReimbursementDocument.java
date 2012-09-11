@@ -285,6 +285,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
 
                     // setting to initiator
                     GlobalVariables.setUserSession(new UserSession(initiator.getPrincipalName()));
+                    @SuppressWarnings("null")
                     final TravelAuthorizationCloseDocument tacDocument = authorization.toCopyTAC();
                     getDocumentService().addNoteToDocument(tacDocument, newNoteTAC);
                     tacDocument.setTravelDocumentIdentifier(getTravelDocumentIdentifier());

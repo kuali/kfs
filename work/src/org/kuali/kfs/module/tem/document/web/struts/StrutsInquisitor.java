@@ -198,6 +198,7 @@ public class StrutsInquisitor<Document,StrutsF,StrutsA> implements Inquisitive<D
         return mapping.findForward(KFSConstants.MAPPING_PORTAL);
     }
 
+    @SuppressWarnings("null")
     protected ActionForward performQuestion(final String questionId,
                                             final String questionText,
                                             final String questionType,

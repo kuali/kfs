@@ -49,6 +49,7 @@ public class AgencyEntryGroupServiceImpl implements AgencyEntryGroupService {
         return false;
     }
 
+    @SuppressWarnings("null")
     @Override
     public String getNewestAgencyMatchingErrorFileName() {
         File newestFile = null;

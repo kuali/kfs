@@ -145,6 +145,7 @@ public class TravelDocumentNotificationServiceImpl implements TravelDocumentNoti
     /**
      * build mail message object from the given travel document
      */
+    @SuppressWarnings("null")
     protected MailMessage buildDocumentStatusChangeMailMessage(TravelDocument travelDocument, DocumentRouteStatusChangeDTO statusChangeDTO, NotificationPreference preference) {
         MailMessage mailMessage = new MailMessage();
 

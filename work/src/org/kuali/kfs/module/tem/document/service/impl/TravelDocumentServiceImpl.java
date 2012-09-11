@@ -261,6 +261,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#updatePerDiemItemsFor(String, List, Integer, Timestamp, Timestamp)
      */
+    @SuppressWarnings("null")
     // updatePerDiemItemsFor(final TravelDocument document, final Date start, final Date end)
     @Override
     public void updatePerDiemItemsFor(final TravelDocument document, final List<PerDiemExpense> perDiemExpenseList, final Integer perDiemId, final Timestamp start, final Timestamp end) {       

@@ -40,6 +40,7 @@ import org.kuali.rice.kns.service.KualiRuleService;
 
 public class AddImportedExpenseEvent implements Observer {
 
+    @SuppressWarnings("null")
     @Override
     public void update(Observable arg0, Object arg1) {
         if (!(arg1 instanceof TravelMvcWrapperBean)) {

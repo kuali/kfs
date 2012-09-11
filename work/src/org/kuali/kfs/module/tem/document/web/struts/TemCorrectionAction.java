@@ -489,7 +489,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
             agencyEntrySearchResultTableMetadata.jumpToFirstPage(correctionForm.getAllEntries().size(), maxRowsPerPage);
 
             // put errors on GlobalVariables
-            if (null != loadErrorMap || loadErrorMap.size() > 0) {
+            if (loadErrorMap != null && loadErrorMap.size() > 0) {
                 Iterator iter = loadErrorMap.keySet().iterator();
                 while (iter.hasNext()) {
                     Integer lineNumber = (Integer) iter.next();

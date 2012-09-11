@@ -38,6 +38,7 @@ public class AddActualExpenseDetailEvent implements Observer {
     private static final int WRAPPER_ARG_IDX       = 0;
     private static final int SELECTED_LINE_ARG_IDX = 1;
     
+    @SuppressWarnings("null")
     @Override
     public void update(Observable arg0, Object arg1) {
         if (!(arg1 instanceof Object[])) {

@@ -129,6 +129,7 @@ public abstract class AbstractDocumentSearchResultProcessor {
      * -in the workflow?
      * 
      */
+    @SuppressWarnings("null")
     public boolean filterByUser(DocSearchDTO docCriteriaDTO){
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         try {

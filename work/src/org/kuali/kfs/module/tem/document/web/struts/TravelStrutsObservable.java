@@ -37,6 +37,7 @@ public class TravelStrutsObservable extends Observable {
         super.addObserver(observer);
     }
 
+    @SuppressWarnings("null")
     @Override
     public void notifyObservers(final Object arg) {
         TravelMvcWrapperBean wrapper = null;

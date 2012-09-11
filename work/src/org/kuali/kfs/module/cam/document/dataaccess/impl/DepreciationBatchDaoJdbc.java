@@ -544,8 +544,8 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         sql = sql + "WHERE (A0.AST_DEPR1_BASE_AMT IS NOT NULL  AND  A0.AST_DEPR1_BASE_AMT <> 0) AND  (A0.AST_TRNFR_PMT_CD ";
         sql = sql + "IN ('N','') OR  A0.AST_TRNFR_PMT_CD IS NULL ) AND ( A1.AST_DEPR_MTHD1_CD IS NULL OR A1.AST_DEPR_MTHD1_CD IN (" + buildINValues(depreciationMethodList) + ") ) ";
         sql = sql + "AND (A1.CPTL_AST_DEPR_DT IS NOT NULL AND A1.CPTL_AST_DEPR_DT <= ? AND A1.CPTL_AST_DEPR_DT <> ?) ";
-        sql = sql + "AND nvl(AST_RETIRE_REAS_CD,'x') <> 'M'";
-        sql = sql + "AND nvl(AST_PRD12DEPR1_AMT,0) = 0 ";
+        sql = sql + "AND COALESCE(AST_RETIRE_REAS_CD,'x') <> 'M'";
+        sql = sql + "AND COALESCE(AST_PRD12DEPR1_AMT,0) = 0 ";
         if (!includeRetired) {
             sql = sql + "AND  (A1.AST_RETIR_FSCL_YR IS NULL OR A1.AST_RETIR_PRD_CD IS NULL OR A1.AST_RETIR_FSCL_YR > " + fiscalYear + " OR (A1.AST_RETIR_FSCL_YR = " + fiscalYear + " AND A1.AST_RETIR_PRD_CD > " + fiscalMonth + ")) ";
         }

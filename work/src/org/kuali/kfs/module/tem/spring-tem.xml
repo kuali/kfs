@@ -137,6 +137,7 @@
 	<bean id="historicalTravelExpenseLookupableHelperService"
 		class="org.kuali.kfs.module.tem.businessobject.lookup.ImportedExpenseLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService">
+        <property name="parameterService" ref="parameterService" />
 	</bean>
 	
 	<bean id="temProfileFromCustomerLookupableHelperService"

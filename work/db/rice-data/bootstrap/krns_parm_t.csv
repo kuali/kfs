@@ -834,3 +834,4 @@ KFS-FP,DisbursementVoucher,AR_PRE_DISBURSEMENT_EXTRACT_SUB_UNIT,KFS-TEM-PARM-140
 KFS-FP,DisbursementVoucher,CUSTOMER_PAYEE_TYPE_LABEL,KFS-TEM-PARM-141,1,CONFG,Customer,Label used for payees with type code C within the Disbursement Voucher.,A,KFS
 KFS-TEM,TravelAuthorization,ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND,KFS-TEM-PARM-142,1,CONFG,Y,"Enables accounting distribution tab (summary of expense by object code). When the parameter is ""N,"" only the normal Accounting Lines are displayed.",A,KFS
 KFS-TEM,Document,ENABLE_DAILY_PER_DIEM_AND_INCIDENTALS_IND,KFS-TEM-PARM-143,1,CONFG,Y,"Enables PerDiem daily validation using the meals and incidental totals as oppose to validating each meal and incidental limit.",A,KFS
+KFS-TEM,Document,INCLUDE_ARRANGER_EXPENSE_IN_IMPORTED_EXPENSE_IND,KFS-TEM-PARM-144,1,CONFG,Y,"Allow the user (arranger) to select their own imported expense for the traveler.",A,KFS

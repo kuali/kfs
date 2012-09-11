@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.cxf.common.util.StringUtils;
+import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.kfs.module.tem.service.TemProfileService;
@@ -34,22 +35,21 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class TemProfileServiceImpl implements TemProfileService {
     
     private BusinessObjectService businessObjectService;
-    private PersonService personService;
+    private PersonService<Person> personService;
 
     @Override
     public TEMProfile findTemProfileByPrincipalId(String principalId) {
         Map<String,String> criteria = new HashMap<String,String>(1);
-        criteria.put("principalId", principalId);
+        criteria.put(TEMProfileProperties.PRINCIPAL_ID, principalId);
         return findTemProfile(criteria);
     }
 
     @Override
     public TEMProfile findTemProfileById(Integer profileId) {
         Map<String,String> criteria = new HashMap<String,String>(1);
-        criteria.put("profileId", String.valueOf(profileId));
+        criteria.put(TEMProfileProperties.PROFILE_ID, String.valueOf(profileId));
         return findTemProfile(criteria);
     }
-
 
     @Override
     public TEMProfile findTemProfile(Map<String, String> criteria) {
@@ -59,7 +59,6 @@ public class TemProfileServiceImpl implements TemProfileService {
         }
         return null;
     }
-
 
     @Override
     public TemProfileAddress getAddressFromProfile(TEMProfile profile, TemProfileAddress defaultAddress) {
@@ -101,7 +100,7 @@ public class TemProfileServiceImpl implements TemProfileService {
      * Gets the personService attribute. 
      * @return Returns the personService.
      */
-    public PersonService getPersonService() {
+    public PersonService<Person> getPersonService() {
         return personService;
     }
 
@@ -109,7 +108,7 @@ public class TemProfileServiceImpl implements TemProfileService {
      * Sets the personService attribute value.
      * @param personService The personService to set.
      */
-    public void setPersonService(PersonService personService) {
+    public void setPersonService(PersonService<Person> personService) {
         this.personService = personService;
     }
 

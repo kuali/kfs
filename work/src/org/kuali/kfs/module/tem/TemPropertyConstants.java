@@ -23,7 +23,6 @@ import org.kuali.rice.core.util.JSTLConstants;
 /**
  * Travel and Entertainment module constants for business object properties
  * 
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class TemPropertyConstants extends JSTLConstants {
     public static final String TRAVELER_PROFILE_LOOKUPABLE = "travelerProfileLookupable";
@@ -220,6 +219,7 @@ public class TemPropertyConstants extends JSTLConstants {
         public static final String LODGING_NUMBER = "lodgingItineraryNumber";
     }
 
+    @SuppressWarnings("rawtypes")
     public static final Map<String, Class> KIMReadOnly() {
         Map<String, Class> returnMap = new HashMap<String, Class>();
         returnMap.put(TemPropertyConstants.TEMProfileProperties.FIRST_NAME, null);
@@ -327,6 +327,7 @@ public class TemPropertyConstants extends JSTLConstants {
     }
     
     public static final String TRAVEL_ADVANCE_ID = "travelAdvanceId";
+    public static final String ARRANGER_PROFILE_ID = "arrangerProfileId";
     public static final String AR_INVOICE_DOC_NUMBER = "arInvoiceDocNumber";
     public static final String TAXABLE_RAMIFICATION_NOTIFICATION_DATE = "taxRamificationNotificationDate";
     public static final String TRAVELER_DETAIL = "travelerDetail";

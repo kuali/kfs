@@ -99,6 +99,7 @@ import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.report.service.TravelReportService;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
+import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -173,6 +174,10 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
     protected AccountingDistributionService getAccountingDistributionService() {
         return SpringContext.getBean(AccountingDistributionService.class);
+    }
+    
+    protected TemProfileService getTemProfileService() {
+        return SpringContext.getBean(TemProfileService.class);
     }
     
     /**
@@ -364,7 +369,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         validateLookupInquiryFullParameter(request, form, fullParameter);
         String boClassName = StringUtils.substringBetween(fullParameter, KNSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL, KNSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
         if (!StringUtils.isBlank(boClassName)
-                && boClassName.equals("org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense")) {
+                && boClassName.equals(HistoricalTravelExpense.class.getName())) {
             TravelDocument document = travelForm.getTravelDocument();
             boolean success = true;
             if (document.getTemProfileId() == null) {
@@ -374,17 +379,12 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
                 success = false;
 
             }
-            /*
-             * if (document.getPrimaryDestinationId() == null){
-             * GlobalVariables.getMessageMap().putError(KNSPropertyConstants.DOCUMENT + "." +
-             * TemPropertyConstants.PRIMARY_DESTINATION_NAME ,
-             * TemKeyConstants.ERROR_TEM_IMPORT_EXPENSES_PRIMARY_DESTINATION_MISSING); success = false; }
-             */
             if (!success) {
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
             travelForm.setRefreshCaller(KFSConstants.MULTIPLE_VALUE);
             GlobalVariables.getUserSession().addObject(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, document.getTemProfileId());
+            GlobalVariables.getUserSession().addObject(TemPropertyConstants.ARRANGER_PROFILE_ID, getTemProfileService().findTemProfileByPrincipalId(GlobalVariables.getUserSession().getPrincipalId()).getProfileId());
             GlobalVariables.getUserSession().addObject(KFSPropertyConstants.DOCUMENT_TYPE_CODE, (Object) document.getFinancialDocumentTypeCode());
         }
         

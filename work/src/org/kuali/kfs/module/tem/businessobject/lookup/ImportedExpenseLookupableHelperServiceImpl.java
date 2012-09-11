@@ -20,46 +20,59 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import org.apache.commons.lang.text.StrBuilder;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.InputHtmlData;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 public class ImportedExpenseLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    
+    ParameterService parameterService;
+    
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         Integer profileID = (Integer) GlobalVariables.getUserSession().retrieveObject(TemPropertyConstants.TEMProfileProperties.PROFILE_ID);
-        fieldValues.put(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, profileID.toString());
-        String value = GlobalVariables.getUserSession().retrieveObject(KFSPropertyConstants.DOCUMENT_TYPE_CODE).toString();
         
+        List<String> lookupableProfileId = new ArrayList<String>();
+        lookupableProfileId.add(profileID.toString());
+         
+        boolean includeTravelerExpense = parameterService.getIndicatorParameter(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INCLUDE_ARRANGER_EXPENSE_IN_IMPORTED_EXPENSE_IND);
+        //also use the traveler's profile ID to get the result
+        if (includeTravelerExpense){
+            Integer travelerProfileID = (Integer) GlobalVariables.getUserSession().retrieveObject(TemPropertyConstants.ARRANGER_PROFILE_ID);
+            if (travelerProfileID != null){
+                lookupableProfileId.add(travelerProfileID.toString());
+            }
+        }
+        StrBuilder builder = new StrBuilder();
+        builder.appendWithSeparators(lookupableProfileId, "|");
+        
+        fieldValues.put(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, builder.toString());
+        String value = GlobalVariables.getUserSession().retrieveObject(KFSPropertyConstants.DOCUMENT_TYPE_CODE).toString();
         
         List<HistoricalTravelExpense> results = (List<HistoricalTravelExpense>) super.getSearchResultsHelper(fieldValues, true);
         List<HistoricalTravelExpense> newResults = new ArrayList<HistoricalTravelExpense>();
         Iterator<HistoricalTravelExpense> it = results.iterator();
         while (it.hasNext()){
             HistoricalTravelExpense historicalTravelExpense = it.next();
-            //removing filtering as part of KUALITEM-1220
             newResults.add(historicalTravelExpense);
-            /*if (value.equals(TemConstants.TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT)){
-                if (historicalTravelExpense.getAgencyStagingDataId() != null){
-                    newResults.add(historicalTravelExpense);
-                }
-            }
-            else{
-                newResults.add(historicalTravelExpense);
-            }*/
         }
         CollectionIncomplete collection = null;
         Integer limit = LookupUtils.getSearchResultsLimit(HistoricalTravelExpense.class);
@@ -78,7 +91,6 @@ public class ImportedExpenseLookupableHelperServiceImpl extends KualiLookupableH
      */
     @Override
     protected HtmlData getReturnInputHtmlData(BusinessObject businessObject, Properties parameters, LookupForm lookupForm, List returnKeys, BusinessObjectRestrictions businessObjectRestrictions) {
-        // TODO Auto-generated method stub
         HistoricalTravelExpense expense = (HistoricalTravelExpense)businessObject;
         if (!expense.getAssigned()
                 && (expense.getReconciled() == null || expense.getReconciled().equals(TemConstants.ReconciledCodes.UNRECONCILED))){
@@ -92,5 +104,9 @@ public class ImportedExpenseLookupableHelperServiceImpl extends KualiLookupableH
             return input;
         }
         
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

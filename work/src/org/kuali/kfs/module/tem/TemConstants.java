@@ -168,6 +168,7 @@ public class TemConstants extends JSTLConstants {
         public static final String TEM_EMAIL_SENDER_PARAM_NAME = "TEM_EMAIL_SENDER";
 
         public static final String VENDOR_PAYMENT_DV_REASON_CODE = "VENDOR_PAYMENT_DV_REASON_CODE";
+        public static final String INCLUDE_ARRANGER_EXPENSE_IN_IMPORTED_EXPENSE_IND = "INCLUDE_ARRANGER_EXPENSE_IN_IMPORTED_EXPENSE_IND";
     }
 
     public static class TravelAuthorizationParameters {

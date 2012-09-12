@@ -79,6 +79,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     private boolean showPerDiem;
     private boolean showPerDiemBreakdown = false;
     private boolean calculated;
+    private boolean canCalculate;
     private boolean canReturn;
     private boolean canShowImportExpenseDetails = true;
     private boolean enableImportedTaxable = true;
@@ -414,6 +415,14 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         this.canReturn = canReturn;
     }
 
+    public boolean canCalculate() {
+        return canCalculate;
+    }
+
+    public void setCanCalculate(boolean canCalculate) {
+        this.canCalculate = canCalculate;
+    }
+    
     /**
      * Gets the canImportExpenses attribute.
      * 
@@ -556,9 +565,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     }
 
     /**
-     * Calculate seems to apply only to TA for now, moving the button creation into TA's form
-     * 
-     * ** None of TR, RELO or ENT is calling the button permission for calculate
+     * Add extra buttons to the TEM forms
      * 
      * @see org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase#getExtraButtons()
      */
@@ -570,10 +577,20 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         if (canReturn()) {
             addExtraButton("methodToCall.returnToFiscalOfficer", appExternalImageURL + "buttonsmall_return_to_fo.gif", "Return to Fiscal Officer");
         }
+        if (canCalculate()){
+            addExtraButton("methodToCall.recalculateTripDetailTotal", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
+        }
 
         return extraButtons;
     }
 
+    /**
+     * Create and add button to the extraButton list
+     * 
+     * @param property
+     * @param source
+     * @param altText
+     */
     protected void addExtraButton(String property, String source, String altText) {
         ExtraButton newButton = new ExtraButton();
 

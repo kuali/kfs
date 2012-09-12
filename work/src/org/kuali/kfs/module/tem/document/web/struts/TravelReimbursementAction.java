@@ -212,10 +212,30 @@ public class TravelReimbursementAction extends TravelActionBase {
      * on
      */
     protected void setButtonPermissions(TravelReimbursementForm form) {
-        final TravelReimbursementAuthorizer authorizer = getDocumentAuthorizer(form);
-        form.setCanCertify(authorizer.canCertify(form.getTravelReimbursementDocument(), GlobalVariables.getUserSession().getPerson()));
         canSave(form);
+        
+        final TravelReimbursementAuthorizer authorizer = getDocumentAuthorizer(form);
+        //certify
+        form.setCanCertify(authorizer.canCertify(form.getTravelReimbursementDocument(), GlobalVariables.getUserSession().getPerson()));
+        setCanCalculate(form);
     }
+    
+    /**
+     * Determines whether or not someone can calculate a travel reimbursement
+     * 
+     * @param authForm
+     */
+    protected void setCanCalculate(TravelReimbursementForm form) {
+        boolean can = !(isFinal(form) || isProcessed(form));
+        
+        if (can) {
+            TravelReimbursementAuthorizer documentAuthorizer = getDocumentAuthorizer(form);
+            can = documentAuthorizer.canCalculate(form.getTravelReimbursementDocument(), GlobalVariables.getUserSession().getPerson());
+        }
+        
+        form.setCanCalculate(can);
+    }
+
     
     protected void canSave(TravelReimbursementForm reqForm) { 
         boolean can = !(isFinal(reqForm) || isProcessed(reqForm));       

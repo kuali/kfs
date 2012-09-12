@@ -20,7 +20,6 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.AttendeeProperties.A
 import static org.kuali.kfs.module.tem.TemPropertyConstants.AttendeeProperties.COMPANY;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.AttendeeProperties.TITLE;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.AttendeeProperties.NAME;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +28,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
 import org.kuali.kfs.module.tem.businessobject.options.AttendeeTypeValuesFinder;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
@@ -44,10 +44,11 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * Event that handles import of attendees from CSV File. Activated by the "Import Attendees" link
  *  
- *  
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class ImportAttendeesEvent implements Observer {
+    
+    public static Logger LOG = Logger.getLogger(ImportAttendeesEvent.class);
+    
     private static final int WRAPPER_ARG_IDX       = 0;
     private static final int FILE_CONTENTS_ARG_IDX = 1;
 
@@ -65,7 +66,7 @@ public class ImportAttendeesEvent implements Observer {
         }
         
         final Object[] args = (Object[]) arg;
-        debug(args[WRAPPER_ARG_IDX]);
+        LOG.debug(args[WRAPPER_ARG_IDX]);
         if (!(args[WRAPPER_ARG_IDX] instanceof TravelEntertainmentMvcWrapperBean)) {
             return;
         }

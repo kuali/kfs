@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.businessobject.lookup;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -24,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson;
 import org.kuali.kfs.module.tem.service.TemProfileService;
@@ -44,6 +44,8 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 @SuppressWarnings("rawtypes") 
 public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
+    public static Logger LOG = Logger.getLogger(TemProfileFromKimLookupableHelperServiceImpl.class);
+    
     private TravelerService travelerService;
     private PersonService<Person> personService;
     private TemProfileService temProfileService;
@@ -70,7 +72,7 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
         final Map<String, String> kimFieldsForLookup = fieldValues;
         //final Map<String, String> kimFieldsForLookup = this.getPersonFieldValues(fieldValues);
 
-        debug("Looking up people with criteria ", kimFieldsForLookup);
+        LOG.debug("Looking up people with criteria " + kimFieldsForLookup);
         final List<? extends Person> persons = personService.findPeople(kimFieldsForLookup);
         
         for (Person personDetail : persons) {

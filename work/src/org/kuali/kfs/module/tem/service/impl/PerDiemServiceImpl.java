@@ -19,8 +19,6 @@ import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.LODGING_OBJECT_CODE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PER_DIEM_OBJECT_CODE;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
 
 import java.sql.Date;
 import java.text.ParseException;
@@ -31,12 +29,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.tem.TemConstants.PerDiemParameter;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.PerDiemLoadStep;
 import org.kuali.kfs.module.tem.batch.businessobject.MealBreakDownStrategy;
-import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.MileageRateObjCode;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
@@ -46,6 +44,7 @@ import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
+import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.service.PerDiemService;
 import org.kuali.kfs.module.tem.service.TEMExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
@@ -64,7 +63,8 @@ import org.springframework.transaction.annotation.Transactional;
  * implement the service method calls defined in PerDiemService
  */
 public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemService, TEMExpenseService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PerDiemServiceImpl.class);
+    
+    private static Logger LOG = Logger.getLogger(PerDiemServiceImpl.class);
 
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
@@ -602,9 +602,9 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
                     perDiemCode = null;
                 }
             }
-            debug("Looking up Object Code for chart = ", defaultChartCode, " perDiemObjectCode = ", perDiemCode);
+            LOG.debug("Looking up Object Code for chart = "+ defaultChartCode+ " perDiemObjectCode = "+ perDiemCode);
             final ObjectCode perDiemObjCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, perDiemCode);
-            debug("Got per diem object code ", perDiemObjCode);
+            LOG.debug("Got per diem object code "+ perDiemObjCode);
 
             // Per Diem
             AccountingDistribution accountingDistribution = new AccountingDistribution();
@@ -622,7 +622,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
                         }
                         distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(expense.getMealsAndIncidentals()));
                         distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().add(expense.getMealsAndIncidentals()));
-                        debug("Set perdiem distribution subtotal to ", accountingDistribution.getSubTotal());       
+                        LOG.debug("Set perdiem distribution subtotal to "+ accountingDistribution.getSubTotal());       
                     }
                 }
                 
@@ -635,7 +635,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
                 distributeMileage(distributionMap, document);
             }
             else {
-                error("PerDiemObjCode is null!");
+                LOG.error("PerDiemObjCode is null!");
             }
         }        
         
@@ -653,9 +653,9 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
                 lodgingCode = null;
             }
         }
-        debug("Looking up Object Code for chart = ", defaultChartCode, " lodgingCode = ", lodgingCode);
+        LOG.debug("Looking up Object Code for chart = "+ defaultChartCode+ " lodgingCode = "+ lodgingCode);
         final ObjectCode lodgingObjCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, lodgingCode);
-        debug("Got lodging object code ", lodgingObjCode);
+        LOG.debug("Got lodging object code "+ lodgingObjCode);
 
         AccountingDistribution accountingDistribution = new AccountingDistribution();
         String key = lodgingObjCode.getCode() + "-" + document.getExpenseTypeCode();
@@ -691,9 +691,9 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
                             mileageCode = null;
                         }
                     }
-                    debug("Looking up Object Code for chart = ", defaultChartCode, " mileageCode = ", mileageCode);
+                    LOG.debug("Looking up Object Code for chart = "+ defaultChartCode+ " mileageCode = "+ mileageCode);
                     final ObjectCode mileageObjCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, mileageCode);
-                    debug("Got mileage object code ", mileageObjCode);
+                    LOG.debug("Got mileage object code "+ mileageObjCode);
                     String key = mileageObjCode.getCode() + "-" + document.getExpenseTypeCode();
                     
                     if (!distributionMap.containsKey(key)){

@@ -22,8 +22,6 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYE
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_TRAVELER_TYPES_NOT_CONFIGURED;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_TRAVELER_TYPES_NOT_SELECTED;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_DOC_TRAVELER_TYP_CD;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.warn;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
@@ -59,13 +58,14 @@ import org.kuali.rice.kns.util.GlobalVariables;
 /**
  * Custom helper service used to find {@link TravelerDetail} instances of employees or non-employees or both.
  *
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
+    public static Logger LOG = Logger.getLogger(TEMProfileLookupableHelperServiceImpl.class);
+    
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
-    private PersonService personService;
+    private PersonService<Person> personService;
     private TravelerService travelerService;
     private TravelerDao travelerDao;
     private AccountsReceivableModuleService accountsReceivableModuleService;
@@ -83,7 +83,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
             searchResults.addAll(getEmployeesAsTravelers(fieldValues));
         }
         else {
-            debug("Doing search for customers");
+            LOG.debug("Doing search for customers");
             searchResults.addAll(getNonEmployeesAsTravelers(fieldValues));
         }
         
@@ -104,7 +104,6 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
     @Override
     public void validateSearchParameters(Map fieldValues) {
         super.validateSearchParameters(fieldValues);
-
         
         if (fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD) == null || fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD).equals("")) {
             GlobalVariables.getMessageMap().putError(TRVL_DOC_TRAVELER_TYP_CD, ERROR_TRAVELER_TYPES_NOT_SELECTED, new String[] { (String) fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD) });
@@ -124,7 +123,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
     protected Map<String, String> convertFieldValues(final Class boClass, final Map<String, String> fieldValues) {
         Map<String, String> retval = new HashMap<String, String>();
 
-        debug("Converting field values ", fieldValues);
+        LOG.debug("Converting field values " + fieldValues);
 
         for (final FieldDefinition lookupField : getLookupFieldsFor(TravelerDetail.class.getName())) {
             final String attrName = lookupField.getAttributeName();
@@ -141,7 +140,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
                     retval.put(key, value);
                 }
                 else {
-                    warn("Got a null key for attribute name ", attrName);
+                    LOG.warn("Got a null key for attribute name " + attrName);
                 }
             }
             else if (containsAttribute(boClass, attrName)) {
@@ -182,7 +181,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
      * @return true if an employee search, false otherwise
      */
     protected boolean isEmployeeSearch(final Map<String, String> fieldValues) {
-        debug("Checking traveler type code ", fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD));
+        LOG.debug("Checking traveler type code " + fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD));
         final String employeeTypes = getParameterService().getParameterValue(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, EMPLOYEE_TRAVELER_TYPE_CODES);
         return employeeTypes.indexOf(fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD)) != -1;
     }
@@ -195,7 +194,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
      * @return true if an employee search, false otherwise
      */
     protected boolean isNonEmployeeSearch(final Map<String, String> fieldValues) {
-        debug("Checking traveler type code ", fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD));
+        LOG.debug("Checking traveler type code " + fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD));
         final String nonEmployeeTypes = getParameterService().getParameterValue(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, NON_EMPLOYEE_TRAVELER_TYPE_CODES);
         return nonEmployeeTypes.indexOf(fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD)) != -1;
     }
@@ -215,7 +214,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
         
         final Map<String, String> kimFieldsForLookup = this.getPersonFieldValues(fieldValues);
 
-        debug("Looking up people with criteria ", kimFieldsForLookup);
+        LOG.debug("Looking up people with criteria " + kimFieldsForLookup);
         final List<? extends Person> persons = getPersonService().findPeople(kimFieldsForLookup);
         
         for (Person personDetail : persons) {
@@ -245,13 +244,13 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
         final Map<String, String> fieldsForLookup = this.getCustomerFieldValues(fieldValues);
 
         final List<AccountsReceivableCustomerType> customerTypeList = getAccountsReceivableModuleService().findByCustomerTypeDescription(TemConstants.CUSTOMER_TRAVLER_TYPE_CODE);
-        debug("Got customer types ", customerTypeList);
-        debug("Got customer types ", customerTypeList.size());
+        LOG.debug("Got customer types " + customerTypeList);
+        LOG.debug("Got customer types " + customerTypeList.size());
         if(customerTypeList != null && customerTypeList.size() > 0) {
-            debug("Adding ", TemPropertyConstants.CUSTOMER_TYPE_CODE, " to fields to lookup");
+            LOG.debug("Adding " + TemPropertyConstants.CUSTOMER_TYPE_CODE + " to fields to lookup");
             fieldsForLookup.put(TemPropertyConstants.CUSTOMER_TYPE_CODE, customerTypeList.get(0).getCustomerTypeCode());
         }
-        debug("Using fieldsForLookup ", fieldsForLookup);
+        LOG.debug("Using fieldsForLookup " + fieldsForLookup);
         final Collection<AccountsReceivableCustomer> customers = getTravelerDao().findCustomersBy(fieldsForLookup);
 
         for (final AccountsReceivableCustomer customer : customers) {
@@ -279,11 +278,11 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
      * 
      * @param personService The personService to set.
      */
-    public void setPersonService(PersonService personService) {
+    public void setPersonService(PersonService<Person> personService) {
         this.personService = personService;
     }
 
-    public PersonService getPersonService() {
+    public PersonService<Person> getPersonService() {
         return this.personService;
     }
 
@@ -327,6 +326,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
     /**
      * @see org.kuali.rice.kns.datadictionary.DataDictionary#getBusinessObjectEntry(String)
      */
+    @SuppressWarnings("rawtypes")
     protected boolean containsAttribute(final Class boClass, final String attributeName) {
         return getDataDictionaryService().isAttributeDefined(boClass, attributeName);
     }

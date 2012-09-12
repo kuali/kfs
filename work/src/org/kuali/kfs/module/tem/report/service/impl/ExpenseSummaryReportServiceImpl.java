@@ -21,22 +21,21 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameter
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.SHOW_TA_ESTIMATE_IN_SUMMARY_REPORT_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TRANSPORTATION_TYPE_CODES;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.info;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
-import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.report.ExpenseSummaryReport;
 import org.kuali.kfs.module.tem.report.service.ExpenseSummaryReportService;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
@@ -55,9 +54,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportService {
 
+    public static Logger LOG = Logger.getLogger(ExpenseSummaryReportServiceImpl.class);
+    
     private KualiConfigurationService configurationService;
     private ParameterService parameterService;
-    private PersonService personService;
+    private PersonService<Person> personService;
     private TravelAuthorizationService travelAuthorizationService;
     private AccountingDistributionService accountingDistributionService;
     private TravelDocumentService travelDocumentService;
@@ -70,11 +71,11 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
         this.configurationService = kualiConfigurationService;
     }
 
-    public PersonService getPersonService() {
+    public PersonService<Person> getPersonService() {
         return personService;
     }
 
-    public void setPersonService(final PersonService personService) {
+    public void setPersonService(final PersonService<Person> personService) {
         this.personService = personService;
     }
 
@@ -83,7 +84,7 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
      */
     @Override
     public ExpenseSummaryReport buildReport(TravelDocument travelDocument) {
-        info("Building report objects");
+        LOG.info("Building report objects");
         final ExpenseSummaryReport retval = new ExpenseSummaryReport();
         retval.setTraveler(travelDocument.getTraveler().getFirstName() + " " + travelDocument.getTraveler().getLastName());
         
@@ -133,13 +134,13 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
             expenses.addAll(perDiemMealList);
         }
                
-        info("Adding details from other expenses");
-        debug("There are ", travelDocument.getActualExpenses().size(), " other expenses");
+        LOG.info("Adding details from other expenses");
+        LOG.debug("There are "+ travelDocument.getActualExpenses().size() + " other expenses");
         for (final ActualExpense expense : travelDocument.getActualExpenses()) {
             expense.refreshReferenceObject("travelExpenseTypeCode");
             
             if (expense.getNonReimbursable()) {
-                debug("Adding detail for non reimbursable item");
+                LOG.debug("Adding detail for non reimbursable item");
                 expenses.add(new ExpenseSummaryReport.Detail(expense.getTravelExpenseTypeCode().getName(), "NONREIMBURSABLE", expense.getConvertedAmount(), expense.getExpenseDate()));
             }
 
@@ -216,7 +217,7 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
     }
 
     protected boolean isTransportationExpense(final ActualExpense expense) {
-        debug("Checking if ", expense, " is a transportation ");
+        LOG.debug("Checking if " + expense+ " is a transportation ");
         return expenseTypeCodeMatchesParameter(expense.getTravelExpenseTypeCodeCode(), TRANSPORTATION_TYPE_CODES);
     }
 
@@ -225,7 +226,7 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
     }
     
     protected boolean isLodgingExpense(final ActualExpense expense) {
-        debug("Checking if ", expense, " is a lodging ");
+        LOG.debug("Checking if " + expense + " is a lodging ");
         return expenseTypeCodeMatchesParameter(expense.getTravelExpenseTypeCodeCode(), LODGING_TYPE_CODES);
     }
 

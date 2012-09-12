@@ -17,9 +17,6 @@ package org.kuali.kfs.module.tem.document;
 
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.ALLOW_TR_WITHOUT_TA_IND;
 import static org.kuali.kfs.module.tem.TemKeyConstants.TA_MESSAGE_CLOSE_DOCUMENT_TEXT;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.logger;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,6 +30,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -80,6 +78,8 @@ import org.kuali.rice.kns.util.ObjectUtils;
 @Table(name = "TEM_TRVL_REIMB_DOC_T")
 public class TravelReimbursementDocument extends TEMReimbursementDocument implements AmountTotaling {
 
+    public static Logger LOG = Logger.getLogger(TravelReimbursementDocument.class);
+    
     @Column(name = "final_reimb_ind", nullable = false, length = 1)
     private Boolean finalReimbursement = Boolean.FALSE;
     private Boolean employeeCertification = Boolean.FALSE;
@@ -245,7 +245,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         
-        debug("Handling route status change");
+        LOG.debug("Handling route status change");
         
         if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
             
@@ -296,11 +296,8 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
                     getDocumentService().routeDocument(tacDocument, getTripDescription(), null);
                 }
                 catch (Exception e) {
-                    error("Could not create TAC or route it with travel id ", getTravelDocumentIdentifier());
-                    error(e.getMessage());
-                    if (logger().isDebugEnabled()) {
-                        e.printStackTrace();
-                    }
+                    LOG.error("Could not create TAC or route it with travel id " + getTravelDocumentIdentifier());
+                    LOG.error(e.getMessage(), e);
                 }
                 finally {
                     // reset user session
@@ -312,11 +309,8 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
                 getTravelReimbursementService().processCustomerReimbursement(this);
             }
             catch (Exception e) {
-                error("Could not spawn CRM or DV on FINAL for travel id ", getTravelDocumentIdentifier());
-                error(e.getMessage());
-                if (logger().isDebugEnabled()) {
-                    e.printStackTrace();
-                }
+                LOG.error("Could not spawn CRM or DV on FINAL for travel id " + getTravelDocumentIdentifier());
+                LOG.error(e.getMessage(), e);
             }
         }
     }
@@ -328,7 +322,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     public void toCopy() throws WorkflowException {
         super.toCopy();
 
-        //TODO: super class already performed the cleanTravelDocument, this part seems to do nothing (unless it is moved to the base)
+        //TODO?? super class already performed the cleanTravelDocument, this part seems to do nothing (unless it is moved to the base)
         final boolean isTaFree = getParameterService().getIndicatorParameter(TemParameterConstants.TEM_REIMBURSEMENT.class, ALLOW_TR_WITHOUT_TA_IND);
         if (isTaFree) {
             cleanTravelDocument();

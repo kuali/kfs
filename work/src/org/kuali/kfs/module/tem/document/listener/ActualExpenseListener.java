@@ -18,7 +18,6 @@ package org.kuali.kfs.module.tem.document.listener;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_TR_LODGING_ALREADY_CLAIMED;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_TR_MEAL_ALREADY_CLAIMED;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.PER_DIEM_EXPENSE_DISABLED;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 import static org.kuali.kfs.sys.context.SpringContext.getBean;
 
 import java.beans.PropertyChangeEvent;
@@ -27,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
@@ -37,9 +37,11 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * Executed when a ActualExpense are added or removed
  * 
- * @author Leo Przybylski (leo [at] rsmart.com
  */
 public class ActualExpenseListener implements PropertyChangeListener, java.io.Serializable {
+    
+    public static Logger LOG = Logger.getLogger(ActualExpenseListener.class);
+    
     @Override
     public void propertyChange(final PropertyChangeEvent event) {
         final TravelDocumentBase document = (TravelDocumentBase) event.getSource();
@@ -98,7 +100,7 @@ public class ActualExpenseListener implements PropertyChangeListener, java.io.Se
         else if (event.getOldValue() instanceof ActualExpense) { // expense is being removed
             final ActualExpense newActualExpenseLine = (ActualExpense) event.getOldValue();
 
-            debug("Removing expense ", newActualExpenseLine);
+            LOG.debug("Removing expense " +newActualExpenseLine);
             if (getTravelDocumentService().isHostedMeal(newActualExpenseLine)) {
                 int i = 0;
                 Map disabled = document.getDisabledProperties();
@@ -106,7 +108,7 @@ public class ActualExpenseListener implements PropertyChangeListener, java.io.Se
                     final String mileageDate = new SimpleDateFormat("MM/dd/yyyy").format(perDiem.getMileageDate());
                     final String expenseDate = new SimpleDateFormat("MM/dd/yyyy").format(newActualExpenseLine.getExpenseDate());
 
-                    debug("Comparing ", mileageDate, " to ", expenseDate);
+                    LOG.debug("Comparing " + mileageDate + " to " + expenseDate);
                     if (mileageDate.equals(expenseDate)) {
                         for (final String meal : new String[] { "breakfast", "lunch", "dinner" }) {
                             final String property = String.format(PER_DIEM_EXPENSE_DISABLED, i, meal);

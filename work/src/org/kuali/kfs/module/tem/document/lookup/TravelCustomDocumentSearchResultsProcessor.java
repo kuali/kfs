@@ -16,13 +16,13 @@
 package org.kuali.kfs.module.tem.document.lookup;
 
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_DOC_SEARCH_RESULT_PROPERTY_NAME_ACTIONS;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.kew.docsearch.DocSearchDTO;
@@ -34,6 +34,9 @@ import org.kuali.rice.kew.web.KeyValueSort;
 import org.kuali.rice.kns.web.ui.Column;
 
 public class TravelCustomDocumentSearchResultsProcessor extends StandardDocumentSearchResultProcessor {
+    
+    public static Logger LOG = Logger.getLogger(TravelCustomDocumentSearchResultsProcessor.class);
+    
     TravelDocumentSearchResultsProcessor searchProcessor = null;
     
     @Override
@@ -92,7 +95,7 @@ public class TravelCustomDocumentSearchResultsProcessor extends StandardDocument
     @Override
     public Column constructColumnUsingKey(String key, String label,
             Boolean sortable) {
-        debug("Constructing column with key ", key);
+        LOG.debug("Constructing column with key "+ key);
         if (sortable == null) {
             // sortable = getSortableByKey().get(key);
         }
@@ -106,7 +109,7 @@ public class TravelCustomDocumentSearchResultsProcessor extends StandardDocument
     }
     
     public DocumentSearchResult generateSearchResults(final DocSearchDTO docCriteriaDTO, final List<Column> columns) {
-        debug("Searching with ", docCriteriaDTO);
+        LOG.debug("Searching with "+ docCriteriaDTO);
         boolean isFilteredOut = searchProcessor.filterSearchResult(docCriteriaDTO);
         
         if (isFilteredOut){
@@ -115,17 +118,17 @@ public class TravelCustomDocumentSearchResultsProcessor extends StandardDocument
         final Map<String, Object> alternateSortValues = getSortValuesMap(docCriteriaDTO);
         
         for (final Column column: columns) {
-            debug("Handling the column ", column.getPropertyName());
+            LOG.debug("Handling the column "+ column.getPropertyName());
             if (column.getPropertyName().equals(KEWPropertyConstants.DOC_SEARCH_RESULT_PROPERTY_NAME_ROUTE_HEADER_ID)){
                 column.setColumnTitle(TemConstants.DOCUMENT_NUMBER);
             }
             final KeyValueSort kvs = generateSearchResult(docCriteriaDTO, column, alternateSortValues);
-            debug("Got kvs result ", kvs);
+            LOG.debug("Got kvs result "+ kvs);
         }
         
         final DocumentSearchResult result = super.generateSearchResult(docCriteriaDTO, columns);
         
-        debug("Got search results retval ", result);
+        LOG.debug("Got search results retval "+ result);
         return searchProcessor.addActionsColumn(docCriteriaDTO, result);
         
     }

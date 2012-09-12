@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.dataaccess.impl;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -92,7 +90,7 @@ public class AccountingDocumentRelationshipDaoOjb extends PlatformAwareDaoBaseOj
     }
 
     private List<AccountingDocumentRelationship> find(Criteria c) {
-        debug("Creating query for type AccountingDocumentRelationship.class using criteria ", c);
+        LOG.debug("Creating query for type AccountingDocumentRelationship.class using criteria " + c);
         final Query query = QueryFactory.newQuery(AccountingDocumentRelationship.class, c);
         List<AccountingDocumentRelationship> results = (List<AccountingDocumentRelationship>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
 

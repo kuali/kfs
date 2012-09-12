@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.tem.businessobject.lookup;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.warn;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -26,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
@@ -50,6 +48,8 @@ import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    
+    public static Logger LOG = Logger.getLogger(TemProfileFromCustomerLookupableHelperServiceImpl.class);
     
     private TravelerService travelerService;
     private TravelerDao travelerDao;
@@ -119,7 +119,7 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
     private Map<String, String> convertFieldValues(Class<? extends BusinessObject> boClass, Map<String, String> fieldValues, String prefix, String lookupClassName) {
         Map<String, String> retval = new HashMap<String, String>();
 
-        debug("Converting field values ", fieldValues);
+        LOG.debug("Converting field values " + fieldValues);
 
         for (final FieldDefinition lookupField : getLookupFieldsFor(lookupClassName)) {
             String attrName = lookupField.getAttributeName();
@@ -136,7 +136,7 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
                     retval.put(prefix+key, value);
                 }
                 else {
-                    warn("Got a null key for attribute name ", attrName);
+                    LOG.warn("Got a null key for attribute name " + attrName);
                 }
             }
             else if (containsAttribute(boClass, attrName)) {
@@ -160,7 +160,7 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
         final Map<String, String> fieldsForLookup = this.getCustomerFieldValues(fieldValues);
 
         final Map<String, String> lookupFieldValues = new HashMap<String, String>();
-        debug("Using fieldsForLookup ", fieldsForLookup);
+        LOG.debug("Using fieldsForLookup " + fieldsForLookup);
                 
         final Collection<AccountsReceivableCustomer> customers = getTravelerDao().findCustomersBy(fieldsForLookup);
 

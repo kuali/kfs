@@ -15,11 +15,10 @@
  */
 package org.kuali.kfs.module.tem.service.impl;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
@@ -32,6 +31,8 @@ import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 
 public class ActualExpenseServiceImpl extends ExpenseServiceBase implements TEMExpenseService {
+    
+    public static Logger LOG = Logger.getLogger(ActualExpenseServiceImpl.class);
     
     /**
      * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#calculateDistributionTotals(org.kuali.kfs.module.tem.document.TravelDocument, java.util.Map, java.util.List)
@@ -78,7 +79,7 @@ public class ActualExpenseServiceImpl extends ExpenseServiceBase implements TEME
                             distribution.setSubTotal(expense.getConvertedAmount());
                             distributionMap.put(key, distribution);
 
-                            debug("Subtotal distribution ", distribution.getSubTotal());
+                            LOG.debug("Subtotal distribution " + distribution.getSubTotal());
                         }
                     }
                 }

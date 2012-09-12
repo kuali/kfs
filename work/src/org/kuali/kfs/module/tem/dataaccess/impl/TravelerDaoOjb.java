@@ -15,11 +15,10 @@
  */
 package org.kuali.kfs.module.tem.dataaccess.impl;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-
 import java.util.Collection;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -35,9 +34,10 @@ import org.kuali.rice.kns.util.OjbCollectionAware;
 /**
  * This is the data access interface for Travelers.
  * 
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class TravelerDaoOjb extends PlatformAwareDaoBaseOjb implements TravelerDao, OjbCollectionAware{
+    
+    public static Logger LOG = Logger.getLogger(TravelerDaoOjb.class);
     
     private static final String CUSTOMER_ADDRESSES_ATTR_PREFIX = "customerAddresses.";
     
@@ -67,23 +67,23 @@ public class TravelerDaoOjb extends PlatformAwareDaoBaseOjb implements TravelerD
                 obj = getAccountsReceivableModuleService().createCustomerAddress();
             }
             
-            debug("Adding ", newKey, "=", value, " to criteria");
+            LOG.debug("Adding "+ newKey+ "="+ value+ " to criteria");
             
-            debug("Criteria added successfully ", getLookupDao().createCriteria(obj, value, newKey, crit));
+            LOG.debug("Criteria added successfully "+ getLookupDao().createCriteria(obj, value, newKey, crit));
 
-            debug("New criteria is ", crit);
+            LOG.debug("New criteria is "+ crit);
         }
 
         if (!addressCrit.isEmpty()) {
-            debug("Adding Query with criteria ", addressCrit);
+            LOG.debug("Adding Query with criteria "+ addressCrit);
             customerCrit.addIn("customerNumber", QueryFactory.newReportQuery(getAccountsReceivableModuleService().createCustomerAddress().getClass(), new String[] { "customerNumber" }, addressCrit, false));
         }
 
-        debug("Creating query with criteria ", customerCrit);
+        LOG.debug("Creating query with criteria "+ customerCrit);
         
         final Query query = QueryFactory.newQuery(getAccountsReceivableModuleService().createCustomer().getClass(), customerCrit);
 
-        debug("Searching for Customers with query ", query);
+        LOG.debug("Searching for Customers with query "+ query);
 
         return (Collection<AccountsReceivableCustomer>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }

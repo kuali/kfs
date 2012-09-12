@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.tem.batch.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
 
 import java.util.List;
 
@@ -46,8 +45,9 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 
-public class ExpenseImportServiceBase {    
-    private static Logger LOG = org.apache.log4j.Logger.getLogger(ExpenseImportServiceBase.class);
+public class ExpenseImportServiceBase {
+    
+    private static Logger LOG = Logger.getLogger(ExpenseImportServiceBase.class);
 
     /**
      * 
@@ -203,7 +203,7 @@ public class ExpenseImportServiceBase {
             return objectCode;
         }
         catch (IllegalArgumentException e) {
-            error("IllegalArgumentException trying to get: " + parameter, e);
+            LOG.error("IllegalArgumentException trying to get: " + parameter, e);
             throw new RuntimeException("Unable to get parameter " + e.getMessage());
         }  
     }
@@ -221,7 +221,7 @@ public class ExpenseImportServiceBase {
             return objectCode;
         }
         catch (IllegalArgumentException e) {
-            error("IllegalArgumentException trying to get: " + parameter, e);
+            LOG.error("IllegalArgumentException trying to get: " + parameter, e);
             throw new RuntimeException("Unable to get parameter " + e.getMessage());
         }  
     }

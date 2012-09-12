@@ -20,7 +20,6 @@ import static org.kuali.kfs.module.tem.TemConstants.Report.TRAVEL_REPORT_INSTITU
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.LODGING_TYPE_CODES;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TRANSPORTATION_TYPE_CODES;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +30,7 @@ import java.util.GregorianCalendar;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
@@ -38,6 +38,7 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.report.SummaryByDayReport;
 import org.kuali.kfs.module.tem.report.service.SummaryByDayReportService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -51,9 +52,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SummaryByDayReportServiceImpl implements SummaryByDayReportService {
 
+    public static Logger LOG = Logger.getLogger(SummaryByDayReportServiceImpl.class);
+    
     private KualiConfigurationService configurationService;
     private ParameterService parameterService;
-    private PersonService personService;
+    private PersonService<Person> personService;
     private TravelDocumentService travelDocumentService;
     private SimpleDateFormat monthDay = new SimpleDateFormat("MM/dd");
 
@@ -65,11 +68,11 @@ public class SummaryByDayReportServiceImpl implements SummaryByDayReportService 
         this.configurationService = kualiConfigurationService;
     }
 
-    public PersonService getPersonService() {
+    public PersonService<Person> getPersonService() {
         return personService;
     }
 
-    public void setPersonService(final PersonService personService) {
+    public void setPersonService(final PersonService<Person> personService) {
         this.personService = personService;
     }
 
@@ -78,7 +81,7 @@ public class SummaryByDayReportServiceImpl implements SummaryByDayReportService 
      */
     @Override
     public SummaryByDayReport buildReport(final TravelDocument travelDocument) {
-        debug("Building a ", SummaryByDayReport.class, " report for trip id ", travelDocument.getTravelDocumentIdentifier());
+        LOG.debug("Building a "+ SummaryByDayReport.class+ " report for trip id "+ travelDocument.getTravelDocumentIdentifier());
         final SummaryByDayReport retval = new SummaryByDayReport();
         retval.setBeginDate(travelDocument.getTripBegin() != null ? DateUtils.clearTimeFields(travelDocument.getTripBegin()) : new Date());
         retval.setEndDate(travelDocument.getTripEnd() != null ? DateUtils.clearTimeFields(travelDocument.getTripEnd()) : new Date());        
@@ -186,27 +189,27 @@ public class SummaryByDayReportServiceImpl implements SummaryByDayReportService 
         }
         
         if (perDiemWeeklyTotal.size() > 0) {
-            debug("Adding ", perDiemWeeklyTotal.size(), " per diem weekly total");
+            LOG.debug("Adding "+ perDiemWeeklyTotal.size()+ " per diem weekly total");
             retval.setWeeklyTotal(perDiemWeeklyTotal);
         }
         if (other.size() > 0) {
-            debug("Adding ", other.size(), " other expenses");
+            LOG.debug("Adding "+ other.size()+ " other expenses");
             retval.setOtherExpenses(other);
         }
         if (transportation.size() > 0) {
-            debug("Adding ", transportation.size(), " transportation expenses");
+            LOG.debug("Adding "+ transportation.size()+ " transportation expenses");
             retval.setTransportation(transportation);
         }
         if (lodging.size() > 0) {
-            debug("Adding ", lodging.size(), " lodging expenses");
+            LOG.debug("Adding "+ lodging.size()+ " lodging expenses");
             retval.setLodging(lodging);
         }
         if (meals.size() > 0) {
-            debug("Adding ", meals.size(), " meals expenses");
+            LOG.debug("Adding "+ meals.size()+ " meals expenses");
             retval.setMeals(meals);
         }
         if (summary.size() > 0) {
-            debug("Adding ", summary.size(), " summary");
+            LOG.debug("Adding "+ summary.size()+ " summary");
             retval.setSummary(summary);
         }
         return retval;
@@ -218,22 +221,22 @@ public class SummaryByDayReportServiceImpl implements SummaryByDayReportService 
             summaryAmount = KualiDecimal.ZERO;
         }
         summaryAmount = summaryAmount.add(expense);
-        debug("Adding ", summaryAmount, " for ", expenseDate, " to summary data");
+        LOG.debug("Adding "+ summaryAmount+ " for "+ expenseDate+ " to summary data");
         summaryData.put(expenseDate, summaryAmount);
     }
 
     protected boolean isTransportationExpense(final ActualExpense expense) {
-        debug("Checking if ", expense, " is a transportation ");
+        LOG.debug("Checking if "+ expense+ " is a transportation ");
         return expenseTypeCodeMatchesParameter(expense.getTravelExpenseTypeCodeCode(), TRANSPORTATION_TYPE_CODES);
     }
 
     protected boolean isLodgingExpense(final ActualExpense expense) {
-        debug("Checking if ", expense, " is a lodging ");
+        LOG.debug("Checking if "+ expense+ " is a lodging ");
         return expenseTypeCodeMatchesParameter(expense.getTravelExpenseTypeCodeCode(), LODGING_TYPE_CODES);
     }
 
     protected boolean isMealsExpense(final ActualExpense expense) {
-        debug("Checking if ", expense, " is a meal ");
+        LOG.debug("Checking if "+ expense+ " is a meal ");
         return getTravelDocumentService().isHostedMeal(expense);
     }
 

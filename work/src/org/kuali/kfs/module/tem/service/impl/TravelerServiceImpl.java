@@ -20,7 +20,6 @@ import static org.kuali.kfs.module.tem.TemConstants.NONEMP_TRAVELER_TYP_CD;
 import static org.kuali.kfs.module.tem.TemConstants.TemProfileParameters.AR_CUSTOMER_TYPE_TO_TRAVELER_TYPE_CROSSWALK;
 import static org.kuali.kfs.module.tem.TemConstants.TemProfileParameters.KIM_AFFILIATION_TYPE_TO_TRAVELER_TYPE_CROSSWALK;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.EMPLOYEE_TRAVELER_TYPE_CODES;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -658,11 +657,11 @@ public class TravelerServiceImpl implements TravelerService {
     @Override
     public boolean isParentOrg(String chartCode, String orgCode, String roleChartCode, String roleOrgCode, boolean descendHierarchy) {
         if ( StringUtils.isBlank(chartCode) || StringUtils.isBlank(orgCode) ) {
-            debug("No chart/org qualifications passed into isParentOrg()");
+            LOG.debug("No chart/org qualifications passed into isParentOrg()");
             return false;
         }
         if (ObjectUtils.isNull(roleChartCode) && ObjectUtils.isNull(roleOrgCode)) {
-            debug("Call to "+this.getClass().getName()+" with no organization role qualifiers; both chart and organization code are null.  Please ensure that qualification data has organization information for this role.");
+            LOG.debug("Call to "+this.getClass().getName()+" with no organization role qualifiers; both chart and organization code are null.  Please ensure that qualification data has organization information for this role.");
             return false;
         }
         if (ObjectUtils.isNull(roleOrgCode)) {

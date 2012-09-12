@@ -19,7 +19,6 @@ import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.Report.TRAVEL_REPORT_INSTITUTION_NAME;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TEM_FAX_NUMBER;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
 
 import java.io.File;
@@ -31,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
@@ -59,9 +59,11 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCertificationReportService{
     
+    public static Logger LOG = Logger.getLogger(NonEmployeeCertificationReportServiceImpl.class);
+    
     private ParameterService parameterService;
     private ReportInfo reportInfo;
-    private PersonService personService;
+    private PersonService<Person> personService;
     private OrganizationService organizationService;
     private TravelDocumentService travelDocumentService;
     private TemProfileService temProfileService;
@@ -155,7 +157,7 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
             summaryAmount = KualiDecimal.ZERO;
         }
         summaryAmount = summaryAmount.add(expense.getExpenseAmount().multiply(expense.getCurrencyRate()));
-        debug("Adding ", summaryAmount, " for ", expenseDate, " to summary data");
+        LOG.debug("Adding " + summaryAmount + " for " + expenseDate + " to summary data");
         summaryData.put(expenseDate, summaryAmount);
     }
     

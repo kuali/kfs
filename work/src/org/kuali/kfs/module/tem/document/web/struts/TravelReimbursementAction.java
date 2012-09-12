@@ -35,7 +35,6 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameter
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.FOREIGN_CURRENCY_URL;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_MIME_TYPE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT_NUMBER;
@@ -54,6 +53,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -95,10 +95,11 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 /***
  * Action methods for the {@link TravelReimbursementDocument}
  *
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class TravelReimbursementAction extends TravelActionBase {
 
+    public static Logger LOG = Logger.getLogger(TravelReimbursementAction.class);
+    
     /**
      * method used for doc handler actions. Typically assumes that this is the entry point for the 
      * document when it is first created. A number of things are done hear assuming the document
@@ -116,14 +117,14 @@ public class TravelReimbursementAction extends TravelActionBase {
         final String identifierStr = request.getParameter(TRVL_IDENTIFIER_PROPERTY);
 
         if (identifierStr != null) {
-            debug("Creating reimbursement for document number ", identifierStr);
+            LOG.debug("Creating reimbursement for document number "+ identifierStr);
             document.setTravelDocumentIdentifier(identifierStr);
             TravelAuthorizationDocument authorization = (TravelAuthorizationDocument) getTravelDocumentService().findCurrentTravelAuthorization(document);
             
-            debug("Setting traveler with id ", authorization.getTravelerDetailId());
+            LOG.debug("Setting traveler with id "+ authorization.getTravelerDetailId());
             document.setTravelerDetailId(authorization.getTravelerDetailId());
             document.refreshReferenceObject(TemPropertyConstants.TRAVELER);
-            debug("Traveler is ", document.getTraveler(), " with customer number ", document.getTraveler().getCustomerNumber());
+            LOG.debug("Traveler is "+ document.getTraveler()+ " with customer number "+ document.getTraveler().getCustomerNumber());
 
             if (document.getTraveler().getPrincipalId() != null) {
                 document.getTraveler().setPrincipalName(getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName());
@@ -196,7 +197,7 @@ public class TravelReimbursementAction extends TravelActionBase {
 
     protected void refreshCollectionsFor(final TravelReimbursementDocument reimbursement) {
         if (!reimbursement.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
-            debug("Refreshing objects in reimbursement");
+            LOG.debug("Refreshing objects in reimbursement");
             reimbursement.refreshReferenceObject(TemPropertyConstants.PER_DIEM_EXP);
             reimbursement.refreshReferenceObject(TemPropertyConstants.TRAVELER);
             reimbursement.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
@@ -352,7 +353,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             mileage.setDocumentNumber(reimbursement.getDocumentNumber());
 
             if (mileage.getMileageRateId() != null) {
-                debug("Adding mileage for estimate with date ", estimate.getMileageDate());
+                LOG.debug("Adding mileage for estimate with date "+ estimate.getMileageDate());
                 reimbursement.getPerDiemExpenses().add(mileage);
             }
         }
@@ -412,7 +413,7 @@ public class TravelReimbursementAction extends TravelActionBase {
 
         // if a cancel occurred on address lookup we need to reset the payee id and type, rest of fields will still have correct
         // information
-        debug("Got refresh caller ", refreshCaller);
+        LOG.debug("Got refresh caller "+ refreshCaller);
         if (refreshCaller == null) {
             return null;
         }
@@ -536,16 +537,16 @@ public class TravelReimbursementAction extends TravelActionBase {
         
         document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
         setButtonPermissions(reimbForm);
-        debug("Found ", document.getActualExpenses().size(), " other expenses");
+        LOG.debug("Found "+ document.getActualExpenses().size()+ " other expenses");
 
         if (reimbForm.getHistory() == null) {
-            debug("Looking up history for TEM document number ", travelIdentifier);
+            LOG.debug("Looking up history for TEM document number "+ travelIdentifier);
             final List<Serializable> history = new ArrayList<Serializable>();
             final Collection<TravelReimbursementDocument> docs = getTravelReimbursementService().findByTravelId(travelIdentifier);
-            debug("Got history of size ", docs.size());
+            LOG.debug("Got history of size "+ docs.size());
             for (final TravelReimbursementDocument found : docs) {
-                debug("Creating history object for document ", found);
-                debug("Using header ", found.getDocumentHeader());
+                LOG.debug("Creating history object for document "+ found);
+                LOG.debug("Using header "+ found.getDocumentHeader());
                 history.add(new HistoryValueObject(found));
             }
             reimbForm.setHistory(history);
@@ -598,7 +599,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         request.setAttribute(CERTIFICATION_STATEMENT_ATTRIBUTE, getCertificationStatement(document));
         request.setAttribute(EMPLOYEE_TEST_ATTRIBUTE, isEmployee(document.getTraveler()));
         request.setAttribute(TemConstants.DELINQUENT_TEST_ATTRIBUTE, document.getDelinquentAction());
-        debug("Found ", document.getActualExpenses().size(), " other expenses");
+        LOG.debug("Found "+ document.getActualExpenses().size()+ " other expenses");
                 
         final boolean showAdvances = getParameterService().getIndicatorParameter(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE, DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND);
         request.setAttribute(SHOW_ADVANCES_ATTRIBUTE, showAdvances);
@@ -718,7 +719,7 @@ public class TravelReimbursementAction extends TravelActionBase {
      */
     protected int getSelectedOtherExpenseIndex(final HttpServletRequest request, final TravelReimbursementDocument document) {
         final String parameterName = (String) request.getAttribute(METHOD_TO_CALL_ATTRIBUTE);
-        debug("Getting selected other expense index from ", parameterName);
+        LOG.debug("Getting selected other expense index from "+ parameterName);
         if (isNotBlank(parameterName)) {
             return Integer.parseInt(substringBetween(parameterName, TemPropertyConstants.ACTUAL_EXPENSES+"[", "]."));
         }

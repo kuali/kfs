@@ -21,7 +21,6 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameter
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TEM_FAX_NUMBER;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TRANSPORTATION_TYPE_CODES;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -31,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
@@ -45,6 +45,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.ReportGenerationService;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -58,9 +59,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TravelEntertainmentHostCertificationServiceImpl implements TravelEntertainmentHostCertificationService {
 
+    public static Logger LOG = Logger.getLogger(TravelEntertainmentHostCertificationServiceImpl.class);
+    
     private KualiConfigurationService configurationService;
     private ParameterService parameterService;
-    private PersonService personService;
+    private PersonService<Person> personService;
     private TravelDocumentService travelDocumentService;
     private ReportInfo entReportInfo;
     private TemProfileService temProfileService;
@@ -73,11 +76,11 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
         this.configurationService = kualiConfigurationService;
     }
 
-    public PersonService getPersonService() {
+    public PersonService<Person> getPersonService() {
         return personService;
     }
 
-    public void setPersonService(final PersonService personService) {
+    public void setPersonService(final PersonService<Person> personService) {
         this.personService = personService;
     }
 
@@ -146,12 +149,12 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
             summaryAmount = KualiDecimal.ZERO;
         }
         summaryAmount = summaryAmount.add(expense.getExpenseAmount().multiply(expense.getCurrencyRate()));
-        debug("Adding ", summaryAmount, " for ", expenseDate, " to summary data");
+        LOG.debug("Adding "+ summaryAmount+ " for "+ expenseDate+ " to summary data");
         summaryData.put(expenseDate, summaryAmount);
     }
 
     protected boolean isTransportationExpense(final ActualExpense expense) {
-        debug("Checking if ", expense, " is a transportation ");
+        LOG.debug("Checking if "+ expense+ " is a transportation ");
         return expenseTypeCodeMatchesParameter(expense.getTravelExpenseTypeCodeCode(), TRANSPORTATION_TYPE_CODES);
     }
 
@@ -160,7 +163,7 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
     }
     
     protected boolean isLodgingExpense(final ActualExpense expense) {
-        debug("Checking if ", expense, " is a lodging ");
+        LOG.debug("Checking if "+ expense+ " is a lodging ");
         return expenseTypeCodeMatchesParameter(expense.getTravelExpenseTypeCodeCode(), LODGING_TYPE_CODES);
     }
 

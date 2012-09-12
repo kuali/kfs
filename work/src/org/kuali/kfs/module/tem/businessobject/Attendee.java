@@ -15,10 +15,6 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.logger;
-
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 
@@ -29,12 +25,15 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name="TEM_ATTENDEE_T")
 public class Attendee  extends PersistableBusinessObjectBase{
 
+    public static Logger LOG = Logger.getLogger(Attendee.class);
+    
     @GeneratedValue(generator="TEM_ATTENDEE_ID_SEQ")
     @SequenceGenerator(name="TEM_ATTENDEE_ID_SEQ",sequenceName="TEM_ATTENDEE_ID_SEQ", allocationSize=5)
     private Integer id;
@@ -109,7 +108,7 @@ public class Attendee  extends PersistableBusinessObjectBase{
             boolean rethrow = true;
             Exception e = null;
             while (rethrow) {
-                debug("Looking for id in ", boClass.getName());
+                LOG.debug("Looking for id in "+ boClass.getName());
                 try {
                     final Field idField = boClass.getDeclaredField("id");
                     final SequenceGenerator sequenceInfo = idField.getAnnotation(SequenceGenerator.class);
@@ -118,7 +117,7 @@ public class Attendee  extends PersistableBusinessObjectBase{
                 }
                 catch (Exception ee) {
                     // ignore and try again
-                    debug("Could not find id in ", boClass.getName());
+                    LOG.debug("Could not find id in "+ boClass.getName());
                     
                     // At the end. Went all the way up the hierarchy until we got to Object
                     if (Object.class.equals(boClass)) {
@@ -136,9 +135,9 @@ public class Attendee  extends PersistableBusinessObjectBase{
             }
         }
         catch (Exception e) {
-            error("Could not get the sequence name for business object ", getClass().getSimpleName());
-            error(e.getMessage());
-            if (logger().isDebugEnabled()) {
+            LOG.error("Could not get the sequence name for business object "+ getClass().getSimpleName());
+            LOG.error(e.getMessage());
+            if (LOG.isDebugEnabled()) {
                 e.printStackTrace();
             }
         }

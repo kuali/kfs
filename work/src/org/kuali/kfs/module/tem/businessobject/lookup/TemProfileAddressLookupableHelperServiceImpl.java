@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.businessobject.lookup;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,6 +26,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.cxf.common.util.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
@@ -52,6 +51,8 @@ import org.springframework.util.ObjectUtils;
 
 public class TemProfileAddressLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 	
+    public static Logger LOG = Logger.getLogger(TemProfileAddressLookupableHelperServiceImpl.class);
+    
     /**
 	 * Comment for <code>serialVersionUID</code>
 	 */
@@ -124,7 +125,7 @@ public class TemProfileAddressLookupableHelperServiceImpl extends KualiLookupabl
         if (ObjectUtils.isEmpty(searchResults.toArray()) && fieldValues.containsKey(TEMProfileProperties.CUSTOMER_NUMBER) && !StringUtils.isEmpty(fieldValues.get(TEMProfileProperties.CUSTOMER_NUMBER))) {
         	final Map<String, String> customerFieldsForLookup = this.getCustomerFieldValues(fieldValues);
             
-            debug("Using fieldsForLookup ", customerFieldsForLookup);
+            LOG.debug("Using fieldsForLookup "+ customerFieldsForLookup);
                
             Collection<AccountsReceivableCustomerAddress> customerAddresses = getAccountsReceivableModuleService().searchForCustomerAddresses(customerFieldsForLookup);
 

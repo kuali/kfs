@@ -33,7 +33,6 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYE
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRIP_INFO_UPDATE_TRIP_DTL;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -57,6 +56,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -140,6 +140,8 @@ import com.lowagie.text.pdf.SimpleBookmark;
  */
 public abstract class TravelActionBase extends KualiAccountingDocumentActionBase {
 
+    public static Logger LOG = Logger.getLogger(TravelActionBase.class);
+    
     protected static final String[] methodToCallExclusionArray = { "recalculate", "calculate", "recalculateTripDetailTotal", "save", "route", "approve", "blanketApprove", "updatePerDiemExpenses" };
     public static final String[] GROUP_TRAVELER_ATTRIBUTE_NAMES = { "travelerTypeCode", "groupTravelerEmpId", "name" };
 
@@ -187,7 +189,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      * document.
      */
     public ActionForward returnToFiscalOfficer(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        debug("Returning to Fiscal Officer");
+        LOG.debug("Returning to Fiscal Officer");
         final QuestionHandler<TravelDocument> questionHandler = getQuestionHandler(RETURN_TO_FO_QUESTION);
 
         final Inquisitive<TravelDocument, ActionForward> inq = new StrutsInquisitor<TravelDocument, TravelFormBase, TravelActionBase>(mapping, (TravelFormBase) form, this, request, response);
@@ -226,7 +228,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      * @throws Exception
      */
     protected ActionForward askQuestionsAndPerformDocumentAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String confirmType, String documentType, String notePrefix, String messageType, String operation) throws Exception {
-        debug("askQuestionsAndPerformDocumentAction started.");
+        LOG.debug("askQuestionsAndPerformDocumentAction started.");
         TravelFormBase trForm = (TravelFormBase) form;
         TravelDocument document = trForm.getTravelDocument();
         
@@ -875,7 +877,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         travelReqForm.getNewSourceLine().setAmount(this.getAccountingLineAmountToFillIn(travelReqForm));
 
         // forcing a refresh does the same as recalculation (unless we change how we do it)
-        debug("Recalculating travel auth document ", travelReqDoc.getTravelDocumentIdentifier());
+        LOG.debug("Recalculating travel auth document " + travelReqDoc.getTravelDocumentIdentifier());
         travelReqForm.setCalculated(true);
 
         GlobalVariables.getMessageList().add(TemKeyConstants.MESSAGE_RECALCULATE_SUCCESSFUL);

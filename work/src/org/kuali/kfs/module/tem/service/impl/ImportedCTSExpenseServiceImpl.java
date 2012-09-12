@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.tem.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
 import java.sql.Date;
 import java.util.HashMap;
@@ -24,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.module.tem.TemConstants;
@@ -43,7 +43,8 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements TEMExpenseService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ImportedCTSExpenseServiceImpl.class);
+    
+    private static Logger LOG = Logger.getLogger(ImportedCTSExpenseServiceImpl.class);
 
     ImportedExpensePendingEntryService importedExpensePendingEntryService;
     
@@ -70,8 +71,7 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
                     financialObjectCode= getParameterService().getParameterValue(PARAM_NAMESPACE, TemConstants.AgencyMatchProcessParameter.AGENCY_MATCH_DTL_TYPE, TemConstants.AgencyMatchProcessParameter.CTS_RENTAL_CAR_OBJECT_CODE);
                 }
                  
-                debug("Refreshed importedExpense with expense type code ", expense.getTravelExpenseTypeCode(),
-                        " and financialObjectCode ", financialObjectCode);
+                LOG.debug("Refreshed importedExpense with expense type code " + expense.getTravelExpenseTypeCode() + " and financialObjectCode " + financialObjectCode);
 
                 final ObjectCode objCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, expense.getTravelExpenseTypeCode().getFinancialObjectCode());
                 if (objCode != null && expense.getTravelExpenseTypeCode() != null && !expense.getTravelExpenseTypeCode().isPrepaidExpense()){

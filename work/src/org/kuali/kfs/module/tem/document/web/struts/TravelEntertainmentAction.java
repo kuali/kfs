@@ -18,14 +18,16 @@ package org.kuali.kfs.module.tem.document.web.struts;
 import static org.kuali.kfs.module.tem.TemConstants.COVERSHEET_FILENAME_FORMAT;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_REPORTS_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT_NUMBER;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -58,6 +60,8 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
  */
 public class TravelEntertainmentAction extends TravelActionBase {
 
+    public static Logger LOG = Logger.getLogger(TravelEntertainmentAction.class);
+    
     public static final String[] ATTENDEE_ATTRIBUTE_NAMES = { TemPropertyConstants.AttendeeProperties.ATTENDEE_TYPE, TemPropertyConstants.AttendeeProperties.COMPANY, TemPropertyConstants.AttendeeProperties.TITLE,TemPropertyConstants.AttendeeProperties.NAME};
     public static final Integer[] MAX_LENGTH={10,40,40,40};
     
@@ -239,7 +243,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
 
     protected void refreshCollectionsFor(final TravelEntertainmentDocument entDoc) {       
         if (!entDoc.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
-            debug("Refreshing objects in entertainment document");
+            LOG.debug("Refreshing objects in entertainment document");
             entDoc.refreshReferenceObject(TemPropertyConstants.TRAVELER);
             entDoc.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
             entDoc.refreshReferenceObject(TemPropertyConstants.ACTUAL_EXPENSES);

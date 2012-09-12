@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.module.tem.document.service.impl;
 
+import static java.util.Arrays.asList;
+import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.kuali.kfs.module.tem.TemConstants.DAILY_TOTAL;
 import static org.kuali.kfs.module.tem.TemConstants.LODGING_TOTAL_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.MEALS_AND_INC_TOTAL_ATTRIBUTE;
@@ -31,11 +34,7 @@ import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_PROPER
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_WRONG_PROPERTY_NUMBER;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_UPLOADPARSER_EXCEEDED_MAX_LENGTH;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_UPLOADPARSER_INVALID_VALUE;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
 import static org.kuali.rice.kns.util.GlobalVariables.getMessageList;
-import static org.apache.commons.lang.StringUtils.isBlank;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static java.util.Arrays.asList;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -148,6 +147,7 @@ import org.kuali.rice.kns.web.format.FormatException;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
+
 import au.com.bytecode.opencsv.CSVReader;
 
 
@@ -173,7 +173,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     private PersistenceStructureService persistenceStructureService;
     protected UniversityDateService universityDateService;
     protected List<String> defaultAcceptableFileExtensions;
-    protected CsvRecordFactory csvRecordFactory;
+    protected CsvRecordFactory<GroupTravelerCsvRecord> csvRecordFactory;
     
     /**
      * Creates and populates an individual per diem item.
@@ -337,7 +337,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 }
             }
 
-            debug("Iterating over date range from ", start, " to ", end);
+            LOG.debug("Iterating over date range from "+ start+ " to "+ end);
             int counter = 0;
             for (final Timestamp someDate : dateRange(start, end)) {
                 // Check if a per diem entry exists for this date
@@ -361,7 +361,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         // Sort the dates and recreate the collection
         perDiemExpenseList.clear();
         for (final Timestamp someDate : new TreeSet<Timestamp>(perDiemMapped.keySet())) {
-            debug("Adding ", perDiemMapped.get(someDate), " to perdiem list");
+            LOG.debug("Adding "+ perDiemMapped.get(someDate)+ " to perdiem list");
             perDiemExpenseList.add(perDiemMapped.get(someDate));
         }
     }
@@ -394,7 +394,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             }
         }
         catch (java.text.ParseException ex) {
-            error("Unable to convert timestamp to sql date. Unable to populate PerDiemExpense with MileageRate.");
+            LOG.error("Unable to convert timestamp to sql date. Unable to populate PerDiemExpense with MileageRate.");
             ex.printStackTrace();
         }
         return newExpense;
@@ -546,7 +546,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             }
         }
         catch (WorkflowException ex) {
-            error(ex.getMessage(), ex);
+            LOG.error(ex.getMessage(), ex);
         }
         return relatedDocumentList;
     }
@@ -576,7 +576,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         final String docTypeName = getDataDictionaryService().getDocumentTypeNameByClass(clazz);
         final List<Document> results = getDocumentService().getDocumentsByListOfDocumentHeaderIds(clazz, headerIds);
-        debug("Found ", results.size(), " documents with ids in ", headerIds);
+        LOG.debug("Found "+ results.size()+ " documents with ids in "+ headerIds);
         docMap.put(docTypeName, results);
     }
 
@@ -591,7 +591,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         final String docTypeName = getDataDictionaryService().getDocumentTypeNameByClass(clazz);
         final List<Document> results = (List<Document>) find(clazz, travelDocumentIdentifier);
         filterResults(clazz, results);
-        debug("Found ", results.size(), " documents with travel id ", travelDocumentIdentifier);
+        LOG.debug("Found "+ results.size()+ " documents with travel id "+ travelDocumentIdentifier);
         docMap.put(docTypeName, results);
     }
 
@@ -706,11 +706,11 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                     }
                 }
                 else {
-                    warn("finSysUser is null.");
+                    LOG.warn("finSysUser is null.");
                 }
             }
             else {
-                warn("initiatorUserId is null.");
+                LOG.warn("initiatorUserId is null.");
             }
         }
     }
@@ -792,7 +792,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                     perDiemPercent = Integer.parseInt(perDiemPercentage);                    
                 }
                 catch (Exception e1) {
-                    error("Failed to process prorate percentage for FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE parameter.", e1);
+                    LOG.error("Failed to process prorate percentage for FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE parameter.", e1);
                 }
             }
             else {
@@ -838,7 +838,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 }
             }
             catch (IllegalArgumentException e2) {
-                error("IllegalArgumentException.", e2);
+                LOG.error("IllegalArgumentException.", e2);
             }
         }
         
@@ -863,11 +863,11 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         retval.setAccommodationPhoneNum(perDiemExpense.getAccommodationPhoneNum());
         retval.setAccommodationAddress(perDiemExpense.getAccommodationAddress());
 
-        debug("Setting mileage rate on new Per Diem Object to ", perDiemExpense.getMileageRateId());
+        LOG.debug("Setting mileage rate on new Per Diem Object to "+ perDiemExpense.getMileageRateId());
         retval.setMileageRateId(perDiemExpense.getMileageRateId());
         retval.refreshReferenceObject("mileageRate");
 
-        debug("Got mileage ", retval.getMileageRate());
+        LOG.debug("Got mileage "+ retval.getMileageRate());
         retval.setPerDiemId(perDiemExpense.getPerDiemId());     
 
         if (retval.getMiles() == null) {
@@ -891,7 +891,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         retval.setDinnerValue(perDiemExpense.getDinnerValue());
         retval.setIncidentalsValue(perDiemExpense.getIncidentalsValue());
 
-        debug("estimated meals and incidentals ", retval.getMealsAndIncidentals());
+        LOG.debug("estimated meals and incidentals "+ retval.getMealsAndIncidentals());
 
         return retval;
     }
@@ -968,7 +968,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             final KualiDecimal amount = newActualExpenseLine.getExpenseAmount();
 
             newActualExpenseLine.setConvertedAmount(amount.multiply(rate));
-            debug("Set converted amount for ", newActualExpenseLine, " to ", newActualExpenseLine.getConvertedAmount());
+            LOG.debug("Set converted amount for "+ newActualExpenseLine+ " to "+ newActualExpenseLine.getConvertedAmount());
 
             if (isHostedMeal(newActualExpenseLine)) {
                 getMessageList().add(TemKeyConstants.MESSAGE_HOSTED_MEAL_ADDED,
@@ -1058,7 +1058,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             return roleService.principalHasRole(user.getPrincipalId(), roleIds, null);
         } 
         catch (NullPointerException e) {
-            error("NPE.", e);
+            LOG.error("NPE.", e);
         }
         
         return false;   
@@ -1095,7 +1095,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             }
         }
         catch (NullPointerException e) {
-            error("NPE.", e);
+            LOG.error("NPE.", e);
         }
         
         return false;   
@@ -1455,6 +1455,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     /**
      *
      * This method imports the file and convert it to a list of objects (of the class specified in the parameter)
+     * 
+     * TODO: re-evaluate KUALITEM-954 in regards to defaultValues and attributeMaxLength. Validation should not happen at parsing (these param are only used by importAttendees in TravelEntertainmentAction).
+     * 
      * @param formFile
      * @param c
      * @param attributeNames
@@ -1462,7 +1465,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @return
      */
     @Override
-    //TODO: re-evaluate KUALITEM-954 in regards to defaultValues and attributeMaxLength. Validation should not happen at parsing (these param are only used by importAttendees in TravelEntertainmentAction).
     public <T> List<T> importFile(final String fileContents, final Class<T> c, final String[] attributeNames, final Map<String,List<String>> defaultValues, 
                                   final Integer[] attributeMaxLength, final String tabErrorKey) {
         if(attributeMaxLength != null && attributeNames.length != attributeMaxLength.length){
@@ -1714,7 +1716,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             rows = csvReader.readAll();
         }
         catch (IOException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
             throw new ParseException("Could not  parse CSV file data", ex);
         }
@@ -1740,7 +1741,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     }
     
     protected GroupTravelerCsvRecord createGroupTravelerCsvRecord(final Map<String, List<Integer>> header, final String[] record) throws Exception {
-        return (GroupTravelerCsvRecord) getCsvRecordFactory().newInstance(header, record);
+        return getCsvRecordFactory().newInstance(header, record);
     }
 
     /**
@@ -1913,7 +1914,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public KualiDecimal getAdvancesTotalFor(TravelDocument travelDocument) {
-        debug("Looking for travel advances for travel: ", travelDocument.getDocumentNumber());
+        LOG.debug("Looking for travel advances for travel: "+ travelDocument.getDocumentNumber());
         KualiDecimal retval = KualiDecimal.ZERO;
         TravelAuthorizationDocument authorization = null;
         try {
@@ -1948,9 +1949,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         calculateExpenseAmountTotalForMileage(travelDocument.getActualExpenses());
         
         // Get totals on perdiem and other expense. Then, add them
-        debug("Got other expenses total ", travelDocument.getActualExpensesTotal());
-        debug("Got Perdiem Mileage total ", travelDocument.getDailyTotalGrandTotal());        
-        debug("per diem size is ", travelDocument.getPerDiemExpenses().size());
+        LOG.debug("Got other expenses total ", travelDocument.getActualExpensesTotal());
+        LOG.debug("Got Perdiem Mileage total ", travelDocument.getDailyTotalGrandTotal());        
+        LOG.debug("per diem size is ", travelDocument.getPerDiemExpenses().size());
 
         totalExpenses = travelDocument.getDailyTotalGrandTotal().add(travelDocument.getActualExpensesTotal());
 
@@ -2264,11 +2265,11 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         this.defaultAcceptableFileExtensions = defaultAcceptableFileExtensions;
     }
 
-    public void setCsvRecordFactory(final CsvRecordFactory recordFactory) {
+    public void setCsvRecordFactory(final CsvRecordFactory<GroupTravelerCsvRecord> recordFactory) {
         this.csvRecordFactory = recordFactory;
     }
 
-    public CsvRecordFactory getCsvRecordFactory() {
+    public CsvRecordFactory<GroupTravelerCsvRecord> getCsvRecordFactory() {
         return this.csvRecordFactory;
     }
 }

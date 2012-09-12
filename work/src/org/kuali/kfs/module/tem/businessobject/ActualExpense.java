@@ -17,9 +17,6 @@ package org.kuali.kfs.module.tem.businessobject;
 
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.HOSTED_MEAL_EXPENSE_TYPES;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.logger;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -34,6 +31,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -44,13 +42,14 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 /**
- * Other Expense
- * 
+ * Expense
  */
 @Entity
 @Table(name="tem_trvl_exp_t")
 public class ActualExpense extends AbstractExpense implements OtherExpense, ExpenseTypeAware {
 
+    public static Logger LOG = Logger.getLogger(AbstractExpense.class);
+    
     @GeneratedValue(generator="tem_trvl_exp_id_seq")
     @SequenceGenerator(name="tem_trvl_exp_id_seq",sequenceName="tem_trvl_exp_id_seq", allocationSize=5)
 
@@ -374,9 +373,9 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
                 }
                 catch(Exception ex){
                     //This should never happen
-                    error("Mileage Rate not found.", getClass());
-                    error(ex.getMessage());
-                    if (logger().isDebugEnabled()) {
+                    LOG.error("Mileage Rate not found." + getClass());
+                    LOG.error(ex.getMessage());
+                    if (LOG.isDebugEnabled()) {
                         ex.printStackTrace();
                     }
                 }
@@ -422,7 +421,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
             boolean rethrow = true;
             Exception e = null;
             while (rethrow) {
-                debug("Looking for id in ", boClass.getName());
+                LOG.debug("Looking for id in "+ boClass.getName());
                 try {
                     final Field idField = boClass.getDeclaredField("id");
                     final SequenceGenerator sequenceInfo = idField.getAnnotation(SequenceGenerator.class);
@@ -431,7 +430,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
                 }
                 catch (Exception ee) {
                     // ignore and try again
-                    debug("Could not find id in ", boClass.getName());
+                    LOG.debug("Could not find id in "+ boClass.getName());
                     
                     // At the end. Went all the way up the hierarchy until we got to Object
                     if (Object.class.equals(boClass)) {
@@ -449,9 +448,9 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
             }
         }
         catch (Exception e) {
-            error("Could not get the sequence name for business object ", getClass().getSimpleName());
-            error(e.getMessage());
-            if (logger().isDebugEnabled()) {
+            LOG.error("Could not get the sequence name for business object "+ getClass().getSimpleName());
+            LOG.error(e.getMessage());
+            if (LOG.isDebugEnabled()) {
                 e.printStackTrace();
             }
         }

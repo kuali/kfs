@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.tem.dataaccess.impl;
 
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -29,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -52,12 +52,14 @@ import org.kuali.rice.kns.util.TransactionalServiceUtils;
  */
 public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements TravelDocumentDao, OjbCollectionAware {
 
+    public static Logger LOG = Logger.getLogger(TravelDocumentDaoOjb.class);
+    
 	@Override
     public List<String> findDocumentNumbers(final Class<?> travelDocumentClass, final String travelDocumentNumber) {
         final Criteria c = new Criteria();
         c.addEqualTo(TRVL_IDENTIFIER_PROPERTY, travelDocumentNumber);
 
-        debug("Creating query for type ", travelDocumentClass, " using criteria ", c);
+        LOG.debug("Creating query for type "+ travelDocumentClass+ " using criteria "+ c);
 
         final ReportQueryByCriteria query = new ReportQueryByCriteria(travelDocumentClass, c);
         query.setAttributes(new String[] { "documentNumber" });
@@ -67,7 +69,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
         for (final Iterator it = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
              it.hasNext();) {
             final Object[] obj = (Object[]) it.next();
-            debug("Got Id ", obj[0]);
+            LOG.debug("Got Id "+ obj[0]);
             retval.add("" + obj[0]);
         }
 

@@ -17,7 +17,6 @@ package org.kuali.kfs.module.tem.report.service.impl;
 
 import static net.sf.jasperreports.engine.JRExporterParameter.JASPER_PRINT_LIST;
 import static net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_STREAM;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.info;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
@@ -35,6 +34,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.report.DetailedReport;
 import org.kuali.kfs.module.tem.report.annotations.ReportStyle;
 import org.kuali.kfs.module.tem.report.annotations.Summary;
@@ -46,9 +46,11 @@ import org.kuali.kfs.sys.service.ReportGenerationService;
 /**
  * Service interface for travel reports.
  *
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class TravelReportServiceImpl implements TravelReportService {
+    
+    public static Logger LOG = Logger.getLogger(TravelReportServiceImpl.class);
+    
     private ReportGenerationService reportGenerationService;
     private TravelReportFactoryService reportFactoryService;
 
@@ -68,9 +70,9 @@ public class TravelReportServiceImpl implements TravelReportService {
         final Collection<Field> subreportFields = getReportFactoryService().getSubreportFieldsFrom(report);
         
         if (subreportFields.size() > 0) {
-            info("######################################################################");
-            info("# BEGINNING PROCESSING SUBREPORTS                                    #");
-            info("######################################################################");
+            LOG.info("######################################################################");
+            LOG.info("# BEGINNING PROCESSING SUBREPORTS                                    #");
+            LOG.info("######################################################################");
         }
         
         for (final Field subreportField : subreportFields) {
@@ -84,9 +86,9 @@ public class TravelReportServiceImpl implements TravelReportService {
         }
 
         if (subreportFields.size() > 0) {
-            info("######################################################################");
-            info("# FINISHED PROCESSING SUBREPORTS                                     #");
-            info("######################################################################");
+            LOG.info("######################################################################");
+            LOG.info("# FINISHED PROCESSING SUBREPORTS                                     #");
+            LOG.info("######################################################################");
         }
 
         boolean addMoreReports = true;
@@ -127,9 +129,9 @@ public class TravelReportServiceImpl implements TravelReportService {
             e.printStackTrace();
         }
         finally {
-            info("######################################################################");
-            info("# FINISHED PROCESSING REPORT                                         #");
-            info("######################################################################");
+            LOG.info("######################################################################");
+            LOG.info("# FINISHED PROCESSING REPORT                                         #");
+            LOG.info("######################################################################");
         }
         return baos;
     }

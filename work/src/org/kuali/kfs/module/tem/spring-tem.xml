@@ -1224,26 +1224,6 @@
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
 	</bean>
 
-    <!-- Removed from classpath. References sun tools.jar
-	<bean id="webappWatchStep" class="org.kuali.kfs.module.tem.batch.WebappWatchStep"
-		parent="step">
-		<property name="webappPath" value="${webapp.classes.directory}" />
-	</bean>
-
-	<bean id="webappWatchJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="webappWatchStep" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="webappWatchTrigger" parent="cronTrigger">
-		<property name="jobName" value="webappWatchJob" />
-		<property name="cronExpression" value="0/30 * * * * ?" />
-	</bean>
-	-->
-
 	<bean id="temInternationalTravelManagerService" class="org.kuali.kfs.module.tem.identity.TemInternationalTravelManagerServiceImpl" />
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
       <property name="serviceDefinition">

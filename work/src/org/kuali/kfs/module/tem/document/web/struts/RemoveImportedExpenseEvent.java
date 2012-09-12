@@ -15,12 +15,11 @@
  */
 package org.kuali.kfs.module.tem.document.web.struts;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -32,6 +31,9 @@ import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class RemoveImportedExpenseEvent implements Observer {
+    
+    public static Logger LOG = Logger.getLogger(RemoveImportedExpenseEvent.class);
+    
     private static final int WRAPPER_ARG_IDX       = 0;
     private static final int SELECTED_LINE_ARG_IDX = 1;
     
@@ -41,7 +43,7 @@ public class RemoveImportedExpenseEvent implements Observer {
             return;
         }
         final Object[] args = (Object[]) arg1;
-        debug(args[WRAPPER_ARG_IDX]);
+        LOG.debug(args[WRAPPER_ARG_IDX]);
         if (!(args[WRAPPER_ARG_IDX] instanceof TravelMvcWrapperBean)) {
             return;
         }

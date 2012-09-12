@@ -18,7 +18,6 @@ package org.kuali.kfs.module.tem.document;
 import static org.kuali.kfs.module.tem.TemKeyConstants.AGENCY_SITES_URL;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ENABLE_AGENCY_SITES_URL;
 import static org.kuali.kfs.module.tem.TemKeyConstants.PASS_TRIP_ID_TO_AGENCY_SITES;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -926,18 +925,18 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     public KualiDecimal getActualExpensesTotal() {
         KualiDecimal retval = KualiDecimal.ZERO;
 
-        debug("Getting other expense total");
+        LOG.debug("Getting other expense total");
         
         if(actualExpenses != null){
             for (final ActualExpense expense : actualExpenses) {
                 final KualiDecimal expenseAmount = expense.getExpenseAmount().multiply(expense.getCurrencyRate());
                 
-                debug("Expense amount gotten is ", expenseAmount);
+                LOG.debug("Expense amount gotten is " + expenseAmount);
                 retval = retval.add(expenseAmount);
             }
         }
 
-        debug("Returning otherExpense Total ", retval);
+        LOG.debug("Returning otherExpense Total " + retval);
         return retval;
     }
 
@@ -1604,11 +1603,11 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     public KualiDecimal getTotalFor(final String financialObjectCode) {
         KualiDecimal retval = KualiDecimal.ZERO;
 
-        debug("Getting total for ", financialObjectCode);
+        LOG.debug("Getting total for " + financialObjectCode);
 
         for (final AccountingLine line : (List<AccountingLine>) getSourceAccountingLines()) {
             try {
-                debug("Comparing ", financialObjectCode, " to ", line.getObjectCode().getCode());
+                LOG.debug("Comparing "+ financialObjectCode+ " to "+ line.getObjectCode().getCode());
                 if (line.getObjectCode().getCode().equals(financialObjectCode)) {
                     retval = retval.add(line.getAmount());
                 }

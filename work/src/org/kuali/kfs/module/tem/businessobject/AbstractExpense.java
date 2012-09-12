@@ -15,10 +15,6 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.logger;
-
 import java.lang.reflect.Field;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -34,6 +30,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -43,6 +40,9 @@ import org.kuali.rice.kns.util.KualiDecimal;
 @Entity
 @Table(name="tem_trvl_exp_t")
 public abstract class AbstractExpense extends PersistableBusinessObjectBase implements TEMExpense {
+    
+    public static Logger LOG = Logger.getLogger(AbstractExpense.class);
+    
     @GeneratedValue(generator="tem_trvl_exp_id_seq")
     @SequenceGenerator(name="tem_trvl_exp_id_seq",sequenceName="tem_trvl_exp_id_seq", allocationSize=5)
     private Long id;    
@@ -445,7 +445,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
             boolean rethrow = true;
             Exception e = null;
             while (rethrow) {
-                debug("Looking for id in ", boClass.getName());
+                LOG.debug("Looking for id in "+ boClass.getName());
                 try {
                     final Field idField = boClass.getDeclaredField("id");
                     final SequenceGenerator sequenceInfo = idField.getAnnotation(SequenceGenerator.class);
@@ -454,7 +454,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
                 }
                 catch (Exception ee) {
                     // ignore and try again
-                    debug("Could not find id in ", boClass.getName());
+                    LOG.debug("Could not find id in "+ boClass.getName());
                     
                     // At the end. Went all the way up the hierarchy until we got to Object
                     if (Object.class.equals(boClass)) {
@@ -472,9 +472,9 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
             }
         }
         catch (Exception e) {
-            error("Could not get the sequence name for business object ", getClass().getSimpleName());
-            error(e.getMessage());
-            if (logger().isDebugEnabled()) {
+            LOG.error("Could not get the sequence name for business object " + getClass().getSimpleName());
+            LOG.error(e.getMessage());
+            if (LOG.isDebugEnabled()) {
                 e.printStackTrace();
             }
         }

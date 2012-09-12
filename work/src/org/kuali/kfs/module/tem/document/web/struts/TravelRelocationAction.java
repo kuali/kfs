@@ -19,7 +19,6 @@ import static org.kuali.kfs.module.tem.TemConstants.COVERSHEET_FILENAME_FORMAT;
 import static org.kuali.kfs.module.tem.TemConstants.REMAINING_DISTRIBUTION_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_REPORTS_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_MIME_TYPE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT_NUMBER;
@@ -34,6 +33,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -69,6 +69,9 @@ import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class TravelRelocationAction extends TravelActionBase {
+    
+    public static Logger LOG = Logger.getLogger(TravelRelocationAction.class);
+    
     private static final String[] reloMethodToCallExclusionArray = { "recalculate", "calculate", "recalculateTripDetailTotal" };
 
     /**
@@ -86,14 +89,14 @@ public class TravelRelocationAction extends TravelActionBase {
         final String identifierStr = request.getParameter(TRVL_IDENTIFIER_PROPERTY);
         if (identifierStr != null) {
 
-            debug("Creating relocation for document number ", identifierStr);
+            LOG.debug("Creating relocation for document number " + identifierStr);
 
             final TravelRelocationDocument oldRelocation = getTravelRelocation(identifierStr);
             if (oldRelocation != null) {
-                debug("Setting traveler with id ", oldRelocation.getTravelerDetailId());
+                LOG.debug("Setting traveler with id " + oldRelocation.getTravelerDetailId());
                 document.setTravelerDetailId(oldRelocation.getTravelerDetailId());
                 document.refreshReferenceObject(TemPropertyConstants.TRAVELER);
-                debug("Traveler is ", document.getTraveler(), " with customer number ", document.getTraveler().getCustomerNumber());
+                LOG.debug("Traveler is "+ document.getTraveler()+ " with customer number "+ document.getTraveler().getCustomerNumber());
 
                 if (document.getTraveler().getPrincipalId() != null) {
                     document.getTraveler().setPrincipalName(getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName());
@@ -122,30 +125,6 @@ public class TravelRelocationAction extends TravelActionBase {
 
         return retval;
     }
-
-    // /**
-    // * Adds special circumstances answers from a {@link old TravelRelocaitonDocument} instance to the {@link
-    // TravelRelocationDocument} for
-    // * viewing.
-    // *
-    // * @param relocation to add special circumstances answers
-    // * @param oldRelocation {@link TravelRelocaiton}
-    // */
-    // protected void initializeSpecialCircumstances(final TravelRelocationDocument relocation,TravelRelocationDocument
-    // oldRelocation) {
-    // for (SpecialCircumstances oldSpCircumstances : oldRelocation.getSpecialCircumstances()) {
-    // Long oldQuestionId = oldSpCircumstances.getQuestionId();
-    //
-    // for(SpecialCircumstances reloSpCircumstances : relocation.getSpecialCircumstances()) {
-    // Long reloQuestionId = reloSpCircumstances.getQuestionId();
-    //
-    // if(reloQuestionId != null && reloQuestionId.equals(oldQuestionId)){
-    // reloSpCircumstances.setText(oldSpCircumstances.getText());
-    // }
-    // }
-    //
-    // }
-    // }
 
     /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
@@ -316,7 +295,7 @@ public class TravelRelocationAction extends TravelActionBase {
 
     protected void refreshCollectionsFor(final TravelRelocationDocument relocation) {
         if (!relocation.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
-            debug("Refreshing objects in relocation");
+            LOG.debug("Refreshing objects in relocation");
             relocation.refreshReferenceObject(TemPropertyConstants.TRAVELER);
             relocation.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
             relocation.refreshReferenceObject(TemPropertyConstants.ACTUAL_EXPENSES);

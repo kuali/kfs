@@ -19,8 +19,8 @@ import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_TRAVELER_TYPE_CODES;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRIP_OVERVIEW;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
@@ -31,6 +31,9 @@ import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class TravelAuthCustomerExistValidation extends GenericValidation {
+
+    public static Logger LOG = Logger.getLogger(TravelAuthCustomerExistValidation.class);
+    
     private ParameterService parameterService;
 
     //@Override
@@ -41,9 +44,9 @@ public class TravelAuthCustomerExistValidation extends GenericValidation {
         boolean rulePassed = true;
         final TravelDocumentBase taDocument = (TravelDocumentBase)event.getDocument();
 
-        debug("Looking up customer with number ", taDocument.getTraveler().getCustomerNumber());
+        LOG.debug("Looking up customer with number " + taDocument.getTraveler().getCustomerNumber());
         taDocument.getTraveler().refreshReferenceObject(TemPropertyConstants.CUSTOMER);
-        debug("Got ", taDocument.getTraveler().getCustomer());
+        LOG.debug("Got " + taDocument.getTraveler().getCustomer());
 
         if (taDocument.getTraveler().getCustomer() == null 
             && getParameterService().getParameterValues(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, NON_EMPLOYEE_TRAVELER_TYPE_CODES).contains(taDocument.getTraveler().getTravelerTypeCode())) {

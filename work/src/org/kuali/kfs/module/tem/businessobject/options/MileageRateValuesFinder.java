@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.businessobject.options;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
-
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -24,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
@@ -31,6 +30,9 @@ import org.kuali.rice.kns.service.DateTimeService;
 
 
 public class MileageRateValuesFinder extends KeyValuesBase {
+    
+    protected static Logger LOG = Logger.getLogger(MileageRateValuesFinder.class);
+    
     private String queryDate;
 
     @Override
@@ -41,7 +43,7 @@ public class MileageRateValuesFinder extends KeyValuesBase {
             try {
                 javaDate = df.parse(queryDate);
             } catch (ParseException ex) {
-                error("unable to parse date: " + queryDate);
+                LOG.error("unable to parse date: " + queryDate);
             }
         }
         Date searchDate = null;
@@ -49,7 +51,7 @@ public class MileageRateValuesFinder extends KeyValuesBase {
             searchDate = getDateTimeService().convertToSqlDate(df.format(javaDate));
         }
         catch (ParseException ex) {
-            error("unable to convert date: " + queryDate);
+            LOG.error("unable to convert date: " + queryDate);
         }
         return getTravelDocumentService().getMileageRateKeyValues(searchDate);
     }

@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.tem.businessobject.lookup;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.warn;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,6 +23,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
@@ -54,6 +52,8 @@ import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    
+    public static Logger LOG = Logger.getLogger(TEMProfileLookupableHelperServiceImpl.class);
     
     private TravelerService travelerService;
     private TravelService travelService;
@@ -253,7 +253,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     private Map<String, String> convertFieldValues(Class<? extends BusinessObject> boClass, Map<String, String> fieldValues, String prefix, String lookupClassName) {
         Map<String, String> retval = new HashMap<String, String>();
 
-        debug("Converting field values ", fieldValues);
+        LOG.debug("Converting field values " + fieldValues);
 
         for (final FieldDefinition lookupField : getLookupFieldsFor(lookupClassName)) {
             String attrName = lookupField.getAttributeName();
@@ -270,7 +270,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
                     retval.put(prefix + key, value);
                 }
                 else {
-                    warn("Got a null key for attribute name ", attrName);
+                    LOG.warn("Got a null key for attribute name " + attrName);
                 }
             }
             else if (containsAttribute(boClass, attrName)) {

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document.web.struts;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +23,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
@@ -35,6 +35,8 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 
 public class TravelEntertainmentForm extends TravelFormBase implements TravelEntertainmentMvcWrapperBean {
 
+    public static Logger LOG = Logger.getLogger(TravelEntertainmentForm.class);
+    
     private Date startDate;
     private Date endDate;
     private boolean canPrintHostCertification;
@@ -112,7 +114,7 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
         super.getExtraButtons();
         final Map<String, ExtraButton> buttonsMap = createButtonsMap();
         
-        debug("Creating button map");
+        LOG.debug("Creating button map");
         if (!SpringContext.getBean(TravelDocumentService.class).isUnsuccessful(this.getTravelDocument())) {
             if (getEntertainmentDocument().canPayDVToVendor()) {
                 extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.payDVToVendor"));

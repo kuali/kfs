@@ -15,35 +15,34 @@
  */
 package org.kuali.kfs.module.tem.service;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.replace;
+
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-
-import org.kuali.rice.kns.util.KualiDecimal;
-
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.log4j.Logger;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 
 /**
  * Interface defining the structure for a CSV flat file record of stuff
  *
- * @author Leo Przybylski (leo [at] rsmart.com)
- *
  * @see org.kuali.kfs.module.tem.businessobject.GroupTravelerCsvRecord;
  */
 public class CsvRecordFactory<RecordType>  {
+    
+    public static Logger LOG = Logger.getLogger(CsvRecordFactory.class);
+    
     final Class<RecordType> recordType;
     private Map<String,String> headerMap;
-    
 
     public CsvRecordFactory(final Class<RecordType> recordType) {
         this.recordType = recordType;
@@ -85,12 +84,12 @@ public class CsvRecordFactory<RecordType>  {
         }
 
         protected String headerFor(final PropertyDescriptor property) {
-            debug("Checking for header that matches property ", property.getName());
+            LOG.debug("Checking for header that matches property " + property.getName());
             if (headerMap.size() < 1) {
-                warn("Your header map is empty. Won't ever resolve any properties");
+                LOG.warn("Your header map is empty. Won't ever resolve any properties");
             }
             for (final Map.Entry<String,String> entry : headerMap.entrySet()) {
-                debug("Checking ", entry.getValue());
+                LOG.debug("Checking " + entry.getValue());
                 if (property.getName().equals(entry.getValue())) {
                     if (header.containsKey(entry.getKey())) {
                         return entry.getKey();
@@ -131,7 +130,7 @@ public class CsvRecordFactory<RecordType>  {
             else if (Boolean.class.equals(method.getReturnType())
                      || boolean.class.equals(method.getReturnType())) {                
                 retval = new Boolean(value.toString().trim());
-                debug(headerField, " is ", retval);
+                LOG.debug(headerField + " is " + retval);
             }
             else if (java.sql.Date.class.equals(method.getReturnType())) {
                 if (!isBlank(value.toString())) {

@@ -28,7 +28,6 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DT
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.ENABLE_PER_DIEM_CATEGORIES;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_EMERGENCY_CONTACT_LINE;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_TRAVEL_ADVANCE_LINE;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.NEW_SOURCE_LINE;
 
@@ -42,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -90,6 +90,9 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
  * Handles action events through the struts framework for the {@link TravelAuthorizationDocument}
  */
 public class TravelAuthorizationAction extends TravelActionBase {
+    
+    public static Logger LOG = Logger.getLogger(TravelAuthorizationAction.class);
+    
     public static final String DOCUMENT_ERROR_PREFIX = "document.";
     public static final String NEW_SOURCE_LINE_OBJECT_CODE = String.format("%s.%s", NEW_SOURCE_LINE, FINANCIAL_OBJECT_CODE);
     private DocumentDao documentDao;
@@ -140,7 +143,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
             travelAuthDocument.enableExpenseTypeSpecificFields(travelAuthDocument.getActualExpenses());
         }
 
-        debug("Got ", authForm.getRelatedDocuments().size(), " related documents");
+        LOG.debug("Got "+ authForm.getRelatedDocuments().size()+ " related documents");
 
         if (!isReturnFromObjectCodeLookup(authForm, request)) {
             getTravelEncumbranceService().updateEncumbranceObjectCode(travelAuthDocument, authForm.getNewSourceLine());
@@ -485,11 +488,11 @@ public class TravelAuthorizationAction extends TravelActionBase {
     protected void refreshTransportationModesAfterButtonAction(TravelAuthorizationDocument travelReqDoc, HttpServletRequest request, TravelAuthorizationForm authForm) {
         List<String> selectedTransportationModes = authForm.getTempSelectedTransporationModes();
         if (selectedTransportationModes != null) {
-            debug("selected transportation modes are: ", selectedTransportationModes.toString());
+            LOG.debug("selected transportation modes are: "+ selectedTransportationModes.toString());
             travelReqDoc.setTransportationModeCodes(selectedTransportationModes);
         }
         else {
-            debug("setting selected transportation modes to empty list");
+            LOG.debug("setting selected transportation modes to empty list");
             travelReqDoc.setTransportationModeCodes(new ArrayList<String>());
         }
     }
@@ -506,7 +509,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
     protected ActionForward refreshAfterTravelerLookup(ActionMapping mapping, TravelAuthorizationForm authForm, HttpServletRequest request) {
         String refreshCaller = authForm.getRefreshCaller();
 
-        debug("refresh call is: ", refreshCaller);
+        LOG.debug("refresh call is: "+ refreshCaller);
         String groupTravelerId = (String) request.getParameter("newGroupTravelerLine.groupTravelerEmpId");
         TravelDocumentBase document = authForm.getTravelAuthorizationDocument();
 
@@ -524,10 +527,10 @@ public class TravelAuthorizationAction extends TravelActionBase {
             return null;
         }
 
-        debug("Looking up customer with number ", document.getTraveler().getCustomerNumber());
+        LOG.debug("Looking up customer with number "+ document.getTraveler().getCustomerNumber());
         document.getTraveler().refreshReferenceObject(TemPropertyConstants.CUSTOMER);
         document.getTraveler().refreshReferenceObject(TemPropertyConstants.TRAVELER_TYPE);
-        debug("Got ", document.getTraveler().getCustomer());
+        LOG.debug("Got "+ document.getTraveler().getCustomer());
 
         if (document.getTraveler().getPrincipalId() != null) {
             final String principalName = getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName();
@@ -549,7 +552,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
     private ActionForward refreshAfterGroupTravelerLookup(ActionMapping mapping, TravelAuthorizationForm authForm, HttpServletRequest request) {
         String refreshCaller = authForm.getRefreshCaller();
 
-        debug("refresh call is: ", refreshCaller);
+        LOG.debug("refresh call is: "+ refreshCaller);
         String groupTravelerId = (String) request.getParameter("newGroupTravelerLine.groupTravelerEmpId");
         TravelDocumentBase document = authForm.getTravelAuthorizationDocument();
 
@@ -793,9 +796,9 @@ public class TravelAuthorizationAction extends TravelActionBase {
             travelReqDoc.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
         }
 
-        debug("Got special circumstances ", authForm.getTravelAuthorizationDocument().getSpecialCircumstances());
-        debug("Save Called on ", getClass().getSimpleName(), " for ", authForm.getDocument().getClass().getSimpleName());
-        debug("Saving document traveler detail ", travelReqDoc.getTravelerDetailId());
+        LOG.debug("Got special circumstances "+ authForm.getTravelAuthorizationDocument().getSpecialCircumstances());
+        LOG.debug("Save Called on "+ getClass().getSimpleName()+ " for "+ authForm.getDocument().getClass().getSimpleName());
+        LOG.debug("Saving document traveler detail "+ travelReqDoc.getTravelerDetailId());
 
         String[] transpoModes = request.getParameterValues("selectedTransportationModes");
         if (transpoModes != null) {
@@ -848,7 +851,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
      */
     @Override
     protected ActionForward askQuestionsAndPerformDocumentAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String confirmType, String documentType, String notePrefix, String messageType, String operation) throws Exception {
-        debug("askQuestionsAndPerformDocumentAction started.");
+        LOG.debug("askQuestionsAndPerformDocumentAction started.");
         TravelAuthorizationForm taForm = (TravelAuthorizationForm) form;
         TravelDocumentBase taDoc = taForm.getTravelAuthorizationDocument();
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
@@ -968,7 +971,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
      * @see org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument
      */
     public ActionForward amendTa(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        debug("Amend TA started");
+        LOG.debug("Amend TA started");
         final Inquisitive<TravelAuthorizationDocument, ActionForward> inq = getInquisitive(mapping, form, request, response);
         if (inq.wasQuestionAsked()) {
             if (request.getParameterMap().containsKey(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME)){
@@ -990,7 +993,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
      * @throws Exception
      */
     public ActionForward holdTa(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        debug("Hold TA started");
+        LOG.debug("Hold TA started");
         final Inquisitive<TravelAuthorizationDocument, ActionForward> inq = getInquisitive(mapping, form, request, response);
         return askQuestionsAndPerformDocumentAction(inq, TemConstants.HOLD_TA_QUESTION);
     }
@@ -1005,7 +1008,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
      * @throws Exception
      */
     public ActionForward removeHoldTa(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        debug("Remove Hold TA started");
+        LOG.debug("Remove Hold TA started");
         final Inquisitive<TravelAuthorizationDocument, ActionForward> inq = getInquisitive(mapping, form, request, response);
         return askQuestionsAndPerformDocumentAction(inq, TemConstants.REMOVE_HOLD_TA_QUESTION);
     }
@@ -1020,7 +1023,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
      * @throws Exception
      */
     public ActionForward cancelTa(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        debug("Cancel TA started");
+        LOG.debug("Cancel TA started");
 
         TravelAuthorizationForm taForm = (TravelAuthorizationForm) form;
         TravelAuthorizationDocument taDocument = taForm.getTravelAuthorizationDocument();
@@ -1052,7 +1055,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
      * @throws Exception
      */
     public ActionForward closeTa(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        debug("Close TA started");
+        LOG.debug("Close TA started");
         String operation = "Close ";
 
         final Inquisitive<TravelAuthorizationDocument, ActionForward> inq = getInquisitive(mapping, form, request, response);

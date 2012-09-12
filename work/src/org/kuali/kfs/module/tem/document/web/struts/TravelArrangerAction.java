@@ -16,12 +16,12 @@
 package org.kuali.kfs.module.tem.document.web.struts;
 
 import static org.kuali.kfs.module.tem.TemConstants.TEM_PROFILE_LOOKUPABLE;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -35,6 +35,8 @@ import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class TravelArrangerAction extends KualiTransactionalDocumentActionBase {
+    
+    public static Logger LOG = Logger.getLogger(TravelArrangerAction.class);
     
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
@@ -51,7 +53,7 @@ public class TravelArrangerAction extends KualiTransactionalDocumentActionBase {
         TravelArrangerForm arrgrForm = (TravelArrangerForm) form;
         String refreshCaller = arrgrForm.getRefreshCaller();
 
-        debug("refresh call is: ", refreshCaller);
+        LOG.debug("refresh call is:  " + refreshCaller);
         
         ActionForward actionAfterTravelerLookup = this.refreshAfterProfileLookup(mapping, arrgrForm, request);
         if (actionAfterTravelerLookup != null) {

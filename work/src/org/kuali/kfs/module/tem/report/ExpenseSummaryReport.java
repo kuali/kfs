@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.tem.report;
 
 import static org.kuali.kfs.module.tem.TemConstants.Report.TEMPLATE_CLASSPATH;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
 import static org.springframework.ui.jasperreports.JasperReportsUtils.convertReportData;
 
@@ -27,6 +26,7 @@ import java.util.Date;
 
 import net.sf.jasperreports.engine.JRDataSource;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.report.annotations.DetailSection;
 import org.kuali.kfs.module.tem.report.annotations.Group;
 import org.kuali.kfs.module.tem.report.annotations.JasperReport;
@@ -40,12 +40,14 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * Represents an Expense Summary Report
  *
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 @JasperReport
 @ReportStyle("standard")
 @TitleStyle("standard")
 public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedReport {
+    
+    public static Logger LOG = Logger.getLogger(ExpenseSummaryReport.class);
+    
     private String traveler;
     private String initiator;
     private String authorizationInitiator;
@@ -250,7 +252,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
      * @param argData Value to assign to this.expenses
      */
     public void setData(final Collection<Detail> argData) {
-        debug("Report created with data ", argData.size());
+        LOG.debug("Report created with data " + argData.size());
         this.data = convertReportData(argData);
     }
 

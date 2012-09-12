@@ -21,10 +21,6 @@ import static net.sf.jasperreports.crosstabs.JRCellContents.POSITION_Y_TOP;
 import static net.sf.jasperreports.crosstabs.JRCrosstab.RUN_DIRECTION_LTR;
 import static net.sf.jasperreports.engine.JRElement.MODE_OPAQUE;
 import static net.sf.jasperreports.engine.JRVariable.CALCULATION_SUM;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.info;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.logger;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.warn;
 
 import java.awt.Color;
 import java.lang.annotation.Annotation;
@@ -67,6 +63,7 @@ import net.sf.jasperreports.engine.design.JRDesignTextElement;
 import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.design.JasperDesign;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.report.RString;
 import org.kuali.kfs.module.tem.report.RTextStyle;
 import org.kuali.kfs.module.tem.report.annotations.ColumnFooter;
@@ -87,10 +84,12 @@ import org.kuali.kfs.sys.report.ReportInfo;
  * package to build reports on a {@link ReportInfo} instance. Primarily utilizes classes from 
  * {@link net.sf.jasperreports.engine.design}
  *
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 @SuppressWarnings("deprecation")
 public class TravelReportFactoryServiceImpl implements TravelReportFactoryService {
+    
+    public static Logger LOG = Logger.getLogger(TravelReportFactoryServiceImpl.class);
+    
     private static final int MARGIN            = 10;
     private static final int PAGEHEADER_HEIGHT = 25;
     private static final int REPORT_HEIGHT     = 842 - MARGIN;
@@ -345,15 +344,15 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
 
         retval.setHeight(SUBREPORT_HEIGHT - 25);
 
-        debug("Subreport Detail band has height of ", retval.getHeight());
+        LOG.debug("Subreport Detail band has height of "+ retval.getHeight());
 
         // In this case, we are creating a subreport and subreports have either a crosstab or not
-        debug("Checking if ", subReport, " is a crosstab ", isCrosstab(subReport));
+        LOG.debug("Checking if "+ subReport+ " is a crosstab "+ isCrosstab(subReport));
         if (isCrosstab(subReport)) {
             final JRDesignCrosstab crosstab = createCrosstab();
-            debug("Got crosstab of height ", crosstab.getHeight(), 
-                  " and width ", crosstab.getWidth(), 
-                  " adding to design of height ", retval.getHeight());
+            LOG.debug("Got crosstab of height "+ crosstab.getHeight()+ 
+                  " and width "+ crosstab.getWidth()+ 
+                  " adding to design of height "+ retval.getHeight());
 
             retval.addElement(crosstab);
         }
@@ -373,13 +372,13 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
 
         retval.setHeight(SUBREPORT_HEIGHT);
 
-        debug("Summary band has height of ", retval.getHeight());
+        LOG.debug("Summary band has height of "+ retval.getHeight());
 
         // In this case, we are creating a subreport and subreports have either a crosstab or not
-        debug("Checking if ", subReport, " is a crosstab ", isCrosstab(subReport));
+        LOG.debug("Checking if "+ subReport+ " is a crosstab "+ isCrosstab(subReport));
         if (isCrosstab(subReport)) {
             final JRDesignCrosstab crosstab = createCrosstab();
-            debug("Got crosstab of height ", crosstab.getHeight(), " and width ", crosstab.getWidth(), " adding to design of height ", retval.getHeight());
+            LOG.debug("Got crosstab of height "+ crosstab.getHeight()+ " and width "+ crosstab.getWidth()+ " adding to design of height "+ retval.getHeight());
 
             retval.addElement(crosstab);
         }
@@ -395,14 +394,14 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
         final JRDesignBand retval = new JRDesignBand();
 
         int maxHeight = DETAIL_HEIGHT;
-        debug("Summary: Initial height is ", DETAIL_HEIGHT);
+        LOG.debug("Summary: Initial height is "+ DETAIL_HEIGHT);
         
         retval.setHeight(CELL_HEIGHT + 5);
 
-        debug("Summary: Detail band has height of ", maxHeight);
+        LOG.debug("Summary: Detail band has height of "+ maxHeight);
         int y = 0;
         
-        info("Summary: Adding fields for detail");
+        LOG.info("Summary: Adding fields for detail");
         final Field summaryField = getFieldWithAnnotation(report, Summary.class);
         if (isCrosstab(summaryField)) {
             // If the summary has a crosstab, then we want to use the Summary section for rendering the crosstab. 
@@ -410,7 +409,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
             for (final JRChild element : elements) {
                 final JRDesignCrosstab crosstab = (JRDesignCrosstab) element;
                 
-                debug("Adding crosstab to summary ", crosstab, " with height ", crosstab.getHeight());
+                LOG.debug("Adding crosstab to summary "+ crosstab+ " with height "+ crosstab.getHeight());
                 crosstab.setY(y);
                 retval.addElement(crosstab);
                 y += crosstab.getHeight() + PAGEHEADER_HEIGHT;
@@ -437,9 +436,9 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
         final JRDesignBand retval = new JRDesignBand();
 
         if (!(hasDetail(report) || hasSubreport(report))) {  
-            info("No detail for this report");
-            debug("Has detail ", hasDetail(report));
-            debug("Has Subreport ", hasSubreport(report));
+            LOG.info("No detail for this report");
+            LOG.debug("Has detail "+ hasDetail(report));
+            LOG.debug("Has Subreport "+ hasSubreport(report));
             if (reportIndex > 0) {
                 return null;
             }
@@ -448,11 +447,11 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
         }
 
         int maxHeight = DETAIL_HEIGHT;
-        debug("Initial height is ", DETAIL_HEIGHT);
+        LOG.debug("Initial height is "+ DETAIL_HEIGHT);
         
         retval.setHeight(0);
 
-        info("Determining maximum detail space size");
+        LOG.info("Determining maximum detail space size");
         if (hasPageHeader(report)) {
             maxHeight -= PAGEHEADER_HEIGHT;
         }
@@ -466,11 +465,11 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
             maxHeight -= COLFOOTER_HEIGHT;
         }
 
-        debug("Detail band has height of ", maxHeight);
+        LOG.debug("Detail band has height of "+ maxHeight);
 
         // Detail includes subreports. This really means besides subreports.
         if (hasDetail(report)) {
-            info("Adding fields for detail");
+            LOG.info("Adding fields for detail");
             final JRDesignTextField nameField = normal("$F{name}").toTextField();
             addDesignElementTo(retval, nameField, 0, 0, CELL_WIDTH * 3, CELL_HEIGHT);
             
@@ -486,8 +485,8 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
         int upperBound = 19;
 
         final Collection<JRChild> elements = processFields(report, SubReport.class);
-        debug("Building report detail starting at position ", y);
-        debug("Adding ", elements.size(), " elements to the report");
+        LOG.debug("Building report detail starting at position "+ y);
+        LOG.debug("Adding "+ elements.size()+ " elements to the report");
         for (final JRChild obj : elements) {
           
             if (obj != null && obj instanceof JRDesignElement) {
@@ -512,18 +511,18 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
                     y += 25;
                 }
                 
-                debug("Adding element to detail ", element.getClass(), " " , element, " with height ", element.getHeight(), " at y = ", y);
+                LOG.debug("Adding element to detail "+ element.getClass()+ " " + element+ " with height "+ element.getHeight()+ " at y = "+ y);
 
                 // When we're on the correct page index, we add elements
-                debug("pageIdx = ", pageidx);
-                debug("reportIndex = ", reportIndex);
+                LOG.debug("pageIdx = "+ pageidx);
+                LOG.debug("reportIndex = "+ reportIndex);
                 if (pageidx == reportIndex) {
                     element.setY(y);
                     retval.addElement(element);
                 }
                 y += element.getHeight() + 30;
                 upperBound = Math.max(upperBound, y);
-                debug("upperbound = ", upperBound);
+                LOG.debug("upperbound = "+ upperBound);
             }
         }
 
@@ -536,7 +535,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
             return null;
         }
 
-        debug("Setting height to ", upperBound);
+        LOG.debug("Setting height to "+ upperBound);
         retval.setHeight(upperBound);
         
         return retval;
@@ -655,7 +654,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
     protected void addGroupsFor(final ReportInfo report, final JasperDesign designObj) throws Exception {        
         for (final Field field : report.getClass().getDeclaredFields()) {
             if (isGroup(field)) {
-                info("Adding a group for field ", field.getName());
+                LOG.info("Adding a group for field "+ field.getName());
                 final JRDesignGroup group = createGroup(report, field);
                 designObj.addGroup(group);
             }
@@ -677,14 +676,14 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
                 designParameter.setName(field.getName());
                 designParameter.setValueClass(field.getType());  
                 designObj.addParameter(designParameter);                
-                debug("Added parameter ", designParameter.getName());
+                LOG.debug("Added parameter "+ designParameter.getName());
             }
             if (isSubreport(field)) {
                 final JRDesignParameter designParameter = new JRDesignParameter();
                 designParameter.setName(field.getName() + "Subreport");
                 designParameter.setValueClass(JasperReport.class);
                 designObj.addParameter(designParameter);                
-                debug("Added parameter ", designParameter.getName());
+                LOG.debug("Added parameter "+ designParameter.getName());
             }
             else if (isCrosstab(field)) {
                 final JRDesignDataset dataset = new JRDesignDataset(false);
@@ -698,7 +697,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
         designParameter.setName("report");
         designParameter.setValueClass(report.getClass());
         designObj.addParameter(designParameter);   
-        debug("Added parameter ", designParameter.getName());
+        LOG.debug("Added parameter "+ designParameter.getName());
     }
 
     /**
@@ -710,11 +709,11 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      */
     protected void addReportFieldsFor(final ReportInfo report, final JasperDesign designObj) throws Exception {
         final Class dataClass = findDataClassFor(report);
-        debug("Found data class ", dataClass);
+        LOG.debug("Found data class "+ dataClass);
         
         for (final Field field : dataClass.getDeclaredFields()) {
             final JRDesignField designField = new JRDesignField();
-            debug("Adding field " + field.getName());
+            LOG.debug("Adding field " + field.getName());
             designField.setName(field.getName());
             designField.setValueClass(field.getType());
             designObj.addField(designField);
@@ -730,7 +729,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      */
     protected void addReportFieldsFor(final ReportInfo report, final JRDesignDataset dataset) throws Exception {
         final Class dataClass = findDataClassFor(report);
-        debug("Found data class ", dataClass);
+        LOG.debug("Found data class "+ dataClass);
         
         for (final Field field : dataClass.getDeclaredFields()) {
             final JRDesignField designField = new JRDesignField();
@@ -752,12 +751,12 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
 
         // Digging up all the setters
         for (final Field field : reportClass.getDeclaredFields()) {
-            debug("Examinine field ", field, " with type ", field.getType());
+            LOG.debug("Examinine field "+ field+ " with type "+ field.getType());
             if (field.getType().equals(JRDataSource.class)) {
                 // get the dataset for this class
                 final String setterName = "set" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
                 final Method setter = reportClass.getMethod(setterName, new Class[] {Collection.class});
-                debug("Determining what that data class should be. Found dataset setter method ", setter.getName());
+                LOG.debug("Determining what that data class should be. Found dataset setter method "+ setter.getName());
                 
                 // Should only have one parameter
                 final ParameterizedType methodParamType = (ParameterizedType) (setter.getGenericParameterTypes()[0]);
@@ -776,18 +775,18 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      * @see org.kuali.kfs.module.tem.report.service.TravelReportFactoryService#designReport(org.kuali.kfs.sys.report.ReportInfo)
      */
     public JasperDesign designReport(final ReportInfo report, final Field field) throws Exception {
-        info("Designing a subreport for field ", field.getName());
+        LOG.info("Designing a subreport for field "+ field.getName());
 
-        debug("Checking the ", field.getName(), " for data");
+        LOG.debug("Checking the "+ field.getName()+ " for data");
         try {
             field.setAccessible(true);
             if (field.get(report) == null) {
                 return null;
             }
-            debug("Subreport has data. Proceeding to design subreport.");
+            LOG.debug("Subreport has data. Proceeding to design subreport.");
         }
         catch (Exception e) {
-            if (logger().isDebugEnabled()) {
+            if (LOG.isDebugEnabled()) {
                 e.printStackTrace();
             }
             return null;
@@ -817,11 +816,11 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
         designObj.setBottomMargin(MARGIN);
             
         if (hasDetail(report)) {
-            debug("Creating detail for subreport");
+            LOG.debug("Creating detail for subreport");
             designObj.setDetail(createDetail(report, 0));
         }
         else {
-            debug("Creating summary for subreport");
+            LOG.debug("Creating summary for subreport");
             designObj.setSummary(createSummary(field));
         }
         
@@ -842,13 +841,13 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
         designObj.setName(reportTitle);
         designObj.setTitle(createTitle(report, reportTitle));
         
-        info("Summary: Loading report parameters");
+        LOG.info("Summary: Loading report parameters");
         addReportParametersFor(report, designObj);
         designObj.addImport(report.getClass().getName());
-        info("Summary: Loading report fields");
+        LOG.info("Summary: Loading report fields");
         addReportFieldsFor(report, designObj);
         
-        info("Summary: Setting report dimensions");
+        LOG.info("Summary: Setting report dimensions");
         designObj.setPageWidth(595);
         designObj.setPageHeight(REPORT_HEIGHT);
         designObj.setLeftMargin(MARGIN);
@@ -856,14 +855,14 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
         designObj.setTopMargin(MARGIN);
         designObj.setBottomMargin(MARGIN);
         
-        info("Summary: Adding header and footer");
+        LOG.info("Summary: Adding header and footer");
         final JRDesignBand header = new JRDesignBand();
         final JRDesignStaticText headerLine4 = h4("Summary").toStaticText();
         addDesignElementTo(header, headerLine4, 0, PAGEHEADER_HEIGHT, 356, 22);
         header.setHeight(PAGEHEADER_HEIGHT * 2);
         designObj.setPageHeader(header);
         
-        info("Creating report detail");
+        LOG.info("Creating report detail");
         // final JRBand detail = createDetailForSummary(report);       
         final Field summaryField = getFieldWithAnnotation(report, Summary.class);
         final JRBand summary = createSummary(summaryField);
@@ -893,13 +892,13 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
             designObj.setTitle(createTitle(report, reportTitle));        
         }
         
-        info("Loading report parameters");
+        LOG.info("Loading report parameters");
         addReportParametersFor(report, designObj);
         designObj.addImport(report.getClass().getName());
-        info("Loading report fields");
+        LOG.info("Loading report fields");
         addReportFieldsFor(report, designObj);
         
-        info("Setting report dimensions");
+        LOG.info("Setting report dimensions");
         designObj.setPageWidth(595);
         designObj.setPageHeight(REPORT_HEIGHT);
         designObj.setLeftMargin(MARGIN);
@@ -907,20 +906,20 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
         designObj.setTopMargin(MARGIN);
         designObj.setBottomMargin(MARGIN);
         
-        // info("Adding header and footer");
+        // LOG.info("Adding header and footer");
         // designObj.setPageHeader(createHeader());
         // designObj.setPageFooter(createFooter());
         
         // Groups before detail
-        info("Handling groups");
+        LOG.info("Handling groups");
         addGroupsFor(report, designObj);
 
         // Commenting out column handling since this is problably pointless.
-        // info("Determining the number of report columns");
+        // LOG.info("Determining the number of report columns");
         // int columns = designObj.getGroupsList().size() / 3 > 1 ? designObj.getGroupsList().size() / 3 : 1;
         // designObj.setColumnCount(columns);
 
-        info("Creating report detail");
+        LOG.info("Creating report detail");
         final JRBand detail = createDetail(report, reportIndex);
         
         if (detail != null) {
@@ -944,14 +943,14 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      * @throws Exception 
      */
     protected JRChild createElementForField(final ReportInfo report, final Field field) throws Exception {
-        info("Processing field ", field.getName());
+        LOG.info("Processing field "+ field.getName());
         if (isSubreport(field)) {
-            debug("Creating a report element from field ", field.getName());
+            LOG.debug("Creating a report element from field "+ field.getName());
             return createSubreport(report, field);
         }
 
         if (isCrosstab(field)) {
-            debug("Creating a crosstab from field ", field.getName());
+            LOG.debug("Creating a crosstab from field "+ field.getName());
             final JRDesignCrosstab crosstab       = createCrosstab(report, field);
             final JRDesignCrosstabDataset dataset = new JRDesignCrosstabDataset();
             final JRDesignDatasetRun dsRun        = new JRDesignDatasetRun();                
@@ -969,7 +968,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
         }
 
         if (isSummary(field)) {
-            debug("Building Summary JRDesignBand");
+            LOG.debug("Building Summary JRDesignBand");
             final JRDesignBand summary = new JRDesignBand();
             final Class dataClass = findDataClassFor(report);
             
@@ -982,7 +981,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
                 addDesignElementTo(summary, headerField, (CELL_WIDTH * 3 + 5) * fieldIdx, PAGEHEADER_HEIGHT, CELL_WIDTH * 2, CELL_HEIGHT);
                 
                 final JRDesignTextField textElement = normal("$F{" + dataField.getName() + "}").toTextField(dataField.getType());
-                debug("Adding summary field ", dataField.getName(), " at (", (CELL_WIDTH + 5) * fieldIdx, ", 0");
+                LOG.debug("Adding summary field "+ dataField.getName()+ " at ("+ (CELL_WIDTH + 5) * fieldIdx+ "+ 0");
                 addDesignElementTo(summary, textElement, (CELL_WIDTH * 3 + 5) * fieldIdx, PAGEHEADER_HEIGHT + CELL_HEIGHT, CELL_WIDTH * 3, CELL_HEIGHT);       
                 fieldIdx++;
             }
@@ -1145,7 +1144,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
             }
         }
         catch (Exception e) {
-            warn("Unable to get group count");
+            LOG.warn("Unable to get group count");
         }
 
         return retval;
@@ -1172,7 +1171,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
             }
         }
         catch (Exception e) {
-            warn("Unable to get subreport count");
+            LOG.warn("Unable to get subreport count");
         }
 
         return retval;
@@ -1242,7 +1241,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      * @param colGroup is the name of the column group this cell is part of.
      */
     protected JRDesignCrosstabCell crosstabCell(final Class type, final String value, final String rowGroup, final String colGroup) {
-        debug("Creating cell with row group = ", rowGroup, " and column group = ", colGroup);
+        LOG.debug("Creating cell with row group = "+ rowGroup+ " and column group = "+ colGroup);
         final JRDesignCrosstabCell retval = new JRDesignCrosstabCell();
         final JRDesignCellContents contents = new JRDesignCellContents();
         final JRDesignTextField field = normal(value).toTextField(type);
@@ -1278,9 +1277,9 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      */
     protected JRDesignCrosstab createCrosstab(final ReportInfo report, final Field field) throws Exception {
         final JRDesignCrosstab crosstab = new JRDesignCrosstab();
-        debug("<crosstab>");
+        LOG.debug("<crosstab>");
         // crosstab.setRunDirection(RUN_DIRECTION_LTR);
-        debug("<reportElement width=\"400\" height=\"" + (SUMMARY_HEIGHT - 25) + "\" />");
+        LOG.debug("<reportElement width=\"400\" height=\"" + (SUMMARY_HEIGHT - 25) + "\" />");
         crosstab.setWidth(595);
         crosstab.setHeight(0);
         
@@ -1292,7 +1291,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
         frame.copyBox(new TravelReportLineBox(nodataCell));
         nodataCell.setBox(frame);
 
-        debug("<crosstabHeaderCell/>");
+        LOG.debug("<crosstabHeaderCell/>");
         crosstab.setHeaderCell(nodataCell);
         
         final JRDesignCrosstabRowGroup rowGroup = new JRDesignCrosstabRowGroup();
@@ -1339,7 +1338,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
         columnGroup.setTotalHeader(columnTotalHeader); 
         columnGroup.setBucket(bucket("$F{date}", java.lang.String.class));
 
-        debug("<rowGroup name=\"Expenses\" width=\"400\">");
+        LOG.debug("<rowGroup name=\"Expenses\" width=\"400\">");
         crosstab.addRowGroup(rowGroup);
         crosstab.addColumnGroup(columnGroup);
         
@@ -1477,7 +1476,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
 
     protected boolean hasAnnotations(final Field field, final Class ... annotations) {
         for (final Class annotation : annotations) {
-            debug("Checking if field ", field.getName(), " has annotation ", annotation.getSimpleName());
+            LOG.debug("Checking if field "+ field.getName()+ " has annotation "+ annotation.getSimpleName());
             if (field.getAnnotation(annotation) == null) {
                 return false;
             }

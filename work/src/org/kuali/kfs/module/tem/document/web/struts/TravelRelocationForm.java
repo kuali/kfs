@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document.web.struts;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +23,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -41,6 +41,8 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
  */
 public class TravelRelocationForm extends TravelFormBase implements TravelRelocationMvcWrapperBean {
 
+    public static Logger LOG = Logger.getLogger(TravelRelocationForm.class);
+    
     private List<Serializable> history;
     private List<AccountingDistribution> distribution;
 
@@ -96,7 +98,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
     public List<ExtraButton> getExtraButtons() {
         super.getExtraButtons();
         final Map<String, ExtraButton> buttonsMap = createButtonsMap();
-        debug("Creating button map");
+        LOG.debug("Creating button map");
 
         if (!SpringContext.getBean(TravelDocumentService.class).isUnsuccessful(this.getTravelDocument())) {
             if (getTravelRelocationDocument().canPayDVToVendor()) {

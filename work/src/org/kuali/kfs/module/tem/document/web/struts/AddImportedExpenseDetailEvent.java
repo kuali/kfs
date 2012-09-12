@@ -16,13 +16,13 @@
 package org.kuali.kfs.module.tem.document.web.struts;
 
 import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_IMPORTED_EXPENSE_LINES;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
 import java.util.Observer;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -34,6 +34,9 @@ import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class AddImportedExpenseDetailEvent implements Observer {
+    
+    public static Logger LOG = Logger.getLogger(AddImportedExpenseDetailEvent.class);
+    
     private static final int WRAPPER_ARG_IDX       = 0;
     private static final int SELECTED_LINE_ARG_IDX = 1;
     
@@ -44,7 +47,7 @@ public class AddImportedExpenseDetailEvent implements Observer {
             return;
         }
         final Object[] args = (Object[]) arg1;
-        debug(args[WRAPPER_ARG_IDX]);
+        LOG.debug(args[WRAPPER_ARG_IDX]);
         if (!(args[WRAPPER_ARG_IDX] instanceof TravelMvcWrapperBean)) {
             return;
         }

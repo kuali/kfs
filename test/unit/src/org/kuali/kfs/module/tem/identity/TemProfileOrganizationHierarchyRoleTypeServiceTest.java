@@ -15,8 +15,7 @@
  */
 package org.kuali.kfs.module.tem.identity;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-
+import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -25,6 +24,8 @@ import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
 @ConfigureContext
 public class TemProfileOrganizationHierarchyRoleTypeServiceTest extends KualiTestBase {
 
+    public static Logger LOG = Logger.getLogger(TemProfileOrganizationHierarchyRoleTypeServiceTest.class);
+    
     private TemProfileOrganizationHierarchyRoleTypeServiceImpl temProfileOrganizationHierarchyRoleService;
     
     @Override
@@ -40,22 +41,22 @@ public class TemProfileOrganizationHierarchyRoleTypeServiceTest extends KualiTes
         // BA ACPR reports to BA ACAC
         // BA ADAF reports to BL DBFA
         
-        debug("testing no qualifications");
+        LOG.debug("testing no qualifications");
         assertFalse(temProfileOrganizationHierarchyRoleService.isParentOrg(null, null, "BA", "ACPR", true));
         
-        debug("testing no roles");
+        LOG.debug("testing no roles");
         assertFalse(temProfileOrganizationHierarchyRoleService.isParentOrg("BA", "ACPR", null, null, true));
         
-        debug("testing no organization code role");
+        LOG.debug("testing no organization code role");
         assertTrue(temProfileOrganizationHierarchyRoleService.isParentOrg("BA", "ACPR", "BA", null, true));
         
-        debug("testing no org code role with chart code child of role chart code");
+        LOG.debug("testing no org code role with chart code child of role chart code");
         assertTrue(temProfileOrganizationHierarchyRoleService.isParentOrg("BA", "ADAF", "BL", null, true));
         
-        debug("testing chart and org codes the same as the rold");
+        LOG.debug("testing chart and org codes the same as the rold");
         assertTrue(temProfileOrganizationHierarchyRoleService.isParentOrg("BA", "ACPR", "BA", "ACPR", true));
         
-        debug("testing the chart and org codes are the children of the role");
+        LOG.debug("testing the chart and org codes are the children of the role");
         assertTrue(temProfileOrganizationHierarchyRoleService.isParentOrg("BA", "ADAF", "BL", "DBFA", true));
 
     }

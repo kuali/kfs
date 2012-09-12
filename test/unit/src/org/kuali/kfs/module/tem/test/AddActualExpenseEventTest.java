@@ -18,34 +18,23 @@ package org.kuali.kfs.module.tem.test;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-
 import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
-import org.kuali.kfs.module.tem.document.service.impl.TravelReimbursementServiceImpl;
 import org.kuali.kfs.module.tem.document.web.bean.TravelReimbursementMvcWrapperBean;
 import org.kuali.kfs.module.tem.document.web.struts.AddActualExpenseEvent;
 import org.kuali.kfs.module.tem.test.infrastructure.TemUnitTestBase;
-import org.kuali.kfs.module.tem.test.infrastructure.GenericSeleniumDelegate;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.impl.KualiRuleServiceImpl;
-
-import org.openqa.selenium.support.ui.Select;
-
-import org.junit.*;
-import static org.junit.Assert.*;
-
-import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
 
 /**
  * Tests execution of the {@link AddActualExpenseEvent}
  * 
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class AddActualExpenseEventTest extends TemUnitTestBase {
     private AddActualExpenseEvent event;

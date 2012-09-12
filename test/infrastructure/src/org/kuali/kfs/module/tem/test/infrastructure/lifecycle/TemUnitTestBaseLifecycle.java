@@ -15,12 +15,9 @@
  */
 package org.kuali.kfs.module.tem.test.infrastructure.lifecycle;
 
-import org.kuali.kfs.sys.context.*;
 import org.apache.commons.lang.time.StopWatch;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
+import org.apache.log4j.Logger;
+import org.kuali.kfs.sys.context.Log4jConfigurer;
 
 /**
  * An abstract lifecycle.
@@ -35,7 +32,8 @@ import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
  * </ul>
  */
 public abstract class TemUnitTestBaseLifecycle implements TemUnitTestLifecycle {
-    // non static Log to allow it to be named after the runtime class
+    
+    public static Logger LOG = Logger.getLogger(TemUnitTestBaseLifecycle.class);
 
     private boolean perTestStarted;
     private boolean perClassStarted;
@@ -91,9 +89,9 @@ public abstract class TemUnitTestBaseLifecycle implements TemUnitTestLifecycle {
 
         final StopWatch watch = new StopWatch();
 
-        if (logger().isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
             watch.start();
-            debug("starting per test lifecycle");
+            LOG.debug("starting per test lifecycle");
         }
 
         try {
@@ -102,13 +100,13 @@ public abstract class TemUnitTestBaseLifecycle implements TemUnitTestLifecycle {
         }
         catch (Throwable e) {
             perTestStarted = false;
-            error("per test lifecycle failed to start cleanly", e);
+            LOG.error("per test lifecycle failed to start cleanly", e);
             throw new TemLifecycleException(e);
         }
 
-        if (logger().isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
             watch.stop();
-            debug("per test lifecycle started in ", watch, " time");
+            LOG.debug("per test lifecycle started in "+ watch+ " time");
         }
     }
 
@@ -120,9 +118,9 @@ public abstract class TemUnitTestBaseLifecycle implements TemUnitTestLifecycle {
 
         final StopWatch watch = new StopWatch();
 
-        if (logger().isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
             watch.start();
-            debug("stopping per test lifecycle");
+            LOG.debug("stopping per test lifecycle");
         }
 
         try {
@@ -131,13 +129,13 @@ public abstract class TemUnitTestBaseLifecycle implements TemUnitTestLifecycle {
         }
         catch (Throwable e) {
             perTestStarted = false;
-            error("per test lifecycle failed to stop cleanly", e);
+            LOG.error("per test lifecycle failed to stop cleanly", e);
             throw new TemLifecycleException(e);
         }
 
-        if (logger().isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
             watch.stop();
-            debug("per test lifecycle stopped in ", watch, " time");
+            LOG.debug("per test lifecycle stopped in "+ watch+ " time");
         }
     }
 
@@ -154,9 +152,9 @@ public abstract class TemUnitTestBaseLifecycle implements TemUnitTestLifecycle {
 
         final StopWatch watch = new StopWatch();
 
-        if (logger().isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
             watch.start();
-            debug("starting per class lifecycle");
+            LOG.debug("starting per class lifecycle");
         }
 
         try {
@@ -165,13 +163,13 @@ public abstract class TemUnitTestBaseLifecycle implements TemUnitTestLifecycle {
         }
         catch (Throwable e) {
             perClassStarted = false;
-            error("per class lifecycle failed to start cleanly", e);
+            LOG.error("per class lifecycle failed to start cleanly", e);
             throw new TemLifecycleException(e);
         }
 
-        if (logger().isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
             watch.stop();
-            debug("per class lifecycle started in ", watch, " time");
+            LOG.debug("per class lifecycle started in "+ watch+ " time");
         }
     }
 
@@ -183,9 +181,9 @@ public abstract class TemUnitTestBaseLifecycle implements TemUnitTestLifecycle {
 
         final StopWatch watch = new StopWatch();
 
-        if (logger().isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
             watch.start();
-            debug("stopping per class lifecycle");
+            LOG.debug("stopping per class lifecycle");
         }
 
         try {
@@ -194,13 +192,13 @@ public abstract class TemUnitTestBaseLifecycle implements TemUnitTestLifecycle {
         }
         catch (Throwable e) {
             perClassStarted = false;
-            error("per class lifecycle failed to stop cleanly", e);
+            LOG.error("per class lifecycle failed to stop cleanly", e);
             throw new TemLifecycleException(e);
         }
 
-        if (logger().isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
             watch.stop();
-            debug("per class lifecycle stopped in ", watch, " time");
+            LOG.debug("per class lifecycle stopped in "+ watch+ " time");
         }
     }
 
@@ -215,15 +213,15 @@ public abstract class TemUnitTestBaseLifecycle implements TemUnitTestLifecycle {
             throw new IllegalStateException("per suite lifecycle already started");
         }
         Log4jConfigurer.configureLogging(false);
-        info("Loading Configuration");
+        LOG.info("Loading Configuration");
 
 
         final StopWatch watch = new StopWatch();
 
-        System.out.println("Debugging enabled? " + logger().isDebugEnabled());
-        if (logger().isDebugEnabled()) {
+        System.out.println("Debugging enabled? " + LOG.isDebugEnabled());
+        if (LOG.isDebugEnabled()) {
             watch.start();
-            debug("starting per suite lifecycle");
+            LOG.debug("starting per suite lifecycle");
         }
 
         try {
@@ -232,14 +230,14 @@ public abstract class TemUnitTestBaseLifecycle implements TemUnitTestLifecycle {
         }
         catch (Throwable e) {
             perSuiteStarted = false;
-            error("per suite lifecycle failed to start cleanly", e);
+            LOG.error("per suite lifecycle failed to start cleanly", e);
             e.printStackTrace();
             throw new TemLifecycleException(e);
         }
 
-        if (logger().isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
             watch.stop();
-            debug("per suite lifecycle started in ", watch, " time");
+            LOG.debug("per suite lifecycle started in "+ watch+ " time");
         }
     }
 
@@ -251,9 +249,9 @@ public abstract class TemUnitTestBaseLifecycle implements TemUnitTestLifecycle {
 
         final StopWatch watch = new StopWatch();
 
-        if (logger().isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
             watch.start();
-            debug("stopping per suite lifecycle");
+            LOG.debug("stopping per suite lifecycle");
         }
 
         try {
@@ -262,13 +260,13 @@ public abstract class TemUnitTestBaseLifecycle implements TemUnitTestLifecycle {
         }
         catch (Throwable e) {
             perSuiteStarted = false;
-            error("per suite lifecycle failed to stop cleanly", e);
+            LOG.error("per suite lifecycle failed to stop cleanly", e);
             throw new TemLifecycleException(e);
         }
 
-        if (logger().isDebugEnabled()) {
+        if (LOG.isDebugEnabled()) {
             watch.stop();
-            debug("per suite lifecycle stopped in ", watch,  " time");
+            LOG.debug("per suite lifecycle stopped in "+ watch+  " time");
         }
     }
 

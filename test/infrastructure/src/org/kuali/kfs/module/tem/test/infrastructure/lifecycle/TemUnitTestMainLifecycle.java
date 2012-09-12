@@ -15,11 +15,9 @@
  */
 package org.kuali.kfs.module.tem.test.infrastructure.lifecycle;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.info;
-
 import java.lang.reflect.Method;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.resourceloader.RiceResourceLoaderFactory;
 import org.kuali.rice.core.resourceloader.SpringResourceLoader;
@@ -31,6 +29,9 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
  * This class implements all of the common lifecycle elements of a KC Unit Test
  */
 public class TemUnitTestMainLifecycle extends TemUnitTestBaseLifecycle {
+    
+    public static Logger LOG = Logger.getLogger(TemUnitTestMainLifecycle.class);
+    
     protected static final String TEST_CONFIG_XML = "classpath:META-INF/kc-test-config.xml";
     protected static final String DEFAULT_TEST_HARNESS_SPRING_BEANS = "classpath:spring-rice-startup-test.xml";
     protected static final String CONTEXT_NAME = "/kfs-dev";
@@ -64,18 +65,18 @@ public class TemUnitTestMainLifecycle extends TemUnitTestBaseLifecycle {
     @Override
     protected void doPerSuiteStart() throws Throwable {
         try {
-            info("Loading Spring Context...");
+            LOG.info("Loading Spring Context...");
             Method method = SpringContext.class.getDeclaredMethod("initializeTestApplicationContext");
             method.setAccessible(true);
             method.invoke(null);
             loader = RiceResourceLoaderFactory.getSpringResourceLoader();
         }
         catch (Throwable e) {
-            error(e.getMessage());
+            LOG.error(e.getMessage());
             e.printStackTrace();
             Throwable e1 = e.getCause();
             while (e1 != null) {
-                error("Caused by: ");
+                LOG.error("Caused by: ");
                 e.printStackTrace();
             }
             throw e;

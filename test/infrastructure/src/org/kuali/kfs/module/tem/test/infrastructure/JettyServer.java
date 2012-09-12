@@ -19,18 +19,17 @@ import java.io.File;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.webapp.WebAppClassLoader;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.kuali.rice.core.lifecycle.Lifecycle;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
-
 public class JettyServer implements Lifecycle {
 	
-	
+    public static Logger LOG = Logger.getLogger(JettyServer.class);
+    
     /**
      * The name of an attribute we set in the ServletContext to indicate to the webapp
      * that it is running within unit tests, in case it needs to alter its configuration
@@ -110,7 +109,7 @@ public class JettyServer implements Lifecycle {
 			try {
 				server.stop();
 			} catch (Exception e) {
-				warn("Failed to stop server after web application startup failure.");
+				LOG.warn("Failed to stop server after web application startup failure.");
 			}
 			throw new Exception("Failed to startup web application context!  Check logs for specific error.");
 		}

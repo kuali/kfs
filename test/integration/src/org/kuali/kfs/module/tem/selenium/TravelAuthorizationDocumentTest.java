@@ -18,19 +18,8 @@ package org.kuali.kfs.module.tem.selenium;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kfs.module.tem.test.infrastructure.TemSeleniumTestBase;
 import org.kuali.kfs.module.tem.test.infrastructure.GenericSeleniumDelegate;
-import org.openqa.selenium.support.ui.Select;
-
-import com.thoughtworks.selenium.Selenium;
-import org.openqa.selenium.*;
-import org.openqa.selenium.htmlunit.*;
-import org.openqa.selenium.firefox.*;
-import org.openqa.selenium.chrome.*;
-import org.junit.*;
-import static org.junit.Assert.*;
-
-import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
+import org.kuali.kfs.module.tem.test.infrastructure.TemSeleniumTestBase;
 
 public class TravelAuthorizationDocumentTest extends TemSeleniumTestBase {
     GenericSeleniumDelegate page;

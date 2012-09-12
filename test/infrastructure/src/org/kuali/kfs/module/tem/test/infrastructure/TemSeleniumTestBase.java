@@ -15,12 +15,10 @@
  */
 package org.kuali.kfs.module.tem.test.infrastructure;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.info;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.logger;
-
 import java.lang.reflect.Method;
 import java.net.URL;
 
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -36,6 +34,8 @@ import com.thoughtworks.selenium.Selenium;
 
 @RunWith(TemSeleniumTestRunner.class)
 public class TemSeleniumTestBase extends Assert implements TemUnitTestMethodAware {
+    
+    public static Logger LOG = Logger.getLogger(TemSeleniumTestBase.class);
     
     protected static WebDriver driver;
     protected static Selenium selenium;
@@ -125,23 +125,23 @@ public class TemSeleniumTestBase extends Assert implements TemUnitTestMethodAwar
     }
 
     protected void logBeforeRun() {
-        if (logger().isInfoEnabled()) {
+        if (LOG.isInfoEnabled()) {
             statsBegin();
         }
-        info("##############################################################");
-        info("# Starting test " + getFullTestName() + "...");
-        info("##############################################################");
+        LOG.info("##############################################################");
+        LOG.info("# Starting test " + getFullTestName() + "...");
+        LOG.info("##############################################################");
     }
 
     protected void logAfterRun() {
-        info("##############################################################");
-        info("# ...finished test " + getFullTestName());
-        if (logger().isInfoEnabled()) {
+        LOG.info("##############################################################");
+        LOG.info("# ...finished test " + getFullTestName());
+        if (LOG.isInfoEnabled()) {
             for (String stat : statsEnd()) {
-                info("# " + stat);
+                LOG.info("# " + stat);
             }
         }
-        info("##############################################################");
+        LOG.info("##############################################################");
     }
     
     private void statsBegin() {

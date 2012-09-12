@@ -15,17 +15,14 @@
  */
 package org.kuali.kfs.module.tem.test.infrastructure.lifecycle;
 
+import org.apache.log4j.Logger;
+import org.kuali.kfs.sys.context.Log4jConfigurer;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.htmlunit.*;
-
-import org.kuali.kfs.sys.context.*;
-
-import org.kuali.kfs.module.tem.test.infrastructure.JettyServer;
-
-import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
 
 public class TemUnitTestSeleniumLifecycle extends TemUnitTestBaseLifecycle {
+    
+    public static Logger LOG = Logger.getLogger(TemUnitTestSeleniumLifecycle.class);
     
     private WebDriver driver;
     private JettyServerLifecycle jetty;
@@ -50,19 +47,17 @@ public class TemUnitTestSeleniumLifecycle extends TemUnitTestBaseLifecycle {
         driver = new FirefoxDriver();
         int port = 8080;
         try {
-            info("Loading Jetty Server...");
+            LOG.info("Loading Jetty Server...");
             // port = HtmlUnitUtil.getPort();
             jetty = new JettyServerLifecycle(port, TemUnitTestMainLifecycle.CONTEXT_NAME, TemUnitTestMainLifecycle.RELATIVE_WEB_ROOT);
             jetty.setConfigMode(JettyServerLifecycle.ConfigMode.MERGE);
             jetty.start();
         }
         catch (Throwable e) {
-            error(e.getMessage());
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             Throwable e1 = e.getCause();
             while (e1 != null) {
-                error("Caused by: ");
-                e.printStackTrace();
+                LOG.error("Caused by: ", e1);
             }
             throw e;
         }
@@ -71,7 +66,7 @@ public class TemUnitTestSeleniumLifecycle extends TemUnitTestBaseLifecycle {
    /** {@inheritDoc} */
     public void startPerSuite() {
         Log4jConfigurer.configureLogging(false);
-        info("Loading Configuration");
+        LOG.info("Loading Configuration");
         
         super.startPerSuite();
     }

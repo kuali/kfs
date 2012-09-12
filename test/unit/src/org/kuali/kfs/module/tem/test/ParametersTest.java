@@ -16,8 +16,6 @@
 package org.kuali.kfs.module.tem.test;
 
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.warn;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -25,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.tem.TemConstants;
@@ -39,6 +38,9 @@ import org.kuali.rice.kns.service.ParameterService;
 
 @ConfigureContext
 public class ParametersTest extends KualiTestBase {
+    
+    public static Logger LOG = Logger.getLogger(ParametersTest.class);
+    
     private ParameterService parameterService = null;
     private static final String DTL_POSTFIX = "_DTL_TYPE";
     private static final boolean strictMode = true;
@@ -69,7 +71,7 @@ public class ParametersTest extends KualiTestBase {
         }
         else {
             if (!badParameters.isEmpty()) {
-                warn("Bad parameter(s): " + badParameters.toString());
+                LOG.warn("Bad parameter(s): " + badParameters.toString());
             }
         }        
     }
@@ -141,10 +143,10 @@ public class ParametersTest extends KualiTestBase {
                     parameters.add((String) f.get(new String()));
                 }
                 catch (IllegalArgumentException ex) {
-                    error("IllegalArgumentException.", ex);
+                    LOG.error("IllegalArgumentException.", ex);
                 }
                 catch (IllegalAccessException ex) {
-                    error("IllegalAccessException.", ex);
+                    LOG.error("IllegalAccessException.", ex);
                 }
             }
         }

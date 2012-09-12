@@ -18,15 +18,10 @@ package org.kuali.kfs.module.tem.test.infrastructure.lifecycle;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-
 import java.net.BindException;
 import java.util.HashMap;
 
-import org.eclipse.jetty.webapp.WebAppClassLoader;
-import org.eclipse.jetty.webapp.WebAppContext;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.test.infrastructure.JettyServer;
 import org.kuali.rice.core.config.Config;
 import org.kuali.rice.core.config.ConfigContext;
@@ -35,14 +30,14 @@ import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.resourceloader.ResourceLoader;
 import org.kuali.rice.core.util.RiceUtilities;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.*;
-
 /**
  * A lifecycle for running a jetty web server.
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
 public class JettyServerLifecycle implements Lifecycle {
 
+    public static Logger LOG = Logger.getLogger(JettyServerLifecycle.class);
+    
     private static final HashMap<Integer, Config> WEBAPP_CONFIGS = new HashMap<Integer, Config>();
 
     public static Config getWebappConfig(int port) {
@@ -130,7 +125,7 @@ public class JettyServerLifecycle implements Lifecycle {
 	    } catch (RuntimeException re) {
 	        // add some handling to make port conflicts more easily identified
 	        if (RiceUtilities.findExceptionInStack(re, BindException.class) != null) {
-	            error("JettyServerLifecycle encountered BindException on port: ", jettyServer.getPort() + "; check logs for test failures or and the config for duplicate port specifications.");
+	            LOG.error("JettyServerLifecycle encountered BindException on port: "+ jettyServer.getPort() + "; check logs for test failures or and the config for duplicate port specifications.");
 	        }
 	        throw re;
 	    }
@@ -186,14 +181,14 @@ public class JettyServerLifecycle implements Lifecycle {
 	}
 
 	public void stop() throws Exception {
-	    info("Shutting down jetty: ", jettyServer);
+	    LOG.info("Shutting down jetty: " + jettyServer);
 	    try {
 	    	if (jettyServer != null && jettyServer.isStarted()) {
 	    		jettyServer.stop();
 	    		WEBAPP_CONFIGS.remove(jettyServer.getPort());
 	    	}
 	    } catch (Exception e) {
-	        error("Error shutting down Jetty ", jettyServer.getContextName(), " ", jettyServer.getRelativeWebappRoot());
+	        LOG.error("Error shutting down Jetty "+ jettyServer.getContextName()+ " "+ jettyServer.getRelativeWebappRoot());
             e.printStackTrace();
 	    }
 		started = false;

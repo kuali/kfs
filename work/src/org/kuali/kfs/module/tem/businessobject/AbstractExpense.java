@@ -496,6 +496,17 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     public void setTravelExpenseTypeCodeId(Long travelExpenseTypeCodeId) {
         this.travelExpenseTypeCodeId = travelExpenseTypeCodeId;
     }
-    
+
+    /**
+     * @see org.kuali.kfs.module.tem.businessobject.TEMExpense#getTotalDetailExpenseAmount()
+     */
+    @Override
+    public KualiDecimal getTotalDetailExpenseAmount() {
+        KualiDecimal totalDetailExpenseAmount = KualiDecimal.ZERO;
+        for(TEMExpense expense: getExpenseDetails()){
+            totalDetailExpenseAmount = totalDetailExpenseAmount.add(expense.getExpenseAmount());          
+        }
+        return totalDetailExpenseAmount;
+    }    
     
 }

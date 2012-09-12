@@ -29,7 +29,6 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseDetailLineEvent;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
-import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -74,7 +73,7 @@ public class AddImportedExpenseDetailEvent implements Observer {
                 newImportedExpenseLine.setExpenseDetails(null);
             }
             
-            KualiDecimal detailTotal = ExpenseUtils.getExpenseDetailsTotal(line);
+            KualiDecimal detailTotal = line.getTotalDetailExpenseAmount();
             
             ImportedExpense newExpense = new ImportedExpense();
             try {

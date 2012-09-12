@@ -14,21 +14,6 @@
         
 	<bean id="TravelRelocation-relocationInformationRequiredInfoValidation" class="org.kuali.kfs.module.tem.document.validation.impl.RelocationInformationRequiredInfoValidation"/>
 	
-	<bean id="TravelRelocation-addOtherExpenseLineValidation" parent="TravelRelocation-addOtherExpenseLineValidation-parentBean" scope="prototype" />
-	<bean id="TravelRelocation-addOtherExpenseLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
-			<list>
-				<bean parent="TravelRelocation-addOtherExpenseLineRequiredInfoValidation" scope="prototype">
-					<property name="quitOnFail" value="true" />
-				</bean>					
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="TravelRelocation-addOtherExpenseLineRequiredInfoValidation" class="org.kuali.kfs.module.tem.document.validation.impl.ActualExpenseRequiredInfoValidation">
-		<property name="dictionaryValidationService" ref="dictionaryValidationService" />
-	</bean>
-	
 	<bean id="TravelRelocation-routeDocumentValidation" parent="TravelRelocation-routeDocumentValidation-parentBean" scope="prototype" />
 	<bean id="TravelRelocation-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
    	<property name="validations">

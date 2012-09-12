@@ -27,40 +27,51 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 public class TEMDocumentExpenseRoutingValidation extends GenericValidation {
+    
+    /**
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
+     */
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean success = true;
         TravelDocument travelDocument = (TravelDocument) event.getDocument();
         
-        List errorPath = GlobalVariables.getMessageMap().getErrorPath();
+        List<String> errorPath = GlobalVariables.getMessageMap().getErrorPath();
+        
+        //reset to start off from document
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().addToErrorPath(KNSPropertyConstants.DOCUMENT);
+        
         TravelDocumentActualExpenseLineValidation validation = new TravelDocumentActualExpenseLineValidation();
         int counter = 0;
+        final boolean isWarning = false;
+        
         for (ActualExpense actualExpense : travelDocument.getActualExpenses()) {
-            GlobalVariables.getMessageMap().addToErrorPath(KNSPropertyConstants.DOCUMENT);
-            GlobalVariables.getMessageMap().addToErrorPath(TemPropertyConstants.ACTUAL_EXPENSES + "[" + counter + "]");
-            success = validation.validateGeneralRules(actualExpense, travelDocument) 
-                        && validation.validateExpenseDetail(actualExpense, false)
-                        && validation.validateAirfareRules(actualExpense, travelDocument) 
-                        && validation.validateRentalCarRules(actualExpense, travelDocument)
-                        && validation.validateLodgingRules(actualExpense, travelDocument) 
-                        && validation.validateLodgingAllowanceRules(actualExpense, travelDocument) 
-                        && validation.validatePerDiemRules(actualExpense, travelDocument) 
-                        && validation.validateMaximumAmountRules(actualExpense, travelDocument);
+            String path = TemPropertyConstants.ACTUAL_EXPENSES + "[" + counter + "]";
+            GlobalVariables.getMessageMap().addToErrorPath(path);
+
+            success = validation.validateExpenses(actualExpense, travelDocument, isWarning); 
 
             if (success){
                 TravelDocumentActualExpenseDetailLineValidation detailValidation = new TravelDocumentActualExpenseDetailLineValidation();
                 int detailCounter = 0;
                 for (TEMExpense detail : actualExpense.getExpenseDetails()){
-                    GlobalVariables.getMessageMap().addToErrorPath(TemPropertyConstants.EXPENSES_DETAILS + "[" + detailCounter + "]");
-                    ActualExpense actualExpenseDetail = (ActualExpense) detail;
-                    detailValidation.validateDetail(actualExpense, actualExpenseDetail, travelDocument);
-                    GlobalVariables.getMessageMap().removeFromErrorPath(TemPropertyConstants.EXPENSES_DETAILS + "[" + detailCounter + "]");
-                    detailCounter++;
+                    String detailPath = TemPropertyConstants.EXPENSES_DETAILS + "[" + detailCounter++ + "]";
+                    GlobalVariables.getMessageMap().addToErrorPath(detailPath);
+                    
+                    success &= detailValidation.validateDetail(actualExpense, (ActualExpense) detail, travelDocument);
+
+                    GlobalVariables.getMessageMap().removeFromErrorPath(detailPath);
                 }
             }
-            GlobalVariables.getMessageMap().clearErrorPath();
+            GlobalVariables.getMessageMap().removeFromErrorPath(path);
             counter++;
         }
+        
+        //reset the error path
+        GlobalVariables.getMessageMap().clearErrorPath();
+        GlobalVariables.getMessageMap().getErrorPath().addAll(errorPath);
+        
         return success;
     }
 

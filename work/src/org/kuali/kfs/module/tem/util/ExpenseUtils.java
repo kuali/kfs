@@ -37,15 +37,6 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public class ExpenseUtils {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExpenseUtils.class);
-    public static KualiDecimal getExpenseDetailsTotal(TEMExpense expense){
-        KualiDecimal detailTotal = KualiDecimal.ZERO;
-        for (TEMExpense tempExpense : expense.getExpenseDetails()){
-            detailTotal = detailTotal.add(tempExpense.getExpenseAmount());
-        } 
-        
-        return detailTotal;
-    }
-
     
     public static List<ImportedExpense> convertHistoricalToImportedExpense(List<HistoricalTravelExpense> historicalTravelExpenses, TravelDocument travelDocument){
         List<ImportedExpense> expenses = new ArrayList<ImportedExpense>();

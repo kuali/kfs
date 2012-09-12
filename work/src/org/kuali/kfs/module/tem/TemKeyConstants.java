@@ -60,6 +60,7 @@ public class TemKeyConstants extends JSTLConstants {
     public static final String ERROR_ACTUAL_EXPENSE_DETAIL_REQUIRED       = "error.document.tem.actualexpense.detail.required";
     public static final String ERROR_DELINQUENT_MSG_REQUIRED              = "error.document.tem.delinquentMessageRequired";
     
+    public static final String WARNING_DUPLICATE_EXPENSE             = "warning.document.tem.actualexpense.duplicateExpenseType";
     public static final String WARNING_NOTES_JUSTIFICATION             = "warning.document.tem.actualexpense.notesJustification";
     public static final String WARNING_PERDIEM_EXPENSE_LODGING_ENTERED = "warning.document.tem.perdiemexpense.lodgingentered";
 
@@ -230,6 +231,7 @@ public class TemKeyConstants extends JSTLConstants {
     public static final String ERROR_TEM_IMPORT_EXPENSES_PRIMARY_DESTINATION_MISSING="error.document.tem.travel.import.primary.destination.missing";
     
     public static final String INFO_TEM_IMPORT_CURRENCY_CONVERSION="info.document.tem.travel.import.currency.conversion";
+    public static final String INFO_TEM_ACTUAL_EXPENSE_LODGING_ALLOWANCE = "info.document.tem.actualexpense.lodgingallowance";
     public static final String INFO_TEM_IMPORT_DOCUMENT_SAVE="info.document.auto.save";
     
     public static final String ERROR_TEM_DETAIL_GREATER_THAN_EXPENSE="error.document.detail.greater.than.expense";

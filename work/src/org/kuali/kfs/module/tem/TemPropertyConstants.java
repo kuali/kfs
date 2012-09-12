@@ -74,6 +74,8 @@ public class TemPropertyConstants extends JSTLConstants {
     public static final String CURRENCY_RATE = "currencyRate";
     public static final String TRVL_AUTH_OTHER_EXP_DATE = "expenseDate";
     public static final String TEM_ACTUAL_EXPENSE_MILES = "miles";
+    public static final String TEM_ACTUAL_EXPENSE_MILE_OTHER_RATE = "mileageOtherRate";
+    public static final String TEM_ACTUAL_EXPENSE_MILE_RATE = "mileageRateId";
     public static final String TEM_ACTUAL_EXPENSE_NOTCE = "description";
     public static final String TEM_ACTUAL_EXPENSE_DETAIL = "detail";
 

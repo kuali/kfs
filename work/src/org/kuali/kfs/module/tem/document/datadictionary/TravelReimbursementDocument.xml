@@ -353,10 +353,6 @@
 				<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
 				<value>TravelModule-updateAccountingLineValidation</value>
 			</entry>
-			<entry>
-                <key><value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent</value></key>
-                <value>TravelReimbursement-addOtherExpenseLineValidation</value>
-            </entry>
             <entry>
                 <key><value>org.kuali.kfs.module.tem.document.validation.event.UpdateTripDetailsEvent</value></key>
                 <value>TravelReimbursement-updateTripDetailsValidation</value>

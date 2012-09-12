@@ -213,8 +213,6 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
 
     public KualiDecimal getParentExpenseAmount(List<ActualExpense> actualExpenses, Long id);
 
-    public KualiDecimal getTotalDetailExpenseAmount(ActualExpense actualExpense);
-
     public ActualExpense getParentExpenseRecord(List<ActualExpense> actualExpenses, Long id);
 
     public KualiDecimal getActualExpensesTotal();

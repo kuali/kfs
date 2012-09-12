@@ -57,7 +57,7 @@ public class RemoveActualExpenseDetailEvent implements Observer {
         
         List<ActualExpense> actualExpenses = wrapper.getNewActualExpenseLines();
       
-        KualiDecimal detailTotal = ExpenseUtils.getExpenseDetailsTotal(line);
+        KualiDecimal detailTotal = line.getTotalDetailExpenseAmount();
         
         if (detailTotal.isLessThan(line.getExpenseAmount())){
             KualiDecimal remainderExpense = line.getExpenseAmount().subtract(detailTotal);

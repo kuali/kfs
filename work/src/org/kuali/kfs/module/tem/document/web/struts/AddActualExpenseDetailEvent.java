@@ -73,7 +73,7 @@ public class AddActualExpenseDetailEvent implements Observer {
                 newActualExpenseLine.setExpenseDetails(null);
             }
             
-            KualiDecimal detailTotal = ExpenseUtils.getExpenseDetailsTotal(line);
+            KualiDecimal detailTotal = line.getTotalDetailExpenseAmount();
             
             ActualExpense newExpense = new ActualExpense();
             try {

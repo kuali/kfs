@@ -149,13 +149,6 @@ public interface TravelDocumentService {
     public KualiDecimal calculateExpenseAmountTotalForMileage(final List<ActualExpense> actualExpenses);
 
     /**
-     * This method returns total expense amount for the detail records
-     * 
-     * @param actualExpense
-     */
-    public KualiDecimal getExpenseAmountTotalFromDetail(ActualExpense actualExpense);
-
-    /**
      * 
      */
     public void handleNewActualExpense(final ActualExpense newActualExpenseLine);

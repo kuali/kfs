@@ -15,16 +15,15 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
-import java.util.List;
-
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
-import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseDetailLineEvent;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -33,56 +32,65 @@ public class TravelDocumentActualExpenseDetailLineValidation extends TEMDocument
    
     public TravelDocumentActualExpenseDetailLineValidation() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
+     */
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         AddActualExpenseDetailLineEvent<ActualExpense> addActualExpenseDetailEvent = (AddActualExpenseDetailLineEvent<ActualExpense>) event;
         TravelDocument travelDocument = (TravelDocument) addActualExpenseDetailEvent.getDocument();
+        
         String[] tempStr = addActualExpenseDetailEvent.getErrorPathPrefix().split("\\[");
         String temp = tempStr[1];
         temp = tempStr[1].split("\\]")[0];
         int index = Integer.parseInt(temp);
+        
         ActualExpense actualExpense = travelDocument.getActualExpenses().get(index);
         ActualExpense actualExpenseDetail = addActualExpenseDetailEvent.getExpenseLine();
         actualExpenseDetail.setTravelCompanyCodeName(actualExpense.getTravelCompanyCodeName());
-        List errors = GlobalVariables.getMessageMap().getErrorPath();
         
-        return validateDetail(actualExpense, actualExpenseDetail, travelDocument);
+        boolean success = validateDetail(actualExpense, actualExpenseDetail, travelDocument);
+        return success;
     }
 
+    /**
+     * Validate expense detail rules
+     * 
+     * 1. expense detail mileage rule
+     * 2. expense detail amount is non-zero
+     * 3. expense detail does not exceed parent (threshold) for non-mileage expense
+     * 
+     * @param actualExpense
+     * @param actualExpenseDetail
+     * @param travelDocument
+     * @return
+     */
     public boolean validateDetail(ActualExpense actualExpense, ActualExpense actualExpenseDetail, TravelDocument travelDocument){
         boolean success = getDictionaryValidationService().isBusinessObjectValid(actualExpenseDetail, "");
-
+        
         if (success) {
-            if (actualExpense.isMileage()) {
-                success = validateMileageRules(actualExpenseDetail, travelDocument);
+            //validate mileage
+            success &= validateMileageRules(actualExpenseDetail, travelDocument);
+            
+            //validate expense detail amount is negative
+            if (actualExpenseDetail.getExpenseAmount().isNegative()) {
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_TEM_DETAIL_LESS_THAN_ZERO);
+                success = false;
             }
-            else {
-                if (actualExpenseDetail.getExpenseAmount().isLessEqual(KualiDecimal.ZERO)) {
-                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_TEM_DETAIL_LESS_THAN_ZERO);
-                    return false;
-                }
-                //Will be true if this method occurs in the routing validation
-                if (actualExpense.getExpenseDetails().contains(actualExpenseDetail)){
-                    return success;
-                }
-                /*
-                 * Determine if the detail is an amount that doesn't go over the threshold 
-                 */
-                KualiDecimal total = KualiDecimal.ZERO;
-                for (TEMExpense detail : actualExpense.getExpenseDetails()) {
-                    total = total.add(detail.getExpenseAmount()); 
-                }
-                KualiDecimal remainder = actualExpense.getExpenseAmount().subtract(total);
-                if (actualExpenseDetail.getExpenseAmount().isGreaterThan(remainder)) {
+            
+            //for non-mileage expense detail
+            if (!actualExpenseDetail.isMileage()){
+                // Determine if the detail is an amount that doesn't go over the threshold 
+                if (actualExpense.getExpenseAmount().isLessThan(actualExpense.getTotalDetailExpenseAmount())) {
                     GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_TEM_DETAIL_GREATER_THAN_EXPENSE);
-                    return false;
+                    success = false;
                 }
             }
         }
 
+        //info for non-one currency
         if (success && !actualExpenseDetail.getCurrencyRate().equals(new KualiDecimal(1))) {
             GlobalVariables.getMessageMap().putInfo(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.INFO_TEM_IMPORT_CURRENCY_CONVERSION);
         }
@@ -91,33 +99,44 @@ public class TravelDocumentActualExpenseDetailLineValidation extends TEMDocument
     }
     
     /**
-     * This method validates following rules 1.Validates whether miles & mileage rate / other mileage rate is entered 2.Validates
-     * other mileage rate with the max rate configured in mileage table, if other mileage rate is specified
+     * This method validates following rules 
+     * 
+     * 1.Validates whether miles & mileage rate / other mileage rate is entered 
+     * 2.Validates other mileage rate with the max rate configured in mileage table, if other mileage rate is specified
      * 
      * @param actualExpense
      * @param document
      * @return boolean
      */
-    public boolean validateMileageRules(ActualExpense actualExpense, TravelDocument document) {
-        boolean success = true;
-
-        // Check to see if miles & mileage rate/other mileage rate is entered
-        success = (ObjectUtils.isNotNull(actualExpense.getMiles()) && actualExpense.getMiles() > 0 && (ObjectUtils.isNotNull(actualExpense.getMileageRateId()) || (ObjectUtils.isNotNull(actualExpense.getMileageOtherRate()) && actualExpense.getMileageOtherRate().isGreaterThan(KualiDecimal.ZERO))));
-        if (success) {
-            if (ObjectUtils.isNotNull(actualExpense.getMileageOtherRate())) {
-                KualiDecimal maxMileageRate = getMaxMileageRate();
-                if (actualExpense.getMileageOtherRate().isGreaterThan(maxMileageRate)) {
-                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_MILES, TemKeyConstants.ERROR_ACTUAL_EXPENSE_OTHER_MILEAGE_RATE_EXCEED, actualExpense.getMileageOtherRate().toString(), maxMileageRate.toString());
-                    success = false;
+    protected boolean validateMileageRules(ActualExpense expenseDetail, TravelDocument document) {
+        boolean valid = true;
+        if (expenseDetail.isMileage()) {
+            // Check to see if miles & mileage rate/other mileage rate is entered
+            valid = (ObjectUtils.isNotNull(expenseDetail.getMiles()) && expenseDetail.getMiles() > 0 && (ObjectUtils.isNotNull(expenseDetail.getMileageRateId()) || (ObjectUtils.isNotNull(expenseDetail.getMileageOtherRate()) && expenseDetail.getMileageOtherRate().isGreaterThan(KualiDecimal.ZERO))));
+            if (valid) {
+                if (ObjectUtils.isNotNull(expenseDetail.getMileageOtherRate())) {
+                    KualiDecimal maxMileageRate = getMaxMileageRate();
+                    if (expenseDetail.getMileageOtherRate().isGreaterThan(maxMileageRate)) {
+                        GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_MILES, TemKeyConstants.ERROR_ACTUAL_EXPENSE_OTHER_MILEAGE_RATE_EXCEED, expenseDetail.getMileageOtherRate().toString(), maxMileageRate.toString());
+                        valid = false;
+                    }
                 }
+
             }
-
+            else {
+                String label = getDataDictionaryService().getAttributeLabel(ActualExpense.class, TemPropertyConstants.TEM_ACTUAL_EXPENSE_MILES) + ", " + getDataDictionaryService().getAttributeLabel(ActualExpense.class, TemPropertyConstants.TEM_ACTUAL_EXPENSE_MILE_RATE) + " or " + getDataDictionaryService().getAttributeLabel(ActualExpense.class, TemPropertyConstants.TEM_ACTUAL_EXPENSE_MILE_OTHER_RATE);
+                GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_MILES, KFSKeyConstants.ERROR_REQUIRED, label);
+            }
         }
-        else {
-            GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEM_ACTUAL_EXPENSE_MILES, KFSKeyConstants.ERROR_REQUIRED, "Miles & mileage rate / other mileage rate");
-        }
-
-        return success;
+        return valid;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public final DataDictionaryService getDataDictionaryService() {
+        return SpringContext.getBean(DataDictionaryService.class);
     }
 
 }

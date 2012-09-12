@@ -933,7 +933,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
                 // If expense type for parent record is mileage, add detail expense amount to the parent expense amount
                 if (parentActualExpense.getMileageIndicator()) {
-                    parentActualExpense.setExpenseAmount(getExpenseAmountTotalFromDetail(actualExpense));
+                    parentActualExpense.setExpenseAmount(actualExpense.getTotalDetailExpenseAmount());
                     // total = total.add(parentActualExpense.getExpenseAmount());
                     parentActualExpense.setConvertedAmount(parentActualExpense.getExpenseAmount().multiply(parentActualExpense.getCurrencyRate()));
                 }
@@ -941,22 +941,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             }
         }
         return total;
-    }
-
-    /**
-     * This method returns the total expense amount from detail records
-     * 
-     * @param actualExpenses
-     * @param expenseId
-     * @return
-     */
-    @Override
-    public KualiDecimal getExpenseAmountTotalFromDetail(ActualExpense actualExpense) {
-        KualiDecimal expenseAmount = KualiDecimal.ZERO;
-        for (TEMExpense detail : actualExpense.getExpenseDetails()) {
-            expenseAmount = expenseAmount.add(detail.getExpenseAmount());
-        }
-        return expenseAmount;
     }
 
     protected ActualExpense getParentActualExpense(final List<ActualExpense> actualExpenses, Long expenseId) {

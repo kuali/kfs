@@ -333,10 +333,6 @@
 				<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
 				<value>TravelModule-updateAccountingLineValidation</value>
 			</entry>            
-            <entry>
-                <key><value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent</value></key>
-                <value>Entertainment-addOtherExpenseLineValidation</value>
-            </entry>
             <!-- Distribution Accounting lines -->
             <entry>
                 <key><value>org.kuali.kfs.module.tem.document.validation.event.AssignDistributionAccountingLinesEvent</value></key>

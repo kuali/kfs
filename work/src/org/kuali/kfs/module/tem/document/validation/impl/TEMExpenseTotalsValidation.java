@@ -41,10 +41,7 @@ public class TEMExpenseTotalsValidation extends GenericValidation {
             /*
              * Determine if the detail is an amount that doesn't go over the threshold 
              */
-            KualiDecimal total = KualiDecimal.ZERO;
-            for (TEMExpense detail : actualExpense.getExpenseDetails()) {
-                total = total.add(detail.getExpenseAmount()); 
-            }
+            KualiDecimal total = actualExpense.getTotalDetailExpenseAmount();
             if (!total.isZero()) {
                 if (total.isGreaterThan(actualExpense.getExpenseAmount())){
                     GlobalVariables.getMessageMap().putError(property + "." + TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_TEM_DETAIL_GREATER_THAN_EXPENSE);

@@ -324,10 +324,6 @@
                 <value>TravelAuthorization-addEmergencyContactLineValidation</value>
             </entry>        
             <entry>
-                <key><value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent</value></key>
-                <value>TravelAuthorization-addOtherExpenseLineValidation</value>
-            </entry>  
-            <entry>
                 <key><value>org.kuali.kfs.module.tem.document.validation.event.RecalculateTripDetailTotalEvent</value></key>
                 <value>TravelAuthorization-tripDetailEstimateGreaterThanZeroValidation</value>
             </entry>

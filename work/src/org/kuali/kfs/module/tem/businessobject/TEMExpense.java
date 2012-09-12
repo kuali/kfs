@@ -232,6 +232,13 @@ public interface TEMExpense {
     public void setExpenseDetails(List<TEMExpense> expenseDetails);
 
     /**
+     * Get the total detail expenses amount
+     * 
+     * @return
+     */
+    public KualiDecimal getTotalDetailExpenseAmount();
+    
+    /**
      * @param expense
      */
     public void addExpenseDetails(TEMExpense expense);

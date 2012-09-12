@@ -530,12 +530,6 @@
                 </entry>
                 <entry>
                     <key>
-                        <value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent</value>
-                    </key>
-                    <value>TravelRelocation-addOtherExpenseLineValidation</value>
-                </entry>
-                <entry>
-                    <key>
                         <value>org.kuali.kfs.module.tem.document.validation.event.AssignDistributionAccountingLinesEvent</value>
                     </key>
                     <value>TravelModule-distributionAccountingLineValidation</value>

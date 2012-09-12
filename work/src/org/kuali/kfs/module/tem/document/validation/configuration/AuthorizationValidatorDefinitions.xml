@@ -106,23 +106,6 @@
 		<property name="travelService" ref="temTravelService" />
 	</bean>   
 		
-	<bean id="TravelAuthorization-addOtherExpenseLineValidation" parent="TravelAuthorization-addOtherExpenseLineValidation-parentBean" scope="prototype" />
-	<bean id="TravelAuthorization-addOtherExpenseLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
-			<list>
-				<bean parent="TravelAuthorization-addOtherExpenseLineRequiredInfoValidation" scope="prototype">
-					<property name="quitOnFail" value="true" />
-				</bean>
-				<bean parent="TravelModule-otherExpenseBlanketTripTypeValidation" scope="prototype"/>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="TravelAuthorization-addOtherExpenseLineRequiredInfoValidation"
-		class="org.kuali.kfs.module.tem.document.validation.impl.ActualExpenseRequiredInfoValidation">
-		<property name="dictionaryValidationService" ref="dictionaryValidationService" />
-	</bean>
-		
 	<bean id="TravelAuthorization-approveDocumentValidation" parent="TravelAuthorization-approveDocumentValidation-parentBean" />   
     <bean id="TravelAuthorization-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
     	<property name="validations">

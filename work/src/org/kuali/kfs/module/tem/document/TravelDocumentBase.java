@@ -52,7 +52,6 @@ import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ClassOfService;
-import org.kuali.kfs.module.tem.businessobject.EmergencyContact;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
@@ -749,7 +748,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         int counter = 0;
         for(ActualExpense actualExpense: this.actualExpenses){
             if (actualExpense.getExpenseDetails().size() > 0){
-                KualiDecimal detailAmount = getTotalDetailExpenseAmount(actualExpense);
+                KualiDecimal detailAmount = actualExpense.getTotalDetailExpenseAmount();
                 GlobalVariables.getMessageMap().addToErrorPath(KNSPropertyConstants.DOCUMENT);
                 GlobalVariables.getMessageMap().addToErrorPath(TemPropertyConstants.ACTUAL_EXPENSES + "[" + counter + "]");
                 if(detailAmount.isGreaterThan(actualExpense.getExpenseAmount()) && !actualExpense.getTravelExpenseTypeCode().getCode().equals(TemConstants.ExpenseTypes.MILEAGE)){     
@@ -881,13 +880,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     @Transient
     public KualiDecimal getTotalPendingAmount(ActualExpense actualExpense){
         KualiDecimal expenseAmount = actualExpense.getExpenseAmount();
-        KualiDecimal detailTotal = KualiDecimal.ZERO;        
-        
-        for(TEMExpense expense: actualExpense.getExpenseDetails()){
-            detailTotal = detailTotal.add(expense.getExpenseAmount());
-        }        
-        
-        return expenseAmount.subtract(detailTotal);
+        return expenseAmount.subtract(actualExpense.getTotalDetailExpenseAmount());
     }
     
     /**
@@ -904,21 +897,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         }
         
         return KualiDecimal.ZERO;
-    }
-    
-    /**
-     * @see org.kuali.kfs.module.tem.document.TravelDocument#getTotalDetailExpenseAmount(org.kuali.kfs.module.tem.businessobject.ActualExpense)
-     */
-    @Override
-    @Transient
-    public KualiDecimal getTotalDetailExpenseAmount(ActualExpense actualExpense){
-        KualiDecimal totalDetailExpenseAmount = KualiDecimal.ZERO;
-        
-        for(TEMExpense expense: actualExpense.getExpenseDetails()){
-            totalDetailExpenseAmount = totalDetailExpenseAmount.add(expense.getExpenseAmount());          
-        }
-        
-        return totalDetailExpenseAmount;
     }
     
     /**

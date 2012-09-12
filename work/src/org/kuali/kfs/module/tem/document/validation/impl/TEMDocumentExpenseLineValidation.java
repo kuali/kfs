@@ -51,21 +51,30 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      */
     protected boolean validatePerDiemRules(ActualExpense actualExpense, TravelDocument document) {
         boolean success = true;
-
+        String warningLabel = "";
         // Check to see if the same expense type is been entered in PerDiem
         if (actualExpense.getMileageIndicator() && isPerDiemMileageEntered(document.getPerDiemExpenses())) {
-            GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_CODE, "warning.document.tem.actualexpense.duplicateExpenseType", "Mileage");
+            warningLabel = "Mileage";
         }
         else if ((actualExpense.isHostedMeal()) && isPerDiemMealsEntered(document.getPerDiemExpenses())) {
-            GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_CODE, "warning.document.tem.actualexpense.duplicateExpenseType", "Meals");
+            warningLabel = "Meals";
         }
         else if (actualExpense.isLodging() && isPerDiemLodgingEntered(document.getPerDiemExpenses())) {
-            GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_CODE, "warning.document.tem.actualexpense.duplicateExpenseType", "Lodging");
+            warningLabel = "Lodging";
+        }
+        if (StringUtils.isNotEmpty(warningLabel)){
+            GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_CODE, TemKeyConstants.WARNING_DUPLICATE_EXPENSE, warningLabel);
         }
 
         return success;
     }
     
+    /**
+     * PerDiem Mileage entered
+     * 
+     * @param perDiemExpenses
+     * @return
+     */
     protected Boolean isPerDiemMileageEntered(List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
             if (ObjectUtils.isNotNull(perDiemExpenseLine.getMiles()) && perDiemExpenseLine.getMiles() > 0) {
@@ -75,6 +84,12 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
         return Boolean.FALSE;
     }
 
+    /**
+     * PerDiem Meals entered
+     * 
+     * @param perDiemExpenses
+     * @return
+     */
     protected Boolean isPerDiemMealsEntered(List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
             if (ObjectUtils.isNotNull(perDiemExpenseLine.getMealsAndIncidentals()) &&
@@ -86,6 +101,12 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
         return Boolean.FALSE;
     }
 
+    /**
+     * PerDiem Lodging entered
+     * 
+     * @param perDiemExpenses
+     * @return
+     */
     protected Boolean isPerDiemLodgingEntered(List<PerDiemExpense> perDiemExpenses) {
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
             if (ObjectUtils.isNotNull(perDiemExpenseLine.getLodgingTotal()) 
@@ -97,7 +118,9 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
     }
 
     /**
-     * This method validated following rules 1.Raises warning if note is not entered
+     * This method validated following rules 
+     * 
+     * 1.Raises warning if note is not entered
      * 
      * @param actualExpense
      * @param document
@@ -105,9 +128,12 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      */
     protected boolean validateAirfareRules(ActualExpense actualExpense, TravelDocument document) {
         boolean success = true;
+        MessageMap message = GlobalVariables.getMessageMap();
 
-        if (actualExpense.isAirfare() && (ObjectUtils.isNull(actualExpense.getDescription()) || actualExpense.getDescription().length() == 0)) {
-            GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_NOTES_JUSTIFICATION);
+        if (actualExpense.isAirfare() && StringUtils.isEmpty(actualExpense.getDescription())) {
+            if (!message.containsMessageKey(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE)){
+                message.putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_NOTES_JUSTIFICATION);
+            }
         }
 
         return success;
@@ -118,6 +144,8 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      * 
      *  1.If the Approval Required flag = "Y" for the rental car type, the document routes to the Special Request approver routing. 
      *  Display a warning, "Enter justification in the Notes field". (This is under Rental Car Specific Rules)
+     * 
+     * No warning if there is already an error
      * 
      * @param expenseDetail
      * @param document
@@ -131,13 +159,18 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
         if (ObjectUtils.isNotNull(expense.getTravelExpenseTypeCode()) && expense.getTravelExpenseTypeCode().getSpecialRequestRequired()) {
             if (StringUtils.isBlank(expense.getDescription())) {
                 if (!message.containsMessageKey(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE)){
-                    GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_NOTES_JUSTIFICATION);
+                    message.putWarning(TemPropertyConstants.TEM_ACTUAL_EXPENSE_NOTCE, TemKeyConstants.WARNING_NOTES_JUSTIFICATION);
                 }
             }
         }
         return success;
     }
     
+    /**
+     * Get the maximum Mileage rate
+     * 
+     * @return
+     */
     public KualiDecimal getMaxMileageRate() {
         KualiDecimal maxMileage = KualiDecimal.ZERO;
         Collection<MileageRate> mileageRates = SpringContext.getBean(BusinessObjectService.class).findAll(MileageRate.class);
@@ -149,8 +182,11 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
         return maxMileage;
     }
     
+    /**
+     * 
+     * @return
+     */
     public final DictionaryValidationService getDictionaryValidationService() {
-
         return SpringContext.getBean(DictionaryValidationService.class);
     }
 }

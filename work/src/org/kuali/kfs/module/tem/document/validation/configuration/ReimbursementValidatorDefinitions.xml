@@ -12,25 +12,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="TravelReimbursement-addOtherExpenseLineValidation" parent="TravelReimbursement-addOtherExpenseLineValidation-parentBean" scope="prototype" />
-	<bean id="TravelReimbursement-addOtherExpenseLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
-			<list>
-				<bean parent="TravelReimbursement-addOtherExpenseLineRequiredInfoValidation"
-					scope="prototype">
-					<property name="quitOnFail" value="true" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-	
 	<bean id="TravelReimbursement-employeeCertificationValidation" class="org.kuali.kfs.module.tem.document.validation.impl.ReimbursementEmployeeCertificationValidation">
       <property name="travelerService" ref="travelerService" />
-    </bean>
-
-	<bean id="TravelReimbursement-addOtherExpenseLineRequiredInfoValidation"
-		class="org.kuali.kfs.module.tem.document.validation.impl.ActualExpenseRequiredInfoValidation">
-        <property name="dictionaryValidationService" ref="dictionaryValidationService" />
     </bean>
 
 <!-- 	<bean id="TravelReimbursement-addAccountingLineAllowedObjCodeValidation" class="org.kuali.kfs.module.tem.document.validation.impl.TEMAccountingLineAllowedObjectCodeValidation"> </bean> -->

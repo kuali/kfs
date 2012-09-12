@@ -14,22 +14,6 @@
         
 	<bean id="Entertainment-entertainmentInformationRequiredInfoValidation" class="org.kuali.kfs.module.tem.document.validation.impl.TravelEntertainmentRequiredInfoValidation"/>
 	
-	<bean id="Entertainment-addOtherExpenseLineValidation" parent="Entertainment-addOtherExpenseLineValidation-parentBean" scope="prototype" />
-	<bean id="Entertainment-addOtherExpenseLineValidation-parentBean"
-		parent="CompositeValidation" scope="prototype" abstract="true">
-		<property name="validations">
-			<list>
-				<bean parent="Entertainment-addOtherExpenseLineRequiredInfoValidation" scope="prototype">
-					<property name="quitOnFail" value="true" />
-				</bean>					
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="Entertainment-addOtherExpenseLineRequiredInfoValidation" class="org.kuali.kfs.module.tem.document.validation.impl.ActualExpenseRequiredInfoValidation">
-		<property name="dictionaryValidationService" ref="dictionaryValidationService" />
-	</bean>
-	
 	<bean id="Entertainment-routeDocumentValidation" parent="Entertainment-routeDocumentValidation-parentBean" scope="prototype" />
 	<bean id="Entertainment-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
    	<property name="validations">

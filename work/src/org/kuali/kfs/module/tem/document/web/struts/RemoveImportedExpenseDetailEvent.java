@@ -26,7 +26,6 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
-import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -57,7 +56,7 @@ public class RemoveImportedExpenseDetailEvent implements Observer {
         
         List<ImportedExpense> importedExpenses = wrapper.getNewImportedExpenseLines();
       
-        KualiDecimal detailTotal = ExpenseUtils.getExpenseDetailsTotal(line);
+        KualiDecimal detailTotal = line.getTotalDetailExpenseAmount();
         
         if (detailTotal.isLessThan(line.getExpenseAmount())){
             KualiDecimal remainderExpense = line.getExpenseAmount().subtract(detailTotal);

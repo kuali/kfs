@@ -20,7 +20,6 @@ import java.util.List;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
-import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseDetailLineEvent;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -57,10 +56,7 @@ public class TravelDocumentImportedExpenseDetailLineValidation extends GenericVa
                 /*
                  * Determine if the detail is an amount that doesn't go over the threshold (taking a buffer into account for conversions)
                  */
-                KualiDecimal total = KualiDecimal.ZERO;
-                for(TEMExpense detail : importedExpense.getExpenseDetails()){
-                    total = total.add(detail.getConvertedAmount());
-                }
+                KualiDecimal total = importedExpense.getTotalDetailExpenseAmount();
                 KualiDecimal remainder = importedExpense.getConvertedAmount().subtract(total);
                 if (importedExpenseDetail.getConvertedAmount().isGreaterThan(remainder)){
                     GlobalVariables.getMessageMap().putError(TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_TEM_DETAIL_GREATER_THAN_EXPENSE);

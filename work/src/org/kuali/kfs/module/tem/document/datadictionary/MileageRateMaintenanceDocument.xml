@@ -30,13 +30,10 @@
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="id" p:required="false"/>
-				<bean parent="MaintainableFieldDefinition" p:name="code" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="rate" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="activeFromDate" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="activeToDate" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="minimumMiles" p:required="false"/>
-				<bean parent="MaintainableFieldDefinition" p:name="maximumMiles" p:required="false"/>
 				<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
 			</list>
 		</property>

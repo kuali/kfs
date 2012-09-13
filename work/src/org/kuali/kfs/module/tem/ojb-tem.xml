@@ -88,16 +88,13 @@
         </reference-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kfs.module.tem.businessobject.MileageRate" table="tem_mileage_rate_t">
+    <class-descriptor class="org.kuali.kfs.module.tem.businessobject.MileageRate" table="TEM_MILEAGE_RATE_T">
         <field-descriptor name="id" primarykey="true" sequence-name="TEM_MILEAGE_RT_ID_SEQ" autoincrement="true" column="id" jdbc-type="INTEGER"/>
-        <field-descriptor name="code" column="code" jdbc-type="VARCHAR"/>
         <field-descriptor name="name" column="nm" jdbc-type="VARCHAR"/>
         <field-descriptor name="rate" column="rate" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
         <field-descriptor name="activeFromDate" column="actv_from_dt" jdbc-type="DATE"/>
         <field-descriptor name="activeToDate" column="actv_to_dt" jdbc-type="DATE"/>
         <field-descriptor name="active" column="actv_ind" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-  		<field-descriptor name="minimumMiles" column="MIN_MILES" jdbc-type="INTEGER"/>
-  		<field-descriptor name="maximumMiles" column="MAX_MILES" jdbc-type="INTEGER"/>
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
     </class-descriptor>

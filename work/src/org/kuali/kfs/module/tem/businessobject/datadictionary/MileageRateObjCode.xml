@@ -105,7 +105,7 @@
 		<property name="required" value="true" />
 		<property name="summary" value="Mileage Rate Id" />
 		<property name="description" value="Mileage Rate Id" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
+		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
 	<bean id="MileageRateObjCode-financialObjectCode" parent="MileageRateObjCode-financialObjectCode-parentBean" />

@@ -34,15 +34,12 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * Mileage Rate
  * 
- * @author Derek Helbert
  */
 @Entity
-@Table(name="tem_mileage_rate_t")
+@Table(name="TEM_MILEAGE_RATE_T")
 public class MileageRate extends PersistableBusinessObjectBase implements Inactivateable {
     
     private Integer id;
-    
-    private String code;
     
     private String name;
     
@@ -53,10 +50,6 @@ public class MileageRate extends PersistableBusinessObjectBase implements Inacti
     private Date activeToDate;
     
     private boolean active = Boolean.TRUE;
-    
-    private Integer minimumMiles;
-    
-    private Integer maximumMiles;
     
     @Id
     @GeneratedValue(generator="TEM_MILEAGE_RT_ID_SEQ")
@@ -70,15 +63,6 @@ public class MileageRate extends PersistableBusinessObjectBase implements Inacti
         this.id = id;
     }
     
-    @Column(name="code",length=2,nullable=false)
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     @Column(name="nm",length=40,nullable=false)
     public String getName() {
         return name;
@@ -127,32 +111,16 @@ public class MileageRate extends PersistableBusinessObjectBase implements Inacti
     }
     
     @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("code", code);
+    protected LinkedHashMap<String,String> toStringMapper() {
+        LinkedHashMap<String,String> map = new LinkedHashMap<String,String>();
         map.put("name", name);
         map.put("rate", name);
         
         return map;
     }
     
-    public String getCodeAndRate(){
-        return this.getCode() + KFSConstants.BLANK_SPACE + KFSConstants.DASH + KFSConstants.BLANK_SPACE + TemConstants.DOLLAR_SIGN + this.getRate().toString();        
+    public String getCodeAndRate(MileageRateObjCode mileageRateObjectCode){
+        return mileageRateObjectCode.getTripTypeCode() + KFSConstants.BLANK_SPACE + KFSConstants.DASH + KFSConstants.BLANK_SPACE + TemConstants.DOLLAR_SIGN + this.getRate().toString();        
     }
 
-    public Integer getMinimumMiles() {
-        return minimumMiles;
-    }
-
-    public void setMinimumMiles(Integer minimumMiles) {
-        this.minimumMiles = minimumMiles;
-    }
-
-    public Integer getMaximumMiles() {
-        return maximumMiles;
-    }
-
-    public void setMaximumMiles(Integer maximumMiles) {
-        this.maximumMiles = maximumMiles;
-    }
 }

@@ -12,13 +12,10 @@
 		<property name="attributes">
 		<list>
 			<ref bean="MileageRate-id" />
-			<ref bean="MileageRate-code" />
 			<ref bean="MileageRate-name" />
 			<ref bean="MileageRate-rate" />
 			<ref bean="MileageRate-activeFromDate" />
 			<ref bean="MileageRate-activeToDate" />
-			<ref bean="MileageRate-minimumMiles" />
-			<ref bean="MileageRate-maximumMiles" />
 			<ref bean="MileageRate-active" />
 			<ref bean="MileageRate-versionNumber" />
 		</list>
@@ -36,22 +33,11 @@
 		<property name="control"><bean parent="HiddenControlDefinition" /></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
-	<bean id="MileageRate-code" parent="MileageRate-code-parentBean" />
-	<bean id="MileageRate-code-parentBean" parent="AttributeDefinition">
-		<property name="name" value="code" />
-		<property name="label" value="Code" />
-		<property name="shortLabel" value="Code" />
-		<property name="maxLength" value="2" />
-		<property name="required" value="true" />
-		<property name="summary" value="Code" />
-		<property name="description" value="Code" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
-	</bean>
 	<bean id="MileageRate-name" parent="MileageRate-name-parentBean" />
 	<bean id="MileageRate-name-parentBean" parent="AttributeDefinition">
 		<property name="name" value="name" />
-		<property name="label" value="Name" />
-		<property name="shortLabel" value="Name" />
+		<property name="label" value="Description" />
+		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="40" />
 		<property name="required" value="true" />
 		<property name="summary" value="Name" />
@@ -85,30 +71,6 @@
 		<property name="summary" value="Active To Date" />
 		<property name="description" value="Active To Date" />
 	</bean>
-	<bean id="MileageRate-minimumMiles" parent="MileageRate-minimumMiles-parentBean" />
-	<bean id="MileageRate-minimumMiles-parentBean" parent="AttributeDefinition">
-		<property name="name" value="minimumMiles" />
-		<property name="label" value="Minimum Miles" />
-		<property name="shortLabel" value="Min Miles" />
-		<property name="maxLength" value="19" />
-		<property name="required" value="false" />
-		<property name="summary" value="Minimum Miles" />
-		<property name="description" value="Minimum Miles" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
-		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
-	</bean>
-	<bean id="MileageRate-maximumMiles" parent="MileageRate-maximumMiles-parentBean" />
-	<bean id="MileageRate-maximumMiles-parentBean" parent="AttributeDefinition">
-		<property name="name" value="maximumMiles" />
-		<property name="label" value="Maximum Miles" />
-		<property name="shortLabel" value="Max Miles" />
-		<property name="maxLength" value="19" />
-		<property name="required" value="false" />
-		<property name="summary" value="Maximum Miles" />
-		<property name="description" value="Maximum Miles" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
-		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
-	</bean>			
 	<bean id="MileageRate-active" parent="MileageRate-active-parentBean" />
 	<bean id="MileageRate-active-parentBean" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="active" />
@@ -137,7 +99,6 @@
 				<property name="inquiryFields">
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="id" />
-					<bean parent="FieldDefinition" p:attributeName="code" />
 					<bean parent="FieldDefinition" p:attributeName="name" />
 					<bean parent="FieldDefinition" p:attributeName="rate" />
 					<bean parent="FieldDefinition" p:attributeName="activeFromDate" />
@@ -160,7 +121,6 @@
 		</property>
 		<property name="lookupFields"><list>
 			<bean parent="FieldDefinition" p:attributeName="id" />
-			<bean parent="FieldDefinition" p:attributeName="code" />
 			<bean parent="FieldDefinition" p:attributeName="name" />
 			<bean parent="FieldDefinition" p:attributeName="rate" />
 			<bean parent="FieldDefinition" p:attributeName="activeFromDate" />
@@ -171,7 +131,6 @@
 		<property name="resultFields">
 		<list>
 			<bean parent="FieldDefinition" p:attributeName="id" />
-			<bean parent="FieldDefinition" p:attributeName="code" />
 			<bean parent="FieldDefinition" p:attributeName="name" />
 			<bean parent="FieldDefinition" p:attributeName="rate" />
 			<bean parent="FieldDefinition" p:attributeName="activeFromDate" />

@@ -78,6 +78,7 @@ import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
 import org.kuali.kfs.module.tem.businessobject.GroupTravelerCsvRecord;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
+import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.MileageRateObjCode;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
@@ -406,34 +407,33 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     public List<KeyLabelPair> getMileageRateKeyValues(Date searchDate) {
         List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        
         TravelDocument document = (TravelDocument) ((TravelFormBase)GlobalVariables.getKualiForm()).getDocument();
+        String documentType = SpringContext.getBean(TravelDocumentService.class).getDocumentType(document);
         Map<String,Object> fieldValues = new HashMap<String,Object>();
         
         if(document.getTripTypeCode() != null){
-            fieldValues.put(TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE, document.getTripTypeCode());
+            fieldValues.put(TemPropertyConstants.TRIP_TYPE_CODE, document.getTripTypeCode());
         }
-
-        String documentType = SpringContext.getBean(TravelDocumentService.class).getDocumentType(document);        
-        
-        if (documentType != null) {
-            fieldValues.put("documentType", documentType);
-        }
-        
+        fieldValues.put("documentType", documentType);
         fieldValues.put(TemPropertyConstants.TRVL_DOC_TRAVELER_TYP_CD, document.getTraveler().getTravelerTypeCode());
         fieldValues.put("active", "Y");
                
-        final Collection<MileageRateObjCode> bos = SpringContext.getBean(BusinessObjectService.class).findMatching(MileageRateObjCode.class,fieldValues);
+        final Collection<MileageRateObjCode> mileageRateObjectCodes = SpringContext.getBean(BusinessObjectService.class).findMatching(MileageRateObjCode.class,fieldValues);
                
-        for (final MileageRateObjCode typ : bos) {
-            typ.refreshNonUpdateableReferences();
-            final Date fromDate = typ.getMileageRate().getActiveFromDate();
-            final Date toDate = typ.getMileageRate().getActiveToDate();
+        for (final MileageRateObjCode mileageRateObject : mileageRateObjectCodes) {
+            mileageRateObject.refreshNonUpdateableReferences();
+            MileageRate mileageRate = mileageRateObject.getMileageRate();
+            
+            final Date fromDate = mileageRate.getActiveFromDate();
+            final Date toDate = mileageRate.getActiveToDate();
             if(ObjectUtils.isNull(searchDate)) {
                 //just add them all
-                keyValues.add(new KeyLabelPair(typ.getMileageRateId(), typ.getMileageRate().getName()));
+                keyValues.add(new KeyLabelPair(mileageRate.getId(), mileageRate.getName()));
             } else if((fromDate.equals(searchDate) || fromDate.before(searchDate)) && (toDate.equals(searchDate) || toDate.after(searchDate))) {
-                if (typ.getMileageRate() != null && typ.getMileageRate().isActive()) {
-                    keyValues.add(new KeyLabelPair(typ.getMileageRateId(), typ.getMileageRate().getCodeAndRate())); 
+                
+                if (mileageRate != null && mileageRate.isActive()) {
+                    keyValues.add(new KeyLabelPair(mileageRate.getId(), mileageRate.getCodeAndRate(mileageRateObject))); 
                 } 
             }            
         } 

@@ -27,16 +27,13 @@ import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 @ConfigureContext(session = khuntley)
-public class ActualExpenseRequiredInfoValidationTest extends KualiTestBase {
+public class TravelDocumentActualExpenseLineValidationTest extends KualiTestBase {
     
     private static final int EXPENSE_AMOUNT = 100;
-    private DictionaryValidationService dictionaryValidationService;
-    private ActualExpenseRequiredInfoValidation validation;
+    private TravelDocumentActualExpenseLineValidation validation;
     
     private static final String AIRFARE_EXPENSE_TYPE_CODE = "A";
     private static final String MILEAGE_EXPENSE_TYPE_CODE = "M";
@@ -49,9 +46,7 @@ public class ActualExpenseRequiredInfoValidationTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        dictionaryValidationService = SpringContext.getBean(DictionaryValidationService.class);
-        validation = new ActualExpenseRequiredInfoValidation();
-        validation.setDictionaryValidationService(dictionaryValidationService);       
+        validation = new TravelDocumentActualExpenseLineValidation();
     }
 
     @Override

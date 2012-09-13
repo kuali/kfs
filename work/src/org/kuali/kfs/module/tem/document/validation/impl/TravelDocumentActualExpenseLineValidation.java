@@ -27,14 +27,12 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpenseLineValidation {
-    DictionaryValidationService dictionaryValidationService;
     
     /**
      * 

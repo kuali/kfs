@@ -28,7 +28,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 @Entity
-@Table(name="TEM_PER_DIEM_MIE_BREAK_DOWN")
+@Table(name="TEM_PER_DIEM_MIE_BREAK_DOWN_T")
 public class PerDiemMealIncidentalBreakDown extends PersistableBusinessObjectBase implements Inactivateable {
     
     private KualiDecimal mealsAndIncidentals;

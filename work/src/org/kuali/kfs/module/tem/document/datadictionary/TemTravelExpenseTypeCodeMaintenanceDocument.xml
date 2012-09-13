@@ -52,7 +52,6 @@
                 <bean parent="MaintainableFieldDefinition" p:name="receiptRequirementThreshold" p:required="false" />
                 <bean parent="MaintainableFieldDefinition" p:name="expenseDetailRequired" p:required="false" />
                 <bean parent="MaintainableFieldDefinition" p:name="taxable" p:required="false" />
-                <bean parent="MaintainableFieldDefinition" p:name="receiptDisplayRequired" p:required="false" />
                 <bean parent="MaintainableFieldDefinition" p:name="specialRequestRequired" p:required="false" />
             </list>
         </property>

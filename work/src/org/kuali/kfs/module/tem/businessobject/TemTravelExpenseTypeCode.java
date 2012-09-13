@@ -36,7 +36,6 @@ public class TemTravelExpenseTypeCode extends KualiCodeBase implements Inactivat
     private Boolean receiptRequired = Boolean.FALSE;
     private Integer receiptRequirementThreshold;
     private Boolean taxable = Boolean.FALSE;
-    private Boolean receiptDisplayRequired = Boolean.FALSE;
     private Boolean specialRequestRequired = Boolean.FALSE;
     private Boolean expenseDetailRequired = Boolean.TRUE;
     
@@ -159,14 +158,6 @@ public class TemTravelExpenseTypeCode extends KualiCodeBase implements Inactivat
 
     public void setTaxable(Boolean taxable) {
         this.taxable = taxable;
-    }
-
-    public Boolean getReceiptDisplayRequired() {
-        return receiptDisplayRequired;
-    }
-
-    public void setReceiptDisplayRequired(Boolean receiptDisplayRequired) {
-        this.receiptDisplayRequired = receiptDisplayRequired;
     }
 
     public Boolean getSpecialRequestRequired() {

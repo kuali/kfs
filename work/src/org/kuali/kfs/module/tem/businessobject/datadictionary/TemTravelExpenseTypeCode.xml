@@ -42,7 +42,6 @@
 				<ref bean="TemTravelExpenseTypeCode-receiptRequired" />
 				<ref bean="TemTravelExpenseTypeCode-receiptRequirementThreshold" />
 				<ref bean="TemTravelExpenseTypeCode-taxable" />
-				<ref bean="TemTravelExpenseTypeCode-receiptDisplayRequired" />
 				<ref bean="TemTravelExpenseTypeCode-specialRequestRequired" />
                 <ref bean="TemTravelExpenseTypeCode-expenseDetailRequired" />
 				<ref bean="TemTravelExpenseTypeCode-versionNumber" />
@@ -173,15 +172,6 @@
 		<property name="summary" value="Taxable" />
 		<property name="description" value="Taxable" />
 	</bean>
-	<bean id="TemTravelExpenseTypeCode-receiptDisplayRequired" parent="TemTravelExpenseTypeCode-receiptDisplayRequired-parentBean" />
-	<bean id="TemTravelExpenseTypeCode-receiptDisplayRequired-parentBean"
-		parent="GenericAttributes-genericBoolean">
-		<property name="name" value="receiptDisplayRequired" />
-		<property name="label" value="Receipt Display Required" />
-		<property name="shortLabel" value="Receipt Display Required" />
-		<property name="summary" value="Receipt Display Required" />
-		<property name="description" value="Receipt Display Required" />
-	</bean>
 	<bean id="TemTravelExpenseTypeCode-specialRequestRequired" parent="TemTravelExpenseTypeCode-specialRequestRequired-parentBean" />
 	<bean id="TemTravelExpenseTypeCode-specialRequestRequired-parentBean"
 		parent="GenericAttributes-genericBoolean">
@@ -285,7 +275,6 @@
 							<bean parent="FieldDefinition" p:attributeName="receiptRequired" />
 							<bean parent="FieldDefinition" p:attributeName="receiptRequirementThreshold" />
 							<bean parent="FieldDefinition" p:attributeName="taxable" />
-							<bean parent="FieldDefinition" p:attributeName="receiptDisplayRequired" />
 							<bean parent="FieldDefinition" p:attributeName="specialRequestRequired" />
                             <bean parent="FieldDefinition" p:attributeName="expenseDetailRequired" />
 							<bean parent="FieldDefinition" p:attributeName="tripType" />
@@ -327,7 +316,6 @@
 				<bean parent="FieldDefinition" p:attributeName="receiptRequired" />
 				<bean parent="FieldDefinition" p:attributeName="receiptRequirementThreshold" />
 				<bean parent="FieldDefinition" p:attributeName="taxable" />
-				<bean parent="FieldDefinition" p:attributeName="receiptDisplayRequired" />
 				<bean parent="FieldDefinition" p:attributeName="specialRequestRequired" />
                 <bean parent="FieldDefinition" p:attributeName="expenseDetailRequired" />
 				<bean parent="FieldDefinition" p:attributeName="tripType" />
@@ -353,7 +341,6 @@
 				<bean parent="FieldDefinition" p:attributeName="receiptRequired" />
 				<bean parent="FieldDefinition" p:attributeName="receiptRequirementThreshold" />
 				<bean parent="FieldDefinition" p:attributeName="taxable" />
-				<bean parent="FieldDefinition" p:attributeName="receiptDisplayRequired" />
 				<bean parent="FieldDefinition" p:attributeName="specialRequestRequired" />
                 <bean parent="FieldDefinition" p:attributeName="expenseDetailRequired" />
 				<bean parent="FieldDefinition" p:attributeName="tripType" />

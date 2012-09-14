@@ -137,14 +137,15 @@ public class TemConstants extends JSTLConstants {
         public static final String CUMULATIVE_REIMBURSABLE_AMT_WITHOUT_DIV_APPROVAL = "CUMULATIVE_REIMBURSABLE_AMT_WITHOUT_DIV_APPROVAL";
         public static final String INCIDENTALS_WITH_MEALS_ONLY_IND = "INCIDENTALS_WITH_MEALS_ONLY_IND";
         public static final String QUARTER_DAY_TIME_TABLE = "QUARTER_DAY_TIME_TABLE";
-        public static final String HOSTED_MEAL_EXPENSE_TYPES = "HOSTED_MEAL_EXPENSE_TYPES";
         public static final String NUMBER_OF_TR_DELINQUENT_DAYS = "NUMBER_OF_TR_DELINQUENT_DAYS";
+        
+        public static final String EXPENSE_TYPES_FOR_HOSTED_MEAL = "EXPENSE_TYPES_FOR_HOSTED_MEAL";
+        public static final String EXPENSE_TYPES_FOR_INCIDENTAL = "EXPENSE_TYPES_FOR_INCIDENTAL";
         public static final String EXPENSE_TYPE_FOR_AIRFARE = "EXPENSE_TYPE_FOR_AIRFARE";
         public static final String EXPENSE_TYPE_FOR_MILEAGE = "EXPENSE_TYPE_FOR_MILEAGE";
         public static final String EXPENSE_TYPE_FOR_RENTAL_CAR = "EXPENSE_TYPE_FOR_RENTAL_CAR";
         public static final String EXPENSE_TYPE_FOR_LODGING = "EXPENSE_TYPE_FOR_LODGING";
         public static final String EXPENSE_TYPE_FOR_LODGING_ALLOWANCE = "EXPENSE_TYPE_FOR_LODGING_ALLOWANCE";
-        public static final String EXPENSE_TYPES_REQUIRING_SPECIAL_REQUEST_APPROVAL = "EXPENSE_TYPES_REQUIRING_SPECIAL_REQUEST_APPROVAL";
         public static final String ALWAYS_REIMBURSABLE_CARD_TYPE = "ALWAYS_REIMBURSABLE_CARD_TYPE";
         public static final String ENABLE_AMOUNT_DUE_CORP_CARD_TOTAL_LINE_IND = "ENABLE_AMOUNT_DUE_CORP_CARD_TOTAL_LINE_IND";
         public static final String ENABLE_CORP_CARD_PAYMENT_DV_IND = "ENABLE_CORP_CARD_PAYMENT_DV_IND";
@@ -221,7 +222,6 @@ public class TemConstants extends JSTLConstants {
         public static final String REIMBURSEMENT_PERCENT_OVER_ENCUMBRANCE_AMT = "REIMBURSEMENT_PERCENT_OVER_ENCUMBRANCE_AMT";
         public static final String VALID_OBJECT_LEVELS = "VALID_OBJECT_LEVELS";
         public static final String VALID_OBJECT_CODES = "VALID_OBJECT_CODES";
-        public static final String HOSTED_MEAL_EXPENSE_TYPES = "HOSTED_MEAL_EXPENSE_TYPES";
         public static final String ENABLE_TR_PER_DIEM_AMOUNT_EDIT_IND = "ENABLE_TR_PER_DIEM_AMOUNT_EDIT_IND";
         public static final String ENABLE_AUTOMATIC_TR_IND = "ENABLE_AUTOMATIC_TR_IND";
         public static final String SHOW_TA_ESTIMATE_IN_SUMMARY_REPORT_IND = "SHOW_TA_ESTIMATE_IN_SUMMARY_REPORT_IND";
@@ -705,6 +705,20 @@ public class TemConstants extends JSTLConstants {
             this.service= service;
         }
     }
+    
+    public enum PerDiemType {
+        mileage("Mileage"), 
+        meals("Meals"), 
+        lodging("Lodging"), 
+        refreshment("Refreshment");
+
+        public String label;
+
+        private PerDiemType(String label) {
+            this.label = label;
+        }
+    }
+
 
     public enum DisburseType {
         corpCard, 

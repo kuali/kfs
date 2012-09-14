@@ -26,7 +26,6 @@ import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.ENABLE_PER_DIEM_CATEGORIES;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.HOSTED_MEAL_EXPENSE_TYPES;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_TRAVELER_TYPE_CODES;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_INVALID_NUMERIC_VALUE;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_LINE;
@@ -981,7 +980,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     /**
      * Determines if an object with an expense type is that of a "hosted" meal. In TEM a hosted meal is a meal that has been
-     * provided by a hosting institution and cannot be taken as a reimbursement. Uses the HOSTED_MEAL_EXPENSE_TYPES system parameter
+     * provided by a hosting institution and cannot be taken as a reimbursement. Uses the EXPENSE_TYPES_FOR_HOSTED_MEAL system parameter
      * to check the expense type against
      * 
      * @param havingExpenseType has an expense type to check for meal hosting
@@ -994,7 +993,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
 
         final String code = havingExpenseType.getTravelExpenseTypeCode().getCode();
-        final String hostedCodes = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, HOSTED_MEAL_EXPENSE_TYPES);
+        final String hostedCodes = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.EXPENSE_TYPES_FOR_HOSTED_MEAL);
 
         for (final String hostedSet : hostedCodes.split(";")) {
             final String[] codesForMeal = (hostedSet.contains("=") ? StringUtils.substringAfter(hostedSet, "=") : hostedSet).split(",");

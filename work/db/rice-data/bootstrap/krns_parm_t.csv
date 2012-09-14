@@ -704,13 +704,13 @@ KFS-TEM,Document,EMPLOYEE_TRAVELER_TYPE_CODES,KFS-TEM-PARM-009,1,CONFG,EMP,The t
 KFS-TEM,Document,ENABLE_AMOUNT_DUE_CORP_CARD_TOTAL_LINE_IND,KFS-TEM-PARM-010,1,CONFG,Y,"When this flag is enabled, Due Corporate Card Total line is displayed in the Total tab.",A,KFS
 KFS-TEM,Document,ENABLE_CORP_CARD_PAYMENT_DV_IND,KFS-TEM-PARM-011,1,CONFG,Y,"When this parameter is enabled and the corporate credit card transactions are included in the imported expense, a DV is spawned to pay the corporate credit card company when the document becomes final.",A,KFS
 KFS-TEM,Document,ENABLE_PER_DIEM_CATEGORIES,KFS-TEM-PARM-012,1,CONFG,LODGING=Y;MILEAGE=Y;PER_DIEM=Y,"When the flag is Y, the per diem category will be displayed. Format will be LODGING=Y;MILEAGE=Y;PER_DIEM=Y.  If the flag is all ?N,""N"",  Trip Details Estimate Tab/Per Diem section will not be displayed.",A,KFS
-KFS-TEM,Document,EXPENSE_TYPES_REQUIRING_SPECIAL_REQUEST_APPROVAL,KFS-TEM-PARM-013,1,CONFG,SPEC,Specifies the expense type codes requiring special request approval routing (e.g. show tickets).,A,KFS
-KFS-TEM,Document,EXPENSE_TYPE_FOR_AIRFARE,KFS-TEM-PARM-014,1,CONFG,A,Specifies the expense type codes for Airline to enforce airfare related business rules.,A,KFS
-KFS-TEM,Document,EXPENSE_TYPE_FOR_LODGING,KFS-TEM-PARM-015,1,CONFG,L,Specifies the expense type code for lodging.,A,KFS
-KFS-TEM,Document,EXPENSE_TYPE_FOR_LODGING_ALLOWANCE,KFS-TEM-PARM-016,1,CONFG,LA,Specifies the expense type code for lodging allowance.,A,KFS
-KFS-TEM,Document,EXPENSE_TYPE_FOR_MILEAGE,KFS-TEM-PARM-017,1,CONFG,MM,Specifies the expense type code for Mileage to enforce mileage related business rules.,A,KFS
-KFS-TEM,Document,EXPENSE_TYPE_FOR_RENTAL_CAR,KFS-TEM-PARM-018,1,CONFG,R,Specifies the expense type code for rental car to enforce rental car related business rules.,A,KFS
-KFS-TEM,Document,HOSTED_MEAL_EXPENSE_TYPES,KFS-TEM-PARM-019,1,CONFG,BREAKFAST=HB;LUNCH=HL;DINNER=HD;,"Describes what the expense types are for various hosted meals. This allows the application to determine not only whether an other expense is a meal, but which meal and whether it was hosted or not.",A,KFS
+KFS-TEM,Document,EXPENSE_TYPE_FOR_AIRFARE,KFS-TEM-PARM-013,1,CONFG,A,Specifies the expense type codes for Airline to enforce airfare related business rules.,A,KFS
+KFS-TEM,Document,EXPENSE_TYPE_FOR_LODGING,KFS-TEM-PARM-014,1,CONFG,L,Specifies the expense type code for lodging.,A,KFS
+KFS-TEM,Document,EXPENSE_TYPE_FOR_LODGING_ALLOWANCE,KFS-TEM-PARM-015,1,CONFG,LA,Specifies the expense type code for lodging allowance.,A,KFS
+KFS-TEM,Document,EXPENSE_TYPE_FOR_MILEAGE,KFS-TEM-PARM-016,1,CONFG,MM,Specifies the expense type code for Mileage to enforce mileage related business rules.,A,KFS
+KFS-TEM,Document,EXPENSE_TYPE_FOR_RENTAL_CAR,KFS-TEM-PARM-017,1,CONFG,R,Specifies the expense type code for rental car to enforce rental car related business rules.,A,KFS
+KFS-TEM,Document,EXPENSE_TYPES_FOR_HOSTED_MEAL,KFS-TEM-PARM-018,1,CONFG,BREAKFAST=HB;LUNCH=HL;DINNER=HD;,"Describes what the expense types are for various hosted meals. This allows the application to determine not only whether an other expense is a meal, but which meal and whether it was hosted or not.",A,KFS
+KFS-TEM,Document,EXPENSE_TYPES_FOR_INCIDENTAL,KFS-TEM-PARM-019,1,CONFG,EL;,Specifies the expense type codes for incidentails.,A,KFS
 KFS-TEM,Document,INCIDENTALS_WITH_MEALS_ONLY_IND,KFS-TEM-PARM-020,1,CONFG,N,"When this parameter is ""Y"", then the incidentals are added to the Per Diem only when there is at least one meal (breakfast, lunch or dinner) claimed. If ""N"", then the incidentals will be added regardless.",A,KFS
 KFS-TEM,Document,INTERNATIONAL_TRIP_TYPE_CODES,KFS-TEM-PARM-021,1,CONFG,INT,The trip type code(s) that represents international travel.,A,KFS
 KFS-TEM,Document,NON_EMPLOYEE_CERTIFICATION_STATEMENT,KFS-TEM-PARM-022,1,CONFG,(TBD),"The statement displayed in the Employee Certification tab of the Travel Expense claim document when the Traveler Type is ""Non-Employee""",A,KFS
@@ -769,7 +769,6 @@ KFS-TEM,TravelReimbursement,ENABLE_AUTOMATIC_TR_IND,KFS-TEM-PARM-074,1,CONFG,Y,"
 KFS-TEM,TravelReimbursement,ENABLE_TR_PER_DIEM_AMOUNT_EDIT_IND,KFS-TEM-PARM-075,1,CONFG,Y,"When this flag is ""Y"", the per diem amount field for TA opens up for editing and the initiator may reduce down the per diem amount.",A,KFS
 KFS-TEM,TravelReimbursement,ENABLE_VENDOR_PAYMENT_BEFORE_FINAL_TR_APPROVAL_IND,KFS-TEM-PARM-076,1,CONFG,Y,Parameter to determine whether to show or hide the Third Party Vendor payment button.,A,KFS
 KFS-TEM,TravelReimbursement,FOREIGN_CURRENCY_CONVERSION_URL,KFS-TEM-PARM-077,1,CONFG,http://www.federalreserve.gov/releases/h10/update/,Parameter containing the URL of the federal currency conversion site,A,KFS
-KFS-TEM,TravelReimbursement,HOSTED_MEAL_EXPENSE_TYPES,KFS-TEM-PARM-078,1,CONFG,BREAKFAST=HB;LUNCH=HL;DINNER=HD;,"Describes what the expense types are for various hosted meals. This allows the application to determine not only whether an other expense is a meal, but which meal and whether it was hosted or not.",A,KFS
 KFS-TEM,TravelReimbursement,LODGING_OBJECT_CODE,KFS-TEM-PARM-079,1,CONFG,EMP=IN=6100;EMP=OUT=6170;EMP=INT=6250;NON=IN=6140;NON=OUT=6150;NON=INT=6270;,The object code which is assigned to reimburse.,A,KFS
 KFS-TEM,TravelReimbursement,LODGING_TYPE_CODES,KFS-TEM-PARM-080,1,CONFG,L,"Expense Type Codes used for Lodging. This is used when generating reports to determine how to report lodging expenses. If reports do not matter to you, then neither does this.",A,KFS
 KFS-TEM,TravelReimbursement,PER_DIEM_OBJECT_CODE,KFS-TEM-PARM-081,1,CONFG,EMP=IN=6100;EMP=OUT=6170;EMP=INT=6250;NON=IN=6140;NON=OUT=6150;NON=INT=6270;,The object code which is assigned to reimburse.,A,KFS

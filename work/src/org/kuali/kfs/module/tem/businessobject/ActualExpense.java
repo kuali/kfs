@@ -15,12 +15,10 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.HOSTED_MEAL_EXPENSE_TYPES;
-
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,6 +32,7 @@ import javax.persistence.Transient;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -292,7 +291,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
     }
     
     public boolean isAirfare(){
-        final String airfareType = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.EXPENSE_TYPE_FOR_AIRFARE);
+        final String airfareType = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.EXPENSE_TYPE_FOR_AIRFARE);
         
         if ( getTravelExpenseTypeCodeCode() != null && getTravelExpenseTypeCodeCode().equals(airfareType)) {
             return true;
@@ -302,44 +301,29 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
     }
     
     public boolean isMileage(){
-        final String mileageType = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.EXPENSE_TYPE_FOR_MILEAGE);
-        
-        if (getTravelExpenseTypeCodeCode() != null && getTravelExpenseTypeCodeCode().equals(mileageType)) {
-            return true;
-        }
-        
-        return false;
+        final String mileageType = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.EXPENSE_TYPE_FOR_MILEAGE);
+        return getTravelExpenseTypeCodeCode() != null && getTravelExpenseTypeCodeCode().equals(mileageType);
     }
     
     @Override
     public boolean isRentalCar(){
-        final String rentalCarType = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.EXPENSE_TYPE_FOR_RENTAL_CAR);
-        
-        if (getTravelExpenseTypeCodeCode() != null && getTravelExpenseTypeCodeCode().equals(rentalCarType)) {
-            return true;
-        }
-        
-        return false;
+        final String rentalCarType = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.EXPENSE_TYPE_FOR_RENTAL_CAR);
+        return getTravelExpenseTypeCodeCode() != null && getTravelExpenseTypeCodeCode().equals(rentalCarType);
     }
     
     public boolean isLodging(){
-        final String lodgingType = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.EXPENSE_TYPE_FOR_LODGING);
-        
-        if (getTravelExpenseTypeCodeCode() != null && getTravelExpenseTypeCodeCode().equals(lodgingType)) {
-            return true;
-        }
-        
-        return false;
+        final String lodgingType = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.EXPENSE_TYPE_FOR_LODGING);
+        return getTravelExpenseTypeCodeCode() != null && getTravelExpenseTypeCodeCode().equals(lodgingType);
     }
     
     public boolean isLodgingAllowance(){
-        final String lodgingAllowanceType = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.EXPENSE_TYPE_FOR_LODGING_ALLOWANCE);
-        
-        if (getTravelExpenseTypeCodeCode() != null && getTravelExpenseTypeCodeCode().equals(lodgingAllowanceType)) {
-            return true;
-        }
-        
-        return false;
+        final String lodgingAllowanceType = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.EXPENSE_TYPE_FOR_LODGING_ALLOWANCE);
+        return getTravelExpenseTypeCodeCode() != null && getTravelExpenseTypeCodeCode().equals(lodgingAllowanceType);
+    }
+    
+    public boolean isIncidental(){
+        final List<String> incidentalType = getParameterService().getParameterValues(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.EXPENSE_TYPES_FOR_INCIDENTAL);
+        return getTravelExpenseTypeCodeCode() != null && incidentalType.contains(getTravelExpenseTypeCodeCode());
     }
     
     public boolean isHostedMeal(){
@@ -347,7 +331,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
     }
 
     protected boolean isHostedMeal(final String meal) {
-        final Collection<String> mealTypes = getParameterService().getParameterValues(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, HOSTED_MEAL_EXPENSE_TYPES);
+        final Collection<String> mealTypes = getParameterService().getParameterValues(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.EXPENSE_TYPES_FOR_HOSTED_MEAL);
         for (final String mealType : mealTypes) {
             if (mealType.startsWith(meal)) {
                 final String[] typeCodes = ((String[]) mealType.split("="))[1].split(",");

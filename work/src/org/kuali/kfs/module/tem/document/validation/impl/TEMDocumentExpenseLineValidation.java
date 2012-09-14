@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemConstants.PerDiemType;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.MileageRate;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
@@ -51,19 +52,24 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
      */
     protected boolean validatePerDiemRules(ActualExpense actualExpense, TravelDocument document) {
         boolean success = true;
-        String warningLabel = "";
+        PerDiemType perDiem = null;
         // Check to see if the same expense type is been entered in PerDiem
         if (actualExpense.getMileageIndicator() && isPerDiemMileageEntered(document.getPerDiemExpenses())) {
-            warningLabel = "Mileage";
+            perDiem = PerDiemType.mileage;
         }
         else if ((actualExpense.isHostedMeal()) && isPerDiemMealsEntered(document.getPerDiemExpenses())) {
-            warningLabel = "Meals";
+            perDiem = PerDiemType.meals;
         }
         else if (actualExpense.isLodging() && isPerDiemLodgingEntered(document.getPerDiemExpenses())) {
-            warningLabel = "Lodging";
+            perDiem = PerDiemType.lodging;
         }
-        if (StringUtils.isNotEmpty(warningLabel)){
-            GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_CODE, TemKeyConstants.WARNING_DUPLICATE_EXPENSE, warningLabel);
+        else if (actualExpense.isIncidental() && isPerDiemIncidentalEntered(document.getPerDiemExpenses())) {
+            perDiem = PerDiemType.refreshment;
+        }
+
+        
+        if (perDiem != null){
+            GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_CODE, TemKeyConstants.WARNING_DUPLICATE_EXPENSE, perDiem.label);
         }
 
         return success;
@@ -111,6 +117,21 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
         for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
             if (ObjectUtils.isNotNull(perDiemExpenseLine.getLodgingTotal()) 
                     && perDiemExpenseLine.getLodgingTotal().isGreaterThan(KualiDecimal.ZERO)) {
+                return Boolean.TRUE;
+            }
+        }
+        return Boolean.FALSE;
+    }
+    
+    /**
+     * PerDiem Incidental entered
+     * 
+     * @param perDiemExpenses
+     * @return
+     */
+    protected Boolean isPerDiemIncidentalEntered(List<PerDiemExpense> perDiemExpenses) {
+        for (PerDiemExpense perDiemExpenseLine : perDiemExpenses) {
+            if (perDiemExpenseLine.getLodgingTotal().isGreaterThan(KualiDecimal.ZERO)) {
                 return Boolean.TRUE;
             }
         }

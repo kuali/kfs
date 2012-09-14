@@ -35,7 +35,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * @author Derek Helbert
  */
 @Entity
-@Table(name="tem_mileage_rate_obj_cd_t")
+@Table(name="TEM_MILEAGE_RATE_OBJ_CD_T")
 public class MileageRateObjCode extends PersistableBusinessObjectBase implements Inactivateable {
 
     private Integer id;
@@ -71,7 +71,7 @@ public class MileageRateObjCode extends PersistableBusinessObjectBase implements
     }
 
     @ManyToOne
-    @JoinColumn(name="traveler_type_cd")
+    @JoinColumn(name="TRAVELER_TYP_CD")
     public TravelerType getTravelerType() {
         return travelerType;
     }
@@ -80,7 +80,7 @@ public class MileageRateObjCode extends PersistableBusinessObjectBase implements
         this.travelerType = travelerType;
     }
 
-    @Column(name="traveler_type_cd",length=3,nullable=false)
+    @Column(name="TRAVELER_TYP_CD",length=3,nullable=false)
     public String getTravelerTypeCode() {
         return travelerTypeCode;
     }
@@ -90,7 +90,7 @@ public class MileageRateObjCode extends PersistableBusinessObjectBase implements
     }
 
     @ManyToOne
-    @JoinColumn(name="trip_type_cd")
+    @JoinColumn(name="TRIP_TYP_CD")
     public TripType getTripType() {
         return tripType;
     }
@@ -99,7 +99,7 @@ public class MileageRateObjCode extends PersistableBusinessObjectBase implements
         this.tripType = tripType;
     }
 
-    @Column(name="trip_type_cd",length=3,nullable=false)
+    @Column(name="TRIP_TYP_CD",length=3,nullable=false)
     public String getTripTypeCode() {
         return tripTypeCode;
     }
@@ -109,7 +109,7 @@ public class MileageRateObjCode extends PersistableBusinessObjectBase implements
     }
 
     @ManyToOne
-    @JoinColumn(name="mileage_rt_id")
+    @JoinColumn(name="MILEAGE_RT_ID")
     public MileageRate getMileageRate() {
         return mileageRate;
     }
@@ -118,7 +118,7 @@ public class MileageRateObjCode extends PersistableBusinessObjectBase implements
         this.mileageRate = mileageRate;
     }
 
-    @Column(name="mileage_rt_id",nullable=false)
+    @Column(name="MILEAGE_RT_ID",nullable=false)
     public Integer getMileageRateId() {
         return mileageRateId;
     }
@@ -127,7 +127,7 @@ public class MileageRateObjCode extends PersistableBusinessObjectBase implements
         this.mileageRateId = mileageRateId;
     }
 
-    @Column(name="fin_object_cd",length=4,nullable=false)
+    @Column(name="FIN_OBJECT_CD",length=4,nullable=false)
     public String getFinancialObjectCode() {
         return financialObjectCode;
     }

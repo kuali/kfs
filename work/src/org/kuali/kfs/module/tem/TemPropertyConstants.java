@@ -99,6 +99,8 @@ public class TemPropertyConstants extends JSTLConstants {
     public static final String PER_DIEM_COUNTY = "county";
     public static final String PER_DIEM_COUNTRY_STATE = "countryState";
     public static final String PER_DIEM_COUNTRY_STATE_NAME = "countryStateName";
+    //Temporary property key for lookup use
+    public static final String PER_DIEM_LOOKUP_DATE = "perDiemDate";
 
     public static final String PER_DIEM_EFFECTIVE_FROM_DATE = "effectiveFromDate";
     public static final String PER_DIEM_EFFECTIVE_TO_DATE = "effectiveToDate";

@@ -36,6 +36,15 @@ public interface TravelDocumentDao {
      * @return
      */
 	List<String> findDocumentNumbers(final Class<?> travelDocumentClass, final String travelDocumentNumber);
+	
+	/**
+	 * PerDiem lookup base on search values
+	 * 
+	 * PER_DIEM_LOOKUP_DATE can also be passed in for a custom date duration search
+	 * 
+	 * @param fieldValues
+	 * @return
+	 */
 	public PerDiem findPerDiem(Map<String, Object> fieldValues);
 
     /**

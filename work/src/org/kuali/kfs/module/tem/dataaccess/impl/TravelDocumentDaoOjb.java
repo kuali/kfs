@@ -83,13 +83,11 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
 	@Override
     public PerDiem findPerDiem(Map<String, Object> fieldValues){
 	    Criteria criteria = new Criteria();
-	    Iterator<String> it = fieldValues.keySet().iterator();
+	    
 	    //Add all field values but the date
-	    while (it.hasNext()){
-	        String key = it.next();
-	        if (!key.equals("date")){
-	            String temp = (String) fieldValues.get(key);
-	            if (!StringUtils.isBlank(temp)){
+	    for (String key : fieldValues.keySet()){
+	        if (!key.equals(TemPropertyConstants.PER_DIEM_LOOKUP_DATE)){
+	            if (StringUtils.isNotBlank((String)fieldValues.get(key))){
 	                criteria.addEqualTo(""+key+"", ""+fieldValues.get(key)+"");
 	            }
 	        }
@@ -100,7 +98,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
         Criteria dateBetweenCriteria = new Criteria();
         Criteria dateNullCriteria = new Criteria();
         
-        Timestamp dayStart = (Timestamp) fieldValues.get("date");
+        Timestamp dayStart = (Timestamp) fieldValues.get(TemPropertyConstants.PER_DIEM_LOOKUP_DATE);
         Date date = DateUtils.clearTimeFields(new Date(dayStart.getTime()));
         dayStart = new Timestamp(date.getTime());
         

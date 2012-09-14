@@ -262,7 +262,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#updatePerDiemItemsFor(String, List, Integer, Timestamp, Timestamp)
      */
     @SuppressWarnings("null")
-    // updatePerDiemItemsFor(final TravelDocument document, final Date start, final Date end)
     @Override
     public void updatePerDiemItemsFor(final TravelDocument document, final List<PerDiemExpense> perDiemExpenseList, final Integer perDiemId, final Timestamp start, final Timestamp end) {       
         // Check for changes on trip begin and trip end.
@@ -283,17 +282,18 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
         
         List<PerDiem> perDiemList = new ArrayList<PerDiem>();
+        
         Map<String,Object> fieldValues = new HashMap<String, Object>();
         // Gather all primary destination info
         fieldValues.put(TemPropertyConstants.PER_DIEM_NAME, document.getPrimaryDestinationName());
         fieldValues.put(TemPropertyConstants.PER_DIEM_COUNTRY_STATE, document.getPrimaryDestinationCountryState());
         fieldValues.put(TemPropertyConstants.PER_DIEM_COUNTY, document.getPrimaryDestinationCounty());
-        fieldValues.put(TemPropertyConstants.TravelAuthorizationFields.TRIP_TYPE, document.getTripTypeCode());
-        fieldValues.put("active", "Y");
+        fieldValues.put(TemPropertyConstants.TRIP_TYPE, document.getTripTypeCode());
+        fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
               
         // find a valid per diem for each date.  If per diem is null, make it a custom per diem.
-        for (final Timestamp someDate : dateRange(start, end)) {            
-            fieldValues.put("date",someDate);
+        for (final Timestamp eachDate : dateRange(start, end)) {
+            fieldValues.put(TemPropertyConstants.PER_DIEM_LOOKUP_DATE, eachDate);
             PerDiem perDiem = getTravelDocumentDao().findPerDiem(fieldValues);
             if (perDiem == null){
                 perDiem = new PerDiem();
@@ -414,9 +414,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         if(document.getTripTypeCode() != null){
             fieldValues.put(TemPropertyConstants.TRIP_TYPE_CODE, document.getTripTypeCode());
         }
-        fieldValues.put("documentType", documentType);
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_TYPE, documentType);
         fieldValues.put(TemPropertyConstants.TRVL_DOC_TRAVELER_TYP_CD, document.getTraveler().getTravelerTypeCode());
-        fieldValues.put("active", "Y");
+        fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
                
         final Collection<MileageRateObjCode> mileageRateObjectCodes = SpringContext.getBean(BusinessObjectService.class).findMatching(MileageRateObjCode.class,fieldValues);
                
@@ -619,10 +619,10 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     public List<SpecialCircumstances> findActiveSpecialCircumstances(String documentNumber, String documentType) {
         List<SpecialCircumstances> retval = new ArrayList<SpecialCircumstances>();
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put("active", true);      
+        criteria.put(KFSPropertyConstants.ACTIVE, true);      
         
         // add specialCircumstances with specific documentType SpecialCircumstancesQuestion
-        criteria.put("documentType", documentType);       
+        criteria.put(KFSPropertyConstants.DOCUMENT_TYPE, documentType);       
         retval.addAll(buildSpecialCircumstances(documentNumber, criteria));
         
         return retval;

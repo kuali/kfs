@@ -22,7 +22,7 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.validation.PurchasingAccountsPayableItemPreCalculationRule;
-import org.kuali.rice.krad.rules.DocumentRuleBase;
+import org.kuali.rice.kns.rules.DocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class PurchasingAccountsPayablesItemPreCalculateDocumentRule extends DocumentRuleBase implements PurchasingAccountsPayableItemPreCalculationRule {

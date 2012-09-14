@@ -174,7 +174,7 @@
         <field-descriptor name="documentNumber" column="DOC_NBR" jdbc-type="VARCHAR"/>
         <field-descriptor name="principalId" column="EMP_PRINCIPAL_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR"/>
-        <field-descriptor name="firstName" column="X" jdbc-type="VARCHAR"/>
+        <field-descriptor name="firstName" column="FIRST_NM" jdbc-type="VARCHAR"/>
         <field-descriptor name="lastName" column="LAST_NM" jdbc-type="VARCHAR"/>
         <field-descriptor name="streetAddressLine1" column="ADDR_LINE_1" jdbc-type="VARCHAR"/>
         <field-descriptor name="streetAddressLine2" column="ADDR_LINE_2" jdbc-type="VARCHAR"/>

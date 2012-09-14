@@ -234,9 +234,10 @@ public class TemKeyConstants extends JSTLConstants {
     public static final String INFO_TEM_ACTUAL_EXPENSE_LODGING_ALLOWANCE = "info.document.tem.actualexpense.lodgingallowance";
     public static final String INFO_TEM_IMPORT_DOCUMENT_SAVE="info.document.auto.save";
     
-    public static final String ERROR_TEM_DETAIL_GREATER_THAN_EXPENSE="error.document.detail.greater.than.expense";
-    public static final String ERROR_TEM_DETAIL_LESS_THAN_EXPENSE="error.document.detail.less.than.expense";
-    public static final String ERROR_TEM_DETAIL_LESS_THAN_ZERO="error.document.detail.less.than.zero";
+    public static final String ERROR_TEM_DETAIL_GREATER_THAN_EXPENSE = "error.document.detail.greater.than.expense";
+    public static final String ERROR_TEM_DETAIL_LESS_THAN_EXPENSE = "error.document.detail.less.than.expense";
+    public static final String ERROR_TEM_DETAIL_LESS_THAN_ZERO = "error.document.detail.less.than.zero";
+    public static final String ERROR_PER_DIEM_LESS_THAN_ZERO = "error.document.per.diem.less.than.zero";
     
     //TMCP errors
     public static final String ERROR_TMCP_SYSTEMFIELD_REQUIRED = "error.tem.correction.systemfield.required";

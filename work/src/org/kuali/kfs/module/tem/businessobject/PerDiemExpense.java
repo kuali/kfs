@@ -288,7 +288,6 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         this.accommodationAddress = accommodationAddress;
     }
 
-
     /**
      * This method gets the lodging cost for this day. This method does not take into account personal expenses. Use getLodgingTotal() for that.
      * 
@@ -301,6 +300,10 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         }
         
         return KualiDecimal.ZERO;
+    }
+    
+    public KualiDecimal getLodging(boolean defaultZero) {
+        return defaultZero? getLodging() : lodging;
     }
 
     /**
@@ -321,6 +324,10 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         return 0;
     }
 
+    public Integer getMiles(boolean defaultZero) {
+        return defaultZero? getMiles() : miles;
+    }
+    
     public void setMiles(Integer miles) {
         this.miles = miles;
     }
@@ -336,6 +343,10 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         }
         
         return KualiDecimal.ZERO;
+    }
+    
+    public KualiDecimal getBreakfastValue(boolean defaultZero) {
+        return defaultZero? getBreakfastValue() : breakfastValue;
     }
 
     /**
@@ -359,6 +370,10 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         
         return KualiDecimal.ZERO;
     }
+    
+    public KualiDecimal getLunchValue(boolean defaultZero) {
+        return defaultZero? getLunchValue() : lunchValue;
+    }
 
     /**
      * Sets the lunchValue attribute value.
@@ -380,6 +395,10 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         }
         
         return KualiDecimal.ZERO;
+    }
+    
+    public KualiDecimal getDinnerValue(boolean defaultZero) {
+        return defaultZero? getDinnerValue() : dinnerValue;
     }
 
     /**
@@ -469,6 +488,8 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * Retrieve the Mileage date of per diem
+     * 
+     * CLEANUP: mileage date should be the per diem expense date
      * 
      * @return mileage date
      */
@@ -626,6 +647,10 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         }
 
         return KualiDecimal.ZERO;
+    }
+    
+    public KualiDecimal getIncidentalsValue(boolean defaultZero) {
+        return defaultZero? getIncidentalsValue() : incidentalsValue;
     }
 
     public void setIncidentalsValue(KualiDecimal incidentalsValue) {

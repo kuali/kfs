@@ -18,6 +18,9 @@
 	<bean id="TravelModule-expensesValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TEMDocumentExpenseRoutingValidation" />
 
+    <bean id="TravelModule-perDiemExpenseValidation"
+        class="org.kuali.kfs.module.tem.document.validation.impl.PerDiemExpenseValidation" />
+
 	<bean id="TravelModule-travelAdvanceValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthTravelAdvanceValidation">
 		<property name="temProfileService" ref="temProfileService" />

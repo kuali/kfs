@@ -70,6 +70,7 @@
     			<bean parent="TravelModule-tripDetailLodgingValidation" scope="prototype" />
     			<bean parent="TravelModule-requiredInfoValidation" scope="prototype" />
     			<bean parent="TravelModule-expensesValidation" scope="prototype" />
+                <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
     			<bean parent="TravelModule-travelerValidation" scope="prototype" />
     			<bean parent="TravelModule-tripInformationValidation" scope="prototype" />
     			<bean parent="TravelModule-tripDetailMealsAndIncidentalsValidation" scope="prototype" />
@@ -207,6 +208,7 @@
     		<list>
     			<bean parent="TravelModule-tripDetailMileageRateValidation" scope="prototype" />
     			<bean parent="TravelModule-expensesValidation" scope="prototype" />
+                <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
 				<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
     		</list>
     	</property>

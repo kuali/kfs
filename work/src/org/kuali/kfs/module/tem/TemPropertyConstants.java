@@ -56,6 +56,8 @@ public class TemPropertyConstants extends JSTLConstants {
     
 
     public static final String EXPENSE_DATE = "expenseDate";
+    //TODO: this really should be named expenseDate in the PerDiem
+    public static final String MILEAGE_DATE = "mileageDate";
 
     public static final String TRVL_IDENTIFIER_PROPERTY = "travelDocumentIdentifier";
 

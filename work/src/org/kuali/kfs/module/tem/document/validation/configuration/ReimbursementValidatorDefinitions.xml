@@ -24,6 +24,7 @@
     		<list>
     			<bean parent="TravelModule-tripDetailMileageRateValidation" scope="prototype" />
     			<bean parent="TravelModule-expensesValidation" scope="prototype" />
+                <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
     		</list>
     	</property>
     </bean>
@@ -46,6 +47,7 @@
 				<bean parent="TravelModule-tripInfoUpdateTripDetailsValidation" scope="prototype" p:quitOnFail="true" />
 				<bean parent="TravelModule-tripInformationValidation" scope="prototype" />
     			<bean parent="TravelModule-expensesValidation" scope="prototype" />
+                <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
 				<bean parent="TravelModule-tripDetailMealsAndIncidentalsValidation" scope="prototype" />
 				<bean parent="TravelModule-requiredInfoValidation" scope="prototype" />
     		</list>

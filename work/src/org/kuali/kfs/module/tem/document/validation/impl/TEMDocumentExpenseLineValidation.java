@@ -67,7 +67,6 @@ public abstract class TEMDocumentExpenseLineValidation extends GenericValidation
             perDiem = PerDiemType.refreshment;
         }
 
-        
         if (perDiem != null){
             GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.TRVL_AUTH_OTHER_EXP_CODE, TemKeyConstants.WARNING_DUPLICATE_EXPENSE, perDiem.label);
         }

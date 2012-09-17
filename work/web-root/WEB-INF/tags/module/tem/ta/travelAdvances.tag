@@ -24,7 +24,7 @@
 	<div class="tab-container" align="left">
 		<h3>Travel Advances</h3>
 		<c:if
-			test="${fn:length(KualiForm.document.travelAdvances) == 0 || (docType == 'TAA' && multipleAdvances)}">
+			test="${fn:length(KualiForm.document.travelAdvances) == 0 || (docType == 'TAA' && KualiForm.multipleAdvances)}">
 			<table cellpadding="0" cellspacing="0" class="datatable"
 				summary="Travel Advance Section">
 				<tr>
@@ -153,7 +153,7 @@
 			</table>
 		</c:if>
 		<c:if test="${fn:length(KualiForm.document.travelAdvances) > 0}">
-			<table>
+			<table cellpadding="0" cellspacing="0" class="datatable">
 				<logic:iterate indexId="ctr" name="KualiForm" property="document.travelAdvances" id="currentLine">
 					<c:set var="exists" value="${currentLine.arInvoiceDocNumber!=null}" />
 					<tr>

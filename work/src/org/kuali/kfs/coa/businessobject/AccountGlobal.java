@@ -84,16 +84,8 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     protected HigherEducationFunction financialHigherEdFunction;
     protected PostalCodeEbo postalZipCode;
     protected SufficientFundsCode sufficientFundsCode;
-    //MSU Contribution KFSMI-8505 DTT-601 KFSCNTRB-939
+    
     protected CFDA cfda;
-
-    public CFDA getCfda() {
-        return cfda;
-    }
-
-    public void setCfda(CFDA cfda) {
-        this.cfda = cfda;
-    }
 
     // added for the employee labor benefit calculation
     private String laborBenefitRateCategoryCode;
@@ -1019,4 +1011,13 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
          laborBenefitRateCategory = (LaborBenefitRateCategory) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(LaborBenefitRateCategory.class).retrieveExternalizableBusinessObjectsList(this, "LaborBenefitRateCategory", LaborBenefitRateCategory.class);
          return laborBenefitRateCategory;
     }
+    
+    public CFDA getCfda() {
+        return cfda;
+    }
+
+    public void setCfda(CFDA cfda) {
+        this.cfda = cfda;
+    }
+
 }

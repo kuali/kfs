@@ -48,8 +48,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTrickleDownInactivationService {
-    
-    //MSU Contribution DTT-3791 KFSMI-8645 KFSCNTRB-976
+
     private static final int NO_OF_SUB_OBJECTS_PER_NOTE = 15;
 
     private static final Logger LOG = Logger.getLogger(SubObjectTrickleDownInactivationServiceImpl.class);
@@ -253,7 +252,7 @@ public class SubObjectTrickleDownInactivationServiceImpl implements SubObjectTri
     }
     
     protected int getNumSubObjectsPerNote() {
-        //MSU Contribution DTT-3791 KFSMI-8645 KFSCNTRB-976 - Account Document in Exception reduced the no of sub objects 
+        //Account Document in Exception reduced the no of sub objects 
         //per note from 20 to 15 to reduce the note text length 
         return NO_OF_SUB_OBJECTS_PER_NOTE;
     }

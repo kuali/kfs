@@ -54,7 +54,6 @@ public class PurchasingAccountsPayableAccountPercentValidation extends GenericVa
             valid = false;
         }
         
-        //MSU Contribution KFSMI-8470 DTT-3147 KFSCNTRB-962
         if(isAnyAccountingLineZero && itemForValidation.getSourceAccountingLines().size() > 1){
             GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_ZERO, itemForValidation.getItemIdentifierString());
             valid = false;

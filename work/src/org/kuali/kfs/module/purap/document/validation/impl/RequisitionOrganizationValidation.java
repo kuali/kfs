@@ -24,7 +24,6 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
-//MSU Contribution KFSMI-8457 DTT-377 KFSCNTRB-945
 
 public class RequisitionOrganizationValidation extends GenericValidation {
     private OrganizationService organizationService;

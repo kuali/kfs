@@ -1159,7 +1159,6 @@
 	
 	<bean id="PurchasingAccountsPayables-itemPreCalculateValidations" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayablesItemPreCalculateValidations" abstract="true" />
 	
-	<!--MSU Contribution KFSMI-8582 DTT-330 KFSCNTRB-943  -->
 	<bean id="PurapRequisition-RoomBuildingInActiveValidation" parent="PurapRequisition-RoomBuildingInActiveValidation-parentBean" scope="prototype"/>
 	<bean id="PurapRequisition-RoomBuildingInActiveValidation-parentBean" class="org.kuali.kfs.module.purap.document.validation.impl.PurapRequisitionRoomBuildingInActiveValidation" abstract="true">
 		<property name = "businessObjectService">
@@ -1167,7 +1166,6 @@
 		</property>
 	</bean>
 	
-	<!--MSU Contribution KFSMI-8457 DTT-377 KFSCNTRB-945 -->
 	<bean id="Requisition-organizationValidation" class="org.kuali.kfs.module.purap.document.validation.impl.RequisitionOrganizationValidation" abstract="true">
   		<property name="organizationService" ref="organizationService" />
    </bean>		

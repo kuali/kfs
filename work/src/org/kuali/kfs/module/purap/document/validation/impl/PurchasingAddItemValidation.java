@@ -168,7 +168,6 @@ public class PurchasingAddItemValidation extends PurchasingAccountsPayableAddIte
             }
         }
         
-        //MSU Contribution KFSMI-5041 DTT-3371 KFSCNTRB-955
         // Validations for non-quantity based item type
          if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator() && StringUtils.isNotBlank(purItem.getItemUnitOfMeasureCode())) {
              valid = false;

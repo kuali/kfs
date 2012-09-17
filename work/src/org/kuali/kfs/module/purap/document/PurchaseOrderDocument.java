@@ -377,7 +377,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         managedLists.add(this.getGeneralLedgerPendingEntries());
         if (allowDeleteAwareCollection) {
             managedLists.add(this.getPurchaseOrderVendorQuotes());
-            //MSU Contribution DTT-2960 KFSMI-8608 KFSCNTRB-954
             managedLists.add(this.getPurchaseOrderVendorStipulations());
         }
         return managedLists;

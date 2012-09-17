@@ -518,7 +518,6 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
-     //MSU Contribution KFSMI-8558 DTT-3765 KFSCNTRB-963
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentRequestForm preqForm = (PaymentRequestForm) form;

@@ -1414,10 +1414,8 @@ public class PurapConstants {
     public static final String PURAP_APPLICATION_DOCUMENT_ID_NOT_AVAILABLE = "Not Available";
     public static final String PURAP_APPLICATION_DOCUMENT_STATUS_NOT_AVAILABLE = "Not Available";
 
-    //MSU Contribution KFSMI-8582 DTT-330 KFSCNTRB-943
     public static final String DELIVERY_BUILDING_NAME_INACTIVE_ERROR = "document.deliveryBuildingName";
     public static final String DELIVERY_ROOM_NUMBER_INACTIVE_ERROR   = "document.deliveryBuildingRoomNumber";
 
-    //MSU Contribution KFSMI-8457 DTT-377 KFSCNTRB-945
     public static final String PURAP_REQS_ORG_CD   = "document.organizationCode";
 }

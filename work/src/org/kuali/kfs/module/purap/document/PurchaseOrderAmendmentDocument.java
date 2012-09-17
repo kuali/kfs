@@ -180,14 +180,13 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         if (nodeName.equals(PurapWorkflowConstants.HAS_NEW_UNORDERED_ITEMS)) return isNewUnorderedItem();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }
-    
-    //MSU Contribution KFSMI-8600 DTT-3159 KFSCNTRB-953
+
     @Override
     public Class<? extends AccountingDocument> getDocumentClassForAccountingLineValueAllowedValidation() {
         return PurchaseOrderDocument.class;
     }
     
-    //MSU Contribution DTT-3812 KFSMI-8642 KFSCNTRB-957
+
     @Override
     public void customPrepareForSave(KualiDocumentEvent event) {
         super.customPrepareForSave(event);
@@ -236,7 +235,6 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         this.setSourceAccountingLines(sourceLines);
     }
 
-    //MSU Contribution DTT-3812 KFSMI-8642 KFSCNTRB-957
     protected void updateEncumbranceOnAccountingLines(KualiDecimal outstandingEcumbrance, List accountLines) {
         for (Object accountLineObject : accountLines) {
             PurchaseOrderAccount accountLine = (PurchaseOrderAccount) accountLineObject;

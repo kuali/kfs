@@ -43,17 +43,16 @@ import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Event that handles import of attendees from CSV File. Activated by the "Import Attendees" link
- *  
  */
 public class ImportAttendeesEvent implements Observer {
-    
+
     public static Logger LOG = Logger.getLogger(ImportAttendeesEvent.class);
-    
-    private static final int WRAPPER_ARG_IDX       = 0;
+
+    private static final int WRAPPER_ARG_IDX = 0;
     private static final int FILE_CONTENTS_ARG_IDX = 1;
 
-    public static final String[]  ATTENDEE_ATTRIBUTE_NAMES = { ATTENDEE_TYPE, COMPANY, TITLE, NAME };
-    public static final Integer[] MAX_LENGTH               = {10,40,40,40};
+    public static final String[] ATTENDEE_ATTRIBUTE_NAMES = { ATTENDEE_TYPE, COMPANY, TITLE, NAME };
+    public static final Integer[] MAX_LENGTH = { 10, 40, 40, 40 };
 
     protected KualiRuleService kualiRuleService;
     protected TravelDocumentService travelDocumentService;
@@ -61,10 +60,7 @@ public class ImportAttendeesEvent implements Observer {
 
     @Override
     public void update(final Observable observable, Object arg) {
-        if (!(arg instanceof TravelEntertainmentMvcWrapperBean)) {
-            return;
-        }
-        
+
         final Object[] args = (Object[]) arg;
         LOG.debug(args[WRAPPER_ARG_IDX]);
         if (!(args[WRAPPER_ARG_IDX] instanceof TravelEntertainmentMvcWrapperBean)) {
@@ -72,30 +68,29 @@ public class ImportAttendeesEvent implements Observer {
         }
 
         final TravelEntertainmentMvcWrapperBean wrapper = (TravelEntertainmentMvcWrapperBean) args[WRAPPER_ARG_IDX];
-        final String fileContents                       = (String) args[FILE_CONTENTS_ARG_IDX];
-        final TravelEntertainmentDocument document      = (TravelEntertainmentDocument) wrapper.getTravelDocument();
+        final String fileContents = (String) args[FILE_CONTENTS_ARG_IDX];
+        final TravelEntertainmentDocument document = (TravelEntertainmentDocument) wrapper.getTravelDocument();
 
         List<Attendee> importedAttendees = null;
         final String tabErrorKey = "attendee";
-        
+
         try {
             final Map<String, List<String>> defaultValues = new HashMap<String, List<String>>();
-            final List<String> defaultList                = new ArrayList<String>();
-            final AttendeeTypeValuesFinder finder         = new AttendeeTypeValuesFinder();
-            final List<KeyLabelPair> values               = finder.getKeyValues();
+            final List<String> defaultList = new ArrayList<String>();
+            final AttendeeTypeValuesFinder finder = new AttendeeTypeValuesFinder();
+            final List<KeyLabelPair> values = finder.getKeyValues();
             for (final KeyLabelPair pair : values) {
                 if (!pair.getLabel().equals("")) {
                     defaultList.add(pair.getKey().toString());
                     defaultList.add(pair.getLabel());
                 }
             }
-            
+
             defaultValues.put(ATTENDEE_TYPE, defaultList);
-            importedAttendees = getTravelDocumentService().importFile(fileContents, Attendee.class, 
-                    ATTENDEE_ATTRIBUTE_NAMES, 
-                    defaultValues, MAX_LENGTH, tabErrorKey);
-            // importedAttendees = UploadParser.importFile(reqForm.getAttendeesImportFile(), Attendee.class, ATTENDEE_ATTRIBUTE_NAMES, tabErrorKey);
-            
+            importedAttendees = getTravelDocumentService().importFile(fileContents, Attendee.class, ATTENDEE_ATTRIBUTE_NAMES, defaultValues, MAX_LENGTH, tabErrorKey);
+            // importedAttendees = UploadParser.importFile(reqForm.getAttendeesImportFile(), Attendee.class,
+            // ATTENDEE_ATTRIBUTE_NAMES, tabErrorKey);
+
             // validate imported items
             boolean allPassed = true;
             int itemLineNumber = 0;
@@ -114,45 +109,26 @@ public class ImportAttendeesEvent implements Observer {
         }
     }
 
-
-    /**
-     * Gets the travelReimbursementService attribute.
-     * 
-     * @return Returns the travelReimbursementService.
-     */
     public TravelDocumentService getTravelDocumentService() {
         return travelDocumentService;
     }
-    
+
     public void setTravelDocumentService(final TravelDocumentService travelDocumentService) {
         this.travelDocumentService = travelDocumentService;
     }
-
 
     public TravelEntertainmentDocumentService getTravelEntertainmentDocumentService() {
         return travelEntertainmentDocumentService;
     }
 
-
     public void setTravelEntertainmentDocumentService(TravelEntertainmentDocumentService travelEntertainmentDocumentService) {
         this.travelEntertainmentDocumentService = travelEntertainmentDocumentService;
     }
 
-
-    /**
-     * Sets the kualiRulesService attribute.
-     * 
-     * @return Returns the kualiRuleService.
-     */
     public void setRuleService(final KualiRuleService kualiRuleService) {
         this.kualiRuleService = kualiRuleService;
     }
 
-    /**
-     * Gets the kualiRulesService attribute.
-     * 
-     * @return Returns the kualiRuleseService.
-     */
     protected KualiRuleService getRuleService() {
         return kualiRuleService;
     }

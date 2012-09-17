@@ -69,7 +69,6 @@
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <!-- MSU Contribution KFSMI-8505 DTT-601 KFSCNTRB-939   -->
     <reference-descriptor name="cfda" class-ref="org.kuali.kfs.coa.businessobject.CFDA" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="accountCfdaNumber" />
     </reference-descriptor>

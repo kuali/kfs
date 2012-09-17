@@ -358,21 +358,16 @@ public class PurapKeyConstants {
     public static final String B2B_PO_RETRANSMIT_SUCCESS = "message.b2b.po.retransmit.success";
     public static final String B2B_PO_RETRANSMIT_FAILED = "message.b2b.po.retransmit.failed";
     
-    //MSU Contribution KFSMI-8582 DTT-330 KFSCNTRB-943
     public static final String ERROR_INACTIVE_BUILDING ="error.inactive.building";
     public static final String ERROR_INACTIVE_ROOM ="error.inactive.room";
     
-    //MSU Contribution KFSMI-8457 DTT-377 KFSCNTRB-945
     public static final String ERROR_INACTIVE_ORG ="error.inactive.organization";
     
-    //MSU Contribution KFSMI-8470 DTT-3147 KFSCNTRB-962
     public static final String ERROR_ITEM_ACCOUNTING_ZERO = "errors.item.accounting.zero";
     
-    //MSU Contribution KFSMI-5041 DTT-3371 KFSCNTRB-955
     public static final String ERROR_ITEM_UOM_NOT_ALLOWED = "errors.item.uom.isNotAllowed";
     public static final String ERROR_ITEM_UOM_INACTIVE = "errors.item.uom.inactive";
     
-    //MSU Contribution KFSMI-8558  DTT-3765 KFSCNTRB-963
     public static final String ERROR_PAYMENT_REQUEST_CANNOT_BE_CANCELLED = "error.paymentRequest.cannot.be.cancelled";
     
 }

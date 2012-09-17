@@ -134,7 +134,6 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
         return accountingLines;
     }
     
-    //MSU Contribution KFSMI-8643 DTT-3800 KFSCNTRB-956
     @Override
     public List<String> getWorkflowEngineDocumentIdsToLock() {
         List<String> docIdStrings = new ArrayList<String>();

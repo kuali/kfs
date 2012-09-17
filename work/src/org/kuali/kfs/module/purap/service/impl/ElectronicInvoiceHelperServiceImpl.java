@@ -225,7 +225,6 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
 
         for (int i = 0; i < filesToBeProcessed.length; i++) {
             
-            // MSU Contribution DTT-3014 KFSMI-8483 KFSCNTRB-974
             File xmlFile = filesToBeProcessed[i];
             LOG.info("Processing " + xmlFile.getName() + "....");
 

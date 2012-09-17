@@ -570,7 +570,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      */
     @Override
     public TravelAuthorizationDocument getRelatedOpenTravelAuthorizationDocument(final TravelReimbursementDocument reimbursement) {
-        TravelAuthorizationDocument travelAuthorizationDocument = new TravelAuthorizationDocument();
+        TravelAuthorizationDocument travelAuthorizationDocument = null;
      
         List<Document> travelAuthDocs = travelDocumentService.getDocumentsRelatedTo(reimbursement, 
                 TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT, TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);

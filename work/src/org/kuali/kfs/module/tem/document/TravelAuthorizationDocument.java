@@ -738,8 +738,8 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
                 accountingLine.setChartOfAccountsCode(StringUtils.defaultIfEmpty(advancePaymentChartCode, advance.getAcct().getChartOfAccountsCode()));
                 accountingLine.setAccountNumber(StringUtils.defaultIfEmpty(advancePaymentAccountNumber, advance.getAccountNumber()));
                 accountingLine.setFinancialObjectCode(StringUtils.defaultIfEmpty(advancePaymentObjectCode, StringUtils.defaultString(advance.getFinancialObjectCode())));
-                accountingLine.setFinancialSubObjectCode(StringUtils.defaultString(advance.getFinancialSubObjectCode()));
-                accountingLine.setSubAccountNumber(StringUtils.defaultString(advance.getSubAccountNumber()));
+                //accountingLine.setFinancialSubObjectCode(StringUtils.defaultString(advance.getFinancialSubObjectCode()));
+                //accountingLine.setSubAccountNumber(StringUtils.defaultString(advance.getSubAccountNumber()));
                 accountingLine.setAmount(advance.getTravelAdvanceRequested());
                 accountingLine.setPostingYear(disbursementVoucherDocument.getPostingYear());
                 accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());

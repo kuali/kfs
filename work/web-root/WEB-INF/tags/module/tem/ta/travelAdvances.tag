@@ -18,7 +18,7 @@
 <c:set var="travelAdvanceAttributes" value="${DataDictionary.TravelAdvance.attributes}" />
 <c:set var="advanceAttributes" value="${DataDictionary.AdvancePaymentReason.attributes}" />
 <c:set var="docType" value="${KualiForm.document.dataDictionaryEntry.documentTypeName }" />
-<c:set var="policyDisabled" value="${!(KualiForm.waitingOnTraveler || !fullEntryMode || KualiForm.showPolicy) }" />
+<c:set var="policyDisabled" value="${KualiForm.waitingOnTraveler || !fullEntryMode}" />
 
 <kul:tab tabTitle="Travel Advances" defaultOpen="${fn:length(KualiForm.document.travelAdvances) > 0}" tabErrorKey="${TemKeyConstants.TRVL_AUTH_TRVL_ADVANCE_ERRORS}">
 	<div class="tab-container" align="left">

@@ -76,12 +76,10 @@
 			    <!-- Route Document Event, check item type against account tax policy -->
   				<bean parent="PurchasingAccountsPayable-itemTypeTaxPolicyValidation" scope="prototype" />		
   				
-  				<!--MSU Contribution KFSMI-8582 DTT-330  KFSCNTRB-943 -->
   				<bean parent="PurapRequisition-RoomBuildingInActiveValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>
 				
-				<!--MSU Contribution KFSMI-8457 DTT-377 KFSCNTRB-945 -->
 				<bean parent="Requisition-organizationValidation" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>														

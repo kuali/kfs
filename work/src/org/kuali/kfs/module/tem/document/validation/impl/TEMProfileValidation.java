@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -53,7 +54,7 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
      */
     @Override
     protected boolean dataDictionaryValidate(MaintenanceDocument document) {
-        BusinessObjectService businessObjectService = (BusinessObjectService) SpringContext.getService("businessObjectService");
+        BusinessObjectService businessObjectService = getBusinessObjectService();
         TEMProfile profile = (TEMProfile) document.getNewMaintainableObject().getBusinessObject();
         TravelService travelService = SpringContext.getBean(TravelService.class);
         
@@ -181,27 +182,12 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#validateMaintenanceDocument(org.kuali.rice.kns.document.MaintenanceDocument)
-     */
-    @Override
-    protected boolean validateMaintenanceDocument(MaintenanceDocument maintenanceDocument) {
-        return super.validateMaintenanceDocument(maintenanceDocument);
-    }
-
-    /** 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
-     */
-    @Override
-    public boolean processAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
-        // TODO Auto-generated method stub
-        return super.processAddCollectionLineBusinessRules(document, collectionName, bo);
-    }
-
-    /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
+        
+        //set other arranger as primary false if the new arranger is the primary
         if (line instanceof TEMProfileArranger){
             TEMProfileArranger arranger = (TEMProfileArranger)line;
             if (arranger.getPrimary()){
@@ -210,19 +196,35 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
                 }
             }
         }
+        // check for CreditCardAgency accounts
         else if (line instanceof TEMProfileAccount){
             TEMProfileAccount account = (TEMProfileAccount) line;
+            //minimum length
             if (StringUtils.isNotEmpty(account.getAccountNumber()) && account.getAccountNumber().length() < 4){
             	String errorMessage[] = null;
                 errorMessage = new String[] { "Account Number", "4" };
                 GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEMProfileProperties.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_MIN_LENGTH, errorMessage);
                 return false;
             }
+            
+            //not duplicate an existing account in the system
+            if (StringUtils.isNotEmpty(account.getAccountNumber())){
+                Map<String,Object> criteria = new HashMap<String,Object>();
+                criteria.put(TemPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
+                criteria.put(TemPropertyConstants.CREDIT_CARD_AGENCY_ID, account.getCreditCardAgencyId());
+                Collection<TEMProfileAccount> profileAccounts = getBusinessObjectService().findMatching(TEMProfileAccount.class, criteria);
+                if (!profileAccounts.isEmpty()){
+                    GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEMProfileProperties.ACCOUNT_NUMBER, TemKeyConstants.ERROR_TEM_PROFILE_ACCOUNT_ID_DUPLICATE, account.getAccountNumber());
+                    return false;
+                }
+            }
         }
 
         return super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
     }
 
-
+    protected BusinessObjectService getBusinessObjectService() {
+        return SpringContext.getBean(BusinessObjectService.class);
+    }
 
 }

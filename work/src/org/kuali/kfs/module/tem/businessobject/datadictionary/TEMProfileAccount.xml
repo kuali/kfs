@@ -19,7 +19,7 @@
 			<ref bean="TEMProfileAccount-note" />
 			<ref bean="TEMProfileAccount-active" />
 			<ref bean="TEMProfileAccount-versionNumber" />
-			<ref bean="TEMProfileAccount-cardId" />
+			<ref bean="TEMProfileAccount-creditCardAgencyId" />
 		</list>
 		</property>
 		<property name="relationships">
@@ -29,7 +29,7 @@
 				<property name="primitiveAttributes">
 				<list>
 					<bean parent="PrimitiveAttributeDefinition" p:sourceName="name" p:targetName="creditCardOrAgencyName" />
-					<bean parent="PrimitiveAttributeDefinition" p:sourceName="cardId" p:targetName="id" />
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="creditCardAgencyId" p:targetName="id" />
 				</list>
 				</property>
 				<property name="supportAttributes">
@@ -117,14 +117,14 @@
 		<property name="summary" value="Version Number" />
 		<property name="description" value="Version Number" />
 	</bean>
-	<bean id="TEMProfileAccount-cardId" parent="TEMProfileAccount-cardId-parentBean" />
-	<bean id="TEMProfileAccount-cardId-parentBean" parent="AttributeDefinition">
-		<property name="name" value="cardId" />
-		<property name="label" value="Card Id" />
-		<property name="shortLabel" value="Card Id" />
+	<bean id="TEMProfileAccount-creditCardAgencyId" parent="TEMProfileAccount-creditCardAgencyId-parentBean" />
+	<bean id="TEMProfileAccount-creditCardAgencyId-parentBean" parent="AttributeDefinition">
+		<property name="name" value="creditCardAgencyId" />
+		<property name="label" value="Credit Card Agency Id" />
+		<property name="shortLabel" value="Credit Card Agency Id" />
 		<property name="maxLength" value="4" />
-		<property name="summary" value="Card Id" />
-		<property name="description" value="Card Id" />
+		<property name="summary" value="Credit Card Agency Id" />
+		<property name="description" value="Credit Card Agency Id" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
 	</bean>
 	<bean id="TEMProfileAccount-inquiryDefinition" parent="TEMProfileAccount-inquiryDefinition-parentBean" />
@@ -139,7 +139,7 @@
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="accountId" />
 					<bean parent="FieldDefinition" p:attributeName="profileId" />
-					<bean parent="FieldDefinition" p:attributeName="cardId" />
+					<bean parent="FieldDefinition" p:attributeName="creditCardAgencyId" />
 					<bean parent="FieldDefinition" p:attributeName="name" />
 					<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 					<bean parent="FieldDefinition" p:attributeName="expirationDate" />
@@ -163,7 +163,7 @@
 		<property name="lookupFields"><list>
 			<bean parent="FieldDefinition" p:attributeName="accountId" />
 			<bean parent="FieldDefinition" p:attributeName="profileId" />
-			<bean parent="FieldDefinition" p:attributeName="cardId" />
+			<bean parent="FieldDefinition" p:attributeName="creditCardAgencyId" />
 			<bean parent="FieldDefinition" p:attributeName="name" />
 			<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 			<bean parent="FieldDefinition" p:attributeName="active" />
@@ -173,7 +173,7 @@
 		<list>
 			<bean parent="FieldDefinition" p:attributeName="accountId" />
 			<bean parent="FieldDefinition" p:attributeName="profileId" />
-			<bean parent="FieldDefinition" p:attributeName="cardId" />
+			<bean parent="FieldDefinition" p:attributeName="creditCardAgencyId" />
 			<bean parent="FieldDefinition" p:attributeName="name" />
 			<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 			<bean parent="FieldDefinition" p:attributeName="expirationDate" />

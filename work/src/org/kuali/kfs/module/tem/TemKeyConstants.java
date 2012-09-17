@@ -143,6 +143,7 @@ public class TemKeyConstants extends JSTLConstants {
     
     public static final String ERROR_TEM_PROFILE_ARRANGER_PRIMARY ="error.tem.profile.arranger.primary";
     public static final String ERROR_TEM_PROFILE_ARRANGER_DUPLICATE ="error.tem.profile.arranger.duplicate";
+    public static final String ERROR_TEM_PROFILE_ACCOUNT_ID_DUPLICATE ="error.tem.profile.accountId.duplicate";
     public static final String ERROR_TEM_PROFILE_ARRANGER_NONEMPLOYEE ="error.tem.profile.arranger.nonemployee";
 
     public static final String ERROR_TA_FISCAL_OFFICER_ACCOUNT = "error.document.fiscalofficer.account";

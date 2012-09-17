@@ -1031,7 +1031,7 @@
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.TEMProfileAccount" table="TEM_PROFILE_ACCOUNT_T">
 		<field-descriptor name="accountId" primarykey="true" sequence-name="TEM_PROFILE_ACCOUNT_ID_SEQ" autoincrement="true" column="ACCOUNT_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="profileId" column="PROFILE_ID" jdbc-type="INTEGER"/>
-		<field-descriptor name="cardId" column="CARD_ID" jdbc-type="INTEGER"/>
+		<field-descriptor name="creditCardAgencyId" column="CARD_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
 		<field-descriptor name="expirationDate" column="EXP_DATE" jdbc-type="DATE"/>
@@ -1044,7 +1044,7 @@
 			<foreignkey field-ref="profileId"/>
 		</reference-descriptor>
 		<reference-descriptor name="creditCardAgency" class-ref="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="cardId"/>
+			<foreignkey field-ref="creditCardAgencyId"/>
 		</reference-descriptor>
 	</class-descriptor>
 

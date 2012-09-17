@@ -72,7 +72,6 @@ public class PurchasingUnitOfMeasureValidation extends GenericValidation {
 
         GlobalVariables.getMessageMap().clearErrorPath();
         
-        //MSU Contribution KFSMI-5041 DTT-3371 KFSCNTRB-955
        if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator() && StringUtils.isNotBlank(purItem.getItemUnitOfMeasureCode())) {
             valid = false;
             String errorPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + (itemForValidation.getItemLineNumber() - 1) + "]." + PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE;

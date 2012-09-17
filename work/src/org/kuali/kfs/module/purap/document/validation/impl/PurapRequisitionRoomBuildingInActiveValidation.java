@@ -29,7 +29,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
-//MSU Contribution KFSMI-8582 DTT-330 KFSCNTRB-943
 public class PurapRequisitionRoomBuildingInActiveValidation extends GenericValidation{
     
     private BusinessObjectService businessObjectService; //

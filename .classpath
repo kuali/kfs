@@ -11,74 +11,74 @@
 			<accessrule kind="nonaccessible" pattern="sunw/**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-api-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-core-api-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-framework-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-core-framework-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-service-api-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-core-service-api-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-service-framework-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-core-service-framework-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-service-web-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-core-service-web-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-web-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-core-web-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-edl-framework-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-edl-framework-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-ken-api-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-ken-api-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kew-api-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-kew-api-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kew-framework-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-kew-framework-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kim-api-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-kim-api-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kim-framework-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-kim-framework-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kns-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-kns-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-krad-app-framework-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-krad-app-framework-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-krad-web-framework-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-krad-web-framework-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-krms-api-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-krms-api-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-krms-framework-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-krms-framework-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-ksb-api-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-ksb-api-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-ksb-web-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-ksb-web-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-location-api-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-location-api-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-location-framework-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-location-framework-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-location-web-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-location-web-2.1.2-rc2-sources.jar" /><!-- rice API lib -->
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-impl-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-core-impl-2.1.2-rc2-sources.jar"><!-- rice IMPL lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-api-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-core-api-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-framework-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-core-framework-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-service-api-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-core-service-api-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-service-framework-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-core-service-framework-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-service-web-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-core-service-web-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-web-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-core-web-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-edl-framework-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-edl-framework-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-ken-api-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-ken-api-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kew-api-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-kew-api-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kew-framework-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-kew-framework-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kim-api-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-kim-api-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kim-framework-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-kim-framework-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kns-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-kns-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-krad-app-framework-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-krad-app-framework-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-krad-web-framework-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-krad-web-framework-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-krms-api-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-krms-api-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-krms-framework-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-krms-framework-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-ksb-api-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-ksb-api-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-ksb-web-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-ksb-web-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-location-api-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-location-api-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-location-framework-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-location-framework-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-location-web-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-location-web-2.1.2-rc3-sources.jar" /><!-- rice API lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-impl-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-core-impl-2.1.2-rc3-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-service-impl-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-core-service-impl-2.1.2-rc2-sources.jar"><!-- rice IMPL lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-core-service-impl-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-core-service-impl-2.1.2-rc3-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-edl-impl-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-edl-impl-2.1.2-rc2-sources.jar"><!-- rice IMPL lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-edl-impl-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-edl-impl-2.1.2-rc3-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-impl-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-impl-2.1.2-rc2-sources.jar"><!-- rice IMPL lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-impl-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-impl-2.1.2-rc3-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kew-impl-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-kew-impl-2.1.2-rc2-sources.jar"><!-- rice IMPL lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kew-impl-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-kew-impl-2.1.2-rc3-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kim-impl-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-kim-impl-2.1.2-rc2-sources.jar"><!-- rice IMPL lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-kim-impl-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-kim-impl-2.1.2-rc3-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-krms-impl-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-krms-impl-2.1.2-rc2-sources.jar"><!-- rice IMPL lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-krms-impl-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-krms-impl-2.1.2-rc3-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-ksb-client-impl-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-ksb-client-impl-2.1.2-rc2-sources.jar"><!-- rice IMPL lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-ksb-client-impl-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-ksb-client-impl-2.1.2-rc3-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-ksb-server-impl-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-ksb-server-impl-2.1.2-rc2-sources.jar"><!-- rice IMPL lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-ksb-server-impl-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-ksb-server-impl-2.1.2-rc3-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-location-impl-2.1.2-rc2.jar" sourcepath="build/rice-sources/rice-location-impl-2.1.2-rc2-sources.jar"><!-- rice IMPL lib -->
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/rice-location-impl-2.1.2-rc3.jar" sourcepath="build/rice-sources/rice-location-impl-2.1.2-rc3-sources.jar"><!-- rice IMPL lib -->
 	<accessrules>
 		<accessrule kind="discouraged" pattern="**"/><!-- Should be "forbidden" after Rice 2.0, impl classes should not be referenced by clients -->
 	</accessrules>

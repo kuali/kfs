@@ -792,11 +792,9 @@
 				<bean parent="FieldDefinition" p:attributeName="profileId" />
 				<bean parent="FieldDefinition" p:attributeName="firstName" />
 				<bean parent="FieldDefinition" p:attributeName="lastName" />
-				<bean parent="FieldDefinition" p:attributeName="travelerTypeCode"
-					p:noLookup="true" />
+				<bean parent="FieldDefinition" p:attributeName="travelerTypeCode" p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="homeDepartment" />
-				<!-- <bean parent="FieldDefinition" p:attributeName="homeDeptOrgCode" 
-					/> -->
+                <bean parent="FieldDefinition" p:attributeName="defaultChartCode" />
 				<bean parent="FieldDefinition" p:attributeName="defaultAccount" />
 				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 			</list>

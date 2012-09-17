@@ -901,8 +901,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         // When updating an account expiration date, the date must be today or later
         // Only run this test if this maintenance doc
         // is an edit doc
-        
-       //MSU Contribution KFSMI-8567 DTT-565 KFSCNTRB-972
+
         if (isUpdatedExpirationDateInvalid(maintenanceDocument)) {
             Account newAccount = (Account) maintenanceDocument.getNewMaintainableObject().getBusinessObject();            
             if(newAccount.isClosed()){
@@ -923,7 +922,6 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
             }
             if (StringUtils.isBlank(newAccount.getContinuationFinChrtOfAcctCd())) {
                 putFieldError("continuationFinChrtOfAcctCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_FINCODE_REQD_IF_EXP_DATE_COMPLETED);
-                // putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTINUATION_ACCT_REQD_IF_EXP_DATE_COMPLETED);
                 success &= false;
             }
         }
@@ -933,7 +931,6 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         if (maintenanceDocument.isNew() && ObjectUtils.isNotNull(newExpDate)) {
             if (!newExpDate.after(today) && !newExpDate.equals(today)) {
                 putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
-                // putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
                 success &= false;
             }
         }
@@ -943,7 +940,6 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         if (ObjectUtils.isNotNull(effectiveDate) && ObjectUtils.isNotNull(newExpDate)) {
             if (newExpDate.before(effectiveDate)) {
                 putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_CANNOT_BE_BEFORE_EFFECTIVE_DATE);
-                // putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_CANNOT_BE_BEFORE_EFFECTIVE_DATE);
                 success &= false;
             }
         }
@@ -1224,7 +1220,6 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
             if ( encumbranceCount > 0){
                 success = false;
                 putFieldError("closed", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CANNOT_CLOSE_OPEN_ENCUMBRANCE);
-                //putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CANNOT_CLOSE_OPEN_ENCUMBRANCE);
             }
         }
         return success;

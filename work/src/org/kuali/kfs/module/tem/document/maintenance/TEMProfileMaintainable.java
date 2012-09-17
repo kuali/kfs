@@ -329,7 +329,6 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
             return true;
         }
         
-        // TODO
         // for now assuming that during initial creation of a doc, the oldTemProfile object is null
         if (ObjectUtils.isNotNull(oldTemProfile)) {
             // If NRA changed, route to tax manager
@@ -338,7 +337,7 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
             }
             
             // If citizenship changed, route to tax manager
-            if (!StringUtils.isEmpty(oldTemProfile.getCitizenship()) && !StringUtils.equals(newTemProfile.getCitizenship(), oldTemProfile.getCitizenship())) {
+            if (StringUtils.equalsIgnoreCase(newTemProfile.getCitizenship(), oldTemProfile.getCitizenship())) {
                 return true;
             }
         }

@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="clover" basedir=".">
+	
+	<!--
+	  build workspace properties file before call to class
+	  add DB information to file
+	  new batch job for creating all in one target
+	  	(input format, output format, import graph, export graph)
+	  genall inputDB outputDB schema table name
+	  Make CreateImportGraph program
+	  
+	  add properties for locations of formats, graphs, connections
+	  
+	  test if DB library connections can be relative paths
+	-->
+
+	<property name="base.dir" location="${basedir}"/>
+	<property name="graphs.dir" location="${base.dir}/graphs"/>
+	<property name="formats.dir" location="${base.dir}/formats"/>
+	<property name="data.dir" location="${base.dir}/data"/>
+	<property name="connections.dir" location="connections"/>
+	<property name="drivers.dir" location="../drivers"/>
+	
+    <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="../lib/ant-contrib-1.0b3.jar" />
+	
+	<path id="compile.classpath">
+		<fileset dir="lib">
+    		<include name="*.jar"/>
+    		<include name="*.zip"/>
+		</fileset>
+		<fileset dir="plugins/org.jetel.component">
+    		<include name="*.jar"/>
+		</fileset>
+	</path>
+	
+	<path id="runtime.classpath">
+		<pathelement location="bin" />
+		<path refid="compile.classpath" />
+		<fileset dir="${drivers.dir}">
+    		<include name="*.jar"/>
+		</fileset>
+		<fileset dir="plugins/org.jetel.connection">
+    		<include name="*.jar"/>
+		</fileset>
+	</path>
+	
+	<!-- ================================= 
+          target: run              
+         ================================= -->
+    <target name="run" depends="build,create-clover-config-file" description="--> description">
+    	<echo message="Base dir is ${base.dir}"/>
+    	<fixcrlf eol="crlf" srcdir="${base.dir}/data" />
+    	<java classname="org.jetel.main.runGraph" classpathref="runtime.classpath" dir="${basedir}" fork="true">
+            <arg value="-config"/>
+            <arg value="${basedir}/cloveretl.properties"/>
+        	<arg value="-plugins"/>
+        	<arg value="${basedir}/plugins"/>
+			<arg value="${graphs.dir}/${graph.file}.grf.xml"/>
+			<jvmarg value="-Xmx1g" />
+        </java>
+    </target>
+
+    <!-- ================================= 
+          target: run-dir              
+         ================================= -->
+    <target name="run-dir" depends="build,create-clover-config-file" description="--> description">
+        <echo message="Base dir is ${base.dir}"/>
+        <fixcrlf eol="crlf" srcdir="${base.dir}/data" />
+        <for param="fileName">
+            <fileset dir="${graphs.dir}">
+                <include name="*.grf.xml"/>
+            </fileset>
+            <sequential>
+                <java classname="org.jetel.main.runGraph" classpathref="runtime.classpath" dir="${basedir}" fork="true">
+                    <arg value="-v"/>
+                    <arg value="-config"/>
+                    <arg value="${basedir}/cloveretl.properties"/>
+                    <arg value="-plugins"/>
+                    <arg value="${basedir}/plugins"/>
+                    <arg value="@{fileName}"/>
+                    <jvmarg value="-Xmx1g" />
+                </java>
+            </sequential>
+        </for>
+    </target>
+
+	<!-- ================================= 
+          target: genmeta              
+         ================================= -->
+    <target name="genmeta" depends="build" description="--> Generate metadata for a specific table and save to a file">
+        <java classname="org.kuali.impex.DbMetadataToFormat" classpathref="runtime.classpath">
+        	<arg value="${connections.dir}/${database.config}.cfg"/>
+        	<arg value="${table.schema}"/>
+			<arg value="${table.name}"/>
+			<arg value="${formats.dir}/${config.file}.fmt.xml"/>
+        </java>
+    </target>
+
+	<!-- ================================= 
+          target: generate-all-metadata              
+         ================================= -->
+    <target name="generate-all-metadata" depends="build" description="--> Generate metadata for all tables in a schema and save to a directory within ${format.dir}">
+        <java classname="org.kuali.impex.DumpAllTableFormats" classpathref="runtime.classpath">
+        	<arg value="${connections.dir}/${database.config}.cfg"/>
+        	<arg value="${table.schema}"/>
+			<arg value="${formats.dir}/${format.subdir}"/>
+        </java>
+    </target>
+
+	<!-- ================================= 
+          target: gengraph              
+         ================================= -->
+    <target name="gen-export-graph" depends="build" description="--> Generate starter export graph for a specific table and save to a file">
+        <java classname="org.kuali.impex.CreateExtractGraph" classpathref="runtime.classpath">
+        	<arg value="${connections.dir}/${database.config}.cfg"/>
+        	<arg value="${table.schema}"/>
+			<arg value="${table.name}"/>
+			<arg value="${graphs.dir}/${config.file}.grf.xml"/>
+        </java>
+    </target>
+
+	<!-- ================================= 
+          target: gengraph              
+         ================================= -->
+    <target name="gen-import-graph" depends="build" description="--> Generate starter export graph for a specific table and save to a file">
+        <java classname="org.kuali.impex.CreateImportGraph" classpathref="runtime.classpath">
+        	<arg value="${connections.dir}/${database.config}.cfg"/>
+        	<arg value="${table.schema}"/>
+			<arg value="${table.name}"/>
+			<arg value="${graphs.dir}/${config.file}.grf.xml"/>
+			<arg value="${table.truncate}" />
+        </java>
+    </target>
+	
+	<!-- ================================= 
+          target: build              
+         ================================= -->
+    <target name="build" depends="" description="--> Builds all code">
+    	<mkdir dir="bin" />
+        <javac srcdir="src" destdir="bin" includeantruntime="true">
+        	<classpath>
+        	    <path refid="compile.classpath" />
+            </classpath>            
+        </javac>
+    </target>
+	
+	<target name="jar" depends="build">
+    	<jar destfile="kfs_data_export.jar">
+  			<fileset dir="bin" />
+    	</jar>    
+	</target>
+
+	<!-- DB Impex Tool:
+	
+		Use db_impex for schema creation
+		Generate format files for entire schema - during process - don't check in?   (DumpAllTableFormats.java)
+		  Actually, checking them in might be good, since that's the format used for the export
+		Generate import graphs for every table - same work as above (CreateImportGraph.java)
+		OR Generate Export Graphs
+		
+		Run all graphs in the directory
+		
+		kfs_data_dba/
+			data/
+			graphs/
+			formats/
+			schema.xml
+			database.dtd
+			
+		So...pull this code into the db_impex project once tested and replace the
+		data XML generation/parsing targets
+		
+		Start with the data export process
+	-->
+
+	<target name="init-clover-tasks">
+        <taskdef name="create-table-formats" classname="org.kuali.impex.ant.CreateTableFormatsTask" classpathref="runtime.classpath" />
+        <taskdef name="create-table-export-graphs" classname="org.kuali.impex.ant.CreateTableExportGraphsTask" classpathref="runtime.classpath" />
+        <taskdef name="create-table-import-graphs" classname="org.kuali.impex.ant.CreateTableImportGraphsTask" classpathref="runtime.classpath" />
+        <taskdef name="create-table-formats-and-graphs" classname="org.kuali.impex.ant.CreateTableFormatsAndGraphsTask" classpathref="runtime.classpath" />
+        <taskdef name="run-graph" classname="org.kuali.impex.ant.GraphRunTask" classpathref="runtime.classpath" />
+	</target>
+	
+	<target name="create-clover-config-file" depends="init-clover-tasks">
+    	<pathconvert property="db.config.file.safe" targetos="unix">
+    		<path location="connections/${database.config}.cfg" />
+    	</pathconvert>
+    	<pathconvert property="basedir.safe" targetos="unix">
+    		<path location="${basedir}" />
+    	</pathconvert>
+    	<pathconvert property="formats.dir.safe" targetos="unix">
+    		<path location="${formats.dir}" />
+    	</pathconvert>
+    	<pathconvert property="data.dir.safe" targetos="unix">
+    		<path location="${data.dir}" />
+    	</pathconvert>
+    	<pathconvert property="graphs.dir.safe" targetos="unix">
+    		<path location="${graphs.dir}" />
+    	</pathconvert>
+    	<echo file="workspace.prm">
+DATABASE = ${db.config.file.safe}
+WORKSPACE = ${basedir.safe}
+PROJECT_DIR = ${basedir.safe}
+FORMAT_DIR = ${formats.dir.safe}
+GRAPH_DIR = ${graphs.dir.safe}
+DATA_DIR = ${data.dir.safe}
+DUMP_DIR = ${data.dir.safe}
+MAX_ERRORS = 0
+    	</echo>		
+		<loadproperties srcfile="${db.config.file.safe}" />
+	</target>
+
+	<target name="create-format-files" depends="create-clover-config-file">
+		<!-- clean out existing format files -->
+		<mkdir dir="${export.dir}/formats" />
+		<delete>
+			<fileset dir="${export.dir}/formats">
+    			<include name="*.xml"/>
+			</fileset>
+		</delete>
+		<!-- create all new format files -->
+    	<create-table-formats
+    		driver="${dbDriver}"
+    		url="${dbURL}"
+    		userid="${user}"
+    		password="${password}"
+    		schemaname="${user}"
+    		exportbasedir="${export.dir}"
+    		classpathref="runtime.classpath"
+    		/>
+	</target>	
+
+	<target name="create-export-graph-files" depends="create-clover-config-file">
+		<!-- clean out existing format files -->
+		<mkdir dir="${export.dir}/graphs" />
+		<delete>
+			<fileset dir="${export.dir}/graphs">
+    			<include name="*.xml"/>
+			</fileset>
+		</delete>
+		<!-- create all new graph files -->
+    	<create-table-export-graphs
+    		driver="${dbDriver}"
+    		url="${dbURL}"
+    		userid="${user}"
+    		password="${password}"
+    		schemaname="${user}"
+    		exportbasedir="${export.dir}"
+    		classpathref="runtime.classpath"
+    		/>
+	</target>	
+
+	<target name="create-import-graph-files" depends="create-clover-config-file">
+		<!-- clean out existing format files -->
+		<mkdir dir="${export.dir}/graphs" />
+		<!-- create all new graph files -->
+    	<create-table-import-graphs
+    		driver="${dbDriver}"
+    		url="${dbURL}"
+    		userid="${user}"
+    		password="${password}"
+    		schemaname="${user}"
+    		exportbasedir="${export.dir}"
+    		classpathref="runtime.classpath"
+    		truncateTable="true"
+    		/>
+	</target>	
+	
+	<target name="run-export-graphs" depends="create-clover-config-file">
+		<mkdir dir="${export.dir}/data" />
+		<mkdir dir="${export.dir}/dump" />
+		<!-- clean out existing format files -->
+		<delete>
+			<fileset dir="${export.dir}">
+    			<include name="data/*.xml"/>
+    			<include name="dump/*.xml"/>
+			</fileset>
+		</delete>
+		<!-- export all data -->
+    	<run-graph>
+    		<fileset dir="${export.dir}/graphs">
+    			<include name="*_export.grf.xml"/>
+			</fileset>
+		</run-graph>
+	</target>	
+
+	<target name="run-import-graphs" depends="create-clover-config-file">
+		<!-- import all data -->
+    	<run-graph>
+    		<fileset dir="${export.dir}/graphs">
+    			<include name="*_import.grf.xml"/>
+			</fileset>
+		</run-graph>
+	</target>	
+	
+		<!-- ================================= 
+          target: export-data              
+         ================================= -->
+    <target name="export-data" depends="create-format-files,create-export-graph-files,create-import-graph-files,run-export-graphs" />
+
+	<target name="empty-table">
+		<property name="db.config.file" value="${connections.dir}/${database.config}.cfg" />
+		<loadproperties srcfile="${db.config.file}" />
+		<sql 
+    		driver="${dbDriver}"
+    		url="${dbURL}"
+    		userid="${user}"
+    		password="${password}"
+			delimiter=";"
+			delimitertype="normal"
+			classpathref="runtime.classpath">
+			DELETE FROM ${table.name}; 
+			COMMIT;
+		</sql>
+	</target>
+
+	<target name="run-sql">
+		<property name="db.config.file" value="${connections.dir}/${database.config}.cfg" />
+		<loadproperties srcfile="${db.config.file}" />
+		<sql 
+    		driver="${dbDriver}"
+    		url="${dbURL}"
+    		userid="${user}"
+    		password="${password}"
+			delimiter="/"
+			delimitertype="row" 
+			autocommit="true"
+			classpathref="runtime.classpath">${sql}</sql>
+	</target>
+
+	<target name="build-clover-customizations" depends="" description="--> Builds all code">
+		<mkdir dir="bin" />
+		<javac srcdir="src" destdir="bin" includeantruntime="true">
+			<include name="org/kuali/impex/clover/component/**"/>
+			<classpath refid="compile.classpath" />
+		</javac>
+	</target>
+
+	<target name="jar-clover-customizations" depends="build-clover-customizations">
+		<jar destfile="plugins/org.kuali.impex.clover.component/clover_extension.jar">
+			<fileset dir="bin">
+				<include name="org/kuali/impex/clover/component/**"/>
+			</fileset>
+		</jar>    
+	</target>
+	
+</project>

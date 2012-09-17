@@ -707,8 +707,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             saveGLEntries(po.getGeneralLedgerPendingEntries());
             LOG.debug("generateEntriesClosePurchaseOrder() gl entries created; exit method");
         }
-        
-        //MSU Contribution DTT-3812 KFSMI-8642 KFSCNTRB-957
+
         // Set outstanding encumbered quantity/amount on items
         for (Iterator items = po.getItems().iterator(); items.hasNext();) {
             PurchaseOrderItem item = (PurchaseOrderItem) items.next();
@@ -749,7 +748,6 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     public void generateEntriesReopenPurchaseOrder(PurchaseOrderDocument po) {
         LOG.debug("generateEntriesReopenPurchaseOrder() started");
         
-        //MSU Contribution DTT-3812 KFSMI-8642 KFSCNTRB-957
         // Set outstanding encumbered quantity/amount on items
         for (Iterator items = po.getItems().iterator(); items.hasNext();) {
             PurchaseOrderItem item = (PurchaseOrderItem) items.next();
@@ -1332,9 +1330,6 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-        //SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
-        
-        //MSU Contribution KFSMI-8639 DTT-4009 KFSCNTRB-966
         SpringContext.getBean(BusinessObjectService.class).save(po);
 
         List<SourceAccountingLine> encumbranceAccounts = new ArrayList<SourceAccountingLine>();
@@ -1539,8 +1534,6 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             }
         }
 
-       // SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
-      //MSU Contribution KFSMI-8639 DTT-4009 KFSCNTRB-966
         SpringContext.getBean(BusinessObjectService.class).save(po);
 
         return encumbranceAccounts;

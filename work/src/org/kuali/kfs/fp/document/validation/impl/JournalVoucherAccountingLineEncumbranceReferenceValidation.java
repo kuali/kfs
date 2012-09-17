@@ -55,26 +55,27 @@ public class JournalVoucherAccountingLineEncumbranceReferenceValidation extends 
      * 
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
-    public boolean validate(AttributedDocumentEvent event) {
-        
+    public boolean validate(AttributedDocumentEvent event) {        
         boolean valid = true;
-        if (isEncumbranceBalanceType(getAccountingLineForValidation().getBalanceTypeCode())) {
-            BusinessObjectEntry boe = (BusinessObjectEntry) getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(VoucherSourceAccountingLine.class.getName());
-            
-            if (StringUtils.isEmpty(getAccountingLineForValidation().getEncumbranceUpdateCode())) {
+        if (isEncumbranceBalanceType(getAccountingLineForValidation().getBalanceTypeCode())) {            
+            if (StringUtils.isBlank(getAccountingLineForValidation().getEncumbranceUpdateCode())) {
+                BusinessObjectEntry boe = (BusinessObjectEntry) getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(VoucherSourceAccountingLine.class.getName());
                 putRequiredPropertyError(boe, ENCUMBRANCE_UPDATE_CODE);
                 valid = false;
-            }else if (KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(getAccountingLineForValidation().getEncumbranceUpdateCode())){
+            } else if (KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(getAccountingLineForValidation().getEncumbranceUpdateCode())){
                 //check the required reference fields
-                if (StringUtils.isEmpty(getAccountingLineForValidation().getReferenceOriginCode())) {
+                if (StringUtils.isBlank(getAccountingLineForValidation().getReferenceOriginCode())) {
+                    BusinessObjectEntry boe = (BusinessObjectEntry) getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(VoucherSourceAccountingLine.class.getName());
                     putRequiredPropertyError(boe, REFERENCE_ORIGIN_CODE);
                     valid = false;
                 }
-                if (StringUtils.isEmpty(getAccountingLineForValidation().getReferenceNumber())) {
+                if (StringUtils.isBlank(getAccountingLineForValidation().getReferenceNumber())) {
+                    BusinessObjectEntry boe = (BusinessObjectEntry) getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(VoucherSourceAccountingLine.class.getName());
                     putRequiredPropertyError(boe, REFERENCE_NUMBER);
                     valid = false;
                 }
-                if (StringUtils.isEmpty(getAccountingLineForValidation().getReferenceTypeCode())) {
+                if (StringUtils.isBlank(getAccountingLineForValidation().getReferenceTypeCode())) {
+                    BusinessObjectEntry boe = (BusinessObjectEntry) getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(VoucherSourceAccountingLine.class.getName());
                     putRequiredPropertyError(boe, REFERENCE_TYPE_CODE);
                     valid = false;
                 }
@@ -94,8 +95,8 @@ public class JournalVoucherAccountingLineEncumbranceReferenceValidation extends 
         AccountingPeriod accountingPeriod = getJournalVoucherForValidation().getAccountingPeriod();
         
         //get encumbrance balance type list
-        BalanceTypeService balanceTypeSerivce = SpringContext.getBean(BalanceTypeService.class);
-        List<String> encumbranceBalanceTypes = balanceTypeSerivce.getEncumbranceBalanceTypes(accountingPeriod.getUniversityFiscalYear());
+        BalanceTypeService balanceTypeService = SpringContext.getBean(BalanceTypeService.class);
+        List<String> encumbranceBalanceTypes = balanceTypeService.getEncumbranceBalanceTypes(accountingPeriod.getUniversityFiscalYear());
         
         return encumbranceBalanceTypes.contains(balanceTypeCode);
     }

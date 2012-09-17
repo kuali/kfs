@@ -907,7 +907,6 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      * is not contract and grants 5) current income/expense decrease amount must equal increase amount
      * @return false if auto-approval can occur (and therefore, full approval is not required); true if a full approval is required
      */
-    //MSU Contribution DTT-3059, DTT-3235 KFSMI-8689 KFSCNTRB-941 - Re-implemented this method to execute the rules correctly
     protected boolean requiresFullApproval() {
         List<BudgetAdjustmentAccountingLine> accountingLines = new ArrayList<BudgetAdjustmentAccountingLine>();
         accountingLines.addAll(getSourceAccountingLines());
@@ -938,7 +937,6 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         // initiator should be fiscal officer or primary delegate for account
         Person initiator = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         List userAccounts = SpringContext.getBean(AccountService.class).getAccountsThatUserIsResponsibleFor(initiator);
-        //DTT:3059-Loop over all the accounts present on the document and see if user account responsibility includes them
         for (Iterator iter1 = accountingLines.iterator(); iter1.hasNext();) {
 
             BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter1.next();

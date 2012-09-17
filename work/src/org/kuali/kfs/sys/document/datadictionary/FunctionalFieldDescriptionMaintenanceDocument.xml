@@ -42,7 +42,6 @@
 		<property name="workflowAttributes">
 	    	<ref bean="FunctionalFieldDescriptionMaintenanceDocument-workflowAttributes"/>
     	</property>
-    	<!-- MSU Contribution KFSMI-8543 DTT-597 KFSCNTRB-938 -->
     	<property name="allowsNewOrCopy" value="false"/>
 	</bean>
 

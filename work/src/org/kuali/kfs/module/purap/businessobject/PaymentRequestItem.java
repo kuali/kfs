@@ -146,7 +146,6 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             PurchaseOrderDocument po = getPaymentRequest().getPurchaseOrderDocument();
             PurchaseOrderItem poi = null;
             if (this.getItemType().isLineItemIndicator()) {
-                //MSU Contribution DTT-3014 KFSMI-8483 KFSCNTRB-974
                 List items = po.getItems();
                 if (items != null) {
                     for (Object object : items) {

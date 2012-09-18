@@ -43,6 +43,7 @@ public class PurchaseOrderRetransmitDocumentPresentationController extends Purch
 
     @Override
     protected boolean canPreviewPrintPo(PurchaseOrderDocument poDocument) {
+        
         return false;
     }
 }

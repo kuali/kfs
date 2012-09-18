@@ -1019,5 +1019,4 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     public void setCfda(CFDA cfda) {
         this.cfda = cfda;
     }
-
 }

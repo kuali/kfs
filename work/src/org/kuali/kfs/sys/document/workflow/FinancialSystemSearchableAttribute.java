@@ -243,6 +243,9 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
                 }
             }
         }
+
+        retrieveValidationErrorsFromGlobalVariables(errors);
+
         return errors;
     };
 

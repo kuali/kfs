@@ -24,8 +24,6 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameter
 import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_ACCOUNT_NBR;
 import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_CHART_CODE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_OBJECT_CODE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.ENABLE_PER_DIEM_CATEGORIES;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_EMERGENCY_CONTACT_LINE;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_TRAVEL_ADVANCE_LINE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
@@ -112,11 +110,9 @@ public class TravelAuthorizationAction extends TravelActionBase {
         }
         
         setButtonPermissions(authForm);
-        List<String> perDiemCats = getParameterService().getParameterValues(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, ENABLE_PER_DIEM_CATEGORIES);
         String perDiemPercentage = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE);
         final String travelIdentifier = travelAuthDocument.getTravelDocumentIdentifier();
         
-        authForm.parsePerDiemCategories(perDiemCats);
         authForm.setPerDiemPercentage(perDiemPercentage);
 
         if (authForm.getNewTravelAdvanceLine() == null) {

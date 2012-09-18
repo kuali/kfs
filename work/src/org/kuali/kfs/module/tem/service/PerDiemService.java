@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
@@ -149,6 +150,14 @@ public interface PerDiemService {
      * @return true if the given per diem exists in the database
      */
     public <T extends PerDiem> boolean hasExistingPerDiem(T perDiem);
+
+    /**
+     * Set the PerDiem Categories display on a TravelForm and whether or not display detail breakdown on meals
+     * For TA and TR docs
+     * 
+     * @param form
+     */
+    public void setPerDiemCategoriesAndBreakdown(TravelFormBase form);
     
     public KualiDecimal getMealsAndIncidentalsGrandTotal(TravelDocument travelDocument);
 

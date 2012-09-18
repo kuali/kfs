@@ -99,6 +99,7 @@ import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.report.service.TravelReportService;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
+import org.kuali.kfs.module.tem.service.PerDiemService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
@@ -181,6 +182,11 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     protected TemProfileService getTemProfileService() {
         return SpringContext.getBean(TemProfileService.class);
     }
+    
+    protected PerDiemService getPerDiemService() {
+        return SpringContext.getBean(PerDiemService.class);
+    }
+
     
     /**
      * When the approver only wants the accounting lines to be changed but the trip information is acceptable, routes the document
@@ -277,8 +283,10 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         final String methodToCall = travelFormBase.getMethodToCall();
         final TravelDocument document = (TravelDocument) travelFormBase.getDocument();
         document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
-        String showPerDiemBreakdown = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelAuthorizationParameters.PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_TA_PER_DIEM_AMOUNT_EDIT_IND);
-        travelFormBase.setShowPerDiemBreakdown(showPerDiemBreakdown != null && showPerDiemBreakdown.equals(KFSConstants.ParameterValues.YES));
+
+        //set PerDiem categories and breakdown
+        getPerDiemService().setPerDiemCategoriesAndBreakdown(travelFormBase);
+        
         travelFormBase.setDisplayNonEmployeeForm(!isEmployee(document.getTraveler()));
 
         if (!StringUtils.isEmpty(methodToCall) && !methodToCall.equalsIgnoreCase("docHandler")) {

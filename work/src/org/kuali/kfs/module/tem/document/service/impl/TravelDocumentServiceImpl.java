@@ -15,18 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document.service.impl;
 
-import static java.util.Arrays.asList;
-import static org.apache.commons.lang.StringUtils.isBlank;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.kuali.kfs.module.tem.TemConstants.DAILY_TOTAL;
-import static org.kuali.kfs.module.tem.TemConstants.LODGING_TOTAL_ATTRIBUTE;
-import static org.kuali.kfs.module.tem.TemConstants.MEALS_AND_INC_TOTAL_ATTRIBUTE;
-import static org.kuali.kfs.module.tem.TemConstants.MILEAGE_TOTAL_ATTRIBUTE;
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.ENABLE_PER_DIEM_CATEGORIES;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_TRAVELER_TYPE_CODES;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_INVALID_NUMERIC_VALUE;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_LINE;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_UPLOADPARSER_PROPERTY;
@@ -42,6 +30,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -69,6 +58,7 @@ import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -181,47 +171,34 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @param perDiemId is the id for the referenced {@link PerDiem} object that gets attached
      * @return date of the item
      */
-    protected PerDiemExpense createPerDiemItem(final TravelDocument document, final PerDiem perDiem, final Timestamp ts, final boolean prorated) {
-        final PerDiemExpense retval = newPerDiemExpense();
-        retval.setPerDiem(perDiem);        
-        retval.setPerDiemId(perDiem.getId());
-        retval.refreshPerDiem();
-        retval.setProrated(prorated);
-        retval.setMileageDate(ts);        
-        retval.setPrimaryDestination(retval.getPerDiem().getPrimaryDestination());
-        retval.setCountryState(retval.getPerDiem().getCountryState());
-        retval.setCounty(retval.getPerDiem().getCounty());
-        retval.setBreakfastValue(new KualiDecimal(retval.getPerDiem().getBreakfast()));
-        retval.setLunchValue(new KualiDecimal(retval.getPerDiem().getLunch()));
-        retval.setDinnerValue(new KualiDecimal(retval.getPerDiem().getDinner()));
-        retval.setIncidentalsValue(retval.getPerDiem().getIncidentals());        
-        if(retval.isProrated()){            
-            Integer perDiemPercent = this.calculateProratePercentage(retval, document.getTripType().getPerDiemCalcMethod(), document.getTripEnd());                      
-            retval.setDinnerValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(retval.getDinnerValue(), perDiemPercent));                   
-            retval.setLunchValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(retval.getLunchValue(), perDiemPercent));                   
-            retval.setBreakfastValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(retval.getBreakfastValue(), perDiemPercent));            
-            retval.setIncidentalsValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(retval.getIncidentalsValue(), perDiemPercent));
-        }
-        retval.setLodging(retval.getPerDiem().getLodging());
+    protected PerDiemExpense createPerDiemItem(final TravelDocument document, final PerDiem newPerDiem, final Timestamp ts, final boolean prorated) {
+        final PerDiemExpense expense = newPerDiemExpense();
+        expense.setPerDiem(newPerDiem);        
+        expense.setPerDiemId(newPerDiem.getId());
+        expense.refreshPerDiem();
+        expense.setProrated(prorated);
+        expense.setMileageDate(ts);        
         
-        String showPerDiemBreakdown = parameterService.getParameterValue(PARAM_NAMESPACE, TravelAuthorizationParameters.PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_TA_PER_DIEM_AMOUNT_EDIT_IND);
-        List<String> perDiemCats = getParameterService().getParameterValues(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, ENABLE_PER_DIEM_CATEGORIES);
-               
-        if (showPerDiemBreakdown == null || !showPerDiemBreakdown.equals(KFSConstants.ParameterValues.YES)) {
-            if (showPerDiem(perDiemCats, TemConstants.LODGING)) {
-                retval.setBreakfast(false);
-            }
-            
-            if (showPerDiem(perDiemCats, TemConstants.MILEAGE)) {
-                retval.setLunch(false);
-            }
-            
-            if (showPerDiem(perDiemCats, TemConstants.PER_DIEM)) {
-                retval.setDinner(false);
-            }
+        PerDiem perDiem = expense.getPerDiem();
+        expense.setPrimaryDestination(perDiem.getPrimaryDestination());
+        expense.setCountryState(perDiem.getCountryState());
+        expense.setCounty(perDiem.getCounty());
+        
+        //default first to per diem's values
+        expense.setBreakfastValue(new KualiDecimal(perDiem.getBreakfast()));
+        expense.setLunchValue(new KualiDecimal(perDiem.getLunch()));
+        expense.setDinnerValue(new KualiDecimal(perDiem.getDinner()));
+        expense.setIncidentalsValue(perDiem.getIncidentals());
+        // if prorated, recalculate the values
+        if(expense.isProrated()){            
+            Integer perDiemPercent = calculateProratePercentage(expense, document.getTripType().getPerDiemCalcMethod(), document.getTripEnd());                      
+            expense.setDinnerValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getDinnerValue(), perDiemPercent));                   
+            expense.setLunchValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getLunchValue(), perDiemPercent));                   
+            expense.setBreakfastValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getBreakfastValue(), perDiemPercent));            
+            expense.setIncidentalsValue(PerDiemExpense.calculateMealsAndIncidentalsProrated(expense.getIncidentalsValue(), perDiemPercent));
         }
-
-        return retval;
+        expense.setLodging(perDiem.getLodging());
+        return expense;
     }
 
     /**
@@ -750,10 +727,10 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     public Map<String, KualiDecimal> calculateDailyTotal(PerDiemExpense perDiemExpense) {
         Map<String, KualiDecimal> dailyTotals = new HashMap<String, KualiDecimal>();
 
-        dailyTotals.put(MILEAGE_TOTAL_ATTRIBUTE, perDiemExpense.getMileageTotal());
-        dailyTotals.put(LODGING_TOTAL_ATTRIBUTE, perDiemExpense.getLodgingTotal());
-        dailyTotals.put(MEALS_AND_INC_TOTAL_ATTRIBUTE, perDiemExpense.getMealsAndIncidentals());             
-        dailyTotals.put(DAILY_TOTAL, perDiemExpense.getDailyTotal());
+        dailyTotals.put(TemConstants.MILEAGE_TOTAL_ATTRIBUTE, perDiemExpense.getMileageTotal());
+        dailyTotals.put(TemConstants.LODGING_TOTAL_ATTRIBUTE, perDiemExpense.getLodgingTotal());
+        dailyTotals.put(TemConstants.MEALS_AND_INC_TOTAL_ATTRIBUTE, perDiemExpense.getMealsAndIncidentals());             
+        dailyTotals.put(TemConstants.DAILY_TOTAL, perDiemExpense.getDailyTotal());
 
         return dailyTotals;
     }
@@ -787,7 +764,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         if (perDiemExpense.isProrated()) {
             if (perDiemCalcMethod != null && perDiemCalcMethod.equals(TemConstants.PERCENTAGE)) {
                 try {
-                    perDiemPercentage = parameterService.getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE);
+                    perDiemPercentage = parameterService.getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE);
                     perDiemPercent = Integer.parseInt(perDiemPercentage);                    
                 }
                 catch (Exception e1) {
@@ -806,7 +783,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     public Integer calculatePerDiemPercentageFromTimestamp(PerDiemExpense perDiemExpense, Timestamp tripEnd) {
         if (perDiemExpense.getMileageDate() != null) {
             try {
-                List<String> quarterTimes = parameterService.getParameterValues(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TravelParameters.QUARTER_DAY_TIME_TABLE);
+                List<String> quarterTimes = parameterService.getParameterValues(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.QUARTER_DAY_TIME_TABLE);
 
                 // Take date and compare to the quadrant specified.
                 Calendar prorateDate = new GregorianCalendar();
@@ -993,7 +970,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
 
         final String code = havingExpenseType.getTravelExpenseTypeCode().getCode();
-        final String hostedCodes = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.EXPENSE_TYPES_FOR_HOSTED_MEAL);
+        final String hostedCodes = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.EXPENSE_TYPES_FOR_HOSTED_MEAL);
 
         for (final String hostedSet : hostedCodes.split(";")) {
             final String[] codesForMeal = (hostedSet.contains("=") ? StringUtils.substringAfter(hostedSet, "=") : hostedSet).split(",");
@@ -1425,7 +1402,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     public boolean checkNonEmployeeTravelerTypeCode(String travelerTypeCode) {
         boolean foundCode = false;
-        if (getParameterService().getParameterValues(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, NON_EMPLOYEE_TRAVELER_TYPE_CODES).contains(travelerTypeCode)) {
+        if (getParameterService().getParameterValues(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.NON_EMPLOYEE_TRAVELER_TYPE_CODES).contains(travelerTypeCode)) {
             foundCode = true;
         }
         return foundCode;
@@ -1637,7 +1614,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
         for (Integer i = 0; i < csvHeader.length; i++) {
 
-            if (isBlank(csvHeader[i].trim())) {
+            if (StringUtils.isBlank(csvHeader[i].trim())) {
                 final String formattedName = nextHeader(csvHeader, i);
                 final Integer start = i;
                 final Integer end = csvHeader.length > i ? nextBlankHeader(csvHeader, i) : i;
@@ -1652,8 +1629,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             else {
                 final String formattedName = toCamelCase(csvHeader[i]);
 
-                if (isNotBlank(formattedName)) {
-                    retval.put(formattedName, asList(new Integer[] { i }));
+                if (StringUtils.isNotBlank(formattedName)) {
+                    retval.put(formattedName, Arrays.asList(new Integer[] { i }));
                 }
             }
         }   
@@ -1662,7 +1639,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     protected String nextHeader(final String[] headers, final int start) {
         for (int i = start + 1; i < headers.length; i++) {
-            if (isNotBlank(headers[i])) {
+            if (StringUtils.isNotBlank(headers[i])) {
                 return toCamelCase(headers[i]);
             }
         }
@@ -1672,7 +1649,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     protected Integer nextBlankHeader(final String[] headers, final int start) {
         for (int i = start + 1; i < headers.length; i++) {
-            if (isBlank(headers[i])) {
+            if (StringUtils.isBlank(headers[i])) {
                 return i;
             }
         }
@@ -1693,7 +1670,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     protected String toCamelCase(final String s) {
         final StringBuffer buffer = new StringBuffer();
 
-        final List<String> words = new LinkedList<String>(asList(s.toLowerCase().trim().replace('_', ' ').split(" ")));
+        final List<String> words = new LinkedList<String>(Arrays.asList(s.toLowerCase().trim().replace('_', ' ').split(" ")));
         buffer.append(words.remove(0));
 
         for (final String word : words) {

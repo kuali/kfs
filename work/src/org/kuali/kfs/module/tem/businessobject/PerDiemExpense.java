@@ -51,6 +51,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
     private String countryState;
     private String county;
     private String primaryDestination;
+    //boolean flag if it gets disabled due to duplicate
     private Boolean breakfast = Boolean.TRUE;
     private Boolean lunch = Boolean.TRUE;
     private Boolean dinner = Boolean.TRUE;

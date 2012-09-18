@@ -32,6 +32,11 @@ import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.tem.TemConstants.PerDiemParameter;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.PerDiemLoadStep;
 import org.kuali.kfs.module.tem.batch.businessobject.MealBreakDownStrategy;
@@ -45,6 +50,7 @@ import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
+import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
 import org.kuali.kfs.module.tem.service.PerDiemService;
 import org.kuali.kfs.module.tem.service.TEMExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
@@ -837,6 +843,22 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     public List<? extends TEMExpense> getExpenseDetails(TravelDocument document) {
         //not used for PerDiem
         return null;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.service.PerDiemService#setPerDiemCategories(org.kuali.kfs.module.tem.document.web.struts.TravelFormBase)
+     */
+    @Override
+    public void setPerDiemCategoriesAndBreakdown(TravelFormBase form) {
+        List<String> perDiemCats = getParameterService().getParameterValues(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.ENABLE_PER_DIEM_CATEGORIES);
+        form.parsePerDiemCategories(perDiemCats);        
+        
+        //default to TA
+        Boolean showPerDiemBreakdown = parameterService.getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_TA_PER_DIEM_AMOUNT_EDIT_IND);
+        if (TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT.equals(form.getDocTypeName())){
+            showPerDiemBreakdown = parameterService.getIndicatorParameter(TemParameterConstants.TEM_REIMBURSEMENT.class, TravelReimbursementParameters.ENABLE_TR_PER_DIEM_AMOUNT_EDIT_IND);
+        }
+        form.setShowPerDiemBreakdown(showPerDiemBreakdown);
     }
 
 }

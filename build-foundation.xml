@@ -24,6 +24,7 @@ are intended for use only by Kuali Foundation developers.
 	<target name="init-properties" />
 	<target name="dist-local" />
 	<target name="clean" />
+	<target name="clean-all" />
 	<target name="make-source" />
 	<target name="build-eclipse-classpath" />
 	<target name="extract-rice-libraries" />
@@ -149,6 +150,14 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
     	</sequential>
   	</macrodef>
 
+	 <typedef resource="org/tigris/subversion/svnant/svnantlib.xml">
+	 	<classpath>
+	 		<fileset dir="build">
+	 			<include name="svn*.jar"/>
+	 			<include name="ganymed.jar"/>
+	 		</fileset>
+	 	</classpath>
+	 </typedef>
 <!-- 
 	<target name="package" depends="prep-temp-dir,checkout-projects,replace-foundation-references,unpack-and-remove-rice-licenses,add-doc-files,make-javadoc-for-dist,zip-package"
 			description="Cleans up the project, manipulates the contents slightly, and packs it up for distribution on the Kuali web site.">
@@ -156,15 +165,49 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
 	</target>
  -->
 	<target name="prep-temp-dir" depends="init-properties">
+		<echo>Deleting contents of temp directory: ${all.temp.directory}</echo>
     	<delete>
     		<fileset dir="${all.temp.directory}">
     			<include name="**/*" />
     		</fileset>
     	</delete>
 	</target>
+	
+	<target name="export-to-temp" depends="clean-all,prep-temp-dir">
+		<echo>Exporting project to temp directory for packaging.</echo>
+		<svn>
+			<export srcPath="${basedir.safe}" destPath="${all.temp.directory}/kfs" />
+		</svn>
+	</target>
 
+	<target name="set-temp-export-db-properties">
+		<property name="datasource.url" value="jdbc:oracle:thin:@localhost:1521:ORCL"/>
+
+	</target>
+	
+	<target name="export-dev-db-to-temp" depends="set-temp-export-db-properties">
+		<!-- TODO:
+			Do not init properties
+			pre-set datasource attributes - other target 
+
+Importing KFS tables into the database using the information shown below:
+
+DB Driver = ${real.datasource.driver.class}
+DB URL    = ${datasource.url}
+Username  = ${datasource.username}
+Password  = $${datasource.password} (not shown)
+
+DB Admin URL   = ${adminUrl}   (used for creating/recreating schema/user)
+Admin Username = ${impex.admin.username}
+Admin Password = $${impex.admin.password} (not shown)
+		-->
+		<antcall target="itest" inheritall="false">
+			<param name="build.environment" value="xxx" />
+		</antcall>
+	</target>
+	
 <!-- 
-TODO:  SVN export to the temp dir
+TODO:
 
 dataset creation - script in Ant
 use export-to-svn?

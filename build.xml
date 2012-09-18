@@ -92,6 +92,8 @@
 		<delete dir="build/rice-datadictionary" />
 		<delete dir="work/web-root/META-INF" />
 		<delete dir="test/classes" />
+		<delete dir="build/temp" />
+		<mkdir dir="build/temp"/>
 		<delete dir="build/tomcat/work/Catalina" />
 		<delete quiet="true">
 			<fileset dir="work/web-root/WEB-INF/classes" includes="**/*" />
@@ -524,6 +526,16 @@
 				<include name="*.war" />
 				<include name="*.zip" />
 				<include name="workflow.xml"/>
+			</fileset>
+		</delete>
+		<delete verbose="true" includeemptydirs="true" failonerror="false">
+			<fileset dir="${basedir.safe}/work/workflow">
+				<include name="*/completed/**" />
+				<include name="*/pending/**" />
+				<include name="*/problem/**" />
+				<include name="*/completed" />
+				<include name="*/pending" />
+				<include name="*/problem" />
 			</fileset>
 		</delete>
 	</target>

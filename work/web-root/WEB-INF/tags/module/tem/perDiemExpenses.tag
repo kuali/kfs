@@ -125,7 +125,6 @@
 							<c:set var="lunchDisabled" value="document.perDiemExpenses[${perDiemIndex.count - 1}].lunch" />
 							<c:set var="dinnerDisabled" value="document.perDiemExpenses[${perDiemIndex.count - 1}].dinner" />						
 							<c:choose>
-								<!-- showing perdiem breakdown -->
 								<c:when test="${showPerDiemBreakdown || isCustom}">
 									<td valign=top class="datacell">
 										<input type="hidden" id="document.perDiemExpenses[${perDiemIndex.count - 1}].breakfastValue.holder" value="<bean:write name="KualiForm" property="document.perDiemExpenses[${perDiemIndex.count - 1}].breakfastValue" />" />
@@ -156,7 +155,6 @@
 											disabled="${!fullEntryMode || KualiForm.document.perDiemExpenses[perDiemIndex.count - 1].personal}" />
 									</td>								
 								</c:when>					
-								<!-- Not showing breakdown and it is TR doc, show checkboxes -->		
 								<c:when test="${isTR}">
 									<td valign=top class="datacell"><kul:htmlControlAttribute
 											attributeEntry="${perDiemExpensesAttributes.breakfast}"

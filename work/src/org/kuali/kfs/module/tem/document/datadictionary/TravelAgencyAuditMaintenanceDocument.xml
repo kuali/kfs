@@ -57,10 +57,10 @@
         <property name="title" value="Edit Trip Data" />
         <property name="maintainableItems">
             <list>
-                <bean parent="MaintainableFieldDefinition" p:name="tripId"             p:required="false" />
-                <bean parent="MaintainableFieldDefinition" p:name="tripInvoiceNumber"  p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="tripId" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="tripInvoiceNumber" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="tripTravelerTypeId" p:unconditionallyReadOnly="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="otherAmount"        p:unconditionallyReadOnly="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="otherAmount" p:unconditionallyReadOnly="true" />
                 
             </list>
         </property>
@@ -76,8 +76,8 @@
                 <bean parent="MaintainableFieldDefinition" p:name="travelerId" p:required="false" />
                 <bean parent="MaintainableFieldDefinition" p:name="travelerNetworkId" p:required="false" p:unconditionallyReadOnly="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="tripExpenseAmount" p:required="true" p:unconditionallyReadOnly="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="alternateTripId"   p:required="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="tripArrangerName"  p:required="false" p:unconditionallyReadOnly="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="alternateTripId" />
+                <bean parent="MaintainableFieldDefinition" p:name="tripArrangerName" p:required="false" p:unconditionallyReadOnly="true" />
                 
             </list>
         </property>

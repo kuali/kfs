@@ -235,7 +235,7 @@ public class PurapConstants {
     public static final String DETAIL_TAB_ERRORS="document";
     public static final String VENDOR_ERRORS = "document.vendor*,document.purchaseOrderVendorChoiceCode,document.alternateVendorName,document.shipmentReceivedDate,document.vendorContractEndDate";
     public static final String ADDITIONAL_TAB_ERRORS = "document.requestor*,document.institution*,document.purchaseOrderTransmissionMethodCode,document.purchaseOrderCostSourceCode,document.purchaseOrderTotalLimit";
-    public static final String ITEM_TAB_ERRORS = "document.item*,newPurchasingItemLine*,itemQuantity,document.grandTotal,accountDistributionnewSourceLine*";
+    public static final String ITEM_TAB_ERRORS = "document.item*,newPurchasingItemLine*,itemQuantity,document.grandTotal,accountDistributionnewSourceLine*,distributePurchasingCommodityCode,accountNumber*,chartOfAccountsCode*";
     public static final String LINEITEM_TAB_ERRORS = "document.item*,newLineItemReceivingItemLine*";
     public static final String ITEM_TAB_ERROR_PROPERTY = ITEM_TAB_ERRORS; // used to be "newPurchasingItemLine"
     public static final String ACCOUNT_SUMMARY_TAB_ERRORS = "document.accountSummary*";
@@ -255,7 +255,7 @@ public class PurapConstants {
 
     // Assign Contract Manager
     public static final String ASSIGN_CONTRACT_MANAGER_DEFAULT_DESC = "Contract Manager Assigned";
-    public static final String ASSIGN_CONTRACT_MANAGER_TAB_ERRORS = "document.unassignedRequisition*";
+    public static final String ASSIGN_CONTRACT_MANAGER_TAB_ERRORS = "document.unassignedRequisition*,document.contractManagerAssignmentDetail*";
 
     public static class PurchaseOrderStatuses {
         // Added for updating app doc status for disapproved
@@ -1418,4 +1418,11 @@ public class PurapConstants {
     public static final String DELIVERY_ROOM_NUMBER_INACTIVE_ERROR   = "document.deliveryBuildingRoomNumber";
 
     public static final String PURAP_REQS_ORG_CD   = "document.organizationCode";
+    
+    public static final String PO_RETRANSMIT_SELECT_TAB_ERRORS = "document.items";
+    
+    public static final String ITEM_PURCHASING_COMMODITY_CODE = "distributePurchasingCommodityCode";
+    
+    public static final String ITEM_TYPE_QTY = "Qty";
+    public static final String ITEM_TYPE_NO_QTY = "No Qty";
 }

@@ -59,6 +59,7 @@
 		    <classpath path="${java.class.path}" />
 		    <jvmarg value="-Xmx1g" />
 		    <arg value="-Duser.home=${temp.dir}" />
+		    <arg value="-Dimpex.properties.file=${temp.dir}/impex-build.properties" />
 		    <arg value="export" />
 		</java>		
 	</target>

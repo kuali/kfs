@@ -57,6 +57,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.service.FaxService;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.document.service.PurchasingService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedAddVendorToQuoteEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedAssignSensitiveDataEvent;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedSplitPurchaseOrderEvent;
@@ -538,6 +539,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             poToSplit.setItems(remainingPOItems);
             poToSplit.renumberItems(0);
             
+            SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(poToSplit);
+            SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(poToSplit);            
+            
+            
             // Add the note that would normally have gone in after the confirmation page.
             String noteText = purchaseOrderForm.getSplitNoteText();
             try {
@@ -672,6 +677,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
         // reset the sensitive data related fields in the po form
         po.setAssigningSensitiveData(false);
+        
+        Note newNote = new Note();
+        String introNoteMessage = "Sensitive Data:" + KFSConstants.BLANK_SPACE;
+        String reason = sda.getSensitiveDataAssignmentReasonText();
+        // Build out full message.
+        String noteText = introNoteMessage +" " + reason;
+        newNote.setNoteText(noteText);
+        newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+        poForm.setNewNote(newNote);
+        poForm.setAttachmentFile(new BlankFormFile());
+        insertBONote(mapping, poForm, request, response);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }          
@@ -1226,6 +1242,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             request.setAttribute("selectedItemIndexes", itemIndexesBuffer.toString());
         }
         
+        
+        if(itemIndexesBuffer.length()==0 ){
+            GlobalVariables.getMessageMap().putError(PurapConstants.PO_RETRANSMIT_SELECT_TAB_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_RETRANSMIT_SELECT);
+            return returnToPreviousPage(mapping, kualiDocumentFormBase);
+         }
+        
         request.setAttribute("printPOPDFUrl", printPOPDFUrl);
         request.setAttribute("displayPOTabbedPageUrl", displayPOTabbedPageUrl);
         request.setAttribute("docId", docId);
@@ -1381,7 +1403,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
 
         if (StringUtils.isBlank(poForm.getNewPurchaseOrderVendorStipulationLine().getVendorStipulationDescription())) {
-            GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + PurapPropertyConstants.VENDOR_STIPULATION, PurapKeyConstants.ERROR_STIPULATION_DESCRIPTION);
+            String errorPrefix = PurapPropertyConstants.NEW_VENDOR_STIPULATION + "." + PurapPropertyConstants.VENDOR_STIPULATION_DESCRIPTION;
+            GlobalVariables.getMessageMap().putError(errorPrefix, PurapKeyConstants.ERROR_STIPULATION_DESCRIPTION);
         }
         else {
             PurchaseOrderVendorStipulation newStipulation = poForm.getAndResetNewPurchaseOrderVendorStipulationLine();

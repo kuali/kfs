@@ -456,9 +456,12 @@
 				</path>
 			</else>
 		</if>
+		<path id="database.drivers.classpath">
+			<fileset dir="${drivers.directory}" includes="*.jar" />
+		</path>
 		<path id="run.server.classpath">
 			<path refid="compile.source.classpath" />
-			<fileset dir="${drivers.directory}" includes="*.jar" />
+			<path refid="database.drivers.classpath" />
 		</path>
 		<path id="compile.tests.classpath">
 			<path refid="compile.source.classpath" />
@@ -469,7 +472,7 @@
 		<path id="run.tests.classpath">
 			<pathelement location="${test.classes.directory}" />
 			<path refid="compile.tests.classpath" />
-			<fileset dir="${drivers.directory}" includes="*.jar" />
+			<path refid="database.drivers.classpath" />
 		</path>
 	</target>
 	
@@ -1360,9 +1363,7 @@ Admin Password = $${impex.admin.password} (not shown)
 		<attribute name="command" default="update" />
 	    <sequential>
 		    <path id="driver.classpath.for.liquibase" >
-			    <fileset dir="${drivers.directory}" >
-				    <include name="*.jar"/>
-			    </fileset>
+				<path refid="database.drivers.classpath" />
 		    </path>
 		    <!-- need to keep back-slashes out of the path -->
 		    <pathconvert refid="driver.classpath.for.liquibase" property="driver.classpath.for.liquibase.string" dirsep="/" />

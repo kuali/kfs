@@ -23,6 +23,8 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.ServiceBillingDocument"/>
     <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.ServiceBillingDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+     <!--MSU Contribution DTT-3163 KFSMI-6747 KFSCNTRB-588 -->
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.ServiceBillingDocumentPreRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ServiceBillingDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.ServiceBillingDocumentPresentationController"/>
     <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser" />

@@ -18,11 +18,13 @@ package org.kuali.kfs.fp.document.validation.impl;
 import java.text.MessageFormat;
 
 import org.kuali.kfs.fp.document.NonCheckDisbursementDocument;
+import org.kuali.kfs.fp.service.AccountingDocumentPreRuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
@@ -40,6 +42,10 @@ public class NonCheckDisbursementDocumentPreRules extends PromptBeforeValidation
         NonCheckDisbursementDocument nonCheckDocument = (NonCheckDisbursementDocument) document;
         
         preRulesOK &= checkBankCodeActive(nonCheckDocument);
+        
+        // DTT-3163: Add warning message when account override changed externally
+        //MSU Contribution DTT-3163 KFSMI-6747 KFSCNTRB-588
+        preRulesOK &= SpringContext.getBean(AccountingDocumentPreRuleService.class).accessAccountOverrideQuestion((AccountingDocumentBase) document, this, this.event);
         
         return preRulesOK;
     }

@@ -23,6 +23,8 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument"/>
     <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument"/> 
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+     <!--MSU Contribution DTT-3163 KFSMI-6747 KFSCNTRB-588 -->
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.DistributionOfIncomeAndExpenseDocumentPreRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.DistributionOfIncomeAndExpenseDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.DistributionOfIncomeAndExpenseDocumentPresentationController"/>
     <property name="sessionDocument" value="true"/>

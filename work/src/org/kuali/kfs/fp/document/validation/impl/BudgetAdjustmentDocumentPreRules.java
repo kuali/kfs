@@ -21,10 +21,12 @@ import java.util.List;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.fp.document.service.BudgetAdjustmentLaborBenefitsService;
 import org.kuali.kfs.fp.document.web.struts.BudgetAdjustmentForm;
+import org.kuali.kfs.fp.service.AccountingDocumentPreRuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
@@ -52,6 +54,10 @@ public class BudgetAdjustmentDocumentPreRules extends PromptBeforeValidationBase
 
         BudgetAdjustmentDocument budgetDocument = (BudgetAdjustmentDocument) document;
         preRulesOK = askLaborBenefitsGeneration(budgetDocument);
+        
+         // DTT-3163: Add warning message when account override changed externally
+        //MSU Contribution DTT-3163 KFSMI-6747 KFSCNTRB-588
+        preRulesOK &= SpringContext.getBean(AccountingDocumentPreRuleService.class).accessAccountOverrideQuestion((AccountingDocumentBase) document, this, this.event);
 
         return preRulesOK;
     }

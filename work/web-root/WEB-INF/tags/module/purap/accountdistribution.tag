@@ -30,24 +30,25 @@
 <br />
 <c:if test="${(fullEntryMode or amendmentEntry)}">
 	<div align="center">
-	<c:if test="${KualiForm.hideDistributeAccounts}">
+	<c:if test="${KualiForm.hideDistributeAccounts and !KualiForm.editingMode['disableSetupAccountDistribution']}">
 		<html:image
 		property="methodToCall.setupAccountDistribution"
 		src="${ConfigProperties.externalizable.images.url}tinybutton-setdist.gif"
 		alt="setup distribution" title="setup distribution"
 		styleClass="tinybutton" />
 	</c:if>
-	<c:if test="${!KualiForm.hideDistributeAccounts}">
+	<c:if test="${!KualiForm.hideDistributeAccounts and !KualiForm.editingMode['disableSetupAccountDistribution']}">
 		<img src="${ConfigProperties.externalizable.images.url}tinybutton-setdist1.gif"
 		alt="setup account distribution" border="0"
 		styleClass="tinybutton" />
 	</c:if>
-	
+	<c:if test="${!KualiForm.editingMode['disableRemoveAccounts']}">
 	<html:image
 	property="methodToCall.removeAccounts"
 	src="${ConfigProperties.externalizable.images.url}tinybutton-remaccitems.gif"
 	alt="remove accounts from all items"
 	title="remove accounts from all items" styleClass="tinybutton" />
+	</c:if>
 	
 	<c:if test="${displayCommodityCodeFields}">	
         <html:image
@@ -113,7 +114,7 @@
 	                property="distributePurchasingCommodityCode"
 	                readOnly="${not (fullEntryMode or amendmentEntry)}"
 	                tabindexOverride="${tabindexOverrideBase + 0}"
-	                onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}"/>
+	                onblur="loadCommodityCodeDescription( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}"/>
                 <c:if test="${fullEntryMode}">   
                 	<kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
                                 fieldConversions="purchasingCommodityCode:distributePurchasingCommodityCode,commodityDescription:distributePurchasingCommodityDescription"

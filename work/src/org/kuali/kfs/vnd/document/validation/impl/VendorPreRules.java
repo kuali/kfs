@@ -127,8 +127,12 @@ public class VendorPreRules extends MaintenancePreRulesBase {
         // If the Vendor Restricted Indicator will change, change the date and person id appropriately.
         if ((ObjectUtils.isNull(oldVendorRestrictedIndicator) || (!oldVendorRestrictedIndicator)) && ObjectUtils.isNotNull(newVendorDetail.getVendorRestrictedIndicator()) && newVendorDetail.getVendorRestrictedIndicator()) {
             // Indicator changed from (null or false) to true.
-            newVendorDetail.setVendorRestrictedDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-            newVendorDetail.setVendorRestrictedPersonIdentifier(getPersonId());
+            if(newVendorDetail.getVendorRestrictedDate() == null){
+                newVendorDetail.setVendorRestrictedDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+            }           
+            if(newVendorDetail.getVendorRestrictedPersonIdentifier() == null) {
+                newVendorDetail.setVendorRestrictedPersonIdentifier(getPersonId());
+            }
         }
         else if (ObjectUtils.isNotNull(oldVendorRestrictedIndicator) && oldVendorRestrictedIndicator && ObjectUtils.isNotNull(newVendorDetail.getVendorRestrictedIndicator()) && (!newVendorDetail.getVendorRestrictedIndicator())) {
             // Indicator changed from true to false.

@@ -35,9 +35,8 @@ public class AccountingLineAmountNonZeroValidation extends GenericValidation {
      * @see org.kuali.kfs.sys.document.validation.GenericValidation#validate(java.lang.Object[])
      */
     public boolean validate(AttributedDocumentEvent event) {
-        KualiDecimal amount = accountingLineForValidation.getAmount();
-
-        if (KualiDecimal.ZERO.compareTo(amount) == 0) { // amount == 0
+        KualiDecimal amount = accountingLineForValidation.getAmount();        
+        if (amount != null && KualiDecimal.ZERO.compareTo(amount) == 0) { // amount == 0
             GlobalVariables.getMessageMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, KFSKeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
             return false;
         }

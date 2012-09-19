@@ -67,7 +67,7 @@
 		<property name="name" value="purchasingCommodityCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Commodity Code" />
-		<property name="shortLabel" value="Comm Code" />
+		<property name="shortLabel" value="Commodity Code" />
 		<property name="maxLength" value="40" />
 		<property name="validationPattern">
 			<ref bean="AnyCharacterValidation" />
@@ -83,7 +83,7 @@
 		<property name="name" value="commodityDescription" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Commodity Description" />
-		<property name="shortLabel" value="Comm Desc" />
+		<property name="shortLabel" value="Commodity Description" />
 		<property name="maxLength" value="200" />
 		<property name="validationPattern">
 			<ref bean="AnyCharacterWithWhitespaceValidation" />

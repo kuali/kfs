@@ -21,6 +21,7 @@ import java.util.Map;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.PurchasingDocumentBase;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
@@ -42,11 +43,12 @@ public class PurapRequisitionRoomBuildingInActiveValidation extends GenericValid
         errorMap.clearErrorPath();
         
         Map primarykeys = new HashMap();
-        //Pass primary keys campusCode + buildingCode, to retrieve building object.        
-        primarykeys.put("campusCode", req.getDeliveryCampusCode());
-        primarykeys.put("buildingCode", req.getDeliveryBuildingCode());
+        //Pass primary keys campusCode + buildingCode, to retrieve building object.
+        
+        primarykeys.put(KFSPropertyConstants.CAMPUS_CODE, req.getDeliveryCampusCode());
+        primarykeys.put(KFSPropertyConstants.BUILDING_CODE, req.getDeliveryBuildingCode());
   
-        Building building = (Building)businessObjectService.findByPrimaryKey(Building.class ,primarykeys);
+        Building building = businessObjectService.findByPrimaryKey(Building.class ,primarykeys);
         
         if(building != null){
             if(! building.isActive() ){

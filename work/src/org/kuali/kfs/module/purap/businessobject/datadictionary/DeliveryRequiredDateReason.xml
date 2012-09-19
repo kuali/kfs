@@ -45,7 +45,7 @@
     <property name="name" value="deliveryRequiredDateReasonCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Delivery Required Date Reason Code"/>
-    <property name="shortLabel" value="Code"/>
+    <property name="shortLabel" value="Delivery Required Date Reason Code"/>
     <property name="maxLength" value="4"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterValidation" />

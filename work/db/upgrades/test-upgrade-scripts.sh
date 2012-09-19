@@ -31,7 +31,7 @@ UPGRADE_SCRIPT_DIR=$PROJECT_DIR/work/db/upgrades/${UPGRADE_SCRIPT_DIR:-4.1.1_5.0
 
 # Other parameters
 SVNREPO=${SVNREPO:-https://svn.kuali.org/repos}
-PRIOR_SVN_DATA_PATH=$SVNREPO/kfs/$OLD_BRANCH_PATH/work/db/kfs-db/development
+PRIOR_SVN_DATA_PATH=$SVNREPO/kfs/$OLD_BRANCH_PATH/work/db/kfs-db
 
 DB_TYPE=${DB_TYPE:-MYSQL}
 DB_USER=${DB_USER:-dbtest}

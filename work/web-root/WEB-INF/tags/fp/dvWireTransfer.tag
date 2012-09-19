@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<kul:tab tabTitle="Wire Transfer" defaultOpen="false" tabErrorKey="${KFSConstants.DV_WIRETRANSFER_TAB_ERRORS}">
+<kul:tab tabTitle="Wire Transfer" defaultOpen="${!empty KualiForm.document.dvWireTransfer.disbursementVoucherBankName}" tabErrorKey="${KFSConstants.DV_WIRETRANSFER_TAB_ERRORS}">
 	<c:set var="wireTransAttributes" value="${DataDictionary.DisbursementVoucherWireTransfer.attributes}" />
     <div class="tab-container" align=center > 
     <h3>Wire Transfer</h3>

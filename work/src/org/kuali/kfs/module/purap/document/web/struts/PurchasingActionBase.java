@@ -63,6 +63,7 @@ import org.kuali.kfs.module.purap.document.validation.event.AttributedUpdateCams
 import org.kuali.kfs.module.purap.exception.ItemParserException;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.util.ItemParser;
+import org.kuali.kfs.module.purap.util.PurApArrayList;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -93,7 +94,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
-
 
 /**
  * Struts Action for Purchasing documents.
@@ -507,8 +507,25 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
 
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
+        
+        //MSU Contribution DTT 2085 KFSMI-8649   
+        if(! purDocument.getPurchasingCapitalAssetItems().isEmpty()){            
+            purDocument.setPurchasingCapitalAssetItems(new PurApArrayList(purDocument.getPurchasingCapitalAssetItemClass()));
+            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(purDocument);
+        }        
+        // End
+        
+        
         purDocument.deleteItem(getSelectedLine(request));
 
+        if (StringUtils.isNotBlank(purDocument.getCapitalAssetSystemTypeCode())){
+            boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedUpdateCamsViewPurapEvent(purDocument));
+            if (rulePassed) {
+                SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(purDocument);
+            }
+        }
+        // End
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -769,7 +786,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 GlobalVariables.getMessageMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO, "account numbers");
             }
             if (needToDistributeCommodityCode && !performedCommodityCodeDistribution && foundCommodityCodeDistributionError) {
-                GlobalVariables.getMessageMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO, "commodity codes");
+                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_PURCHASING_COMMODITY_CODE, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO, "commodity codes");
             }
         }
         else {

@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.ParameterService;
 
 @Entity
-@Table(name="tem_trvl_exp_t")
+@Table(name="TEM_TRVL_EXP_T")
 public class ImportedExpense extends AbstractExpense implements TEMExpense, ExpenseTypeAware {
 
     private String cardType = "";

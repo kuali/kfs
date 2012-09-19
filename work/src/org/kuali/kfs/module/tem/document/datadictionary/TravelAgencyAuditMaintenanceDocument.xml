@@ -170,6 +170,7 @@
           <property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TripAccountingInformation"/>
           <property name="maintainableFields">
             <list>
+              <bean parent="MaintainableFieldDefinition" p:name="tripChartCode" />
               <bean parent="MaintainableFieldDefinition" p:name="tripAccountNumber" />
               <bean parent="MaintainableFieldDefinition" p:name="tripSubAccountNumber" />
               <bean parent="MaintainableFieldDefinition" p:name="objectCode"/>

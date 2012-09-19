@@ -86,6 +86,7 @@
 			<ref bean="AgencyStagingData-creationTimestamp" />
 			<ref bean="AgencyStagingData-processingTimestamp" />
 			<ref bean="AgencyStagingData-moveToHistoryIndicator" />
+            <ref bean="AgencyStagingData-importBy" />
 			<ref bean="AgencyStagingData-versionNumber" />
 		</list>
 		</property>
@@ -808,6 +809,16 @@
 		<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
 		</property>
 	</bean>
+    <bean id="AgencyStagingData-importBy" parent="AgencyStagingData-importBy-parentBean" />
+    <bean id="AgencyStagingData-importBy-parentBean" parent="AttributeDefinition">
+      <property name="name" value="importBy" />
+      <property name="label" value="Import By" />
+      <property name="shortLabel" value="Import By" />
+      <property name="maxLength" value="3" />
+      <property name="control">
+        <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.ExpenseImportTypeValuesFinder" p:includeKeyInLabel="false"/>
+      </property>
+    </bean>
 	<bean id="AgencyStagingData-versionNumber" parent="AgencyStagingData-versionNumber-parentBean" />
 	<bean id="AgencyStagingData-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
 		<property name="name" value="versionNumber" />
@@ -922,6 +933,7 @@
 		</property>
 		<property name="lookupFields"><list>
 				<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
+                <bean parent="FieldDefinition" p:attributeName="errorCode" />
 				<bean parent="FieldDefinition" p:attributeName="tripId" />
 				<bean parent="FieldDefinition" p:attributeName="travelerId" />
 				<bean parent="FieldDefinition" p:attributeName="travelerName"/>
@@ -933,17 +945,24 @@
 				<bean parent="FieldDefinition" p:attributeName="lodgingItineraryNumber" />
 				<bean parent="FieldDefinition" p:attributeName="rentalCarItineraryNumber" />
 				<bean parent="FieldDefinition" p:attributeName="moveToHistoryIndicator" p:defaultValue="N"/>
+                <bean parent="FieldDefinition" p:attributeName="agencyFileName" />
+                <bean parent="FieldDefinition" p:attributeName="importBy" />
+                <bean parent="FieldDefinition" p:attributeName="processingTimestamp" />
 		</list>
 		</property>
 		<property name="resultFields">
 		<list>
 				<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
+                <bean parent="FieldDefinition" p:attributeName="errorCode" />
 				<bean parent="FieldDefinition" p:attributeName="travelerName" />
 				<bean parent="FieldDefinition" p:attributeName="airTicketNumber" />
 				<bean parent="FieldDefinition" p:attributeName="lodgingItineraryNumber" />
 				<bean parent="FieldDefinition" p:attributeName="rentalCarItineraryNumber" />
 				<bean parent="FieldDefinition" p:attributeName="tripId" />
 				<bean parent="FieldDefinition" p:attributeName="tripInvoiceNumber" />
+                <bean parent="FieldDefinition" p:attributeName="agencyFileName" />
+                <bean parent="FieldDefinition" p:attributeName="importBy" />
+                <bean parent="FieldDefinition" p:attributeName="processingTimestamp" />
 		</list>
 		</property>
 	</bean>

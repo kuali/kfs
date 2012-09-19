@@ -96,7 +96,9 @@
 	<bean id="IndirectCostAdjustment-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-  				<bean parent="IndirectCostAdjustment-addAccountingLine-failFastValidation" scope="prototype" />
+  				<bean parent="IndirectCostAdjustment-addAccountingLine-failFastValidation" scope="prototype" >
+					<property name="quitOnFail" value="true" />
+				</bean>	
 				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>

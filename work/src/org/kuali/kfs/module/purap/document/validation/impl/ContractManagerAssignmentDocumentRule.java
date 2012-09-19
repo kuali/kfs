@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -84,7 +85,9 @@ public class ContractManagerAssignmentDocumentRule extends TransactionalDocument
         LOG.debug("validateContractManagerCodes(): entered method.");
         boolean isValid = true;
         int count = 0;
+        int index = 0;
         
+        String propertyNamePattern = "document.contractManagerAssignmentDetails[{0}].contractManagerCode";
         for (Iterator iter = contractManagerAssignmentDetails.iterator(); iter.hasNext();) {
             ContractManagerAssignmentDetail detail = (ContractManagerAssignmentDetail) iter.next();
 
@@ -93,16 +96,23 @@ public class ContractManagerAssignmentDocumentRule extends TransactionalDocument
                 Map fieldValues = new HashMap();
                 fieldValues.put(PurapPropertyConstants.CONTRACT_MANAGER_CODE, detail.getContractManagerCode());
                 fieldValues.put(KRADPropertyConstants.ACTIVE, true);
+                String propertyWithInvalidValue = MessageFormat.format(propertyNamePattern, index);
                 if (SpringContext.getBean(BusinessObjectService.class).countMatching(ContractManager.class, fieldValues) != 1) {
-                    GlobalVariables.getMessageMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS, PurapKeyConstants.INVALID_CONTRACT_MANAGER_CODE, detail.getContractManagerCode().toString());
+                    GlobalVariables.getMessageMap().putError(propertyWithInvalidValue, PurapKeyConstants.INVALID_CONTRACT_MANAGER_CODE, detail.getContractManagerCode().toString());
                     isValid = false;
                 }
-                else count++;
+                
                 if (detail.getContractManagerCode().equals(PurapConstants.APO_CONTRACT_MANAGER)) {
-                    GlobalVariables.getMessageMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS, PurapKeyConstants.ERROR_APO_CONTRACT_MANAGER_CODE_CHOSEN, detail.getContractManagerCode().toString());
+                    GlobalVariables.getMessageMap().putError(propertyWithInvalidValue, PurapKeyConstants.ERROR_APO_CONTRACT_MANAGER_CODE_CHOSEN, detail.getContractManagerCode().toString());
                     isValid = false;
+                }
+                
+                if(isValid){ 
+                    count++;
                 }
             }
+            
+            index++;
         }
         
         // check if at least one row has a valid CM code assigned

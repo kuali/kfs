@@ -30,7 +30,6 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.PostalCodeValidationService;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -51,20 +50,25 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.businessobject.VendorType;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.kfs.vnd.service.CommodityCodeService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.kfs.vnd.service.TaxNumberService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.datadictionary.validation.fieldlevel.FixedPointValidationPattern;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.AutoPopulatingList;
 
@@ -902,6 +906,8 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         for (int i = 0; i < vendorDefaultAddresses.size(); i++) {
             VendorDefaultAddress vendorDefaultAddress = vendorDefaultAddresses.get(i);
             if (vendorDefaultAddress.getVendorCampusCode().equalsIgnoreCase(addedAddressCampusCode)) {
+                GlobalVariables.getMessageMap().clearErrorPath();
+                GlobalVariables.getMessageMap().addToErrorPath(errorPath);
                 String[] parameters = new String[] { addedAddressCampusCode, addedAddressTypeCode };
                 GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS + "[" + i + "]." + VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_CAMPUS, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_CAMPUS, parameters);
                 return false;
@@ -1133,11 +1139,16 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
             String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_CONTRACT + "[" + i + "]";
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
-
+            
             valid &= validateVendorContractPOLimitAndExcludeFlagCombination(contract);
             valid &= validateVendorContractBeginEndDates(contract);
             valid &= processContractB2BValidation(document, contract, i);
-
+            // MSU Contribution DTT-682 KFSMI-8761
+            if (contract.getOrganizationAutomaticPurchaseOrderLimit() != null) {
+                org.kuali.rice.krad.datadictionary.BusinessObjectEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(VendorContract.class.getName());
+                AttributeDefinition attributeDefinition = entry.getAttributeDefinition(VendorPropertyConstants.VENDOR_CONTRACT_DEFAULT_APO_LIMIT);
+                valid &= validateAPOAmount(contract.getOrganizationAutomaticPurchaseOrderLimit(), attributeDefinition);
+            }
             GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
         }
         
@@ -1145,6 +1156,36 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
+    /**
+     * Validates that the APO amount is a valid amount according to
+     * the FixedPointValidationPattern (i.e. non negative number with the precision and scale
+     * as defined in the data dictionary).
+     * 
+     * @param apoAmount
+     * @param attributeDefinition
+     * @return
+     */
+    boolean validateAPOAmount(KualiDecimal apoAmount, AttributeDefinition attributeDefinition) {
+        boolean valid = true;
+
+        if (ObjectUtils.isNotNull(attributeDefinition)) {
+            final ValidationPattern validationPattern = attributeDefinition.getValidationPattern();
+
+            if (ObjectUtils.isNotNull(validationPattern) && validationPattern instanceof FixedPointValidationPattern) {
+                FixedPointValidationPattern fixedPointPattern = (FixedPointValidationPattern) validationPattern;
+                if (!fixedPointPattern.matches(apoAmount.toString())) {
+                    valid &= false;
+                    String scale = Integer.toString(fixedPointPattern.getScale());
+                    String precision = Integer.toString(fixedPointPattern.getPrecision());
+                    GlobalVariables.getMessageMap().putError(attributeDefinition.getName(), attributeDefinition.getValidationPattern().getValidationErrorMessageKey(), attributeDefinition.getLabel(), precision, scale);
+                }
+            }
+        }
+
+        return valid;
+
+    }
+    
     /**
      * Validates that the proper combination of Exclude Indicator and APO Amount is present on a vendor contract. Do not perform
      * this validation on Contract add line as the user cannot currently enter the sub-collection of contract-orgs so we should not
@@ -1166,7 +1207,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 if (ObjectUtils.isNotNull(organization.getVendorContractPurchaseOrderLimitAmount())) {
                     NoOrgHasApoLimit = false;
                 }
-                valid &= validateVendorContractOrganization(organization);
+                valid &= validateVendorContractOrganization(organization, organizationCounter);
                 organizationCounter++;
             }
         }
@@ -1218,9 +1259,22 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * @param organization VendorContractOrganization
      * @return boolean true if these three rules are passed, otherwise false.
      */
-    boolean validateVendorContractOrganization(VendorContractOrganization organization) {
+    boolean validateVendorContractOrganization(VendorContractOrganization organization, int counter) {
         boolean valid = true;
-
+        List<String> previousErrorPaths = GlobalVariables.getMessageMap().getErrorPath();   
+        String errorPath = VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION + "[" + counter + "]";
+        boolean shouldAddToErrorPath = true;
+        // if the error path already contained something like "add." then we don't need to add anything to the error path anymore.
+        for (String previous : previousErrorPaths) {
+            if (previous.startsWith(KRADConstants.ADD_PREFIX)) {
+                shouldAddToErrorPath = false;
+                break;
+            }
+        }
+        if (shouldAddToErrorPath) {
+            GlobalVariables.getMessageMap().addToErrorPath(errorPath);
+        }
+        
         boolean isExcluded = organization.isVendorContractExcludeIndicator();
         if (isExcluded) {
             if (ObjectUtils.isNotNull(organization.getVendorContractPurchaseOrderLimitAmount())) {
@@ -1254,6 +1308,16 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             }
         }
 
+        if (shouldAddToErrorPath && organization.getVendorContractPurchaseOrderLimitAmount() != null) {
+            org.kuali.rice.krad.datadictionary.BusinessObjectEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(VendorContractOrganization.class.getName());
+            AttributeDefinition attributeDefinition = entry.getAttributeDefinition(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION_APO_LIMIT);
+            valid &= validateAPOAmount(organization.getVendorContractPurchaseOrderLimitAmount(), attributeDefinition);
+        }
+
+        if (shouldAddToErrorPath) {
+            GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
+        }
+        
         return valid;
     }
 
@@ -1333,7 +1397,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         }
         if (bo instanceof VendorContractOrganization) {
             VendorContractOrganization contractOrg = (VendorContractOrganization) bo;
-            success &= validateVendorContractOrganization(contractOrg);
+            success &= validateVendorContractOrganization(contractOrg, 0);
         }
         if (bo instanceof VendorCustomerNumber) {
             VendorCustomerNumber customerNumber = (VendorCustomerNumber) bo;
@@ -1345,6 +1409,18 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             VendorAddress parent = (VendorAddress) ObjectUtils.getPropertyValue(this.getNewBo(), parentName);
             VendorDetail vendorDetail = (VendorDetail) document.getNewMaintainableObject().getBusinessObject();
             success &= checkDefaultAddressCampus(vendorDetail, defaultAddress, parent);
+        }
+        
+        if (bo instanceof VendorCommodityCode) {
+            VendorCommodityCode commodityCode = (VendorCommodityCode) bo;
+            String purchasingCommodityCode = commodityCode.getPurchasingCommodityCode();
+            boolean found = ObjectUtils.isNotNull(commodityCode) && StringUtils.isNotBlank(purchasingCommodityCode) && checkVendorCommodityCode(commodityCode);
+
+            if (!found) {
+                GlobalVariables.getMessageMap().putError(VendorPropertyConstants.PURCHASING_COMMODITY_CODE, KFSKeyConstants.ERROR_EXISTENCE, purchasingCommodityCode);
+            }
+
+            success &= found;
         }
 
         return success;
@@ -1410,5 +1486,13 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             }
         }
         return super.processAddCollectionLineBusinessRules(document, collectionName, bo);
+    }
+    
+    protected boolean checkVendorCommodityCode(VendorCommodityCode commodityCode) {
+        String purchasingCommodityCode = commodityCode.getPurchasingCommodityCode();
+
+        CommodityCodeService commodityCodeService = SpringContext.getBean(CommodityCodeService.class);
+
+        return ObjectUtils.isNotNull(commodityCodeService.getByPrimaryId(purchasingCommodityCode));
     }
 }

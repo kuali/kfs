@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.authorization;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +27,7 @@ import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants.RequisitionEditMode;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -135,7 +137,25 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
             }
 
         }
-
+        
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isEnroute()) {
+             Set<String> nodeNames = workflowDocument.getNodeNames();
+             for (Iterator<String> iterator = nodeNames.iterator(); iterator.hasNext();) {
+                    String nodeNamesNode = iterator.next();
+                    if (RequisitionStatuses.NODE_ACCOUNT.equals(nodeNamesNode)) {
+                        // disable the button for setup distribution
+                        editModes.add(RequisitionEditMode.DISABLE_SETUP_ACCT_DISTRIBUTION);
+                        // disable the button for remove accounts from all items
+                        editModes.add(RequisitionEditMode.DISABLE_REMOVE_ACCTS);
+                        // disable the button for remove commodity codes from all items
+                        if (editModes.contains(RequisitionEditMode.ENABLE_COMMODITY_CODE)) {
+                            editModes.remove(RequisitionEditMode.ENABLE_COMMODITY_CODE);
+                        }
+                    }
+             }
+        } 
+      
         return editModes;
     }
 

@@ -223,13 +223,9 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
 	</target>
 	
 	<target name="create-demo-dataset" depends="export-dev-db-to-temp">
+		<echo>Running Script to convert development database into demo database</echo>
+		<echo>No changes at present - not running script.</echo>
 		<!--
-			export to kfs temp
-			run demo sql
-			export to demo and check into svn
-			
-			use export-to-svn in the impex tool
-		-->
         <sql driver="${real.datasource.driver.class}"
              classpathref="database.drivers.classpath"
              url="${datasource.url}"
@@ -238,29 +234,15 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
 	         keepformat="true"
 	         delimitertype="row"
 	         delimiter="/" print="true" 
-   	 		 src="${demo.database.cleanup.script}" />			
+   	 		 src="${demo.database.cleanup.script}" />
+   	 	-->			
 	</target>
-
-	<target name="create-bootstrap-dataset" depends="export-dev-db-to-temp">
-		<!--
-			export to kfs temp
-			run demo sql
-			run bootstrap sql
-			export to bootstrap and check into svn
-			
-			use export-to-svn in the impex tool
-		-->
-		<!--
-        <sql driver="${real.datasource.driver.class}"
-             classpathref="database.drivers.classpath"
-             url="${datasource.url}"
-             userid="${datasource.username}"
-             password="${datasource.password}"
-	         keepformat="true"
-	         delimitertype="row"
-	         delimiter="/" print="true" 
-   	 		 src="${bootstrap.database.cleanup.script}" />
-		-->
+	
+	<target name="create-and-export-demo-dataset" depends="create-demo-dataset,export-demo-dataset" />
+	
+	<target name="export-demo-dataset" depends="set-temp-export-db-properties,init-additional-properties,init-make-references">
+		<echo>No changes at present - not running export.</echo>
+		<!-- Commenting out - no changes from development to demo at present 
 		<svn>
 			<info target="${basedir.safe}" />
 		</svn>
@@ -268,20 +250,64 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
 		<ant dir="${impex.directory}/export-to-svn" inheritall="false">
 			<target name="init" />
 			<target name="export-db" />
-			
+			<target name="merge-export-to-svn" />
+			<target name="check-merge-complete" />
+
 			<property name="db.jdbc.url" value="${datasource.url}" />
 			<property name="db.username" value="${datasource.username}" />
 			<property name="db.schema" value="${datasource.username}" />
 			<property name="db.password" value="${datasource.password}" />
 			<property name="temp.dir" location="${all.temp.directory}/db-temp"/>
-			<property name="checkout.dir" location="${all.temp.directory}/db-temp"/>
+			<property name="checkout.dir" location="${database.directory}/kfs-db"/>
 			<property name="data.svn.module" value="bootstrap" />
 			<property name="svn.base" value="${svn.info.url}"/>
-			<property name="data.svn.module" value="work/db/kfs-db"/>
-			<property name="data.svn.path" value="bootstrap"/>
-
+			<property name="data.svn.path" value="demo"/>
 		</ant>
+		<delete dir="${database.directory}/new_export" />
+		<delete file="${database.directory}/merge.complete" />
+		-->
 	</target>
+
+	<target name="create-bootstrap-dataset" depends="create-demo-dataset">
+		<echo>Running Script to convert demo database into bootstrap database</echo>
+        <sql driver="${real.datasource.driver.class}"
+             classpathref="database.drivers.classpath"
+             url="${datasource.url}"
+             userid="${datasource.username}"
+             password="${datasource.password}"
+	         keepformat="true"
+	         delimitertype="row" 
+	         delimiter="/" print="true" 
+   	 		 src="${bootstrap.database.cleanup.script}" />
+	</target>
+
+	<target name="create-and-export-bootstrap-dataset" depends="create-bootstrap-dataset,export-bootstrap-dataset" />
+	
+	<target name="export-bootstrap-dataset" depends="set-temp-export-db-properties,init-additional-properties,init-make-references">
+		<svn>
+			<info target="${basedir.safe}" />
+		</svn>
+		<echo>${svn.info.url}</echo>
+		<ant dir="${impex.directory}/export-to-svn" inheritall="false">
+			<target name="init" />
+			<target name="export-db" />
+			<target name="merge-export-to-svn" />
+			<target name="check-merge-complete" />
+
+			<property name="db.jdbc.url" value="${datasource.url}" />
+			<property name="db.username" value="${datasource.username}" />
+			<property name="db.schema" value="${datasource.username}" />
+			<property name="db.password" value="${datasource.password}" />
+			<property name="temp.dir" location="${all.temp.directory}/db-temp"/>
+			<property name="checkout.dir" location="${database.directory}/kfs-db"/>
+			<property name="data.svn.module" value="bootstrap" />
+			<property name="svn.base" value="${svn.info.url}"/>
+			<property name="data.svn.path" value="bootstrap"/>
+		</ant>
+		<delete dir="${database.directory}/new_export" />
+		<delete file="${database.directory}/merge.complete" />
+	</target>
+	
 	
 	<target name="remove-distribution-dataset-dirs" depends="init-additional-properties">
 		<if>
@@ -305,6 +331,12 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
 		</svn>
 	</target>
 
+	<target name="commit-distribution-dataset-dirs" depends="init-additional-properties">
+		<svn username="${svn.username}" password="${svn.password}">
+			<commit dir="${database.directory}/kfs-db" message="Adding distribution datasource directories."/>
+		</svn>
+	</target>
+	
 <!-- 
 TODO:
 
@@ -324,6 +356,22 @@ Target: export-bootstrap-db
 
 delete of development dataset before packaging
 deletion of DB drivers before packaging
+
+Update replacements
+	@kuali.org ==> @localhost
+	https://test.kuali.org/svn/ ==> ""
+	kfs-${build.environment}-incident@kuali.org
+	jdbc:oracle:thin:@oraclerds.kfs.kuali.org:1521:KFS
+	jdbc:mysql://test.db.kfs.kuali.org:3306
+	https://svn.kuali.org/repos
+	http://test.kc.kuali.org/kc-trunk
+	test.kc.kuali.org
+	license@kuali.org ==> localhost
+	indiana.edu
+
+remove the Maven build files
+
+add sample-build.properties - copy from cnv?
 
 knoreceipt-l@indiana.edu
  -->

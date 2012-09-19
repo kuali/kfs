@@ -26,7 +26,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.text.StrBuilder;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.batch.service.AgencyDataImportService;
@@ -69,6 +71,9 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     private String agencyDataReportFilePrefix;
 
     
+    /**
+     * @see org.kuali.kfs.module.tem.batch.service.AgencyDataImportService#importAgencyData()
+     */
     @Override
     public boolean importAgencyData() {
         
@@ -80,7 +85,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
             List<String> inputFileNames = batchInputFileService.listInputFileNamesWithDoneFile(inputFileType);
 
             for (String dataFileName : inputFileNames) {
-                success &= this.importAgencyDataFile(dataFileName, inputFileType);
+                success &= importAgencyDataFile(dataFileName, inputFileType);
             }
         }
 
@@ -88,6 +93,9 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         return success;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.batch.service.AgencyDataImportService#importAgencyDataFile(java.lang.String, org.kuali.kfs.sys.batch.BatchInputFileType)
+     */
     @Override
     public boolean importAgencyDataFile(String dataFileName, BatchInputFileType inputFileType) {
         
@@ -104,23 +112,17 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
             
             LOG.info("Agency Import - validating: " + dataFileName);
 
-            List<AgencyStagingData> validAgencyList = this.validateAgencyData(agencyData, dataFileName);
+            List<AgencyStagingData> validAgencyList = validateAgencyData(agencyData, dataFileName);
             
             boolean isAllValid = validAgencyList.size() == agencyData.getAgencies().size();
             if (!isAllValid) {
                 String error = "The agency data records to be loaded are rejected due to data problem. Please check the agency data report.";
-                //DO NOT THROW AN EXCEPTION! All records rejected then
-                //throw new RuntimeException(error);
             }
-            
             businessObjectService.save(validAgencyList);
-            
         }
         catch (Exception ex) {
             LOG.error("Failed to process the file : " + dataFileName, ex);
-            
             temBatchService.moveErrorFile(dataFileName, this.getAgencyDataFileErrorDirectory(), agencyDataFileErrorDirectory);
-            
             return false;
         }
         finally {
@@ -129,12 +131,14 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
 
         return true;
     }
-   
 
+    /**
+     * @see org.kuali.kfs.module.tem.batch.service.AgencyDataImportService#validateAgencyData(org.kuali.kfs.module.tem.businessobject.AgencyImportData, java.lang.String)
+     */
     @Override
     public List<AgencyStagingData> validateAgencyData(AgencyImportData agencyData, String dataFileName) {
         PrintStream reportDataStream = this.getReportPrintStream();
- 
+
         List<AgencyStagingData> validData;
         try {
             this.writeReportHeader(reportDataStream, dataFileName, agencyData.getImportBy());
@@ -143,9 +147,10 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
             for (AgencyStagingData agency : agencyData.getAgencies()) {
                 agency.setImportBy(agencyData.getImportBy());
                 AgencyStagingData validAgency = null;
-                List<String> errorMessages=new ArrayList<String>();
-                if (agencyData.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)) {
-                    // validate by Traveler ID (UCD method)
+                List<String> errorMessages = new ArrayList<String>();
+
+                // validate by Traveler ID
+                if (agency.getExpenseImport() == ExpenseImport.traveler) {
                     LOG.info("Validating agency import by traveler. Record# " + count + " of " + agencyData.getAgencies().size());
                     expenseImportByTravelerService.setErrorMessages(errorMessages);
                     if (expenseImportByTravelerService.areMandatoryFieldsPresent(agency)) {
@@ -153,9 +158,9 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                     }
                     errorMessages = expenseImportByTravelerService.getErrorMessages();
                 }
-                 
-                if (agencyData.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRIP)) {
-                    // validate by Trip ID (IU method)
+
+                // validate by Trip ID
+                if (agency.getExpenseImport() == ExpenseImport.trip) {
                     LOG.info("Validating agency import by trip. Record# " + count + " of " + agencyData.getAgencies().size());
                     expenseImportByTripService.setErrorMessages(errorMessages);
                     if (expenseImportByTripService.areMandatoryFieldsPresent(agency)) {
@@ -167,8 +172,8 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                 if (ObjectUtils.isNotNull(validAgency)) {
                     validData.add(validAgency);
                 }
-                if(errorMessages.size()>0){
-                    writeErrorToReport(reportDataStream,agency, getErrorMessageAsString(errorMessages), agency.getImportBy());
+                if (errorMessages.size() > 0) {
+                    writeErrorToReport(reportDataStream, agency, getMessageAsString(errorMessages), agency.getExpenseImport());
                 }
                 count++;
 
@@ -180,35 +185,112 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                 reportDataStream.close();
             }
         }
-
         return validData;
-        
     }
     
-    private String getErrorMessageAsString(List<String> errorMessages){
-        StringBuilder errorMessage=new StringBuilder();
-        for(String error:errorMessages){
-            errorMessage.append(error).append(" ");
+    /**
+     * @see org.kuali.kfs.module.tem.batch.service.AgencyDataImportService#moveAgencyDataToHistoricalExpenseTable()
+     */
+    @Override
+    public boolean moveAgencyDataToHistoricalExpenseTable() {
+        
+        LOG.info("Starting Agency Expense Distribution/Reconciliation Process");
+
+        List<AgencyStagingData> agencyData = travelExpenseService.retrieveValidAgencyData();
+        if (ObjectUtils.isNotNull(agencyData) && agencyData.size() > 0) {
+            GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
+            for (AgencyStagingData agency : agencyData) {
+                processAgencyStagingExpense(agency, sequenceHelper);
+            }
         }
-       return  errorMessage.toString();
+        businessObjectService.save(agencyData);
+
+        LOG.info("Finished Agency Expense Distribution/Reconciliation Process");
+        return true;
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.batch.service.AgencyDataImportService#processAgencyStagingExpense(org.kuali.kfs.module.tem.businessobject.AgencyStagingData, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    @Override
+    public void processAgencyStagingExpense(AgencyStagingData agency, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        if (agency.getExpenseImport() == ExpenseImport.traveler) {
+            expenseImportByTravelerService.distributeExpense(agency, sequenceHelper);
+        }
+
+        if (agency.getExpenseImport() == ExpenseImport.trip) {
+            expenseImportByTripService.reconciliateExpense(agency, sequenceHelper);
+        }
+    }
     
-    protected <T extends AgencyStagingData> void writeErrorToReport(PrintStream reportDataStream,T AgencyStagingData, String errors, String importBy) {
+    /**
+     * @see org.kuali.kfs.module.tem.batch.service.AgencyDataImportService#matchExpenses()
+     */
+    @Override
+    public boolean matchExpenses() {
+        LOG.info("Starting Agency Reconciliation Match Process");
+
+        List<AgencyStagingData> agencyData = travelExpenseService.retrieveValidAgencyDataByImportType(ExpenseImportTypes.IMPORT_BY_TRIP);
+        if (ObjectUtils.isNotNull(agencyData) && agencyData.size() > 0) {
+            GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
+            int count = 1;
+            for (AgencyStagingData agency : agencyData) {
+                LOG.info("Matching agency data record# " + count + " of " + agencyData.size());
+                expenseImportByTripService.reconciliateExpense(agency, sequenceHelper);
+                count++;         
+            }
+        }
+        businessObjectService.save(agencyData);
+
+        LOG.info("Finished Agency Reconciliation Match Process");
+        return true;
+    }
+
+    
+    /**
+     * Build error message stringn out of message list
+     * 
+     * @param errorMessages
+     * @return
+     */
+    private String getMessageAsString(List<String> messages){
         
-        String reportEntry = this.formatMessage(AgencyStagingData, errors, importBy);
+        final String separator = " ";
+        StrBuilder builder = new StrBuilder();
+        builder.appendWithSeparators(messages, separator);
+       return  builder.toString();
+    }
+    
+    /**
+     * Write to error report
+     * 
+     * @param reportDataStream
+     * @param AgencyStagingData
+     * @param errors
+     * @param importBy
+     */
+    protected <T extends AgencyStagingData> void writeErrorToReport(PrintStream reportDataStream,T AgencyStagingData, String errors, ExpenseImport importType) {
+        
+        String reportEntry = formatMessage(AgencyStagingData, errors, importType);
         reportDataStream.println(reportEntry);
     }
     
-    protected <T extends AgencyStagingData> String formatMessage(T agencyStagingData, String errors, String importBy) {
+    /**
+     * 
+     * @param agencyStagingData
+     * @param errors
+     * @param importBy
+     * @return
+     */
+    protected <T extends AgencyStagingData> String formatMessage(T agencyStagingData, String errors, ExpenseImport importType) {
         StringBuilder body = new StringBuilder();
         Map<String, String> tableDefinition=new LinkedHashMap<String, String>();
         List<String> propertyList =new ArrayList<String>();
-        if(importBy.equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)){
+        if(importType == ExpenseImport.traveler){
             tableDefinition = this.getAgencyDataTravelerUploadReportHelper().getTableDefinition();
             propertyList = this.getAgencyDataTravelerUploadReportHelper().getTableCellValues(agencyStagingData, false);
         }
-        if(importBy.equals(ExpenseImportTypes.IMPORT_BY_TRIP)){
+        if(importType == ExpenseImport.trip){
             tableDefinition = this.getAgencyDataTripUploadReportHelper().getTableDefinition();
             propertyList = this.getAgencyDataTripUploadReportHelper().getTableCellValues(agencyStagingData, false);
         }
@@ -221,6 +303,12 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         return body.toString();
     }
     
+    /**
+     * 
+     * @param reportDataStream
+     * @param fileName
+     * @param importBy
+     */
     protected void writeReportHeader(PrintStream reportDataStream, String fileName, String importBy) {
         StringBuilder header = new StringBuilder();
         header.append(MessageBuilder.buildMessageWithPlaceHolder(TemKeyConstants.MESSAGE_AGENCY_DATA_REPORT_HEADER, BusinessObjectReportHelper.LINE_BREAK, fileName));
@@ -229,10 +317,10 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         header.append(BusinessObjectReportHelper.LINE_BREAK);
         Map<String, String> tableDefinition=new LinkedHashMap<String, String>();;
         if(importBy.equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)){
-            tableDefinition = this.getAgencyDataTravelerUploadReportHelper().getTableDefinition();
+            tableDefinition = getAgencyDataTravelerUploadReportHelper().getTableDefinition();
         }
         if(importBy.equals(ExpenseImportTypes.IMPORT_BY_TRIP)){
-           tableDefinition = this.getAgencyDataTripUploadReportHelper().getTableDefinition();
+           tableDefinition = getAgencyDataTripUploadReportHelper().getTableDefinition();
         }
         String tableHeaderFormat = tableDefinition.get(KFSConstants.ReportConstants.TABLE_HEADER_LINE_KEY);
 
@@ -258,53 +346,6 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
             LOG.error(errorMessage);
             throw new RuntimeException(errorMessage, e);
         }
-    }
-   
-
-    @Override
-    public boolean moveAgencyDataToHistoricalExpenseTable() {
-        
-        LOG.info("Starting Agency Expense Distribution/Reconciliation Process");
-
-        List<AgencyStagingData> agencyData = travelExpenseService.retrieveValidAgencyData();
-        if (ObjectUtils.isNotNull(agencyData) && agencyData.size() > 0) {
-            GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
-            for (AgencyStagingData agency : agencyData) {
-                if (agency.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)) {
-                    expenseImportByTravelerService.distributeExpense(agency, sequenceHelper) ;
-                }
-               
-                if (agency.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRIP)) {
-                    expenseImportByTripService.reconciliateExpense(agency, sequenceHelper);
-                }
-                
-            }
-        }
-        businessObjectService.save(agencyData);
-
-        LOG.info("Finished Agency Expense Distribution/Reconciliation Process");
-        return true;
-    }
-    
-
-    @Override
-    public boolean matchExpenses() {
-        LOG.info("Starting Agency Reconciliation (Match) Process");
-
-        List<AgencyStagingData> agencyData = travelExpenseService.retrieveValidAgencyDataByImportType(ExpenseImportTypes.IMPORT_BY_TRIP);
-        if (ObjectUtils.isNotNull(agencyData) && agencyData.size() > 0) {
-            GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
-            int count = 1;
-            for (AgencyStagingData agency : agencyData) {
-                LOG.info("Matching agency data record# " + count + " of " + agencyData.size());
-                expenseImportByTripService.reconciliateExpense(agency, sequenceHelper);
-                count++;         
-            }
-        }
-        businessObjectService.save(agencyData);
-
-        LOG.info("Finished Agency Reconciliation (Match) Process");
-        return true;
     }
 
     /**

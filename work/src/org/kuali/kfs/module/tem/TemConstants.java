@@ -16,7 +16,9 @@
 package org.kuali.kfs.module.tem;
 
 import java.text.SimpleDateFormat;
+import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -653,6 +655,35 @@ public class TemConstants extends JSTLConstants {
     public static class ExpenseImportTypes {
         public static final String IMPORT_BY_TRIP = "TRP";
         public static final String IMPORT_BY_TRAVELLER = "TRV";
+    }
+    
+    public enum ExpenseImport {
+        trip(ExpenseImportTypes.IMPORT_BY_TRIP), 
+        traveler(ExpenseImportTypes.IMPORT_BY_TRAVELLER);
+
+        public String code;
+
+        private ExpenseImport(String code) {
+            this.code = code;
+        }
+        
+        private static final Map<String, ExpenseImport> lookup = new LinkedHashMap<String, ExpenseImport>();
+
+        static {
+          for (ExpenseImport type : EnumSet.allOf(ExpenseImport.class)) {
+            lookup.put(type.code, type);
+          }
+        }
+        
+        /**
+         * Retrieve Expense Import by the code
+         * 
+         * @param code
+         * @return
+         */
+        public static ExpenseImport getExpenseImportByCode(String code){
+            return lookup.get(code);
+        }
     }
     
     public static class ReconciledCodes {

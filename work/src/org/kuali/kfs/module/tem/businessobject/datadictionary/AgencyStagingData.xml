@@ -169,8 +169,8 @@
 	<bean id="AgencyStagingData-creditCardOrAgencyCode" parent="AgencyStagingData-creditCardOrAgencyCode-parentBean" />
 	<bean id="AgencyStagingData-creditCardOrAgencyCode-parentBean" parent="AttributeDefinition">
 		<property name="name" value="creditCardOrAgencyCode" />
-		<property name="label" value="Agency Card Code" />
-		<property name="shortLabel" value="Agency Card Code" />
+		<property name="label" value="Credit Card Agency Card Code" />
+		<property name="shortLabel" value="Credit Card Agency Card Code" />
 		<property name="maxLength" value="4" />
 		<property name="summary" value="Agency Card Code" />
 		<property name="description" value="Agency Card Code" />
@@ -179,14 +179,10 @@
 	    </property>
 	</bean>
 	<bean id="AgencyStagingData-agency" parent="AgencyStagingData-agency-parentBean" />
-	<bean id="AgencyStagingData-agency-parentBean" parent="AttributeDefinition">
+	<bean id="AgencyStagingData-agency-parentBean" parent="CreditCardAgency-creditCardOrAgencyName">
 		<property name="name" value="agency" />
 		<property name="label" value="Agency" />
 		<property name="shortLabel" value="Agency" />
-		<property name="maxLength" value="20" />
-		<property name="summary" value="Agency" />
-		<property name="description" value="Agency" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="20"/></property>
 	</bean>
 	<bean id="AgencyStagingData-otherCompanyName" parent="AgencyStagingData-otherCompanyName-parentBean" />
 	<bean id="AgencyStagingData-otherCompanyName-parentBean" parent="AttributeDefinition">

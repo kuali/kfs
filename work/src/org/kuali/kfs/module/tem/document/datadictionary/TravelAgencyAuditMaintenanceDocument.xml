@@ -39,7 +39,7 @@
 			    <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Travel Agency Data"/>
                 <bean parent="MaintainableFieldDefinition" p:name="agencyDataId" p:required="false"  p:unconditionallyReadOnly="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="creditCardOrAgencyCode" p:required="false" />
-                <bean parent="MaintainableFieldDefinition" p:name="agency" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="agency" p:unconditionallyReadOnly="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="otherCompanyName" p:required="false" />
                 <bean parent="MaintainableFieldDefinition" p:name="agencyFileName" p:required="false" />
                 <bean parent="MaintainableFieldDefinition" p:name="merchantName" p:required="false" />

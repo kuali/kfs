@@ -335,8 +335,8 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         if (StringUtils.isNotEmpty(agencyData.getTripId())) {
             fieldValues.put(TemPropertyConstants.TRIP_ID, agencyData.getTripId());
         }
-        if (StringUtils.isNotEmpty(agencyData.getAgency())) {
-            fieldValues.put(TemPropertyConstants.AGENCY, agencyData.getAgency());
+        if (StringUtils.isNotEmpty(agencyData.getCreditCardOrAgencyCode())) {
+            fieldValues.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE, agencyData.getCreditCardOrAgencyCode());
         }
         if (ObjectUtils.isNotNull(agencyData.getTransactionPostingDate())) {
             fieldValues.put(TemPropertyConstants.TRANSACTION_POSTING_DATE, agencyData.getTransactionPostingDate());

@@ -264,8 +264,8 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
         if (StringUtils.isNotEmpty(agencyData.getAirTicketNumber())) {
             fieldValues.put(TemPropertyConstants.AIR_TICKET_NUMBER, agencyData.getAirTicketNumber());
         }
-        if (StringUtils.isNotEmpty(agencyData.getAgency())) {
-            fieldValues.put(TemPropertyConstants.AGENCY, agencyData.getAgency());
+        if (StringUtils.isNotEmpty(agencyData.getCreditCardOrAgencyCode())) {
+            fieldValues.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE, agencyData.getCreditCardOrAgencyCode());
         }
         if (ObjectUtils.isNotNull(agencyData.getTransactionPostingDate())) {
             fieldValues.put(TemPropertyConstants.TRANSACTION_POSTING_DATE, agencyData.getTransactionPostingDate());

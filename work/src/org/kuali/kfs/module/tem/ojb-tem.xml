@@ -1183,7 +1183,6 @@
 		<field-descriptor name="agencyDataId" column="AGENCY_DATA_ID" jdbc-type="INTEGER"/>
         <field-descriptor name="creditCardAgencyId" column="CARD_ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="creditCardOrAgencyCode" column="CREDIT_AGENCY_CD" jdbc-type="VARCHAR"/>
-		<field-descriptor name="agency" column="AGENCY" jdbc-type="VARCHAR"/>
 		<field-descriptor name="otherCompanyName" column="OTHER_CO_NM" jdbc-type="VARCHAR"/>
 		<field-descriptor name="agencyFileName" column="AGENCY_FL_NM" jdbc-type="VARCHAR"/>
 		<field-descriptor name="merchantName" column="MERCH_NM" jdbc-type="VARCHAR"/>

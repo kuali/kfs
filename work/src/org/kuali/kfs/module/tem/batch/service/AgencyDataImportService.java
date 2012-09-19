@@ -20,13 +20,32 @@ import java.util.List;
 import org.kuali.kfs.module.tem.businessobject.AgencyImportData;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 
 public interface AgencyDataImportService {
     
+    /**
+     * Import Agency data
+     * 
+     * @return
+     */
     public boolean importAgencyData();
     
+    /**
+     * Import agency data for file name and input file type 
+     * 
+     * @param dataFileName
+     * @param inputFileType
+     * @return
+     */
     public boolean importAgencyDataFile(String dataFileName, BatchInputFileType inputFileType);
     
+    /**
+     * 
+     * @param agencyData
+     * @param dataFileName
+     * @return
+     */
     public List<AgencyStagingData> validateAgencyData(AgencyImportData agencyData, String dataFileName);
     
     /**
@@ -38,7 +57,15 @@ public interface AgencyDataImportService {
 
     /**
      * 
-     * This method matches all valid Agency Staging data with Credit Card Staging data. Matched data is moved to the historical expense table.
+     * @param agency
+     * @param sequenceHelper
+     */
+    void processAgencyStagingExpense(AgencyStagingData agency, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
+    
+    /**
+     * 
+     * This method matches all valid Agency Staging data with Credit Card Staging data. Matched data is moved 
+     * to the historical expense table.
      * @return
      */
     boolean matchExpenses();

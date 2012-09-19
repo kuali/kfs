@@ -31,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.SubAccount;
+import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -1526,6 +1527,10 @@ public class AgencyStagingData extends PersistableBusinessObjectBase {
     public String getImportBy() {
         return importBy;
     }
+    
+    public ExpenseImport getExpenseImport() {
+        return ExpenseImport.getExpenseImportByCode(importBy);
+    }
 
     /**
      * Sets the importBy attribute value.
@@ -1549,6 +1554,10 @@ public class AgencyStagingData extends PersistableBusinessObjectBase {
      */
     public void setCreditCardAgency(CreditCardAgency creditCardAgency) {
         this.creditCardAgency = creditCardAgency;
+        if (creditCardAgency != null){
+            setCreditCardAgencyId(creditCardAgency.getId());
+            setAgency(creditCardAgency.getCreditCardOrAgencyName());
+        }
     }
 
     /**

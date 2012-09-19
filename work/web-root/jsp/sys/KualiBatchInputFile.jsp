@@ -39,8 +39,8 @@
           <table width="100%" summary="" cellpadding="0" cellspacing="0">
             <tr>
               <th width="120">&nbsp;</th>
-              <th> <div align="left"><label for="uploadFile">Browse File</label></div></th>
-              <th> <div align="left"><label for="batchUpload.fileUserIdentifer">File Identifier</label></div></th>
+              <th> <div align="left"><label for="uploadFile"><font color="">${KFSConstants.REQUIRED_FIELD_SYMBOL}&nbsp;</font>Browse File</label></div></th>
+              <th> <div align="left"><label for="batchUpload.fileUserIdentifer"><font color="">${KFSConstants.REQUIRED_FIELD_SYMBOL}&nbsp;</font>File Identifier</label></div></th>
               <th width="150"> <div align="center">Actions</div></th>
             </tr>
             

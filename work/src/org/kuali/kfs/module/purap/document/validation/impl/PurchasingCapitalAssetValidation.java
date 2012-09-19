@@ -22,6 +22,7 @@ import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
@@ -68,7 +69,19 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
             else if (purchasingDocument.getPurchasingCapitalAssetItems().isEmpty()) {
                 valid = false;
             }
-            
+            else {
+                int expectedCapAssetItems = 0;
+                for (PurApItem purapItem : purchasingDocument.getItems()) {
+                    if (purapItem.getItemType().isLineItemIndicator()) {
+                        if (capitalAssetBuilderModuleService.doesItemNeedCapitalAsset(purapItem.getItemTypeCode(), purapItem.getSourceAccountingLines())) {
+                            expectedCapAssetItems++;
+                        }
+                    }
+                }
+                if(purchasingDocument.getPurchasingCapitalAssetItems().size() < expectedCapAssetItems){
+                    valid = false;
+                }
+            }            
             if (!valid) {
                 GlobalVariables.getMessageMap().putError("newPurchasingItemCapitalAssetLine", PurapKeyConstants.ERROR_CAPITAL_ASSET_REQD_FOR_PUR_OBJ_SUB_TYPE);                
                 return valid; 

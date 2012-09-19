@@ -972,7 +972,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
         simpleValues.put("referenceOriginCode", getReferenceOriginCode());
         simpleValues.put("referenceNumber", getReferenceNumber());
         simpleValues.put("referenceTypeCode", getReferenceTypeCode());
-        simpleValues.put("overrideCode", getOverrideCode());
         // The override booleans are not in the map because they should not cause isLike() to fail and generate update events.
         simpleValues.put("organizationReferenceId", getOrganizationReferenceId());
         simpleValues.put("debitCreditCode", getDebitCreditCode());

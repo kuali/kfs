@@ -79,7 +79,7 @@ public class PurchaseOrderQuoteListRule extends MaintenanceDocumentRuleBase impl
         PurchaseOrderQuoteList newBo = (PurchaseOrderQuoteList)super.getNewBo();
         if (newBo.getQuoteListVendors() == null || newBo.getQuoteListVendors().size() == 0) {
             success = false;
-            putGlobalError(PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_LIST_NO_VENDOR);
+            putFieldError("add.quoteListVendors.vendorDetail.vendorNumber", PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_LIST_NO_VENDOR);
         }
         return success;
     }

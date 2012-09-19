@@ -43,8 +43,6 @@ public class NonCheckDisbursementDocumentPreRules extends PromptBeforeValidation
         
         preRulesOK &= checkBankCodeActive(nonCheckDocument);
         
-        // DTT-3163: Add warning message when account override changed externally
-        //MSU Contribution DTT-3163 KFSMI-6747 KFSCNTRB-588
         preRulesOK &= SpringContext.getBean(AccountingDocumentPreRuleService.class).accessAccountOverrideQuestion((AccountingDocumentBase) document, this, this.event);
         
         return preRulesOK;

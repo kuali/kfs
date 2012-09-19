@@ -27,7 +27,6 @@ import org.kuali.rice.krad.document.Document;
 /**
  * Checks warnings and prompt conditions for ICA document.
  */
-//MSU Contribution DTT-3163 KFSMI-6747 KFSCNTRB-588
 public class IndirectCostAdjustmentDocumentPreRules extends PromptBeforeValidationBase {
 
   
@@ -42,7 +41,6 @@ public class IndirectCostAdjustmentDocumentPreRules extends PromptBeforeValidati
     public boolean doPrompts(Document document) {
         boolean preRulesOK = true;
         
-        // DTT-3163: Add warning message when account override changed externally
         preRulesOK &= SpringContext.getBean(AccountingDocumentPreRuleService.class).accessAccountOverrideQuestion((AccountingDocumentBase) document, this, this.event);
         
         return preRulesOK;

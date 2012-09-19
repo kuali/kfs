@@ -25,12 +25,10 @@ import org.kuali.rice.krad.document.Document;
 
 public class JournalVoucherDocumentPreRules extends PromptBeforeValidationBase {
    
-  //MSU Contribution DTT-3163 KFSMI-6747 KFSCNTRB-588
     @Override
     public boolean doPrompts(Document document) {
         boolean preRulesOK = true;
       
-        // DTT-3163: Add warning message when account override changed externally
         preRulesOK &= SpringContext.getBean(AccountingDocumentPreRuleService.class).accessAccountOverrideQuestion((AccountingDocumentBase) document, this, this.event);
 
         return preRulesOK;

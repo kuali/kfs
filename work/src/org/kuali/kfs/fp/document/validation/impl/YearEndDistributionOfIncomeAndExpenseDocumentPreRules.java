@@ -27,7 +27,6 @@ import org.apache.log4j.Logger;
  * Checks warnings and prompt conditions for YEDI document.
  */
 
-//MSU Contribution DTT-3163 KFSMI-6747 KFSCNTRB-588
 public class YearEndDistributionOfIncomeAndExpenseDocumentPreRules extends PromptBeforeValidationBase { 
 
     
@@ -42,8 +41,6 @@ public class YearEndDistributionOfIncomeAndExpenseDocumentPreRules extends Promp
     public boolean doPrompts(Document document) {
         boolean preRulesOK = true;
 
-        // DTT-3163: Add warning message when account override changed externally
-        //MSU Contribution DTT-3163 KFSMI-6747 KFSCNTRB-588
         preRulesOK &= SpringContext.getBean(AccountingDocumentPreRuleService.class).accessAccountOverrideQuestion((AccountingDocumentBase) document, this, this.event);
         
         return preRulesOK;

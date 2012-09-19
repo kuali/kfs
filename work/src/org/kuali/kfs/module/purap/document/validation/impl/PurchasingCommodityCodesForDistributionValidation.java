@@ -51,6 +51,8 @@ public class PurchasingCommodityCodesForDistributionValidation extends GenericVa
         else {
             //This is the case where the commodity code on the item does not exist in the database.
             valid = false;
+            GlobalVariables.getMessageMap().clearErrorPath();
+            GlobalVariables.getMessageMap().addToErrorPath(PurapConstants.ITEM_TAB_ERRORS);
             GlobalVariables.getMessageMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PUR_COMMODITY_CODE_INVALID,  " in distribute commodity code" );
         }
         return valid;

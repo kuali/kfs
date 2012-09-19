@@ -260,6 +260,9 @@
 		<property name="label" value="Default APO Limit" />
 		<property name="shortLabel" value="Default APO Limit" />
 		<property name="required" value="false" />
+		<property name="validationPattern">
+            <bean parent="FixedPointValidationPattern" p:precision="19" p:scale="2" p:allowNegative="false"/>
+        </property>
 	</bean>
 	<bean id="VendorContract-vendorContractGeneratedIdentifier"
 		parent="VendorContract-vendorContractGeneratedIdentifier-parentBean" />
@@ -388,8 +391,14 @@
 		<property name="lookupableID" value="vendorContractLookupable" />
 
 		<property name="defaultSort">
-			<bean parent="SortDefinition">
-			</bean>
+		   <bean parent="SortDefinition">
+		   <!-- MSU Contribution DTT:3316 KFSMI-8465 -->
+             <property name="attributeNames">
+		          <list>
+		            <value>vendorDetail.vendorName</value>
+		          </list>     
+             </property> 
+           </bean>
 		</property>
 		<property name="lookupFields">
 			<list>

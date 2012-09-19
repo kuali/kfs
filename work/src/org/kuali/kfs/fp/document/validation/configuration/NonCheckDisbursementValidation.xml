@@ -75,7 +75,9 @@
 	<bean id="NonCheckDisbursement-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
   			<list>
-  				<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" />
+  				<bean parent="AccountingDocument-AddAccountingLine-DefaultValidation" scope="prototype" >
+					<property name="quitOnFail" value="true" />
+				</bean>	
   				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>

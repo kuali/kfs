@@ -597,7 +597,7 @@
     		<c:when test="${empty KualiForm.document.currentPurchaseOrderDocument}">
 	            <tr>
 	                <td align="center" valign="middle" class="datacell" colspan="4">
-		    			No matcing purchase order found.
+	                	No matching purchase order found.
 	                </td>
 	            </tr>
     		</c:when>

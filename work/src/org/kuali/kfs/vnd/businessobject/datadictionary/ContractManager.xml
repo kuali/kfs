@@ -177,8 +177,13 @@
 		<property name="title" value="Contract Manager Lookup" />
 
 		<property name="defaultSort">
-			<bean parent="SortDefinition">
-			</bean>
+		  <bean parent="SortDefinition">
+	      	<property name="attributeNames">
+	          <list>
+	            <value>contractManagerCode</value>
+	          </list>
+	        </property>
+	      </bean>
 		</property>
 		<property name="lookupFields">
 			<list>

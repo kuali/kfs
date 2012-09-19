@@ -2,5 +2,17 @@
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 	
+	<changeSet id="KFSMI-7757_FIX_DOC_HELP_URLS" author="KFS501">
+	
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" value="${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fyearendedocs1.htm" />
+			<where>DOC_TYP_NM IN ( 'YEBA', 'YEDI' ) and CUR_IND = 1</where>
+		</update>
+		
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" value="${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Flaborobjectcodebenefits.htm" />
+			<where>DOC_TYP_NM = 'LOBN' and CUR_IND = 1</where>
+		</update>	
+	</changeSet>
 	
 </databaseChangeLog>

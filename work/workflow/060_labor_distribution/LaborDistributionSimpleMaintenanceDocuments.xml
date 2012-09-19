@@ -71,7 +71,7 @@
         Labor Object Code Benefits Maintenance Document
       </label>
       <helpDefinitionURL>
-      	default.htm?turl=WordDocuments%2Flaborobjectcodebenefits.htm
+      	${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Flaborobjectcodebenefits.htm
       </helpDefinitionURL>
       <active>
         true

@@ -161,7 +161,9 @@ public class AdvanceDepositAction extends CapitalAccountingLinesActionBase {
         Iterator<AdvanceDepositDetail> deposits = advanceDepositDocument.getAdvanceDeposits().iterator();
         while (deposits.hasNext()) {
             AdvanceDepositDetail deposit = deposits.next();
+            if (deposit.getFinancialDocumentAdvanceDepositAmount() !=null) {
             total = total.add(deposit.getFinancialDocumentAdvanceDepositAmount());
+            }
         }
         return total;
     }

@@ -121,6 +121,7 @@
 					<property name="parameterProperties">
 						<bean parent="accountingLineToBusinessObjectFieldConversion" />
 					</property>
+					<property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="AccountingDocument-accountingLineAmountPositiveValidation" scope="prototype">
 					<property name="parameterProperties">

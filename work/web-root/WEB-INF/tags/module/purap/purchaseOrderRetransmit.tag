@@ -22,8 +22,9 @@
 <%@ attribute name="displayPurchaseOrderFields" required="false"
               description="Boolean to indicate if PO specific fields should be displayed" %>
              
-                           
-<kul:tab tabTitle="Purchase Order Retransmit" defaultOpen="true" >
+     
+
+<kul:tab tabTitle="Purchase Order Retransmit" defaultOpen="true" tabErrorKey="${PurapConstants.PO_RETRANSMIT_SELECT_TAB_ERRORS}" >
 	
     <div class="tab-container" align=center>
             <h3>Purchase Order Retransmit</h3>

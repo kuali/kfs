@@ -40,6 +40,7 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PaymentRequestProcessItemValidation extends GenericValidation {
@@ -112,16 +113,19 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
         boolean valid = true;
         // Currently Quantity is allowed to be NULL on screen;
         // must be either a positive number or NULL for DB
+        MessageMap errorMap = GlobalVariables.getMessageMap();
+        errorMap.clearErrorPath();
+        
         if (ObjectUtils.isNotNull(item.getItemQuantity())) {
             if (item.getItemQuantity().isNegative()) {
                 // if quantity is negative give an error
                 valid = false;
-                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.INVOICE_QUANTITY, identifierString);
+                errorMap.putError(PurapConstants.ITEM_TAB_ERRORS, PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.INVOICE_QUANTITY, identifierString);
             }
             if (!isReceivingDocumentRequiredIndicator){
                 if (item.getPoOutstandingQuantity().isLessThan(item.getItemQuantity())) {
                     valid = false;
-                    GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_QUANTITY_TOO_MANY, ItemFields.INVOICE_QUANTITY, identifierString, ItemFields.OPEN_QUANTITY);
+                   errorMap.putError(PurapConstants.ITEM_TAB_ERRORS, PurapKeyConstants.ERROR_ITEM_QUANTITY_TOO_MANY, ItemFields.INVOICE_QUANTITY, identifierString, ItemFields.OPEN_QUANTITY);
                 }
             }
         }
@@ -132,7 +136,7 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
                 // here we have a user not entering a quantity with an extended amount but the PO has a quantity...require user to
                 // enter a quantity
                 valid = false;
-                GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_QUANTITY_REQUIRED, ItemFields.INVOICE_QUANTITY, identifierString, ItemFields.OPEN_QUANTITY);
+                errorMap.putError(PurapConstants.ITEM_TAB_ERRORS, PurapKeyConstants.ERROR_ITEM_QUANTITY_REQUIRED, ItemFields.INVOICE_QUANTITY, identifierString, ItemFields.OPEN_QUANTITY);
             }
         }
 
@@ -142,7 +146,7 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
             if ((item.getItemType().isAmountBasedGeneralLedgerIndicator()) && ((item.getExtendedPrice() != null) && item.getExtendedPrice().isNonZero())) {
                 if (item.getPoOutstandingAmount() == null || item.getPoOutstandingAmount().isZero()) {
                     valid = false;
-                    GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMOUNT_ALREADY_PAID, identifierString);
+                    errorMap.putError(PurapConstants.ITEM_TAB_ERRORS, PurapKeyConstants.ERROR_ITEM_AMOUNT_ALREADY_PAID, identifierString);
                 }
             }
         }

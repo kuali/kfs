@@ -166,6 +166,11 @@
                     <bean parent="MaintainableFieldDefinition" p:name="vendorCampusCode"/>
                   </list>
                 </property>
+                <property name="duplicateIdentificationFields">
+					<list>
+						<bean parent="MaintainableFieldDefinition" p:name="vendorCampusCode" />
+					</list>
+				</property>
                 <property name="maintainableFields">
                   <list>
                     <bean parent="MaintainableFieldDefinition" p:name="vendorCampusCode" p:required="true"/>
@@ -339,7 +344,7 @@
           </property>
           <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition" p:name="purchasingCommodityCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="purchasingCommodityCode" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="commodityDefaultIndicator" p:defaultValue="false"/>

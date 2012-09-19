@@ -46,17 +46,18 @@ public class PurchasingUnitOfMeasureValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         PurchasingItemBase purItem = (PurchasingItemBase) itemForValidation;
-        GlobalVariables.getMessageMap().addToErrorPath(PurapConstants.ITEM_TAB_ERRORS);
         
         // Validations for quantity based item type
         if (purItem.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+            
+            String errorPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + (itemForValidation.getItemLineNumber() - 1) + "]." + PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE;
             String uomCode = purItem.getItemUnitOfMeasureCode();
             if (StringUtils.isEmpty(uomCode)) {
                 valid = false;
                 String attributeLabel = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(purItem.getClass().getName()).
                                         getAttributeDefinition(KFSPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE).
                                         getLabel();
-                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + purItem.getItemIdentifierString());
+               GlobalVariables.getMessageMap().putError(errorPrefix, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + purItem.getItemIdentifierString());
             }
             else {
                 //Find out whether the unit of measure code has existed in the database
@@ -65,12 +66,11 @@ public class PurchasingUnitOfMeasureValidation extends GenericValidation {
                 if (businessObjectService.countMatching(UnitOfMeasure.class, fieldValues) != 1) {
                     //This is the case where the unit of measure code on the item does not exist in the database.
                     valid = false;
-                    GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID,  " in " + purItem.getItemIdentifierString());
+                  GlobalVariables.getMessageMap().putError(errorPrefix, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID,  " in " + purItem.getItemIdentifierString());
                 }
             }            
         }
 
-        GlobalVariables.getMessageMap().clearErrorPath();
         
        if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator() && StringUtils.isNotBlank(purItem.getItemUnitOfMeasureCode())) {
             valid = false;
@@ -79,7 +79,8 @@ public class PurchasingUnitOfMeasureValidation extends GenericValidation {
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE).getLabel();
             GlobalVariables.getMessageMap().putError(errorPrefix, PurapKeyConstants.ERROR_ITEM_UOM_NOT_ALLOWED, attributeLabel + " in " + purItem.getItemIdentifierString());
         }
-        
+             
+
         return valid;
     }
 

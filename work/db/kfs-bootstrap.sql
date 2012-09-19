@@ -258,19 +258,19 @@ VALUES
 UPDATE fp_dv_pmt_reas_t 
     SET dv_pmt_reas_desc = SUBSTR( dv_pmt_reas_desc, 1, INSTR( dv_pmt_reas_desc, '.  Some common' ) )
     WHERE dv_pmt_reas_desc LIKE '%.  Some common%'
-/    
+/
 UPDATE fp_dv_pmt_reas_t 
     SET dv_pmt_reas_desc = SUBSTR( dv_pmt_reas_desc, 1, INSTR( dv_pmt_reas_desc, '. Some common' ) )
     WHERE dv_pmt_reas_desc LIKE '%. Some common%'
-/    
+/
 UPDATE fp_dv_pmt_reas_t 
     SET dv_pmt_reas_desc = SUBSTR( dv_pmt_reas_desc, 1, INSTR( dv_pmt_reas_desc, '.  Object codes' ) )
     WHERE dv_pmt_reas_desc LIKE '%.  Object codes%'
-/    
+/
 UPDATE fp_dv_pmt_reas_t 
     SET dv_pmt_reas_desc = SUBSTR( dv_pmt_reas_desc, 1, INSTR( dv_pmt_reas_desc, '.  The object code' ) )
     WHERE dv_pmt_reas_desc LIKE '%.  The object code%'
-/    
+/
 UPDATE fp_dv_pmt_reas_t 
     SET dv_pmt_reas_desc = SUBSTR( dv_pmt_reas_desc, 1, INSTR( dv_pmt_reas_desc, '.  Common object' ) )
     WHERE dv_pmt_reas_desc LIKE '%.  Common object%'

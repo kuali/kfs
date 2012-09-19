@@ -1099,7 +1099,7 @@
         ${kfs.url}/financialYearEndBudgetAdjustment.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm
+        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fyearendedocs1.htm
       </helpDefinitionURL>
       <active>
         true
@@ -1122,7 +1122,7 @@
         ${kfs.url}/financialYearEndDistributionOfIncomeAndExpense.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm
+        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fyearendedocs1.htm
       </helpDefinitionURL>
       <active>
         true

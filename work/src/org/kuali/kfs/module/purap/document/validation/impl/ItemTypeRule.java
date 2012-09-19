@@ -28,6 +28,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -122,7 +123,7 @@ public class ItemTypeRule extends MaintenanceDocumentRuleBase {
             ) {
             success = false;
             String documentLabel = SpringContext.getBean(BusinessObjectDictionaryService.class).getMaintainableLabel(newBo.getClass()); 
-            putGlobalError(KFSKeyConstants.ERROR_CANNOT_INACTIVATE_USED_IN_SYSTEM_PARAMETERS, documentLabel);
+            putFieldError(KFSPropertyConstants.ACTIVE, KFSKeyConstants.ERROR_CANNOT_INACTIVATE_USED_IN_SYSTEM_PARAMETERS, documentLabel);
         }
         
         return success;

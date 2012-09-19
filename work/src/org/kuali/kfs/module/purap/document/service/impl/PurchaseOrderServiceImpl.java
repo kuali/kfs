@@ -732,8 +732,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     @Override
     public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, PurchaseOrderDocument currentDocument, boolean copyNotes, String splitNoteText) {
-
-        if (ObjectUtils.isNull(currentDocument)) {
+        
+    	if (ObjectUtils.isNull(currentDocument)) {
             String errorMsg = "Attempting to create new PO of type PurchaseOrderSplitDocument from source PO doc that is null";
             LOG.error(errorMsg);
             throw new RuntimeException(errorMsg);
@@ -742,7 +742,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         try {
             // Create the new Split PO document (throws WorkflowException)
-            PurchaseOrderSplitDocument newDocument = (PurchaseOrderSplitDocument)documentService.getNewDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT);
+            PurchaseOrderSplitDocument newDocument = (PurchaseOrderSplitDocument) documentService.getNewDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT);
 
             if (ObjectUtils.isNotNull(newDocument)) {
 
@@ -771,7 +771,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     int noteLength = notes.size();
                     if (noteLength > 0) {
                         notes.subList(noteLength - 1, noteLength).clear();
-                        for(Note note : notes) {
+                        for (Note note : notes) {
                             try {
                                 Note copyingNote = documentService.createNoteFromDocument(newDocument, note.getNoteText());
                                 newDocument.addNote(copyingNote);
@@ -802,7 +802,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                
+
                 return newDocument;
             }
             else {
@@ -1486,15 +1486,19 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
-    public boolean isNewItemForAmendment(PurchaseOrderItem poItem){
+    public boolean isNewItemForAmendment(PurchaseOrderItem poItem) {
 
         boolean itemAdded = false;
 
-        //only check, active, above the line, unordered items
+        // only check, active, above the line, unordered items
         if (poItem.isItemActiveIndicator() && poItem.getItemType().isLineItemIndicator()) {
 
-            //if the item identifier is null its new, or if the item doesn't exist on the current purchase order it's new
-            if( poItem.getItemIdentifier() == null || !purchaseOrderDao.itemExistsOnPurchaseOrder(poItem.getItemLineNumber(), purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(poItem.getPurchaseOrder().getPurapDocumentIdentifier()) )){
+            // if the item identifier is null its new, or if the item doesn't exist on the current purchase order it's new
+            Integer docId = poItem.getPurapDocumentIdentifier();
+            if (docId == null) {
+                docId = poItem.getPurchaseOrder().getPurapDocumentIdentifier();
+            }
+            if (poItem.getItemIdentifier() == null || !purchaseOrderDao.itemExistsOnPurchaseOrder(poItem.getItemLineNumber(), purchaseOrderDao.getDocumentNumberForCurrentPurchaseOrder(docId))) {
                 itemAdded = true;
             }
         }
@@ -1896,7 +1900,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 PurchaseOrderDocument document = getPurchaseOrderByDocumentNumber(poAutoClose.getDocumentNumber());
                 boolean rulePassed = kualiRuleService.applyRules(new AttributedRouteDocumentEvent("", document));
 
-				boolean success = true;
+                boolean success = true;
                 if (success) {
                     ++counter;
                     if (counter == 1) {

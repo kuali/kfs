@@ -17,7 +17,7 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<kul:tab tabTitle="Special Handling" defaultOpen="false" tabErrorKey="${KFSConstants.DV_SPECHAND_TAB_ERRORS}">
+<kul:tab tabTitle="Special Handling" defaultOpen="${!empty KualiForm.document.dvPayeeDetail.disbVchrSpecialHandlingPersonName}" tabErrorKey="${KFSConstants.DV_SPECHAND_TAB_ERRORS}">
 	<c:set var="payeeAttributes" value="${DataDictionary.DisbursementVoucherPayeeDetail.attributes}" />
     <div class="tab-container" align=center > 
 <h3>Send Check To</h3>

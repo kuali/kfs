@@ -89,6 +89,9 @@
     <property name="name" value="thresholdAmount"/>
     <property name="label" value="Threshold Amount"/>
     <property name="shortLabel" value="Amount"/>
+    <property name="validationPattern">
+      <bean parent="FixedPointValidationPattern" p:precision="19" p:scale="4" p:allowNegative="false"/>
+    </property>
   </bean>
   
   <bean id="ReceivingThreshold-accountTypeCode" parent="ReceivingThreshold-accountTypeCode-parentBean"/>

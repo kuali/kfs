@@ -29,11 +29,14 @@ import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.ReceivingThreshold;
 import org.kuali.kfs.module.purap.util.ThresholdField;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ThresholdRule extends MaintenanceDocumentRuleBase {
 
@@ -195,15 +198,30 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
     protected boolean isValidVendorNumber(ReceivingThreshold threshold){
         
         if (StringUtils.isNotBlank(threshold.getVendorNumber())){
-            Map keys = new HashMap();
-            keys.put(ThresholdField.VENDOR_HEADER_GENERATED_ID.getName(), threshold.getVendorHeaderGeneratedIdentifier());
-            keys.put(ThresholdField.VENDOR_DETAIL_ASSIGNED_ID.getName(), threshold.getVendorDetailAssignedIdentifier());
+            String vendorNumber = threshold.getVendorNumber();
             
-            VendorDetail vendorDetail = (VendorDetail) getBoService().findByPrimaryKey(VendorDetail.class, keys);
-            if (vendorDetail == null) {
-                putFieldError(ThresholdField.VENDOR_NUMBER.getName(), PurapKeyConstants.THRESHOLD_FIELD_INVALID, newThreshold.getVendorNumber());
-                return false;
+            if (StringUtils.isNotBlank(vendorNumber)){
+                Map<String, Integer> keys = new HashMap<String, Integer>();
+                
+                Integer headerId = VendorUtils.getVendorHeaderId(vendorNumber);
+                Integer detailId = VendorUtils.getVendorDetailId(vendorNumber);
+                
+                keys.put(KFSPropertyConstants.VENDOR_HEADER_GENERATED_ID, headerId);
+                keys.put(KFSPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, detailId);
+                
+                VendorDetail vendorDetail = (VendorDetail) getBoService().findByPrimaryKey(VendorDetail.class, keys);
+                
+                if (ObjectUtils.isNull(vendorDetail)) {
+                    putFieldError(KFSPropertyConstants.VENDOR_NUMBER, PurapKeyConstants.THRESHOLD_FIELD_INVALID, "Vendor Number " + vendorNumber);
+                    return false;
+                }
+                else{
+                    VendorDetail vendor = threshold.getVendorDetail();
+                    vendor.setVendorHeaderGeneratedIdentifier(headerId);
+                    vendor.setVendorDetailAssignedIdentifier(detailId);
+                }
             }
+            return true;
         }
         return true;
     }
@@ -290,5 +308,18 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
             return true;
         }
         return false;
+    }
+    
+    
+    /**
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
+     */
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+        ReceivingThreshold threshold = (ReceivingThreshold) document.getNewMaintainableObject().getBusinessObject(); 
+        
+        boolean valid = this.isValidVendorNumber(threshold);
+        
+        return valid && super.processCustomRouteDocumentBusinessRules(document);
     }
 }

@@ -176,7 +176,8 @@ public class PurapPropertyConstants {
 
     // Stipulations
     public static final String VENDOR_STIPULATION_DESCRIPTION = "vendorStipulationDescription";
-
+    public static final String NEW_VENDOR_STIPULATION = "newPurchaseOrderVendorStipulationLine";
+    
     // Sensitive Data
     public static final String SENSITIVE_DATA_CODE = "sensitiveDataCode";
     

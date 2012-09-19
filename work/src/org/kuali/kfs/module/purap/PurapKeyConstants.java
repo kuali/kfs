@@ -370,4 +370,6 @@ public class PurapKeyConstants {
     
     public static final String ERROR_PAYMENT_REQUEST_CANNOT_BE_CANCELLED = "error.paymentRequest.cannot.be.cancelled";
     
+    public static final String ERROR_PURCHASE_ORDER_RETRANSMIT_SELECT = "error.purchaseOrder.retransmit.select";
+    
 }

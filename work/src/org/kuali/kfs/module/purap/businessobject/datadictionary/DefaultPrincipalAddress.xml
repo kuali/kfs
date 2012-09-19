@@ -26,7 +26,7 @@
 			<ref bean="DefaultPrincipalAddress-lookupDefinition"/>
 		</property>
 		<property name="titleAttribute" value="DefaultPrincipalAddressCode"/>
-		<property name="objectLabel" value="Delivery Required Date Reason"/>
+		<property name="objectLabel" value="Default Principal Address Code"/>
 		<property name="attributes">
 			<list>
 				<ref bean="DefaultPrincipalAddress-principalId"/>

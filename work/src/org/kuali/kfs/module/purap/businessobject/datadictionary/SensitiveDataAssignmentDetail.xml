@@ -13,7 +13,7 @@
 		</property> 
 		-->
 		<property name="titleAttribute" value="sensitiveDataCode"/>
-		<property name="objectLabel" value="sensitive Data Assignment Detail"/>
+		<property name="objectLabel" value="Sensitive Data Assignment Detail"/>
 		<property name="attributes">
 			<list>
 				<ref bean="SensitiveDataAssignmentDetail-sensitiveDataAssignmentIdentifier"/>

@@ -19,7 +19,7 @@
 
   <bean id="LedgerEntryGLSummary-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LedgerEntryGLSummary"/>
-    <property name="objectLabel" value="Labor Ledger Entry" />
+    <property name="objectLabel" value="Labor Ledger Entry Summary" />
     <property name="attributes">
       <list>
         <ref bean="LedgerEntryGLSummary-universityFiscalYear"/>

@@ -22,7 +22,7 @@
 		<property name="lookupDefinition">
 			<ref bean="PurchasingAccountsPayableProcessingReport-lookupDefinition" />
 		</property>
-		<property name="objectLabel" value="General Ledger Entry" />
+		<property name="objectLabel" value="Purchasing Accounts Payable Processing Report" />
 		<property name="attributes">
 			<list>
 				<ref

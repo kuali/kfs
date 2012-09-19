@@ -4,7 +4,7 @@
 
   <bean id="SubObjectCodeGlobalDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubObjectCodeGlobalDetail"/>
-    <property name="objectLabel" value="Object Code Change Detail"/>
+    <property name="objectLabel" value="Sub-Object Code Global Detail"/>
     <property name="attributes">
       <list>
         <bean parent="ObjectCode-universityFiscalYear"/>

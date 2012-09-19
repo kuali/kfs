@@ -20,7 +20,7 @@
   <bean id="TaxRegionPostalCode-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.TaxRegionPostalCode"/>
     <property name="titleAttribute" value="taxPostalCode"/>
-    <property name="objectLabel" value="TaxRegionPostalCode"/>
+    <property name="objectLabel" value="Tax Region Postal Code"/>
     <property name="attributes">
       <list>
       	<ref bean="TaxRegionPostalCode-postalCountryCode"/>

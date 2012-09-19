@@ -28,7 +28,8 @@
     </property>    
     <property name="lookupDefinition" >
       <ref bean="PurchasingPaymentDetail-lookupDefinition" />
-    </property>   
+    </property>
+     <property name="objectLabel" value="Purchasing Payment Detail"/>    
   </bean>  
 
 <!-- Business Object Inquiry Definition -->

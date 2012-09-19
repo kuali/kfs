@@ -22,7 +22,7 @@
     <property name="inquiryDefinition" ref="AssetPaymentDocumentType-inquiryDefinition"/>
     <property name="lookupDefinition" ref="AssetPaymentDocumentType-lookupDefinition"/>
     <property name="titleAttribute" value="documentTypeId"/>
-    <property name="objectLabel" value="Document Type"/>
+    <property name="objectLabel" value="Asset Payment Document Type"/>
     <property name="attributes">
       <list>
        	<ref bean="AssetPaymentDocumentType-documentTypeId"/>

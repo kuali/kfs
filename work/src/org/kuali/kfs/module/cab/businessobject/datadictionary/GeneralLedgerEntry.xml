@@ -26,7 +26,7 @@
 		<property name="lookupDefinition">
 			<ref bean="GeneralLedgerEntry-lookupDefinition" />
 		</property>
-		<property name="objectLabel" value="General Ledger Entry" />
+		<property name="objectLabel" value="Capital Asset General Ledger Entry" />
 		<property name="attributes">
 			<list>
 				<ref bean="GeneralLedgerEntry-generalLedgerAccountIdentifier" />
@@ -254,7 +254,7 @@
 	<bean id="GeneralLedgerEntry-inquiryDefinition" parent="GeneralLedgerEntry-inquiryDefinition-parentBean" />
 	<bean id="GeneralLedgerEntry-inquiryDefinition-parentBean"
 		abstract="true" parent="InquiryDefinition">
-		<property name="title" value="General Ledger Entry" />
+		<property name="title" value="Capital Assets General Ledger Entry Inquiry" />
 		<property name="inquirySections">
 			<list>
 				<ref bean="GeneralLedgerEntry-inquirySectionDefinition" />

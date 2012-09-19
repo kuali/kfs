@@ -11,7 +11,7 @@
 			<ref bean="PurchaseOrderItemUseTax-lookupDefinition" />
 		</property>-->
 		<property name="titleAttribute" value="PurchaseOrderItemUseTaxCode"/>
-		<property name="objectLabel" value="Delivery Required Date Reason"/>
+		<property name="objectLabel" value="Purchase Order Item Use Tax Code"/>
 		<property name="attributes">
 			<list>
 				<ref bean="PurchaseOrderItemUseTax-purchaseOrderItemUseTaxId"/>

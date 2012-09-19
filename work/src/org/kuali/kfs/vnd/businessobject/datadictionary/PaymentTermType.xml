@@ -53,7 +53,7 @@
 		<property name="name" value="vendorDiscountDueNumber" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Discount Due Number" />
-		<property name="shortLabel" value="Discount Due Num." />
+		<property name="shortLabel" value="Discount Due Number" />
 		<property name="maxLength" value="2" />
 		<property name="validationPattern">
 			<ref bean="NumericValidation" />
@@ -70,7 +70,7 @@
 		<property name="name" value="vendorDiscountDueTypeDescription" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Discount Due Type Description" />
-		<property name="shortLabel" value="Discount Due Type Desc." />
+		<property name="shortLabel" value="Discount Due Type Description" />
 		<property name="maxLength" value="20" />
 		<property name="validationPattern">
 			<ref bean="AnyCharacterWithWhitespaceValidation" />
@@ -88,7 +88,7 @@
 		<property name="name" value="vendorNetDueNumber" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Net Due Number" />
-		<property name="shortLabel" value="Net Due Num." />
+		<property name="shortLabel" value="Net Due Number" />
 		<property name="maxLength" value="2" />
 		<property name="validationPattern">
 			<ref bean="NumericValidation" />
@@ -104,7 +104,7 @@
 		<property name="name" value="vendorNetDueTypeDescription" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Net Due Type Description" />
-		<property name="shortLabel" value="Net Due Type Desc." />
+		<property name="shortLabel" value="Net Due Type Description" />
 		<property name="maxLength" value="20" />
 		<property name="validationPattern">
 			<ref bean="AnyCharacterWithWhitespaceValidation" />
@@ -122,7 +122,7 @@
 		<property name="name" value="vendorPaymentTermsCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Payment Terms Code" />
-		<property name="shortLabel" value="Payment Terms Cd." />
+		<property name="shortLabel" value="Payment Terms Code" />
 		<property name="maxLength" value="5" />
 		<property name="validationPattern">
 			<ref bean="AnyCharacterValidation" />
@@ -139,7 +139,7 @@
 		<property name="name" value="vendorPaymentTermsDescription" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Payment Terms Description" />
-		<property name="shortLabel" value="Payment Terms Desc." />
+		<property name="shortLabel" value="Payment Terms Description" />
 		<property name="maxLength" value="45" />
 		<property name="validationPattern">
 			<ref bean="AnyCharacterWithWhitespaceValidation" />

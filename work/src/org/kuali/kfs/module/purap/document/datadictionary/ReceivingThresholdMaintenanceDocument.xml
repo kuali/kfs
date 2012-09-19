@@ -39,6 +39,16 @@
     <property name="workflowAttributes">
     	<ref bean="ReceivingThresholdMaintenanceDocument-workflowAttributes"/>
     </property>
+    <property name="defaultExistenceChecks">
+        <list>
+	      	<bean parent="ReferenceDefinition" p:attributeName="chart" p:attributeToHighlightOnFail="chartOfAccountsCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountType" p:attributeToHighlightOnFail="accountTypeCode" />
+	      	<bean parent="ReferenceDefinition" p:attributeName="subFundGroup" p:attributeToHighlightOnFail="subFundGroupCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="financialObject" p:attributeToHighlightOnFail="financialObjectCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="organization" p:attributeToHighlightOnFail="organizationCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="commodityCode" p:attributeToHighlightOnFail="purchasingCommodityCode" /> 
+  	    </list>   
+    </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->

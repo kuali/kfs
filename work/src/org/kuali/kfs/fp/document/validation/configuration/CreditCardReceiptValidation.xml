@@ -107,6 +107,7 @@
 					<property name="parameterProperties">
 						<bean parent="accountingLineToBusinessObjectFieldConversion" />
 					</property>
+					<property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="CashReceiptFamily-accountingLineAmountValidation" scope="prototype">
 					<property name="parameterProperties">

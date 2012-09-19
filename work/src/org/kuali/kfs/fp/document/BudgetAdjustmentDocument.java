@@ -930,26 +930,18 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
             }
         }
 
-        String chart = "";
-        String accountNumber = "";
-
-        // check remaining conditions
+         // check remaining conditions
         // initiator should be fiscal officer or primary delegate for account
         Person initiator = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        List userAccounts = SpringContext.getBean(AccountService.class).getAccountsThatUserIsResponsibleFor(initiator);
+        
         for (Iterator iter1 = accountingLines.iterator(); iter1.hasNext();) {
 
             BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter1.next();
-            chart = line.getChartOfAccountsCode();
-            accountNumber = line.getAccountNumber();
-
-            Account userAccount = null;
-            for (Iterator iter2 = userAccounts.iterator(); iter2.hasNext();) {
-                AccountResponsibility account = (AccountResponsibility) iter2.next();
-                if (chart.equals(account.getAccount().getChartOfAccountsCode()) && accountNumber.equals(account.getAccount().getAccountNumber())) {
-                    userAccount = account.getAccount();
-                    break;
-                }
+            Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(line.getChartOfAccountsCode(), line.getAccountNumber()); 
+            boolean hasResponsibilityOnAccount= SpringContext.getBean(AccountService.class).hasResponsibilityOnAccount(initiator, account);
+            Account userAccount = null; 
+            if(hasResponsibilityOnAccount){
+                 userAccount=account;
             }
 
             if (userAccount == null) {

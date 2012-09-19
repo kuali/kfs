@@ -27,6 +27,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -113,13 +114,15 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
         String identifierString = item.getItemIdentifierString();
         PurchasingItemBase purItem = (PurchasingItemBase) item;
         
+        String errorPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + (item.getItemLineNumber() - 1) + "]." + PurapPropertyConstants.ITEM_COMMODITY_CODE;
         //This validation is only needed if the commodityCodeRequired system parameter is true
         if (commodityCodeRequired && StringUtils.isBlank(purItem.getPurchasingCommodityCode()) ) {
             //This is the case where the commodity code is required but the item does not currently contain the commodity code.
             valid = false;
             String attributeLabel = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CommodityCode.class.getName()).
                                     getAttributeDefinition(PurapPropertyConstants.ITEM_COMMODITY_CODE).getLabel();
-            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + identifierString);
+            
+            GlobalVariables.getMessageMap().putError(errorPrefix, KFSKeyConstants.ERROR_REQUIRED, attributeLabel + " in " + identifierString);
         }
         else if (StringUtils.isNotBlank(purItem.getPurchasingCommodityCode())) {
             //Find out whether the commodity code has existed in the database
@@ -128,7 +131,7 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
             if (businessObjectService.countMatching(CommodityCode.class, fieldValues) != 1) {
                 //This is the case where the commodity code on the item does not exist in the database.
                 valid = false;
-                GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INVALID,  " in " + identifierString);
+                GlobalVariables.getMessageMap().putError(errorPrefix, PurapKeyConstants.PUR_COMMODITY_CODE_INVALID,  " in " + identifierString);
             }
             else {
                 valid &= validateThatCommodityCodeIsActive(item);
@@ -142,7 +145,8 @@ public class PurchasingNewIndividualItemValidation extends PurchasingAccountsPay
         item.refreshReferenceObject(PurapPropertyConstants.COMMODITY_CODE);
         if (!((PurchasingItemBase)item).getCommodityCode().isActive()) {
             //This is the case where the commodity code on the item is not active.
-            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_COMMODITY_CODE, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in " + item.getItemIdentifierString());
+            String errorPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + (item.getItemLineNumber() - 1) + "]." + PurapPropertyConstants.ITEM_COMMODITY_CODE;
+            GlobalVariables.getMessageMap().putError(errorPrefix, PurapKeyConstants.PUR_COMMODITY_CODE_INACTIVE, " in " + item.getItemIdentifierString());
             return false;
         }
         return true;

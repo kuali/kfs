@@ -237,6 +237,7 @@
 							<property name="targetValidationProperty" value="businessObjectForValidation" />
 						</bean>
 					</property>
+					<property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="AccountingDocument-accountingLineAmountPositiveValidation" scope="prototype">
 					<property name="parameterProperties">

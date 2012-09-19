@@ -34,6 +34,8 @@ public class PurapAuthorizationConstants {
         public static final String LOCK_B2B_ENTRY = "lockB2BEntry";
         public static final String RESTRICT_FISCAL_ENTRY = "restrictFiscalEntry";
         public static final String ENABLE_COMMODITY_CODE = "enableCommodityCode";
+        public static final String DISABLE_REMOVE_ACCTS = "disableRemoveAccounts";
+        public static final String DISABLE_SETUP_ACCT_DISTRIBUTION = "disableSetupAccountDistribution";
     }
 
     public static class PurchaseOrderEditMode {
@@ -54,6 +56,7 @@ public class PurapAuthorizationConstants {
         public static final String RESEND_PURCHASE_ORDER = "resendPurchaseOrder";
         public static final String ASSIGN_SENSITIVE_DATA = "assignSensitiveData";
         public static final String ENABLE_COMMODITY_CODE = "enableCommodityCode";
+        public static final String DISABLE_REMOVE_ACCTS = "disableRemoveAccounts";
     }
 
     public static class PaymentRequestEditMode {

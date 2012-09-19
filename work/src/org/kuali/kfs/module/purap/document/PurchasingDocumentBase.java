@@ -1434,7 +1434,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      */
     @Override
     public List buildListOfDeletionAwareLists() {
-        List managedLists = super.buildListOfDeletionAwareLists();
+        List managedLists = new ArrayList<List>();
+        managedLists.add(getDeletionAwareAccountingLines());
         if (allowDeleteAwareCollection) {
             List<ItemCapitalAsset> assetLists = new ArrayList<ItemCapitalAsset>();
             List<CapitalAssetLocation>capitalAssetLocationLists = new ArrayList<CapitalAssetLocation>();
@@ -1457,7 +1458,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
             managedLists.add(assetLists);
             managedLists.add(capitalAssetLocationLists);
             managedLists.add(this.getPurchasingCapitalAssetSystems());
-            //managedLists.add(this.getPurchasingCapitalAssetItems());
+            managedLists.add(this.getPurchasingCapitalAssetItems());
+            managedLists.add(this.getItems());
         }
         return managedLists;
     }

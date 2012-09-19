@@ -44,7 +44,7 @@ public class AddressTypeValuesFinder extends KeyValuesBase {
         labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             AddressType AddressType = (AddressType) iter.next();
-            labels.add(new ConcreteKeyValue(AddressType.getVendorAddressTypeCode(), AddressType.getVendorAddressTypeDescription()));
+            labels.add(new ConcreteKeyValue(AddressType.getVendorAddressTypeCode(),  AddressType.getVendorAddressTypeCode() + " - " + AddressType.getVendorAddressTypeDescription()));
         }
 
         return labels;

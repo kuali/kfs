@@ -409,6 +409,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument purapDocument = (org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument) accountingDocument;
         for (PurApItem item : purapDocument.getItems()) {
             if (item.getItemType().isLineItemIndicator() && item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+              
+                if(!ObjectUtils.isNull(item.getItemUnitPrice())){
                 List<PurApAccountingLine> accounts = item.getSourceAccountingLines();
                 BigDecimal unitPrice = item.getItemUnitPrice();
                 String itemIdentifier = item.getItemIdentifierString();
@@ -420,7 +422,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     }
                 }
             }
-        }
+         }
+      }
         // no need for error
         return true;
     }
@@ -1073,37 +1076,34 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @return
      */
     protected boolean validateObjectCodeVersusTransactionType(ObjectCode objectCode, CapitalAssetBuilderAssetTransactionType capitalAssetTransactionType, String itemIdentifier, boolean quantityBasedItem) {
+
         boolean valid = true;
         String[] objectCodeSubTypes = {};
-
+        String itemTypeStr = null;
+        String alternativeItemTypeStr = null;
+        String capitalAssetSubtypeRequiredText = null;
 
         if (quantityBasedItem) {
             String capitalAssetQuantitySubtypeRequiredText = capitalAssetTransactionType.getCapitalAssetQuantitySubtypeRequiredText();
+            itemTypeStr = PurapConstants.ITEM_TYPE_QTY;
+            alternativeItemTypeStr = PurapConstants.ITEM_TYPE_NO_QTY;
+            capitalAssetSubtypeRequiredText = capitalAssetQuantitySubtypeRequiredText;
             if (capitalAssetQuantitySubtypeRequiredText != null) {
                 objectCodeSubTypes = StringUtils.split(capitalAssetQuantitySubtypeRequiredText, ";");
             }
         }
         else {
             String capitalAssetNonquantitySubtypeRequiredText = capitalAssetTransactionType.getCapitalAssetNonquantitySubtypeRequiredText();
+            itemTypeStr = PurapConstants.ITEM_TYPE_NO_QTY;
+            alternativeItemTypeStr = PurapConstants.ITEM_TYPE_QTY;
+            capitalAssetSubtypeRequiredText = capitalAssetNonquantitySubtypeRequiredText;
             if (capitalAssetNonquantitySubtypeRequiredText != null) {
                 objectCodeSubTypes = StringUtils.split(capitalAssetNonquantitySubtypeRequiredText, ";");
             }
         }
 
-        boolean found = false;
-        for (String subType : objectCodeSubTypes) {
-            if (StringUtils.equals(subType, objectCode.getFinancialObjectSubTypeCode())) {
-                found = true;
-                break;
-            }
-        }
-
-        if (!found) {
-            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE, itemIdentifier, capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(), objectCode.getFinancialObjectCodeName(), objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());
-
-            valid &= false;
-        }
         return valid;
+    
     }
 
     /**

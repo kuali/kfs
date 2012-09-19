@@ -144,6 +144,7 @@
 	<bean id="VendorAddress-vendorAddressTypeCode-parentBean"
 		abstract="true" parent="AddressType-vendorAddressTypeCode">
 		<property name="label" value="Address Type" />
+		<property name="shortLabel" value="Address Type"/>
 		<property name="control">
 			<bean parent="SelectControlDefinition"
 				p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.AddressTypeValuesFinder"

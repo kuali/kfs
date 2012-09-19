@@ -42,7 +42,7 @@ public class TaxRegionLookupableImpl extends KualiLookupableImpl {
         if (getLookupableHelperService().allowsMaintenanceNewOrCopyAction()) {
             Properties parameters = new Properties();
             parameters.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TaxRegionType.class.getName());
-            parameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY) + "/" + KRADConstants.MAPPING_PORTAL);
+            parameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY) + "/" + KRADConstants.PORTAL_ACTION);
             parameters.put(KRADConstants.DOC_FORM_KEY, getTaxRegionDocumentTypeName()); 
             parameters.put(KRADConstants.CONVERSION_FIELDS_PARAMETER, "taxRegionTypeCode:taxRegionTypeCode");
             url = getCreateNewUrl(UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, parameters)); 

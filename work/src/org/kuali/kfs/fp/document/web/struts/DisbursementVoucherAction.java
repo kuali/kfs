@@ -241,7 +241,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
             GlobalVariables.getMessageMap().putError("DVNonEmployeeTravelErrors", KFSKeyConstants.ERROR_REQUIRED, "Travel Start Date");
         }
 
-        if (GlobalVariables.getMessageMap().hasErrors()) {
+        if (!GlobalVariables.getMessageMap().hasErrors()) {
             // call service to calculate mileage amount
             KualiDecimal mileageAmount = SpringContext.getBean(DisbursementVoucherTravelService.class).calculateMileageAmount(dvDocument.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount(), dvDocument.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp());
 

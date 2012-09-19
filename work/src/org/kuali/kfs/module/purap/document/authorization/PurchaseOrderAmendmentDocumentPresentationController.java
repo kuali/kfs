@@ -15,14 +15,23 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
+import java.util.List;
 import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PurchaseOrderEditMode;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
+import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.util.PurApItemUtils;
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 
@@ -62,7 +71,50 @@ public class PurchaseOrderAmendmentDocumentPresentationController extends Purcha
             editModes.add(PurchaseOrderEditMode.UNORDERED_ITEM_ACCOUNT_ENTRY);
         }
         
+        boolean showDisableRemoveAccounts = true;
+        PurchaseOrderAmendmentDocument purchaseOrderAmendmentDocument = (PurchaseOrderAmendmentDocument)document;
+        List<PurApItem> aboveTheLinePOItems = PurApItemUtils.getAboveTheLineOnly((List<PurApItem>)purchaseOrderAmendmentDocument.getItems());
+        
+        ItemLoop:
+        for (PurApItem poItem : aboveTheLinePOItems) {
+            for(PurApAccountingLine poAccoutingLine : poItem.getSourceAccountingLines()){
+                if(!allowAccountingLinesAreEditable(purchaseOrderAmendmentDocument,poAccoutingLine)){
+                    showDisableRemoveAccounts = false;
+                    break ItemLoop;
+                }
+            }
+        }
+        
+        if(!showDisableRemoveAccounts){
+            editModes.add(PurchaseOrderEditMode.DISABLE_REMOVE_ACCTS);
+        }
+        
         return editModes;
+    }
+    
+    
+    
+    protected boolean allowAccountingLinesAreEditable(AccountingDocument accountingDocument, AccountingLine accountingLine){
+        PurApAccountingLine purapAccount = (PurApAccountingLine)accountingLine;
+        PurchaseOrderItem poItem = (PurchaseOrderItem)purapAccount.getPurapItem();
+        PurchaseOrderDocument po = (PurchaseOrderDocument)accountingDocument;
+        
+        if (poItem != null && !poItem.getItemType().isAdditionalChargeIndicator()) {
+            if (!poItem.isItemActiveIndicator()) {
+                return false;
+            }
+
+            // if total amount has a value and is non-zero
+            if (poItem.getItemInvoicedTotalAmount() != null && poItem.getItemInvoicedTotalAmount().compareTo(new KualiDecimal(0)) != 0) {
+                return false;
+            }
+            
+            if (po.getContainsUnpaidPaymentRequestsOrCreditMemos() && !poItem.isNewItemForAmendment()) {
+                return false;
+            }
+            
+        }
+        return true;
     }
 
     @Override

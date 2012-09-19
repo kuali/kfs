@@ -215,7 +215,7 @@
 		<property name="shortLabel" value="Vendor Name" />
 		<property name="maxLength" value="45" />
 		<property name="validationPattern">
-			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		<bean parent="UTF8AnyCharacterValidationPattern" p:allowWhitespace="true"/>
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="45" />
@@ -721,7 +721,7 @@
 		<property name="shortLabel" value="Parent Name" />
 		<property name="maxLength" value="45" />
 		<property name="validationPattern">
-			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		<bean parent="UTF8AnyCharacterValidationPattern" p:allowWhitespace="true"/>
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="45" />

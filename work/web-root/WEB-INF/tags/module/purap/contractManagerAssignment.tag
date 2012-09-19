@@ -34,8 +34,7 @@
 			</c:if>
 			<c:if test="${!empty KualiForm.document.contractManagerAssignmentDetails}">
 	            <tr>
-	                
-	                    <kul:htmlAttributeHeaderCell attributeEntry="${purchaseOrderAttributes.contractManagerCode}" />
+	                     <kul:htmlAttributeHeaderCell attributeEntry="${purchaseOrderAttributes.contractManagerCode}" forceRequired="true"/>
  
 	                 	  <kul:htmlAttributeHeaderCell attributeEntry="${ContractManagerAssignmentAttributes.requisitionNumber}" />
 
@@ -64,6 +63,10 @@
 		                    <kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].contractManagerCode" attributeEntry="${purchaseOrderAttributes.contractManagerCode}" readOnly="${readOnly}" />
 					        <c:if test="${!readOnly}" >
 		                        <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.ContractManager" fieldConversions="contractManagerCode:document.contractManagerAssignmentDetail[${ctr}].contractManagerCode" /></div>
+		                        <kul:checkErrors keyMatch="document.contractManagerAssignmentDetails[${ctr}].contractManagerCode" />
+								<c:if test="${hasErrors}">
+									 <kul:fieldShowErrorIcon />
+								</c:if>	
 		                    </c:if>
 						</td>
 		                <td align=left valign=middle class="datacell">

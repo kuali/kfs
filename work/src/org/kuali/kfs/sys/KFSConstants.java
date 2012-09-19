@@ -1322,5 +1322,11 @@ public class KFSConstants {
     // CSU 6702 END
     
     public static final String ACCOUNTING_PERIOD_TAB_ID = "Accounting Period";
+    
+    public static final String BUDGET_REALLOCATION_LABEL = "Budget Reallocation";
+    public static final String YEAR_END_BUDGET_ADJUSTMENT_LABEL = "Year End Budget Adjustment";
+    
+    public static final String OVERRIDE_ACCOUNT_FOR_EXPIRED_QUESTION_ID = "OverrideAccountForExpiredQuestion";
+    
 }
 

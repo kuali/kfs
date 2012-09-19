@@ -33,29 +33,21 @@ import org.kuali.rice.krad.service.KeyValuesService;
  */
 public class VendorTypeValuesFinder extends KeyValuesBase {
 
-    private static List<KeyValue> labels = null;
-
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyValue> getKeyValues() {
-        if (labels == null) {
-            synchronized (this.getClass()) {
-                if (labels == null) {
-                    KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-                    Collection<VendorType> codes = boService.findAll(VendorType.class);
-                    List<KeyValue> tempLabels = new ArrayList<KeyValue>();
-                    tempLabels.add(new ConcreteKeyValue("", ""));
-                    for (VendorType vt : codes) {
-                        if (vt.isActive()) {
-                            tempLabels.add(new ConcreteKeyValue(vt.getVendorTypeCode(), vt.getVendorTypeDescription()));
-                        }
-                    }
-                    labels = tempLabels;
-                }
+        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
+        Collection<VendorType> codes = boService.findAll(VendorType.class);
+        List<KeyValue> tempLabels = new ArrayList<KeyValue>();
+        tempLabels.add(new ConcreteKeyValue("", ""));
+        for (VendorType vt : codes) {
+            if (vt.isActive()) {
+                tempLabels.add(new ConcreteKeyValue(vt.getVendorTypeCode(), vt.getVendorTypeCode() + " - " + vt.getVendorTypeDescription()));
+
             }
         }
 
-        return labels;
+        return tempLabels;
     }
 }

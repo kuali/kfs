@@ -159,16 +159,16 @@ END;
 /
 
 /* Inserting some really base data to keep the system happy. */
-INSERT INTO CA_CHART_T
-("FIN_COA_CD",OBJ_ID,"FIN_COA_DESC","FIN_COA_ACTIVE_CD","RPTS_TO_FIN_COA_CD")
-VALUES
-('01',SYS_GUID(),'Default Chart','Y','01')
-/
-INSERT INTO CA_ORG_T
-("FIN_COA_CD","ORG_CD",OBJ_ID,"ORG_NM")
-VALUES
-('01','0001',SYS_GUID(),'Default Org')
-/
+--INSERT INTO CA_CHART_T
+--("FIN_COA_CD",OBJ_ID,"FIN_COA_DESC","FIN_COA_ACTIVE_CD","RPTS_TO_FIN_COA_CD")
+--VALUES
+--('01',SYS_GUID(),'Default Chart','Y','01')
+--/
+--INSERT INTO CA_ORG_T
+--("FIN_COA_CD","ORG_CD",OBJ_ID,"ORG_NM")
+--VALUES
+--('01','0001',SYS_GUID(),'Default Org')
+--/
 
 /*  Charts & Organizations  */
 

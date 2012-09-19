@@ -441,8 +441,8 @@
             <bean parent="FieldDefinition" p:attributeName="merchantName" />
 			<!-- <bean parent="FieldDefinition" p:attributeName="bankPostDate" />
 		    <bean parent="FieldDefinition" p:attributeName="billingCycleDate" />
-            <bean parent="FieldDefinition" p:attributeName="transactionDate" />
-            <bean parent="FieldDefinition" p:attributeName="processingTimestamp" /> -->
+            <bean parent="FieldDefinition" p:attributeName="transactionDate" /> -->
+            <bean parent="FieldDefinition" p:attributeName="processingTimestamp" />
             <bean parent="FieldDefinition" p:attributeName="referenceNumber" />
             <!-- <bean parent="FieldDefinition" p:attributeName="departureDate" /> -->
             <bean parent="FieldDefinition" p:attributeName="ticketNumber" />

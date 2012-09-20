@@ -46,6 +46,32 @@
 			<column name="PERM_ID" value="113" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSMI-9372-2" />
+			<column name="OBJ_ID" value="KFSMI-9372-2" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="62" />
+			<column name="PERM_ID" value="113" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSMI-9372-1" />
+			<column name="OBJ_ID" value="KFSMI-9372-1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="51" />
+			<column name="PERM_ID" value="113" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<!-- 
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSMI-9372-4" />
+			<column name="OBJ_ID" value="KFSMI-9372-4" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="55" />
+			<column name="PERM_ID" value="113" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		 -->
 	</changeSet>
 
 	<changeSet id="KFSMI-9372-ADD_SUPERUSER_TAB_USE_PERMISSION" author="KFS501">

@@ -162,8 +162,11 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
             if (workflowDocument != null) {
                 return workflowDocument;
             }
-
-            workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
+            if ( StringUtils.isNotBlank(getDocumentNumber()) ) {
+                workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
+            } else {
+                throw new RuntimeException("Document number is blank/null.  Unable to load a WorkflowDocument" );
+            }
         }
         catch (WorkflowException we) {
             throw new RuntimeException("Unable to load a WorkflowDocument object for " + getDocumentNumber(), we);

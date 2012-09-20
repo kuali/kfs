@@ -20,4 +20,31 @@
 	</changeSet>
  -->	
 
+	<changeSet author="KFS501" id="CONTRIB_PARAMETERS">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP" />
+			<column name="CMPNT_CD" value="AuxilaryVoucher" />
+			<column name="PARM_NM" value="REVERSAL_DATE_DEFAULT_DAY_OF_THE_MONTH" />
+			<column name="VAL" value="15" />
+			<column name="OBJ_ID" value="KFS691" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="The day of the month that will prefill into the Auxiliary Voucher Reversal Date." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="CMPNT_CD" value="Document" />
+			<column name="PARM_NM" value="WORKSTUDY_ROUTE_OBJECT_CODES" />
+			<column name="VAL" value="" />
+			<column name="OBJ_ID" value="KFSMI4606" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Object codes that trigger workstudy routing on Salary Transfer and Effort Certification Documents." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
 </databaseChangeLog>

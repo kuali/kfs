@@ -8,7 +8,6 @@
 "107","107","1","7","KFS-SYS","Claim Electronic Payment","Allows access to the Electronic Fund Transfer interface for the claiming of electronic funds.","Y"
 "108","108","1","6","KFS-SYS","Error Correct Document KFST","Allows access to the Error Correction button on KFS Transactional documents.","Y"
 "11","11","1","33","KFS-AR","Upload Batch Input File(s) customerLoadInputFileType","Allows access to the Customer Upload Batch Upload page.","Y"
-"1100","1100","1","3","KFS-SYS","Administer Routing for Document KFST","Allows users to open Financial System Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).","Y"
 "113","113","1","3","KFS-SYS","Administer Routing for Document KFS","Allows users to open KFS documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).","Y"
 "114","114","1","4","KFS-SYS","Blanket Approve Document KFS","Allows access to the Blanket Approval button on KFS Financial System Documents.","Y"
 "115","115","1","10","KFS-SYS","Initiate Document KFS","Authorizes the initiation of Financial System Documents.","Y"

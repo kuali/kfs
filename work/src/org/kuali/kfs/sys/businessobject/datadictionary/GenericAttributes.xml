@@ -376,7 +376,6 @@
   <bean id="GenericAttributes-phoneNumberWithValidation-parentBean" abstract="true" parent="GenericAttributes-phoneNumberNoValidation">
     <property name="name" value="phoneNumberWithValidation"/>
     <property name="validationPattern" ref="PhoneNumberValidation" />
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.PhoneNumberFormatter"/>
   </bean>
   
 </beans>

@@ -39,14 +39,6 @@
 	<changeSet id="RESTORE_PERM_FOR_WORKFLOW_ADMIN" author="KFS501">
 		<comment>Restore permission which should have been granted to workflow administrators.</comment>
 		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSMI-9372-4" />
-			<column name="OBJ_ID" value="KFSMI-9372-4" />
-			<column name="VER_NBR" valueNumeric="1" />
-			<column name="ROLE_ID" value="55" />
-			<column name="PERM_ID" value="113" />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
-		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSMI-9372-2" />
 			<column name="OBJ_ID" value="KFSMI-9372-2" />
 			<column name="VER_NBR" valueNumeric="1" />

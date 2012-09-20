@@ -33,22 +33,32 @@ import org.kuali.kfs.module.external.kc.businessobject.AwardAccountDTO;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.webService.AwardAccountService;
 import org.kuali.kfs.module.external.kc.webService.AwardAccountSoapService;
+import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitService;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 public class AwardAccountServiceImpl implements ExternalizableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardAccountServiceImpl.class);
     
     protected  AwardAccountService getWebService() {
-        AwardAccountSoapService soapService = null;
-        try {
-            soapService = new AwardAccountSoapService();
+        // first attempt to get the service from the KSB - works when KFS & KC share a Rice instance
+        AwardAccountService awardAccountService = (AwardAccountService) GlobalResourceLoader.getService(KcConstants.AwardAccount.SERVICE);
+        
+        // if we couldn't get the service from the KSB, get as web service - for when KFS & KC have separate Rice instances
+        if (awardAccountService == null) {
+            LOG.warn("Couldn't get AwardAccountService from KSB, setting it up as SOAP web service - expected behavior for bundled Rice, but not when KFS & KC share a standalone Rice instance.");
+
+            AwardAccountSoapService soapService = null;
+            try {
+                soapService = new AwardAccountSoapService();
+            }
+            catch (MalformedURLException ex) {
+                LOG.error("Could not intialize AwardAccountSoapService: " + ex.getMessage());
+                throw new RuntimeException("Could not intialize AwardAccountSoapService: " + ex.getMessage());
+            }
+            awardAccountService = soapService.getAwardAccountServicePort();
         }
-        catch (MalformedURLException ex) {
-            LOG.error("Could not intialize AwardAccountSoapService: " + ex.getMessage());
-            throw new RuntimeException("Could not intialize AwardAccountSoapService: " + ex.getMessage());
-        }
-        AwardAccountService port = soapService.getAwardAccountServicePort(); 
-        return port;
+        return awardAccountService;
     }
 
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {        

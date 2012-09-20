@@ -16,9 +16,9 @@
 package org.kuali.kfs.module.tem.document.web.struts;
 
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,6 +30,8 @@ import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.TransportationMode;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
@@ -47,6 +49,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -63,9 +66,9 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     private boolean travelArranger;
 
     private boolean allowIncidentals = true;
-    private String policyURL = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.TRAVEL_ADVANCES_POLICY_URL);
-    private boolean multipleAdvances =getParameterService().getIndicatorParameter(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.MULTIPLE_CASH_ADVANCES_ALLOWED_IND);
-    private boolean showPaymentMethods = getParameterService().getIndicatorParameter(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_TRAVEL_ADVANCES_PAYMENT_METHOD_IND);
+    private String policyURL = getParameterService().getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCES_POLICY_URL);
+    private boolean multipleAdvances =getParameterService().getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.MULTIPLE_CASH_ADVANCES_ALLOWED_IND);
+    private boolean showPaymentMethods = getParameterService().getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_TRAVEL_ADVANCES_PAYMENT_METHOD_IND);
     private boolean showPolicy;
     private boolean waitingOnTraveler;
     private boolean showCorporateCardTotal = getParameterService().getIndicatorParameter(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TravelParameters.ENABLE_AMOUNT_DUE_CORP_CARD_TOTAL_LINE_IND);
@@ -441,7 +444,8 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * @return Returns the policyURL.
      */
     public String getPolicyURL() {
-        return policyURL;
+        String policy = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TemKeyConstants.MESSAGE_TA_ADVANCE_POLICY);
+        return MessageFormat.format(policy, policyURL);
     }
 
     /**
@@ -526,21 +530,12 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         return SpringContext.getBean(DataDictionaryService.class);
     }
 
-//    @Override
-//    public void setDistribution(List<AccountingDistribution> distribution) {
-//    }
-
-//    @Override
-//    public List<AccountingDistribution> getDistribution() {
-//        return null;
-//    }
 
     /**
      * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getEnableTaxable()
      */
     @Override
     public boolean getEnableImportedTaxable() {
-        // TODO Auto-generated method stub
         return false;
     }
     

@@ -18,7 +18,7 @@
 <c:set var="travelAdvanceAttributes" value="${DataDictionary.TravelAdvance.attributes}" />
 <c:set var="advanceAttributes" value="${DataDictionary.AdvancePaymentReason.attributes}" />
 <c:set var="docType" value="${KualiForm.document.dataDictionaryEntry.documentTypeName }" />
-<c:set var="policyDisabled" value="${KualiForm.waitingOnTraveler || !fullEntryMode}" />
+<c:set var="policyDisabled" value="${!KualiForm.waitingOnTraveler && !fullEntryMode}" />
 
 <kul:tab tabTitle="Travel Advances" defaultOpen="${fn:length(KualiForm.document.travelAdvances) > 0}" tabErrorKey="${TemKeyConstants.TRVL_AUTH_TRVL_ADVANCE_ERRORS}">
 	<div class="tab-container" align="left">
@@ -116,10 +116,7 @@
 							<kul:htmlControlAttribute
 								attributeEntry="${travelAdvanceAttributes.travelAdvancePolicy}"
 								property="newTravelAdvanceLine.travelAdvancePolicy"
-								readOnly="${!fullEntryMode}" />&nbsp;By checking this box, the
-							traveler agrees to the <a target="_BLANK"
-							href="${KualiForm.policyURL}">travel advance policy</a> of the
-							university.
+								readOnly="${!fullEntryMode}" />${KualiForm.policyURL}
 						</td>
 					</tr>
 				</c:if>
@@ -287,7 +284,9 @@
 					</tr>
 				</logic:iterate>
 			</table>
-			<c:if test="${KualiForm.showPolicy}"> *By checking this box, the traveler agrees to the <a target="_BLANK" href="${KualiForm.policyURL}">travel advance policy</a> of the university. </c:if>
+			<c:if test="${KualiForm.showPolicy}">
+			<div align="right">${KualiForm.policyURL}</c:if>
+			</div>
 		</c:if>
 	</div>
 </kul:tab>

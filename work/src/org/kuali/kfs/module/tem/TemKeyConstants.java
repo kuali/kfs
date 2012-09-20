@@ -129,6 +129,7 @@ public class TemKeyConstants extends JSTLConstants {
     public static final String MESSAGE_TR_LODGING_ALREADY_CLAIMED = "message.document.tem.lodgingAlreadyClaimed";
     public static final String MESSAGE_DV_IN_ACTION_LIST       = "message.document.tem.dv.actionList";
     public static final String MESSAGE_RELO_DV_IN_ACTION_LIST = "message.document.tem.relo.dv.actionList";
+    public static final String MESSAGE_TA_ADVANCE_POLICY = "message.document.tem.ta.advance.policy";
     
     //Add any custom messages
     public static final String MESSAGE_GENERIC = "message.generic";

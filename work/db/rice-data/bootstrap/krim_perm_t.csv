@@ -300,4 +300,4 @@ KFSMI8906-PRM,KFSMI8906-PRM,"1","41","KFS-PURAP","Modify Acct Lines PO Pur Proce
 "KFSMI8893-PRM1","KFSMI8893-PRM1",1,"68","KFS-FP","Recall Document FP","Enable Recall Document functionality for KFS FP documents.","Y"
 "KFSMI8893-PRM2","KFSMI8893-PRM2",1,"68","KFS-SYS","Recall Document KFS","Recall Document functionality for KFS documents.","Y"
 "KFSMI9071-PRM1","KFSMI9071-PRM1",1,"49","KFS-SYS","Send Complete Request KFS", "Authorizes users to send Complete ad hoc requests for KFS Documents","Y"
-"KFSMI-9372-1","KFSMI-9372-1",1,"KFSMI-9372-1","KR-SYS","Administer Routing for Document KFS","Allows users to open Financial System Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).","Y"
+"KFSMI-9372-1","KFSMI-9372-1",1,"KFSMI-9372-1","KFS-SYS","Use Super User Tab KFS","Allows users to view the Super User Tab in documents and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).","Y"

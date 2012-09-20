@@ -23,7 +23,7 @@
 	<changeSet author="KFS501" id="CONTRIB_PARAMETERS">
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-FP" />
-			<column name="CMPNT_CD" value="AuxilaryVoucher" />
+			<column name="CMPNT_CD" value="AuxiliaryVoucher" />
 			<column name="PARM_NM" value="REVERSAL_DATE_DEFAULT_DAY_OF_THE_MONTH" />
 			<column name="VAL" value="15" />
 			<column name="OBJ_ID" value="KFS691" />

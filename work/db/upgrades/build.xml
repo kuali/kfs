@@ -290,7 +290,7 @@ ROLE RESPONSIBILITIES
 					TRIM( COALESCE( 
 						CASE 
 							WHEN val LIKE '%@%' THEN ''
-							WHEN val LIKE 'http%' THEN ''
+							WHEN val LIKE '%http%' THEN ''
 							WHEN parm_nm LIKE '%FISCAL_YEAR' THEN 'xxxx'
 							ELSE val 
 						END, ' ' ) ) AS val, 

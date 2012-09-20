@@ -38,7 +38,7 @@ public enum PurchaseOrderDocumentFixture {
             obj.setPurapDocumentIdentifier(21);
             obj.setRequisitionIdentifier(11);
             obj.setRequisitionSourceCode("STAN");
-            obj.setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_OPEN);
+//            obj.setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             obj.setPurchaseOrderVendorChoiceCode("CONT");
             obj.setVendorHeaderGeneratedIdentifier(2013);
             obj.setVendorDetailAssignedIdentifier(0);
@@ -105,7 +105,7 @@ public enum PurchaseOrderDocumentFixture {
             obj.setPurapDocumentIdentifier(22);
             obj.setRequisitionIdentifier(12);
             obj.setRequisitionSourceCode("STAN");
-            obj.setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_OPEN);
+//            obj.setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             obj.setPurchaseOrderVendorChoiceCode("CONT");
             obj.setVendorHeaderGeneratedIdentifier(2013);
             obj.setVendorDetailAssignedIdentifier(0);
@@ -172,7 +172,7 @@ public enum PurchaseOrderDocumentFixture {
             obj.setPurapDocumentIdentifier(23);
             obj.setRequisitionIdentifier(13);
             obj.setRequisitionSourceCode("STAN");
-            obj.setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_OPEN);
+//            obj.setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             obj.setPurchaseOrderVendorChoiceCode("CONT");
             obj.setVendorHeaderGeneratedIdentifier(2013);
             obj.setVendorDetailAssignedIdentifier(0);

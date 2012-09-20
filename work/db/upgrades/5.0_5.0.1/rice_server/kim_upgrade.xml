@@ -52,7 +52,7 @@
 		<comment>Add the necessary KIM data for the Rice permission which is used to grant access to the superuser tab on documents.</comment>
 
 		<insert tableName="KRIM_PERM_TMPL_T">
-			<column name="PERM_ID" value="KFSMI-9372-1" />
+			<column name="PERM_TMPL_ID" value="KFSMI-9372-1" />
 			<column name="OBJ_ID" value="KFSMI-9372-1" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="NMSPC_CD" value="KR-NS" />

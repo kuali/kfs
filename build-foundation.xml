@@ -34,10 +34,16 @@ are intended for use only by Kuali Foundation developers.
 	<target name="init-additional-properties" depends="init-properties">
 		<echo message="Reading Properties: ${properties.directory}/build-foundation.properties" />
 		<property file="${properties.directory}/build-foundation.properties" />
-		<echo message="Reading Properties: ${properties.directory}/distribution.properties" />
-		<property file="${properties.directory}/distribution.properties" />
+		<if>
+			<available file="${properties.directory}/distribution.properties" />
+			<then>
+				<echo message="Reading Properties: ${properties.directory}/distribution.properties" />
+				<property file="${properties.directory}/distribution.properties" />
+			</then>
+		</if>
 	</target>
 
+	<!-- REMOVE FROM DISTRIBUTION -->
 	<target name="modularization-test" depends="init-additional-properties,make-source">
         <javac destdir="${war.classes.directory}" debug="true" nowarn="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
             <classpath refid="compile.tests.classpath" />
@@ -74,6 +80,7 @@ are intended for use only by Kuali Foundation developers.
 	<target name="check-modularization" depends="modularization-test">
 		<fail if="context.test.failed" message="CheckModularization.java failed" />
   	</target>
+	<!-- END REMOVE FROM DISTRIBUTION -->
   	  
 	<target name="update-rice-dev" depends="update-rice-basic,extract-rice-libraries,build-eclipse-classpath,dist-local" />
   
@@ -92,22 +99,10 @@ are intended for use only by Kuali Foundation developers.
         	  tofile="${build.appserver.directory}/${rice.server.war.file.name}" verbose="true" overwrite="true" failonerror="true"  />
     </target>
     
-	<target name="update-rice-extended" depends="init-additional-properties,update-rice-kfs-dependencies,update-rice-licenses" />
+	<target name="update-rice-extended" depends="init-additional-properties,update-rice-sources" />
   
-	<target name="update-rice-kfs-dependencies" depends="init-additional-properties">
-    	<delete verbose="true" failonerror="false">
-      		<fileset dir="${dependencies.project.directory}">
-      			<include name="rice-*${rice.version}-*.*" />
-      			<include name="rice-*${kfs.rice.version}-*.*" />
-      		</fileset>
-    	</delete>
+	<target name="update-rice-sources" depends="init-additional-properties">
     	<maven goals="source:jar" dir="${rice.project.directory}" />
-		<echo>
-Copying Files from ${rice.project.directory}/**/target/rice*...
-To: ${dependencies.project.directory}
-Renaming from: rice-xxx-${rice.version}-xxxxx.jar
-		 to  : rice-xxx-${kfs.rice.version}-xxxxx.zip
-		</echo>
 		<delete verbose="true" failonerror="false">
 		    <fileset dir="build/rice-sources">
 	  			<include name="rice-*-sources.jar" />
@@ -121,22 +116,6 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
     	</copy>
 	</target>
   
-	<target name="update-rice-licenses" depends="init-additional-properties">
-		<echo>
-	*************************************************
-		NEED TO UPDATE RICE LICENSE FILES???
-	*************************************************
-		</echo>
-		<!--
-    	<delete verbose="true" failonerror="false">
-      		<fileset dir="${build.project.directory}" 
-      				 includes="${rice.name}*${rice.output.licenses.suffix}" />
-    	</delete>
-    	<zip destfile="${build.project.directory}/${rice.name}-${kfs.rice.version}-licenses.zip" 
-    		 basedir="${rice.project.directory}/${licenses.directory}" />
-    		 -->
-  	</target>
-
   	<macrodef name="maven">
     	<attribute name="goals" />
     	<attribute name="options" default="" />
@@ -159,6 +138,7 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
     	</sequential>
   	</macrodef>
 
+	<!-- REMOVE FROM DISTRIBUTION -->
 	 <typedef resource="org/tigris/subversion/svnant/svnantlib.xml">
 	 	<classpath>
 	 		<fileset dir="build">
@@ -167,12 +147,7 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
 	 		</fileset>
 	 	</classpath>
 	 </typedef>
-<!-- 
-	<target name="package" depends="prep-temp-dir,checkout-projects,replace-foundation-references,unpack-and-remove-rice-licenses,add-doc-files,zip-package"
-			description="Cleans up the project, manipulates the contents slightly, and packs it up for distribution on the Kuali web site.">
-    	<delete dir="${all.temp.directory}" verbose="false" />
-	</target>
- -->
+
 	<target name="prep-temp-dir" depends="init-properties">
 		<echo>Deleting contents of temp directory: ${all.temp.directory}</echo>
     	<delete>
@@ -312,8 +287,7 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
 		<delete dir="${database.directory}/new_export" />
 		<delete file="${database.directory}/merge.complete" />
 	</target>
-	
-	
+		
 	<target name="remove-distribution-dataset-dirs" depends="init-additional-properties">
 		<if>
 			<available file="${database.directory}/kfs-db/demo" type="dir" />
@@ -331,8 +305,8 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
 				</svn>
 			</then>
 		</if>
-		<svn username="${svn.username}" password="${svn.password}">
-			<commit dir="${database.directory}/kfs-db" message="Removing distribution datasource directories."/>
+		<svn username="${svn.username}" password="${svn.password}" failonerror="false">
+			<commit dir="${database.directory}/kfs-db" message="Removing distribution datasource directories." />
 		</svn>
 	</target>
 
@@ -342,6 +316,15 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
 		</svn>
 	</target>
 	
+	<target name="build-distribution-datasets" depends="remove-distribution-dataset-dirs,prepare-dataset-paths,export-dev-db-to-temp,create-and-export-demo-dataset,create-and-export-bootstrap-dataset,commit-distribution-dataset-dirs" />
+	
+	<!-- 
+		<target name="package" depends="prep-temp-dir,checkout-projects,replace-foundation-references,unpack-and-remove-rice-licenses,add-doc-files,zip-package"
+				description="Cleans up the project, manipulates the contents slightly, and packs it up for distribution on the Kuali web site.">
+	    	<delete dir="${all.temp.directory}" verbose="false" />
+		</target>
+	 -->
+	
 <!-- 
 TODO:
 
@@ -349,77 +332,84 @@ remove all Rice export sections
 	Groovy script in file - use special comment markers:
 		REMOVE FROM DISTRIBUTION
 		END REMOVE FROM DISTRIBUTION
-remove reg-build / ptd / ptds
+
 look for indiana.edu / kuali.org references in entire project
 
-Check through upgrade scripts for new tables which need to not be purged in the bootstrap process.
-
-Target: run demo cleanup
-Target: export-demo-db
-Target: run bootstrap cleanup
-Target: export-bootstrap-db
-
-delete of development dataset before packaging
-deletion of DB drivers before packaging
+** Check through upgrade scripts for new tables which need to not be purged in the bootstrap process.
 
 Update replacements
-	@kuali.org ==> @localhost
-	https://test.kuali.org/svn/ ==> ""
-	kfs-${build.environment}-incident@kuali.org
-	jdbc:oracle:thin:@oraclerds.kfs.kuali.org:1521:KFS
-	jdbc:mysql://test.db.kfs.kuali.org:3306
-	https://svn.kuali.org/repos
-	http://test.kc.kuali.org/kc-trunk
-	test.kc.kuali.org
-	license@kuali.org ==> localhost
-	indiana.edu
 
-remove the Maven build files
+./work/db/impex-local-mysql-kfs.properties:18:torque.schema.dir=../../development
+./work/db/impex-local-mysql-kuldev.properties:25:torque.schema.dir.2=../../development
+./work/db/impex-local-oracle-kfs.properties:18:torque.schema.dir=../../development
+./work/db/impex-local-oracle-kuldev.properties:25:torque.schema.dir.2=../../development
 
-add sample-build.properties - copy from cnv?
+./build.xml:323:		    # local - used in development - embedding everything, including web content
+./build.xml:1309:			torque.schema.dir=${basedir.safe}/work/db/kfs-db/development
+./build.xml:1575:			dist-local: prepares tokenized resources and local configuration files and deploys tomcat context file on development workstation
 
-knoreceipt-l@indiana.edu
+
  -->
-	<target name="replace-foundation-references" depends="init-additional-properties">
+	<target name="delete-nondistribution-files" depends="init-additional-properties">
 		<delete verbose="true">
 			<fileset dir="${all.temp.directory}/kfs">
-				<!-- remove the "build-foundation" build file -->
-				<include name="build-foundation.xml" />
-				<include name="build/properties/build-foundation.properties" />
 				<!-- remove the distribution build files -->
-				<!-- both these files and files we do not have the authority to distribute ourselves -->
-				<include name="${build.distribution.directory}/build.xml" />
 				<include name="build/properties/distribution.properties" />
-				<include name="work/db/upgrades/*/temp-*/**" />
-				<include name="build/svn*.jar" />
-				<include name="build/ganymed.jar" />
-				<include name="build/drivers/*.jar" />
+				<!-- files we do not have the authority to distribute -->
+				<include name="build/svn*.jar" />    <!-- SVN libraries -->
+				<include name="build/ganymed.jar" /> <!-- SVN helper library -->
+				<include name="**/mysql*.jar" />     <!-- Mysql JDBC driver -->
+				<include name="**/ojdbc*.jar" />     <!-- Oracle JDBC Driver -->
 			</fileset>
 		</delete>
-	    <!-- remove foundation-only targets import from main build file -->
-    	<replace file="${all.temp.directory}/kfs/build.xml">
-      		<replacefilter token="&lt;import file=&quot;build-foundation.xml&quot;/&gt;" value="" />
-      		<replacefilter token="&lt;import file=&quot;build-foundation.xml&quot;/&gt;" value="" />
-    		<replacefilter token="&lt;format property=&quot;build.version&quot; pattern=&quot;MM/dd/yyyy hh:mm aa&quot; /&gt;" value="&lt;format property=&quot;build.version&quot; pattern=&quot;'KFS ${release.version.number}' MM/dd/yyyy hh:mm aa&quot; /&gt;" />
-    	</replace>
+		<!-- Incomplete Maven Build Files -->
+		<delete dir="${all.temp.directory}/kfs/m2" />
+		<!-- Development database contents -->
+		<delete dir="${all.temp.directory}/kfs/work/db/kfs-db/development" />
+		<!-- Remove all the instance build files *except* for a few examples. -->
+		<delete verbose="true">
+			<fileset dir="${all.temp.directory}/kfs">
+				<include name="*-build.properties" />
+				<exclude name="dev-build.properties"/>
+				<exclude name="dev2-build.properties"/>
+				<exclude name="cnv-build.properties"/>
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="gtest" depends="init-properties">
+		<groovy>
+			File inputFile = new File( "${properties['all.temp.directory']}/kfs/build-foundation.xml" );
+			inputFile.eachLine { line ->
+				println line
+			}
+		</groovy>
+	</target>
+
+	<target name="replace-foundation-references" depends="init-additional-properties">
 		<!-- replace foundation URL references -->
-		<replace dir="${all.temp.directory}">
-			<include name="impex/*.properties*" />
-			<include name="kfs/build/external/user/kfs-build.properties" />
-			<include name="kfs/build/properties/*.properties" />
+		<replace dir="${all.temp.directory}/kfs" summary="true" >
+			<include name="**/*.properties" />
+			<include name="**/*.txt" />
+			<include name="**/*.sh" />
 			<!-- SVN -->
       		<replacefilter token="https://svn.kuali.org/repos/" value="" />
-			<!-- database -->
-      		<replacefilter token="mysql.datasource.url=jdbc:mysql://esdbk01.uits.indiana.edu:3306/$${datasource.username}" 
-    		     value="mysql.datasource.url=jdbc:mysql://localhost:3306/$${datasource.username}" />
-      		<replacefilter token="oracle.datasource.url=jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI" 
-    		     value="oracle.datasource.url=jdbc:oracle:thin:@localhost:1521:XE" />
+      		<replacefilter token="https://svn.kuali.org/repos" value="" />
+      		<replacefilter token="https://test.kuali.org/svn/" value="" />
+      		<replacefilter token="https://test.kuali.org/svn" value="" />
 			<!-- misc -->
-			<replacefilter token="feedback.link.url=https://test.kuali.org/jira/secure/CreateIssue.jspa?pid=10091&amp;amp;issuetype=1" value="feedback.link.url=" />
-			<replacefilter token="licensing.contact.email=license@kuali.org" value="licensing.contact.email=" />
+      		<replacefilter token="test.kc.kuali.org" value="localhost" />
+      		<replacefilter token="jdbc:oracle:thin:@oraclerds.kfs.kuali.org:1521:KFS" value="jdbc:oracle:thin:@localhost:1521:ORCL" />
+      		<replacefilter token="jdbc:mysql://test.db.kfs.kuali.org:3306" value="jdbc:mysql://localhost:3306" />
+			<replacefilter token="license@kuali.org" value="" />
+			<replacefilter token="@kuali.org" value="@localhost" />
+      		<replacefilter token="../../development" value="../../demo" />
+      		<replacefilter token="kfs-db/development" value="kfs-db/demo" />
       	</replace>
-		<move file="${all.temp.directory}/kfs/${build.distribution.directory}/*-impex-build*.properties"
-			  todir="${all.temp.directory}" failonerror="false" />
+		<replace dir="${all.temp.directory}/kfs" summary="true" >
+			<include name="test/unit/src/org/kuali/kfs/module/purap/**/*.java" />
+      		<replacefilter token="https://test.kuali.org/kfs-reg" value="http://localhost:8080/kfs-dev" />
+		</replace>
 	</target>
 
 	<target name="add-doc-files" depends="init-additional-properties">
@@ -437,7 +427,8 @@ knoreceipt-l@indiana.edu
 	
 	<target name="zip-package" depends="init-additional-properties">
 	    <!-- zip it up -->
-    	<zip destfile="${release.zip.name}" basedir="${all.temp.directory}" compress="true" />
+    	<zip destfile="${release.zip.name}" basedir="${all.temp.directory}/kfs" compress="true" />
 	</target>
-
+	<!-- END REMOVE FROM DISTRIBUTION -->
+	
 </project>

@@ -26,7 +26,15 @@
 	            <include name="bcel*.jar" />
 	        </fileset>
 		</classpath>
-	</taskdef>    	
+	</taskdef>
+	
+	<taskdef resource="org/codehaus/groovy/antlib.xml">
+		<classpath>
+	        <fileset dir="build">
+	            <include name="groovy*.jar" />
+	        </fileset>
+		</classpath>
+	</taskdef>
 
     <property name="cobertura.dir" location="test/lib" />
     
@@ -166,7 +174,7 @@
 	</target>
 	
 	<target name="init-base-properties" depends="init-property-files">
-		<tstamp><format property="build.version" pattern="MM/dd/yyyy hh:mm aa" /></tstamp>
+		<tstamp><format property="build.version" pattern="'KFS ${release.version.number}' MM/dd/yyyy hh:mm aa" /></tstamp>
 	  	<tstamp><format property="current.year" pattern="yyyy" locale="en,US" /></tstamp>
 
 		<property name="fail.when.compile.fails" value="true"/>
@@ -182,19 +190,6 @@
 		<condition property="distributable.tag" value="&lt;distributable /&gt;" else="">
 			<istrue value="${is.clustered}"/>
 		</condition>
-		
-		<!-- update the lib paths for the app server based on the tomcat version -->
-	    <if>
-	        <equals arg1="5" arg2="${tomcat.version}" trim="true" />
-	        <then>
-	            <property name="appserver.lib.dir" value="${appserver.home}/common/lib" />
-	            <property name="appserver.classes.dir" value="${appserver.home}/common/classes" />
-	        </then>
-        </if>
-		<!-- default to this version unless 5 selected --> 
-        <property name="appserver.lib.dir" value="${appserver.home}/lib" />
-        <property name="appserver.classes.dir" value="${appserver.home}/lib" />
-		
 	</target>
 	
 	<target name="init-database-properties" depends="init-property-files">

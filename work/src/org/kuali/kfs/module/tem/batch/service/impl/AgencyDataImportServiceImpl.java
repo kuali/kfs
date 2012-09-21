@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrBuilder;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
@@ -139,13 +140,15 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     public List<AgencyStagingData> validateAgencyData(AgencyImportData agencyData, String dataFileName) {
         PrintStream reportDataStream = this.getReportPrintStream();
 
-        List<AgencyStagingData> validData;
+        List<AgencyStagingData> validData = new ArrayList<AgencyStagingData>();
         try {
-            this.writeReportHeader(reportDataStream, dataFileName, agencyData.getImportBy());
-            validData = new ArrayList<AgencyStagingData>();
+            writeReportHeader(reportDataStream, dataFileName, agencyData.getImportBy());
             int count = 1;
             for (AgencyStagingData agency : agencyData.getAgencies()) {
+                
                 agency.setImportBy(agencyData.getImportBy());
+                agency.setStagingFileName(StringUtils.substringAfterLast(dataFileName, "\\"));
+                
                 AgencyStagingData validAgency = null;
                 List<String> errorMessages = new ArrayList<String>();
 
@@ -172,9 +175,9 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                 if (ObjectUtils.isNotNull(validAgency)) {
                     validData.add(validAgency);
                 }
-                if (errorMessages.size() > 0) {
-                    writeErrorToReport(reportDataStream, agency, getMessageAsString(errorMessages), agency.getExpenseImport());
-                }
+                
+                //writer to error report
+                writeErrorToReport(reportDataStream, agency, getMessageAsString(errorMessages), agency.getExpenseImport());
                 count++;
 
             }
@@ -270,9 +273,10 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
      * @param importBy
      */
     protected <T extends AgencyStagingData> void writeErrorToReport(PrintStream reportDataStream,T AgencyStagingData, String errors, ExpenseImport importType) {
-        
-        String reportEntry = formatMessage(AgencyStagingData, errors, importType);
-        reportDataStream.println(reportEntry);
+        if (!errors.isEmpty()){
+            String reportEntry = formatMessage(AgencyStagingData, errors, importType);
+            reportDataStream.println(reportEntry);
+        }
     }
     
     /**

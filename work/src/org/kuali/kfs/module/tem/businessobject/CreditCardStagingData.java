@@ -64,6 +64,7 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
     private String itineraryNumber;
     private String importBy;
     private Integer temProfileId;
+    private String stagingFileName;
 
     private TEMProfile profile;
     private CreditCardAgency creditCardAgency;
@@ -509,6 +510,16 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
 
     public void setCreditCardAgencyId(Integer creditCardAgencyId) {
         this.creditCardAgencyId = creditCardAgencyId;
+    }
+
+
+    public String getStagingFileName() {
+        return stagingFileName;
+    }
+
+
+    public void setStagingFileName(String stagingFileName) {
+        this.stagingFileName = stagingFileName;
     }
 
 

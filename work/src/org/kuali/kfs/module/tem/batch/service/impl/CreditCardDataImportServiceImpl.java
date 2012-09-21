@@ -90,7 +90,7 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
             
             LOG.info("Credit Card Import - validating: " + dataFileName);
             
-            List<CreditCardStagingData> validCreditCardList = this.validateCreditCardData(creditCardData, dataFileName);
+            List<CreditCardStagingData> validCreditCardList = validateCreditCardData(creditCardData, dataFileName);
                         
             boolean isAllValid = validCreditCardList.size() == creditCardData.getCreditCardData().size();
             if (!isAllValid) {
@@ -122,7 +122,10 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
         Integer count = 1;
         for(CreditCardStagingData creditCardData: creditCardList.getCreditCardData()){
             LOG.info("Validating credit card import. Record# " + count + " of " + creditCardList.getCreditCardData().size());
+            
             creditCardData.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_NO_ERROR);
+            creditCardData.setStagingFileName(StringUtils.substringAfterLast(dataFileName, "\\"));
+            
             if(validateAndSetCreditCardAgency(creditCardData)){
 
                 if(creditCardList.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)){

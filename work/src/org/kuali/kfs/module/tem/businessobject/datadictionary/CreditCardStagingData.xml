@@ -44,6 +44,7 @@
             <ref bean="CreditCardStagingData-profile_employeeId" />
             <ref bean="CreditCardStagingData-itineraryNumber" />
             <ref bean="CreditCardStagingData-importBy" />
+            <ref bean="CreditCardStagingData-stagingFileName" />
             <ref bean="CreditCardStagingData-creditCardAgency_creditCardOrAgencyCode" />
 		</list>
 		</property>
@@ -364,6 +365,9 @@
       <property name="name" value="creditCardAgency.creditCardOrAgencyCode" />
     </bean>
   
+    <bean id="CreditCardStagingData-stagingFileName" parent="CreditCardStagingData-stagingFileName-parentBean" />
+    <bean id="CreditCardStagingData-stagingFileName-parentBean" parent="AgencyStagingData-stagingFileName-parentBean" />
+  
     <bean id="CreditCardStagingData-inquiryDefinition" parent="CreditCardStagingData-inquiryDefinition-parentBean" />
 	<bean id="CreditCardStagingData-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Credit Card Staging Data Inquiry"/>
@@ -451,6 +455,7 @@
             <bean parent="FieldDefinition" p:attributeName="transactionAmount" />
             <bean parent="FieldDefinition" p:attributeName="moveToHistoryIndicator" />
             <bean parent="FieldDefinition" p:attributeName="importBy" />
+            <bean parent="FieldDefinition" p:attributeName="stagingFileName" />
 		</list>
 		</property>
 		<property name="resultFields">
@@ -474,6 +479,7 @@
             <bean parent="FieldDefinition" p:attributeName="itineraryNumber" />
             <bean parent="FieldDefinition" p:attributeName="transactionAmount" />
             <bean parent="FieldDefinition" p:attributeName="importBy" />
+            <bean parent="FieldDefinition" p:attributeName="stagingFileName" />
             <bean parent="FieldDefinition" p:attributeName="reconciliationDate" />
             <bean parent="FieldDefinition" p:attributeName="moveToHistoryIndicator" />
 			<bean parent="FieldDefinition" p:attributeName="location" />			

@@ -55,6 +55,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase {
     private String agency;
     private String otherCompanyName;
     private String agencyFileName;
+    private String stagingFileName;
     private String merchantName;
     private Date billingCycleDate;
     
@@ -1670,6 +1671,14 @@ public class AgencyStagingData extends PersistableBusinessObjectBase {
      */
     public void setSearchSubAccount(SubAccount searchSubAccount) {
         this.searchSubAccount = searchSubAccount;
+    }
+
+    public String getStagingFileName() {
+        return stagingFileName;
+    }
+
+    public void setStagingFileName(String stagingFileName) {
+        this.stagingFileName = stagingFileName;
     }
 
 }

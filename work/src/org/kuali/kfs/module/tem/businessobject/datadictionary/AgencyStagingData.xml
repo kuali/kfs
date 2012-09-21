@@ -87,6 +87,7 @@
 			<ref bean="AgencyStagingData-processingTimestamp" />
 			<ref bean="AgencyStagingData-moveToHistoryIndicator" />
             <ref bean="AgencyStagingData-importBy" />
+            <ref bean="AgencyStagingData-stagingFileName" />
 			<ref bean="AgencyStagingData-versionNumber" />
 		</list>
 		</property>
@@ -819,6 +820,14 @@
         <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.ExpenseImportTypeValuesFinder" p:includeKeyInLabel="false"/>
       </property>
     </bean>
+    <bean id="AgencyStagingData-stagingFileName" parent="AgencyStagingData-stagingFileName-parentBean" />
+    <bean id="AgencyStagingData-stagingFileName-parentBean" parent="AttributeDefinition">
+        <property name="name" value="stagingFileName" />
+        <property name="label" value="Staging Agency File Name" />
+        <property name="shortLabel" value="Staging Agency File Name" />
+        <property name="maxLength" value="60" />
+        <property name="control"><bean parent="TextControlDefinition" p:size="60"/></property>
+    </bean>
 	<bean id="AgencyStagingData-versionNumber" parent="AgencyStagingData-versionNumber-parentBean" />
 	<bean id="AgencyStagingData-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
 		<property name="name" value="versionNumber" />
@@ -945,8 +954,8 @@
 				<bean parent="FieldDefinition" p:attributeName="lodgingItineraryNumber" />
 				<bean parent="FieldDefinition" p:attributeName="rentalCarItineraryNumber" />
 				<bean parent="FieldDefinition" p:attributeName="moveToHistoryIndicator" p:defaultValue="N"/>
-                <bean parent="FieldDefinition" p:attributeName="agencyFileName" />
                 <bean parent="FieldDefinition" p:attributeName="importBy" />
+                <bean parent="FieldDefinition" p:attributeName="stagingFileName" />
                 <bean parent="FieldDefinition" p:attributeName="processingTimestamp" />
 		</list>
 		</property>
@@ -960,8 +969,8 @@
 				<bean parent="FieldDefinition" p:attributeName="rentalCarItineraryNumber" />
 				<bean parent="FieldDefinition" p:attributeName="tripId" />
 				<bean parent="FieldDefinition" p:attributeName="tripInvoiceNumber" />
-                <bean parent="FieldDefinition" p:attributeName="agencyFileName" />
                 <bean parent="FieldDefinition" p:attributeName="importBy" />
+                <bean parent="FieldDefinition" p:attributeName="stagingFileName" />
                 <bean parent="FieldDefinition" p:attributeName="processingTimestamp" />
 		</list>
 		</property>

@@ -42,6 +42,7 @@
                 <bean parent="MaintainableFieldDefinition" p:name="agency" p:unconditionallyReadOnly="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="otherCompanyName" p:required="false" />
                 <bean parent="MaintainableFieldDefinition" p:name="agencyFileName" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="stagingFileName" p:required="false" />
                 <bean parent="MaintainableFieldDefinition" p:name="merchantName" p:required="false" />
                 <bean parent="MaintainableFieldDefinition" p:name="billingCycleDate" p:required="false" />
                 <bean parent="MaintainableFieldDefinition" p:name="transactionPostingDate" p:unconditionallyReadOnly="true" p:required="true" />

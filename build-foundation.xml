@@ -108,6 +108,11 @@ To: ${dependencies.project.directory}
 Renaming from: rice-xxx-${rice.version}-xxxxx.jar
 		 to  : rice-xxx-${kfs.rice.version}-xxxxx.zip
 		</echo>
+		<delete verbose="true" failonerror="false">
+		    <fileset dir="build/rice-sources">
+	  			<include name="rice-*-sources.jar" />
+	  		</fileset>
+		</delete>
     	<copy todir="build/rice-sources" verbose="true" overwrite="true" >
       		<fileset dir="${rice.project.directory}">
       			<include name="**/target/rice-*-sources.jar" />

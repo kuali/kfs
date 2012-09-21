@@ -318,38 +318,11 @@ are intended for use only by Kuali Foundation developers.
 	
 	<target name="build-distribution-datasets" depends="remove-distribution-dataset-dirs,prepare-dataset-paths,export-dev-db-to-temp,create-and-export-demo-dataset,create-and-export-bootstrap-dataset,commit-distribution-dataset-dirs" />
 	
-	<!-- 
-		<target name="package" depends="prep-temp-dir,checkout-projects,replace-foundation-references,unpack-and-remove-rice-licenses,add-doc-files,zip-package"
-				description="Cleans up the project, manipulates the contents slightly, and packs it up for distribution on the Kuali web site.">
-	    	<delete dir="${all.temp.directory}" verbose="false" />
-		</target>
-	 -->
+	<target name="package" depends="prep-temp-dir,delete-nondistribution-files,replace-foundation-references,add-doc-files,zip-package"
+			description="Cleans up the project, manipulates the contents slightly, and packs it up for distribution on the Kuali web site.">
+    	<delete dir="${all.temp.directory}" verbose="false" />
+	</target>
 	
-<!-- 
-TODO:
-
-remove all Rice export sections
-	Groovy script in file - use special comment markers:
-		REMOVE FROM DISTRIBUTION
-		END REMOVE FROM DISTRIBUTION
-
-look for indiana.edu / kuali.org references in entire project
-
-** Check through upgrade scripts for new tables which need to not be purged in the bootstrap process.
-
-Update replacements
-
-./work/db/impex-local-mysql-kfs.properties:18:torque.schema.dir=../../development
-./work/db/impex-local-mysql-kuldev.properties:25:torque.schema.dir.2=../../development
-./work/db/impex-local-oracle-kfs.properties:18:torque.schema.dir=../../development
-./work/db/impex-local-oracle-kuldev.properties:25:torque.schema.dir.2=../../development
-
-./build.xml:323:		    # local - used in development - embedding everything, including web content
-./build.xml:1309:			torque.schema.dir=${basedir.safe}/work/db/kfs-db/development
-./build.xml:1575:			dist-local: prepares tokenized resources and local configuration files and deploys tomcat context file on development workstation
-
-
- -->
 	<target name="delete-nondistribution-files" depends="init-additional-properties">
 		<delete verbose="true">
 			<fileset dir="${all.temp.directory}/kfs">
@@ -378,12 +351,28 @@ Update replacements
 	</target>
 
 	<target name="gtest" depends="init-properties">
-		<groovy>
-			File inputFile = new File( "${properties['all.temp.directory']}/kfs/build-foundation.xml" );
-			inputFile.eachLine { line ->
-				println line
+		<groovy><![CDATA[
+			inputFile = new File( "${properties['all.temp.directory']}/kfs/build-foundation.xml" );
+			outputFile = new File( "${properties['all.temp.directory']}/kfs/build-foundation.tmp" );
+			skip = false
+
+			outputFile.withWriter { writer ->
+
+				inputFile.eachLine { line ->
+					if ( !skip && line =~ "REMOVE FROM DISTRIBUTION" ) {
+						println "Starting Exclusion: " + line
+						skip = true;
+					} else if ( skip && line =~ "END REMOVE FROM DISTRIBUTION" ) {
+						println "Ending Exclusion: " + line
+						skip = false;
+					} else {
+						if ( !skip ) {
+							writer.writeLine( line );
+						}
+					}
+				}
 			}
-		</groovy>
+		]]></groovy>
 	</target>
 
 	<target name="replace-foundation-references" depends="init-additional-properties">
@@ -414,14 +403,14 @@ Update replacements
 
 	<target name="add-doc-files" depends="init-additional-properties">
 		<!-- get the current revision numbers for each SVN path we are including in the export -->
-		<echo>${kuali.svn.root}/${kfs.dataset.svn.module}/${kfs.dataset.svn.path}</echo>
 		<svn>
 			<info target="${basedir.safe}"
 				  propPrefix="svn.info.kfs" verbose="true" />			
 		</svn>
 	    <!-- dump a file with the extracted tags -->
-    	<echo file="${all.temp.directory}/release-details.txt">
-      		KFS URL: ${kfs.svn.module}/${kfs.svn.path} (@${svn.info.kfs.lastRev})
+    	<echo file="${all.temp.directory}/kfs/release-details.txt">
+KFS URL: ${svn.info.kfs.url} (@${svn.info.kfs.lastRev})
+Date   : ${svn.info.kfs.lastDate}
     	</echo>	
 	</target>
 	

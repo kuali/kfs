@@ -6810,6 +6810,10 @@
         <column name="ACCOUNT_NBR" size="7" type="VARCHAR"/>
         <column name="FIN_OBJECT_CD" size="4" type="VARCHAR"/>
         <column default="0.00" name="FDOC_LINE_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="SUB_ACCT_NBR" size="5" type="VARCHAR"/>
+        <column name="FIN_SUB_OBJ_CD" size="3" type="VARCHAR"/>
+        <column name="PROJECT_CD" size="10" type="VARCHAR"/>
+        <column name="ORG_REFERENCE_ID" size="8" type="VARCHAR"/>
         <foreign-key foreignTable="FP_CPTL_AST_INFO_T" name="FP_CPTL_AST_ACCT_GRP_DTL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
             <reference foreign="CPTLAST_LINE_NBR" local="CPTLAST_LINE_NBR"/>

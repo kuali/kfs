@@ -37,7 +37,7 @@ public enum PaymentRequestDocumentFixture {
             java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(311);
             obj.setDocumentNumber("31");
-            obj.setApplicationDocumentStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
+//            obj.setApplicationDocumentStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setPurchaseOrderIdentifier(21);
             obj.setPostingYear(2009);
             obj.setInvoiceDate(date);
@@ -86,7 +86,7 @@ public enum PaymentRequestDocumentFixture {
             java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(321);
             obj.setDocumentNumber("32");
-            obj.setApplicationDocumentStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
+//            obj.setApplicationDocumentStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setPurchaseOrderIdentifier(21);
             obj.setPostingYear(2009);
             obj.setInvoiceDate(date);
@@ -135,7 +135,7 @@ public enum PaymentRequestDocumentFixture {
             java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(331);
             obj.setDocumentNumber("33");
-            obj.setApplicationDocumentStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
+//            obj.setApplicationDocumentStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setPurchaseOrderIdentifier(22);
             obj.setPostingYear(2009);
             obj.setInvoiceDate(date);
@@ -184,7 +184,7 @@ public enum PaymentRequestDocumentFixture {
             java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(341);
             obj.setDocumentNumber("34");
-            obj.setApplicationDocumentStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
+//            obj.setApplicationDocumentStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setPurchaseOrderIdentifier(22);
             obj.setPostingYear(2009);
             obj.setInvoiceDate(date);
@@ -233,7 +233,7 @@ public enum PaymentRequestDocumentFixture {
             java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(351);
             obj.setDocumentNumber("35");
-            obj.setApplicationDocumentStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
+//            obj.setApplicationDocumentStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setPurchaseOrderIdentifier(23);
             obj.setPostingYear(2009);
             obj.setInvoiceDate(date);
@@ -282,7 +282,7 @@ public enum PaymentRequestDocumentFixture {
             java.sql.Date date = new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
             obj.setPurapDocumentIdentifier(361);
             obj.setDocumentNumber("36");
-            obj.setApplicationDocumentStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
+//            obj.setApplicationDocumentStatus(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
             obj.setPurchaseOrderIdentifier(23);
             obj.setPostingYear(2009);
             obj.setInvoiceDate(date);

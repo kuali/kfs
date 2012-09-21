@@ -32,12 +32,6 @@
 <!-- KRAD -->
 	<bean id="kualiModuleService" class="org.kuali.kfs.sys.service.impl.KfsKualiModuleServiceImpl"/>
 
-	<bean id="kualiRuleService" class="org.kuali.rice.krad.service.impl.KualiRuleServiceImpl">
-		<property name="documentDictionaryService" ref="documentDictionaryService" />
-		<property name="dictionaryValidationService" ref="knsDictionaryValidationService" />
-		<property name="dataDictionaryService" ref="dataDictionaryService" />
-	</bean>
-
 	<bean id="documentHelperService" class="org.kuali.kfs.sys.service.impl.DocumentHelperServiceImpl" >
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />

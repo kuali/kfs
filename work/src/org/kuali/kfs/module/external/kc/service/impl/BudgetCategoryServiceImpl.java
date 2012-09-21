@@ -29,24 +29,34 @@ import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
+import org.kuali.kfs.module.external.kc.webService.AwardAccountService;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalBudgetCategoryService;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalBudgetCategorySoapService;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 public class BudgetCategoryServiceImpl implements ExternalizableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetCategoryServiceImpl.class);
 
     protected InstitutionalBudgetCategoryService getWebService() {
-        InstitutionalBudgetCategorySoapService ss = null;
-        try {
-            ss = new InstitutionalBudgetCategorySoapService();
+        // first attempt to get the service from the KSB - works when KFS & KC share a Rice instance
+        InstitutionalBudgetCategoryService institutionalBudgetCategoryService = (InstitutionalBudgetCategoryService) GlobalResourceLoader.getService(KcConstants.BudgetCategory.SERVICE);
+        
+        // if we couldn't get the service from the KSB, get as web service - for when KFS & KC have separate Rice instances
+        if (institutionalBudgetCategoryService == null) {
+            LOG.warn("Couldn't get BudgetCategoryService from KSB, setting it up as SOAP web service - expected behavior for bundled Rice, but not when KFS & KC share a standalone Rice instance.");
+
+            InstitutionalBudgetCategorySoapService ss = null;
+            try {
+                ss = new InstitutionalBudgetCategorySoapService();
+            }
+            catch (MalformedURLException ex) {
+                LOG.error("Could not intialize BudgetCategorySoapService: " + ex.getMessage());
+                throw new RuntimeException("Could not intialize BudgetCategorySoapService: " + ex.getMessage());
+            }
+            institutionalBudgetCategoryService = ss.getBudgetCategoryServicePort(); 
         }
-        catch (MalformedURLException ex) {
-            LOG.error("Could not intialize BudgetCategorySoapService: " + ex.getMessage());
-            throw new RuntimeException("Could not intialize BudgetCategorySoapService: " + ex.getMessage());
-        }
-        InstitutionalBudgetCategoryService port = ss.getBudgetCategoryServicePort();  
-        return port;
+        return institutionalBudgetCategoryService;
     }
 
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {

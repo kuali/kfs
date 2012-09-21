@@ -220,7 +220,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
             reqDoc.setOrganizationCode("SBSC");
             reqDoc.setDeliveryCampusCode("KO");
             reqDoc.setRequestorPersonName("WATSON,TERRENCE G");
-            reqDoc.setRequestorPersonEmailAddress("tw@kuali.org");
+            reqDoc.setRequestorPersonEmailAddress("tw@localhost.localhost");
             reqDoc.setRequestorPersonPhoneNumber("812-555-5555");
             reqDoc.setDeliveryBuildingCode("ADMN");
             reqDoc.setDeliveryBuildingName("Administration");
@@ -302,7 +302,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
             reqDoc.setDeliveryCampusCode("KO");
             reqDoc.setDeliveryCountryCode("US");
             reqDoc.setRequestorPersonName("WATSON,TERRENCE G");
-            reqDoc.setRequestorPersonEmailAddress("tw@kuali.org");
+            reqDoc.setRequestorPersonEmailAddress("tw@localhost.localhost");
             reqDoc.setRequestorPersonPhoneNumber("812-555-5555");
             reqDoc.setDeliveryBuildingCode("ADMN");
             reqDoc.setDeliveryBuildingName("Administration");
@@ -380,7 +380,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
             reqDoc.setOrganizationCode("VPIT");
             reqDoc.setDeliveryCampusCode("KO");
             reqDoc.setRequestorPersonName("WATSON,TERRENCE G");
-            reqDoc.setRequestorPersonEmailAddress("tw@kuali.org");
+            reqDoc.setRequestorPersonEmailAddress("tw@localhost.localhost");
             reqDoc.setRequestorPersonPhoneNumber("812-555-5555");
             reqDoc.setDeliveryBuildingCode("ADMN");
             reqDoc.setDeliveryBuildingName("Administration");
@@ -508,7 +508,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
             reqDoc.setOrganizationCode("VPIT");
             reqDoc.setDeliveryCampusCode("KO");
             reqDoc.setRequestorPersonName("WATSON,TERRENCE G");
-            reqDoc.setRequestorPersonEmailAddress("tw@kuali.org");
+            reqDoc.setRequestorPersonEmailAddress("tw@localhost.localhost");
             reqDoc.setRequestorPersonPhoneNumber("812-555-5555");
             reqDoc.setDeliveryBuildingCode("ADMN");
             reqDoc.setDeliveryBuildingName("Administration");

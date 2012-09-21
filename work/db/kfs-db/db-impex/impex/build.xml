@@ -1,0 +1,1133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+-->
+<project name="kuali_db_impex" default="help" basedir="."
+	xmlns:rsel="antlib:org.apache.tools.ant.types.resources.selectors"
+    xmlns:rcmp="antlib:org.apache.tools.ant.types.resources.comparators">
+
+	<target name="help">
+		<echo>
+**********************************
+KFS Database Import/Export Utility
+**********************************
+
+Setup:
+    1) set the ANT_OPTS environment variable to "-Xmx1g"
+            Windows: set ANT_OPTS=-Xmx1g
+            Unix:    export ANT_OPTS=-Xmx1g
+    2) The database schema/user must already be in place and empty prior to running the import.
+    3) The currently supported database types are
+            Export: oracle
+            Import: mysql, oracle
+    4) Copy the impex-build.properties.sample file into your home directory (${user.home}) 
+       as impex-build.properties.  Update the properties appropriately for your database instance and driver directory.
+			
+       FIXME: several file locations in this help are different than what the process actually uses.
+
+Main Targets: 
+         import ==> Extracts the database schema and data 
+                    and installs it into the database specified by the import.xxx properties in 
+                    ${user.home}/impex-build.properties.
+
+         export ==> Extracts the structure and data from the database and schema specified by 
+                    the export.xxx properties in ${user.home}impex-build.properties.
+			
+Other Targets:
+    Export Related:
+         jdbc-to-xml          ==> Extracts the database schema given in the import.xxx parameters into 
+                                  a single xml file (${torque.schema.dir}/schema.xml)
+         export-data          ==> Exports all data from the specified schema into an XML file per table.
+                                  Each tag in the file represents a table row.  Each column is an attribute of the tag.
+         create-data-dtd      ==> Generates a single DTD file for the above data XML files.
+         doc                  ==> Generates HTML cross-linked documentation for the database schema.
+         package-export       ==> Packages the export into a single zip file: ${target.zip}
+
+    Import Related:			
+         unpack-export        ==> Unpacks the source zip file (${source.zip}) into the ${torque.schema.dir} directory.
+         create-ddl           ==> Creates ${torque.output.dir}/sql/schema.sql and 
+                                  ${torque.output.dir}/sql/schema-constraints.sql from the 
+                                  ${torque.schema.dir}/schema.xml file.
+         dataxml-to-sql       ==> Creates SQL files (one per table) from the data XML files.  
+                                  This process runs in 5 threads to speed the process.  
+                                  (See: dataxml-file-to-sql-file and external-run-dataxml-load targets)
+         apply-ddl            ==> Runs the ${torque.output.dir}/sql/schema.sql into the database to 
+                                  create all the tables, views, sequences, primary keys, and indexes.
+         apply-data-sql       ==> Runs all data SQL files into the database.
+         apply-constraint-ddl ==> Runs the ${torque.output.dir}/sql/schema-constraints.sql into 
+                                  the database to create all foreign key constraints.
+			
+Note: Due to java native library classloader issues, the export routine (and possibly import) does not work 
+      when using a type 3 JDBC driver which relies upon a native OS library (*.dll,*.so).  If you must use 
+      such a driver, you must run the dependencies of the export and import tasks separately.
+		</echo>
+
+	</target>
+
+	<property name="torque.contextProperties" value="build.properties" />
+	<property name="impex.properties.file" location="${user.home}/impex-build.properties" />
+	<property file="default.properties" />
+	<property file="${impex.properties.file}" />
+	<property file="build.properties" />
+	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="torque.lib.dir" value="${lib.dir}" />
+	<property name="delete.export.graph.files" value="true" />
+	<available file="plugins" property="plugins.exist" />
+	<property name="torque.output.dir" value="${torque.schema.dir}/output" /> <!-- default value--> 
+	<property name="torque.output.dir.2" value="${torque.schema.dir.2}/output" /> <!-- default value--> 
+
+	<condition property="import.two.schemas">
+		<and>
+			<isset property="torque.schema.dir.2" />
+		</and>
+	</condition>
+
+	<typedef resource="org/tigris/subversion/svnant/svnantlib.xml">
+		<classpath>
+			<fileset dir="../lib" includes="*.jar" />
+		</classpath>
+	</typedef>
+
+
+	<!--
+    Do forward declarations of all of our tasks to
+    centralize them and clean up the targets.
+    -->
+	<target name="inittasks">
+		
+		<path id="torque-classpath">
+			<pathelement location="kuali-impextasks.jar" />
+			<fileset dir="${basedir}/..">
+				<include name="lib/*.jar" />
+			    <include name="impex/lib/*.jar" />
+				<include name="clover/lib/*.jar" />
+				<include name="drivers/*.jar" />
+				<include name="clover/plugins/**/*.jar" />
+		    </fileset>
+		</path>
+		<!--
+		The default.properties file will map old properties to the new ones along
+		with setting the correct defaults.
+		-->
+		<property resource="org/apache/torque/default.properties">
+			<classpath>
+				<path refid="torque-classpath" />
+			</classpath>
+		</property>
+		<taskdef resource="net/sf/antcontrib/antlib.xml">
+			<classpath>
+				<pathelement location="../lib/ant-contrib-1.0b3.jar" />
+			</classpath>
+		</taskdef>
+		<taskdef name="torque-doc" classpathref="torque-classpath" classname="org.apache.torque.task.TorqueDocumentationTask" />
+		<taskdef name="torque-doc-desc" classpathref="torque-classpath" classname="org.apache.torque.task.TorqueMergeXMLDoc" />
+		<taskdef name="torque-jdbc-transform" classpathref="torque-classpath" classname="org.kuali.core.db.torque.KualiTorqueJDBCTransformTask" />
+		<taskdef name="torque-sql" classpathref="torque-classpath" classname="org.kuali.core.db.torque.KualiTorqueSQLTask" />
+	</target>
+	
+	<target name="create-ddl" description="==> generates the SQL for your project" depends="inittasks">
+
+		<echo message="+------------------------------------------+" />
+		<echo message="|                                          |" />
+		<echo message="| Generating SQL for YOUR Torque project!  |" />
+		<echo message="|                                          |" />
+		<echo message="+------------------------------------------+" />
+		<echo message="torque.schema.dir: ${torque.schema.dir}" />
+		<echo message="torque.output.dir: ${torque.output.dir}" />
+
+		<property name="torque.sql.absolute.dir" location="${torque.output.dir}/sql" />
+		<!-- above works around a problem with torque-data-dump getting passed a relative directory, and not working right if tbe process was started from a directory other than ant's basedir -->
+
+		<create-ddl-macro torque.sql.dir="${torque.output.dir}/sql" torque.schema.dir="${torque.schema.dir}" torque.sql.absolute.dir="${torque.sql.absolute.dir}" />
+
+		<echo message="import.two.schemas: ${import.two.schemas}"/>
+		<echo message="import.torque.database: ${import.torque.database}"/>
+		<!-- now create-ddl for the second schema, if defined -->
+		<if>
+			<isset property="import.two.schemas" />
+			<then>
+				<property name="torque.sql.absolute.dir.2" location="${torque.output.dir.2}/sql" />
+				<create-ddl-macro torque.sql.dir="${torque.output.dir.2}/sql" torque.schema.dir="${torque.schema.dir.2}" torque.sql.absolute.dir="${torque.sql.absolute.dir.2}" />
+			</then>
+		</if>
+
+	</target>
+
+	<macrodef name="create-ddl-macro">
+		<attribute name="torque.sql.dir" />
+		<attribute name="torque.schema.dir" />
+		<attribute name="torque.sql.absolute.dir" />
+		<sequential>
+			<echo message="create-ddl at @{torque.sql.dir}" />
+			<mkdir dir="@{torque.sql.dir}" />
+			<torque-sql contextProperties="${torque.contextProperties}" controlTemplate="${torque.template.sql}" outputDirectory="@{torque.sql.absolute.dir}" outputFile="report.sql.generation" sqldbmap="@{torque.sql.dir}/sqldb.map" targetDatabase="${import.torque.database}" templatePath="${torque.templatePath}" useClasspath="true">
+				<fileset dir="@{torque.schema.dir}" includes="schema.xml" />
+			</torque-sql>
+		</sequential>
+	</macrodef>
+
+
+	<!-- ================================================================================ -->
+	<!-- G E N E R A T E   S C H E M A D E S C  W I T H  B L A N K  D E S C R I P T I O N -->
+	<!-- ================================================================================ -->
+	<!-- Generates an empty schema-description.xml file                                   -->
+	<!--                                                                                  -->
+	<!-- ================================================================================ -->
+	<target name="generate-empty-schema-description" depends="inittasks">
+
+		<generate-empty-schema-description-macro torque.schema.dir="${torque.schema.dir}" />
+
+		<if>
+			<isset property="import.two.schemas" />
+			<then>
+				<generate-empty-schema-description-macro torque.schema.dir="${torque.schema.dir.2}" />
+			</then>
+		</if>
+
+	</target>
+
+	<macrodef name="generate-empty-schema-description-macro">
+		<attribute name="torque.schema.dir" />
+		<sequential>
+			<create-xmlfile-with-blank-desc inputFileString="@{torque.schema.dir}/schema.xml" outputFileString="@{torque.schema.dir}/schema-description.xml" />
+		</sequential>
+	</macrodef>
+
+
+	<!-- ================================================================ -->
+	<!-- G E N E R A T E   D O C S                                        -->
+	<!-- ================================================================ -->
+	<!-- Generates documentation to                                       -->
+	<!-- ${torque.doc.dir}/project-schema.html                            -->
+	<!-- ================================================================ -->
+
+
+	<target name="doc" description="==> generates documentation for your datamodel" depends="inittasks">
+
+		<echo message="+------------------------------------------+" />
+		<echo message="|                                          |" />
+		<echo message="| Generating docs for YOUR datamodel!      |" />
+		<echo message="|                                          |" />
+		<echo message="+------------------------------------------+" />
+
+		<doc-macro torque.schema.dir="${torque.schema.dir}" torque.sql.dir="${torque.output.dir}/sql" />
+
+		<if>
+			<isset property="import.two.schemas" />
+			<then>
+				<doc-macro torque.schema.dir="${torque.schema.dir.2}" torque.sql.dir="${torque.output.dir.2}/sql" />
+			</then>
+		</if>
+
+	</target>
+
+	<macrodef name="doc-macro">
+		<attribute name="torque.schema.dir" />
+		<attribute name="torque.sql.dir" />
+		<sequential>
+			<mkdir dir="@{torque.schema.dir}/doc" />
+
+			<torque-doc-desc dbSchemaString="@{torque.schema.dir}/schema.xml" schemaWithDescString="@{torque.schema.dir}/schema-description.xml" />
+
+			<torque-doc contextProperties="${torque.contextProperties}" controlTemplate="${torque.template.doc}" outputDirectory="@{torque.schema.dir}/doc" outputFile="report.doc.generation" outputFormat="${torque.doc.format}" sqldbmap="@{torque.sql.dir}/sqldb.map" templatePath="${torque.templatePath}" useClasspath="${torque.useClasspath}">
+				<fileset dir="@{torque.schema.dir}" includes="schema.xml" />
+			</torque-doc>
+		</sequential>
+	</macrodef>
+
+
+	<!-- ================================================================ -->
+	<!-- I N S E R T  S I N G L E  S Q L  F I L E S                       -->
+	<!-- ================================================================ -->
+
+	<target name="apply-ddl" description="==> inserts the generated sql " depends="inittasks">
+		<echo message="torque.output.dir: ${torque.output.dir}"/>
+		<apply-ddl-macro torque.output.dir="${torque.output.dir}" />
+
+		<if>
+			<and>
+				<equals arg1="${run.schema.sql.2}" arg2="true" />
+				<isset property="import.two.schemas" />
+			</and>
+			<then>
+				<apply-ddl-macro torque.output.dir="${torque.output.dir.2}" />
+			</then>
+		</if>
+
+	</target>
+
+	<macrodef name="apply-ddl-macro">
+		<attribute name="torque.output.dir" />
+		<sequential>
+			<sql driver="${import.torque.database.driver}" password="${import.torque.database.password}" url="${import.torque.database.url}" userid="${import.torque.database.user}" delimiter="/" delimitertype="row" autocommit="false" keepformat="true" escapeprocessing="false" onerror="continue">
+				<classpath refid="torque-classpath" />
+				<fileset dir="@{torque.output.dir}/sql">
+					<include name="schema.sql" />
+				</fileset>
+			</sql>
+		</sequential>
+	</macrodef>
+
+	<target name="apply-constraint-ddl" description="==> inserts the generated sql " depends="inittasks">
+
+		<apply-constraint-ddl-macro torque.output.dir="${torque.output.dir}" />
+
+		<if>
+			<and>
+				<equals arg1="${run.schema.sql.2}" arg2="true" />
+				<isset property="import.two.schemas" />
+			</and>
+			<then>
+				<apply-constraint-ddl-macro torque.output.dir="${torque.output.dir.2}" />
+			</then>
+		</if>
+
+	</target>
+
+	<macrodef name="apply-constraint-ddl-macro">
+		<attribute name="torque.output.dir" />
+		<sequential>
+			<sql driver="${import.torque.database.driver}" password="${import.torque.database.password}" url="${import.torque.database.url}" userid="${import.torque.database.user}" delimiter="/" delimitertype="row" autocommit="false" keepformat="true" escapeprocessing="false" onerror="continue">
+				<classpath refid="torque-classpath" />
+				<fileset dir="@{torque.output.dir}/sql">
+					<include name="schema-constraints.sql" />
+				</fileset>
+			</sql>
+		</sequential>
+	</macrodef>
+
+	<!-- ================================================================ -->
+	<!-- J D B C  TO  X M L                                               -->
+	<!-- ================================================================ -->
+
+	<target name="jdbc-to-xml" description="==> jdbc to xml" depends="inittasks">
+		<echo message="+-----------------------------------------------+" />
+		<echo message="|                                               |" />
+		<echo message="| Generating XML from JDBC connection !         |" />
+		<echo message="|                                               |" />
+		<echo message="+-----------------------------------------------+" />
+		<echo message="torque.schema.dir: ${torque.schema.dir}"/>
+		<property name="torque.schema.absolute.dir" location="${torque.schema.dir}" />
+		<!-- above works around a problem with torque-jdbc-transform getting passed a relative directory, and not working right if tbe process was started from a directory other than ant's basedir -->
+
+		<torque-jdbc-transform dbDriver="${export.torque.database.driver}"
+								dbPassword="${export.torque.database.password}" 
+								dbSchema="${export.torque.database.schema}" 
+								dbType="${export.torque.database}" 
+								dbUrl="${export.torque.database.url}" 
+								dbUser="${export.torque.database.user}" 
+								outputFile="${torque.schema.absolute.dir}/schema.xml" 
+								tableNameRegex="${export.table.name.filter}"
+								tableNameExcludeRegex="${export.table.name.exclude.filter}"		
+								/>
+		<copy file="database.dtd" todir="${torque.schema.dir}" />
+	</target>
+
+	<target name="import"
+	        depends="check-import-properties,create-ddl,apply-ddl,pre-import-sql,import-data,import-data2,run-liquibase-post-import,apply-constraint-ddl,post-import-sql,import-workflow"
+	        description="==> Main Import Task" />
+	
+	<target name="pre-import-sql" depends="inittasks" if="pre.import.script.files">
+		<for list="${pre.import.script.files}" param="fileName" trim="true" keepgoing="false" parallel="false">
+			<sequential>
+				<run-sql-file file="@{fileName}" />
+			</sequential>
+		</for>
+	</target>
+
+	<target name="post-import-sql" depends="inittasks" if="post.import.script.files">
+		<for list="${post.import.script.files}" param="fileName" trim="true" keepgoing="false" parallel="false">
+			<sequential>
+				<run-sql-file file="@{fileName}" />
+			</sequential>
+		</for>
+	</target>		
+
+	<target name="export"
+	        depends="check-export-properties,jdbc-to-xml,export-data,delete-temp-files"
+	        description="==> Main Export Task" />
+
+	<target name="delete-temp-files">
+		<delete>
+			<fileset dir="${torque.schema.dir}" includes="**/*.generation" />
+			<fileset dir="${torque.schema.dir}/graphs" includes="*_export.grf.xml" />
+		</delete>
+	</target>
+
+	<target name="check-import-properties" depends="inittasks">
+		<condition property="import.properties.set">
+			<and>
+				<isset property="import.torque.database" />
+				<isset property="import.torque.database.driver" />
+				<isset property="import.torque.database.url" />
+				<isset property="import.torque.database.user" />
+				<isset property="import.torque.database.schema" />
+				<isset property="import.torque.database.password" />
+			</and>
+		</condition>
+
+		<fail unless="import.properties.set">.
+			
+Import properties not set.  
+			
+Please place an impex-build.properties in your home directory (${user.home}) with the properties in impex-build.properties.sample.
+		</fail>
+
+		<fail>
+			<condition>
+				<not>
+					<available classname="${import.torque.database.driver}" classpathref="torque-classpath" />
+				</not>
+			</condition>
+			.
+			
+Unable to find import database driver class.  (${import.torque.database.driver}) 
+			
+Please place the jar file for this class in the lib directory and try again.
+		</fail>
+		<antcall target="test-${import.torque.database}-connection" />
+	</target>
+
+	<target name="test-oracle-connection" depends="inittasks">
+		<sql driver="${import.torque.database.driver}" password="${import.torque.database.password}" url="${import.torque.database.url}" userid="${import.torque.database.user}" onerror="abort" classpathref="torque-classpath">SELECT dummy FROM dual</sql>
+	</target>
+
+	<target name="test-mysql-connection" depends="inittasks">
+		<sql driver="${import.torque.database.driver}" password="${import.torque.database.password}" url="${import.torque.database.url}" userid="${import.torque.database.user}" onerror="abort" classpathref="torque-classpath">SELECT 1</sql>
+	</target>
+
+	<target name="check-export-properties" depends="inittasks">
+		<condition property="export.properties.set">
+			<and>
+				<isset property="export.torque.database" />
+				<isset property="export.torque.database.driver" />
+				<isset property="export.torque.database.url" />
+				<isset property="export.torque.database.user" />
+				<isset property="export.torque.database.schema" />
+				<isset property="export.torque.database.password" />
+			</and>
+		</condition>
+
+		<fail unless="export.properties.set">.
+			
+Export properties not set.  
+			
+Please place an impex-build.properties in your home directory (${user.home}) with the properties in impex-build.properties.sample 
+properly set for your database instance.
+		</fail>
+
+		<fail>
+			<condition>
+				<not>
+					<available classname="${export.torque.database.driver}" classpathref="torque-classpath" />
+				</not>
+			</condition>
+			.
+			
+Unable to find export database driver class.  (${export.torque.database.driver}) 
+			
+Please place the jar file for this class in the lib directory and try again.
+		</fail>
+	</target>
+
+	<macrodef name="bootstrapsql">
+		<attribute name="user" />
+		<attribute name="password" />
+		<attribute name="file" />
+		<sequential>
+			<echo>Running File: @{file}</echo>
+			<sql driver="${import.torque.database.driver}" classpathref="torque-classpath" url="${import.admin.url}" userid="@{user}" password="@{password}" keepformat="true" delimitertype="row" delimiter="/" src="@{file}" />
+		</sequential>
+	</macrodef>
+
+
+	<macrodef name="run-sql-file">
+
+		<attribute name="file" />
+
+		<sequential>
+
+			<echo>Running File: @{file}</echo>
+
+			<sql driver="${import.torque.database.driver}" classpathref="torque-classpath" url="${import.torque.database.url}" userid="${import.torque.database.user}" password="${import.torque.database.password}" keepformat="true" delimitertype="row" delimiter="/" src="@{file}" />
+
+		</sequential>
+
+	</macrodef>
+
+
+	<macrodef name="adminsql">
+		<attribute name="sql" />
+		<attribute name="onerror" default="abort" />
+		<sequential>
+			<echo>@{sql}</echo>
+			<sql driver="${import.torque.database.driver}" classpathref="torque-classpath" url="${import.admin.url}" userid="${import.admin.user}" password="${import.admin.password}" onerror="@{onerror}" keepformat="false" delimitertype="row" delimiter="/">
+				@{sql}
+			</sql>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="impex-sql">
+		<attribute name="sql" />
+		<sequential>
+			<sql driver="${import.torque.database.driver}" classpathref="torque-classpath" password="${import.torque.database.password}" url="${import.torque.database.url}" userid="${import.torque.database.user}" keepformat="true" delimitertype="row" delimiter="/">
+				@{sql}
+			</sql>
+		</sequential>
+	</macrodef>
+
+	<target name="create-user" depends="inittasks">
+		<antcall>
+			<target name="${import.torque.database}-create-user" />
+		</antcall>
+	</target>
+
+	<target name="create-app-user" depends="inittasks">
+		<antcall>
+			<target name="${import.torque.database}-create-app-user" />
+		</antcall>
+	</target>
+
+	<target name="recreate-app-user" depends="inittasks">
+		<antcall>
+			<target name="${import.torque.database}-recreate-app-user" />
+		</antcall>
+	</target>
+
+	<target name="create-schema" depends="inittasks">
+		<antcall>
+			<target name="${import.torque.database}-create-user" />
+			<target name="${import.torque.database}-create-schema" />
+		</antcall>
+	</target>
+
+	<target name="drop-schema" depends="inittasks">
+		<antcall target="${import.torque.database}-drop-schema" />
+	</target>
+
+	<target name="empty-schema" depends="inittasks">
+		<antcall target="${import.torque.database}-empty-schema" />
+	</target>
+
+	<target name="bootstrap" depends="inittasks">
+		<antcall target="${import.torque.database}-bootstrap" />
+	</target>
+
+	<!-- 
+	   Oracle-specific targets
+	-->
+
+	<target name="oracle-create-user" depends="inittasks" />
+
+	<target name="oracle-create-app-user" depends="inittasks">
+		<adminsql sql="DECLARE temp NUMBER; BEGIN temp := ${oracle.usermaint.user}.kuluser_maint_pk.create_app_user( '${import.torque.database.user}_USER', '${import.torque.database.password}_USER' ); END;" />
+	</target>
+
+	<target name="oracle-create-schema" depends="inittasks">
+		<adminsql sql="DECLARE temp NUMBER; BEGIN temp := ${oracle.usermaint.user}.kuluser_maint_pk.create_user( '${import.torque.database.user}', '${import.torque.database.password}' ); END;" onerror="continue" />
+	</target>
+
+	<target name="oracle-drop-schema" depends="inittasks">
+		<adminsql sql="DECLARE temp NUMBER; BEGIN temp := ${oracle.usermaint.user}.kuluser_maint_pk.drop_user( '${import.torque.database.user}' ); END;" />
+	</target>
+
+	<target name="oracle-empty-schema" depends="inittasks">
+		<adminsql sql="DECLARE temp NUMBER; BEGIN temp := ${oracle.usermaint.user}.kuluser_maint_pk.recreate_user( '${import.torque.database.user}' ); END;" />
+	</target>
+
+	<target name="oracle-recreate-app-user" depends="inittasks">
+		<adminsql sql="DECLARE temp NUMBER; BEGIN temp := ${oracle.usermaint.user}.kuluser_maint_pk.recreate_app_user( '${import.torque.database.user}_USER' ); END;" />
+	</target>
+
+	<target name="oracle-bootstrap" depends="inittasks">
+		<bootstrapsql file="oracle_create_admin_user.sql" user="${oracle.usermaint.user}" password="${oracle.usermaint.password}" />
+		<bootstrapsql file="oracle_kuluser_maint_pk.sql" user="${oracle.usermaint.user}" password="${oracle.usermaint.password}" />
+	</target>
+
+	<!--
+	    MySQL-specific targets
+	-->
+
+	<target name="mysql-create-user" depends="inittasks">
+		<adminsql sql="CREATE USER '${import.torque.database.user}'@'%' IDENTIFIED BY '${import.torque.database.password}'" onerror="continue" />
+	</target>
+
+	<target name="mysql-create-app-user" depends="inittasks">
+		<adminsql sql="CREATE USER '${import.torque.database.user}_user'@'%' IDENTIFIED BY '${import.torque.database.password}_user'" onerror="continue" />
+		<adminsql sql="GRANT ALL ON ${import.torque.database.schema}.* TO '${import.torque.database.user}_user'@'%' WITH GRANT OPTION" onerror="continue" />
+	</target>
+
+	<target name="mysql-create-schema" depends="inittasks">
+		<adminsql sql="CREATE DATABASE IF NOT EXISTS ${import.torque.database.schema} DEFAULT CHARACTER SET 'utf8' DEFAULT COLLATE 'utf8_bin'" onerror="continue" />
+		<adminsql sql="GRANT ALL ON ${import.torque.database.schema}.* TO '${import.torque.database.user}'@'%' WITH GRANT OPTION" onerror="continue" />
+	</target>
+
+	<target name="mysql-drop-schema" depends="inittasks">
+		<adminsql sql="DROP DATABASE IF EXISTS ${import.torque.database.schema}" />
+	</target>
+
+	<target name="mysql-drop-app-user" depends="inittasks">
+		<adminsql sql="DROP USER ${import.torque.database.schema}_user" />
+	</target>
+	<target name="mysql-recreate-app-user" depends="mysql-drop-app-user,mysql-create-app-user" />
+
+	<target name="mysql-empty-schema" depends="mysql-drop-schema,mysql-create-schema" />
+
+	<target name="mysql-bootstrap" depends="inittasks" />
+
+	<!-- ================================= 
+          target: build              
+         ================================= -->
+	<target name="build" depends="build-init">
+		<javac classpathref="compile-classpath" srcdir="src" destdir="build" debug="true" optimize="false" />
+		<copy todir="build">
+			<fileset dir="src">
+				<include name="**/*.vm" />
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+		<jar destfile="kuali-impextasks.jar" basedir="build">
+		</jar>
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: build-init                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="build-init">
+		<mkdir dir="build" />
+		<delete dir="build" includes="**/*" />	
+
+		<path id="compile-classpath">
+			<fileset dir="lib" includes="*.jar" />
+			<fileset dir="../lib" includes="*.jar" />
+			<fileset dir="../clover/lib" includes="*.jar" />
+			<fileset dir="../drivers" includes="*.jar" />
+		</path>
+
+	</target>
+
+	<target name="clean">
+		<delete dir="build" failonerror="false" />
+		<delete dir="${torque.output.dir}" failonerror="false" />
+	</target>
+
+	<target name="satellite-update" depends="inittasks">
+		<available file="${torque.schema.dir}" property="data.dir.exists" />
+		<available file="${torque.schema.dir.2}" property="data.dir.exists.2" />
+
+		<antcall target="satellite-init" />
+
+		<svn-update-macro torque.schema.dir="${torque.schema.dir}" />
+		<if>
+			<isset property="import.two.schemas" />
+			<then>
+				<svn-update-macro torque.schema.dir="${torque.schema.dir.2}" />
+			</then>
+		</if>
+
+		<!-- clear the schema -->
+		<antcall target="empty-schema" />
+		<!-- for automated updates, clear the datasql directory for consistency when tables emptied or removed -->
+		<delete dir="${torque.output.dir}/datasql" failonerror="false" />
+		<delete dir="${torque.output.dir.2}/datasql" failonerror="false" />
+		<delete dir="${torque.output.dir}/sqlloader" failonerror="false" />
+		<delete dir="${torque.output.dir.2}/sqlloader" failonerror="false" />
+		<antcall target="import" />
+	</target>
+
+	<macrodef name="svn-update-macro">
+		<attribute name="torque.schema.dir" />
+		<sequential>
+			<echo>Running SVN update in @{torque.schema.dir}</echo>
+			<svn>
+				<update dir="@{torque.schema.dir}" />
+			</svn>
+		</sequential>
+	</macrodef>
+
+	<target name="satellite-init" depends="inittasks">
+		<echo message="data dir exists: ${data.dir.exists}"/>
+		<echo message="torque schema dir: ${torque.schema.dir}"/>
+		<echo message="svn root and svn module: ${svnroot} and ${svn.module}"/>
+		<echo message="import.two.schemas: ${import.two.schemas}"/>
+		<echo message="svn root 2 and svn module 2: ${svnroot.2} and ${svn.module.2}"/>
+		<if>
+			<not>
+				<isset property="data.dir.exists" />
+			</not>
+			<then>
+				<satellite-init-macro torque.schema.dir="${torque.schema.dir}" svnroot="${svnroot}" svn.module="${svn.module}" svn.base="${svn.base}" />
+			</then>
+		</if>
+
+		<if>
+			<and>
+				<isset property="import.two.schemas" />
+				<not>
+					<isset property="data.dir.exists.2" />
+				</not>
+			</and>
+			<then>
+				<condition property="valid.satellite.two.schemas">
+					<and>
+						<isset property="svnroot.2" />
+						<isset property="svn.module.2" />
+						<isset property="svn.base.2" />
+					</and>
+				</condition>
+				<fail unless="valid.satellite.two.schemas">If using two schemas for satellite-update, svnroot.2, svn.module.2 and svn.base.2 must be set!</fail>
+				<satellite-init-macro torque.schema.dir="${torque.schema.dir.2}" svnroot="${svnroot.2}" svn.module="${svn.module.2}" svn.base="${svn.base.2}" />
+			</then>
+		</if>
+	</target>
+
+	<macrodef name="satellite-init-macro">
+		<attribute name="torque.schema.dir" />
+		<attribute name="svnroot" />
+		<attribute name="svn.module" />
+		<attribute name="svn.base" />
+		<sequential>
+			<delete dir="@{torque.schema.dir}" />
+			<echo>Running SVN checkout to @{torque.schema.dir}</echo>
+			<svn>
+				<checkout url="@{svnroot}/@{svn.module}/@{svn.base}" destPath="@{torque.schema.dir}" />
+			</svn>
+		</sequential>
+	</macrodef>
+
+	<target name="init-clover-tasks" depends="inittasks">
+        <taskdef name="create-table-formats-and-graphs" classname="org.kuali.impex.ant.CreateTableFormatsAndGraphsTask" classpathref="torque-classpath" />
+		<taskdef name="run-graph" classname="org.kuali.impex.ant.GraphRunTask" classpathref="torque-classpath" />
+		<taskdef name="run-export-graphs" classname="org.kuali.impex.ant.RunExportGraphs" classpathref="torque-classpath" />
+		<taskdef name="check-empty-table" classname="org.kuali.impex.ant.CheckEmptyTable" classpathref="torque-classpath" />
+	</target>
+
+	<target name="create-clover-config-file" depends="init-clover-tasks">
+		<echo file="export.cfg">
+dbDriver=${export.torque.database.driver}
+dbURL=${export.torque.database.url}
+user=${export.torque.database.user}
+password=${export.torque.database.password}
+defaultRowPrefetch=100
+    	</echo>
+		<echo file="import.cfg">
+dbDriver=${import.torque.database.driver}
+dbURL=${import.torque.database.url}
+user=${import.torque.database.user}
+password=${import.torque.database.password}
+defaultRowPrefetch=100
+    	</echo>
+		<pathconvert property="basedir.safe" targetos="unix">
+			<path location="${torque.schema.dir}" />
+		</pathconvert>
+		<pathconvert property="formats.dir.safe" targetos="unix">
+			<path location="${torque.schema.dir}/formats" />
+		</pathconvert>
+		<pathconvert property="data.dir.safe" targetos="unix">
+			<path location="${torque.schema.dir}/data" />
+		</pathconvert>
+		<pathconvert property="graphs.dir.safe" targetos="unix">
+			<path location="${torque.schema.dir}/graphs" />
+		</pathconvert>
+		<if>
+			<available file="${export.data.additional.where.clause.file}" type="file" />
+			<then>
+				<loadfile property="where-clauses" srcfile="${export.data.additional.where.clause.file}" />
+			</then>
+			<else>
+				<echo>Unable to find file: ${export.data.additional.where.clause.file}</echo>
+				<property name="where-clauses" value=""/>
+			</else>
+		</if>
+		<echo file="workspace.prm">
+DATABASE = export.cfg
+WORKSPACE = ${basedir.safe}
+PROJECT_DIR = ${basedir.safe}
+FORMAT_DIR = ${formats.dir.safe}
+GRAPH_DIR = ${graphs.dir.safe}
+DATA_DIR = ${data.dir.safe}
+DUMP_DIR = ${data.dir.safe}
+OUTPUT_DUMPS = false
+${where-clauses}
+    	</echo>
+	</target>
+
+	<target name="create-clover-format-graph-files" depends="create-clover-config-file">
+		<!-- clean out existing format files -->
+		<mkdir dir="${torque.schema.dir}/formats" />
+		<delete>
+			<fileset dir="${torque.schema.dir}/formats">
+				<include name="*.xml"/>
+			</fileset>
+		</delete>
+		<!-- clean out existing graph files -->
+		<mkdir dir="${torque.schema.dir}/graphs" />
+		<delete>
+			<fileset dir="${torque.schema.dir}/graphs">
+				<include name="*.xml"/>
+			</fileset>
+		</delete>
+		<create-table-formats-and-graphs
+    		driver="${export.torque.database.driver}"
+    		url="${export.torque.database.url}"
+    		userid="${export.torque.database.user}"
+    		password="${export.torque.database.password}"
+    		schemaname="${export.torque.database.schema}"
+    		exportbasedir="${torque.schema.dir}"
+			tableNameRegex="${export.table.name.filter}"
+			tableNameExcludeRegex="${export.table.name.exclude.filter}"		
+    		createIfTableEmpty="false"
+    		classpathref="torque-classpath"
+            truncateTable="true"
+    		/>
+	</target>
+	
+	<target name="run-export-graphs" depends="create-clover-config-file">
+		<mkdir dir="${torque.schema.dir}/data" />
+		<!-- clean out existing data files -->
+		<if>
+			<isfalse value="${keep.data.files}" />
+			<then>
+				<delete>
+					<fileset dir="${torque.schema.dir}">
+						<include name="data/*.txt"/>
+					</fileset>
+				</delete>
+			</then>
+		</if>
+		<property name="schema.dir.abs.path" location="${torque.schema.dir}"/>
+		<path id="temp-export-graph-path">			
+			<sort>
+		    	<restrict>
+		    		
+    		        <fileset dir="${schema.dir.abs.path}/graphs" includes="*_export.grf.xml" />
+    		    	<rsel:compare when="ge" against="all">
+    		    		<control>
+    		    	        <resource name="${schema.dir.abs.path}/graphs/${export.start.table}" />
+    		    		</control>
+		    		</rsel:compare>
+		    	</restrict>
+				<rcmp:name />
+			</sort>
+		</path>
+		<!-- use for debugging the comparitor above -->
+		<!--
+		<pathconvert property="temp" refid="temp-export-graph-path" dirsep="," setonempty="true" />
+		<echo>${temp}</echo>
+		-->
+		<pathtofileset dir="${schema.dir.abs.path}/graphs" 
+					   pathrefid="temp-export-graph-path" 
+					   name="export-graph-fileset" />
+		<!-- export all data -->
+		<run-export-graphs verbose="true"
+            driver="${export.torque.database.driver}"
+            url="${export.torque.database.url}"
+            userid="${export.torque.database.user}"
+            password="${export.torque.database.password}"
+            schemaname="${export.torque.database.schema}"
+            classpathref="torque-classpath"
+			graphExclusionRegex="${export.excluded.table.data.regex}"
+    		>
+			<fileset refid="export-graph-fileset" />
+			<!--
+			<fileset dir="${schema.dir.abs.path}/graphs/" includes="${temp}">				
+    			<filename regexp="${export.excluded.tables}" casesensitive="false" negate="true" />
+			</fileset>
+			-->
+		</run-export-graphs>
+	</target>
+
+	<target name="import-data" depends="create-clover-config-file,inittasks">
+		<pathconvert property="basedir.safe" targetos="unix">
+			<path location="${torque.schema.dir}" />
+		</pathconvert>
+		<pathconvert property="formats.dir.safe" targetos="unix">
+			<path location="${torque.schema.dir}/formats" />
+		</pathconvert>
+		<pathconvert property="data.dir.safe" targetos="unix">
+			<path location="${torque.schema.dir}/data" />
+		</pathconvert>
+		<pathconvert property="graphs.dir.safe" targetos="unix">
+			<path location="${torque.schema.dir}/graphs" />
+		</pathconvert>
+		<echo file="workspace.prm">
+DATABASE = import.cfg
+WORKSPACE = ${basedir.safe}
+PROJECT_DIR = ${basedir.safe}
+FORMAT_DIR = ${formats.dir.safe}
+GRAPH_DIR = ${graphs.dir.safe}
+DATA_DIR = ${data.dir.safe}
+DUMP_DIR = ${data.dir.safe}
+OUTPUT_DUMPS = false
+    	</echo>
+		<!-- import all data -->
+		<pathconvert property="graphFiles">
+			<chainedmapper>
+				<filtermapper>
+					<replacestring from="\" to="/" />
+					<!-- " (fix syntax highlighting) -->
+				</filtermapper>
+				<!-- this filter mapper makes the import run only for data files that are present, 
+				     rather than all import graph files -->
+				<filtermapper>
+					<replacestring from="/data/" to="/graphs/"/>
+					<replacestring from=".txt" to="_import.grf.xml"/>
+				</filtermapper>
+			</chainedmapper>
+			<path>
+				<fileset dir="${torque.schema.dir}/data">
+					<include name="*.txt"/>
+				</fileset>
+			</path>
+		</pathconvert>
+		<path id="graph.files.path" path="${graphFiles}" />
+		<pathtofileset name="graph.files"
+			dir="${torque.schema.dir}/graphs"
+			pathrefid="graph.files.path"
+			/>
+		<fixcrlf srcdir="${torque.schema.dir}/data" includes="*.txt" eol="crlf" />
+		<run-graph verbose="true" propertyfile="${basedir}/cloveretl.properties">
+			<fileset refid="graph.files" />
+		</run-graph>
+	</target>
+
+	<target name="import-data2" depends="create-clover-config-file,inittasks" if="import.two.schemas">
+		<pathconvert property="basedir.safe.2" targetos="unix">
+			<path location="${torque.schema.dir.2}" />
+		</pathconvert>
+		<pathconvert property="formats.dir.safe.2" targetos="unix">
+			<path location="${torque.schema.dir.2}/formats" />
+		</pathconvert>
+		<pathconvert property="data.dir.safe.2" targetos="unix">
+			<path location="${torque.schema.dir.2}/data" />
+		</pathconvert>
+		<pathconvert property="graphs.dir.safe.2" targetos="unix">
+			<path location="${torque.schema.dir.2}/graphs" />
+		</pathconvert>
+		<echo file="workspace.prm">
+DATABASE = import.cfg
+WORKSPACE = ${basedir.safe.2}
+PROJECT_DIR = ${basedir.safe.2}
+FORMAT_DIR = ${formats.dir.safe.2}
+GRAPH_DIR = ${graphs.dir.safe.2}
+DATA_DIR = ${data.dir.safe.2}
+DUMP_DIR = ${data.dir.safe.2}
+OUTPUT_DUMPS = false
+    	</echo>
+		<!-- import all data -->
+		<pathconvert property="graphFiles.2">
+			<chainedmapper>
+				<filtermapper>
+					<replacestring from="\" to="/" />
+					<!-- " (fix syntax highlighting) -->
+				</filtermapper>
+				<!-- this filter mapper makes the import run only for data files that are present, 
+				     rather than all import graph files -->
+				<filtermapper>
+					<replacestring from="/data/" to="/graphs/"/>
+					<replacestring from=".txt" to="_import.grf.xml"/>
+				</filtermapper>
+			</chainedmapper>
+			<path>
+				<fileset dir="${torque.schema.dir.2}/data">
+					<include name="*.txt"/>
+				</fileset>
+			</path>
+		</pathconvert>
+		<path id="graph.files.path.2" path="${graphFiles.2}" />
+		<pathtofileset name="graph.files.2"
+			dir="${torque.schema.dir.2}/graphs"
+			pathrefid="graph.files.path.2"
+			/>
+		<fixcrlf srcdir="${torque.schema.dir.2}/data" includes="*.txt" eol="crlf" />
+		<run-graph propertyfile="${basedir}/cloveretl.properties">
+			<fileset refid="graph.files.2" />
+		</run-graph>
+	</target>
+
+	<!-- ================================= 
+          target: export-data              
+         ================================= -->
+	<target name="export-data" depends="create-clover-format-graph-files,run-export-graphs" />
+
+	<target name="truncate-tables">
+		<sql driver="${import.torque.database.driver}"
+		     password="${import.torque.database.password}"
+		     url="${import.torque.database.url}"
+		     userid="${import.torque.database.user}"
+		     delimiter="/"
+		     delimitertype="row"
+		     autocommit="false"
+		     keepformat="true"
+		     escapeprocessing="false"
+		     onerror="continue"
+		>
+			<classpath refid="torque-classpath" />
+DECLARE
+	CURSOR tbls IS
+		SELECT table_name FROM sys.user_tables ORDER BY table_name;
+BEGIN
+	FOR tbl IN tbls LOOP
+		EXECUTE IMMEDIATE 'TRUNCATE TABLE '|| tbl.table_name;
+	END LOOP;
+END;
+/					
+		</sql>
+	</target>
+
+	<target name="setup-app-user" depends="inittasks">
+		<!--
+			Run as table owner user
+			Grant access to all regular objects in the KFS schema to KFS_USER 
+		-->
+		<sql driver="${import.torque.database.driver}"
+		     password="${import.torque.database.password}"
+		     url="${import.torque.database.url}"
+		     userid="${import.torque.database.user}"
+		     delimiter="/"
+		     delimitertype="row"
+		     autocommit="false"
+		     keepformat="true"
+		     escapeprocessing="false"
+		     onerror="continue"
+		>
+			<classpath refid="torque-classpath" />
+DECLARE
+    CURSOR user_objects IS 
+    SELECT object_name, object_type
+        FROM user_objects
+        WHERE object_type IN ( 'TABLE', 'VIEW', 'SEQUENCE', 'MATERIALIZED VIEW' );
+BEGIN
+    FOR rec IN user_objects LOOP
+        IF rec.object_type = 'TABLE' THEN
+            EXECUTE IMMEDIATE 'GRANT SELECT, INSERT, UPDATE, DELETE ON '||rec.object_name||' TO ${import.torque.database.user}_user';
+        ELSIF rec.object_type IN ( 'VIEW', 'SEQUENCE', 'MATERIALIZED VIEW' ) THEN
+            EXECUTE IMMEDIATE 'GRANT SELECT ON '||rec.object_name||' TO ${import.torque.database.user}_user';
+        END IF;
+    END LOOP;
+END;
+/
+		</sql>
+
+		<!-- KFS requires that all tables "appear" to be local to the user so create a 
+		     synonym for everything in the kfs_user schema
+		-->
+		<sql driver="${import.torque.database.driver}"
+		     password="${import.torque.database.password}_user"
+		     url="${import.torque.database.url}"
+		     userid="${import.torque.database.user}_user"
+		     delimiter="/"
+		     delimitertype="row"
+		     autocommit="false"
+		     keepformat="true"
+		     escapeprocessing="false"
+		     onerror="continue"
+		>
+			<classpath refid="torque-classpath" />
+DECLARE
+    MasterUser CONSTANT VARCHAR2(30) := UPPER('${import.torque.database.user}');
+    CURSOR user_objects IS 
+        SELECT object_name
+            FROM all_objects
+            WHERE owner = MasterUser
+              AND object_type IN ( 'TABLE', 'VIEW', 'SEQUENCE', 'MATERIALIZED VIEW' );
+    CURSOR local_synonyms IS
+        SELECT object_name 
+            FROM user_objects
+            WHERE object_type = 'SYNONYM';
+BEGIN
+    -- first, clear out any local synonyms to make sure they are not conflicting
+    FOR rec IN local_synonyms LOOP
+        EXECUTE IMMEDIATE 'DROP SYNONYM '|| rec.object_name;
+    END LOOP;
+    FOR rec IN user_objects LOOP
+        EXECUTE IMMEDIATE 'CREATE SYNONYM '||rec.object_name||' FOR '||MasterUser||'.'||rec.object_name;
+    END LOOP;
+END;
+/	
+		</sql>
+	</target>
+	
+	<target name="import-workflow" depends="inittasks" if="post.import.workflow.project">
+		<!-- generate an absolute path to this directory -->
+		<property name="temp.workflow.dir" location="${post.import.workflow.xml.directory}"/>		
+		
+		<java classname="org.apache.tools.ant.Main"
+		      fork="true"
+		      failonerror="true">		    
+		    <classpath path="${java.class.path}" />
+		    <jvmarg value="-Xmx1g" />
+		    <arg value="-Duser.home=${user.home}" />
+			<arg value="-buildfile" />
+			<arg value="${post.import.workflow.ingester.launcher.ant.script}" />
+		    <arg value="${post.import.workflow.ingester.launcher.ant.target}" />
+		    <arg value="-D${post.import.workflow.ingester.launcher.ant.xml.directory.property}=${temp.workflow.dir}" />
+			<arg value="-D${post.import.workflow.ingester.jdbc.url.property}=${import.torque.database.url}" />
+			<arg value="-D${post.import.workflow.ingester.username.property}=${import.torque.database.user}" />
+			<arg value="-D${post.import.workflow.ingester.password.property}=${import.torque.database.password}" />
+			<arg line="${post.import.workflow.ingester.additional.command.line}"/>
+		</java>			
+	</target>
+	
+	<target name="run-liquibase-post-import" depends="inittasks" if="post.import.liquibase.project">
+		<!--
+		<taskdef resource="liquibasetasks.properties">
+	        <classpath refid="torque-classpath"/>
+	    </taskdef>
+	    -->
+	    <!-- Ensure that all will be run by default to preserve existing behavior -->
+	    <property name="post.import.liquibase.contexts" value="demo" />
+    	<for param="file.name" keepgoing="false" parallel="false">
+    	    <path>
+    	    	  <!-- ensure that the files are run in name order -->
+    		    <sort>
+    		        <fileset dir="${post.import.liquibase.xml.directory}" includes="*.xml" />
+    		    	<rcmp:name />
+    	        </sort>
+    	    </path>
+    		<sequential>
+    			<!-- need to keep back-slashes out of the path -->
+    			<path id="driver.classpath.for.liquibase">
+    				<fileset dir="../drivers">
+    					<include name="*.jar" />
+    				</fileset>
+    			</path>
+    			<pathconvert refid="driver.classpath.for.liquibase"
+    						 property="driver.classpath.for.liquibase.string" />
+    		    <echo message="Running Liquibase ChangeLog: @{file.name}" />
+    			<java jar="../lib/liquibase-2.0.5.jar" 
+    					failonerror="true" 
+    					classpathref="torque-classpath" 
+    					fork="true"
+    					dir="${post.import.liquibase.xml.directory}">
+    				<arg value="--driver=${import.torque.database.driver}"/>
+    				<arg value="--classpath=${driver.classpath.for.liquibase.string}" />
+    				<arg value="--url=${import.torque.database.url}"/>
+					<arg value="--username=${import.torque.database.user}"/>
+					<arg value="--password=${import.torque.database.password}"/>
+    				<arg value="--defaultSchemaName=${import.torque.database.schema}" />
+    				<arg value="--changeLogFile=@{file.name}" />
+    				<arg value="--logLevel=debug" />
+    				<arg value="--contexts=${post.import.liquibase.contexts}" />
+    				<arg value="update" />
+    			</java>
+    		</sequential>
+    	</for>	
+	</target>
+	
+</project>

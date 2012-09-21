@@ -1,0 +1,29 @@
+<plugin
+   id="org.jetel.lookup"
+   version="2.8.0"
+   provider-name="Javlin a.s.">
+
+	<runtime>
+		<library path="cloveretl.lookup.jar"/>
+   	</runtime> 
+    
+	<requires engine-version="2.8.0">
+		<import plugin-id="org.jetel.connection"/>
+	</requires>
+
+	<extension point-id="lookup">
+		<parameter id="type" value="simpleLookup"/>
+		<parameter id="className" value="org.jetel.lookup.SimpleLookupTable"/>
+	</extension>
+
+	<extension point-id="lookup">
+		<parameter id="type" value="dbLookup"/>
+		<parameter id="className" value="org.jetel.lookup.DBLookupTable"/>
+	</extension>
+
+	<extension point-id="lookup">
+		<parameter id="type" value="rangeLookup"/>
+		<parameter id="className" value="org.jetel.lookup.RangeLookupTable"/>
+	</extension>
+
+</plugin>

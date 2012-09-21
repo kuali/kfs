@@ -1,0 +1,31 @@
+<plugin
+   id="org.jetel.engine"
+   version="2.8.0"
+   provider-name="Javlin a.s.">
+
+	<extension point-id="dictionaryType">
+		<parameter id="type" value="string"/>
+		<parameter id="className" value="org.jetel.graph.dictionary.StringDictionaryType"/>
+	</extension>
+	
+	<extension point-id="dictionaryType">
+		<parameter id="type" value="object"/>
+		<parameter id="className" value="org.jetel.graph.dictionary.ObjectDictionaryType"/>
+	</extension>
+
+	<extension point-id="dictionaryType">
+		<parameter id="type" value="readable.channel"/>
+		<parameter id="className" value="org.jetel.graph.dictionary.ReadableChannelDictionaryType"/>
+	</extension>
+	
+	<extension point-id="dictionaryType">
+		<parameter id="type" value="writable.channel"/>
+		<parameter id="className" value="org.jetel.graph.dictionary.WritableChannelDictionaryType"/>
+	</extension>
+	
+	<extension point-id="tlCompiler">
+		<parameter id="type" value="simple.compiler"/>
+		<parameter id="className" value="org.jetel.ctl.TLCompiler"/>
+	</extension>
+	
+</plugin>

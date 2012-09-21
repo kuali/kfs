@@ -65,9 +65,9 @@ Copyright 2005-${ConfigProperties.current.year}  The Kuali Foundation.  All righ
 
 <p>This product includes software licensed under the Mozilla Public License (<span class="nobr"><a href="http://www.mozilla.org/MPL/" title="MPL" rel="nofollow">http://www.mozilla.org/MPL/</a></span>).</p>
 
-<p>This product includes the Kuali Rice module licensed under the Kuali Foundation ECL (<span class="nobr"><a href="https://test.kuali.org/confluence/display/KULDOC/Rice+Acknowledgments" title="Rice Acknowledgments" rel="nofollow">https://test.kuali.org/confluence/display/KULDOC/Rice+Acknowledgments</a></span>).</p>
+<p>This product includes the Kuali Rice module licensed under the Kuali Foundation ECL (<span class="nobr"><a href="https://wiki.kuali.org/display/KULRICE/Licensing+and+Acknowledgments+%282.0%29" title="Rice Acknowledgments" rel="nofollow">https://wiki.kuali.org/display/KULRICE/Licensing+and+Acknowledgments+%282.0%29</a></span>).</p>
 
-<p>This product includes the Kuali Enterprise Workflow module licensed under the Kuali Foundation ECL (<span class="nobr"><a href="https://test.kuali.org/confluence/display/KULDOC/KEW+Acknowledgments" title="KEW Acknowledgments" rel="nofollow">https://test.kuali.org/confluence/display/KULDOC/KEW+Acknowledgments</a></span>).</p>
+<p>This product includes the Kuali Enterprise Workflow module licensed under the Kuali Foundation ECL (<span class="nobr"><a href="https://wiki.kuali.org/display/KULDOC/KEW+Acknowledgments" title="KEW Acknowledgments" rel="nofollow">https://wiki.kuali.org/display/KULDOC/KEW+Acknowledgments</a></span>).</p>
 
 <p>The original concept and code base for P6Spy was conceived and developed by Andy Martin, Ph.D. who generously contributed the first complete release to the public under this license.&nbsp; This product was due to the pioneering work of Andy that began in December of 1995 developing applications that could seamlessly be deployed with minimal effort but with dramatic results.&nbsp; This code is maintained and extended by Jeff Goke and with the ideas and contributions of other P6Spy contributors. (<span class="nobr"><a href="http://www.p6spy.com" title="p6spy" rel="nofollow">http://www.p6spy.com</a></span>).</p>
 

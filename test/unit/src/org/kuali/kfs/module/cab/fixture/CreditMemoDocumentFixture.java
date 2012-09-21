@@ -47,7 +47,7 @@ public enum CreditMemoDocumentFixture {
             obj.setVendorCountryCode("US");
             obj.setPurchaseOrderIdentifier(21);
             obj.setPostingYear(2009);
-            obj.setApplicationDocumentStatus(CreditMemoStatuses.APPDOC_COMPLETE);
+//            obj.setApplicationDocumentStatus(CreditMemoStatuses.APPDOC_COMPLETE);
             obj.setCreditMemoNumber("1003");
             obj.setCreditMemoDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
             obj.setCreditMemoAmount(new KualiDecimal(7000));

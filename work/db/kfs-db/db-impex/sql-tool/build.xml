@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<project name="sql-tool" default="help"
+	xmlns:rsel="antlib:org.apache.tools.ant.types.resources.selectors"
+    xmlns:rcmp="antlib:org.apache.tools.ant.types.resources.comparators">
+    <property file="ant-local.properties" />
+	<property file="ant.properties" />
+
+	<path id="cp">
+	   <fileset dir="../lib">
+		    <include name="*.jar"/>
+	   </fileset>
+	   <fileset dir="../drivers">
+		    <include name="*.jar"/>
+	   </fileset>
+	</path>
+	
+    <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="../lib/ant-contrib-1.0b3.jar" />
+	
+    <target name="help">
+        <echo>
+            This is no help.
+        </echo>    
+    </target>
+
+    <target name="run-dir">
+        <if>
+        	<not>
+        	    <isset property="sql.dir.name" />
+    		</not>
+            <then>
+            	<fail message="sql.dir.name must be set to use the run-dir" />
+    	    </then>
+        </if>
+    	<property name="start.file" value="" />
+    	<property name="start.file.path" location="${sql.dir.name}/${start.file}" />
+    	<for param="sql.file.name" keepgoing="false" parallel="false">
+    	    <path>
+    	    	  <!-- ensure that the files are run in name order -->
+    		    <sort>
+    		    	<!-- allow for a starting file, for resume of processing -->
+    		    	<restrict>
+        		        <fileset dir="${sql.dir.name}" includes="*.sql" />
+        		    	<rsel:compare when="ge" against="all">
+        		    		<control>
+        		    	        <resource name="${start.file.path}" />
+        		    		</control>
+    		    		</rsel:compare>
+    		    	</restrict>
+    		    	<rcmp:name />
+    	        </sort>
+    	    </path>
+    		<sequential>
+    		    <echo message="Running File: @{sql.file.name}" />
+    			<run-sql-file file="@{sql.file.name}" />
+    		</sequential>
+    	</for>
+    </target>
+
+    <target name="run-file">
+        <run-sql-file file="${sql.file.name}" />
+    </target>
+	
+    <!--
+    test of sort routine
+    
+    <reverse xmlns="antlib:org.apache.tools.ant.types.resources.comparators">
+     <name />
+    </reverse>
+    -->
+	
+    <macrodef name="run-sql">
+        <attribute name="sql" />
+        <sequential>
+            <sql driver="${db.driver}"
+                 classpathref="cp"
+                 url="${db.url}"
+                 userid="${db.username}"
+                 password="${db.password}"
+                 keepformat="true"
+                 delimitertype="row"
+                 delimiter="/">
+                @{sql}
+            </sql>
+        </sequential>
+    </macrodef>
+    <macrodef name="run-sql-file">
+        <attribute name="file" />
+        <sequential>
+            <sql driver="${db.driver}"
+                 classpathref="cp"
+                 url="${db.url}"
+                 userid="${db.username}"
+                 password="${db.password}"
+                 keepformat="true"
+                 delimitertype="row"
+                 delimiter="/"
+            	 src="@{file}" />
+        </sequential>
+    </macrodef>
+
+</project>

@@ -1273,9 +1273,6 @@
     <property name="label" value="Waiting on Additional Info"/>
     <property name="shortLabel" value="Status Change"/>
     <property name="maxLength" value="64"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
     <property name="control">
       <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.StatusChangeValuesFinder" p:includeKeyInLabel="false"/>
     </property>

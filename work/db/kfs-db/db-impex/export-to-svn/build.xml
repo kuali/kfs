@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="export-to-svn" default="help">
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="../lib/ant-contrib-1.0b3.jar" />
+		</classpath>
+	</taskdef>
+    <typedef resource="org/tigris/subversion/svnant/svnantlib.xml">
+        <classpath>
+            <fileset dir="../lib" includes="svn*.jar" />
+        </classpath>
+    </typedef>
+	
+	<property file="ant-local.properties" />
+	<property file="ant.properties" />
+    <property name="drivers.dir" location="../drivers" />
+    <property name="checkout.dir" location="checkout" />
+	
+    <pathconvert property="temp.dir" targetos="unix">
+        <path location="temp" />
+    </pathconvert>
+	
+	<target name="clean">
+		<delete dir="${temp.dir}" />
+		<delete dir="${checkout.dir}" />
+	</target>
+	
+	<target name="init">
+		<mkdir dir="${temp.dir}" />
+		<mkdir dir="${checkout.dir}" />
+	</target>
+
+	<target name="checkout-data" depends="init">
+        <svn failonerror="true">
+        	<checkout url="${svn.base}/${data.svn.module}/${data.svn.path}"
+        		      destpath="${checkout.dir}/${data.svn.module}" />
+        </svn>
+	</target>
+
+	<target name="export-db">
+		<!-- create impex-build.properties file -->
+		<property name="daily.export.dir" location="${checkout.dir}/new_export"/>
+        <mkdir dir="${daily.export.dir}"/>
+		<loadfile property="impex.properties" srcfile="db-impex-build.properties">
+			<filterchain>
+				<expandproperties />
+			</filterchain>
+		</loadfile>
+		<echo message="${temp.dir}/impex-build.properties" />
+		<echo file="${temp.dir}/impex-build.properties" message="${impex.properties}" />
+		<!-- run export command -->
+		<!-- need to run in a separate JVM due to the way that Clover finds its configuration files. -->
+		<java classname="org.apache.tools.ant.Main"
+		      fork="true"
+		      dir="../impex"
+		      failonerror="true">		    
+		    <classpath path="${java.class.path}" />
+		    <jvmarg value="-Xmx1g" />
+		    <arg value="-Duser.home=${temp.dir}" />
+		    <arg value="-Dimpex.properties.file=${temp.dir}/impex-build.properties" />
+		    <arg value="export" />
+		</java>		
+	</target>
+	
+	<target name="remove-svn-files">
+		<!-- find, and cvs remove deleted files -->
+		<svn failonerror="true">
+			<delete force="true">
+    			<fileset dir="${checkout.dir}/${data.svn.module}">
+    				<include name="data/*.txt" />
+    				<include name="formats/*.xml" />
+    				<include name="graphs/*.xml" />
+    				<exclude name="schema.xml" />
+    				<exclude name=".#*" />
+    				<present present="srconly" targetdir="${checkout.dir}/new_export" />
+    			</fileset>
+			</delete>
+		</svn>
+	</target>
+
+	<target name="add-svn-files">
+		<!-- find, copy and cvs add new files -->
+        <!-- first, create 0-byte files with the correct names in the sandbox -->
+		<for param="f">
+            <fileset dir="${checkout.dir}/new_export">
+                <include name="data/*.txt" />
+                <include name="formats/*.xml" />
+                <include name="graphs/*.xml" />
+                <exclude name="schema.xml" />
+                <exclude name=".#*" />
+                <present present="srconly" targetdir="${checkout.dir}/${data.svn.module}" />
+            </fileset>
+			<sequential>
+			 <propertyregex property="file" 
+			 	input="@{f}" 
+			 	regexp="${checkout.dir}/new_export" 
+			 	replace="${checkout.dir}/${data.svn.module}" 
+			 	override="true" />
+				<echo>${file}</echo>
+	             <copy file="@{f}" tofile="${file}" />
+			 <svn>
+			 	<add file="${file}"/>
+			 </svn>
+			</sequential>
+		</for>
+	</target>
+
+	<target name="copy-changed-files">
+		<!-- copy files which are present in each directory and have changed -->
+		<copy todir="${checkout.dir}/${data.svn.module}" overwrite="true" verbose="true" failonerror="true">
+			<fileset dir="${checkout.dir}/new_export">
+				<include name="data/*.txt" />
+				<include name="formats/*.xml" />
+				<include name="graphs/*.xml" />
+				<include name="schema.xml" />
+				<exclude name=".#*" />
+				<and>
+					<present present="both" targetdir="${checkout.dir}/${data.svn.module}" />
+					<different targetdir="${checkout.dir}/${data.svn.module}" ignorefiletimes="true" ignoreContents="false" />
+				</and>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="merge-export-to-svn" depends="remove-svn-files,add-svn-files,copy-changed-files">
+		<echo file="${checkout.dir}/merge.complete" message="" />
+	</target>
+
+	<target name="commit-changes" depends="check-merge-complete">
+		<tstamp />
+        <svn username="${svn.username}" password="${svn.password}" failonerror="true">
+    	   <commit dir="${checkout.dir}/${data.svn.module}" message="Automated database schema update from ${db.schema} - ${DSTAMP}-${TSTAMP}"/>
+    	</svn>
+	</target>
+
+	<target name="export" depends="export-phase1,export-phase2" />
+	<target name="export-phase1" depends="clean,init,checkout-data,export-db">
+		<echo file="${checkout.dir}/phase1.complete" message="" />
+	</target>
+	<target name="export-phase2" depends="check-phase-1,merge-export-to-svn,commit-changes" />
+	
+	<target name="check-phase-1">
+		<available file="${checkout.dir}/phase1.complete" property="phase1.complete" />
+		<fail unless="phase1.complete" message="Phase 1 did not complete - aborting."/>
+	</target>
+
+	<target name="check-merge-complete">
+		<available file="${checkout.dir}/merge.complete" property="merge.complete" />
+		<fail unless="merge.complete" message="Merge step did not complete - aborting."/>
+	</target>
+	
+	<target name="help">
+		<echo>
+-- USAGE --
+This script will check out the ${data.svn.module} project from SVN, export the named
+schema from the database, copy the file from the server, and commit the file to SVN.
+
+You will need to modify the values in ant.properties (preferrably override in ant-local.properties) 
+to match your local environment.  The main ones which you will NEED to change are the SVN password
+and the database administration password.
+
+-- TARGETS --
+export - main target, will perform all operations
+		</echo>
+	</target>
+	
+</project>

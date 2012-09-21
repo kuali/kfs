@@ -22,15 +22,20 @@ are intended for use only by Kuali Foundation developers.
 <project name="imported">
 	<!-- dummy targets to keep validation happy -->
 	<target name="init-properties" />
+	<target name="init-make-references" />
 	<target name="dist-local" />
 	<target name="clean" />
+	<target name="clean-all" />
 	<target name="make-source" />
 	<target name="build-eclipse-classpath" />
 	<target name="extract-rice-libraries" />
+	<target name="refresh-kfs-db" />
 
 	<target name="init-additional-properties" depends="init-properties">
 		<echo message="Reading Properties: ${properties.directory}/build-foundation.properties" />
 		<property file="${properties.directory}/build-foundation.properties" />
+		<echo message="Reading Properties: ${properties.directory}/distribution.properties" />
+		<property file="${properties.directory}/distribution.properties" />
 	</target>
 
 	<target name="modularization-test" depends="init-additional-properties,make-source">
@@ -103,6 +108,11 @@ To: ${dependencies.project.directory}
 Renaming from: rice-xxx-${rice.version}-xxxxx.jar
 		 to  : rice-xxx-${kfs.rice.version}-xxxxx.zip
 		</echo>
+		<delete verbose="true" failonerror="false">
+		    <fileset dir="build/rice-sources">
+	  			<include name="rice-*-sources.jar" />
+	  		</fileset>
+		</delete>
     	<copy todir="build/rice-sources" verbose="true" overwrite="true" >
       		<fileset dir="${rice.project.directory}">
       			<include name="**/target/rice-*-sources.jar" />
@@ -149,46 +159,224 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
     	</sequential>
   	</macrodef>
 
+	 <typedef resource="org/tigris/subversion/svnant/svnantlib.xml">
+	 	<classpath>
+	 		<fileset dir="build">
+	 			<include name="svn*.jar"/>
+	 			<include name="ganymed.jar"/>
+	 		</fileset>
+	 	</classpath>
+	 </typedef>
 <!-- 
-	<target name="package" depends="prep-temp-dir,checkout-projects,replace-foundation-references,unpack-and-remove-rice-licenses,add-doc-files,make-javadoc-for-dist,zip-package"
+	<target name="package" depends="prep-temp-dir,checkout-projects,replace-foundation-references,unpack-and-remove-rice-licenses,add-doc-files,zip-package"
 			description="Cleans up the project, manipulates the contents slightly, and packs it up for distribution on the Kuali web site.">
     	<delete dir="${all.temp.directory}" verbose="false" />
 	</target>
  -->
 	<target name="prep-temp-dir" depends="init-properties">
+		<echo>Deleting contents of temp directory: ${all.temp.directory}</echo>
     	<delete>
     		<fileset dir="${all.temp.directory}">
     			<include name="**/*" />
     		</fileset>
     	</delete>
 	</target>
+	
+	<target name="export-to-temp" depends="clean-all,prep-temp-dir">
+		<echo>Exporting project to temp directory for packaging.</echo>
+		<svn>
+			<export srcPath="${basedir.safe}" destPath="${all.temp.directory}/kfs" />
+		</svn>
+	</target>
 
+	<target name="set-temp-export-db-properties">
+		<property name="datasource.ojb.platform" value="Oracle9i"/>
+		<property name="datasource.url" value="jdbc:oracle:thin:@localhost:1521:ORCL"/>
+		<property name="datasource.username" value="KFSTEMP"/>
+		<property name="datasource.password" value="KFSTEMP"/>
+		<property name="kfs.impex.import.targets" value="drop-schema create-schema import"/>
+	</target>
+	
+	<target name="export-dev-db-to-temp" depends="set-temp-export-db-properties,init-additional-properties,init-make-references"> <!-- ,refresh-kfs-db -->
+	</target>
+
+	<target name="prepare-dataset-paths" depends="init-additional-properties">
+		<!-- svn cp development to demo and bootstrap -->
+		<if>
+			<not><available file="${database.directory}/kfs-db/demo" type="dir" /></not>
+			<then>
+				<echo>Building copy of development repository for demo dataset.</echo>
+				<svn>
+					<copy srcPath="${database.directory}/kfs-db/development"
+						 destPath="${database.directory}/kfs-db/demo"/>
+				</svn>
+			</then>
+		</if>
+		<if>
+			<not><available file="${database.directory}/kfs-db/bootstrap" type="dir" /></not>
+			<then>
+				<echo>Building copy of development repository for bootstrap dataset.</echo>
+				<svn>
+					<copy srcPath="${database.directory}/kfs-db/development"
+						 destPath="${database.directory}/kfs-db/bootstrap"/>
+				</svn>
+			</then>
+		</if>
+		<svn username="${svn.username}" password="${svn.password}">
+			<commit dir="${database.directory}/kfs-db" message="Copying development datasource in preparation for release dataset creation."/>
+		</svn>
+	</target>
+	
+	<target name="create-demo-dataset" depends="export-dev-db-to-temp">
+		<echo>Running Script to convert development database into demo database</echo>
+		<echo>No changes at present - not running script.</echo>
+		<!--
+        <sql driver="${real.datasource.driver.class}"
+             classpathref="database.drivers.classpath"
+             url="${datasource.url}"
+             userid="${datasource.username}"
+             password="${datasource.password}"
+	         keepformat="true"
+	         delimitertype="row"
+	         delimiter="/" print="true" 
+   	 		 src="${demo.database.cleanup.script}" />
+   	 	-->			
+	</target>
+	
+	<target name="create-and-export-demo-dataset" depends="create-demo-dataset,export-demo-dataset" />
+	
+	<target name="export-demo-dataset" depends="set-temp-export-db-properties,init-additional-properties,init-make-references">
+		<echo>No changes at present - not running export.</echo>
+		<!-- Commenting out - no changes from development to demo at present 
+		<svn>
+			<info target="${basedir.safe}" />
+		</svn>
+		<echo>${svn.info.url}</echo>
+		<ant dir="${impex.directory}/export-to-svn" inheritall="false">
+			<target name="init" />
+			<target name="export-db" />
+			<target name="merge-export-to-svn" />
+			<target name="check-merge-complete" />
+
+			<property name="db.jdbc.url" value="${datasource.url}" />
+			<property name="db.username" value="${datasource.username}" />
+			<property name="db.schema" value="${datasource.username}" />
+			<property name="db.password" value="${datasource.password}" />
+			<property name="temp.dir" location="${all.temp.directory}/db-temp"/>
+			<property name="checkout.dir" location="${database.directory}/kfs-db"/>
+			<property name="data.svn.module" value="bootstrap" />
+			<property name="svn.base" value="${svn.info.url}"/>
+			<property name="data.svn.path" value="demo"/>
+		</ant>
+		<delete dir="${database.directory}/new_export" />
+		<delete file="${database.directory}/merge.complete" />
+		-->
+	</target>
+
+	<target name="create-bootstrap-dataset" depends="create-demo-dataset">
+		<echo>Running Script to convert demo database into bootstrap database</echo>
+        <sql driver="${real.datasource.driver.class}"
+             classpathref="database.drivers.classpath"
+             url="${datasource.url}"
+             userid="${datasource.username}"
+             password="${datasource.password}"
+	         keepformat="true"
+	         delimitertype="row" 
+	         delimiter="/" print="true" 
+   	 		 src="${bootstrap.database.cleanup.script}" />
+	</target>
+
+	<target name="create-and-export-bootstrap-dataset" depends="create-bootstrap-dataset,export-bootstrap-dataset" />
+	
+	<target name="export-bootstrap-dataset" depends="set-temp-export-db-properties,init-additional-properties,init-make-references">
+		<svn>
+			<info target="${basedir.safe}" />
+		</svn>
+		<echo>${svn.info.url}</echo>
+		<ant dir="${impex.directory}/export-to-svn" inheritall="false">
+			<target name="init" />
+			<target name="export-db" />
+			<target name="merge-export-to-svn" />
+			<target name="check-merge-complete" />
+
+			<property name="db.jdbc.url" value="${datasource.url}" />
+			<property name="db.username" value="${datasource.username}" />
+			<property name="db.schema" value="${datasource.username}" />
+			<property name="db.password" value="${datasource.password}" />
+			<property name="temp.dir" location="${all.temp.directory}/db-temp"/>
+			<property name="checkout.dir" location="${database.directory}/kfs-db"/>
+			<property name="data.svn.module" value="bootstrap" />
+			<property name="svn.base" value="${svn.info.url}"/>
+			<property name="data.svn.path" value="bootstrap"/>
+		</ant>
+		<delete dir="${database.directory}/new_export" />
+		<delete file="${database.directory}/merge.complete" />
+	</target>
+	
+	
+	<target name="remove-distribution-dataset-dirs" depends="init-additional-properties">
+		<if>
+			<available file="${database.directory}/kfs-db/demo" type="dir" />
+			<then>
+				<svn>
+					<delete dir="${database.directory}/kfs-db/demo" force="true" />
+				</svn>
+			</then>
+		</if>
+		<if>
+			<available file="${database.directory}/kfs-db/bootstrap" type="dir" />
+			<then>
+				<svn>
+					<delete dir="${database.directory}/kfs-db/bootstrap" force="true" />
+				</svn>
+			</then>
+		</if>
+		<svn username="${svn.username}" password="${svn.password}">
+			<commit dir="${database.directory}/kfs-db" message="Removing distribution datasource directories."/>
+		</svn>
+	</target>
+
+	<target name="commit-distribution-dataset-dirs" depends="init-additional-properties">
+		<svn username="${svn.username}" password="${svn.password}">
+			<commit dir="${database.directory}/kfs-db" message="Adding distribution datasource directories."/>
+		</svn>
+	</target>
+	
 <!-- 
-TODO:  SVN export to the temp dir
+TODO:
 
-dataset creation - script in Ant
-use export-to-svn?
-svn cp development demo
-svn cp development bootstrap
-Target: remove-dist-db-dirs
-Target: reset-dist-db-dirs
-Prep - Or fully revert within Eclipse and run the clean-all Ant task
-Need oracle database - properties for packaging/distribution schema
-default for schema name
-custom property file only loaded by this process
-re-use the refresh-kfs-db target but set the properties to point to packaging
-require Oracle schema - hard-code to Oracle driver class
-stop from checking everything out - use project and do an SVN revert and clean-all
 remove all Rice export sections
-add export/import for Rice bootstrap dataset (secondary)
-remove javadoc
+	Groovy script in file - use special comment markers:
+		REMOVE FROM DISTRIBUTION
+		END REMOVE FROM DISTRIBUTION
 remove reg-build / ptd / ptds
 look for indiana.edu / kuali.org references in entire project
-Target: import-kfs-for-packaging
+
+Check through upgrade scripts for new tables which need to not be purged in the bootstrap process.
+
 Target: run demo cleanup
 Target: export-demo-db
 Target: run bootstrap cleanup
 Target: export-bootstrap-db
+
+delete of development dataset before packaging
+deletion of DB drivers before packaging
+
+Update replacements
+	@kuali.org ==> @localhost
+	https://test.kuali.org/svn/ ==> ""
+	kfs-${build.environment}-incident@kuali.org
+	jdbc:oracle:thin:@oraclerds.kfs.kuali.org:1521:KFS
+	jdbc:mysql://test.db.kfs.kuali.org:3306
+	https://svn.kuali.org/repos
+	http://test.kc.kuali.org/kc-trunk
+	test.kc.kuali.org
+	license@kuali.org ==> localhost
+	indiana.edu
+
+remove the Maven build files
+
+add sample-build.properties - copy from cnv?
 
 knoreceipt-l@indiana.edu
  -->

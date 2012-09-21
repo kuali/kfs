@@ -24,6 +24,7 @@ import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitService;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitSoapService;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
@@ -37,16 +38,24 @@ public class UnitServiceImpl implements ExternalizableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UnitServiceImpl.class);     
      
     protected InstitutionalUnitService getWebService() {
-        InstitutionalUnitSoapService ss =  null;
-        try {
-            ss = new InstitutionalUnitSoapService();
+        // first attempt to get the service from the KSB - works when KFS & KC share a Rice instance
+        InstitutionalUnitService institutionalUnitService = (InstitutionalUnitService) GlobalResourceLoader.getService(KcConstants.Unit.SERVICE);
+        
+        // if we couldn't get the service from the KSB, get as web service - for when KFS & KC have separate Rice instances
+        if (institutionalUnitService == null) {
+            LOG.warn("Couldn't get InstitutionalUnitService from KSB, setting it up as SOAP web service - expected behavior for bundled Rice, but not when KFS & KC share a standalone Rice instance.");
+            InstitutionalUnitSoapService ss =  null;
+            try {
+                ss = new InstitutionalUnitSoapService();
+            }
+            catch (MalformedURLException ex) {
+                LOG.error("Could not intialize InstitutionalUnitSoapService: " + ex.getMessage());
+                throw new RuntimeException("Could not intialize InstitutionalUnitSoapService: " + ex.getMessage());
+            }
+            institutionalUnitService = ss.getInstitutionalUnitServicePort(); 
         }
-        catch (MalformedURLException ex) {
-            LOG.error("Could not intialize InstitutionalUnitSoapService: " + ex.getMessage());
-            throw new RuntimeException("Could not intialize InstitutionalUnitSoapService: " + ex.getMessage());
-        }
-        InstitutionalUnitService port = ss.getInstitutionalUnitServicePort(); 
-        return port;
+
+        return institutionalUnitService;
     }
 
     public ExternalizableBusinessObject findByPrimaryKey(Map primaryKeys) {

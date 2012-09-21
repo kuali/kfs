@@ -159,7 +159,7 @@ public enum PurchasingDocumentFixture {
             null, // vendorContractGeneratedIdentifier
             null, // vendorNoteText
             "WATSON,TERRENCE G", // requestorPersonName
-            "tw@kuali.org", // requestorPersonEmailAddress
+            "tw@localhost.localhost", // requestorPersonEmailAddress
             "812-555-5555", // requestorPersonPhoneNumber
             null, // nonInstitutionFundOrgChartOfAccountsCode
             null, // nonInstitutionFundOrganizationCode

@@ -159,16 +159,16 @@ END;
 /
 
 /* Inserting some really base data to keep the system happy. */
-INSERT INTO CA_CHART_T
-("FIN_COA_CD",OBJ_ID,"FIN_COA_DESC","FIN_COA_ACTIVE_CD","RPTS_TO_FIN_COA_CD")
-VALUES
-('01',SYS_GUID(),'Default Chart','Y','01')
-/
-INSERT INTO CA_ORG_T
-("FIN_COA_CD","ORG_CD",OBJ_ID,"ORG_NM")
-VALUES
-('01','0001',SYS_GUID(),'Default Org')
-/
+--INSERT INTO CA_CHART_T
+--("FIN_COA_CD",OBJ_ID,"FIN_COA_DESC","FIN_COA_ACTIVE_CD","RPTS_TO_FIN_COA_CD")
+--VALUES
+--('01',SYS_GUID(),'Default Chart','Y','01')
+--/
+--INSERT INTO CA_ORG_T
+--("FIN_COA_CD","ORG_CD",OBJ_ID,"ORG_NM")
+--VALUES
+--('01','0001',SYS_GUID(),'Default Org')
+--/
 
 /*  Charts & Organizations  */
 
@@ -258,19 +258,19 @@ VALUES
 UPDATE fp_dv_pmt_reas_t 
     SET dv_pmt_reas_desc = SUBSTR( dv_pmt_reas_desc, 1, INSTR( dv_pmt_reas_desc, '.  Some common' ) )
     WHERE dv_pmt_reas_desc LIKE '%.  Some common%'
-/    
+/
 UPDATE fp_dv_pmt_reas_t 
     SET dv_pmt_reas_desc = SUBSTR( dv_pmt_reas_desc, 1, INSTR( dv_pmt_reas_desc, '. Some common' ) )
     WHERE dv_pmt_reas_desc LIKE '%. Some common%'
-/    
+/
 UPDATE fp_dv_pmt_reas_t 
     SET dv_pmt_reas_desc = SUBSTR( dv_pmt_reas_desc, 1, INSTR( dv_pmt_reas_desc, '.  Object codes' ) )
     WHERE dv_pmt_reas_desc LIKE '%.  Object codes%'
-/    
+/
 UPDATE fp_dv_pmt_reas_t 
     SET dv_pmt_reas_desc = SUBSTR( dv_pmt_reas_desc, 1, INSTR( dv_pmt_reas_desc, '.  The object code' ) )
     WHERE dv_pmt_reas_desc LIKE '%.  The object code%'
-/    
+/
 UPDATE fp_dv_pmt_reas_t 
     SET dv_pmt_reas_desc = SUBSTR( dv_pmt_reas_desc, 1, INSTR( dv_pmt_reas_desc, '.  Common object' ) )
     WHERE dv_pmt_reas_desc LIKE '%.  Common object%'

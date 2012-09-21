@@ -58,16 +58,6 @@
 			<li><portal:portalLink displayTitle="true" title="Trial Balance" url="reportEndowTrialBalance.do?methodToCall=start"/></li>
 		</ul>
 	</c:if>
-	<strong>System (PDF Samples Only)</strong></br>
-    <ul class="chan">
-	    <li><a class="portal_link" href="http://kuali.org/kfs/fis-standard-reports/kuali_acct_labor_trans.pdf" title="Account Labor Transactions" target="_BLANK">Account Labor Transactions</a></li>
-	    <li><a class="portal_link" href="http://kuali.org/kfs/fis-standard-reports/accountStatus.pdf" title="Account Status" target="_BLANK">Account Status</a></li>
-	    <li><a class="portal_link" href="http://kuali.org/kfs/fis-standard-reports/accountTransactions.pdf" title="Account Transactions" target="_BLANK">Account Transactions</a></li>
-	    <li><a class="portal_link" href="http://kuali.org/kfs/fis-standard-reports/consolidatedAccountStatus.pdf" title="Consolidated Account Status" target="_BLANK">Consolidated Account Status</a></li>
-	    <li><a class="portal_link" href="http://kuali.org/kfs/fis-standard-reports/consolidatedStatus.pdf" title="Consolidated Status" target="_BLANK">Consolidated Status</a></li>
-	    <li><a class="portal_link" href="http://kuali.org/kfs/fis-standard-reports/kuali_rvrsn_carryfwd_sum.pdf" title="Reversion and Carry Forward Summary" target="_BLANK">Reversion and Carry Forward Summary</a></li>
-	    <li><a class="portal_link" href="http://kuali.org/kfs/fis-standard-reports/trialBalance.pdf" title="Trial Balance" target="_BLANK">Trial Balance</a></li>
-	</ul>
 </div>
 <channel:portalChannelBottom />
 						

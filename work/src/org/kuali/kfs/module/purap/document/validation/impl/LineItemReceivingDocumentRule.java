@@ -36,6 +36,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.rules.DocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.krad.document.Document;
@@ -44,7 +45,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class LineItemReceivingDocumentRule extends org.kuali.rice.kns.rules.TransactionalDocumentRuleBase implements ContinuePurapRule, AddReceivingItemRule{
+public class LineItemReceivingDocumentRule extends DocumentRuleBase implements ContinuePurapRule, AddReceivingItemRule{
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {        

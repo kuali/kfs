@@ -27,10 +27,11 @@ import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.rules.DocumentRuleBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class CorrectionReceivingDocumentRule extends org.kuali.rice.kns.rules.TransactionalDocumentRuleBase {
+public class CorrectionReceivingDocumentRule extends DocumentRuleBase {
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {        

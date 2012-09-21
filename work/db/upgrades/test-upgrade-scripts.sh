@@ -31,8 +31,7 @@ UPGRADE_SCRIPT_DIR=$PROJECT_DIR/work/db/upgrades/${UPGRADE_SCRIPT_DIR:-4.1.1_5.0
 
 # Other parameters
 SVNREPO=${SVNREPO:-https://svn.kuali.org/repos}
-BASE_SVN_DATA_PATH=$SVNREPO/kfs/legacy/cfg-dbs
-PRIOR_SVN_DATA_PATH=$BASE_SVN_DATA_PATH/$OLD_BRANCH_PATH
+PRIOR_SVN_DATA_PATH=$SVNREPO/kfs/$OLD_BRANCH_PATH/work/db/kfs-db
 
 DB_TYPE=${DB_TYPE:-MYSQL}
 DB_USER=${DB_USER:-dbtest}
@@ -130,12 +129,12 @@ EOF
 	) > $TEMP_DIR/liquibase.properties
 	pushd $UPGRADE_SCRIPT_DIR/db
 
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=rice-client-script.xml updateSQL > $WORKSPACE/upgrade.sql
+	# java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=rice-client-script.xml updateSQL > $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=master-structure-script.xml updateSQL >> $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=master-data-script.xml updateSQL >> $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=master-constraint-script.xml updateSQL >> $WORKSPACE/upgrade.sql
 
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=rice-client-script.xml update
+	# java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=rice-client-script.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=master-structure-script.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=master-data-script.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=master-constraint-script.xml update

@@ -59,7 +59,11 @@
  	<bean id="lookupDao" p:serviceName="lookupDao" parent="grlBeanImporter" />
  	<bean id="documentAdHocService" p:serviceName="documentAdHocService" parent="grlBeanImporter" />
  	<bean id="maintenanceDocumentService" p:serviceName="maintenanceDocumentService" parent="grlBeanImporter" />
+ 	<!-- TODO: Remove use of the bean below in favor of "knsDictionaryValidationService" 
+ 				Eventually, we may want to start using the KRAD dictionary files and this is hiding it from
+ 				being used for spring injection. -->
  	<bean id="dictionaryValidationService" p:serviceName="knsDictionaryValidationService" parent="grlBeanImporter" />
+ 	<bean id="knsDictionaryValidationService" p:serviceName="knsDictionaryValidationService" parent="grlBeanImporter" />
  	<bean id="persistenceService" p:serviceName="persistenceService" parent="grlBeanImporter" />
  	<bean id="businessObjectDictionaryService" p:serviceName="businessObjectDictionaryService" parent="grlBeanImporter" />
  	<bean id="maintenanceDocumentDictionaryService" p:serviceName="maintenanceDocumentDictionaryService" parent="grlBeanImporter" />
@@ -92,7 +96,7 @@
 	<bean id="rice.kew.workflowDocumentService" p:serviceName="rice.kew.workflowDocumentService" parent="grlBeanImporter" />
  	<bean id="rice.kew.documentTypeService" p:serviceName="rice.kew.documentTypeService" parent="grlBeanImporter" />
  	<alias name="rice.kew.documentTypeService" alias="documentTypeService" />
- 	<bean id="actionListEmailService" p:serviceName="enActionListEmailService" parent="grlBeanImporter" /> 	
+ 	<bean id="enActionListEmailService" p:serviceName="enActionListEmailService" parent="grlBeanImporter" /> 	
  	
 	<!-- KSB -->
 	<bean id="rice.ksb.serviceBus" p:serviceName="rice.ksb.serviceBus" parent="grlBeanImporter" />

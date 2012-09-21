@@ -2027,10 +2027,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
                     this.getBusinessObjectService().save(generalLedgerEntry);
                 }
-            //    if (SpringContext.getBean(GlLineService.class).findUnprocessedCapitalAssetInformation(generalLedgerEntry) == 0) {
-            //        generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
-            //        this.getBusinessObjectService().save(generalLedgerEntry);
-            //    }
 
                 // release asset lock
                 if (isFpDocumentFullyProcessed(generalLedgerEntry)) {

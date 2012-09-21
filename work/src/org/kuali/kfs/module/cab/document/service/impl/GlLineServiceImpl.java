@@ -129,25 +129,36 @@ public class GlLineServiceImpl implements GlLineService {
     protected void deactivateGLEntries(GeneralLedgerEntry entry, Document document, Integer capitalAssetLineNumber) {
         //now deactivate the gl line..
         CapitalAssetInformation capitalAssetInformation = findCapitalAssetInformation(entry, capitalAssetLineNumber);
-        createGeneralLedgerEntryAsset(entry, document, capitalAssetLineNumber); 
         
         if (ObjectUtils.isNotNull(capitalAssetInformation)) {
             List<CapitalAssetAccountsGroupDetails> groupAccountingLines = capitalAssetInformation.getCapitalAssetAccountsGroupDetails();
             for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
-                if (entry.getDocumentNumber().equals(accountingLine.getDocumentNumber()) &&
-                        entry.getChartOfAccountsCode().equals(accountingLine.getChartOfAccountsCode()) &&
-                        entry.getAccountNumber().equals(accountingLine.getAccountNumber()) &&
-                        entry.getFinancialObjectCode().equals(accountingLine.getFinancialObjectCode())) {
-                                
+                //find the matching GL entry for this accounting line.
+                Collection<GeneralLedgerEntry> glEntries = findMatchingGeneralLedgerEntry(accountingLine.getDocumentNumber(), accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getFinancialObjectCode(), getDebitCreditForAccountingLineAmount(accountingLine));
+                for (GeneralLedgerEntry glEntry : glEntries) {
                     KualiDecimal lineAmount = accountingLine.getAmount();
 
                     //update submitted amount on the gl entry and save the results.
-                    updateTransactionSumbitGlEntryAmount(entry, lineAmount);
+                    createGeneralLedgerEntryAsset(glEntry, document, capitalAssetLineNumber);
+                    updateTransactionSumbitGlEntryAmount(glEntry, lineAmount);
                 }
             }
         }
     }
 
+    /**
+     * Helper method that takes the accounting line amount and checks the gl entry's object type code
+     * to determine the correct debit or credit value.
+     * 
+     * @param accountingLine accounting line in the capital asset
+     * @return debit or credit value.
+     */
+    protected String getDebitCreditForAccountingLineAmount(CapitalAssetAccountsGroupDetails accountingLine) {
+        KualiDecimal accountLineAmount = accountingLine.getAmount();
+
+        return (accountLineAmount.isPositive() ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
+    }
+    
     /**
      * This method reads the pre-tag information and creates objects for asset global document
      * 

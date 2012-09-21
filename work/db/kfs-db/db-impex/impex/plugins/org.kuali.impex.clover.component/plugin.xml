@@ -1,0 +1,21 @@
+<plugin
+   id="org.kuali.impex.clover.component"
+   version="2.8.0"
+   provider-name="Javlin a.s.">
+
+	<runtime>
+		<library path="clover_extension.jar"/>
+   	</runtime> 
+
+	<requires engine-version="2.8.0">
+		<import plugin-id="org.jetel.component"/>
+		<import plugin-id="org.jetel.connection"/>
+		<import plugin-id="org.jetel.lookup"/>
+		<import plugin-id="org.jetel.sequence"/>
+	</requires>
+
+	<extension point-id="component">
+		<parameter id="className" value="org.kuali.impex.clover.component.KualiDBOutputTable"/>
+		<parameter id="type" value="KUL_DB_OUTPUT_TABLE"/>
+	</extension>
+</plugin>

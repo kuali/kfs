@@ -5,7 +5,7 @@
 ****** Documentation Links:
 
 Main Documentation Home:
-	https://test.kuali.org/confluence/display/KULDOC/Home
+	https://wiki.kuali.org/confluence/display/KULDOC/Home
 
 Technical Release Notes / Upgrade Documentation:
 	https://docs.google.com/a/kuali.org/#folders/0B1dW7BM9X5-rSlZHdkdLV3JKYjg

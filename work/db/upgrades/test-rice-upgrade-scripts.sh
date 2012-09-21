@@ -87,7 +87,7 @@ cat <<-EOF
 	
 	post.import.liquibase.project=kfs
 	post.import.liquibase.xml.directory=$WORKSPACE/old_kfs/work/db/rice-data
-	post.import.liquibase.contexts=bootstrap,demo
+	post.import.liquibase.contexts=bootstrap
 	
 	post.import.workflow.project=kfs
 	post.import.workflow.xml.directory=$WORKSPACE/old_kfs/work/workflow
@@ -305,7 +305,7 @@ if [[ "$IMPORT_NEW_PROJECT" == "true" ]]; then
 		
 		post.import.liquibase.project=kfs
 		post.import.liquibase.xml.directory=$WORKSPACE/kfs/work/db/rice-data
-		post.import.liquibase.contexts=bootstrap,demo
+		post.import.liquibase.contexts=bootstrap
 		
 		post.import.workflow.project=kfs
 		post.import.workflow.xml.directory=$WORKSPACE/kfs/work/workflow

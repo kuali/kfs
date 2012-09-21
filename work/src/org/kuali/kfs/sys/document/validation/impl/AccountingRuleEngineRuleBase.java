@@ -38,14 +38,14 @@ import org.kuali.rice.krad.bo.AdHocRouteWorkgroup;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.TransactionalDocument;
-import org.kuali.rice.krad.rules.DocumentRuleBase;
+import org.kuali.rice.kns.rules.DocumentRuleBase;
 import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.BlanketApproveDocumentEvent;
 
 /**
  * A rule that uses the accounting rule engine to perform rule validations.
  */
-public class AccountingRuleEngineRuleBase extends org.kuali.rice.kns.rules.TransactionalDocumentRuleBase implements AccountingRuleEngineRule {
+public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements AccountingRuleEngineRule {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingRuleEngineRuleBase.class);
     
     /**

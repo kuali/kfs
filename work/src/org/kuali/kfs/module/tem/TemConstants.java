@@ -88,7 +88,7 @@ public class TemConstants extends JSTLConstants {
     public static final String TOTAL_REIMBURSABLE_ATTRIBUTE = "totalReimbursable";
     public static final String EXPENSE_LIMIT_ATTRIBUTE = "expenseLimitEditable";
     public static final String LESS_ADVANCES_ATTRIBUTE = "lessAdvances";
-    public static final String SHOW_ENCUMBRANCE_ATTRIBUTE = "showIncumbrance";
+    public static final String SHOW_ENCUMBRANCE_ATTRIBUTE = "showEncumbrance";
     public static final String SHOW_ADVANCES_ATTRIBUTE = "showAdvances";
     public static final String REIMBURSEMENT_ATTRIBUTE = "reimbursement";
     public static final String ENCUMBRANCE_AMOUNT_ATTRIBUTE = "encumbranceAmount";

@@ -67,12 +67,8 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
     private TravelExpenseService travelExpenseService;
     private ImportedExpensePendingEntryService importedExpensePendingEntryService;
 
-    protected List<String> errorMessages;
+    protected List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
     
-    public ExpenseImportByTripServiceImpl() {
-        errorMessages = new ArrayList<String>();        
-    }
-
     /**
      * 
      * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService#areMandatoryFieldsPresent(org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
@@ -84,7 +80,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         ErrorMessage error = null;
         if (StringUtils.isEmpty(agencyData.getTripId())) {
             error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, "tripId");
-            errorMessages.add(error.toString());
+            errorMessages.add(error);
             requiredFieldsValid = false;
         }
         if (isAccountingInfoMissing(agencyData)) {
@@ -92,22 +88,22 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         }
         if (isAmountEmpty(agencyData.getTripExpenseAmount())) {
             error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, "tripExpenseAmount");
-            errorMessages.add(error.toString());
+            errorMessages.add(error);
             requiredFieldsValid = false;
         }
         if (StringUtils.isEmpty(agencyData.getTripInvoiceNumber())) {
             error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, "tripInvoiceNumber");
-            errorMessages.add(error.toString());
+            errorMessages.add(error);
             requiredFieldsValid = false;
         }
         if (ObjectUtils.isNull(agencyData.getTransactionPostingDate())) {
             error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, "transactionPostingDate");
-            errorMessages.add(error.toString());
+            errorMessages.add(error);
             requiredFieldsValid = false;
         }
         if (isTripDataMissing(agencyData)) {
             error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_AIR_LODGING_RENTAL_MISSING);
-            errorMessages.add(error.toString());
+            errorMessages.add(error);
             requiredFieldsValid = false;
         }
         
@@ -134,13 +130,13 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         for (TripAccountingInformation account : accountingInfoList) {
             if (StringUtils.isEmpty(account.getTripChartCode())) {
                 ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, "tripChartCode");
-                errorMessages.add(error.toString());
+                errorMessages.add(error);
                 accountInfoMissing = true;
                  
             }
             if (StringUtils.isEmpty(account.getTripAccountNumber())) {
                ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS, "tripAccountNumber");
-               errorMessages.add(error.toString());
+               errorMessages.add(error);
                accountInfoMissing = true;
                 
             }
@@ -194,7 +190,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         }
         
         if (!isCreditCardAgencyValid(agencyData)) {
-            errorMessages.add(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_CCA);
+            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA));
         }
         
         LOG.info("Finished validating agency data. tripId:"+ agencyData.getTripId());
@@ -215,7 +211,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         }
         LOG.error("Unable to retrieve TA document for tripId: "+ agencyData.getTripId());
         setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_TRIPID);
-        errorMessages.add(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID);
+        errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRIP_ID));
         
         return null;
     }
@@ -258,7 +254,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                     account.setTripAccountNumber(profile.getDefaultAccount());
                     setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_ACCOUNT);
                     error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCOUNT_NUM, account.getTripChartCode(), account.getTripAccountNumber());
-                    errorMessages.add(error.toString());
+                    errorMessages.add(error);
                 }
             }
             
@@ -272,7 +268,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                     account.setTripSubAccountNumber(profile.getDefaultSubAccount());
                     setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBACCOUNT);
                     error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUBACCOUNT, account.getTripSubAccountNumber());
-                    errorMessages.add(error.toString());
+                    errorMessages.add(error);
                 }
             }
             
@@ -285,7 +281,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                 account.setProjectCode(profile.getDefaultProjectCode());
                 setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_PROJECT);
                 error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_PROJECT_CODE, account.getProjectCode());
-                errorMessages.add(error.toString());
+                errorMessages.add(error);
             }
             
             if (validationParams.contains(AgencyStagingDataValidation.VALIDATE_OBJECT_CODE)) {
@@ -299,7 +295,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                     setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_OBJECT);
                     
                     error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_OBJECT_CODE, account.getTripChartCode(), account.getObjectCode());
-                    errorMessages.add(error.toString());
+                    errorMessages.add(error);
                 }
             }
             
@@ -312,7 +308,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                     
                     setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBOBJECT);
                     error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUB_OBJECT_CODE, account.getTripChartCode(), account.getTripAccountNumber(), account.getObjectCode(), account.getSubObjectCode());
-                    errorMessages.add(error.toString());
+                    errorMessages.add(error);
                 }
             }
         }
@@ -353,9 +349,10 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         //grab the id of the record that this is a dupe of (just the first one if multiple
         Integer dupeId = agencyDataList.get(0).getId();
         agencyData.setDuplicateRecordId(dupeId);
-        ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_DUPLICATE_RECORD, 
+        ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_TRIP_DUPLICATE_RECORD, 
                 agencyData.getTripId(), agencyData.getAgency(),agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString());
-        errorMessages.add(error.toString());
+        
+        errorMessages.add(error);
         return true;
     }
 
@@ -572,7 +569,6 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      * Gets the dateTimeService attribute. 
      * @return Returns the dateTimeService.
      */
-    @Override
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
@@ -589,7 +585,6 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      * Gets the travelExpenseService attribute. 
      * @return Returns the travelExpenseService.
      */
-    @Override
     public TravelExpenseService getTravelExpenseService() {
         return travelExpenseService;
     }
@@ -603,12 +598,12 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
     }
 
     @Override
-    public List<String> getErrorMessages() {
+    public List<ErrorMessage> getErrorMessages() {
         return errorMessages;
     }
 
     @Override
-    public void setErrorMessages(List<String> errorMessages) {
+    public void setErrorMessages(List<ErrorMessage> errorMessages) {
         this.errorMessages = errorMessages;
     }
 

@@ -46,6 +46,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -67,7 +68,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private UniversityDateService universityDateService;
 
-    List<String> errorMessages=new ArrayList<String>();
+    protected List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
     
     /**
      * 
@@ -105,7 +106,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
         
         if (!requiredFieldsValid) {
             LOG.error("Missing one or more required fields.");
-            errorMessages.add(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS);
+            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS));
         }
         
         return requiredFieldsValid;
@@ -141,7 +142,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
         }
         
         if (!isCreditCardAgencyValid(agencyData)) {
-            errorMessages.add(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_CCA);
+            errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA));
         }
         
         LOG.info("Finished validating agency data.");
@@ -178,7 +179,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
         }
 
         LOG.error("Invalid Traveler in Agency Data record. travelerId: "+ agencyData.getTravelerId());
-        errorMessages.add(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRAVELER);
+        errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_TRAVELER));
         setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_TRAVELER);
         return null;
     }
@@ -206,7 +207,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
         
             if (!isAccountNumberValid(account.getTripChartCode(), account.getTripAccountNumber())) {
                 LOG.error("Invalid Account in Tem Profile or Agency Data record. travelerId: " + agencyData.getTravelerId()+ " temProfileId: " + agencyData.getTemProfileId() + " chart code: " + account.getTripChartCode() + " account: " + account.getTripAccountNumber());
-                errorMessages.add(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCOUNT_NUM);
+                errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_ACCOUNT_NUM));
                 setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_ACCOUNT);
             }
             
@@ -214,7 +215,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
             if (StringUtils.isNotEmpty(account.getTripSubAccountNumber()) &&
                 !isSubAccountNumberValid(account.getTripChartCode(),account.getTripAccountNumber(), account.getTripSubAccountNumber())) {
                 LOG.error("Invalid SubAccount in Tem Profile or Agency Data record. travelerId: "+ agencyData.getTravelerId()+ " temProfileId: "+ agencyData.getTemProfileId()+ " chart code: "+ account.getTripChartCode()+ " account: "+ account.getTripAccountNumber()+ " subaccount: "+ account.getTripSubAccountNumber());
-                errorMessages.add(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUBACCOUNT);
+                errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUBACCOUNT));
                 setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBACCOUNT);
             }
             
@@ -222,7 +223,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
             if (StringUtils.isNotEmpty(account.getProjectCode()) &&
                 !isProjectCodeValid(account.getProjectCode())) {
                 LOG.error("Invalid Project in Tem Profile or Agency Data record. travelerId: "+ agencyData.getTravelerId()+ " temProfileId: "+ agencyData.getTemProfileId()+ " project code: "+ account.getProjectCode());
-                errorMessages.add(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_PROJECT_CODE);
+                errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_PROJECT_CODE));
                 setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_PROJECT);
             }
     
@@ -230,7 +231,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
             if (StringUtils.isNotEmpty(account.getObjectCode()) &&
                 !isObjectCodeValid(account.getTripChartCode(), account.getObjectCode())) {                
                 LOG.error("Invalid Object Code in Tem Profile or Agency Data record. travelerId: "+ agencyData.getTravelerId()+ " temProfileId: "+ agencyData.getTemProfileId()+ " chart code: "+ account.getTripChartCode()+ " object code: "+ account.getObjectCode());
-                errorMessages.add(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_OBJECT_CODE);
+                errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_OBJECT_CODE));
                 setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_OBJECT);
             }
             
@@ -238,7 +239,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
             if (StringUtils.isNotEmpty(account.getSubObjectCode()) && 
                 !isSubObjectCodeValid(account.getTripChartCode(), account.getTripAccountNumber(), account.getSubObjectCode(), account.getSubObjectCode())) {
                 LOG.error("Invalid SubObject Code in Tem Profile or Agency Data record. travelerId: "+ agencyData.getTravelerId()+ " temProfileId: "+ agencyData.getTemProfileId()+ " chart code: "+ account.getTripChartCode()+ " object code: "+ account.getObjectCode()+ " subobject code: "+ account.getSubObjectCode());
-                errorMessages.add(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUB_OBJECT_CODE);
+                errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_INVALID_SUB_OBJECT_CODE));
                 setErrorCode(agencyData, AgencyStagingDataErrorCodes.AGENCY_INVALID_SUBOBJECT);
             }
         }
@@ -282,7 +283,11 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
             return false;
         }
         LOG.error("Found a duplicate entry for agencyData with travelerId: "+ agencyData.getTravelerId()+ " matching agency id: "+ agencyDataList.get(0).getId());
-        errorMessages.add(TemKeyConstants.MESSAGE_AGENCY_DATA_DUPLICATE_RECORD);
+        
+        ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_TRAVELER_DUPLICATE_RECORD, 
+                agencyData.getTravelerId(), agencyData.getAirTicketNumber(), agencyData.getCreditCardOrAgencyCode(), 
+                agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString(), agencyData.getTripInvoiceNumber());
+        errorMessages.add(error);
         return true;
     }
 
@@ -486,7 +491,6 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
      * Gets the dateTimeService attribute. 
      * @return Returns the dateTimeService.
      */
-    @Override
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
@@ -503,7 +507,6 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
      * Gets the travelExpenseService attribute. 
      * @return Returns the travelExpenseService.
      */
-    @Override
     public TravelExpenseService getTravelExpenseService() {
         return travelExpenseService;
     }
@@ -536,7 +539,6 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
      * Gets the universityDateService attribute. 
      * @return Returns the universityDateService.
      */
-    @Override
     public UniversityDateService getUniversityDateService() {
         return universityDateService;
     }
@@ -550,12 +552,12 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
     }
 
     @Override
-    public List<String> getErrorMessages() {
+    public List<ErrorMessage> getErrorMessages() {
         return errorMessages;
     }
 
     @Override
-    public void setErrorMessages(List<String> errorMessages) {
+    public void setErrorMessages(List<ErrorMessage> errorMessages) {
         this.errorMessages = errorMessages;
     }
 

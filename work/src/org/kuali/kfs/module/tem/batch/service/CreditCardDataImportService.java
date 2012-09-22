@@ -21,13 +21,14 @@ import org.kuali.kfs.module.tem.businessobject.CreditCardImportData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
+import org.kuali.rice.kns.util.ErrorMessage;
 
 public interface CreditCardDataImportService {
     public boolean importCreditCardData();
     
     public boolean importCreditCardDataFile(String dataFileName, BatchInputFileType inputFileType);
     
-    public boolean isDuplicate(CreditCardStagingData creditCardData);
+    public boolean isDuplicate(CreditCardStagingData creditCardData, List<ErrorMessage> errorMessages);
     
     public TEMProfileAccount findTraveler(CreditCardStagingData creditCardData);
     

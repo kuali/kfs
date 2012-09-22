@@ -960,13 +960,17 @@
 		<property name="agencyDataTravelerUploadReportHelper" ref="agencyDataTravelerUploadReportHelper" />
 		<property name="agencyDataTripUploadReportHelper" ref="agencyDataTripUploadReportHelper" />
 		<property name="dateTimeService" ref="dateTimeService" />
-	
+	    <property name="dataReportService" ref="dataReportService" />
 		<property name="agencyDataImportFileTypes">
 			<list>
 				<ref bean="agencyDataXmlInputFileType"/>
 			</list>
 		</property>			
 	</bean>
+    <bean id="dataReportService" parent="dataReportService-parentBean" />
+    <bean id="dataReportService-parentBean" class="org.kuali.kfs.module.tem.batch.service.impl.DataReportServiceImpl">
+        <property name="dateTimeService" ref="dateTimeService" />
+    </bean>
 	<bean id="agencyDataTripUploadReportHelper" parent="businessObjectReportHelper">
 		<property name="dataDictionaryBusinessObjectClass"
 			value="org.kuali.kfs.module.tem.businessobject.AgencyStagingData" />
@@ -1073,14 +1077,41 @@
 		<property name="travelExpenseService" ref="travelExpenseService" />
         <property name="creditCardAgencyService" ref="creditCardAgencyService" />
 		<property name="dateTimeService" ref="dateTimeService" />
+        <property name="dataReportService" ref="dataReportService" />
 		<property name="creditCardDataFileErrorDirectory" value="${staging.directory}/tem/creditCardData/error" />
-		<property name="creditCardDataImportFileTypes">
+        <property name="creditCardDataReportDirectory" value="${reports.directory}/tem" />
+        <property name="creditCardDataReportFilePrefix" value="creditCardDataImportReport" />
+		<property name="creditCardDataUploadReportHelper" ref="creditCardDataUploadReportHelper" />
+        
+        <property name="creditCardDataImportFileTypes">
 			<list>
 				<ref bean="creditCardDataXmlInputFileType"/>
 			</list>
 		</property>			
 	</bean>
 	
+    <bean id="creditCardDataUploadReportHelper" parent="businessObjectReportHelper">
+        <property name="dataDictionaryBusinessObjectClass"
+            value="org.kuali.kfs.module.tem.businessobject.CreditCardStagingData" />
+        <property name="orderedPropertyNameToHeaderLabelMap">
+            <map> 
+                <entry key="creditCardKey" value="CREDIT CARD KEY" />
+                <entry key="creditCardNumber" value="CREDIT CARD NUMBER" />
+                <entry key="creditCardOrAgencyCode" value="CREDIT CARD/AGENCY CODE" />
+                <entry key="referenceNumber" value="MERCHANT NAME" />
+                <entry key="merchantName" value="MERCHANT NAME" />                
+                <entry key="transactionAmount" value="TRANSACTION AMOUNT" />
+                <entry key="transactionDate" value="TRANSACTION DATE" />
+                <entry key="bankPostDate" value="BANK POSTED DATE" />
+                <entry key="typeCode" value="TYPE CODE NAME" />
+                <entry key="expenseTypeCode" value="EXPENSE TYPE CODE" />
+                <entry key="processingTimestamp" value="PROCESS TIMESTAMP" />
+            </map>
+        </property>
+        <property name="columnCount" value="11" />
+    </bean>
+    
+    
 	<bean id="creditCardDataXmlInputFileType" parent="creditCardDataXmlInputFileType-parentBean" />
 	<bean id="creditCardDataXmlInputFileType-parentBean"
 		class="org.kuali.kfs.module.tem.batch.CreditCardDataXmlInputFileType">

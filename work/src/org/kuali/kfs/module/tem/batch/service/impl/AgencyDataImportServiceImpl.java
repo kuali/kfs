@@ -17,30 +17,23 @@ package org.kuali.kfs.module.tem.batch.service.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.text.StrBuilder;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.batch.service.AgencyDataImportService;
+import org.kuali.kfs.module.tem.batch.service.DataReportService;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.batch.service.TemBatchService;
 import org.kuali.kfs.module.tem.businessobject.AgencyImportData;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -49,6 +42,7 @@ import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class AgencyDataImportServiceImpl implements AgencyDataImportService {
@@ -68,10 +62,10 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     private BusinessObjectReportHelper agencyDataTravelerUploadReportHelper;
     private BusinessObjectReportHelper agencyDataTripUploadReportHelper;
     private DateTimeService dateTimeService;
+    private DataReportService dataReportService;
     private String agencyDataReportDirectory;
     private String agencyDataReportFilePrefix;
 
-    
     /**
      * @see org.kuali.kfs.module.tem.batch.service.AgencyDataImportService#importAgencyData()
      */
@@ -129,7 +123,6 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         finally {
             boolean doneFileDeleted = doneFile.delete();
         }
-
         return true;
     }
 
@@ -138,11 +131,12 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
      */
     @Override
     public List<AgencyStagingData> validateAgencyData(AgencyImportData agencyData, String dataFileName) {
-        PrintStream reportDataStream = this.getReportPrintStream();
+        PrintStream reportDataStream = dataReportService.getReportPrintStream(getAgencyDataReportDirectory(), getAgencyDataReportFilePrefix());
 
+        BusinessObjectReportHelper reportHelper = getReportHelper(ExpenseImport.getExpenseImportByCode(agencyData.getImportBy()));
         List<AgencyStagingData> validData = new ArrayList<AgencyStagingData>();
         try {
-            writeReportHeader(reportDataStream, dataFileName, agencyData.getImportBy());
+            dataReportService.writeReportHeader(reportDataStream, dataFileName, TemKeyConstants.MESSAGE_AGENCY_DATA_REPORT_HEADER, reportHelper);
             int count = 1;
             for (AgencyStagingData agency : agencyData.getAgencies()) {
                 
@@ -150,7 +144,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                 agency.setStagingFileName(StringUtils.substringAfterLast(dataFileName, "\\"));
                 
                 AgencyStagingData validAgency = null;
-                List<String> errorMessages = new ArrayList<String>();
+                List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
 
                 // validate by Traveler ID
                 if (agency.getExpenseImport() == ExpenseImport.traveler) {
@@ -160,10 +154,9 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                         validAgency = expenseImportByTravelerService.validateAgencyData(agency);
                     }
                     errorMessages = expenseImportByTravelerService.getErrorMessages();
-                }
-
+                }  
                 // validate by Trip ID
-                if (agency.getExpenseImport() == ExpenseImport.trip) {
+                else if (agency.getExpenseImport() == ExpenseImport.trip) {
                     LOG.info("Validating agency import by trip. Record# " + count + " of " + agencyData.getAgencies().size());
                     expenseImportByTripService.setErrorMessages(errorMessages);
                     if (expenseImportByTripService.areMandatoryFieldsPresent(agency)) {
@@ -177,7 +170,9 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                 }
                 
                 //writer to error report
-                writeErrorToReport(reportDataStream, agency, getMessageAsString(errorMessages), agency.getExpenseImport());
+                if (!errorMessages.isEmpty()){
+                    dataReportService.writeToReport(reportDataStream, agency, errorMessages, reportHelper);
+                }
                 count++;
 
             }
@@ -198,7 +193,6 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     public boolean moveAgencyDataToHistoricalExpenseTable() {
         
         LOG.info("Starting Agency Expense Distribution/Reconciliation Process");
-
         List<AgencyStagingData> agencyData = travelExpenseService.retrieveValidAgencyData();
         if (ObjectUtils.isNotNull(agencyData) && agencyData.size() > 0) {
             GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
@@ -248,108 +242,16 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         LOG.info("Finished Agency Reconciliation Match Process");
         return true;
     }
-
-    
-    /**
-     * Build error message stringn out of message list
-     * 
-     * @param errorMessages
-     * @return
-     */
-    private String getMessageAsString(List<String> messages){
         
-        final String separator = " ";
-        StrBuilder builder = new StrBuilder();
-        builder.appendWithSeparators(messages, separator);
-       return  builder.toString();
-    }
-    
-    /**
-     * Write to error report
-     * 
-     * @param reportDataStream
-     * @param AgencyStagingData
-     * @param errors
-     * @param importBy
-     */
-    protected <T extends AgencyStagingData> void writeErrorToReport(PrintStream reportDataStream,T AgencyStagingData, String errors, ExpenseImport importType) {
-        if (!errors.isEmpty()){
-            String reportEntry = formatMessage(AgencyStagingData, errors, importType);
-            reportDataStream.println(reportEntry);
+    private BusinessObjectReportHelper getReportHelper(ExpenseImport importType){
+        BusinessObjectReportHelper reportHelper = getAgencyDataTravelerUploadReportHelper();
+        if(ExpenseImport.traveler == importType){
+            reportHelper = getAgencyDataTravelerUploadReportHelper();
         }
-    }
-    
-    /**
-     * 
-     * @param agencyStagingData
-     * @param errors
-     * @param importBy
-     * @return
-     */
-    protected <T extends AgencyStagingData> String formatMessage(T agencyStagingData, String errors, ExpenseImport importType) {
-        StringBuilder body = new StringBuilder();
-        Map<String, String> tableDefinition=new LinkedHashMap<String, String>();
-        List<String> propertyList =new ArrayList<String>();
-        if(importType == ExpenseImport.traveler){
-            tableDefinition = this.getAgencyDataTravelerUploadReportHelper().getTableDefinition();
-            propertyList = this.getAgencyDataTravelerUploadReportHelper().getTableCellValues(agencyStagingData, false);
+        else if(ExpenseImport.trip == importType){
+            reportHelper = getAgencyDataTripUploadReportHelper();
         }
-        if(importType == ExpenseImport.trip){
-            tableDefinition = this.getAgencyDataTripUploadReportHelper().getTableDefinition();
-            propertyList = this.getAgencyDataTripUploadReportHelper().getTableCellValues(agencyStagingData, false);
-        }
-        
-        String tableCellFormat = tableDefinition.get(KFSConstants.ReportConstants.TABLE_CELL_FORMAT_KEY);
-        String fieldLine = String.format(tableCellFormat, propertyList.toArray());
-        body.append(fieldLine);
-        body.append("\t**  ").append(errors).append(BusinessObjectReportHelper.LINE_BREAK);
-
-        return body.toString();
-    }
-    
-    /**
-     * 
-     * @param reportDataStream
-     * @param fileName
-     * @param importBy
-     */
-    protected void writeReportHeader(PrintStream reportDataStream, String fileName, String importBy) {
-        StringBuilder header = new StringBuilder();
-        header.append(MessageBuilder.buildMessageWithPlaceHolder(TemKeyConstants.MESSAGE_AGENCY_DATA_REPORT_HEADER, BusinessObjectReportHelper.LINE_BREAK, fileName));
-        header.append(BusinessObjectReportHelper.LINE_BREAK);
-        header.append(BusinessObjectReportHelper.LINE_BREAK);
-        header.append(BusinessObjectReportHelper.LINE_BREAK);
-        Map<String, String> tableDefinition=new LinkedHashMap<String, String>();;
-        if(importBy.equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)){
-            tableDefinition = getAgencyDataTravelerUploadReportHelper().getTableDefinition();
-        }
-        if(importBy.equals(ExpenseImportTypes.IMPORT_BY_TRIP)){
-           tableDefinition = getAgencyDataTripUploadReportHelper().getTableDefinition();
-        }
-        String tableHeaderFormat = tableDefinition.get(KFSConstants.ReportConstants.TABLE_HEADER_LINE_KEY);
-
-        header.append(tableHeaderFormat);
-
-        reportDataStream.print(header);
-    }
-    
-    /**
-     * get print stream for report
-     */
-    protected PrintStream getReportPrintStream() {
-        String dateTime = dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentSqlDate());
-        String reportFileName = MessageFormat.format(REPORT_FILE_NAME_PATTERN, this.getAgencyDataReportDirectory(), this.getAgencyDataReportFilePrefix(), dateTime, TemConstants.TEXT_FILE_SUFFIX);
-
-        File outputfile = new File(reportFileName);
-
-        try {
-            return new PrintStream(outputfile);
-        }
-        catch (FileNotFoundException e) {
-            String errorMessage = "Cannot find the output file: " + reportFileName;
-            LOG.error(errorMessage);
-            throw new RuntimeException(errorMessage, e);
-        }
+        return reportHelper;
     }
 
     /**
@@ -525,6 +427,10 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
             configurationService = SpringContext.getBean(KualiConfigurationService.class);
         }
         return configurationService;
+    }
+
+    public void setDataReportService(DataReportService dataReportService) {
+        this.dataReportService = dataReportService;
     }
 
 }

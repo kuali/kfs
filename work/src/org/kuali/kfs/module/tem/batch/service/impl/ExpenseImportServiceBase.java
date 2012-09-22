@@ -36,10 +36,7 @@ import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
-import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -321,35 +318,9 @@ public class ExpenseImportServiceBase {
     public ParameterService getParameterService() {
         return SpringContext.getBean(ParameterService.class);
     }
-
-    /**
-     * Gets the universityDateService attribute. 
-     * @return Returns the universityDateService.
-     */
-    public UniversityDateService getUniversityDateService() {
-        return SpringContext.getBean(UniversityDateService.class);
-    }
-
-    /**
-     * Gets the dateTimeService attribute. 
-     * @return Returns the dateTimeService.
-     */
-    public DateTimeService getDateTimeService() {
-        return SpringContext.getBean(DateTimeService.class);
-    }
-
-    /**
-     * Gets the TravelExpenseService attribute. 
-     * @return Returns the TravelExpenseService.
-     */
-    public TravelExpenseService getTravelExpenseService() {
-        return SpringContext.getBean(TravelExpenseService.class);
-    }
     
     public CreditCardAgencyService getCreditCardAgencyService() {
         return SpringContext.getBean(CreditCardAgencyService.class);
     }
-
-
 
 }

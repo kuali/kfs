@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.rice.kns.util.ErrorMessage;
 
 public interface ExpenseImportByTravelerService {
 
@@ -48,8 +49,17 @@ public interface ExpenseImportByTravelerService {
      */
     public TEMProfile validateTraveler(AgencyStagingData agencyData);
     
-    public List<String> getErrorMessages();
-    public void setErrorMessages(List<String> errorMessages);
+    /**
+     * 
+     * @return
+     */
+    public List<ErrorMessage> getErrorMessages();
+    
+    /**
+     * 
+     * @param errorMessages
+     */
+    public void setErrorMessages(List<ErrorMessage> errorMessages);
     
     /**
      * 

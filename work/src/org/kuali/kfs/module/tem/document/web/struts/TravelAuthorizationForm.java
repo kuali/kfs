@@ -18,7 +18,6 @@ package org.kuali.kfs.module.tem.document.web.struts;
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -44,12 +43,12 @@ import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.document.web.bean.TravelAuthorizationMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.TravelService;
+import org.kuali.kfs.module.tem.util.MessageUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
@@ -444,8 +443,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * @return Returns the policyURL.
      */
     public String getPolicyURL() {
-        String policy = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TemKeyConstants.MESSAGE_TA_ADVANCE_POLICY);
-        return MessageFormat.format(policy, policyURL);
+        return MessageUtils.getMessage(TemKeyConstants.MESSAGE_TA_ADVANCE_POLICY, policyURL);
     }
 
     /**

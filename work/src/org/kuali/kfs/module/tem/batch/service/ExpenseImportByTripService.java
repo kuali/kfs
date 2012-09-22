@@ -22,6 +22,7 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.rice.kns.util.ErrorMessage;
 
 public interface ExpenseImportByTripService {
 
@@ -47,9 +48,18 @@ public interface ExpenseImportByTripService {
      */
     public AgencyStagingData validateAgencyData(AgencyStagingData agencyData);
     
-    public List<String> getErrorMessages();
+    /**
+     * retrieve Error messages list
+     * 
+     * @return
+     */
+    public List<ErrorMessage> getErrorMessages();
     
-    public void setErrorMessages(List<String> errorMessages);
+    /**
+     * 
+     * @param errorMessages
+     */
+    public void setErrorMessages(List<ErrorMessage> errorMessages);
     
     /**
      * 

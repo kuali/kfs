@@ -17,6 +17,8 @@ package org.kuali.kfs.module.tem.batch.service.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.PrintStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,11 +28,13 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
-import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
+import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService;
+import org.kuali.kfs.module.tem.batch.service.DataReportService;
 import org.kuali.kfs.module.tem.batch.service.TemBatchService;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.businessobject.CreditCardImportData;
@@ -42,13 +46,18 @@ import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
+import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CreditCardDataImportServiceImpl implements CreditCardDataImportService{
     
     public static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreditCardDataImportServiceImpl.class);
+    
+    public final static String REPORT_FILE_NAME_PATTERN = "{0}/{1}_{2}{3}";
+    
     private BatchInputFileService batchInputFileService;
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
@@ -56,10 +65,19 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
     private TemProfileService temProfileService;
     private TravelExpenseService travelExpenseService;
     private CreditCardAgencyService creditCardAgencyService;
+    private DataReportService dataReportService;
     
     private List<BatchInputFileType> creditCardDataImportFileTypes;
     private String creditCardDataFileErrorDirectory;
 
+    private BusinessObjectReportHelper creditCardDataUploadReportHelper;
+
+    private String creditCardDataReportDirectory;
+    private String creditCardDataReportFilePrefix;
+    
+    /**
+     * @see org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService#importCreditCardData()
+     */
     @Override
     public boolean importCreditCardData() {
         boolean success = true;
@@ -68,13 +86,16 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
             List<String> inputFileNames = batchInputFileService.listInputFileNamesWithDoneFile(inputFileType);
 
             for (String dataFileName : inputFileNames) {
-                success &= this.importCreditCardDataFile(dataFileName, inputFileType);
+                success &= importCreditCardDataFile(dataFileName, inputFileType);
             }
         }
 
         return success;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService#importCreditCardDataFile(java.lang.String, org.kuali.kfs.sys.batch.BatchInputFileType)
+     */
     @Override
     public boolean importCreditCardDataFile(String dataFileName, BatchInputFileType inputFileType) {
         String fileExtension = "." + inputFileType.getFileExtension();
@@ -89,97 +110,108 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
             IOUtils.closeQuietly(fileContents);
             
             LOG.info("Credit Card Import - validating: " + dataFileName);
-            
             List<CreditCardStagingData> validCreditCardList = validateCreditCardData(creditCardData, dataFileName);
-                        
-            boolean isAllValid = validCreditCardList.size() == creditCardData.getCreditCardData().size();
-            if (!isAllValid) {
-                String error = "The Credit Card data records to be loaded are rejected due to data problem. Please check the Credit Card data report.";
-                throw new RuntimeException(error);
+            if (!validCreditCardList.isEmpty()){
+                businessObjectService.save(validCreditCardList);
             }
-            
-            businessObjectService.save(validCreditCardList);
-            
         }
         catch (Exception ex) {
             LOG.error("Failed to process the file : " + dataFileName, ex);
-            
             temBatchService.moveErrorFile(dataFileName, creditCardDataFileErrorDirectory, creditCardDataFileErrorDirectory);
-            
             return false;
         }
         finally {
             boolean doneFileDeleted = doneFile.delete();
         }
-
         return true;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService#validateCreditCardData(org.kuali.kfs.module.tem.businessobject.CreditCardImportData, java.lang.String)
+     */
     @Override
     public List<CreditCardStagingData> validateCreditCardData(CreditCardImportData creditCardList, String dataFileName) {
+        
+        PrintStream reportDataStream = dataReportService.getReportPrintStream(getCreditCardDataReportDirectory(), getCreditCardDataReportFilePrefix());
         List<CreditCardStagingData> validData = new ArrayList<CreditCardStagingData>();
         
-        Integer count = 1;
-        for(CreditCardStagingData creditCardData: creditCardList.getCreditCardData()){
-            LOG.info("Validating credit card import. Record# " + count + " of " + creditCardList.getCreditCardData().size());
-            
-            creditCardData.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_NO_ERROR);
-            creditCardData.setStagingFileName(StringUtils.substringAfterLast(dataFileName, "\\"));
-            
-            if(validateAndSetCreditCardAgency(creditCardData)){
+        try {
+            dataReportService.writeReportHeader(reportDataStream, dataFileName, TemKeyConstants.MESSAGE_CREDIT_CARD_DATA_REPORT_HEADER, getCreditCardDataUploadReportHelper());
+            Integer count = 1;
+            for(CreditCardStagingData creditCardData: creditCardList.getCreditCardData()){
+                LOG.info("Validating credit card import. Record# " + count + " of " + creditCardList.getCreditCardData().size());
+                
+                creditCardData.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_NO_ERROR);
+                creditCardData.setImportBy(creditCardList.getImportBy());
+                creditCardData.setStagingFileName(StringUtils.substringAfterLast(dataFileName, "\\"));
 
-                if(creditCardList.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)){
-                    TEMProfileAccount temProfileAccount  = findTraveler(creditCardData);
-                    
-                    if(ObjectUtils.isNull(temProfileAccount)){
-                        LOG.error("Invalid Traveler in Credit Card Data record.");
-                        creditCardData.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_INVALID_CARD);
+                List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
+                if(validateAndSetCreditCardAgency(creditCardData)){
+    
+                    if(creditCardData.getExpenseImport() == ExpenseImport.traveler){
+                        TEMProfileAccount temProfileAccount  = findTraveler(creditCardData);
+                        
+                        if(ObjectUtils.isNull(temProfileAccount)){
+                            LOG.error("Invalid Traveler in Credit Card Data record.");
+                            creditCardData.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_INVALID_CARD);
+                        }
+                        else{
+                            //Set Traveler Id for UCD
+                            if(ObjectUtils.isNull(creditCardData.getTravelerId()) || creditCardData.getTravelerId() == 0){
+                                Integer travelerId = new Integer(temProfileAccount.getProfile().getEmployeeId()).intValue();
+                                creditCardData.setTravelerId(travelerId);
+                            }
+                            
+                            creditCardData.setTemProfileId(temProfileAccount.getProfileId());
+                            
+                            //Set expense type code to O-Other if null
+                            if(creditCardData.getExpenseTypeCode() == null){
+                                creditCardData.setExpenseTypeCode(ExpenseTypes.OTHER);
+                            }
+    
+                            //Set Credit Card Key(traveler Id + Credit Card Agency + Credit Card number 
+                            creditCardData.setCreditCardKey(creditCardData.getTravelerId() + temProfileAccount.getCreditCardAgency().getCreditCardOrAgencyCode()+ creditCardData.getCreditCardNumber());
+                            
+                            // need to do the duplicate check at this point, since the CC key is one of the fields being checked
+                            if (!isDuplicate(creditCardData, errorMessages)) {
+                                creditCardData.setMoveToHistoryIndicator(true);
+                                creditCardData.setProcessingTimestamp(dateTimeService.getCurrentTimestamp());
+                                validData.add(creditCardData);
+                            }
+                        }
                     }
-                    else{                        
-                        //Set Traveler Id for UCD
-                        if(ObjectUtils.isNull(creditCardData.getTravelerId()) || creditCardData.getTravelerId() == 0){
-                            Integer travelerId = new Integer(temProfileAccount.getProfile().getEmployeeId()).intValue();
-                            creditCardData.setTravelerId(travelerId);
-                        }
-                        
-                        creditCardData.setTemProfileId(temProfileAccount.getProfileId());
-                        
-                        //Set expense type code to O-Other if null
-                        if(creditCardData.getExpenseTypeCode() == null){
-                            creditCardData.setExpenseTypeCode(ExpenseTypes.OTHER);
-                        }
-
-                        //Set Credit Card Key(traveler Id + Credit Card Agency + Credit Card number 
-                        creditCardData.setCreditCardKey(creditCardData.getTravelerId() + temProfileAccount.getCreditCardAgency().getCreditCardOrAgencyCode()+ creditCardData.getCreditCardNumber());
-                        
-                        // need to do the duplicate check at this point, since the CC key is one of the fields being checked
-                        if (!isDuplicate(creditCardData)) {
-                            creditCardData.setMoveToHistoryIndicator(true);
-                            creditCardData.setImportBy(creditCardList.getImportBy());
+                    else if(creditCardData.getExpenseImport() == ExpenseImport.trip){
+                        if (!isDuplicate(creditCardData, errorMessages)) {
                             creditCardData.setProcessingTimestamp(dateTimeService.getCurrentTimestamp());
                             validData.add(creditCardData);
                         }
-                        
                     }
+                }else{
+                    errorMessages.add(new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_CREDIT_CARD_DATA_INVALID_CCA));
                 }
                 
-                if(creditCardList.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRIP)){
-                    if (!isDuplicate(creditCardData)) {
-                        creditCardData.setImportBy(creditCardList.getImportBy());
-                        creditCardData.setProcessingTimestamp(dateTimeService.getCurrentTimestamp());
-                        validData.add(creditCardData);
-                    }
+                //writer to error report
+                if (!errorMessages.isEmpty()){
+                    dataReportService.writeToReport(reportDataStream, creditCardData, errorMessages, getCreditCardDataUploadReportHelper());
                 }
+                
+                count++;
             }
-            LOG.info("Finished validating credit card data record.");
-            count++;
         }
-
+        finally {
+            if (reportDataStream != null) {
+                reportDataStream.flush();
+                reportDataStream.close();
+            }
+        }
         return validData;
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService#isDuplicate(org.kuali.kfs.module.tem.businessobject.CreditCardStagingData, java.util.List)
+     */
     @Override
-    public boolean isDuplicate(CreditCardStagingData creditCardData){
+    public boolean isDuplicate(CreditCardStagingData creditCardData, List<ErrorMessage> errorMessages){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         
         if(StringUtils.isNotEmpty(creditCardData.getCreditCardKey())){
@@ -200,17 +232,18 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
         if(StringUtils.isNotEmpty(creditCardData.getMerchantName())){
             fieldValues.put(TemPropertyConstants.MERCHANT_NAME, creditCardData.getMerchantName());
         }
-        //TODO: Posting amount is missing in staging
-        /*if(StringUtils.isNotEmpty(creditCardData.getBankPostAmount())){
-            fieldValues.put(TemPropertyConstants.BANK_POST_AMOUNT, creditCardData.getBankPostAmount());
-        }*/
-        
         List<CreditCardStagingData> creditCardDataList = (List<CreditCardStagingData>) businessObjectService.findMatching(CreditCardStagingData.class, fieldValues);
         
         if (ObjectUtils.isNull(creditCardDataList) || creditCardDataList.size() == 0) {
             return false;
         }
         LOG.error("Found a duplicate entry for credit card. Matching credit card id: " + creditCardDataList.get(0).getId());
+        SimpleDateFormat format = new SimpleDateFormat();
+        ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_CREDIT_CARD_DATA_DUPLICATE_RECORD, 
+                creditCardData.getCreditCardKey(), creditCardData.getReferenceNumber(), creditCardData.getTransactionAmount().toString(), 
+                format.format(creditCardData.getTransactionDate()), format.format(creditCardData.getBankPostDate()), creditCardData.getMerchantName());
+        
+        errorMessages.add(error);
         return true;
     }
     
@@ -252,8 +285,8 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
      */
     @Override
     public boolean moveCreditCardDataToHistoricalExpenseTable() {
+       
         List<CreditCardStagingData> creditCardData = travelExpenseService.retrieveValidCreditCardData();
-        
         if (ObjectUtils.isNotNull(creditCardData) && creditCardData.size() > 0) {            
             for(CreditCardStagingData creditCard: creditCardData){
                 LOG.info("Creating historical travel expense for credit card: " + creditCard.getId());
@@ -337,5 +370,37 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
 
     public void setCreditCardAgencyService(CreditCardAgencyService creditCardAgencyService) {
         this.creditCardAgencyService = creditCardAgencyService;
+    }
+    
+    public void setCreditCardDataUploadReportHelper(BusinessObjectReportHelper creditCardDataUploadReportHelper) {
+        this.creditCardDataUploadReportHelper = creditCardDataUploadReportHelper;
+    }
+
+    public void setCreditCardDataReportDirectory(String creditCardDataReportDirectory) {
+        this.creditCardDataReportDirectory = creditCardDataReportDirectory;
+    }
+
+    public void setCreditCardDataReportFilePrefix(String creditCardDataReportFilePrefix) {
+        this.creditCardDataReportFilePrefix = creditCardDataReportFilePrefix;
+    }
+
+    public BusinessObjectReportHelper getCreditCardDataUploadReportHelper() {
+        return creditCardDataUploadReportHelper;
+    }
+
+    public String getCreditCardDataReportDirectory() {
+        return creditCardDataReportDirectory;
+    }
+
+    public String getCreditCardDataReportFilePrefix() {
+        return creditCardDataReportFilePrefix;
+    }
+
+    public DataReportService getDataReportService() {
+        return dataReportService;
+    }
+
+    public void setDataReportService(DataReportService dataReportService) {
+        this.dataReportService = dataReportService;
     }
 }

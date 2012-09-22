@@ -25,6 +25,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -455,6 +457,9 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
         return importBy;
     }
 
+    public ExpenseImport getExpenseImport() {
+        return ExpenseImport.getExpenseImportByCode(importBy);
+    }
 
     /**
      * Sets the importBy attribute value.

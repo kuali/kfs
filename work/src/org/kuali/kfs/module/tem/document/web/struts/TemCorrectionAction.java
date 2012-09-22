@@ -48,6 +48,7 @@ import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.web.comparator.NumericValueComparator;
@@ -369,9 +370,9 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
 
     private boolean validAgencyEntry(AgencyEntryFull entryForManualEdit) {
         boolean valid = expenseImportByTripService.areMandatoryFieldsPresent((AgencyStagingData)entryForManualEdit);
-        List<String> errors = expenseImportByTripService.getErrorMessages();
-        for(String error: errors) {
-            GlobalVariables.getMessageMap().putError("searchResults", error);
+        List<ErrorMessage> errors = expenseImportByTripService.getErrorMessages();
+        for(ErrorMessage error: errors) {
+            GlobalVariables.getMessageMap().putError("searchResults", error.toString());
         }
         
         return valid;

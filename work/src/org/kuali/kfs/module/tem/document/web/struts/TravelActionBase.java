@@ -1409,8 +1409,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         TravelFormBase travelForm = (TravelFormBase) form;
         TravelDocument document = travelForm.getTravelDocument();
         ActionForward forward = super.save(mapping, form, request, response);
-        getTravelDocumentService().attachImportedExpenses(document);
-        
+
         return forward;
     }
 

@@ -37,6 +37,8 @@
 		<property name="maintainableItems">
 			<list>
 			    <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Travel Agency Data"/>
+                <bean parent="MaintainableFieldDefinition" p:name="id" p:unconditionallyReadOnly="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="importBy" p:unconditionallyReadOnly="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="agencyDataId" p:required="false"  p:unconditionallyReadOnly="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="creditCardOrAgencyCode" p:required="false" />
                 <bean parent="MaintainableFieldDefinition" p:name="agency" p:unconditionallyReadOnly="true" />

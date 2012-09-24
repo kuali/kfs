@@ -22,13 +22,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.fp.document.service.CashReceiptService;
 import org.kuali.kfs.fp.service.CashDrawerService;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.DocumentAuthorizer;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -59,11 +57,9 @@ public class CashDrawerLookupableHelperServiceImpl extends KualiLookupableHelper
      * @return
      */
     protected boolean isEditOfCashDrawerAuthorized(CashDrawer cashDrawer) {
-        FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer("CDS");
-        boolean isAuthorized = documentAuthorizer.isAuthorizedByTemplate(cashDrawer, KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, GlobalVariables.getUserSession().getPerson().getPrincipalId());
-        
-        return isAuthorized;
-
+        String cashDrawerDocType = KRADServiceLocatorWeb.getDocumentDictionaryService().getMaintenanceDocumentTypeName(CashDrawer.class);
+        DocumentAuthorizer documentAuthorizer = KRADServiceLocatorWeb.getDocumentDictionaryService().getDocumentAuthorizer(cashDrawerDocType);
+        return documentAuthorizer.canInitiate(cashDrawerDocType, GlobalVariables.getUserSession().getPerson());
     }
 
     /**
@@ -73,41 +69,17 @@ public class CashDrawerLookupableHelperServiceImpl extends KualiLookupableHelper
      */
     @Override
     public boolean allowsMaintenanceNewOrCopyAction() {
-        final String currentUserCampus = getCashReceiptService().getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getPerson());
-        final CashDrawer cashDrawer = getCashDrawerService().getByCampusCode(currentUserCampus);
+        final String currentUserCampus = cashReceiptService.getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getPerson());
+        final CashDrawer cashDrawer = cashDrawerService.getByCampusCode(currentUserCampus);
         
         if (cashDrawer != null) return false;
         return super.allowsMaintenanceNewOrCopyAction();
     }
 
-    /**
-     * Gets the cashDrawerService attribute. 
-     * @return Returns the cashDrawerService.
-     */
-    public CashDrawerService getCashDrawerService() {
-        return cashDrawerService;
-    }
-
-    /**
-     * Sets the cashDrawerService attribute value.
-     * @param cashDrawerService The cashDrawerService to set.
-     */
     public void setCashDrawerService(CashDrawerService cashDrawerService) {
         this.cashDrawerService = cashDrawerService;
     }
 
-    /**
-     * Gets the cashReceiptService attribute. 
-     * @return Returns the cashReceiptService.
-     */
-    public CashReceiptService getCashReceiptService() {
-        return cashReceiptService;
-    }
-
-    /**
-     * Sets the cashReceiptService attribute value.
-     * @param cashReceiptService The cashReceiptService to set.
-     */
     public void setCashReceiptService(CashReceiptService cashReceiptService) {
         this.cashReceiptService = cashReceiptService;
     }

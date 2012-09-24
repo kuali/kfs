@@ -316,9 +316,9 @@ are intended for use only by Kuali Foundation developers.
 		</svn>
 	</target>
 	
-	<target name="build-distribution-datasets" depends="remove-distribution-dataset-dirs,prepare-dataset-paths,export-dev-db-to-temp,create-and-export-demo-dataset,create-and-export-bootstrap-dataset,commit-distribution-dataset-dirs" />
+	<target name="build-distribution-datasets" depends="set-temp-export-db-properties,remove-distribution-dataset-dirs,prepare-dataset-paths,export-dev-db-to-temp,create-and-export-demo-dataset,create-and-export-bootstrap-dataset,commit-distribution-dataset-dirs" />
 	
-	<target name="package" depends="prep-temp-dir,delete-nondistribution-files,replace-foundation-references,add-doc-files,zip-package"
+	<target name="package" depends="prep-temp-dir,delete-nondistribution-files,replace-foundation-references,remove-distribution-portions-of-build-file,add-doc-files,zip-package"
 			description="Cleans up the project, manipulates the contents slightly, and packs it up for distribution on the Kuali web site.">
     	<delete dir="${all.temp.directory}" verbose="false" />
 	</target>
@@ -350,7 +350,7 @@ are intended for use only by Kuali Foundation developers.
 		</delete>
 	</target>
 
-	<target name="gtest" depends="init-properties">
+	<target name="remove-distribution-portions-of-build-file" depends="init-properties">
 		<groovy><![CDATA[
 			inputFile = new File( "${properties['all.temp.directory']}/kfs/build-foundation.xml" );
 			outputFile = new File( "${properties['all.temp.directory']}/kfs/build-foundation.tmp" );

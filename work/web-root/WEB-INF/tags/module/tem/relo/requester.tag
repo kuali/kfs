@@ -22,7 +22,7 @@
 	<h3>Requester (Person to be Reimbursed)</h3>
 
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Requester Section">
-		<c:if test="${fullEntryMode && travelArranger}">
+		<c:if test="${fullEntryMode}">
         <tr>
             <th class="bord-l-b"><div align="right">Requester Lookup:</div></th>
             <td class="datacell" colspan="3">

@@ -25,7 +25,7 @@
 	<tr>
 		<th>
 			<div align="right">
-				<kul:htmlAttributeLabel attributeEntry="${documentAttributes.eventTitle}" readOnly="true" />
+				<kul:htmlAttributeLabel attributeEntry="${documentAttributes.eventTitle}" />
 			</div>
 		</th>
 		<td class="datacell" colspan="3">
@@ -41,16 +41,10 @@
 
 		<td class="datacell" colspan="3">
 			<div align="left">
-				<kul:htmlControlAttribute attributeEntry="${documentAttributes.hostName}" property="document.hostName" />
+				<kul:htmlControlAttribute attributeEntry="${documentAttributes.hostName}" property="document.hostName" readOnly="${!fullEntryMode}" />
 				<c:if test="${fullEntryMode}">
-					<!--<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TEMProfile" lookupParameters="document.host.travelerTypeCode:travelerTypeCode"
-						fieldConversions="travelerTypeCode:document.host.travelerTypeCode,principalId:document.host.principalId,firstName:document.host.firstName,middleName:document.host.middleName,lastName:document.host.lastName" />
-				-->
-				<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TEMProfile" lookupParameters="document.host.travelerTypeCode:travelerTypeCode"
-						fieldConversions="profileId:document.hostProfileId" />
-				
+					<kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.TEMProfile" lookupParameters="document.host.travelerTypeCode:travelerTypeCode" fieldConversions="profileId:document.hostProfileId" />
 				</c:if>
-
 			</div>
 		</td>
 	</tr>

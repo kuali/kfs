@@ -52,7 +52,7 @@ public class TravelRelocationDocumentPresentationController extends TravelDocume
     protected void addFullEntryEntryMode(Document document, Set<String> editModes) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
+        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) && isInitiator(workflowDocument)) {
             editModes.add(TemAuthorizationConstants.TravelEditMode.FULL_ENTRY);
         }
     }

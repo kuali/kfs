@@ -29,6 +29,7 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -72,6 +73,18 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Check current user is the initiator
+     * 
+     * @param workflowDocument
+     * @return
+     */
+    public boolean isInitiator(KualiWorkflowDocument workflowDocument){
+        String docInitiator = workflowDocument.getInitiatorPrincipalId(); 
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
+        return docInitiator.equals(currentUser.getPrincipalId());
     }
     
     public ParameterService getParamService() {

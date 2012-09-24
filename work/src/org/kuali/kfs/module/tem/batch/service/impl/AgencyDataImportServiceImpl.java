@@ -106,10 +106,14 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
             IOUtils.closeQuietly(fileContents);
             
             LOG.info("Agency Import - validating: " + dataFileName);
+
             List<AgencyStagingData> validAgencyList = validateAgencyData(agencyData, dataFileName);
-            if (!validAgencyList.isEmpty()){
-                businessObjectService.save(validAgencyList);
+            
+            boolean isAllValid = validAgencyList.size() == agencyData.getAgencies().size();
+            if (!isAllValid) {
+                String error = "The agency data records to be loaded are rejected due to data problem. Please check the agency data report.";
             }
+            businessObjectService.save(validAgencyList);
         }
         catch (Exception ex) {
             LOG.error("Failed to process the file : " + dataFileName, ex);

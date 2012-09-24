@@ -238,7 +238,7 @@
 	<bean id="AgencyStagingData-merchantName" parent="AgencyStagingData-merchantName-parentBean" />
 	<bean id="AgencyStagingData-merchantName-parentBean" parent="AttributeDefinition">
 		<property name="name" value="merchantName" />
-		<property name="label" value="Merchant Name" />
+		<property name="label" value="Merchant Name(Company Name)" />
 		<property name="shortLabel" value="Merchant Name" />
 		<property name="maxLength" value="40" />
 		<property name="summary" value="Merchant Name" />
@@ -841,6 +841,29 @@
 		<property name="title" value="Travel Agency Audit inquiry"/>
 		<property name="inquirySections">
 		<list>
+            <bean parent="InquirySectionDefinition">
+                <property name="title" value="Overview"/>
+                <property name="numberOfColumns" value="2"/>
+                <property name="inquiryFields">
+                    <list>
+                        <bean parent="FieldDefinition" p:attributeName="id" />
+                        <bean parent="FieldDefinition" p:attributeName="agencyDataId" />
+                        <bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
+                        <bean parent="FieldDefinition" p:attributeName="agency" />
+                        <bean parent="FieldDefinition" p:attributeName="otherCompanyName" />
+                        <bean parent="FieldDefinition" p:attributeName="agencyFileName" />
+                        <bean parent="FieldDefinition" p:attributeName="merchantName" />
+                        <bean parent="FieldDefinition" p:attributeName="billingCycleDate" />
+                        <bean parent="FieldDefinition" p:attributeName="transactionPostingDate" />
+                        <bean parent="FieldDefinition" p:attributeName="processingTimestamp" />
+                        <bean parent="FieldDefinition" p:attributeName="duplicateRecordId" />
+                        <bean parent="FieldDefinition" p:attributeName="tripId" />
+                        <bean parent="FieldDefinition" p:attributeName="tripInvoiceNumber" />
+                        <bean parent="FieldDefinition" p:attributeName="tripTravelerTypeId" />
+                        <bean parent="FieldDefinition" p:attributeName="otherAmount" />
+                    </list>
+                </property>
+            </bean>
 			<bean parent="InquirySectionDefinition">
 				<property name="title" value="Airline"/>
 				<property name="numberOfColumns" value="2"/>

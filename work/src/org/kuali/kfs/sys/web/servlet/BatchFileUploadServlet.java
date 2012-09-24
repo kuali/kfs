@@ -46,9 +46,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.AuthenticationService;
-import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
+import org.kuali.rice.krad.document.DocumentAuthorizer;
+import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -58,22 +61,24 @@ public class BatchFileUploadServlet extends HttpServlet {
 
     protected void checkAuthorization( HttpServletRequest request ) {
         boolean authorized = false;
-//        String principalName = GlobalVariables.getUserSession().getPrincipalName();
         String principalName = ((AuthenticationService) GlobalResourceLoader.getResourceLoader().getService(new QName("kimAuthenticationService"))).getPrincipalName(request);
-        LOG.info("Logged In User: " + principalName);
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info("Logged In User: " + principalName);
+        }
         if ( StringUtils.isNotBlank(principalName) ) {
-            Principal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName( principalName );
-            if ( principal != null ) {
-//        if ( StringUtils.isNotBlank(principalName) ) {
-//            Principal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName(principalName);
-//            if ( principal != null ) {
-                String principalId = principal.getPrincipalId();
+            Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
+            if ( person != null ) {
+                String principalId = person.getPrincipalId();
                 Map<String,String> permissionDetails = new HashMap<String,String>();
-                permissionDetails.put( KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, "GLCP");
-                authorized = SpringContext.getBean(IdentityManagementService.class).isAuthorizedByTemplateName( principalId, KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, null );
+                DocumentAuthorizer da = SpringContext.getBean(DocumentDictionaryService.class).getDocumentAuthorizer("GLCP");
+                if ( da != null ) {
+                    authorized = da.canInitiate("GLCP", person);
+                }
                 if ( !authorized ) {
-                    permissionDetails.put( KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, "LLCP");
-                    authorized = SpringContext.getBean(IdentityManagementService.class).isAuthorizedByTemplateName( principalId, KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, null );
+                    da = SpringContext.getBean(DocumentDictionaryService.class).getDocumentAuthorizer("LLCP");
+                    if ( da != null ) {
+                        authorized = da.canInitiate("LLCP", person);
+                    }
                 }
             }
         }

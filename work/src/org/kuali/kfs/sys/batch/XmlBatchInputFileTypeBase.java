@@ -151,34 +151,34 @@ public abstract class XmlBatchInputFileTypeBase extends BatchInputFileTypeBase {
         }
         catch (IOException e2) {
             LOG.error("error getting schema stream from url: " + e2.getMessage());
-//            throw new RuntimeException("error getting schema stream from url:   " + e2.getMessage(), e2);
+            throw new RuntimeException("error getting schema stream from url:   " + e2.getMessage(), e2);
         }
         
-//        Schema schema = null;
-//        try {
-//            schema = factory.newSchema(schemaSource);
-//        }
-//        catch (SAXException e) {
-//            LOG.error("error occured while setting schema file: " + e.getMessage());
-//            throw new RuntimeException("error occured while setting schema file: " + e.getMessage(), e);
-//        }    
-//
-//        // create a Validator instance, which can be used to validate an instance document
-//        Validator validator = schema.newValidator();
-//        validator.setErrorHandler(new XmlErrorHandler());
-//
-//        // validate
-//        try {
-//            validator.validate(new StreamSource(fileContents));
-//        }
-//        catch (SAXException e) {
-//            LOG.error("error encountered while parsing xml " + e.getMessage());
-//            throw new ParseException("Schema validation error occured while processing file: " + e.getMessage(), e);
-//        }
-//        catch (IOException e1) {
-//            LOG.error("error occured while validating file contents: " + e1.getMessage());
-//            throw new RuntimeException("error occured while validating file contents: " + e1.getMessage(), e1);
-//        }
+        Schema schema = null;
+        try {
+            schema = factory.newSchema(schemaSource);
+        }
+        catch (SAXException e) {
+            LOG.error("error occured while setting schema file: " + e.getMessage());
+            throw new RuntimeException("error occured while setting schema file: " + e.getMessage(), e);
+        }    
+
+        // create a Validator instance, which can be used to validate an instance document
+        Validator validator = schema.newValidator();
+        validator.setErrorHandler(new XmlErrorHandler());
+
+        // validate
+        try {
+            validator.validate(new StreamSource(fileContents));
+        }
+        catch (SAXException e) {
+            LOG.error("error encountered while parsing xml " + e.getMessage());
+            throw new ParseException("Schema validation error occured while processing file: " + e.getMessage(), e);
+        }
+        catch (IOException e1) {
+            LOG.error("error occured while validating file contents: " + e1.getMessage());
+            throw new RuntimeException("error occured while validating file contents: " + e1.getMessage(), e1);
+        }
     }
     
 

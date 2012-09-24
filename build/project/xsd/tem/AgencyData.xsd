@@ -383,7 +383,7 @@
     
     <xsd:simpleType name="lodgingPropertyStateCode">
         <xsd:restriction base="xsd:normalizedString">
-            <xsd:maxLength value="2"/>
+            <xsd:maxLength value="3"/>
             <xsd:whiteSpace value="replace"/>
         </xsd:restriction>
     </xsd:simpleType>

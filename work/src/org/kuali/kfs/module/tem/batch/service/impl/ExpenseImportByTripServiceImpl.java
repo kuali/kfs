@@ -607,4 +607,12 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         this.errorMessages = errorMessages;
     }
 
+    public ImportedExpensePendingEntryService getImportedExpensePendingEntryService() {
+        return importedExpensePendingEntryService;
+    }
+
+    public void setImportedExpensePendingEntryService(ImportedExpensePendingEntryService importedExpensePendingEntryService) {
+        this.importedExpensePendingEntryService = importedExpensePendingEntryService;
+    }
+
 }

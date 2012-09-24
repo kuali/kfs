@@ -1040,6 +1040,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="travelExpenseService" ref="travelExpenseService" />
+        <property name="importedExpensePendingEntryService" ref="importedExpensePendingEntryService" />
 	</bean>
     <bean id="importedExpensePendingEntryService" parent="importedExpensePendingEntryService-parentBean" />
     <bean id="importedExpensePendingEntryService-parentBean" class="org.kuali.kfs.module.tem.batch.service.impl.ImportedExpensePendingEntryServiceImpl">

@@ -99,27 +99,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
     private DocumentDao documentDao;
     
     /**
-     * @see org.kuali.kfs.module.tem.document.web.struts.TravelActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final ActionForward action = super.docHandler(mapping, form, request, response);
-        final TravelAuthorizationForm authorization = (TravelAuthorizationForm) form;
-        final TravelAuthorizationDocument document = authorization.getTravelAuthorizationDocument();
-        
-        final String identifierStr = request.getParameter(TRVL_IDENTIFIER_PROPERTY);
-
-        //refresh and setup the custom primary destinations indicator
-        if (document.getPrimaryDestinationId() != null && document.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
-            document.getPrimaryDestination().setPrimaryDestinationName(document.getPrimaryDestinationName());
-            document.getPrimaryDestination().setCounty(document.getPrimaryDestinationCounty());
-            document.getPrimaryDestination().setCountryState(document.getPrimaryDestinationCountryState());
-            document.setPrimaryDestinationIndicator(true);
-        }
-        return action;
-    }
-    
-    /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */

@@ -409,12 +409,36 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final ActionForward retval = super.docHandler(mapping, form, request, response);
         final TravelFormBase travelForm = (TravelFormBase) form;
-
-        initializeNewActualExpenseLines(travelForm.getNewActualExpenseLines(), travelForm.getTravelDocument().getActualExpenses());
-
+        final TravelDocument travelDocument = travelForm.getTravelDocument();
+        
+        initializeNewActualExpenseLines(travelForm.getNewActualExpenseLines(), travelDocument.getActualExpenses());
+        
+        //update TA and TR's custom primary destinations
+        if ((travelDocument instanceof TravelAuthorizationDocument) || travelDocument instanceof TravelReimbursementDocument){
+            updateCustomPrimaryDestination(travelDocument);
+        }
+        
         return retval;
     }
 
+    /**
+     * Update the custom primary destination values and indicator
+     * 
+     *  This is only applicable to TR and TA docs, but we will keep it in the action base
+     *  
+     * @param travelDocument
+     */
+    protected void updateCustomPrimaryDestination(TravelDocument travelDocument){
+        //refresh and setup the custom primary destinations values and indicator
+        if (travelDocument.getPrimaryDestinationId() != null && travelDocument.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
+            PrimaryDestination destination = travelDocument.getPrimaryDestination();
+            destination.setPrimaryDestinationName(travelDocument.getPrimaryDestinationName());
+            destination.setCounty(travelDocument.getPrimaryDestinationCounty());
+            destination.setCountryState(travelDocument.getPrimaryDestinationCountryState());
+            travelDocument.setPrimaryDestinationIndicator(true);
+        }
+    }
+    
     protected void initializeNewActualExpenseLines(List<ActualExpense> newActualExpenseLines, List<ActualExpense> actualExpenses) {
         if (actualExpenses != null && !actualExpenses.isEmpty()) {
             if (newActualExpenseLines == null) {

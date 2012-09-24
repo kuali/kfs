@@ -26,6 +26,7 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameter
 import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_OBJECT_CODE;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_EMERGENCY_CONTACT_LINE;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_TRAVEL_ADVANCE_LINE;
+import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
 import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.NEW_SOURCE_LINE;
 
@@ -50,6 +51,7 @@ import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
@@ -64,6 +66,7 @@ import org.kuali.kfs.module.tem.document.web.bean.TravelAuthorizationMvcWrapperB
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Note;
@@ -94,6 +97,27 @@ public class TravelAuthorizationAction extends TravelActionBase {
     public static final String DOCUMENT_ERROR_PREFIX = "document.";
     public static final String NEW_SOURCE_LINE_OBJECT_CODE = String.format("%s.%s", NEW_SOURCE_LINE, FINANCIAL_OBJECT_CODE);
     private DocumentDao documentDao;
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.web.struts.TravelActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        final ActionForward action = super.docHandler(mapping, form, request, response);
+        final TravelAuthorizationForm authorization = (TravelAuthorizationForm) form;
+        final TravelAuthorizationDocument document = authorization.getTravelAuthorizationDocument();
+        
+        final String identifierStr = request.getParameter(TRVL_IDENTIFIER_PROPERTY);
+
+        //refresh and setup the custom primary destinations indicator
+        if (document.getPrimaryDestinationId() != null && document.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
+            document.getPrimaryDestination().setPrimaryDestinationName(document.getPrimaryDestinationName());
+            document.getPrimaryDestination().setCounty(document.getPrimaryDestinationCounty());
+            document.getPrimaryDestination().setCountryState(document.getPrimaryDestinationCountryState());
+            document.setPrimaryDestinationIndicator(true);
+        }
+        return action;
+    }
     
     /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping,

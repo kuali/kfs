@@ -115,14 +115,14 @@
         </th>
         <td class="datacell"><kul:htmlControlAttribute
             attributeEntry="${documentAttributes.primaryDestinationCountryState}"
-            property="document.primaryDestinationCountryState" readOnly="${!destinationNotFound}" /></td>
+            property="document.primaryDestinationCountryState" readOnly="${!fullEntryMode || !destinationNotFound}" /></td>
         <th class="bord-l-b">
             <div align="right"><kul:htmlAttributeLabel
             attributeEntry="${documentAttributes.primaryDestinationCounty}" /></div>
         </th>
         <td class="datacell"><kul:htmlControlAttribute
             attributeEntry="${documentAttributes.primaryDestinationCounty}"
-            property="document.primaryDestinationCounty" readOnly="${!destinationNotFound}"  /></td>
+            property="document.primaryDestinationCounty" readOnly="${!fullEntryMode || !destinationNotFound}"  /></td>
     </tr>
 	<tr>
 		<th class="bord-l-b">

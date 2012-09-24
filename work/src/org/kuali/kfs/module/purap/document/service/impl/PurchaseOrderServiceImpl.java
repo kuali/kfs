@@ -787,7 +787,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
                 //fix references before saving
                 fixItemReferences(newDocument);
-
+                newDocument.clearCapitalAssetFields();
                 //need to save the document first before creating the note
                 purapService.saveDocumentNoValidation(newDocument);
 

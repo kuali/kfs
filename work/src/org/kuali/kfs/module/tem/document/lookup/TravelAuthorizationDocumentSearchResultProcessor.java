@@ -62,7 +62,8 @@ public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDo
                 && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD))
                 && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CANCELLED))
                 && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT))
-                && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION));
+                && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION))
+                && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CLOSED));
     }
 
     /**

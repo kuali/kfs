@@ -138,7 +138,8 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
                 || status.equals(TravelAuthorizationStatusCodeKeys.OPEN_REIMB)
                 || status.equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)
                 || status.equals(TravelAuthorizationStatusCodeKeys.CANCELLED)
-                || status.equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION))){
+                || status.equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION)
+                || status.equals(TravelAuthorizationStatusCodeKeys.CLOSED))){
             setAppDocStatus(status);
             updated = saveAppDocStatus();
         }

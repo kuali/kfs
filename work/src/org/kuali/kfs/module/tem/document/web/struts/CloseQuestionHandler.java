@@ -93,8 +93,7 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
             // add relationship
             String relationDescription = "TA - TAC";
             accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(document.getDocumentNumber(), tacDocument.getDocumentNumber(), relationDescription));            
-            
-            tacDocument.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.CLOSED);
+            tacDocument.setAppDocStatus(TravelAuthorizationStatusCodeKeys.CLOSED);
             documentService.routeDocument(tacDocument, form.getAnnotation(), null);
             
             if (isNotNull(returnActionForward)) {

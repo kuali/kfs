@@ -330,8 +330,18 @@ public interface TravelDocumentService {
     
     String retrieveAddressFromLocationCode(String locationCode);
 
+    /**
+     * Remove the imported expense from the document (though DB)
+     * 
+     * @param document
+     */
     public void detachImportedExpenses(TravelDocument document);
     
+    /**
+     * Adding the imported expense to the document (in the DB)
+     * 
+     * @param document
+     */
     public void attachImportedExpenses(TravelDocument document);
 
     public boolean checkHoldGLPEs(TravelDocument document);

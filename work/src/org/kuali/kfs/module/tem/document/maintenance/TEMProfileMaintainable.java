@@ -37,6 +37,7 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
 import org.kuali.kfs.module.tem.datadictionary.mask.CreditCardMaskFormatter;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -62,6 +63,7 @@ import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
 
 public class TEMProfileMaintainable extends FinancialSystemMaintainable {
+    
     private static final Logger LOG = Logger.getLogger(TEMProfileMaintainable.class);
     
 	/**
@@ -123,7 +125,7 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kns.maintenance.Maintainable)
      */
     @Override
-    public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
+    public List<Section> getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         Person user = GlobalVariables.getUserSession().getPerson();
 
         List<Section> sections = super.getSections(document, document.getOldMaintainableObject());
@@ -180,26 +182,17 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         return (hasAdminRole && hasOrgRole);
     }
 
+    /**
+     * Populate the TEMProfile details
+     * 
+     * @param profile
+     */
     private void populateInfo(TEMProfile profile) {
         SpringContext.getBean(TravelerService.class).populateTEMProfile(profile);
-        
-        profile.setAchSignUp("No");
-        profile.setAchTransactionType("None");
-        
-        // TODO: verify that Profile's employeeId is what used for PayeeACHAccount's payeeIdNumber
-        if (profile.getEmployeeId() != null) {
-            Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(KFSPropertyConstants.PAYEE_ID_NUMBER, profile.getEmployeeId());
-            List<PayeeACHAccount> accounts = (List<PayeeACHAccount>) getBusinessObjectService().findMatching(PayeeACHAccount.class, fieldValues);
-            if (accounts.size() > 0){
-                profile.setAchSignUp("Yes");
-                profile.setAchTransactionType(accounts.get(0).getAchTransactionType());
-            }
-        }
+        SpringContext.getBean(TemProfileService.class).updateACHAccountInfo(profile);
     }
 
     private void maskAccountNumbers(TEMProfile profile) {
-        // TODO Auto-generated method stub
         for (TEMProfileAccount account : profile.getAccounts()){
             String accountSubStr = account.getAccountNumber().substring(account.getAccountNumber().length()-4);
             account.setAccountNumber("************"+accountSubStr);
@@ -407,6 +400,7 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         super.processAfterPost(document, parameters);
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public Map populateBusinessObject(Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall) {
         //populate maintenanceDocument with boNotes from this maintainable.

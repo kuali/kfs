@@ -16,10 +16,14 @@
 package org.kuali.kfs.module.tem.businessobject.inquiry;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.authorization.FieldRestriction;
 import org.kuali.rice.kns.bo.BusinessObject;
@@ -31,9 +35,21 @@ import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
 
 public class TEMProfileInquirableImpl extends KfsInquirableImpl {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TEMProfileInquirableImpl.class);
+    
+    private static final Logger LOG = Logger.getLogger(TEMProfileInquirableImpl.class);
 
 	/**
+	 * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getBusinessObject(java.util.Map)
+	 */
+	@SuppressWarnings("rawtypes")
+    @Override
+    public BusinessObject getBusinessObject(Map fieldValues) {
+        TEMProfile profile = (TEMProfile)super.getBusinessObject(fieldValues);
+        SpringContext.getBean(TemProfileService.class).updateACHAccountInfo(profile);
+        return profile;
+    }
+
+    /**
 	 * @see org.kuali.rice.kns.inquiry.KualiInquirableImpl#getSections(org.kuali.rice.kns.bo.BusinessObject)
 	 */
 	@Override

@@ -21,10 +21,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.cxf.common.util.StringUtils;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.kfs.module.tem.service.TemProfileService;
+import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kim.service.PersonService;
@@ -37,6 +40,9 @@ public class TemProfileServiceImpl implements TemProfileService {
     private BusinessObjectService businessObjectService;
     private PersonService<Person> personService;
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.TemProfileService#findTemProfileByPrincipalId(java.lang.String)
+     */
     @Override
     public TEMProfile findTemProfileByPrincipalId(String principalId) {
         Map<String,String> criteria = new HashMap<String,String>(1);
@@ -44,6 +50,9 @@ public class TemProfileServiceImpl implements TemProfileService {
         return findTemProfile(criteria);
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.TemProfileService#findTemProfileById(java.lang.Integer)
+     */
     @Override
     public TEMProfile findTemProfileById(Integer profileId) {
         Map<String,String> criteria = new HashMap<String,String>(1);
@@ -51,6 +60,9 @@ public class TemProfileServiceImpl implements TemProfileService {
         return findTemProfile(criteria);
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.TemProfileService#findTemProfile(java.util.Map)
+     */
     @Override
     public TEMProfile findTemProfile(Map<String, String> criteria) {
         Collection<TEMProfile> profiles = getBusinessObjectService().findMatching(TEMProfile.class, criteria);
@@ -60,6 +72,9 @@ public class TemProfileServiceImpl implements TemProfileService {
         return null;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.TemProfileService#getAddressFromProfile(org.kuali.kfs.module.tem.businessobject.TEMProfile, org.kuali.kfs.module.tem.businessobject.TemProfileAddress)
+     */
     @Override
     public TemProfileAddress getAddressFromProfile(TEMProfile profile, TemProfileAddress defaultAddress) {
         
@@ -76,6 +91,9 @@ public class TemProfileServiceImpl implements TemProfileService {
         return defaultAddress;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.TemProfileService#createTemProfileAddressFromPerson(org.kuali.rice.kim.bo.Person, java.lang.Integer, org.kuali.kfs.module.tem.businessobject.TemProfileAddress)
+     */
     @Override
     public TemProfileAddress createTemProfileAddressFromPerson(Person person, Integer profileId, TemProfileAddress defaultAddress) {
         defaultAddress.setProfileId(profileId);
@@ -88,12 +106,38 @@ public class TemProfileServiceImpl implements TemProfileService {
         return defaultAddress;
     }
     
+	/**
+	 * @see org.kuali.kfs.module.tem.service.TemProfileService#getAllActiveTemProfile()
+	 */
 	@Override
 	public List<TEMProfile> getAllActiveTemProfile() {
 		Map<String,Object> criteria = new HashMap<String,Object>(1);
         criteria.put(KNSPropertyConstants.ACTIVE, true);
 		List<TEMProfile> profiles = (List<TEMProfile>) getBusinessObjectService().findMatching(TEMProfile.class, criteria);
 		return profiles;
+	}
+	
+	/**
+	 * @see org.kuali.kfs.module.tem.service.TemProfileService#updateACHAccountInfo(org.kuali.kfs.module.tem.businessobject.TEMProfile)
+	 */
+	public void updateACHAccountInfo(TEMProfile profile){
+
+	    //set defaults
+        profile.setAchSignUp("No");
+        profile.setAchTransactionType("None");
+        
+        if (TemConstants.EMP_TRAVELER_TYP_CD.equals(profile.getTravelerTypeCode()) && 
+                profile.getEmployeeId() != null) {
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put(KFSPropertyConstants.PAYEE_ID_NUMBER, profile.getEmployeeId());
+            List<PayeeACHAccount> accounts = (List<PayeeACHAccount>) getBusinessObjectService().findMatching(PayeeACHAccount.class, fieldValues);
+            
+            //if there are any ACH accounts matching the employee Id lookup, use the first one for display
+            if (!accounts.isEmpty()){
+                profile.setAchSignUp("Yes");
+                profile.setAchTransactionType(accounts.get(0).getAchTransactionType());
+            }
+        }
 	}
 
     /**

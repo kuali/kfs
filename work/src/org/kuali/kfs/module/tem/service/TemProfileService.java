@@ -74,4 +74,11 @@ public interface TemProfileService {
      */
     public List<TEMProfile> getAllActiveTemProfile();
 
+    /**
+     * Lookup PayeeACHAccount with matching employee number in the payee Id field.  
+     * If PayeeACHAccount is found, update the two profile fields: AchSignUp & AchTransactionType
+     * 
+     * @param profile
+     */
+    public void updateACHAccountInfo(TEMProfile profile);
 }

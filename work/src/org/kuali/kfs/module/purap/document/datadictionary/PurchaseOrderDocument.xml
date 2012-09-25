@@ -529,6 +529,7 @@
   <bean id="PurchaseOrderDocument-billingPhoneNumber" parent="PurchaseOrderDocument-billingPhoneNumber-parentBean"/>
 
   <bean id="PurchaseOrderDocument-billingPhoneNumber-parentBean" abstract="true" parent="BillingAddress-billingPhoneNumber">
+    <property name="validationPattern"><null /></property>
   </bean>
   <bean id="PurchaseOrderDocument-receivingName" parent="PurchaseOrderDocument-receivingName-parentBean"/>
 

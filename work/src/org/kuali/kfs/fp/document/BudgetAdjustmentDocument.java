@@ -417,7 +417,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      */
     @Override
     public KualiDecimal getTotalDollarAmount() {
-        return getTargetCurrentBudgetTotal().equals(KualiDecimal.ZERO) ? getSourceCurrentBudgetTotal() : getTargetCurrentBudgetTotal();
+        return getTargetCurrentBudgetTotal().equals(KualiDecimal.ZERO) ? getSourceCurrentBudgetTotal().abs() : getTargetCurrentBudgetTotal().abs();
     }
 
     /**

@@ -414,6 +414,9 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         return crmDocument;
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#populateCustomerCreditMemoDocumentDetails(org.kuali.kfs.integration.ar.AccountsReceivableCustomerCreditMemo, java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
+     */
     @Override
     public AccountsReceivableCustomerCreditMemo populateCustomerCreditMemoDocumentDetails(AccountsReceivableCustomerCreditMemo arCrmDocument, String invoiceNumber, KualiDecimal creditAmount) {
 
@@ -428,13 +431,10 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         //update the amount on the credit memo detail, there should only be one item for Travel item so we will update that amount
         CustomerCreditMemoDetail detail = crmDocument.getCreditMemoDetails().get(0);
         detail.setCreditMemoItemTotalAmount(creditAmount);
-
-        //CLEANUP 
-        // HM this isn't stored in DB and it looks like UI specific
-        //detail.setInvoiceOpenItemQuantity(crmDocument.getInvoiceOpenItemQuantity(detail, detail.getCustomerInvoiceDetail()));
-//        CustomerCreditMemoDetailService service = SpringContext.getBean(CustomerCreditMemoDetailService.class);
-//        service.recalculateCustomerCreditMemoDetail(detail, crmDocument);
-//        
+        
+        CustomerCreditMemoDetailService service = SpringContext.getBean(CustomerCreditMemoDetailService.class);
+        service.recalculateCustomerCreditMemoDetail(detail, crmDocument);
+        
         return crmDocument;
     }
 

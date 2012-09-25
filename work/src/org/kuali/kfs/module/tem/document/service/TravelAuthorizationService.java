@@ -18,6 +18,7 @@ package org.kuali.kfs.module.tem.document.service;
 import java.util.Collection;
 
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 
 public interface TravelAuthorizationService {
@@ -51,6 +52,17 @@ public interface TravelAuthorizationService {
      */
     public Collection<TravelAuthorizationAmendmentDocument> findAmendment(Integer travelDocumentIdentifier);
 
+    
+    /**
+     * Closing the Travel Authorization
+     * 
+     * 1. Retired the current TA
+     * 2. Copy a new TAC from the TA and route it 
+     * 
+     * @param authorization
+     */
+    public TravelAuthorizationCloseDocument closeAuthorization(TravelAuthorizationDocument authorization, String annotation, String initiatorPrincipalName);
+    
     //TODO: remove when sure.
     //public void adjustEncumbranceForAmendment(TravelDocument taDocument);    
 }

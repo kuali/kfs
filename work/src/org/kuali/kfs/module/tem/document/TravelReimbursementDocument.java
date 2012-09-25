@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.tem.document;
 
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.ALLOW_TR_WITHOUT_TA_IND;
-import static org.kuali.kfs.module.tem.TemKeyConstants.TA_MESSAGE_CLOSE_DOCUMENT_TEXT;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,13 +28,11 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
@@ -48,6 +45,7 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TripType;
+import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -66,7 +64,6 @@ import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -194,49 +191,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     public void setReimbursableAmount(KualiDecimal reimbursableAmount) {
         this.reimbursableAmount = reimbursableAmount;
     }
-//
-//    /**
-//     * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#generateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
-//     */
-//    @Override
-//    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-//        LOG.info("processDocumentGenerateGeneralLedgerPendingEntries for TravelReimbursementDocument - start");
-//
-//        boolean success = true;
-//        boolean hasTravelAuthClose = false;
-//        
-//        success = super.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
-//        
-//        List<TravelAuthorizationDocument> taDocs = new ArrayList<TravelAuthorizationDocument>();
-//        try {
-//            taDocs = getTravelDocumentService().find(TravelAuthorizationDocument.class, travelDocumentIdentifier);
-//            for (TravelAuthorizationDocument doc : taDocs) {
-//                if (doc instanceof TravelAuthorizationCloseDocument) {
-//                    hasTravelAuthClose = true;
-//                    break;
-//                }
-//            }
-//        }
-//        catch (Exception ex) {
-//            if (LOG.isDebugEnabled()) {
-//                LOG.error(ex.getMessage(), ex);
-//            }
-//        }
-//        
-//        //CLEANUP - disencumber should problaby happen at the final/process status change due to the
-//        //                  nature conflict with TAC docs
-//        
-//        //if there are TA documents tied to the TR, there are encumbrance, then we will need to process the dis-encumbrance
-//        if (success && !taDocs.isEmpty()) {
-//            //encumbrance trip and no TAC - TAC doc would have handled dis encumbrance
-//            if (isTripGenerateEncumbrance() && !hasTravelAuthClose) {
-//                getTravelEncumbranceService().disencumberTravelReimbursementFunds(this);
-//            }
-//        }
-//
-//        LOG.info("processDocumentGenerateGeneralLedgerPendingEntries for TravelReimbursementDocument - end");
-//        return success;
-//    }
 
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
@@ -244,72 +198,60 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        
+
         LOG.debug("Handling route status change");
-        
+
         if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
-            
-            TravelAuthorizationDocument authorization = getTravelReimbursementService().getRelatedOpenTravelAuthorizationDocument(this);
-            //if there is an authorization, process dis-encumbrance
-            if (authorization != null){
-                List<Document> relatedCloseDocuments = getTravelDocumentService().getDocumentsRelatedTo(authorization, 
-                        TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
-            
-                //encumbrance trip and no TAC - TAC doc would have handled dis encumbrance
-                if (isTripGenerateEncumbrance() && relatedCloseDocuments.isEmpty()) {
-                    getTravelEncumbranceService().disencumberTravelReimbursementFunds(this);
-                }
-            }
-            
-            // for some reason when it goes to final it never updates to the last status
-            updateAppDocStatus(TravelReimbursementStatusCodeKeys.DEPT_APPROVED);
-                
-            if (getFinalReimbursement()) {
-                // store this so we can reset after we're finished
-                UserSession originalUser = GlobalVariables.getUserSession();
-                try {
-                    String message = getConfigurationService().getPropertyString(TA_MESSAGE_CLOSE_DOCUMENT_TEXT);
-                    String user = GlobalVariables.getUserSession().getPerson().getLastName() + ", " + GlobalVariables.getUserSession().getPerson().getFirstName();
-                    String note = StringUtils.replace(message, "{0}", user);
-                    
-                    TravelAuthorizationDocument currTADocument = getTravelReimbursementService().getRelatedOpenTravelAuthorizationDocument(this); 
 
-                    final Note newNote = getDocumentService().createNoteFromDocument(currTADocument, note);
-                    final Note newNoteTAC = getDocumentService().createNoteFromDocument(currTADocument, note);
-                    getDocumentService().addNoteToDocument(currTADocument, newNote);
-                    currTADocument.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
-                    getDocumentDao().save(currTADocument);
-
-                    String initiatorId = this.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-                    Person initiator = getPersonService().getPerson(initiatorId);
-
-                    // setting to initiator
-                    GlobalVariables.setUserSession(new UserSession(initiator.getPrincipalName()));
-                    @SuppressWarnings("null")
-                    final TravelAuthorizationCloseDocument tacDocument = authorization.toCopyTAC();
-                    getDocumentService().addNoteToDocument(tacDocument, newNoteTAC);
-                    tacDocument.setTravelDocumentIdentifier(getTravelDocumentIdentifier());
-
-                    // switching to KR user to route
-                    GlobalVariables.setUserSession(new UserSession(KNSConstants.SYSTEM_USER));
-                    tacDocument.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.CLOSED);
-                    getDocumentService().routeDocument(tacDocument, getTripDescription(), null);
-                }
-                catch (Exception e) {
-                    LOG.error("Could not create TAC or route it with travel id " + getTravelDocumentIdentifier());
-                    LOG.error(e.getMessage(), e);
-                }
-                finally {
-                    // reset user session
-                    GlobalVariables.setUserSession(originalUser);
-                }
-            }
-
+            // 1. process the reimbursement on the TR
             try {
+                // update the status to Dept approved
+                updateAppDocStatus(TravelReimbursementStatusCodeKeys.DEPT_APPROVED);
                 getTravelReimbursementService().processCustomerReimbursement(this);
             }
             catch (Exception e) {
                 LOG.error("Could not spawn CRM or DV on FINAL for travel id " + getTravelDocumentIdentifier());
+                LOG.error(e.getMessage(), e);
+            }
+
+            try {
+                TravelAuthorizationDocument openAuthorization = getTravelReimbursementService().getRelatedOpenTravelAuthorizationDocument(this);
+                List<Document> authorizations = getTravelDocumentService().getDocumentsRelatedTo(this, TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+                
+                // 2. if there is an authorization and there isn't a TAC then we process dis-encumbrance
+                if (openAuthorization != null) {
+                    // check TAC existance
+                    List<Document> relatedCloseDocuments = getTravelDocumentService().getDocumentsRelatedTo(openAuthorization, TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
+    
+                    // Trip is encumbrance and no TAC(TAC doc would have handled dis encumbrance)
+                    if (relatedCloseDocuments.isEmpty()) {
+                        if (isTripGenerateEncumbrance()) {
+                            getTravelEncumbranceService().disencumberTravelReimbursementFunds(this);
+                        }
+    
+                        // 3. No TAC - then if it is indicated as final TR - we will spawn the TAC doc
+                        if (getFinalReimbursement()) {
+                            // store this so we can reset after we're finished
+                            UserSession originalUser = GlobalVariables.getUserSession();
+                            
+                            String initiatorId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+                            Person initiator = getPersonService().getPerson(initiatorId);
+                            
+                            //close the authorization
+                            getTravelAuthorizationService().closeAuthorization(openAuthorization, getTripDescription(), initiator.getPrincipalName());
+                            GlobalVariables.setUserSession(originalUser);
+                        }
+                    }
+                }
+                // if open authorization is null, try to check if there is ANY authorization at all (may be it was closed manually; so its not opened)
+                else if (!authorizations.isEmpty()){
+                    // authorization that is not opened; note to the TR document
+                    Note newNote = getDocumentService().createNoteFromDocument(this, "TA is no longer Open; skip Dis-encumberance process.");
+                    getDocumentService().addNoteToDocument(this, newNote);
+                    getDocumentDao().save(this);
+                }
+            }catch (Exception e) {
+                LOG.error("Could Add notes for annotation to TR doc #" + getDocumentNumber());
                 LOG.error(e.getMessage(), e);
             }
         }
@@ -676,6 +618,9 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         return SpringContext.getBean(GeneralLedgerPendingEntryService.class);
     }
     
+    protected AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {
+        return SpringContext.getBean(AccountingDocumentRelationshipService.class);
+    }
     
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getDisapprovedAppDocStatusMap()

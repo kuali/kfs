@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document.service.impl;
 
+import static org.kuali.kfs.module.tem.TemKeyConstants.TA_MESSAGE_CLOSE_DOCUMENT_TEXT;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
 
 import java.beans.PropertyChangeListener;
@@ -44,6 +45,7 @@ import org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader;
 import org.kuali.kfs.module.purap.util.PurApObjectUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
@@ -51,12 +53,14 @@ import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
+import org.kuali.kfs.module.tem.util.MessageUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -69,6 +73,8 @@ import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.UserSession;
+import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DateTimeService;
@@ -77,6 +83,7 @@ import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -97,6 +104,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     private UniversityDateService universityDateService;
     private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
     private TemProfileService temProfileService;
+    private DocumentDao documentDao;
     
     private List<PropertyChangeListener> propertyChangeListeners;
 
@@ -607,6 +615,43 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         }
         return null;
     }
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelAuthorizationService#closeAuthorization(org.kuali.kfs.module.tem.document.TravelAuthorizationDocument, java.lang.String, java.lang.String)
+     */
+    @Override
+    public TravelAuthorizationCloseDocument closeAuthorization(TravelAuthorizationDocument authorization, String annotation, String initiatorPrincipalName) {
+        TravelAuthorizationCloseDocument authorizationClose = null;
+        try {
+            String user = GlobalVariables.getUserSession().getPerson().getLastName() + ", " + GlobalVariables.getUserSession().getPerson().getFirstName();
+            String note = MessageUtils.getMessage(TA_MESSAGE_CLOSE_DOCUMENT_TEXT, user);
+
+            final Note newNote = documentService.createNoteFromDocument(authorization, note);
+            documentService.addNoteToDocument(authorization, newNote);
+            authorization.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
+            documentDao.save(authorization);
+
+            // setting to initiator principal name
+            GlobalVariables.setUserSession(new UserSession(initiatorPrincipalName));
+            authorizationClose = authorization.toCopyTAC();
+            final Note newNoteTAC = documentService.createNoteFromDocument(authorizationClose, note);
+            documentService.addNoteToDocument(authorizationClose, newNoteTAC);
+
+            // add relationship
+            String relationDescription = authorization.getDocumentTypeName() + " - " + authorizationClose.getDocumentTypeName();
+            accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(authorization.getDocumentNumber(), authorizationClose.getDocumentNumber(), relationDescription));
+
+            // switching to KR user to route
+            GlobalVariables.setUserSession(new UserSession(KNSConstants.SYSTEM_USER));
+            authorizationClose.setAppDocStatus(TravelAuthorizationStatusCodeKeys.CLOSED);
+            documentService.routeDocument(authorizationClose, annotation, null);
+        }
+        catch (Exception e) {
+            LOG.error("Could not create TAC or route it with travel id " + authorization.getTravelDocumentIdentifier());
+            LOG.error(e.getMessage(), e);
+        }
+        return authorizationClose;
+    }
 
     /**
      * This method checks to see if the travel expense type code is a prepaid expense
@@ -671,4 +716,9 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     public void setTravelDisbursementService(TravelDisbursementService travelDisbursementService) {
         this.travelDisbursementService = travelDisbursementService;
     }
+
+    public void setDocumentDao(DocumentDao documentDao) {
+        this.documentDao = documentDao;
+    }
+
 }

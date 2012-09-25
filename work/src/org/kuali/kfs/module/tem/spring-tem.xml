@@ -512,6 +512,7 @@
       class="org.kuali.kfs.module.tem.document.service.impl.TravelEncumbranceServiceImpl" abstract="true">
       <property name="businessObjectService" ref="businessObjectService" />
       <property name="travelDocumentService" ref="temTravelDocumentService" />
+      <property name="documentService" ref="documentService" />
       <property name="encumbranceService" ref="glEncumbranceService" />
       <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
     </bean>
@@ -533,6 +534,7 @@
 		<property name="universityDateService" ref="universityDateService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
 		<property name="temProfileService" ref="temProfileService" />
+        <property name="documentDao" ref="documentDao" />
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />
@@ -1247,13 +1249,8 @@
 
 	<bean id="CloseTa"
 		class="org.kuali.kfs.module.tem.document.web.struts.CloseQuestionHandler">
-		<property name="configurationService" ref="kualiConfigurationService" />
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
-        <property name="travelEncumbranceService" ref="travelEncumbranceService" />
-	    <property name="documentService" ref="documentService" />
-  	    <property name="documentDao" ref="documentDao" />
+        <property name="travelAuthorizationService" ref="temTravelAuthorizationService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
-		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
 	</bean>
 
 	<bean id="temInternationalTravelManagerService" class="org.kuali.kfs.module.tem.identity.TemInternationalTravelManagerServiceImpl" />

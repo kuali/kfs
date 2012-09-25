@@ -392,6 +392,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
                     try {
                         Note clearedGLPENote = documentService.createNoteFromDocument(authorizationDocument, note);
                         documentService.addNoteToDocument(authorizationDocument, clearedGLPENote);
+                        businessObjectService.save(authorizationDocument);
                     }catch (Exception ex) {
                         LOG.warn(ex.getMessage(), ex);
                     }

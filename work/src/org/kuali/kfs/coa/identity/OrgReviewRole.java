@@ -26,7 +26,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
+import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -70,7 +72,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     protected static final String ORR_INQUIRY_TITLE_PROPERTY = "message.inquiry.org.review.role.title";
     protected static String INQUIRY_TITLE_VALUE = null;
 
-    protected static transient OrgReviewRoleService orgReviewRoleService;
+    private static transient OrgReviewRoleService orgReviewRoleService;
+    private static transient OrganizationService organizationService;
+    private static transient ChartService chartService;
 
     //Dummy variable
     protected String organizationTypeCode = "99";
@@ -168,19 +172,6 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     protected Date activeFromDate;
     protected Date activeToDate;
 
-    public String getReportsToChartOfAccountsCode() {
-        if ( organization != null ) {
-            return organization.getReportsToChartOfAccountsCode();
-        }
-        return null;
-    }
-
-    public String getReportsToOrganizationCode() {
-        if ( organization != null ) {
-            return organization.getReportsToOrganizationCode();
-        }
-        return null;
-    }
     /**
      * Gets the active attribute.
      * @return Returns the active.
@@ -216,29 +207,16 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * @return Returns the chart.
      */
     public Chart getChart() {
+        if ( StringUtils.isBlank(getChartOfAccountsCode() ) ) {
+            chart = null;
+        } else {
+            if ( chart == null || !StringUtils.equals(getChartOfAccountsCode(), chart.getChartOfAccountsCode()) ) {
+                chart = getChartService().getByPrimaryId(getChartOfAccountsCode());
+            }
+        }
         return chart;
     }
-    /**
-     * Sets the chart attribute value.
-     * @param chart The chart to set.
-     */
-    public void setChart(Chart chart) {
-        this.chart = chart;
-    }
-//    /**
-//     * Gets the delegation attribute.
-//     * @return Returns the delegation.
-//     */
-//    public KfsKimDocDelegateType getDelegation() {
-//        return delegation;
-//    }
-//    /**
-//     * Sets the delegation attribute value.
-//     * @param delegation The delegation to set.
-//     */
-//    public void setDelegation(KfsKimDocDelegateType delegation) {
-//        this.delegation = delegation;
-//    }
+
     /**
      * Gets the groupMemberGroupId attribute.
      * @return Returns the groupMemberGroupId.
@@ -382,14 +360,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * @return Returns the organization.
      */
     public Organization getOrganization() {
+        if ( StringUtils.isBlank(getChartOfAccountsCode() ) || StringUtils.isBlank(getOrganizationCode()) ) {
+            organization = null;
+        } else {
+            if ( organization == null || !StringUtils.equals(getChartOfAccountsCode(), chart.getChartOfAccountsCode()) || !StringUtils.equals(getOrganizationCode(), organization.getOrganizationCode()) ) {
+                organization = getOrganizationService().getByPrimaryIdWithCaching(getChartOfAccountsCode(), getOrganizationCode());
+            }
+        }
         return organization;
-    }
-    /**
-     * Sets the organization attribute value.
-     * @param organization The organization to set.
-     */
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
     }
 
     /**
@@ -404,16 +382,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * @param overrideCode The overrideCode to set.
      */
     public void setOverrideCode(String overrideCode) {
-        //updateAttributeValue(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE, overrideCode);
         this.overrideCode = overrideCode;
     }
 
-//    public String getOverrideCodeLabel() {
-//        if ( StringUtils.isBlank(overrideCode) ) {
-//            return "";
-//        }
-//        return AccountingLineOverrideOptionFinder.getLabelFromComponent(Integer.valueOf(overrideCode) );
-//    }
     /**
      * Gets the fromAmount attribute.
      * @return Returns the fromAmount.
@@ -1414,10 +1385,24 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         // do nothing
     }
 
-    public static OrgReviewRoleService getOrgReviewRoleService() {
+    protected static OrgReviewRoleService getOrgReviewRoleService() {
         if ( orgReviewRoleService == null ) {
             orgReviewRoleService = SpringContext.getBean(OrgReviewRoleService.class);
         }
         return orgReviewRoleService;
+    }
+
+    protected static ChartService getChartService() {
+        if ( chartService == null ) {
+            chartService = SpringContext.getBean(ChartService.class);
+        }
+        return chartService;
+    }
+
+    protected static OrganizationService getOrganizationService() {
+        if ( organizationService == null ) {
+            organizationService = SpringContext.getBean(OrganizationService.class);
+        }
+        return organizationService;
     }
 }

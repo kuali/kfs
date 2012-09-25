@@ -206,9 +206,6 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
     public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
         populateInfo((TEMProfile)document.getOldMaintainableObject().getBusinessObject());
         populateInfo((TEMProfile)document.getNewMaintainableObject().getBusinessObject());
-        
-        Person user = GlobalVariables.getUserSession().getPerson();
-        
         super.processAfterEdit(document, parameters);
     }
 

@@ -428,26 +428,13 @@
 	<bean id="FilePurgeCustomAge-parentBean" class="org.kuali.kfs.sys.batch.FilePurgeCustomAge" abstract="true" />
 	
 	<bean id="financialSystemUserService" parent="financialSystemUserService-parentBean" />
-	<bean id="financialSystemUserService-parentBean" abstract="true" class="org.kuali.kfs.sys.service.impl.FinancialSystemUserServiceImpl" />
-	
-	<!--
-	<bean id="parameterService" class="org.kuali.kfs.sys.service.impl.KfsParameterServiceImpl">
-		<property name="dataDictionaryService" ref="dataDictionaryService" />
-		<property name="kualiModuleService" ref="kualiModuleService" />
-		<property name="businessObjectService" ref="businessObjectService" />
+	<bean id="financialSystemUserService-parentBean" abstract="true" class="org.kuali.kfs.sys.service.impl.FinancialSystemUserServiceImpl">
+		<property name="chartService" ref="chartService" />
+		<property name="organizationService" ref="organizationService" />
+		<property name="roleService" ref="kimRoleService" />
+		<property name="personService" ref="personService" />	
 	</bean>
-	-->
-	<!-- RICE20: We need to find a replacement for the RiceApplicationConfigurationService
-    <bean id="riceApplicationConfigurationService" parent="riceApplicationConfigurationService-parentBean"/>
 	
-    <bean id="riceApplicationConfigurationService-parentBean" class="org.kuali.kfs.sys.service.impl.KFSApplicationConfigurationServiceImpl" abstract="true">
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kfs</value>
-            </list>
-        </property> 
-    </bean>
-     -->
     <bean id="universityDateDao" parent="universityDateDao-parentBean"/>
 
 	<bean id="universityDateDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UniversityDateDaoOjb" abstract="true" />

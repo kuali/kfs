@@ -508,7 +508,6 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         
-        //MSU Contribution DTT 2085 KFSMI-8649   
         if(! purDocument.getPurchasingCapitalAssetItems().isEmpty()){            
             purDocument.setPurchasingCapitalAssetItems(new PurApArrayList(purDocument.getPurchasingCapitalAssetItemClass()));
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(purDocument);

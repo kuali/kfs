@@ -23,12 +23,12 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
@@ -86,14 +86,14 @@ public class EmployeeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
 
     protected IdentityService getIdentityService() {
         if (identityService == null) {
-            identityService = SpringContext.getBean(IdentityService.class);
+            identityService = KimApiServiceLocator.getIdentityService();
         }
         return identityService;
     }
 
     protected RoleService getRoleService() {
         if (roleService == null) {
-            roleService = SpringContext.getBean(RoleService.class);
+            roleService = KimApiServiceLocator.getRoleService();
         }
         return roleService;
     }

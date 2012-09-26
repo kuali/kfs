@@ -1242,8 +1242,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         document.addNote(noteObj);
         noteService.save(noteObj);
 
-        //MSU Contribution KFSMI-8456 DT 3822 KFSCNTRB-959
-       
         document.setHoldIndicator(true);
         document.setLastActionPerformedByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
         purapService.saveDocumentNoValidation(document);
@@ -1261,8 +1259,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         document.addNote(noteObj);
         noteService.save(noteObj);
 
-        //MSU Contribution KFSMI-8456 DT 3822 KFSCNTRB-959
-       
         document.setHoldIndicator(false);
         document.setLastActionPerformedByPersonId(null);
         purapService.saveDocumentNoValidation(document);

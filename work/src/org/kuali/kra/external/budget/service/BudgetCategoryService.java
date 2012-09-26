@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.external.unit.service;
+package org.kuali.kra.external.budget.service;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -34,7 +34,7 @@ import org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO;
  */
  
 @WebService(targetNamespace = KcConstants.KC_NAMESPACE_URI, name = KcConstants.BudgetCategory.SERVICE_NAME)
-public interface InstitutionalBudgetCategoryService {
+public interface BudgetCategoryService {
 
     @WebResult(name = "return", targetNamespace = "")
     @RequestWrapper(localName = "lookupBudgetCategories", targetNamespace = KcConstants.KC_NAMESPACE_URI, className = "kc.LookupBudgetCategories")

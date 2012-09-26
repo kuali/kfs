@@ -30,17 +30,17 @@ import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectServ
 import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalBudgetCategorySoapService;
-import org.kuali.kra.external.unit.service.AwardAccountService;
-import org.kuali.kra.external.unit.service.InstitutionalBudgetCategoryService;
+import org.kuali.kra.external.award.AwardAccountService;
+import org.kuali.kra.external.budget.service.BudgetCategoryService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 public class BudgetCategoryServiceImpl implements ExternalizableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetCategoryServiceImpl.class);
 
-    protected InstitutionalBudgetCategoryService getWebService() {
+    protected BudgetCategoryService getWebService() {
         // first attempt to get the service from the KSB - works when KFS & KC share a Rice instance
-        InstitutionalBudgetCategoryService institutionalBudgetCategoryService = (InstitutionalBudgetCategoryService) GlobalResourceLoader.getService(KcConstants.BudgetCategory.SERVICE);
+        BudgetCategoryService institutionalBudgetCategoryService = (BudgetCategoryService) GlobalResourceLoader.getService(KcConstants.BudgetCategory.SERVICE);
         
         // if we couldn't get the service from the KSB, get as web service - for when KFS & KC have separate Rice instances
         if (institutionalBudgetCategoryService == null) {

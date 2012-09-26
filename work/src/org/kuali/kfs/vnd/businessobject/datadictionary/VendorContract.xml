@@ -392,7 +392,6 @@
 
 		<property name="defaultSort">
 		   <bean parent="SortDefinition">
-		   <!-- MSU Contribution DTT:3316 KFSMI-8465 -->
              <property name="attributeNames">
 		          <list>
 		            <value>vendorDetail.vendorName</value>

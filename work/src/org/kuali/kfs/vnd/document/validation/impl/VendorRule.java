@@ -1143,7 +1143,6 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             valid &= validateVendorContractPOLimitAndExcludeFlagCombination(contract);
             valid &= validateVendorContractBeginEndDates(contract);
             valid &= processContractB2BValidation(document, contract, i);
-            // MSU Contribution DTT-682 KFSMI-8761
             if (contract.getOrganizationAutomaticPurchaseOrderLimit() != null) {
                 org.kuali.rice.krad.datadictionary.BusinessObjectEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(VendorContract.class.getName());
                 AttributeDefinition attributeDefinition = entry.getAttributeDefinition(VendorPropertyConstants.VENDOR_CONTRACT_DEFAULT_APO_LIMIT);

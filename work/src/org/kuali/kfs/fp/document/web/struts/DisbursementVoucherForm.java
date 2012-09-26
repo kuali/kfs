@@ -441,7 +441,6 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
         this.canExport = canExport;
     }
     
-   //MSU Contribution AER:RQ_AP_0760 KFSMI-8876 KFSCNTRB-980 
     /**
      * RQ_AP_0760 : Ability to view disbursement information on the
      * Disbursement Voucher Document.

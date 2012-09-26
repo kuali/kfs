@@ -32,7 +32,6 @@
       <th align="right" valign="middle" class="bord-l-b" width="50%"><kul:htmlAttributeLabel attributeEntry="${dvAttributes.paidDate}"/></th>
        <td align="left" valign="middle" class="datacell" width="50%"><kul:htmlControlAttribute attributeEntry="${dvAttributes.paidDate}" property="document.paidDate" readOnly="true" />
           
-          <!-- MSU Contribution KFSMI-8876 KFSCNTRB-980 AER RQ_AP_0760: Ability to view the disbursement information on the DV document -->
           <c:if test="${not empty KualiForm.document.extractDate}">
               <fp:dvDisbursementInfo sourceDocumentNumber="${KualiForm.document.documentNumber}" sourceDocumentType="${KualiForm.document.paymentDetailDocumentType}" /> 
           </c:if>

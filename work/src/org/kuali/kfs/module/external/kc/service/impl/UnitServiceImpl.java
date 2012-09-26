@@ -22,8 +22,8 @@ import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.service.KfsService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
-import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitService;
 import org.kuali.kfs.module.external.kc.webService.InstitutionalUnitSoapService;
+import org.kuali.kra.external.unit.service.InstitutionalUnitService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 

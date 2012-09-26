@@ -25,6 +25,7 @@ import javax.xml.ws.WebServiceFeature;
 
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.service.KfsService;
+import org.kuali.kra.external.unit.service.AwardAccountService;
 
 @WebServiceClient(name = KcConstants.AwardAccount.SOAP_SERVICE_NAME, 
                   wsdlLocation = "http://test.kc.kuali.org/kc-trunk/remoting/awardAccountSoapService?wsdl",

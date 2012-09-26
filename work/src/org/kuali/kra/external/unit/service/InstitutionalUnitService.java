@@ -1,4 +1,4 @@
-package org.kuali.kfs.module.external.kc.webService;
+package org.kuali.kra.external.unit.service;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;

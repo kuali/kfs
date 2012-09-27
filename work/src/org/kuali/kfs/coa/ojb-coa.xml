@@ -1879,9 +1879,11 @@
 </class-descriptor>
 
   <!-- A hack entry to make Org Review Role work with Maintenance Framework -->
-  <!--  NOTE: the table and column name *NEED* to be real or this will also blow up! -->
+  <!--  NOTE: the table and column name *NEED* to be real or this will also blow up! 
+  		AND : you probably need to have all the PK fields defined (matching the DD) to make inquiries work properly -->
   <class-descriptor class="org.kuali.kfs.coa.identity.OrgReviewRole" table="CA_ORG_TYPE_T">
-    <field-descriptor name="orgReviewRoleMemberId" column="ORG_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="orgReviewRoleMemberId" column="ORG_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="delegate" column="OBJ_ID" jdbc-type="VARCHAR" primarykey="true" />
   </class-descriptor>
    
 <!-- 

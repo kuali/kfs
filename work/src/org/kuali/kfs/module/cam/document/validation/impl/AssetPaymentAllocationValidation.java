@@ -93,7 +93,14 @@ public class AssetPaymentAllocationValidation extends GenericValidation {
 		KualiDecimal total = KualiDecimal.ZERO;
 		
 		for (AssetPaymentAssetDetail apad : assetPaymentDocument.getAssetPaymentAssetDetail()) {
-		    total = total.add(apad.getAllocatedAmount());
+		    //KFSCNTRB-1209: if the document is created by the system from fp/purap side then
+		    //use the property allocatedAmount to sum up the amounts of the assets else
+		    //use allocatedUserValue to sum up the total.
+		    if (assetPaymentDocument.isAllocationFromFPDocuments()) {
+		        total = total.add(apad.getAllocatedAmount());
+		    } else {
+		        total = total.add(apad.getAllocatedUserValue());
+		    }
 		}
 		
 		return total;

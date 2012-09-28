@@ -174,7 +174,7 @@
 	</target>
 	
 	<target name="init-base-properties" depends="init-property-files">
-		<tstamp><format property="build.version" pattern="'KFS ${release.version.number}' MM/dd/yyyy hh:mm aa" /></tstamp>
+		<tstamp><format property="build.version" pattern="'KFS ${kfs.version}' MM/dd/yyyy hh:mm aa" /></tstamp>
 	  	<tstamp><format property="current.year" pattern="yyyy" locale="en,US" /></tstamp>
 
 		<property name="fail.when.compile.fails" value="true"/>

@@ -169,7 +169,7 @@ public class TravelEntertainmentAuthorizer extends TravelDocumentAuthorizer impl
                 org.kuali.kfs.module.tem.TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT);
         
         return getIdentityManagementService().isAuthorized(user.getPrincipalId(), nameSpaceCode,
-                TemConstants.PermissionNames.RETURN_TO_FO, permissionDetails, null);
+                TemConstants.Permission.RETURN_TO_FO, permissionDetails, null);
     }
 
 }

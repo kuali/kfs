@@ -39,11 +39,11 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKe
 public class TravelRelocationAuthorizer extends TravelDocumentAuthorizer implements ReturnToFiscalOfficerAuthorizer {
     
     public boolean canClose(final TravelDocument reloDoc, final Person user) {
-        return getActionPermission(reloDoc, user, TemConstants.PermissionNames.CLOSE_RELO, true);
+        return getActionPermission(reloDoc, user, TemConstants.Permission.CLOSE_RELO, true);
     }
     
     public boolean canCancel(final TravelDocument reloDoc, final Person user) {
-        return getActionPermission(reloDoc, user, TemConstants.PermissionNames.CANCEL_RELO, true);
+        return getActionPermission(reloDoc, user, TemConstants.Permission.CANCEL_RELO, true);
     }
     
     protected boolean getActionPermission(final TravelDocument travelDocument, final Person user, final String action, final boolean canInitiatorAct){
@@ -177,7 +177,7 @@ public class TravelRelocationAuthorizer extends TravelDocumentAuthorizer impleme
                 org.kuali.kfs.module.tem.TemConstants.TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT);
         
         return getIdentityManagementService().isAuthorized(user.getPrincipalId(), nameSpaceCode,
-                TemConstants.PermissionNames.RETURN_TO_FO, permissionDetails, null);
+                TemConstants.Permission.RETURN_TO_FO, permissionDetails, null);
     }
 
 }

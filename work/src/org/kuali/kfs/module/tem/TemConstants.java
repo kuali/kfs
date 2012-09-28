@@ -32,7 +32,8 @@ public class TemConstants extends JSTLConstants {
     public static final String KIM_PERSON_LOOKUPABLE = "kimPersonLookupable";
     public static final String TEM_PROFILE_LOOKUPABLE = "temProfileLookupable";
     
-    public static final String PARAM_NAMESPACE = "KFS-TEM";
+    public static final String NAMESPACE = "KFS-TEM";
+    public static final String PARAM_NAMESPACE = NAMESPACE;
 
     public static final String CERTIFICATION_STATEMENT_ATTRIBUTE = "certificationStatement";
     public static final String CAN_CERTIFY_ATTRIBUTE = "certificationStatement";
@@ -415,7 +416,8 @@ public class TemConstants extends JSTLConstants {
         }
     }
 
-    public class PermissionNames {
+    //Permission and Template names are same in the setup
+    public class Permission {
         public static final String AMEND_TA = "Amend TA";
         public static final String HOLD_TA = "Hold TA";
         public static final String REMOVE_HOLD_TA = "Remove Hold TA";
@@ -428,6 +430,10 @@ public class TemConstants extends JSTLConstants {
         public static final String HIDE_BUTTONS = "Hide Buttons TA";
         public static final String CLOSE_RELO = "Close RELO";
         public static final String CANCEL_RELO = "Cancel RELO";
+    }
+    
+    public class PermissionTemplate {
+        public static final String FULL_EDIT_AGENCY_DATA = "Full Edit Agency Data";
     }
 
     public static final String DATE_CHANGED_MESSAGE = "The trip begin/end dates have been changed from %s - %s to %s - %s";
@@ -469,6 +475,10 @@ public class TemConstants extends JSTLConstants {
     public static final String TEM_AGENCY_DATA_SEARCH_SUB_ACCOUNT = "searchSubAccountNumber";
     public static final String TEM_AGENCY_DATA_SEARCH_CHART_CODE = "searchChartOfAccountsCode";
 
+    public static enum AgencyAuditSection{
+        airline, lodging, rentalcar;
+    }
+    
     public static final class AttachmentTypeCodes {
         public static final String ATTACHMENT_TYPE_RECEIPT = "Receipt";
         public static final String ATTACHMENT_TYPE_W_9 = "W-9";

@@ -172,9 +172,6 @@
 		<property name="required" value="true" />
 		<property name="summary" value="Profile Id" />
 		<property name="description" value="Profile Id" />
-		<property name="formatterClass"
-			value="org.kuali.kfs.pdp.businessobject.DisbursementNumberFormatter" />
-
 		<property name="control">
 			<ref bean="HiddenControl" />
 		</property>

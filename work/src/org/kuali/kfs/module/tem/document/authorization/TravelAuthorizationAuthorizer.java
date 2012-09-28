@@ -48,7 +48,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
      * @return
      */
     public boolean canClose(final TravelDocument taDoc, final Person user) {
-        return getActionPermission(taDoc, user, TemConstants.PermissionNames.CLOSE_TA, true);
+        return getActionPermission(taDoc, user, TemConstants.Permission.CLOSE_TA, true);
     }
     
     /**
@@ -59,7 +59,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
      * @return
      */
     public boolean canAmend(final TravelDocument taDoc, final Person user) {
-        return getActionPermission(taDoc, user, TemConstants.PermissionNames.AMEND_TA, true);
+        return getActionPermission(taDoc, user, TemConstants.Permission.AMEND_TA, true);
     }
 
     /**
@@ -96,7 +96,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
                 org.kuali.kfs.module.tem.TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
         
         return getIdentityManagementService().isAuthorized(user.getPrincipalId(), nameSpaceCode,
-                TemConstants.PermissionNames.RETURN_TO_FO, permissionDetails, null);
+                TemConstants.Permission.RETURN_TO_FO, permissionDetails, null);
         
     }
     
@@ -107,7 +107,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
      * @return
      */
     public boolean canHold(TravelAuthorizationDocument travelDocument, Person user) {
-        return getActionPermission(travelDocument, user, TemConstants.PermissionNames.HOLD_TA, false);
+        return getActionPermission(travelDocument, user, TemConstants.Permission.HOLD_TA, false);
     }
     
     /**
@@ -117,7 +117,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
      * @return
      */
     public boolean canRemoveHold(final TravelAuthorizationDocument travelDocument, final Person user) {
-        return getActionPermission(travelDocument, user, TemConstants.PermissionNames.REMOVE_HOLD_TA, false);
+        return getActionPermission(travelDocument, user, TemConstants.Permission.REMOVE_HOLD_TA, false);
     }
     
     /**
@@ -127,7 +127,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
      * @return
      */
     public boolean canCancel(final TravelAuthorizationDocument travelDocument, final Person user) {
-        return getActionPermission(travelDocument, user, TemConstants.PermissionNames.CANCEL_TA, true);
+        return getActionPermission(travelDocument, user, TemConstants.Permission.CANCEL_TA, true);
     }
     
     /**
@@ -137,7 +137,7 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
      * @return
      */
     public boolean hideButtons(final TravelAuthorizationDocument travelDocument, final Person user) {
-        return getActionPermission(travelDocument, user, TemConstants.PermissionNames.HIDE_BUTTONS, false);
+        return getActionPermission(travelDocument, user, TemConstants.Permission.HIDE_BUTTONS, false);
     }
     
     /**

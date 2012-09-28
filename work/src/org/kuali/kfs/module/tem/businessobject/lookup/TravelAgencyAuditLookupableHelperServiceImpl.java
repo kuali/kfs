@@ -23,12 +23,15 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.PermissionTemplate;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -39,6 +42,9 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
+    /**
+     * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<AgencyStagingData> agencyData = new ArrayList<AgencyStagingData>();
@@ -82,8 +88,26 @@ public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupabl
         
     }
     
+    /**
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#allowsMaintenanceNewOrCopyAction()
+     */
     @Override
-    public List<HtmlData> getCustomActionUrls(BusinessObject bo, List pkNames) {
+    public boolean allowsMaintenanceNewOrCopyAction() {
+        boolean allows = super.allowsMaintenanceNewOrCopyAction();
+        
+        Person user = GlobalVariables.getUserSession().getPerson();
+        IdentityManagementService idm = KIMServiceLocator.getIdentityManagementService();
+        
+        //if user does not have the permission, do not allow the to creating new
+        allows &= idm.isAuthorizedByTemplateName(user.getPrincipalId(), TemConstants.NAMESPACE, PermissionTemplate.FULL_EDIT_AGENCY_DATA, null, null);
+        return allows;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     */
+    @Override
+    public List<HtmlData> getCustomActionUrls(BusinessObject bo, @SuppressWarnings("rawtypes") List pkNames) {
         List<HtmlData> anchorHtmlDataList = super.getCustomActionUrls(bo, pkNames);
         AgencyStagingData agencyStagingData = (AgencyStagingData) bo;
         boolean isTravelManager = isUserTravelManager();
@@ -92,17 +116,28 @@ public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupabl
             // clear 'edit' and delete links
             anchorHtmlDataList.clear();
         }
-        if(isTravelManager)
-        anchorHtmlDataList.add(getViewUrl(agencyStagingData));
+        
+        if(isTravelManager) {
+            anchorHtmlDataList.add(getViewUrl(agencyStagingData));
+        }
         return anchorHtmlDataList;
     }
 
+    /**
+     * 
+     * @return
+     */
     private boolean isUserTravelManager() {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         boolean isTravelManager= SpringContext.getBean(TravelDocumentService.class).isTravelManager(currentUser);
         return isTravelManager;
     }
 
+    /**
+     * 
+     * @param agencyStagingData
+     * @return
+     */
     private HtmlData getViewUrl(AgencyStagingData agencyStagingData) {
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
@@ -114,6 +149,10 @@ public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupabl
         return anchorHtmlData;
     }
     
+    /**
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.rice.kns.web.struts.form.LookupForm, java.util.Collection, boolean)
+     */
+    @SuppressWarnings("rawtypes")
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         if(isUserTravelManager()) {

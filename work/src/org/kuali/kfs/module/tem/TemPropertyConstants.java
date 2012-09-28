@@ -305,12 +305,19 @@ public class TemPropertyConstants extends JSTLConstants {
     public static final String TRIP_ID = "tripId";
     public static final String AIR_TICKET_NUMBER = "airTicketNumber";
     public static final String AGENCY = "agency";
+    public static final String AGENCY_DATA_ID = "agencyDataId";
     public static final String TRANSACTION_POSTING_DATE = "transactionPostingDate";
     public static final String TRIP_EXPENSE_AMOUNT = "tripExpenseAmount";
     public static final String TRIP_INVOICE_NUMBER = "tripInvoiceNumber";
     public static final String AGENCY_ERROR_CODE = "errorCode";
     public static final String CREDIT_CARD_AGENCY_CODE = "creditCardOrAgencyCode";
     public static final String TRAVEL_CARD_TYPE_CODE = "travelCardTypeCode";
+    public static final String OTHER_COMPANY_NAME = "otherCompanyName";
+    public static final String TRIP_TRAVELER_TYPE_ID = " tripTravelerTypeId";
+    public static final String OTHER_AMOUNT = "otherAmount";
+    public static final String TRAVELER_NAME = "travelerName";
+    public static final String TRAVELER_NETWORK_ID = "travelerNetworkId";
+    public static final String TRIP_ARRANGER_NAME = "tripArrangerName";
     
     public static final String CREDIT_CARD_NUMBER = "creditCardNumber";
     public static final String CREDIT_CARD_KEY = "creditCardKey";

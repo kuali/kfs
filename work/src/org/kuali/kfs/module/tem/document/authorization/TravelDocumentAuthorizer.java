@@ -28,7 +28,7 @@ public class TravelDocumentAuthorizer extends AccountingDocumentAuthorizerBase{
     private RoleService roleService;
     
     public boolean canTaxSelectable(final Person user){
-        return getPermissionService().hasPermission(user.getPrincipalId(), TemConstants.PARAM_NAMESPACE, TemConstants.PermissionNames.EDIT_TAXABLE_IND, null);                
+        return getPermissionService().hasPermission(user.getPrincipalId(), TemConstants.PARAM_NAMESPACE, TemConstants.Permission.EDIT_TAXABLE_IND, null);                
     }
     
     protected final PermissionService getPermissionService() {

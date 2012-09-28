@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 The Kuali Foundation.
+ * Copyright 2012 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,26 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
+import java.util.Set;
+
+import org.kuali.kfs.module.tem.TemConstants.AgencyAuditSection;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 
 public class TravelAgencyAuditAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     
+        /**
+         * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getSecurePotentiallyReadOnlySectionIds()
+         */
+        @Override
+        public Set<String> getSecurePotentiallyReadOnlySectionIds() {
+            Set<String> readOnlySectionIds = super.getSecurePotentiallyReadOnlySectionIds();
+            readOnlySectionIds.add(AgencyAuditSection.airline.name());
+            readOnlySectionIds.add(AgencyAuditSection.rentalcar.name());
+            readOnlySectionIds.add(AgencyAuditSection.lodging.name());
 
+            return readOnlySectionIds;
+        }    
+    
+        
+        
 }

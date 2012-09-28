@@ -56,7 +56,7 @@ public class TravelReimbursementAuthorizer extends TravelArrangeableAuthorizer {
         AttributeSet permissionDetails = new AttributeSet();
         permissionDetails.put(KimAttributes.DOCUMENT_TYPE_NAME, org.kuali.kfs.module.tem.TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
 
-        return getIdentityManagementService().isAuthorized(user.getPrincipalId(), nameSpaceCode, TemConstants.PermissionNames.RETURN_TO_FO, permissionDetails, null);
+        return getIdentityManagementService().isAuthorized(user.getPrincipalId(), nameSpaceCode, TemConstants.Permission.RETURN_TO_FO, permissionDetails, null);
 
     }
 

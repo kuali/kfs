@@ -33,12 +33,13 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
+import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 @Entity
 @Table(name = "TEM_AGENCY_STAGING_T")
-public class AgencyStagingData extends PersistableBusinessObjectBase {
+public class AgencyStagingData extends PersistableBusinessObjectBase implements Inactivateable {
 
     private Integer id;
     private String errorCode;
@@ -149,6 +150,9 @@ public class AgencyStagingData extends PersistableBusinessObjectBase {
     private Timestamp processingTimestamp; // this is the import date
     private boolean moveToHistoryIndicator;
     
+    private Boolean active = Boolean.TRUE;
+    private Boolean manualCreated = Boolean.FALSE;
+    private Integer copiedFromId;
    
     public AgencyStagingData() {
         tripAccountingInformation = new ArrayList<TripAccountingInformation>();
@@ -156,7 +160,6 @@ public class AgencyStagingData extends PersistableBusinessObjectBase {
     
     @Override
     protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -1679,6 +1682,32 @@ public class AgencyStagingData extends PersistableBusinessObjectBase {
 
     public void setStagingFileName(String stagingFileName) {
         this.stagingFileName = stagingFileName;
+    }
+
+    @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Boolean getManualCreated() {
+        return manualCreated;
+    }
+
+    public void setManualCreated(Boolean manualCreated) {
+        this.manualCreated = manualCreated;
+    }
+
+    public Integer getCopiedFromId() {
+        return copiedFromId;
+    }
+
+    public void setCopiedFromId(Integer copiedFromId) {
+        this.copiedFromId = copiedFromId;
     }
 
 }

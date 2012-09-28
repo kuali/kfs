@@ -1395,14 +1395,14 @@
   <bean id="ElectronicInvoiceRejectDocument-invoiceRemitToAddressName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="invoiceRemitToAddressName"/>
     <property name="forceUppercase" value="true"/>
-    <property name="label" value="Remit To Address Type"/>
+    <property name="label" value="Remit To Address Name"/>
     <property name="shortLabel" value="Name"/>
-    <property name="maxLength" value="30"/>
+    <property name="maxLength" value="100"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterWithWhitespaceValidation" />
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="32"/>
+      <bean parent="TextControlDefinition" p:size="102"/>
     </property>
   </bean>
   <bean id="ElectronicInvoiceRejectDocument-vendorDetailAssignedIdentifier" parent="ElectronicInvoiceRejectDocument-vendorDetailAssignedIdentifier-parentBean"/>

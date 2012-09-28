@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.identity.FinancialSystemUserRoleTypeServiceImpl;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
@@ -43,8 +42,8 @@ public class KFSApplicationRoleTest extends RoleTestBase {
     public static final UserNameFixture NON_KFS_USER = UserNameFixture.bcoffee;
 
     public void testFinancialSystemUserRoleTypeService() {
-        assertUserIsRoleMember(KFS_USER.getPerson().getPrincipalId(), KFSConstants.CoreModuleNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, new HashMap<String,String>());
-        assertUserIsNotRoleMember(NON_KFS_USER.getPerson().getPrincipalId(), KFSConstants.CoreModuleNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME, new HashMap<String,String>());
+        assertUserIsRoleMember(KFS_USER.getPerson().getPrincipalId(), KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.KFS_USER_ROLE_NAME, new HashMap<String,String>());
+        assertUserIsNotRoleMember(NON_KFS_USER.getPerson().getPrincipalId(), KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.KFS_USER_ROLE_NAME, new HashMap<String,String>());
     }
 
     public static final String ACCOUNT_DERIVED_CHART = "BL";

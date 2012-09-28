@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,21 +22,20 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.identity.FinancialSystemUserRoleTypeServiceImpl;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 public class EmployeeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
-    private IdentityManagementService identityManagementService;
-    private RoleService roleManagementService;
+    protected IdentityService identityService;
+    protected RoleService roleService;
 
     protected static final String ACTIVE_EMPLOYEE_STATUS_CODE = "A";
     protected static final String ON_LEAVE_EMPLOYEE_STATUS_CODE = "L";
@@ -63,8 +62,8 @@ public class EmployeeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
         if (StringUtils.isBlank(principalId)) {
             return false;
         }
-        
-        EntityDefault entity = getIdentityManagementService().getEntityDefaultInfoByPrincipalId(principalId);
+
+        EntityDefault entity = getIdentityService().getEntityDefaultByPrincipalId(principalId);
         if ((entity == null) || (entity.getEmployment() == null)) {
             return false;
         }
@@ -77,7 +76,7 @@ public class EmployeeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
         if ((KFSConstants.SysKimApiConstants.ACTIVE_PROFESSIONAL_EMPLOYEE_AND_KFS_USER_KIM_ROLE_NAME.equals(roleName) || KFSConstants.SysKimApiConstants.ACTIVE_EMPLOYEE_AND_KFS_USER_KIM_ROLE_NAME.equals(roleName))) {
             List<String> roleIds = new ArrayList<String>(1);
 
-            roleIds.add(getRoleService().getRoleIdByNamespaceCodeAndName(KFSConstants.ParameterNamespaces.KFS, FinancialSystemUserRoleTypeServiceImpl.FINANCIAL_SYSTEM_USER_ROLE_NAME));
+            roleIds.add(getRoleService().getRoleIdByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.KFS_USER_ROLE_NAME));
              if (!getRoleService().principalHasRole(principalId, roleIds, null)) {
                 return false;
             }
@@ -85,17 +84,17 @@ public class EmployeeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
         return true;
     }
 
-    protected IdentityManagementService getIdentityManagementService() {
-        if (identityManagementService == null) {
-            identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+    protected IdentityService getIdentityService() {
+        if (identityService == null) {
+            identityService = KimApiServiceLocator.getIdentityService();
         }
-        return identityManagementService;
+        return identityService;
     }
 
     protected RoleService getRoleService() {
-        if (roleManagementService == null) {
-            roleManagementService = SpringContext.getBean(RoleService.class);
+        if (roleService == null) {
+            roleService = KimApiServiceLocator.getRoleService();
         }
-        return roleManagementService;
+        return roleService;
     }
 }

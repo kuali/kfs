@@ -418,6 +418,7 @@
   <bean id="RequisitionDocument-billingPhoneNumber" parent="RequisitionDocument-billingPhoneNumber-parentBean"/>
 
   <bean id="RequisitionDocument-billingPhoneNumber-parentBean" abstract="true" parent="BillingAddress-billingPhoneNumber">
+    <property name="validationPattern"><null /></property>
   </bean>
   <bean id="RequisitionDocument-receivingName" parent="RequisitionDocument-receivingName-parentBean"/>
 

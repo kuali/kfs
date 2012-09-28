@@ -37,7 +37,6 @@ import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
  * This role type service was designed to be attached to the KFS-SYS User role
  */
 public class FinancialSystemUserRoleTypeServiceImpl extends RoleTypeServiceBase {
-    public static final String FINANCIAL_SYSTEM_USER_ROLE_NAME = "User";
     public static final String PERFORM_QUALIFIER_MATCH = "performQualifierMatch";
 
 

@@ -211,7 +211,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * @return if target total is zero, source total, otherwise target total
      */
     public KualiDecimal getTotalDollarAmount() {
-        return getTargetTotal().equals(KualiDecimal.ZERO) ? getSourceTotal() : getTargetTotal();
+        return getTargetTotal().equals(KualiDecimal.ZERO) ? getSourceTotal().abs() : getTargetTotal().abs();
     }
 
     /**

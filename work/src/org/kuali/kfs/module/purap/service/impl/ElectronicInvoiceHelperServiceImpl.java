@@ -224,7 +224,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         StringBuilder emailMsg = new StringBuilder();
 
         for (int i = 0; i < filesToBeProcessed.length; i++) {
-            
+
             File xmlFile = filesToBeProcessed[i];
             LOG.info("Processing " + xmlFile.getName() + "....");
 
@@ -267,6 +267,13 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
                     msg += "\n--------------------------------------------------------------------------------------\n" + trace;
                     logProcessElectronicInvoiceError(msg);
                     failedCnt++;
+
+                    /**
+                     * Clear the error map, so that subsequent EIRT routing isn't prevented since rice
+                     * is throwing a ValidationException if the error map is not empty before routing the doc.
+                     */
+                    GlobalVariables.getMessageMap().clearErrorMessages();
+
                     //Do not execute rest of code below
                     continue;
                 }
@@ -858,7 +865,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
 
             eInvoiceRejectDocument.setFileLevelData(eInvoice);
             eInvoiceRejectDocument.setInvoiceOrderLevelData(eInvoice, electronicInvoiceOrder);
-            
+
             //MSU fix
             SpringContext.getBean(DocumentService.class).saveDocument(eInvoiceRejectDocument);
 
@@ -1217,7 +1224,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         } catch (WorkflowException we) {
             throw new RuntimeException("Unable to save route status data for document: " + preqDoc.getDocumentNumber(), we);
         }
-        
+
         preqDoc.setInvoiceDate(orderHolder.getInvoiceDate());
         preqDoc.setInvoiceNumber(orderHolder.getInvoiceNumber());
         preqDoc.setVendorInvoiceAmount(new KualiDecimal(orderHolder.getInvoiceNetAmount()));

@@ -137,7 +137,7 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
         List<BudgetAdjustmentParametersDTO> budgetAdjustmentParametersDTOs = getBudgetAdjustmentParameters();
 
         // //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
-        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_ROUTE);
+        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, "Submit");
         // the document should be submitted....
         for (BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO : budgetAdjustmentParametersDTOs) {
             BudgetAdjustmentCreationStatusDTO status = budgetAdjustmentService.createBudgetAdjustment(budgetAdjustmentParametersDTO);

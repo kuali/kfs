@@ -25,6 +25,7 @@ import javax.xml.ws.WebServiceFeature;
 
 import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.service.KfsService;
+import org.kuali.kra.external.budget.service.BudgetCategoryService;
 
 
 /**
@@ -60,8 +61,8 @@ public class InstitutionalBudgetCategorySoapService extends KfsService {
      *     returns BudgetCategoryService
      */
     @WebEndpoint(name = KcConstants.BudgetCategory.SERVICE_PORT)
-    public InstitutionalBudgetCategoryService getBudgetCategoryServicePort() {
-        return super.getPort(BudgetCategoryServicePort, InstitutionalBudgetCategoryService.class);
+    public BudgetCategoryService getBudgetCategoryServicePort() {
+        return super.getPort(BudgetCategoryServicePort, BudgetCategoryService.class);
     }
 
     /**
@@ -72,8 +73,8 @@ public class InstitutionalBudgetCategorySoapService extends KfsService {
      *     returns BudgetCategoryService
      */
     @WebEndpoint(name = KcConstants.BudgetCategory.SERVICE_PORT)
-    public InstitutionalBudgetCategoryService getBudgetCategoryServicePort(WebServiceFeature... features) {
-        return super.getPort(BudgetCategoryServicePort, InstitutionalBudgetCategoryService.class, features);
+    public BudgetCategoryService getBudgetCategoryServicePort(WebServiceFeature... features) {
+        return super.getPort(BudgetCategoryServicePort, BudgetCategoryService.class, features);
     }
 
     public URL getWsdl() throws MalformedURLException {

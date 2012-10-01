@@ -179,15 +179,21 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
         // check FringeBenefit account rules
         success &= checkFringeBenefitAccountRule();
 
-        if (ObjectUtils.isNotNull(fiscalOfficer) && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name, fiscalOfficer.getPrincipalId())) {
+        if (ObjectUtils.isNotNull(fiscalOfficer)
+                && StringUtils.isNotBlank(fiscalOfficer.getPrincipalId())
+                && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name, fiscalOfficer.getPrincipalId())) {
             super.putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] { fiscalOfficer.getName(), KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name });
             success = false;
         }
-        if (ObjectUtils.isNotNull(accountSupervisor) && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.name, accountSupervisor.getPrincipalId())) {
+        if (ObjectUtils.isNotNull(accountSupervisor)
+                && StringUtils.isNotBlank(accountSupervisor.getPrincipalId())
+                && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.name, accountSupervisor.getPrincipalId())) {
             super.putFieldError("accountSupervisoryUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] { accountSupervisor.getName(), KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.name });
             success = false;
         }
-        if (ObjectUtils.isNotNull(accountManager) && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.name, accountManager.getPrincipalId())) {
+        if (ObjectUtils.isNotNull(accountManager)
+                && StringUtils.isNotBlank(accountManager.getPrincipalId())
+                && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.name, accountManager.getPrincipalId())) {
             super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] { accountManager.getName(), KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.name });
             success = false;
         }
@@ -408,7 +414,7 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
         boolean result = true;
         try {
             ContractsAndGrantsUnit unitDTO = newAccountAutoCreateDefaults.getUnitDTO();
-            unitDTO = (ContractsAndGrantsUnit) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsUnit.class).retrieveExternalizableBusinessObjectIfNecessary(newAccountAutoCreateDefaults, unitDTO, "unitDTO");
+            unitDTO = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsUnit.class).retrieveExternalizableBusinessObjectIfNecessary(newAccountAutoCreateDefaults, unitDTO, "unitDTO");
             if (unitDTO == null) {
                 putFieldError(KcConstants.AccountCreationDefaults.KcUnit, KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND, newAccountAutoCreateDefaults.getKcUnit());
                 result &= false;
@@ -421,7 +427,7 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
                     HashMap<String, String> map = new HashMap<String, String>();
 
                     map.put(KcConstants.AccountCreationDefaults.KcUnit, kcUnit);
-                    Collection<AccountAutoCreateDefaults> accountAutoCreateDefaultList = boService.findMatching(AccountAutoCreateDefaults.class, map);
+                    Collection<AccountAutoCreateDefaults> accountAutoCreateDefaultList = getBoService().findMatching(AccountAutoCreateDefaults.class, map);
                     if (accountAutoCreateDefaultList == null || (!accountAutoCreateDefaultList.isEmpty())) {
                         putFieldError(KcConstants.AccountCreationDefaults.KcUnit, KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_ALREADY_DEFINED, newAccountAutoCreateDefaults.getKcUnit());
                         result &= false;

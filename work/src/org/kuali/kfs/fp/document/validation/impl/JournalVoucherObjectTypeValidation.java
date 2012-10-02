@@ -40,7 +40,7 @@ public class JournalVoucherObjectTypeValidation extends GenericValidation {
         if (StringUtils.isNotBlank(accountingLineForValidation.getObjectTypeCode())) {
             accountingLineForValidation.refreshReferenceObject("objectType");
             ObjectType objectTypeCode = accountingLineForValidation.getObjectType();
-            valid &= getAccountingLineRuleHelperService().isValidObjectTypeCode(objectTypeCode, getDataDictionaryService().getDataDictionary());
+            valid &= getAccountingLineRuleHelperService().isValidObjectTypeCode("", objectTypeCode, getDataDictionaryService().getDataDictionary());
         }
         return valid;
     }

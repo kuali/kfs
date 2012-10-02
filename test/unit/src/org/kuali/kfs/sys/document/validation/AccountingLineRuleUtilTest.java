@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -69,17 +69,17 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
     }
 
     public void testIsValidAccount_null() {
-        testIsValidAccount(null, KFSKeyConstants.ERROR_EXISTENCE);
+        testIsValidAccount(null, KFSKeyConstants.ERROR_EXISTING_WITH_IDENTIFYING_ACCOUNTING_LINE);
     }
 
     public void testIsValidAccount_closed() {
-        testIsValidAccount(CLOSED_ACCOUNT.createAccount(), KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_CLOSED);
+        testIsValidAccount(CLOSED_ACCOUNT.createAccount(), KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_CLOSED_WITH_IDENTIFYING_ACCOUNTING_LINE);
     }
 
     private void testIsValidAccount(Account account, String expectedErrorKey) {
         assertGlobalMessageMapEmpty();
         AccountingLineRuleHelperService accountingLineRuleUtil = SpringContext.getBean(AccountingLineRuleHelperService.class);
-        boolean actual = accountingLineRuleUtil.isValidAccount(account, SpringContext.getBean(DataDictionaryService.class).getDataDictionary());
+        boolean actual = accountingLineRuleUtil.isValidAccount("", account, SpringContext.getBean(DataDictionaryService.class).getDataDictionary());
         assertEquals("isValidAccount result", expectedErrorKey == null, actual);
         if (expectedErrorKey == null) {
             assertGlobalMessageMapEmpty();

@@ -20,6 +20,10 @@ package org.kuali.kfs.sys;
  * Holds error key constants.
  */
 public class KFSKeyConstants {
+    public static final String ERROR_EXISTING_WITH_IDENTIFYING_ACCOUNTING_LINE = "error.existence.with.identifying.accounting.line";
+    public static final String ERROR_INACTIVE_WITH_IDENTIFYING_ACCOUNTING_LINE = "error.inactive.with.identifying.accounting.line";
+    public static final String ERROR_DOCUMENT_ACCOUNT_CLOSED_WITH_IDENTIFYING_ACCOUNTING_LINE = "error.document.account.Closedwith.identifying.accounting.line";
+    
     public static final String CONTINUE_QUESTION = "document.question.continue.text";
     public static final String WARNING_NOT_SAME_OBJECT_SUB_TYPES = "warning.capital.object.subtype.not.the.same";
     public static final String ERROR_EXISTENCE = "error.existence";

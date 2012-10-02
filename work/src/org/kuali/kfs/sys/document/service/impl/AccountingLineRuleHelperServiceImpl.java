@@ -193,25 +193,25 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidAccount(org.kuali.kfs.coa.businessobject.Account, org.kuali.rice.krad.datadictionary.DataDictionary)
      */
-    public boolean isValidAccount(Account account, DataDictionary dataDictionary) {
-        return isValidAccount(account, dataDictionary, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
+    public boolean isValidAccount(String accountIdentifyingPropertyName, Account account, DataDictionary dataDictionary) {
+        return isValidAccount(account, dataDictionary, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountIdentifyingPropertyName);
     }
 
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidAccount(org.kuali.kfs.coa.businessobject.Account, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
      */
-    public boolean isValidAccount(Account account, DataDictionary dataDictionary, String errorPropertyName) {
+    public boolean isValidAccount(Account account, DataDictionary dataDictionary, String errorPropertyName, String errorPropertyIdentifyingName) {
         String label = getAccountLabel();
 
         // make sure it exists
         if (ObjectUtils.isNull(account)) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTING_WITH_IDENTIFYING_ACCOUNTING_LINE, errorPropertyIdentifyingName, label);
             return false;
         }
 
         // make sure it's active for usage
         if (!account.isActive()) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_CLOSED, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_CLOSED_WITH_IDENTIFYING_ACCOUNTING_LINE, errorPropertyIdentifyingName, label);
             return false;
         }
 
@@ -221,25 +221,25 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidChart(org.kuali.kfs.coa.businessobject.Chart, org.kuali.rice.krad.datadictionary.DataDictionary)
      */
-    public boolean isValidChart(Chart chart, DataDictionary dataDictionary) {
-        return isValidChart(chart, dataDictionary, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+    public boolean isValidChart(String accountIdentifyingPropertyName, Chart chart, DataDictionary dataDictionary) {
+        return isValidChart(chart, dataDictionary, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, accountIdentifyingPropertyName);
     }
 
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidChart(org.kuali.kfs.coa.businessobject.Chart, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
      */
-    public boolean isValidChart(Chart chart, DataDictionary dataDictionary, String errorPropertyName) {
+    public boolean isValidChart(Chart chart, DataDictionary dataDictionary, String errorPropertyName, String errorPropertyIdentifyingName) {
         String label = getChartLabel();
 
         // make sure it exists
         if (ObjectUtils.isNull(chart)) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTING_WITH_IDENTIFYING_ACCOUNTING_LINE, errorPropertyIdentifyingName, label);
             return false;
         }
 
         // make sure it's active for usage
         if (!chart.isActive()) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE_WITH_IDENTIFYING_ACCOUNTING_LINE, errorPropertyIdentifyingName, label);
             return false;
         }
 
@@ -249,25 +249,25 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode, org.kuali.rice.krad.datadictionary.DataDictionary)
      */
-    public boolean isValidObjectCode(ObjectCode objectCode, DataDictionary dataDictionary) {
-        return isValidObjectCode(objectCode, dataDictionary, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME);
+    public boolean isValidObjectCode(String accountIdentifyingPropertyName, ObjectCode objectCode, DataDictionary dataDictionary) {
+        return isValidObjectCode(objectCode, dataDictionary, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, accountIdentifyingPropertyName);
     }
 
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
      */
-    public boolean isValidObjectCode(ObjectCode objectCode, DataDictionary dataDictionary, String errorPropertyName) {
+    public boolean isValidObjectCode(ObjectCode objectCode, DataDictionary dataDictionary, String errorPropertyName, String errorPropertyIdentifyingName) {
         String label = getObjectCodeLabel();
 
         // make sure it exists
         if (ObjectUtils.isNull(objectCode)) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTING_WITH_IDENTIFYING_ACCOUNTING_LINE, errorPropertyIdentifyingName, label);
             return false;
         }
 
         // check active status
         if (!objectCode.isFinancialObjectActiveCode()) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE_WITH_IDENTIFYING_ACCOUNTING_LINE, errorPropertyIdentifyingName, label);
             return false;
         }
 
@@ -277,26 +277,26 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectTypeCode(org.kuali.kfs.coa.businessobject.ObjectType, org.kuali.rice.krad.datadictionary.DataDictionary)
      */
-    public boolean isValidObjectTypeCode(ObjectType objectTypeCode, DataDictionary dataDictionary) {
-        return isValidObjectTypeCode(objectTypeCode, dataDictionary, KFSConstants.OBJECT_TYPE_CODE_PROPERTY_NAME);
+    public boolean isValidObjectTypeCode(String accountIdentifyingPropertyName, ObjectType objectTypeCode, DataDictionary dataDictionary) {
+        return isValidObjectTypeCode(objectTypeCode, dataDictionary, KFSConstants.OBJECT_TYPE_CODE_PROPERTY_NAME, accountIdentifyingPropertyName);
     }
 
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectTypeCode(org.kuali.kfs.coa.businessobject.ObjectType, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
      */
-    public boolean isValidObjectTypeCode(ObjectType objectTypeCode, DataDictionary dataDictionary, String errorPropertyName) {
+    public boolean isValidObjectTypeCode(ObjectType objectTypeCode, DataDictionary dataDictionary, String errorPropertyName, String errorPropertyIdentifyingName) {
         // note that the errorPropertyName does not match the actual attribute name
         String label = getObjectTypeCodeLabel();
 
         // make sure it exists
         if (ObjectUtils.isNull(objectTypeCode)) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTING_WITH_IDENTIFYING_ACCOUNTING_LINE, errorPropertyIdentifyingName, label);
             return false;
         }
 
         // check activity
         if (!objectTypeCode.isActive()) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE_WITH_IDENTIFYING_ACCOUNTING_LINE, errorPropertyIdentifyingName, label);
             return false;
         }
 
@@ -306,26 +306,26 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidProjectCode(org.kuali.kfs.coa.businessobject.ProjectCode, org.kuali.rice.krad.datadictionary.DataDictionary)
      */
-    public boolean isValidProjectCode(ProjectCode projectCode, DataDictionary dataDictionary) {
-        return isValidProjectCode(projectCode, dataDictionary, KFSConstants.PROJECT_CODE_PROPERTY_NAME);
+    public boolean isValidProjectCode(String errorPropertyIdentifyingName, ProjectCode projectCode, DataDictionary dataDictionary) {
+        return isValidProjectCode(projectCode, dataDictionary, KFSConstants.PROJECT_CODE_PROPERTY_NAME, errorPropertyIdentifyingName);
     }
 
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidProjectCode(org.kuali.kfs.coa.businessobject.ProjectCode, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
      */
-    public boolean isValidProjectCode(ProjectCode projectCode, DataDictionary dataDictionary, String errorPropertyName) {
+    public boolean isValidProjectCode(ProjectCode projectCode, DataDictionary dataDictionary, String errorPropertyName, String errorPropertyIdentifyingName) {
         // note that the errorPropertyName does not match the actual attribute name
         String label = getProjectCodeLabel();
 
         // make sure it exists
         if (ObjectUtils.isNull(projectCode)) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTING_WITH_IDENTIFYING_ACCOUNTING_LINE, errorPropertyIdentifyingName, label);
             return false;
         }
 
         // check activity
         if (!projectCode.isActive()) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE_WITH_IDENTIFYING_ACCOUNTING_LINE, errorPropertyIdentifyingName, label);
             return false;
         }
 
@@ -335,25 +335,25 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubAccount(org.kuali.kfs.coa.businessobject.SubAccount, org.kuali.rice.krad.datadictionary.DataDictionary)
      */
-    public boolean isValidSubAccount(SubAccount subAccount, DataDictionary dataDictionary) {
-        return isValidSubAccount(subAccount, dataDictionary, KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME);
+    public boolean isValidSubAccount(String accountIdentifyingPropertyName, SubAccount subAccount, DataDictionary dataDictionary) {
+        return isValidSubAccount(subAccount, dataDictionary, KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, accountIdentifyingPropertyName);
     }
 
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubAccount(org.kuali.kfs.coa.businessobject.SubAccount, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
      */
-    public boolean isValidSubAccount(SubAccount subAccount, DataDictionary dataDictionary, String errorPropertyName) {
+    public boolean isValidSubAccount(SubAccount subAccount, DataDictionary dataDictionary, String errorPropertyName, String errorPropertyIdentifyingName) {
         String label = getSubAccountLabel();
 
         // make sure it exists
         if (ObjectUtils.isNull(subAccount)) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTING_WITH_IDENTIFYING_ACCOUNTING_LINE, errorPropertyIdentifyingName, label);
             return false;
         }
 
         // check to make sure it is active
         if (!subAccount.isActive()) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_DOCUMENT_SUB_ACCOUNT_INACTIVE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE_WITH_IDENTIFYING_ACCOUNTING_LINE, errorPropertyIdentifyingName, label);
             return false;
         }
 
@@ -363,25 +363,25 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubObjectCode(org.kuali.kfs.coa.businessobject.SubObjCd, org.kuali.rice.krad.datadictionary.DataDictionary)
      */
-    public boolean isValidSubObjectCode(SubObjectCode subObjectCode, DataDictionary dataDictionary) {
-        return isValidSubObjectCode(subObjectCode, dataDictionary, KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME);
+    public boolean isValidSubObjectCode(String accountIdentifyingPropertyName, SubObjectCode subObjectCode, DataDictionary dataDictionary) {
+        return isValidSubObjectCode(subObjectCode, dataDictionary, KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, accountIdentifyingPropertyName);
     }
 
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubObjectCode(org.kuali.kfs.coa.businessobject.SubObjCd, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
      */
-    public boolean isValidSubObjectCode(SubObjectCode subObjectCode, DataDictionary dataDictionary, String errorPropertyName) {
+    public boolean isValidSubObjectCode(SubObjectCode subObjectCode, DataDictionary dataDictionary, String errorPropertyName, String errorPropertyIdentifyingName) {
         String label = getSubObjectCodeLabel();
 
         // make sure it exists
         if (ObjectUtils.isNull(subObjectCode)) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTING_WITH_IDENTIFYING_ACCOUNTING_LINE, errorPropertyIdentifyingName, label);
             return false;
         }
 
         // check active flag
         if (!subObjectCode.isActive()) {
-            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE_WITH_IDENTIFYING_ACCOUNTING_LINE, errorPropertyIdentifyingName, label);
             return false;
         }
         return true;
@@ -400,6 +400,9 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
 
         org.kuali.rice.krad.datadictionary.BusinessObjectEntry accountingLineEntry = dd.getBusinessObjectEntry(SourceAccountingLine.class.getName());
 
+        //get the accounting line sequence string to identify which line has error.
+        String accountIdentifyingPropertyName = getAccountIdentifyingPropertyName(accountingLine);
+        
         // retrieve accounting line objects to validate
         accountingLine.refreshReferenceObject("chart");
         Chart chart = accountingLine.getChart();
@@ -409,35 +412,35 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         ObjectCode objectCode = accountingLine.getObjectCode();
 
         boolean valid = true;
-        valid &= isValidChart(chart, dd);
-        valid &= isValidAccount(account, dd);
+        valid &= isValidChart(accountIdentifyingPropertyName, chart, dd);
+        valid &= isValidAccount(accountIdentifyingPropertyName, account, dd);
         // sub account is not required
         if (StringUtils.isNotBlank(accountingLine.getSubAccountNumber())) {
             accountingLine.refreshReferenceObject("subAccount");
             SubAccount subAccount = accountingLine.getSubAccount();
-            valid &= isValidSubAccount(subAccount, dd);
+            valid &= isValidSubAccount(accountIdentifyingPropertyName, subAccount, dd);
         }
-        valid &= isValidObjectCode(objectCode, dd);
+        valid &= isValidObjectCode(accountIdentifyingPropertyName, objectCode, dd);
         // sub object is not required
         if (StringUtils.isNotBlank(accountingLine.getFinancialSubObjectCode())) {
             accountingLine.refreshReferenceObject("subObjectCode");
             SubObjectCode subObjectCode = accountingLine.getSubObjectCode();
-            valid &= isValidSubObjectCode(subObjectCode, dd);
+            valid &= isValidSubObjectCode(accountIdentifyingPropertyName, subObjectCode, dd);
         }
         // project code is not required
         if (StringUtils.isNotBlank(accountingLine.getProjectCode())) {
             accountingLine.refreshReferenceObject("project");
             ProjectCode projectCode = accountingLine.getProject();
-            valid &= isValidProjectCode(projectCode, dd);
+            valid &= isValidProjectCode(accountIdentifyingPropertyName, projectCode, dd);
         }
         if (StringUtils.isNotBlank(accountingLine.getReferenceOriginCode())) {
             accountingLine.refreshReferenceObject("referenceOrigin");
             OriginationCode referenceOrigin = accountingLine.getReferenceOrigin();
-            valid &= isValidReferenceOriginCode(referenceOrigin, accountingLineEntry);
+            valid &= isValidReferenceOriginCode(accountIdentifyingPropertyName, referenceOrigin, accountingLineEntry);
         }
         if (StringUtils.isNotBlank(accountingLine.getReferenceTypeCode())) {
             DocumentTypeEBO referenceType = accountingLine.getReferenceFinancialSystemDocumentTypeCode();
-            valid &= isValidReferenceTypeCode(accountingLine.getReferenceTypeCode(), referenceType, accountingLineEntry);
+            valid &= isValidReferenceTypeCode(accountingLine.getReferenceTypeCode(), referenceType, accountingLineEntry, accountIdentifyingPropertyName);
         }
         valid &= hasRequiredOverrides(accountingLine, accountingLine.getOverrideCode());
         return valid;
@@ -450,8 +453,8 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @param accountingLineEntry
      * @return boolean True if the object is valid; false otherwise.
      */
-    protected boolean isValidReferenceOriginCode(OriginationCode referenceOriginCode, org.kuali.rice.krad.datadictionary.BusinessObjectEntry accountingLineEntry) {
-        return checkExistence(referenceOriginCode, accountingLineEntry, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, KFSPropertyConstants.REFERENCE_ORIGIN_CODE);
+    protected boolean isValidReferenceOriginCode(String accountIdentifyingPropertyName, OriginationCode referenceOriginCode, org.kuali.rice.krad.datadictionary.BusinessObjectEntry accountingLineEntry) {
+        return checkExistence(referenceOriginCode, accountingLineEntry, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, accountIdentifyingPropertyName);
     }
     
     /**
@@ -462,12 +465,12 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @param accountingLineEntry
      * @return boolean True if the object is valid; false otherwise.
      */
-    protected boolean isValidReferenceTypeCode(String documentTypeCode, DocumentTypeEBO referenceType, org.kuali.rice.krad.datadictionary.BusinessObjectEntry accountingLineEntry) {
+    protected boolean isValidReferenceTypeCode(String documentTypeCode, DocumentTypeEBO referenceType, org.kuali.rice.krad.datadictionary.BusinessObjectEntry accountingLineEntry, String errorPropertyIdentifyingName) {
         if (!StringUtils.isBlank(documentTypeCode) && !getFinancialSystemDocumentTypeService().isCurrentActiveAccountingDocumentType(documentTypeCode)) {
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_NON_ACTIVE_CURRENT_ACCOUNTING_DOCUMENT_TYPE, documentTypeCode);
             return false;
         }
-        return checkExistence(referenceType, accountingLineEntry, KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSPropertyConstants.REFERENCE_TYPE_CODE);
+        return checkExistence(referenceType, accountingLineEntry, KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSPropertyConstants.REFERENCE_TYPE_CODE, errorPropertyIdentifyingName);
     }
     
     /**
@@ -480,15 +483,26 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
      * @param propertyName the name of the property within the global error path.
      * @return whether the given Object exists or not
      */
-    protected boolean checkExistence(Object toCheck, org.kuali.rice.krad.datadictionary.BusinessObjectEntry accountingLineEntry, String attributeName, String propertyName) {
+    protected boolean checkExistence(Object toCheck, org.kuali.rice.krad.datadictionary.BusinessObjectEntry accountingLineEntry, String attributeName, String propertyName, String errorPropertyIdentifyingName) {
         String label = accountingLineEntry.getAttributeDefinition(attributeName).getShortLabel();
         if (ObjectUtils.isNull(toCheck)) {
-            GlobalVariables.getMessageMap().putError(propertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            GlobalVariables.getMessageMap().putError(propertyName, KFSKeyConstants.ERROR_EXISTING_WITH_IDENTIFYING_ACCOUNTING_LINE, errorPropertyIdentifyingName, label);
+
             return false;
         }
         return true;
     }
 
+    protected String getAccountIdentifyingPropertyName(AccountingLine accountingLine) {
+        String errorProperty = "";
+        
+        if (accountingLine.getSequenceNumber() != null) {
+            errorProperty = "Accounting Line: " + accountingLine.getSequenceNumber() + ", Chart: " + accountingLine.getChartOfAccountsCode() + ", Account: " + accountingLine.getAccountNumber() + " - ";
+        }
+        
+        return errorProperty;
+    }
+    
     /**
      * Sets the dataDictionaryService attribute value.
      * @param dataDictionaryService The dataDictionaryService to set.

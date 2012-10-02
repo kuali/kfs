@@ -31,6 +31,7 @@ public interface AccountingLineRuleHelperService {
      * are only checked if there are values in them. The others throw errors if they area null.
      * 
      * @param accountingLine
+     * @parm accountingLineByPosition
      * @return success or failure of validating the AccountingLine
      * @throws IllegalStateException
      */
@@ -40,39 +41,43 @@ public interface AccountingLineRuleHelperService {
      * This method validates that the chart is active for use in the system.
      * 
      * @param chart
+     * @param accountIdentifyingPropertyName 
      * @param dataDictionary
      * @return boolean True if the Chart is valid.
      */
-    public abstract boolean isValidChart(Chart chart, DataDictionary dataDictionary);
+    public abstract boolean isValidChart(String accountIdentifyingPropertyName, Chart chart, DataDictionary dataDictionary);
     
     /**
      * This method validates that the chart is active for use in the system.
      * 
      * @param chart
      * @param dataDictionary
+     * @param accountIdentifyingPropertyName
      * @param errorPropertyName
      * @return boolean True if the Chart is valid.
      */
-    public abstract boolean isValidChart(Chart chart, DataDictionary dataDictionary, String errorPropertyName);
+    public abstract boolean isValidChart(Chart chart, DataDictionary dataDictionary, String errorPropertyName, String accountIdentifyingPropertyName);
     
     /**
      * This method validates that the account is active for use in the system.
      * 
+     * @param accountIdentifyingPropertyName
      * @param account
      * @param dataDictionary
      * @return boolean True if it is valid.
      */
-    public abstract boolean isValidAccount(Account account, DataDictionary dataDictionary);
+    public abstract boolean isValidAccount(String accountIdentifyingPropertyName, Account account, DataDictionary dataDictionary);
     
     /**
      * This method validates that the account is active for use in the system.
      * 
      * @param account
      * @param dataDictionary
+     * @param accountIdentifyingPropertyName
      * @param errorPropertyName
      * @return boolean True if it is valid.
      */
-    public abstract boolean isValidAccount(Account account, DataDictionary dataDictionary, String errorPropertyName);
+    public abstract boolean isValidAccount(Account account, DataDictionary dataDictionary, String errorPropertyName, String accountIdentifyingPropertyName);
     
     /**
      * Checks that the given overrideCode is sufficient for the given BO, adding errors to the global map if not.
@@ -86,49 +91,54 @@ public interface AccountingLineRuleHelperService {
     /**
      * This method validates that a sub account is active.
      * 
+     * @param accountIdentifyingPropertyName
      * @param subAccount
      * @param dataDictionary
      * @return true if it exists
      */
-    public abstract boolean isValidSubAccount(SubAccount subAccount, DataDictionary dataDictionary);
+    public abstract boolean isValidSubAccount(String accountIdentifyingPropertyName, SubAccount subAccount, DataDictionary dataDictionary);
     
     /**
      * This method validates that a sub account is active.
      * 
      * @param subAccount
      * @param dataDictionary
+     * @param accountIdentifyingPropertyName
      * @param errorPropertyName
      * @return true if it exists
      */
-    public abstract boolean isValidSubAccount(SubAccount subAccount, DataDictionary dataDictionary, String errorPropertyName);
+    public abstract boolean isValidSubAccount(SubAccount subAccount, DataDictionary dataDictionary, String errorPropertyName, String accountIdentifyingPropertyName);
+    
+    /**
+     * This method validates that an object code is active.
+     * 
+     * @param accountIdentifyingPropertyName 
+     * @param objectCode
+     * @param dataDictionary
+     * @return boolean True if the object code is valid.
+     */
+    public abstract boolean isValidObjectCode(String accountIdentifyingPropertyName, ObjectCode objectCode, DataDictionary dataDictionary);
     
     /**
      * This method validates that an object code is active.
      * 
      * @param objectCode
      * @param dataDictionary
-     * @return boolean True if the object code is valid.
-     */
-    public abstract boolean isValidObjectCode(ObjectCode objectCode, DataDictionary dataDictionary);
-    
-    /**
-     * This method validates that an object code is active.
-     * 
-     * @param objectCode
-     * @param dataDictionary
+     * @param accountIdentifyingPropertyName
      * @param errorPropertyName
      * @return boolean True if the object code is valid.
      */
-    public abstract boolean isValidObjectCode(ObjectCode objectCode, DataDictionary dataDictionary, String errorPropertyName);
+    public abstract boolean isValidObjectCode(ObjectCode objectCode, DataDictionary dataDictionary, String errorPropertyName, String accountIdentifyingPropertyName);
     
     /**
      * This method validates that a sub object code is active.
      * 
+     * @param accountIdentifyingPropertyName 
      * @param subObjectCode
      * @param dataDictionary
      * @return boolean True if it is valid.
      */
-    public abstract boolean isValidSubObjectCode(SubObjectCode subObjectCode, DataDictionary dataDictionary);
+    public abstract boolean isValidSubObjectCode(String accountIdentifyingPropertyName, SubObjectCode subObjectCode, DataDictionary dataDictionary);
     
     /**
      * This method validates that a sub object code is active.
@@ -138,16 +148,17 @@ public interface AccountingLineRuleHelperService {
      * @param errorPropertyName
      * @return boolean True if it is valid.
      */
-    public abstract boolean isValidSubObjectCode(SubObjectCode subObjectCode, DataDictionary dataDictionary, String errorPropertyName);
+    public abstract boolean isValidSubObjectCode(SubObjectCode subObjectCode, DataDictionary dataDictionary, String errorPropertyName, String accountIdentifyingPropertyName);
     
     /**
      * This method validates that a project code is active.
      * 
+     * @param accountIdentifyingPropertyName
      * @param projectCode
      * @param dataDictionary
      * @return boolean True if it is valid.
      */
-    public abstract boolean isValidProjectCode(ProjectCode projectCode, DataDictionary dataDictionary);
+    public abstract boolean isValidProjectCode(String accountIdentifyingPropertyName, ProjectCode projectCode, DataDictionary dataDictionary);
     
     /**
      * This method validates that a project code is active.
@@ -155,9 +166,22 @@ public interface AccountingLineRuleHelperService {
      * @param projectCode
      * @param dataDictionary
      * @param errorPropertyName
+     * @param accountIdentifyingPropertyName
      * @return boolean True if it is valid.
      */
-    public abstract boolean isValidProjectCode(ProjectCode projectCode, DataDictionary dataDictionary, String errorPropertyName);
+    public abstract boolean isValidProjectCode(ProjectCode projectCode, DataDictionary dataDictionary, String errorPropertyName, String accountIdentifyingPropertyName);
+    
+    /**
+     * For the most part, object type codes aren't required on an accounting line; however, in some situations (e.g. Journal
+     * Voucher) they are entered directly into the accounting line and must be validated. In those cases, they must be validated for
+     * activeness.
+     * 
+     * @param accountIdentifyingPropertyName
+     * @param objectTypeCode
+     * @param dataDictionary
+     * @return boolean True if the object type code is valid, false otherwise.
+     */
+    public abstract boolean isValidObjectTypeCode(String accountIdentifyingPropertyName, ObjectType objectTypeCode, DataDictionary dataDictionary);
     
     /**
      * For the most part, object type codes aren't required on an accounting line; however, in some situations (e.g. Journal
@@ -166,21 +190,11 @@ public interface AccountingLineRuleHelperService {
      * 
      * @param objectTypeCode
      * @param dataDictionary
-     * @return boolean True if the object type code is valid, false otherwise.
-     */
-    public abstract boolean isValidObjectTypeCode(ObjectType objectTypeCode, DataDictionary dataDictionary);
-    
-    /**
-     * For the most part, object type codes aren't required on an accounting line; however, in some situations (e.g. Journal
-     * Voucher) they are entered directly into the accounting line and must be validated. In those cases, they must be validated for
-     * activeness.
-     * 
-     * @param objectTypeCode
-     * @param dataDictionary
+     * @param accountIdentifyingPropertyName
      * @param errorPropertyName
      * @return boolean True if the object type code is valid, false otherwise.
      */
-    public abstract boolean isValidObjectTypeCode(ObjectType objectTypeCode, DataDictionary dataDictionary, String errorPropertyName);
+    public abstract boolean isValidObjectTypeCode(ObjectType objectTypeCode, DataDictionary dataDictionary, String errorPropertyName, String accountIdentifyingPropertyName);
     
     /**
      * @return short label for chart code defined in data dictionary

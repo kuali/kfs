@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions and limitations under the License. -->
+		
+		
+	<bean id="TemCTSCardApplicationDocument" parent="TemCTSCardApplicationDocument-parentBean" />
+	<bean id="TemCTSCardApplicationDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+		<property name="documentTypeName" value="CTAP" />
+		<property name="documentClass" value="org.kuali.kfs.module.tem.document.TemCTSCardApplicationDocument" />
+		<property name="sessionDocument" value="true" />
+		<property name="workflowAttributes" ref="TemCTSCardApplicationDocument-workflowAttributes" />
+		<property name="attributes">
+			<list>
+				<ref bean="TemCTSCardApplicationDocument-temProfileId" />
+				<ref bean="TemCTSCardApplicationDocument-bankAppliedDate" />
+				<ref bean="TemCTSCardApplicationDocument-bankApprovedDate" />
+				<ref bean="TemCTSCardApplicationDocument-userAgreement" />
+                <ref bean="TemCTSCardApplicationDocument-appDocStatus" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="TemCTSCardApplicationDocument-temProfileId" parent="TEMProfile-profileId-parentBean">
+		<property name="name" value="temProfileId" />
+	</bean>
+	
+	<bean id="TemCTSCardApplicationDocument-bankAppliedDate" parent="TemCTSCardApplicationDocument-bankAppliedDate-parentBean" />
+	<bean id="TemCTSCardApplicationDocument-bankAppliedDate-parentBean" parent="GenericAttributes-genericDate">
+		<property name="name" value="bankAppliedDate" />
+		<property name="label" value="Bank Applied Date" />
+		<property name="shortLabel" value="Bank Applied Date" />
+		<property name="summary" value="Bank Applied Date" />
+		<property name="description" value="Bank Applied Date" />
+	</bean>
+	
+	<bean id="TemCTSCardApplicationDocument-bankApprovedDate" parent="TemCTSCardApplicationDocument-bankApprovedDate-parentBean" />
+	<bean id="TemCTSCardApplicationDocument-bankApprovedDate-parentBean" parent="GenericAttributes-genericDate">
+		<property name="name" value="bankApprovedDate" />
+		<property name="label" value="Bank Approved Date" />
+		<property name="shortLabel" value="Bank Approved Date" />
+		<property name="summary" value="Bank Approved Date" />
+		<property name="description" value="Bank Approved Date" />
+	</bean>
+	
+	<bean id="TemCTSCardApplicationDocument-userAgreement" parent="TemCTSCardApplicationDocument-userAgreement-parentBean" />
+	<bean id="TemCTSCardApplicationDocument-userAgreement-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="userAgreement" />
+		<property name="label" value="Accept User Agreement" />
+		<property name="shortLabel" value="Accept User Agreement" />
+		<property name="required" value="true" />
+		<property name="summary" value="Accept User Agreement" />
+		<property name="description" value="Accept User Agreement" />
+	</bean>
+	
+	<bean id="TemCTSCardApplicationDocument-appDocStatus" parent="TemCTSCardApplicationDocument-appDocStatus-parentBean" />
+    <bean id="TemCTSCardApplicationDocument-appDocStatus-parentBean" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode">
+        <property name="name" value="dummyAppDocStatus" />
+        <property name="label" value="Application Status Code" />
+        <property name="shortLabel" value="Status" />
+    </bean>
+	
+	<bean id="TemCTSCardApplicationDocument-workflowAttributes" parent="TemCTSCardApplicationDocument-workflowAttributes-parentBean"/>
+    <bean id="TemCTSCardApplicationDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="Account" value-ref="TemCardApplicationDocument-RoutingType-temProfile.defaultAccount"/>
+    		</map>
+    	</property>
+    </bean>
+</beans>

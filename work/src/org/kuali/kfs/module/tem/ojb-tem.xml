@@ -1532,4 +1532,46 @@
 		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
 	</class-descriptor>
 
+	<class-descriptor class="org.kuali.kfs.module.tem.document.TemCorporateCardApplicationDocument" table="TEM_CORP_CARD_APP_DOC_T">
+        <field-descriptor name="documentNumber" primarykey="true" column="FDOC_NBR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="temProfileId" column="TEM_PROFILE_ID" jdbc-type="INTEGER"/> 
+        <field-descriptor name="pseudoNumber" column="PSUEDO_NUM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="userAgreement" column="USR_AGRMNT" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+		<field-descriptor name="departmentHeadAgreement" column="DEPT_HD_AGRMNT" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
+        
+        <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <foreignkey field-ref="documentNumber"/>
+        </reference-descriptor>
+        
+        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="temProfileId"/>
+        </reference-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kfs.module.tem.document.TemCTSCardApplicationDocument" table="TEM_CTS_CARD_APP_DOC_T">
+        <field-descriptor name="documentNumber" primarykey="true" column="FDOC_NBR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="temProfileId" column="TEM_PROFILE_ID" jdbc-type="INTEGER"/>
+        <field-descriptor name="bankAppliedDate" column="BNK_APPL_DT" jdbc-type="DATE"/> 
+        <field-descriptor name="bankApprovedDate" column="BNK_APPR_DT" jdbc-type="DATE"/> 
+		<field-descriptor name="userAgreement" column="USR_AGRMNT" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
+        
+        <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <foreignkey field-ref="documentNumber"/>
+        </reference-descriptor> 
+        
+        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="temProfileId"/>
+        </reference-descriptor>
+	</class-descriptor>
+	
+	
+	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.CorporateCardPseudoNumber" table="TEM_CORP_CARD_PSEUDO_NUM_T">
+		<field-descriptor name="number" primarykey="true" sequence-name="TEM_CORP_CARD_PSEUDO_NUM_SEQ" autoincrement="true" column="NUM" jdbc-type="INTEGER"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
+	</class-descriptor>
 </descriptor-repository>

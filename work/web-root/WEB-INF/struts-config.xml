@@ -290,7 +290,11 @@
             type="org.kuali.kfs.module.tem.report.web.struts.ReportForm" />
             
         <form-bean name="TaxableRamificationForm"
-            type="org.kuali.kfs.module.tem.document.web.struts.TaxableRamificationForm" />            
+            type="org.kuali.kfs.module.tem.document.web.struts.TaxableRamificationForm" />  
+            
+        <form-bean name="TemCardApplicationForm"
+            type="org.kuali.kfs.module.tem.document.web.struts.TemCardApplicationForm" />    
+                  
 	</form-beans>
 
 	<global-exceptions>
@@ -758,13 +762,23 @@
 			<forward name="printPOQuoteListPDF"
 				path="/jsp/module/purap/PrintPOQuoteListForward.jsp" redirect="false" />				
 		</action>
-		<action path="/temCorrectionDocument" name="TemCorrectionForm"
+		<action path="/temCorrectionDocument" name="KualiForm"
             input="/jsp/module/tem/TemCorrectionDocument.jsp"
             type="org.kuali.kfs.module.tem.document.web.struts.TemCorrectionAction" scope="request"
             parameter="methodToCall" validate="true" attribute="KualiForm">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/module/tem/TemCorrectionDocument.jsp" />
         </action>
+        
+		<action path="/tem*CardApplication" name="TemCardApplicationForm"
+            input="/jsp/module/tem/{1}CardApplication.jsp"
+            type="org.kuali.kfs.module.tem.document.web.struts.TemCardApplicationAction" scope="request"
+            parameter="methodToCall" validate="true" attribute="KualiForm">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/module/tem/{1}CardApplicationDocument.jsp" />
+            <forward name="cardApplicationError" path="/jsp/module/tem/CardApplicationError.jsp" />
+        </action>
+
 
 	</action-mappings>
 

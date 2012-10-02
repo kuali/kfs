@@ -1,0 +1,55 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>CTAP</name>
+			<parent>KFST</parent>
+			<label>CTS Card Application</label>
+			<docHandler>${application.url}/temCTSCardApplication.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+			<routingVersion>1</routingVersion>
+			<attributes>
+				<attribute>
+					<name>FinancialSystemSearchableAttribute</name>
+				</attribute>
+				<attribute>
+					<name>FinancialSystemDocumentSearchGeneratorAttribute</name>
+				</attribute>
+			</attributes>
+			<validApplicationStatuses>
+				<status>Application</status>
+				<status>Account Review</status>
+				<status>Travel Office Review</status>
+				<status>Apply To Bank</status>
+				<status>Applied To Bank</status>
+				<status>Approved By Bank</status>
+				<status>Declined</status>
+			</validApplicationStatuses>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="Account" nextAppDocStatus="Account Review" />
+					<role name="Account" nextNode="TravelManagerReview" nextAppDocStatus="Travel Office Review" />
+					<role name="TravelManagerReview" nextAppDocStatus="Approved By Bank" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="Account">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+                    </activationType>
+				</role>
+				<role name="TravelManagerReview">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+                    </activationType>
+				</role>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
+</data>

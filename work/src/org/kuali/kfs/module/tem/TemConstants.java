@@ -465,7 +465,8 @@ public class TemConstants extends JSTLConstants {
     public static final String TEM_TRAVELER_DETAIL_EM_CONTACT_SEQ_NAME = "TEM_EM_CONT_ID_SEQ";
     public static final String TEM_TRAVELER_DETAIL_ACCOUNT_SEQ_NAME = "TEM_TRVLR_DTL_ACCOUNT_ID_SEQ";
     public static final String TEM_CREDIT_CARD_AGENCY_SEQ_NAME = "TEM_CREDIT_CARD_AGENCY_ID_SEQ";
-    public static final String TEM_ACTUAL_EXPENSE_SEQ_NAME = "TEM_TRVL_EXP_ID_SEQ";    
+    public static final String TEM_ACTUAL_EXPENSE_SEQ_NAME = "TEM_TRVL_EXP_ID_SEQ";   
+    public static final String TEM_CORP_CARD_PSEUDO_NUM_SEQ_NAME = "TEM_CORP_CARD_PSEUDO_NUM_SEQ";  
 
     public static final String TEM_PROFILE_HOME_DEPARTMENT = "homeDepartment";
     public static final String TEM_PROFILE_HOME_DEPT_ORG_CODE = "homeDeptOrgCode";
@@ -838,5 +839,8 @@ public class TemConstants extends JSTLConstants {
         public static final String NON_REIMBURSABLE = "N";
         public static final String REIMBURSABLE = "R";
     }
-
+    
+    public static final String GENERATE_CC_NUMBER_IND = "GENERATE_CC_NUMBER_IND";
+    public static final String CORP_CARD_CODE = "CORP_CARD_CODE";
+    public static final String CTS_CARD_CODE = "CTS_CARD_CODE";
 }

@@ -262,4 +262,11 @@ public class TemKeyConstants extends JSTLConstants {
 
     public static final String ERROR_DOCUMENT_TOTAL_ESTIMATED = "error.document.tem.total.estimated";
     public static final String ERROR_ACCOUNTING_LINE_CG = "error.tem.accountingline.cg.accountnumber";
+    
+
+    public static final String CTS_CARD_DOCUMENT_USER_AGREEMENT = "cts.card.document.user.agreement";
+    public static final String CORP_CARD_DOCUMENT_USER_AGREEMENT = "corp.card.document.user.agreement";
+    public static final String CORP_CARD_DOCUMENT_DEPT_HEAD_AGREEMENT = "corp.card.document.departmentHead.agreement";
+    public static final String CARD_NOTE_TEXT = "tem.card.note.text";
+    public static final String ERROR_TEM_CARD_APP_NO_AGREEMENT = "error.tem.card.application.agreement.not.checked";
 }

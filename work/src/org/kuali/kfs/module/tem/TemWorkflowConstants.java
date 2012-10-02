@@ -52,5 +52,15 @@ public class TemWorkflowConstants {
         public static final String RISK_MANAGEMENT = "RiskManagement";
         public static final String EXECUTIVE_APPROVAL = "ExecutiveApproval";
         public static final String MOVING_AND_RELOCATION_MANAGER = "MovingAndRelocationManager";
+        public static final String APPLICATION = "Application";
+        public static final String ACCOUNT_REVIEW = "Account Review";
+        public static final String TRAVEL_OFFICE_REVIEW = "Travel Office Review";
+        public static final String FISCAL_OFFICER_REVIEW = "Fiscal Officer Review";
+        public static final String APPLY_TO_BANK = "Apply To Bank";
+        public static final String APPLIED_TO_BANK = "Applied To Bank";
+        public static final String APPROVED_BY_BANK = "Approved By Bank";
+        public static final String DECLINED = "Declined";
+        public static final String APPROVED = "Approved";
     }
+ 
 }

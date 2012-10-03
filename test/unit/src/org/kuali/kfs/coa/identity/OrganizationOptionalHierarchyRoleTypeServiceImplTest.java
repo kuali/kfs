@@ -71,7 +71,7 @@ public class OrganizationOptionalHierarchyRoleTypeServiceImplTest extends KualiT
 
     // assumes data which may not be present in KULDBA - commenting out for now
 //    public void testPrincipalHasRole() {
-//        RoleService rs = SpringContext.getBean(RoleService.class);
+//        RoleService rs = KimApiServiceLocator.getRoleService();
 //        ArrayList<String> roleIds = new ArrayList<String>( 1 );
 //        roleIds.add( "28" );
 //

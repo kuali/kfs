@@ -27,8 +27,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -80,10 +80,9 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
 
         if (document.isEdit()) {
 
-            RoleService rms = SpringContext.getBean(RoleService.class);
+            RoleService rms = KimApiServiceLocator.getRoleService();
 
-            Person user = GlobalVariables.getUserSession().getPerson();
-            String principalId = user.getPrincipalId();
+            String principalId = GlobalVariables.getUserSession().getPrincipalId();
 
             List<String> roleIds = new ArrayList<String>();
             roleIds.add(rms.getRoleIdByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.KFS, ACCOUNTS_RECEIVABLE_MANAGER_ROLE_NAME));
@@ -104,9 +103,8 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
      * @param readOnlyPropertyNames
      */
     protected void setRemitToNameEditable(Set<String> readOnlyPropertyNames) {
-        ParameterService service = SpringContext.getBean(ParameterService.class);
-        String nameEditable = service.getParameterValueAsString(OrganizationOptions.class, ArConstants.REMIT_TO_NAME_EDITABLE_IND);
-        if ("N".equalsIgnoreCase(nameEditable)) {
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        if ( parameterService.getParameterValueAsBoolean(OrganizationOptions.class, ArConstants.REMIT_TO_NAME_EDITABLE_IND, Boolean.TRUE) ) { // defaulting to true to preserve prior behavior
             readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CHECK_PAYABLE_TO_NAME);
         }
     }
@@ -120,7 +118,7 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
      */
     protected void setOrgPostalZipCodeEditable(Set<String> readOnlyPropertyNames) {
         ParameterService service = SpringContext.getBean(ParameterService.class);
-        if (!service.getParameterValueAsBoolean(KfsParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) ){
+        if (!service.getParameterValueAsBoolean(KfsParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND, Boolean.FALSE ) ){
             readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_POSTAL_ZIP_CODE);
         }
     }

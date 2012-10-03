@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,13 +28,13 @@ import org.kuali.kfs.coa.document.AccountDelegateGlobalMaintainableImpl;
 import org.kuali.kfs.coa.document.AccountDelegateMaintainableImpl;
 import org.kuali.kfs.coa.service.AccountDelegateService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.role.RoleResponsibility;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceLock;
@@ -58,6 +58,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      * @see org.kuali.kfs.coa.service.AccountDelegateService#getLockingDocumentId(org.kuali.kfs.coa.document.AccountDelegateGlobalMaintainableImpl,
      *      java.lang.String)
      */
+    @Override
     @NonTransactional
     public String getLockingDocumentId(AccountDelegateGlobalMaintainableImpl global, String docNumber) {
         String lockingDocId = null;
@@ -75,6 +76,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
      * @see org.kuali.kfs.coa.service.AccountDelegateService#getLockingDocumentId(org.kuali.kfs.coa.document.AccountDelegateMaintainableImpl,
      *      java.lang.String)
      */
+    @Override
     @NonTransactional
     public String getLockingDocumentId(AccountDelegateMaintainableImpl delegate, String docNumber) {
         String lockingDocId = null;
@@ -94,6 +96,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     /**
      * @see org.kuali.kfs.coa.service.AccountDelegateService#buildMaintainableForAccountDelegate(org.kuali.kfs.coa.businessobject.AccountDelegate)
      */
+    @Override
     @NonTransactional
     public FinancialSystemMaintainable buildMaintainableForAccountDelegate(AccountDelegate delegate) {
         FinancialSystemMaintainable maintainable = getAccountDelegateMaintainable();
@@ -127,14 +130,16 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     /**
      * @see org.kuali.kfs.coa.service.AccountDelegateService#retrieveAllActiveDelegationsForPerson(java.lang.String)
      */
+    @Override
     @NonTransactional
     public Iterator<AccountDelegate> retrieveAllActiveDelegationsForPerson(String principalId, boolean primary) {
-        return (Iterator<AccountDelegate>) accountDelegateDao.getAccountDelegationsForPerson(principalId, primary);
+        return accountDelegateDao.getAccountDelegationsForPerson(principalId, primary);
     }
 
     /**
      * @see org.kuali.kfs.coa.service.AccountDelegateService#isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(java.lang.String)
      */
+    @Override
     @NonTransactional
     public boolean isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(String principalId) {
         return accountDelegateDao.isPrincipalInAnyWayShapeOrFormPrimaryAccountDelegate(principalId, dateTimeService.getCurrentSqlDate());
@@ -143,6 +148,7 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     /**
      * @see org.kuali.kfs.coa.service.AccountDelegateService#isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(java.lang.String)
      */
+    @Override
     @NonTransactional
     public boolean isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(String principalId) {
         return accountDelegateDao.isPrincipalInAnyWayShapeOrFormSecondaryAccountDelegate(principalId, dateTimeService.getCurrentSqlDate());
@@ -150,9 +156,10 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
 
     /**
      * Saves the given account delegate to the persistence store
-     * 
+     *
      * @param accountDelegate the account delegate to save
      */
+    @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveForMaintenanceDocument(AccountDelegate accountDelegate) {
         businessObjectService.linkAndSave(accountDelegate);
@@ -160,9 +167,10 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
 
     /**
      * Persists the given account delegate global maintenance document inactivations
-     * 
+     *
      * @param delegatesToInactivate the List of delegates to inactivate
      */
+    @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveInactivationsForGlobalMaintenanceDocument(List<PersistableBusinessObject> delegatesToInactivate) {
         if (delegatesToInactivate != null && !delegatesToInactivate.isEmpty()) {
@@ -172,9 +180,10 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
 
     /**
      * Persists the given account delegate global maintenance document changes
-     * 
+     *
      * @param delegatesToChange the List of delegates to change
      */
+    @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveChangesForGlobalMaintenanceDocument(List<PersistableBusinessObject> delegatesToChange) {
         if (delegatesToChange != null && !delegatesToChange.isEmpty()) {
@@ -185,9 +194,10 @@ public class AccountDelegateServiceImpl implements AccountDelegateService {
     /**
      * Updates the role that this delegate is part of, to account for the changes in this delegate
      */
+    @Override
     @Transactional
     public void updateDelegationRole() {
-        final RoleService roleManagementService = SpringContext.getBean(RoleService.class);
+        final RoleService roleManagementService = KimApiServiceLocator.getRoleService();
         final String roleId = roleManagementService.getRoleIdByNamespaceCodeAndName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME);
         if (!StringUtils.isBlank(roleId)) {
             List<RoleResponsibility> newRoleResp = roleManagementService.getRoleResponsibilities(roleId);

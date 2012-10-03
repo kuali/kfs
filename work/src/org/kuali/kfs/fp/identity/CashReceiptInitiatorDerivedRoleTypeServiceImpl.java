@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 /**
@@ -97,7 +97,7 @@ public class CashReceiptInitiatorDerivedRoleTypeServiceImpl extends DerivedRoleT
      */
     protected RoleService getRoleService() {
         if ( roleManagementService == null) {
-            roleManagementService = SpringContext.getBean(RoleService.class);
+            roleManagementService = KimApiServiceLocator.getRoleService();
         }
         return roleManagementService;
     }

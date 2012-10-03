@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 @ConfigureContext
 public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest extends KualiTestBase {
@@ -51,10 +52,11 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
     private static RoleService roleManagementService;
     private String arUserPrincipalId;
     private String arUserPrincipalId2;
-    
+
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
-        
+
     }
 
     protected Map<String,String> buildDocQualifier() {
@@ -70,7 +72,7 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
         qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, AR_DOC_ORG_2 );
         return qualification;
     }
-    
+
     protected String getArUserPrincipalId() {
         if ( arUserPrincipalId == null ) {
             arUserPrincipalId = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName(AR_DOC_USER).getPrincipalId();
@@ -84,13 +86,13 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
         }
         return arUserPrincipalId2;
     }
-    
-    //TODO Andrew 2/5/2009 - Commented out this whole test, as the roleTypeService now explicitly 
-    // returns exactly what was passed in, which is the exact opposite of what this test was 
-    // testing.  So something upstream changed, and this test is no longer relevant.  I'm leaving 
+
+    //TODO Andrew 2/5/2009 - Commented out this whole test, as the roleTypeService now explicitly
+    // returns exactly what was passed in, which is the exact opposite of what this test was
+    // testing.  So something upstream changed, and this test is no longer relevant.  I'm leaving
     // it in in case we ever need to quickly recover this test case.
 //    public void testConvertQualificationForMemberRoles() {
-//        AccountsReceivableOrganizationDerivedRoleTypeServiceImpl roleTypeService = 
+//        AccountsReceivableOrganizationDerivedRoleTypeServiceImpl roleTypeService =
 //                new AccountsReceivableOrganizationDerivedRoleTypeServiceImpl();
 //        roleTypeService.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
 //        Map<String,String> qualification = buildDocQualifier();
@@ -99,23 +101,23 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
 //        assertEquals( "charts did not match", AR_DOC_PROCESSING_CHART, result.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE ));
 //        assertEquals( "orgs did not match", AR_DOC_PROCESSING_ORG, result.get(KFSPropertyConstants.ORGANIZATION_CODE));
 //    }
-    
+
     public void testPrincipalHasRole_Data1() {
         List<String> tempRoleIdList = new ArrayList<String>( 1 );
 
-        
-        
+
+
         // qualification passed for an AR document for the BA-MOTR organization
         Map<String,String> qualification = buildDocQualifier();
-        
+
         // find the AR Biller Role
         String billerRoleId = getRoleService().getRoleIdByNamespaceCodeAndName(AR_NAMESPACE, AR_BILLER_ROLE);
         assertNotNull("unable to find biller role", billerRoleId);
         tempRoleIdList.add( billerRoleId );
-                      
+
         boolean result = getRoleService().principalHasRole(getArUserPrincipalId(), tempRoleIdList, qualification);
         assertTrue( "exact match on billing org should have passed", result );
-        
+
         // find the AR Processor Role
         String processorRoleId = getRoleService().getRoleIdByNamespaceCodeAndName(AR_NAMESPACE, AR_PROCESSOR_ROLE);
         assertNotNull("unable to find processor role", processorRoleId);
@@ -128,19 +130,19 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
     }
 
     public void testPrincipalHasRole_Data2() {
-        List<String> tempRoleIdList = new ArrayList<String>( 1 );       
-        
+        List<String> tempRoleIdList = new ArrayList<String>( 1 );
+
         // qualification passed for an AR document for the BA-MOTR organization
         Map<String,String> qualification = buildDocQualifier_2();
-        
+
         // find the AR Biller Role
         String billerRoleId = getRoleService().getRoleIdByNamespaceCodeAndName(AR_NAMESPACE, AR_BILLER_ROLE);
         assertNotNull("unable to find biller role", billerRoleId);
         tempRoleIdList.add( billerRoleId );
-                      
+
         boolean result = getRoleService().principalHasRole(getArUserPrincipalId_2(), tempRoleIdList, qualification);
         assertTrue( "exact match on billing org should have passed - user has processing org, not billing org, but all processors are also billers", result );
-        
+
         // find the AR Processor Role
         String processorRoleId = getRoleService().getRoleIdByNamespaceCodeAndName(AR_NAMESPACE, AR_PROCESSOR_ROLE);
         assertNotNull("unable to find processor role", processorRoleId);
@@ -157,9 +159,9 @@ public class AccountsReceivableProcessingOrganizationRoleTypeServiceImplTest ext
      */
     public RoleService getRoleService() {
         if (roleManagementService == null ) {
-            roleManagementService = SpringContext.getBean(RoleService.class);
+            roleManagementService = KimApiServiceLocator.getRoleService();
         }
         return roleManagementService;
     }
-    
+
 }

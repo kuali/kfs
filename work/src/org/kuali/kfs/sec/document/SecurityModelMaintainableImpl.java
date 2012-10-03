@@ -122,7 +122,7 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
      * @param newSecurityModel SecurityModel to inactivate
      */
     protected void inactivateModelRole(Role modelRole) {
-        RoleService roleService = SpringContext.getBean(RoleService.class);
+        RoleService roleService = KimApiServiceLocator.getRoleService();
 
         if ( modelRole != null ) {
             Role.Builder updatedRole = Role.Builder.create(modelRole);
@@ -233,12 +233,12 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
             principalIds.add(memberId);
         }
         else if (MemberType.ROLE.getCode().equals(memberTypeCode)) {
-            Role roleInfo = SpringContext.getBean(RoleService.class).getRole(memberId);
-            Collection<String> rolePrincipalIds = SpringContext.getBean(RoleService.class).getRoleMemberPrincipalIds(roleInfo.getNamespaceCode(), roleInfo.getName(), null);
+            Role roleInfo = KimApiServiceLocator.getRoleService().getRole(memberId);
+            Collection<String> rolePrincipalIds = KimApiServiceLocator.getRoleService().getRoleMemberPrincipalIds(roleInfo.getNamespaceCode(), roleInfo.getName(), null);
             principalIds.addAll(rolePrincipalIds);
         }
         else if (MemberType.GROUP.getCode().equals(memberTypeCode)) {
-            List<String> groupPrincipalIds = SpringContext.getBean(GroupService.class).getMemberPrincipalIds(memberId);
+            List<String> groupPrincipalIds = KimApiServiceLocator.getGroupService().getMemberPrincipalIds(memberId);
             principalIds.addAll(groupPrincipalIds);
         }
 

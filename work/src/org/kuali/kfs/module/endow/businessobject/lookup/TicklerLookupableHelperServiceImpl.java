@@ -102,6 +102,6 @@ public class TicklerLookupableHelperServiceImpl extends KualiLookupableHelperSer
 
     private GroupService getGroupService()
     {
-        return SpringContext.getBean(GroupService.class);
+        return KimApiServiceLocator.getGroupService();
     }
 }

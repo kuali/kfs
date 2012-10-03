@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,14 +25,13 @@ import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.role.service.impl.RouteLogDerivedRoleTypeServiceImpl;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
-import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.role.RoleMembership.Builder;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -50,7 +49,7 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
      * Automatic Purchase Orders (apo), the fyi is supposed to go to the requisition router. Otherwise, it should go to the PO
      * router. Requirements: - KFS-PURAP Source Document Router - for Automated Purchase Order, Requisition router according to
      * KR-WKFLW Router role / for normal Purchase Order, Purchase Order router according to KR-WKFLW Router
-     * 
+     *
      * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#getPrincipalIdsFromApplicationRole(java.lang.String,
      *      java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
@@ -106,7 +105,7 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
 
     protected RoleService getRoleService() {
         if (roleManagementService == null) {
-            roleManagementService = SpringContext.getBean(RoleService.class);
+            roleManagementService = KimApiServiceLocator.getRoleService();
         }
         return roleManagementService;
     }

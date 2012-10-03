@@ -217,7 +217,7 @@ public class PurApRelatedViews {
                             if (compare == 0) {
                                 compare = v1.getPurchaseOrderCurrentIndicator() ? -1 :
                                     v2.getPurchaseOrderCurrentIndicator() ? 1 :
-                                    -v1.getDocumentNumber().compareTo(v2.getDocumentNumber());
+                                    -v1.getCreateDate().compareTo(v2.getCreateDate());
                             }
                             return compare;
                         }

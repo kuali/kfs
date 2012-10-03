@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,7 +28,6 @@ import org.kuali.kfs.vnd.fixture.VendorContractBeginEndDatesFixture;
 import org.kuali.kfs.vnd.fixture.VendorContractPurchaseOrderLimitAmountPresenceFixture;
 import org.kuali.kfs.vnd.fixture.VendorRuleAddressStateZipFixture;
 import org.kuali.kfs.vnd.fixture.VendorRuleAddressTypeFixture;
-import org.kuali.kfs.vnd.fixture.VendorRuleFaxNumberFixture;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 /**
@@ -168,7 +167,7 @@ public class VendorRuleTest extends MaintenanceRuleTestBase {
     /**
      * This method does the setup for the tests which examine the implementation of the requirement that certain vendor type codes
      * require certain address type codes. Address type codes are in the collection of VendorAddresses.
-     * 
+     *
      * @param typeCode A VendorTypeCode, which here could be any String
      * @param addrTypeCode1 A VendorAddressTypeCode, which here could be any String
      * @param addrTypeCode2 The VendorAddressTypeCode for the second VendorAddress of the collection
@@ -301,53 +300,10 @@ public class VendorRuleTest extends MaintenanceRuleTestBase {
 //        }
 //    }
 
-    /*
-     * TESTS OF CheckFaxNumber
-     */
-    public void testCheckFaxNumber_WithDefaultFormats() {
-        VendorRuleFaxNumberFixture vrfnf = VendorRuleFaxNumberFixture.TWO_DEFAULT_FORMATS;
-        List<VendorAddress> addrList = vrfnf.getAddresses();
-        VendorRule rule = (VendorRule) setupMaintDocRule(newVendor, VendorRule.class);
-        rule.refreshSubObjects(newVendor);
-        int i = 0;
-        for (VendorAddress address : addrList) {
-            i++;
-            assertTrue(rule.checkFaxNumber(address));
-        }
-    }
-
-    public void testCheckFaxNumber_WithShortNumber() {
-        VendorRuleFaxNumberFixture vrfnf = VendorRuleFaxNumberFixture.TWO_SHORT_FAXES;
-        List<VendorAddress> addrList = vrfnf.getAddresses();
-        VendorRule rule = (VendorRule) setupMaintDocRule(newVendor, VendorRule.class);
-        rule.refreshSubObjects(newVendor);
-        int i = 0;
-        for (VendorAddress address : addrList) {
-            i++;
-            assertFalse(rule.checkFaxNumber(address));
-        }
-    }
-
-    public void testCheckFaxNumber_WithOneDefaultOneShortFax() {
-        VendorRuleFaxNumberFixture vrfnf = VendorRuleFaxNumberFixture.ONE_DEFAULT_ONE_SHORT_FAX;
-        List<VendorAddress> addrList = vrfnf.getAddresses();
-        VendorRule rule = (VendorRule) setupMaintDocRule(newVendor, VendorRule.class);
-        rule.refreshSubObjects(newVendor);
-        for (int i = 0; i < addrList.size(); i++) {
-            VendorAddress address = addrList.get(i);
-            if (i == 0) {
-                assertTrue(rule.checkFaxNumber(address));
-            }
-            else if (i == 1) {
-                assertFalse(rule.checkFaxNumber(address));
-            }
-        }
-    }
-
     /**
      * This method does the setup for the tests which examine the implementation of the requirement that vendor contracts be
      * validated so that their begin date comes before their end date. Uses two contracts.
-     * 
+     *
      * @param vcbedf
      * @return
      */
@@ -389,7 +345,7 @@ public class VendorRuleTest extends MaintenanceRuleTestBase {
 
     /**
      * This method...
-     * 
+     *
      * @param vcpolapf
      * @return
      */

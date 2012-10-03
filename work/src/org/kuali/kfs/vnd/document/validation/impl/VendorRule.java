@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,7 +30,6 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.PostalCodeValidationService;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -51,7 +50,6 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.businessobject.VendorType;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.kfs.vnd.service.TaxNumberService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
@@ -83,7 +81,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * everything and we cannot do that for parent vendors, because we want to update vendor header information only on parent
      * vendors, so the saving of the vendor header is done manually. If we call the updateNonUpdateableReferences, it is going to
      * overwrite any changes that the user might have done in the vendor header with the existing values in the database.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#setupBaseConvenienceObjects(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
@@ -109,7 +107,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Refreshes the references of vendor detail and its sub objects
-     * 
+     *
      * @param vendor VendorDetail document
      */
     void refreshSubObjects(VendorDetail vendor) {
@@ -169,7 +167,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * This is currently used as a helper to get a list of object references (e.g. vendorType, vendorOwnershipType, etc) from a
      * BusinessObject (e.g. VendorHeader, VendorDetail, etc) class dynamically. Feel free to enhance it, refactor it or move it to a
      * superclass or elsewhere as you see appropriate.
-     * 
+     *
      * @param theClass The Class name of the object whose objects references list are extracted
      * @return List a List of attributes of the class
      */
@@ -213,7 +211,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates VendorDetail and its VendorContracts.
-     * 
+     *
      * @param document MaintenanceDocument instance
      * @return boolean false or true
      */
@@ -233,7 +231,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates VendorDetail document.
-     * 
+     *
      * @param document MaintenanceDocument instance
      * @return boolean false or true
      */
@@ -280,9 +278,9 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                          if (chartCode.equalsIgnoreCase(org.getChartOfAccountsCode()) && organizationCode.equalsIgnoreCase(org.getOrganizationCode())) {
                              if (counter++ != 0) {
                                  organizationCopy.remove(organization);
-                                 putFieldError(VendorPropertyConstants.VENDOR_CONTRACT + "[" + vendorPos + "]." + 
+                                 putFieldError(VendorPropertyConstants.VENDOR_CONTRACT + "[" + vendorPos + "]." +
                                          VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION + "[" + organizationPos + "]." +
-                                         VendorPropertyConstants.VENDOR_CUSTOMER_NUMBER_CHART_OF_ACCOUNTS_CODE, 
+                                         VendorPropertyConstants.VENDOR_CUSTOMER_NUMBER_CHART_OF_ACCOUNTS_CODE,
                                          VendorKeyConstants.ERROR_DUPLICATE_ENTRY_NOT_ALLOWED,chartCode + " " + organizationCode );
                                  success = false;
                                  break;
@@ -293,7 +291,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                  }
                  vendorPos++;
             }
-        }      
+        }
         return success;
     }
 
@@ -303,7 +301,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         List<VendorAlias> searchAliases = vendorDetail.getVendorAliases();
         List<VendorAlias> aliasList = new ArrayList<VendorAlias>(searchAliases);
         int pos = 0;
-        for (VendorAlias searchAlias : searchAliases) {    
+        for (VendorAlias searchAlias : searchAliases) {
                 String aliasName = searchAlias.getVendorAliasName();
                if (aliasName != null) {
                    int counter = 0;
@@ -325,14 +323,14 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates that if the vendor is set to be inactive, the inactive reason is required.
-     * 
+     *
      * @param vendorDetail the VendorDetail object to be validated
      * @return boolean false if the vendor is inactive and the inactive reason is empty or if the vendor is active and the inactive reason is not empty
      */
     boolean validateInactiveReasonRequiredness(VendorDetail vendorDetail) {
         boolean activeIndicator = vendorDetail.isActiveIndicator();
         boolean emptyInactiveReason = StringUtils.isEmpty(vendorDetail.getVendorInactiveReasonCode());
-        
+
         // return false if the vendor is inactive and the inactive reason is empty
         if (!activeIndicator && emptyInactiveReason) {
             putFieldError(VendorPropertyConstants.VENDOR_INACTIVE_REASON, VendorKeyConstants.ERROR_INACTIVE_REASON_REQUIRED);
@@ -350,7 +348,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * Validates that if the vendor is not foreign and if the vendor type's tax number required indicator is true, then the tax
      * number is required. If the vendor foreign indicator is true, then the tax number is not required regardless of its vendor
      * type.
-     * 
+     *
      * @param vendorDetail the VendorDetail object to be validated
      * @return boolean false if there is no tax number and the indicator is true.
      */
@@ -369,7 +367,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates that, if the vendor is set to be restricted, the restricted reason is required.
-     * 
+     *
      * @param vendorDetail The VendorDetail object to be validated
      * @return boolean false if the vendor is restricted and the restricted reason is empty
      */
@@ -390,7 +388,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * Purchasing Dept. While checking for the existence of vendors with the same tax # and tax type, exclude the vendors with the
      * same id. KULPURAP-302: Allow a duplication of a tax number in vendor header if there are only "inactive" header records with
      * the duplicate record
-     * 
+     *
      * @param vendorDetail the VendorDetail object to be validated
      * @return boolean true if the vendorDetail passes the unique tax # and tax type validation.
      */
@@ -432,7 +430,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * indicating that the tax type cannot be blank if the tax # is not blank or that the tax type cannot be set if the tax # is
      * blank. If the vendor is not a parent and the validation fails, we'll display an error message indicating that the parent of
      * this vendor needs to be changed, please contact Purchasing Dept.
-     * 
+     *
      * @param vendorDetail the VendorDetail object to be validated
      * @return boolean true if the vendor Detail passes the validation and false otherwise.
      */
@@ -465,7 +463,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * three vendor name fields must be filled in. 2. Both of the two ways of entering vendor name (One vendor name field vs
      * VendorFirstName/VendorLastName) cannot be used 3. If either the vendor first name or the vendor last name have been entered,
      * the other must be entered.
-     * 
+     *
      * @param vendorDetail The VendorDetail object to be validated
      * @return boolean true if the vendorDetail passes this validation and false otherwise.
      */
@@ -490,7 +488,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                     putFieldError(VendorPropertyConstants.VENDOR_LAST_NAME, VendorKeyConstants.ERROR_VENDOR_NAME_TOO_LONG);
                     valid &= false;
                 }
-                
+
             }
         }
         else {
@@ -507,7 +505,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     /**
      * Validates the vendorSoldToNumber field to ensure that it's a valid existing vendor number;
      * and if so set vendorSoldToName accordingly.
-     * 
+     *
      * @param document - the maintenanceDocument being evaluated
      * @return boolean true if the vendorDetail in the document contains valid vendorSoldToNumber.
      */
@@ -515,7 +513,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         String vendorSoldToNumber = vendorDetail.getVendorSoldToNumber();
 
-        // if vendor number is empty, clear all vendorSoldTo fields 
+        // if vendor number is empty, clear all vendorSoldTo fields
         if (StringUtils.isEmpty(vendorSoldToNumber)) {
             vendorDetail.setSoldToVendorDetail(null);
             vendorDetail.setVendorSoldToGeneratedIdentifier(null);
@@ -524,10 +522,10 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             vendorDetail.setVendorSoldToName(null);
             return valid;
         }
-        
+
         VendorDetail vendorSoldTo = SpringContext.getBean(VendorService.class).getVendorDetail(vendorSoldToNumber);
         if (vendorSoldTo != null) {
-            // if vendor number is valid, set all vendorSoldTo fields 
+            // if vendor number is valid, set all vendorSoldTo fields
             vendorDetail.setSoldToVendorDetail(vendorSoldTo);
             vendorDetail.setVendorSoldToGeneratedIdentifier(vendorSoldTo.getVendorHeaderGeneratedIdentifier());
             vendorDetail.setVendorSoldToAssignedIdentifier(vendorSoldTo.getVendorDetailAssignedIdentifier());
@@ -539,10 +537,10 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             vendorDetail.setVendorSoldToName(null);
             valid = false;
             putFieldError(VendorPropertyConstants.VENDOR_SOLD_TO_NUMBER, VendorKeyConstants.VENDOR_SOLD_TO_NUMBER_INVALID);
-        }                 
+        }
 
         return valid;
-    }    
+    }
 
     /**
      * Validates the ownership type codes that aren't allowed for the tax type of the vendor. The rules are : 1. If tax type is
@@ -550,7 +548,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * check the ownership type against the allowed types for "FEIN" in the Rules table. If the vendor is a parent and the
      * validation fails, display the actual error message. If the vendor is not a parent and the validation fails, display the error
      * message that the parent of this vendor needs to be changed, please contact Purchasing Dept.
-     * 
+     *
      * @param vendorDetail The VendorDetail object to be validated
      * @return boolean true if the ownership type is allowed and FALSE otherwise.
      */
@@ -583,7 +581,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates that the minimum order amount is less than the maximum allowed amount.
-     * 
+     *
      * @param vendorDetail The VendorDetail object to be validated
      * @return booelan true if the vendorMinimumOrderAmount is less than the maximum allowed amount.
      */
@@ -605,7 +603,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * return false if the vendor contains ownership category. If the vendor is a parent and the validation fails, display the
      * actual error message. If the vendor is not a parent and the validation fails, display the error message that the parent of
      * this vendor needs to be changed, please contact Purchasing Dept.
-     * 
+     *
      * @param vendorDetail The VendorDetail to be validated
      * @return boolean true if the vendor does not contain ownership category and false otherwise
      */
@@ -632,7 +630,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * cannot be all zeros (but can be blank). 2. First three digits of a SSN cannot be 000. 3. First three digits of a SSN cannot
      * be 666. 4. Middle two digits of a SSN cannot be 00. 5. Last four digits of a SSN cannot be 0000. 6. First two digits of a
      * FEIN cannot be 00. 7. Check system parameters for not allowed tax numbers
-     * 
+     *
      * @param vendorDetail The VendorDetail object to be validated
      * @return boolean true if the tax number is a valid tax number and false otherwise.
      */
@@ -654,13 +652,13 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         if (!valid && !isParent) {
             putFieldError(VendorPropertyConstants.VENDOR_TAX_NUMBER, VendorKeyConstants.ERROR_VENDOR_PARENT_NEEDS_CHANGED);
         }
-        
+
         return valid;
     }
 
     /**
      * Validates commodity code related rules.
-     * 
+     *
      * @param document MaintenanceDocument
      * @return boolean false or true
      */
@@ -698,25 +696,25 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 }
             }
         }
-        
+
         return valid;
     }
-    
+
     /**
      * Validates that there is one and only one default indicator selected
      * for commodity code if the vendor contains at least one commodity code.
-     * 
+     *
      * @param vendorCommodities the list of VendorCommodityCode to be validated
      * @return boolean true or false
      */
     private boolean validateCommodityCodeDefaultIndicator(List<VendorCommodityCode> vendorCommodities) {
         boolean valid = true;
-        
+
         boolean foundDefaultIndicator = false;
         for (int i=0; i < vendorCommodities.size(); i++) {
             VendorCommodityCode vcc = vendorCommodities.get(i);
             if (vcc.isCommodityDefaultIndicator()) {
-                if (!foundDefaultIndicator) {                
+                if (!foundDefaultIndicator) {
                     foundDefaultIndicator = true;
                 }
                 else {
@@ -735,10 +733,10 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         }
         return valid;
     }
-    
+
     /**
      * Validates vendor address fields.
-     * 
+     *
      * @param document MaintenanceDocument
      * @return boolean false or true
      */
@@ -760,12 +758,11 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             if (GlobalVariables.getMessageMap().hasErrors()) {
                 valid = false;
             }
-            
+
             if (address.getVendorAddressTypeCode().equals(vendorAddressTypeRequiredCode)) {
                 validAddressType = true;
             }
 
-            valid &= checkFaxNumber(address);
             valid &= checkAddressCountryEmptyStateZip(address);
 
             GlobalVariables.getMessageMap().clearErrorPath();
@@ -774,7 +771,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         // validate Address Type
         String vendorAddressTabPrefix = KFSConstants.ADD_PREFIX + "." + VendorPropertyConstants.VENDOR_ADDRESS + ".";
         if (!StringUtils.isBlank(vendorTypeCode) && !StringUtils.isBlank(vendorAddressTypeRequiredCode) && !validAddressType) {
-            String[] parameters = new String[] { vendorTypeCode, vendorAddressTypeRequiredCode };            
+            String[] parameters = new String[] { vendorTypeCode, vendorAddressTypeRequiredCode };
             putFieldError(vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_ADDRESS_TYPE_CODE, VendorKeyConstants.ERROR_ADDRESS_TYPE, parameters);
             String addressLine1Label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(VendorAddress.class, VendorPropertyConstants.VENDOR_ADDRESS_LINE_1);
             String addressCityLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(VendorAddress.class, VendorPropertyConstants.VENDOR_ADDRESS_CITY);
@@ -820,7 +817,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 if (!vendorDivisionsIdsWithDesiredAddressType.contains(value)) {
                     vendorId = newVendor.getVendorHeaderGeneratedIdentifier().toString() + '-' + value.toString();
                     String[] parameters = new String[] { vendorId, vendorTypeCode, vendorAddressTypeRequiredCode };
-                    
+
                     //divisions without the desired address type should only be an warning
                     GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(MAINTAINABLE_ERROR_PREFIX + vendorAddressTabPrefix + VendorPropertyConstants.VENDOR_ADDRESS_TYPE_CODE, VendorKeyConstants.ERROR_ADDRESS_TYPE_DIVISIONS, parameters);
                 }
@@ -833,21 +830,21 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     /**
      * Validates that if US is selected for the country then the state and zip cannot be empty. Also,
      * zip format validation is added if US is selected.
-     * 
+     *
      * @param addresses VendorAddress which is being validated
      * @return boolean false if the country is United States and there is no state or zip code
      */
     boolean checkAddressCountryEmptyStateZip(VendorAddress address) {
         //GlobalVariables.getMessageMap().clearErrorPath();
-        //GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.NEW_MAINTAINABLE_OBJECT + "." + VendorPropertyConstants.VENDOR_ADDRESS);        
+        //GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.NEW_MAINTAINABLE_OBJECT + "." + VendorPropertyConstants.VENDOR_ADDRESS);
         boolean valid = SpringContext.getBean(PostalCodeValidationService.class).validateAddress(address.getVendorCountryCode(), address.getVendorStateCode(), address.getVendorZipCode(), VendorPropertyConstants.VENDOR_ADDRESS_STATE, VendorPropertyConstants.VENDOR_ADDRESS_ZIP);
         //GlobalVariables.getMessageMap().clearErrorPath();
-		return valid;        
+		return valid;
     }
 
     /**
      * Checks if the "allow default indicator" is true or false for this address.
-     * 
+     *
      * @param addresses VendorAddress which is being validated
      * @return boolean false or true
      */
@@ -869,7 +866,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * If add button is selected on Default Address, checks if the allow default indicator is set to false for this address type
      * then it does not allow user to select a default address for this address and if it is true then it allows only one campus to
      * be default for this address.
-     * 
+     *
      * @param vendorDetail VendorDetail document
      * @param addedDefaultAddress VendorDefaultAddress which is being added
      * @param parent The VendorAddress which we are adding a default address to it
@@ -915,7 +912,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * Checks if the allow default indicator is set to false for this address the default indicator cannot be set to true/yes. If
      * "allow default indicator" is set to true/yes for address type, one address must have the default indicator set (no more, no
      * less) and only one campus to be set as default for this address.
-     * 
+     *
      * @param vendorDetail VendorDetail document
      * @return boolean false or true
      */
@@ -1000,7 +997,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
             for (String addressType : addressTypes) {
                 if (!addressTypesHavingDefaultTrue.contains(addressType)) {
-                    
+
                     int addressIndex = 0;
                     for (VendorAddress address : vendorAddresses) {
                         String[] parameters = new String[] { address.getVendorAddressType().getVendorAddressTypeDescription() };
@@ -1013,7 +1010,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                     }
                     valid = false;
                 }
-                
+
             }
         }
 
@@ -1022,24 +1019,8 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * Validates that the Vendor Fax Number is a valid phone number.
-     * 
-     * @param addresses VendorAddress instance
-     * @return boolean false or true
-     */
-    boolean checkFaxNumber(VendorAddress address) {
-        boolean valid = true;
-        String faxNumber = address.getVendorFaxNumber();
-        if (StringUtils.isNotEmpty(faxNumber) && !SpringContext.getBean(PhoneNumberService.class).isValidPhoneNumber(faxNumber)) {
-            GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_FAX_NUMBER, VendorKeyConstants.ERROR_FAX_NUMBER);
-            valid &= false;
-        }
-        return valid;
-    }
-
-    /**
      * A stub method as placeholder for future Contact Validation
-     * 
+     *
      * @param document MaintenanceDocument instance
      * @return boolean false or true
      */
@@ -1063,7 +1044,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates vendor customer numbers
-     * 
+     *
      * @param document MaintenanceDocument instance
      * @return boolean false or true
      */
@@ -1079,7 +1060,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates vendor customer number. The chart and org must exist in the database.
-     * 
+     *
      * @param customerNumber VendorCustomerNumber
      * @return boolean false or true
      */
@@ -1107,7 +1088,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates vendor contract. If the vendorContractAllowedIndicator is false, it cannot have vendor contracts, then return false
-     * 
+     *
      * @param document MaintenanceDocument
      * @return boolean false or true
      */
@@ -1140,8 +1121,8 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
             GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
         }
-        
-        
+
+
         return valid;
     }
 
@@ -1151,7 +1132,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * force this until the document is submitted. The rules are : 1. Must enter a Default APO Limit or at least one organization
      * with an APO Amount. 2. If the Exclude Indicator for an organization is N, an organization APO Amount is required. 3. If the
      * Exclude Indicator for an organization is Y, the organization APO Amount is not allowed.
-     * 
+     *
      * @param contract VendorContract
      * @return boolean true if the proper combination of Exclude Indicator and APO Amount is present, otherwise flase.
      */
@@ -1182,7 +1163,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * Validates that: 1. If the VendorContractBeginningDate is entered then the VendorContractEndDate is also entered, and vice
      * versa. 2. If both dates are entered, the VendorContractBeginningDate is before the VendorContractEndDate. The date fields are
      * required so we should know that we have valid dates.
-     * 
+     *
      * @param contract VendorContract
      * @return boolean true if the beginning date is before the end date, false if only one date is entered or the beginning date is
      *         after the end date.
@@ -1214,7 +1195,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * Validates a vendor contract organization. The rules are : 1. If the Exclude Indicator for the organization is N, an
      * organization APO Amount is required. 2. If the Exclude Indicator for the organization is Y, an organization APO Amount is not
      * allowed. 3. The chart and org for the organization must exist in the database.
-     * 
+     *
      * @param organization VendorContractOrganization
      * @return boolean true if these three rules are passed, otherwise false.
      */
@@ -1259,7 +1240,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates vendor contracts against single B2B restriction on a vendor/campus basis. Only one B2B contract allowed per vendor/campus
-     * 
+     *
      * @param document MaintenanceDocument
      * @return boolean false or true
      */
@@ -1275,9 +1256,9 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         if(contractPos == -1){
             if(contract.getVendorB2bIndicator()){
                 for (int i = 0; i < contracts.size(); i++) {
-                    VendorContract vndrContract = contracts.get(i);            
+                    VendorContract vndrContract = contracts.get(i);
                     if(vndrContract.getVendorB2bIndicator()){
-                        //check for duplicate campus; vendor is implicitly the same    
+                        //check for duplicate campus; vendor is implicitly the same
                         if(contract.getVendorCampusCode().equals(vndrContract.getVendorCampusCode())){
                             valid &= false;
                             GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_B2B_INDICATOR, VendorKeyConstants.ERROR_VENDOR_CONTRACT_B2B_LIMIT_EXCEEDED, contract.getVendorCampusCode());
@@ -1289,28 +1270,28 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         {
             if(contract.getVendorB2bIndicator()){
                 for (int i = 0; i < contracts.size(); i++) {
-                    VendorContract vndrContract = contracts.get(i);            
+                    VendorContract vndrContract = contracts.get(i);
                     if(vndrContract.getVendorB2bIndicator()){
                         //make sure we're not checking contracts against themselves
                         if(i != contractPos){
-                            //check for duplicate campus; vendor is implicitly the same    
+                            //check for duplicate campus; vendor is implicitly the same
                             if(contract.getVendorCampusCode().equals(vndrContract.getVendorCampusCode())){
                                 valid &= false;
                                 String [] errorArray = new String []{contract.getVendorContractName(), contract.getVendorCampusCode()};
                                 GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_CONTRACT_B2B_INDICATOR, VendorKeyConstants.ERROR_VENDOR_CONTRACT_B2B_LIMIT_EXCEEDED_DB, errorArray);
-                            }                            
+                            }
                         }
                     }
                 }
             }
-        } 
+        }
        return valid;
     }
-    
+
     /**
      * Validates business rules for VendorDetail document collection add lines. Add lines are the initial lines on a collections,
      * i.e. the ones next to the "Add" button
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
@@ -1320,7 +1301,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
         // this incoming bo needs to be refreshed because it doesn't have its subobjects setup
         bo.refreshNonUpdateableReferences();
-        
+
         if (bo instanceof VendorAddress) {
             VendorAddress address = (VendorAddress) bo;
             success &= checkAddressCountryEmptyStateZip(address);
@@ -1353,7 +1334,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     /**
      * Validates the rule that if a document has a federal witholding tax begin date and end date, the begin date should come before
      * the end date.
-     * 
+     *
      * @param vdDocument VendorDetail
      * @return boolean false or true
      */
@@ -1375,7 +1356,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates the rule that both w9 received and w-8ben cannot be set to yes
-     * 
+     *
      * @param vdDocument VendorDetail
      * @return boolean false or true
      */
@@ -1394,7 +1375,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * Overrides the method in MaintenanceDocumentRuleBase to give error message to the user when
      * the user tries to add a vendor contract when the vendor type of the vendor does not allow
      * contract.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override

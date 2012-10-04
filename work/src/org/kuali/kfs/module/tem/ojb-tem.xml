@@ -998,6 +998,10 @@
 	        <foreignkey field-ref="homeDeptChartOfAccountsCode" />
 	        <foreignkey field-ref="homeDeptOrgCode" />
 	    </reference-descriptor>
+	    <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="false" auto-update="none" auto-delete="none">
+			<foreignkey field-ref="defaultChartCode" />
+	        <foreignkey field-ref="defaultAccount" />
+		</reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.TemProfileAddress" table="TEM_PROFILE_ADDR_T">

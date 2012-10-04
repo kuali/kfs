@@ -30,8 +30,8 @@
 		</property>
 		<property name="dataDictionaryPackages">
 			<list>
-    				<value>org/kuali/kfs/module/tem/datadictionary</value>
-    				<value>org/kuali/kfs/module/tem/businessobject/datadictionary</value>
+    			<value>org/kuali/kfs/module/tem/datadictionary</value>
+    			<value>org/kuali/kfs/module/tem/businessobject/datadictionary</value>
 				<value>org/kuali/kfs/module/tem/batch/businessobject/datadictionary</value>
 				<value>org/kuali/kfs/module/tem/document/datadictionary</value>
 			</list>
@@ -1381,4 +1381,20 @@
       </property>
     </bean>
 
+	<bean id="temProfileAccountLookupHelperService"
+		class="org.kuali.kfs.module.tem.businessobject.lookup.TEMProfileAccountLookupableHelperServiceImpl"
+		scope="prototype">
+		<property name="travelService" ref="temTravelService" />
+		<property name="travelerService" ref="travelerService" />
+		<property name="personService" ref="personService" />
+		<property name="identityManagementService" ref="kimIdentityManagementService" />
+		<property name="temProfileService" ref="temProfileService" />
+	</bean>
+	<bean id="temProfileAccountLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="temProfileAccountLookupHelperService" />
+		</property>
+	</bean>
+	
 </beans>

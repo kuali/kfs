@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+
+	<changeSet author="KFS501" id="KFSMI-7530_FP_CPTL_AST_ACCT_GRP_DTL_T">
+		<comment>KFSMI-7530/KFSCNTRB-871 Need these columns to complete the accounting line info passed from FP documents to CAB.</comment>
+		<addColumn tableName="FP_CPTL_AST_ACCT_GRP_DTL_T">
+			<column name="SUB_ACCT_NBR" type="VARCHAR2(5)" />
+			<column name="FIN_SUB_OBJ_CD" type="VARCHAR2(3)" />
+			<column name="PROJECT_CD" type="VARCHAR2(10)" />
+			<column name="ORG_REFERENCE_ID" type="VARCHAR2(8)" />
+		</addColumn>
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
+		</modifySql>
+	</changeSet>
+  
+</databaseChangeLog>

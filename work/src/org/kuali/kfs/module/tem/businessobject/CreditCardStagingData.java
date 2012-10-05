@@ -55,6 +55,7 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
     private String travelerName;
     private String typeCode;
     private String expenseTypeCode;
+    private String disbursementVoucherDocumentNumber;
     private String merchantName;
     private Date bankPostDate;
     private String creditCardNumber;
@@ -319,6 +320,27 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
 
     public void setExpenseTypeCode(String expenseTypeCode) {
         this.expenseTypeCode = expenseTypeCode;
+    }
+
+
+    /**
+     * Gets the disbursementVoucherDocumentNumber attribute.
+     * 
+     * @return Returns the disbursementVoucherDocumentNumber
+     */
+    
+    public String getDisbursementVoucherDocumentNumber() {
+        return disbursementVoucherDocumentNumber;
+    }
+
+
+    /**	
+     * Sets the disbursementVoucherDocumentNumber attribute.
+     * 
+     * @param disbursementVoucherDocumentNumber The disbursementVoucherDocumentNumber to set.
+     */
+    public void setDisbursementVoucherDocumentNumber(String disbursementVoucherDocumentNumber) {
+        this.disbursementVoucherDocumentNumber = disbursementVoucherDocumentNumber;
     }
 
 

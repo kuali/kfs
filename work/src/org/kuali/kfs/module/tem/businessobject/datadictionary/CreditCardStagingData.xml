@@ -33,6 +33,7 @@
 			<ref bean="CreditCardStagingData-travelerName" />
 			<ref bean="CreditCardStagingData-typeCode" />
 			<ref bean="CreditCardStagingData-expenseTypeCode" />
+			<ref bean="CreditCardStagingData-disbursementVoucherDocumentNumber" />
 			<ref bean="CreditCardStagingData-merchantName" />
 			<ref bean="CreditCardStagingData-bankPostDate" />
 			<ref bean="CreditCardStagingData-processingTimestamp" />
@@ -270,6 +271,17 @@
 		<property name="description" value="Type Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="2"/></property>
 	</bean>
+	<bean id="CreditCardStagingData-disbursementVoucherDocumentNumber" parent="CreditCardStagingData-disbursementVoucherDocumentNumber-parentBean" />
+	<bean id="CreditCardStagingData-disbursementVoucherDocumentNumber-parentBean" parent="AttributeDefinition">
+		<property name="name" value="disbursementVoucherDocumentNumber" />
+		<property name="label" value="Disbursement Voucher Doc #" />
+		<property name="shortLabel" value="DV Doc #" />
+		<property name="maxLength" value="32" />
+		<property name="summary" value="Disbursement Voucher Document Number" />
+		<property name="description" value="Disbursement Voucher Document Number" />
+		<property name="forceUppercase" value="true"/>
+		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
+	</bean>
 	<bean id="CreditCardStagingData-merchantName" parent="CreditCardStagingData-merchantName-parentBean" />
 	<bean id="CreditCardStagingData-merchantName-parentBean" parent="AttributeDefinition">
 		<property name="name" value="merchantName" />
@@ -492,6 +504,7 @@
             <bean parent="FieldDefinition" p:attributeName="stagingFileName" />
             <bean parent="FieldDefinition" p:attributeName="reconciliationDate" />
             <bean parent="FieldDefinition" p:attributeName="moveToHistoryIndicator" />
+            <bean parent="FieldDefinition" p:attributeName="disbursementVoucherDocumentNumber" />
 			<bean parent="FieldDefinition" p:attributeName="location" />			
 		</list>
 		</property>

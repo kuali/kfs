@@ -37,6 +37,7 @@ import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
@@ -48,6 +49,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase implements TEMExpenseService {
 
@@ -163,6 +165,18 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
         //process DV for each of the card type
         for (String cardAgencyType : cardAgencyTypeSet){
             DisbursementVoucherDocument disbursementVoucherDocument = travelDisbursementService.createAndApproveDisbursementVoucherDocument(DisburseType.corpCard, document, cardAgencyType);
+            String docNumber = disbursementVoucherDocument.getDocumentNumber();
+            
+            if (!(document instanceof TravelRelocationDocument)){
+                for (HistoricalTravelExpense expense : document.getHistoricalTravelExpenses()){
+                    if (expense.getCreditCardStagingData() != null){
+                        if (expense.getCreditCardStagingData().getCreditCardOrAgencyCode().equals(cardAgencyType)){
+                            expense.getCreditCardStagingData().setDisbursementVoucherDocumentNumber(docNumber);
+                            getBusinessObjectService().save(expense.getCreditCardStagingData());
+                        }
+                    }
+                }
+            }
             
             //set relation from DV back to the travel doc
             String relationDescription = document.getDocumentHeader().getWorkflowDocument().getDocumentType() + " - DV";

@@ -15,12 +15,9 @@
  */
 package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import javassist.bytecode.Descriptor.Iterator;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -95,7 +92,12 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
         ReportQueryByCriteria rqbc = QueryFactory.newReportQuery(PurchaseOrderDocument.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
-        rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
+        //the documents need to be sorted in descending order because we want the 
+        //the oldest document number to get the oldest purchase order
+        //because the notes remoteobjectid is set to the object id of the oldest
+        //purchase order document.
+        //KFSMI-8394
+        rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
         
         String oldestDocumentNumber = null;      
         java.util.Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
@@ -103,12 +105,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
             final Object[] results = (Object[]) iter.next();
             oldestDocumentNumber = (String) results[0];    
         }
-        /*
-        Collection<String> docNumbers = getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
-        for (String docNum : docNumbers) {
-            oldestDocumentNumber = docNum;
-        }
-        */
+        
         return oldestDocumentNumber;
     }
 

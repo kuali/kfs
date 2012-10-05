@@ -677,7 +677,7 @@ public class PurapServiceImpl implements PurapService {
             try{
                 Note noteObj = documentService.createNoteFromDocument(apDocument.getPurchaseOrderDocument(), poNote.toString());
                 noteObj.setNoteTypeCode(apDocument.getPurchaseOrderDocument().getNoteType().getCode());
-            //    apDocument.getPurchaseOrderDocument().addNote(noteObj);
+                apDocument.getPurchaseOrderDocument().addNote(noteObj);
                 noteService.save(noteObj);
             }catch(Exception e){
                 String errorMessage = "Error creating and saving close note for purchase order with document service";

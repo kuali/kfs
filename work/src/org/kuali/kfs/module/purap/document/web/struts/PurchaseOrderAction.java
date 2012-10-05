@@ -37,12 +37,12 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
-import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
-import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
+import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor;
@@ -331,6 +331,15 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     kualiDocumentFormBase.setAttachmentFile(new BlankFormFile());
     
                     insertBONote(mapping, kualiDocumentFormBase, request, response);
+
+                    //the newly created notes needed to be set to the docuemnt 
+                    //on the oldest purchase order otherwise, in POA when you try to save
+                    //the POA, it will throw Ojblockexception error.
+                    //KFSMI-8394
+                    PurchaseOrderDocument oldestPurchaseOrder = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
+                    List<Note> newNotes = getNoteService().getByRemoteObjectId(oldestPurchaseOrder.getObjectId());
+                    
+                    oldestPurchaseOrder.setNotes(newNotes);
                 }
                 if (StringUtils.isNotEmpty(messageType)) {
                     KNSGlobalVariables.getMessageList().add(messageType);
@@ -348,7 +357,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             throw ve;
         }
     }
-
+    
     /**
      * Invoked when the user pressed on the Close Order button on a Purchase Order page to Close the PO. It will
      * display the question page to the user to ask whether the user really wants to close the PO and ask the user to enter a reason

@@ -1315,29 +1315,4 @@
 		</insert>
 	</changeSet>
 		
-	<changeSet author="KFS50" id="KFSCNTRB-65">
-		<comment>KFSCNTRB-65 Create permission to access locked modules and grant to KFS-SYS Operations</comment>
-		<insert tableName="KRIM_PERM_T">
-			<column name="PERM_ID" value="KFSCNTRB65-PRM1" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
-			<column name="VER_NBR" value="1" />
-			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KUALI' and nm = 'Default') " />
-			<column name="NMSPC_CD" value="KR-SYS" />
-			<column name="NM" value="Access Locked Module" />
-			<column name="DESC_TXT" value="Allow access to modules, even when locked." />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
-		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSCNTRB65-RLPRM1" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
-			<column name="VER_NBR" value="1" />
-			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-SYS' and role_nm = 'Operations') " />
-			<column name="PERM_ID" value="KFSCNTRB65-PRM1" />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
-		<modifySql dbms='mysql'>
-	      <replace replace="sys_guid()" with="uuid()" />
-	    </modifySql>
-	</changeSet>
-	
 </databaseChangeLog>

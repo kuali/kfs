@@ -60,6 +60,7 @@ import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.krad.util.NoteType;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.country.CountryEbo;
@@ -97,9 +98,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     protected Boolean overrideWorkflowButtons = null;
     protected transient PurApRelatedViews relatedViews;
     protected boolean sensitive;
-    
+
     protected boolean calculated;
-    
+
     // COLLECTIONS
     protected List<PurApItem> items;
     protected List<SourceAccountingLine> accountsForRouting; // don't use me for anything else!!
@@ -265,7 +266,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     @Override
     public boolean isDocumentStoppedInRouteNode(String nodeName) {
         WorkflowDocument workflowDocument = this.getFinancialSystemDocumentHeader().getWorkflowDocument();
-        
+
         Set<String> names = workflowDocument.getCurrentNodeNames();
         List<String> currentRouteLevels = new ArrayList<String>(names);
             if (currentRouteLevels.contains(nodeName) && workflowDocument.isApprovalRequested()) {
@@ -438,7 +439,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         for (int i = start; i < items.size(); i++) {
             PurApItem item = items.get(i);
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
-            
+
             // only set the item line number for above the line items
             if (item.getItemType().isLineItemIndicator()) {
                 item.setItemLineNumber(new Integer(i + 1));
@@ -1076,14 +1077,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     @Override
     public void refreshNonUpdateableReferences() {
         super.refreshNonUpdateableReferences();
-        
+
         for (PurApItem item : (List<PurApItem>)this.getItems()) {
             //refresh the accounts if they do exist...
             for (PurApAccountingLine account : item.getSourceAccountingLines()) {
                 account.refreshNonUpdateableReferences();
             }
         }
-        
+
         fixItemReferences();
     }
 
@@ -1333,24 +1334,29 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
     }
-    
+
     /**
      * Gets the calculated attribute.
-     * 
+     *
      * @return Returns the calculated
      */
-    
+
     public boolean isCalculated() {
         return calculated;
     }
 
-    /** 
+    /**
      * Sets the calculated attribute.
-     * 
+     *
      * @param calculated The calculated to set.
      */
     public void setCalculated(boolean calculated) {
         this.calculated = calculated;
+    }
+
+    @Override
+    public NoteType getNoteType() {
+        return NoteType.BUSINESS_OBJECT;
     }
 
 }

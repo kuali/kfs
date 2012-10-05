@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,15 +28,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
 import org.kuali.kfs.module.purap.PurapConstants.AccountsPayableDocumentStrings;
 import org.kuali.kfs.module.purap.PurapConstants.CMDocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
@@ -85,33 +85,34 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase baseForm = (PurchasingAccountsPayableFormBase) form;
-        
+
         ActionForward fwd = super.execute(mapping, form, request, response);
-        
+
         AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) baseForm.getDocument();
         boolean foundAccountExpiredWarning = false;
         for(int i=0;i<KNSGlobalVariables.getMessageList().size();i++){
             if (StringUtils.equals(KNSGlobalVariables.getMessageList().get(i).getErrorKey(),PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED)){
                 foundAccountExpiredWarning = true;
-            }   
+            }
         }
-        
+
         if (!foundAccountExpiredWarning){
             SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountWarning(document);
         }
-            
+
         return fwd;
-        
+
     }
     /**
      * Performs refresh of objects after a lookup.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase baseForm = (PurchasingAccountsPayableFormBase) form;
-        
+
         AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) baseForm.getDocument();
 
         if (StringUtils.equals(baseForm.getRefreshCaller(), VendorConstants.VENDOR_ADDRESS_LOOKUPABLE_IMPL)) {
@@ -130,7 +131,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     /**
      * Checks the continuation account indicator and generates warnings if continuation accounts were used to replace original
      * accounts on the document.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
@@ -139,14 +140,14 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         AccountsPayableDocument document = (AccountsPayableDocument) kualiDocumentFormBase.getDocument();
 
         SpringContext.getBean(AccountsPayableService.class).generateExpiredOrClosedAccountWarning(document);
-        
+
         SpringContext.getBean(AccountsPayableService.class).updateItemList(document);
         ((AccountsPayableFormBase) kualiDocumentFormBase).updateItemCounts();
     }
 
     /**
      * Perform calculation on item line.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -157,17 +158,17 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     public ActionForward calculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
         AccountsPayableDocument apDoc = (AccountsPayableDocument) apForm.getDocument();
-        
+
      //   //recalculate the amounts and percents on the accounting line.
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(apDoc);
-        
+
         // call precalculate
         if (SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedPreCalculateAccountsPayableEvent(apDoc))) {
             customCalculate(apDoc);
 
             // set calculated flag according to document type and status
             if (apForm instanceof PaymentRequestForm && apDoc.getApplicationDocumentStatus().equals(PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
-                // set calculated tax flag for tax area calculation 
+                // set calculated tax flag for tax area calculation
                 PaymentRequestForm preqForm = (PaymentRequestForm)apForm;
                 preqForm.setCalculatedTax(true);
             }
@@ -189,11 +190,11 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
         return super.clearAllTaxes(mapping, form, request, response);
     }
-    
+
     /**
      * Checks if calculation is required. Currently it is required when it has not already been calculated and full document entry
      * status has not already passed.
-     * 
+     *
      * @param apForm A Form, which must inherit from <code>AccountsPayableFormBase</code>
      * @return true if calculation is required, false otherwise
      */
@@ -207,7 +208,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
     /**
      * Returns the current action name.
-     * 
+     *
      * @return A String. Set to null!
      */
     public String getActionName() {
@@ -282,7 +283,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
     /**
      * A wrapper method which prompts for a reason to hold a payment request or credit memo.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -305,7 +306,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
     /**
      * Builds and asks questions which require text input by the user for a payment request or a credit memo.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -328,7 +329,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         AccountsPayableDocumentBase apDocument = (AccountsPayableDocumentBase) kualiDocumentFormBase.getDocument();
 
-        String question = (String) request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        String question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String noteText = "";
 
@@ -417,7 +418,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     /**
      * Used to look up messages to be displayed, from the ConfigurationService, given either a whole key or two parts of a key
      * that may be concatenated together.
-     * 
+     *
      * @param messageKey String. One of the message keys in PurapKeyConstants.
      * @param messagePrefix String. A prefix to the question key, such as "ap.question." that, concatenated with the question,
      *        comprises the whole key of the message.
@@ -445,7 +446,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
     /**
      * Constructs and asks the question as to whether the user wants to cancel, for payment requests and credit memos.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -455,7 +456,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      */
     protected ActionForward askCancelQuestion(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase apForm = (PurchasingAccountsPayableFormBase) form;
-        
+
         String operation = "Cancel ";
         PurQuestionCallback callback = cancelCallbackMethod();
         TreeMap<String, PurQuestionCallback> questionsAndCallbacks = new TreeMap<String, PurQuestionCallback>();
@@ -466,7 +467,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
     /**
      * Returns a question callback for the Cancel Purchase Order action.
-     * 
+     *
      * @return A PurQuestionCallback with a post-question activity appropriate to the Cancel PO action
      */
     protected PurQuestionCallback cancelPOActionCallbackMethod() {
@@ -481,7 +482,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
     /**
      * Returns a question callback for the Cancel action.
-     * 
+     *
      * @return A PurQuestionCallback which does post-question tasks appropriate to Cancellation.
      */
     protected PurQuestionCallback cancelCallbackMethod() {
@@ -561,6 +562,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                     PurchaseOrderDocument po = (PurchaseOrderDocument) objects[0];
 
                     Note cancelNote = new Note();
+                    cancelNote.setNoteTypeCode(po.getNoteType().getCode());
                     cancelNote.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
                     cancelNote.setNoteText(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.AP_REOPENS_PURCHASE_ORDER_NOTE));
                     cancelNote.setNotePostedTimestampToCurrent();
@@ -585,7 +587,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     /**
      * gets the item from preq and restores the values from the original PO and then
      * redistributes the amounts based on extended cost and quantity
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -596,25 +598,25 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     public ActionForward recalculateItemAccountsAmounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AccountsPayableFormBase payableForm = (AccountsPayableFormBase) form;
         AccountsPayableDocument apDoc = (AccountsPayableDocument) payableForm.getDocument();
-        
+
         PurapAccountingService purapAccountingService = SpringContext.getBean(PurapAccountingService.class);
-        
+
         String[] indexes = getSelectedItemNumber(request);
         int itemIndex = Integer.parseInt(indexes[0]);
 
-        PurApItem item = (PurApItem) apDoc.getItem((itemIndex));
-        
+        PurApItem item = apDoc.getItem((itemIndex));
+
         //first reset the the corresponding po items accounts amounts to this item
         restoreItemAccountsAmounts(apDoc, item);
 
         item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
-        
+
         final KualiDecimal itemExtendedPrice = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();;
         if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
             KualiDecimal newExtendedPrice = item.calculateExtendedPrice();
             item.setExtendedPrice(newExtendedPrice);
         }
-        
+
         PaymentRequestDocument preqDoc = (PaymentRequestDocument) apDoc;
 
         // set amounts on any empty
@@ -625,34 +627,34 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         if (preqDoc.getApplicationDocumentStatus().equals(PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
             SpringContext.getBean(PaymentRequestService.class).calculateTaxArea(preqDoc);
         }
-        
+
         // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
         //Calculate Payment request before rules since the rule check totalAmount.
         SpringContext.getBean(PaymentRequestService.class).calculatePaymentRequest(preqDoc, true);
         SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedCalculateAccountsPayableEvent(preqDoc));
-        
+
         PurchasingAccountsPayableDocumentBase document = (PurchasingAccountsPayableDocumentBase) apDoc;
         String accountDistributionMethod = document.getAccountDistributionMethod();
 
         if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             // update the accounts amounts for PREQ and distribution method = sequential
             purapAccountingService.updatePreqItemAccountAmounts(item);
-        } 
+        }
         else {
                 List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
                 for (PurApAccountingLine acctLine : sourceAccountingLines) {
                     acctLine.setAmount(KualiDecimal.ZERO);
                 }
-                
+
                 purapAccountingService.updatePreqProportionalItemAccountAmounts(item);
              }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * gets the item from preq and restores the values from the original PO
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -663,34 +665,34 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     public ActionForward restoreItemAccountsAmounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AccountsPayableFormBase payableForm = (AccountsPayableFormBase) form;
         AccountsPayableDocument apDoc = (AccountsPayableDocument) payableForm.getDocument();
-        
+
         String[] indexes = getSelectedItemNumber(request);
         int itemIndex = Integer.parseInt(indexes[0]);
 
-        PurApItem item = (PurApItem) apDoc.getItem((itemIndex));
+        PurApItem item = apDoc.getItem((itemIndex));
 
         //first reset the the corresponding po items accounts amounts to this item
         restoreItemAccountsAmounts(apDoc, item);
-        
+
         item.setItemQuantity(null);
         item.setItemTaxAmount(null);
-        
+
         item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
-        
+
         final KualiDecimal itemExtendedPrice = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();;
         if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
             KualiDecimal newExtendedPrice = item.calculateExtendedPrice();
             item.setExtendedPrice(newExtendedPrice);
         }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * Will return an array of Strings containing 2 indexes, the first String is the item index and the second String is the account
      * index. These are obtained by parsing the method to call parameter from the request, between the word ".line" and "." The
      * indexes are separated by a semicolon (:)
-     * 
+     *
      * @param request The HttpServletRequest
      * @return An array of Strings containing pairs of two indices, an item index
      */
@@ -704,11 +706,11 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
         return result;
     }
-    
+
     /**
      * restores the preq preqItem' accounts amounts with po's item's account lines
      * amounts.
-     * 
+     *
      * @param apDoc
      * @param preqItem
      */
@@ -720,36 +722,36 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
          //   preqItem.setItemUnitPrice(pOItem.getItemUnitPrice());
             List <PurApAccountingLine> preqAccountingLines = preqItem.getSourceAccountingLines();
             for (PurApAccountingLine lineAcct : preqAccountingLines) {
-                updateItemAccountLine(pOItem, lineAcct);                
+                updateItemAccountLine(pOItem, lineAcct);
             }
         }
     }
-    
+
     /**
      * returns the matching po item based on matching item identifier and item line numbner
      * from preq items.
-     * 
+     *
      * @param purchaseItems
      * @param itemLineNumber
      * @return pOItem
      */
     protected PurApItem getPOItem(List<PurApItem> pOItems, Integer itemLineNumber) {
         PurApItem pOItem = null;
-        
+
         for (PurApItem poItem : pOItems) {
             if (poItem.getItemLineNumber().compareTo(itemLineNumber) == 0) {
                 //found the matching preqItem so return it...
                 return poItem;
             }
         }
-        
+
         return pOItem;
     }
-    
+
     /**
      * finds the line with matching sequence number, chart code, account number, financial
      * object code and updates amount/percent on the account line.
-     * 
+     *
      * @param pOItem
      * @param lineAcct
      */
@@ -757,7 +759,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         List <PurApAccountingLine> pOAccountingLines = pOItem.getSourceAccountingLines();
         for (PurApAccountingLine pOLineAcct : pOAccountingLines) {
             if (lineAcct.getChartOfAccountsCode().equalsIgnoreCase(pOLineAcct.getChartOfAccountsCode()) &&
-                    lineAcct.getAccountNumber().equalsIgnoreCase(pOLineAcct.getAccountNumber()) && 
+                    lineAcct.getAccountNumber().equalsIgnoreCase(pOLineAcct.getAccountNumber()) &&
                     lineAcct.getFinancialObjectCode().equalsIgnoreCase(pOLineAcct.getFinancialObjectCode())) {
                 lineAcct.setAmount(pOLineAcct.getAmount());
                 lineAcct.setAccountLinePercent(pOLineAcct.getAccountLinePercent());

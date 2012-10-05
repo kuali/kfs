@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,10 +29,9 @@ import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument
 import org.kuali.kfs.module.endow.document.service.HoldingHistoryService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -70,7 +69,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends TransactionalDoc
 
     /**
      * Validates the Security code to make sure the value is not empty.
-     * 
+     *
      * @param tranSecurity
      * @return true if security code is empty, else false.
      */
@@ -86,12 +85,12 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends TransactionalDoc
 
     /**
      * Validates the Security code by trying to create a Security object from the code.
-     * 
+     *
      * @param document
      * @return true if security code is valid one, false otherwise
      */
     protected boolean validateSecurityCode(HoldingHistoryValueAdjustmentDocument document) {
-        Security security = (Security) SpringContext.getBean(SecurityService.class).getByPrimaryKey(document.getSecurityId());
+        Security security = SpringContext.getBean(SecurityService.class).getByPrimaryKey(document.getSecurityId());
         document.setSecurity(security);
 
         if (ObjectUtils.isNull(security)) {
@@ -104,7 +103,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends TransactionalDoc
 
     /**
      * Checks if the Security is Active.
-     * 
+     *
      * @param document
      * @return true if the security is active, else false
      */
@@ -121,7 +120,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends TransactionalDoc
 
     /**
      * Validates that the security class code type is not Liability.
-     * 
+     *
      * @param document
      * @return true is valid, false otherwise
      */
@@ -144,7 +143,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends TransactionalDoc
 
     /**
      * Checks if the unit value entered is positive value
-     * 
+     *
      * @param document
      * @return true if positive, else false
      */
@@ -159,7 +158,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends TransactionalDoc
 
     /**
      * Checks if the market value entered is positive value
-     * 
+     *
      * @param document
      * @return true if positive, else false
      */
@@ -177,7 +176,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends TransactionalDoc
 
     /**
      * Checks if security valuation method is Unit value and if so make sure nothing entered for Market Value
-     * 
+     *
      * @param document
      * @return true if only Unit Value is entered, else false
      */
@@ -216,7 +215,7 @@ public class HoldingHistoryValueAdjustmentDocumentRules extends TransactionalDoc
 
     /**
      * Reset the value for Market Value that the user entered if the valuation method is U (Unit Value)
-     * 
+     *
      * @param document
      */
     protected void resetMarketValueToNullWhenUnitValueEntered(HoldingHistoryValueAdjustmentDocument document) {

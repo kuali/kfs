@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,10 +39,10 @@ import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.TransactionalDocument;
-import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -62,6 +62,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     /**
      * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
 
@@ -76,6 +77,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
      * @see org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemoDetailRule#processRecalculateCustomerCreditMemoDetailRules(org.kuali.kfs.sys.document.AccountingDocument,
      *      org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail)
      */
+    @Override
     public boolean processRecalculateCustomerCreditMemoDetailRules(TransactionalDocument document, CustomerCreditMemoDetail customerCreditMemoDetail) {
         boolean success = true;
 
@@ -118,27 +120,32 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         KualiDecimal customerCreditMemoItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
         String inputKey = "";
 
-        if (ObjectUtils.isNotNull(customerCreditMemoItemQty) && ObjectUtils.isNotNull(customerCreditMemoItemAmount))
+        if (ObjectUtils.isNotNull(customerCreditMemoItemQty) && ObjectUtils.isNotNull(customerCreditMemoItemAmount)) {
             inputKey = ArConstants.CustomerCreditMemoConstants.BOTH_QUANTITY_AND_ITEM_TOTAL_AMOUNT_ENTERED;
-        else if (ObjectUtils.isNotNull(customerCreditMemoItemQty))
+        }
+        else if (ObjectUtils.isNotNull(customerCreditMemoItemQty)) {
             inputKey = ArConstants.CustomerCreditMemoConstants.CUSTOMER_CREDIT_MEMO_ITEM_QUANTITY;
-        else if (ObjectUtils.isNotNull(customerCreditMemoItemAmount))
+        }
+        else if (ObjectUtils.isNotNull(customerCreditMemoItemAmount)) {
             inputKey = ArConstants.CustomerCreditMemoConstants.CUSTOMER_CREDIT_MEMO_ITEM_TOTAL_AMOUNT;
+        }
 
         return inputKey;
     }
 
     public boolean isValueGreaterThanZero(BigDecimal value) {
         boolean validValue = (value.compareTo(BigDecimal.ZERO) == 1 ? true : false);
-        if (!validValue)
+        if (!validValue) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_QUANTITY_LESS_THAN_OR_EQUAL_TO_ZERO);
+        }
         return validValue;
     }
 
     public boolean isValueGreaterThanZero(KualiDecimal value) {
         boolean validValue = value.isPositive();
-        if (!validValue)
+        if (!validValue) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO);
+        }
         return validValue;
     }
 
@@ -148,8 +155,9 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         KualiDecimal creditMemoItemAmount = customerCreditMemoDetail.getCreditMemoItemTotalAmount();
 
         boolean validItemAmount = creditMemoItemAmount.isLessEqual(invoiceOpenItemAmount);
-        if (!validItemAmount)
+        if (!validItemAmount) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_TOTAL_AMOUNT, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_AMOUNT_GREATER_THAN_INVOICE_ITEM_AMOUNT);
+        }
 
         return validItemAmount;
     }
@@ -160,8 +168,9 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
 
         // customer credit memo quantity must not be greater than invoice open item quantity
         boolean validQuantity = (customerCreditMemoItemQty.compareTo(invoiceOpenItemQty) < 1 ? true : false);
-        if (!validQuantity)
+        if (!validQuantity) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_ITEM_QUANTITY, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DETAIL_ITEM_QUANTITY_GREATER_THAN_INVOICE_ITEM_QUANTITY);
+        }
 
         return validQuantity;
     }
@@ -199,6 +208,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     /**
      * @see org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemoDocumentRule#processRecalculateCustomerCreditMemoDocumentRules(org.kuali.kfs.sys.document.AccountingDocument)
      */
+    @Override
     public boolean processRecalculateCustomerCreditMemoDocumentRules(TransactionalDocument document, boolean printErrMsgFlag) {
         boolean success = true;
         boolean crmDataEnteredFlag = false;
@@ -223,8 +233,9 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         success &= crmDataEnteredFlag;
 
         // print error message if 'Submit'/'Save'/'Blanket Approved' button is pressed and there is no CRM data entered
-        if (!crmDataEnteredFlag && printErrMsgFlag)
+        if (!crmDataEnteredFlag && printErrMsgFlag) {
             GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_NO_DATA_TO_SUBMIT);
+        }
 
         return success;
     }
@@ -232,15 +243,18 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     /**
      * @see org.kuali.kfs.module.ar.document.validation.ContinueCustomerCreditMemoDocumentRule#processContinueCustomerCreditMemoDocumentRules(org.kuali.kfs.sys.document.AccountingDocument)
      */
+    @Override
     public boolean processContinueCustomerCreditMemoDocumentRules(TransactionalDocument document) {
         boolean success;
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) document;
 
         success = checkIfInvoiceNumberIsFinal(customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber());
-        if (success)
+        if (success) {
             success = checkIfThereIsNoAnotherCRMInRouteForTheInvoice(customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber());
-        if (success)
+        }
+        if (success) {
             success = checkInvoiceForErrorCorrection(customerCreditMemoDocument.getFinancialDocumentReferenceInvoiceNumber());
+        }
 
         return success;
     }
@@ -270,7 +284,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     /**
      * This method checks if there is no another CRM in route for the invoice not in route if CRM status is one of the following:
      * processed, cancelled, or disapproved
-     * 
+     *
      * @param invoice
      * @return
      */
@@ -286,10 +300,11 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         Collection<CustomerCreditMemoDocument> customerCreditMemoDocuments = businessObjectService.findMatching(CustomerCreditMemoDocument.class, fieldValues);
 
         // no CRMs associated with the invoice are found
-        if (customerCreditMemoDocuments.isEmpty())
+        if (customerCreditMemoDocuments.isEmpty()) {
             return success;
+        }
 
-        String userId = GlobalVariables.getUserSession().getPrincipalId();        
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
         for(CustomerCreditMemoDocument customerCreditMemoDocument : customerCreditMemoDocuments) {
             workflowDocument = WorkflowDocumentFactory.loadDocument(userId, customerCreditMemoDocument.getDocumentNumber());
             if (!(workflowDocument.isApproved() || workflowDocument.isProcessed() || workflowDocument.isCanceled() || workflowDocument.isDisapproved())) {
@@ -303,7 +318,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
 
     /**
      * This method checks if the Invoice has been error corrected or is an error correcting invoice
-     * 
+     *
      * @param invoice
      * @return
      */
@@ -332,7 +347,7 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
     public boolean isDocumentAttributesValid(Document document, boolean validateRequired) {
         //refresh GLPE nonupdateable business object references....
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) document;
-        
+
         for (CustomerCreditMemoDetail customerDetail : customerCreditMemoDocument.getCreditMemoDetails()) {
             customerDetail.getCustomerInvoiceDetail().refreshNonUpdateableReferences();
         }
@@ -340,8 +355,8 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         for (GeneralLedgerPendingEntry glpe : customerCreditMemoDocument.getGeneralLedgerPendingEntries()) {
             glpe.refreshNonUpdateableReferences();
         }
-        
+
         return super.isDocumentAttributesValid(document, validateRequired);
     }
-    
+
 }

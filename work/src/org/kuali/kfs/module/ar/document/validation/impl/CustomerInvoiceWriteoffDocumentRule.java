@@ -33,9 +33,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.TransactionalDocument;
-import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -143,7 +143,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
         criteria.put("chartOfAccountsCode", billByChartOfAccountCode);
         criteria.put("organizationCode", billedByOrganizationCode);
 
-        OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
+        OrganizationAccountingDefault organizationAccountingDefault = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
 
         if (ObjectUtils.isNotNull(organizationAccountingDefault)) {
             success &= doesWriteoffAccountNumberExist(organizationAccountingDefault);
@@ -231,8 +231,9 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
     public boolean checkIfThereIsNoAnotherCRMInRouteForTheInvoice(String invoiceDocumentNumber) {
         CustomerInvoiceWriteoffDocumentService service = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
         boolean success = service.checkIfThereIsNoAnotherCRMInRouteForTheInvoice(invoiceDocumentNumber);
-        if (!success)
+        if (!success) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_CREDIT_MEMO_DOCUMENT_ONE_CRM_IN_ROUTE_PER_INVOICE);
+        }
 
         return success;
     }
@@ -247,8 +248,9 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
     public boolean checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(String invoiceDocumentNumber) {
         CustomerInvoiceWriteoffDocumentService service = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
         boolean success = service.checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(invoiceDocumentNumber);
-        if (!success)
+        if (!success) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerCreditMemoDocumentFields.CREDIT_MEMO_DOCUMENT_REF_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_ONE_WRITEOFF_IN_ROUTE_PER_INVOICE);
+        }
 
         return success;
     }
@@ -263,12 +265,15 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
         CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument) document;
 
         success = checkIfInvoiceNumberIsValid(customerInvoiceWriteoffDocument.getFinancialDocumentReferenceInvoiceNumber());
-        if (success)
+        if (success) {
             success = doesCustomerInvoiceDocumentHaveValidBalance(customerInvoiceWriteoffDocument);
-        if (success)
+        }
+        if (success) {
             success = checkIfThereIsNoAnotherCRMInRouteForTheInvoice(customerInvoiceWriteoffDocument.getFinancialDocumentReferenceInvoiceNumber());
-        if (success)
+        }
+        if (success) {
             success = checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(customerInvoiceWriteoffDocument.getFinancialDocumentReferenceInvoiceNumber());
+        }
 
         return success;
     }

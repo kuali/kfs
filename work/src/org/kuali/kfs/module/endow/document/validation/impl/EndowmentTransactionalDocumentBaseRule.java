@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,8 +29,8 @@ import org.kuali.kfs.module.endow.document.service.RegistrationCodeService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -39,7 +39,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
     /**
      * This method is a convenience method to easily add a Document level error (ie, one not tied to a specific field, but
      * applicable to the whole document).
-     * 
+     *
      * @param errorConstant - Error Constant that can be mapped to a resource for the actual text message.
      */
     protected void putGlobalError(String errorConstant) {
@@ -51,7 +51,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
     /**
      * This method is a convenience method to easily add a Document level error (ie, one not tied to a specific field, but
      * applicable to the whole document).
-     * 
+     *
      * @param errorConstant - Error Constant that can be mapped to a resource for the actual text message.
      * @param parameter - Replacement value for part of the error message.
      */
@@ -64,7 +64,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
     /**
      * This method is a convenience method to easily add a Document level error (ie, one not tied to a specific field, but
      * applicable to the whole document).
-     * 
+     *
      * @param errorConstant - Error Constant that can be mapped to a resource for the actual text message.
      * @param parameters - Array of replacement values for part of the error message.
      */
@@ -77,7 +77,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
     /**
      * This method is a convenience method to add a property-specific error to the global errors list. This method makes sure that
      * the correct prefix is added to the property name so that it will display correctly on maintenance documents.
-     * 
+     *
      * @param propertyName - Property name of the element that is associated with the error. Used to mark the field as errored in
      *        the UI.
      * @param errorConstant - Error Constant that can be mapped to a resource for the actual text message.
@@ -91,7 +91,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
     /**
      * This method is a convenience method to add a property-specific error to the global errors list. This method makes sure that
      * the correct prefix is added to the property name so that it will display correctly on maintenance documents.
-     * 
+     *
      * @param propertyName - Property name of the element that is associated with the error. Used to mark the field as errored in
      *        the UI.
      * @param errorConstant - Error Constant that can be mapped to a resource for the actual text message.
@@ -107,7 +107,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
     /**
      * This method is a convenience method to add a property-specific error to the global errors list. This method makes sure that
      * the correct prefix is added to the property name so that it will display correctly on maintenance documents.
-     * 
+     *
      * @param propertyName - Property name of the element that is associated with the error. Used to mark the field as errored in
      *        the UI.
      * @param errorConstant - Error Constant that can be mapped to a resource for the actual text message.
@@ -123,7 +123,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
     /**
      * This method is a convenience method to add a property-specific document error to the global errors list. This method makes
      * sure that the correct prefix is added to the property name so that it will display correctly on maintenance documents.
-     * 
+     *
      * @param propertyName - Property name of the element that is associated with the error. Used to mark the field as errored in
      *        the UI.
      * @param errorConstant - Error Constant that can be mapped to a resource for the actual text message.
@@ -139,7 +139,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
     /**
      * This method is a convenience method to add a property-specific document error to the global errors list. This method makes
      * sure that the correct prefix is added to the property name so that it will display correctly on maintenance documents.
-     * 
+     *
      * @param propertyName - Property name of the element that is associated with the error. Used to mark the field as errored in
      *        the UI.
      * @param errorConstant - Error Constant that can be mapped to a resource for the actual text message.
@@ -153,7 +153,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
     /**
      * Convenience method to determine whether the field already has the message indicated. This is useful if you want to suppress
      * duplicate error messages on the same field.
-     * 
+     *
      * @param propertyName - propertyName you want to test on
      * @param errorConstant - errorConstant you want to test
      * @return returns True if the propertyName indicated already has the errorConstant indicated, false otherwise
@@ -171,7 +171,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
     /**
      * This method specifically doesn't put any prefixes before the error so that the developer can do things specific to the
      * globals errors (like newDelegateChangeDocument errors)
-     * 
+     *
      * @param propertyName
      * @param errorConstant
      */
@@ -184,7 +184,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
     /**
      * This method specifically doesn't put any prefixes before the error so that the developer can do things specific to the
      * globals errors (like newDelegateChangeDocument errors)
-     * 
+     *
      * @param propertyName
      * @param errorConstant
      * @param parameter
@@ -198,35 +198,39 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
 
     /**
      * This method obtains the Prefix for displaying errors on the UI for Source & Target lines.
-     * 
+     *
      * @param document
      * @param isSource
      * @return
      */
     protected String getEndowmentTransactionSecurityPrefix(EndowmentTransactionalDocument document, boolean isSource) {
-        if (isSource)
+        if (isSource) {
             return EndowPropertyConstants.TRANSACTION_SOURCE_SECURITY_PREFIX;
-        else
+        }
+        else {
             return EndowPropertyConstants.TRANSACTION_TARGET_SECURITY_PREFIX;
+        }
     }
 
     /**
      * This method returns the Security line associated with a Transaction.
-     * 
+     *
      * @param document
      * @param isSource
      * @return
      */
     protected EndowmentTransactionSecurity getEndowmentTransactionSecurity(EndowmentTransactionalDocument document, boolean isSource) {
-        if (isSource)
+        if (isSource) {
             return ((EndowmentSecurityDetailsDocument) document).getSourceTransactionSecurity();
-        else
+        }
+        else {
             return ((EndowmentSecurityDetailsDocument) document).getTargetTransactionSecurity();
+        }
     }
 
     /**
      * This method validate the Security code.
-     * 
+     *
      * @param tranSecurity
      * @return
      */
@@ -243,7 +247,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
 
     /**
      * This method validates the Registration code.
-     * 
+     *
      * @param tranSecurity
      * @return
      */
@@ -261,7 +265,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
 
     /**
      * This method validates the Security code by trying to create a Security object from the code.
-     * 
+     *
      * @param document
      * @param isSource
      * @return
@@ -272,7 +276,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
 
         EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document, isSource);
 
-        Security security = (Security) SpringContext.getBean(SecurityService.class).getByPrimaryKey(tranSecurity.getSecurityID());
+        Security security = SpringContext.getBean(SecurityService.class).getByPrimaryKey(tranSecurity.getSecurityID());
         tranSecurity.setSecurity(security);
         if (null == security) {
             putFieldError(getEndowmentTransactionSecurityPrefix(document, isSource) + EndowPropertyConstants.TRANSACTION_SECURITY_ID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_INVALID);
@@ -284,7 +288,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
 
     /**
      * This method validates the Registration code by trying to create a RegistrationCode object from the code.
-     * 
+     *
      * @param document
      * @param isSource
      * @return
@@ -295,7 +299,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
 
         EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document, isSource);
 
-        RegistrationCode registrationCode = (RegistrationCode) SpringContext.getBean(RegistrationCodeService.class).getByPrimaryKey(tranSecurity.getRegistrationCode());
+        RegistrationCode registrationCode = SpringContext.getBean(RegistrationCodeService.class).getByPrimaryKey(tranSecurity.getRegistrationCode());
         tranSecurity.setRegistrationCodeObj(registrationCode);
         if (null == registrationCode) {
             putFieldError(getEndowmentTransactionSecurityPrefix(document, isSource) + EndowPropertyConstants.TRANSACTION_REGISTRATION_ID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_REGISTRATION_CODE_INVALID);
@@ -307,7 +311,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
 
     /**
      * This method checks if the Security is Active.
-     * 
+     *
      * @param document
      * @param isSource
      * @return
@@ -315,8 +319,9 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
     protected boolean isSecurityActive(EndowmentSecurityDetailsDocument document, boolean isSource) {
         EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document, isSource);
 
-        if (tranSecurity.getSecurity().isActive())
+        if (tranSecurity.getSecurity().isActive()) {
             return true;
+        }
         else {
             putFieldError(getEndowmentTransactionSecurityPrefix(document, isSource) + EndowPropertyConstants.TRANSACTION_SECURITY_ID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_INACTIVE);
             return false;
@@ -325,7 +330,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
 
     /**
      * Validates that the security class code type is not Liability.
-     * 
+     *
      * @param endowmentTransactionSecurity
      * @return true is valid, false otherwise
      */
@@ -356,7 +361,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
 
     /**
      * This method checks if the Registration Code is Active.
-     * 
+     *
      * @param document
      * @param isSource
      * @return
@@ -364,8 +369,9 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
     protected boolean isRegistrationCodeActive(EndowmentSecurityDetailsDocument document, boolean isSource) {
         EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document, isSource);
 
-        if (tranSecurity.getRegistrationCodeObj().isActive())
+        if (tranSecurity.getRegistrationCodeObj().isActive()) {
             return true;
+        }
         else {
             putFieldError(getEndowmentTransactionSecurityPrefix(document, isSource) + EndowPropertyConstants.TRANSACTION_REGISTRATION_ID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_REGISTRATION_CODE_INACTIVE);
             return false;
@@ -374,7 +380,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
 
     /**
      * This method validates the Security Class Type Code.
-     * 
+     *
      * @param document
      * @param isSource
      * @param classCodeType
@@ -384,8 +390,9 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
         EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document, isSource);
         tranSecurity.getSecurity().refreshNonUpdateableReferences();
 
-        if (tranSecurity.getSecurity().getClassCode().getClassCodeType().equalsIgnoreCase(classCodeType))
+        if (tranSecurity.getSecurity().getClassCode().getClassCodeType().equalsIgnoreCase(classCodeType)) {
             return true;
+        }
         else {
             putFieldError(getEndowmentTransactionSecurityPrefix(document, isSource) + EndowPropertyConstants.TRANSACTION_SECURITY_ID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_CLASS_CODE_MISMATCH);
             return false;
@@ -414,7 +421,7 @@ public class EndowmentTransactionalDocumentBaseRule extends TransactionalDocumen
 
     /**
      * This method validates the Sub Type Code.
-     * 
+     *
      * @param document
      * @return
      */

@@ -1,50 +1,237 @@
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
-
-<!-- 
-	<changeSet author="KFS501" id="SAMPLE">
-		<comment>KFSMI-6741 Create new system parameters for KFS-CAM</comment>
+	
+	<changeSet author="KFS50" id="KFSCNTRB-65">
+		<comment>KFSCNTRB-65 Create new system parameters for lock and unlock module</comment>
 		<insert tableName="KRCR_PARM_T">
-			<column name="NMSPC_CD" value="KFS-CAM" />
-			<column name="CMPNT_CD" value="Asset" />
-			<column name="PARM_NM" value="VENDOR_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND" />
-			<column name="VAL" value="Y" />
-			<column name="OBJ_ID" value="KFSCAM102" />
+			<column name="NMSPC_CD" value="KFS-FP" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
+			<column name="VAL" value="N" />
+			<column name="OBJ_ID" value="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="PARM_DESC_TXT" value="Indicates whether or not the vendor is required for a non-moveable asset." />
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the financial processing module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CAM" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
+			<column name="VAL" value="N" />
+			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the capital asset management module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-COA" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
+			<column name="VAL" value="N" />
+			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the chart of account module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
+			<column name="VAL" value="N" />
+			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the account receivable module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-LD" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
+			<column name="VAL" value="N" />
+			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the labor distribution module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-GL" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
+			<column name="VAL" value="N" />
+			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the general ledger module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-BC" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
+			<column name="VAL" value="N" />
+			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the budget construction module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CAB" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
+			<column name="VAL" value="N" />
+			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the capital asset module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use.  " />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
+			<column name="VAL" value="N" />
+			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the purchasing account/payable module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use.  " />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
+			<column name="VAL" value="N" />
+			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the system module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-VND" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
+			<column name="VAL" value="N" />
+			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the vendor module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-EC" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
+			<column name="VAL" value="N" />
+			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the effort certification module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PDP" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
+			<column name="VAL" value="N" />
+			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the pre-disbursement module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use.  " />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-ENDOW" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
+			<column name="VAL" value="N" />
+			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the endowment module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-CG" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
+			<column name="VAL" value="N" />
+			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the contracts and grants module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
- -->	
-
-	<changeSet author="KFS501" id="CONTRIB_PARAMETERS">
+	
+	<changeSet author="KFS501" id="KFSCNTRB540_REVERSAL_DATE_ON_THE_AV_DEFAULTS_TO_THE_15TH">
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-FP" />
 			<column name="CMPNT_CD" value="AuxiliaryVoucher" />
 			<column name="PARM_NM" value="REVERSAL_DATE_DEFAULT_DAY_OF_THE_MONTH" />
 			<column name="VAL" value="15" />
-			<column name="OBJ_ID" value="KFS691" />
+			<column name="OBJ_ID" valueComputed="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="The day of the month that will prefill into the Auxiliary Voucher Reversal Date." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>
+
+		<rollback>
+			<delete tableName="KRCR_PARM_T">
+				<where>NMSPC_CD = 'KFS-FP' AND PARM_NM = 'REVERSAL_DATE_DEFAULT_DAY_OF_THE_MONTH'</where>
+			</delete>
+		</rollback>
+
+		<modifySql dbms="mysql">
+			<replace replace="sys_guid()" with="uuid()" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS501" id="KFSCNTRB873_WORKSTUDY_OBJECT_CODES_PARAMETER">
+		<comment>Adds parameter to specify which object codes to force workstudy routing for ST and ECD docs</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-SYS" />
 			<column name="CMPNT_CD" value="Document" />
 			<column name="PARM_NM" value="WORKSTUDY_ROUTE_OBJECT_CODES" />
-			<column name="VAL" value="" />
-			<column name="OBJ_ID" value="KFSMI4606" />
-			<column name="VER_NBR" valueNumeric="1" />
+			<column name="APPL_ID" value="KFS" />
+			<column name="OBJ_ID" valueComputed="sys_guid() " />
+			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="" />
 			<column name="PARM_DESC_TXT" value="Object codes that trigger workstudy routing on Salary Transfer and Effort Certification Documents." />
 			<column name="EVAL_OPRTR_CD" value="A" />
-			<column name="APPL_ID" value="KFS" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
+	
 
 </databaseChangeLog>

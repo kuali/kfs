@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,7 +40,6 @@ import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
 import org.kuali.kfs.module.cam.util.ObjectValueUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.util.KfsDateUtils;
@@ -52,6 +51,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class AssetTransferServiceImpl implements AssetTransferService {
     protected static enum AmountCategory {
         CAPITALIZATION {
+            @Override
             public void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode, boolean isSource, OffsetDefinition offsetDefinition) {
                 postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " asset cost");
                 postable.setAmount(assetPayment.getAccountChargeAmount());
@@ -62,6 +62,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
         },
         ACCUM_DEPRECIATION {
+            @Override
             public void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode, boolean isSource, OffsetDefinition offsetDefinition) {
                 postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " accumulated depreciation");
                 postable.setAmount(assetPayment.getAccumulatedPrimaryDepreciationAmount());
@@ -72,6 +73,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
         },
         OFFSET_AMOUNT {
+            @Override
             public void setParams(AssetGlpeSourceDetail postable, AssetPayment assetPayment, AssetObjectCode assetObjectCode, boolean isSource, OffsetDefinition offsetDefinition) {
                 postable.setFinancialDocumentLineDescription("" + (isSource ? "Reverse" : "Transfer") + " offset amount");
                 postable.setAmount(assetPayment.getAccountChargeAmount().subtract(assetPayment.getAccumulatedPrimaryDepreciationAmount()));
@@ -96,7 +98,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
     /**
      * Creates an instance of AssetGlpeSourceDetail depending on the source flag
-     * 
+     *
      * @param universityDateService University Date Service
      * @param plantAccount Plant account for the organization
      * @param assetPayment Payment record for which postable is created
@@ -121,7 +123,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             organizationOwnerChartOfAccountsCode = document.getOrganizationOwnerChartOfAccountsCode();
             postable.setSubAccountNumber(null);
         }
-        ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
+        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
         ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPayment.getChartOfAccountsCode(), assetPayment.getFinancialObjectCode());
         postable.setChartOfAccountsCode(organizationOwnerChartOfAccountsCode);
         postable.setDocumentNumber(document.getDocumentNumber());
@@ -142,16 +144,17 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetTransferService#createGLPostables(org.kuali.kfs.module.cam.document.AssetTransferDocument)
      */
+    @Override
     public void createGLPostables(AssetTransferDocument document) {
         document.clearGlPostables();
         // Create GL entries only for capital assets
-        ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
+        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
 
         Asset asset = document.getAsset();
         if (getAssetService().isCapitalAsset(asset) && !asset.getAssetPayments().isEmpty()) {
             asset.refreshReferenceObject(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT);
             document.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT);
-   
+
             String finObjectSubTypeCode = asset.getFinancialObjectSubTypeCode();
             if (finObjectSubTypeCode == null) {
                 AssetPayment firstAssetPayment = asset.getAssetPayments().get(0);
@@ -171,7 +174,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
     /**
      * Creates new payment records for new organization account
-     * 
+     *
      * @param document Current document
      * @param persistableObjects Saved objects list
      * @param originalPayments Original payments for the asset
@@ -217,7 +220,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
     /**
      * Creates offset payment copying the details from original payments and reversing the amounts
-     * 
+     *
      * @param document Current Document
      * @param persistableObjects List of update objects
      * @param originalPayments Original list of payments
@@ -256,7 +259,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
     /**
      * Creates GL Postables for the source organization
-     * 
+     *
      * @param universityDateService University Date Service to get the current fiscal year and period
      * @param assetPayments Payments for which GL entries needs to be created
      */
@@ -270,7 +273,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         else {
             srcPlantAcct = document.getAsset().getOrganizationOwnerAccount().getOrganization().getCampusPlantAccount();
         }
-        ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
+        ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
 
         for (AssetPayment assetPayment : assetPayments) {
             if (getAssetPaymentService().isPaymentEligibleForGLPosting(assetPayment)) {
@@ -293,7 +296,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
     /**
      * Creates target GL Postable for the receiving organization
-     * 
+     *
      * @param universityDateService University Date Service to get the current fiscal year and period
      * @param assetPayments Payments for which GL entries needs to be created
      */
@@ -343,7 +346,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
     /**
      * Checks if it is ready for GL Posting by validating the accounts and plant account numbers
-     * 
+     *
      * @return true if all accounts are valid
      */
     protected boolean isGLPostable(AssetTransferDocument document, Asset asset, boolean movableAsset) {
@@ -383,6 +386,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetTransferService#saveApprovedChanges(org.kuali.kfs.module.cam.document.AssetTransferDocument)
      */
+    @Override
     public void saveApprovedChanges(AssetTransferDocument document) {
         // save new asset location details to asset table, inventory date
         List<PersistableBusinessObject> persistableObjects = new ArrayList<PersistableBusinessObject>();
@@ -412,7 +416,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
     /**
      * Updates organization data for the asset
-     * 
+     *
      * @param document Current document
      * @param saveAsset Asset
      */
@@ -423,7 +427,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
     /**
      * Updates location details to the asset
-     * 
+     *
      * @param document Current document
      * @param saveAsset Asset
      */
@@ -435,29 +439,25 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         saveAsset.setBuildingCode(document.getBuildingCode());
         saveAsset.setBuildingRoomNumber(document.getBuildingRoomNumber());
         saveAsset.setBuildingSubRoomNumber(document.getBuildingSubRoomNumber());
-
-        // save off campus location details
         AssetLocation offCampusLocation = null;
-        List<AssetLocation> orginalLocations = saveAsset.getAssetLocations();
-        for (AssetLocation assetLocation : orginalLocations) {
-            if (CamsConstants.AssetLocationTypeCode.OFF_CAMPUS.equals(assetLocation.getAssetLocationTypeCode())) {
-                offCampusLocation = assetLocation;
-                break;
+
+        if (StringUtils.isBlank(saveAsset.getBuildingCode()) && StringUtils.isBlank(saveAsset.getBuildingRoomNumber()) && StringUtils.isBlank(saveAsset.getBuildingSubRoomNumber())) {
+
+            // save off campus location details
+            List<AssetLocation> orginalLocations = saveAsset.getAssetLocations();
+            for (AssetLocation assetLocation : orginalLocations) {
+                if (CamsConstants.AssetLocationTypeCode.OFF_CAMPUS.equals(assetLocation.getAssetLocationTypeCode())) {
+                    offCampusLocation = assetLocation;
+                    break;
+                }
             }
-        }
-        if (ObjectUtils.isNull(offCampusLocation)) {
-            offCampusLocation = new AssetLocation();
-            offCampusLocation.setCapitalAssetNumber(saveAsset.getCapitalAssetNumber());
-            offCampusLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.OFF_CAMPUS);
-            saveAsset.getAssetLocations().add(offCampusLocation);
-        }
-        if (StringUtils.isNotBlank(saveAsset.getCampusCode()) && StringUtils.isNotBlank(saveAsset.getBuildingCode()) && StringUtils.isNotBlank(saveAsset.getBuildingRoomNumber())) {
-            // remove off campus info if oncampus info exists      
-            saveAsset.getAssetLocations().remove(offCampusLocation); 
-            getBusinessObjectService().delete(offCampusLocation);
-            saveAsset.setOffCampusLocation(null);
-        } else {
-            // save details
+
+            if (ObjectUtils.isNull(offCampusLocation)) {
+                offCampusLocation = new AssetLocation();
+                offCampusLocation.setCapitalAssetNumber(saveAsset.getCapitalAssetNumber());
+                offCampusLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.OFF_CAMPUS);
+                saveAsset.getAssetLocations().add(offCampusLocation);
+            }
             offCampusLocation.setAssetLocationContactName(document.getOffCampusName());
             offCampusLocation.setAssetLocationState(document.getOffCampusState());
             offCampusLocation.setPostalZipCode(document.getPostalZipCode());
@@ -466,17 +466,25 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             offCampusLocation.setAssetLocationCityName(document.getOffCampusCityName());
             offCampusLocation.setAssetLocationStateCode(document.getOffCampusStateCode());
             offCampusLocation.setAssetLocationZipCode(document.getOffCampusZipCode());
-            if (getAssetLocationService().isOffCampusLocationEmpty(offCampusLocation)) { 
+            if (getAssetLocationService().isOffCampusLocationEmpty(offCampusLocation)) {
                 // remove off Campus Location if it's an empty record. When asset transfer from off to on campus, the off campus location will be removed.
-                saveAsset.getAssetLocations().remove(offCampusLocation); 
+                saveAsset.getAssetLocations().remove(offCampusLocation);
+              //  getBusinessObjectService().delete(offCampusLocation);
             }
-         }
+        } else {
+            for (AssetLocation assetLocation : saveAsset.getAssetLocations()) {
+                getBusinessObjectService().delete(assetLocation);
+            }
+            saveAsset.getAssetLocations().clear();
+            saveAsset.setOffCampusLocation(null);
+        }
+
     }
 
 
     /**
      * Updates organization changes
-     * 
+     *
      * @param document Current document
      * @param saveAsset Asset
      */
@@ -513,7 +521,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
     /**
      * Updates original payment records
-     * 
+     *
      * @param persistableObjects List of saveable objects
      * @param originalPayments Original payments list
      */
@@ -537,7 +545,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
     /**
      * Gets the dateTimeService attribute.
-     * 
+     *
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -546,7 +554,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -555,7 +563,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
     /**
      * Gets the assetLocationService attribute.
-     * 
+     *
      * @return Returns the assetLocationService
      */
     public AssetLocationService getAssetLocationService() {
@@ -564,7 +572,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
 
     /**
      * Sets the assetLocationService attribute.
-     * 
+     *
      * @param assetLocationService  The assetLocationService to set
      */
     public void setAssetLocationService(AssetLocationService assetLocationService) {

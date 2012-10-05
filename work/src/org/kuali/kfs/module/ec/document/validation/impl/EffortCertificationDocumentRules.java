@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,15 +39,13 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -69,6 +67,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      * @see org.kuali.kfs.module.ec.document.validation.AddDetailLineRule#processAddDetailLineRules(org.kuali.kfs.module.ec.document.EffortCertificationDocument,
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail)
      */
+    @Override
     public boolean processAddDetailLineRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
         LOG.debug("processAddDetailLineRules() start");
 
@@ -109,6 +108,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      * @see org.kuali.kfs.module.ec.document.validation.UpdateDetailLineRule#processUpdateDetailLineRules(org.kuali.kfs.module.ec.document.EffortCertificationDocument,
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail)
      */
+    @Override
     public boolean processUpdateDetailLineRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
         LOG.debug("processUpdateDetailLineRules() start");
 
@@ -180,7 +180,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
                     break;
                 }
             }
-            
+
             if (!noteHasBeenAdded) {
                 reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_NOTE_REQUIRED_WHEN_EFFORT_CHANGED);
                 return false;
@@ -215,6 +215,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      * @see org.kuali.kfs.module.ec.document.validation.CheckDetailLineAmountRule#processCheckDetailLineAmountRules(org.kuali.kfs.module.ec.document.EffortCertificationDocument,
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail)
      */
+    @Override
     public boolean processCheckDetailLineAmountRules(EffortCertificationDocument effortCertificationDocument, EffortCertificationDetail effortCertificationDetail) {
         if (!EffortCertificationDocumentRuleUtil.hasValidEffortPercent(effortCertificationDetail)) {
             reportError(EffortPropertyConstants.EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT, EffortKeyConstants.ERROR_INVALID_EFFORT_PERCENT);
@@ -232,6 +233,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     /**
      * @see org.kuali.kfs.module.ec.document.validation.LoadDetailLineRule#processLoadDetailLineRules(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
+    @Override
     public boolean processLoadDetailLineRules(EffortCertificationDocument effortCertificationDocument) {
         LOG.debug("processLoadDetailLineRules() start");
 
@@ -286,7 +288,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
     /**
      * check if the attributes in the detail line are valid for the defintions in data dictionary and have valid references
-     * 
+     *
      * @param detailLine the given effort certification detail line
      * @return true if the attributes in the detail line are valid for the defintions in data dictionary and have valid references;
      *         otherwise, false
@@ -302,11 +304,11 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         // if the formats of the fields are correct, check if there exist the references of a set of specified fields
         boolean hasValidReference = true;
         if (hasValidFormat) {
-            hasValidReference &= accountingLineRuleHelperService.isValidAccount(detailLine.getAccount(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
-            hasValidReference &= accountingLineRuleHelperService.isValidChart(detailLine.getChartOfAccounts(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
+            hasValidReference &= accountingLineRuleHelperService.isValidAccount(detailLine.getAccount(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, "");
+            hasValidReference &= accountingLineRuleHelperService.isValidChart(detailLine.getChartOfAccounts(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, "");
 
             if (!KFSConstants.getDashSubAccountNumber().equals(detailLine.getSubAccountNumber()) && StringUtils.isNotBlank(detailLine.getSubAccountNumber())) {
-                hasValidReference &= accountingLineRuleHelperService.isValidSubAccount(detailLine.getSubAccount(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS);
+                hasValidReference &= accountingLineRuleHelperService.isValidSubAccount(detailLine.getSubAccount(), dataDictionary, EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, "");
             }
         }
 
@@ -324,7 +326,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
     /**
      * determine if the given document can be populated. If so, populate it and return true
-     * 
+     *
      * @param effortCertificationDocument the given document
      * @return true if the given document can be populated; otherwise, return false and the document is not changed
      */

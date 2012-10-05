@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,20 +16,17 @@
 package org.kuali.kfs.sec.businessobject;
 
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sec.SecPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.util.type.KualiInteger;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 
@@ -52,7 +49,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
     /**
      * Gets the modelId attribute.
-     * 
+     *
      * @return Returns the modelId.
      */
     public KualiInteger getModelId() {
@@ -62,7 +59,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
     /**
      * Sets the modelId attribute value.
-     * 
+     *
      * @param modelId The modelId to set.
      */
     public void setModelId(KualiInteger modelId) {
@@ -72,7 +69,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
     /**
      * Gets the memberId attribute.
-     * 
+     *
      * @return Returns the memberId.
      */
     public String getMemberId() {
@@ -82,7 +79,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
     /**
      * Sets the memberId attribute value.
-     * 
+     *
      * @param memberId The memberId to set.
      */
     public void setMemberId(String memberId) {
@@ -93,7 +90,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
     /**
      * Gets the memberTypeCode attribute.
-     * 
+     *
      * @return Returns the memberTypeCode.
      */
     public String getMemberTypeCode() {
@@ -103,7 +100,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
     /**
      * Sets the memberTypeCode attribute value.
-     * 
+     *
      * @param memberTypeCode The memberTypeCode to set.
      */
     public void setMemberTypeCode(String memberTypeCode) {
@@ -114,7 +111,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
     /**
      * Gets the activeFromDate attribute.
-     * 
+     *
      * @return Returns the activeFromDate.
      */
     public Timestamp getActiveFromDate() {
@@ -124,7 +121,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
     /**
      * Sets the activeFromDate attribute value.
-     * 
+     *
      * @param activeFromDate The activeFromDate to set.
      */
     public void setActiveFromDate(Timestamp activeFromDate) {
@@ -134,7 +131,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
     /**
      * Gets the activeToDate attribute.
-     * 
+     *
      * @return Returns the activeToDate.
      */
     public Timestamp getActiveToDate() {
@@ -144,7 +141,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
     /**
      * Sets the activeToDate attribute value.
-     * 
+     *
      * @param activeToDate The activeToDate to set.
      */
     public void setActiveToDate(Timestamp activeToDate) {
@@ -154,7 +151,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
     /**
      * Gets the memberName attribute.
-     * 
+     *
      * @return Returns the memberName.
      */
     public String getMemberName() {
@@ -166,12 +163,12 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
                         memberName = person.getName();
                     }
                 } else if (MemberType.ROLE.getCode().equals(memberTypeCode)) {
-                    Role roleInfo = SpringContext.getBean(RoleService.class).getRole(memberId);
+                    Role roleInfo = KimApiServiceLocator.getRoleService().getRole(memberId);
                     if (roleInfo != null) {
                         memberName = roleInfo.getName();
                     }
                 } else if (MemberType.GROUP.getCode().equals(memberTypeCode)) {
-                    Group groupInfo = SpringContext.getBean(GroupService.class).getGroup(memberId);
+                    Group groupInfo = KimApiServiceLocator.getGroupService().getGroup(memberId);
                     if (groupInfo != null) {
                         memberName = groupInfo.getName();
                     }
@@ -185,7 +182,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
     /**
      * Sets the memberName attribute value.
-     * 
+     *
      * @param memberName The memberName to set.
      */
     public void setMemberName(String memberName) {
@@ -195,7 +192,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
     /**
      * Gets the securityModel attribute.
-     * 
+     *
      * @return Returns the securityModel.
      */
     public SecurityModel getSecurityModel() {
@@ -205,7 +202,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
     /**
      * Sets the securityModel attribute value.
-     * 
+     *
      * @param securityModel The securityModel to set.
      */
     public void setSecurityModel(SecurityModel securityModel) {
@@ -215,7 +212,7 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
     /**
      * Gets the modelMember attribute.
-     * 
+     *
      * @return Returns the modelMember.
      */
     public ModelMember getModelMember() {
@@ -225,16 +222,16 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
 
     /**
      * Sets the modelMember attribute value.
-     * 
+     *
      * @param modelMember The modelMember to set.
      */
     public void setModelMember(ModelMember modelMember) {
         this.modelMember = modelMember;
     }
-    
+
     /**
      * Builds a string representation of the model definition assignmentss
-     * 
+     *
      * @return String
      */
     public String getModelDefinitionSummary() {
@@ -294,5 +291,5 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
         return builder.toString();
     }
 
-    
+
 }

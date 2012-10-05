@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,13 +32,14 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Individuals who are assigned to manage a particular set of Contracts with Vendors, who must therefore look at associated Purchase
  * Orders.
- * 
+ *
  * @see org.kuali.kfs.vnd.businessobject.VendorContract
  */
 public class ContractManager extends PersistableBusinessObjectBase implements MutableInactivatable {
@@ -49,7 +50,7 @@ public class ContractManager extends PersistableBusinessObjectBase implements Mu
     private String contractManagerFaxNumber;
     private KualiDecimal contractManagerDelegationDollarLimit;
     private boolean active;
-    
+
 
     /**
      * Default constructor.
@@ -96,7 +97,7 @@ public class ContractManager extends PersistableBusinessObjectBase implements Mu
     public void setContractManagerDelegationDollarLimit(KualiDecimal contractManagerDelegationDollarLimit) {
         this.contractManagerDelegationDollarLimit = contractManagerDelegationDollarLimit;
     }
-    
+
     /**
      * This method gets the contract manager user identifier.
      * @return contractManagerId
@@ -104,11 +105,11 @@ public class ContractManager extends PersistableBusinessObjectBase implements Mu
     public String getContractManagerUserIdentifier() {
         String contractManagerId = null;
         Map<String,String> qualification = new HashMap<String,String>();
-        
-        RoleService roleService = SpringContext.getBean(RoleService.class);
+
+        RoleService roleService = KimApiServiceLocator.getRoleService();
         String roleId = roleService.getRoleIdByNamespaceCodeAndName(KfsParameterConstants.PURCHASING_NAMESPACE, ContractManagerRoleTypeServiceImpl.CONTRACT_MANAGER_ROLE_NAME);
 //        String roleId = roleService.getRoleIdByName(KFSConstants.ParameterNamespaces.PURCHASING, ContractManagerRoleTypeServiceImpl.CONTRACT_MANAGER_ROLE_NAME);
-        
+
         qualification.put(KfsKimAttributes.CONTRACT_MANAGER_CODE, String.valueOf(contractManagerCode));
         Collection<RoleMembership> roleMemberships = roleService.getRoleMembers(Collections.singletonList(roleId), qualification);
 
@@ -119,15 +120,15 @@ public class ContractManager extends PersistableBusinessObjectBase implements Mu
 
         return contractManagerId;
     }
-    
+
     public Person getContractManagerPerson() {
         Person contractManager = SpringContext.getBean(PersonService.class).getPerson(getContractManagerUserIdentifier());
         if (ObjectUtils.isNotNull(contractManager)) {
             return contractManager;
         }
-        return null; 
+        return null;
     }
-    
+
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
@@ -141,10 +142,12 @@ public class ContractManager extends PersistableBusinessObjectBase implements Mu
         return m;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

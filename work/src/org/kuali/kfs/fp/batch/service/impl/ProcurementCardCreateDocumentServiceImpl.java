@@ -613,7 +613,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         targetLine.refresh();
 
-        if (!accountingLineRuleUtil.isValidChart(targetLine.getChart(), dataDictionaryService.getDataDictionary())) {
+        if (!accountingLineRuleUtil.isValidChart("", targetLine.getChart(), dataDictionaryService.getDataDictionary())) {
             String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " is invalid; using error Chart Code.";
             if ( LOG.isInfoEnabled() ) {
                 LOG.info(tempErrorText);
@@ -624,7 +624,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             targetLine.refresh();
         }
 
-        if (!accountingLineRuleUtil.isValidAccount(targetLine.getAccount(), dataDictionaryService.getDataDictionary()) || targetLine.getAccount().isExpired()) {
+        if (!accountingLineRuleUtil.isValidAccount("", targetLine.getAccount(), dataDictionaryService.getDataDictionary()) || targetLine.getAccount().isExpired()) {
             String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " is invalid; using error account.";
             if ( LOG.isInfoEnabled() ) {
                 LOG.info(tempErrorText);
@@ -636,7 +636,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             targetLine.refresh();
         }
 
-        if (!accountingLineRuleUtil.isValidObjectCode(targetLine.getObjectCode(), dataDictionaryService.getDataDictionary())) {
+        if (!accountingLineRuleUtil.isValidObjectCode("", targetLine.getObjectCode(), dataDictionaryService.getDataDictionary())) {
             String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Object Code " + targetLine.getFinancialObjectCode() + " is invalid; using default Object Code.";
             if ( LOG.isInfoEnabled() ) {
                 LOG.info(tempErrorText);
@@ -647,7 +647,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             targetLine.refresh();
         }
 
-        if (StringUtils.isNotBlank(targetLine.getSubAccountNumber()) && !accountingLineRuleUtil.isValidSubAccount(targetLine.getSubAccount(), dataDictionaryService.getDataDictionary())) {
+        if (StringUtils.isNotBlank(targetLine.getSubAccountNumber()) && !accountingLineRuleUtil.isValidSubAccount("", targetLine.getSubAccount(), dataDictionaryService.getDataDictionary())) {
             String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " Sub Account " + targetLine.getSubAccountNumber() + " is invalid; Setting Sub Account to blank.";
             if ( LOG.isInfoEnabled() ) {
                 LOG.info(tempErrorText);
@@ -657,7 +657,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             targetLine.setSubAccountNumber("");
         }
 
-        if (StringUtils.isNotBlank(targetLine.getFinancialSubObjectCode()) && !accountingLineRuleUtil.isValidSubObjectCode(targetLine.getSubObjectCode(), dataDictionaryService.getDataDictionary())) {
+        if (StringUtils.isNotBlank(targetLine.getFinancialSubObjectCode()) && !accountingLineRuleUtil.isValidSubObjectCode("", targetLine.getSubObjectCode(), dataDictionaryService.getDataDictionary())) {
             String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " Object Code " + targetLine.getFinancialObjectCode() + " Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid; setting Sub Object to blank.";
             if ( LOG.isInfoEnabled() ) {
                 LOG.info(tempErrorText);
@@ -667,7 +667,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             targetLine.setFinancialSubObjectCode("");
         }
 
-        if (StringUtils.isNotBlank(targetLine.getProjectCode()) && !accountingLineRuleUtil.isValidProjectCode(targetLine.getProject(), dataDictionaryService.getDataDictionary())) {
+        if (StringUtils.isNotBlank(targetLine.getProjectCode()) && !accountingLineRuleUtil.isValidProjectCode("", targetLine.getProject(), dataDictionaryService.getDataDictionary())) {
             if ( LOG.isInfoEnabled() ) {
                 LOG.info("Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.");
             }

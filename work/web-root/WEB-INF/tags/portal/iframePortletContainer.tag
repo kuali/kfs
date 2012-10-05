@@ -23,127 +23,72 @@
   <c:set var="frameHeight" value="500"/>
 </c:if>
 
-<iframe src="${channelUrl}" onload='<c:if test="${ConfigProperties.test.mode ne 'true'}">setIframeAnchor("iframeportlet")</c:if>' name="iframeportlet" id="iframeportlet" style="height: ${frameHeight}px; width: 100%" title="E-Doc" frameborder="0" height="${frameHeight}px" scrolling="auto" width="100%"></iframe>                   
+<iframe src="${channelUrl}"
+        onload='<c:if test="${ConfigProperties.test.mode ne 'true'}">setIframeAnchor("iframeportlet")</c:if>'
+        name="iframeportlet" id="iframeportlet" style="width: 100%;"
+        title="E-Doc" scrolling="auto" frameborder="0" height="${frameHeight}" width="100%"></iframe>
 
-<%-- 
-  May want to move this to a script a js file at some point.
-  Right now though this is very specific to this tag.  This was
-  very simple logic until it came to supporting IE :-(
---%>
 <script type="text/javascript">
-  /* <![CDATA[ */
-  /** "namespacing" the portlet resize elements. */
-  var org$kuali$rice$portletResize = function() {
+  jQuery(function () {
+    var if_height = ${frameHeight};
+    var if_width;
+    var channelUrlEscaped = "${channelUrl}".replace(/'/g, "\\'");
+    var thisIframe = jQuery("iframe[src='" + channelUrlEscaped + "']");
+    var browserIsIE8 = jQuery.browser.msie && jQuery.browser.version == 8.0;
 
-    //this isn't perfect as this depends on platform, themes, browser, etc.
-    var SCROLLBAR_HEIGHT = 20;
+    //find iframe source host
+    var iframeSrc = "${channelUrl}";
+    var regex = new RegExp('^(?:f|ht)tp(?:s)?\://([^/]+)', 'im');
+    var receivingMessages = false;
+    var intervalId;
 
-    /** get horizontal scrollbar height. */
-    function getHorScrollBarHeight() {
-      return SCROLLBAR_HEIGHT;
+    if (iframeSrc.indexOf("http") == 0 || iframeSrc.indexOf("ftp") == 0) {
+      iframeSrc = iframeSrc.match(regex)[1].toString();
+    }
+    else {
+      //if it doesnt begin with http it must be local domain
+      iframeSrc = window.location.host;
     }
 
-    /** gets the portlet iframe. */
-    function getPortlet() {
-      return document.getElementById('iframeportlet');
+
+    if (!jQuery.browser.msie) {
+      jQuery(thisIframe).height(if_height);
     }
 
-    /** gets the portlet container. */
-    function getPortletContainer() {
-      return document.getElementById('iframe_portlet_container_div');
+    if (iframeSrc !== window.location.host) {
+      setupCrossDomainResize()
     }
 
-    /** gets the current height of the passed in frame in numeric form (ex: 500). Could generate a permission exception.  */
-    function getFrameHeight(frame) {
-      if (frame.contentWindow){
-        return frame.contentWindow.document.body.scrollHeight;
-      } else {
-        //using the offsetHeight to set the correct height for IE
-        return frame.contentDocument.body.offsetHeight;
+    jQuery(thisIframe).load(function () {
+      if (iframeSrc === window.location.host) {
+        setSameDomainIframeHeight();
+        intervalId = setInterval(setSameDomainIframeHeight, 500);
+      }
+    });
+
+    function setupCrossDomainResize() {
+      if (!browserIsIE8) {
+        thisIframe.height(if_height);
       }
     }
 
-    /** sets the portlet container's height. */
-    function setContainerHeight() {
-      //reset the height to shrink the scroll height.  For the usecase where the portlet's contents got smaller.
-      getPortlet().style.height = '${frameHeight}px';
-   	  getPortlet().height = '${frameHeight}px';
-      
-      var height = '${frameHeight}';
-      try {
-         height = getFrameHeight(getPortlet());
-      } catch (e) {
-        //fallback for crossdomain permission problems.
-        height = '${frameHeight}';
+    //a function for iframes in the same domain
+    function setSameDomainIframeHeight() {
+      //check every iteration to see if the iframe is no longer in the same domain
+      var url = jQuery(thisIframe).attr('src');
+      if ((url.indexOf("http") != 0 && url.indexOf("ftp") != 0) || url.match(regex)[1].toString() === window.location.host) {
+        sameDomain = true;
+        if (!browserIsIE8 && thisIframe[0] && thisIframe[0].contentWindow.document.body) {
+          if_height = thisIframe[0].contentWindow.document.body.scrollHeight;
+          thisIframe.height(if_height);
+        }
       }
-
-      //set the portlet & portlet container to be the same height - not using 100% for the portlet to avoid the inner scrollbar
-      try {
-      	getPortletContainer().style.height = height + 'px';
-      } catch ( ex ) {
-          // do nothing, we can't get to the container
+      else {
+        clearInterval(intervalId);
+        setupCrossDomainResize();
       }
-      getPortlet().style.height = (height + getHorScrollBarHeight()) + 'px';
-      getPortlet().height = (height + getHorScrollBarHeight()) + 'px';
-    }
-    
-    /** 
-      * Checks if the portlet container's height has changed.
-      * If a permission exception occurs then the function returns true.
-      * This check is necessary for IE - otherwise control is lost on
-      * dropdown menus when the portlet is resized - weird.
-     */
-    function hasContainerHeightChanged() {
-      var height;
-      var conHeight;
-      try {
-        height = getFrameHeight(getPortlet());
-        conHeight = getPortletContainer().style.height;
-      } catch (e) {
-      	return true;
-      }
-      return conHeight != height + 'px';
     }
 
-    /* resizes the portlet container to fit the size of the porlet. */
-    function resizePortletContainer() {
-      if (hasContainerHeightChanged()) {
-        setContainerHeight();
-      }
-
-      //width handling needs some work
-      //if (hasContainerWidthChanged()) {
-        //setContainerWidth();
-      //}
-    }
-
-    //registering event handlers...
-    var frame = getPortlet();
-    var prevPortletLoadEvent = frame.onload ? frame.onload : function () {};
-    frame.onload = function () {prevPortletLoadEvent(); resizePortletContainer(); };
-
-    var prevPortletResizeEvent = frame.onresize ? frame.onresize : function () {};
-    var onresize = function () {prevPortletResizeEvent(); resizePortletContainer(); };
-    
-    var IE;
-    //IE conditional comment
-	  //@cc_on IE = navigator.appVersion;
-    
-	  if (IE < 9 || IE == null){
-	    //IE (version prior to 9) may not raise an onresize event for frames...not a big deal b/c of the setInterval logic
-	    frame.onresize = onresize;
-	  }
-    
-	  //this is necessary because dynamically generated content on the page does not trigger
-    //an onresize event
-    setInterval (onresize, 500);
-
-    //no public functions at this time...
-    return {
-
-    };
-
-  //executing the function...
-  }();
-  /* ]]> */
+  })
+  ;
 </script>

@@ -27,7 +27,7 @@ public class VendorCreditMemoAccountingLineRuleHelperServiceImpl extends PurapAc
      * @see org.kuali.kfs.sys.document.service.impl.AccountingLineRuleHelperServiceImpl#isValidAccount(org.kuali.kfs.coa.businessobject.Account, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
      */
     @Override
-    public boolean isValidAccount(Account account, DataDictionary dataDictionary, String errorPropertyName) {
+    public boolean isValidAccount(Account account, DataDictionary dataDictionary, String errorPropertyName, String errorPropertyIdentifyingName) {
         String label = getAccountLabel();
 
         // make sure it exists

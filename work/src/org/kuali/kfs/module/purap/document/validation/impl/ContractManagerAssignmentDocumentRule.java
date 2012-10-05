@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,8 +28,8 @@ import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail
 import org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
+import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -65,7 +65,7 @@ public class ContractManagerAssignmentDocumentRule extends TransactionalDocument
 
     /**
      * Perform validation for Contract Manager Assignment document such as validating contract manager codes.
-     * 
+     *
      * @param document Contract Manager Assignment document
      * @return Boolean indicating if validation succeeded
      */
@@ -77,7 +77,7 @@ public class ContractManagerAssignmentDocumentRule extends TransactionalDocument
      * Review the list of ContractManagerAssignmentDetails where the user has entered ContractManagerCodes,
      * validates that each entered code is valid;
      * on the other hand, validate that at least one row has a valid CM code assigned.
-     * 
+     *
      * @param contractManagerAssignmentDetails A list containing the code to be validated.
      * @return Boolean indicating if validation succeeded
      */
@@ -86,7 +86,7 @@ public class ContractManagerAssignmentDocumentRule extends TransactionalDocument
         boolean isValid = true;
         int count = 0;
         int index = 0;
-        
+
         String propertyNamePattern = "document.contractManagerAssignmentDetails[{0}].contractManagerCode";
         for (Iterator iter = contractManagerAssignmentDetails.iterator(); iter.hasNext();) {
             ContractManagerAssignmentDetail detail = (ContractManagerAssignmentDetail) iter.next();
@@ -101,26 +101,26 @@ public class ContractManagerAssignmentDocumentRule extends TransactionalDocument
                     GlobalVariables.getMessageMap().putError(propertyWithInvalidValue, PurapKeyConstants.INVALID_CONTRACT_MANAGER_CODE, detail.getContractManagerCode().toString());
                     isValid = false;
                 }
-                
+
                 if (detail.getContractManagerCode().equals(PurapConstants.APO_CONTRACT_MANAGER)) {
                     GlobalVariables.getMessageMap().putError(propertyWithInvalidValue, PurapKeyConstants.ERROR_APO_CONTRACT_MANAGER_CODE_CHOSEN, detail.getContractManagerCode().toString());
                     isValid = false;
                 }
-                
-                if(isValid){ 
+
+                if(isValid){
                     count++;
                 }
             }
-            
+
             index++;
         }
-        
+
         // check if at least one row has a valid CM code assigned
         if (count < 1) {
             GlobalVariables.getMessageMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS, PurapKeyConstants.NO_CONTRACT_MANAGER_ASSIGNED);
             isValid = false;
         }
-        
+
         LOG.debug("validateContractManagerCodes(): leaving method.");
         return isValid;
     }

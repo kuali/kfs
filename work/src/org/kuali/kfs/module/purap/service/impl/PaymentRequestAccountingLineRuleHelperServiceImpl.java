@@ -133,7 +133,7 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAcco
      * @see org.kuali.kfs.sys.document.service.impl.AccountingLineRuleHelperServiceImpl#isValidSubAccount(org.kuali.kfs.coa.businessobject.SubAccount, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
      */
     @Override
-    public boolean isValidSubAccount(SubAccount subAccount, DataDictionary dataDictionary, String errorPropertyName) {
+    public boolean isValidSubAccount(SubAccount subAccount, DataDictionary dataDictionary, String errorPropertyName, String errorPropertyIdentifyingName) {
         String label = getSubAccountLabel();
 
         // make sure it exists

@@ -130,7 +130,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         boolean success = true;
         final String personUserPropertyName = KFSPropertyConstants.PROJECT_DIRECTOR + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER;
         String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(elementClass, personUserPropertyName);
-        RoleService roleService = SpringContext.getBean(RoleService.class);
+        RoleService roleService = KimApiServiceLocator.getRoleService();
         
         List<String> roleId = new ArrayList<String>();
         roleId.add(roleService.getRoleIdByNamespaceCodeAndName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR));

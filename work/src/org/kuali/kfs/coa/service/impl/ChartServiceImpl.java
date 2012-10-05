@@ -35,6 +35,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -166,7 +167,7 @@ public class ChartServiceImpl implements ChartService {
 
     protected RoleService getRoleService() {
         if ( roleService == null ) {
-            roleService = SpringContext.getBean(RoleService.class);
+            roleService = KimApiServiceLocator.getRoleService();
         }
         return roleService;
     }

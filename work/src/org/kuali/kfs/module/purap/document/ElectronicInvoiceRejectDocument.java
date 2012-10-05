@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,8 +41,8 @@ import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.module.purap.util.PurapSearchUtils;
-import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.ObjectUtil;
+import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -55,9 +55,10 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.SessionDocument;
+import org.kuali.rice.krad.util.NoteType;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactionalDocumentBase implements SessionDocument 
+public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactionalDocumentBase implements SessionDocument
 {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceRejectDocument.class);
     protected static BigDecimal zero = new BigDecimal(0);
@@ -126,7 +127,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     protected String invoiceRemitToAddressCountryName;
 
     protected Integer paymentRequestIdentifier;
-    
+
     protected String invoiceCustomerNumber;
     protected String invoicePurchaseOrderNumber;
     protected Integer purchaseOrderIdentifier;
@@ -154,9 +155,9 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     protected boolean invoiceNumberAcceptIndicator = false;
     protected boolean invoiceResearchIndicator = false;
     protected Timestamp invoiceFileTimeStampForSearch;
-    
+
     protected Timestamp accountsPayableApprovalTimestamp;
-    
+
     protected transient PurApRelatedViews relatedViews;
     protected PurchaseOrderDocument currentPurchaseOrderDocument;
 
@@ -164,15 +165,15 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     protected ElectronicInvoiceLoadSummary invoiceLoadSummary;
     protected List<ElectronicInvoiceRejectItem> invoiceRejectItems = new ArrayList<ElectronicInvoiceRejectItem>();
     protected List<ElectronicInvoiceRejectReason> invoiceRejectReasons = new ArrayList<ElectronicInvoiceRejectReason>();
-    
+
     protected boolean isDocumentCreationInProgress = false;
 
     protected String vendorNumber;
-    
+
     protected CampusParameter purchaseOrderDeliveryCampus;
-    
+
     /**
-   * 
+   *
    */
     public ElectronicInvoiceRejectDocument() {
         super();
@@ -355,19 +356,19 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(ElectronicInvoiceRejectDocument.class, PurapParameterConstants.PURAP_OVERRIDE_EIRT_DOC_TITLE)) {
             return getCustomDocumentTitle();
         }
-        
+
         return this.buildDocumentTitle(super.getDocumentTitle());
     }
 
     /**
-     * Returns a custom document title based on the properties of current document.. 
-     * 
+     * Returns a custom document title based on the properties of current document..
+     *
      * @return - Customized document title.
      */
     protected String getCustomDocumentTitle() {
         String poID = StringUtils.isEmpty(getInvoicePurchaseOrderNumber()) ? "UNKNOWN" : getInvoicePurchaseOrderNumber();
         String researchInd = isInvoiceResearchIndicator() ? "Y" : "N";
-        
+
         // if this method is called when EIRT doc is just created, vendorDetail is not set yet, need to retrieve from DB
         VendorDetail vendorDetail = getVendorDetail();
         Integer headerId = getVendorHeaderGeneratedIdentifier();
@@ -375,45 +376,45 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         if (vendorDetail == null && headerId != null && detailId != null) {
             vendorDetail = SpringContext.getBean(VendorService.class).getVendorDetail(headerId, detailId);
         }
-        String vendorName = vendorDetail == null || StringUtils.isEmpty(vendorDetail.getVendorName()) ? "UNKNOWN" : vendorDetail.getVendorName();       
+        String vendorName = vendorDetail == null || StringUtils.isEmpty(vendorDetail.getVendorName()) ? "UNKNOWN" : vendorDetail.getVendorName();
 
         //set title to: Vendor: <Vendor's Name> PO: <PO#> <Research Indicator>
         String documentTitle = "Vendor: " + vendorName + " PO: " + poID +  " " + researchInd;
         return documentTitle;
     }
-    
+
     /**
      * Builds document title based on the properties of current document.
-     * 
+     *
      * @param the default document title
-     * @return the combine information of the given title and additional payment indicators 
-     */ 
-    protected String buildDocumentTitle(String title) { 
+     * @return the combine information of the given title and additional payment indicators
+     */
+    protected String buildDocumentTitle(String title) {
         if(this.getVendorDetail() == null) {
-           return title; 
+           return title;
         }
-        
+
         Integer vendorHeaderGeneratedIdentifier = this.getVendorDetail().getVendorHeaderGeneratedIdentifier();
         VendorService vendorService = SpringContext.getBean(VendorService.class);
-     
+
         Object[] indicators = new String[2];
-        
+
         boolean isEmployeeVendor = vendorService.isVendorInstitutionEmployee(vendorHeaderGeneratedIdentifier);
         indicators[0] = isEmployeeVendor ? AdHocPaymentIndicator.EMPLOYEE_VENDOR : AdHocPaymentIndicator.OTHER;
-        
+
         boolean isVendorForeign = vendorService.isVendorForeign(vendorHeaderGeneratedIdentifier);
         indicators[1] = isVendorForeign ? AdHocPaymentIndicator.ALIEN_VENDOR : AdHocPaymentIndicator.OTHER;
-        
+
         for(Object indicator : indicators) {
             if(!AdHocPaymentIndicator.OTHER.equals(indicator)) {
                 String titlePattern = title + " [{0}:{1}]";
                 return MessageFormat.format(titlePattern, indicators);
             }
         }
-    
+
         return title;
     }
-    
+
     protected ElectronicInvoicePostalAddress getCxmlPostalAddressByAddressName(ElectronicInvoiceContact contact, String addressName) {
         if (contact != null) {
             for (ElectronicInvoicePostalAddress cpa : contact.getPostalAddresses()) {
@@ -517,7 +518,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     }
 
     public PurchaseOrderDocument getCurrentPurchaseOrderDocument() {
-        
+
         if (StringUtils.isEmpty(getInvoicePurchaseOrderNumber()) ||
             !NumberUtils.isDigits(getInvoicePurchaseOrderNumber())){
             currentPurchaseOrderDocument = null;
@@ -526,7 +527,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         }else if (!StringUtils.equals(getInvoicePurchaseOrderNumber(), currentPurchaseOrderDocument.getPurapDocumentIdentifier().toString())){
             currentPurchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(new Integer(getInvoicePurchaseOrderNumber()));
         }
-        
+
         return currentPurchaseOrderDocument;
     }
 
@@ -725,7 +726,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         while (getInvoiceRejectItems().size() <= index) {
             getInvoiceRejectItems().add(new ElectronicInvoiceRejectItem());
         }
-        return (ElectronicInvoiceRejectItem) getInvoiceRejectItems().get(index);
+        return getInvoiceRejectItems().get(index);
     }
 
     /**
@@ -746,11 +747,11 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         while (getInvoiceRejectReasons().size() <= index) {
             getInvoiceRejectReasons().add(new ElectronicInvoiceRejectReason());
         }
-        return (ElectronicInvoiceRejectReason) getInvoiceRejectReasons().get(index);
+        return getInvoiceRejectReasons().get(index);
     }
 
     /**
-     * Gets the paymentRequestIdentifier attribute. 
+     * Gets the paymentRequestIdentifier attribute.
      * @return Returns the paymentRequestIdentifier.
      */
     public Integer getPaymentRequestIdentifier() {
@@ -1377,7 +1378,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     public BigDecimal getInvoiceItemTaxAmount() {
         BigDecimal returnValue = zero;
         boolean enableSalesTaxInd = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
-        
+
         try {
             //if sales tax enabled, calculate total by totaling items
             if(enableSalesTaxInd){
@@ -1391,7 +1392,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
             }else{ //else take the total, which should be the summary tax total
                 returnValue = returnValue.add(this.invoiceItemTaxAmount);
             }
-            
+
             if (LOG.isDebugEnabled()) {
                 LOG.debug("getTotalAmount() returning amount " + returnValue.doubleValue());
             }
@@ -1913,7 +1914,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     public void setRelatedViews(PurApRelatedViews relatedViews) {
         this.relatedViews = relatedViews;
     }
-    
+
     public boolean isBoNotesSupport() {
         return true;
     }
@@ -1925,10 +1926,10 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     public void setDocumentCreationInProgress(boolean isDocumentCreationInProgress) {
         this.isDocumentCreationInProgress = isDocumentCreationInProgress;
     }
-    
+
     /**
      * Returns the vendor number for this document.
-     * 
+     *
      * @return the vendor number for this document.
      */
     public String getVendorNumber() {
@@ -1943,58 +1944,59 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
             vendorDetail.setVendorDetailAssignedIdentifier(getVendorDetailAssignedIdentifier());
             return vendorDetail.getVendorNumber();
         }
-        else
+        else {
             return "";
+        }
     }
 
     public void setVendorNumber(String vendorNumber) {
         this.vendorNumber = vendorNumber;
     }
-    
+
     /**
-     * Always returns false. 
+     * Always returns false.
      * This method is needed here because it's called by some tag files shared with PurAp documents.
      */
     public boolean getIsATypeOfPurAPRecDoc() {
         return false;
     }
-    
+
     /**
-     * Always returns false. 
+     * Always returns false.
      * This method is needed here because it's called by some tag files shared with PurAp documents.
      */
     public boolean getIsATypeOfPurDoc() {
         return false;
     }
-    
+
     /**
-     * Always returns false. 
+     * Always returns false.
      * This method is needed here because it's called by some tag files shared with PurAp documents.
      */
     public boolean getIsATypeOfPODoc() {
         return false;
     }
-    
+
     /**
-     * Always returns false. 
+     * Always returns false.
      * This method is needed here because it's called by some tag files shared with PurAp documents.
      */
     public boolean getIsPODoc() {
         return false;
     }
-    
+
     /**
-     * Always returns false. 
+     * Always returns false.
      * This method is needed here because it's called by some tag files shared with PurAp documents.
      */
     public boolean getIsReqsDoc() {
         return false;
-    }       
-    
+    }
+
     public boolean isInvoiceResearchIndicatorForSearching() {
         return invoiceResearchIndicator;
     }
-    
+
     public String getInvoiceResearchIndicatorForResult(){
         if (isInvoiceResearchIndicator()){
             return "Yes";
@@ -2002,7 +2004,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
             return "No";
         }
     }
-    
+
     public String getPurchaseOrderDeliveryCampusCodeForSearch(){
         return getPurchaseOrderDeliveryCampusCode();
     }
@@ -2010,7 +2012,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     public CampusParameter getPurchaseOrderDeliveryCampus() {
         return purchaseOrderDeliveryCampus;
     }
-    
+
     public Date getAccountsPayableApprovalDateForSearch(){
         if (getAccountsPayableApprovalTimestamp() != null){
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
@@ -2027,7 +2029,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     public Timestamp getInvoiceFileTimeStampForSearch() {
         Date invoiceDate = ElectronicInvoiceUtils.getDate(getInvoiceFileDate());
         if (invoiceDate != null){
-            return new Timestamp(invoiceDate.getTime());   
+            return new Timestamp(invoiceDate.getTime());
         }else{
             return null;
         }
@@ -2036,25 +2038,26 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     public void setInvoiceFileTimeStampForSearch(Timestamp invoiceFileTimeStamp) {
         //Not needed
     }
-    
+
     public String getWorkflowStatusForResult(){
         return PurapSearchUtils.getWorkFlowStatusString(getDocumentHeader());
     }
-    
+
     /**
-     * Checks whether the related purchase order views need a warning to be displayed, 
+     * Checks whether the related purchase order views need a warning to be displayed,
      * i.e. if at least one of the purchase orders has never been opened.
      * @return true if at least one related purchase order needs a warning; false otherwise
      */
     public boolean getNeedWarningRelatedPOs() {
         List<PurchaseOrderView> poViews = getRelatedViews().getRelatedPurchaseOrderViews();
         for (PurchaseOrderView poView : poViews) {
-            if (poView.getNeedWarning())
+            if (poView.getNeedWarning()) {
                 return true;
+            }
         }
         return false;
     }
-    
+
     /**
      * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange()
      */
@@ -2062,10 +2065,10 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         LOG.debug("doRouteStatusChange() started");
         super.doRouteStatusChange(statusChangeEvent);
-        if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isApproved()){ 
+        if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isApproved()){
             //Set the current date as approval timestamp
             this.setAccountsPayableApprovalTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
-           } 
+           }
 
     }
 
@@ -2083,8 +2086,13 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
                 }
             }
         }
-        
+
         return super.getNotes();
+    }
+
+    @Override
+    public NoteType getNoteType() {
+        return NoteType.BUSINESS_OBJECT;
     }
 
 }

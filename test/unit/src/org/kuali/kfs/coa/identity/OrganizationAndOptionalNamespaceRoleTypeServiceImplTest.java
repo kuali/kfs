@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 @ConfigureContext
 public class OrganizationAndOptionalNamespaceRoleTypeServiceImplTest extends KualiTestBase {
@@ -84,7 +85,7 @@ public class OrganizationAndOptionalNamespaceRoleTypeServiceImplTest extends Kua
         qualification.put(FinancialSystemUserRoleTypeServiceImpl.PERFORM_QUALIFIER_MATCH, "true");
         String principalId = SpringContext.getBean(IdentityService.class).getPrincipalByPrincipalName(USER).getPrincipalId();
 
-        RoleService roleService = SpringContext.getBean(RoleService.class);
+        RoleService roleService = KimApiServiceLocator.getRoleService();
 
         qualification.put(KimConstants.AttributeConstants.NAMESPACE_CODE, KFSConstants.CoreModuleNamespaces.CHART);
         List<Map<String,String>> roleQualifiers = roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(principalId, KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.KFS_USER_ROLE_NAME, qualification);

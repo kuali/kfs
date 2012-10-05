@@ -1495,7 +1495,7 @@ Admin Password = $${impex.admin.password} (not shown)
 		-->
 		<echo>Moving KFS descriptor into path</echo>
 		<echo file="${appserver.home}/conf/Catalina/localhost/kfs-dev.xml"><![CDATA[
-			<Context path="/kfs-dev" reloadable="false" docBase="${basedir.safe}/work/web-root">
+			<Context path="/kfs-dev" reloadable="false" docBase="${basedir.safe}/work/web-root" allowLinking="true">
 			</Context>
 		]]></echo>
 		<antcall target="start-tomcat" />
@@ -1504,7 +1504,7 @@ Admin Password = $${impex.admin.password} (not shown)
 	<target name="run-dev2" depends="set-env-dev2,init-properties,dist-local-if-necessary,make-source,clean-tomcat-config" description="Starts up the included Tomcat server with KFS using Rice in embedded (Rice standalone) mode.">
 		<echo>Moving Rice descriptor into path</echo>
 		<echo file="${appserver.home}/conf/Catalina/localhost/kr-dev2.xml"><![CDATA[
-			<Context path="/kr-dev2" reloadable="false" docBase="${basedir.safe}/build/external/appserver/rice-web-${kfs.rice.version}.war" unpackWAR="false">
+			<Context path="/kr-dev2" reloadable="false" docBase="${basedir.safe}/build/external/appserver/rice-web-${kfs.rice.version}.war" unpackWAR="false" allowLinking="true">
 			</Context>
 		]]></echo>
 		<parallel>

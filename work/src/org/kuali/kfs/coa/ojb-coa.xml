@@ -1882,7 +1882,7 @@
   		AND : you probably need to have all the PK fields defined (matching the DD) to make inquiries work properly -->
   <class-descriptor class="org.kuali.kfs.coa.identity.OrgReviewRole" table="CA_ORG_TYPE_T">
     <field-descriptor name="orgReviewRoleMemberId" column="ORG_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="delegate" column="OBJ_ID" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="delegate" column="OBJ_ID" jdbc-type="VARCHAR" primarykey="true"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
   </class-descriptor>
    
 <!-- 

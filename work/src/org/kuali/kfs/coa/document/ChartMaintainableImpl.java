@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
 
 /**
@@ -47,7 +48,7 @@ public class ChartMaintainableImpl extends FinancialSystemMaintainable {
 
             // Only make the KIM calls if the chart manager was changed
             if ( oldChartManager == null || !StringUtils.equals(chart.getFinCoaManagerPrincipalId(), oldChartManager.getPrincipalId() ) ) {
-                RoleService roleService = SpringContext.getBean(RoleService.class);
+                RoleService roleService = KimApiServiceLocator.getRoleService();
 
                 Map<String,String> qualification = new HashMap<String,String>(1);
                 qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chart.getChartOfAccountsCode());

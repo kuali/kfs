@@ -15,10 +15,12 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -45,6 +47,9 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
     private String documentNumber;
     private String poNumberMasked;
 
+    //create date from the workflow document header...
+    private DateTime createDate;
+    
     public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
         return accountsPayablePurchasingDocumentLinkIdentifier;
     }
@@ -180,5 +185,15 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
         if (ObjectUtils.isNotNull(document)) {
             document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(appDocStatus);
         }
+    }
+    /**
+     * Gets the createDate attribute.
+     * 
+     * @return Returns the createDate
+     */
+    public DateTime getCreateDate() {
+        Document document = findDocument(this.getDocumentNumber());
+        
+        return document.getDocumentHeader().getWorkflowDocument().getDateCreated();
     }
 }

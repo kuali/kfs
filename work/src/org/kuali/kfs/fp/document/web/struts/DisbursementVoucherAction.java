@@ -82,10 +82,14 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         
         // do not execute the further refreshing logic if a payee is not selected
         String payeeIdNumber = dvDoc.getDvPayeeDetail().getDisbVchrPayeeIdNumber();
-        //KFSMI-8935: f the person is inactive then Is this payee an employee: No else Is this payee an employee:Yes
+
         Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
-        if (person != null) {
-            ((DisbursementVoucherDocument) dvForm.getDocument()).templateEmployee(person);
+
+        //KFSMI-8935: When an employee is inactive, the Payment Type field on DV documents should display the message "Is this payee an employee" = No
+        if (person.isActive()) {
+            dvDoc.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
+        } else {
+            dvDoc.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(false);
         }
     }
     

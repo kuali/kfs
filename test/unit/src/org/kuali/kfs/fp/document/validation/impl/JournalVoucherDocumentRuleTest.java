@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -99,7 +99,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     public void testProcessAddAccountingLineBusinessRules_invalidReferenceOriginCode() throws Exception {
         AccountingLine line = EXTERNAL_ENCUMBRANCE_LINE.createVoucherSourceAccountingLine();
         line.setReferenceOriginCode("42");
-        testProcessAddAccountingLineBusinessRules(line, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, KFSKeyConstants.ERROR_EXISTENCE);
+        testProcessAddAccountingLineBusinessRules(line, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, KFSKeyConstants.ERROR_EXISTING_WITH_IDENTIFYING_ACCOUNTING_LINE);
     }
 
     public void testProcessAddAccountingLineBusinessRules_invalidReferenceTypeCode() throws Exception {
@@ -199,7 +199,9 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         boolean result = true;
         JournalVoucherDocument document = buildDocument();
         AccountingLineValueAllowedValidation validation = (AccountingLineValueAllowedValidation)SpringContext.getBean(Validation.class,"AccountingDocument-IsObjectSubTypeAllowed-DefaultValidation");
-        if (validation == null) throw new IllegalStateException("No object sub type value allowed validation");
+        if (validation == null) {
+            throw new IllegalStateException("No object sub type value allowed validation");
+        }
         validation.setAccountingDocumentForValidation(document);
         validation.setAccountingLineForValidation(getValidObjectSubTypeTargetLine());
         result = validation.validate(null);
@@ -328,7 +330,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         }
         assertEquals(expected, result);
     }
-    
+
     private boolean testAddAccountingLineRule_IsObjectCodeAllowed(AccountingLine accountingLine, boolean expected) throws Exception {
         boolean result = true;
         JournalVoucherDocument document = buildDocument();
@@ -341,7 +343,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         } else {
             result = true;
         }
-        
+
         return result;
     }
 }

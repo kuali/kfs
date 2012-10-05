@@ -42,6 +42,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.krad.util.NoteType;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.api.country.Country;
@@ -433,6 +434,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     /**
      * @deprecated
      */
+    @Deprecated
     public void setDeliveryCampus(CampusParameter deliveryCampus) {
         this.deliveryCampus = deliveryCampus;
     }
@@ -445,6 +447,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     /**
      * @deprecated
      */
+    @Deprecated
     public void setCarrier(Carrier carrier) {
         this.carrier = carrier;
     }
@@ -457,6 +460,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     /**
      * @deprecated
      */
+    @Deprecated
     public void setDeliveryRequiredDateReason(DeliveryRequiredDateReason deliveryRequiredDateReason) {
         this.deliveryRequiredDateReason = deliveryRequiredDateReason;
     }
@@ -489,6 +493,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     /**
      * @deprecated
      */
+    @Deprecated
     public void setVendorCountry(CountryEbo vendorCountry) {
         this.vendorCountry = vendorCountry;
     }
@@ -501,6 +506,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     /**
      * @deprecated
      */
+    @Deprecated
     public void setVendorDetail(VendorDetail vendorDetail) {
         this.vendorDetail = vendorDetail;
     }
@@ -513,8 +519,9 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
         else if (ObjectUtils.isNotNull(vendorDetail)) {
             return vendorDetail.getVendorNumber();
         }
-        else
+        else {
             return "";
+        }
     }
 
     @Override
@@ -766,10 +773,16 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     public boolean getNeedWarningRelatedPOs() {
         List<PurchaseOrderView> poViews = getRelatedViews().getRelatedPurchaseOrderViews();
         for (PurchaseOrderView poView : poViews) {
-            if (poView.getNeedWarning())
+            if (poView.getNeedWarning()) {
                 return true;
+            }
         }
         return false;
+    }
+
+    @Override
+    public NoteType getNoteType() {
+        return NoteType.BUSINESS_OBJECT;
     }
 
 }

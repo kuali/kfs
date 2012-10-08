@@ -490,10 +490,11 @@
 			<ref bean="disbursementVoucherPayeeService" />
 		</property>
     </bean>
-    
-	<bean id="accountingDocumentPreRuleService" class="org.kuali.kfs.fp.service.impl.AccountingDocumentPreRuleServiceImpl" />
-	
-	<!-- validations -->
+ 
+    <bean id="accountingDocumentPreRuleService" parent="accountingDocumentPreRuleService-parentBean"/>
+	<bean id="accountingDocumentPreRuleService-parentBean" class="org.kuali.kfs.fp.service.impl.AccountingDocumentPreRuleServiceImpl"  abstract="true"/>
+
+    <!-- validations -->
 	<import resource="document/validation/configuration/FinancialProcessingValidators.xml" />
 	<import resource="document/validation/configuration/InternalBillingValidation.xml" />
 	<import resource="document/validation/configuration/BudgetAdjustmentValidation.xml" />

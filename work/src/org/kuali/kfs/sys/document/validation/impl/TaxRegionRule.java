@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -85,7 +85,7 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
 
     /**
      * This method returns true if the effective date is not a date in the past or today's date.
-     * 
+     *
      * @param taxRegionRate
      * @return
      */
@@ -104,7 +104,7 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
 
     /**
      * This method returns true if the tax rate is between 0 and 1.
-     * 
+     *
      * @param taxRegionRate
      * @return
      */
@@ -122,62 +122,62 @@ public class TaxRegionRule extends KfsMaintenanceDocumentRuleBase {
 
     /**
      * This method returns true if the state on tax region state object is valid.
-     * 
+     *
      * @param taxRegionState
      * @return
      */
     protected boolean isValidTaxRegionState(TaxRegionState taxRegionState) {
         boolean success = true;
-        if(taxRegionState.getStateCode() !=null) {
-          if ( StringUtils.isNotBlank(taxRegionState.getPostalCountryCode()) && StringUtils.isNotBlank(taxRegionState.getStateCode()) ) {
+
+        if ( StringUtils.isNotBlank(taxRegionState.getPostalCountryCode()) && StringUtils.isNotBlank(taxRegionState.getStateCode()) ) {
             State state = SpringContext.getBean(StateService.class).getState(taxRegionState.getPostalCountryCode(),taxRegionState.getStateCode());
             if (ObjectUtils.isNull(state) || !state.isActive()) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_STATE_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_STATE, taxRegionState.getStateCode());
                 success = false;
             }
-          }
         }
+
         return success;
     }
 
     /**
      * This method returns true if the state and county on the tax region county object is valid.
-     * 
+     *
      * @param taxRegionCounty
      * @return
      */
     protected boolean isValidTaxRegionCounty(TaxRegionCounty taxRegionCounty) {
         boolean success = true;
-        if(taxRegionCounty.getStateCode()!=null && taxRegionCounty.getCountyCode()!=null){
-          if ( StringUtils.isNotBlank(taxRegionCounty.getPostalCountryCode()) && StringUtils.isNotBlank(taxRegionCounty.getStateCode()) && StringUtils.isNotBlank(taxRegionCounty.getCountyCode()) ) {
+
+        if ( StringUtils.isNotBlank(taxRegionCounty.getPostalCountryCode()) && StringUtils.isNotBlank(taxRegionCounty.getStateCode()) && StringUtils.isNotBlank(taxRegionCounty.getCountyCode()) ) {
             County county = SpringContext.getBean(CountyService.class).getCounty(taxRegionCounty.getPostalCountryCode(),taxRegionCounty.getStateCode(), taxRegionCounty.getCountyCode());
             if (ObjectUtils.isNull(county) || !county.isActive()) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_COUNTY_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_COUNTY, new String[] { taxRegionCounty.getCountyCode(), taxRegionCounty.getStateCode() });
                 success = false;
             }
-          }
         }
+
         return success;
     }
 
     /**
      * This method returns true if the postal code on the tax region postal code is valid.
-     * 
+     *
      * @param taxRegionPostalCode
      * @return
      */
     protected boolean isValidTaxRegionPostalCode(TaxRegionPostalCode taxRegionPostalCode) {
         boolean success = true;
-        if(taxRegionPostalCode.getPostalCode()!=null){
-          if ( StringUtils.isNotBlank(taxRegionPostalCode.getPostalCountryCode()) && StringUtils.isNotBlank(taxRegionPostalCode.getPostalCode()) ) {
+
+        if ( StringUtils.isNotBlank(taxRegionPostalCode.getPostalCountryCode()) && StringUtils.isNotBlank(taxRegionPostalCode.getPostalCode()) ) {
 
             PostalCode postalZipCode = SpringContext.getBean(PostalCodeService.class).getPostalCode( taxRegionPostalCode.getPostalCountryCode(), taxRegionPostalCode.getPostalCode() );
             if (ObjectUtils.isNull(postalZipCode) || !postalZipCode.isActive()) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.TaxRegionConstants.TAX_REGION_POSTAL_CODE, KFSKeyConstants.ERROR_DOCUMENT_TAX_REGION_INVALID_POSTAL_CODE, taxRegionPostalCode.getPostalCode());
                 success = false;
             }
-          }
-        }  
+        }
+
         return success;
     }
 }

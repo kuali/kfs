@@ -121,7 +121,7 @@
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="11" />
-			<column name="OBJ_ID" value="sys_guid()" />
+			<column name="OBJ_ID" valueNumeric="sys_guid()" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="SB" />
 			<column name="ACTV_IND" value="Y" />

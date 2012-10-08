@@ -9,7 +9,7 @@
 			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
 			<column name="VAL" value="N" />
-			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the financial processing module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
@@ -21,7 +21,7 @@
 			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
 			<column name="VAL" value="N" />
-			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the capital asset management module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
@@ -33,7 +33,7 @@
 			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
 			<column name="VAL" value="N" />
-			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the chart of account module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
@@ -45,7 +45,7 @@
 			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
 			<column name="VAL" value="N" />
-			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the account receivable module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
@@ -57,7 +57,7 @@
 			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
 			<column name="VAL" value="N" />
-			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the labor distribution module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
@@ -69,7 +69,7 @@
 			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
 			<column name="VAL" value="N" />
-			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the general ledger module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
@@ -81,7 +81,7 @@
 			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
 			<column name="VAL" value="N" />
-			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the budget construction module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
@@ -93,7 +93,7 @@
 			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
 			<column name="VAL" value="N" />
-			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the capital asset module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use.  " />
@@ -105,7 +105,7 @@
 			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
 			<column name="VAL" value="N" />
-			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the purchasing account/payable module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use.  " />
@@ -117,7 +117,7 @@
 			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
 			<column name="VAL" value="N" />
-			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the system module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
@@ -129,7 +129,7 @@
 			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
 			<column name="VAL" value="N" />
-			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the vendor module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
@@ -141,7 +141,7 @@
 			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
 			<column name="VAL" value="N" />
-			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the effort certification module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
@@ -153,7 +153,7 @@
 			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
 			<column name="VAL" value="N" />
-			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the pre-disbursement module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use.  " />
@@ -165,7 +165,7 @@
 			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
 			<column name="VAL" value="N" />
-			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the endowment module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />
@@ -177,7 +177,7 @@
 			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="OLTP_LOCKOUT_ACTIVE_IND" />
 			<column name="VAL" value="N" />
-			<column name="OBJ_ID" value="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="Y/N indicator showing if the contracts and grants module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use." />

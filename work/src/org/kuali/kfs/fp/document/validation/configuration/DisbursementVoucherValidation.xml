@@ -289,6 +289,12 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="accountingLineToBusinessObjectFieldConversion" />
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
 				<bean parent="DisbursementVoucher-accountingLineAmountPositiveValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
@@ -298,13 +304,7 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
-				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
-					<property name="parameterProperties">
-						<bean parent="accountingLineToBusinessObjectFieldConversion" />
-					</property>
-					<property name="quitOnFail" value="true" />
-				</bean>
-				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+			   <bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
 					<property name="accountingDocumentParameterPropertyName" value="document" />
 					<property name="accountingLineParameterPropertyName" value="accountingLine" />
 				</bean>

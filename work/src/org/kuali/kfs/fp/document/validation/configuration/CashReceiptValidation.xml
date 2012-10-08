@@ -329,6 +329,7 @@
 							</bean>
 						</list>
 					</property>
+					<property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="CashReceipt-checkAmountNotZeroValidation" scope="prototype">
 					<property name="quitOnFail" value="true" />
@@ -363,6 +364,7 @@
 							</bean>
 						</list>
 					</property>
+					<property name="quitOnFail" value="true" />
 				</bean>
 				<bean parent="CashReceipt-checkAmountNotZeroValidation" scope="prototype">
 					<property name="quitOnFail" value="true" />

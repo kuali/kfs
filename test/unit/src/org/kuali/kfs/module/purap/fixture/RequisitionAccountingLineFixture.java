@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public enum RequisitionAccountingLineFixture {
     BASIC_REQ_ACCOUNT_1(PurApAccountingLineFixture.BASIC_ACCOUNT_1, // PurApAccountingLineFixture
@@ -57,7 +58,7 @@ public enum RequisitionAccountingLineFixture {
     private PurApAccountingLineFixture purApAccountingLineFixture;
     private AccountingLineFixture accountingLineFixture;
     private String objectCode;
-    
+
     private RequisitionAccountingLineFixture(PurApAccountingLineFixture purApAccountingLineFixture, AccountingLineFixture accountingLineFixture) {
         this.purApAccountingLineFixture = purApAccountingLineFixture;
         this.accountingLineFixture = accountingLineFixture;
@@ -68,16 +69,16 @@ public enum RequisitionAccountingLineFixture {
         this.accountingLineFixture = accountingLineFixture;
         this.objectCode = objectCode;
     }
-    
+
     public PurApAccountingLine createPurApAccountingLine(Class clazz, PurApAccountingLineFixture puralFixture, AccountingLineFixture alFixture) {
         PurApAccountingLine line = null;
         // TODO: what should this debit code really be
-        line = (PurApAccountingLine) puralFixture.createPurApAccountingLine(RequisitionAccount.class, alFixture);
+        line = puralFixture.createPurApAccountingLine(RequisitionAccount.class, alFixture);
         if (StringUtils.isNotBlank(objectCode)) {
             line.setFinancialObjectCode(objectCode);
             line.refreshReferenceObject("objectCode");
         }
-        
+
         return line;
     }
 
@@ -85,12 +86,14 @@ public enum RequisitionAccountingLineFixture {
         PurApAccountingLine purApAccountingLine = createPurApAccountingLine(item.getAccountingLineClass(), purApAccountingLineFixture, accountingLineFixture);
         //fix item reference
         purApAccountingLine.setPurapItem(item);
+        // fix amount
+        purApAccountingLine.setAmount(item.calculateExtendedPrice().multiply(new KualiDecimal(purApAccountingLine.getAccountLinePercent())).divide(new KualiDecimal(100)));
         item.getSourceAccountingLines().add(purApAccountingLine);
     }
 
     /**
      * This method adds an account to an item
-     * 
+     *
      * @param document
      * @param purApItemFixture
      * @throws IllegalAccessException
@@ -98,8 +101,9 @@ public enum RequisitionAccountingLineFixture {
      */
     public void addTo(PurApItem item, PurApAccountingLineFixture purApaccountFixture, AccountingLineFixture alFixture) throws IllegalAccessException, InstantiationException {
         // purApaccountFixture.createPurApAccountingLine(RequisitionAccount.class, alFixture);
-        if (0 == 0)
+        if (0 == 0) {
             ;
+        }
     }
 
 }

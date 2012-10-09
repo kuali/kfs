@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,6 +33,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.web.format.PhoneNumberFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -49,9 +50,9 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
     protected String distributePurchasingCommodityCode;
     protected String distributePurchasingCommodityDescription;
     protected boolean calculated;
-    
+
     protected String initialZipCode;
-    
+
     // *** Note that the following variables do not use camel caps ON PURPOSE, because of how the accounting lines tag uses the
     // accountPrefix
     protected Integer accountDistributionnextSourceLineNumber;
@@ -61,7 +62,7 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
     protected CapitalAssetLocation newPurchasingCapitalAssetLocationLine;
 
     protected BigDecimal totalPercentageOfAccountDistributionsourceAccountingLines;
-    
+
     protected String locationBuildingFromLookup;
     protected String locationCampusFromLookup;
 
@@ -76,13 +77,15 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
         this.accountDistributionnextSourceLineNumber = new Integer(1);
         setAccountDistributionsourceAccountingLines(new ArrayList());
         this.setAccountDistributionnewSourceLine(setupNewAccountDistributionAccountingLine());
-        
+
         this.setNewPurchasingCapitalAssetLocationLine(this.setupNewPurchasingCapitalAssetLocationLine());
-        
+
+        setFormatterType("document.vendorFaxNumber",PhoneNumberFormatter.class);
+
         calculated = false;
     }
-    
-    
+
+
 
     public Boolean getNotOtherDeliveryBuilding() {
         return notOtherDeliveryBuilding;
@@ -156,7 +159,7 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
 
     /**
      * Returns the Account Distribution Source Accounting Line at the specified index.
-     * 
+     *
      * @param index the index of the Account Distribution Source Accounting Line.
      * @return the specified Account Distribution Source Accounting Line.
      */
@@ -169,7 +172,7 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
 
     /**
      * Returns the new Purchasing Item Line and resets it to null.
-     * 
+     *
      * @return the new Purchasing Item Line.
      */
     public PurApItem getAndResetNewPurchasingItemLine() {
@@ -203,7 +206,7 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
      * Sets the sequence number appropriately for the passed in source accounting line using the value that has been stored in the
      * nextSourceLineNumber variable, adds the accounting line to the list that is aggregated by this object, and then handles
      * incrementing the nextSourceLineNumber variable.
-     * 
+     *
      * @param line the accounting line to add to the list.
      * @see org.kuali.kfs.sys.document.AccountingDocument#addSourceAccountingLine(SourceAccountingLine)
      */
@@ -233,7 +236,7 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
     public Class getItemCapitalAssetClass(){
         return null;
     }
-    
+
     public Class getCapitalAssetLocationClass(){
         return null;
     }
@@ -242,7 +245,7 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
     //CAMS LOCATION
     //Must be overridden
     public CapitalAssetLocation setupNewPurchasingCapitalAssetLocationLine() {
-        CapitalAssetLocation location = null; 
+        CapitalAssetLocation location = null;
         try{
             location = (CapitalAssetLocation)getCapitalAssetLocationClass().newInstance();
         }
@@ -272,7 +275,7 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
         setNewPurchasingCapitalAssetLocationLine(setupNewPurchasingCapitalAssetLocationLine());
         return assetLocation;
     }
-    
+
     public void resetNewPurchasingCapitalAssetLocationLine() {
         setNewPurchasingCapitalAssetLocationLine(setupNewPurchasingCapitalAssetLocationLine());
     }
@@ -281,69 +284,69 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
     public String getPurchasingItemCapitalAssetAvailability(){
         String availability = PurapConstants.CapitalAssetAvailability.NONE;
         PurchasingDocument pd = (PurchasingDocument)this.getDocument();
-        
+
         if( (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.MODIFY.equals(pd.getCapitalAssetSystemStateCode())) ||
             (PurapConstants.CapitalAssetSystemTypes.MULTIPLE.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.MODIFY.equals(pd.getCapitalAssetSystemStateCode())) ){
-            
+
             availability = PurapConstants.CapitalAssetAvailability.ONCE;
-            
+
         }else if((PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.MODIFY.equals(pd.getCapitalAssetSystemStateCode()))){
-            
+
             availability = PurapConstants.CapitalAssetAvailability.EACH;
-            
+
         }
-        
+
         return availability;
     }
-    
+
     public String getPurchasingCapitalAssetSystemAvailability(){
         String availability = PurapConstants.CapitalAssetAvailability.NONE;
         PurchasingDocument pd = (PurchasingDocument)this.getDocument();
 
         if( (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode())) ){
-                
+
             availability = PurapConstants.CapitalAssetAvailability.ONCE;
-                
+
         }else if((PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode()))){
-            
+
             availability = PurapConstants.CapitalAssetAvailability.EACH;
-            
+
         }
-        
-        return availability;        
+
+        return availability;
     }
-    
+
     public String getPurchasingCapitalAssetSystemCommentsAvailability(){
         String availability = PurapConstants.CapitalAssetAvailability.NONE;
         PurchasingDocument pd = (PurchasingDocument)this.getDocument();
 
         if( (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(pd.getCapitalAssetSystemTypeCode()) || PurapConstants.CapitalAssetSystemTypes.MULTIPLE.equals(pd.getCapitalAssetSystemTypeCode())) ){
-            
+
             availability = PurapConstants.CapitalAssetAvailability.ONCE;
-            
+
         }else if(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL.equals(pd.getCapitalAssetSystemTypeCode()) ){
-            
+
             availability = PurapConstants.CapitalAssetAvailability.EACH;
-            
+
         }
 
-        return availability;                
+        return availability;
     }
-    
+
     public String getPurchasingCapitalAssetSystemDescriptionAvailability(){
         String availability = PurapConstants.CapitalAssetAvailability.NONE;
         PurchasingDocument pd = (PurchasingDocument)this.getDocument();
 
         if( (PurapConstants.CapitalAssetSystemTypes.ONE_SYSTEM.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode())) ||
             (PurapConstants.CapitalAssetSystemTypes.MULTIPLE.equals(pd.getCapitalAssetSystemTypeCode()) && PurapConstants.CapitalAssetSystemStates.NEW.equals(pd.getCapitalAssetSystemStateCode())) ){
-            
+
             availability = PurapConstants.CapitalAssetAvailability.ONCE;
-            
+
         }
 
-        return availability;                
+        return availability;
     }
-    
+
     public String getPurchasingCapitalAssetLocationAvailability() {
         String availability = PurapConstants.CapitalAssetAvailability.NONE;
         PurchasingDocument pd = (PurchasingDocument) this.getDocument();
@@ -357,7 +360,7 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
 
         return availability;
     }
-    
+
     public String getPurchasingCapitalAssetCountAssetNumberAvailability() {
         String availability = PurapConstants.CapitalAssetAvailability.NONE;
         PurchasingDocument pd = (PurchasingDocument) this.getDocument();
@@ -368,17 +371,17 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
 
         return availability;
     }
-    
+
     /**
     * KRAD Conversion: Performs customization of an extra buttons.
-    * 
+    *
     * No data dictionary is involved.
     */
 
     @Override
     public List<ExtraButton> getExtraButtons() {
         extraButtons.clear();
-        
+
         String appExternalImageURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
 
         // add the calculate button if the user can edit
@@ -421,8 +424,8 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
         this.calculated = calculated;
     }
 
-    public boolean canUserCalculate(){        
-        return documentActions != null && documentActions.containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT);       
+    public boolean canUserCalculate(){
+        return documentActions != null && documentActions.containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT);
     }
 
 

@@ -31,6 +31,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 @ConfigureContext(session = khuntley)
@@ -112,27 +115,56 @@ public class RequisitionDocumentRuleTest extends PurapRuleTestBase {
 
     //Vendor Fax Number should not contain letter. It should be in ###-###-#### format.
     public void testProcessVendorValidation_REQ_Invalid_Vendor_Fax_Number_Contains_Letter() {
+        boolean validationFailed = false;
         RequisitionDocument req = RequisitionDocumentFixture.REQ_INVALID_VENDOR_FAX_NUMBER_CONTAINS_LETTER.createRequisitionDocument();
 
         PurchasingProcessVendorValidation validation = (PurchasingProcessVendorValidation)validations.get("Purchasing-processVendorValidation-test");
-        assertFalse( validation.validate(new AttributedDocumentEventBase("","", req)) );
-        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(PurapKeyConstants.ERROR_FAX_NUMBER_INVALID));
+        assertTrue( validation.validate(new AttributedDocumentEventBase("","", req)) );
+
+        try {
+            req.validateBusinessRules(new SaveDocumentEvent(req));
+        } catch (ValidationException e) {
+            validationFailed = true;
+        }
+
+        assertTrue(validationFailed);
+        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(new PhoneNumberValidationPattern().getValidationErrorMessageKey()));
     }
 
     //Vendor Fax Number should be in ###-###-#### format.
     public void testProcessVendorValidation_REQ_Invalid_Vendor_Fax_Number_Bad_Format() {
+        boolean validationFailed = false;
         RequisitionDocument req = RequisitionDocumentFixture.REQ_INVALID_VENDOR_FAX_NUMBER_BAD_FORMAT.createRequisitionDocument();
 
         PurchasingProcessVendorValidation validation = (PurchasingProcessVendorValidation)validations.get("Purchasing-processVendorValidation-test");
-        assertFalse( validation.validate(new AttributedDocumentEventBase("","", req)) );
-        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(PurapKeyConstants.ERROR_FAX_NUMBER_INVALID));
+        assertTrue( validation.validate(new AttributedDocumentEventBase("","", req)) );
+
+        try {
+            req.validateBusinessRules(new SaveDocumentEvent(req));
+        } catch (ValidationException e) {
+            validationFailed = true;
+        }
+
+        assertTrue(validationFailed);
+        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(new PhoneNumberValidationPattern().getValidationErrorMessageKey()));
     }
 
     //The vendor fax number when the value is correct (in ###-###-#### format).
     public void testProcessVendorValidation_REQ_Valid_Vendor_Fax_Number() {
+        boolean validationFailed = false;
         RequisitionDocument req = RequisitionDocumentFixture.REQ_VALID_VENDOR_FAX_NUMBER.createRequisitionDocument();
+
         PurchasingProcessVendorValidation validation = (PurchasingProcessVendorValidation)validations.get("Purchasing-processVendorValidation-test");
         assertTrue( validation.validate(new AttributedDocumentEventBase("","", req)) );
+
+        try {
+            req.validateBusinessRules(new SaveDocumentEvent(req));
+        } catch (ValidationException e) {
+            validationFailed = true;
+        }
+
+        assertFalse(validationFailed);
+        assertTrue(GlobalVariables.getMessageMap().hasNoErrors());
     }
 
     //The vendor zip code validation should not take place if the requisition is a B2B, even if

@@ -27,6 +27,7 @@ public class VendorCreditMemoAttachmentTypeValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
         List keyValues = new ArrayList();
         
+        keyValues.add(new ConcreteKeyValue("", ""));
         keyValues.add(new ConcreteKeyValue(AttachmentTypeCodes.ATTACHMENT_TYPE_CM_IMAGE, AttachmentTypeCodes.ATTACHMENT_TYPE_CM_IMAGE));
         keyValues.add(new ConcreteKeyValue(AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER, AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER));
 

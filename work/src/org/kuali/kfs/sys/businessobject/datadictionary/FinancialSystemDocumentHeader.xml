@@ -40,7 +40,8 @@
 <!-- Attribute Definitions -->
 
 	<!-- creating a bean with this name as it's depended upon by other beans in KFS -->
-	<bean id="FinancialSystemDocumentHeader-documentNumber" parent="DocumentHeader-documentNumber" />
+	<bean id="FinancialSystemDocumentHeader-documentNumber" parent="FinancialSystemDocumentHeader-documentNumber-parentBean" />
+	<bean id="FinancialSystemDocumentHeader-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
 
 	<!-- Overriding this base Rice attribute definition to limit description length to 40 as required
 		 by KFS ledger entry-creating documents -->

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,6 +42,7 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
     protected static String ERROR_PATH_SUFFIX_FOR_IND_SYSTEM = "].purchasingCapitalAssetSystem";
     protected static String ERROR_PATH_PREFIX_FOR_ONE_SYSTEM = "document.purchasingCapitalAssetSystems[0]";
 
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         GlobalVariables.getMessageMap().clearErrorPath();
         boolean valid = true;
@@ -52,7 +53,7 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
         boolean capitalAssetRequired = requiredByObjectSubType && requiredByChart;
 
         if (capitalAssetRequired) {
-            // if capital asset required, check to see if the capital asset data are setup 
+            // if capital asset required, check to see if the capital asset data are setup
             String typeCode = purchasingDocument.getCapitalAssetSystemTypeCode();
             if (StringUtils.isBlank(typeCode) || StringUtils.isBlank(purchasingDocument.getCapitalAssetSystemStateCode()) ||
                     purchasingDocument.getPurchasingCapitalAssetSystems() == null || purchasingDocument.getPurchasingCapitalAssetItems() == null){
@@ -64,8 +65,8 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
             }
             /* TODO
              * either complete the following with checking that capital asset items are correctly setup, or replace this whole part (and above)
-             * with checking on a flag that indicates whether select/update capital asset has been done since last item changes 
-             */   
+             * with checking on a flag that indicates whether select/update capital asset has been done since last item changes
+             */
             else if (purchasingDocument.getPurchasingCapitalAssetItems().isEmpty()) {
                 valid = false;
             }
@@ -78,13 +79,13 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
                         }
                     }
                 }
-                if(purchasingDocument.getPurchasingCapitalAssetItems().size() < expectedCapAssetItems){
+                if(purchasingDocument.getPurchasingCapitalAssetItems().size() != expectedCapAssetItems){
                     valid = false;
                 }
-            }            
+            }
             if (!valid) {
-                GlobalVariables.getMessageMap().putError("newPurchasingItemCapitalAssetLine", PurapKeyConstants.ERROR_CAPITAL_ASSET_REQD_FOR_PUR_OBJ_SUB_TYPE);                
-                return valid; 
+                GlobalVariables.getMessageMap().putError("newPurchasingItemCapitalAssetLine", PurapKeyConstants.ERROR_CAPITAL_ASSET_REQD_FOR_PUR_OBJ_SUB_TYPE);
+                return valid;
             }
         }
         else {
@@ -127,7 +128,7 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
 
     /**
      * Validate user input asset type code.
-     * 
+     *
      * @param purchasingDocument
      * @return
      */
@@ -159,13 +160,13 @@ public class PurchasingCapitalAssetValidation extends GenericValidation {
                 }
             }
         }
-        // Validate for Multiple system is ignored since currently it's not supported to enter. 
+        // Validate for Multiple system is ignored since currently it's not supported to enter.
         return valid;
     }
 
     /**
      * Add asset type error to the global message map.
-     * 
+     *
      * @param errorPath
      */
     protected void addAssetTypeErrorWithFullErrorPath(String errorPath) {

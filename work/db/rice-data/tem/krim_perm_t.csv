@@ -50,3 +50,7 @@ TEM-10052,KFS-TEM-PERM-052,1,16,KFS-TEM,Edit Document,Edit permission for the TA
 TEM-10053,KFS-TEM-PERM-053,1,41,KFS-TEM,Modify Accounting Lines,Allows access to Modify the Accounting Lines on a TA doc that has not yet been submitted for routing.,Y
 TEM-10054,KFS-TEM-PERM-054,1,16,KFS-TEM,Edit Document,Edit permission for the TR document prior to the document being submitted.,Y
 TEM-10055,KFS-TEM-PERM-055,1,41,KFS-TEM,Modify Accounting Lines,Allows access to Modify the Accounting Lines on a TR doc that has not yet been submitted for routing.,Y
+TEM-10056,KFS-TEM-PERM-056,1,TEM-10007,KFS-TEM,Full Edit Agency Data,Allows full edit on Agency Data,Y
+TEM-10057,KFS-TEM-PERM-057,1,44,KFS-TEM,Modify Maintenance Document Section,Authorizes users to see and edit the airline section on Agency Audit Maintenance Document.,Y
+TEM-10058,KFS-TEM-PERM-058,1,44,KFS-TEM,Modify Maintenance Document Section,Authorizes users to see and edit the lodging section on Agency Audit Maintenance Document.,Y
+TEM-10059,KFS-TEM-PERM-059,1,44,KFS-TEM,Modify Maintenance Document Section,Authorizes users to see and edit the car rental section on Agency Audit Maintenance Document.,Y

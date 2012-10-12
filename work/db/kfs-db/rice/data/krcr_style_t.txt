@@ -1436,7 +1436,7 @@ style_id|nm|xml|actv_ind|ver_nbr|obj_id|
 															<xsl:choose>
 																<xsl:when test="attachments/attachment">
 																	<xsl:for-each select="attachments/attachment">
-																		<xsl:value-of select="fileName"/>  ¬†
+																		<xsl:value-of select="fileName"/>  Â 
 																		<input name="idInEdit" type="hidden">
 																			<xsl:attribute name="value">
 <xsl:value-of select="../../noteId"/>
@@ -1446,7 +1446,7 @@ style_id|nm|xml|actv_ind|ver_nbr|obj_id|
 																			<xsl:when test="$globalReadOnly = 'true'">
 																			</xsl:when>
 																			<xsl:otherwise>
-																				<a href="javascript: document.forms[0].elements['methodToCall'].value = 'deleteAttachment'; document.forms[0].submit();">delete</a> ¬†
+																				<a href="javascript: document.forms[0].elements['methodToCall'].value = 'deleteAttachment'; document.forms[0].submit();">delete</a> Â 
 	                    									<xsl:variable name="hrefStr">attachment?attachmentId=<xsl:value-of select="attachmentId"/>
 </xsl:variable>
 																				<a href="{$hrefStr}">download</a>
@@ -1472,7 +1472,7 @@ style_id|nm|xml|actv_ind|ver_nbr|obj_id|
 														<br/>
 														<xsl:if test="$showAttachments = 'true'">
 															<xsl:for-each select="attachments/attachment">
-																<xsl:value-of select="fileName"/>  ¬†
+																<xsl:value-of select="fileName"/>  Â 
 	                    					<xsl:variable name="hrefStr">attachment?attachmentId=<xsl:value-of select="attachmentId"/>
 </xsl:variable>
 																<a href="{$hrefStr}">download</a>

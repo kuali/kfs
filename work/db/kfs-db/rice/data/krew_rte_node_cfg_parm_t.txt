@@ -46,24 +46,24 @@ rte_node_cfg_parm_id|rte_node_id|key_cd|val|
 2384|2840|ruleSelector|Template|
 2430|2898|contentFragment|<start name="AdHoc"/>|
 2431|2898|ruleSelector|Template|
-2432|2899|contentFragment|<role name="RoleType"><qualifierResolverClass>org.kuali.rice.kim.impl.type.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>|
-2433|2899|qualifierResolverClass|org.kuali.rice.kim.impl.type.KimTypeQualifierResolver|
+2432|2899|contentFragment|<role name="RoleType"><qualifierResolverClass>org.kuali.rice.kim.workflow.attribute.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>|
+2433|2899|qualifierResolverClass|org.kuali.rice.kim.workflow.attribute.KimTypeQualifierResolver|
 2434|2899|activationType|P|
 2435|2899|ruleSelector|Template|
 2436|2901|contentFragment|<start name="AdHoc"/>|
 2437|2901|ruleSelector|Template|
-2438|2902|contentFragment|<role name="GroupType"><qualifierResolverClass>org.kuali.rice.kim.impl.type.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>|
-2439|2902|qualifierResolverClass|org.kuali.rice.kim.impl.type.KimTypeQualifierResolver|
+2438|2902|contentFragment|<role name="GroupType"><qualifierResolverClass>org.kuali.rice.kim.workflow.attribute.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>|
+2439|2902|qualifierResolverClass|org.kuali.rice.kim.workflow.attribute.KimTypeQualifierResolver|
 2440|2902|activationType|P|
 2441|2902|ruleSelector|Template|
 2442|2904|contentFragment|<start name="AdHoc"/>|
 2443|2904|ruleSelector|Template|
-2444|2905|contentFragment|<role name="GroupType"><qualifierResolverClass>org.kuali.rice.kim.impl.type.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>|
-2445|2905|qualifierResolverClass|org.kuali.rice.kim.impl.type.KimTypeQualifierResolver|
+2444|2905|contentFragment|<role name="GroupType"><qualifierResolverClass>org.kuali.rice.kim.workflow.attribute.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>|
+2445|2905|qualifierResolverClass|org.kuali.rice.kim.workflow.attribute.KimTypeQualifierResolver|
 2446|2905|activationType|P|
 2447|2905|ruleSelector|Template|
-2448|2906|contentFragment|<role name="RoleType"><qualifierResolverClass>org.kuali.rice.kim.impl.type.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>|
-2449|2906|qualifierResolverClass|org.kuali.rice.kim.impl.type.KimTypeQualifierResolver|
+2448|2906|contentFragment|<role name="RoleType"><qualifierResolverClass>org.kuali.rice.kim.workflow.attribute.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>|
+2449|2906|qualifierResolverClass|org.kuali.rice.kim.workflow.attribute.KimTypeQualifierResolver|
 2450|2906|activationType|P|
 2451|2906|ruleSelector|Template|
 2452|2908|contentFragment|<start name="AdHoc"/>|

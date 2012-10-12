@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,7 +34,6 @@ import org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRuleCon
 import org.kuali.kfs.fp.document.validation.impl.TransferOfFundsDocumentRuleConstants;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.AccountResponsibility;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -67,7 +66,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class BudgetAdjustmentDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentDocument.class);
-    
+
     protected static final String REQUIRES_FULL_APPROVAL_SPLIT_NODE_NAME = "RequiresFullApproval";
 
     protected Integer nextPositionSourceLineNumber;
@@ -83,10 +82,11 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /*******************************************************************************************************************************
      * BA Documents should only do SF checking on PLEs with a Balance Type of 'CB' - not 'BB' or 'MB'.
-     * 
-     * 
+     *
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getPendingLedgerEntriesForSufficientFundsChecking()
      */
+    @Override
     public List<GeneralLedgerPendingEntry> getPendingLedgerEntriesForSufficientFundsChecking() {
         List<GeneralLedgerPendingEntry> pendingLedgerEntries = new ArrayList();
 
@@ -158,7 +158,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Returns the total current budget amount from the source lines.
-     * 
+     *
      * @return KualiDecimal
      */
     public KualiDecimal getSourceCurrentBudgetTotal() {
@@ -174,7 +174,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * This method retrieves the total current budget amount formatted as currency.
-     * 
+     *
      * @return String
      */
     public String getCurrencyFormattedSourceCurrentBudgetTotal() {
@@ -183,7 +183,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Returns the total current budget income amount from the source lines.
-     * 
+     *
      * @return KualiDecimal
      */
     public KualiDecimal getSourceCurrentBudgetIncomeTotal() {
@@ -202,7 +202,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Returns the total current budget expense amount from the source lines.
-     * 
+     *
      * @return KualiDecimal
      */
     public KualiDecimal getSourceCurrentBudgetExpenseTotal() {
@@ -221,7 +221,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Returns the total current budget amount from the target lines.
-     * 
+     *
      * @return KualiDecimal
      */
     public KualiDecimal getTargetCurrentBudgetTotal() {
@@ -237,7 +237,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * This method retrieves the total current budget amount formatted as currency.
-     * 
+     *
      * @return String
      */
     public String getCurrencyFormattedTargetCurrentBudgetTotal() {
@@ -246,7 +246,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Returns the total current budget income amount from the target lines.
-     * 
+     *
      * @return KualiDecimal
      */
     public KualiDecimal getTargetCurrentBudgetIncomeTotal() {
@@ -265,7 +265,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Returns the total current budget expense amount from the target lines.
-     * 
+     *
      * @return KualiDecimal
      */
     public KualiDecimal getTargetCurrentBudgetExpenseTotal() {
@@ -284,7 +284,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Returns the total base budget amount from the source lines.
-     * 
+     *
      * @return KualiDecimal
      */
     public KualiInteger getSourceBaseBudgetTotal() {
@@ -301,7 +301,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * This method retrieves the total base budget amount formatted as currency.
-     * 
+     *
      * @return String
      */
     public String getCurrencyFormattedSourceBaseBudgetTotal() {
@@ -310,7 +310,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Returns the total base budget income amount from the source lines.
-     * 
+     *
      * @return KualiDecimal
      */
     public KualiInteger getSourceBaseBudgetIncomeTotal() {
@@ -329,7 +329,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Returns the total base budget expense amount from the source lines.
-     * 
+     *
      * @return KualiDecimal
      */
     public KualiInteger getSourceBaseBudgetExpenseTotal() {
@@ -348,7 +348,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Returns the total base budget amount from the target lines.
-     * 
+     *
      * @return KualiDecimal
      */
     public KualiInteger getTargetBaseBudgetTotal() {
@@ -364,7 +364,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * This method retrieves the total base budget amount formatted as currency.
-     * 
+     *
      * @return String
      */
     public String getCurrencyFormattedTargetBaseBudgetTotal() {
@@ -373,7 +373,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Returns the total base budget income amount from the target lines.
-     * 
+     *
      * @return KualiDecimal
      */
     public KualiInteger getTargetBaseBudgetIncomeTotal() {
@@ -392,7 +392,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Returns the total base budget expense amount from the target lines.
-     * 
+     *
      * @return KualiDecimal
      */
     public KualiInteger getTargetBaseBudgetExpenseTotal() {
@@ -411,7 +411,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Same as default implementation but uses getTargetCurrentBudgetTotal and getSourceCurrentBudgetTotal instead.
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getTotalDollarAmount()
      * @return KualiDecimal
      */
@@ -422,7 +422,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Negate accounting line budget amounts.
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#toErrorCorrection()
      */
     @Override
@@ -472,7 +472,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * The base checks that the posting year is the current year, not a requirement for the ba document.
-     * 
+     *
      * @see org.kuali.rice.krad.document.TransactionalDocumentBase#getAllowsCopy()
      */
     @Override
@@ -517,7 +517,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Returns true if accounting line is debit
-     * 
+     *
      * @param financialDocument submitted financial document
      * @param accountingLine accounting line being evaluated as a debit or not
      * @see org.kuali.rice.krad.rule.AccountingLineRule#isDebit(org.kuali.rice.krad.document.FinancialDocument,
@@ -527,7 +527,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         try {
             DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
-            return isDebitUtils.isDebitConsideringType(this, (AccountingLine) postable);
+            return isDebitUtils.isDebitConsideringType(this, postable);
         }
         catch (IllegalStateException e) {
             // for all accounting lines except the transfer lines, the line amount will be 0 and this exception will be thrown
@@ -539,7 +539,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      * The budget adjustment document creates GL pending entries much differently that common tp-edocs. The glpes are created for
      * BB, CB, and MB balance types. Up to 14 entries per line can be created. Along with this, the BA will create TOF entries if
      * needed to move funding.
-     * 
+     *
      * @param financialDocument submitted accounting document
      * @param accountingLine validated accounting line
      * @param sequenceHelper helper class for keeping track of sequence number
@@ -657,7 +657,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Helper method for creating monthly budget pending entry lines.
-     * 
+     *
      * @param financialDocument submitted accounting document
      * @param accountingLine validated accounting line
      * @param sequenceHelper helper class for keeping track of sequence number
@@ -681,7 +681,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
     /**
      * Returns an implementation of the GeneralLedgerPendingEntryService
-     * 
+     *
      * @return an implementation of the GeneralLedgerPendingEntryService
      */
     public GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
@@ -692,7 +692,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      * Generates any necessary tof entries to transfer funds needed to make the budget adjustments. Based on income chart and
      * accounts. If there is a difference in funds between an income chart and account, a tof entry needs to be created, along with
      * a budget adjustment entry. Object code used is retrieved by a parameter.
-     * 
+     *
      * @param sequenceHelper helper class for keeping track of sequence number
      * @return true general ledger pending entries are generated without any problems
      * @see org.kuali.rice.krad.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.krad.document.FinancialDocument,
@@ -713,7 +713,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
             GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
             for (Iterator iter = incomeStreamMap.keySet().iterator(); iter.hasNext();) {
                 String chartAccount = (String) iter.next();
-                KualiDecimal streamAmount = (KualiDecimal) incomeStreamMap.get(chartAccount);
+                KualiDecimal streamAmount = incomeStreamMap.get(chartAccount);
                 if (streamAmount.isNonZero()) {
                     // build dummy accounting line for gl population
                     AccountingLine accountingLine = null;
@@ -802,7 +802,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     /**
      * Builds a map used for balancing current adjustment amounts. The map contains income chart and accounts contained on the
      * document as the keys, and transfer amounts as the values.  The transfer amount is calculated from (curr_frm_inc - curr_frm_exp) - (curr_to_inc - curr_to_exp)
-     * 
+     *
      * @param baDocument budget adjustment document
      * @return Map used to balance current amounts
      */
@@ -812,17 +812,17 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         List<BudgetAdjustmentAccountingLine> accountingLines = new ArrayList<BudgetAdjustmentAccountingLine>();
         accountingLines.addAll(getSourceAccountingLines());
         accountingLines.addAll(getTargetAccountingLines());
-        
+
         ParameterEvaluatorService parameterEvaluatorService = SpringContext.getBean(ParameterEvaluatorService.class);
-        
+
         for (BudgetAdjustmentAccountingLine budgetAccountingLine : accountingLines) {
             Account baAccount = budgetAccountingLine.getAccount();
-            
+
             if(parameterEvaluatorService.getParameterEvaluator(BudgetAdjustmentDocument.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_FUND_GROUPS, baAccount.getSubFundGroup().getFundGroupCode()).evaluationSucceeds() &&
                parameterEvaluatorService.getParameterEvaluator(BudgetAdjustmentDocument.class, KFSConstants.BudgetAdjustmentDocumentConstants.CROSS_INCOME_STREAM_GLPE_TRANSFER_GENERATING_SUB_FUND_GROUPS, baAccount.getSubFundGroupCode()).evaluationSucceeds()) {
-                
+
                 String incomeStreamKey = baAccount.getIncomeStreamFinancialCoaCode() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + baAccount.getIncomeStreamAccountNumber();
-    
+
                 // place record in balance map
                 incomeStreamBalance.put(incomeStreamKey, getIncomeStreamAmount(budgetAccountingLine, incomeStreamBalance.get(incomeStreamKey)));
             }
@@ -834,7 +834,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     /**
      * Builds a map used for balancing current adjustment amounts. The map contains income chart and accounts contained on the
      * document as the keys, and transfer amounts as the values. The transfer amount is calculated from (curr_frm_inc - curr_frm_exp) - (curr_to_inc - curr_to_exp)
-     * 
+     *
      * @param baDocument budget adjustment document
      * @return Map used to balance current amounts
      */
@@ -845,7 +845,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         accountingLines.addAll(getSourceAccountingLines());
         accountingLines.addAll(getTargetAccountingLines());
         for (BudgetAdjustmentAccountingLine budgetAccountingLine : accountingLines) {
-            
+
             String incomeStreamKey = budgetAccountingLine.getAccount().getIncomeStreamFinancialCoaCode() + BudgetAdjustmentDocumentRuleConstants.INCOME_STREAM_CHART_ACCOUNT_DELIMITER + budgetAccountingLine.getAccount().getIncomeStreamAccountNumber();
 
             // place record in balance map
@@ -856,9 +856,9 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     }
 
     /**
-     * 
+     *
      * This method calculates the appropriate income stream amount for an account using the value provided and the provided accounting line.
-     * 
+     *
      * @param budgetAccountingLine
      * @param incomeStreamAmount
      * @return
@@ -870,7 +870,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
         // amounts need to be reversed for source expense lines and target income lines
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
-        if ((budgetAccountingLine instanceof BudgetAdjustmentSourceAccountingLine && isDebitUtils.isExpense((AccountingLine) budgetAccountingLine)) || (budgetAccountingLine instanceof BudgetAdjustmentTargetAccountingLine && isDebitUtils.isIncome((AccountingLine) budgetAccountingLine))) {
+        if ((budgetAccountingLine instanceof BudgetAdjustmentSourceAccountingLine && isDebitUtils.isExpense(budgetAccountingLine)) || (budgetAccountingLine instanceof BudgetAdjustmentTargetAccountingLine && isDebitUtils.isIncome(budgetAccountingLine))) {
             incomeStreamAmount = incomeStreamAmount.subtract(budgetAccountingLine.getCurrentBudgetAdjustmentAmount());
         }
         else {
@@ -879,10 +879,10 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
         return incomeStreamAmount;
     }
-    
+
     /**
      * Returns the document type code for the Transfer of Funds document
-     * 
+     *
      * @return the document type name to be used for the income stream transfer glpe
      */
     protected String getTransferDocumentType() {
@@ -933,13 +933,13 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
          // check remaining conditions
         // initiator should be fiscal officer or primary delegate for account
         Person initiator = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        
+        AccountService acctService = SpringContext.getBean(AccountService.class);
         for (Iterator iter1 = accountingLines.iterator(); iter1.hasNext();) {
 
             BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter1.next();
-            Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(line.getChartOfAccountsCode(), line.getAccountNumber()); 
-            boolean hasResponsibilityOnAccount= SpringContext.getBean(AccountService.class).hasResponsibilityOnAccount(initiator, account);
-            Account userAccount = null; 
+            Account account = acctService.getByPrimaryId(line.getChartOfAccountsCode(), line.getAccountNumber());
+            boolean hasResponsibilityOnAccount= acctService.hasResponsibilityOnAccount(initiator, account);
+            Account userAccount = null;
             if(hasResponsibilityOnAccount){
                  userAccount=account;
             }

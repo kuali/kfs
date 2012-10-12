@@ -46,6 +46,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.datadictionary.mask.Mask;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -467,5 +468,18 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
     protected AccountsReceivableModuleService getAccountsReceivableModuleService() {
         
         return SpringContext.getBean(AccountsReceivableModuleService.class);
+    }
+    
+    @Override
+    public PersistableBusinessObject getNewCollectionLine( String collectionName ) {
+        PersistableBusinessObject addLine = super.getNewCollectionLine(collectionName);
+        if (collectionName.equals("accounts")){
+            TEMProfileAccount account = (TEMProfileAccount) addLine;
+            TEMProfile temProfile = (TEMProfile) super.getBusinessObject();
+            account.setProfile(temProfile);
+            return account;
+        }
+        
+        return addLine;
     }
 }

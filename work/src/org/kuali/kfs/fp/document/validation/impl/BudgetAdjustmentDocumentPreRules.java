@@ -55,7 +55,7 @@ public class BudgetAdjustmentDocumentPreRules extends PromptBeforeValidationBase
         BudgetAdjustmentDocument budgetDocument = (BudgetAdjustmentDocument) document;
         preRulesOK = askLaborBenefitsGeneration(budgetDocument);
         
-        preRulesOK &= SpringContext.getBean(AccountingDocumentPreRuleService.class).accessAccountOverrideQuestion((AccountingDocumentBase) document, this, this.event);
+        preRulesOK &= SpringContext.getBean(AccountingDocumentPreRuleService.class).expiredAccountOverrideQuestion((AccountingDocumentBase) document, this, this.event);
 
         return preRulesOK;
     }

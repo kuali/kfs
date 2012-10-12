@@ -23,7 +23,7 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.AuxiliaryVoucherDocument"/>
     <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.AuxiliaryVoucherDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
-    <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.ExpiredAccountOverridePreRules"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.AuxiliaryVoucherDocumentPresentationController"/>
     <property name="sessionDocument" value="true"/>
     <property name="allowsCopy" value="true"/>

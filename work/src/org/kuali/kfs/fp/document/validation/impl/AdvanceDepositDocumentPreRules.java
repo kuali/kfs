@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,14 +43,14 @@ public class AdvanceDepositDocumentPreRules extends PromptBeforeValidationBase {
         AdvanceDepositDocument adDocument = (AdvanceDepositDocument) document;
 
         preRulesOK &= checkBankCodeActive(adDocument);
-        preRulesOK &= SpringContext.getBean(AccountingDocumentPreRuleService.class).accessAccountOverrideQuestion((AccountingDocumentBase) document, this, this.event);
-        
+        preRulesOK &= SpringContext.getBean(AccountingDocumentPreRuleService.class).expiredAccountOverrideQuestion((AccountingDocumentBase) document, this, this.event);
+
         return preRulesOK;
     }
 
     /**
      * If bank specification is enabled, prompts user to use the continuation bank code when the given bank code is inactive
-     * 
+     *
      * @param adDocument document containing bank code
      * @return true
      */
@@ -65,7 +65,7 @@ public class AdvanceDepositDocumentPreRules extends PromptBeforeValidationBase {
         int questionIndex = 0;
         for (AdvanceDepositDetail advanceDeposit : adDocument.getAdvanceDeposits()) {
             questionIndex++;
-            
+
             // refresh bank reference so continuation bank can be checked for active status
             advanceDeposit.refreshReferenceObject(KFSPropertyConstants.BANK);
             Bank bank = advanceDeposit.getBank();

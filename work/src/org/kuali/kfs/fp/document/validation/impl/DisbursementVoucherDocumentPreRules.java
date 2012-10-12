@@ -1,12 +1,12 @@
 /*
  * Copyright 2005 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -48,7 +48,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
     /**
      * Executes pre-rules for Disbursement Voucher Document
-     * 
+     *
      * @param document submitted document
      * @return true if pre-rules execute successfully
      * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.MaintenanceDocument)
@@ -67,8 +67,8 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
         preRulesOK &= checkForeignDraftTabState(dvDocument);
 
         preRulesOK &= checkBankCodeActive(dvDocument);
-        
-        preRulesOK &= SpringContext.getBean(AccountingDocumentPreRuleService.class).accessAccountOverrideQuestion((AccountingDocumentBase) document, this, this.event);
+
+        preRulesOK &= SpringContext.getBean(AccountingDocumentPreRuleService.class).expiredAccountOverrideQuestion((AccountingDocumentBase) document, this, this.event);
 
 
         return preRulesOK;
@@ -76,7 +76,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
     /**
      * If the special handling name and address 1 fields have value, this will mark the special handling indicator for the user.
-     * 
+     *
      * @param dvDocument submitted disbursement voucher document
      */
     protected void checkSpecialHandlingIndicator(DisbursementVoucherDocument dvDocument) {
@@ -84,7 +84,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
             dvDocument.setDisbVchrSpecialHandlingCode(true);
         }
     }
-    
+
     /**
      * Allows the automatic turning on of special handling indicator - which will not be allowed at the Campus route level
      * @param dvDocument the document to allow turning on of special handling for
@@ -97,7 +97,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
     /**
      * This method checks non-employee travel tab state is valid
-     * 
+     *
      * @param dvDocument submitted disbursement voucher document
      * @return true if the state of all the tabs is valid, false otherwise.
      */
@@ -140,7 +140,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
     /**
      * Returns true if non-employee travel tab contains any data in any of its fields
-     * 
+     *
      * @param dvNonEmplTrav disbursement voucher non employee travel object
      * @return True if non employee travel tab contains any data in any fields.
      */
@@ -172,7 +172,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
     /**
      * Returns true if any values are not blank on non employee travel tab
-     * 
+     *
      * @param dvNonEmplTrav disbursement voucher non employee travel object
      * @return True if any values are found in the non employee travel tab
      */
@@ -182,7 +182,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
     /**
      * Returns true if non employee travel tab contains data in any of the fields in the per diem section
-     * 
+     *
      * @param dvNonEmplTrav disbursement voucher non employee travel object
      * @return True if non employee travel tab contains data in any of the fields in the per diem section
      */
@@ -192,7 +192,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
     /**
      * Returns true if non employee travel tab contains data in any of the fields in the personal vehicle section
-     * 
+     *
      * @param dvNonEmplTrav disbursement voucher non employee travel object
      * @return True if non employee travel tab contains data in any of the fields in the personal vehicle section
      */
@@ -202,7 +202,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
     /**
      * Returns true if the state of all the tabs is valid, false otherwise.
-     * 
+     *
      * @param dvDocument submitted disbursemtn voucher document
      * @return true if the state of all the tabs is valid, false otherwise.
      */
@@ -236,7 +236,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
     /**
      * Returns true if foreign draft tab contains any data in any fields. NOTE: Currently does not validate based on only required
      * fields. Checks all fields within tab for data.
-     * 
+     *
      * @param dvForeignDraft disbursement foreign draft object
      * @return True if foreign draft tab contains any data in any fields.
      */
@@ -252,7 +252,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
     /**
      * This method sets foreign currency type code and name to null for passed in disbursement foreign draft object
-     * 
+     *
      * @param dvForeignDraft disbursement foreign draft object
      */
     protected void clearForeignDraftValues(DisbursementVoucherWireTransfer dvForeignDraft) {
@@ -262,7 +262,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
     /**
      * This method returns true if the state of all the tabs is valid, false otherwise.
-     * 
+     *
      * @param dvDocument submitted disbursement voucher document
      * @return Returns true if the state of all the tabs is valid, false otherwise.
      */
@@ -295,7 +295,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
     /**
      * If bank specification is enabled, prompts user to use the continuation bank code when the given bank code is inactive
-     * 
+     *
      * @param dvDocument document containing bank code
      * @return true
      */
@@ -327,7 +327,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
     /**
      * Returns true if wire transfer tab contains any data in any fields.
-     * 
+     *
      * @param dvWireTransfer disbursement voucher wire transfer
      * @return true if wire transfer tab contains any data in any fields.
      */
@@ -352,7 +352,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
     /**
      * This method sets all values in the passed in disbursement wire transfer object to null
-     * 
+     *
      * @param dvWireTransfer
      */
     protected void clearWireTransferValues(DisbursementVoucherWireTransfer dvWireTransfer) {
@@ -371,7 +371,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
 
     /**
      * put the valid payment reason codes along with their description together
-     * 
+     *
      * @param validPaymentReasonCodes the given valid payment reason codes
      * @return the valid payment reason codes along with their description as a string
      */

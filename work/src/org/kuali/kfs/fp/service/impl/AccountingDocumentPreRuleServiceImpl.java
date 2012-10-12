@@ -70,7 +70,7 @@ public class AccountingDocumentPreRuleServiceImpl implements AccountingDocumentP
      * @param preRule
      * @return
      */
-    public boolean accessAccountOverrideQuestion(AccountingDocumentBase document, PromptBeforeValidationBase preRule, PromptBeforeValidationEvent event) {
+    public boolean expiredAccountOverrideQuestion(AccountingDocumentBase document, PromptBeforeValidationBase preRule, PromptBeforeValidationEvent event) {
         boolean tabStatesOK = true;
         List<AccountingLine> accountLineList = getOverrideQuestionAccount(document);
         if (accountLineList != null && !accountLineList.isEmpty()) {

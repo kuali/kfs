@@ -32,5 +32,5 @@ public interface AccountingDocumentPreRuleService {
      * @param infix
      * @return
      */
-    boolean accessAccountOverrideQuestion(AccountingDocumentBase document, PromptBeforeValidationBase preRule, PromptBeforeValidationEvent event);
+    boolean expiredAccountOverrideQuestion(AccountingDocumentBase document, PromptBeforeValidationBase preRule, PromptBeforeValidationEvent event);
 }

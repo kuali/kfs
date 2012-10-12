@@ -23,7 +23,7 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument"/>
     <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
-    <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.YearEndDistributionOfIncomeAndExpenseDocumentPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.ExpiredAccountOverridePreRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.YearEndDistributionOfIncomeAndExpenseDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.YearEndDistributionOfIncomeAndExpenseDocumentPresentationController"/>
     <property name="sessionDocument" value="true"/>

@@ -23,7 +23,7 @@
     <property name="documentClass" value="org.kuali.kfs.fp.document.InternalBillingDocument"/>
     <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.InternalBillingDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
-    <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.InternalBillingDocumentPreRules"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.ExpiredAccountOverridePreRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.InternalBillingDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.InternalBillingDocumentPresentationController"/>
     <property name="sessionDocument" value="true"/>

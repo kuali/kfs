@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,7 +36,6 @@ import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.pdp.dataaccess.PaymentDetailDao;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupDao;
-import org.kuali.kfs.pdp.service.EnvironmentService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PaymentMaintenanceService;
 import org.kuali.kfs.pdp.service.PdpAuthorizationService;
@@ -64,7 +63,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
     private PaymentGroupDao paymentGroupDao;
     private PaymentDetailDao paymentDetailDao;
     private PendingTransactionService glPendingTransactionService;
-    private EnvironmentService environmentService;
     private MailService mailService;
     private ParameterService parameterService;
     private BankService bankService;
@@ -75,7 +73,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     /**
      * This method changes status for a payment group.
-     * 
+     *
      * @param paymentGroup the payment group
      * @param newPaymentStatus the new payment status
      * @param changeStatus the changed payment status
@@ -106,7 +104,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     /**
      * This method changes the state of a paymentGroup.
-     * 
+     *
      * @param paymentGroup the payment group to change the state for
      * @param newPaymentStatus the new payment status
      * @param changeStatus the status that is changed
@@ -142,6 +140,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelPendingPayment(java.lang.Integer, java.lang.Integer,
      *      java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean cancelPendingPayment(Integer paymentGroupId, Integer paymentDetailId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         if (LOG.isDebugEnabled()) {
@@ -175,7 +174,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 Map primaryKeys = new HashMap();
                 primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
 
-                PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
+                PaymentDetail pd = this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
                 if (pd != null) {
                     pd.setPrimaryCancelledPayment(Boolean.TRUE);
                 }
@@ -196,7 +195,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 Map primaryKeys = new HashMap();
                 primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
 
-                PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
+                PaymentDetail pd = this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
                 if (pd != null) {
                     pd.setPrimaryCancelledPayment(Boolean.TRUE);
                     PaymentNoteText payNoteText = new PaymentNoteText();
@@ -228,6 +227,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#holdPendingPayment(java.lang.Integer, java.lang.String,
      *      org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean holdPendingPayment(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         if (LOG.isDebugEnabled()) {
@@ -278,6 +278,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#removeHoldPendingPayment(java.lang.Integer,
      *      java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean removeHoldPendingPayment(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         if (LOG.isDebugEnabled()) {
@@ -336,17 +337,18 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#changeImmediateFlag(java.lang.Integer, java.lang.String,
      *      org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public void changeImmediateFlag(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         if (LOG.isDebugEnabled()) {
             LOG.debug("changeImmediateFlag() Enter method to hold pending payment with id = " + paymentGroupId);
         }
-        
+
         if (!pdpAuthorizationService.hasSetAsImmediatePayPermission(user.getPrincipalId())) {
             LOG.warn("changeImmediateFlag() User " + user.getPrincipalId() + " does not have rights to set payments as immediate. This should not happen unless user is URL spoofing.");
             throw new RuntimeException("changeImmediateFlag() User " + user.getPrincipalId() + " does not have rights to payments as immediate. This should not happen unless user is URL spoofing.");
         }
-        
+
         PaymentGroupHistory paymentGroupHistory = new PaymentGroupHistory();
         PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
 
@@ -368,12 +370,13 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelDisbursement(java.lang.Integer, java.lang.Integer,
      *      java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean cancelDisbursement(Integer paymentGroupId, Integer paymentDetailId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         if (LOG.isDebugEnabled()) {
             LOG.debug("cancelDisbursement() Enter method to cancel disbursement with id = " + paymentGroupId);
         }
-        
+
         if (!pdpAuthorizationService.hasCancelPaymentPermission(user.getPrincipalId())) {
             LOG.warn("cancelDisbursement() User " + user.getPrincipalId() + " does not have rights to cancel payments. This should not happen unless user is URL spoofing.");
             throw new RuntimeException("cancelDisbursement() User " + user.getPrincipalId() + " does not have rights to cancel payments. This should not happen unless user is URL spoofing.");
@@ -393,7 +396,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         PaymentGroup targetPg = getPaymentGroup(targetGroupId);
         String targetDvTypeCode = targetPg.getDisbursementTypeCode();
         String targetDvBankCode = targetPg.getBankCode();
-        
+
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
 
         if (!(PdpConstants.PaymentStatusCodes.CANCEL_DISBURSEMENT.equals(paymentStatus))) {
@@ -405,17 +408,17 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 List<PaymentGroup> allDisbursementPaymentGroups = this.paymentGroupService.getByDisbursementNumber(paymentGroup.getDisbursementNbr().intValue());
 
                 for (PaymentGroup element : allDisbursementPaymentGroups) {
-                    
+
                     // should be the same DV type and the same bank
                     if (!(element.getDisbursementTypeCode().equalsIgnoreCase(targetDvTypeCode) && element.getBankCode().equalsIgnoreCase(targetDvBankCode))) {
                         continue;
                     }
-                    
+
                     PaymentGroupHistory pgh = new PaymentGroupHistory();
-                    
+
                     if (!element.getPaymentDetails().get(0).isDisbursementActionAllowed()) {
                         LOG.warn("cancelDisbursement() Payment does not allow disbursement action. This should not happen unless user is URL spoofing.");
-                        throw new RuntimeException("cancelDisbursement() Payment does not allow disbursement action. This should not happen unless user is URL spoofing.");                       
+                        throw new RuntimeException("cancelDisbursement() Payment does not allow disbursement action. This should not happen unless user is URL spoofing.");
                     }
 
                     if ((ObjectUtils.isNotNull(element.getDisbursementType())) && (element.getDisbursementType().getCode().equals(PdpConstants.DisbursementTypeCodes.CHECK))) {
@@ -425,17 +428,17 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     changeStatus(element, PdpConstants.PaymentStatusCodes.CANCEL_DISBURSEMENT, PdpConstants.PaymentChangeCodes.CANCEL_DISBURSEMENT, note, user, pgh);
 
                     glPendingTransactionService.generateCancellationGeneralLedgerPendingEntry(element);
-                        
+
                     // set primary cancel indicator for EPIC to use
-                    // these payment details will be canceled when running processPdpCancelAndPaidJOb 
+                    // these payment details will be canceled when running processPdpCancelAndPaidJOb
                     Map<String, KualiInteger> primaryKeys = new HashMap<String, KualiInteger>();
                     primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_DETAIL_PAYMENT_GROUP_ID, element.getId());
-    
-                    PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
+
+                    PaymentDetail pd = this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
                     if (pd != null) {
                         pd.setPrimaryCancelledPayment(Boolean.TRUE);
                     }
-                    
+
                     this.businessObjectService.save(pd);
                 }
 
@@ -455,18 +458,19 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
         return true;
     }
-    
+
     /**
      * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#reissueDisbursement(java.lang.Integer,
      *      java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean reissueDisbursement(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         if (LOG.isDebugEnabled()) {
             LOG.debug("reissueDisbursement() Enter method to reissue disbursement with id = " + paymentGroupId);
         }
-        
-   
+
+
         PaymentGroup paymentGroup = this.paymentGroupService.get(paymentGroupId);
         if (paymentGroup == null) {
             LOG.debug("reissueDisbursement() Disbursement not found; throw exception.");
@@ -486,10 +490,10 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
                 for (PaymentGroup pg : allDisbursementPaymentGroups) {
                     PaymentGroupHistory pgh = new PaymentGroupHistory();
-                    
+
                     if (!pg.getPaymentDetails().get(0).isDisbursementActionAllowed()) {
                         LOG.warn("cancelDisbursement() Payment does not allow disbursement action. This should not happen unless user is URL spoofing.");
-                        throw new RuntimeException("cancelDisbursement() Payment does not allow disbursement action. This should not happen unless user is URL spoofing.");                       
+                        throw new RuntimeException("cancelDisbursement() Payment does not allow disbursement action. This should not happen unless user is URL spoofing.");
                     }
 
 
@@ -558,12 +562,13 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
      * @see org.kuali.kfs.pdp.document.service.PaymentMaintenanceService#cancelReissueDisbursement(java.lang.Integer,
      *      java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean cancelReissueDisbursement(Integer paymentGroupId, String note, Person user) {
         // All actions must be performed on entire group not individual detail record
         if (LOG.isDebugEnabled()) {
             LOG.debug("cancelReissueDisbursement() Enter method to cancel disbursement with id = " + paymentGroupId);
         }
-        
+
         if (!pdpAuthorizationService.hasCancelPaymentPermission(user.getPrincipalId())) {
             LOG.warn("cancelReissueDisbursement() User " + user.getPrincipalId() + " does not have rights to cancel payments. This should not happen unless user is URL spoofing.");
             throw new RuntimeException("cancelReissueDisbursement() User " + user.getPrincipalId() + " does not have rights to cancel payments. This should not happen unless user is URL spoofing.");
@@ -588,10 +593,10 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
                 for (PaymentGroup pg : allDisbursementPaymentGroups) {
                     PaymentGroupHistory pgh = new PaymentGroupHistory();
-                    
+
                     if (!pg.getPaymentDetails().get(0).isDisbursementActionAllowed()) {
                         LOG.warn("cancelDisbursement() Payment does not allow disbursement action. This should not happen unless user is URL spoofing.");
-                        throw new RuntimeException("cancelDisbursement() Payment does not allow disbursement action. This should not happen unless user is URL spoofing.");                       
+                        throw new RuntimeException("cancelDisbursement() Payment does not allow disbursement action. This should not happen unless user is URL spoofing.");
                     }
 
                     if ((ObjectUtils.isNotNull(pg.getDisbursementType())) && (pg.getDisbursementType().getCode().equals(PdpConstants.DisbursementTypeCodes.CHECK))) {
@@ -659,36 +664,36 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
         }
         return true;
     }
-    
+
     /**
      * Gets DisbursementVoucher by the primary key
-     * 
+     *
      * @param paymentDetailId
      * @return
      */
     protected PaymentDetail getPaymentDetail(Integer paymentDetailId) {
         Map<String, Integer> primaryKeys = new HashMap<String, Integer>();
         primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
-        
-        return (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
+
+        return this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
     }
 
     /**
      * Gets PaymentGroup by the primary key
-     * 
+     *
      * @param paymentDetailId
      * @return
      */
     protected PaymentGroup getPaymentGroup(KualiInteger paymentGroupId) {
         Map<String, KualiInteger> primaryKeys = new HashMap<String, KualiInteger>();
         primaryKeys.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_ID, paymentGroupId);
-        
-        return (PaymentGroup) this.businessObjectService.findByPrimaryKey(PaymentGroup.class, primaryKeys);
+
+        return this.businessObjectService.findByPrimaryKey(PaymentGroup.class, primaryKeys);
     }
-    
+
     /**
      * inject
-     * 
+     *
      * @param dao
      */
     public void setPaymentGroupDao(PaymentGroupDao dao) {
@@ -697,7 +702,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     /**
      * inject
-     * 
+     *
      * @param dao
      */
     public void setPaymentDetailDao(PaymentDetailDao dao) {
@@ -706,7 +711,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     /**
      * inject
-     * 
+     *
      * @param service
      */
     public void setGlPendingTransactionService(PendingTransactionService service) {
@@ -715,16 +720,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     /**
      * inject
-     * 
-     * @param service
-     */
-    public void setEnvironmentService(EnvironmentService environmentService) {
-        this.environmentService = environmentService;
-    }
-
-    /**
-     * inject
-     * 
+     *
      * @param service
      */
     public void setMailService(MailService mailService) {
@@ -737,7 +733,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     /**
      * Sets the bankService attribute value.
-     * 
+     *
      * @param bankService The bankService to set.
      */
     public void setBankService(BankService bankService) {
@@ -746,7 +742,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     /**
      * Sets the business object service
-     * 
+     *
      * @param businessObjectService
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -755,7 +751,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
 
     /**
      * Sets the payment group service
-     * 
+     *
      * @param paymentGroupService
      */
     public void setPaymentGroupService(PaymentGroupService paymentGroupService) {

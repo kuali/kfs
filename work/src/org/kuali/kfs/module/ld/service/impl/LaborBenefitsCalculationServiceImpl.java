@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -62,19 +62,21 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
      * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#getBenefitsCalculation(java.lang.Integer,
      *      java.lang.String, java.lang.String)
      */
+    @Override
     public BenefitsCalculation getBenefitsCalculation(Integer universityFiscalYear, String chartOfAccountsCode, String benefitTypeCode) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         fieldValues.put(LaborPropertyConstants.POSITION_BENEFIT_TYPE_CODE, benefitTypeCode);
 
-        return (BenefitsCalculation) businessObjectService.findByPrimaryKey(BenefitsCalculation.class, fieldValues);
+        return businessObjectService.findByPrimaryKey(BenefitsCalculation.class, fieldValues);
     }
-    
+
     /**
      * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#getBenefitsCalculation(java.lang.Integer,
      *      java.lang.String, java.lang.String)
      */
+    @Override
     public BenefitsCalculation getBenefitsCalculation(Integer universityFiscalYear, String chartOfAccountsCode, String benefitTypeCode, String laborBenefitRateCategoryCode) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
@@ -82,16 +84,17 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
         fieldValues.put(LaborPropertyConstants.POSITION_BENEFIT_TYPE_CODE, benefitTypeCode);
         fieldValues.put(LaborPropertyConstants.LABOR_BENEFIT_RATE_CATEGORY_CODE, laborBenefitRateCategoryCode);
 
-        return (BenefitsCalculation) businessObjectService.findByPrimaryKey(BenefitsCalculation.class, fieldValues);
+        return businessObjectService.findByPrimaryKey(BenefitsCalculation.class, fieldValues);
     }
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#calculateFringeBenefit(java.lang.Integer,
      *      java.lang.String, java.lang.String, org.kuali.rice.core.api.util.type.KualiDecimal)
      */
+    @Override
     public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
         LaborObject laborObject = new LaborObject();
-        
+
         laborObject.setUniversityFiscalYear(fiscalYear);
         laborObject.setChartOfAccountsCode(chartCode);
         laborObject.setFinancialObjectCode(objectCode);
@@ -105,6 +108,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
      * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.kfs.module.ld.businessobject.LaborObject,
      *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
+    @Override
     public KualiDecimal calculateFringeBenefit(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
         KualiDecimal fringeBenefit = KualiDecimal.ZERO;
 
@@ -122,7 +126,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
         String objectCode = laborLedgerObject.getFinancialObjectCode();
 
         Collection<PositionObjectBenefit> positionObjectBenefits = laborPositionObjectBenefitService.getActivePositionObjectBenefits(fiscalYear, chartOfAccountsCode, objectCode);
-        for (PositionObjectBenefit positionObjectBenefit : positionObjectBenefits) {    
+        for (PositionObjectBenefit positionObjectBenefit : positionObjectBenefits) {
                 KualiDecimal benefitAmount = this.calculateFringeBenefit(positionObjectBenefit, salaryAmount, accountNumber, subAccountNumber);
                 fringeBenefit = fringeBenefit.add(benefitAmount);
         }
@@ -134,14 +138,15 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
      * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit,
      *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
+    @Override
     public KualiDecimal calculateFringeBenefit(PositionObjectBenefit positionObjectBenefit, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
         if (salaryAmount == null || salaryAmount.isZero() || ObjectUtils.isNull(positionObjectBenefit)) {
             return KualiDecimal.ZERO;
         }
-        
+
         KualiDecimal fringeBenefitAmount = new KualiDecimal(0);
-        
-        //create a  map for the search criteria to lookup the fringe benefit percentage 
+
+        //create a  map for the search criteria to lookup the fringe benefit percentage
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, positionObjectBenefit.getUniversityFiscalYear());
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, positionObjectBenefit.getChartOfAccountsCode());
@@ -149,29 +154,29 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         Boolean enableFringeBenefitCalculationByBenefitRate = parameterService.getParameterValueAsBoolean(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, LaborConstants.BenefitCalculation.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_PARAMETER);
-        
+
         //If system parameter is evaluated to use calculation by benefit rate category
         if (enableFringeBenefitCalculationByBenefitRate) {
-            
-            //get the benefit rate based off of the university fiscal year, chart of account code, labor benefit type code and labor benefit rate category code 
+
+            //get the benefit rate based off of the university fiscal year, chart of account code, labor benefit type code and labor benefit rate category code
             String laborBenefitRateCategoryCode = getBenefitRateCategoryCode(positionObjectBenefit.getChartOfAccountsCode(), accountNumber, subAccountNumber);
-            
+
             //add the Labor Benefit Rate Category Code to the search criteria
             fieldValues.put("laborBenefitRateCategoryCode",laborBenefitRateCategoryCode);
-            
+
             String search = fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR) + "," + fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE) + "," + fieldValues.get(LaborPropertyConstants.POSITION_BENEFIT_TYPE_CODE) + "," + fieldValues.get("laborBenefitRateCategoryCode");
             LOG.info("Searching for Benefits Calculation {" + search + "}");
-            //perform the lookup based off the map 
-            BenefitsCalculation bc = (BenefitsCalculation) businessObjectService.findByPrimaryKey(BenefitsCalculation.class, fieldValues);
-            
+            //perform the lookup based off the map
+            BenefitsCalculation bc = businessObjectService.findByPrimaryKey(BenefitsCalculation.class, fieldValues);
+
             //make sure the benefits calculation isn't null and is active
             if ((bc != null) && (bc.isActive())) {
                 LOG.info("Found a Benefit Calculation for {" + search + "}");
                 //lookup from the db the fringe benefit percentage from the list that is return.  ***Should only return one value from the database.
                 KualiDecimal fringeBenefitPercent = bc.getPositionFringeBenefitPercent();
-                
+
                 LOG.debug("fringeBenefitPercent: " + fringeBenefitPercent);
-                
+
                 // calculate the benefit amount (ledger amt * (benfit pct/100) )
                 fringeBenefitAmount = fringeBenefitPercent.multiply(salaryAmount).divide(KFSConstants.ONE_HUNDRED.kualiDecimalValue());
             }else{
@@ -182,20 +187,21 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
         }else{
             // calculate the benefit amount (ledger amt * (benfit pct/100) )
         	if (positionObjectBenefit.getBenefitsCalculation().isActive()) {
-        	    KualiDecimal fringeBenefitPercent = positionObjectBenefit.getBenefitsCalculation().getPositionFringeBenefitPercent();       
+        	    KualiDecimal fringeBenefitPercent = positionObjectBenefit.getBenefitsCalculation().getPositionFringeBenefitPercent();
         	    fringeBenefitAmount = fringeBenefitPercent.multiply(salaryAmount).divide(KFSConstants.ONE_HUNDRED.kualiDecimalValue());
         	}
         }
-        
+
         LOG.debug("fringBenefitAmount: " + fringeBenefitAmount);
         return fringeBenefitAmount;
     }
-    
+
 	/**
 	 * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#getBenefitRateCategoryCode(java.lang.String,
 	 *      java.lang.String)
 	 */
-	public String getBenefitRateCategoryCode(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
+	@Override
+    public String getBenefitRateCategoryCode(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
 	    this.setCostSharingSourceAccountNumber(null);
 	    this.setCostSharingSourceAccountChartOfAccountsCode(null);
 	    this.setCostSharingSourceSubAccountNumber(null);
@@ -217,11 +223,11 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 					subFieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
 					subFieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_TYPE_CODE, "CS");
 					LOG.info("Looking for a cost sharing sub account for sub account number " + subAccountNumber);
-					
+
 					if(ObjectUtils.isNull(businessObjectService)){
 					    this.businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 					}
-					
+
 					//perform the lookup
 					List<A21SubAccount> subAccountList = (List<A21SubAccount>) businessObjectService.findMatching(A21SubAccount.class, subFieldValues);
 					//check to see if the lookup returns an empty list
@@ -247,8 +253,14 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 		LOG.info("Looking up Account {" + chartOfAccountsCode + "," + accountNumber + "}");
 		//lookup the account from the db based off the account code and the account number
 		Account account = this.getAccountService().getByPrimaryId(chartOfAccountsCode, accountNumber);
-		String laborBenefitRateCategoryCode = account.getLaborBenefitRateCategoryCode();
-		
+
+	    String laborBenefitRateCategoryCode = null;
+	    if (account == null) {
+            LOG.info("The Account {" + chartOfAccountsCode + "," + accountNumber + "} could not be found.");
+		} else {
+	        laborBenefitRateCategoryCode = account.getLaborBenefitRateCategoryCode();
+		}
+
 		//make sure the laborBenefitRateCategoryCode is not null or blank
 		if(StringUtils.isBlank(laborBenefitRateCategoryCode)){
 		    LOG.info("The Account did not have a Labor Benefit Rate Category Code. Will use the system parameter default.");
@@ -257,13 +269,13 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 		}else{
 		    LOG.debug("Labor Benefit Rate Category Code for Account " + accountNumber + " is " + laborBenefitRateCategoryCode);
 		}
-		
+
 		return laborBenefitRateCategoryCode;
 	}
 
     /**
      * Sets the laborPositionObjectBenefitService attribute value.
-     * 
+     *
      * @param laborPositionObjectBenefitService The laborPositionObjectBenefitService to set.
      */
     public void setLaborPositionObjectBenefitService(LaborPositionObjectBenefitService laborPositionObjectBenefitService) {
@@ -272,7 +284,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -280,14 +292,14 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
     }
 
     /**
-     * Gets the accountService attribute. 
+     * Gets the accountService attribute.
      * @return Returns the accountService.
      */
     public AccountService getAccountService() {
         if(this.accountService == null){
             this.setAccountService(SpringContext.getBean(AccountService.class));
         }
-        
+
         return accountService;
     }
 
@@ -300,14 +312,14 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
     }
 
     /**
-     * Gets the subAccountService attribute. 
+     * Gets the subAccountService attribute.
      * @return Returns the subAccountService.
      */
     public SubAccountService getSubAccountService() {
         if(this.subAccountService == null){
             this.setSubAccountService(SpringContext.getBean(SubAccountService.class));
         }
-        
+
         return subAccountService;
     }
 
@@ -320,9 +332,10 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
     }
 
     /**
-     * Gets the costSharingSourceAccountNumber attribute. 
+     * Gets the costSharingSourceAccountNumber attribute.
      * @return Returns the costSharingSourceAccountNumber.
      */
+    @Override
     public String getCostSharingSourceAccountNumber() {
         return costSharingSourceAccountNumber;
     }
@@ -336,15 +349,16 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
     }
 
     /**
-     * Gets the costSharingSourceSubAccountNumber attribute. 
+     * Gets the costSharingSourceSubAccountNumber attribute.
      * @return Returns the costSharingSourceSubAccountNumber.
      */
+    @Override
     public String getCostSharingSourceSubAccountNumber() {
         return costSharingSourceSubAccountNumber;
     }
 
-  
- 
+
+
     /**
      * Sets the costSharingSourceSubAccountNumber attribute value.
      * @param costSharingSourceSubAccountNumber The costSharingSourceSubAccountNumber to set.
@@ -354,9 +368,10 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
     }
 
     /**
-     * Gets the costSharingSourceAccountChartOfAccountsCode attribute. 
+     * Gets the costSharingSourceAccountChartOfAccountsCode attribute.
      * @return Returns the costSharingSourceAccountChartOfAccountsCode.
      */
+    @Override
     public String getCostSharingSourceAccountChartOfAccountsCode() {
         return costSharingSourceAccountChartOfAccountsCode;
     }

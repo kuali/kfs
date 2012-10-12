@@ -1,12 +1,12 @@
 /*
  * Copyright 2005 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -76,23 +76,23 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
-        
+
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) kualiDocumentFormBase;
         DisbursementVoucherDocument dvDoc = (DisbursementVoucherDocument) dvForm.getDocument();
-        
+
         // do not execute the further refreshing logic if a payee is not selected
         String payeeIdNumber = dvDoc.getDvPayeeDetail().getDisbVchrPayeeIdNumber();
 
-        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
+        Person person = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
 
         //KFSMI-8935: When an employee is inactive, the Payment Type field on DV documents should display the message "Is this payee an employee" = No
-        if (person.isActive()) {
+        if (person != null && person.isActive()) {
             dvDoc.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
         } else {
             dvDoc.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(false);
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -139,7 +139,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
     /**
      * Do initialization for a new disbursement voucher
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
@@ -305,9 +305,16 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
         GlobalVariables.getMessageMap().removeFromErrorPath(KFSPropertyConstants.NEW_NONEMPLOYEE_EXPENSE_LINE);
 
-        if (GlobalVariables.getMessageMap().hasErrors()) {
+        //KFSMI-9523
+        //no errors so go ahead and add the record to the list.  Need to set the document number
+        //and recalculate the next line number for the new record that is created after adding the
+        //current one.
+        if (!GlobalVariables.getMessageMap().hasErrors()) {
+            newExpenseLine.setDocumentNumber(dvDocument.getDocumentNumber());
             dvDocument.getDvNonEmployeeTravel().addDvNonEmployeeExpenseLine(newExpenseLine);
-            dvForm.setNewNonEmployeeExpenseLine(new DisbursementVoucherNonEmployeeExpense());
+            DisbursementVoucherNonEmployeeExpense newNewNonEmployeeExpenseLine = new DisbursementVoucherNonEmployeeExpense();
+            newNewNonEmployeeExpenseLine.setFinancialDocumentLineNumber(newExpenseLine.getFinancialDocumentLineNumber() + 1);
+            dvForm.setNewNonEmployeeExpenseLine(newNewNonEmployeeExpenseLine);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -338,9 +345,16 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         }
         GlobalVariables.getMessageMap().removeFromErrorPath(KFSPropertyConstants.NEW_PREPAID_EXPENSE_LINE);
 
-        if (GlobalVariables.getMessageMap().hasErrors()) {
+        //KFSMI-9523
+        //no errors so go ahead and add the record to the list.  Need to set the document number
+        //and recalculate the next line number for the new record that is created after adding the
+        //current one.
+        if (!GlobalVariables.getMessageMap().hasErrors()) {
+            newExpenseLine.setDocumentNumber(dvDocument.getDocumentNumber());
             dvDocument.getDvNonEmployeeTravel().addDvPrePaidEmployeeExpenseLine(newExpenseLine);
-            dvForm.setNewPrePaidNonEmployeeExpenseLine(new DisbursementVoucherNonEmployeeExpense());
+            DisbursementVoucherNonEmployeeExpense newNewNonEmployeeExpenseLine = new DisbursementVoucherNonEmployeeExpense();
+            newNewNonEmployeeExpenseLine.setFinancialDocumentLineNumber(newExpenseLine.getFinancialDocumentLineNumber() + 1);
+            dvForm.setNewPrePaidNonEmployeeExpenseLine(newNewNonEmployeeExpenseLine);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -386,7 +400,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(newRegistrantLine);
         GlobalVariables.getMessageMap().removeFromErrorPath(KFSPropertyConstants.NEW_PRECONF_REGISTRANT_LINE);
 
-        if (! GlobalVariables.getMessageMap().hasErrors()) {
+        if (!GlobalVariables.getMessageMap().hasErrors()) {
             dvDocument.addDvPrePaidRegistrantLine(newRegistrantLine);
             dvForm.setNewPreConferenceRegistrantLine(new DisbursementVoucherPreConferenceRegistrant());
         }
@@ -453,10 +467,10 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * Builds the wire charge message for the current fiscal year.
-     * 
+     *
      * @return the wire charge message for the current fiscal year
      */
     protected String retrieveWireChargeMessage() {
@@ -489,7 +503,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     // do refresh after a payee is selected
     protected ActionForward refreshAfterPayeeSelection(ActionMapping mapping, DisbursementVoucherForm dvForm, HttpServletRequest request) {
         String refreshCaller = dvForm.getRefreshCaller();
-        
+
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
 
         boolean isPayeeLookupable = KFSConstants.KUALI_DISBURSEMENT_PAYEE_LOOKUPABLE_IMPL.equals(refreshCaller);
@@ -501,10 +515,10 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
             dvForm.setHasMultipleAddresses(false);
             document.getDvPayeeDetail().setDisbVchrPayeeIdNumber(dvForm.getTempPayeeIdNumber());
             document.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(dvForm.getOldPayeeType());
-            
+
             return null;
         }
-        
+
         // do not execute the further refreshing logic if the refresh caller is not a lookupable
         if (!isPayeeLookupable && !isAddressLookupable) {
             return null;
@@ -560,7 +574,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
         return null;
     }
-    
+
     /**
      * Determines if the current user has full edit permissions on the document, which would allow them to repopulate the payee
      * @param document the document to check for full edit permissions on
@@ -576,16 +590,17 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         if (getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking()) {
             documentActions = getPessimisticLockService().getDocumentActions(document, user, documentActions);
         }
-        
+
         Set<String> editModes = documentPresentationController.getEditModes(document);
         editModes = documentAuthorizer.getEditModes(document, user, editModes);
-        
+
         return documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT) && editModes.contains("fullEntry");
     }
 
     /**
      * Hook into performLookup to switch the payee lookup based on the payee type selected.
      */
+    @Override
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
@@ -636,7 +651,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
      * setup the payee as an employee with the given id number
      */
     protected void setupPayeeAsEmployee(DisbursementVoucherForm dvForm, String payeeIdNumber) {
-        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
+        Person person = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
         if (person != null) {
             ((DisbursementVoucherDocument) dvForm.getDocument()).templateEmployee(person);
             dvForm.setTempPayeeIdNumber(payeeIdNumber);
@@ -697,7 +712,4 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
             GlobalVariables.getMessageMap().putWarning(tab.getDocumentPropertyKey(), tab.messageKey);
         }
     }
-    
-    
-
 }

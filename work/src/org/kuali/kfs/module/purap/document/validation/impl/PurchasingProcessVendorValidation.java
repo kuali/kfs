@@ -38,7 +38,6 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -71,18 +70,12 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
                 getAttributeDefinition(VendorPropertyConstants.VENDOR_FAX_NUMBER).getLabel();
                 errorMap.putError(VendorPropertyConstants.VENDOR_FAX_NUMBER, KFSKeyConstants.ERROR_REQUIRED, attributeLabel);
             }
-            if (StringUtils.isNotBlank(purDocument.getVendorFaxNumber())) {
-                PhoneNumberValidationPattern phonePattern = new PhoneNumberValidationPattern();
-                if (!phonePattern.matches(purDocument.getVendorFaxNumber())) {
-                    valid &= false;
-                    errorMap.putError(VendorPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_INVALID);
-                }
-            }
         }
 
         VendorDetail vendorDetail = vendorService.getVendorDetail(purDocument.getVendorHeaderGeneratedIdentifier(), purDocument.getVendorDetailAssignedIdentifier());
-        if (ObjectUtils.isNull(vendorDetail))
+        if (ObjectUtils.isNull(vendorDetail)) {
             return valid;
+        }
         VendorHeader vendorHeader = vendorDetail.getVendorHeader();
 
         // make sure that the vendor is not debarred

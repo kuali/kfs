@@ -1,12 +1,12 @@
 /*
  * Copyright 2005 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,12 +43,12 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
      * Default no-arg constructor.
      */
     public DisbursementVoucherNonEmployeeExpense() {
-
+        this.setFinancialDocumentLineNumber(1);
     }
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
     public String getDocumentNumber() {
@@ -58,7 +58,7 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -67,7 +67,7 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
 
     /**
      * Gets the financialDocumentLineNumber attribute.
-     * 
+     *
      * @return Returns the financialDocumentLineNumber
      */
     public Integer getFinancialDocumentLineNumber() {
@@ -77,7 +77,7 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
 
     /**
      * Sets the financialDocumentLineNumber attribute.
-     * 
+     *
      * @param financialDocumentLineNumber The financialDocumentLineNumber to set.
      */
     public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
@@ -86,7 +86,7 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
 
     /**
      * Gets the disbVchrExpenseCode attribute.
-     * 
+     *
      * @return Returns the disbVchrExpenseCode
      */
     public String getDisbVchrExpenseCode() {
@@ -95,7 +95,7 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
 
     /**
      * Dummy field so we can have different select options.
-     * 
+     *
      * @return String
      */
     public String getDisbVchrPrePaidExpenseCode() {
@@ -105,19 +105,19 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
 
     /**
      * Sets the disbVchrExpenseCode attribute.
-     * 
+     *
      * @param disbVchrExpenseCode The disbVchrExpenseCode to set.
      */
     public void setDisbVchrExpenseCode(String disbVchrExpenseCode) {
         this.disbVchrExpenseCode = disbVchrExpenseCode;
-        //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+        //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(),
         //DisbursementVoucherNonEmployeeExpense does not have any updatable references
         this.refreshNonUpdateableReferences();
     }
 
     /**
      * Dummy field so we can have different select options.
-     * 
+     *
      * @param disbVchrExpenseCode
      */
     public void setDisbVchrPrePaidExpenseCode(String disbVchrExpenseCode) {
@@ -126,7 +126,7 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
 
     /**
      * Gets the disbVchrExpenseCompanyName attribute.
-     * 
+     *
      * @return Returns the disbVchrExpenseCompanyName
      */
     public String getDisbVchrExpenseCompanyName() {
@@ -136,7 +136,7 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
 
     /**
      * Sets the disbVchrExpenseCompanyName attribute.
-     * 
+     *
      * @param disbVchrExpenseCompanyName The disbVchrExpenseCompanyName to set.
      */
     public void setDisbVchrExpenseCompanyName(String disbVchrExpenseCompanyName) {
@@ -145,7 +145,7 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
 
     /**
      * Gets the disbVchrExpenseCompanyName attribute.
-     * 
+     *
      * @return Returns the disbVchrExpenseCompanyName
      */
     public String getDisbVchrPrePaidExpenseCompanyName() {
@@ -155,7 +155,7 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
 
     /**
      * Sets the disbVchrExpenseCompanyName attribute.
-     * 
+     *
      * @param disbVchrExpenseCompanyName The disbVchrExpenseCompanyName to set.
      */
     public void setDisbVchrPrePaidExpenseCompanyName(String disbVchrExpenseCompanyName) {
@@ -164,7 +164,7 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
 
     /**
      * Gets the disbVchrExpenseAmount attribute.
-     * 
+     *
      * @return Returns the disbVchrExpenseAmount
      */
     public KualiDecimal getDisbVchrExpenseAmount() {
@@ -174,7 +174,7 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
 
     /**
      * Sets the disbVchrExpenseAmount attribute.
-     * 
+     *
      * @param disbVchrExpenseAmount The disbVchrExpenseAmount to set.
      */
     public void setDisbVchrExpenseAmount(KualiDecimal disbVchrExpenseAmount) {
@@ -183,7 +183,7 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
 
     /**
      * Gets the disbVchrExpense attribute.
-     * 
+     *
      * @return Returns the disbVchrExpense
      */
     public TravelExpenseTypeCode getDisbVchrExpense() {
@@ -192,17 +192,18 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
 
     /**
      * Sets the disbVchrExpense attribute.
-     * 
+     *
      * @param disbVchrExpense The disbVchrExpense to set.
      * @deprecated
      */
+    @Deprecated
     public void setDisbVchrExpense(TravelExpenseTypeCode disbVchrExpense) {
         this.disbVchrExpense = disbVchrExpense;
     }
 
     /**
      * Gets the disbVchrExpenseCompany attribute.
-     * 
+     *
      * @return Returns the disbVchrExpenseCompany.
      */
     public TravelCompanyCode getDisbVchrExpenseCompany() {
@@ -211,17 +212,18 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
 
     /**
      * Sets the disbVchrExpenseCompany attribute value.
-     * 
+     *
      * @param disbVchrExpenseCompany The disbVchrExpenseCompany to set.
      * @deprecated
      */
+    @Deprecated
     public void setDisbVchrExpenseCompany(TravelCompanyCode disbVchrExpenseCompany) {
         this.disbVchrExpenseCompany = disbVchrExpenseCompany;
     }
 
     /**
      * Gets the disbursementVoucherNonEmployeeTravel attribute.
-     * 
+     *
      * @return Returns the disbursementVoucherNonEmployeeTravel.
      */
     public DisbursementVoucherNonEmployeeTravel getDisbursementVoucherNonEmployeeTravel() {
@@ -230,10 +232,11 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
 
     /**
      * Sets the disbursementVoucherNonEmployeeTravel attribute value.
-     * 
+     *
      * @param disbursementVoucherNonEmployeeTravel The disbursementVoucherNonEmployeeTravel to set.
      * @deprecated
      */
+    @Deprecated
     public void setDisbursementVoucherNonEmployeeTravel(DisbursementVoucherNonEmployeeTravel disbursementVoucherNonEmployeeTravel) {
         this.disbursementVoucherNonEmployeeTravel = disbursementVoucherNonEmployeeTravel;
     }

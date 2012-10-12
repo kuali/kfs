@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -88,7 +88,6 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItem;
 import org.kuali.kfs.module.purap.businessobject.PurchasingItemBase;
-import org.kuali.kfs.module.purap.businessobject.PurchasingItemCapitalAssetBase;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
@@ -130,11 +129,12 @@ import org.kuali.rice.location.api.campus.CampusService;
 
 public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilderModuleService {
     private static Logger LOG = Logger.getLogger(CapitalAssetBuilderModuleService.class);
-    
+
     private boolean duplicateTagLineChecked = false;
-    
+
     protected static enum AccountCapitalObjectCode {
         BOTH_NONCAP {
+            @Override
             boolean validateAssetInfoAllowed(AccountingDocument accountingDocument, boolean isNewAssetBlank, boolean isUpdateAssetBlank) {
                 boolean valid = true;
                 // non capital object code, disallow the capital information entered.
@@ -147,11 +147,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 return valid;
             }
 
+            @Override
             boolean isDocumentTypeRestricted(AccountingDocument accountingDocument) {
                 return false;
             }
         },
         FROM_CAPITAL_TO_NONCAP {
+            @Override
             boolean validateAssetInfoAllowed(AccountingDocument accountingDocument, boolean isNewAssetBlank, boolean isUpdateAssetBlank) {
                 boolean valid = validateAssetInfoEntered(isNewAssetBlank, isUpdateAssetBlank);
                 if (valid) {
@@ -167,9 +169,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 return valid;
             }
 
+            @Override
             /**
              * For Internal Billing, when credit capital on Income line, allow modify asset or create new asset.
-             * 
+             *
              * @see org.kuali.kfs.module.cab.service.impl.CapitalAssetBuilderModuleServiceImpl.AccountCapitalObjectCode#isDocumentTypeRestricted(org.kuali.kfs.sys.document.AccountingDocument)
              */
             boolean isDocumentTypeRestricted(AccountingDocument accountingDocument) {
@@ -180,6 +183,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
         },
         FROM_NONCAP_TO_CAPITAL {
+            @Override
             boolean validateAssetInfoAllowed(AccountingDocument accountingDocument, boolean isNewAssetBlank, boolean isUpdateAssetBlank) {
                 boolean valid = validateAssetInfoEntered(isNewAssetBlank, isUpdateAssetBlank);
                 if (valid && isDocumentTypeRestricted(accountingDocument)) {
@@ -188,9 +192,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 return valid;
             }
 
+            @Override
             /**
              * The document is restricted for all FP doc types
-             * 
+             *
              * @see org.kuali.kfs.module.cab.service.impl.CapitalAssetBuilderModuleServiceImpl.AccountCapitalObjectCode#isDocumentTypeRestricted(org.kuali.kfs.sys.document.AccountingDocument)
              */
             boolean isDocumentTypeRestricted(AccountingDocument accountingDocument) {
@@ -198,10 +203,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
         },
         BOTH_CAPITAL {
+            @Override
             boolean validateAssetInfoAllowed(AccountingDocument accountingDocument, boolean isNewAssetBlank, boolean isUpdateAssetBlank) {
                 return validateAssetInfoEntered(isNewAssetBlank, isUpdateAssetBlank) && validateOnlyOneAssetInfoEntered(isNewAssetBlank, isUpdateAssetBlank);
             }
 
+            @Override
             boolean isDocumentTypeRestricted(AccountingDocument accountingDocument) {
                 return false;
             }
@@ -209,7 +216,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         /**
          * Validate Asset Information is not blank.
-         * 
+         *
          * @param isNewAssetBlank
          * @param isUpdateAssetBlank
          * @return
@@ -226,7 +233,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         /**
          * Validate only either one asset information entered.
-         * 
+         *
          * @param isNewAssetBlank
          * @param isUpdateAssetBlank
          * @return
@@ -381,16 +388,16 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             valid = false;
         }
         else {
-            valid = SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid((PurchasingItemCapitalAssetBase) asset);
+            valid = SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid(asset);
         }
         if (!valid) {
             String propertyName = "newPurchasingItemCapitalAssetLine." + PurapPropertyConstants.CAPITAL_ASSET_NUMBER;
             String errorKey = PurapKeyConstants.ERROR_CAPITAL_ASSET_ASSET_NUMBER_MUST_BE_LONG_NOT_NULL;
             GlobalVariables.getMessageMap().putError(propertyName, errorKey);
-        }else{        
+        }else{
             Map<String, String> params = new HashMap<String, String>();
             params.put(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
-            Asset retrievedAsset = (Asset) this.getBusinessObjectService().findByPrimaryKey(Asset.class, params);
+            Asset retrievedAsset = this.getBusinessObjectService().findByPrimaryKey(Asset.class, params);
 
             if (ObjectUtils.isNull(retrievedAsset)) {
                 valid = false;
@@ -433,7 +440,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * Validates the capital asset field requirements based on system parameter and chart for individual system type. This also
      * calls validations for quantity on locations equal quantity on line items, validates that the transaction type allows asset
      * number and validates the non quantity driven allowed indicator.
-     * 
+     *
      * @param systemState
      * @param capitalAssetItems
      * @param chartCode
@@ -454,7 +461,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * Validates the capital asset field requirements based on system parameter and chart for one system type. This also calls
      * validations that the transaction type allows asset number and validates the non quantity driven allowed indicator.
-     * 
+     *
      * @param systemState
      * @param capitalAssetSystems
      * @param capitalAssetItems
@@ -474,7 +481,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * Validates the capital asset field requirements based on system parameter and chart for multiple system type. This also calls
      * validations that the transaction type allows asset number and validates the non quantity driven allowed indicator.
-     * 
+     *
      * @param systemState
      * @param capitalAssetSystems
      * @param capitalAssetItems
@@ -496,7 +503,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * "CHARTS_REQUIRING%" then loop through these parameters. If the system type is individual then invoke the
      * validateFieldRequirementByChartForIndividualSystemType for further validation, otherwise invoke the
      * validateFieldRequirementByChartForOneOrMultipleSystemType for further validation.
-     * 
+     *
      * @param systemState
      * @param capitalAssetSystems
      * @param capitalAssetItems
@@ -513,7 +520,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 equal(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE),
                 equal(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT),
                 PredicateFactory.like(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType)));
-  
+
         List<Parameter> results = paramRepositoryService.findParameters(qbc.build()).getResults();
         for (Parameter parameter : results) {
             if (ObjectUtils.isNotNull(parameter)) {
@@ -531,16 +538,16 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * Validates all the field requirements by chart. It obtains a List of parameters where the parameter names are like
      * "CHARTS_REQUIRING%" then loop through these parameters. If any of the parameter's values is null, then return false
-     * 
+     *
      * @param accountingDocument
      * @return
      */
     public boolean validateAllFieldRequirementsByChart(AccountingDocument accountingDocument) {
         PurchasingDocument purchasingDocument = (PurchasingDocument) accountingDocument;
-        
+
         String documentType = (purchasingDocument instanceof RequisitionDocument) ? "REQUISITION" : "PURCHASE_ORDER";
         boolean valid = true;
-        
+
         //moved the springcontext out of for loop....
         ParameterRepositoryService paramRepositoryService = SpringContext.getBean(ParameterRepositoryService.class);
 
@@ -558,8 +565,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                             equal(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT),
                             PredicateFactory.like(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType),
                             PredicateFactory.like(CabPropertyConstants.Parameter.PARAMETER_VALUE, "%" + coa + "%")));
-                
-                results = (List<Parameter>) (paramRepositoryService.findParameters(qbc.build())).getResults();
+
+                results = (paramRepositoryService.findParameters(qbc.build())).getResults();
 
                 for (Parameter parameter : results) {
                     if (ObjectUtils.isNotNull(parameter)) {
@@ -568,7 +575,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                         }
                     }
                 }
-            }      
+            }
         }
         return valid;
     }
@@ -576,7 +583,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * Validates for PURCHASING_OBJECT_SUB_TYPES parameter. If at least one object code of any accounting line entered is of this
      * type, then return false.
-     * 
+     *
      * @param accountingDocument
      * @return
      */
@@ -599,7 +606,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Validates field requirement by chart for one or multiple system types.
-     * 
+     *
      * @param systemType
      * @param systemState
      * @param capitalAssetSystems
@@ -662,7 +669,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Validates the field requirement by chart for individual system type.
-     * 
+     *
      * @param systemState
      * @param capitalAssetItems
      * @param chartCode
@@ -721,7 +728,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * Utility method to split a long String using the "." as the delimiter then add each of the array element into a List of String
      * and return the List of String.
-     * 
+     *
      * @param mappedName The String to be splitted.
      * @return The List of String after being splitted, with the "." as delimiter.
      */
@@ -736,7 +743,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Validates the field requirement by chart recursively and give error messages when it returns false.
-     * 
+     *
      * @param bean The object to be used to obtain the property value
      * @param mappedNames The array of Strings which when combined together, they form the field property
      * @param errorKey The error key to be used for adding error messages to the error map.
@@ -813,7 +820,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * Validates that the total quantity on all locations equals to the quantity on the line item. This is only used for IND system
      * type.
-     * 
+     *
      * @param capitalAssetItems
      * @return true if the total quantity on all locations equals to the quantity on the line item.
      */
@@ -852,7 +859,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * parameter PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS, the method will return true but if it doesn't match the
      * system parameter, then loop through each of the itemCapitalAssets. If there is any non-null capitalAssetNumber then return
      * false.
-     * 
+     *
      * @param capitalAssetItems the List of PurchasingCapitalAssetItems on the document to be validated
      * @return false if the capital asset transaction type does not match the system parameter that allows asset numbers but the
      *         itemCapitalAsset contains at least one asset numbers.
@@ -873,7 +880,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS and at least one of the itemCapitalAssets contain a non-null
      * capitalAssetNumber then return false. This method is used by one system and multiple system types as well as being used as a
      * helper method for validateIndividualSystemPurchasingTransactionTypesAllowingAssetNumbers method.
-     * 
+     *
      * @param capitalAssetSystem the capitalAssetSystem containing a List of itemCapitalAssets to be validated.
      * @param capitalAssetTransactionType the capitalAssetTransactionTypeCode containing asset numbers to be validated.
      * @return false if the capital asset transaction type does not match the system parameter that allows asset numbers but the
@@ -900,7 +907,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * TODO: rename this method removing trade in reference? Validates that if the non quantity drive allowed indicator on the
      * capital asset transaction type is false and the item is of non quantity type
-     * 
+     *
      * @param capitalAssetItems The List of PurchasingCapitalAssetItem to be validated.
      * @return false if the indicator is false and there is at least one non quantity items on the list.
      */
@@ -929,7 +936,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * Wrapper to do Capital Asset validations, generating errors instead of warnings. Makes sure that the given item's data
      * relevant to its later possible classification as a Capital Asset is internally consistent, by marshaling and calling the
      * methods marked as Capital Asset validations. This implementation assumes that all object codes are valid (real) object codes.
-     * 
+     *
      * @param recurringPaymentType The item's document's RecurringPaymentType
      * @param item A PurchasingItemBase object
      * @param apoCheck True if this check is for APO purposes
@@ -949,7 +956,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * Makes sure that the given item's data relevant to its later possible classification as a Capital Asset is internally
      * consistent, by marshaling and calling the methods marked as Capital Asset validations. This implementation assumes that all
      * object codes are valid (real) object codes.
-     * 
+     *
      * @param recurringPaymentType The item's document's RecurringPaymentType
      * @param item A PurchasingItemBase object
      * @param warn A boolean which should be set to true if warnings are to be set on the calling document for most of the
@@ -975,10 +982,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         return valid &= validatePurapItemCapitalAsset(item, capitalAssetTransactionType);
     }
-    
+
     /**
      * This method validates purapItem giving a transaction type.
-     * 
+     *
      * @param recurringPaymentType
      * @param item
      * @param warn
@@ -990,7 +997,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         boolean quantityBased = item.getItemType().isQuantityBasedGeneralLedgerIndicator();
         BigDecimal itemUnitPrice = item.getItemUnitPrice();
         HashSet<String> capitalOrExpenseSet = new HashSet<String>(); // For the first validation on every accounting line.
-        
+
         boolean performObjectCodeVersusTransactionTypeValidation = true;
         if (item instanceof AccountsPayableItem) {
             performObjectCodeVersusTransactionTypeValidation = false;
@@ -1015,15 +1022,15 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 }
             }
         }
-        return valid;    
-    }    
-    
+        return valid;
+    }
+
     /**
      * Capital Asset validation: An item cannot have among its associated accounting lines both object codes that indicate it is a
      * Capital Asset, and object codes that indicate that the item is not a Capital Asset. Whether an object code indicates that the
      * item is a Capital Asset is determined by whether its level is among a specific set of levels that are deemed acceptable for
      * such items.
-     * 
+     *
      * @param capitalOrExpenseSet A HashSet containing the distinct values of either "Capital" or "Expense" that have been added to
      *        it.
      * @param warn A boolean which should be set to true if warnings are to be set on the calling document
@@ -1068,7 +1075,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * Capital Asset validation: If the item has a transaction type, check that the transaction type is acceptable for the object
      * code sub-types of all the object codes on the associated accounting lines.
-     * 
+     *
      * @param objectCode
      * @param capitalAssetTransactionType
      * @param warn A boolean which should be set to true if warnings are to be set on the calling document
@@ -1110,7 +1117,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * Capital Asset validation: If the item has a transaction type, check that if the document specifies that recurring payments
      * are to be made, that the transaction type is one that is appropriate for this situation, and that if the document does not
      * specify that recurring payments are to be made, that the transaction type is one that is appropriate for that situation.
-     * 
+     *
      * @param capitalAssetTransactionType
      * @param recurringPaymentType
      * @param warn A boolean which should be set to true if warnings are to be set on the calling document
@@ -1157,7 +1164,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Utility wrapping isCapitalAssetObjectCode for the use of processItemCapitalAssetValidation.
-     * 
+     *
      * @param oc An ObjectCode
      * @return A String indicating that the given object code is either Capital or Expense
      */
@@ -1169,7 +1176,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Predicate to determine whether the given object code is of a specified object sub type required for purap cams.
-     * 
+     *
      * @param oc An ObjectCode
      * @return True if the ObjectSubType is the one designated for capital assets.
      */
@@ -1194,7 +1201,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             int locationCount = 0;
             for (CapitalAssetLocation location : capitalAssetLocations) {
                 errorKey.append("[" + locationCount++ + "].");
-                AssetType assetType = getAssetType(system.getCapitalAssetTypeCode());                
+                AssetType assetType = getAssetType(system.getCapitalAssetTypeCode());
                 isMoving = ObjectUtils.isNull(assetType) ? false : assetType.isMovingIndicator();
                 boolean ignoreBuilding = ObjectUtils.isNull(assetType) ? false : assetType.isRequiredBuildingIndicator();
                 valid &= validateCapitalAssetLocationAddressFields(location, isMoving, ignoreBuilding, errorKey);
@@ -1219,7 +1226,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             int i = 0;
             for (CapitalAssetLocation location : capitalAssetLocations) {
                 errorKey.append("[" + i++ + "].");
-                AssetType assetType = getAssetType(system.getCapitalAssetTypeCode());                
+                AssetType assetType = getAssetType(system.getCapitalAssetTypeCode());
                 isMoving = ObjectUtils.isNull(assetType) ? false : assetType.isMovingIndicator();
                 boolean isRequiredBuilding = ObjectUtils.isNull(assetType) ? false : assetType.isRequiredBuildingIndicator();
                 valid &= validateCapitalAssetLocationAddressFields(location, isMoving, isRequiredBuilding, errorKey);
@@ -1353,13 +1360,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 }
             }
         }
-        
+
         return valid;
     }
 
     /**
      * Get the Capital Asset Object Code from the accounting lines.
-     * 
+     *
      * @param accountingDocument
      * @return getCapitalAssetObjectSubTypeLinesFlag = AccountCapitalObjectCode.NON_CAPITAL ==> no assetObjectSubType code
      *         AccountCapitalObjectCode.FROM_CAPITAL ==> assetObjectSubType code on source lines
@@ -1412,7 +1419,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * To check if data exists on create new asset
-     * 
+     *
      * @param capitalAssetInformation
      * @return boolean false if the new asset is not blank
      */
@@ -1429,7 +1436,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * To check if data exists on update asset
-     * 
+     *
      * @param capitalAssetInformation
      * @return boolean false if the update asset is not blank
      */
@@ -1437,7 +1444,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         boolean isBlank = true;
 
         boolean updateAsset = (capitalAssetInformation.getCapitalAssetActionIndicator().equalsIgnoreCase(KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR) ? true :  false);
-        
+
         if (updateAsset && ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
             isBlank = false;
         }
@@ -1446,7 +1453,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * To validate if the asset is active
-     * 
+     *
      * @param capitalAssetManagementAsset the asset to be validated
      * @return boolean false if the asset is not active
      */
@@ -1455,7 +1462,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         Map<String, String> params = new HashMap<String, String>();
         params.put(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, capitalAssetInformation.getCapitalAssetNumber().toString());
-        Asset asset = (Asset) this.getBusinessObjectService().findByPrimaryKey(Asset.class, params);
+        Asset asset = this.getBusinessObjectService().findByPrimaryKey(Asset.class, params);
 
         List<Long> assetNumbers = new ArrayList<Long>();
         assetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());
@@ -1464,7 +1471,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         errors.removeFromErrorPath(KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + index + "].");
         errors.removeFromErrorPath(capitalAssetInformation.getCapitalAssetActionIndicator().equalsIgnoreCase(KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR) ? KFSPropertyConstants.CAPITAL_ASSET_INFORMATION :  KFSPropertyConstants.CAPITAL_ASSET_MODIFY_INFORMATION);
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
-        
+
         String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + index + "]." + KFSPropertyConstants.CAPITAL_ASSET_NUMBER;
         if (ObjectUtils.isNull(asset)) {
             valid = false;
@@ -1490,7 +1497,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Check if all required fields exist on new asset
-     * 
+     *
      * @param capitalAssetInformation the fields of add asset to be checked
      * @return boolean false if a required field is missing
      */
@@ -1512,7 +1519,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         //VENDOR_IS_REQUIRED_FOR_NON_MOVEABLE_ASSET parameter determines if we need to check
         //vendor name entered.
         String vendorNameRequired = getParameterService().getParameterValueAsString(Asset.class, CabParameterConstants.CapitalAsset.VENDOR_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND);
-        
+
         if ("Y".equalsIgnoreCase(vendorNameRequired)) {
         // skip vendor name required validation for procurement card document
             if (!(accountingDocument instanceof ProcurementCardDocument) && StringUtils.isBlank(capitalAssetInformation.getVendorName())) {
@@ -1521,7 +1528,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 valid = false;
             }
         }
-        
+
         //MANUFACTURER_IS_REQUIRED_FOR_NON_MOVEABLE_ASSET parameter determines if we need to check
         //vendor name entered.
         String manufacturerNameRequired = getParameterService().getParameterValueAsString(Asset.class, CabParameterConstants.CapitalAsset.MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND);
@@ -1566,7 +1573,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     valid = false;
                 }
             }
-            
+
             // Room number not allowed for non-moveable assets
             if (ObjectUtils.isNotNull(assetType) && !assetType.isMovingIndicator()) {
                 if (StringUtils.isNotBlank(dtl.getBuildingRoomNumber())) {
@@ -1575,8 +1582,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     valid = false;
                 }
             }
-            
-            
+
+
 
             index++;
         }
@@ -1586,14 +1593,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * To validate new asset information
-     * 
+     *
      * @param capitalAssetInformation the information of add asset to be validated
      * @param index index of the capital asset line
      * @return boolean false if data is incorrect
      */
     protected boolean validateNewCapitalAssetFields(CapitalAssetInformation capitalAssetInformation, int index, AccountingDocument accountingDocument) {
         boolean valid = true;
-        
+
         if (!isAssetTypeExisting(capitalAssetInformation.getCapitalAssetTypeCode().toString())) {
             valid = false;
             String label = this.getDataDictionaryService().getAttributeLabel(CapitalAssetInformation.class, KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE);
@@ -1605,45 +1612,45 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         if (valid) {
             valid &= validateAssetTagLocationLines(capitalAssetInformation, index, accountingDocument);
         }
-        
+
         return valid;
     }
 
     /**
      * validates only the tag numbers because we need to check all the tags within
      * the document for duplicates.
-     * 
-     * @see 
+     *
+     * @see
      * @param accountingDocument
      * @return true if duplicate tags else return false.
      */
     public boolean validateAssetTags(AccountingDocument accountingDocument) {
         boolean valid = true;
-        
+
         List<TagRecord> allTags = new ArrayList<TagRecord>();
-        
+
         CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) accountingDocument;
         List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
 
         BusinessObjectDictionaryService businessDictionaryService = SpringContext.getBean(BusinessObjectDictionaryService.class);
-        
+
         int indexCapital = 0;
-        
+
         for (CapitalAssetInformation capitalAsset : capitalAssets) {
             if (KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator())) {
                 List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAsset.getCapitalAssetInformationDetails();
                 int index = 0;
-                
+
                 for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
                     dtl.refreshReferenceObject("building");
-                    
+
                     //if building is inactiv then validation fails....
                     if (ObjectUtils.isNotNull(dtl.getBuilding()) && !dtl.getBuilding().isActive()) {
                         String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + indexCapital + "]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
                         GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_CODE, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSET_DETAIL_INACTIVE_BUILDING_NOT_ALLOWED, dtl.getBuildingCode());
-                        valid &=  false;                        
+                        valid &=  false;
                     }
-                    
+
                     dtl.refreshReferenceObject("room");
                     //if room is inactiv then validation fails....
                     if (ObjectUtils.isNotNull(dtl.getRoom()) && !dtl.getRoom().isActive()) {
@@ -1651,9 +1658,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                         GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSET_DETAIL_INACTIVE_ROOM_NOT_ALLOWED, dtl.getBuildingRoomNumber());
                         valid &=  false;
                     }
-                    
+
                     index++;
-                    
+
                     businessDictionaryService.performForceUppercase(dtl);
                     if (StringUtils.isNotBlank(dtl.getCapitalAssetTagNumber()) && !dtl.getCapitalAssetTagNumber().equalsIgnoreCase(CamsConstants.Asset.NON_TAGGABLE_ASSET)) {
                         allTags.add(new TagRecord(dtl.getCapitalAssetTagNumber(), capitalAsset.getCapitalAssetLineNumber(), dtl.getCapitalAssetLineNumber(), dtl.getItemLineNumber()));
@@ -1662,7 +1669,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
             indexCapital++;
         }
-        
+
         for (TagRecord tagRecord : allTags) {
             if (isTagDuplicated(allTags, tagRecord)) {
                 tagRecord.setDuplicate(true);
@@ -1682,10 +1689,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                                 String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + indexAsset + "]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
                                 GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAPITAL_ASSET_TAG_NUMBER, CamsKeyConstants.AssetGlobal.ERROR_CAMPUS_TAG_NUMBER_DUPLICATE, tagRecord.getTagNumber());
                             }
-                            index++;                        
+                            index++;
                         }
                     }
-                    
+
                     indexAsset++;
                 }
             }
@@ -1693,7 +1700,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         return valid;
     }
-    
+
     /**
      * checks the tag records for a given asset number and sets duplicate flag to
      * true if found.
@@ -1703,29 +1710,29 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     protected boolean isTagDuplicated(List<TagRecord> allTags, TagRecord tagRecord) {
         boolean duplicate = false;
-        
+
         if (!this.getAssetService().findActiveAssetsMatchingTagNumber(tagRecord.getTagNumber()).isEmpty()) {
             // Tag number is already in use
             return true;
         }
-        
+
         int duplicateCount = 0;
-        
+
         for (TagRecord checkTagRecord : allTags) {
             if (checkTagRecord.getTagNumber().equals(tagRecord.getTagNumber())) {
                 //found duplicate...
                 duplicateCount++;
             }
         }
-        
+
         if (duplicateCount > 1) {
             tagRecord.setDuplicate(true);
-            return true;            
+            return true;
         }
-        
+
         return duplicate;
     }
-    
+
     /**
      * public class to hold the the records representing the capital asset
      * detail lines containing tag information
@@ -1736,7 +1743,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         protected int assetDetailLineNumber;
         protected int assetItemLineNumber;
         protected boolean duplicate;
-        
+
         public TagRecord(String tagNumber, int assetLineNumber, int assetDetailLineNumber, int itemLineNumber) {
             this.tagNumber = tagNumber;
             this.assetLineNumber = assetLineNumber;
@@ -1744,58 +1751,58 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             this.assetItemLineNumber = itemLineNumber;
             this.duplicate = false;
         }
-        
+
         /**
          * Gets the tagNumber attribute.
-         * 
+         *
          * @return Returns the tagNumber
          */
-        
+
         public String getTagNumber() {
             return tagNumber;
         }
 
         /**
          * Gets the assetLineNumber attribute.
-         * 
+         *
          * @return Returns the assetLineNumber
          */
-        
+
         public int getAssetLineNumber() {
             return assetLineNumber;
         }
 
         /**
          * Gets the assetDetailLineNumber attribute.
-         * 
+         *
          * @return Returns the assetDetailLineNumber
          */
-        
+
         public int getAssetDetailLineNumber() {
             return assetDetailLineNumber;
         }
 
-        /**	
+        /**
          * Sets the tagNumber attribute.
-         * 
+         *
          * @param tagNumber The tagNumber to set.
          */
         public void setTagNumber(String tagNumber) {
             this.tagNumber = tagNumber;
         }
 
-        /**	
+        /**
          * Sets the assetLineNumeber attribute.
-         * 
+         *
          * @param assetLineNumber The assetLineNumber to set.
          */
         public void setAssetLineNumber(int assetLineNumber) {
             this.assetLineNumber = assetLineNumber;
         }
 
-        /**	
+        /**
          * Sets the assetDetailLineNumber attribute.
-         * 
+         *
          * @param assetDetailLineNumber The assetDetailLineNumber to set.
          */
         public void setAssetDetailLineNumber(int assetDetailLineNumber) {
@@ -1803,48 +1810,48 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         /**
          * Gets the assetItemLineNumber attribute.
-         * 
+         *
          * @return Returns the assetItemLineNumber
          */
-        
+
         public int getAssetItemLineNumber() {
             return assetItemLineNumber;
         }
 
-        /** 
+        /**
          * Sets the assetItemLineNumber attribute.
-         * 
+         *
          * @param assetItemLineNumber The assetItemLineNumber to set.
          */
         public void setAssetItemLineNumber(int assetItemLineNumber) {
             this.assetItemLineNumber = assetItemLineNumber;
         }
-        
+
         /**
          * Gets the duplicate attribute.
-         * 
+         *
          * @return Returns the duplicate
          */
-        
+
         public boolean isDuplicate() {
             return duplicate;
         }
 
-        /** 
+        /**
          * Sets the duplicate attribute.
-         * 
+         *
          * @param duplicate The duplicate to set.
          */
         public void setDuplicate(boolean duplicate) {
             this.duplicate = duplicate;
         }
     }
-    
+
     /**
      * validates asset tag location lines for existence of any duplicate tag/location details.
-     * Collects all the detail lines for all the capital assets and then checks if there 
+     * Collects all the detail lines for all the capital assets and then checks if there
      * are any duplicates.
-     * 
+     *
      * @param capitalAssetInformation
      * @param capitalAssets
      * @param capitalAssetIndex index of the capital asset line
@@ -1854,10 +1861,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         boolean valid = true;
         CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) accountingDocument;
         List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
-        
+
         List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAssetInformation.getCapitalAssetInformationDetails();
         int index = 0;
-        
+
         for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
             // We have to explicitly call this DD service to upper case each field. This may not be the best place and maybe form
             // populate is a better place but we CAMS team don't own FP document. This is the best we can do for now.
@@ -1870,12 +1877,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 String label = this.getDataDictionaryService().getAttributeLabel(Campus.class, KFSPropertyConstants.CAMPUS_CODE);
                 GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.CAMPUS_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
             }
-            
+
             Map<String, String> params;
             params = new HashMap<String, String>();
             params.put(KFSPropertyConstants.CAMPUS_CODE, dtl.getCampusCode());
             params.put(KFSPropertyConstants.BUILDING_CODE, dtl.getBuildingCode());
-            Building building = (Building) this.getBusinessObjectService().findByPrimaryKey(Building.class, params);
+            Building building = this.getBusinessObjectService().findByPrimaryKey(Building.class, params);
             if (ObjectUtils.isNull(building)) {
                 valid = false;
                 GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_BUILDING_CODE, dtl.getBuildingCode(), dtl.getCampusCode());
@@ -1885,7 +1892,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             params.put(KFSPropertyConstants.CAMPUS_CODE, dtl.getCampusCode());
             params.put(KFSPropertyConstants.BUILDING_CODE, dtl.getBuildingCode());
             params.put(KFSPropertyConstants.BUILDING_ROOM_NUMBER, dtl.getBuildingRoomNumber());
-            Room room = (Room) this.getBusinessObjectService().findByPrimaryKey(Room.class, params);
+            Room room = this.getBusinessObjectService().findByPrimaryKey(Room.class, params);
             AssetType assetType = getAssetType(capitalAssetInformation.getCapitalAssetTypeCode());
             if (ObjectUtils.isNull(room) && (ObjectUtils.isNull(assetType) || assetType.isMovingIndicator())) {
                 valid = false;
@@ -1893,13 +1900,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
             index++;
         }
-        
+
         return valid;
     }
-    
+
     /**
      * Check assetTypeCode existence.
-     * 
+     *
      * @param assetTypeCode
      * @return
      */
@@ -1910,20 +1917,20 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Retrieve the Asset type from the provided assetType Code
-     * 
+     *
      * @param assetTypeCode
      * @return {@link AssetType}
      */
     protected AssetType getAssetType(String assetTypeCode) {
         Map<String, String> params = new HashMap<String, String>();
         params.put(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, assetTypeCode);
-        AssetType assetType = (AssetType) this.getBusinessObjectService().findByPrimaryKey(AssetType.class, params);
+        AssetType assetType = this.getBusinessObjectService().findByPrimaryKey(AssetType.class, params);
         return assetType;
     }
 
     /**
      * Validate asset quantity the user entered matching the number of asset tag lines.
-     * 
+     *
      * @param capitalAssetInformation
      * @return
      */
@@ -1944,7 +1951,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * To check if the tag number is duplicate or in use
-     * 
+     *
      * @param capitalAssetInformation, capitalAssetInformationDetail
      * @return boolean false if data is duplicate or in use
      */
@@ -2011,7 +2018,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * update cab non-PO lines status code for item/account/glEntry to 'P' as fully processed when possible
-     * 
+     *
      * @param documentNumber
      */
     protected void updateGlLinesStatusAsProcessed(String documentNumber) {
@@ -2028,6 +2035,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     this.getBusinessObjectService().save(generalLedgerEntry);
                 }
 
+                //if all the capital assets have been processed then update the
+                //transactionLedgerSubmitAmount transactionLedgerEntryAmount and set activitystatuscode to processed...
+                updateTransactionLedgerEntryAmount(generalLedgerEntry);
+
                 // release asset lock
                 if (isFpDocumentFullyProcessed(generalLedgerEntry)) {
                     getCapitalAssetManagementModuleService().deleteAssetLocks(generalLedgerEntry.getDocumentNumber(), null);
@@ -2038,7 +2049,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Check all generalLedgerEntries from the same FP document are fully processed.
-     * 
+     *
      * @param generalLedgerEntry
      * @return
      */
@@ -2057,7 +2068,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * update CAB PO lines status code for item/account/glEntry to 'P' as fully processed when possible
-     * 
+     *
      * @param documentNumber
      */
     protected void updatePOLinesStatusAsProcessed(String documentNumber) {
@@ -2111,7 +2122,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * If lockingInformation is not empty, check all item lines from the same PurAp item are fully processed. If lockingInformation
      * is empty, we check all items from the same PREQ/CM document processed as fully processed.
-     * 
+     *
      * @param itemAsset
      * @return
      */
@@ -2126,7 +2137,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Check if Gl Entry related accounts are fully processed
-     * 
+     *
      * @param glEntry
      * @return
      */
@@ -2141,7 +2152,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Check if PurApDocument related items are fully processed.
-     * 
+     *
      * @param purapDocument
      * @return
      */
@@ -2156,7 +2167,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Build the appropriate note text being set to the purchase order document.
-     * 
+     *
      * @param documentType
      * @param assetNumbers
      * @return
@@ -2170,7 +2181,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         else {
             noteText.append("Existing Asset Numbers have been applied for this document: ");
         }
- 
+
         if (assetNumbers != null || assetNumbers.size() > 0) {
             noteText.append(assetNumbers.get(0).toString());
             if (assetNumbers.size() > 1) {
@@ -2178,13 +2189,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 noteText.append(assetNumbers.get(assetNumbers.size() - 1).toString());
             }
         }
-        
+
         return noteText.toString();
     }
 
     /**
      * Acquire asset numbers from CAMS asset payment document.
-     * 
+     *
      * @param documentNumber
      * @param assetNumbers
      */
@@ -2201,7 +2212,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Acquire asset numbers from CAMS asset global document.
-     * 
+     *
      * @param documentNumber
      * @param assetNumbers
      */
@@ -2222,7 +2233,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * Query PurchasingAccountsPayableItemAsset and return the purchaseOrderIdentifier if the given documentNumber is initiated from
      * the PurAp line.
-     * 
+     *
      * @param documentNumber
      * @return
      */
@@ -2256,18 +2267,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Activates CAB GL Lines
-     * 
+     *
      * @param documentNumber String
      */
     protected void activateCabGlLines(String documentNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
-        Collection<GeneralLedgerEntryAsset> matchingGlAssets = this.getBusinessObjectService().findMatching(GeneralLedgerEntryAsset.class, fieldValues);
+        List<GeneralLedgerEntryAsset> matchingGlAssets = (List)this.getBusinessObjectService().findMatching(GeneralLedgerEntryAsset.class, fieldValues);
 
         if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
             Integer capitalAssetLineNumber = 0;
             GeneralLedgerEntry generalLedgerEntry = new GeneralLedgerEntry();
-            
+
             //get the capital asset number from these entry asset records...
             for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
                 capitalAssetLineNumber = generalLedgerEntryAsset.getCapitalAssetBuilderLineNumber();
@@ -2275,29 +2286,36 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
                 break;
             }
-            
+
             GlLineService glLineService = SpringContext.getBean(GlLineService.class);
-            
+
             //get the capital asset information....
             CapitalAssetInformation capitalAssetInformation = glLineService.findCapitalAssetInformation(generalLedgerEntry, capitalAssetLineNumber);
-            
+
             List<CapitalAssetAccountsGroupDetails> groupAccountingLines = capitalAssetInformation.getCapitalAssetAccountsGroupDetails();
-            
+
             for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
-                if (generalLedgerEntry.getDocumentNumber().equals(accountingLine.getDocumentNumber()) &&
-                        generalLedgerEntry.getChartOfAccountsCode().equals(accountingLine.getChartOfAccountsCode()) &&
-                        generalLedgerEntry.getAccountNumber().equals(accountingLine.getAccountNumber()) &&
-                        generalLedgerEntry.getFinancialObjectCode().equals(accountingLine.getFinancialObjectCode())) {
-                    reduceTransactionSumbitGlEntryAmount(generalLedgerEntry, accountingLine.getAmount());
+                //find the matching GL entry for this accounting line.
+                Collection<GeneralLedgerEntry> glEntries = glLineService.findMatchingGeneralLedgerEntry(accountingLine.getDocumentNumber(), accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getFinancialObjectCode());
+
+                for (GeneralLedgerEntry glEntry : glEntries) {
+                    reduceTransactionSumbitGlEntryAmount(glEntry, accountingLine.getAmount());
                 }
             }
-            
+
             //mark the capital asseet processed indicator as false so it can be processed again
             capitalAssetInformation.setCapitalAssetProcessedIndicator(false);
             getBusinessObjectService().save(capitalAssetInformation);
+
+            //if all the capital assets have been unprocessed, make sure to set the transaction
+            //submit gl entry amount on gl entry lines to 0.00
+            resetTransactionSumbitGlEntryAmounts(generalLedgerEntry);
         }
+
+        //remove the gl entry asset records for this gl entry.
+        this.getBusinessObjectService().delete(matchingGlAssets);
     }
-    
+
     /**
      * reduces the submit amount by the amount on the accounting line.  When submit amount equals
      * transaction ledger amount, the activity status code is marked as in route status.
@@ -2310,42 +2328,83 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         if (ObjectUtils.isNotNull(matchingGLEntry.getTransactionLedgerSubmitAmount())) {
             submitTotalAmount = matchingGLEntry.getTransactionLedgerSubmitAmount();
         }
-        
+
         matchingGLEntry.setTransactionLedgerSubmitAmount(submitTotalAmount.subtract(accountLineAmount.abs()));
 
         if (matchingGLEntry.getTransactionLedgerSubmitAmount().isLessThan(matchingGLEntry.getTransactionLedgerEntryAmount())) {
             matchingGLEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
         }
-        
-        //save the updated gl entry in CAB.  Remove general ledger entry asset records
+
+        //save the updated gl entry in CAB
         this.getBusinessObjectService().save(matchingGLEntry);
-        this.getBusinessObjectService().delete(matchingGLEntry.getGeneralLedgerEntryAssets());
     }
-    
-    
+
     /**
-     * Activates CAB GL Lines
-     * 
-     * @param documentNumber String
+     * Helper method to retrieve the capital assets on the document and check if they have all been
+     * marked as unprocessed.  If so, reset TransactionSumbitGlEntryAmount to on each gl entry line,
+     * and mark activity indicator flag to "N" (new)
+     *
+     * @param glEntry
+     * @return true if amounts are reset to 0.00 else return false
      */
- //   protected void activateCabGlLines(String documentNumber) {
-//        Map<String, String> fieldValues = new HashMap<String, String>();
-//        fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
-//        Collection<GeneralLedgerEntryAsset> matchingGlAssets = this.getBusinessObjectService().findMatching(GeneralLedgerEntryAsset.class, fieldValues);
-//        if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
-//            for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
-//                GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
-//                generalLedgerEntry.setTransactionLedgerSubmitAmount(KualiDecimal.ZERO);
-//                generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
-//                this.getBusinessObjectService().save(generalLedgerEntry);
-//                this.getBusinessObjectService().delete(generalLedgerEntryAsset);
-//            }
-//        }
-//    }
+    protected boolean resetTransactionSumbitGlEntryAmounts(GeneralLedgerEntry glEntry) {
+        GlLineService glLineService = SpringContext.getBean(GlLineService.class);
+
+        List<CapitalAssetInformation> capitalAssets = glLineService.findAllCapitalAssetInformation(glEntry);
+        for (CapitalAssetInformation capitalAsset : capitalAssets) {
+            if (capitalAsset.isCapitalAssetProcessedIndicator()) {
+                //processed capital asset exists so do not continue...
+                return false;
+            }
+        }
+
+        List<GeneralLedgerEntry> glLines = (List)glLineService.findAllGeneralLedgerEntry(glEntry.getDocumentNumber());
+
+        for (GeneralLedgerEntry glLine: glLines) {
+            glLine.setTransactionLedgerSubmitAmount(KualiDecimal.ZERO);
+            glLine.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
+        }
+
+        this.getBusinessObjectService().save(glLines);
+
+        return true;
+    }
+
+    /**
+     * Helper method to retrieve the capital assets on the document and check if they have all been
+     * marked as Processed.  If so, set TransactionSumbitGlEntryAmount to on each gl entry line to the
+     * entry amount and mark activity indicator flag to "P" (processed).
+     *
+     * @param glEntry
+     * @return true if gl amounts and processed indicators are updated else return false.
+     */
+    protected boolean updateTransactionLedgerEntryAmount(GeneralLedgerEntry glEntry) {
+        GlLineService glLineService = SpringContext.getBean(GlLineService.class);
+
+        List<CapitalAssetInformation> capitalAssets = glLineService.findAllCapitalAssetInformation(glEntry);
+        for (CapitalAssetInformation capitalAsset : capitalAssets) {
+            if (!capitalAsset.isCapitalAssetProcessedIndicator()) {
+                //there is a capital asset not yet processed..
+                return false;
+            }
+        }
+
+        List<GeneralLedgerEntry> glLines = (List)glLineService.findAllGeneralLedgerEntry(glEntry.getDocumentNumber());
+
+        for (GeneralLedgerEntry glLine: glLines) {
+            glLine.setTransactionLedgerSubmitAmount(glLine.getTransactionLedgerEntryAmount());
+            glLine.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
+        }
+
+        this.getBusinessObjectService().save(glLines);
+
+        return true;
+
+    }
 
     /**
      * Activates PO Lines
-     * 
+     *
      * @param documentNumber String
      */
     protected void activateCabPOLines(String documentNumber) {
@@ -2381,34 +2440,45 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * gets the document type based on the instance of a class
-     * 
+     *
      * @param accountingDocument
      * @return
      */
     protected String getDocumentTypeName(AccountingDocument accountingDocument) {
         String documentTypeName = null;
-        if (accountingDocument instanceof YearEndGeneralErrorCorrectionDocument)
+        if (accountingDocument instanceof YearEndGeneralErrorCorrectionDocument) {
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.YEAR_END_GENERAL_ERROR_CORRECTION;
-        else if (accountingDocument instanceof YearEndDistributionOfIncomeAndExpenseDocument)
+        }
+        else if (accountingDocument instanceof YearEndDistributionOfIncomeAndExpenseDocument) {
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE;
-        else if (accountingDocument instanceof ServiceBillingDocument)
+        }
+        else if (accountingDocument instanceof ServiceBillingDocument) {
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.SERVICE_BILLING;
-        else if (accountingDocument instanceof GeneralErrorCorrectionDocument)
+        }
+        else if (accountingDocument instanceof GeneralErrorCorrectionDocument) {
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.GENERAL_ERROR_CORRECTION;
-        else if (accountingDocument instanceof CashReceiptDocument)
+        }
+        else if (accountingDocument instanceof CashReceiptDocument) {
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.CASH_RECEIPT;
-        else if (accountingDocument instanceof AdvanceDepositDocument)
+        }
+        else if (accountingDocument instanceof AdvanceDepositDocument) {
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.ADVANCE_DEPOSIT;
-        else if (accountingDocument instanceof CreditCardReceiptDocument)
+        }
+        else if (accountingDocument instanceof CreditCardReceiptDocument) {
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.CREDIT_CARD_RECEIPT;
-        else if (accountingDocument instanceof DistributionOfIncomeAndExpenseDocument)
+        }
+        else if (accountingDocument instanceof DistributionOfIncomeAndExpenseDocument) {
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE;
-        else if (accountingDocument instanceof InternalBillingDocument)
+        }
+        else if (accountingDocument instanceof InternalBillingDocument) {
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.INTERNAL_BILLING;
-        else if (accountingDocument instanceof ProcurementCardDocument)
+        }
+        else if (accountingDocument instanceof ProcurementCardDocument) {
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD;
-        else
+        }
+        else {
             throw new RuntimeException("Invalid FP document type.");
+        }
 
         return documentTypeName;
     }
@@ -2443,14 +2513,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
     /**
      * Get the Capital Asset Object Code from the accounting lines.
-     * 
+     *
      * @param accountingLine
      * @return true if the accounting line has an object code that belongs to
      * OBJECT_SUB_TYPE_GROUPS system paramters list else return false;
      */
     public boolean hasCapitalAssetObjectSubType(AccountingLine accountingLine) {
         List<String> financialProcessingCapitalObjectSubTypes = new ArrayList<String>( this.getParameterService().getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES) );
-        
+
         ObjectCode objectCode = accountingLine.getObjectCode();
         if (ObjectUtils.isNotNull(objectCode)) {
             String objectSubTypeCode = objectCode.getFinancialObjectSubTypeCode();
@@ -2458,53 +2528,53 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 return true;
             }
         }
-        
+
         return false ;
     }
-    
+
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateAllCapitalAccountingLinesProcessed(org.kuali.kfs.sys.document.AccountingDocument)
      */
     public boolean validateAllCapitalAccountingLinesProcessed(AccountingDocument accountingDocumentForValidation) {
         LOG.debug("validateCapitalAccountingLines - start");
         boolean isValid = true;
-        
+
         if (accountingDocumentForValidation instanceof CapitalAssetEditable == false) {
             return true;
         }
 
         CapitalAccountingLinesDocumentBase capitalAccountingLinesDocumentBase = (CapitalAccountingLinesDocumentBase) accountingDocumentForValidation;
         List <CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesDocumentBase.getCapitalAccountingLines();
-        
+
         isValid = allCapitalAccountingLinesProcessed(capitalAccountingLines);
-        
+
         return isValid;
     }
 
     /**
      * checks if all the lines have been selected for processing by checking the selectLine property
      * on each capital accounting line.
-     * 
+     *
      * @param capitalAccountingLines
      * @return true if all lines have been selected else return false
      */
     protected boolean allCapitalAccountingLinesProcessed(List<CapitalAccountingLines> capitalAccountingLines) {
         LOG.debug("allCapitalAccountingLinesProcessed - start");
-        
+
         boolean processed = true;
-        
+
         for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
             if (!capitalAccountingLine.isSelectLine()) {
                 processed = false;
                 GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATION_NOT_PROCESSED);
-                
+
                 break;
             }
         }
-        
+
         return processed;
     }
-    
+
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateTotalAmountMatch(org.kuali.kfs.sys.document.AccountingDocument)
      */
@@ -2512,7 +2582,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         LOG.debug("validateTotalAmountMatch - start");
 
         boolean isValid = true;
-        
+
         if (accountingDocumentForValidation instanceof CapitalAssetEditable == false) {
             return true;
         }
@@ -2523,10 +2593,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
 
         isValid = totalAmountMatchForCapitalAccountingLinesAndCapitalAssets(capitalAccountingLines, capitalAssets);
-        
+
         return isValid;
     }
-    
+
     /**
      * compares the total amount from capital accounting lines to the
      * capital assets totals amount.
@@ -2536,57 +2606,57 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     protected boolean totalAmountMatchForCapitalAccountingLinesAndCapitalAssets(List<CapitalAccountingLines> capitalAccountingLines, List<CapitalAssetInformation> capitalAssets) {
         boolean totalAmountMatched = true;
-        
+
         KualiDecimal capitalAccountingLinesTotals = KualiDecimal.ZERO;
         KualiDecimal capitalAAssetTotals = KualiDecimal.ZERO;
-        
+
         for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
             capitalAccountingLinesTotals = capitalAccountingLinesTotals.add(capitalAccountingLine.getAmount());
         }
-    
+
         for (CapitalAssetInformation capitalAsset : capitalAssets) {
             capitalAAssetTotals = capitalAAssetTotals.add(capitalAsset.getCapitalAssetLineAmount());
         }
-        
+
         if (capitalAccountingLinesTotals.isGreaterThan(capitalAAssetTotals)) {
             //not all the accounting lines amounts have been distributed to capital assets
             GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINES_NOT_ALL_TOTALS_DISTRIBUTED_TO_CAPITAL_ASSETS);
             return false;
         }
-        
+
         if (capitalAccountingLinesTotals.isLessThan(capitalAAssetTotals)) {
             //not all the accounting lines amounts have been distributed to capital assets
             GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINES_MORE_TOTALS_DISTRIBUTED_TO_CAPITAL_ASSETS);
             return false;
         }
-        
+
         return totalAmountMatched;
     }
-    
+
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateCapitlAssetsAmountToAccountingLineAmount(org.kuali.kfs.sys.document.AccountingDocument)
      */
     public boolean validateCapitlAssetsAmountToAccountingLineAmount(AccountingDocument accountingDocument) {
         boolean valid = true;
-       
+
         CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) accountingDocument;
-        List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();        
+        List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();
 
         List<CapitalAssetInformation> capitalAssetInformation = caldb.getCapitalAssetInformation();
-        
+
         for(CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
             if (capitalAccountingLine.getAmount().isLessThan(getCapitalAccountingLineAmountAllocated(capitalAssetInformation, capitalAccountingLine))) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSETS_AMOUNTS_GREATER_THAN_CAPITAL_ACCOUNTING_LINE, capitalAccountingLine.getSequenceNumber().toString(), capitalAccountingLine.getLineType(), capitalAccountingLine.getChartOfAccountsCode(), capitalAccountingLine.getAccountNumber(), capitalAccountingLine.getFinancialObjectCode());
                 valid = false;
             }
         }
-        
+
         return valid;
     }
-    
+
     /**
      * sums the capital assets amount distributed so far for a given capital accounting line
-     * 
+     *
      * @param currentCapitalAssetInformation
      * @param existingCapitalAsset
      * @return capitalAssetsAmount amount that has been distributed for the specific capital accounting line
@@ -2599,19 +2669,19 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
             for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
                 if (groupAccountLine.getCapitalAssetLineNumber().compareTo(capitalAsset.getCapitalAssetLineNumber()) == 0 &&
-                        groupAccountLine.getSequenceNumber().compareTo(capitalAccountingLine.getSequenceNumber()) == 0 &&                        
-                        groupAccountLine.getFinancialDocumentLineTypeCode().equals(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) && 
-                        groupAccountLine.getChartOfAccountsCode().equals(capitalAccountingLine.getChartOfAccountsCode()) && 
-                        groupAccountLine.getAccountNumber().equals(capitalAccountingLine.getAccountNumber()) && 
+                        groupAccountLine.getSequenceNumber().compareTo(capitalAccountingLine.getSequenceNumber()) == 0 &&
+                        groupAccountLine.getFinancialDocumentLineTypeCode().equals(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) &&
+                        groupAccountLine.getChartOfAccountsCode().equals(capitalAccountingLine.getChartOfAccountsCode()) &&
+                        groupAccountLine.getAccountNumber().equals(capitalAccountingLine.getAccountNumber()) &&
                         groupAccountLine.getFinancialObjectCode().equals(capitalAccountingLine.getFinancialObjectCode())) {
-                    capitalAccountingLineAmount = capitalAccountingLineAmount.add(groupAccountLine.getAmount());                    
+                    capitalAccountingLineAmount = capitalAccountingLineAmount.add(groupAccountLine.getAmount());
                 }
             }
         }
-        
+
         return capitalAccountingLineAmount;
     }
-    
+
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateCapitalAccountingLines(org.kuali.kfs.sys.document.AccountingDocument)
      */
@@ -2619,7 +2689,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         LOG.debug("validateCapitalAccountingLines - start");
 
         boolean isValid = true;
-        
+
         if (accountingDocumentForValidation instanceof CapitalAssetEditable == false) {
             return true;
         }
@@ -2628,33 +2698,33 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         List <CapitalAccountingLines> capitalAccountingLines = capitalAccountingLinesDocumentBase.getCapitalAccountingLines();
         CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) accountingDocumentForValidation;
         List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
-      
+
         isValid = capitalAssetExistsForCapitalAccountingLinesProcessed(capitalAccountingLines, capitalAssets);
-        
+
         return isValid;
     }
-    
+
     /**
-     * 
+     *
      * @param capitalAccountingLines
      * @param capitalAssets
      * @return true capital assets exists for all the capital accounting lines.
      */
     protected boolean capitalAssetExistsForCapitalAccountingLinesProcessed(List<CapitalAccountingLines> capitalAccountingLines, List<CapitalAssetInformation> capitalAssets) {
         LOG.debug("capitalAssetExistsForCapitalAccountingLinesProcessed - start");
-        
+
         boolean exists = true;
-        
+
         for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
             if (!capitalAssetExist(capitalAccountingLine, capitalAssets)) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_ACCOUNTING_LINES_FOR_CAPITALIZATION_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_FOR_CAPITALIZATION_HAS_NO_CAPITAL_ASSET, capitalAccountingLine.getSequenceNumber().toString(), capitalAccountingLine.getLineType(), capitalAccountingLine.getChartOfAccountsCode(), capitalAccountingLine.getAccountNumber(), capitalAccountingLine.getFinancialObjectCode());
                 return false;
             }
         }
-        
+
         return exists;
     }
-    
+
     /**
      *  checks if capital asset exists for the given capital accounting line.
      * @param capitalAccountingLine
@@ -2663,19 +2733,19 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     protected boolean capitalAssetExist(CapitalAccountingLines capitalAccountingLine, List<CapitalAssetInformation> capitalAssetInformation) {
         boolean exists = false;
-        
+
         if (ObjectUtils.isNull(capitalAssetInformation) && capitalAssetInformation.size() <= 0) {
             return exists;
         }
-        
+
         for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
             List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
             for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
                 if (groupAccountLine.getCapitalAssetLineNumber().compareTo(capitalAsset.getCapitalAssetLineNumber()) == 0 &&
                         groupAccountLine.getSequenceNumber().compareTo(capitalAccountingLine.getSequenceNumber()) == 0 &&
-                        groupAccountLine.getFinancialDocumentLineTypeCode().equals(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) && 
-                        groupAccountLine.getChartOfAccountsCode().equals(capitalAccountingLine.getChartOfAccountsCode()) && 
-                        groupAccountLine.getAccountNumber().equals(capitalAccountingLine.getAccountNumber()) && 
+                        groupAccountLine.getFinancialDocumentLineTypeCode().equals(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) &&
+                        groupAccountLine.getChartOfAccountsCode().equals(capitalAccountingLine.getChartOfAccountsCode()) &&
+                        groupAccountLine.getAccountNumber().equals(capitalAccountingLine.getAccountNumber()) &&
                         groupAccountLine.getFinancialObjectCode().equals(capitalAccountingLine.getFinancialObjectCode())) {
                      return true;
                 }
@@ -2684,7 +2754,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         return exists;
     }
-    
+
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#markProcessedGLEntryLine(java.lang.String)
      */
@@ -2694,22 +2764,22 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         Collection<GeneralLedgerEntryAsset> matchingGlAssets = this.getBusinessObjectService().findMatching(GeneralLedgerEntryAsset.class, fieldValues);
         if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
             GlLineService glLineService = SpringContext.getBean(GlLineService.class);
-            
+
             for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
                 GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
 
                 // update gl status as processed
                 if (glLineService.findUnprocessedCapitalAssetInformation(generalLedgerEntry) == 0) {
                     generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.ENROUTE);
-                } 
+                }
                 else {
                     generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
                 }
-                
+
                 this.getBusinessObjectService().save(generalLedgerEntry);
             }
         }
-        
+
         return true;
     }
 }

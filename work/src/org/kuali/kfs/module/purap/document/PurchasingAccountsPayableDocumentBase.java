@@ -1237,11 +1237,33 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             for (Object itemAsObject : this.getItems()) {
                 final PurApItem item = (PurApItem)itemAsObject;
                 for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
-                    sourceAccountingLines.add(accountingLine);
+                    //KFSMI-9053: check if the accounting line does not already exist in the list
+                    //and if so then add to the list.  Preventing duplicates
+                    if (!isDuplicateAccountingLine(sourceAccountingLines, accountingLine)) {
+                        sourceAccountingLines.add(accountingLine);
+                    }
                 }
             }
             return sourceAccountingLines;
         }
+    }
+
+    /**
+     * Helper method to check if the source accounting line is already in the list and if so return true
+     *
+     * @param sourceAccountingLines
+     * @param accountingLine
+     * @return true if it is a duplicate else return false.
+     */
+    protected boolean isDuplicateAccountingLine(List<AccountingLine> sourceAccountingLines, PurApAccountingLine accountingLine) {
+        for (AccountingLine sourceLine : sourceAccountingLines) {
+            PurApAccountingLine purapAccountLine = (PurApAccountingLine) sourceLine;
+
+            if (purapAccountLine.accountStringsAreEqual(accountingLine)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

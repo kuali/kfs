@@ -17,18 +17,18 @@
 
   <bean id="FinancialSystemDocumentHeader" parent="FinancialSystemDocumentHeader-parentBean"/>
 
-  <bean id="FinancialSystemDocumentHeader-parentBean" abstract="true" parent="BusinessObjectEntry">
+  <bean id="FinancialSystemDocumentHeader-parentBean" abstract="true" parent="DocumentHeader">
     <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader"/>
-    <property name="boNotesEnabled" value="true"/>
     <property name="objectLabel" value="Financial System Document Header"/>
     <property name="attributes">
       <list>
-        <ref bean="FinancialSystemDocumentHeader-applicationDocumentStatus"/>
-        <ref bean="FinancialSystemDocumentHeader-documentDescription"/>
-        <ref bean="FinancialSystemDocumentHeader-organizationDocumentNumber"/>
         <ref bean="FinancialSystemDocumentHeader-documentNumber"/>
-        <ref bean="FinancialSystemDocumentHeader-documentTemplateNumber"/>
-        <ref bean="FinancialSystemDocumentHeader-explanation"/>
+        <bean parent="DocumentHeader-documentDescription"/>
+        <bean parent="DocumentHeader-organizationDocumentNumber"/>
+        <bean parent="DocumentHeader-documentTemplateNumber"/>
+        <bean parent="DocumentHeader-explanation"/>
+      	
+        <ref bean="FinancialSystemDocumentHeader-applicationDocumentStatus"/>
         <ref bean="FinancialSystemDocumentHeader-financialDocumentStatusCode"/>
         <ref bean="FinancialSystemDocumentHeader-financialDocumentInErrorNumber"/>
         <ref bean="FinancialSystemDocumentHeader-correctedByDocumentId"/>
@@ -39,105 +39,60 @@
 
 <!-- Attribute Definitions -->
 
-  <bean id="FinancialSystemDocumentHeader-documentDescription" parent="FinancialSystemDocumentHeader-documentDescription-parentBean"/>
+	<!-- creating a bean with this name as it's depended upon by other beans in KFS -->
+	<bean id="FinancialSystemDocumentHeader-documentNumber" parent="FinancialSystemDocumentHeader-documentNumber-parentBean" />
+	<bean id="FinancialSystemDocumentHeader-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
 
-  <bean id="FinancialSystemDocumentHeader-documentDescription-parentBean" abstract="true" parent="DocumentHeader-documentDescription"/>
+	<!-- Overriding this base Rice attribute definition to limit description length to 40 as required
+		 by KFS ledger entry-creating documents -->
+  <bean id="DocumentHeader-documentDescription" parent="DocumentHeader-documentDescription-parentBean">
+    <property name="maxLength" value="40"/>
+  </bean>
 
   <bean id="FinancialSystemDocumentHeader-applicationDocumentStatus" parent="FinancialSystemDocumentHeader-applicationDocumentStatus-parentBean"/>
-
   <bean id="FinancialSystemDocumentHeader-applicationDocumentStatus-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="documentHeader.workflowDocument.applicationDocumentStatus"/>
-    <property name="forceUppercase" value="true"/>
+    <property name="forceUppercase" value="false"/>
     <property name="label" value="Application Document Status"/>
     <property name="shortLabel" value="App Doc Status"/>
     <property name="maxLength" value="64"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidation" p:allowWhitespace="true" />
-    </property>
     <property name="control">
       <bean parent="TextControlDefinition" p:size="20"/>
     </property>    
   </bean>
 
-  <bean id="FinancialSystemDocumentHeader-organizationDocumentNumber" parent="FinancialSystemDocumentHeader-organizationDocumentNumber-parentBean"/>
-
-  <bean id="FinancialSystemDocumentHeader-organizationDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-organizationDocumentNumber"/>
-
-
-  <bean id="FinancialSystemDocumentHeader-documentNumber" parent="FinancialSystemDocumentHeader-documentNumber-parentBean"/>
-
-  <bean id="FinancialSystemDocumentHeader-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
-  
-  <bean id="FinancialSystemDocumentHeader-documentTemplateNumber" parent="FinancialSystemDocumentHeader-documentTemplateNumber-parentBean"/>
-
-  <bean id="FinancialSystemDocumentHeader-documentTemplateNumber-parentBean" abstract="true" parent="DocumentHeader-documentTemplateNumber"/>
-
-
-  <bean id="FinancialSystemDocumentHeader-explanation" parent="FinancialSystemDocumentHeader-explanation-parentBean"/>
-
-  <bean id="FinancialSystemDocumentHeader-explanation-parentBean" abstract="true" parent="DocumentHeader-explanation"/>
-
-
   <bean id="FinancialSystemDocumentHeader-financialDocumentStatusCode" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode-parentBean"/>
-
   <bean id="FinancialSystemDocumentHeader-financialDocumentStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentStatusCode"/>
     <property name="forceUppercase" value="false"/>
     <property name="shortLabel" value="Status"/>
     <property name="maxLength" value="2"/>
-    <property name="control">
-      <ref bean="TwoCharacterTextControl" />
-    </property>
-    
-    <property name="name" value="financialDocumentStatusCode"/>
-    <property name="label" value="Document Status Code"/>
-    
+    <property name="control" ref="TwoCharacterTextControl" />
+    <property name="label" value="Document Status Code"/>    
   </bean>
-  <bean id="FinancialSystemDocumentHeader-financialDocumentInErrorNumber" parent="FinancialSystemDocumentHeader-financialDocumentInErrorNumber-parentBean"/>
 
-  <bean id="FinancialSystemDocumentHeader-financialDocumentInErrorNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="true"/>
-    <property name="shortLabel" value="Corrects Document Id"/>
-    <property name="maxLength" value="14"/>
-    <property name="control">
-      <ref bean="HiddenControl" />
-    </property>
-    
+  <bean id="FinancialSystemDocumentHeader-financialDocumentInErrorNumber" parent="FinancialSystemDocumentHeader-financialDocumentInErrorNumber-parentBean"/>
+  <bean id="FinancialSystemDocumentHeader-financialDocumentInErrorNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
     <property name="name" value="financialDocumentInErrorNumber"/>
     <property name="label" value="Correction of Document Id"/>
-    
+    <property name="shortLabel" value="Corrects Document Id"/>
+    <property name="control" ref="HiddenControl" />
   </bean>
-  <bean id="FinancialSystemDocumentHeader-correctedByDocumentId" parent="FinancialSystemDocumentHeader-correctedByDocumentId-parentBean"/>
 
-  <bean id="FinancialSystemDocumentHeader-correctedByDocumentId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="true"/>
-    <property name="shortLabel" value="Corrected by Document Id"/>
-    <property name="maxLength" value="14"/>
-    <property name="control">
-      <ref bean="HiddenControl" />
-    </property>
-    
+  <bean id="FinancialSystemDocumentHeader-correctedByDocumentId" parent="FinancialSystemDocumentHeader-correctedByDocumentId-parentBean"/>
+  <bean id="FinancialSystemDocumentHeader-correctedByDocumentId-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
     <property name="name" value="correctedByDocumentId"/>
     <property name="label" value="Corrected by Document Header Id"/>
-    
+    <property name="shortLabel" value="Corrected by Document Id"/>
+    <property name="control" ref="HiddenControl" />
   </bean>
-  <bean id="FinancialSystemDocumentHeader-financialDocumentTotalAmount" parent="FinancialSystemDocumentHeader-financialDocumentTotalAmount-parentBean"/>
 
-  <bean id="FinancialSystemDocumentHeader-financialDocumentTotalAmount-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="false"/>
-    <property name="shortLabel" value="Total Amount"/>
-    <property name="maxLength" value="19"/>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/> 
-    <property name="validationPattern">
-      <bean parent="FixedPointValidationPattern" p:precision="19" p:allowNegative="true" p:scale="2"/>
-    </property>
-    <property name="control">
-      <bean parent="CurrencyControlDefinition" p:formattedMaxLength="26" p:size="10"/>
-    </property>
-    
+  <bean id="FinancialSystemDocumentHeader-financialDocumentTotalAmount" parent="FinancialSystemDocumentHeader-financialDocumentTotalAmount-parentBean"/>
+  <bean id="FinancialSystemDocumentHeader-financialDocumentTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="financialDocumentTotalAmount"/>
     <property name="label" value="Total Amount"/>
-    
+    <property name="shortLabel" value="Total Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/> 
   </bean>
+
 </beans>

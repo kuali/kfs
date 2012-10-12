@@ -271,8 +271,25 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
                         LOG.debug("Found existing delegate member - updating existing record. " + member);
                     }
                     DelegateMember.Builder updatedMember = DelegateMember.Builder.create(member);
-                    updateDelegateMemberFromDocDelegateMember(updatedMember, dm);
-                    addedMember = roleService.updateDelegateMember(updatedMember.build());
+                    // KFSMI-9628 : fixing issue with the delegate switch from primary to secondary
+                    // IN this case, we need to delete the member from the "other" delegate type
+
+                    // need to determine what the "existing" type was
+                    DelegateType originalDelegateType = roleService.getDelegateTypeByDelegationId(member.getDelegationId());
+                    // if they are the same, we can just update the existing record
+                    if ( originalDelegateType.getDelegationType().equals(dm.getDelegationType()) ) {
+                        updateDelegateMemberFromDocDelegateMember(updatedMember, dm);
+                        addedMember = roleService.updateDelegateMember(updatedMember.build());
+                    } else {
+                        // Otherwise, we need to remove the old one and add a new one
+                        // Remove old
+                        roleService.removeDelegateMembers(Collections.singletonList(member));
+                        // add new
+                        DelegateMember.Builder newMember = DelegateMember.Builder.create();
+                        newMember.setDelegationId(delegateType.getDelegationId());
+                        updateDelegateMemberFromDocDelegateMember(newMember, dm);
+                        addedMember = roleService.createDelegateMember(newMember.build());
+                    }
                 }
             }
             // if we did not find one, then we need to create a new member

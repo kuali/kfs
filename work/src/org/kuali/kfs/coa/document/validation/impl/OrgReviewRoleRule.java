@@ -77,7 +77,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
                 if( orr.isDelegate() ) {
                     valid &= validateDelegation(orr, document.isEdit());
                 } else {
-                    if ( document.isEdit() ) {
+                    if ( !document.isEdit() ) {
                         valid &= verifyUniqueRoleMembership(orr);
                     }
                 }

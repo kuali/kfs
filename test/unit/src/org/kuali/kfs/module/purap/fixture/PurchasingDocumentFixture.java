@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -86,7 +86,7 @@ public enum PurchasingDocumentFixture {
             null, // vendorPaymentTermsCode
             null, // vendorShippingTitleCode
             null), // vendorShippingPaymentTermsCode
-            
+
     REQ_PERFORMANCE("INST", // fundingSourceCode
             RequisitionSources.STANDARD_ORDER, // requisitionSourceCode
             POTransmissionMethods.NOPRINT, // purchaseOrderTransmissionMethodCode
@@ -142,7 +142,7 @@ public enum PurchasingDocumentFixture {
             null, // vendorPaymentTermsCode
             null, // vendorShippingTitleCode
             null), // vendorShippingPaymentTermsCode
-    
+
     REQ_MULTI("INST", // fundingSourceCode
             RequisitionSources.STANDARD_ORDER, // requisitionSourceCode
             POTransmissionMethods.NOPRINT, // purchaseOrderTransmissionMethodCode
@@ -309,8 +309,8 @@ public enum PurchasingDocumentFixture {
             false, // purchaseOrderAutomaticIndicator
             null, // vendorPaymentTermsCode
             null, // vendorShippingTitleCode
-            null), // vendorShippingPaymentTermsCode           
-                  
+            null), // vendorShippingPaymentTermsCode
+
     REQ_B2B_VENDOR("INST", // fundingSourceCode
             RequisitionSources.B2B, // requisitionSourceCode
             POTransmissionMethods.NOPRINT, // purchaseOrderTransmissionMethodCode
@@ -365,8 +365,8 @@ public enum PurchasingDocumentFixture {
             false, // purchaseOrderAutomaticIndicator
             null, // vendorPaymentTermsCode
             null, // vendorShippingTitleCode
-            null), // vendorShippingPaymentTermsCode     
-                  
+            null), // vendorShippingPaymentTermsCode
+
         REQ_B2B_VENDOR_NO_TOTAL_LIMIT("INST", // fundingSourceCode
             RequisitionSources.B2B, // requisitionSourceCode
             POTransmissionMethods.NOPRINT, // purchaseOrderTransmissionMethodCode
@@ -421,8 +421,8 @@ public enum PurchasingDocumentFixture {
             false, // purchaseOrderAutomaticIndicator
             null, // vendorPaymentTermsCode
             null, // vendorShippingTitleCode
-            null), // vendorShippingPaymentTermsCode     
-                    
+            null), // vendorShippingPaymentTermsCode
+
     REQ_INVALID_VENDOR_FAX_NUMBER_CONTAINS_LETTER("INST", // fundingSourceCode
             RequisitionSources.STANDARD_ORDER, // requisitionSourceCode
             POTransmissionMethods.NOPRINT, // purchaseOrderTransmissionMethodCode
@@ -477,8 +477,8 @@ public enum PurchasingDocumentFixture {
             false, // purchaseOrderAutomaticIndicator
             null, // vendorPaymentTermsCode
             null, // vendorShippingTitleCode
-            null), // vendorShippingPaymentTermsCode     
-                    
+            null), // vendorShippingPaymentTermsCode
+
     REQ_INVALID_VENDOR_FAX_NUMBER_BAD_FORMAT("INST", // fundingSourceCode
             RequisitionSources.STANDARD_ORDER, // requisitionSourceCode
             POTransmissionMethods.NOPRINT, // purchaseOrderTransmissionMethodCode
@@ -491,7 +491,7 @@ public enum PurchasingDocumentFixture {
             new KualiDecimal(100), // purchaseOrderTotalLimit
             null, // vendorRestrictedIndicator
             null, // vendorPhoneNumber
-            "1112223333", // vendorFaxNumber
+            "(111 222-333", // vendorFaxNumber
             null, // vendorContractGeneratedIdentifier
             null, // vendorNoteText
             "RENFROW,ROBERTA G", // requestorPersonName
@@ -533,7 +533,7 @@ public enum PurchasingDocumentFixture {
             false, // purchaseOrderAutomaticIndicator
             null, // vendorPaymentTermsCode
             null, // vendorShippingTitleCode
-            null), // vendorShippingPaymentTermsCode     
+            null), // vendorShippingPaymentTermsCode
 
     REQ_VALID_VENDOR_FAX_NUMBER("INST", // fundingSourceCode
             RequisitionSources.STANDARD_ORDER, // requisitionSourceCode
@@ -589,8 +589,8 @@ public enum PurchasingDocumentFixture {
             false, // purchaseOrderAutomaticIndicator
             null, // vendorPaymentTermsCode
             null, // vendorShippingTitleCode
-            null), // vendorShippingPaymentTermsCode     
-                    
+            null), // vendorShippingPaymentTermsCode
+
     REQ_PO_BEGIN_DATE_AFTER_END_DATE("INST", // fundingSourceCode
             RequisitionSources.STANDARD_ORDER, // requisitionSourceCode
             POTransmissionMethods.NOPRINT, // purchaseOrderTransmissionMethodCode
@@ -645,7 +645,7 @@ public enum PurchasingDocumentFixture {
             false, // purchaseOrderAutomaticIndicator
             null, // vendorPaymentTermsCode
             null, // vendorShippingTitleCode
-            null), // vendorShippingPaymentTermsCode     
+            null), // vendorShippingPaymentTermsCode
 
     REQ_PO_BEGIN_DATE_NO_END_DATE("INST", // fundingSourceCode
             RequisitionSources.STANDARD_ORDER, // requisitionSourceCode
@@ -701,8 +701,8 @@ public enum PurchasingDocumentFixture {
             false, // purchaseOrderAutomaticIndicator
             null, // vendorPaymentTermsCode
             null, // vendorShippingTitleCode
-            null), // vendorShippingPaymentTermsCode     
-                    
+            null), // vendorShippingPaymentTermsCode
+
     REQ_PO_END_DATE_NO_BEGIN_DATE("INST", // fundingSourceCode
             RequisitionSources.STANDARD_ORDER, // requisitionSourceCode
             POTransmissionMethods.NOPRINT, // purchaseOrderTransmissionMethodCode
@@ -757,7 +757,7 @@ public enum PurchasingDocumentFixture {
             false, // purchaseOrderAutomaticIndicator
             null, // vendorPaymentTermsCode
             null, // vendorShippingTitleCode
-            null), // vendorShippingPaymentTermsCode     
+            null), // vendorShippingPaymentTermsCode
 
     REQ_WITH_BEGIN_AND_END_DATE_WITHOUT_RECURRING_PAYMENT_TYPE("INST", // fundingSourceCode
             RequisitionSources.STANDARD_ORDER, // requisitionSourceCode
@@ -813,8 +813,8 @@ public enum PurchasingDocumentFixture {
             false, // purchaseOrderAutomaticIndicator
             null, // vendorPaymentTermsCode
             null, // vendorShippingTitleCode
-            null), // vendorShippingPaymentTermsCode            
-            
+            null), // vendorShippingPaymentTermsCode
+
     REQ_WITH_RECURRING_PAYMENT_TYPE_BEGIN_AND_END_DATE("INST", // fundingSourceCode
             RequisitionSources.STANDARD_ORDER, // requisitionSourceCode
             POTransmissionMethods.NOPRINT, // purchaseOrderTransmissionMethodCode
@@ -870,7 +870,7 @@ public enum PurchasingDocumentFixture {
             null, // vendorPaymentTermsCode
             null, // vendorShippingTitleCode
             null), // vendorShippingPaymentTermsCode
-                    
+
     // PURCHASE ORDER FIXTURES
     PO_ONLY_REQUIRED_FIELDS("INST", RequisitionSources.STANDARD_ORDER, POTransmissionMethods.NOPRINT, POCostSources.ESTIMATE, null, null, "UA", "PUR", "BL", null, null, null, null, null, null, "RENFROW,ROBERTA G", "test@email.com", "555-555-5555", null, null, null, null, "ADMN", "Administration", "123", "1 big dog", null, "campus", "AK", "46202-5260", "US", "me", null, null, null, null, null, null, null, null, null, "THE UNIVERSITY", "ACCOUNTS PAYABLE", null, "BUTTER NUT", "SC", "47402", "US", "111-111-1111", null, 10, false, null, null, null),
     PO_ONLY_REQUIRED_FIELDS_2("INST", RequisitionSources.STANDARD_ORDER, POTransmissionMethods.NOPRINT, POCostSources.ESTIMATE, null, null, "UA", "PUR", "BL", null, null, null, null, null, null, "RENFROW,ROBERTA G", "test@email.com", "555-555-5555", null, null, null, null, "ADMN", "Administration", "123", "1 big dog", null, "campus", "AK", "46202-5260", "US", "me", null, null, null, null, null, null, null, null, null, "THE UNIVERSITY", "ACCOUNTS PAYABLE", null, "BUTTER NUT", "SC", "47402", "US", "111-111-1111", null, 10, false, "00N10", null, "CL"),
@@ -931,7 +931,7 @@ public enum PurchasingDocumentFixture {
             null, // vendorPaymentTermsCode
             null, // vendorShippingTitleCode
             null); // vendorShippingPaymentTermsCode
-                    
+
     public final String fundingSourceCode;
     public final String requisitionSourceCode;
     public final String purchaseOrderTransmissionMethodCode;

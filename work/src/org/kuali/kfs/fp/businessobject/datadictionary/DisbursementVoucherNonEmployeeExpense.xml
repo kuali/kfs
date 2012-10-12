@@ -13,6 +13,7 @@
         <ref bean="DisbursementVoucherNonEmployeeExpense-disbVchrPrePaidExpenseCompanyName"/>
         <ref bean="DisbursementVoucherNonEmployeeExpense-disbVchrExpenseAmount"/>
         <ref bean="DisbursementVoucherNonEmployeeExpense-documentNumber"/>
+        <ref bean="DisbursementVoucherNonEmployeeExpense-financialDocumentLineNumber"/>
       </list>
     </property>
   </bean>
@@ -86,4 +87,13 @@
     <property name="name" value="documentNumber"/>
     <property name="forceUppercase" value="true"/>
   </bean>
+  <!-- KFSMI-9523: financialDocumentLineNumber bean was missing from dd -->
+  <bean id="DisbursementVoucherNonEmployeeExpense-financialDocumentLineNumber" parent="DisbursementVoucherNonEmployeeExpense-financialDocumentLineNumber-parentBean"/>
+
+  <bean id="DisbursementVoucherNonEmployeeExpense-financialDocumentLineNumber-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="financialDocumentLineNumber"/>
+    <property name="required" value="true"/>
+    <property name="forceUppercase" value="true"/>
+  </bean>
+  
 </beans>

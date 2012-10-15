@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document;
 
-import java.util.Calendar;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
@@ -31,7 +29,6 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 public class CardApplicationDocumentBase extends TransactionalDocumentBase implements CardApplicationDocument {

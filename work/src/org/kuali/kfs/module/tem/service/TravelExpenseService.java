@@ -21,6 +21,7 @@ import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
+import org.kuali.kfs.module.tem.businessobject.OtherExpense;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -97,5 +98,13 @@ public interface TravelExpenseService {
     public TemTravelExpenseTypeCode getExpenseType(Long travelExpenseTypeCodeId);
 
     public Long getExpenseTypeId(String travelExpenseCode, String documentNumber);
+    
+    /**
+     * Check the expense amount against the travel expense threshold value (if provided) 
+     * 
+     * @param expense
+     * @return
+     */
+    public boolean isTravelExpenseExceedReceiptRequirementThreshold(OtherExpense expense);
 
 }

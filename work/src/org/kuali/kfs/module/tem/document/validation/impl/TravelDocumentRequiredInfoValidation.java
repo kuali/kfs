@@ -20,10 +20,12 @@ import java.util.List;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
-import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.service.TravelExpenseService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.bo.Note;
@@ -60,7 +62,8 @@ public class TravelDocumentRequiredInfoValidation extends GenericValidation{
         
         for(ActualExpense actualExpense: document.getActualExpenses()){
             TemTravelExpenseTypeCode expenseTypeCode = actualExpense.getTravelExpenseTypeCode();
-            if(expenseTypeCode!=null && expenseTypeCode.getReceiptRequired() != null && expenseTypeCode.getReceiptRequired()){
+            if(expenseTypeCode!=null && expenseTypeCode.getReceiptRequired() != null && expenseTypeCode.getReceiptRequired()
+                    && getTravelExpenseService().isTravelExpenseExceedReceiptRequirementThreshold(actualExpense)){
                 return true;
             }
         }
@@ -86,7 +89,7 @@ public class TravelDocumentRequiredInfoValidation extends GenericValidation{
     private boolean isMissingReceiptSelected(TravelDocument document){
         for(ActualExpense actualExpense: document.getActualExpenses()){
             TemTravelExpenseTypeCode expenseTypeCode = actualExpense.getTravelExpenseTypeCode();
-            if(expenseTypeCode.getReceiptRequired() != null && expenseTypeCode.getReceiptRequired() && actualExpense.getMissingReceipt() != null && actualExpense.getMissingReceipt()){
+            if(expenseTypeCode.getReceiptRequired() != null && expenseTypeCode.getReceiptRequired() && getTravelExpenseService().isTravelExpenseExceedReceiptRequirementThreshold(actualExpense) && actualExpense.getMissingReceipt() != null && actualExpense.getMissingReceipt()){
                 return true;
             }
         }
@@ -119,4 +122,13 @@ public class TravelDocumentRequiredInfoValidation extends GenericValidation{
         
         return true;
     }
+    
+    /**
+     * 
+     * @return
+     */
+    private TravelExpenseService getTravelExpenseService(){
+        return SpringContext.getBean(TravelExpenseService.class);
+    }
+    
 }

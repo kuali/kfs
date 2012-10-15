@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.NumberUtils;
 import org.kuali.kfs.fp.businessobject.TravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.ReconciledCodes;
@@ -32,6 +33,7 @@ import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
+import org.kuali.kfs.module.tem.businessobject.OtherExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -324,5 +326,26 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
     
     private DocumentService getDocumentService() {
         return SpringContext.getBean(DocumentService.class);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.service.TravelExpenseService#isTravelExpenseExceedReceiptRequirementThreshold(org.kuali.kfs.module.tem.businessobject.OtherExpense)
+     */
+    @Override
+    public boolean isTravelExpenseExceedReceiptRequirementThreshold(OtherExpense expense) {
+        boolean isExceed = false;
+        
+        final TemTravelExpenseTypeCode expenseTypeCode = expense.getTravelExpenseTypeCode();
+        
+        if (expenseTypeCode.getReceiptRequired() != null && expenseTypeCode.getReceiptRequired()) {
+          //check for the threshold amount
+            if (expenseTypeCode.getReceiptRequirementThreshold() != null){
+                KualiDecimal threshold = new KualiDecimal(expenseTypeCode.getReceiptRequirementThreshold());
+                isExceed = threshold.isLessThan(expense.getExpenseAmount());
+            }else{
+                isExceed = true;
+            }
+        }
+        return isExceed;
     }
 }

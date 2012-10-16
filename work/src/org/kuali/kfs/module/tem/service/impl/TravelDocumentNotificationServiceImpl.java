@@ -105,7 +105,8 @@ public class TravelDocumentNotificationServiceImpl implements TravelDocumentNoti
     }
 
     private NotificationPreference getEmailNotificationPreference(NotificationPreference preference, String newRouteStatus, boolean notifyOnFinal, boolean notifyOnStatusChange) {       
-        if (notifyOnFinal && KEWConstants.ROUTE_HEADER_FINAL_CD.equals(newRouteStatus)) {
+        if (notifyOnFinal && (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(newRouteStatus) || 
+                KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newRouteStatus))) {
             preference = NotificationPreference.TA_ON_FINAL;
         }
         else if (notifyOnStatusChange && !this.getNoNotificationRouteStatusList().contains(newRouteStatus)) {

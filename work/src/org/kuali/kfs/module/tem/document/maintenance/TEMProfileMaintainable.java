@@ -325,7 +325,7 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
             }
             
             // If citizenship changed, route to tax manager
-            if (StringUtils.equalsIgnoreCase(newTemProfile.getCitizenship(), oldTemProfile.getCitizenship())) {
+            if (!StringUtils.equalsIgnoreCase(newTemProfile.getCitizenship(), oldTemProfile.getCitizenship())) {
                 return true;
             }
         }

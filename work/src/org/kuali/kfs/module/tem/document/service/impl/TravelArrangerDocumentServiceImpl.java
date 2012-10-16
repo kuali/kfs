@@ -21,10 +21,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
 import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
+import org.kuali.rice.kim.util.KIMPropertyConstants;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 @SuppressWarnings("rawtypes")
@@ -149,8 +152,11 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
     @Override
     public TEMProfileArranger findTemProfileArranger(String principalId, Integer profileId) {
         Map fieldValues = new HashMap();
-        fieldValues.put("principalId", principalId);
-        fieldValues.put("profileId", profileId);
+        fieldValues.put(TEMProfileProperties.PRINCIPAL_ID, principalId);
+        fieldValues.put(TEMProfileProperties.PROFILE_ID, profileId);
+        
+        //find active profile arrangers only
+        fieldValues.put(KNSPropertyConstants.ACTIVE, "Y");
         
         List<TEMProfileArranger> profileArrangers = new ArrayList<TEMProfileArranger>( getBoService().findMatching(TEMProfileArranger.class, fieldValues));
         if(profileArrangers.size() == 1) {

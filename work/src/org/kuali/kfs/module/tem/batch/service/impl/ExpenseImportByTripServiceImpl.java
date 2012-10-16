@@ -345,10 +345,14 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         if (ObjectUtils.isNull(agencyDataList) || agencyDataList.size() == 0) {
             return false;
         }
-        LOG.error("Found a duplicate entry for agencyData with tripId: "+ agencyData.getTripId() + " matching agency id: " + agencyDataList.get(0).getId());
-        //grab the id of the record that this is a dupe of (just the first one if multiple
-        Integer dupeId = agencyDataList.get(0).getId();
-        agencyData.setDuplicateRecordId(dupeId);
+        Integer duplicateId = agencyDataList.get(0).getId();
+        //found itself - its not a duplicate record
+        if (duplicateId.intValue() == agencyData.getId().intValue()){
+            return false;
+        }
+        //it is an duplicate
+        LOG.error("Found a duplicate entry for agencyData with tripId: "+ agencyData.getTripId() + " matching agency id: " + duplicateId);
+        agencyData.setDuplicateRecordId(duplicateId);
         ErrorMessage error = new ErrorMessage(TemKeyConstants.MESSAGE_AGENCY_DATA_TRIP_DUPLICATE_RECORD, 
                 agencyData.getTripId(), agencyData.getAgency(),agencyData.getTransactionPostingDate().toString(), agencyData.getTripExpenseAmount().toString());
         

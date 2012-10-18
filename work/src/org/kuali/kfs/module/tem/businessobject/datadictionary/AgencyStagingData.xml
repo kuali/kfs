@@ -799,6 +799,9 @@
 		<property name="shortLabel" value="Processing Timestamp" />
 		<property name="summary" value="Processing Timestamp" />
 		<property name="description" value="Processing Timestamp" />
+        <property name="control">
+            <bean parent="DateControl" p:ranged="false"/>
+        </property>
 	</bean>
 	<bean id="AgencyStagingData-moveToHistoryIndicator" parent="AgencyStagingData-moveToHistoryIndicator-parentBean" />
 	<bean id="AgencyStagingData-moveToHistoryIndicator-parentBean" parent="GenericAttributes-genericBoolean">

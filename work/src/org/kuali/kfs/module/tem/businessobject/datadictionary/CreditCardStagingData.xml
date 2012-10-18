@@ -158,6 +158,9 @@
 		<property name="shortLabel" value="Processing Timestamp" />
 		<property name="summary" value="Processing Timestamp" />
 		<property name="description" value="Processing Timestamp" />
+        <property name="control">
+            <bean parent="DateControl" p:ranged="false"/>
+        </property>
 	</bean>	
 	<bean id="CreditCardStagingData-departureDate" parent="CreditCardStagingData-departureDate-parentBean" />
 	<bean id="CreditCardStagingData-departureDate-parentBean" parent="GenericAttributes-genericDate">

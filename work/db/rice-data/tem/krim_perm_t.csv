@@ -54,3 +54,4 @@ TEM-10056,KFS-TEM-PERM-056,1,TEM-10007,KFS-TEM,Full Edit Agency Data,Allows full
 TEM-10057,KFS-TEM-PERM-057,1,44,KFS-TEM,Modify Maintenance Document Section,Authorizes users to see and edit the airline section on Agency Audit Maintenance Document.,Y
 TEM-10058,KFS-TEM-PERM-058,1,44,KFS-TEM,Modify Maintenance Document Section,Authorizes users to see and edit the lodging section on Agency Audit Maintenance Document.,Y
 TEM-10059,KFS-TEM-PERM-059,1,44,KFS-TEM,Modify Maintenance Document Section,Authorizes users to see and edit the car rental section on Agency Audit Maintenance Document.,Y
+TEM-10060,KFS-TEM-PERM-060,1,23,KFS-TEM,Look Up Records,Authorizes specific roles to view the TEM Profile Accounts lookup.,Y

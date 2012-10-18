@@ -49,7 +49,7 @@ public class CreditCardAgencyServiceImpl implements CreditCardAgencyService {
     public List<String> getCorpCreditCardAgencyCodeList() {
         List<String> resultList = new ArrayList<String>();
         for (CreditCardAgency agency : getCorpCreditCardAgencyList()){
-            resultList.add(agency.getCreditCardOrAgencyCode());
+            resultList.add(agency.getTravelCardTypeCode());
         }
         return resultList;
     }

@@ -51,12 +51,7 @@ public class ExpenseUtils {
             historicalTravelExpense.setDocumentNumber(travelDocument.getDocumentNumber());            
            
             ImportedExpense importedExpense = new ImportedExpense();
-            if (historicalTravelExpense.isAgencyTravelExpense()){
-                importedExpense.setCardType(TemConstants.TRAVEL_TYPE_CTS);
-            }
-            else{
-                importedExpense.setCardType(historicalTravelExpense.getCreditCardAgency().getCreditCardOrAgencyCode());
-            }
+            importedExpense.setCardType(historicalTravelExpense.getCreditCardAgency().getTravelCardTypeCode());
             
             importedExpense.setNonReimbursable(!historicalTravelExpense.getReimbursable());
             importedExpense.setMissingReceipt(historicalTravelExpense.getMissingReceipt());

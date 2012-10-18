@@ -169,7 +169,7 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
             if (!(document instanceof TravelRelocationDocument)){
                 for (HistoricalTravelExpense expense : document.getHistoricalTravelExpenses()){
                     if (expense.getCreditCardStagingData() != null){
-                        if (expense.getCreditCardStagingData().getCreditCardOrAgencyCode().equals(cardAgencyType)){
+                        if (expense.getCreditCardStagingData().getCreditCardAgency().getTravelCardTypeCode().equals(cardAgencyType)){
                             expense.getCreditCardStagingData().setDisbursementVoucherDocumentNumber(docNumber);
                             getBusinessObjectService().save(expense.getCreditCardStagingData());
                         }

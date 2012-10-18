@@ -201,7 +201,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
         String vendorNumber = "";
         for (HistoricalTravelExpense historicalTravelExpense : document.getHistoricalTravelExpenses()){
             if (historicalTravelExpense.isCreditCardTravelExpense()){
-                if (historicalTravelExpense.getCreditCardAgency().getCreditCardOrAgencyCode().equals(cardAgencyType)){
+                if (historicalTravelExpense.getCreditCardAgency().getTravelCardTypeCode().equals(cardAgencyType)){
                     vendorNumber = historicalTravelExpense.getCreditCardAgency().getVendorNumber();
                     break;
                 }

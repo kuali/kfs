@@ -565,20 +565,28 @@ Please place the jar file for this class in the lib directory and try again.
 
 	<target name="mysql-create-user" depends="inittasks">
 		<adminsql sql="CREATE USER '${import.torque.database.user}'@'%' IDENTIFIED BY '${import.torque.database.password}'" onerror="continue" />
+		<adminsql sql="CREATE USER '${import.torque.database.user}'@'localhost' IDENTIFIED BY '${import.torque.database.password}'" onerror="continue" />
 	</target>
 
 	<target name="mysql-create-app-user" depends="inittasks">
 		<adminsql sql="CREATE USER '${import.torque.database.user}_user'@'%' IDENTIFIED BY '${import.torque.database.password}_user'" onerror="continue" />
 		<adminsql sql="GRANT ALL ON ${import.torque.database.schema}.* TO '${import.torque.database.user}_user'@'%' WITH GRANT OPTION" onerror="continue" />
+		<adminsql sql="GRANT ALL ON ${import.torque.database.schema}.* TO '${import.torque.database.user}_user'@'localhost' WITH GRANT OPTION" onerror="continue" />
 	</target>
 
 	<target name="mysql-create-schema" depends="inittasks">
 		<adminsql sql="CREATE DATABASE IF NOT EXISTS ${import.torque.database.schema} DEFAULT CHARACTER SET 'utf8' DEFAULT COLLATE 'utf8_bin'" onerror="continue" />
 		<adminsql sql="GRANT ALL ON ${import.torque.database.schema}.* TO '${import.torque.database.user}'@'%' WITH GRANT OPTION" onerror="continue" />
+		<adminsql sql="GRANT ALL ON ${import.torque.database.schema}.* TO '${import.torque.database.user}'@'localhost' WITH GRANT OPTION" onerror="continue" />
 	</target>
 
 	<target name="mysql-drop-schema" depends="inittasks">
 		<adminsql sql="DROP DATABASE IF EXISTS ${import.torque.database.schema}" />
+	</target>
+
+	<target name="mysql-drop-user" depends="inittasks">
+		<adminsql sql="DROP USER ${import.torque.database.user}@'%'" />
+		<adminsql sql="DROP USER ${import.torque.database.user}@'localhost'" />
 	</target>
 
 	<target name="mysql-drop-app-user" depends="inittasks">
@@ -1066,7 +1074,8 @@ END;
 	<target name="import-workflow" depends="inittasks" if="post.import.workflow.project">
 		<!-- generate an absolute path to this directory -->
 		<property name="temp.workflow.dir" location="${post.import.workflow.xml.directory}"/>		
-		
+
+		<echo message="post.import.workflow.ingester.launcher.ant.script: ${post.import.workflow.ingester.launcher.ant.script}" />
 		<java classname="org.apache.tools.ant.Main"
 		      fork="true"
 		      failonerror="true">		    

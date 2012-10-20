@@ -133,7 +133,7 @@ public class EntryLookupableHelperServiceImpl extends AbstractGeneralLedgerLooku
      * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
-    public List getSearchResults(Map fieldValues) {
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 

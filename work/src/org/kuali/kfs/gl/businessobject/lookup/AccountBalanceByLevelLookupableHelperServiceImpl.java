@@ -62,7 +62,8 @@ public class AccountBalanceByLevelLookupableHelperServiceImpl extends AbstractLo
      * @param fieldValues - Map containing prop name keys and search values
      * @return List found business objects
      */
-    public List getSearchResults(Map fieldValues) {
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         LOG.debug("getSearchResults() started");
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));

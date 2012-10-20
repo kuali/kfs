@@ -134,7 +134,8 @@ public class PendingEntryLookupableHelperServiceImpl extends AbstractGeneralLedg
      * @return List the search results returned by the lookup
      * @see org.kuali.rice.kns.lookup.Lookupable#getSearchResults(java.util.Map)
      */
-    public List getSearchResults(Map fieldValues) {
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 

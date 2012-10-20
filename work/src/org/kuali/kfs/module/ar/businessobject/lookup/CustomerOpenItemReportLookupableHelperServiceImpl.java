@@ -55,7 +55,7 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
      * @return a List of found business objects
      */
     @Override
-    public List getSearchResults(Map fieldValues) {
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List results;
         LOG.debug("\n\n\n\n ***********************    getSearchResults() started\n");
 

@@ -94,7 +94,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
      * No uses data dictionary.
      */
     @Override
-    public List getSearchResults(Map fieldValues) {
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         LOG.info("getSearchResults() - Entry");
 
         boolean unbounded = false;

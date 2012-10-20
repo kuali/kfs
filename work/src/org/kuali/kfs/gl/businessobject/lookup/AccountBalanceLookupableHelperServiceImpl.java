@@ -71,7 +71,8 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGeneralLe
      * KRAD Conversion: Lookupable modifies the search results based on the fields consolidated.
      * But all field definitions are in data dictionary.
      */
-    public List getSearchResults(Map fieldValues) {
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 

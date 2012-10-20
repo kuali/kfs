@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -49,7 +50,7 @@ public class LedgerBalanceForSalaryExpenseTransferLookupableHelperServiceImpl ex
      * @see org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceForExpenseTransferLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
-    public List getSearchResults(Map fieldValues) {
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         LOG.debug("Start getSearchResults()");
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));

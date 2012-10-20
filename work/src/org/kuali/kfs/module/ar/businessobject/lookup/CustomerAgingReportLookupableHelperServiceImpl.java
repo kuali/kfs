@@ -115,7 +115,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
      * Fields are in data dictionary for bo CustomerAgingReportDetail.
      */
     @Override
-    public List getSearchResults(Map fieldValues) {
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         CustomerAgingReportDao agingReportDao = SpringContext.getBean(CustomerAgingReportDao.class);
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));

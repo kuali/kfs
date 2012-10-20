@@ -30,6 +30,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 
@@ -65,7 +66,8 @@ public class AccountBalanceByObjectLookupableImpl extends KualiLookupableImpl {
      * @param fieldValues - Map containing prop name keys and search values
      * @return List found business objects
      */
-    public List getSearchResults(Map fieldValues) {
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         LOG.debug("getSearchResults() started");
 
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));

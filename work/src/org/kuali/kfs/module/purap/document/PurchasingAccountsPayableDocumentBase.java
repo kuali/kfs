@@ -1267,6 +1267,28 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
+     * Helper method to find the matching accountingLines in the list of sourceAccountingLines and sum up the
+     * lines amounts.
+     *
+     * @param accountingLine
+     * @return accountTotalGLEntryAmount
+     */
+    protected KualiDecimal getAccountTotalGLEntryAmount(AccountingLine matchingAccountingLine) {
+        KualiDecimal accountTotalGLEntryAmount = KualiDecimal.ZERO;
+
+        for (Object itemAsObject : this.getItems()) {
+            final PurApItem item = (PurApItem)itemAsObject;
+            for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
+                //KFSMI-9053: check if the accounting line is a duplicate then add the total
+                if (accountingLine.accountStringsAreEqual((SourceAccountingLine)matchingAccountingLine)) {
+                    accountTotalGLEntryAmount = accountTotalGLEntryAmount.add(accountingLine.getAmount());
+                }
+            }
+        }
+
+        return accountTotalGLEntryAmount;
+    }
+    /**
      * Checks whether the related purchase order views need a warning to be displayed,
      * i.e. if at least one of the purchase orders has never been opened.
      * @return true if at least one related purchase order needs a warning; false otherwise

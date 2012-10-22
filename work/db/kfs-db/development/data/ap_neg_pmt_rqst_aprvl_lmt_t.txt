@@ -1,0 +1,4 @@
+ap_neg_pmt_rqst_aprvl_lmt_id|obj_id|ver_nbr|fin_coa_cd|org_cd|acct_nbr|neg_pmt_rqst_aprvl_lmt_amt|actv_ind|
+1001.0|CC6E3F43485D8716E040540A891E6701|1.0|BL|||4000.0|Y|
+1002.0|CC6E3F43485E8716E040540A891E6701|1.0|BL|PSY||3000.0|Y|
+1003.0|CC6E3F43485F8716E040540A891E6701|1.0|BL||1031420|2000.0|Y|

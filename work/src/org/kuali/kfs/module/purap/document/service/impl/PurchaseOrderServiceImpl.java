@@ -276,12 +276,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     //the doc status needs to be "Pending To Print"..
                     checkForPrintTransmission(po);
                     po.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
-                    
+
                     documentService.routeDocument(po, null, null);
-                    
+
                     final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
                     documentAttributeIndexingQueue.indexDocument(po.getDocumentNumber());
-                    
+
                     return null;
                 }
             };
@@ -732,7 +732,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     @Override
     public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, PurchaseOrderDocument currentDocument, boolean copyNotes, String splitNoteText) {
-        
+
     	if (ObjectUtils.isNull(currentDocument)) {
             String errorMsg = "Attempting to create new PO of type PurchaseOrderSplitDocument from source PO doc that is null";
             LOG.error(errorMsg);
@@ -1237,14 +1237,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     protected void updateNotes(PurchaseOrderDocument po, PurchaseOrderDocument documentBusinessObject) {
         if (ObjectUtils.isNotNull(documentBusinessObject)) {
-            if (ObjectUtils.isNotNull(po.getObjectId())) {
+            if (ObjectUtils.isNotNull(po) && ObjectUtils.isNotNull(po.getObjectId())) {
                 List<Note> dbNotes = noteService.getByRemoteObjectId(po.getObjectId());
                 // need to set fields that are not ojb managed (i.e. the notes on the documentBusinessObject may have been modified
                 // independently of the ones in the db)
                 fixDbNoteFields(documentBusinessObject, dbNotes);
                 po.setNotes(dbNotes);
             }
-            else {
+            else  if (ObjectUtils.isNotNull(po)){
                 po.setNotes(documentBusinessObject.getNotes());
             }
         }
@@ -1280,9 +1280,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public List<Note> getPurchaseOrderNotes(Integer id) {
         List<Note> notes = new ArrayList<Note>();
         PurchaseOrderDocument po = getPurchaseOrderByDocumentNumber(purchaseOrderDao.getOldestPurchaseOrderDocumentNumber(id));
-       
+
         if (ObjectUtils.isNotNull(po)) {
-            
+
             notes = noteService.getByRemoteObjectId(po.getDocumentHeader().getObjectId());
         }
         return notes;
@@ -1618,7 +1618,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 //    for(PurApAccountingLine account : poItem.getSourceAccountingLines()){
                         //check for dupes of fiscal officer
                     Account acct = SpringContext.getBean(AccountService.class).getByPrimaryId(account.getChartOfAccountsCode(), account.getAccountNumber());
-                    String principalName  = acct.getAccountFiscalOfficerUser().getPrincipalName();   
+                    String principalName  = acct.getAccountFiscalOfficerUser().getPrincipalName();
                     //String principalName = account.getAccount().getAccountFiscalOfficerUser().getPrincipalName();
                         if( fiscalOfficers.containsKey(principalName) == false ){
                             //add fiscal officer to list

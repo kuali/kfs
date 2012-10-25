@@ -336,17 +336,16 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
                         // set comparator and formatter based on property type
                         Class propClass = propertyTypes.get(col.getPropertyName());
-                        // if ( propClass == null ) {
-                        // try {
-                        // propClass = ObjectUtils.getPropertyType( element, col.getPropertyName(), getPersistenceStructureService()
-                        // );
-                        // propertyTypes.put( col.getPropertyName(), propClass );
-                        // } catch (Exception e) {
-                        // throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "'
-                        // " +
-                        // " on an instance of '" + element.getClass().getName() + "'.", e);
-                        // }
-                        // }
+                        if (propClass == null) {
+                            try {
+                                propClass = ObjectUtils.getPropertyType(element, col.getPropertyName(),    getPersistenceStructureService());
+                                if (propClass != null)
+                                    propertyTypes.put(col.getPropertyName(), propClass);
+                            } catch (Exception e) {
+                                propClass = null;
+                                LOG.warn("Failed to find property type class for "+col.getPropertyName());
+                            }
+                        }
 
                         // formatters
                         if (prop != null) {

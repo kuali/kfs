@@ -106,12 +106,15 @@ public class CustomerAgingReportAction extends KualiAction {
 
             request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
            
-            if (request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY) != null) {
-                GlobalVariables.getUserSession().removeObject(request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY));
+            String resultsKey = request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY);
+            if (resultsKey != null) {
+                GlobalVariables.getUserSession().removeObject(resultsKey);
+                GlobalVariables.getUserSession().removeObject(resultsKey+".form");
             }
 
-            request.setAttribute(KFSConstants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(resultTable));
-
+            resultsKey = GlobalVariables.getUserSession().addObjectWithGeneratedKey(resultTable);
+            GlobalVariables.getUserSession().addObject(resultsKey+".form", form);
+            request.setAttribute(KFSConstants.SEARCH_LIST_REQUEST_KEY, resultsKey);
         }
         catch (NumberFormatException e) {
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSKeyConstants.ERROR_CUSTOM, new String[] { "Fiscal Year must be a four-digit number" });
@@ -251,12 +254,20 @@ public class CustomerAgingReportAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward viewResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request.setAttribute(KFSConstants.SEARCH_LIST_REQUEST_KEY, request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY));
-        request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, GlobalVariables.getUserSession().retrieveObject(request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY)));
+        CustomerAgingReportForm customerAgeForm = (CustomerAgingReportForm) form;
+        String resultKey = request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY);
+        request.setAttribute(KFSConstants.SEARCH_LIST_REQUEST_KEY, resultKey);
+        request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, GlobalVariables.getUserSession().retrieveObject(resultKey));
+        CustomerAgingReportForm prevForm = (CustomerAgingReportForm) GlobalVariables.getUserSession().retrieveObject(resultKey+".form");
+        customerAgeForm.setTotal0to30(prevForm.getTotal0to30());
+        customerAgeForm.setTotal31to60(prevForm.getTotal31to60());
+        customerAgeForm.setTotal61to90(prevForm.getTotal61to90());
+        customerAgeForm.setTotal91toSYSPR(prevForm.getTotal91toSYSPR());
+        customerAgeForm.setTotalSYSPRplus1orMore(prevForm.getTotalSYSPRplus1orMore());
         request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, request.getParameter(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE));
 
         // TODO: use inheritance instead of this if statement
-        if (((CustomerAgingReportForm) form).getLookupable().getLookupableHelperService() instanceof CustomerAgingReportLookupableHelperServiceImpl) {
+        if (customerAgeForm.getLookupable().getLookupableHelperService() instanceof CustomerAgingReportLookupableHelperServiceImpl) {
             Object totalsTable = GlobalVariables.getUserSession().retrieveObject(TOTALS_TABLE_KEY);
             request.setAttribute(TOTALS_TABLE_KEY, totalsTable);
         }

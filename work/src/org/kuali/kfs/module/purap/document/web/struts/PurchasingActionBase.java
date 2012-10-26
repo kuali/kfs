@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -140,7 +140,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 GlobalVariables.getMessageMap().removeFromErrorPath(PurapConstants.ADDITIONAL_TAB_ERRORS);
             }
         }
-        
+
         // Refreshing the fields after returning from a vendor lookup in the vendor tab
         if (StringUtils.equals(refreshCaller, VendorConstants.VENDOR_LOOKUPABLE_IMPL) && document.getVendorDetailAssignedIdentifier() != null && document.getVendorHeaderGeneratedIdentifier() != null) {
             document.setVendorContractGeneratedIdentifier(null);
@@ -204,7 +204,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 BillingAddress billingAddress = new BillingAddress();
                 billingAddress.setBillingCampusCode(document.getDeliveryCampusCode());
                 Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(billingAddress);
-                billingAddress = (BillingAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
+                billingAddress = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
                 document.templateBillingAddress(billingAddress);
 
                 if (request.getParameter("document.deliveryBuildingName") == null) {
@@ -247,7 +247,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     locationBuilding.setCampusCode(campusCode);
                     locationBuilding.setBuildingCode(buildingCode);
                     Map<String, String> keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(locationBuilding);
-                    locationBuilding = (Building) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Building.class, keys);
+                    locationBuilding = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Building.class, keys);
 
                     Map<String, String> parameters = request.getParameterMap();
                     Set<String> parameterKeys = parameters.keySet();
@@ -315,7 +315,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     /**
      * Setup document to use "OTHER" building
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request A HttpServletRequest
@@ -397,7 +397,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     /**
      * Add a new item to the document.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -421,7 +421,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     /**
      * Import items to the document from a spreadsheet.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -472,12 +472,12 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     /**
      * Whenever add a new item, we need to keep track of the reference from Item to Doc and from Account to Item
-     * 
+     *
      * @param importedItems
      */
     protected void updateBOReferenceforNewItems(List<PurApItem> importedItems, PurchasingDocumentBase purDocument) {
         // update reference from Item to Document and from Account to Item.
-        for (PurApItem item : (List<PurApItem>) importedItems) {
+        for (PurApItem item : importedItems) {
             item.setPurapDocument(purDocument);
             // set the PurapDocumentIdentifier so in the future, item acquire the object again by calling refreshReferenceObject for
             // purApDocument.
@@ -495,7 +495,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     /**
      * Delete an item from the document.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -514,7 +514,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     /**
      * Moves the selected item up one position.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -534,7 +534,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     /**
      * Moves the selected item down one position (These two methods up/down could easily be consolidated. For now, it seems more
      * straightforward to keep them separate.)
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -553,7 +553,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     /**
      * Reveals the account distribution section.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -571,7 +571,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     /**
      * Clear out the accounting lines from all the items.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -603,7 +603,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     /**
      * Clear out the commodity codes from all the items.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -637,7 +637,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     /**
      * Validates that the accounting lines while a distribute accounts action is being taken.
-     * 
+     *
      * @param document
      * @param distributionsourceAccountingLines
      * @return
@@ -662,7 +662,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      * inactive. Distribute commodity code to the item(s). Does not distribute the commodity code to an item if the item is not
      * above the line item, is inactive or if the commodity code fails the validation (i.e. inactive commodity code or non existence
      * commodity code).
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -686,7 +686,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         }
         if (needToDistributeAccount || needToDistributeCommodityCode) {
             PurchasingAccountsPayableDocumentBase purApDocument = (PurchasingAccountsPayableDocumentBase)purchasingForm.getDocument();
-            
+
             boolean institutionNeedsDistributeAccountValidation = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.VALIDATE_ACCOUNT_DISTRIBUTION_IND);
             boolean foundAccountDistributionError = false;
             boolean foundCommodityCodeDistributionError = false;
@@ -702,7 +702,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     foundAccountDistributionError = true;
                 }
             }
-            
+
             // if the institution's validate account distribution indicator is true and
             // there is a validation error in the accounts to distribute then we should display an error
             if (institutionNeedsDistributeAccountValidation && needToDistributeAccount && (validateDistributeAccounts(purchasingForm.getDocument(), distributionsourceAccountingLines) == false)) {
@@ -782,7 +782,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     /**
      * Simply hides the account distribution section.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -834,7 +834,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             purchasingForm.getAccountDistributionsourceAccountingLines().remove(accountIndex);
         }
         else {
-            PurApItem item = (PurApItem) ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItem((itemIndex));
+            PurApItem item = ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItem((itemIndex));
             item.getSourceAccountingLines().remove(accountIndex);
         }
 
@@ -843,11 +843,12 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     /**
      * Sets the line for account distribution.
-     * 
+     *
      * @param accountIndex The index of the account into the request parameter
      * @param purchasingAccountsPayableForm A form which inherits from PurchasingAccountsPayableFormBase
      * @return A SourceAccountingLine
      */
+    @Override
     protected SourceAccountingLine customAccountRetrieval(int accountIndex, PurchasingAccountsPayableFormBase purchasingAccountsPayableForm) {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) purchasingAccountsPayableForm;
         SourceAccountingLine line;
@@ -857,7 +858,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     /**
      * This method...
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1089,7 +1090,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     }
     /**
      * Sets the error map to a new, empty error map before calling saveDocumentNoValidation to save the document.
-     * 
+     *
      * @param document The purchase order document to be saved.
      */
     protected void saveDocumentNoValidationUsingClearErrorMap(PurchasingDocument document) {
@@ -1127,7 +1128,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 CapitalAssetSystemType oldSystemType = new CapitalAssetSystemType();
                 oldSystemType.setCapitalAssetSystemTypeCode(oldSystemTypeCode);
                 Map<String, String> keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(oldSystemType);
-                oldSystemType = (CapitalAssetSystemType) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CapitalAssetSystemType.class, keys);
+                oldSystemType = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CapitalAssetSystemType.class, keys);
                 String description = ((oldSystemType == null) ? "(NONE)" : oldSystemType.getCapitalAssetSystemTypeDescription());
 
                 if (document instanceof PurchaseOrderAmendmentDocument) {
@@ -1144,11 +1145,13 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     }
                 }
             }
-            if (form instanceof RequisitionForm) ((RequisitionForm) form).resetNewPurchasingCapitalAssetLocationLine();
+            if (form instanceof RequisitionForm) {
+                ((RequisitionForm) form).resetNewPurchasingCapitalAssetLocationLine();
+            }
             document.clearCapitalAssetFields();
             //saveDocumentNoValidationUsingClearErrorMap(document);
 
-            
+
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
             KNSGlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASING_MESSAGE_SYSTEM_CHANGED);
         }
@@ -1156,7 +1159,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
- 
+
     public ActionForward updateCamsView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
         PurchasingDocument document = (PurchasingDocument) purchasingForm.getDocument();
@@ -1268,20 +1271,20 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         boolean defaultUseTaxIndicatorValue = SpringContext.getBean(PurchasingService.class).getDefaultUseTaxIndicatorValue(purDoc);
         SpringContext.getBean(PurapService.class).updateUseTaxIndicator(purDoc, defaultUseTaxIndicatorValue);
         SpringContext.getBean(PurapService.class).calculateTax(purDoc);
-        
+
         // call prorateDiscountTradeIn
         SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
 
         //recalculate the amounts and percents on the accounting line.
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(purDoc);
-        
+
         customCalculate(purDoc);
 
         PurchasingFormBase formBase = (PurchasingFormBase) form;
         formBase.setInitialZipCode(purDoc.getDeliveryPostalCode());
         formBase.setCalculated(true);
         purDoc.setCalculated(true);
-        
+
         KNSGlobalVariables.getMessageList().clear();
 
         return super.calculate(mapping, form, request, response);
@@ -1309,7 +1312,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     /**
      * Determine from request parameters if user is returning from capital asset building lookup. Parameter will start with either
      * document.purchasingCapitalAssetItems or document.purchasingCapitalAssetSystems
-     * 
+     *
      * @param request
      * @return
      */
@@ -1327,7 +1330,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     /**
      * Overrides the superclass method so that it will also do proration for trade in and full order discount when the user clicks
      * on the submit button.
-     * 
+     *
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#route(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -1335,14 +1338,14 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
         PurchasingDocument purDoc = (PurchasingDocument) purchasingForm.getDocument();
-     
+
         // if form is not yet calculated, return and prompt user to calculate
         if (requiresCalculate(purchasingForm)) {
             GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, PurapKeyConstants.ERROR_PURCHASING_REQUIRES_CALCULATE);
 
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+
         // call prorateDiscountTradeIn
         SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
 
@@ -1352,7 +1355,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     /**
      * Overrides the superclass method so that it will also do proration for trade in and full order discount when the user clicks
      * on the approve button.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -1363,7 +1366,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         // call prorateDiscountTradeIn
         SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
-        
+
         return super.approve(mapping, form, request, response);
     }
 
@@ -1378,14 +1381,13 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
     /**
      * Checks if calculation is required. Currently it is required when it has not already been calculated and if the user can perform calculate
-     * 
+     *
      * @return true if calculation is required, false otherwise
      */
     protected boolean requiresCalculate(PurchasingFormBase purForm) {
         boolean requiresCalculate = true;
-        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
-        
-        requiresCalculate = salesTaxInd && (!purForm.isCalculated() && purForm.canUserCalculate());
+
+        requiresCalculate = !purForm.isCalculated() && purForm.canUserCalculate();
 
         return requiresCalculate;
     }

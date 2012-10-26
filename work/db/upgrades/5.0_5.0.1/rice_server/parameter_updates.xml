@@ -233,5 +233,23 @@
 	    </modifySql>
 	</changeSet>
 	
+	<changeSet author="KFS501" id="KFSMI9651_UPDATE_TAXABLE_OBJECT_PARAMETERS">
+		<comment>Update parm values to facilitate Sales/Use Tax testing. Old values were not allowed on REQS and so cannot be used to test tax exemptions/exceptions.</comment>
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL"
+				value="TRVL" />
+			<where>NMSPC_CD='KFS-PURAP' AND PARM_NM='TAXABLE_OBJECT_CONSOLIDATIONS_FOR_NON_TAXABLE_STATES' AND APPL_ID = 'KFS'</where>
+		</update>
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL"
+				value="CPTL" />
+			<where>NMSPC_CD='KFS-PURAP' AND PARM_NM='TAXABLE_OBJECT_CONSOLIDATIONS_FOR_TAXABLE_STATES' AND APPL_ID = 'KFS'</where>
+		</update>
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL"
+				value="ADV" />
+			<where>NMSPC_CD='KFS-PURAP' AND PARM_NM='TAXABLE_OBJECT_LEVELS_FOR_NON_TAXABLE_STATES' AND APPL_ID = 'KFS'</where>
+		</update>
+	</changeSet>
 
 </databaseChangeLog>

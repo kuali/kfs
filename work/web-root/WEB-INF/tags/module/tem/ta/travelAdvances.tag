@@ -285,8 +285,8 @@
 				</logic:iterate>
 			</table>
 			<c:if test="${KualiForm.showPolicy}">
-			<div align="right">${KualiForm.policyURL}</c:if>
-			</div>
+			<div align="right">${KualiForm.policyURL}</div>
+			</c:if>
 		</c:if>
 	</div>
 </kul:tab>

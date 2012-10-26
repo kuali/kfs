@@ -35,15 +35,15 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.batch.AutoCloseRecurringOrdersStep;
 import org.kuali.kfs.module.purap.businessobject.AutoClosePurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
@@ -1237,14 +1237,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     protected void updateNotes(PurchaseOrderDocument po, PurchaseOrderDocument documentBusinessObject) {
         if (ObjectUtils.isNotNull(documentBusinessObject)) {
-            if (ObjectUtils.isNotNull(po) && ObjectUtils.isNotNull(po.getObjectId())) {
+            if (ObjectUtils.isNotNull(po.getObjectId())) {
                 List<Note> dbNotes = noteService.getByRemoteObjectId(po.getObjectId());
                 // need to set fields that are not ojb managed (i.e. the notes on the documentBusinessObject may have been modified
                 // independently of the ones in the db)
                 fixDbNoteFields(documentBusinessObject, dbNotes);
                 po.setNotes(dbNotes);
             }
-            else  if (ObjectUtils.isNotNull(po)){
+            else{
                 po.setNotes(documentBusinessObject.getNotes());
             }
         }
@@ -1613,7 +1613,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         Map fiscalOfficers = new HashMap();
         AdHocRoutePerson adHocRoutePerson = null;
 
-        for(SourceAccountingLine account: (List<SourceAccountingLine>)po.getGlOnlySourceAccountingLines()){
+        for(SourceAccountingLine account: po.getGlOnlySourceAccountingLines()){
                      // loop through accounts and pull off fiscal officer
                 //    for(PurApAccountingLine account : poItem.getSourceAccountingLines()){
                         //check for dupes of fiscal officer

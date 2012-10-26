@@ -23,49 +23,6 @@
 		</delete>
 	</changeSet>
 	
-	<changeSet id="REMOVE_KFST_WORKFLOW_ADMIN_PERM" author="KFS501">
-		<comment>Remove unnecessary workflow admin perm for the KFST (KFS Transational) documents</comment>
-		<delete tableName="KRIM_ROLE_PERM_T">
-			<where>perm_id IN (SELECT perm_id FROM KRIM_PERM_T WHERE nmspc_cd = 'KFS-SYS' AND nm = 'Administer Routing for Document KFST')</where>
-		</delete>
-		<delete tableName="KRIM_PERM_ATTR_DATA_T">
-			<where>perm_id IN (SELECT perm_id FROM KRIM_PERM_T WHERE nmspc_cd = 'KFS-SYS' AND nm = 'Administer Routing for Document KFST')</where>
-		</delete>
-		<delete tableName="KRIM_PERM_T">
-			<where>nmspc_cd = 'KFS-SYS' AND nm = 'Administer Routing for Document KFST'</where>
-		</delete>
-	</changeSet>
-
-	<changeSet id="RESTORE_PERM_FOR_WORKFLOW_ADMIN" author="KFS501">
-		<comment>Restore permission which should have been granted to workflow administrators.</comment>
-		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSMI-9372-2" />
-			<column name="OBJ_ID" value="KFSMI-9372-2" />
-			<column name="VER_NBR" valueNumeric="1" />
-			<column name="ROLE_ID" value="62" />
-			<column name="PERM_ID" value="113" />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
-		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSMI-9372-1" />
-			<column name="OBJ_ID" value="KFSMI-9372-1" />
-			<column name="VER_NBR" valueNumeric="1" />
-			<column name="ROLE_ID" value="51" />
-			<column name="PERM_ID" value="113" />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
-		<!-- 
-		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSMI-9372-4" />
-			<column name="OBJ_ID" value="KFSMI-9372-4" />
-			<column name="VER_NBR" valueNumeric="1" />
-			<column name="ROLE_ID" value="55" />
-			<column name="PERM_ID" value="113" />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
-		 -->
-	</changeSet>
-
 	<changeSet author="KFS501" id="KFSCNTRB-65">
 		<comment>KFSCNTRB-65 Create permission to access locked modules and grant to KFS-SYS Operations</comment>
 		<insert tableName="KRIM_PERM_T">
@@ -92,49 +49,99 @@
 	</changeSet>
 	
 
-	<changeSet id="KFSMI-9372-ADD_SUPERUSER_TAB_USE_PERMISSION" author="KFS501">
+	<changeSet id="KFSMI-9598-ADD_SUPERUSER_TAB_USE_PERMISSIONS" author="KFS501">
 		<comment>Add the necessary KIM data for the Rice permission which is used to grant access to the superuser tab on documents.</comment>
 
-		<insert tableName="KRIM_PERM_TMPL_T">
-			<column name="PERM_TMPL_ID" value="KFSMI-9372-1" />
-			<column name="OBJ_ID" value="KFSMI-9372-1" />
-			<column name="VER_NBR" valueNumeric="1" />
-			<column name="NMSPC_CD" value="KR-NS" />
-			<column name="NM" value="Administer Routing for Document" />
-			<column name="DESC_TXT" value="Allows use of the Super User tab on documents." />
-			<column name="KIM_TYP_ID" value="3" />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
-
 		<insert tableName="KRIM_PERM_T">
-			<column name="PERM_ID" value="KFSMI-9372-1" />
-			<column name="OBJ_ID" value="KFSMI-9372-1" />
+			<column name="PERM_ID" value="KFSMI9598-PRM1" />
+			<column name="OBJ_ID" value="KFSMI9598-PRM1" />
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="PERM_TMPL_ID" value="KFSMI-9372-1" />
+			<column name="PERM_TMPL_ID" value="KR1000" />
 			<column name="NMSPC_CD" value="KFS-SYS" />
-			<column name="NM" value="Use Super User Tab KFS" />
-			<column name="DESC_TXT" value="Allows users to view the Super User Tab in documents and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node)." />
+			<column name="NM" value="Super User Approve Single Action Request KFS" />
+			<column name="DESC_TXT" value="Allows users to super user approve single action requests on the super user tab for KFS Documents." />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSMI-9372-1" />
-			<column name="OBJ_ID" value="KFSMI-9372-1" />
+			<column name="ATTR_DATA_ID" value="KFSMI9598-PRM1ATT" />
+			<column name="OBJ_ID" value="KFSMI9598-PRM1ATT" />
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="PERM_ID" value="KFSMI-9372-1" />
-			<column name="KIM_TYP_ID" value="3" />
+			<column name="PERM_ID" value="KFSMI9598-PRM1" />
+			<column name="KIM_TYP_ID" value="KR1000" />
 			<column name="KIM_ATTR_DEFN_ID" value="13" />
 			<column name="ATTR_VAL" value="KFS" />
 		</insert>
 
 		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSMI-9372-3" />
-			<column name="OBJ_ID" value="KFSMI-9372-3" />
+			<column name="ROLE_PERM_ID" value="KFSMI9598-RLPRM1" />
+			<column name="OBJ_ID" value="KFSMI9598-RLPRM1" />
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="ROLE_ID" value="55" />
-			<column name="PERM_ID" value="KFSMI-9372-1" />
+			<column name="ROLE_ID" value="45" />
+			<column name="PERM_ID" value="KFSMI9598-PRM1" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
+		
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSMI9598-PRM2" />
+			<column name="OBJ_ID" value="KFSMI9598-PRM2" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" value="KR1001" />
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="NM" value="Super User Approve Document KFS" />
+			<column name="DESC_TXT" value="Allows users to super user approve documents on the super user tab for KFS Documents." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI9598-PRM2ATT" />
+			<column name="OBJ_ID" value="KFSMI9598-PRM2ATT" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="KFSMI9598-PRM2" />
+			<column name="KIM_TYP_ID" value="KR1000" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="KFS" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSMI9598-RLPRM2" />
+			<column name="OBJ_ID" value="KFSMI9598-RLPRM2" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="45" />
+			<column name="PERM_ID" value="KFSMI9598-PRM2" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSMI9598-PRM3" />
+			<column name="OBJ_ID" value="KFSMI9598-PRM3" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" value="KR1002" />
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="NM" value="Super User Disapprove Document KFS" />
+			<column name="DESC_TXT" value="Allows users to super user disapprove documents on the super user tab for KFS Documents." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI9598-PRM3ATT" />
+			<column name="OBJ_ID" value="KFSMI9598-PRM3ATT" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="KFSMI9598-PRM3" />
+			<column name="KIM_TYP_ID" value="KR1000" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="KFS" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSMI9598-RLPRM3" />
+			<column name="OBJ_ID" value="KFSMI9598-RLPRM3" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="45" />
+			<column name="PERM_ID" value="KFSMI9598-PRM3" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
 	</changeSet>
 
 <!-- 

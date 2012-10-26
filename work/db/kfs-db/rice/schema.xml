@@ -34,7 +34,7 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="NM" size="40" type="VARCHAR"/>
         <column default="Y" name="ACTV_IND" required="true" size="1" type="CHAR"/>
-        <column name="APPL_ID" size="20" type="VARCHAR"/>
+        <column name="APPL_ID" size="255" type="VARCHAR"/>
         <unique name="KRNS_NMSPC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -49,7 +49,7 @@
         <column name="VAL" size="4000" type="VARCHAR"/>
         <column name="PARM_DESC_TXT" size="4000" type="VARCHAR"/>
         <column name="EVAL_OPRTR_CD" size="1" type="VARCHAR"/>
-        <column default="KUALI" name="APPL_ID" primaryKey="true" size="20" type="VARCHAR"/>
+        <column default="KUALI" name="APPL_ID" primaryKey="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KRCR_NMSPC_T" name="KRNS_PARM_TR1">
             <reference foreign="NMSPC_CD" local="NMSPC_CD"/>
         </foreign-key>
@@ -686,10 +686,32 @@
         <column name="DOC_STAT_NM" primaryKey="true" size="64" type="VARCHAR"/>
         <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="CAT_NM" size="64" type="VARCHAR"/>
+        <column name="SEQ_NO" size="5" type="DECIMAL"/>
+        <foreign-key foreignTable="KREW_DOC_TYP_APP_STAT_CAT_T" name="KREW_DOC_TYP_APP_DOC_STAT_FK1">
+            <reference foreign="DOC_TYP_ID" local="DOC_TYP_ID"/>
+            <reference foreign="CAT_NM" local="CAT_NM"/>
+        </foreign-key>
         <index name="KREW_DOC_TYP_APP_DOC_STAT_T1">
             <index-column name="DOC_TYP_ID"/>
         </index>
+        <index name="KREW_DOC_TYP_APP_DOC_STAT_T2">
+            <index-column name="DOC_TYP_ID"/>
+            <index-column name="CAT_NM"/>
+        </index>
         <unique name="KREW_DOC_TYP_APP_DOC_STAT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+    <table name="KREW_DOC_TYP_APP_STAT_CAT_T">
+        <column name="DOC_TYP_ID" primaryKey="true" size="40" type="VARCHAR"/>
+        <column name="CAT_NM" primaryKey="true" size="64" type="VARCHAR"/>
+        <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="KREW_DOC_TYP_T" name="KREW_DOC_TYP_APP_STAT_CAT_FK1">
+            <reference foreign="DOC_TYP_ID" local="DOC_TYP_ID"/>
+        </foreign-key>
+        <unique name="KREW_DOC_TYP_APP_STAT_CAT_TC1">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -1068,7 +1090,7 @@
         <column name="RTE_MTHD_CD" size="2" type="VARCHAR"/>
         <column name="FNL_APRVR_IND" size="1" type="DECIMAL"/>
         <column name="MNDTRY_RTE_IND" size="1" type="DECIMAL"/>
-        <column name="ACTVN_TYP" size="250" type="VARCHAR"/>
+        <column name="ACTVN_TYP" size="1" type="VARCHAR"/>
         <column name="BRCH_PROTO_ID" size="40" type="VARCHAR"/>
         <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="CONTENT_FRAGMENT" size="4000" type="VARCHAR"/>
@@ -2553,6 +2575,10 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="COUNTY_NM" size="100" type="VARCHAR"/>
         <column name="ACTV_IND" size="1" type="VARCHAR"/>
+        <foreign-key foreignTable="KRLC_ST_T" name="KRLC_CNTY_TR1">
+            <reference foreign="POSTAL_STATE_CD" local="STATE_CD"/>
+            <reference foreign="POSTAL_CNTRY_CD" local="POSTAL_CNTRY_CD"/>
+        </foreign-key>
         <unique name="KR_COUNTY_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

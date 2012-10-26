@@ -16,6 +16,7 @@
 
 package org.kuali.kfs.module.purap.document;
 
+import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 import static org.kuali.rice.core.api.util.type.KualiDecimal.ZERO;
 
@@ -61,7 +62,6 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
-import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetSystem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
@@ -98,11 +98,8 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -262,8 +259,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
             // Tax approval level
             documentTitle = "Vendor: " + vendorName + " PO: " + poNumber + " Account Number: " + chartCode + "-" + accountNumber + " Dept: " + chartCode + "-" + orgCode + " Delivery Campus: " + deliveryCampus;
         }
-        else
-            documentTitle += "PO: " + poNumber + " Contract Manager: " + cmCode + " Vendor: " + vendorName + " Amount: " + totalAmount;
+            else {
+                documentTitle += "PO: " + poNumber + " Contract Manager: " + cmCode + " Vendor: " + vendorName + " Amount: " + totalAmount;
+            }
 
         return documentTitle;
     }
@@ -324,12 +322,15 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         // each time this field changes we need to update the assigned user ID and ref obj to keep consistent
         // this code can be moved to where PO is saved and with validation too, which may be more appropriate
         Person assignedUser = null;
-        if (assignedUserPrincipalName != null)
+        if (assignedUserPrincipalName != null) {
             assignedUser = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(assignedUserPrincipalName);
-        if (assignedUser != null)
+        }
+        if (assignedUser != null) {
             assignedUserPrincipalId = assignedUser.getPrincipalId();
-        else
+        }
+        else {
             assignedUserPrincipalId = null;
+        }
     }
 
     public boolean getAssigningSensitiveData() {
@@ -351,8 +352,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
 
     public ContractManager getContractManager() {
-        if (ObjectUtils.isNull(contractManager))
+        if (ObjectUtils.isNull(contractManager)) {
             refreshReferenceObject(PurapPropertyConstants.CONTRACT_MANAGER);
+        }
         return contractManager;
     }
 
@@ -425,7 +427,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
             // Set amount
             item.setItemOutstandingEncumberedAmount(item.getTotalAmount() == null ? ZERO : item.getTotalAmount());
 
-            List accounts = (List) item.getSourceAccountingLines();
+            List accounts = item.getSourceAccountingLines();
             Collections.sort(accounts);
 
             for (Iterator iterator = accounts.iterator(); iterator.hasNext();) {
@@ -581,7 +583,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         this.setCapitalAssetSystemTypeCode(requisitionDocument.getCapitalAssetSystemTypeCode());
         this.setCapitalAssetSystemStateCode(requisitionDocument.getCapitalAssetSystemStateCode());
         for (CapitalAssetSystem capitalAssetSystem : requisitionDocument.getPurchasingCapitalAssetSystems()) {
-            this.getPurchasingCapitalAssetSystems().add(new PurchaseOrderCapitalAssetSystem((RequisitionCapitalAssetSystem)capitalAssetSystem));
+            this.getPurchasingCapitalAssetSystems().add(new PurchaseOrderCapitalAssetSystem(capitalAssetSystem));
         }
 
         this.fixItemReferences();
@@ -597,7 +599,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         while (getPurchaseOrderVendorStipulations().size() <= index) {
             getPurchaseOrderVendorStipulations().add(new PurchaseOrderVendorStipulation());
         }
-        return (PurchaseOrderVendorStipulation) purchaseOrderVendorStipulations.get(index);
+        return purchaseOrderVendorStipulations.get(index);
     }
 
     @Override
@@ -627,7 +629,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         LOG.debug("doRouteStatusChange() started");
         super.doRouteStatusChange(statusChangeEvent);
-        
+
         String currentDocumentTypeName = this.getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName();
         // child classes need to call super, but we don't want to inherit the post-processing done by this PO class other than to the Split
         if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT.equals(currentDocumentTypeName) || PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT.equals(currentDocumentTypeName)) {
@@ -1030,7 +1032,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         while (getPurchaseOrderVendorQuotes().size() <= index) {
             getPurchaseOrderVendorQuotes().add(new PurchaseOrderVendorQuote());
         }
-        return (PurchaseOrderVendorQuote) purchaseOrderVendorQuotes.get(index);
+        return purchaseOrderVendorQuotes.get(index);
     }
 
     public void setStatusChange(String statusChange) {
@@ -1415,6 +1417,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      *
      * @deprecated
      */
+    @Deprecated
     public String getContractManagerName() {
         return "";
     }
@@ -1424,6 +1427,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      *
      * @deprecated
      */
+    @Deprecated
     public void setContractManagerName(String contractManagerName) {
     }
 
@@ -1465,6 +1469,25 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         super.customizeExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
 
         SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(this, (AccountingLine)postable, explicitEntry, getPurapDocumentIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.PO_DOCUMENT, true);
+
+        KualiDecimal accountTotalGLEntryAmount = this.getAccountTotalGLEntryAmount((AccountingLine)postable);
+        explicitEntry.setTransactionLedgerEntryAmount(accountTotalGLEntryAmount);
+        String debitCreditCode = GL_DEBIT_CODE;
+
+        // if the amount is negative, flip the D/C indicator
+        if (accountTotalGLEntryAmount.doubleValue() < 0) {
+            if (GL_CREDIT_CODE.equals(debitCreditCode)) {
+                if (GL_CREDIT_CODE.equals(debitCreditCode)) {
+                    explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
+                }
+            }
+            else {
+                explicitEntry.setTransactionDebitCreditCode(GL_CREDIT_CODE);
+            }
+        }
+        else {
+            explicitEntry.setTransactionDebitCreditCode(debitCreditCode);
+        }
 
         // don't think i should have to override this, but default isn't getting the right PO doc
         explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_DOCUMENT);
@@ -1684,13 +1707,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     public void setGlOnlySourceAccountingLines(List<SourceAccountingLine> glOnlySourceAccountingLines) {
         this.glOnlySourceAccountingLines = glOnlySourceAccountingLines;
     }
-    
+
     @Override
     public PersistableBusinessObject getNoteTarget() {
-        
+
         PurchaseOrderService pos = SpringContext.getBean(PurchaseOrderService.class);
         PurchaseOrderDocument oldest = pos.getOldestPurchaseOrder(this, this);
-        
+
         return oldest.getDocumentHeader();
     }
 
@@ -1699,5 +1722,5 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         return NoteType.BUSINESS_OBJECT;
     }
 
-    
+
 }

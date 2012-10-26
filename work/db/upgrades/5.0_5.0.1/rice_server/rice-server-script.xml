@@ -5,10 +5,6 @@
 
 	<changeSet author="RICE212" id="2012-09-26_oracle" dbms="oracle">
 		<sql><![CDATA[
--- 
--- 2012-09-26.sql
--- 
-
 --
 --    KULRICE-8300 & KULRICE-7799
 --
@@ -58,8 +54,157 @@ INSERT INTO KRIM_PERM_TMPL_T (PERM_TMPL_ID,ACTV_IND,KIM_TYP_ID,NM,NMSPC_CD,OBJ_I
 		]]></sql>
 	</changeSet>
 
+	<changeSet author="RICE212" id="2012-10-12_oracle" dbms="oracle">
+		<sql><![CDATA[
+--
+--    KULRICE-7792 & KULRICE-7793
+--
+
+UPDATE KREW_RTE_NODE_CFG_PARM_T
+    SET VAL = REPLACE( VAL, 'org.kuali.rice.kim.workflow.attribute.KimTypeQualifierResolver', 'org.kuali.rice.kim.impl.type.KimTypeQualifierResolver' )
+    WHERE val LIKE '%org.kuali.rice.kim.workflow.attribute.KimTypeQualifierResolver%'
+;
+
+UPDATE KREW_RTE_NODE_CFG_PARM_T
+    SET VAL = REPLACE( VAL, 'org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver', 'org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver' )
+    WHERE val LIKE '%org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver%'
+;
+		]]></sql>
+	</changeSet>
+
+	<changeSet author="RICE212" id="2012-10-17_oracle" dbms="oracle">
+		<sql splitStatements="false"><![CDATA[
+--
+-- Clean up data and tables that are no longer needed.  Depending on how you ran the 2.0 upgrade scripts, these items
+-- may or may not need to be cleaned up.  The SQL will run without error even if the items do not need cleaning.
+--
+-- The final SQL in this script will add a needed foreign key
+--
+
+--
+-- KULRICE-7440 - KRMS_CNTXT_TERM_SPEC_PREREQ_S is still in master datasource
+--
+
+BEGIN EXECUTE IMMEDIATE 'DROP SEQUENCE KRMS_CNTXT_TERM_SPEC_PREREQ_S'; EXCEPTION WHEN OTHERS THEN IF SQLCODE != -2289
+  THEN RAISE; END IF; END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+--
+-- KULRICE-7412 - KREW_HLP_T and KREW_HLP_S is still in master datasource
+--
+
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE KREW_HLP_T'; EXCEPTION WHEN OTHERS THEN IF SQLCODE != -942
+  THEN RAISE; END IF; END;
+		]]></sql>
+
+		<sql splitStatements="false"><![CDATA[
+BEGIN EXECUTE IMMEDIATE 'DROP SEQUENCE KREW_HLP_S'; EXCEPTION WHEN OTHERS THEN IF SQLCODE != -2289
+  THEN RAISE; END IF; END;
+
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+--
+-- KULRICE-7346 - ACTVN_TYP on KREW_RTE_NODE_T should be a varchar2(1)
+--
+
+ALTER TABLE KREW_RTE_NODE_T MODIFY (ACTVN_TYP VARCHAR2(1))
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+--
+-- KULRICE-7376 - APPL_ID length is inconsistent; Should always be 255
+--
+
+ALTER TABLE KREW_DOC_TYP_T MODIFY (APPL_ID VARCHAR2(255))
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+ALTER TABLE KREW_RULE_ATTR_T MODIFY (APPL_ID VARCHAR2(255))
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+ALTER TABLE KRSB_SVC_DEF_T MODIFY (APPL_ID VARCHAR2(255))
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+ALTER TABLE KRSB_MSG_QUE_T MODIFY (APPL_ID VARCHAR2(255))
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+ALTER TABLE KRCR_NMSPC_T MODIFY (APPL_ID VARCHAR2(255))
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+ALTER TABLE KRCR_PARM_T MODIFY (APPL_ID VARCHAR2(255))
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+--
+-- KULRICE-7745 - County (not Country) maintenance document allowing bad state data - add FK constraint
+--
+
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM all_constraints WHERE constraint_name ='KRLC_CNTY_TR1';
+	IF temp = 0 THEN EXECUTE IMMEDIATE
+		'ALTER TABLE KRLC_CNTY_T ADD CONSTRAINT KRLC_CNTY_TR1 FOREIGN KEY (STATE_CD,POSTAL_CNTRY_CD)
+         REFERENCES KRLC_ST_T (POSTAL_STATE_CD, POSTAL_CNTRY_CD)';
+	END IF;
+END;
+		]]></sql>
+	</changeSet>
+
+	<changeSet author="RICE212" id="2012-10-19_oracle" dbms="oracle">
+		<sql><![CDATA[
+--
+-- KULRICE-7786: Document Specific Doc Search Application Document Status should be available
+-- (and groupable) on the basic version of search
+--
+
+-- add category name (which is part of composite fk) to app doc stat
+alter table KREW_DOC_TYP_APP_DOC_STAT_T add CAT_NM varchar2(64)
+;
+
+-- add index for queries from category to status.  Using non-standard index name to follow table precedent.
+CREATE INDEX KREW_DOC_TYP_APP_DOC_STAT_T2 on KREW_DOC_TYP_APP_DOC_STAT_T (DOC_TYP_ID, CAT_NM)
+;
+
+-- add sequence number column for ordering to app doc stat
+alter table KREW_DOC_TYP_APP_DOC_STAT_T add SEQ_NO number(5)
+;
+
+-- create category table
+CREATE TABLE KREW_DOC_TYP_APP_STAT_CAT_T  (
+    DOC_TYP_ID   varchar2(40) NOT NULL,
+	CAT_NM	varchar2(64) NOT NULL,
+    VER_NBR number(8) DEFAULT '0',
+    OBJ_ID varchar2(36) NOT NULL,
+
+	PRIMARY KEY(DOC_TYP_ID, CAT_NM),
+	CONSTRAINT KREW_DOC_TYP_APP_STAT_CAT_FK1 foreign key (DOC_TYP_ID) references KREW_DOC_TYP_T (DOC_TYP_ID)
+)
+;
+
+-- object id must be unique
+ALTER TABLE KREW_DOC_TYP_APP_STAT_CAT_T
+	ADD CONSTRAINT KREW_DOC_TYP_APP_STAT_CAT_TC1
+	UNIQUE (OBJ_ID)
+;
+
+-- add constraint to tie app doc stat and category together
+alter table KREW_DOC_TYP_APP_DOC_STAT_T add constraint KREW_DOC_TYP_APP_DOC_STAT_FK1
+foreign key (DOC_TYP_ID, CAT_NM) references KREW_DOC_TYP_APP_STAT_CAT_T (DOC_TYP_ID, CAT_NM)
+;
+		]]></sql>
+	</changeSet>
+
+	<changeSet author="RICE212" id="2012-10-25_oracle" dbms="oracle">
+		<sql><![CDATA[
+--
+-- KULRICE-7509: Rice KIM documents stay editable after submission
+--
+
+delete from krim_role_perm_t where role_id = (select role_id from krim_role_t where role_nm = 'Initiator or Reviewer' and nmspc_cd = 'KR-WKFLW') AND
+perm_id = (select perm_id from krim_perm_t where nm = 'Edit Kuali ENROUTE Document Route Status Code R' and nmspc_cd = 'KUALI')
+;
+		]]></sql>
+	</changeSet>
+	
 	<changeSet author="RICE212" id="RICE_SERVER_UPDATES_mysql" dbms="mysql">
-		<sqlFile path="mysql-2012-09-26.sql" />
+		<sqlFile path="rice_212_final_mysql.sql" />
 	</changeSet>
 
 </databaseChangeLog>

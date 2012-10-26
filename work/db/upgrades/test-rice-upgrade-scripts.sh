@@ -143,15 +143,15 @@ if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
 
 	rm -f $WORKSPACE/upgrade.sql
 	touch $WORKSPACE/upgrade.sql
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=rice-server-script.xml updateSQL >> $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=kew_upgrade.xml updateSQL >> $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=kim_upgrade.xml updateSQL >> $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=parameter_updates.xml updateSQL >> $WORKSPACE/upgrade.sql
-	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=rice-server-script.xml updateSQL >> $WORKSPACE/upgrade.sql
 
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=rice-server-script.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=kew_upgrade.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=kim_upgrade.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=parameter_updates.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=debug --changeLogFile=rice-server-script.xml update
 	popd
 fi
 

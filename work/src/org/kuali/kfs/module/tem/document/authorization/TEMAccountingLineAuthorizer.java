@@ -26,17 +26,21 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 
 public class TEMAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
     private static Log LOG = LogFactory.getLog(TEMAccountingLineAuthorizer.class);
 
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineEditPermissionOnField(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.String, boolean)
+     */
     @Override
     public boolean determineEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editablePage) {
         TravelDocumentBase document = (TravelDocumentBase) accountingDocument;
         boolean hasPermission = super.determineEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editablePage);
         TravelDocumentPresentationController documentPresentationController = (TravelDocumentPresentationController) getDocumentHelperService().getDocumentPresentationController(document);
-        boolean canUpdate = documentPresentationController.enableForTravelManager(document.getDocumentHeader().getWorkflowDocument());
+        boolean canUpdate = documentPresentationController.enableForDocumentManager(GlobalVariables.getUserSession().getPerson());
         
         if (document.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equals(TemWorkflowConstants.RouteNodeNames.AP_TRAVEL)){
             return hasPermission && canUpdate;
@@ -45,12 +49,15 @@ public class TEMAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
         
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#determineEditPermissionOnLine(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, boolean, boolean)
+     */
     @Override
     public boolean determineEditPermissionOnLine(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, boolean currentUserIsDocumentInitiator, boolean pageIsEditable) {
         TravelDocumentBase document = (TravelDocumentBase) accountingDocument;
         boolean hasPermission = super.determineEditPermissionOnLine(accountingDocument, accountingLine, accountingLineCollectionProperty, currentUserIsDocumentInitiator, pageIsEditable);
         TravelDocumentPresentationController documentPresentationController = (TravelDocumentPresentationController) getDocumentHelperService().getDocumentPresentationController(document);
-        boolean canUpdate = documentPresentationController.enableForTravelManager(document.getDocumentHeader().getWorkflowDocument());
+        boolean canUpdate = documentPresentationController.enableForDocumentManager(GlobalVariables.getUserSession().getPerson());
         
         if (document.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().equals(TemWorkflowConstants.RouteNodeNames.AP_TRAVEL)){
             return hasPermission && canUpdate;
@@ -67,9 +74,7 @@ public class TEMAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
      * have the line item number in addition to the rest of the insertxxxx String for
      * methodToCall when the user clicks on the add button.
      * 
-     * @param accountingLine
-     * @param accountingLineProperty
-     * @return
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getAddMethod(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String)
      */
     @Override
     protected String getAddMethod(AccountingLine accountingLine, String accountingLineProperty) {
@@ -81,7 +86,9 @@ public class TEMAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
         return KFSConstants.INSERT_METHOD + infix + "Line.anchoraccounting" + infix + "Anchor";
     }
     
-    
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getDeleteLineMethod(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.Integer)
+     */
     @Override
     protected String getDeleteLineMethod(AccountingLine accountingLine, String accountingLineProperty, Integer accountingLineIndex) {
         String infix = getActionInfixForExtantAccountingLine(accountingLine, accountingLineProperty);
@@ -91,6 +98,9 @@ public class TEMAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
         return KNSConstants.DELETE_METHOD + infix + "Line.line" + accountingLineIndex + ".anchoraccounting" + infix + "Anchor";
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getBalanceInquiryMethod(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.Integer)
+     */
     @Override
     protected String getBalanceInquiryMethod(AccountingLine accountingLine, String accountingLineProperty, Integer accountingLineIndex) {
         String infix = getActionInfixForExtantAccountingLine(accountingLine, accountingLineProperty);

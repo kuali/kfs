@@ -72,6 +72,8 @@ import org.kuali.kfs.module.tem.document.service.TravelEncumbranceService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.PerDiemService;
+import org.kuali.kfs.module.tem.service.TEMRoleService;
+import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelDocumentNotificationService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.service.TravelService;
@@ -172,6 +174,14 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     
     protected TravelReimbursementService getTravelReimbursementService() {
         return SpringContext.getBean(TravelReimbursementService.class);
+    }
+    
+    protected TEMRoleService getTemRoleService() {
+        return SpringContext.getBean(TEMRoleService.class);
+    }
+    
+    protected TemProfileService getTemProfileService() {
+        return SpringContext.getBean(TemProfileService.class);
     }
 
     protected ParameterService getParameterService() {
@@ -1436,12 +1446,13 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
 
     /**
+     * Tax Manager approval is required if any actual expenses or its detail is taxable
      * 
      * @return
      */
     protected boolean requiresTaxManagerApprovalRouting() {
         KualiDecimal total = KualiDecimal.ZERO;
-        for (ActualExpense line : this.getActualExpenses()) {
+        for (TEMExpense line : getAllActualExpensesWithDetails()) {
             if(line.getTaxable()){
                 return true;
             }
@@ -1822,6 +1833,24 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      */
     @Override
     public void initiateDocument() {
+        
+        //pre filled descriptions
+        getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
+
+        //set traveler to employee if null
+        if (this.getTraveler() == null) {
+            this.setTraveler(new TravelerDetail());
+            this.getTraveler().setTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD);
+        }
+        
+        //set profile to current user
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
+        if (!getTemRoleService().isTravelArranger(currentUser)) {
+            TEMProfile temProfile = getTemProfileService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
+            if (temProfile != null) {
+                setTemProfile(temProfile);
+            }
+        }
     }
 
     /**

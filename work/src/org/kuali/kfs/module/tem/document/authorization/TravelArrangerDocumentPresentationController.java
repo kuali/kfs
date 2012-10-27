@@ -17,7 +17,7 @@ package org.kuali.kfs.module.tem.document.authorization;
 
 import java.util.Set;
 
-import org.kuali.kfs.module.tem.TemAuthorizationConstants;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -37,7 +37,7 @@ public class TravelArrangerDocumentPresentationController extends TransactionalD
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
-            editModes.add(TemAuthorizationConstants.TravelEditMode.FULL_ENTRY);
+            editModes.add(TemConstants.TravelEditMode.FULL_ENTRY);
         }
     }
 

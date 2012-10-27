@@ -75,7 +75,7 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
         //}
                 
         TravelDocumentPresentationController documentPresentationController = (TravelDocumentPresentationController) getDocumentHelperService().getDocumentPresentationController(travelDocument);
-        boolean canUpdate = documentPresentationController.enableForTravelManager(travelDocument.getDocumentHeader().getWorkflowDocument());
+        boolean canUpdate = documentPresentationController.enableForDocumentManager(GlobalVariables.getUserSession().getPerson());
         
         boolean valid = true;
         String errorPath = TemPropertyConstants.NEW_SOURCE_ACCTG_LINE;

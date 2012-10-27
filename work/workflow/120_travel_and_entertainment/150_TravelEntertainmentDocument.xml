@@ -14,7 +14,7 @@
         xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
         <documentType>
             <name>ENT</name>
-            <parent>KFST</parent>
+            <parent>TT</parent>
             <docHandler>${application.url}/temTravelEntertainment.do?methodToCall=docHandler
             </docHandler>
             <label>Entertainment Document</label>
@@ -37,28 +37,25 @@
                 2
             </routingVersion>
             <validApplicationStatuses>
+                <status>In Process</status>
                 <status>Awaiting Traveler Review</status>
                 <status>Awaiting Fiscal Officer Review</status>
                 <status>Awaiting Organization Review</status>
                 <status>Awaiting Special Request Review</status>
                 <status>Awaiting Sub-Fund Review</status>
                 <status>Awaiting Award Review</status>
-                <status>Awaiting Division Review</status>
                 <status>Awaiting Tax Manager Review</status>
                 <status>Awaiting Entertainment Manager Review</status>
                 <status>Department Approved</status>
                 <status>Disapproved - Traveler</status>
                 <status>Disapproved - Fiscal Officer</status>
                 <status>Disapproved - Organization</status>
-                <status>Disapproved - Division</status>
                 <status>Disapproved - Sub-Fund Review</status>
                 <status>Disapproved - Award Review</status>
                 <status>Disapproved - Tax Manager</status>
                 <status>Disapproved - Entertainment Manager</status>
                 <status>Entertainment Manager Approved</status>
-               <status>Cancelled</status>
-                <status>In Process</status>
-                
+                <status>Cancelled</status>
             </validApplicationStatuses>
             <policies>
                 <policy>
@@ -72,9 +69,17 @@
             </policies>
             <routePaths>
                 <routePath>
-                
-                	<start name="AdHoc" nextNode="Account" nextAppDocStatus="Awaiting Fiscal Officer Review"/>
-                    <role name="Account" nextNode="OrganizationHierarchy" nextAppDocStatus="Awaiting Organization Review" />
+                	<start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review"/>
+                    <split name="TravelRequiresTravelerApproval" nextNode="Account" nextAppDocStatus="Awaiting Traveler Review">
+                        <branch name="True">
+                            <role name="TravelerReview" nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpTravelerReview" nextNode="JoinTravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Fiscal Officer Review" />
+                        </branch>
+                        <join name="JoinTravelRequiresTravelerApproval"/>
+                    </split>
+                    <role name="Account" nextNode="OrganizationHierarchy" nextAppDocStatus="Awaiting Fiscal Officer Review" />
                     <role name="OrganizationHierarchy" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Organization Review" />
                  	<split name="TravelHasSpecialRequest" nextNode="SubFund" nextAppDocStatus="Awaiting Special Request Review">
 						<branch name="True">
@@ -85,23 +90,34 @@
 						</branch>
 						<join name="JoinRequiresSpecialRequestReview"/>
 					</split>
-               	      <role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Sub-Fund Review" />
+           	        <role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Sub-Fund Review" />
             	    <role name="Award" nextNode="TaxManager" nextAppDocStatus="Awaiting Award Review" />
-               	    <split name="TaxManager" nextNode="EntertainmentManager" nextAppDocStatus="Awaiting Tax Manager Review">
-						<branch name="True">
-							<role name="ENTTaxManager" nextNode="JoinRequiresTaxManagerReview" nextAppDocStatus="Awaiting Entertainment Manager Review"/>
-						</branch>
-						<branch name="False">
-							<simple name="NoTaxManagerReviewer" nextNode="JoinRequiresTaxManagerReview"  nextAppDocStatus="Entertainment Manager Approved" />
-						</branch>
-						<join name="JoinRequiresTaxManagerReview"/>
+                    <split name="TaxManager" nextNode="EntertainmentManager" nextAppDocStatus="Awaiting Tax Manager Review">
+					   <branch name="True">
+					      <role name="ENTTaxManager" nextNode="JoinRequiresTaxManagerReview" nextAppDocStatus="Awaiting Entertainment Manager Review"/>
+					   </branch>
+					   <branch name="False">
+						  <simple name="NoTaxManagerReviewer" nextNode="JoinRequiresTaxManagerReview"  nextAppDocStatus="Entertainment Manager Approved" />
+					   </branch>
+					   <join name="JoinRequiresTaxManagerReview"/>
 					</split>
-					 <role name="EntertainmentManager" nextAppDocStatus="Entertainment Manager Approved"/>
+					<role name="EntertainmentManager" nextAppDocStatus="Entertainment Manager Approved"/>
                 </routePath>
             </routePaths>
             <routeNodes>
           
                 <start name="AdHoc" />
+                <join name="JoinTravelRequiresTravelerApproval" />
+                <simple name="NoOpTravelerReview">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="TravelRequiresTravelerApproval">
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+                </split>
+                <role name="TravelerReview">
+                    <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
 				<role name="Account">
 					<qualifierResolverClass>
 						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver

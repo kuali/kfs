@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
-import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
+import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class ArrangerDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
     
-    TravelArrangerDocumentService arrangerDocumentService;
+    TEMRoleService temRoleService;
 
     /**
      * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
@@ -43,13 +43,13 @@ public class ArrangerDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
             String profileId = qualification.get(TEMProfileProperties.PROFILE_ID);
             String documentType = qualification.get(KimAttributes.DOCUMENT_TYPE_NAME);
             if(ObjectUtils.isNotNull(profileId)) {
-                return arrangerDocumentService.isTravelDocumentArrangerForProfile(documentType, principalId, Integer.valueOf(profileId));
+                return temRoleService.isTravelDocumentArrangerForProfile(documentType, principalId, Integer.valueOf(profileId));
             }
         } 
         
         //Because workflow (route/save/copy) would not pick up the qualifer from Document Authorizor, but ONLY base on the permission template, we will
         //simply check whether the person is an arranger (not particularly tied to a profile)
-        return arrangerDocumentService.isArranger(principalId);
+        return temRoleService.isProfileArranger(principalId);
     }
 
     @Override
@@ -59,12 +59,8 @@ public class ArrangerDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServic
         return members;
     }
 
-    /**
-     * Sets the arrangerService attribute value.
-     * @param arrangerService The arrangerService to set.
-     */
-    public void setArrangerDocumentService(TravelArrangerDocumentService arrangerDocumentService) {
-        this.arrangerDocumentService = arrangerDocumentService;
+    public void setTemRoleService(TEMRoleService temRoleService) {
+        this.temRoleService = temRoleService;
     }
 
 }

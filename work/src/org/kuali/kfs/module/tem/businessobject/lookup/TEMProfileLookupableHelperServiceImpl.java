@@ -31,8 +31,8 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromCustomer;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson;
 import org.kuali.kfs.module.tem.datadictionary.MappedDefinition;
+import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
-import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -55,8 +55,8 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     
     public static Logger LOG = Logger.getLogger(TEMProfileLookupableHelperServiceImpl.class);
     
+    private TEMRoleService temRoleService;
     private TravelerService travelerService;
-    private TravelService travelService;
     private PersonService<Person> personService;
     private IdentityManagementService identityManagementService;
     private TemProfileService temProfileService;
@@ -75,10 +75,10 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         if(StringUtils.isNotEmpty(docNum)) {
         	docType = GlobalVariables.getUserSession().getWorkflowDocument(docNum).getDocumentType();
         }
-        boolean isProfileAdmin = travelService.checkUserTEMRole(user, TemConstants.TEM_PROFILE_ADMIN);
-        boolean isAssignedArranger = travelService.checkUserTEMRole(user, TemConstants.TEM_ASSIGNED_PROFILE_ARRANGER);
-        boolean isOrgArranger = travelService.checkUserTEMRole(user, TemConstants.TEM_ORGANIZATION_PROFILE_ARRANGER);
-        boolean isRiskManagement = travelService.checkUserTEMRole(user, TemConstants.RISK_MANAGEMENT);
+        boolean isProfileAdmin = temRoleService.checkUserTEMRole(user, TemConstants.TEM_PROFILE_ADMIN);
+        boolean isAssignedArranger = temRoleService.checkUserTEMRole(user, TemConstants.TEM_ASSIGNED_PROFILE_ARRANGER);
+        boolean isOrgArranger = temRoleService.checkUserTEMRole(user, TemConstants.TEM_ORGANIZATION_PROFILE_ARRANGER);
+        boolean isRiskManagement = temRoleService.checkUserTEMRole(user, TemConstants.RISK_MANAGEMENT);
 
         boolean isArrangerDoc = false;
         if(TemConstants.TravelDocTypes.TRAVEL_ARRANGER_DOCUMENT.equals(docType)) {
@@ -121,7 +121,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
             for (Person person : people) {
 
                 // See if the person has a tem profile.
-                TEMProfile profileFromKim = getTravelService().findTemProfileByPrincipalId(person.getPrincipalId());
+                TEMProfile profileFromKim = getTemProfileService().findTemProfileByPrincipalId(person.getPrincipalId());
                 if (ObjectUtils.isNotNull(profileFromKim)) {
 
                     // Found the tem profile for this person, see if the tem profile search returned their profile.
@@ -301,6 +301,14 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         return getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(className).getLookupDefinition().getLookupFields();
     }
 
+    public TEMRoleService getTemRoleService() {
+        return temRoleService;
+    }
+
+    public void setTemRoleService(TEMRoleService temRoleService) {
+        this.temRoleService = temRoleService;
+    }
+
     /**
      * Gets the travelerService attribute.
      * 
@@ -337,25 +345,6 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     public PersonService<Person> getPersonService() {
         return personService;
     }
-
-    /**
-     * Gets the travelService attribute.
-     * 
-     * @return Returns the travelService.
-     */
-    public TravelService getTravelService() {
-        return travelService;
-    }
-
-    /**
-     * Sets the travelService attribute value.
-     * 
-     * @param travelService The travelService to set.
-     */
-    public void setTravelService(TravelService travelService) {
-        this.travelService = travelService;
-    }
-
 
     /**
      * Gets the identityManagementService attribute.

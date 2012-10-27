@@ -89,6 +89,7 @@ import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
 import org.kuali.kfs.module.tem.exception.UploadParserException;
 import org.kuali.kfs.module.tem.service.CsvRecordFactory;
+import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -99,16 +100,13 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.bo.AdHocRoutePerson;
 import org.kuali.rice.kns.bo.DocumentHeader;
 import org.kuali.rice.kns.bo.Note;
@@ -148,22 +146,22 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     
     protected static Logger LOG = Logger.getLogger(TravelDocumentServiceImpl.class);
     
-    protected DataDictionaryService dataDictionaryService;
-    protected DocumentService documentService;
-    protected BusinessObjectService businessObjectService;
-    protected TravelDocumentDao travelDocumentDao;
-    protected DateTimeService dateTimeService;
-    protected ParameterService parameterService;
-    protected TravelerService travelerService;
-    protected AccountingDocumentRelationshipService accountingDocumentRelationshipService;
-    protected RoleService roleService;
-    protected WorkflowDocumentService workflowDocumentService;
+    private DataDictionaryService dataDictionaryService;
+    private DocumentService documentService;
+    private BusinessObjectService businessObjectService;
+    private TravelDocumentDao travelDocumentDao;
+    private DateTimeService dateTimeService;
+    private ParameterService parameterService;
+    private TravelerService travelerService;
+    private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
+    private TEMRoleService temRoleService;
+    private WorkflowDocumentService workflowDocumentService;
     private KualiRuleService kualiRuleService;
     private StateService stateService;
     private PersistenceStructureService persistenceStructureService;
-    protected UniversityDateService universityDateService;
-    protected List<String> defaultAcceptableFileExtensions;
-    protected CsvRecordFactory<GroupTravelerCsvRecord> csvRecordFactory;
+    private UniversityDateService universityDateService;
+    private List<String> defaultAcceptableFileExtensions;
+    private CsvRecordFactory<GroupTravelerCsvRecord> csvRecordFactory;
     
     /**
      * Creates and populates an individual per diem item.
@@ -577,6 +575,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @param clazz
      * @param results
      */
+    @SuppressWarnings("rawtypes")
     protected void filterResults(Class<? extends Document> clazz, List<Document> results) {
         Iterator it = results.iterator();
         while (it.hasNext()) {
@@ -991,90 +990,11 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#isTravelArranger(org.kuali.rice.kim.bo.Person, java.lang.String)
-     */
-    @Override
-    public boolean isTravelArranger(final Person user, final String primaryDepartmentCode) {
-    	boolean checkProfileAssignedRole = checkPersonRole(user, TemConstants.TEM_ASSIGNED_PROFILE_ARRANGER, TemConstants.PARAM_NAMESPACE);
-        if(!checkProfileAssignedRole) {
-            boolean checkOrgRole = checkOrganizationRole(user, TemConstants.TEM_ORGANIZATION_PROFILE_ARRANGER, TemConstants.PARAM_NAMESPACE, primaryDepartmentCode);
-            return checkOrgRole;
-        }
-        return checkProfileAssignedRole;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#isTravelArranger(org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public boolean isTravelArranger(final Person user) {
-        return isTravelArranger(user, null);
-    }
-    
-    /**
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#isTravelManager(org.kuali.rice.kim.bo.Person)
      */
     @Override
     public boolean isTravelManager(final Person user) {
-        return checkPersonRole(user, TemConstants.TRAVEL_MANAGER, KFSConstants.CoreModuleNamespaces.FINANCIAL);
-    }
-
-    @Override
-    public boolean isFiscalOfficer(final Person user) {
-        return checkPersonRole(user, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME, KFSConstants.CoreModuleNamespaces.KFS);
-    }
-       
-    @Override
-    public boolean checkPersonRole(final Person user, String role, String parameterNamespace){
-        try{
-            final String arrangerRoleId = roleService.getRoleIdByName(parameterNamespace, role);
-            
-            List<String> roleIds = new ArrayList<String>();
-            roleIds.add(arrangerRoleId);
-            return roleService.principalHasRole(user.getPrincipalId(), roleIds, null);
-        } 
-        catch (NullPointerException e) {
-            LOG.error("NPE.", e);
-        }
-        
-        return false;   
-    }
-    
-    @Override
-    public boolean checkOrganizationRole(final Person user, String role, String parameterNamespace, String primaryDepartmentCode){
-        try{
-        	final String arrangerRoleId = roleService.getRoleIdByName(parameterNamespace, role);
-            
-            List<String> roleIds = new ArrayList<String>();
-            roleIds.add(arrangerRoleId);
-            
-            AttributeSet qualification = null;
-        	String chartOfAccounts, organizationCode = null;
-            if (StringUtils.isNotEmpty(primaryDepartmentCode)) {
-	            String[] split = primaryDepartmentCode.split("-");
-	            if(split != null){ 
-	                chartOfAccounts = split[0];
-	                qualification = new AttributeSet();
-	                qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccounts);
-	                qualification.put("performQualifierMatch", "True");
-		            
-		            if(split.length == 2){                     
-		            	organizationCode = split[1];
-		
-		            	qualification.put(KfsKimAttributes.ORGANIZATION_CODE, organizationCode);
-		            }
-	            }
-            }
-            
-            if (roleService.principalHasRole(user.getPrincipalId(), roleIds, qualification)) {
-            	return true;
-            }
-        }
-        catch (NullPointerException e) {
-            LOG.error("NPE.", e);
-        }
-        
-        return false;   
+        return getTemRoleService().isTravelManager(user);
     }
 
     /**
@@ -1160,23 +1080,14 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         this.accountingDocumentRelationshipService = accountingDocumentRelationshipService;
     }
 
-	/**
-	 * Gets the roleService attribute. 
-	 * @return Returns the roleService.
-	 */
-	public RoleService getRoleService() {
-		return roleService;
-	}
+    public TEMRoleService getTemRoleService() {
+        return temRoleService;
+    }
 
-	/**
-	 * Sets the roleService attribute value.
-	 * @param roleService The roleService to set.
-	 */
-	public void setRoleService(RoleService roleService) {
-		this.roleService = roleService;
-	}
+    public void setTemRoleService(TEMRoleService temRoleService) {
+        this.temRoleService = temRoleService;
+    }
 
-    
     protected KualiConfigurationService getConfigurationService() {
         return SpringContext.getBean(KualiConfigurationService.class);
     }
@@ -1974,7 +1885,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         List<SourceAccountingLine> currentLines = (List<SourceAccountingLine>) getBusinessObjectService().findMatching(SourceAccountingLine.class, fieldValues);
         
         TravelDocumentPresentationController documentPresentationController = (TravelDocumentPresentationController) getDocumentHelperService().getDocumentPresentationController(travelDocument);
-        boolean canUpdate = documentPresentationController.enableForTravelManager(travelDocument.getDocumentHeader().getWorkflowDocument());
+        boolean canUpdate = documentPresentationController.enableForDocumentManager(GlobalVariables.getUserSession().getPerson());
         
         for (int i=0;i<travelDocument.getSourceAccountingLines().size();i++){
             AccountingLine line = (AccountingLine) travelDocument.getSourceAccountingLines().get(i);

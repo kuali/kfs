@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -35,19 +33,14 @@ import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
-import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.JobClassification;
-import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.RelocationReason;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
-import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -261,34 +254,8 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
      */
     @Override
     public void initiateDocument() {
-        setAppDocStatus(TemConstants.TravelRelocationStatusCodeKeys.IN_PROCESS);
-        setActualExpenses(new ArrayList<ActualExpense>());
-        setPerDiemExpenses(new ArrayList<PerDiemExpense>());
-
-        getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
-        if (getTraveler() == null) {
-            setTraveler(new TravelerDetail());
-            getTraveler().setTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD);
-        }
-
-        Calendar calendar = getDateTimeService().getCurrentCalendar();
-        if (getTripBegin() == null) {
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-            setTripBegin(new Timestamp(calendar.getTimeInMillis()));
-
-        }
-        if (getTripEnd() == null) {
-            calendar.add(Calendar.DAY_OF_MONTH, 2);
-            setTripEnd(new Timestamp(calendar.getTimeInMillis()));
-        }
-        
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if(!getTravelDocumentService().isTravelArranger(currentUser)) {
-            TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
-            if(temProfile != null) {
-                setTemProfile(temProfile);
-            }
-        }        
+        super.initiateDocument();
+        setAppDocStatus(TravelRelocationStatusCodeKeys.IN_PROCESS);
     }
     
     /**
@@ -312,12 +279,12 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
     }
     
     /**
-     * Provides answers to the following splits: PurchaseWasReceived VendorIsEmployeeOrNonResidentAlien
-     * 
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(TemWorkflowConstants.REQUIRES_TRAVELER_REVIEW))
+            return requiresTravelerApprovalRouting();
         if (nodeName.equals(TemWorkflowConstants.ACCOUNT_APPROVAL_REQUIRED))
             return requiresAccountApprovalRouting();
         if (nodeName.equals(TemWorkflowConstants.TAX_MANAGER_APPROVAL_REQUIRED))

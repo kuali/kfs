@@ -21,7 +21,6 @@ import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 /**
  * Travel Service
@@ -50,26 +49,6 @@ public interface TravelService {
      * @return
      */
     public TEMProfile findTemProfileByPrincipalId(String principalId);
-    
-    /**
-     * Check user role w/o qualification in TEM namespace
-     * 
-     * @param user
-     * @param role
-     * @return
-     */
-    public boolean checkUserTEMRole(Person user, String role);
-    
-    /**
-     * Check for user role with added qualification
-     * 
-     * @param user
-     * @param role
-     * @param namespace
-     * @param qualifications
-     * @return
-     */
-    public boolean checkUserRole(Person user, String role, String namespace, AttributeSet qualifications);
     
     /**
      * Determine if the user is the initiator or it is the arranger for the document (base on specific doc

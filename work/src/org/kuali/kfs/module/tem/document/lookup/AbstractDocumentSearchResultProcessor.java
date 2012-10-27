@@ -19,17 +19,17 @@ import static org.kuali.kfs.module.tem.TemConstants.DISBURSEMENT_VOUCHER_DOCTYPE
 import static org.kuali.kfs.module.tem.TemConstants.REQUISITION_DOCTYPE;
 import static org.kuali.kfs.module.tem.TemKeyConstants.AGENCY_SITES_URL;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.cxf.common.util.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.module.tem.service.TEMRoleService;
+import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.docsearch.DocSearchDTO;
@@ -40,17 +40,20 @@ import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kew.web.KeyValueSort;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
 
-/**
- * This class...
- */
 public abstract class AbstractDocumentSearchResultProcessor {
+    
+    public static Logger LOG = Logger.getLogger(AbstractDocumentSearchResultProcessor.class);
 
+    /**
+     * 
+     * @param travelDocumentIdentifier
+     * @return
+     */
     public String createTravelReimbursementLink(String travelDocumentIdentifier) {
         KeyValueSort retval = new KeyValueSort();
         final DocumentType docType = getDocumentTypeService().findByName(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
@@ -70,6 +73,12 @@ public abstract class AbstractDocumentSearchResultProcessor {
         return link;
     }
 
+    /**
+     * 
+     * @param docCriteriaDTO
+     * @param title
+     * @return
+     */
     public String createRequisitionLink(DocSearchDTO docCriteriaDTO, String title) {
         final DocumentType docType = getDocumentTypeService().findByName(REQUISITION_DOCTYPE);
 
@@ -85,6 +94,12 @@ public abstract class AbstractDocumentSearchResultProcessor {
         return link;
     }
 
+    /**
+     * 
+     * @param docCriteriaDTO
+     * @param title
+     * @return
+     */
     public String createDisbursementVoucherLink(DocSearchDTO docCriteriaDTO, String title) {
         final DocumentType docType = getDocumentTypeService().findByName(DISBURSEMENT_VOUCHER_DOCTYPE);
 
@@ -100,6 +115,11 @@ public abstract class AbstractDocumentSearchResultProcessor {
         return link;
     }
 
+    /**
+     * 
+     * @param tripID
+     * @return
+     */
     public String createAgencySitesLinks(String tripID) {
         String links = "";
         if (getMessageFrom(TemKeyConstants.ENABLE_AGENCY_SITES_URL).equals("Y")){
@@ -119,71 +139,63 @@ public abstract class AbstractDocumentSearchResultProcessor {
         return links;
     }
 
-    /*
-     * Perform 5 checks
-     * Is the current user 
-     * -also the traveler?
-     * -an arranger who created the doc for a traveler they authorize?
-     * -a travel Manager?
-     * -a TEM Profile Administrator within the traveler's org hierarchy?
-     * -in the workflow?
+    /**
+     * Do not filter IF the current user is
      * 
+     * 1. in the workflow?
+     * 2. also the traveler?
+     * 3. an arranger who created the doc for a traveler they authorize?
+     * 4. a travel Manager?
+     * 5. a TEM Profile Administrator within the traveler's org hierarchy?
+     * 
+     * @param docCriteriaDTO
+     * @return
      */
-    @SuppressWarnings("null")
     public boolean filterByUser(DocSearchDTO docCriteriaDTO){
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         try {
-            //is user in the workflow?
+            TravelDocument document = getDocument(docCriteriaDTO.getRouteHeaderId().toString());
+            
+            //check workflow
             if (isWorkflowApprover(docCriteriaDTO.getRouteHeaderId(), currentUser)){
                 return false;
             }
-            
-            TravelDocument document = getDocument(docCriteriaDTO.getRouteHeaderId().toString());
-            
-            //is user traveler?
+            //check traveler
             if (currentUser.getPrincipalId().equals(document.getTraveler().getPrincipalId())){
                 return false;
             }
-            
-            //is user a Travel Manager?
+            //check Travel Manager
             if (getTravelDocumentService().isTravelManager(currentUser)){
                 return false;
             }
-            
-            TEMProfile profile = null;
-            Map<String, String> primaryKeys = new HashMap<String, String>();
-            
-            if(ObjectUtils.isNotNull(document.getTemProfileId())) {
-                TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
-                if(ObjectUtils.isNull(temProfile) || !document.getTemProfileId().equals(temProfile.getProfileId())) {
-                    primaryKeys.put(TEMProfileProperties.PROFILE_ID, document.getTemProfileId().toString());
-                    profile = (TEMProfile) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TEMProfile.class, primaryKeys);
-                }
+
+            //check if user is an arranger to the document
+            boolean arrangerAccess = getTemRoleService().canAccessTravelDocument(document, currentUser);
+            if (arrangerAccess){
+                return false;
             }
-            
-            //is an Arranger?
-            if(ObjectUtils.isNotNull(profile)) {
-                if (getTravelDocumentService().isTravelArranger(currentUser, profile.getHomeDepartment())){
-                    return false;
-                }
-            }
-            
-            //Is a TEM Profile Administrator?
-            if (getTravelDocumentService().checkPersonRole(currentUser, TemConstants.TEMRoleNames.TEM_PROFILE_ADMINISTRATOR, TemConstants.PARAM_NAMESPACE)){
-                if(ObjectUtils.isNotNull(profile)) {
-                    if(getTravelDocumentService().checkOrganizationRole(currentUser, TemConstants.TEMRoleNames.TEM_PROFILE_ADMINISTRATOR, TemConstants.PARAM_NAMESPACE, profile.getHomeDepartment())) {
-                        return false;
-                    }
-                }
+
+            //check if user is profile admin on the org
+            TEMProfile profile = getTemProfileService().findTemProfileById(document.getTemProfileId());
+            boolean profileAdminAccess = getTemRoleService().isProfileAdmin(currentUser, ObjectUtils.isNotNull(profile)? profile.getHomeDepartment() : null);
+            if (profileAdminAccess){
+                return false;
             }
         }
         catch (WorkflowException ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
+            LOG.error(ex.getMessage(), ex);
         }
         return true;
     }
     
+    /**
+     * Check if the user is in the workflow route log
+     * 
+     * @param documentNumber
+     * @param user
+     * @return
+     * @throws WorkflowException
+     */
     public boolean isWorkflowApprover(Long documentNumber, Person user) throws WorkflowException{
         WorkflowInfo workflowInfo = new WorkflowInfo();
         List<String> approvers = workflowInfo.getPrincipalIdsInRouteLog(documentNumber, true);
@@ -196,10 +208,21 @@ public abstract class AbstractDocumentSearchResultProcessor {
     }
     
     
+    /**
+     * 
+     * @param documentNumber
+     * @return
+     * @throws WorkflowException
+     */
     public TravelDocument getDocument(String documentNumber) throws WorkflowException{
         return (TravelDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
     }
     
+    /**
+     * 
+     * @param messageType
+     * @return
+     */
     public String getMessageFrom(final String messageType) {
         return getConfigurationService().getPropertyString(messageType);
     }
@@ -223,4 +246,13 @@ public abstract class AbstractDocumentSearchResultProcessor {
     protected TravelService getTravelService() {
         return SpringContext.getBean(TravelService.class);
     }
+    
+    protected TemProfileService getTemProfileService() {
+        return SpringContext.getBean(TemProfileService.class);
+    }
+    
+    protected TEMRoleService getTemRoleService() {
+        return SpringContext.getBean(TEMRoleService.class);
+    }
+
 }

@@ -21,14 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
-import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
@@ -36,8 +34,16 @@ import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
-public class TravelEntertainmentAuthorizer extends TravelDocumentAuthorizer implements ReturnToFiscalOfficerAuthorizer {
+public class TravelEntertainmentAuthorizer extends TravelArrangeableAuthorizer implements ReturnToFiscalOfficerAuthorizer {
     
+    /**
+     * 
+     * @param travelDocument
+     * @param user
+     * @param action
+     * @param canInitiatorAct
+     * @return
+     */
     protected boolean getActionPermission(final TravelDocument travelDocument, final Person user, final String action, final boolean canInitiatorAct){
         boolean success = false;
         
@@ -122,19 +128,10 @@ public class TravelEntertainmentAuthorizer extends TravelDocumentAuthorizer impl
         }
         return false;
     }
-    
-    protected boolean isEmployee(final TravelerDetail traveler) {
-        if (traveler == null) {
-            return false;
-        }
-        return getTravelerService().isEmployee(traveler);
-    }
-    
-    protected TravelerService getTravelerService() {
-        return SpringContext.getBean(TravelerService.class);
-    }
-    
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.authorization.ReturnToFiscalOfficerAuthorizer#canReturnToFisicalOfficer(org.kuali.kfs.module.tem.document.TravelDocument, org.kuali.rice.kim.bo.Person)
+     */
     @Override
     public boolean canReturnToFisicalOfficer(TravelDocument travelDocument, Person user) {
         if(ObjectUtils.isNull(user)) {
@@ -165,11 +162,9 @@ public class TravelEntertainmentAuthorizer extends TravelDocumentAuthorizer impl
         
         String nameSpaceCode = org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
         AttributeSet permissionDetails = new AttributeSet();
-        permissionDetails.put(KimAttributes.DOCUMENT_TYPE_NAME,
-                org.kuali.kfs.module.tem.TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT);
+        permissionDetails.put(KimAttributes.DOCUMENT_TYPE_NAME, TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT);
         
-        return getIdentityManagementService().isAuthorized(user.getPrincipalId(), nameSpaceCode,
-                TemConstants.Permission.RETURN_TO_FO, permissionDetails, null);
+        return getIdentityManagementService().isAuthorized(user.getPrincipalId(), nameSpaceCode, TemConstants.Permission.RETURN_TO_FO, permissionDetails, null);
     }
 
 }

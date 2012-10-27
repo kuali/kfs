@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.tem.document;
 
 import java.beans.PropertyChangeEvent;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,9 +41,7 @@ import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
-import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
-import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.Purpose;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
@@ -61,7 +58,6 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 
@@ -245,6 +241,8 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(TemWorkflowConstants.REQUIRES_TRAVELER_REVIEW))
+            return requiresTravelerApprovalRouting();
         if (nodeName.equals(TemWorkflowConstants.SPECIAL_REQUEST))
             return requiresSpecialRequestReviewRouting();
         if (nodeName.equals(TemWorkflowConstants.TAX_MANAGER))
@@ -359,36 +357,13 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         }
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#initiateDocument()
+     */
     @Override
     public void initiateDocument() {
-        updateAppDocStatus(TemConstants.EntertainmentStatusCodeKeys.IN_PROCESS);
-        setActualExpenses(new ArrayList<ActualExpense>());
-        setPerDiemExpenses(new ArrayList<PerDiemExpense>());
-
-        getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
-        if (this.getTraveler() == null) {
-            this.setTraveler(new TravelerDetail());
-            this.getTraveler().setTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD);
-        }
-        
-        Calendar calendar = getDateTimeService().getCurrentCalendar();
-        if (this.getTripBegin() == null) {
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-            setTripBegin(new Timestamp(calendar.getTimeInMillis()));
-
-        }
-        if (this.getTripEnd() == null) {
-            calendar.add(Calendar.DAY_OF_MONTH, 2);
-            setTripEnd(new Timestamp(calendar.getTimeInMillis()));
-        }
-
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if (!getTravelDocumentService().isTravelArranger(currentUser)) {
-            TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
-            if (temProfile != null) {
-                setTemProfile(temProfile);
-            }
-        }
+        super.initiateDocument();
+        updateAppDocStatus(EntertainmentStatusCodeKeys.IN_PROCESS);
     }
 
     /**

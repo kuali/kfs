@@ -67,7 +67,6 @@ import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -100,6 +99,7 @@ import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.report.service.TravelReportService;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.PerDiemService;
+import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
@@ -157,6 +157,10 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     
     protected TravelEncumbranceService getTravelEncumbranceService() {
         return SpringContext.getBean(TravelEncumbranceService.class);
+    }
+    
+    protected TEMRoleService getTemRoleService() {
+        return SpringContext.getBean(TEMRoleService.class);
     }
 
     public PersonService<Person> getPersonService() {
@@ -328,7 +332,11 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         return retval;
     }
 
+    /**
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
+    @SuppressWarnings("rawtypes")
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
         TravelFormBase travelForm = (TravelFormBase) form;
@@ -544,6 +552,13 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         document.setSpecialCircumstances(specialCircumstances);
     }
 
+    /**
+     * 
+     * @param form
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings("rawtypes")
     public <T> T newMvcDelegate(final ActionForm form) throws Exception {
         T retval = (T) Proxy.newProxyInstance(getClass().getClassLoader(),
                 new Class[] { getMvcWrapperInterface() },
@@ -653,6 +668,15 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * @param reportFile
+     * @param fileName
+     * @throws IOException
+     */
+    @SuppressWarnings("rawtypes")
     protected void displayPDF(HttpServletRequest request, HttpServletResponse response, File reportFile, StringBuilder fileName) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String contentDisposition = "";
@@ -968,26 +992,27 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     }
 
     /**
-     * This method determines if the user is a travel arranger
+     * This method determines if the user is a travel arranger for the document
      * 
      * @return true if they are a travel arranger
      */
-    protected boolean setTravelArranger(TravelFormBase reqForm) {
-        // Find if they have the role
+    protected boolean setTravelArranger(TravelFormBase form) {
+
+        TravelDocument travelDocument = form.getTravelDocument();
+        TEMProfile profile = null;
+        
+        //default to nulls
+        String profileId=null;
         String homeDepartment = null;
-        TravelDocument travelDocument = reqForm.getTravelDocument();
-
-        Map<String, String> primaryKeys = new HashMap<String, String>();
+        
         if (ObjectUtils.isNotNull(travelDocument.getTemProfileId())) {
-            primaryKeys.put(TEMProfileProperties.PROFILE_ID, travelDocument.getTemProfileId().toString());
-            TEMProfile profile = (TEMProfile) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TEMProfile.class, primaryKeys);
-
+            profile = (TEMProfile) SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(TEMProfile.class, travelDocument.getTemProfileId());
             if (ObjectUtils.isNotNull(profile)) {
                 homeDepartment = profile.getHomeDepartment();
+                profileId = profile.getProfileId().toString();
             }
         }
-
-        return getTravelDocumentService().isTravelArranger(GlobalVariables.getUserSession().getPerson(), homeDepartment);
+        return getTemRoleService().isTravelArranger(GlobalVariables.getUserSession().getPerson(), homeDepartment, profileId, travelDocument.getDocumentTypeName());
     }
 
     /**
@@ -1248,7 +1273,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      */
     @Override
     protected SourceAccountingLine getSourceAccountingLine(ActionForm form, HttpServletRequest request) {
-        // TODO Auto-generated method stub
         return super.getSourceAccountingLine(form, request);
     }
 
@@ -1258,7 +1282,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      */
     @Override
     protected void deleteAccountingLine(boolean isSource, KualiAccountingDocumentFormBase financialDocumentForm, int deleteIndex) {
-        // TODO Auto-generated method stub
         financialDocumentForm.setAnchor(TemConstants.SOURCE_ANCHOR);
         super.deleteAccountingLine(isSource, financialDocumentForm, deleteIndex);
     }
@@ -1269,7 +1292,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      */
     @Override
     protected void insertAccountingLine(boolean isSource, KualiAccountingDocumentFormBase financialDocumentForm, AccountingLine line) {
-        // TODO Auto-generated method stub
         financialDocumentForm.setAnchor(TemConstants.SOURCE_ANCHOR);
         super.insertAccountingLine(isSource, financialDocumentForm, line);
     }

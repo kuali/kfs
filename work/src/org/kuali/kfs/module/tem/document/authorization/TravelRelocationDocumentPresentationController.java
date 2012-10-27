@@ -17,14 +17,12 @@ package org.kuali.kfs.module.tem.document.authorization;
 
 import java.util.Set;
 
-import org.kuali.kfs.module.tem.TemAuthorizationConstants;
-import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.TemConstants.TEMRoleNames;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 
 /**
@@ -39,38 +37,28 @@ public class TravelRelocationDocumentPresentationController extends TravelDocume
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
-
-        addFullEntryEntryMode(document, editModes);
-
+        addFullEntryEditMode(document, editModes);
         return editModes;
     }
     
     /**
-     * @see org.kuali.kfs.module.tem.document.authorization.TravelDocumentPresentationController#addFullEntryEntryMode(org.kuali.rice.kns.document.Document, java.util.Set)
+     * @see org.kuali.kfs.module.tem.document.authorization.TravelDocumentPresentationController#getDocumentManagerApprovalNode()
      */
     @Override
-    protected void addFullEntryEntryMode(Document document, Set<String> editModes) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-
-        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) && isInitiator(workflowDocument)) {
-            editModes.add(TemAuthorizationConstants.TravelEditMode.FULL_ENTRY);
-        }
+    public String getDocumentManagerApprovalNode(){
+        return TemWorkflowConstants.RouteNodeNames.MOVING_AND_RELOCATION_MANAGER;
     }
-    
+
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canInitiate(java.lang.String)
+     * @see org.kuali.kfs.module.tem.document.authorization.TravelDocumentPresentationController#enableForDocumentManager(org.kuali.rice.kim.bo.Person, boolean)
      */
     @Override
-    public boolean canInitiate(String documentTypeName) {
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if (!getTravelDocumentService().isTravelArranger(currentUser)) {
-            TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
-            if (temProfile == null) {
-                throw new DocumentInitiationException(TemKeyConstants.ERROR_TRAVEL_DOCUMENT_INITIATION, new String[] { TemConstants.TravelEntertainment.DOCUMENT_NAME }, true);
-            }
-        }
-
-        return super.canInitiate(documentTypeName);
+    public boolean enableForDocumentManager(Person currentUser, boolean checkParameters){
+        boolean isRelocationManager = getTemRoleService().checkUserTEMRole(currentUser, TEMRoleNames.MOVING_AND_RELOCATION_MANAGER);
+        boolean allowUpdate = checkParameters? getParamService().getIndicatorParameter(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.ALLOW_TRAVEL_OFFICE_TO_MODIFY_ALL_IND) : true;
+        
+        boolean isEnabled = isRelocationManager && allowUpdate;
+        return isEnabled;
     }
     
 }

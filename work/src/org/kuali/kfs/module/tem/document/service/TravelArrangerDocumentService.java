@@ -28,26 +28,4 @@ public interface TravelArrangerDocumentService {
     
     public void removeTravelProfileArranger(TravelArrangerDocument arrangerDoc);
 
-    /**
-     * Determine if the principal Id is the profile's arranger
-     * 
-     * @param principalId
-     * @param profileId
-     * @return
-     */
-    public boolean isArrangerForProfile(String principalId, int profileId);
-
-    /**
-     * Determine if the principal Id is the profile's arranger 
-     * Also check if the arranger is allowed for specific doc type: TA(TAA,TAC) or TR 
-     *  
-     * @param documentType
-     * @param principalId
-     * @param profileId
-     * @return
-     */
-    public boolean isTravelDocumentArrangerForProfile(String documentType, String principalId, int profileId);
-
-    public boolean isArranger(String principalId);
-
 }

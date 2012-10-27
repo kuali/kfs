@@ -40,10 +40,7 @@ import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
-import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
-import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
@@ -294,34 +291,8 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
      */
     @Override
     public void initiateDocument() {
-        setAppDocStatus(TemConstants.TravelReimbursementStatusCodeKeys.IN_PROCESS);
-        setActualExpenses(new ArrayList<ActualExpense>());
-        setPerDiemExpenses(new ArrayList<PerDiemExpense>());
-
-        getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
-        if (this.getTraveler() == null) {
-            this.setTraveler(new TravelerDetail());
-            this.getTraveler().setTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD);
-        }
-
-        /*Calendar calendar = getDateTimeService().getCurrentCalendar();
-        if (this.getTripBegin() == null) {
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-            setTripBegin(new Timestamp(calendar.getTimeInMillis()));
-
-        }
-        if (this.getTripEnd() == null) {
-            calendar.add(Calendar.DAY_OF_MONTH, 2);
-            setTripEnd(new Timestamp(calendar.getTimeInMillis()));
-        }*/
-
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if(!getTravelDocumentService().isTravelArranger(currentUser)) {
-            TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
-            if (temProfile != null) {
-                setTemProfile(temProfile);
-            }
-        }
+        super.initiateDocument();
+        setAppDocStatus(TravelReimbursementStatusCodeKeys.IN_PROCESS);
     }
 
     /**
@@ -361,17 +332,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
             return isNotAutomaticReimbursement();
         }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
-    }
-
-    /**
-     * 
-     * @return
-     */
-    private boolean requiresTravelerApprovalRouting() {
-        String initiator = this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getInitiatorPrincipalId();
-        String travelerID = this.getTraveler().getPrincipalId();
-
-        return travelerID != null && !initiator.equals(travelerID);
     }
 
     /**

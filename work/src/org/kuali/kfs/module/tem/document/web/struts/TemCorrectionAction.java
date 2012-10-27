@@ -32,7 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.module.tem.TemAuthorizationConstants;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.businessobject.AgencyCorrectionChangeGroup;
@@ -595,7 +595,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
      *         being called if true, this is ususally not a good condition
      */
     protected boolean restoreSystemAndEditMethod(TemCorrectionForm correctionForm) {
-        boolean readOnly = correctionForm.getEditingMode().get(TemAuthorizationConstants.TravelEditMode.FULL_ENTRY) != null;
+        boolean readOnly = correctionForm.getEditingMode().get(TemConstants.TravelEditMode.FULL_ENTRY) != null;
         if (!"selectSystemEditMethod".equals(correctionForm.getMethodToCall()) && !readOnly) {
             if (!StringUtils.equals(correctionForm.getPreviousEditMethod(), correctionForm.getEditMethod()) || !StringUtils.equals(correctionForm.getPreviousChooseSystem(), correctionForm.getChooseSystem())) {
                 correctionForm.setChooseSystem(correctionForm.getPreviousChooseSystem());

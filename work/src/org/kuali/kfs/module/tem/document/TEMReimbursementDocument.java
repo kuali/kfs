@@ -17,6 +17,9 @@ package org.kuali.kfs.module.tem.document;
 
 import static org.kuali.kfs.module.tem.TemConstants.DISBURSEMENT_VOUCHER_DOCTYPE;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -28,6 +31,8 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.DisbursementVoucherPaymentMethods;
+import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -49,6 +54,31 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+    
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#initiateDocument()
+     */
+    @Override
+    public void initiateDocument() {
+        super.initiateDocument();
+
+        //clear expenses
+        setActualExpenses(new ArrayList<ActualExpense>());
+        setPerDiemExpenses(new ArrayList<PerDiemExpense>());
+        
+        //default dates if null
+        Calendar calendar = getDateTimeService().getCurrentCalendar();
+        if (getTripBegin() == null) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            setTripBegin(new Timestamp(calendar.getTimeInMillis()));
+
+        }
+        if (getTripEnd() == null) {
+            calendar.add(Calendar.DAY_OF_MONTH, 2);
+            setTripEnd(new Timestamp(calendar.getTimeInMillis()));
+        }
     }
     
     /**
@@ -208,6 +238,10 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
         return totalPaidAmountToRequests;
     }
 
+    /**
+     * 
+     * @return
+     */
     public KualiDecimal getReimbursableGrandTotal() {
         KualiDecimal grandTotal = KualiDecimal.ZERO;
         grandTotal = getApprovedAmount().add(getTotalPaidAmountToVendor()).add(getTotalPaidAmountToRequests());
@@ -218,6 +252,19 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
         
         return grandTotal;
     }   
+    
+    /**
+     * 
+     * @return
+     */
+    public boolean requiresTravelerApprovalRouting() {
+        String initiator = getDocumentHeader().getWorkflowDocument().getRouteHeader().getInitiatorPrincipalId();
+        String travelerID = getTraveler().getPrincipalId();
+
+        boolean routeToTraveler = travelerID != null && !initiator.equals(travelerID);
+        return routeToTraveler;
+    }
+
     
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getPerDiemAdjustment()

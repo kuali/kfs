@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 The Kuali Foundation.
+ * Copyright 2012 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,29 +15,18 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
-import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-
 
 /**
  * Travel Reimbursement Document Presentation Controller
@@ -45,66 +34,21 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class TravelReimbursementDocumentPresentationController extends TravelDocumentPresentationController {
 
+    public static Logger LOG = Logger.getLogger(TravelReimbursementDocumentPresentationController.class);
+    
     /**
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
      */
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
-
-        addFullEntryEntryMode(document, editModes);
-
+        addFullEntryEditMode(document, editModes);
         return editModes;
     }
     
     /**
-     * Override this method to add extra validation, so that when the user is not a travel
-     * arranger and does not have a TEM Profile, an error message will be displayed, instead 
-     * of creating an TravelReimbursementDocument.
-     * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canInitiate(java.lang.String)
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getDocumentActions(org.kuali.rice.kns.document.Document)
      */
-    @Override
-    public boolean canInitiate(String documentTypeName) {
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if(!getTravelDocumentService().isTravelArranger(currentUser)) {
-            TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
-            if(temProfile == null) {
-                throw new DocumentInitiationException(TemKeyConstants.ERROR_AUTHORIZATION_TR_INITIATION, new String[] { documentTypeName }, true);
-            }
-        }
-
-        return super.canInitiate(documentTypeName);
-    }
-    
-    /**
-	 * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.kns.document.Document)
-	 */
-	@Override
-	protected boolean canEdit(Document document) {
-		Person currentUser = GlobalVariables.getUserSession().getPerson();
-		TravelDocument travelDocument = (TravelDocument) document;
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-
-    	if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
-        	Map<String, String> primaryKeys = new HashMap<String, String>();
-        	
-			if(ObjectUtils.isNotNull(travelDocument.getTemProfileId())) {
-	            TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
-		    	if(ObjectUtils.isNull(temProfile) || !travelDocument.getTemProfileId().equals(temProfile.getProfileId())) {
-	    	    	primaryKeys.put(TEMProfileProperties.PROFILE_ID, travelDocument.getTemProfileId().toString());
-	    	    	TEMProfile profile = (TEMProfile) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TEMProfile.class, primaryKeys);
-	    	    	
-	    	    	if(ObjectUtils.isNotNull(profile) && !(getTravelDocumentService().isTravelArranger(currentUser, profile.getHomeDepartment()) || getTravelDocumentService().isTravelManager(GlobalVariables.getUserSession().getPerson()))) {
-		                throw new DocumentInitiationException(TemKeyConstants.ERROR_AUTHORIZATION_TR_EDIT, new String[] { }, true);
-	    	    	}
-				}
-			}
-    	}
-
-        return super.canEdit(document);
-	}
-    
     @Override
     public Set<String> getDocumentActions(Document document) {
         TravelReimbursementDocument tr = (TravelReimbursementDocument)document;
@@ -113,8 +57,7 @@ public class TravelReimbursementDocumentPresentationController extends TravelDoc
             ta = (TravelAuthorizationDocument) getTravelDocumentService().findCurrentTravelAuthorization(tr);
         }
         catch (WorkflowException ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
+            LOG.error(ex);
         }
         
         if (ta != null){
@@ -122,19 +65,11 @@ public class TravelReimbursementDocumentPresentationController extends TravelDoc
                 throw new DocumentInitiationException(TemKeyConstants.ERROR_AUTHORIZATION_TR_DELINQUENT, new String[] { TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT }, true);
             }
         }
-        
-        
         return super.getDocumentActions(document);
     }        
     
-    @Override
     protected TravelDocumentService getTravelDocumentService() {
         return SpringContext.getBean(TravelDocumentService.class);
-    }
-    
-    @Override
-    protected TravelService getTravelService() {
-        return SpringContext.getBean(TravelService.class);
     }
     
 }

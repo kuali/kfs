@@ -14,7 +14,7 @@
         xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
         <documentType>
             <name>TR</name>
-            <parent>KFST</parent>
+            <parent>TT</parent>
             <docHandler>${application.url}/temTravelReimbursement.do?methodToCall=docHandler
             </docHandler>
             <label>Travel Reimbursement</label>
@@ -37,6 +37,7 @@
                 2
             </routingVersion>
             <validApplicationStatuses>
+                <status>In Process</status>
                 <status>Awaiting Traveler Review</status>
                 <status>Awaiting Fiscal Officer Review</status>
                 <status>Awaiting Travel Accounting Review</status>
@@ -60,7 +61,6 @@
                 <status>Disapproved - Tax Manager Review</status>
                 <status>Disapproved - Travel Manager Review</status>
                 <status>Cancelled</status>
-                <status>In Process</status>
             </validApplicationStatuses>
             <policies>
                 <policy>
@@ -183,16 +183,11 @@
                     <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
                 </simple>
                 <split name="TravelRequiresTravelerApproval">
-                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
-                    </type>
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
                 </split>
 				<role name="TravelerReview">
-					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>
-						P
-                    </activationType>
+					<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+					<activationType>P</activationType>
 				</role>
 				<join name="JoinRequiresAccountApproval" />
 				<simple name="NoOpAccountApproval">

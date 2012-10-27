@@ -71,20 +71,18 @@
 	<bean id="TEMProfileArranger-taInd" parent="TEMProfileArranger-taInd-parentBean" />
     <bean id="TEMProfileArranger-taInd-parentBean" parent="GenericAttributes-genericBoolean">
         <property name="name" value="taInd" />
-        <property name="label" value="Allow to initiate TA report" />
+        <property name="label" value="Allow to initiate TA document" />
         <property name="shortLabel" value="Initiate TA" />
         <property name="required" value="true" />
         <property name="summary" value="Initiate TA" />
-        <property name="description" value="Allow to initiate TA report" />
+        <property name="description" value="Allow to initiate TA document" />
     </bean>
     <bean id="TEMProfileArranger-trInd" parent="TEMProfileArranger-trInd-parentBean" />
     <bean id="TEMProfileArranger-trInd-parentBean" parent="GenericAttributes-genericBoolean">
         <property name="name" value="trInd" />
-        <property name="label" value="Allow to initiate TR report" />
-        <property name="shortLabel" value="Initiate TR" />
+        <property name="label" value="Allow to initiate TR/RELO/ENT document" />
+        <property name="shortLabel" value="Initiate TR/RELO/ENT" />
         <property name="required" value="true" />
-        <property name="summary" value="Initiate TR" />
-        <property name="description" value="Allow to initiate TA report" />
     </bean>
 	<bean id="TEMProfileArranger-active" parent="TEMProfileArranger-active-parentBean" />
 	<bean id="TEMProfileArranger-active-parentBean" parent="GenericAttributes-genericBoolean">

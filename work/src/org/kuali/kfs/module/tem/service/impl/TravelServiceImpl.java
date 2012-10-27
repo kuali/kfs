@@ -15,11 +15,7 @@
  */
 package org.kuali.kfs.module.tem.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
@@ -28,15 +24,13 @@ import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
+import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TravelService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.datadictionary.validation.charlevel.RegexValidationPattern;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 /**
@@ -47,8 +41,7 @@ public class TravelServiceImpl implements TravelService {
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
     private AccountsReceivableModuleService accountsReceivableModuleService;
-    private RoleService roleService;
-    private TravelArrangerDocumentService arrangerDocumentService;
+    private TEMRoleService temRoleService;
     private TravelDocumentDao travelDocumentDao;
 
     /**
@@ -93,36 +86,12 @@ public class TravelServiceImpl implements TravelService {
         }
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.service.TravelService#findTemProfileByPrincipalId(java.lang.String)
+     */
     @Override
     public TEMProfile findTemProfileByPrincipalId(String principalId) {
-        Map<String,String> criteria = new HashMap<String,String>(1);
-        criteria.put("principalId", principalId);
-        Collection<TEMProfile> profiles = getBusinessObjectService().findMatching(TEMProfile.class, criteria);
-        if(ObjectUtils.isNotNull(profiles) && profiles.size() > 0) {
-            return profiles.iterator().next();
-        }
-        return null;
-    }
-    
-    /**
-     * @see org.kuali.kfs.module.tem.service.TravelService#checkUserRole(org.kuali.rice.kim.bo.Person, java.lang.String, java.lang.String, javax.print.attribute.AttributeSet)
-     */
-    public boolean checkUserTEMRole(final Person user, String role) {
-        return checkUserRole(user, role, TemConstants.PARAM_NAMESPACE, null);
-    }
-    
-    /**
-     * @see org.kuali.kfs.module.tem.service.TravelService#checkUserRole(org.kuali.rice.kim.bo.Person, java.lang.String, java.lang.String, javax.print.attribute.AttributeSet)
-     */
-    public boolean checkUserRole(final Person user, String role, String namespace, AttributeSet qualifications) {
-        final String arrangerRoleId = roleService.getRoleIdByName(namespace, role);
-        boolean hasRole = false;
-        if (arrangerRoleId != null){
-            List<String> roleIds = new ArrayList<String>();
-            roleIds.add(arrangerRoleId);
-             hasRole = roleService.principalHasRole(user.getPrincipalId(), roleIds, qualifications);
-        }
-        return hasRole;
+        return SpringContext.getBean(TemProfileServiceImpl.class).findTemProfileByPrincipalId(principalId);
     }
 
     /**
@@ -135,7 +104,7 @@ public class TravelServiceImpl implements TravelService {
         String initiator = workflowDocument.getRouteHeader().getInitiatorPrincipalId();
         String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
         
-        if(initiator.equals(user.getPrincipalId()) || arrangerDocumentService.isTravelDocumentArrangerForProfile(docType, user.getPrincipalId(), document.getProfileId()) ) {
+        if(initiator.equals(user.getPrincipalId()) || temRoleService.isTravelDocumentArrangerForProfile(docType, user.getPrincipalId(), document.getProfileId()) ) {
             isUser = true;
         }
         return isUser;
@@ -146,7 +115,7 @@ public class TravelServiceImpl implements TravelService {
      */
     @Override
     public List<PrimaryDestination> findAllDistinctPrimaryDestinations(String tripType){
-        return getTravelDocumentDao().findAllDistinctPrimaryDestinations(tripType);
+        return travelDocumentDao.findAllDistinctPrimaryDestinations(tripType);
     }
 
     /**
@@ -155,29 +124,17 @@ public class TravelServiceImpl implements TravelService {
     @SuppressWarnings("rawtypes")
     @Override
     public List findDefaultPrimaryDestinations(Class clazz, String countryCode) {
-        return getTravelDocumentDao().findDefaultPrimaryDestinations(clazz, countryCode);
+        return travelDocumentDao.findDefaultPrimaryDestinations(clazz, countryCode);
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
-    protected BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
     public void setParameterService(final ParameterService parameterService) {
         this.parameterService = parameterService;
     }
     
-    protected AccountsReceivableModuleService getAccountsReceivableModuleService() {
-        return accountsReceivableModuleService;
-    }
-
     public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
         this.accountsReceivableModuleService = accountsReceivableModuleService;
     }    
@@ -186,23 +143,8 @@ public class TravelServiceImpl implements TravelService {
         this.travelDocumentDao = travelDocumentDao;
     }
     
-    protected TravelDocumentDao getTravelDocumentDao() {
-        return travelDocumentDao;
+    public void setTemRoleService(TEMRoleService temRoleService){
+        this.temRoleService = temRoleService;
     }
 
-    public RoleService getRoleService() {
-        return roleService;
-    }
-
-    public void setRoleService(RoleService roleService) {
-        this.roleService = roleService;
-    }
-
-    public TravelArrangerDocumentService getArrangerDocumentService() {
-        return arrangerDocumentService;
-    }
-
-    public void setArrangerDocumentService(TravelArrangerDocumentService arrangerDocumentService) {
-        this.arrangerDocumentService = arrangerDocumentService;
-    }
 }

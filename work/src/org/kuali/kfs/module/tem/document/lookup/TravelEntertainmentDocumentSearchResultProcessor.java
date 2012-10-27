@@ -71,10 +71,12 @@ public class TravelEntertainmentDocumentSearchResultProcessor extends AbstractDo
         return result;
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.lookup.TravelDocumentSearchResultsProcessor#filterSearchResult(org.kuali.rice.kew.docsearch.DocSearchDTO)
+     */
     @Override
     public boolean filterSearchResult(DocSearchDTO docCriteriaDTO) {
-        // TODO Auto-generated method stub
-        return false;
+        return filterByUser(docCriteriaDTO);
     }
     
     @Override

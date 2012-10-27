@@ -52,6 +52,9 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      */
     boolean canReturn();
 
+    /**
+     * Initiate travel document
+     */
     void initiateDocument();
 
     /**
@@ -62,15 +65,34 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      */
     public boolean updateAppDocStatus(String newStatus);
     
+    /**
+     * @see org.kuali.kfs.integration.tem.TravelEntertainmentMovingTravelDocument#getTravelDocumentIdentifier()
+     */
     @Override
     String getTravelDocumentIdentifier();
 
+    /**
+     * 
+     * @param travelDocumentIdentifier
+     */
     void setTravelDocumentIdentifier(String travelDocumentIdentifier);
 
+    /**
+     * 
+     * @return
+     */
     String getAppDocStatus();
 
+    /**
+     * 
+     * @return
+     */
     Integer getTravelDocumentLinkIdentifier();
 
+    /**
+     * 
+     * @param travelDocumentLinkIdentifier
+     */
     void setTravelDocumentLinkIdentifier(Integer travelDocumentLinkIdentifier);
 
     @Override

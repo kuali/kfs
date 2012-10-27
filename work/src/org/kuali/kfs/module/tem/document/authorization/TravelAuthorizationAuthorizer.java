@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.AWAIT_ORG;
+import static org.kuali.kfs.module.tem.TemConstants.TravelStatusCodeKeys.AWAIT_ORG;
 
 import java.util.List;
 
@@ -24,22 +24,15 @@ import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
     
-    private PermissionService permissionService;
-    private RoleService roleService;
-
     /**
      *  check permission to close
      *  
@@ -191,28 +184,6 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
         final String fiscalOfficerRoleId = getRoleService().getRoleIdByName(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME);
         final List<String> roles = getPermissionService().getRoleIdsForPermission(TemConstants.PARAM_NAMESPACE, action, permissionDetails);
         return (roles != null && roles.size() > 0 && roles.contains(fiscalOfficerRoleId));
-    }
-
-    /**
-     * 
-     * @return
-     */
-    protected final PermissionService getPermissionService() {
-        if (permissionService == null) {
-            permissionService = SpringContext.getBean(PermissionService.class);
-        }
-        return permissionService;
-    }
-    
-    /**
-     * 
-     * @return
-     */
-    protected RoleService getRoleService() {
-        if ( roleService == null ) {
-            roleService = SpringContext.getBean(RoleManagementService.class);
-        }
-        return roleService;
     }
     
 }

@@ -18,13 +18,10 @@ package org.kuali.kfs.module.tem.document.authorization;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
-import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
@@ -32,6 +29,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class TravelReimbursementAuthorizer extends TravelArrangeableAuthorizer {
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.authorization.ReturnToFiscalOfficerAuthorizer#canReturnToFisicalOfficer(org.kuali.kfs.module.tem.document.TravelDocument, org.kuali.rice.kim.bo.Person)
+     */
     @Override
     public boolean canReturnToFisicalOfficer(final TravelDocument taDoc, final Person user) {
         if (ObjectUtils.isNull(user)) {
@@ -60,18 +60,13 @@ public class TravelReimbursementAuthorizer extends TravelArrangeableAuthorizer {
 
     }
 
+    /**
+     * 
+     * @param reimbursement
+     * @param user
+     * @return
+     */
     public boolean canCertify(final TravelReimbursementDocument reimbursement, Person user) {
         return user.getPrincipalId().equals(reimbursement.getTraveler().getPrincipalId()) || !isEmployee(reimbursement.getTraveler());
-    }
-
-    protected boolean isEmployee(final TravelerDetail traveler) {
-        if (traveler == null) {
-            return false;
-        }
-        return getTravelerService().isEmployee(traveler);
-    }
-
-    protected TravelerService getTravelerService() {
-        return SpringContext.getBean(TravelerService.class);
     }
 }

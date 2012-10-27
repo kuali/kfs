@@ -28,7 +28,6 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.docsearch.DocSearchDTO;
 import org.kuali.rice.kew.docsearch.DocumentSearchResult;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.web.KeyValueSort;
@@ -137,6 +136,9 @@ public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDo
         return result;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.lookup.TravelDocumentSearchResultsProcessor#filterSearchResult(org.kuali.rice.kew.docsearch.DocSearchDTO)
+     */
     @Override
     public boolean filterSearchResult(DocSearchDTO docCriteriaDTO) {
         return filterByUser(docCriteriaDTO);
@@ -146,8 +148,4 @@ public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDo
         return SpringContext.getBean(ParameterService.class);
     }
 
-    @Override
-    protected DocumentTypeService getDocumentTypeService() {
-        return SpringContext.getBean(DocumentTypeService.class);
-    }
 }

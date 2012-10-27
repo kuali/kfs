@@ -172,7 +172,7 @@
 	<bean id="temProfileLookupHelperService"
 		class="org.kuali.kfs.module.tem.businessobject.lookup.TEMProfileLookupableHelperServiceImpl"
 		scope="prototype">
-		<property name="travelService" ref="temTravelService" />
+		<property name="temRoleService" ref="temRoleService" />
 		<property name="travelerService" ref="travelerService" />
 		<property name="personService" ref="personService" />
 		<property name="identityManagementService" ref="kimIdentityManagementService" />
@@ -238,13 +238,12 @@
 	</bean>
 
 	<bean id="travelerService" parent="travelerService-parentBean" />
-	<bean id="travelerService-parentBean"
-		class="org.kuali.kfs.module.tem.service.impl.TravelerServiceImpl">
+	<bean id="travelerService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.TravelerServiceImpl">
 		<property name="parameterService" ref="parameterService" />
 		<property name="identityManagementService" ref="kimIdentityManagementService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
-        <property name="arrangerDocumentService" ref="temArrangerDocumentService" />
+        <property name="temRoleService" ref="temRoleService" />
         <property name="chartService" ref="chartService" />
         <property name="organizationService" ref="organizationService" />
         <property name="roleManagementService" ref="kimRoleManagementService" />
@@ -252,12 +251,17 @@
 	</bean>
 
 	<bean id="temProfileService" parent="temProfileService-parentBean" />
-	<bean id="temProfileService-parentBean"
-		class="org.kuali.kfs.module.tem.service.impl.TemProfileServiceImpl">
+	<bean id="temProfileService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.TemProfileServiceImpl">
 		<property name="personService" ref="personService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
+    <bean id="temRoleService" parent="temRoleService-parentBean" />
+    <bean id="temRoleService-parentBean" abstract="true" class="org.kuali.kfs.module.tem.service.impl.TEMRoleServiceImpl">
+        <property name="roleService" ref="kimRoleService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="arrangerDocumentService" ref="temArrangerDocumentService" />
+    </bean>
 
 	<bean id="temModuleService" parent="temModuleService-parentBean" />
 
@@ -457,8 +461,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="accountsReceivableModuleService" ref="accountsReceivableModuleService" />
-        <property name="roleService" ref="kimRoleService" />
-        <property name="arrangerDocumentService" ref="temArrangerDocumentService" />
+        <property name="temRoleService" ref="temRoleService" />
         <property name="travelDocumentDao" ref="travelDocumentDao" />		
 	</bean>
 
@@ -476,7 +479,7 @@
 		<property name="travelDocumentDao" ref="travelDocumentDao" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
-		<property name="roleService" ref="kimRoleService" />
+		<property name="temRoleService" ref="temRoleService" />
 		<property name="travelerService" ref="travelerService" />
 		<property name="workflowDocumentService" ref="workflowDocumentService" />
 		<property name="kualiRuleService" ref="kualiRuleService" />
@@ -605,7 +608,7 @@
 
 	<bean id="arrangerDerivedRoleTypeService"
 		class="org.kuali.kfs.module.tem.identity.ArrangerDerivedRoleTypeServiceImpl">
-		<property name="arrangerDocumentService" ref="temArrangerDocumentService" />
+		<property name="temRoleService" ref="temRoleService" />
 	</bean>
 	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">
@@ -616,7 +619,7 @@
 
 	<bean id="temArrangerDocumentService"
 		class="org.kuali.kfs.module.tem.document.service.impl.TravelArrangerDocumentServiceImpl">
-		<property name="boService" ref="businessObjectService" />
+		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
 	<bean id="travelExpenseService" parent="travelExpenseService-parentBean" />

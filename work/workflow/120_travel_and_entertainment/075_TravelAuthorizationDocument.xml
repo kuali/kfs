@@ -14,7 +14,7 @@
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>TA</name>
-			<parent>KFST</parent>
+			<parent>TT</parent>
 			<docHandler>${application.url}/temTravelAuthorization.do?methodToCall=docHandler
 			</docHandler>
 			<label>Travel Authorization</label>
@@ -163,16 +163,11 @@
                     <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
                 </simple>
                 <split name="TravelRequiresTravelerApproval">
-                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
-                    </type>
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
                 </split>
 				<role name="TravelerReview">
-					<qualifierResolverClass>
-						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>
-						P
-                    </activationType>
+					<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+					<activationType>P</activationType>
 				</role>
 				<join name="JoinRequiresAccountApproval" />
                 <simple name="NoOpAccountApproval">

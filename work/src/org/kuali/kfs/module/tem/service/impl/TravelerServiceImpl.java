@@ -45,8 +45,8 @@ import org.kuali.kfs.module.tem.businessobject.TemProfileFromCustomer;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
-import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
 import org.kuali.kfs.module.tem.identity.TemOrganizationHierarchyRoleTypeService;
+import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
@@ -74,10 +74,10 @@ public class TravelerServiceImpl implements TravelerService {
     
     private ParameterService parameterService;
     private PersonService<Person> personService;
-    private TravelArrangerDocumentService arrangerDocumentService;
     private IdentityManagementService identityManagementService;
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
+    private TEMRoleService temRoleService;
     private ChartService chartService;
     private OrganizationService organizationService;
     private RoleManagementService roleManagementService;
@@ -143,10 +143,10 @@ public class TravelerServiceImpl implements TravelerService {
         if(!canInclude && isAssignedArranger) {
             //pull the arranger's profiles it is responsible for
             if (ObjectUtils.isNotNull(docType)){
-                canInclude |= getArrangerDocumentService().isTravelDocumentArrangerForProfile(docType, user.getPrincipalId(), profile.getProfileId());
+                canInclude |= getTemRoleService().isTravelDocumentArrangerForProfile(docType, user.getPrincipalId(), profile.getProfileId());
             }else{
                 // arranger for a non docType specific search, look up without the doctype comparison
-                canInclude |= getArrangerDocumentService().isArrangerForProfile(user.getPrincipalId(), profile.getProfileId());
+                canInclude |= getTemRoleService().isArrangerForProfile(user.getPrincipalId(), profile.getProfileId());
             }
         }
         
@@ -735,22 +735,14 @@ public class TravelerServiceImpl implements TravelerService {
 		return dateTimeService;
 	}
 
-    /**
-     * Gets the arrangerDocumentService attribute. 
-     * @return Returns the arrangerDocumentService.
-     */
-    public TravelArrangerDocumentService getArrangerDocumentService() {
-        return arrangerDocumentService;
+    public TEMRoleService getTemRoleService() {
+        return temRoleService;
     }
 
-    /**
-     * Sets the arrangerDocumentService attribute value.
-     * @param arrangerDocumentService The arrangerDocumentService to set.
-     */
-    public void setArrangerDocumentService(TravelArrangerDocumentService arrangerDocumentService) {
-        this.arrangerDocumentService = arrangerDocumentService;
+    public void setTemRoleService(TEMRoleService temRoleService) {
+        this.temRoleService = temRoleService;
     }
-	
+
     public ChartService getChartService() {
         return chartService;
     }

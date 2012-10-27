@@ -150,10 +150,7 @@ public class TemKeyConstants extends JSTLConstants {
     public static final String ERROR_TA_FISCAL_OFFICER_ACCOUNT = "error.document.fiscalofficer.account";
     public static final String ERROR_EXPENSE_DATE_BEFORE_AFTER = "error.document.tem.expenseDateBeforeAfter";
     
-    public static final String ERROR_AUTHORIZATION_TA_INITIATION = "error.authorization.travelAuthorizationInitiation";
-    public static final String ERROR_AUTHORIZATION_TA_EDIT = "error.authorization.travelAuthorizationEdit";
-    public static final String ERROR_AUTHORIZATION_TR_INITIATION = "error.authorization.travelReimbursementInitiation";
-    public static final String ERROR_AUTHORIZATION_TR_EDIT = "error.authorization.travelReimbursementEdit";
+    public static final String ERROR_TRAVEL_DOCUMENT_EDIT = "error.document.tem.edit";
     public static final String ERROR_AUTHORIZATION_TR_DELINQUENT = "error.authorization.travelReimbursementDelinquent";
     public static final String ERROR_TRAVEL_DOCUMENT_INITIATION = "error.document.tem.initiation";
     public static final String ERROR_TRAVEL_AGENCY_AUDIT_INITIATION ="error.document.agencyAudit.initiation";

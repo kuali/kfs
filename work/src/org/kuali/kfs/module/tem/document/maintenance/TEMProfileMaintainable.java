@@ -36,6 +36,7 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
 import org.kuali.kfs.module.tem.datadictionary.mask.CreditCardMaskFormatter;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -129,7 +130,7 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         List<Section> sections = super.getSections(document, document.getOldMaintainableObject());
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         TEMProfile temProfile = (TEMProfile) super.getBusinessObject();
-        boolean profileAdmin = isProfileAdmin(currentUser, temProfile.getHomeDepartment());
+        boolean profileAdmin = getTEMRoleService().isProfileAdmin(currentUser, temProfile.getHomeDepartment());
 
         if (!user.getPrincipalId().equals(((TEMProfile)document.getOldMaintainableObject().getBusinessObject()).getPrincipalId())){
             if (!profileAdmin) {
@@ -172,12 +173,6 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         }
         
         return sections;
-    }
-    
-    private boolean isProfileAdmin(Person currentUser, String homeDepartment) {
-        boolean hasAdminRole = SpringContext.getBean(TravelDocumentService.class).checkPersonRole(currentUser, TemConstants.TEMRoleNames.TEM_PROFILE_ADMINISTRATOR, TemConstants.PARAM_NAMESPACE);
-        boolean hasOrgRole = SpringContext.getBean(TravelDocumentService.class).checkOrganizationRole(currentUser, TemConstants.TEMRoleNames.TEM_PROFILE_ADMINISTRATOR, TemConstants.PARAM_NAMESPACE, homeDepartment);
-        return (hasAdminRole && hasOrgRole);
     }
 
     /**
@@ -470,6 +465,9 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         return SpringContext.getBean(AccountsReceivableModuleService.class);
     }
     
+    /**
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getNewCollectionLine(java.lang.String)
+     */
     @Override
     public PersistableBusinessObject getNewCollectionLine( String collectionName ) {
         PersistableBusinessObject addLine = super.getNewCollectionLine(collectionName);
@@ -481,5 +479,9 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         }
         
         return addLine;
+    }
+    
+    public TEMRoleService getTEMRoleService(){
+        return SpringContext.getBean(TEMRoleService.class);
     }
 }

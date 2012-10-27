@@ -49,7 +49,6 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
-import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
@@ -64,13 +63,11 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.Country;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.CountryService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.beans.BeanUtils;
@@ -381,11 +378,14 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     }
 
     /**
-     * This method populates specific items when the document is first initiated
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#initiateDocument()
      */
     @Override
     public void initiateDocument() {
-        // due date
+        super.initiateDocument();
+        setAppDocStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
+        
+        //always default trip begin/date
         Calendar calendar = getDateTimeService().getCurrentCalendar();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         setTripBegin(new Timestamp(calendar.getTimeInMillis()));
@@ -393,22 +393,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         calendar.add(Calendar.DAY_OF_MONTH, 2);
         setTripEnd(new Timestamp(calendar.getTimeInMillis()));
 
-        updateAppDocStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
-
-        getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
-
-        if (this.getTraveler() == null) {
-            this.setTraveler(new TravelerDetail());
-            this.getTraveler().setTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD);
-        }
-
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if (!getTravelDocumentService().isTravelArranger(currentUser)) {
-            TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
-            if (temProfile != null) {
-                setTemProfile(temProfile);
-            }
-        }
     }
 
     /**
@@ -611,23 +595,22 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     }
 
     /**
+     * Traveler approval is required if it requires review for travel advance
      * 
      * @return
      */
     private boolean requiresTravelerApprovalRouting() {
-      //If there's travel advances, route to traveler if necessary
+        boolean routeToTraveler = false;
+        
+        //If there's travel advances, route to traveler if necessary
         if (requiresTravelAdvanceReviewRouting()){
             String initiator = this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getInitiatorPrincipalId();
-
             String travelerID = this.getTraveler().getPrincipalId();
-            boolean routeToTraveler = false;
-            
-            if (travelerID != null){
-                //traveler must accept policy, if initiator is arranger, the traveler will have to accept later.
-                return !initiator.equals(travelerID);
-            }
+
+            //traveler must accept policy, if initiator is arranger, the traveler will have to accept later.
+            routeToTraveler = travelerID != null && !initiator.equals(travelerID);
         }
-        return false;
+        return routeToTraveler;
     }
 
     /**

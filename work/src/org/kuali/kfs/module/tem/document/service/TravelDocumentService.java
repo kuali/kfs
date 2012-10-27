@@ -190,37 +190,12 @@ public interface TravelDocumentService {
     boolean isHostedMeal(final ExpenseTypeAware havingExpenseType);
 
     /**
-     * Check to see if the user has the travel arranger role assigned to them
-     * 
-     * @param user
-     * @param primaryDepartmentCode
-     * @return true if the user is a travel arranger, false otherwise
-     */
-    public boolean isTravelArranger(final Person user, final String primaryDepartmentCode);
-    
-    /**
-     * Check to see if the user has the travel arranger role assigned to them
-     * 
-     * @param user
-     * @return true if the user is a travel arranger, false otherwise
-     */
-    public boolean isTravelArranger(final Person user);
-
-    /**
      * Check to see if the user has the travel manager role assigned to them
      * 
      * @param user
      * @return true if the user is a travel manager, false otherwise
      */
     public boolean isTravelManager(final Person user);
-    
-    /**
-     * Check to see if the user has the fiscal officer role assigned to them
-     * 
-     * @param user
-     * @return true if the user is a fiscal officer, false otherwise
-     */
-    public boolean isFiscalOfficer(final Person user);    
 
     public Integer calculateProratePercentage(PerDiemExpense perDiemExpense, String perDiemCalcMethod, Timestamp tripEnd);
     
@@ -302,10 +277,10 @@ public interface TravelDocumentService {
      */
     public List<TransportationModeDetail> copyTransportationModeDetails(List<TransportationModeDetail> transportationModeDetails, String documentNumber);
     
-    public boolean checkPersonRole(final Person user, String role, String parameterNamespace);
-    
-    public boolean checkOrganizationRole(final Person user, String role, String parameterNamespace, String primaryDepartmentCode);
-    
+    /**
+     * 
+     * @param document
+     */
     public void showNoTravelAuthorizationError(TravelReimbursementDocument document);
     
     //Map<String,Object> calculateTotalsFor(final TravelDocument travelDocument);
@@ -364,7 +339,9 @@ public interface TravelDocumentService {
     public boolean validateSourceAccountingLines(TravelDocument travelDocument, boolean addToErrorPath);
 
     /**
-     * Get Document type of the travel document
+     * Get the Generic document type name of the travel document
+     * 
+     * TA(not TAC, TAA), TR, ENT, RELO
      * 
      * @param document
      * @return

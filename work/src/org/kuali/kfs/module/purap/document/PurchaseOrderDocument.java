@@ -1719,13 +1719,16 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
 
         PurchaseOrderDocument oldest = docDao.findByDocumentHeaderId(PurchaseOrderDocument.class, purchaseOrderDao.getOldestPurchaseOrderDocumentNumber(this.getPurapDocumentIdentifier()));
 
-        return oldest.getDocumentHeader();
+        //KFSMI-9746: added this for null safe checking.
+        if(oldest != null){
+            return oldest.getDocumentHeader();
+        }
+
+        return this.getDocumentHeader();
     }
 
     @Override
     public NoteType getNoteType() {
         return NoteType.BUSINESS_OBJECT;
     }
-
-
 }

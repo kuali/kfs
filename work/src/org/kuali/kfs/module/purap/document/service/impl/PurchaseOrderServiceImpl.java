@@ -1208,6 +1208,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         LOG.debug("entering getOldestPO(PurchaseOrderDocument)");
         if (ObjectUtils.isNotNull(po)) {
             String oldestDocumentNumber = purchaseOrderDao.getOldestPurchaseOrderDocumentNumber(po.getPurapDocumentIdentifier());
+            //KFSMI-9746 -- See Harsha's comments...
+            if (StringUtils.isBlank(oldestDocumentNumber)) {
+                return null;
+            }
             if (StringUtils.equals(oldestDocumentNumber, po.getDocumentNumber())) {
                 // manually set bo notes - this is mainly done for performance reasons (preferably we could call
                 // retrieve doc notes in PersistableBusinessObjectBase but that is protected)

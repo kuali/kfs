@@ -174,7 +174,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 Map primaryKeys = new HashMap();
                 primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
 
-                PaymentDetail pd = this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
+                PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
                 if (pd != null) {
                     pd.setPrimaryCancelledPayment(Boolean.TRUE);
                 }
@@ -195,7 +195,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 Map primaryKeys = new HashMap();
                 primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
 
-                PaymentDetail pd = this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
+                PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
                 if (pd != null) {
                     pd.setPrimaryCancelledPayment(Boolean.TRUE);
                     PaymentNoteText payNoteText = new PaymentNoteText();

@@ -276,12 +276,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     //the doc status needs to be "Pending To Print"..
                     checkForPrintTransmission(po);
                     po.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
-                    
+
                     documentService.routeDocument(po, null, null);
-                    
+
                     final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
                     documentAttributeIndexingQueue.indexDocument(po.getDocumentNumber());
-                    
+
                     return null;
                 }
             };
@@ -662,8 +662,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 }
                 // if no validation exception was thrown then rules have passed and we are ok to edit the current PO
                 currentDocument.setPendingActionIndicator(true);
-
-                saveDocumentNoValidationUsingClearMessageMap(currentDocument);
+                savePurchaseOrderData(currentDocument);
 
                 return newDocument;
             }
@@ -709,7 +708,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 catch (ValidationException ve) {
                     //clear the pending indictor if an exception occurs, to leave the existing PO intact
                     currentDocument.setPendingActionIndicator(false);
-                    saveDocumentNoValidationUsingClearMessageMap(currentDocument);
+                    savePurchaseOrderData(currentDocument);
+
                     throw ve;
                 }
                 return newDocument;
@@ -802,7 +802,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                
+
                 return newDocument;
             }
             else {
@@ -1280,9 +1280,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public List<Note> getPurchaseOrderNotes(Integer id) {
         List<Note> notes = new ArrayList<Note>();
         PurchaseOrderDocument po = getPurchaseOrderByDocumentNumber(purchaseOrderDao.getOldestPurchaseOrderDocumentNumber(id));
-       
+
         if (ObjectUtils.isNotNull(po)) {
-            
+
             notes = noteService.getByRemoteObjectId(po.getDocumentHeader().getObjectId());
         }
         return notes;
@@ -1310,12 +1310,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 throw new RuntimeException("Error saving routing data while saving document with id " + oldPO.getDocumentNumber(), e);
             }
 
-            saveDocumentNoValidationUsingClearMessageMap(oldPO);
+            savePurchaseOrderData(oldPO);
         }
 
         // Now, we set the "new PO" indicators so that Current = Y and Pending = N
         newPO.setPurchaseOrderCurrentIndicator(true);
         newPO.setPendingActionIndicator(false);
+
+        //this was never being saved.  Should call the method to save the newPO.
+        saveDocumentNoValidationUsingClearMessageMap(newPO);
     }
 
     /**
@@ -1388,7 +1391,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             throw new RuntimeException("Error saving routing data while saving document", e);
         }
 
-        saveDocumentNoValidationUsingClearMessageMap(oldPO);
+        savePurchaseOrderData(oldPO);
         saveDocumentNoValidationUsingClearMessageMap(newPO);
     }
 
@@ -1609,12 +1612,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         Map fiscalOfficers = new HashMap();
         AdHocRoutePerson adHocRoutePerson = null;
 
-        for(SourceAccountingLine account: (List<SourceAccountingLine>)po.getGlOnlySourceAccountingLines()){
+        for(SourceAccountingLine account: po.getGlOnlySourceAccountingLines()){
                      // loop through accounts and pull off fiscal officer
                 //    for(PurApAccountingLine account : poItem.getSourceAccountingLines()){
                         //check for dupes of fiscal officer
                     Account acct = SpringContext.getBean(AccountService.class).getByPrimaryId(account.getChartOfAccountsCode(), account.getAccountNumber());
-                    String principalName  = acct.getAccountFiscalOfficerUser().getPrincipalName();   
+                    String principalName  = acct.getAccountFiscalOfficerUser().getPrincipalName();
                     //String principalName = account.getAccount().getAccountFiscalOfficerUser().getPrincipalName();
                         if( fiscalOfficers.containsKey(principalName) == false ){
                             //add fiscal officer to list
@@ -2222,6 +2225,26 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return null;
     }
 
+    /**
+     * helper method to take the po and save it using businessObjectService so that
+     * only the po related data is saved since most often we are only updating the flags on
+     * the document. It will then reindex the document.
+     *
+     * @param po
+     */
+    protected void savePurchaseOrderData(PurchaseOrderDocument po) {
+        //saving old PO using the business object service because the documentService saveDocument
+        //will try to save the notes again and will cause ojb lock exception.
+        //since only values that is changed on PO is pendingActionIndicator, save on businessObjectService is used
+        //KFSMI-9741
+
+        businessObjectService.save(po);
+
+        //reindex the document so that the app doc status gets updated in the results for the PO lookups.
+        final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
+        documentAttributeIndexingQueue.indexDocument(po.getDocumentNumber());
+
+    }
     /**
      * @return Returns the personService.
      */

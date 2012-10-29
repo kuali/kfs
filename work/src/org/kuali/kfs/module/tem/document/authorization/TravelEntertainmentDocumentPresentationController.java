@@ -41,7 +41,7 @@ public class TravelEntertainmentDocumentPresentationController extends TravelDoc
      */
     @Override
     public String getDocumentManagerApprovalNode(){
-        return TemWorkflowConstants.ENTERTAINMENT_MANAGER;
+        return TemWorkflowConstants.RouteNodeNames.ENTERTAINMENT_MANAGER;
     }
     
     /**

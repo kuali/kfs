@@ -398,7 +398,16 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
     }
 
-    
+    /**
+     * Relocation document always require tax manager approval
+     * 
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#requiresTaxManagerApprovalRouting()
+     */
+    @Override
+    protected boolean requiresTaxManagerApprovalRouting() {
+        return true;
+    }
+
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getDisapprovedAppDocStatusMap()
      */

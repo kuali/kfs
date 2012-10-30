@@ -109,6 +109,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     protected boolean receivingDocumentRequiredIndicator;
     protected boolean paymentRequestPositiveApprovalIndicator;
 
+    //KFSCNTRB-1207 - UMD - Muddu -- start
+    //the indicator which tells if the preq has been auto approved and this value will be used
+    //by the doRouteStatus method to change the app doc status.
+    protected boolean autoApprovedIndicator;
+    //KFSCNTRB-1207 - UMD - Muddu -- end
+    
     // TAX EDIT AREA FIELDS
     protected String taxClassificationCode;
     protected String taxCountryCode;
@@ -143,6 +149,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public PaymentRequestDocument() {
         super();
+        
+      //KFSCNTRB-12207 - UMD - Muddu        
+        this.setAutoApprovedIndicator(false);
     }
 
     /**
@@ -723,8 +732,15 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         
         super.doRouteStatusChange(statusChangeEvent);
         try{
-            // DOCUMENT PROCESSED
-            if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed()) {
+            //KFSCNTRB-1207 - UMD - Muddu -- start
+            // if the document was processed but approved by the auto approve payment request job
+            // then all we want to do is to change the application document status to auto-approved
+            // by looking at the autoApprovedIndicator on the preq.
+            // DOCUEMNT PROCESSED BY THE AUTOAPPROVEPAYMENTREQUEST JOB...
+            if (this.isAutoApprovedIndicator()) {
+                updateAndSaveAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED);                
+            } // DOCUMENT PROCESSED .. //KFSCNTRB-1207 - UMD - Muddu -- end
+            else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed()) {
                 if (!PaymentRequestStatuses.APPDOC_AUTO_APPROVED.equals(getApplicationDocumentStatus())) {                    
                     populateDocumentForRouting();
                     updateAndSaveAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
@@ -1399,5 +1415,24 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.justification = justification;
     }
     
+  //KFSCNTRB-1207 - UMD - Muddu -- start    
+    /**
+     * Gets the autoApprovedIndicator attribute.
+     * 
+     * @return Returns the autoApprovedIndicator
+     */
+    public boolean isAutoApprovedIndicator() {
+        return autoApprovedIndicator;
+    }
+
+    /** 
+     * Sets the autoApprovedIndicator attribute.
+     * 
+     * @param autoApprovedIndicator The autoApprovedIndicator to set.
+     */
+    public void setAutoApprovedIndicator(boolean autoApprovedIndicator) {
+        this.autoApprovedIndicator = autoApprovedIndicator;
+    }
+  //KFSCNTRB-1207 - UMD - Muddu -- end
     
 }

@@ -139,6 +139,7 @@
         <ref bean="PaymentRequestDocument-sensitive"/>
 		<ref bean="PaymentRequestDocument-accountDistributionMethod"/>
         <ref bean="PaymentRequestDocument-justification"/>
+        <ref bean="PaymentRequestDocument-autoApprovedIndicator"/>
       </list>
     </property>
     <property name="validationMap" ref="PaymentRequestDocument-validations"/>    
@@ -1003,6 +1004,18 @@
       <bean parent="TextareaControlDefinition" p:rows="5" p:cols="50"/>
     </property>
   </bean>
+  <bean id="PaymentRequestDocument-autoApprovedIndicator" parent="PaymentRequestDocument-autoApprovedIndicator-parentBean"/>
+
+  <bean id="PaymentRequestDocument-autoApprovedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="autoApprovedIndicator"/>
+    <property name="label" value="autoApprovedIndicator"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="HiddenControl" />
+    </property>
+  </bean>
+  
   
   <!--Payment Request accountingInformation -->
     <bean id="paymentRequestAccountingInformation" parent="paymentRequestAccountingInformation-parent"/>

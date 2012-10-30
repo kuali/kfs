@@ -68,7 +68,6 @@ import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -336,9 +335,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     throw new RuntimeException(ex);
                 }
                 doc = (PaymentRequestDocument) ObjectUtils.deepCopy(doc);
-                //purapService.updateStatus(doc, PaymentRequestStatuses.AUTO_APPROVED);
-                doc.updateAndSaveAppDocStatus(PaymentRequestStatuses.APPDOC_AUTO_APPROVED);
-                
+
+              //KFSCNTRB-1207 - UMD - Muddu -- start                
+                //set the auto approved indicator to true so that doRouteStatus method can use to 
+                //change the app doc status.
+                doc.setAutoApprovedIndicator(true);
+              //KFSCNTRB-1207 - UMD - Muddu -- end
                 documentService.blanketApproveDocument(doc, "auto-approving: Total is below threshold.", null);
             }
             catch (WorkflowException we) {

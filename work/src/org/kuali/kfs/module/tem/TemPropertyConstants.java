@@ -205,9 +205,9 @@ public class TemPropertyConstants extends JSTLConstants {
         public static final String ADDRESS_1 = "temProfileAddress.streetAddressLine1";
         public static final String ADDRESS_2 = "temProfileAddress.streetAddressLine2";
         public static final String CITY_NAME = "temProfileAddress.cityName";
-        public static final String STATE = "temProfileAddress.state";
+        public static final String STATE_CODE = "temProfileAddress.stateCode";
         public static final String ZIP_CODE = "temProfileAddress.zipCode";
-        public static final String COUNTRY = "temProfileAddress.country";
+        public static final String COUNTRY_CODE = "temProfileAddress.countryCode";
         public static final String EMAIL_ADDRESS = "emailAddress";
         public static final String PHONE_NUMBER = "phoneNumber";
         public static final String CUSTOMER_NUMBER = "customerNumber";
@@ -237,9 +237,9 @@ public class TemPropertyConstants extends JSTLConstants {
         returnMap.put(TemPropertyConstants.TEMProfileProperties.ADDRESS_1, null);
         returnMap.put(TemPropertyConstants.TEMProfileProperties.ADDRESS_2, null);
         returnMap.put(TemPropertyConstants.TEMProfileProperties.CITY_NAME, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.STATE, null);
+        returnMap.put(TemPropertyConstants.TEMProfileProperties.STATE_CODE, null);
         returnMap.put(TemPropertyConstants.TEMProfileProperties.ZIP_CODE, null);
-        returnMap.put(TemPropertyConstants.TEMProfileProperties.COUNTRY, null);
+        returnMap.put(TemPropertyConstants.TEMProfileProperties.COUNTRY_CODE, null);
         returnMap.put(TemPropertyConstants.TEMProfileProperties.EMAIL_ADDRESS, null);
         returnMap.put(TemPropertyConstants.TEMProfileProperties.PHONE_NUMBER, null);
         return returnMap;

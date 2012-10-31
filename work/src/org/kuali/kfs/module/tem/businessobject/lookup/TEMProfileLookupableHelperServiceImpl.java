@@ -61,7 +61,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     private IdentityManagementService identityManagementService;
     private TemProfileService temProfileService;
 
-    private static final String[] addressLookupFields = { TEMProfileProperties.ADDRESS_1, TEMProfileProperties.ADDRESS_2, TEMProfileProperties.CITY_NAME, TEMProfileProperties.STATE, TEMProfileProperties.ZIP_CODE, TEMProfileProperties.COUNTRY };
+    private static final String[] addressLookupFields = { TEMProfileProperties.ADDRESS_1, TEMProfileProperties.ADDRESS_2, TEMProfileProperties.CITY_NAME, TEMProfileProperties.STATE_CODE, TEMProfileProperties.ZIP_CODE, TEMProfileProperties.COUNTRY_CODE };
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)

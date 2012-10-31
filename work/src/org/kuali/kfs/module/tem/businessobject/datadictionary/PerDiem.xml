@@ -131,6 +131,9 @@
 		<property name="shortLabel" value="Effective From Date" />
 		<property name="summary" value="Effective From Date" />
 		<property name="description" value="Effective From Date" />
+        <property name="control">
+            <bean parent="DateControl" p:ranged="false"/>
+        </property>
 	</bean>
 	<bean id="PerDiem-breakfast" parent="PerDiem-breakfast-parentBean" />
 	<bean id="PerDiem-breakfast-parentBean" parent="GenericAttributes-genericAmount">
@@ -281,7 +284,6 @@
 			<bean parent="FieldDefinition" p:attributeName="countryState" p:required="true" />
 			<bean parent="FieldDefinition" p:attributeName="county" />
 			<bean parent="FieldDefinition" p:attributeName="primaryDestination" />
-            <bean parent="FieldDefinition" p:attributeName="seasonBeginDate" />
             <bean parent="FieldDefinition" p:attributeName="effectiveFromDate" />
 			<bean parent="FieldDefinition" p:attributeName="active" />
 		</list>
@@ -296,7 +298,6 @@
 			<bean parent="FieldDefinition" p:attributeName="seasonBeginDate" />
 			<bean parent="FieldDefinition" p:attributeName="effectiveFromDate" />
             <bean parent="FieldDefinition" p:attributeName="effectiveToDate" />		
-			<bean parent="FieldDefinition" p:attributeName="seasonBeginMonthAndDay" />
 			<bean parent="FieldDefinition" p:attributeName="breakfast" />
 			<bean parent="FieldDefinition" p:attributeName="lunch" />
 			<bean parent="FieldDefinition" p:attributeName="dinner" />

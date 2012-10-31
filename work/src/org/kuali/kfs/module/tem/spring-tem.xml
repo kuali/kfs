@@ -521,11 +521,7 @@
     </bean>
 
 	<bean id="temTravelAuthorizationService" parent="temTravelAuthorizationService-parentBean" />
-
-	<bean id="temTravelAuthorizationService-parentBean"
-		class="org.kuali.kfs.module.tem.document.service.impl.TravelAuthorizationServiceImpl"
-		abstract="true">
-
+	<bean id="temTravelAuthorizationService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.TravelAuthorizationServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 	    <property name="accountsReceivableModuleService" ref="accountsReceivableModuleService" />	
         <property name="parameterService" ref="parameterService" />
@@ -537,6 +533,7 @@
 		<property name="universityDateService" ref="universityDateService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
 		<property name="temProfileService" ref="temProfileService" />
+        <property name="travelDocumentService" ref="temTravelDocumentService" />
         <property name="documentDao" ref="documentDao" />
 		<property name="propertyChangeListeners">
 			<list>

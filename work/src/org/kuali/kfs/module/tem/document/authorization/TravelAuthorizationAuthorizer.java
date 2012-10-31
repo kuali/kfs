@@ -148,6 +148,14 @@ public class TravelAuthorizationAuthorizer extends TravelArrangeableAuthorizer {
         return getTravelService().isUserInitiatorOrArranger(travelDocument, user);
     }
     
+    /**
+     * 
+     * @param travelDocument
+     * @param user
+     * @param action
+     * @param canInitiatorAct
+     * @return
+     */
     protected boolean getActionPermission(final TravelDocument travelDocument, final Person user, final String action, final boolean canInitiatorAct){
         boolean success = false;
         

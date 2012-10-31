@@ -56,9 +56,11 @@ import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
+import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.util.MessageUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -104,6 +106,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     private UniversityDateService universityDateService;
     private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
     private TemProfileService temProfileService;
+    private TravelDocumentService travelDocumentService;
     private DocumentDao documentDao;
     
     private List<PropertyChangeListener> propertyChangeListeners;
@@ -654,6 +657,24 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     }
 
     /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelAuthorizationService#findEnrouteOrApprovedTravelReimbursement(org.kuali.kfs.module.tem.document.TravelAuthorizationDocument)
+     */
+    @Override
+    public TravelReimbursementDocument findEnrouteOrProcessedTravelReimbursement(TravelAuthorizationDocument authorization) {
+        
+        TravelReimbursementDocument reimbursement = null;
+        List<TravelReimbursementDocument> reimbursementDocumentList = travelDocumentService.find(TravelReimbursementDocument.class, authorization.getTravelDocumentIdentifier());
+        
+        //look for enroute TR document - return the first document if any is found
+        for (TravelReimbursementDocument document : reimbursementDocumentList){
+            KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+            if (workflowDocument.stateIsEnroute() || workflowDocument.stateIsFinal() || workflowDocument.stateIsProcessed()){
+                reimbursement = document;
+            }
+        }
+        return reimbursement;
+    }
+    /**
      * This method checks to see if the travel expense type code is a prepaid expense
      * 
      * @param travelExpenseTypeCodeCode
@@ -695,6 +716,10 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
+        this.travelDocumentService = travelDocumentService;
     }
 
     public void setUniversityDateService(UniversityDateService universityDateService) {

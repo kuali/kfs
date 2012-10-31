@@ -20,6 +20,7 @@ import java.util.Collection;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
+import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 
 public interface TravelAuthorizationService {
     
@@ -32,6 +33,11 @@ public interface TravelAuthorizationService {
      */
     public void createTravelAdvanceDVDocument(TravelAuthorizationDocument travelAuthorizationDocument);
     
+    /**
+     * 
+     * @param documentNumber
+     * @return
+     */
     public TravelAuthorizationDocument getTravelAuthorizationBy(String documentNumber); 
 
     /**
@@ -63,6 +69,11 @@ public interface TravelAuthorizationService {
      */
     public TravelAuthorizationCloseDocument closeAuthorization(TravelAuthorizationDocument authorization, String annotation, String initiatorPrincipalName);
     
-    //TODO: remove when sure.
-    //public void adjustEncumbranceForAmendment(TravelDocument taDocument);    
+    /**
+     * Get any Travel Reimbursement documen that is enroute or processed/final from the given Travel Authorization Document
+     * 
+     * @param authorization
+     * @return
+     */
+    public TravelReimbursementDocument findEnrouteOrProcessedTravelReimbursement(TravelAuthorizationDocument authorization);    
 }

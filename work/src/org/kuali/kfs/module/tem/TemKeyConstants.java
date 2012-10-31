@@ -18,25 +18,25 @@ package org.kuali.kfs.module.tem;
 import org.kuali.rice.core.util.JSTLConstants;
 
 /**
- * Travel and Entertainment module constants for struts error keys
+ * Constants for error keys
  * 
- * @author Leo Przybylski (leo [at] rsmart.com) 
  */
 public class TemKeyConstants extends JSTLConstants {
     public static final String TRMB_CONTACT_TAB_ERRORS = "TRMBContactErrors,document.contact*";
     public static final String TRMB_EMERGENCY_CONTACT_TAB_ERRORS = "TRMBEmergencyContactErrors,document.regionFamiliarity,document.emergencyContact*";    
     public static final String TEM_TRAVELER_CERT_TAB_ERRORS = "TRMBTravelerCertErrors,document.employeeCertification";
     
-    public static final String TA_QUESTION_DOCUMENT                 = "travelAuthorization.question.text";
-    public static final String TA_MESSAGE_HOLD_DOCUMENT             = "travelAuthorization.route.message.hold.text";
-    public static final String TA_MESSAGE_REMOVE_HOLD_DOCUMENT      = "travelAuthorization.route.message.removehold.text";
-    public static final String ERROR_TA_REASON_REQUIRED             = "error.travelAuthorization.reasonRequired";
-    public static final String ERROR_TA_REASON_PASTLIMIT            = "error.travelAuthorization.reason.pastLimit";
-    public static final String TR_FISCAL_OFFICER_QUESTION           = "travelAuthorization.fiscalOfficer.question.text";
-    public static final String TA_MESSAGE_HOLD_DOCUMENT_TEXT        = "travelAuthorization.message.hold.text";
-    public static final String TA_MESSAGE_AMEND_DOCUMENT_TEXT       = "travelAuthorization.message.amend.text";
-    public static final String TA_MESSAGE_RETIRED_DOCUMENT_TEXT     = "travelAuthorization.message.retired.text";
-    public static final String TA_MESSAGE_CLOSE_DOCUMENT_TEXT       = "travelAuthorization.message.close.text";
+    public static final String TA_QUESTION_DOCUMENT = "travelAuthorization.question.text";
+    public static final String TA_MESSAGE_HOLD_DOCUMENT  = "travelAuthorization.route.message.hold.text";
+    public static final String TA_MESSAGE_REMOVE_HOLD_DOCUMENT = "travelAuthorization.route.message.removehold.text";
+    public static final String ERROR_TA_REASON_REQUIRED  = "error.travelAuthorization.reasonRequired";
+    public static final String ERROR_TA_REASON_PASTLIMIT = "error.travelAuthorization.reason.pastLimit";
+    public static final String ERROR_TAA_WITH_TR_ENROUTE = "error.travel.authorization.amendment.enroute.reimbursement";
+    public static final String TR_FISCAL_OFFICER_QUESTION = "travelAuthorization.fiscalOfficer.question.text";
+    public static final String TA_MESSAGE_HOLD_DOCUMENT_TEXT = "travelAuthorization.message.hold.text";
+    public static final String TA_MESSAGE_AMEND_DOCUMENT_TEXT = "travelAuthorization.message.amend.text";
+    public static final String TA_MESSAGE_RETIRED_DOCUMENT_TEXT = "travelAuthorization.message.retired.text";
+    public static final String TA_MESSAGE_CLOSE_DOCUMENT_TEXT = "travelAuthorization.message.close.text";
     
     public static final String AGENCY_SITES_URL       = "url.document.travelRelocation.agencySites";
     public static final String ENABLE_AGENCY_SITES_URL  = "config.document.travelRelocation.agencySites.enable";

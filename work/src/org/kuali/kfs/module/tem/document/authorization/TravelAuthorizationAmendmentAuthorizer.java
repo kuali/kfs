@@ -15,6 +15,36 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
+import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.bo.Person;
+
 public class TravelAuthorizationAmendmentAuthorizer extends TravelAuthorizationAuthorizer {
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationAuthorizer#canCopy(org.kuali.kfs.module.tem.document.TravelAuthorizationDocument, org.kuali.rice.kim.bo.Person)
+     */
+    public boolean canCopy(TravelAuthorizationDocument travelDocument, Person user) {
+        //do not allow copy in Travel Authorization Amendment document
+        return false;
+    }
+    
+//    /**
+//     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase#getDocumentActions(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person, java.util.Set)
+//     */
+//    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActionsFromPresentationController) {
+//        
+//        //do not allow document to be route when there is an enroute TR document
+//        Set<String> documentActionsToReturn = super.getDocumentActions(document, user, documentActionsFromPresentationController);
+//        if (getTravelAuthorizationService().findEnrouteOrProcessedTravelReimbursement((TravelAuthorizationDocument)document) != null){
+//            documentActionsToReturn.remove(KNSConstants.KUALI_ACTION_CAN_ROUTE);
+//            documentActionsToReturn.remove(KNSConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
+//        }
+//        return documentActionsToReturn;
+//    }
+
+    public TravelAuthorizationService getTravelAuthorizationService(){
+        return SpringContext.getBean(TravelAuthorizationService.class);
+    }
 }

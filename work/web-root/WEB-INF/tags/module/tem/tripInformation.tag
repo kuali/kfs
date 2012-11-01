@@ -91,6 +91,7 @@
         <td class="datacell" colspan="3"><kul:htmlControlAttribute
             attributeEntry="${primaryDestinationAttributes.primaryDestinationName}"
             property="document.primaryDestinationName"
+            onchange="document.getElementById('refreshPage').click();"
             readOnly="${!fullEntryMode || !destinationNotFound}" />
             <c:if test="${fullEntryMode}">
                 <kul:lookup boClassName="org.kuali.kfs.module.tem.businessobject.PrimaryDestination"

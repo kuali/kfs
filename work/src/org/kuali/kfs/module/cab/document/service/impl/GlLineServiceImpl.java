@@ -33,8 +33,8 @@ import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
@@ -74,6 +74,7 @@ public class GlLineServiceImpl implements GlLineService {
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#createAssetGlobalDocument(java.util.List,
      *      org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
      */
+    @Override
     public Document createAssetGlobalDocument(GeneralLedgerEntry primary, Integer capitalAssetLineNumber) throws WorkflowException {
         // initiate a new document
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
@@ -153,6 +154,7 @@ public class GlLineServiceImpl implements GlLineService {
      * @param accountingLine accounting line in the capital asset
      * @return debit or credit value.
      */
+    @Override
     public String getDebitCreditForAccountingLineAmount(CapitalAssetAccountsGroupDetails accountingLine) {
         if (KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equalsIgnoreCase(accountingLine.getFinancialDocumentLineTypeCode())) {
             return KFSConstants.GL_CREDIT_CODE;
@@ -205,6 +207,7 @@ public class GlLineServiceImpl implements GlLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#findCapitalAssetInformation(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
      */
+    @Override
     public List<CapitalAssetInformation> findCapitalAssetInformation(GeneralLedgerEntry entry) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.DOCUMENT_NUMBER, entry.getDocumentNumber());
@@ -215,6 +218,7 @@ public class GlLineServiceImpl implements GlLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#findCapitalAssetInformation(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
      */
+    @Override
     public CapitalAssetInformation findCapitalAssetInformation(GeneralLedgerEntry entry, Integer capitalAssetLineNumber) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.DOCUMENT_NUMBER, entry.getDocumentNumber());
@@ -227,6 +231,7 @@ public class GlLineServiceImpl implements GlLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#findAllCapitalAssetInformation(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
      */
+    @Override
     public List<CapitalAssetInformation> findAllCapitalAssetInformation(GeneralLedgerEntry entry) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.DOCUMENT_NUMBER, entry.getDocumentNumber());
@@ -239,6 +244,7 @@ public class GlLineServiceImpl implements GlLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#findCapitalAssetInformationForGLLine(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
      */
+    @Override
     public List<CapitalAssetInformation> findCapitalAssetInformationForGLLine(GeneralLedgerEntry entry) {
         String capitalAssetLineType = KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE;
 
@@ -281,6 +287,7 @@ public class GlLineServiceImpl implements GlLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#findUnprocessedCapitalAssetInformation(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
      */
+    @Override
     public long findUnprocessedCapitalAssetInformation(GeneralLedgerEntry entry) {
         Map<String, String> fieldValues = new HashMap<String, String>();
 
@@ -298,6 +305,7 @@ public class GlLineServiceImpl implements GlLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#findMatchingGeneralLedgerEntry(java.lang.String, java.lang.String, java.lang.String, java.lang.String, int)
      */
+    @Override
     public Collection<GeneralLedgerEntry> findMatchingGeneralLedgerEntry(String documentNumber, String chartCode, String accountNumber, String finalcialObjectcode) {
         Collection<GeneralLedgerEntry> matchingGLEntry = new ArrayList<GeneralLedgerEntry>();
 
@@ -316,6 +324,7 @@ public class GlLineServiceImpl implements GlLineService {
      *
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#findAllGeneralLedgerEntry(java.lang.String)
      */
+    @Override
     public Collection<GeneralLedgerEntry> findAllGeneralLedgerEntry(String documentNumber) {
         Collection<GeneralLedgerEntry> matchingGLEntry = new ArrayList<GeneralLedgerEntry>();
 
@@ -334,7 +343,15 @@ public class GlLineServiceImpl implements GlLineService {
      * @param maintDoc Document
      */
     protected void createGeneralLedgerEntryAsset(GeneralLedgerEntry entry, Document document, Integer capitalAssetLineNumber) {
-        // store the document number
+        // KFSMI-9645 : check if the document is already referenced to prevent an OJB locking error
+        for ( GeneralLedgerEntryAsset glEntryAsset : entry.getGeneralLedgerEntryAssets() ) {
+            if ( glEntryAsset.getCapitalAssetManagementDocumentNumber().equals(document.getDocumentNumber() )
+                    && glEntryAsset.getCapitalAssetBuilderLineNumber().equals(capitalAssetLineNumber ) ) {
+                // an object with this key already exists, abort and don't attempt to add another
+                return;
+            }
+        }
+        // If we get here, add a child record with the document number
         GeneralLedgerEntryAsset entryAsset = new GeneralLedgerEntryAsset();
         entryAsset.setGeneralLedgerAccountIdentifier(entry.getGeneralLedgerAccountIdentifier());
         entryAsset.setCapitalAssetBuilderLineNumber(capitalAssetLineNumber);
@@ -377,6 +394,7 @@ public class GlLineServiceImpl implements GlLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#createAssetPaymentDocument(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry, java.lang.Integer)
      */
+    @Override
     public Document createAssetPaymentDocument(GeneralLedgerEntry primaryGlEntry, Integer capitalAssetLineNumber) throws WorkflowException {
         // Find out the GL Entry
         // initiate a new document
@@ -541,7 +559,7 @@ public class GlLineServiceImpl implements GlLineService {
         DocumentHeader docHeader = SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(entry.getDocumentNumber());
         FinancialSystemDocumentHeader fsDocumentHeader = (FinancialSystemDocumentHeader) docHeader;
 
-        return StringUtils.isNotBlank(fsDocumentHeader.getFinancialDocumentInErrorNumber());
+        return fsDocumentHeader != null && StringUtils.isNotBlank(fsDocumentHeader.getFinancialDocumentInErrorNumber());
     }
     /**
      * updates the submit amount by the amount on the accounting line.  When submit amount equals

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -59,7 +59,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Gets the definition attribute.
-     * 
+     *
      * @return Returns the definition.
      */
     public AccountingLineViewFieldDefinition getDefinition() {
@@ -68,7 +68,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Sets the definition attribute value.
-     * 
+     *
      * @param definition The definition to set.
      */
     public void setDefinition(AccountingLineViewFieldDefinition definition) {
@@ -77,7 +77,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Determines if this field should use the short label or not
-     * 
+     *
      * @return true if the short label should be used, false otherwise
      */
     private boolean shouldUseShortLabel() {
@@ -86,9 +86,9 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Gets the field attribute.
-     * 
+     *
      * @return Returns the field.
-     * 
+     *
      * KRAD Conversion: Gets the fields - No use of data dictionary
      */
     public Field getField() {
@@ -97,9 +97,9 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Sets the field attribute value.
-     * 
+     *
      * @param field The field to set.
-     * 
+     *
      * KRAD Conversion: sets the fields - No use of data dictionary
      */
     public void setField(Field field) {
@@ -108,7 +108,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Gets the overrideFields attribute.
-     * 
+     *
      * @return Returns the overrideFields.
      */
     public List<AccountingLineViewOverrideField> getOverrideFields() {
@@ -117,7 +117,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Sets the overrideFields attribute value.
-     * 
+     *
      * @param overrideFields The overrideFields to set.
      */
     public void setOverrideFields(List<AccountingLineViewOverrideField> overrideFields) {
@@ -126,9 +126,10 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Checks the field to see if the field itself is hidden
-     * 
+     *
      * @see org.kuali.kfs.sys.document.web.AccountingLineViewRenderableElementField#isHidden()
      */
+    @Override
     public boolean isHidden() {
         return (field.getFieldType().equals(Field.HIDDEN) || definition.isHidden());
     }
@@ -136,9 +137,10 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     /**
      * Asks the wrapped field if it is read only (dynamic fields are, of course, always read only and therefore don't count in this
      * determination)
-     * 
+     *
      * @see org.kuali.kfs.sys.document.web.AccountingLineViewRenderableElementField#isReadOnly()
      */
+    @Override
     public boolean isReadOnly() {
         return field.isReadOnly() || isHidden();
     }
@@ -146,6 +148,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     /**
      * @see org.kuali.kfs.sys.document.web.TableJoining#getName()
      */
+    @Override
     public String getName() {
         return field.getPropertyName();
     }
@@ -153,6 +156,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     /**
      * @see org.kuali.kfs.sys.document.web.TableJoining#readOnlyize()
      */
+    @Override
     public void readOnlyize() {
         if (!isHidden()) {
             this.field.setReadOnly(true);
@@ -170,6 +174,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @see org.kuali.kfs.sys.document.web.RenderableElement#renderElement(javax.servlet.jsp.PageContext,
      *      javax.servlet.jsp.tagext.Tag)
      */
+    @Override
     public void renderElement(PageContext pageContext, Tag parentTag, AccountingLineRenderingContext renderingContext) throws JspException {
         renderField(pageContext, parentTag, renderingContext);
 
@@ -183,7 +188,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Renders the field portion of this tag
-     * 
+     *
      * @param pageContext the page context to render to
      * @param parentTag the tag requesting rendering
      * @param renderingContext the rendering context of the accounting line
@@ -194,7 +199,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
         String accountingLineProperty = renderingContext.getAccountingLinePropertyPath();
         List<String> fieldNames = renderingContext.getFieldNamesForAccountingLine();
         List errors = renderingContext.getErrors();
-        
+
         this.getField().setPropertyPrefix(accountingLineProperty);
         boolean chartSetByAccount = getName().equals(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME) && !SpringContext.getBean(AccountService.class).accountsCanCrossCharts();
         //set chartOfAccountsCode readOnly if account can't cross charts
@@ -240,7 +245,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Updates the field so that it can have a quickfinder and inquiry link if need be
-     * 
+     *
      * @param accountingDocument the accounting document the accounting line the field will render part of is on or will at some
      *        point be on
      * @param accountingLine the accounting line that is being rendered
@@ -288,7 +293,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Lazily retrieves the persistence structure service
-     * 
+     *
      * @return an implementation of PersistenceStructureService
      */
     protected PersistenceStructureService getPersistenceStructureService() {
@@ -300,12 +305,12 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Does some initial set up on the field renderer - sets the field and the business object being rendered
-     * 
+     *
      * @param fieldRenderer the field renderer to prepare
      * @param accountingLine the accounting line being rendered
      * @param accountingLineProperty the property to get the accounting line from the form
      * @param fieldNames the names of all the fields that will be rendered as part of this accounting line
-     * 
+     *
      * KRAD Conversion: Customization of the fields - No use of data dictionary
      */
     protected void prepareFieldRenderer(FieldRenderer fieldRenderer, Field field, AccountingDocument document, AccountingLine accountingLine, String accountingLineProperty, List<String> fieldNames) {
@@ -326,7 +331,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Determines if a dynamic field label should be rendered for the given field
-     * 
+     *
      * @return true if a dynamic field label should be rendered, false otherwise
      */
     protected boolean shouldRenderDynamicFeldLabel() {
@@ -349,7 +354,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Runs a field transformation against all the overrides encapsulated within this field
-     * 
+     *
      * @param fieldTransformation the field transformation which will utterly change our fields
      * @param accountingLine the accounting line being rendered
      * @param editModes the current document edit modes
@@ -363,7 +368,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Renders the override fields for the line
-     * 
+     *
      * @param pageContext the page context to render to
      * @param parentTag the tag requesting all this rendering
      * @param accountingLine the accounting line we're rendering
@@ -379,7 +384,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Renders a dynamic field label
-     * 
+     *
      * @param pageContext the page context to render to
      * @param parentTag the parent tag requesting this rendering
      * @param accountingLine the line which owns the field being rendered
@@ -411,7 +416,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Gets the value from the accounting line to display as the field value
-     * 
+     *
      * @param accountingLine the accounting line to get the value from
      * @return the value to display for the dynamic name label
      */
@@ -428,8 +433,9 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
         }
         if (!ObjectUtils.isNull(value)) {
             value = ObjectUtils.getPropertyValue(value, dynamicLabelProperty);
-            if (value != null)
+            if (value != null) {
                 return value.toString();
+            }
         }
         return null;
     }
@@ -437,6 +443,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     /**
      * @see org.kuali.kfs.sys.document.web.TableJoiningWithHeader#createHeaderLabel()
      */
+    @Override
     public HeaderLabel createHeaderLabel() {
         return new FieldHeaderLabel(this);
     }
@@ -444,7 +451,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     /**
      * If the field definition had an override col span greater than 1 and it doesn't seem as if the given cell had its colspan
      * lengthened already, this method will increase the colspan of the table cell to whatever is listed
-     * 
+     *
      * @param cell the cell to possibly lengthen
      */
     protected void updateTableCellWithColSpanOverride(AccountingLineTableCell cell) {
@@ -455,7 +462,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Overridden to allow for colspan override
-     * 
+     *
      * @see org.kuali.kfs.sys.document.web.FieldTableJoiningWithHeader#createHeaderLabelTableCell()
      */
     @Override
@@ -467,7 +474,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Overridden to allow for colspan override
-     * 
+     *
      * @see org.kuali.kfs.sys.document.web.FieldTableJoining#createTableCell()
      */
     @Override
@@ -488,6 +495,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
      * @see org.kuali.kfs.sys.document.web.HeaderLabelPopulating#populateHeaderLabel(org.kuali.kfs.sys.document.web.HeaderLabel,
      *      org.kuali.kfs.sys.document.web.AccountingLineRenderingContext)
      */
+    @Override
     public void populateHeaderLabel(HeaderLabel headerLabel, AccountingLineRenderingContext renderingContext) {
         FieldHeaderLabel label = (FieldHeaderLabel) headerLabel;
         label.setLabel(getField().getFieldLabel());
@@ -502,11 +510,12 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Adds the wrapped field to the list; adds any override fields this field encapsulates as well
-     * 
+     *
      * @see org.kuali.kfs.sys.document.web.RenderableElement#appendFieldNames(java.util.List)
-     * 
+     *
      * KRAD Conversion: Customization of adding the fields - No use of data dictionary
      */
+    @Override
     public void appendFields(List<Field> fields) {
         fields.add(getField());
         if (getOverrideFields() != null && getOverrideFields().size() > 0) {
@@ -519,37 +528,65 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     /**
      * @see org.kuali.kfs.sys.document.web.RenderableElement#populateWithTabIndexIfRequested(int[], int)
      */
+    @Override
     public void populateWithTabIndexIfRequested(int reallyHighIndex) {
         this.arbitrarilyHighIndex = reallyHighIndex;
     }
 
     /**
      * Determines if this field is among the fields that are in error
-     * 
+     *
      * @param errors the errors on the form
      * @return true if this field is in error, false otherwise
-     * 
+     *
      * KRAD Conversion: Checks if fields have errors - No use of data dictionary
      */
     protected boolean fieldInError(List errors) {
+        boolean fieldInError = false;
+
         if (errors != null) {
             String fieldName = getField().getPropertyName();
             if (!StringUtils.isBlank(getField().getPropertyPrefix())) {
                 fieldName = getField().getPropertyPrefix() + "." + fieldName;
             }
-            for (Object errorKeyAsObject : errors) {
-                final String errorKey = (String) errorKeyAsObject;
-                if (fieldName.equals(errorKey)) {
-                    return true;
-                }
+            fieldInError = matchesError(errors, fieldName);
+
+            // if there was no match, it may be because the field is part of a collection, and there
+            // is a mismatch between the fieldName and the errorKeys in the errors List. Need to check
+            // again accommodating that by changing the fieldName to be plural
+            if (fieldName.matches(".*[^s]\\[\\d+\\].*") && !fieldInError) {
+                fieldInError = matchesError(errors, fieldName.replaceAll("\\[", "s\\["));
             }
         }
-        return false;
+
+        return fieldInError;
+    }
+
+    /**
+     * Check the errorKeys for a match to the fieldName
+     *
+     * @param errors the errors on the form
+     * @param fieldName true if the fieldName matches an errorKey, false otherwise
+     * @return
+     */
+    private boolean matchesError(List errors, String fieldName) {
+        boolean matchesError = false;
+
+        for (Object errorKeyAsObject : errors) {
+            final String errorKey = (String) errorKeyAsObject;
+            if (fieldName.equals(errorKey)) {
+                matchesError = true;
+                break;
+            }
+        }
+
+        return matchesError;
     }
 
     /**
      * @see org.kuali.kfs.sys.document.web.ReadOnlyable#setEditable()
      */
+    @Override
     public void setEditable() {
         if (!isHidden()) {
             this.field.setReadOnly(false);
@@ -558,7 +595,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Determines whether to render the inquiry for this field
-     * 
+     *
      * @param document the document which the accounting line is part of or hopefully sometime will be part of
      * @param line the accounting line being rendered
      * @return true if inquiry links should be rendered, false otherwise
@@ -569,7 +606,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * build the lookup parameter map through applying the override parameters onto the defaults
-     * 
+     *
      * @param lookupParameters the default lookup parameter string
      * @param overrideLookupParameters the override lookup parameter string
      * @param accountingLinePrefix the actual accounting line prefix
@@ -585,7 +622,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * parse the given lookup parameter string into a bidirectinal map
-     * 
+     *
      * @param lookupParameters the lookup parameter string
      * @param accountingLinePrefix the actual accounting line prefix
      * @return a bidirectinal map that holds all the given lookup parameters
@@ -593,11 +630,11 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
     private BidiMap buildBidirecionalMapFromParameters(String parameters, String accountingLinePrefix) {
         BidiMap parameterMap = new DualHashBidiMap();
 
-        //  if we didnt get any incoming parameters, then just return an empty parameterMap 
+        //  if we didnt get any incoming parameters, then just return an empty parameterMap
         if (StringUtils.isBlank(parameters)) {
             return parameterMap;
         }
-        
+
         String[] parameterArray = StringUtils.split(parameters, KFSConstants.FIELD_CONVERSIONS_SEPERATOR);
 
         for (String parameter : parameterArray) {
@@ -616,7 +653,7 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
 
     /**
      * Escapes the String ${accountingLineName} within a field and replaces it with the actual prefix of an accounting line
-     * 
+     *
      * @param propertyName the name of the property to escape the special string ${accountingLineName} out of
      * @param accountingLinePrefix the actual accounting line prefix
      * @return the property name with the correct accounting line prefix

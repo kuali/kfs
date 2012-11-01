@@ -214,8 +214,15 @@ public abstract class AbstractDocumentSearchResultProcessor {
      * @return
      * @throws WorkflowException
      */
-    public TravelDocument getDocument(String documentNumber) throws WorkflowException{
-        return (TravelDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
+    public TravelDocument getDocument(String documentNumber) {
+        TravelDocument document = null;
+        try {
+            document = (TravelDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
+        }
+        catch (WorkflowException ex) {
+            LOG.error(ex.getMessage(), ex);
+        }
+        return document;
     }
     
     /**

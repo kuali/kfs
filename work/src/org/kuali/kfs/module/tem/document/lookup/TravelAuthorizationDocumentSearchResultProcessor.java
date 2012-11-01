@@ -23,20 +23,20 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.docsearch.DocSearchDTO;
 import org.kuali.rice.kew.docsearch.DocumentSearchResult;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.web.KeyValueSort;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
 
 /**
  * Produces custom search results for {@link TravelAuthorizationDocument}
- * 
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDocumentSearchResultProcessor implements TravelDocumentSearchResultsProcessor {
 
@@ -47,22 +47,32 @@ public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDo
      * in the search results that have a workflow document status of FINAL or PROCESSED and on documents that do not have a workflow
      * App Doc Status of REIMB_HELD, CANCELLED, PEND_AMENDMENT, CLOSED, or RETIRED_VERSION.
      * 
+     * check status of document and don't create if the status is not final or processed
+     * 
      * @param docCriteriaDTO has the workflow document status and app doc status to determine if rendering of the link is necessary
      * @return true if the document should have a reimbursement link
      */
     private boolean showReimbursementURL(DocSearchDTO docCriteriaDTO) {
-        // kualitem-401 ... check status of document and don't create if the status is not final or processed
-        // KUALITEM check if document is on hold or cancelled. If on hold, no link.
-
         final String documentStatus = docCriteriaDTO.getDocRouteStatusCode();
         final String appDocStatus = docCriteriaDTO.getAppDocStatus();
-        return (documentStatus.equals(KEWConstants.ROUTE_HEADER_FINAL_CD)
+        boolean statusCheck = (documentStatus.equals(KEWConstants.ROUTE_HEADER_FINAL_CD)
                 || (documentStatus.equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD)))
                 && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD))
                 && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CANCELLED))
                 && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT))
                 && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION))
                 && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CLOSED));
+        
+        TravelDocument document = getDocument(docCriteriaDTO.getRouteHeaderId().toString());
+        Person user = GlobalVariables.getUserSession().getPerson();
+        
+        boolean hasInitTRAccess = true;
+        if (getTemRoleService().canAccessTravelDocument(document, user) && document.getTemProfileId() != null){
+            //check if user also can init TR 
+            hasInitTRAccess = getTemRoleService().isTravelDocumentArrangerForProfile(TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT, user.getPrincipalId(), document.getTemProfileId());
+        }
+        
+        return statusCheck && hasInitTRAccess;
     }
 
     /**
@@ -85,16 +95,10 @@ public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDo
      * @return
      */
     private boolean hasTripStarted(DocSearchDTO docCriteriaDTO) {
-        
         //default that the trip has started
         boolean tripStarted = true;
-        try {
-            TravelDocument document = getDocument(docCriteriaDTO.getRouteHeaderId().toString());
-            tripStarted = document.getTripBegin().before(new Date());
-        }
-        catch (WorkflowException ex) {
-            LOG.error(ex.getMessage(), ex);
-        }
+        TravelDocument document = getDocument(docCriteriaDTO.getRouteHeaderId().toString());
+        tripStarted = document.getTripBegin().before(new Date());
         return tripStarted;
     }
 
@@ -147,5 +151,5 @@ public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDo
     private ParameterService getParameterService() {
         return SpringContext.getBean(ParameterService.class);
     }
-
+    
 }

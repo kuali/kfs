@@ -42,24 +42,26 @@
 				<status>Awaiting Fiscal Officer Review</status>
 				<status>Awaiting Organization Review</status>
 				<status>Awaiting Division Review</status>
+                <status>Awaiting Special Request Review</status>
 				<status>Awaiting International Travel Review</status>
 				<status>Awaiting Risk Management Review</status>
 				<status>Awaiting Sub-Fund Review</status>
 				<status>Awaiting Award Review</status>
                 <status>Awaiting Separation Of Duties Review</status>
-				<status>Awaiting Special Request Review</status>
 				<status>Awaiting Travel Manager Review</status>
 				<status>Reimbursement On Hold</status>
 				<status>Cancelled</status>
 				<status>Closed</status>
-				<status>Disapproved - Org Review</status>
+                <status>Disapproved - Traveler</status>
 				<status>Disapproved - Fiscal Officer</status>
+                <status>Disapproved - Organization</status>
 				<status>Disapproved - Division</status>
-				<status>Disapproved - International Travel</status>
 				<status>Disapproved - Special Request</status>
+                <status>Disapproved - International Travel</status>
 				<status>Disapproved - Risk Management</status>
 				<status>Disapproved - Sub-Fund</status>
 				<status>Disapproved - Award</status>
+                <status>Disapproved - Separation Of Duties</status>
 				<status>Disapproved - Travel</status>
 				<status>Open For Reimbursement</status>
 				<status>Pending Amendment</status>

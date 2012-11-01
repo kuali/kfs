@@ -296,15 +296,17 @@ public class TemConstants extends JSTLConstants {
         public static final String AWAIT_SUB = "Awaiting Sub-Fund Review";
         public static final String AWAIT_AWARD = "Awaiting Award Review";
         public static final String AWAIT_SPCL = "Awaiting Special Request Review";
+        public static final String AWAIT_SEP_DUTIES = "Awaiting Separation Of Duties Review";
         
         public static final String DAPRVD_TRVLR = "Disapproved - Traveler";
         public static final String DAPRVD_FISCAL = "Disapproved - Fiscal Officer";
-        public static final String DAPRVD_ORG = "Disapproved - Organization Review";
+        public static final String DAPRVD_ORG = "Disapproved - Organization";
         public static final String DAPRVD_DIV = "Disapproved - Division";
-        public static final String DAPRVD_INTL = "Disapproved - International Travel Review";
-        public static final String DAPRVD_SUB = "Disapproved - Sub-Fund Review";
-        public static final String DAPRVD_AWARD = "Disapproved - Award Review";
+        public static final String DAPRVD_INTL = "Disapproved - International Travel";
+        public static final String DAPRVD_SUB = "Disapproved - Sub-Fund";
+        public static final String DAPRVD_AWARD = "Disapproved - Award";
         public static final String DAPRVD_SPCL = "Disapproved - Special Request";
+        public static final String DAPRVD_SEP_DUTIES = "Disapproved - Separation Of Duties";
     }
     
     public static class TravelAuthorizationStatusCodeKeys extends TravelStatusCodeKeys{
@@ -335,6 +337,7 @@ public class TemConstants extends JSTLConstants {
             disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD); 
             disapprovedAppDocStatusMap.put(AWAIT_SPCL, DAPRVD_SPCL); 
             disapprovedAppDocStatusMap.put(AWAIT_TRVL_MGR, DAPRVD_TRVL);
+            disapprovedAppDocStatusMap.put(AWAIT_SEP_DUTIES, DAPRVD_SEP_DUTIES);
             
             return disapprovedAppDocStatusMap;
         }
@@ -349,8 +352,11 @@ public class TemConstants extends JSTLConstants {
     public static class TravelReimbursementStatusCodeKeys extends TravelStatusCodeKeys{
         
         public static final String DEPT_APPROVED = "Department Approved";
+        public static final String AWAIT_TRVL_ACCOUNTING = "Awaiting Travel Accounting Review";
         public static final String AWAIT_TAX_MANAGER = "Awaiting Tax Manager Review";
         public static final String AWAIT_TRVL_MGR = "Awaiting Travel Manager Review";
+        
+        public static final String DAPRVD_TRVL_ACCOUNTING = "Disapproved - Travel Accounting";
         public static final String DAPRVD_TAX_MANAGER = "Disapproved - Tax Manager";
         public static final String DAPRVD_TRVL = "Disapproved - Travel";
         
@@ -360,7 +366,6 @@ public class TemConstants extends JSTLConstants {
             disapprovedAppDocStatusMap = new HashMap<String, String>();
             disapprovedAppDocStatusMap.put(AWAIT_TRVLR,  DAPRVD_TRVLR);
             disapprovedAppDocStatusMap.put(AWAIT_FISCAL, DAPRVD_FISCAL);
-            disapprovedAppDocStatusMap.put(AWAIT_ORG, DAPRVD_ORG);
             disapprovedAppDocStatusMap.put(AWAIT_DIV,  DAPRVD_DIV);
             disapprovedAppDocStatusMap.put(AWAIT_INTL,  DAPRVD_INTL);
             disapprovedAppDocStatusMap.put(AWAIT_SUB,  DAPRVD_SUB);

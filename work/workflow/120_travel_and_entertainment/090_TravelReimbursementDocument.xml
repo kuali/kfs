@@ -52,14 +52,15 @@
                 <status>Department Approved</status>
                 <status>Disapproved - Traveler</status>
                 <status>Disapproved - Fiscal Officer</status>
-                <status>Disapproved - Organization</status>
+                <status>Disapproved - Travel Accounting</status>
                 <status>Disapproved - Division</status>
-                <status>Disapproved - Special Request Reviewer</status>
-                <status>Disapproved - International Travel Reviewer</status>
-                <status>Disapproved - Sub-Fund Review</status>
-                <status>Disapproved - Award Review</status>
-                <status>Disapproved - Tax Manager Review</status>
-                <status>Disapproved - Travel Manager Review</status>
+                <status>Disapproved - Special Request</status>
+                <status>Disapproved - International Travel</status>
+                <status>Disapproved - Sub-Fund</status>
+                <status>Disapproved - Award</status>
+                <status>Disapproved - Tax Manager</status>
+                <status>Disapproved - Separation Of Duties</status>
+                <status>Disapproved - Travel</status>
                 <status>Cancelled</status>
             </validApplicationStatuses>
             <policies>

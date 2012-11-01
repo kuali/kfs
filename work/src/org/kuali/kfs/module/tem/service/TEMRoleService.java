@@ -40,7 +40,7 @@ public interface TEMRoleService {
      * @param profileId
      * @return
      */
-    public boolean isTravelDocumentArrangerForProfile(String documentType, String principalId, int profileId);
+    public boolean isTravelDocumentArrangerForProfile(String documentType, String principalId, Integer profileId);
 
     /**
      * Check if user is stored as profile arranger 

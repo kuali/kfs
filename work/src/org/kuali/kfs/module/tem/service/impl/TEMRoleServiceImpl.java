@@ -94,7 +94,7 @@ public class TEMRoleServiceImpl implements TEMRoleService{
      * @see org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService#isTravelDocumentArrangerForProfile(java.lang.String, java.lang.String, int)
      */
     @Override
-    public boolean isTravelDocumentArrangerForProfile(String documentType, String principalId, int profileId) {
+    public boolean isTravelDocumentArrangerForProfile(String documentType, String principalId, Integer profileId) {
         boolean isTravelArranger = false;
 
         TEMProfileArranger arranger = arrangerDocumentService.findTemProfileArranger(principalId, profileId);

@@ -247,6 +247,9 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
             return requiresSpecialRequestReviewRouting();
         if (nodeName.equals(TemWorkflowConstants.TAX_MANAGER))
             return requiresTaxManagerApprovalRouting();
+        if (nodeName.equals(TemWorkflowConstants.SEPARATION_OF_DUTIES)) {
+            return requiresSeparationOfDutiesRouting();
+        }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
 

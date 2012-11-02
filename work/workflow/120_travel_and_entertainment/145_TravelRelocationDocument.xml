@@ -38,22 +38,24 @@
             </routingVersion>
             <validApplicationStatuses>
                 <status>Awaiting Traveler Review</status>
-                <status>Awaiting Moving and Relocation Manager Review</status>
                 <status>Awaiting Fiscal Officer Review</status>
                 <status>Awaiting Organization Review</status>
                 <status>Awaiting Executive Review</status>
                 <status>Awaiting Sub-Fund Review</status>
                 <status>Awaiting Award Review</status>
                 <status>Awaiting Tax Manager Review</status>
+                <status>Awaiting Separation Of Duties Review</status>
+                <status>Awaiting Moving and Relocation Manager Review</status>
                 <status>Moving And Relocation Manager Approved</status>
                 <status>Disapproved - Traveler</status>
-                <status>Disapproved - Moving and Relocation Manager</status>
                 <status>Disapproved - Fiscal Officer</status>
                 <status>Disapproved - Organization</status>
                 <status>Disapproved - Executive</status>
-                <status>Disapproved - Sub-Fund Review</status>
-                <status>Disapproved - Award Review</status>
+                <status>Disapproved - Sub-Fund</status>
+                <status>Disapproved - Award</status>
                 <status>Disapproved - Tax Manager</status>
+                <status>Disapproved - Separation Of Duties</status>
+                <status>Disapproved - Moving and Relocation Manager</status>
                 <status>Cancelled</status>
                 <status>In Process</status>
             </validApplicationStatuses>
@@ -95,15 +97,24 @@
                     
                     <role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Award Review" />
                     <role name="Award" nextNode="TaxManagerApproval" nextAppDocStatus="Awaiting Tax Manager Review" />
-                    <split name="TaxManagerApproval" nextNode="MovingAndRelocationManager" nextAppDocStatus="Awaiting Tax Manager Review">
+                    <split name="TaxManagerApproval" nextNode="SeparationOfDuties" nextAppDocStatus="Awaiting Tax Manager Review">
 			         	<branch name="True">
-			            	<role name="Tax" nextNode="JoinRequiresTaxManagerReview" nextAppDocStatus="Awaiting Moving And Relocation Manager Review" />
+			            	<role name="Tax" nextNode="JoinRequiresTaxManagerReview" nextAppDocStatus="Awaiting Separation Of Duties Review" />
 			         	</branch>
 			         	<branch name="False">
-			            	<simple name="NoOpTaxManager" nextNode="JoinRequiresTaxManagerReview" nextAppDocStatus="Awaiting Moving And Relocation Manager Review" />
+			            	<simple name="NoOpTaxManager" nextNode="JoinRequiresTaxManagerReview" nextAppDocStatus="Awaiting Separation Of Duties Review" />
 			         	</branch>
                         <join name="JoinRequiresTaxManagerReview"/>		         		
-	     			</split>                    
+	     			</split>
+                    <split name="SeparationOfDuties" nextNode="MovingAndRelocationManager" nextAppDocStatus="Awaiting Separation Of Duties Review">
+                        <branch name="True">
+                            <role name="SeparationOfDutiesReviewer" nextNode="JoinSeparationOfDutiesReviewer" nextAppDocStatus="Awaiting Moving and Relocation Manager Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpSeparationOfDutiesReviewer" nextNode="JoinSeparationOfDutiesReviewer" nextAppDocStatus="Awaiting Moving and Relocation Manager Review" />
+                        </branch>   
+                        <join name="JoinSeparationOfDutiesReviewer" />                  
+                    </split>
                     <role name="MovingAndRelocationManager" nextAppDocStatus="Moving And Relocation Manager Approved" />
                 </routePath>
             </routePaths> 
@@ -183,6 +194,18 @@
 			        <activationType>P</activationType>
 				</role> 
 				
+                <join name="JoinSeparationOfDutiesReviewer" />
+                <simple name="NoOpSeparationOfDutiesReviewer">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="SeparationOfDuties">
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+                </split>
+                <role name="SeparationOfDutiesReviewer">
+                    <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                
                 <role name="MovingAndRelocationManager">
                     <qualifierResolverClass>
                         org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver

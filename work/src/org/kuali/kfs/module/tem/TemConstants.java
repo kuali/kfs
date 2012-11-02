@@ -396,6 +396,7 @@ public class TemConstants extends JSTLConstants {
             disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD); 
             disapprovedAppDocStatusMap.put(AWAIT_EXECUTIVE, DAPRVD_EXECUTIVE); 
             disapprovedAppDocStatusMap.put(AWAIT_TAX_MANAGER, DAPRVD_TAX_MANAGER);
+            disapprovedAppDocStatusMap.put(AWAIT_SEP_DUTIES, DAPRVD_SEP_DUTIES);
             disapprovedAppDocStatusMap.put(AWAIT_RELO_MANAGER, DAPRVD_RELO_MANAGER); 
             
             return disapprovedAppDocStatusMap;
@@ -419,6 +420,7 @@ public class TemConstants extends JSTLConstants {
             disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD); 
             disapprovedAppDocStatusMap.put(AWAIT_SPCL, DAPRVD_SPCL); 
             disapprovedAppDocStatusMap.put(AWAIT_TAX_MANAGER, DAPRVD_TAX_MANAGER);
+            disapprovedAppDocStatusMap.put(AWAIT_SEP_DUTIES, DAPRVD_SEP_DUTIES);
             disapprovedAppDocStatusMap.put(AWAIT_ENT_MANAGER, DAPRVD_ENT_MANAGER); 
             
             return disapprovedAppDocStatusMap;

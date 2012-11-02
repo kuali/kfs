@@ -17,7 +17,6 @@
 package org.kuali.kfs.module.ec.businessobject;
 
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -28,11 +27,9 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.integration.ld.LaborModuleService;
-import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.util.EffortCertificationParameterFinder;
 import org.kuali.kfs.module.ec.util.PayrollAmountHolder;
-import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.module.ld.businessobject.PositionData;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -713,27 +710,6 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      */
     public void setPersistedPayrollAmount(KualiDecimal persistedPayrollAmount) {
         this.persistedPayrollAmount = persistedPayrollAmount;
-    }
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
-        map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.chartOfAccountsCode);
-        map.put(KFSPropertyConstants.ACCOUNT_NUMBER, this.accountNumber);
-        map.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, this.subAccountNumber);
-        map.put(KFSPropertyConstants.POSITION_NUMBER, this.positionNumber);
-        map.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, this.financialObjectCode);
-        map.put(EffortPropertyConstants.SOURCE_CHART_OF_ACCOUNTS_CODE, this.sourceChartOfAccountsCode);
-        map.put(EffortPropertyConstants.SOURCE_ACCOUNT_NUMBER, this.sourceAccountNumber);
-        map.put(EffortPropertyConstants.EFFORT_CERTIFICATION_PAYROLL_AMOUNT, this.effortCertificationPayrollAmount);
-        map.put(EffortPropertyConstants.EFFORT_CERTIFICATION_ORIGINAL_PAYROLL_AMOUNT, this.effortCertificationOriginalPayrollAmount);
-        map.put(LaborPropertyConstants.EFFECTIVE_DATE, this.effectiveDate);
-
-        return map;
     }
 
     /**

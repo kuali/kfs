@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -47,9 +47,10 @@ import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -79,12 +80,13 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     /**
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#processApprovedEffortCertificationDocument(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
+    @Override
     public void processApprovedEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument) {
         WorkflowDocument workflowDocument = effortCertificationDocument.getDocumentHeader().getWorkflowDocument();
 
-        if (workflowDocument.isFinal()) {
+        if (workflowDocument.isProcessed()) {
             GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
-            this.generateSalaryExpenseTransferDocument(effortCertificationDocument);
+            generateSalaryExpenseTransferDocument(effortCertificationDocument);
         }
     }
 
@@ -92,15 +94,16 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#createAndRouteEffortCertificationDocument(org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild)
      */
 
+    @Override
     public boolean createAndRouteEffortCertificationDocument(EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
         try {
             EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) documentService.getNewDocument(EffortConstants.EffortDocumentTypes.EFFORT_CERTIFICATION_DOCUMENT);
-            this.populateEffortCertificationDocument(effortCertificationDocument, effortCertificationDocumentBuild);
+            populateEffortCertificationDocument(effortCertificationDocument, effortCertificationDocumentBuild);
             documentService.routeDocument(effortCertificationDocument, KFSConstants.EMPTY_STRING, null);
         }
         catch (WorkflowException we) {
-            LOG.error(we);
-            throw new RuntimeException(we);
+            LOG.error( "Unable to route ECD document: " + effortCertificationDocumentBuild, we);
+            throw new RuntimeException("Unable to route ECD document: " + effortCertificationDocumentBuild, we);
         }
 
         return true;
@@ -111,14 +114,15 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild)
      */
 
+    @Override
     public boolean populateEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument, EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
-        // populate the fields of the docuemnt
+        // populate the fields of the document
         effortCertificationDocument.setUniversityFiscalYear(effortCertificationDocumentBuild.getUniversityFiscalYear());
         effortCertificationDocument.setEmplid(effortCertificationDocumentBuild.getEmplid());
         effortCertificationDocument.setEffortCertificationReportNumber(effortCertificationDocumentBuild.getEffortCertificationReportNumber());
         effortCertificationDocument.setEffortCertificationDocumentCode(effortCertificationDocumentBuild.getEffortCertificationDocumentCode());
 
-        // populcate the detail line of the document
+        // populate the detail line of the document
         List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
         detailLines.clear();
 
@@ -139,6 +143,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#resetEffortCertificationDetailLines(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
 
+    @Override
     public void removeEffortCertificationDetailLines(EffortCertificationDocument effortCertificationDocument) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, effortCertificationDocument.getDocumentNumber());
@@ -150,6 +155,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#generateSalaryExpenseTransferDocument(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
 
+    @Override
     public boolean generateSalaryExpenseTransferDocument(EffortCertificationDocument effortCertificationDocument) {
         List<LaborLedgerExpenseTransferAccountingLine> sourceAccoutingLines = this.buildSourceAccountingLines(effortCertificationDocument);
         List<LaborLedgerExpenseTransferAccountingLine> targetAccoutingLines = this.buildTargetAccountingLines(effortCertificationDocument);
@@ -169,8 +175,8 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             laborModuleService.createAndBlankApproveSalaryExpenseTransferDocument(description, explanation, annotation, adHocRecipients, sourceAccoutingLines, targetAccoutingLines);
         }
         catch (WorkflowException we) {
-            LOG.error(we);
-            throw new RuntimeException(we);
+            LOG.error( "Error while routing SET document created from ECD: " + effortCertificationDocument, we);
+            throw new RuntimeException("Error while routing SET document created from ECD: " + effortCertificationDocument, we);
         }
         return true;
     }
@@ -179,27 +185,30 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentService#addRouteLooping(org.kuali.kfs.module.ec.document.EffortCertificationDocument)
      */
 
+    @Override
     public void addRouteLooping(EffortCertificationDocument effortCertificationDocument) {
-        List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
-        List<AdHocRoutePerson> adHocRoutePersonList = effortCertificationDocument.getAdHocRoutePersons();
-
         WorkflowDocument workflowDocument = effortCertificationDocument.getDocumentHeader().getWorkflowDocument();
         Set<Person> priorApprovers = getPriorApprovers(workflowDocument);
 
-        for (EffortCertificationDetail detailLine : detailLines) {
+        for (EffortCertificationDetail detailLine : effortCertificationDocument.getEffortCertificationDetailLines()) {
             boolean hasBeenChanged = EffortCertificationDocumentRuleUtil.isPayrollAmountChangedFromPersisted(detailLine);
             if (!hasBeenChanged) {
                 continue;
             }
+            if ( LOG.isInfoEnabled() ) {
+                LOG.info( "EC Detail Line has been changed: " + detailLine );
+            }
 
             Account account = detailLine.getAccount();
-            String accountFiscalOfficerPersonUserId = account.getAccountFiscalOfficerUser().getPrincipalName();
-            if (StringUtils.isNotEmpty(accountFiscalOfficerPersonUserId)) {
+            Person fiscalOfficer = account.getAccountFiscalOfficerUser();
+            if ( fiscalOfficer != null && StringUtils.isNotBlank(fiscalOfficer.getPrincipalName())) {
                 // KULEFR-206
                 // String actionRequestOfOfficer = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.ACCOUNT);
-                AdHocRoutePerson adHocRoutePerson = this.buildAdHocRouteRecipient(accountFiscalOfficerPersonUserId, KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
+                AdHocRoutePerson adHocRoutePerson = buildAdHocRouteRecipient(fiscalOfficer.getPrincipalName(), ActionRequestType.APPROVE);
 
-                this.addAdHocRoutePerson(adHocRoutePersonList, priorApprovers, adHocRoutePerson);
+                addAdHocRoutePerson(effortCertificationDocument.getAdHocRoutePersons(), priorApprovers, adHocRoutePerson);
+            } else {
+                LOG.warn( "Unable to obtain a fiscal officer for the detail line's account: " + account.getChartOfAccountsCode() + "-" + account.getAccountNumber() );
             }
 
             Person projectDirector = contractsAndGrantsModuleService.getProjectDirectorForAccount(account);
@@ -208,9 +217,9 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
                 // KULEFR-206
                 // String actionRequestOfDirector = this.getActionRequest(routeLevelName,
                 // KFSConstants.RouteLevelNames.PROJECT_MANAGEMENT);
-                AdHocRoutePerson adHocRoutePerson = this.buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
+                AdHocRoutePerson adHocRoutePerson = buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, ActionRequestType.APPROVE);
 
-                this.addAdHocRoutePerson(adHocRoutePersonList, priorApprovers, adHocRoutePerson);
+                addAdHocRoutePerson(effortCertificationDocument.getAdHocRoutePersons(), priorApprovers, adHocRoutePerson);
             }
         }
     }
@@ -221,8 +230,8 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
         if (priorApprovers == null) {
             canBeAdded = true;
-        }
-        else {
+        } else {
+            // we only want to ad-hoc if the user previously approved this document
             for (Person approver : priorApprovers) {
                 if (StringUtils.equals(approver.getPrincipalName(), adHocRoutePerson.getId())) {
                     canBeAdded = true;
@@ -232,8 +241,9 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         }
 
         if (canBeAdded) {
+            // check that we have not already added them for the same action
             for (AdHocRoutePerson person : adHocRoutePersonList) {
-                if (this.isSameAdHocRoutePerson(person, adHocRoutePerson)) {
+                if (isSameAdHocRoutePerson(person, adHocRoutePerson)) {
                     canBeAdded = false;
                     break;
                 }
@@ -264,7 +274,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         Set<Person> persons = new HashSet<Person>();
 
         for (ActionTaken actionTaken : actionsTaken) {
-            if (KewApiConstants.ACTION_TAKEN_APPROVED_CD.equals(actionTaken.getActionTaken())) {
+            if (ActionType.APPROVE.equals(actionTaken.getActionTaken())) {
                 String principalId = actionTaken.getPrincipalId();
                 if (!principalIds.contains(principalId)) {
                     principalIds.add(principalId);
@@ -276,27 +286,15 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     }
 
     /**
-     * determine the action request according to the current route level and expected route level
-     * 
-     * @param routeLevelName the current route level
-     * @param expectedRouteLevelName the expected route level
-     * @return the action request determined from the current route level and expected route level
-     */
-    protected String getActionRequest(String routeLevelName, String expectedRouteLevelName) {
-        boolean isExpectedRouteLevel = StringUtils.equals(routeLevelName, expectedRouteLevelName);
-        return isExpectedRouteLevel ? KewApiConstants.ACTION_REQUEST_APPROVE_REQ : KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ;
-    }
-
-    /**
      * build an adhoc route recipient from the given person user id and action request
-     * 
+     *
      * @param personUserId the given person user id
      * @param actionRequest the given action request
      * @return an adhoc route recipient built from the given information
      */
-    protected AdHocRoutePerson buildAdHocRouteRecipient(String personUserId, String actionRequest) {
+    protected AdHocRoutePerson buildAdHocRouteRecipient(String personUserId, ActionRequestType actionRequest) {
         AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
-        adHocRoutePerson.setActionRequested(actionRequest);
+        adHocRoutePerson.setActionRequested(actionRequest.getCode());
         adHocRoutePerson.setId(personUserId);
 
         return adHocRoutePerson;
@@ -305,7 +303,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     /**
      * build the source accounting lines for a salary expense transfer document from the given effort certification document. In the
      * holder, the first item is source accounting line list and the second the target accounting line list.
-     * 
+     *
      * @param effortCertificationDocument the given effort certification document
      * @return the source accounting lines for a salary expense transfer document built from the given effort certification document
      */
@@ -325,7 +323,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     /**
      * build the target accounting lines for a salary expense transfer document from the given effort certification document. In the
      * holder, the first item is source accounting line list and the second the target accounting line list.
-     * 
+     *
      * @param effortCertificationDocument the given effort certification document
      * @return the target accounting lines for a salary expense transfer document built from the given effort certification document
      */
@@ -344,7 +342,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
     /**
      * get all fiscal officers of the detail line accounts where the salary amounts are changed
-     * 
+     *
      * @param effortCertificationDocument the given document that contains the detail lines
      * @return all fiscal officers of the detail line accounts where the salary amounts are changed
      */
@@ -367,7 +365,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
     /**
      * add a new accounting line into the given accounting line list. The accounting line is generated from the given detail line
-     * 
+     *
      * @param accountingLines a list of accounting lines
      * @param clazz the specified class of the accounting line
      * @param effortCertificationDocument the given effort certification document that contains the given detail line
@@ -382,7 +380,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
     /**
      * populate an accounting line from the given detail line
-     * 
+     *
      * @param effortCertificationDocument the given effort certification document that contains the given detail line
      * @param detailLine the given detail line
      * @param accountingLine the accounting line needed to be populated
@@ -418,7 +416,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
     /**
      * get the difference between the original amount and updated amount of the given detail line
-     * 
+     *
      * @param detailLine the given detail line
      * @return the difference between the original amount and updated amount of the given detail line
      */
@@ -428,7 +426,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
     /**
      * Sets the laborModuleService attribute value.
-     * 
+     *
      * @param laborModuleService The laborModuleService to set.
      */
     public void setLaborModuleService(LaborModuleService laborModuleService) {
@@ -437,7 +435,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
     /**
      * Sets the documentService attribute value.
-     * 
+     *
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {
@@ -446,7 +444,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -463,7 +461,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
     /**
      * Sets the kualiModuleService attribute value.
-     * 
+     *
      * @param kualiModuleService The kualiModuleService to set.
      */
     public void setKualiModuleService(KualiModuleService kualiModuleService) {

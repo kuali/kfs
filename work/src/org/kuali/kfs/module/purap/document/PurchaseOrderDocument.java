@@ -63,6 +63,7 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentFrequency;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
+import org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.PurchasingDocumentSpecificService;
 import org.kuali.kfs.module.purap.document.service.RequisitionService;
@@ -102,8 +103,10 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocatorInternal;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.NoteType;
@@ -1710,17 +1713,21 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
 
     @Override
     public PersistableBusinessObject getNoteTarget() {
+        PurchaseOrderDao purchaseOrderDao = SpringContext.getBean(PurchaseOrderDao.class);
+        DocumentDao docDao = KRADServiceLocatorInternal.getDocumentDao();
 
-        PurchaseOrderService pos = SpringContext.getBean(PurchaseOrderService.class);
-        PurchaseOrderDocument oldest = pos.getOldestPurchaseOrder(this, this);
+        PurchaseOrderDocument oldest = docDao.findByDocumentHeaderId(PurchaseOrderDocument.class, purchaseOrderDao.getOldestPurchaseOrderDocumentNumber(this.getPurapDocumentIdentifier()));
 
-        return oldest.getDocumentHeader();
+        //KFSMI-9746: added this for null safe checking.
+        if(oldest != null){
+            return oldest.getDocumentHeader();
+        }
+
+        return this.getDocumentHeader();
     }
 
     @Override
     public NoteType getNoteType() {
         return NoteType.BUSINESS_OBJECT;
     }
-
-
 }

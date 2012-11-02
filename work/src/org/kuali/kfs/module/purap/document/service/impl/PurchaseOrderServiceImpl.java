@@ -662,8 +662,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 }
                 // if no validation exception was thrown then rules have passed and we are ok to edit the current PO
                 currentDocument.setPendingActionIndicator(true);
-
-                saveDocumentNoValidationUsingClearMessageMap(currentDocument);
+                savePurchaseOrderData(currentDocument);
 
                 return newDocument;
             }
@@ -709,7 +708,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 catch (ValidationException ve) {
                     //clear the pending indictor if an exception occurs, to leave the existing PO intact
                     currentDocument.setPendingActionIndicator(false);
-                    saveDocumentNoValidationUsingClearMessageMap(currentDocument);
+                    savePurchaseOrderData(currentDocument);
+
                     throw ve;
                 }
                 return newDocument;
@@ -1208,6 +1208,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         LOG.debug("entering getOldestPO(PurchaseOrderDocument)");
         if (ObjectUtils.isNotNull(po)) {
             String oldestDocumentNumber = purchaseOrderDao.getOldestPurchaseOrderDocumentNumber(po.getPurapDocumentIdentifier());
+            //KFSMI-9746 -- See Harsha's comments...
+            if (StringUtils.isBlank(oldestDocumentNumber)) {
+                return null;
+            }
             if (StringUtils.equals(oldestDocumentNumber, po.getDocumentNumber())) {
                 // manually set bo notes - this is mainly done for performance reasons (preferably we could call
                 // retrieve doc notes in PersistableBusinessObjectBase but that is protected)
@@ -1310,12 +1314,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 throw new RuntimeException("Error saving routing data while saving document with id " + oldPO.getDocumentNumber(), e);
             }
 
-            saveDocumentNoValidationUsingClearMessageMap(oldPO);
+            savePurchaseOrderData(oldPO);
         }
 
         // Now, we set the "new PO" indicators so that Current = Y and Pending = N
         newPO.setPurchaseOrderCurrentIndicator(true);
         newPO.setPendingActionIndicator(false);
+
+        //this was never being saved.  Should call the method to save the newPO.
+        saveDocumentNoValidationUsingClearMessageMap(newPO);
     }
 
     /**
@@ -1388,7 +1395,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             throw new RuntimeException("Error saving routing data while saving document", e);
         }
 
-        saveDocumentNoValidationUsingClearMessageMap(oldPO);
+        savePurchaseOrderData(oldPO);
         saveDocumentNoValidationUsingClearMessageMap(newPO);
     }
 
@@ -2226,6 +2233,26 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return null;
     }
 
+    /**
+     * helper method to take the po and save it using businessObjectService so that
+     * only the po related data is saved since most often we are only updating the flags on
+     * the document. It will then reindex the document.
+     *
+     * @param po
+     */
+    protected void savePurchaseOrderData(PurchaseOrderDocument po) {
+        //saving old PO using the business object service because the documentService saveDocument
+        //will try to save the notes again and will cause ojb lock exception.
+        //since only values that is changed on PO is pendingActionIndicator, save on businessObjectService is used
+        //KFSMI-9741
+
+        businessObjectService.save(po);
+
+        //reindex the document so that the app doc status gets updated in the results for the PO lookups.
+        final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
+        documentAttributeIndexingQueue.indexDocument(po.getDocumentNumber());
+
+    }
     /**
      * @return Returns the personService.
      */

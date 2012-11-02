@@ -204,7 +204,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 BillingAddress billingAddress = new BillingAddress();
                 billingAddress.setBillingCampusCode(document.getDeliveryCampusCode());
                 Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(billingAddress);
-                billingAddress = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
+                billingAddress = (BillingAddress)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
                 document.templateBillingAddress(billingAddress);
 
                 if (request.getParameter("document.deliveryBuildingName") == null) {

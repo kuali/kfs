@@ -287,11 +287,12 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
             return requiresTravelerApprovalRouting();
         if (nodeName.equals(TemWorkflowConstants.ACCOUNT_APPROVAL_REQUIRED))
             return requiresAccountApprovalRouting();
+        if (nodeName.equals(TemWorkflowConstants.SPECIAL_REQUEST))
+            return requiresSpecialRequestReviewRouting();
         if (nodeName.equals(TemWorkflowConstants.TAX_MANAGER_APPROVAL_REQUIRED))
             return requiresTaxManagerApprovalRouting();
-        if (nodeName.equals(TemWorkflowConstants.SEPARATION_OF_DUTIES)) {
+        if (nodeName.equals(TemWorkflowConstants.SEPARATION_OF_DUTIES)) 
             return requiresSeparationOfDutiesRouting();
-        }
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
     

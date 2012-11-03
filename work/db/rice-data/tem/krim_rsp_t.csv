@@ -30,3 +30,4 @@ RSP_ID,OBJ_ID,VER_NBR,RSP_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
 10028,KFS-TEM-RSP-028,1,1,KFS-TEM,Review,Responsible for reviewing Moving and Relocation Document on TravelReview,Y
 10029,KFS-TEM-RSP-029,1,1,KFS-TEM,Review,Responsible for reviewing Entertainment Document on SeparationOfDutiesReviewer,Y
 10030,KFS-TEM-RSP-030,1,1,KFS-TEM,Review,Responsible for reviewing Moving and Relocation Document on SeparationOfDutiesReviewer,Y
+10031,KFS-TEM-RSP-031,1,1,KFS-TEM,Review,Responsible for reviewing Moving and Relocation Document on SpecialRequestReviewer,Y

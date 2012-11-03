@@ -40,6 +40,7 @@
                 <status>Awaiting Traveler Review</status>
                 <status>Awaiting Fiscal Officer Review</status>
                 <status>Awaiting Organization Review</status>
+                <status>Awaiting Special Request Review</status>
                 <status>Awaiting Executive Review</status>
                 <status>Awaiting Sub-Fund Review</status>
                 <status>Awaiting Award Review</status>
@@ -50,6 +51,7 @@
                 <status>Disapproved - Traveler</status>
                 <status>Disapproved - Fiscal Officer</status>
                 <status>Disapproved - Organization</status>
+                <status>Disapproved - Special Request</status>
                 <status>Disapproved - Executive</status>
                 <status>Disapproved - Sub-Fund</status>
                 <status>Disapproved - Award</status>
@@ -91,8 +93,16 @@
                         </branch>
                         <join name="JoinRequiresAccountApproval"/>
                     </split>
-                    <role name="OrganizationHierarchy" nextNode="ExecutiveApproval" nextAppDocStatus="Awaiting Executive Review" />
-				
+                    <role name="OrganizationHierarchy" nextNode="TravelHasSpecialRequest" nextAppDocStatus="Awaiting Organization Review" />
+				    <split name="TravelHasSpecialRequest" nextNode="ExecutiveApproval" nextAppDocStatus="Awaiting Special Request Review">
+                        <branch name="True">
+                            <role name="SpecialRequestReviewer" nextNode="JoinRequiresSpecialRequestReviewer" nextAppDocStatus="Awaiting Executive Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpSpecialRequestReviewer" nextNode="JoinRequiresSpecialRequestReviewer" nextAppDocStatus="Awaiting Executive Review" />
+                        </branch>
+                        <join name="JoinRequiresSpecialRequestReviewer" />
+                    </split>
 					<role name="ExecutiveApproval" nextNode="SubFund" nextAppDocStatus="Awaiting Sub-Fund Review" />				
                     
                     <role name="SubFund" nextNode="Award" nextAppDocStatus="Awaiting Award Review" />
@@ -156,6 +166,18 @@
 						P
                     </activationType>
 				</role>
+                
+                <join name="JoinRequiresSpecialRequestReviewer" />
+                <simple name="NoOpSpecialRequestReviewer">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="TravelHasSpecialRequest">
+                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+                </split>
+                <role name="SpecialRequestReviewer">
+                    <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
 				 
                 <role name="ExecutiveApproval">
                     <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>

@@ -951,6 +951,16 @@
 					</list>
 				</property>
 			</bean>
+            <bean parent="InquirySectionDefinition">
+                <property name="title" value="Conference"/>
+                <property name="numberOfColumns" value="2"/>
+                <property name="inquiryFields">
+                    <list>
+                        <bean parent="FieldDefinition" p:attributeName="registrationCompanyName" />
+                        <bean parent="FieldDefinition" p:attributeName="registrationAmount" />
+                    </list>
+                </property>
+            </bean>
 		  <bean parent="InquirySectionDefinition">
           <property name="title" value="Accounting Information"/>
 		  <property name="defaultOpen" value="true"/>          

@@ -68,14 +68,7 @@
 			</td>
 			<td>
 				<div align="center">
-					<c:choose>
-						<c:when test="${KualiForm.document.historicalTravelExpenses[ctr].agencyStagingDataId != null}">
-							${KualiForm.document.historicalTravelExpenses[ctr].creditCardAgency.travelCardTypeCode}
-						</c:when>
-						<c:otherwise>
-							${KualiForm.document.historicalTravelExpenses[ctr].creditCardAgency.creditCardOrAgencyCode}
-						</c:otherwise>
-					</c:choose>
+					${KualiForm.document.historicalTravelExpenses[ctr].creditCardAgency.travelCardTypeCode}
 				</div>
 			</td>
 			<td>

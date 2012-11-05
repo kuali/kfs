@@ -15,14 +15,12 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
-import java.util.List;
-
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -37,8 +35,8 @@ public class TravelAuthAccountingLineEncumbranceObjectCodeValidation extends Gen
         TripType trip = authorizationDocument.getTripType();
         if (authorizationDocument.isTripGenerateEncumbrance()) {
             
-            //check in each of the source accounting line if the object code matches the one defined in the trip
-            for (SourceAccountingLine line : (List<SourceAccountingLine>)authorizationDocument.getSourceAccountingLines()){
+            //check in each of the encumbrance source accounting line if the object code matches the one defined in the trip
+            for (TemSourceAccountingLine line : authorizationDocument.getEncumbranceSourceAccountingLines()){
                 if (!line.getFinancialObjectCode().equals(trip.getEncumbranceObjCode()) && rulePassed) {
                     
                     int index = line.getSequenceNumber().intValue()-1;

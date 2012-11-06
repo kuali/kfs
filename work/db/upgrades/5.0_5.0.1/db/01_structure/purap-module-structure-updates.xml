@@ -12,5 +12,15 @@
 			<dropIndex tableName="PUR_VNDR_ADDR_T" indexName="PUR_VNDR_ADDR_TI1"/>
 		</rollback>
 	</changeSet>
-  
+  	
+  	<changeSet author="KFSCNTRB-1207" id="KFSCNTRB-1207_AP_PMT_RQST_T">
+		<comment>KFSCNTRB-1207 Need this column to mark the the document auto-approved so that the postprocessor will not change the appDocStatus again.</comment>
+		<addColumn tableName="AP_PMT_RQST_T">
+			<column name="AUTO_APPROVED_IND" type="VARCHAR2(1)" />
+		</addColumn>
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+		</modifySql>
+	</changeSet>
+	
 </databaseChangeLog>

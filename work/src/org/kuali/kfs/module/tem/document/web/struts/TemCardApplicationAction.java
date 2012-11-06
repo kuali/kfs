@@ -26,9 +26,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
 import org.kuali.kfs.module.tem.document.CardApplicationDocument;
 import org.kuali.kfs.module.tem.document.TemCTSCardApplicationDocument;
 import org.kuali.kfs.module.tem.document.TemCorporateCardApplicationDocument;
@@ -36,13 +38,14 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 
@@ -89,27 +92,34 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
                 }
             }
             
-            //Find any pre-existing applications
-            Map<String,Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("initiatorWorkflowId", currentUser.getPrincipalId());
-            List<DocumentRouteHeaderValue> documentRouteHeaderValueList = (List<DocumentRouteHeaderValue>) getBusinessObjectService().findMatching(DocumentRouteHeaderValue.class, fieldValues);
-            String type = "Corporate Card Application";
-            if (document instanceof TemCTSCardApplicationDocument){
-                type = "CTS Card Application";
-            }
-            
-            for (DocumentRouteHeaderValue value : documentRouteHeaderValueList){
-                if (value.getDocTitle() != null && value.getDocTitle().contains(type)){
-                    if (value.getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_FINAL_CD)
-                            || value.getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_APPROVED_CD)
-                            || value.getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD)
-                            || value.getDocRouteStatus().equals(KEWConstants.ROUTE_HEADER_ENROUTE_CD)){
-                        applicationForm.setMultipleApplications(true);
-                        return mapping.findForward("cardApplicationError");
-                    }
+            //Find any pre-existing cards
+            Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+            Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            if (question != null) {
+                if (ConfirmationQuestion.NO.equals(buttonClicked)){
+                    return this.cancel(mapping, applicationForm, request, response);
                 }
             }
-            
+            else{
+                if (profile.getAccounts() != null && profile.getAccounts().size() > 0){
+                    boolean hasCardType = false;
+                    for (TEMProfileAccount account : profile.getAccounts()){
+                        if (account.getCreditCardAgency().getTravelCardTypeCode().equals(TemConstants.TRAVEL_TYPE_CTS) && document instanceof TemCTSCardApplicationDocument){
+                            hasCardType = true;
+                            break;
+                        }
+                        else if (account.getCreditCardAgency().getTravelCardTypeCode().equals(TemConstants.TRAVEL_TYPE_CORP) && document instanceof TemCorporateCardApplicationDocument){
+                            hasCardType = true;
+                            break;
+                        }
+                    }
+                    if (hasCardType){
+                        String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TemKeyConstants.MESSAGE_CARD_EXISTS_PROMPT);
+                        return this.performQuestionWithoutInput(mapping, form, request, response, TemConstants.CARD_EXISTS_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.DOC_HANDLER_METHOD, "");
+                    }
+                    
+                }
+            }
             
             document.setTemProfile(profile);
             document.setTemProfileId(profile.getProfileId());
@@ -200,7 +210,7 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
         if (!SpringContext.getBean(TravelDocumentService.class).isTravelManager(currentUser)){
             throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Submit",this.getClass().getSimpleName());
         }
-        document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(TemWorkflowConstants.RouteNodeNames.APPLY_TO_BANK);
+        document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(TemWorkflowConstants.RouteNodeNames.PENDING_BANK_APPLICATION);
         document.saveAppDocStatus();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

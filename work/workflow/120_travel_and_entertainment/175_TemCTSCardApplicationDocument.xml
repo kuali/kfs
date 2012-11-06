@@ -19,11 +19,17 @@
 				<status>Application</status>
 				<status>Account Review</status>
 				<status>Travel Office Review</status>
-				<status>Apply To Bank</status>
+				<status>Pending Bank Application</status>
 				<status>Applied To Bank</status>
 				<status>Approved By Bank</status>
 				<status>Declined</status>
 			</validApplicationStatuses>
+			<policies>
+				<policy>
+					<name>DOCUMENT_STATUS_POLICY</name>
+					<stringValue>app</stringValue>
+				</policy>
+			</policies>
 			<routePaths>
 				<routePath>
 					<start name="AdHoc" nextNode="Account" nextAppDocStatus="Account Review" />

@@ -483,11 +483,11 @@ VALUES ('KFS-TEM','All',SYS_GUID(),1,'All','Y');
 
 -- KFSCNTRB-1148 START
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, APPL_NMSPC_CD)
-VALUES ('KFS-TEM','Document','GENERATE_CC_NUMBER_IND',SYS_GUID(),1,'CONFG','Y','When this parameter is "Y", a psuedo card number is generated.','A','KFS');
+VALUES ('KFS-TEM','CorpCardApplication','GENERATE_CC_NUMBER_IND',SYS_GUID(),1,'CONFG','Y','When this parameter is "Y", a psuedo card number is generated.','A','KFS');
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, APPL_NMSPC_CD)
-VALUES ('KFS-TEM','Document','CORP_CARD_CODE',SYS_GUID(),1,'CONFG','USBC','Credit card code for corp cards created from a CCAP document.','A','KFS');
+VALUES ('KFS-TEM','CorpCardApplication','CORP_CARD_CODE',SYS_GUID(),1,'CONFG','USBC','Credit card code for corp cards created from a CCAP document.','A','KFS');
 
 INSERT INTO KRNS_PARM_T (NMSPC_CD, PARM_DTL_TYP_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, TXT, PARM_DESC_TXT, CONS_CD, APPL_NMSPC_CD)
-VALUES ('KFS-TEM','Document','CTS_CARD_CODE',SYS_GUID(),1,'CONFG','CTSC','Code for CTS cards created from a CTAP document.','A','KFS');
+VALUES ('KFS-TEM','CTSCardApplication','CTS_CARD_CODE',SYS_GUID(),1,'CONFG','CTSC','Code for CTS cards created from a CTAP document.','A','KFS');
 -- KFSCNTRB-1148 END

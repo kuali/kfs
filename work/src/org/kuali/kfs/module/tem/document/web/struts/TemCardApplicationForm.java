@@ -55,14 +55,14 @@ public class TemCardApplicationForm extends FinancialSystemTransactionalDocument
         
         if (isTravelManager()){
             RouteHeaderDTO routeHeader = this.getDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader();
-            if (routeHeader.getAppDocStatus().equals(TemWorkflowConstants.RouteNodeNames.APPLY_TO_BANK)
+            if (routeHeader.getAppDocStatus().equals(TemWorkflowConstants.RouteNodeNames.PENDING_BANK_APPLICATION)
                     || routeHeader.getAppDocStatus().equals(TemWorkflowConstants.RouteNodeNames.TRAVEL_OFFICE_REVIEW)){
                 this.getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_APPROVE);
             }
             String applyToBankButtonURL = getKualiConfigurationService().getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
             String submitButtonURL = getKualiConfigurationService().getPropertyString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
             
-            if (routeHeader.getAppDocStatus().equals(TemWorkflowConstants.RouteNodeNames.APPLY_TO_BANK)){
+            if (routeHeader.getAppDocStatus().equals(TemWorkflowConstants.RouteNodeNames.PENDING_BANK_APPLICATION)){
                 addExtraButton("methodToCall.applyToBank", applyToBankButtonURL + "buttonsmall_applytobank.gif", "Apply To Bank");
             }
             else if (routeHeader.getAppDocStatus().equals(TemWorkflowConstants.RouteNodeNames.TRAVEL_OFFICE_REVIEW)) {

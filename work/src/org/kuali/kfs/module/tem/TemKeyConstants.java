@@ -261,9 +261,11 @@ public class TemKeyConstants extends JSTLConstants {
     public static final String ERROR_ACCOUNTING_LINE_CG = "error.tem.accountingline.cg.accountnumber";
     
 
-    public static final String CTS_CARD_DOCUMENT_USER_AGREEMENT = "cts.card.document.user.agreement";
-    public static final String CORP_CARD_DOCUMENT_USER_AGREEMENT = "corp.card.document.user.agreement";
-    public static final String CORP_CARD_DOCUMENT_DEPT_HEAD_AGREEMENT = "corp.card.document.departmentHead.agreement";
-    public static final String CARD_NOTE_TEXT = "tem.card.note.text";
+    public static final String CTS_CARD_DOCUMENT_USER_AGREEMENT = "message.tem.cts.card.document.user.agreement";
+    public static final String CORP_CARD_DOCUMENT_USER_AGREEMENT = "message.tem.corp.card.document.user.agreement";
+    public static final String CORP_CARD_DOCUMENT_DEPT_HEAD_AGREEMENT = "message.tem.corp.card.document.departmentHead.agreement";
+    public static final String CARD_NOTE_TEXT = "message.tem.card.note.text";
     public static final String ERROR_TEM_CARD_APP_NO_AGREEMENT = "error.tem.card.application.agreement.not.checked";
+    
+    public static final String MESSAGE_CARD_EXISTS_PROMPT = "message.tem.card.exists";
 }

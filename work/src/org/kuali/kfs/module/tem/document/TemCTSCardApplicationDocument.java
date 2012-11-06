@@ -66,11 +66,12 @@ public class TemCTSCardApplicationDocument extends CardApplicationDocumentBase i
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);    
         String status = getAppDocStatus();
-        if (this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)){
+        if (this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)
+                || this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equalsIgnoreCase(KEWConstants.ROUTE_HEADER_PROCESSED_CD)){
             TEMProfileAccount profileAccount = new TEMProfileAccount();
             Date now = new Date();
             profileAccount.setEffectiveDate(new java.sql.Date(now.getTime()));
-            String code = getParameterService().getParameterValue(TemConstants.PARAM_NAMESPACE, TemConstants.TravelParameters.DOCUMENT_DTL_TYPE, TemConstants.CTS_CARD_CODE);
+            String code = getParameterService().getParameterValue(TemConstants.PARAM_NAMESPACE, TemConstants.CTS_CARD_APPLICATION, TemConstants.CTS_CARD_CODE);
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE, code);
             List<CreditCardAgency> creditCardAgencyList = (List<CreditCardAgency>) getBusinessObjectService().findMatching(CreditCardAgency.class, fieldValues);

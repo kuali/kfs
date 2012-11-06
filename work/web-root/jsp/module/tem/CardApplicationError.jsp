@@ -27,12 +27,12 @@
 </c:if>
 <c:if test="${KualiForm.emptyAccount}">
 <div align="center" style="color:#ff0000">
-	This user's TEM Profile doesn't have an Account associated with it. The application cannot be completed without an Account.
+	This user's TEM Profile doesn't have an Account associated with it.  The application cannot be completed without an Account.
 </div>
 </c:if>
 <c:if test="${KualiForm.multipleApplications}">
 <div align="center" style="color:#ff0000">
-	This user already has an application that is either enroute, or already approved.
+	This user already has an application that is either enroute, or already approved.  Please contact Travel Office for more information.
 </div>
 </c:if>
 </kul:documentPage>

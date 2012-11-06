@@ -66,11 +66,8 @@
     </bean>
 	
 	<bean id="TemCTSCardApplicationDocument-workflowAttributes" parent="TemCTSCardApplicationDocument-workflowAttributes-parentBean"/>
-    <bean id="TemCTSCardApplicationDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-    	<property name="routingTypeDefinitions">
-    		<map>
-    			<entry key="Account" value-ref="TemCardApplicationDocument-RoutingType-temProfile.defaultAccount"/>
-    		</map>
-    	</property>
+    <bean id="TemCTSCardApplicationDocument-workflowAttributes-parentBean" abstract="true"  parent="TemCardApplicationDocument-workflowAttributes">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TemCTSCardApplicationDocument" />
     </bean>
+
 </beans>

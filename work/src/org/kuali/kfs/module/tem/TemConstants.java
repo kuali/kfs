@@ -858,4 +858,9 @@ public class TemConstants extends JSTLConstants {
     public static final String GENERATE_CC_NUMBER_IND = "GENERATE_CC_NUMBER_IND";
     public static final String CORP_CARD_CODE = "CORP_CARD_CODE";
     public static final String CTS_CARD_CODE = "CTS_CARD_CODE";
+    
+
+    public static final String CTS_CARD_APPLICATION = "CTSCardApplicaton";
+    public static final String CORP_CARD_APPLICATION = "CorpCardApplicaton";
+    public static final String CARD_EXISTS_QUESTION = "Card Exists Question";
 }

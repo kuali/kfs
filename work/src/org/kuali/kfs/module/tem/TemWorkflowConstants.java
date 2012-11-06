@@ -58,7 +58,7 @@ public class TemWorkflowConstants {
         public static final String ACCOUNT_REVIEW = "Account Review";
         public static final String TRAVEL_OFFICE_REVIEW = "Travel Office Review";
         public static final String FISCAL_OFFICER_REVIEW = "Fiscal Officer Review";
-        public static final String APPLY_TO_BANK = "Apply To Bank";
+        public static final String PENDING_BANK_APPLICATION = "Pending Bank Application";
         public static final String APPLIED_TO_BANK = "Applied To Bank";
         public static final String APPROVED_BY_BANK = "Approved By Bank";
         public static final String DECLINED = "Declined";

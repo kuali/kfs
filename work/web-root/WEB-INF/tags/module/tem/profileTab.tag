@@ -86,38 +86,7 @@
 				</th>
 				<td class="datacell" width="50%">${KualiForm.document.temProfile.homeDepartment }</td>
 			</tr>
-			<tr>
-				<th class="bord-l-b">
-					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${profileAttributes.driversLicenseNumber}" />
-					</div>
-				</th>
-				<td class="datacell" width="50%">${KualiForm.document.temProfile.driversLicenseNumber }</td>
-			</tr>
-			<tr>
-				<th class="bord-l-b">
-					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${profileAttributes.driversLicenseState}" />
-					</div>
-				</th>
-				<td class="datacell" width="50%">${KualiForm.document.temProfile.driversLicenseState }</td>
-			</tr>
-			<tr>
-				<th class="bord-l-b">
-					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${profileAttributes.driversLicenseExpDate}" />
-					</div>
-				</th>
-				<td class="datacell" width="50%">${KualiForm.document.temProfile.driversLicenseExpDate }</td>
-			</tr>
-			<tr>
-				<th class="bord-l-b">
-					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${profileAttributes.motorVehicleRecordCheck}" />
-					</div>
-				</th>
-				<td class="datacell" width="50%">${KualiForm.document.temProfile.motorVehicleRecordCheck }</td>
-			</tr>
+			
 			<tr>
 				<th class="bord-l-b">
 					<div align="right">
@@ -125,30 +94,6 @@
 					</div>
 				</th>
 				<td class="datacell" width="50%">${KualiForm.document.temProfile.dateOfBirth }</td>
-			</tr>
-			<tr>
-				<th class="bord-l-b">
-					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${profileAttributes.citizenship}" />
-					</div>
-				</th>
-				<td class="datacell" width="50%">${KualiForm.document.temProfile.citizenship }</td>
-			</tr>
-			<tr>
-				<th class="bord-l-b">
-					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${profileAttributes.nonResidentAlien}" />
-					</div>
-				</th>
-				<td class="datacell" width="50%">${KualiForm.document.temProfile.nonResidentAlien }</td>
-			</tr>
-			<tr>
-				<th class="bord-l-b">
-					<div align="right">
-						<kul:htmlAttributeLabel attributeEntry="${profileAttributes.gender}" />
-					</div>
-				</th>
-				<td class="datacell" width="50%">${KualiForm.document.temProfile.gender }</td>
 			</tr>
 			<tr>
 				<td colspan="2" class="tab-subhead">Default Accounting</td>
@@ -186,7 +131,7 @@
 				<td class="datacell" width="50%">${KualiForm.document.temProfile.defaultProjectCode }</td>
 			</tr>
 			<tr>
-				<td colspan="2" class="tab-subhead">Contact Info</td>
+				<td colspan="2" class="tab-subhead">Billing Info</td>
 			</tr>
 			<tr>
 				<th class="bord-l-b">

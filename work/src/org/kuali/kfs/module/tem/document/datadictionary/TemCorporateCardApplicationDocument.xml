@@ -70,38 +70,8 @@
     </bean>
     
 	<bean id="TemCorporateCardApplicationDocument-workflowAttributes" parent="TemCorporateCardApplicationDocument-workflowAttributes-parentBean"/>
-    <bean id="TemCorporateCardApplicationDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-    	<property name="routingTypeDefinitions">
-    		<map>
-    			<entry key="Account" value-ref="TemCardApplicationDocument-RoutingType-temProfile.defaultAccount"/>
-    		</map>
-    	</property>
+    <bean id="TemCorporateCardApplicationDocument-workflowAttributes-parentBean" abstract="true" parent="TemCardApplicationDocument-workflowAttributes">
+    	<property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TemCorporateCardApplicationDocument" />
     </bean>
-    
-    <bean id="TemCardApplicationDocument-RoutingType-temProfile.defaultAccount" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
-    	<property name="routingAttributes">
-    		<list>
-    			<bean id="RoutingAttribute-temProfile.defaultAccount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
-			    	<property name="qualificationAttributeName" value="accountNumber" />
-			   	</bean>
-			   	<bean id="RoutingAttribute-temProfile.defaultChartCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
-			    	<property name="qualificationAttributeName" value="chartOfAccountsCode" />
-			   	</bean>
-    		</list>
-    	</property>
-    	<property name="documentValuePathGroups">
-    		<list>
-    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
-    				<property name="documentValues">
-    					<list>
-    						<value>temProfile.defaultAccount</value>
-    						<value>temProfile.defaultChartCode</value>
-    					</list>
-    				</property>
-			   	</bean>
-    		</list>
-    	</property>
-	</bean>
-	
-    
+
 </beans>

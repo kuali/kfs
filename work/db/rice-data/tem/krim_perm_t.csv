@@ -59,3 +59,4 @@ TEM-10061,KFS-TEM-PERM-061,1,40,KFS-TEM,Open Document,Authorizes users to open E
 TEM-10062,KFS-TEM-PERM-062,1,16,KFS-TEM,Edit Document,Edit permission for the ENT document in PreRoute status.,Y
 TEM-10063,KFS-TEM-PERM-063,1,40,KFS-TEM,Open Document,Authorizes users to open RELO documents.,Y
 TEM-10064,KFS-TEM-PERM-064,1,16,KFS-TEM,Edit Document,Edit permission for the RELO document in PreRoute status.,Y
+TEM-10065,KFS-TEM-PERM-065,1,10,KFS-TEM,Initiate CTS Card Application,Authorizes users to initiate a CTS Card Application.,Y

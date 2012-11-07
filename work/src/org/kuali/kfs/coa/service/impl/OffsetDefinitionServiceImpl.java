@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * This class is the service implementation for the OffsetDefinition structure. This is the default implementation, that is
@@ -37,13 +38,15 @@ public class OffsetDefinitionServiceImpl implements OffsetDefinitionService {
      * @see org.kuali.kfs.coa.service.OffsetDefinitionService#getByPrimaryId(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String)
      */
+    @Override
+    @Cacheable(value=OffsetDefinition.CACHE_NAME, key="#p0+'-'+#p1+'-'+#p2+'-'+#p3")
     public OffsetDefinition getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialDocumentTypeCode, String financialBalanceTypeCode) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         keys.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, financialDocumentTypeCode);
         keys.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, financialBalanceTypeCode);
-        return (OffsetDefinition)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OffsetDefinition.class, keys);
+        return SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OffsetDefinition.class, keys);
     }
 
 }

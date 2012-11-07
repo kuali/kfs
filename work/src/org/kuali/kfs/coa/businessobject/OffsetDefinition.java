@@ -16,6 +16,7 @@
 package org.kuali.kfs.coa.businessobject;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -28,6 +29,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  *
  */
 public class OffsetDefinition extends PersistableBusinessObjectBase implements FiscalYearBasedBusinessObject {
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "OffsetDefinition";
 
     private static final long serialVersionUID = -6150010338773403021L;
 

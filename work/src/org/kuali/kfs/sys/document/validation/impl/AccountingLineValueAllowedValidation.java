@@ -39,7 +39,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class AccountingLineValueAllowedValidation extends GenericValidation {
     protected String propertyPath;
     protected String parameterToCheckAgainst;
-    protected ParameterService parameterService;
     protected String responsibleProperty;
     protected AccountingDocument accountingDocumentForValidation;
     protected AccountingLine accountingLineForValidation;
@@ -72,10 +71,10 @@ public class AccountingLineValueAllowedValidation extends GenericValidation {
         String exceptionMessage = "Invalue property name provided to AccountingDocumentRuleBase isAccountingLineValueAllowed method: " + propertyName;
         try {
             String propertyValue = (String) PropertyUtils.getProperty(accountingLine, propertyName);
-            if (getParameterService().parameterExists(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName)) {
+            if (parameterService.parameterExists(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName)) {
                 isAllowed = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, parameterName, propertyValue).evaluateAndAddError(SourceAccountingLine.class, propertyName, userEnteredPropertyName);
             }
-            if (getParameterService().parameterExists(documentClass, parameterName)) {
+            if (parameterService.parameterExists(documentClass, parameterName)) {
                 isAllowed = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(documentClass, parameterName, propertyValue).evaluateAndAddError(SourceAccountingLine.class, propertyName, userEnteredPropertyName);
             }
         }
@@ -142,22 +141,6 @@ public class AccountingLineValueAllowedValidation extends GenericValidation {
      */
     public void setPropertyPath(String refreshPath) {
         this.propertyPath = refreshPath;
-    }
-
-    /**
-     * Gets the parameterService attribute. 
-     * @return Returns the parameterService.
-     */
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    /**
-     * Sets the parameterService attribute value.
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
     }
 
     /**

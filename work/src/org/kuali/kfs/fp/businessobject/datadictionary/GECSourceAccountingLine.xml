@@ -17,7 +17,7 @@
 
   <bean id="GECSourceAccountingLine" parent="GECSourceAccountingLine-parentBean"/>
 
-  <bean id="GECSourceAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
+  <bean id="GECSourceAccountingLine-parentBean" abstract="true" parent="SourceAccountingLine">
     <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.GECSourceAccountingLine"/>
     <property name="objectLabel" value="General Error Correction Source Accounting Line"/>
     <property name="attributes">
@@ -59,19 +59,7 @@
         <ref bean="GECSourceAccountingLine-salesTax.financialDocumentSaleDate"/>
       </list>
     </property>
-    <property name="relationships">
-    	<list>
-    		<bean parent="RelationshipDefinition">
-    			<property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode"/>
-		        <property name="primitiveAttributes">
-		        	<list>
-		            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="referenceTypeCode" p:targetName="name"/>
-		            </list>
-		        </property>
     		</bean>
-    	</list>
-    </property>
-  </bean>
 
 <!-- Attribute Definitions -->
 

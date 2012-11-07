@@ -561,6 +561,7 @@
 	<reference-descriptor name="option" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
+ -->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ld.businessobject.PositionObjectGroup" table="LD_POS_OBJ_GRP_T">
@@ -875,6 +876,7 @@
 		<field-descriptor name="emplid" column="EMPLID"
 			jdbc-type="VARCHAR" />
 
+<!-- 
 		<reference-descriptor name="account"
 			class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true"
 			auto-update="none" auto-delete="none" proxy="true">
@@ -919,6 +921,7 @@
 			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="projectCode" />
 		</reference-descriptor>
+ -->		
 		<reference-descriptor name="laborObject"
 			class-ref="org.kuali.kfs.module.ld.businessobject.LaborObject"
 			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -955,7 +958,7 @@
 			column="PYRL_DT_FSCLPRD_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="emplid" column="EMPLID"
 			jdbc-type="VARCHAR" />
-
+<!-- 
 		<reference-descriptor name="account"
 			class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true"
 			auto-update="none" auto-delete="none" proxy="true">
@@ -1000,6 +1003,7 @@
 			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 			<foreignkey field-ref="projectCode" />
 		</reference-descriptor>
+-->
 		<reference-descriptor name="laborObject"
 			class-ref="org.kuali.kfs.module.ld.businessobject.LaborObject"
 			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">

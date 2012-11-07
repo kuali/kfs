@@ -17,9 +17,10 @@ package org.kuali.kfs.fp.businessobject;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectType;
+import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.kfs.sys.context.SpringContext;
 
 
 /**
@@ -46,7 +47,13 @@ public class VoucherSourceAccountingLine extends SourceAccountingLine {
      * @return Returns the objectType.
      */
     
+    @Override
     public ObjectType getObjectType() {
+        if ( StringUtils.isBlank(getObjectTypeCode()) ) {
+            objectType = null;
+        } else if ( objectType == null || !StringUtils.equals(objectType.getCode(), getObjectTypeCode()) ) {
+            objectType = SpringContext.getBean(ObjectTypeService.class).getByPrimaryKey(getObjectTypeCode());
+        }
         return objectType;
     }
 
@@ -86,12 +93,17 @@ public class VoucherSourceAccountingLine extends SourceAccountingLine {
     @Override
     public void setFinancialObjectCode(String financialObjectCode) {
         super.setFinancialObjectCode(financialObjectCode);
-        if (StringUtils.isBlank(getObjectTypeCode()) && !StringUtils.isBlank(getFinancialObjectCode())) {
-            refreshReferenceObject("objectCode");
-            if (!ObjectUtils.isNull(getObjectCode())) {
-                setObjectTypeCode(getObjectCode().getFinancialObjectTypeCode());
+        if (StringUtils.isBlank(getObjectTypeCode()) && StringUtils.isNotBlank(getFinancialObjectCode())) {
+            setObjectTypeCode( super.getObjectTypeCode() );
             }
         }
+
+    @Override
+    public void refreshReferenceObject(String referenceName) {
+        if ( referenceName.equals("objectType") ) {
+            return; // do nothing - not OJB object
+    }
+        super.refreshReferenceObject(referenceName);
     }
 
 }

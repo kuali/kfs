@@ -18,13 +18,17 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
 public class SubFundGroup extends PersistableBusinessObjectBase implements MutableInactivatable {
+
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "SubFundGroup";
 
     /**
      * Default no-arg constructor.

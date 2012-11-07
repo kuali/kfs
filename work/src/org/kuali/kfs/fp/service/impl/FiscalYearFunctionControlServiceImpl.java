@@ -26,6 +26,7 @@ import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * 
@@ -47,11 +48,12 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
      * @param financialSystemFunctionControlCode The function control code associated with the fiscal year function control being retrieved.
      * @return Returns the value of the active indicator; returns null if PK is not found
      */
+    @Cacheable(value=FiscalYearFunctionControl.CACHE_NAME, key="'{isActive}'+#p0+'-'+#p1")
     protected boolean getActiveIndByPrimaryId(Integer postingYear, String financialSystemFunctionControlCode) {
         HashMap<String, Object> keys = new HashMap();
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, postingYear);
         keys.put(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE, financialSystemFunctionControlCode);
-        FiscalYearFunctionControl control = (FiscalYearFunctionControl) businessObjectService.findByPrimaryKey(FiscalYearFunctionControl.class, keys);
+        FiscalYearFunctionControl control = businessObjectService.findByPrimaryKey(FiscalYearFunctionControl.class, keys);
         return (control != null) && control.isFinancialSystemFunctionActiveIndicator();
     }
 
@@ -62,6 +64,7 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
      * @param financialSystemFunctionActiveIndicator An active indicator used as a search parameter.
      * @return The list of FiscalYearFunctionControls matching the search criteria provided.
      */
+    @Cacheable(value=FiscalYearFunctionControl.CACHE_NAME, key="'{byCodeAndActive}'+#p0+'-'+#p1")
     protected List getByFunctionControlCodeAndActiveInd(String financialSystemFunctionControlCode, String financialSystemFunctionActiveIndicator) {
         HashMap values = new HashMap();
         values.put(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE, financialSystemFunctionControlCode);
@@ -77,6 +80,8 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
      * 
      * @see FiscalYearFunctionControlService#getBudgetAdjustmentAllowedYears(String)
      */
+    @Override
+    @Cacheable(value=FiscalYearFunctionControl.CACHE_NAME, key="'{BAallowedYears}'")
     public List getBudgetAdjustmentAllowedYears() {
         return getByFunctionControlCodeAndActiveInd(FY_FUNCTION_CONTROL_BA_ALLOWED, "Y");
     }
@@ -90,6 +95,8 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
      * 
      * @see FiscalYearFunctionControlService#isBaseAmountChangeAllowed(Integer, String)
      */
+    @Override
+    @Cacheable(value=FiscalYearFunctionControl.CACHE_NAME, key="'{BAallowed}'+#p0")
     public boolean isBaseAmountChangeAllowed(Integer postingYear) {
         return getActiveIndByPrimaryId(postingYear, FY_FUNCTION_CONTROL_BASE_AMT_ALLOWED);
     }
@@ -97,6 +104,8 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
      * 
      * @see org.kuali.kfs.fp.service.FiscalYearFunctionControlService#getActiveBudgetYear()
      */
+    @Override
+    @Cacheable(value=FiscalYearFunctionControl.CACHE_NAME, key="'{ActiveBudgetYear}'")
     public List<Integer> getActiveBudgetYear()
     {
         ArrayList<FiscalYearFunctionControl> activeYearObjects = (ArrayList<FiscalYearFunctionControl>) getByFunctionControlCodeAndActiveInd(KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE,KFSConstants.ACTIVE_INDICATOR);
@@ -115,6 +124,8 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
      * 
      * @see org.kuali.kfs.fp.service.FiscalYearFunctionControlService#isApplicationUpdateFromHumanResourcesAllowed(java.lang.Integer)
      */
+    @Override
+    @Cacheable(value=FiscalYearFunctionControl.CACHE_NAME, key="'{AppUpdateFromHR}'+#p0")
     public boolean isApplicationUpdateFromHumanResourcesAllowed(Integer universityFiscalYear)
     {
         return getActiveIndByPrimaryId(universityFiscalYear, KFSConstants.BudgetConstructionConstants.BUDGET_ON_LINE_SYNCHRONIZATION_OK);
@@ -124,6 +135,8 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
      * 
      * @see org.kuali.kfs.fp.service.FiscalYearFunctionControlService#isBatchUpdateFromHumanResourcesAllowed(java.lang.Integer)
      */
+    @Override
+    @Cacheable(value=FiscalYearFunctionControl.CACHE_NAME, key="'{BatchUpdateFromHR}'+#p0")
     public boolean isBatchUpdateFromHumanResourcesAllowed(Integer universityFiscalYear)
     {
         return getActiveIndByPrimaryId(universityFiscalYear, KFSConstants.BudgetConstructionConstants.BUDGET_BATCH_SYNCHRONIZATION_OK);
@@ -133,12 +146,16 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
      * 
      * @see org.kuali.kfs.fp.service.FiscalYearFunctionControlService#isBatchUpdateFromPayrollAllowed(java.lang.Integer)
      */
+    @Override
+    @Cacheable(value=FiscalYearFunctionControl.CACHE_NAME, key="'{BatchUpdateFromPayroll}'+#p0")
     public boolean isBatchUpdateFromPayrollAllowed (Integer universityFiscalYear)
     {
         return getActiveIndByPrimaryId(universityFiscalYear, KFSConstants.BudgetConstructionConstants.CSF_UPDATES_OK);
     }
     
 
+    @Override
+    @Cacheable(value=FiscalYearFunctionControl.CACHE_NAME, key="'{BCactive}'+#p0")
     public boolean isBudgetConstructionActive(Integer universityFiscalYear)
     {
         return getActiveIndByPrimaryId(universityFiscalYear, KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE);
@@ -148,11 +165,15 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
      * 
      * @see org.kuali.kfs.fp.service.FiscalYearFunctionControlService#isBudgetGeneralLedgerUpdateAllowed(java.lang.Integer)
      */
+    @Override
+    @Cacheable(value=FiscalYearFunctionControl.CACHE_NAME, key="'{BaseBudgetUpdateAllowed}'+#p0")
     public boolean isBudgetGeneralLedgerUpdateAllowed(Integer universityFiscalYear)
     {
         return getActiveIndByPrimaryId(universityFiscalYear, KFSConstants.BudgetConstructionConstants.BASE_BUDGET_UPDATES_OK);
     }
     
+    @Override
+    @Cacheable(value=FiscalYearFunctionControl.CACHE_NAME, key="'{BCUpdateAllowed}'+#p0")
     public boolean isBudgetUpdateAllowed(Integer universityFiscalYear)
     {
         return getActiveIndByPrimaryId(universityFiscalYear, KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_UPDATES_OK);

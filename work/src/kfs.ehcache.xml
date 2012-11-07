@@ -36,24 +36,37 @@
 			statistics="false" />
  -->
     <!-- Cache with copyOnRead (replacement for @Cached) -->
+    
+    <!-- System / Chart of Accounts -->
     <cache name="KFS/Account" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
     <cache name="KFS/AccountingPeriod" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
     <cache name="KFS/Organization" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
     <cache name="KFS/SubAccount" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
   	<cache name="KFS/ProjectCode" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
-  	<cache name="KFS/CustomerInvoiceDetail" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />  	
+  	<cache name="KFS/SubObjectCode" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
     <cache name="KFS/OrgReviewRole" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
   	<cache name="KFS/Bank" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" /> 
 
+	<!-- Accounts Receivable -->
+  	<cache name="KFS/CustomerInvoiceDetail" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />  	
+
   	<!-- Cache (replacement for @CacheNoCopy)-->
-  	<cache name="KFS/Chart" maxEntriesLocalHeap="10000" /> 
+
+    <!-- System / Chart of Accounts -->
   	<cache name="KFS/UniversityDate" maxEntriesLocalHeap="10000" /> 
   	<cache name="KFS/SystemOptions" maxEntriesLocalHeap="10000" />
-  	<cache name="KFS/ObjectCode" maxEntriesLocalHeap="10000" />
-  	<cache name="KFS/ObjectType" maxEntriesLocalHeap="10000" />
-  	<cache name="KFS/BalanceType" maxEntriesLocalHeap="10000" />
-  	<!-- <cache name="KFS/Organization" /> -->
   	<cache name="KFS/HomeOrigination" maxEntriesLocalHeap="10000" />
+  	<cache name="KFS/OffsetDefinition" maxEntriesLocalHeap="10000" />
+  	<cache name="KFS/OriginationCode" maxEntriesLocalHeap="10000" />
+  	<cache name="KFS/Chart" maxEntriesLocalHeap="10000" /> 
+  	<cache name="KFS/ObjectCode" maxEntriesLocalHeap="10000" />
+  	<cache name="KFS/ObjectLevel" maxEntriesLocalHeap="10000" />
+  	<cache name="KFS/ObjectType" maxEntriesLocalHeap="10000" />
+  	<cache name="KFS/SubFundGroup" maxEntriesLocalHeap="10000" /> 
+  	<cache name="KFS/BalanceType" maxEntriesLocalHeap="10000" />
+  	<cache name="KFS/FiscalYearFunctionControl" maxEntriesLocalHeap="10000" />
+
+	<!-- CAMS -->
   	<cache name="KFS/AssetObjectCode" maxEntriesLocalHeap="10000" />  
-  
+  	
 </ehcache>

@@ -15,9 +15,8 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -27,7 +26,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * 
  */
 public class ObjectLevel extends PersistableBusinessObjectBase implements MutableInactivatable {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectLevel.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectLevel.class);
+
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "ObjectLevel";
 
     private String chartOfAccountsCode;
     private String financialObjectLevelCode;

@@ -250,11 +250,10 @@
     <field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="balanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-
+<!-- 
     <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-
     <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
@@ -291,12 +290,12 @@
     <reference-descriptor name="referenceOrigin" class-ref="org.kuali.kfs.sys.businessobject.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="referenceOriginCode" />
     </reference-descriptor>
-    
     <reference-descriptor name="salesTax" class-ref="org.kuali.kfs.fp.businessobject.SalesTax" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
     	<foreignkey field-ref="documentNumber"/>
     	<foreignkey field-ref="financialDocumentLineTypeCode"/>
     	<foreignkey field-ref="sequenceNumber"/>
     </reference-descriptor>
+ -->    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.sys.businessobject.TargetAccountingLine" table="FP_ACCT_LINES_T">
@@ -322,11 +321,10 @@
     <field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="balanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-
+<!-- 
     <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-
     <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
@@ -369,6 +367,7 @@
     	<foreignkey field-ref="financialDocumentLineTypeCode"/>
     	<foreignkey field-ref="sequenceNumber"/>
     </reference-descriptor>
+-->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry" table="GL_PENDING_ENTRY_T" proxy="dynamic">

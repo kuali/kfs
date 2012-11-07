@@ -62,6 +62,8 @@ public class GroupTitleLineRenderer implements Renderer, CellCountCurious {
         noscriptFileTag.setStyle("font:10px;height:16px;");
         uploadButtonTag.setSrc(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("externalizable.images.url") + "tinybutton-add1.gif");
         uploadButtonTag.setStyleClass("tinybutton");
+        // The double setting of the property is to handle the non-standard browser, you can guess which one _that_ is...
+        uploadButtonTag.setOnclick("this.form.enctype=\\'multipart/form-data\\'; this.form.encoding=\\'multipart/form-data\\'; return true;");
         cancelButtonTag.setProperty("methodToCall.cancel");
         cancelButtonTag.setSrc(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("externalizable.images.url") + "tinybutton-cancelimport.gif");
         cancelButtonTag.setStyleClass("tinybutton");

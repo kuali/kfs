@@ -16,12 +16,10 @@
 package org.kuali.kfs.module.ld.businessobject;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferTargetAccountingLine;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -183,21 +181,6 @@ public class ExpenseTransferTargetAccountingLine extends TargetAccountingLine im
     @Deprecated
     public void setLaborLedgerObject(LaborLedgerObject laborLedgerObject) {
         this.laborObject = (LaborObject) laborLedgerObject;
-    }
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
-        if (this.getSequenceNumber() != null) {
-            m.put("sequenceNumber", this.getSequenceNumber().toString());
-        }
-
-        return m;
     }
 
     /**

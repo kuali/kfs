@@ -17,7 +17,7 @@
 
   <bean id="BudgetAdjustmentTargetAccountingLine" parent="BudgetAdjustmentTargetAccountingLine-parentBean"/>
 
-  <bean id="BudgetAdjustmentTargetAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
+  <bean id="BudgetAdjustmentTargetAccountingLine-parentBean" abstract="true" parent="TargetAccountingLine">
     <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.BudgetAdjustmentTargetAccountingLine"/>
     <property name="objectLabel" value="Budget Adjustment Target Accounting Line"/>
     <property name="attributes">

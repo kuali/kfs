@@ -24,6 +24,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * This service implementation is the default implementation of the ObjLevel service that is delivered with Kuali.
@@ -35,11 +36,13 @@ public class ObjectLevelServiceImpl implements ObjectLevelService {
     /**
      * @see org.kuali.kfs.coa.service.ObjectLevelService#getByPrimaryId(java.lang.String, java.lang.String)
      */
+    @Override
+    @Cacheable(value=ObjectLevel.CACHE_NAME, key="#p0+'-'+#p1")
     public ObjectLevel getByPrimaryId(String chartOfAccountsCode, String objectLevelCode) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_LEVEL_CODE, objectLevelCode);
-        return (ObjectLevel)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectLevel.class, keys);
+        return SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectLevel.class, keys);
     }
 
 }

@@ -46,6 +46,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OriginationCodeService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -291,8 +293,20 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      */
     @Override
     public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode() {
-        return referenceFinancialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, referenceFinancialSystemDocumentTypeCode, "referenceFinancialSystemDocumentTypeCode");
+        if ( StringUtils.isBlank( referenceTypeCode ) ) {
+            referenceFinancialSystemDocumentTypeCode = null;
+        } else {
+            if ( referenceFinancialSystemDocumentTypeCode == null || !StringUtils.equals(referenceTypeCode, referenceFinancialSystemDocumentTypeCode.getName() ) ) {
+                org.kuali.rice.kew.api.doctype.DocumentType temp = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(referenceTypeCode);
+                if ( temp != null ) {
+                    referenceFinancialSystemDocumentTypeCode = DocumentType.from( temp );
+                } else {
+                    referenceFinancialSystemDocumentTypeCode = null;
                 }
+            }
+        }
+        return referenceFinancialSystemDocumentTypeCode;
+    }
 
     /**
      * @return Returns the organizationReferenceId.

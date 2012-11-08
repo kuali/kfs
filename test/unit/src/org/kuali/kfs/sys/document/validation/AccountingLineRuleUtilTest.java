@@ -161,7 +161,10 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
     private void testHasRequiredOverrides(Account account, String overrideCode, String expectedErrorKey, String[] expectedErrorParameters) {
         AccountingLine line = new SourceAccountingLine();
         line.setAccount(account);
-
+        if (account != null) {
+            line.setChartOfAccountsCode(account.getChartOfAccountsCode());
+            line.setAccountNumber(account.getAccountNumber());
+        }
         assertGlobalMessageMapEmpty();
         AccountingLineRuleHelperService accountingLineRuleUtil = SpringContext.getBean(AccountingLineRuleHelperService.class);
         boolean actual = accountingLineRuleUtil.hasRequiredOverrides(line, overrideCode);

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -239,7 +239,10 @@ public class AccountingLineOverrideTest extends KualiTestBase {
     public void testProcessForOutput_expired() {
         AccountingLine line = new SourceAccountingLine();
         line.setOverrideCode(AccountingLineOverride.CODE.EXPIRED_ACCOUNT);
-        line.setAccount(getExpiredAccount());
+        Account expiredAccount = getExpiredAccount();
+        line.setAccount(expiredAccount);
+        line.setChartOfAccountsCode(expiredAccount.getChartOfAccountsCode());
+        line.setAccountNumber(expiredAccount.getAccountNumber());
         assertEquals(false, line.getAccountExpiredOverride());
         assertEquals(false, line.getAccountExpiredOverrideNeeded());
         AccountingLineOverride.processForOutput(null,line);
@@ -251,7 +254,10 @@ public class AccountingLineOverrideTest extends KualiTestBase {
     @SuppressWarnings("deprecation")
     public void testProcessForOutput_nonBudgetedObject() {
         AccountingLine line = new SourceAccountingLine();
-        line.setAccount(getClosedAccount());
+        Account closedAccount = getClosedAccount();
+        line.setAccount(closedAccount);
+        line.setChartOfAccountsCode(closedAccount.getChartOfAccountsCode());
+        line.setAccountNumber(closedAccount.getAccountNumber());
         assertEquals(AccountingLineOverride.CODE.NONE, line.getOverrideCode());
         assertEquals(false, line.getAccountExpiredOverride());
         assertEquals(false, line.getAccountExpiredOverrideNeeded());
@@ -265,7 +271,10 @@ public class AccountingLineOverrideTest extends KualiTestBase {
     public void testProcessForOutput_alreadyExpired() {
         AccountingLine line = new SourceAccountingLine();
         line.setOverrideCode(AccountingLineOverride.CODE.EXPIRED_ACCOUNT);
-        line.setAccount(getExpiredAccount());
+        Account expiredAccount = getExpiredAccount();
+        line.setAccount(expiredAccount);
+        line.setChartOfAccountsCode(expiredAccount.getChartOfAccountsCode());
+        line.setAccountNumber(expiredAccount.getAccountNumber());
         line.setAccountExpiredOverride(true);
         line.setAccountExpiredOverrideNeeded(true);
         AccountingLineOverride.processForOutput(null,line);
@@ -277,7 +286,10 @@ public class AccountingLineOverrideTest extends KualiTestBase {
     @SuppressWarnings("deprecation")
     public void testProcessForOutput_becomingExpired() {
         AccountingLine line = new SourceAccountingLine();
-        line.setAccount(getExpiredAccount());
+        Account expiredAccount = getExpiredAccount();
+        line.setAccount(expiredAccount);
+        line.setChartOfAccountsCode(expiredAccount.getChartOfAccountsCode());
+        line.setAccountNumber(expiredAccount.getAccountNumber());
         assertEquals(AccountingLineOverride.CODE.NONE, line.getOverrideCode());
         assertEquals(false, line.getAccountExpiredOverride());
         assertEquals(false, line.getAccountExpiredOverrideNeeded());
@@ -303,7 +315,10 @@ public class AccountingLineOverrideTest extends KualiTestBase {
     @SuppressWarnings("deprecation")
     public void testProcessForOutput_becomingClosed() {
         AccountingLine line = new SourceAccountingLine();
-        line.setAccount(getClosedAccount());
+        Account closedAccount = getClosedAccount();
+        line.setAccount(closedAccount);
+        line.setChartOfAccountsCode(closedAccount.getChartOfAccountsCode());
+        line.setAccountNumber(closedAccount.getAccountNumber());
         assertEquals(AccountingLineOverride.CODE.NONE, line.getOverrideCode());
         assertEquals(false, line.getAccountExpiredOverride());
         assertEquals(false, line.getAccountExpiredOverrideNeeded());
@@ -321,6 +336,8 @@ public class AccountingLineOverrideTest extends KualiTestBase {
 
     private Account getExpiredAccount() {
         Account account = new Account();
+        account.setChartOfAccountsCode("BL");
+        account.setAccountNumber("9999999");
         account.setAccountExpirationDate(new Date(42)); // this account expired near the beginning of the era (1970)
         return account;
     }

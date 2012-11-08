@@ -694,7 +694,7 @@
         <column name="NQI_CUST_TAX_ID" size="50" type="VARCHAR"/>
         <column name="VNDR_ATTN_NM" size="45" type="VARCHAR"/>
         <column default="P" name="ACCT_DISTR_MTD_IND" size="1" type="VARCHAR"/>
-        <column name="AUTO_APPROVED_IND" size="1" type="VARCHAR" />
+        <column name="AUTO_APPROVED_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="FP_BANK_T" name="AP_PMT_RQST_TR1">
             <reference foreign="BNK_CD" local="BNK_CD"/>
         </foreign-key>

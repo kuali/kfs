@@ -15,24 +15,64 @@
  */
 package org.kuali.kfs.module.tem.businessobject.lookup;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
+import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.UrlFactory;
 
 @SuppressWarnings("rawtypes")
 public class CreditCardStagingDataLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        if (backLocation.contains("maintenance.do")){   //coming from clearing maint doc, not from TEM trans doc
+            List<CreditCardStagingData> cardStagingDataList =  (List<CreditCardStagingData>) super.getSearchResultsHelper(fieldValues, true);
+            List<CreditCardStagingData> newCardStagingDataList = new ArrayList<CreditCardStagingData>();
+            
+            // look through
+            for (CreditCardStagingData cardStagingData : cardStagingDataList){
+                Map<String, Object> hteFieldValues = new HashMap<String, Object>();
+                hteFieldValues.put("creditCardStagingDataId", cardStagingData.getId());
+                hteFieldValues.put("reconciled", TemConstants.ReconciledCodes.UNRECONCILED);
+                List<HistoricalTravelExpense> expenseList = (List<HistoricalTravelExpense>) SpringContext.getBean(BusinessObjectService.class).findMatching(HistoricalTravelExpense.class, hteFieldValues);
+                
+                if (expenseList.size() > 0){
+                    newCardStagingDataList.add(cardStagingData);
+                }
+            }
+            CollectionIncomplete collection = null;
+            Integer limit = LookupUtils.getSearchResultsLimit(CreditCardStagingData.class);
+            if (newCardStagingDataList.size() > limit.intValue()){
+                collection = new CollectionIncomplete(newCardStagingDataList.subList(0, limit), (long) newCardStagingDataList.size());
+            }
+            else{
+                collection = new CollectionIncomplete(newCardStagingDataList, (long) 0);
+            }
+            return collection;
+        }
+        else{
+            return super.getSearchResults(fieldValues);
+        }
+    }
+    
     
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)

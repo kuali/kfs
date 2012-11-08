@@ -712,6 +712,7 @@ public class TemConstants extends JSTLConstants {
         public static final String RECONCILED = "R";
         public static final String UNRECONCILED = "N";
         public static final String AUTO_RECONCILED = "A";
+        public static final String CLEARED = "C";
     }
 
     public static final Map<String, String> reconciledCodes() {
@@ -719,6 +720,7 @@ public class TemConstants extends JSTLConstants {
         returnMap.put(ReconciledCodes.AUTO_RECONCILED, "Auto Reconciled");
         returnMap.put(ReconciledCodes.UNRECONCILED, "Unreconciled");
         returnMap.put(ReconciledCodes.RECONCILED,"Reconciled");
+        returnMap.put(ReconciledCodes.CLEARED,"Cleared");
         return returnMap;
     }
     

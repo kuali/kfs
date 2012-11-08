@@ -1579,4 +1579,25 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.CreditCardImportedExpenseClearingObject" table="TEM_CC_IMP_EXP_CLR_T">
+    	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
+		
+		<collection-descriptor name="expenses" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.CreditCardImportedExpenseClearingDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="documentNumber" />
+        </collection-descriptor>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.CreditCardImportedExpenseClearingDetail" table="TEM_CC_IMP_EXP_CLR_DTL_T">
+    	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+        <field-descriptor name="creditCardStagingDataId"  column="CC_STG_DAT_ID" primarykey="true" jdbc-type="INTEGER"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
+		
+		<reference-descriptor name="creditCardStagingData" class-ref="org.kuali.kfs.module.tem.businessobject.CreditCardStagingData" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="creditCardStagingDataId"/>
+        </reference-descriptor>
+	</class-descriptor>
 </descriptor-repository>

@@ -19,9 +19,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -126,14 +128,45 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
 
         // Get a list of campuses that have documents with an 'A' (approved) status.
-        Set<String> campusList = getCampusListByDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED);
+        Map<String, List>  campusListMap= getCampusMapByDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED);
 
-        // Process each campus one at a time
-        for (String campusCode : campusList) {
-            extractPaymentsForCampus(campusCode, uuser, processRunDate);
+        if (campusListMap != null && !campusListMap.isEmpty()) {
+            // Process each campus one at a time
+            for (String campusCode : campusListMap.keySet()) {
+                extractPaymentsForCampus(campusCode, uuser, processRunDate, campusListMap.get(campusCode));
+            }
         }
 
         return true;
+    }
+
+    /**
+     * This method retrieves a collection of campus instances representing all the campuses which currently have disbursement
+     * vouchers with the status code provided.
+     *
+     * @param statusCode The status code to retrieve disbursement vouchers by.
+     * @return A collection of campus codes of all the campuses with disbursement vouchers in the status given.
+     */
+    protected Map<String, List> getCampusMapByDocumentStatusCode(String statusCode) {
+        LOG.debug("getCampusListByDocumentStatusCode() started");
+        Map<String, List> documentsByCampus = new HashMap<String, List>();
+
+        Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode, false);
+        for (DisbursementVoucherDocument element : docs) {
+            String dvdCampusCode = element.getCampusCode();
+            if (StringUtils.isNotBlank(dvdCampusCode)) {
+                if (documentsByCampus.containsKey(dvdCampusCode)) {
+                    documentsByCampus.get(dvdCampusCode).add(element);
+                }
+                else {
+                    List documents = new ArrayList<DisbursementVoucherDocument>();
+                    documents.add(element);
+                    documentsByCampus.put(dvdCampusCode, documents);
+                }
+            }
+        }
+
+        return documentsByCampus;
     }
 
     /**
@@ -178,7 +211,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param user The user object used when creating the batch file to upload with outstanding payments.
      * @param processRunDate This is the date that the batch file is created, often this value will be today's date.
      */
-    protected void extractPaymentsForCampus(String campusCode, Person user, Date processRunDate) {
+    protected void extractPaymentsForCampus(String campusCode, Person user, Date processRunDate, List<DisbursementVoucherDocument> dvd) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
         }
@@ -187,7 +220,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         Integer count = 0;
         KualiDecimal totalAmount = KualiDecimal.ZERO;
 
-        Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, campusCode, false);
+//        Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, campusCode, false);
         for (DisbursementVoucherDocument document : dvd) {
             addPayment(document, batch, processRunDate, false);
             count++;
@@ -681,27 +714,6 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
-     * This method retrieves a collection of campus instances representing all the campuses which currently have disbursement
-     * vouchers with the status code provided.
-     *
-     * @param statusCode The status code to retrieve disbursement vouchers by.
-     * @return A collection of campus codes of all the campuses with disbursement vouchers in the status given.
-     */
-    protected Set<String> getCampusListByDocumentStatusCode(String statusCode) {
-        LOG.debug("getCampusListByDocumentStatusCode() started");
-
-        Set<String> campusSet = new HashSet<String>();
-
-        Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode, false);
-        for (DisbursementVoucherDocument element : docs) {
-            String dvdCampusCode = element.getCampusCode();
-            campusSet.add(dvdCampusCode);
-        }
-
-        return campusSet;
-    }
-
-    /**
      * Retrieves a list of campuses which have Disbursement Vouchers ready to be process which are marked for immediate processing
      * @param statusCode the status code of the documents to retrieve
      * @return the Set of campuses which have DV which are up for immediate disbursement
@@ -1002,8 +1014,9 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @return Returns the personService.
      */
     protected PersonService getPersonService() {
-        if(personService==null)
+        if(personService==null) {
             personService = SpringContext.getBean(PersonService.class);
+        }
         return personService;
     }
 

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -72,9 +72,9 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
      */
     @Override
     public ActionForward performBalanceInquiryForSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine)this.getSourceAccountingLine(form, request);        
+        ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine)this.getSourceAccountingLine(form, request);
         line.setPostingYear(line.getPayrollEndDateFiscalYear());
-        
+
         return performBalanceInquiryForAccountingLine(mapping, form, request, line);
     }
 
@@ -83,15 +83,15 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
      */
     @Override
     public ActionForward performBalanceInquiryForTargetLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine)this.getTargetAccountingLine(form, request);        
+        ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine)this.getTargetAccountingLine(form, request);
         line.setPostingYear(line.getPayrollEndDateFiscalYear());
-        
+
         return performBalanceInquiryForAccountingLine(mapping, form, request, line);
     }
 
     /**
      * Takes care of storing the action form in the user session and forwarding to the balance inquiry lookup action.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -101,10 +101,10 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
      */
     public ActionForward performBalanceInquiryLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
-        
+
         // when we return from the lookup, our next request's method to call is going to be refresh
         financialDocumentForm.registerEditableProperty(KRADConstants.DISPATCH_REQUEST_PARAMETER);
-        
+
         TransactionalDocument document = financialDocumentForm.getTransactionalDocument();
 
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
@@ -179,7 +179,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
      * form: {db object id}.{period name}.{line amount} 3) Retrieve the balance records associated with the object ids 4)Build an
      * accounting line from the retrieved balance record, using parsed period name as the pay period, and parsed amount as the new
      * line amount. 5) Call insertAccountingLine
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest,
      *      HttpServletResponse)
      */
@@ -269,7 +269,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
     /**
      * Overload the method in order to have balance importing section be populated with the last search criteria
-     * 
+     *
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
@@ -281,7 +281,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
     /**
      * This method copies all accounting lines from financial document form if they pass validation rules
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -310,7 +310,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
     /**
      * Delete all source accounting lines
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -327,7 +327,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
     /**
      * Delete all target accounting lines
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -345,7 +345,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
     /**
      * Copy a single accounting line
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#copyAccountingLine(ActionMapping, ActionForm,
      *      HttpServletRequest, HttpServletResponse)
      */
@@ -360,11 +360,14 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
         boolean rulePassed = runRule(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
         // if the rule evaluation passed, let's add it
-        if (rulePassed) {
+        // KFSMI-9133 : allowing the line to insert even on a rule failure since the user has
+        // no ability to make changes since the source is read only
+        // This will then depend on document final edits catching any problems.
+        //if (rulePassed) {
             // add accountingLine
             SpringContext.getBean(PersistenceService.class).retrieveNonKeyFields(line);
             insertAccountingLine(false, financialDocumentForm, line);
-        }
+        //}
         processAccountingLineOverrides(line);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -372,7 +375,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
     /**
      * Reset the lookup fields in the given expense transfer form with the given ledger balance
-     * 
+     *
      * @param expenseTransferDocumentForm the given expense transfer form
      * @param the given ledger balance
      */
@@ -382,7 +385,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
     /**
      * Copies content from one accounting line to the other. Ignores Source or Target information.
-     * 
+     *
      * @param source line to copy from
      * @param target new line to copy data to
      */
@@ -399,13 +402,14 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
         target.setAmount(source.getAmount());
         target.setEmplid(source.getEmplid());
         target.setPayrollEndDateFiscalPeriodCode(source.getPayrollEndDateFiscalPeriodCode());
-        target.setOverrideCode(source.getOverrideCode());
+        // KFSMI-9133 : we should not be copying the override codes between source and target lines
+        //target.setOverrideCode(source.getOverrideCode());
         target.setPayrollTotalHours(source.getPayrollTotalHours());
     }
 
     /**
      * Translates <code>{@link LedgerBalance}</code> data into an <code>{@link ExpenseTransferAccountingLine}</code>
-     * 
+     *
      * @param bo <code>{@link LedgerBalance}</code> instance
      * @param line <code>{@link ExpenseTransferAccountingLine}</code> to copy data to
      */
@@ -434,7 +438,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
     /**
      * Processes accounting line overrides for output to JSP
-     * 
+     *
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#processAccountingLineOverrides(java.util.List)
      */
     @Override
@@ -454,7 +458,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
     /**
      * For given accounting line, set the corresponding override code
-     * 
+     *
      * @param line accounting line
      */
     protected void updateAccountOverrideCode(ExpenseTransferAccountingLine line) {
@@ -464,7 +468,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
     /**
      * Executes for the given event. This is more of a convenience method.
-     * 
+     *
      * @param event to run the rules for
      * @return true if rule passes
      */
@@ -477,7 +481,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
     /**
      * Get the BO class name of the set of lookup results
-     * 
+     *
      * @param expenseTransferDocumentForm the Struts form for expense transfer document
      * @return the BO class name of the set of lookup results
      */

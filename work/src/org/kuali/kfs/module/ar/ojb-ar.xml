@@ -252,7 +252,7 @@
 	<field-descriptor name="shippingEmailAddress" column="SHIP_EMAIL_ADDR" jdbc-type="VARCHAR" />
 	<field-descriptor name="shippingAddressTypeCode" column="SHIP_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="recurredInvoiceIndicator" column="RECURRED_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="agingReportSentTime" column="AGING_RPT_SENT_TM" jdbc-type="TIMESTAMP" />
+	<field-descriptor name="reportedDate" column="REPORTED_DT" jdbc-type="DATE"/>
 	
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false" >
         <foreignkey field-ref="documentNumber" />
@@ -677,7 +677,6 @@
 	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentLineAmount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="financialDocumentOverrideCode" column="FDOC_OVERRIDE_CD" jdbc-type="VARCHAR"/>
-    <field-descriptor name="refundIndicator" column="REFND_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 
     <reference-descriptor name="accountsReceivableDocumentHeader" class-ref="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
         <foreignkey field-ref="documentNumber" />
@@ -899,9 +898,6 @@
 	<field-descriptor name="organizationRemitToZipCode" column="ORG_REMIT_ZIP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationCheckPayableToName" column="ORG_CHCK_PAY_TO_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentInitiatorIdentifier" column="FDOC_INITIATOR_ID" jdbc-type="VARCHAR"/>
-    <field-descriptor name="refundPaymentReasonCode" column="REFND_PMT_REAS_CD" jdbs-type="VARCHAR" />
-    <field-descriptor name="refundFinancialObjectCode" column="REFND_FIN_OBJECT_CD" jdbs-type="VARCHAR" />
-    <field-descriptor name="refundDocumentationLocationCode" column="REFND_DOC_LOC_CD" jdbs-type="VARCHAR" />
 <!-- 
 	<field-descriptor name="wireChartOfAccountsCode" column="WIRE_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="wireAccountNumber" column="WIRE_ACCT_NBR" jdbc-type="VARCHAR"/>
@@ -956,16 +952,6 @@
 	<reference-descriptor name="universityClearingChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="universityClearingChartOfAccountsCode" />
 	</reference-descriptor>
-    <reference-descriptor name="refundPaymentReason" class-ref="org.kuali.kfs.fp.businessobject.PaymentReasonCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="refundPaymentReasonCode" />
-    </reference-descriptor>
-    <reference-descriptor name="refundObjectCode" class-ref="org.kuali.kfs.coa.businessobject.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="processingChartOfAccountCode" />
-        <foreignkey field-ref="refundFinancialObjectCode" />
-    </reference-descriptor>    
-    <reference-descriptor name="refundDocumentationLocation" class-ref="org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="refundDocumentationLocationCode" />
-    </reference-descriptor>        
 <!--
 	<reference-descriptor name="wireChartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="wireChartOfAccountsCode" />
@@ -1079,7 +1065,6 @@
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="refundDocumentNumber" column="REFND_FDOC_NBR" jdbc-type="VARCHAR"/>
 
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false" >
         <foreignkey field-ref="documentNumber" />

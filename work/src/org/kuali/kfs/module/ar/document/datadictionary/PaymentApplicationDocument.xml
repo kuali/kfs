@@ -21,9 +21,6 @@
 			    <ref bean="PaymentApplicationDocument-appliedCustomerNumber"/>
 			    <ref bean="PaymentApplicationDocument-appliedCustomerName"/>
 				<ref bean="PaymentApplicationDocument-versionNumber"/>
-                <ref bean="PaymentApplicationDocument-refundDocumentNumber"/>
-                <ref bean="PaymentApplicationDocument-refundAmount"/>
-                <ref bean="PaymentApplicationDocument-refundDate"/>
 			</list>
 		</property>
 		<property name="validationMap" ref="PaymentApplicationDocument-validations"/>
@@ -59,27 +56,6 @@
     
 	<bean id="PaymentApplicationDocument-versionNumber" parent="PaymentApplicationDocument-versionNumber-parentBean"/>
 	<bean id="PaymentApplicationDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber"/>
-
-    <bean id="PaymentApplicationDocument-refundDocumentNumber" parent="PaymentApplicationDocument-refundDocumentNumber-parentBean"/>
-    <bean id="PaymentApplicationDocument-refundDocumentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-        <property name="name" value="refundDocumentNumber"/>
-        <property name="label" value="Disbursement Voucher"/>
-        <property name="shortLabel" value="DV #"/>
-    </bean>   
-    
-    <bean id="PaymentApplicationDocument-refundAmount" parent="PaymentApplicationDocument-refundAmount-parentBean"/>
-    <bean id="PaymentApplicationDocument-refundAmount-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-financialDocumentTotalAmount">
-        <property name="name" value="refundAmount"/>
-        <property name="label" value="Amount"/>
-        <property name="shortLabel" value="Amt"/>
-    </bean>  
-    
-    <bean id="PaymentApplicationDocument-refundDate" parent="PaymentApplicationDocument-refundDate-parentBean"/>
-    <bean id="PaymentApplicationDocument-refundDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
-        <property name="name" value="refundDate"/>
-        <property name="label" value="Date"/>
-        <property name="shortLabel" value="Date"/>
-    </bean>     
 
 	<bean id="PaymentApplicationDocument-validations" parent="PaymentApplicationDocument-validations-parentBean"/>
 	<bean id="PaymentApplicationDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">

@@ -31,34 +31,8 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
      */
     @Override
     protected boolean canBlanketApprove(Document document) {
-        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;
-        
-        if (dvDocument.isRefundIndicator() && (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() 
-                                          || document.getDocumentHeader().getWorkflowDocument().stateIsSaved())) {
-            return true;
-        }
-        
-        return false;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canCopy(org.kuali.rice.kns.document.Document)
-     */
-    @Override
-    protected boolean canCopy(Document document) {
-        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;
-        
-        if (dvDocument.isRefundIndicator()) {
-            if (document.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
-                return true;
-            }
-            else {
                 return false;
             }
-        }
-        
-        return super.canCopy(document);
-    }
 
     /**
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
@@ -77,7 +51,6 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         addPaymentHandlingEntryMode(document, editModes);
         addVoucherDeadlineEntryMode(document, editModes);
         addSpecialHandlingChagingEntryMode(document, editModes);
-        addRefundEntryMode(document, editModes);
 
         return editModes;
     }
@@ -170,21 +143,6 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         
         if (!currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.PURCHASING)) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.SPECIAL_HANDLING_CHANGING_ENTRY);
-        }
-    }
-    
-    /**
-     * For DVs that are refunds for payment application documents certain fields cannot be edited
-     * 
-     * @param document - the disbursement voucher document authorization is being sought on
-     * @param editModes - the edit modes so far, which can be added to
-     */
-    protected void addRefundEntryMode(Document document, Set<String> editModes) {
-        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-
-        if (dvDocument.isRefundIndicator() && (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved() || workflowDocument.stateIsEnroute())) {
-            editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.REFUND_ENTRY);
         }
     }
 }

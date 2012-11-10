@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation
+ * Copyright 2012 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerCreditMemo;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
+import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
+import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
+import org.kuali.kfs.integration.ar.AccountsRecievableCustomerInvoiceRecurrenceDetails;
+import org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -39,22 +48,6 @@ public interface AccountsReceivableModuleService {
      * @return an appropriate implementation of ElectronicPaymentClaimingDocumentGenerationStrategy
      */
     public abstract ElectronicPaymentClaimingDocumentGenerationStrategy getAccountsReceivablePaymentClaimingStrategy();
-
-    /**
-     * When refund DV is disapproved, a note needs to be added to the related payment request document
-     * 
-     * @param relatedDocumentNumber - document number for the related document (dv)
-     * @param noteText - text for the new note
-     */
-    public void addNoteToRelatedPaymentRequestDocument(String relatedDocumentNumber, String noteText);
-
-    /**
-     * Returns the processing organization associated with the payment request given by the related document number
-     * 
-     * @param relatedDocumentNumber - document number for the related document (dv)
-     * @return Organization instance for processing org
-     */
-    public Organization getProcessingOrganizationForRelatedPaymentRequestDocument(String relatedDocumentNumber);
 
     /**
      * Performs a search against AR customers with the given criteria
@@ -156,34 +149,110 @@ public interface AccountsReceivableModuleService {
      */
     public List<AccountsReceivableCustomerType> findByCustomerTypeDescription(String customerTypeDescription);
 
+    /**
+     * 
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return
+     */
     public AccountsReceivableOrganizationOptions getOrgOptionsIfExists(String chartOfAccountsCode, String organizationCode);
 
+    /**
+     * 
+     * @param criteria
+     * @return
+     */
     public AccountsReceivableOrganizationOptions getOrganizationOptionsByPrimaryKey(Map<String, String> criteria);
 
+    /**
+     * 
+     * @param customerInvoiceDocument
+     * @throws WorkflowException
+     */
     public void saveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException;
 
+    /**
+     * 
+     * @param customerInvoiceDocument
+     * @return
+     * @throws WorkflowException
+     */
     public Document blanketApproveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException;
 
+    /**
+     * 
+     * @return
+     */
     public AccountsRecievableCustomerInvoiceRecurrenceDetails createCustomerInvoiceRecurrenceDetails();
 
+    /**
+     * 
+     * @return
+     */
     public AccountsRecievableDocumentHeader createAccountsReceivableDocumentHeader();
     
+    /**
+     * 
+     * @return
+     */
     public ChartOrgHolder getPrimaryOrganization();
 
+    /**
+     * 
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @param currentFiscalYear
+     * @return
+     */
     public AccountsReceivableSystemInformation getSystemInformationByProcessingChartOrgAndFiscalYear(String chartOfAccountsCode, String organizationCode, Integer currentFiscalYear);
 
+    /**
+     * 
+     * @return
+     */
     public boolean isUsingReceivableFAU();
     
+    /**
+     * 
+     * @param document
+     */
     public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice document);
 
+    /**
+     * 
+     * @param invoiceItemCode
+     * @param processingChartCode
+     * @param processingOrgCode
+     * @return
+     */
     public AccountsReceivableCustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCode(String invoiceItemCode, String processingChartCode, String processingOrgCode);
 
+    /**
+     * 
+     * @param customerInvoiceDetail
+     * @return
+     */
     public String getAccountsReceivableObjectCodeBasedOnReceivableParameter(AccountsReceivableCustomerInvoiceDetail customerInvoiceDetail);
 
+    /**
+     * 
+     * @param customerInvoiceDocument
+     * @param detail
+     */
     public void recalculateCustomerInvoiceDetail(AccountsReceivableCustomerInvoice customerInvoiceDocument, AccountsReceivableCustomerInvoiceDetail detail);
 
+    /**
+     * 
+     * @param detail
+     * @param customerInvoiceDocument
+     */
     public void prepareCustomerInvoiceDetailForAdd(AccountsReceivableCustomerInvoiceDetail detail, AccountsReceivableCustomerInvoice customerInvoiceDocument);
 
+    /**
+     * 
+     * @param invoice
+     * @return
+     */
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice invoice);
 
     /**
@@ -195,20 +264,20 @@ public interface AccountsReceivableModuleService {
      */
     public Collection<AccountsReceivableCustomerInvoice> getOpenInvoiceDocumentsByCustomerNumberForTrip(String customerNumber, String travelDocId);
 
-    public AccountsReceivableNonInvoiced createNonInvoiced();
-
-    public AccountsReceivableInvoicePaidApplied createInvoicePaidApplied();
-
+    /**
+     * Get account receivable doc header
+     * 
+     * @param processingChart
+     * @param processingOrg
+     * @return
+     */
     public AccountsRecievableDocumentHeader getNewAccountsReceivableDocumentHeader(String processingChart, String processingOrg);
 
-    public AccountsReceivablePaymentApplicationDocument createPaymentApplicationDocument();
-
-    public AccountsReceivableCashControlDetail createCashControlDetail();
-
-    public AccountsReceivableCashControlDocument createCashControlDocument();
-    
-    public Document blanketApprovePaymentApplicationDocument(AccountsReceivablePaymentApplicationDocument paymentApplicationDocument, String travelDocumentIdentifier) throws WorkflowException;
-    
+    /**
+     * Create cusotmer invoice document
+     * 
+     * @return
+     */
     public AccountsReceivableCustomerInvoice createCustomerInvoiceDocument();
     
     /**
@@ -226,7 +295,6 @@ public interface AccountsReceivableModuleService {
      * @return
      * @throws WorkflowException
      */
-    @SuppressWarnings("restriction")
     public Document blanketApproveCustomerCreditMemoDocument(AccountsReceivableCustomerCreditMemo creditMemoDocument, String annotation) throws WorkflowException;
 
     /**

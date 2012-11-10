@@ -72,11 +72,28 @@ public interface TravelerService {
      */
     public boolean canIncludeProfileInSearch(TEMProfile profile, String docType, Person user, boolean isProfileAdmin, boolean isAssignedArranger, boolean isOrgArranger, boolean isArrangerDoc, boolean isRiskManagement);
     
+    /**
+     * 
+     * @param profile
+     * @param customer
+     */
     public void copyTEMProfileToCustomer(TEMProfile profile, AccountsReceivableCustomer customer);
     
+    /**
+     * 
+     * @param profile
+     * @param customer
+     */
     public void copyCustomerToTEMProfile(TEMProfile profile, AccountsReceivableCustomer customer);
     
-    public void copyKimDataToTEMProfile(TEMProfile profile, PersonImpl principal, KimEntityInfo kimEntityInfo);
+    /**
+     * 
+     * @param profile
+     * @param principal
+     * @param kimEntityInfo
+     */
+    public void copyKimDataToTEMProfile(TEMProfile profile, Person principal, KimEntityInfo kimEntityInfo);
+    
     /**
      * 
      * This method converts a KIM Person to a TemProfileFromKim object so that we can then use it to 
@@ -115,12 +132,25 @@ public interface TravelerService {
      */
     public List<TravelerDetailEmergencyContact> copyTravelerDetailEmergencyContact(List<TravelerDetailEmergencyContact> emergencyContacts, String documentNumber);
     
-    
+    /**
+     * 
+     * @param profile
+     */
     public void populateTEMProfile(TEMProfile profile);
     
+    /**
+     * 
+     * @param person
+     * @return
+     */
     public boolean isCustomerEmployee(AccountsReceivableCustomer person);
     
-    public boolean isKimPersonEmployee(PersonImpl principal);
+    /**
+     * 
+     * @param principal
+     * @return
+     */
+    public boolean isKimPersonEmployee(Person principal);
 
     /**
      * 
@@ -140,5 +170,14 @@ public interface TravelerService {
      */
 	TemProfileAddress convertToTemProfileAddressFromKimAddress(KimEntityAddressImpl address);
 	
+	/**
+	 * 
+	 * @param chartCode
+	 * @param orgCode
+	 * @param roleChartCode
+	 * @param roleOrgCode
+	 * @param descendHierarchy
+	 * @return
+	 */
 	public boolean isParentOrg(String chartCode, String orgCode, String roleChartCode, String roleOrgCode, boolean descendHierarchy);
 }

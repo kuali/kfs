@@ -474,7 +474,7 @@ public class TravelerServiceImpl implements TravelerService {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TravelerService#copyCustomerToTEMProfile(org.kuali.kfs.module.tem.businessobject.TEMProfile, org.kuali.kfs.integration.ar.AccountsReceivableCustomer)
+     * @see org.kuali.kfs.module.tem.service.TravelerService#copyCustomerToTEMProfile(TEMProfile, AccountsReceivableCustomer)
      */
     @Override
     public void copyCustomerToTEMProfile(TEMProfile profile, AccountsReceivableCustomer customer) {
@@ -498,8 +498,8 @@ public class TravelerServiceImpl implements TravelerService {
             for (int i=3;i<customerNames.length;i++){
                 profile.setLastName(profile.getLastName() + " " + customerNames[i]);
             }
-            
         }
+        
         AccountsReceivableCustomerAddress address = customer.getPrimaryAddress();
         TemProfileAddress profileAddress = new TemProfileAddress();
         
@@ -524,10 +524,10 @@ public class TravelerServiceImpl implements TravelerService {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TravelerService#copyPrincipalToTEMProfile(org.kuali.kfs.module.tem.businessobject.TEMProfile, org.kuali.kfs.integration.ar.AccountsReceivableCustomer)
+     * @see org.kuali.kfs.module.tem.service.TravelerService#copyKimDataToTEMProfile(org.kuali.kfs.module.tem.businessobject.TEMProfile, org.kuali.rice.kim.bo.Person, org.kuali.rice.kim.bo.entity.dto.KimEntityInfo)
      */
     @Override
-    public void copyKimDataToTEMProfile(TEMProfile profile, PersonImpl principal, KimEntityInfo kimEntityInfo) {
+    public void copyKimDataToTEMProfile(TEMProfile profile, Person principal, KimEntityInfo kimEntityInfo) {
         // copy principal data
         profile.setFirstName(principal.getFirstName().toUpperCase());
         profile.setMiddleName(principal.getMiddleName().toUpperCase());
@@ -594,10 +594,10 @@ public class TravelerServiceImpl implements TravelerService {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TravelerService#isKimPersonEmployee(org.kuali.rice.kim.bo.impl.PersonImpl)
+     * @see org.kuali.kfs.module.tem.service.TravelerService#isKimPersonEmployee(org.kuali.rice.kim.bo.Person)
      */
     @Override
-    public boolean isKimPersonEmployee(PersonImpl person) {
+    public boolean isKimPersonEmployee(Person person) {
         List<String> empParams = getParameterService().getParameterValues(TemParameterConstants.TEM_PROFILE.class, KIM_AFFILIATION_TYPE_TO_TRAVELER_TYPE_CROSSWALK);
         List<String> empCodes = new ArrayList<String>();
         List<String> nonEmpCodes = new ArrayList<String>();

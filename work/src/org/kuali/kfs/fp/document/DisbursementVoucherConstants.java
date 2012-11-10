@@ -62,11 +62,6 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
         public static final String EXTRACTED = "E";
     }
 
-    public static class PaymentReasonCodes {
-        public static final String ROYALTIES = "R";
-        public static final String RENTAL_PAYMENT = "T";
-        public static final String TRAVEL_HONORARIUM = "X";
-    }
   
      public static class DvPdpExtractGroup {
         public static final String DV_PDP_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
@@ -208,7 +203,6 @@ public interface DisbursementVoucherConstants extends ParameterKeyConstants {
 
     public static final String DOCUMENT_TYPE_CHECKACH = "DVCA";
     public static final String DOCUMENT_TYPE_WTFD = "DVWF";
-    public static final String DOCUMENT_TYPE_DVAR = "DVAR";
     
     public static final String DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM = "COVER_SHEET_TEMPLATE_LINES";
     public static final String DV_COVER_SHEET_TEMPLATE_RLINES_PARM_NM = "COVER_SHEET_TEMPLATE_RLINES";

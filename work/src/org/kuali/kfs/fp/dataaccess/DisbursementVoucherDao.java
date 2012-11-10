@@ -38,23 +38,5 @@ public interface DisbursementVoucherDao {
      * @return list of doc headers
      */
     public Collection getDocumentsByHeaderStatus(String statusCode);
-    
-    /**
-     * Returns a list of disbursement voucher documents with a specific doc header status that
-     * are not AR refunds
-     * 
-     * @param statusCode
-     * @return list of doc headers
-     */
-    public Collection getNonARDocumentsByHeaderStatus(String statusCode);
-    
-    /**
-     * Returns a list of disbursement voucher documents with a specific doc header status and
-     * are AR refunds
-     * 
-     * @param statusCode
-     * @return list of doc headers
-     */
-    public Collection getARDocumentsByHeaderStatus(String statusCode);
 }
 

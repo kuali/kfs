@@ -18,8 +18,6 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.ar.AccountsReceivableCashControlDetail;
-import org.kuali.kfs.integration.ar.AccountsReceivableCashControlDocument;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -31,7 +29,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CashControlDetail extends PersistableBusinessObjectBase implements AccountsReceivableCashControlDetail {
+public class CashControlDetail extends PersistableBusinessObjectBase {
 
 	private String documentNumber;
 	private String referenceFinancialDocumentNumber;
@@ -277,11 +275,6 @@ public class CashControlDetail extends PersistableBusinessObjectBase implements 
         return cashControlDocument;
     }
 
-    @Override
-    public AccountsReceivableCashControlDocument getAccountsReceivableCashControlDocument() {
-        return getCashControlDocument();
-    }
-    
     public void setCashControlDocument(CashControlDocument cashControlDocument) {
         this.cashControlDocument = cashControlDocument;
     }
@@ -300,11 +293,6 @@ public class CashControlDetail extends PersistableBusinessObjectBase implements 
      */
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    @Override
-    public void setCashControlDocument(AccountsReceivableCashControlDocument cashControl) {
-        this.cashControlDocument = (CashControlDocument) cashControl;
     }
     
 }

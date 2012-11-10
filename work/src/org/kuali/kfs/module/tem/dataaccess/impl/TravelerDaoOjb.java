@@ -45,10 +45,10 @@ public class TravelerDaoOjb extends PlatformAwareDaoBaseOjb implements TravelerD
     private AccountsReceivableModuleService accountsReceivableModuleService;
 
     /**
-     * Try to find {@link TravelerDetail} instances of employees. Employees have a <code>travelerTypeCode</code>
+     * Try to find TravelerDetail instances of employees. Employees have a travelerTypeCode
      * for employees. This means they also have valid employment information.
      *
-     * @return {@link Collection} of {@linK TravelerDetail} instances
+     * @see org.kuali.kfs.module.tem.dataaccess.TravelerDao#findCustomersBy(Map)
      */
     @Override
     public Collection<AccountsReceivableCustomer> findCustomersBy(final Map<String, String> criteria) {
@@ -97,11 +97,6 @@ public class TravelerDaoOjb extends PlatformAwareDaoBaseOjb implements TravelerD
         return lookupDao;
     }
     
-    /**
-     * Gets the accountsReceivableModuleService attribute.
-     * 
-     * @return Returns the accountsReceivableModuleService.
-     */
     protected AccountsReceivableModuleService getAccountsReceivableModuleService() {
         if (accountsReceivableModuleService == null) {
             this.accountsReceivableModuleService = SpringContext.getBean(AccountsReceivableModuleService.class);
@@ -110,11 +105,6 @@ public class TravelerDaoOjb extends PlatformAwareDaoBaseOjb implements TravelerD
         return accountsReceivableModuleService;
     }
 
-    /**
-     * Sets the accountsReceivableModuleService attribute value.
-     * 
-     * @param accountsReceivableModuleService The accountsReceivableModuleService to set.
-     */
     public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
         this.accountsReceivableModuleService = accountsReceivableModuleService;
     }    

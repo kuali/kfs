@@ -33,7 +33,6 @@
 				<ref bean="PaymentReasonCode-code" />
 				<ref bean="PaymentReasonCode-name" />
 				<ref bean="PaymentReasonCode-description" />
-                <ref bean="PaymentReasonCode-arRefundIndicator"/>
 				<ref bean="PaymentReasonCode-active" />
 			</list>
 		</property>
@@ -98,14 +97,6 @@
 		<property name="name" value="active" />
 	</bean>
 
-  <bean id="PaymentReasonCode-arRefundIndicator" parent="PaymentReasonCode-arRefundIndicator-parentBean"/>
-
-  <bean id="PaymentReasonCode-arRefundIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="arRefundIndicator"/>
-    <property name="label" value="Accounts Recievable"/>
-    <property name="shortLabel" value="AR"/>    
-  </bean>
-
 	<!-- Business Object Inquiry Definition -->
 
 
@@ -132,7 +123,6 @@
 				<bean parent="FieldDefinition" p:attributeName="code" />
 				<bean parent="FieldDefinition" p:attributeName="name" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
-                <bean parent="FieldDefinition" p:attributeName="arRefundIndicator"/>
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
@@ -162,7 +152,6 @@
 				<bean parent="FieldDefinition" p:attributeName="code" />
 				<bean parent="FieldDefinition" p:attributeName="name" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
-                <bean parent="FieldDefinition" p:attributeName="arRefundIndicator"/>
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
@@ -171,7 +160,6 @@
 				<bean parent="FieldDefinition" p:attributeName="code" />
 				<bean parent="FieldDefinition" p:attributeName="name" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
-                <bean parent="FieldDefinition" p:attributeName="arRefundIndicator"/>
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

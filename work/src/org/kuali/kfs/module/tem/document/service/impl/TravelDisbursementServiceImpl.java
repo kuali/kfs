@@ -91,8 +91,6 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
         disbursementVoucherDocument.setDisbVchrCheckStubText(StringUtils.defaultString(document.getDocumentTitle()));              
         disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for " + travelDocumentService.getDocumentType(document) +" doc: " + StringUtils.defaultString(document.getDocumentTitle(), document.getTravelDocumentIdentifier()));
         travelDocumentService.trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getDocumentHeader());
-        
-        disbursementVoucherDocument.setRefundIndicator(true);
         disbursementVoucherDocument.getDvPayeeDetail().setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
         disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(document.getTravelDocumentIdentifier());
         

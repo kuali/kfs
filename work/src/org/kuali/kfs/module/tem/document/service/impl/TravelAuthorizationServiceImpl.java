@@ -113,6 +113,9 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
     private final int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelAuthorizationService#createCustomerInvoice(org.kuali.kfs.module.tem.document.TravelAuthorizationDocument)
+     */
     @Override
     public void createCustomerInvoice(TravelAuthorizationDocument travelAuthorizationDocument) {
 
@@ -132,6 +135,13 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         }
     }
 
+    /**
+     * Create customer invoice from advance
+     * 
+     * @param travelAuthorizationDocument
+     * @param advances
+     * @param amount
+     */
     private void createCustomerInvoiceFromAdvances(TravelAuthorizationDocument travelAuthorizationDocument, List<TravelAdvance> advances, KualiDecimal amount) {
 
         int numDaysDue = Integer.parseInt(parameterService.getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.NUMBER_OF_DAYS_DUE));
@@ -299,6 +309,12 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
     }
     
+    /**
+     * 
+     * @param customerAddress
+     * @param traveler
+     * @return
+     */
     protected boolean compareAddress(AccountsReceivableCustomerAddress customerAddress, TravelerDetail traveler) {
     	if(!StringUtils.equalsIgnoreCase(customerAddress.getCustomerLine1StreetAddress(), traveler.getStreetAddressLine1())) {
     		return true;
@@ -322,6 +338,12 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         return false;
     }
 
+    /**
+     * 
+     * @param document
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     */
     protected void setupDefaultValuesForNewCustomerInvoiceDocument(AccountsReceivableCustomerInvoice document, String chartOfAccountsCode, String organizationCode) {
 
         // setupBasicDefaultValuesForCustomerInvoiceDocument(document);
@@ -461,103 +483,6 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             }
         }
     }
-/*
- * CLEANUP
-    *//**
-     * Method for creating the {@link DisbursementVoucherDocument} for Accounts Receiveable. Used when advances are > 0.
-     * 
-     * @param travelAuthorizationDocument
-     * @param advances
-     * @param amount
-     *//*
-    protected void createDVAR(TravelAuthorizationDocument travelAuthorizationDocument) {
-        // change current user to be the submitter of the original doc
-        String currentUser = GlobalVariables.getUserSession().getPrincipalName();
-        String principalName = SpringContext.getBean(PersonService.class).getPerson(travelAuthorizationDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId()).getPrincipalName();
-        GlobalVariables.setUserSession(new UserSession(principalName));
-
-        DisbursementVoucherDocument disbursementVoucherDocument = null;
-        try {
-            disbursementVoucherDocument = (DisbursementVoucherDocument) documentService.getNewDocument(DisbursementVoucherDocument.class);
-        }
-        catch (Exception e) {
-            error("Error creating new disbursement voucher document: ", e.getMessage());
-            throw new RuntimeException("Error creating new disbursement voucher document: " + e.getMessage(), e);
-        }
-
-        populateDisbursementVoucherFields(disbursementVoucherDocument, travelAuthorizationDocument);
-
-        final Map<String, TypedArrayList> oldErrors = new LinkedHashMap<String, TypedArrayList>();
-        oldErrors.putAll(GlobalVariables.getMessageMap().getErrorMessages());
-
-        // always save DV
-        try {
-            disbursementVoucherDocument.prepareForSave();
-
-            businessObjectService.save(disbursementVoucherDocument);
-            
-            // add relationship
-            String relationDescription = "TA - DV";
-            accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(travelAuthorizationDocument.getDocumentNumber(), disbursementVoucherDocument.getDocumentNumber(), relationDescription));
-            
-            getMessageList().add(MESSAGE_DV_IN_ACTION_LIST, disbursementVoucherDocument.getDocumentNumber());
-
-            final Note taDvNote = getDocumentService().createNoteFromDocument(disbursementVoucherDocument, 
-                    "system generated note by TA document # " 
-                    + travelAuthorizationDocument.getTravelDocumentIdentifier());
-            getDocumentService().addNoteToDocument(disbursementVoucherDocument, taDvNote);
-
-            boolean rulePassed = getRuleService().applyRules(new AttributedRouteDocumentEvent("", disbursementVoucherDocument));
-            
-            if (rulePassed && !(TemConstants.DisbursementVoucherPaymentMethods.WIRE_TRANSFER_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode())
-                  || TemConstants.DisbursementVoucherPaymentMethods.FOREIGN_DRAFT_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode()))) {
-            	
-            	KualiWorkflowDocument originalWorkflowDocument = disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument();
-                
-            	try {
-                    // original initiator may not have permission to blanket approve the DV
-                    GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
-                    
-                    KualiWorkflowDocument newWorkflowDocument = getWorkflowDocumentService().createWorkflowDocument(Long.valueOf(disbursementVoucherDocument.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
-                    newWorkflowDocument.setTitle(originalWorkflowDocument.getTitle());
-                    
-                    disbursementVoucherDocument.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
-                
-                    String annotation = "Blanket Approved by system in relation to Travel Auth Document: " + travelAuthorizationDocument.getDocumentNumber();
-                    //getWorkflowDocumentService().blanketApprove(disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument(), annotation, null);
-                    getDocumentService().blanketApproveDocument(disbursementVoucherDocument, annotation, null);
-            	}
-                finally {
-                    GlobalVariables.setUserSession(new UserSession(currentUser));
-                    disbursementVoucherDocument.getDocumentHeader().setWorkflowDocument(originalWorkflowDocument);
-                }
-            	
-                final String noteText = String.format("DV Document %s was system generated and blanket approved", disbursementVoucherDocument.getDocumentNumber());                
-                final Note noteToAdd = getDocumentService().createNoteFromDocument(travelAuthorizationDocument, noteText);
-                getDocumentService().addNoteToDocument(travelAuthorizationDocument, noteToAdd);
-            }
-            
-            if (!rulePassed || TemConstants.DisbursementVoucherPaymentMethods.WIRE_TRANSFER_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode())
-                || TemConstants.DisbursementVoucherPaymentMethods.FOREIGN_DRAFT_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode())) {
-                businessObjectService.save(disbursementVoucherDocument);
-                String annotation = "Saved by system in relation to Travel Auth Document: " + travelAuthorizationDocument.getDocumentNumber();
-                getWorkflowDocumentService().save(disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument(), annotation);
-                
-                final String noteText = String.format("DV Document %s is saved in the initiator's action list to process travel advance", disbursementVoucherDocument.getDocumentNumber());                
-                final Note noteToAdd = getDocumentService().createNoteFromDocument(travelAuthorizationDocument, noteText);
-                getDocumentService().addNoteToDocument(travelAuthorizationDocument, noteToAdd);
-                getTravelDocumentService().addAdHocFYIRecipient(disbursementVoucherDocument, travelAuthorizationDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-            }
-        }
-        catch (Exception ex1) {
-            // if we can't save DV, need to stop processing
-            error("cannot save DV ", disbursementVoucherDocument.getDocumentNumber(), ex1);
-            throw new RuntimeException("cannot save DV " + disbursementVoucherDocument.getDocumentNumber(), ex1);
-        }
-        GlobalVariables.getMessageMap().clearErrorMessages();
-        GlobalVariables.getMessageMap().getErrorMessages().putAll(oldErrors);
-        GlobalVariables.setUserSession(new UserSession(currentUser));
-    }*/
 
     /**
      * This method creates a new travel auth document from a source document

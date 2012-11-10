@@ -97,7 +97,7 @@
                             <c:set var="showCCAndBtbA" value="${hasRelatedCashControlDocument}"/>
                             <table class='datatable'>
 								<tr>
-									<td colspan='4' class='tab-subhead'>
+									<td colspan='3' class='tab-subhead'>
 										Unapplied Funds
 									</td>
 								</tr>
@@ -123,9 +123,6 @@
 									<th class='tab-subhead'>
 										Applied Amount
                                     </th>
-									<th class='tab-subhead'>
-										Refund
-                                    </th>                                    
 								</tr>
 								<tr>
 									<c:if test="${!showCCAndBtbA}">
@@ -169,12 +166,6 @@
 											readOnly="true" />
 										<!--$<c:out value="${KualiForm.totalApplied}" />-->
 									</td>
-									<td style="text-align: right;">
-										<kul:htmlControlAttribute
-											attributeEntry="${DataDictionary['PaymentApplicationDocument'].attributes.refundAmount}"
-											property="document.refundAmount"
-											readOnly="true" />
-									</td>									
 								</tr>
 							</table>
 						<td>

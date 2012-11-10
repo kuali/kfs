@@ -15,67 +15,33 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.integration.tem.TravelEntertainmentMovingModuleService;
-import org.kuali.kfs.integration.tem.TravelEntertainmentMovingTravelDocument;
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
-import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
-import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
-import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
-import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.dataaccess.CashControlDetailDao;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
-import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
-import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
-import org.kuali.kfs.module.ar.document.service.SystemInformationService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.rule.event.BlanketApproveDocumentEvent;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -88,11 +54,6 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     private InvoicePaidAppliedService<AppliedPayment> invoicePaidAppliedService;
     private UniversityDateService universityDateService;
     private CashControlDetailDao cashControlDetailDao;
-    private KualiConfigurationService kualiConfigurationService;
-    private SystemInformationService systemInformationService;
-    private CustomerAddressService customerAddressService;
-    private ParameterService parameterService;
-    private TravelEntertainmentMovingModuleService travelEntertainmentMovingModuleService;
     
     /**
      * 
@@ -333,6 +294,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         return pairs;
     }
     
+    //CLEANUP - REMOVE START
     /**
      * Creates a new disbursement voucher document populated from the given payment application document. The DV is initiated as the
      * initiator of the payment application document. The DV is then saved to inbox, routed, or blanket approved based on parameter
@@ -340,7 +302,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
      * 
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#createDisbursementVoucherDocumentForRefund(org.kuali.kfs.module.ar.document.PaymentApplicationDocument)
      */
-    public void createDisbursementVoucherDocumentForRefund(PaymentApplicationDocument paymentApplicationDocument) {
+/*    public void createDisbursementVoucherDocumentForRefund(PaymentApplicationDocument paymentApplicationDocument) {
         // changed session to initiator of payment application so DV will save to their inbox
         UserSession userSession = GlobalVariables.getUserSession();
         
@@ -456,14 +418,14 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         // set user session back
         GlobalVariables.setUserSession(userSession);
     }
-    
+    */
     /**
      * Populates the given disbursement voucher document from the given payment application document based on predetermined rules
      * 
      * @param disbursementVoucherDocument - disbursement voucher document instance to populate
      * @param paymentApplicationDocument - payment application document instance to pull values from
      */
-    protected void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument, PaymentApplicationDocument paymentApplicationDocument, boolean fromTEMDoc) {
+/*    protected void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument, PaymentApplicationDocument paymentApplicationDocument, boolean fromTEMDoc) {
 
         //Get TEM doc if there is one
         TravelEntertainmentMovingTravelDocument temDoc = null;
@@ -572,12 +534,12 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
 
         disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);
     }
-
+*/
     /**
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#addNoteToPaymentRequestDocument(java.lang.String,
      *      java.lang.String)
      */
-    public void addNoteToRelatedPaymentRequestDocument(String relatedDocumentNumber, String noteText) {
+ /*   public void addNoteToRelatedPaymentRequestDocument(String relatedDocumentNumber, String noteText) {
         // retrieve payment request
         Map<String, String> searchParameters = new HashMap<String, String>();
         searchParameters.put(ArPropertyConstants.PaymentApplicationDocumentFields.REFUND_DOCUMENT_NUMBER, relatedDocumentNumber);
@@ -597,11 +559,11 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
             businessObjectService.save(document);
         }
     }
-    
+    */
     /**
      * @see org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService#getProcessingOrganizationForRelatedPaymentRequestDocument(java.lang.String)
      */
-    public Organization getProcessingOrganizationForRelatedPaymentRequestDocument(String relatedDocumentNumber) {
+/*    public Organization getProcessingOrganizationForRelatedPaymentRequestDocument(String relatedDocumentNumber) {
         // retrieve payment request
         Map<String, String> searchParameters = new HashMap<String, String>();
         searchParameters.put(ArPropertyConstants.PaymentApplicationDocumentFields.REFUND_DOCUMENT_NUMBER, relatedDocumentNumber);
@@ -613,17 +575,8 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
 
         return null;
     }
-    
-    public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentByInvoiceDocument(String invoiceNumber) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceNumber);
-        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
-        
-        Collection<PaymentApplicationDocument> payments = service.findMatching(PaymentApplicationDocument.class, fieldValues);
-        
-        return payments;
-    }
-    
+    */
+
     /*
     public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentsByCustomerNumber(String customerNumber) {
 
@@ -679,6 +632,18 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
     }
     */
     
+    
+    //CLEANUP - REMOVE ENDS
+    public Collection<PaymentApplicationDocument> getPaymentApplicationDocumentByInvoiceDocument(String invoiceNumber) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceNumber);
+        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
+        
+        Collection<PaymentApplicationDocument> payments = service.findMatching(PaymentApplicationDocument.class, fieldValues);
+        
+        return payments;
+    }
+    
     public DocumentService getDocumentService() {
         return documentService;
     }
@@ -711,52 +676,4 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         this.cashControlDetailDao = cashControlDetailDao;
     }
     
-    protected KualiConfigurationService getKualiConfigurationService() {
-        return kualiConfigurationService;
-    }
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-
-    protected SystemInformationService getSystemInformationService() {
-        return systemInformationService;
-    }
-
-    public void setSystemInformationService(SystemInformationService systemInformationService) {
-        this.systemInformationService = systemInformationService;
-    }
-
-    protected CustomerAddressService getCustomerAddressService() {
-        return customerAddressService;
-    }
-
-    public void setCustomerAddressService(CustomerAddressService customerAddressService) {
-        this.customerAddressService = customerAddressService;
-    }
-
-    protected ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    /**
-     * Gets the travelEntertainmentMovingModuleService attribute. 
-     * @return Returns the travelEntertainmentMovingModuleService.
-     */
-    public TravelEntertainmentMovingModuleService getTravelEntertainmentMovingModuleService() {
-        return travelEntertainmentMovingModuleService;
-    }
-
-    /**
-     * Sets the travelEntertainmentMovingModuleService attribute value.
-     * @param travelEntertainmentMovingModuleService The travelEntertainmentMovingModuleService to set.
-     */
-    public void setTravelEntertainmentMovingModuleService(
-            TravelEntertainmentMovingModuleService travelEntertainmentMovingModuleService) {
-        this.travelEntertainmentMovingModuleService = travelEntertainmentMovingModuleService;
-    }
 }

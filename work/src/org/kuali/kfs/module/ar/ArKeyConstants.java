@@ -231,8 +231,4 @@ public class ArKeyConstants {
         public static final String ENTERED_INVOICE_CUSTOMER_NUMBER_INVALID = "error.document.paymentApplication.enteredInvoiceCustomerNumberInvalid";
         public static final String ENTERED_INVOICE_NUMBER_INVALID = "error.document.paymentApplication.enteredInvoiceNumberInvalid";
     }
-    
-    // ar refunding
-    public static final String MESSAGE_REFUND_DV_DOCUMENT_DESCRIPTION = "message.document.refundDV.description";
-    public static final String MESSAGE_REFUND_DV_CHECK_STUB_TEXT = "message.document.refundDV.checkStubText";
 }

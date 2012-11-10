@@ -346,9 +346,6 @@
 		<property name="paymentFileEmailService">
 			<ref bean="pdpEmailService"/>
 		</property>
-        <property name="accountsReceivableModuleService">
-            <ref bean="accountsReceivableModuleService"/>
-        </property>
 	</bean>
 
 	<bean id="cashReceiptCoverSheetService"  parent="cashReceiptCoverSheetService-parentBean"/>

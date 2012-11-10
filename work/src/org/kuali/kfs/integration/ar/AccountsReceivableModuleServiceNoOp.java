@@ -259,43 +259,7 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     }
 
     @Override
-    public AccountsReceivableNonInvoiced createNonInvoiced() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public AccountsReceivableInvoicePaidApplied createInvoicePaidApplied() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public AccountsRecievableDocumentHeader getNewAccountsReceivableDocumentHeader(String processingChart, String processingOrg) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public AccountsReceivablePaymentApplicationDocument createPaymentApplicationDocument() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public AccountsReceivableCashControlDetail createCashControlDetail() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public AccountsReceivableCashControlDocument createCashControlDocument() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Document blanketApprovePaymentApplicationDocument(AccountsReceivablePaymentApplicationDocument paymentApplicationDocument, String travelDocumentIdentifier) throws WorkflowException {
         // TODO Auto-generated method stub
         return null;
     }

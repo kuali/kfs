@@ -38,7 +38,7 @@
               </div></th>
               <td colspan="3" class="datacell">              	
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeIdNumber}" property="document.dvPayeeDetail.disbVchrPayeeIdNumber" readOnly="true" />
-                <c:if test="${fullEntryMode && !refundEntryMode}">
+                <c:if test="${fullEntryMode}">
 	                <kul:lookup boClassName="org.kuali.kfs.fp.businessobject.DisbursementPayee"
 	                	fieldConversions="payeeIdNumber:document.dvPayeeDetail.disbVchrPayeeIdNumber,payeeTypeCode:document.dvPayeeDetail.disbursementVoucherPayeeTypeCode,paymentReasonCode:document.dvPayeeDetail.disbVchrPaymentReasonCode"
 	                	/>
@@ -68,11 +68,6 @@
               </th>
               <td class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${payeeAttributes.disbVchrPayeeLine1Addr}" property="document.dvPayeeDetail.disbVchrPayeeLine1Addr" readOnly="${!fullEntryMode && !payeeEntryMode}"/>  
-                <c:if test="${fullEntryMode && refundEntryMode}">
-	                <kul:lookup boClassName="org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress"
-	                	fieldConversions="customerLine1StreetAddress:document.dvPayeeDetail.disbVchrPayeeLine1Addr,customerLine2StreetAddress:document.dvPayeeDetail.disbVchrPayeeLine2Addr,customerCityName:document.dvPayeeDetail.disbVchrPayeeCityName,customerStateCode:document.dvPayeeDetail.disbVchrPayeeStateCode,customerZipCode:document.dvPayeeDetail.disbVchrPayeeZipCode,customerCountryCode:document.dvPayeeDetail.disbVchrPayeeCountryCode"
-	                	lookupParameters="document.dvPayeeDetail.disbVchrPayeeIdNumber:customerNumber"/>
-                </c:if>
               </td>
               
               <th class="bord-l-b">
@@ -128,11 +123,11 @@
               	<div align="right"><kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbVchrCheckTotalAmount}"/></div>
               </th>
               <td width="30%"  class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbVchrCheckTotalAmount}" property="document.disbVchrCheckTotalAmount" readOnly="${(!fullEntryMode&&!frnEntryMode&&!taxEntryMode&&!travelEntryMode&&!wireEntryMode) || refundEntryMode}"/>
+                <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbVchrCheckTotalAmount}" property="document.disbVchrCheckTotalAmount" readOnly="${!fullEntryMode&&!frnEntryMode&&!taxEntryMode&&!travelEntryMode&&!wireEntryMode}"/>
               </td>
               <th width="20%"  class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbursementVoucherDueDate}"/></div></th>
               <td width="30%"  class="datacell">
-                 <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbursementVoucherDueDate}" property="document.disbursementVoucherDueDate" datePicker="true" readOnly="${(!fullEntryMode && !voucherDeadlineEntryMode) || refundEntryMode}"/>
+                 <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbursementVoucherDueDate}" property="document.disbursementVoucherDueDate" datePicker="true" readOnly="${!fullEntryMode && !voucherDeadlineEntryMode}"/>
               </td>
             </tr>
             
@@ -214,8 +209,8 @@
               </td>
               <th  class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${dvAttributes.disbursementVoucherDocumentationLocationCode}"/></div></th>
               <td  class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbursementVoucherDocumentationLocationCode}" property="document.disbursementVoucherDocumentationLocationCode" extraReadOnlyProperty="document.disbursementVoucherDocumentationLocationName" onchange="documentationMessage(this.value);" readOnly="${!fullEntryMode || refundEntryMode}"/>
-                <c:if test="${fullEntryMode && !refundEntryMode}">
+                <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbursementVoucherDocumentationLocationCode}" property="document.disbursementVoucherDocumentationLocationCode" extraReadOnlyProperty="document.disbursementVoucherDocumentationLocationName" onchange="documentationMessage(this.value);" readOnly="${!fullEntryMode}"/>
+                <c:if test="${fullEntryMode}">
               		<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation" fieldConversions="disbursementVoucherDocumentationLocationCode:document.disbursementVoucherDocumentationLocationCode" 
               		lookupParameters="document.disbursementVoucherDocumentationLocationCode:disbursementVoucherDocumentationLocationCode" />
               	</c:if>

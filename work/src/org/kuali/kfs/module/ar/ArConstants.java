@@ -44,7 +44,6 @@ public class ArConstants {
     public static final String DEFAULT_FORMAT = "DEFAULT_FORMAT";
     public static final String DUE_DATE_DAYS = "DUE_DATE_DAYS";
     public static final String INCLUDE_ZERO_BALANCE_CUSTOMERS = "INCLUDE_ZERO_BALANCE_CUSTOMERS";
-    public static final String PAYMENT_APPLICATION_DTL_TYPE = "PaymentApplication";
     
     //Valid number of days the invoice due date can be more than invoice creation date.
     public static final int VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE = 90;
@@ -167,7 +166,7 @@ public class ArConstants {
     public static final String INCLUDE_ZERO_BALANCE_YES = "Yes";
     public static final String INCLUDE_ZERO_BALANCE_NO = "No"; 
 
-    public static class ArRefunding {
+/*    public static class ArRefunding {
         public static final String DV_ROUTE_SAVE = "SAVE";
         public static final String DV_ROUTE_ROUTE = "ROUTE";
         public static final String DV_ROUTE_BLANKETAPPROVE = "BLANKETAPPROVE";
@@ -177,7 +176,7 @@ public class ArConstants {
         public static final String DV_ROUTE_PARAMETER_NAME = "DV_DOCUMENT_ROUTE";
         public static final String DEFAULT_REFUND_PAYMENT_REASON_CODE_PARAMETER_NAME = "DEFAULT_REFUND_PAYMENT_REASON_CODE";
     }   
-    
+    */
     public enum ArNotificationSelectionField{
         CHART("CHART"), ORGANIZATION("ORG"), ACCOUNT("ACCOUNT");
         

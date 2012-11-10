@@ -752,7 +752,6 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="name" column="DV_PMT_REAS_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="description" column="DV_PMT_REAS_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="arRefundIndicator" column="AR_REFND_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <field-descriptor name="active" column="DV_PMT_REAS_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
@@ -1252,7 +1251,6 @@
     <field-descriptor name="cancelDate" column="DV_CNCL_DT" jdbc-type="DATE" />
     <field-descriptor name="disbVchrPdpBankCode" column="DV_PDP_BNK_CD" jdbc-type="VARCHAR" />   
     <field-descriptor name="disbExcptAttachedIndicator" column="DV_EXCPT_IND" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />       
-    <field-descriptor name="refundIndicator" column="REFND_IND" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,17 +27,9 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
-import org.kuali.kfs.integration.ar.AccountsReceivableCashControlDetail;
-import org.kuali.kfs.integration.ar.AccountsReceivableCashControlDocument;
-import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
-import org.kuali.kfs.integration.ar.AccountsReceivableInvoicePaidApplied;
-import org.kuali.kfs.integration.ar.AccountsReceivableNonInvoiced;
-import org.kuali.kfs.integration.ar.AccountsReceivablePaymentApplicationDocument;
-import org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
-import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedDistribution;
@@ -53,7 +44,6 @@ import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentServic
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -72,16 +62,15 @@ import org.kuali.rice.kns.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
-public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, AccountsReceivablePaymentApplicationDocument {
+public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocument.class);
 
@@ -94,7 +83,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     protected Collection<NonAppliedDistribution> nonAppliedDistributions;
     protected NonAppliedHolding nonAppliedHolding;
     protected AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
-    protected String refundDocumentNumber;
     
     protected transient PaymentApplicationDocumentService paymentApplicationDocumentService;
     protected transient CashControlDetail cashControlDetail;
@@ -156,11 +144,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         }
         return cashControlDetail;
     }
-    
-    @Override
-    public AccountsReceivableCashControlDetail getAccountsReceivableCashControlDetail() {
-        return getCashControlDetail();
-    }    
     
     public void setCashControlDetail(CashControlDetail cashControlDetail) {
         this.cashControlDetail = cashControlDetail;
@@ -423,51 +406,13 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     public List<InvoicePaidApplied> getInvoicePaidApplieds() {
         return invoicePaidApplieds;
     }
-    
-    @Override
-    public List<AccountsReceivableInvoicePaidApplied> getAccountsReceivableInvoicePaidApplieds() {
-        List<AccountsReceivableInvoicePaidApplied> accountsReceivableInvoicePaidApplieds = new ArrayList<AccountsReceivableInvoicePaidApplied>();
-        if (this.invoicePaidApplieds != null && !this.invoicePaidApplieds.isEmpty()){
-            accountsReceivableInvoicePaidApplieds.addAll(this.invoicePaidApplieds);
-        }
-        
-        return accountsReceivableInvoicePaidApplieds;     
-    }    
 
-    @Override
-    public void setAccountsReceivableInvoicePaidApplieds(List<AccountsReceivableInvoicePaidApplied> accountsReceivableInvoicePaidApplieds) {
-        this.invoicePaidApplieds.clear();
-        if (accountsReceivableInvoicePaidApplieds != null) {
-            for (AccountsReceivableInvoicePaidApplied aripa : accountsReceivableInvoicePaidApplieds) {
-                this.invoicePaidApplieds.add((InvoicePaidApplied) aripa);
-            }
-        }
-    }
-    
     public void setInvoicePaidApplieds(List<InvoicePaidApplied> appliedPayments) {
         this.invoicePaidApplieds = appliedPayments;
     }
 
     public List<NonInvoiced> getNonInvoiceds() {
         return nonInvoiceds;
-    }
-    
-    public List<AccountsReceivableNonInvoiced> getAccountsReceivableNonInvoiceds() {
-        List<AccountsReceivableNonInvoiced> accountsReceivableNonInvoiceds = new ArrayList<AccountsReceivableNonInvoiced>();
-        if (this.nonInvoiceds != null && !this.nonInvoiceds.isEmpty()){
-            accountsReceivableNonInvoiceds.addAll(this.nonInvoiceds);
-        }
-        
-        return accountsReceivableNonInvoiceds;               
-    }
-    
-    public void setAccountsReceivableNonInvoiceds(List<AccountsReceivableNonInvoiced> accountsReceivableNonInvoiceds) {
-        this.nonInvoiceds.clear();
-        if (accountsReceivableNonInvoiceds != null) {
-            for (AccountsReceivableNonInvoiced arni : accountsReceivableNonInvoiceds) {
-                this.nonInvoiceds.add((NonInvoiced) arni);
-            }
-        }
     }
 
     public void setNonInvoiceds(List<NonInvoiced> nonInvoiceds) {
@@ -788,7 +733,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             offsetDebitEntry.setChartOfAccountsCode(nonInvoiced.getChartOfAccountsCode());
             offsetDebitEntry.setAccountNumber(nonInvoiced.getAccountNumber());
             offsetDebitEntry.setUniversityFiscalYear(getPostingYear());
-
             OffsetDefinition debitOffsetDefinition = 
                 offsetDefinitionService.getByPrimaryId(
                     getPostingYear(), nonInvoiced.getChartOfAccountsCode(), 
@@ -1434,72 +1378,6 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     public String getInvoiceAppliedCustomerName() {
         return getAccountsReceivableDocumentHeader().getCustomer().getCustomerName();
     }
-
-    public String getRefundDocumentNumber() {
-        return refundDocumentNumber;
-    }
-
-    public void setRefundDocumentNumber(String refundDocumentNumber) {
-        this.refundDocumentNumber = refundDocumentNumber;
-    }
     
-    public KualiDecimal getRefundAmount() {
-        // sum non-ar refund amounts
-        KualiDecimal refundAmount = KualiDecimal.ZERO;
-        for (NonInvoiced nonInvoiced : getNonInvoiceds()) {
-            if (nonInvoiced.isRefundIndicator()) {
-                refundAmount = refundAmount.add(nonInvoiced.getFinancialDocumentLineAmount());
-            }
-        }
-
-        return refundAmount;
-    }
-    
-    public String getRefundDate() {
-        if (StringUtils.isNotBlank(refundDocumentNumber)) {
-            KualiWorkflowDocument workflowDocument = null;
-            try {
-                workflowDocument = KNSServiceLocator.getWorkflowDocumentService().createWorkflowDocument(Long.valueOf(refundDocumentNumber), GlobalVariables.getUserSession().getPerson());
-            }
-            catch (NumberFormatException ex) {
-                // just swallow exception and return empty string
-            }
-            catch (WorkflowException ex) {
-                // just swallow exception and return empty string
-            }
-
-            if (workflowDocument != null) {
-                Timestamp refundDate = workflowDocument.getCreateDate();
-                return SpringContext.getBean(DateTimeService.class).toDateString(refundDate);
-            }
-        }
-
-        return "";
-    }
-
-    @Override
-    public void setCashControlDetail(AccountsReceivableCashControlDetail newCashControlDetail) {
-        this.cashControlDetail = (CashControlDetail) newCashControlDetail;
-    }
-
-    @Override
-    public void setAccountsReceivableDocumentHeader(org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader accountsReceivableDocumentHeader) {
-        this.accountsReceivableDocumentHeader = (org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader) accountsReceivableDocumentHeader;        
-    }
-    
-    @Override
-    public void refreshNonUpdateableReferences() {
-        super.refreshNonUpdateableReferences();
-    }
-    
-    @Override
-    public String getDocumentNumber() {
-        return super.getDocumentNumber();
-    }
-    
-    @Override
-    public FinancialSystemDocumentHeader getDocumentHeader() {
-        return super.getDocumentHeader();
-    }
 }
 

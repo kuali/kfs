@@ -62,7 +62,6 @@ public class ParametersTest extends KualiTestBase {
         criteria.put(TemConstants.TravelAuthorizationParameters.class, setupParameter(PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE));
         criteria.put(TemConstants.TravelReimbursementParameters.class, setupParameter(PARAM_NAMESPACE, TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE));
         criteria.put(KFSParameterKeyConstants.ARRefundDVParameterConstants.class, setupParameter(KFSConstants.ParameterNamespaces.FINANCIAL, KFSParameterKeyConstants.ARRefundDVParameterConstants.DISBURSEMENT_VOUCHER_DTL_TYPE));
-        criteria.put(ArConstants.ArRefundingParameters.class, setupParameter(ArConstants.AR_NAMESPACE_CODE, ArConstants.PAYMENT_APPLICATION_DTL_TYPE)); 
 
         List<String> badParameters = testCriteria(criteria);
         

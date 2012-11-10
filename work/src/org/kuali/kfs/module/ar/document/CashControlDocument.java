@@ -24,10 +24,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.gl.service.EntryService;
-import org.kuali.kfs.integration.ar.AccountsReceivableCashControlDetail;
-import org.kuali.kfs.integration.ar.AccountsReceivableCashControlDocument;
-import org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -64,7 +62,7 @@ import org.kuali.rice.kns.web.format.CurrencyFormatter;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CashControlDocument extends GeneralLedgerPostingDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource, ElectronicPaymentClaiming, GeneralLedgerPostingDocument, AccountsReceivableCashControlDocument {
+public class CashControlDocument extends GeneralLedgerPostingDocumentBase implements AmountTotaling, GeneralLedgerPendingEntrySource, ElectronicPaymentClaiming, GeneralLedgerPostingDocument {
     protected static final String NODE_ASSOCIATED_WITH_ELECTRONIC_PAYMENT = "AssociatedWithElectronicPayment";
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocument.class);
 
@@ -271,26 +269,9 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      * Gets the cashControlDetails attribute.
      * 
      * @return Returns the cashControlDetails.
-     */    
+     */
     public List<CashControlDetail> getCashControlDetails() {
         return cashControlDetails;
-    }
-    
-    public List<AccountsReceivableCashControlDetail> getAccountsReceivableCashControlDetails() {
-        List<AccountsReceivableCashControlDetail> accountsReceivableCashControlDetails = new ArrayList<AccountsReceivableCashControlDetail>();
-        if (this.cashControlDetails != null && !this.cashControlDetails.isEmpty()) {
-            accountsReceivableCashControlDetails.addAll(this.cashControlDetails);
-        }
-        return accountsReceivableCashControlDetails;
-    }
-    
-    public void setAccountsReceivableCashControlDetails(List<AccountsReceivableCashControlDetail> accountsReceivableCashControlDetails) {
-        this.cashControlDetails.clear();
-        if (accountsReceivableCashControlDetails != null) {
-            for (AccountsReceivableCashControlDetail arccd : accountsReceivableCashControlDetails) {
-                this.cashControlDetails.add((CashControlDetail) arccd);
-            }
-        }
     }
 
     /**
@@ -731,10 +712,5 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         Integer totalGLRecordsCreated = SpringContext.getBean(EntryService.class).getEntryRecordCount(pkMap);
         
         return totalGLRecordsCreated;
-    }
-
-    @Override
-    public void setAccountsReceivableDocumentHeader(org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader arDocHeader) {
-        this.accountsReceivableDocumentHeader = (org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader) arDocHeader;
     }
 }

@@ -37,9 +37,7 @@
 			<h3>Non-AR</h3>
             <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
                 <tr>
-                    <kul:htmlAttributeHeaderCell literalLabel=" "/>      
-                    <kul:htmlAttributeHeaderCell
-	                    attributeEntry="${nonInvoicedAttributes.refundIndicator}" />                           
+                    <kul:htmlAttributeHeaderCell literalLabel=" "/>             
                     <kul:htmlAttributeHeaderCell
 	                    attributeEntry="${nonInvoicedAttributes.chartOfAccountsCode}" />
                     <kul:htmlAttributeHeaderCell 
@@ -61,11 +59,6 @@
 	                    <td>
 	                        add
 	                    </td>
-	                    <td>
-	                        <kul:htmlControlAttribute
-	                            attributeEntry="${nonInvoicedAttributes.refundIndicator}"
-	                            property="nonInvoicedAddLine.refundIndicator"/>
-	                    </td>	                    
 	                    <td>
 	                        <kul:htmlControlAttribute
 	                            onblur="loadChartInfo(this.name, 'nonInvoicedAddLine.chart.name')"
@@ -147,11 +140,6 @@
                         <td>
                             <c:out value="${nonInvoiced.financialDocumentLineNumber}" />
                         </td>
-	                    <td>
-	                        <kul:htmlControlAttribute
-	                            attributeEntry="${nonInvoicedAttributes.refundIndicator}"
-	                            property="paymentApplicationDocument.nonInvoiced[${ctr}].refundIndicator"/>
-	                    </td>                        
                         <td>
                             <kul:htmlControlAttribute
                                 attributeEntry="${nonInvoicedAttributes.chartOfAccountsCode}" 
@@ -224,7 +212,7 @@
                     </tr>
                 </logic:iterate>
                 <tr>
-                    <th colspan='7'>&nbsp;</th>
+                    <th colspan='6'>&nbsp;</th>
                     <kul:htmlAttributeHeaderCell literalLabel="Non-AR Total"/>
                     <td style="text-align: right;">
                         <kul:htmlControlAttribute
@@ -235,46 +223,5 @@
                     <td>&nbsp;</td>
                 </tr>
             </table>
-            <br/>
-            <h3>Refund</h3>
-            <table width="100%" cellpadding="0" cellspacing="0"	class="datatable">
-				<tr>
-				   <th>
-				     <kul:htmlAttributeLabel attributeEntry="${DataDictionary['PaymentApplicationDocument'].attributes.refundDocumentNumber}" noColon="true"/>
-				   </th>
-				   <th>
-				     <kul:htmlAttributeLabel attributeEntry="${DataDictionary['PaymentApplicationDocument'].attributes.refundDate}" noColon="true"/>
-				   </th>	
-				   <th>
-				     <kul:htmlAttributeLabel attributeEntry="${DataDictionary['PaymentApplicationDocument'].attributes.refundAmount}" noColon="true"/>
-				   </th>	
-				   <th width="50%">&nbsp;</th>			   			  
-				</tr>
-				<tr>
-					<td>
-					  <c:if test="${!empty KualiForm.document.refundDocumentNumber}">
-					    <a href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${KualiForm.document.refundDocumentNumber}&command=displayDocSearchView" target="blank">
-						  <kul:htmlControlAttribute
-							  attributeEntry="${DataDictionary['PaymentApplicationDocument'].attributes.refundDocumentNumber}"
-							  property="document.refundDocumentNumber"
-							  readOnly="true" />
-						 </a>	
-					  </c:if>
-					</td>
-					<td>
-						<kul:htmlControlAttribute
-							attributeEntry="${DataDictionary['PaymentApplicationDocument'].attributes.refundDate}"
-							property="document.refundDate"
-							readOnly="true" />
-					</td>
-					<td>
-						<kul:htmlControlAttribute
-							attributeEntry="${DataDictionary['PaymentApplicationDocument'].attributes.refundAmount}"
-							property="document.refundAmount"
-							readOnly="true" />
-					</td>
-					<td width="50%">&nbsp;</td>
-				</tr>
-			</table>												
         </div>
     </kul:tab>

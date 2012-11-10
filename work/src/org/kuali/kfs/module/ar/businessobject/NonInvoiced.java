@@ -25,14 +25,13 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.integration.ar.AccountsReceivableNonInvoiced;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class NonInvoiced extends PersistableBusinessObjectBase implements AccountsReceivableNonInvoiced {
+public class NonInvoiced extends PersistableBusinessObjectBase {
 
 	private String documentNumber;
 	private Integer financialDocumentLineNumber;
@@ -46,7 +45,6 @@ public class NonInvoiced extends PersistableBusinessObjectBase implements Accoun
 	private KualiDecimal financialDocumentLineAmount;
 	private String financialDocumentOverrideCode;
     private KualiDecimal nonInvoicedDistributionAmount = KualiDecimal.ZERO;
-    private boolean refundIndicator;
 
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
     private ObjectCode financialObject;
@@ -482,12 +480,4 @@ public class NonInvoiced extends PersistableBusinessObjectBase implements Accoun
         this.nonInvoicedDistributionAmount = nonInvoicedDistributionAmount;
     }
 
-    public boolean isRefundIndicator() {
-        return refundIndicator;
-    }
-
-    public void setRefundIndicator(boolean refundIndicator) {
-        this.refundIndicator = refundIndicator;
-    }
-    
 }

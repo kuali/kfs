@@ -97,10 +97,10 @@
 		<property name="moduleConfiguration" ref="arModuleConfiguration" />
 	</bean>
 
-    <bean id="accountsReceivableModuleService" class="org.kuali.kfs.module.ar.service.impl.AccountsReceivableModuleServiceImpl">
+    <bean id="accountsReceivableModuleService" parent="accountsReceivableModuleService-parentBean"/>
+    <bean id="accountsReceivableModuleService-parentBean" class="org.kuali.kfs.module.ar.service.impl.AccountsReceivableModuleServiceImpl" abstract="true">
         <property name="customerLookupable" ref="customerLookupable" />
     </bean>
-    <bean id="accountsReceivableModuleService-parentBean" class="org.kuali.kfs.module.ar.service.impl.AccountsReceivableModuleServiceImpl" abstract="true"/>
 
 	<!--  AR DAOs  -->
 	<bean id="customerDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerDaoOjb" />
@@ -417,21 +417,6 @@
         <property name="cashControlDetailDao">
         	<ref bean="cashControlDetailDao" />
         </property>
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
-        </property>
-        <property name="systemInformationService">
-            <ref bean="systemInformationService" />
-        </property>
-        <property name="customerAddressService">
-            <ref bean="customerAddressService" />
-        </property>
-        <property name="parameterService">
-            <ref bean="parameterService" />
-        </property>   
-        <property name="travelEntertainmentMovingModuleService">
-            <ref bean="travelEntertainmentMovingModuleService" />
-        </property>                                          
 	</bean>
 	
 	<bean id="cashControlDocumentService"  parent="cashControlDocumentService-parentBean"/>

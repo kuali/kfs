@@ -48,11 +48,11 @@
 				<ref bean="SystemInformation-universityClearingObjectCode" />
 				<ref bean="SystemInformation-universityClearingSubObjectCode" />
 				<!--
-					<ref bean="SystemInformation-wireSubAccountNumber" /> <ref
-					bean="SystemInformation-wireChartOfAccountsCode" /> <ref
-					bean="SystemInformation-wireAccountNumber" /> <ref
-					bean="SystemInformation-wireObjectCode" /> <ref
-					bean="SystemInformation-wireSubObjectCode" />
+					<ref bean="SystemInformation-wireSubAccountNumber" /> 
+                    <ref bean ="SystemInformation-wireChartOfAccountsCode" /> 
+                    <ref bean="SystemInformation-wireAccountNumber" /> 
+                    <ref bean="SystemInformation-wireObjectCode" /> 
+                    <ref bean="SystemInformation-wireSubObjectCode" />
 				-->
 				<ref bean="SystemInformation-organizationCheckPayableToName" />
 				<ref bean="SystemInformation-organizationRemitToAddressName" />
@@ -61,8 +61,7 @@
 				<ref bean="SystemInformation-organizationRemitToCityName" />
 				<ref bean="SystemInformation-organizationRemitToStateCode" />
 				<ref bean="SystemInformation-organizationRemitToZipCode" />
-				<ref
-					bean="SystemInformation-universityFederalEmployerIdentificationNumber" />
+				<ref bean="SystemInformation-universityFederalEmployerIdentificationNumber" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -341,33 +340,6 @@
 		<property name="name" value="organizationRemitToZipCode" />
 	</bean>
 
-  <bean id="SystemInformation-refundPaymentReasonCode" parent="SystemInformation-refundPaymentReasonCode-parentBean"/>
-  <bean id="SystemInformation-refundPaymentReasonCode-parentBean" abstract="true" parent="PaymentReasonCode-code">
-    <property name="name" value="refundPaymentReasonCode"/>
-    <property name="label" value="Refund Payment Reason Code"/>
-    <property name="shortLabel" value="Refnd Pymt Cd"/>
-    <property name="required" value="false"/>
-    <property name="control">
-        <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.RefundPaymentReasonCodeValuesFinder" />
-    </property>
-  </bean> 
-  
-  <bean id="SystemInformation-refundFinancialObjectCode" parent="SystemInformation-refundFinancialObjectCode-parentBean"/>
-  <bean id="SystemInformation-refundFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
-    <property name="name" value="refundFinancialObjectCode"/>
-    <property name="label" value="Refund Object Code"/>
-    <property name="shortLabel" value="Refnd Obj Cd"/>
-    <property name="required" value="false"/>
-  </bean>    
-  
-  <bean id="SystemInformation-refundDocumentationLocationCode" parent="SystemInformation-refundDocumentationLocationCode-parentBean"/>
-  <bean id="SystemInformation-refundDocumentationLocationCode-parentBean" abstract="true" parent="DisbursementVoucherDocumentationLocation-disbursementVoucherDocumentationLocationCode">
-    <property name="name" value="refundDocumentationLocationCode"/>
-    <property name="label" value="Refund Documentation Location"/>
-    <property name="shortLabel" value="Refnd Doc Loc"/>
-    <property name="required" value="false"/>
-  </bean> 
-
 	<!-- Business Object Inquiry Definition -->
 
 	<bean id="SystemInformation-inquiryDefinition" parent="SystemInformation-inquiryDefinition-parentBean" />
@@ -386,7 +358,6 @@
 					bean="SystemInformation-inquirySectionDefinition-wireAccount"/>
 				-->
 				<ref bean="SystemInformation-inquirySectionDefinition-remitToInformation" />
-				<ref bean="SystemInformation-inquirySectionDefinition-refundInformation" />
 			</list>
 		</property>
 	</bean>
@@ -475,22 +446,6 @@
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="SystemInformation-inquirySectionDefinition-refundInformation"
-		parent="SystemInformation-inquirySectionDefinition-refundInformation-parentBean" />
-	<bean
-		id="SystemInformation-inquirySectionDefinition-refundInformation-parentBean"
-		parent="InquirySectionDefinition" abstract="true">
-       <property name="title" value="Refund Options"/>
-       <property name="numberOfColumns" value="1"/>
-       <property name="inquiryFields">
-           <list>
-              <bean parent="FieldDefinition" p:attributeName="refundPaymentReasonCode"/>
-              <bean parent="FieldDefinition" p:attributeName="refundFinancialObjectCode"/>
-              <bean parent="FieldDefinition" p:attributeName="refundDocumentationLocationCode"/>
-           </list>
-       </property>
-    </bean> 
 
 	<!-- Business Object Lookup Definition -->
 

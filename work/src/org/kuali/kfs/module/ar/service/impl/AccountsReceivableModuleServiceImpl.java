@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation
+ * Copyright 2012 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,45 +23,34 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.integration.ar.AccountsReceivableCashControlDetail;
-import org.kuali.kfs.integration.ar.AccountsReceivableCashControlDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerCreditMemo;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
-import org.kuali.kfs.integration.ar.AccountsReceivableInvoicePaidApplied;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
-import org.kuali.kfs.integration.ar.AccountsReceivableNonInvoiced;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
-import org.kuali.kfs.integration.ar.AccountsReceivablePaymentApplicationDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
 import org.kuali.kfs.integration.ar.AccountsRecievableCustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants.CustomerTypeFields;
-import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
+import org.kuali.kfs.module.ar.ArPropertyConstants.OrganizationOptionsFields;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.module.ar.businessobject.CustomerType;
-import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
-import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
-import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
-import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.module.ar.document.service.impl.ReceivableAccountingLineService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -89,26 +78,27 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
 
     protected Lookupable customerLookupable;
 
+    public void setCustomerLookupable(Lookupable customerLookupable) {
+        this.customerLookupable = customerLookupable;
+    }
+    
+    public KualiModuleService getKualiModuleService() {
+        return SpringContext.getBean(KualiModuleService.class);
+    }
+    
+    public BusinessObjectService getBusinessObjectService() {
+        return SpringContext.getBean(BusinessObjectService.class);
+    }
+    
+    public DocumentService getDocumentService() {
+        return SpringContext.getBean(DocumentService.class);
+    }
+    
     /**
      * @see org.kuali.kfs.integration.service.AccountsReceivableModuleService#getAccountsReceivablePaymentClaimingStrategy()
      */
     public ElectronicPaymentClaimingDocumentGenerationStrategy getAccountsReceivablePaymentClaimingStrategy() {
         return SpringContext.getBean(ElectronicPaymentClaimingDocumentGenerationStrategy.class, AccountsReceivableModuleServiceImpl.CASH_CONTROL_ELECTRONIC_PAYMENT_CLAIMING_DOCUMENT_GENERATION_STRATEGY_BEAN_NAME);
-    }
-
-    /**
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#addNoteToPaymentRequestDocument(java.lang.String,
-     *      java.lang.String)
-     */
-    public void addNoteToRelatedPaymentRequestDocument(String relatedDocumentNumber, String noteText) {
-        SpringContext.getBean(PaymentApplicationDocumentService.class).addNoteToRelatedPaymentRequestDocument(relatedDocumentNumber, noteText);
-    }
-
-    /**
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getProcessingOrganizationForRelatedPaymentRequestDocument(java.lang.String)
-     */
-    public Organization getProcessingOrganizationForRelatedPaymentRequestDocument(String relatedDocumentNumber) {
-        return SpringContext.getBean(PaymentApplicationDocumentService.class).getProcessingOrganizationForRelatedPaymentRequestDocument(relatedDocumentNumber);
     }
 
     /**
@@ -154,10 +144,6 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         return (AccountsReceivableCustomerAddress) getBusinessObjectService().findByPrimaryKey(CustomerAddress.class, addressKey);
     }
 
-    public void setCustomerLookupable(Lookupable customerLookupable) {
-        this.customerLookupable = customerLookupable;
-    }
-
     /**
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getOpenCustomerInvoice(java.lang.String)
      */
@@ -198,26 +184,41 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         return customerInvoiceDocumentService.getAllAgingInvoiceDocumentsByCustomerTypes(customerTypeCodes, customerInvoiceAge, invoiceBillingDateFrom);
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#createCustomer()
+     */
     @Override
     public AccountsReceivableCustomer createCustomer() {
         return new Customer();
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#createCustomerAddress()
+     */
     @Override
     public AccountsReceivableCustomerAddress createCustomerAddress() {
         return new CustomerAddress();
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getNextCustomerNumber(org.kuali.kfs.integration.ar.AccountsReceivableCustomer)
+     */
     @Override
     public String getNextCustomerNumber(AccountsReceivableCustomer customer) {
         return SpringContext.getBean(CustomerService.class).getNextCustomerNumber((Customer) customer);
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#saveCustomer(org.kuali.kfs.integration.ar.AccountsReceivableCustomer)
+     */
     @Override
     public void saveCustomer(AccountsReceivableCustomer customer) {
         getBusinessObjectService().save((Customer) customer);
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#findByCustomerTypeDescription(java.lang.String)
+     */
     @Override
     public List<AccountsReceivableCustomerType> findByCustomerTypeDescription(String customerTypeDescription) {
         Map<String, String> fieldMap = new HashMap<String, String>();
@@ -227,80 +228,125 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         return customerTypes;
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getOrgOptionsIfExists(java.lang.String, java.lang.String)
+     */
     @Override
     public AccountsReceivableOrganizationOptions getOrgOptionsIfExists(String chartOfAccountsCode, String organizationCode) {
         Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.put("organizationCode", organizationCode);
+        criteria.put(OrganizationOptionsFields.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        criteria.put(OrganizationOptionsFields.ORGANIZATION_CODE, organizationCode);
         return (AccountsReceivableOrganizationOptions) getBusinessObjectService().findByPrimaryKey(OrganizationOptions.class, criteria);
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getOrganizationOptionsByPrimaryKey(java.util.Map)
+     */
     @Override
     public AccountsReceivableOrganizationOptions getOrganizationOptionsByPrimaryKey(Map<String, String> criteria) {
         return (AccountsReceivableOrganizationOptions) getBusinessObjectService().findByPrimaryKey(OrganizationOptions.class, criteria);
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#saveCustomerInvoiceDocument(org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice)
+     */
     @Override
     public void saveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException {
         getDocumentService().saveDocument((CustomerInvoiceDocument) customerInvoiceDocument);
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#blanketApproveCustomerInvoiceDocument(org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice)
+     */
     @Override
     public Document blanketApproveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException {
         return getDocumentService().blanketApproveDocument((CustomerInvoiceDocument) customerInvoiceDocument, null, null);
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#createCustomerInvoiceRecurrenceDetails()
+     */
     @Override
     public AccountsRecievableCustomerInvoiceRecurrenceDetails createCustomerInvoiceRecurrenceDetails() {
         return new CustomerInvoiceRecurrenceDetails();
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#createAccountsReceivableDocumentHeader()
+     */
     @Override
     public AccountsRecievableDocumentHeader createAccountsReceivableDocumentHeader() {
         return new org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader();
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getPrimaryOrganization()
+     */
     @Override
     public ChartOrgHolder getPrimaryOrganization() {
         return SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getSystemInformationByProcessingChartOrgAndFiscalYear(java.lang.String, java.lang.String, java.lang.Integer)
+     */
     @Override
     public AccountsReceivableSystemInformation getSystemInformationByProcessingChartOrgAndFiscalYear(String chartOfAccountsCode, String organizationCode, Integer currentFiscalYear) {
         return SpringContext.getBean(SystemInformationService.class).getByProcessingChartOrgAndFiscalYear(chartOfAccountsCode, organizationCode, currentFiscalYear);
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#isUsingReceivableFAU()
+     */
     @Override
     public boolean isUsingReceivableFAU() {
         String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         return receivableOffsetOption != null ? ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption) : false;
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#setReceivableAccountingLineForCustomerInvoiceDocument(org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice)
+     */
     @Override
     public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice document) {
         SpringContext.getBean(ReceivableAccountingLineService.class).setReceivableAccountingLineForCustomerInvoiceDocument((CustomerInvoiceDocument) document);
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getCustomerInvoiceDetailFromCustomerInvoiceItemCode(java.lang.String, java.lang.String, java.lang.String)
+     */
     @Override
     public AccountsReceivableCustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCode(String invoiceItemCode, String processingChartCode, String processingOrgCode) {
         return SpringContext.getBean(CustomerInvoiceDetailService.class).getCustomerInvoiceDetailFromCustomerInvoiceItemCode(invoiceItemCode, processingChartCode, processingOrgCode);
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getAccountsReceivableObjectCodeBasedOnReceivableParameter(org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail)
+     */
     @Override
     public String getAccountsReceivableObjectCodeBasedOnReceivableParameter(AccountsReceivableCustomerInvoiceDetail customerInvoiceDetail) {
         return SpringContext.getBean(CustomerInvoiceDetailService.class).getAccountsReceivableObjectCodeBasedOnReceivableParameter((CustomerInvoiceDetail) customerInvoiceDetail);
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#recalculateCustomerInvoiceDetail(org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice, org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail)
+     */
     @Override
     public void recalculateCustomerInvoiceDetail(AccountsReceivableCustomerInvoice customerInvoiceDocument, AccountsReceivableCustomerInvoiceDetail detail) {
         SpringContext.getBean(CustomerInvoiceDetailService.class).recalculateCustomerInvoiceDetail((CustomerInvoiceDocument) customerInvoiceDocument, (CustomerInvoiceDetail) detail);
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#prepareCustomerInvoiceDetailForAdd(org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail, org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice)
+     */
     @Override
     public void prepareCustomerInvoiceDetailForAdd(AccountsReceivableCustomerInvoiceDetail detail, AccountsReceivableCustomerInvoice customerInvoiceDocument) {
         SpringContext.getBean(CustomerInvoiceDetailService.class).prepareCustomerInvoiceDetailForAdd((CustomerInvoiceDetail) detail, (CustomerInvoiceDocument) customerInvoiceDocument);   
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getOpenAmountForCustomerInvoiceDocument(org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice)
+     */
     @Override
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice invoice) {
         return SpringContext.getBean(CustomerInvoiceDocumentService.class).getOpenAmountForCustomerInvoiceDocument((CustomerInvoiceDocument) invoice);     
@@ -329,67 +375,17 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         return invoices;
     }
 
-    @Override
-    public AccountsReceivableNonInvoiced createNonInvoiced() {
-        return new NonInvoiced();
-    }
-
-    @Override
-    public AccountsReceivableInvoicePaidApplied createInvoicePaidApplied() {
-        return new InvoicePaidApplied();
-    }
-
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getNewAccountsReceivableDocumentHeader(java.lang.String, java.lang.String)
+     */
     @Override
     public AccountsRecievableDocumentHeader getNewAccountsReceivableDocumentHeader(String processingChart, String processingOrg) {
         return SpringContext.getBean(AccountsReceivableDocumentHeaderService.class).getNewAccountsReceivableDocumentHeader(processingChart, processingOrg);
     }
 
-    @Override
-    public AccountsReceivablePaymentApplicationDocument createPaymentApplicationDocument() {
-        try {
-            return (PaymentApplicationDocument) getDocumentService().getNewDocument(PaymentApplicationDocument.class);
-        }
-        catch (WorkflowException ex) {
-            ex.printStackTrace();
-        }
-        
-        return new PaymentApplicationDocument();
-    }
-    
-    @Override
-    public AccountsReceivableCashControlDetail createCashControlDetail() {
-        return new CashControlDetail();
-    }
-
-    @Override
-    public AccountsReceivableCashControlDocument createCashControlDocument() {
-        try {
-            return (CashControlDocument) getDocumentService().getNewDocument(CashControlDocument.class);
-        }
-        catch (WorkflowException ex) {
-            ex.printStackTrace();
-        }
-        
-        return new CashControlDocument();
-    }
-
-    @Override
-    public Document blanketApprovePaymentApplicationDocument(AccountsReceivablePaymentApplicationDocument paymentApplicationDocument, String travelDocumentIdentifier) throws WorkflowException {
-        return getDocumentService().blanketApproveDocument((PaymentApplicationDocument) paymentApplicationDocument, "Blanket Approving APP with travelDocumentIdentifier " + travelDocumentIdentifier, null);
-    }
-    
-    public KualiModuleService getKualiModuleService() {
-        return SpringContext.getBean(KualiModuleService.class);
-    }
-    
-    public BusinessObjectService getBusinessObjectService() {
-        return SpringContext.getBean(BusinessObjectService.class);
-    }
-    
-    public DocumentService getDocumentService() {
-        return SpringContext.getBean(DocumentService.class);
-    }
-    
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#createCustomerInvoiceDocument()
+     */
     @Override
     public AccountsReceivableCustomerInvoice createCustomerInvoiceDocument() {
         try {
@@ -402,6 +398,9 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         return new CustomerInvoiceDocument();
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#createCustomerCreditMemoDocument()
+     */
     @Override
     public AccountsReceivableCustomerCreditMemo createCustomerCreditMemoDocument() {
         CustomerCreditMemoDocument crmDocument = new CustomerCreditMemoDocument();
@@ -438,6 +437,9 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         return crmDocument;
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#blanketApproveCustomerCreditMemoDocument(org.kuali.kfs.integration.ar.AccountsReceivableCustomerCreditMemo, java.lang.String)
+     */
     @Override
     public Document blanketApproveCustomerCreditMemoDocument(AccountsReceivableCustomerCreditMemo creditMemoDocument, String annotation) throws WorkflowException {
         return getDocumentService().blanketApproveDocument((CustomerCreditMemoDocument)creditMemoDocument, annotation, null);

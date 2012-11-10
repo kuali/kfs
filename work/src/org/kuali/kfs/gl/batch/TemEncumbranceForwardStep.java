@@ -21,7 +21,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
@@ -47,10 +48,10 @@ public class TemEncumbranceForwardStep extends AbstractStep {
      */
 	public boolean execute(String jobName, Date jobRunDate) {
 		StopWatch stopWatch = new StopWatch();
-        stopWatch.start("NewYearPendingEntryStep");
+        stopWatch.start("TemEncumbranceForwardStep");
         
         //If the hold new fiscal year encumbrance indicator is false then change all the help gl pending entries from 'H' (Hold) to 'A' (Approved)
-        if(!paramService.getIndicatorParameter(TemConstants.PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.HOLD_NEW_FY_ENCUMBRANCES_IND)) {
+        if(!paramService.getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.HOLD_NEW_FY_ENCUMBRANCES_IND)) {
             Map fieldValues = new HashMap();
             fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_APPROVED_CODE, KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.HOLD);
             Collection glpes = generalLedgerPendingEntryService.findPendingEntries(fieldValues, false);
@@ -64,7 +65,7 @@ public class TemEncumbranceForwardStep extends AbstractStep {
         }
 
         stopWatch.stop();
-        LOG.info("EncumbranceForwardStep took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
+        LOG.info("TemEncumbranceForwardStep took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
 
         return true;
     }

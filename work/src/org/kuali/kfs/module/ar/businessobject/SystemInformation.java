@@ -23,8 +23,6 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
-import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
@@ -68,9 +66,6 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 //    protected String wireSubAccountNumber;
 //    protected String wireObjectCode;
 //    protected String wireSubObjectCode;
-    protected String refundPaymentReasonCode;
-    protected String refundFinancialObjectCode;
-    protected String refundDocumentationLocationCode;
     
     protected ObjectCode creditCardFinancialObject;
     protected SubObjectCode universityClearingSubObject;
@@ -91,9 +86,6 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     protected Person financialDocumentInitiator;
     protected SystemOptions universityFiscal;
     protected PostalCode orgRemitToZipCode;
-    protected PaymentReasonCode refundPaymentReason;
-    protected ObjectCode refundObjectCode;
-    protected DisbursementVoucherDocumentationLocation refundDocumentationLocation;
     
 	public Person getFinancialDocumentInitiator() {
 	    financialDocumentInitiator = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(financialDocumentInitiatorIdentifier, financialDocumentInitiator);
@@ -946,53 +938,4 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     public void setOrgRemitToZipCode(PostalCode orgRemitToZipCode) {
         this.orgRemitToZipCode = orgRemitToZipCode;
     }
-    
-    public String getRefundPaymentReasonCode() {
-        return refundPaymentReasonCode;
-    }
-
-    public void setRefundPaymentReasonCode(String refundPaymentReasonCode) {
-        this.refundPaymentReasonCode = refundPaymentReasonCode;
-    }
-
-    public String getRefundFinancialObjectCode() {
-        return refundFinancialObjectCode;
-    }
-
-    public void setRefundFinancialObjectCode(String refundFinancialObjectCode) {
-        this.refundFinancialObjectCode = refundFinancialObjectCode;
-    }
-
-    public String getRefundDocumentationLocationCode() {
-        return refundDocumentationLocationCode;
-    }
-
-    public void setRefundDocumentationLocationCode(String refundDocumentationLocationCode) {
-        this.refundDocumentationLocationCode = refundDocumentationLocationCode;
-    }
-
-    public PaymentReasonCode getRefundPaymentReason() {
-        return refundPaymentReason;
-    }
-
-    public void setRefundPaymentReason(PaymentReasonCode refundPaymentReason) {
-        this.refundPaymentReason = refundPaymentReason;
-    }
-
-    public ObjectCode getRefundObjectCode() {
-        return refundObjectCode;
-    }
-
-    public void setRefundObjectCode(ObjectCode refundObjectCode) {
-        this.refundObjectCode = refundObjectCode;
-    }
-
-    public DisbursementVoucherDocumentationLocation getRefundDocumentationLocation() {
-        return refundDocumentationLocation;
-    }
-
-    public void setRefundDocumentationLocation(DisbursementVoucherDocumentationLocation refundDocumentationLocation) {
-        this.refundDocumentationLocation = refundDocumentationLocation;
-    }
-
 }

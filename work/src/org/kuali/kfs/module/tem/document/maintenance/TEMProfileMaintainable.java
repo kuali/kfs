@@ -225,7 +225,7 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
                     profile.getCustomer().setCustomerTypeCode(customerTypeCode);
                     profile.getCustomer().setActive(true);
                     
-                    SpringContext.getBean(TravelerService.class).copyTEMProfileToCustomer(profile, profile.getCustomer());
+                    getTravelerService().copyTEMProfileToCustomer(profile, profile.getCustomer());
                     String newCustNumber = getAccountsReceivableModuleService().getNextCustomerNumber(profile.getCustomer());
                     newCustNumber = newCustNumber.toUpperCase();
                     profile.setCustomerNumber(newCustNumber);
@@ -265,11 +265,11 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
                 }
                 else{
                     profile.setCustomer(getAccountsReceivableModuleService().findCustomer(profile.getCustomerNumber()));
-                    SpringContext.getBean(TravelerService.class).copyTEMProfileToCustomer(profile, profile.getCustomer());
+                    getTravelerService().copyTEMProfileToCustomer(profile, profile.getCustomer());
                 }
             }
             else{
-                SpringContext.getBean(TravelerService.class).copyTEMProfileToCustomer(profile, profile.getCustomer());
+                getTravelerService().copyTEMProfileToCustomer(profile, profile.getCustomer());
             }
         }
     }
@@ -483,5 +483,9 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
     
     public TEMRoleService getTEMRoleService(){
         return SpringContext.getBean(TEMRoleService.class);
+    }
+    
+    public TravelerService getTravelerService(){
+        return SpringContext.getBean(TravelerService.class);
     }
 }

@@ -834,8 +834,8 @@ KFS-FP,DisbursementVoucher,CUSTOMER_PAYEE_TYPE_LABEL,KFS-TEM-PARM-141,1,CONFG,Cu
 KFS-TEM,TravelAuthorization,ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND,KFS-TEM-PARM-142,1,CONFG,Y,"Enables accounting distribution tab (summary of expense by object code). When the parameter is ""N,"" only the normal Accounting Lines are displayed.",A,KFS
 KFS-TEM,Document,ENABLE_DAILY_PER_DIEM_AND_INCIDENTALS_IND,KFS-TEM-PARM-143,1,CONFG,Y,"Enables PerDiem daily validation using the meals and incidental totals as oppose to validating each meal and incidental limit.",A,KFS
 KFS-TEM,Document,INCLUDE_ARRANGER_EXPENSE_IN_IMPORTED_EXPENSE_IND,KFS-TEM-PARM-144,1,CONFG,Y,"Allow the user (arranger) to select their own imported expense for the traveler.",A,KFS
-KFS-TEM,CorpCardApplication,GENERATE_CC_NUMBER_IND,KFS-TEM-PARM-145,1,CONFG,Y,"When this parameter is ""Y"", a psuedo card number is generated.",A,KFS
-KFS-TEM,CorpCardApplication,CORP_CARD_CODE,KFS-TEM-PARM-146,1,CONFG,USBC,"Credit card code for corp cards created from a CCAP document.",A,KFS
-KFS-TEM,CTSCardApplication,CTS_CARD_CODE,KFS-TEM-PARM-147,1,CONFG,CTSC,"Code for CTS cards created from a CTAP document.",A,KFS
+KFS-TEM,TemCorporateCardApplication,GENERATE_CC_NUMBER_IND,KFS-TEM-PARM-145,1,CONFG,Y,"When this parameter is ""Y"", a psuedo card number is generated.",A,KFS
+KFS-TEM,TemCorporateCardApplication,CORP_CARD_CODE,KFS-TEM-PARM-146,1,CONFG,USBC,"Credit card code for corp cards created from a CCAP document.",A,KFS
+KFS-TEM,TemCTSCardApplication,CTS_CARD_CODE,KFS-TEM-PARM-147,1,CONFG,CTSC,"Code for CTS cards created from a CTAP document.",A,KFS
 KFS-TEM,Document,ALLOW_ENTERTAINMENT_MANAGER_TO_MODIFY_ALL_IND,KFS-TEM-PARM-148,1,CONFG,Y,"When this flag is ""Y"" the Entertainment Manager can modify any fields on the ENT document during approval.",A,KFS
 KFS-TEM,Document,ALLOW_MOVING_RELOCATION_MANAGER_TO_MODIFY_ALL_IND,KFS-TEM-PARM-149,1,CONFG,Y,"When this flag is ""Y"" the Moving and Relocation Manager can modify any fields on the RELO document during approval.",A,KFS

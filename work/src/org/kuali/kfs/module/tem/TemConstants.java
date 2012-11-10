@@ -862,7 +862,7 @@ public class TemConstants extends JSTLConstants {
     public static final String CTS_CARD_CODE = "CTS_CARD_CODE";
     
 
-    public static final String CTS_CARD_APPLICATION = "CTSCardApplicaton";
-    public static final String CORP_CARD_APPLICATION = "CorpCardApplicaton";
+    public static final String CTS_CARD_APPLICATION = "TemCTSCardApplicaton";
+    public static final String CORP_CARD_APPLICATION = "TemCorporateCardApplication";
     public static final String CARD_EXISTS_QUESTION = "Card Exists Question";
 }

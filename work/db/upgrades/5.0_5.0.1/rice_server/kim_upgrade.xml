@@ -213,6 +213,21 @@
 		</sql>
 	</changeSet>
 
+	<changeSet id="REMOVE_FISCAL_PERIOD_MODIFY_PERMS" author="KFS501">
+		<comment>The "YearEnd" role and related functionality needs to be backed out due to implementation issues.  Deleting the YearEnd role and related permission assignments.</comment>
+		<!--  remove all assignments to the new permissions -->
+		<delete tableName="KRIM_ROLE_PERM_T">
+			<where>PERM_ID IN ( 'KFSSYS7145a', 'KFSSYS7145b' )</where>
+		</delete>
+		<!--  clean out the role members -->
+		<delete tableName="KRIM_ROLE_MBR_T">
+			<where>ROLE_ID IN (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-SYS' and role_nm = 'YearEnd')</where>
+		</delete>
+		<!--  remove the role - this will be replaced by a different role when the functionality is restored -->
+		<delete tableName="KRIM_ROLE_T">
+			<where>nmspc_cd = 'KFS-SYS' and role_nm = 'YearEnd'</where>
+		</delete>
+	</changeSet>
 
 <!-- 
 	<changeSet author="KFS502" id="SAMPLE_NEW_PERM">

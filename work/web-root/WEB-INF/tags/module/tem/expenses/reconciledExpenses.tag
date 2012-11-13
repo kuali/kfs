@@ -16,6 +16,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ taglib uri="/WEB-INF/tlds/temfunc.tld" prefix="temfunc"%>
 <c:set var="historicalTravelExpenseAttributes" value="${DataDictionary.HistoricalTravelExpense.attributes}" />
+<c:set var="travelCardTypeAttributes" value="${DataDictionary.TravelCardType.attributes}" />
 <jsp:useBean id="paramMap" class="java.util.HashMap" />
   
 <div class="tab-container" align="center">
@@ -26,7 +27,7 @@
 		<th align="center">Status</th>
 		<th align="center">Document Number</th>
 		<th align="center">Document Type</th>
-		<th align="center">Card or Agency Type</th>
+		<th align="center"><kul:htmlAttributeLabel attributeEntry="${travelCardTypeAttributes.code}" noColon="true" /></th>
 		<th align="center">Expense Date</th>
 		<th align="center">Expense Type</th>
 		<th align="center">Company Name</th>

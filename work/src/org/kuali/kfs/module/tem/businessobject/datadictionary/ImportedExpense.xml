@@ -55,15 +55,9 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="14"/></property>
 	</bean>
 	<bean id="ImportedExpense-cardType" parent="ImportedExpense-cardType-parentBean" />
-	<bean id="ImportedExpense-cardType-parentBean" parent="AttributeDefinition">
+	<bean id="ImportedExpense-cardType-parentBean" parent="TravelCardType-code-parentBean">
 		<property name="name" value="cardType" />
-		<property name="label" value="Card or Agency Type" />
-		<property name="shortLabel" value="Card or Agency Type" />
-		<property name="maxLength" value="40" />
-		<property name="required" value="false" />
-		<property name="summary" value="Card Type" />
-		<property name="description" value="Card Type" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="10"/></property>
+		<property name="label" value="Travel Card Type" />
 	</bean>
 	<bean id="ImportedExpense-currencyRate" parent="ImportedExpense-currencyRate-parentBean" />
 	<bean id="ImportedExpense-currencyRate-parentBean" parent="AttributeDefinition">

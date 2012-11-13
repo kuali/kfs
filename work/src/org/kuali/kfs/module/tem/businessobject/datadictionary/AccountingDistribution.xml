@@ -61,7 +61,8 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="10"/></property>
 	</bean>
 
-	<bean id="AccountingDistribution-cardType" parent="ImportedExpense-cardType" />
+	<bean id="AccountingDistribution-cardType" parent="AccountingDistribution-cardType-parentBean" />
+    <bean id="AccountingDistribution-cardType-parentBean" parent="ImportedExpense-cardType-parentBean" />
 
 	<bean id="AccountingDistribution-selected" parent="AccountingDistribution-selected-parentBean" />
 	<bean id="AccountingDistribution-selected-parentBean" parent="GenericAttributes-genericBoolean">

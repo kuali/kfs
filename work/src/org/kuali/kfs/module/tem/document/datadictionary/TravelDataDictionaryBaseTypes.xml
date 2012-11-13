@@ -35,6 +35,16 @@
             <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder" p:includeKeyInLabel="false"/>
         </property>
     </bean>
+    
+    <bean id="TravelDocumentAccountingLine-cardType" parent="TravelDocumentAccountingLine-cardType-parentBean" />
+    <bean id="TravelDocumentAccountingLine-cardType-parentBean" parent="TravelCardType-code-parentBean">
+      <property name="name" value="cardType" />
+      <property name="maxLength" value="40" />
+      <property name="shortLabel" value="Expense or Encumb" />
+      <property name="control">
+        <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.CardTypeValuesFinder" p:includeKeyInLabel="false"/>
+      </property>
+    </bean>
                 
   	<bean id="TravelDocument-sourceAccountingLineGroup" parent="TravelDocument-sourceAccountingLineGroup-parentBean" />
 	<bean id="TravelDocument-sourceAccountingLineGroup-parentBean" abstract="true" parent="AccountingLineGroup" >

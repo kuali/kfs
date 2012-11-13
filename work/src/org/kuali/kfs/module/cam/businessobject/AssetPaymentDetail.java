@@ -23,12 +23,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
@@ -37,24 +35,22 @@ import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
  * Accounting line for the asset payment document.
  */
 public class AssetPaymentDetail extends SourceAccountingLine {
-    private static Logger LOG = Logger.getLogger(AssetPaymentDetail.class);
+    private static final Logger LOG = Logger.getLogger(AssetPaymentDetail.class);
 
-    private String expenditureFinancialSystemOriginationCode;
-    private Date expenditureFinancialDocumentPostedDate;
-    private boolean transferPaymentIndicator;
+    protected String expenditureFinancialSystemOriginationCode;
+    protected Date expenditureFinancialDocumentPostedDate;
+    protected boolean transferPaymentIndicator;
 
-    private String expenditureFinancialDocumentNumber;
-    private String expenditureFinancialDocumentTypeCode;
-    private String postingPeriodCode;
-    private String purchaseOrderNumber;
-    private String requisitionNumber;
-    private KualiDecimal amount;
+    protected String expenditureFinancialDocumentNumber;
+    protected String expenditureFinancialDocumentTypeCode;
+    protected String postingPeriodCode;
+    protected String purchaseOrderNumber;
+    protected String requisitionNumber;
 
     // bo references
-    private AccountingPeriod financialDocumentPostingPeriod;
-    private DocumentTypeEBO expenditureFinancialSystemDocumentTypeCode;
-    private OriginationCode expenditureFinancialSystemOrigination;
-    private Account account;
+    protected AccountingPeriod financialDocumentPostingPeriod;
+    protected DocumentTypeEBO expenditureFinancialSystemDocumentTypeCode;
+    protected OriginationCode expenditureFinancialSystemOrigination;
 
 
 
@@ -237,40 +233,6 @@ public class AssetPaymentDetail extends SourceAccountingLine {
 
     public void setExpenditureFinancialSystemOrigination(OriginationCode expenditureFinancialSystemOrigination) {
         this.expenditureFinancialSystemOrigination = expenditureFinancialSystemOrigination;
-    }
-
-    /**
-     * Gets the account attribute.
-     *
-     * @return Returns the account
-     *
-     */
-    @Override
-    public Account getAccount() {
-        return account;
-    }
-
-    /**
-     * Sets the account attribute.
-     *
-     * @param account The account to set.
-     * @deprecated
-     */
-    @Deprecated
-    @Override
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    @Override
-    public KualiDecimal getAmount() {
-        return amount;
-    }
-
-
-    @Override
-    public void setAmount(KualiDecimal amount) {
-        this.amount = amount;
     }
 
     /**

@@ -49,7 +49,6 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -1090,7 +1089,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     @Override
     public void refreshReferenceObject(String referenceName) {
         if ( referenceName.equals("chart") || referenceName.equals("account") || referenceName.equals("objectCode")
-                || referenceName.equals("subAccount") || referenceName.equals("subObjectCode") || referenceName.equals("protect")
+                || referenceName.equals("subAccount") || referenceName.equals("subObjectCode") || referenceName.equals("project")
                 || referenceName.equals("referenceOrigin") ) {
             return; // do nothing - not OJB objects
         }

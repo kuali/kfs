@@ -37,12 +37,13 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteList;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderQuoteListVendor;
@@ -71,6 +72,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
@@ -549,9 +551,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             poToSplit.renumberItems(0);
 
             SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(poToSplit);
-            SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(poToSplit);            
-            
-            
+            SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(poToSplit);
+
+
             // Add the note that would normally have gone in after the confirmation page.
             String noteText = purchaseOrderForm.getSplitNoteText();
             try {
@@ -686,18 +688,19 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
         // reset the sensitive data related fields in the po form
         po.setAssigningSensitiveData(false);
-
-        Note newNote = new Note();
-        String introNoteMessage = "Sensitive Data:" + KFSConstants.BLANK_SPACE;
-        String reason = sda.getSensitiveDataAssignmentReasonText();
-        // Build out full message.
-        String noteText = introNoteMessage +" " + reason;
-        newNote.setNoteText(noteText);
-        newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-        poForm.setNewNote(newNote);
-        poForm.setAttachmentFile(new BlankFormFile());
-        insertBONote(mapping, poForm, request, response);
-        
+        ParameterService parmService = SpringContext.getBean(ParameterService.class);
+        if (parmService.parameterExists(PurchaseOrderDocument.class, PurapParameterConstants.PO_REQUIRE_SENSITIVE_DATA_NOTE_IND) && parmService.getParameterValueAsBoolean(PurchaseOrderDocument.class, PurapParameterConstants.PO_REQUIRE_SENSITIVE_DATA_NOTE_IND)) {
+            Note newNote = new Note();
+            String introNoteMessage = "Sensitive Data:" + KFSConstants.BLANK_SPACE;
+            String reason = sda.getSensitiveDataAssignmentReasonText();
+            // Build out full message.
+            String noteText = introNoteMessage + " " + reason;
+            newNote.setNoteText(noteText);
+            newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+            poForm.setNewNote(newNote);
+            poForm.setAttachmentFile(new BlankFormFile());
+            insertBONote(mapping, poForm, request, response);
+        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -1251,12 +1254,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             request.setAttribute("selectedItemIndexes", itemIndexesBuffer.toString());
         }
 
-        
+
         if(itemIndexesBuffer.length()==0 ){
             GlobalVariables.getMessageMap().putError(PurapConstants.PO_RETRANSMIT_SELECT_TAB_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_RETRANSMIT_SELECT);
             return returnToPreviousPage(mapping, kualiDocumentFormBase);
          }
-        
+
         request.setAttribute("printPOPDFUrl", printPOPDFUrl);
         request.setAttribute("displayPOTabbedPageUrl", displayPOTabbedPageUrl);
         request.setAttribute("docId", docId);

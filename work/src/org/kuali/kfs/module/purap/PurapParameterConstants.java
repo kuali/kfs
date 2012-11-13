@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,62 +43,64 @@ public class PurapParameterConstants {
     public static final String PURAP_PO_PRINT_PREVIEW_TRANSMISSION_METHOD_TYPES = "PRINT_PREVIEW_TRANSMISSION_METHOD_TYPES";
     public static final String PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT = "ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT";
     public static final String PURAP_ITEM_TYPE_TRDI = "TRDI";
-    
+
     public static final String PURAP_PDP_PREQ_CANCEL_NOTE = "CANCEL_NOTE";
     public static final String PURAP_PDP_PREQ_RESET_NOTE = "RESET_NOTE";
     public static final String PURAP_PDP_CM_CANCEL_NOTE = "CANCEL_NOTE";
     public static final String PURAP_PDP_CM_RESET_NOTE = "RESET_NOTE";
 
     public static final String PRE_DISBURSEMENT_EXTRACT_CUTOFF_TIME = "PRE_DISBURSEMENT_EXTRACT_CUTOFF_TIME";
-    
+
     public static final String DEFAULT_QUANTITY_ITEM_TYPE = "DEFAULT_QUANTITY_ITEM_TYPE";
     public static final String DEFAULT_NON_QUANTITY_ITEM_TYPE = "DEFAULT_NON_QUANTITY_ITEM_TYPE";
-    
+
     public static final String ENABLE_RECEIVING_ADDRESS_IND = "ENABLE_RECEIVING_ADDRESS_IND";
     public static final String ENABLE_ADDRESS_TO_VENDOR_SELECTION_IND = "ENABLE_ADDRESS_TO_VENDOR_SELECTION_IND";
-    
+
     //public static final String DISPLAY_DELIVERY_PHONE_NUMBER_ON_PDF_IND = "DISPLAY_DELIVERY_PHONE_NUMBER_ON_PDF_IND";
     //public static final String DISPLAY_REQUESTOR_EMAIL_ADDRESS_ON_PDF_IND = "DISPLAY_REQUESTOR_EMAIL_ADDRESS_ON_PDF_IND";
 
     public static final String VALIDATE_ACCOUNT_DISTRIBUTION_IND = "VALIDATE_ACCOUNT_DISTRIBUTION_IND";
-    
+
     public static final String SHOW_CLEAR_AND_LOAD_QTY_BUTTONS = "SHOW_CLEAR_AND_LOAD_QTY_BUTTONS";
     public static final String UNORDERED_ITEM_WARNING_IND = "UNORDERED_ITEM_WARNING_IND";
-    
+
     public static final String ENABLE_DEFAULT_CONTRACT_MANAGER_IND = "ENABLE_DEFAULT_CONTRACT_MANAGER_IND";
     public static final String AUTO_CLOSE_RECURRING_PO_DATE = "AUTO_CLOSE_RECURRING_PO_DATE";
     public static final String AUTO_CLOSE_RECURRING_PO_TO_EMAIL_ADDRESSES = "AUTO_CLOSE_RECURRING_PO_TO_EMAIL_ADDRESSES";
-   
+
     public static final String ENABLE_SALES_TAX_IND = "ENABLE_SALES_TAX_IND";
-    
+
     public static final String BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS = "BLANK_ATTENTION_LINE_FOR_PO_TYPE_ADDRESS";
-    
+
     public static final String ENABLE_COMMODITY_CODE_IND = "ENABLE_COMMODITY_CODE_IND";
     public static final String UNORDERED_ITEM_DEFAULT_COMMODITY_CODE = "UNORDERED_ITEM_DEFAULT_COMMODITY_CODE";
-    
+
     public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
     public static final String CG_ROUTE_OBJECT_LEVELS_BY_CHART = "CG_ROUTE_OBJECT_LEVELS_BY_CHART";
     public static final String NO_CG_ROUTE_OBJECT_LEVELS_BY_CHART = "NO_CG_ROUTE_OBJECT_LEVELS_BY_CHART";
     public static final String CG_ROUTE_OBJECT_CODES_BY_CHART = "CG_ROUTE_OBJECT_CODES_BY_CHART";
     public static final String NO_CG_ROUTE_OBJECT_CODES_BY_CHART = "NO_CG_ROUTE_OBJECT_CODES_BY_CHART";
-    
+
     //copy zero dollar amount accounting lines
     public static final String COPY_ACCOUNTING_LINES_WITH_ZERO_AMOUNT_FROM_PO_TO_PREQ_IND = "COPY_ACCOUNTING_LINES_WITH_ZERO_AMOUNT_FROM_PO_TO_PREQ_IND";
     public static final String APPROVE_ACCOUNTING_LINES_WITH_ZERO_DOLLAR_AMOUNT_IND = "APPROVE_ACCOUNTING_LINES_WITH_ZERO_DOLLAR_AMOUNT_IND";
-    
+
     //Vendor Choices
     public static final String DEFAULT_APO_VENDOR_CHOICE = "DEFAULT_APO_VENDOR_CHOICE";
-    public static final String DEFAULT_B2B_VENDOR_CHOICE = "DEFAULT_B2B_VENDOR_CHOICE";      
-    
+    public static final String DEFAULT_B2B_VENDOR_CHOICE = "DEFAULT_B2B_VENDOR_CHOICE";
+
     public static final String OBJECT_SUB_TYPES_REQUIRING_QUANTITY = "OBJECT_SUB_TYPES_REQUIRING_QUANTITY";
     public static final String PURCHASING_OBJECT_SUB_TYPES = "PURCHASING_OBJECT_SUB_TYPES";
-    
+
     public static final String SHOW_DEBARRED_VENDOR_WARNING_IND = "SHOW_DEBARRED_VENDOR_WARNING_IND";
-    
+
     public static final String RECEIVING_DOCUMENT_REQUIRED_IND = "RECEIVING_DOCUMENT_REQUIRED_IND";
     public static final String PAYMENT_REQUEST_POSITIVE_APPROVAL_IND = "PAYMENT_REQUEST_POSITIVE_APPROVAL_IND";
-    
-    
+
+    public static final String PO_REQUIRE_SENSITIVE_DATA_NOTE_IND="REQUIRE_SENSITIVE_DATA_NOTE_IND";
+
+
     public static class CapitalAsset {
         // used in CAB module service
         public static final String PURCHASING_OBJECT_SUB_TYPES = "PURCHASING_OBJECT_SUB_TYPES";
@@ -130,7 +132,7 @@ public class PurapParameterConstants {
         public static final String CHARTS_REQUIRING_MODEL_ON_PURCHASE_ORDER = "CHARTS_REQUIRING_MODEL_ON_PURCHASE_ORDER";
         public static final String CHARTS_REQUIRING_NOT_CURRENT_FISCAL_YEAR_ON_PURCHASE_ORDER = "CHARTS_REQUIRING_NOT_CURRENT_FISCAL_YEAR_ON_PURCHASE_ORDER";
         public static final String CHARTS_REQUIRING_NUMBER_OF_ASSETS_ON_PURCHASE_ORDER = "CHARTS_REQUIRING_NUMBER_OF_ASSETS_ON_PURCHASE_ORDER";
-        
+
     }
 
     public static class B2BParameters {
@@ -152,7 +154,7 @@ public class PurapParameterConstants {
         public static final String SALES_TAX_LOWER_VARIANCE_PERCENT = "SALES_TAX_LOWER_VARIANCE_PERCENT";
         public static final String OVERRIDE_PROCESSING_CAMPUS = "OVERRIDE_PROCESSING_CAMPUS";
     }
-    
+
     public static class TaxParameters {
         public static final String TAXABLE_DELIVERY_STATES = "TAXABLE_DELIVERY_STATES";
         public static final String FOR_TAXABLE_STATES_SUFFIX = "FOR_TAXABLE_STATES";
@@ -169,6 +171,6 @@ public class PurapParameterConstants {
         public static final String TAX_PARM_ACCOUNT_SUFFIX = "ACCOUNT";
         public static final String TAX_PARM_CHART_SUFFIX = "CHART";
         public static final String TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX = "OBJECT_CODE_BY_INCOME_CLASS";
-    }        
-    
+    }
+
 }

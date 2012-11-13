@@ -1,0 +1,23 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<changeSet author="KFS50" id="KFSCNTRB-1053">
+		<comment>KFSCNTRB-1053 PO marked sensitive data needs to record in notes</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="CMPNT_CD" value="PurchaseOrder" />
+			<column name="PARM_NM" value="REQUIRE_SENSITIVE_DATA_NOTE_IND" />
+			<column name="VAL" value="N" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Indicates whether an additional note should be required when PO is marked sensitive." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID()" with="UUID()" />
+		</modifySql>		
+	</changeSet>
+</databaseChangeLog>

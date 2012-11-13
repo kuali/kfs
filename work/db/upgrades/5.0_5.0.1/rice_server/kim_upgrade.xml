@@ -144,6 +144,76 @@
 
 	</changeSet>
 
+
+
+
+
+	<changeSet id="REMOVE_KIM_ATTRIBUTE_ID_HYPHENS" author="KFS501">
+		<comment>
+			The Rice 2.1.2 Role document has problems with editing roles which have hyphens in the KIM_ATTR_DEFN_ID value.  
+			This SQL replaces them with underscores.
+			This change may no longer be necessary once https://jira.kuali.org/browse/KULRICE-8513 is resolved.
+		</comment>
+		<sql>
+			INSERT INTO KRIM_ATTR_DEFN_T(KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM) 
+			    ( SELECT REPLACE( KIM_ATTR_DEFN_ID, '-', '_' ), REPLACE( KIM_ATTR_DEFN_ID, '-', '_' ), 1, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM
+			        FROM KRIM_ATTR_DEFN_T
+			         WHERE KIM_ATTR_DEFN_ID LIKE '%-%'
+			)
+		</sql>
+		<sql>
+			UPDATE KRIM_ATTR_DEFN_T
+			    SET ACTV_IND = 'N'
+			    WHERE KIM_ATTR_DEFN_ID LIKE '%-%'
+		</sql>
+		<sql>
+			UPDATE KRIM_TYP_ATTR_T
+			    SET KIM_ATTR_DEFN_ID = REPLACE( KIM_ATTR_DEFN_ID, '-', '_' )
+			    WHERE KIM_ATTR_DEFN_ID LIKE '%-%'
+		</sql>
+		<sql>
+			UPDATE KRIM_ROLE_MBR_ATTR_DATA_T
+			    SET KIM_ATTR_DEFN_ID = REPLACE( KIM_ATTR_DEFN_ID, '-', '_' )
+			    WHERE KIM_ATTR_DEFN_ID LIKE '%-%'
+		</sql>
+		<sql>
+			UPDATE KRIM_RSP_ATTR_DATA_T
+			    SET KIM_ATTR_DEFN_ID = REPLACE( KIM_ATTR_DEFN_ID, '-', '_' )
+			    WHERE KIM_ATTR_DEFN_ID LIKE '%-%'
+		</sql>
+		<sql>
+			UPDATE KRIM_PND_ROLE_MBR_ATTR_DATA_MT
+			    SET KIM_ATTR_DEFN_ID = REPLACE( KIM_ATTR_DEFN_ID, '-', '_' )
+			    WHERE KIM_ATTR_DEFN_ID LIKE '%-%'
+		</sql>
+		<sql>
+			UPDATE KRIM_PND_DLGN_MBR_ATTR_DATA_T
+			    SET KIM_ATTR_DEFN_ID = REPLACE( KIM_ATTR_DEFN_ID, '-', '_' )
+			    WHERE KIM_ATTR_DEFN_ID LIKE '%-%'
+		</sql>
+		<sql>
+			UPDATE KRIM_PND_GRP_ATTR_DATA_T
+			    SET KIM_ATTR_DEFN_ID = REPLACE( KIM_ATTR_DEFN_ID, '-', '_' )
+			    WHERE KIM_ATTR_DEFN_ID LIKE '%-%'
+		</sql>
+		<sql>
+			UPDATE KRIM_PERM_ATTR_DATA_T
+			    SET KIM_ATTR_DEFN_ID = REPLACE( KIM_ATTR_DEFN_ID, '-', '_' )
+			    WHERE KIM_ATTR_DEFN_ID LIKE '%-%'
+		</sql>
+		<sql>	
+			UPDATE KRIM_GRP_ATTR_DATA_T
+			    SET KIM_ATTR_DEFN_ID = REPLACE( KIM_ATTR_DEFN_ID, '-', '_' )
+			    WHERE KIM_ATTR_DEFN_ID LIKE '%-%'
+		</sql>
+		<sql>
+			UPDATE KRIM_DLGN_MBR_ATTR_DATA_T
+			    SET KIM_ATTR_DEFN_ID = REPLACE( KIM_ATTR_DEFN_ID, '-', '_' )
+			    WHERE KIM_ATTR_DEFN_ID LIKE '%-%'
+		</sql>
+	</changeSet>
+
+
 <!-- 
 	<changeSet author="KFS502" id="SAMPLE_NEW_PERM">
 		<insert tableName="KRIM_PERM_T">

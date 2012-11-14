@@ -34,7 +34,10 @@ import org.kuali.kfs.module.tem.TemConstants.DisbursementVoucherPaymentMethods;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -91,42 +94,6 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
         //modify for any of the reimbursement doc to use the payment option instead of default
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(getPaymentMethod());
     }
-
-    /**
-     * Perform business rules common to all TEM documents when generating general ledger pending entries. Do not generate the
-     * entries if the card type is of ACTUAL Expense.  This entry will be generated per document using the TravelClearingAccount
-     * 
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
-     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
-     */
-//    @Override
-//    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-//        LOG.info("processGenerateGeneralLedgerPendingEntries for TEMReimbursementDocument - start");
-//
-//        boolean success = true;
-//        boolean doGenerate = true;
-//
-//        // special handling for TEMAccountingLine
-//        if (glpeSourceDetail instanceof TemAccountingLine) {
-//
-//            // salesTax seems to be a problem on loading the doc, just filtering this from the output
-//            LOG.info(new ReflectionToStringBuilder(glpeSourceDetail, ToStringStyle.MULTI_LINE_STYLE).setExcludeFieldNames(new String[] { "salesTax" }).toString());
-//
-//            // check by cardType
-//            String cardType = ((TemAccountingLine) glpeSourceDetail).getCardType();
-//            // do not generate individual entries for each ACTUAL Expenses - generateDocumentGeneralLedgerPendingEntries will handle it
-//            doGenerate = !TemConstants.ACTUAL_EXPENSE.equals(cardType);
-//
-//            if (!doGenerate) {
-//                LOG.debug("GLPE processing was skipped for " + glpeSourceDetail + "\n for card type" + cardType);
-//            }
-//        }
-//
-//        success = doGenerate ? super.generateGeneralLedgerPendingEntries(glpeSourceDetail, sequenceHelper) : success;
-//
-//        LOG.info("processGenerateGeneralLedgerPendingEntries for TEMReimbursementDocument - end");
-//        return success;
-//    }
     
     /**
      * change to generate the GLPE on ACTUAL EXPENSE based on Reimbursable minus Advance and its only ONE entry to
@@ -163,6 +130,19 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
         return success;
     }
     
+    /**
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
+     */
+    @Override
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
+        //if the GLPE is an entry for the Travel Clearing Account, the explicit entry should be a credit
+        SourceAccountingLine sourceDetail = getTravelDisbursementService().getTravelClearingGLPESourceDetail();
+        if (postable.getChartOfAccountsCode().equals(sourceDetail.getChartOfAccountsCode()) && 
+                postable.getAccountNumber().equals(sourceDetail.getAccountNumber()) && postable.getFinancialObjectCode().equals(sourceDetail.getFinancialObjectCode())){
+            explicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+        }
+    }
+
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getReimbursableTotal()
      */

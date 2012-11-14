@@ -43,6 +43,7 @@ import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class AbstractDocumentSearchResultProcessor {
@@ -67,6 +68,30 @@ public abstract class AbstractDocumentSearchResultProcessor {
                 docType.getDocHandlerUrl(), 
                 travelDocumentIdentifier, 
                 TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT,
+                linkPopup, 
+                userDisplaySortValue);
+
+        return link;
+    }
+    
+    /**
+     * 
+     * @param travelDocumentIdentifier
+     * @return
+     */
+    public String createEntertainmentLink(String travelDocumentIdentifier,DocSearchDTO docCriteriaDTO) {
+        KeyValueSort retval = new KeyValueSort();
+        final DocumentType docType = getDocumentTypeService().findByName(TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT);
+        if (docType == null) {
+            throw new RuntimeException(String.format("DocType with name %s does not exist!", TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT));
+        }
+        String linkPopup = "target=\"_blank\"";
+
+        String userDisplaySortValue = TemConstants.TravelCustomSearchLinks.NEW_ENTERTAINMENT;
+        String link = String.format("<a href=\"%s&" + KNSPropertyConstants.DOCUMENT_NUMBER + "=" + docCriteriaDTO.getRouteHeaderId().toString() + "&travelDocumentIdentifier=%s&command=initiate&docTypeName=%s\" %s>%s</a>", 
+                docType.getDocHandlerUrl(), 
+                travelDocumentIdentifier, 
+                TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT,
                 linkPopup, 
                 userDisplaySortValue);
 

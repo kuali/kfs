@@ -18,7 +18,9 @@ package org.kuali.kfs.module.tem.document.lookup;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementStatusCodeKeys;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.docsearch.DocSearchDTO;
@@ -26,7 +28,10 @@ import org.kuali.rice.kew.docsearch.DocumentSearchResult;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.web.KeyValueSort;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSConstants;
 
 
 public class TravelReimbursementDocumentSearchResultProcessor extends AbstractDocumentSearchResultProcessor implements TravelDocumentSearchResultsProcessor {
@@ -37,10 +42,23 @@ public class TravelReimbursementDocumentSearchResultProcessor extends AbstractDo
      * @param docCriteriaDTO
      * @return
      */
-    private boolean showReimbursementURL(DocSearchDTO docCriteriaDTO) {
+    private boolean showNewDocumentURL(DocSearchDTO docCriteriaDTO, String docType) {
         final String documentStatus = docCriteriaDTO.getDocRouteStatusCode();
-        return (documentStatus.equals(KEWConstants.ROUTE_HEADER_FINAL_CD) || documentStatus.equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD))
-            && docCriteriaDTO.getAppDocStatus().equals(TravelReimbursementStatusCodeKeys.DEPT_APPROVED);
+        final String appDocStatus = docCriteriaDTO.getAppDocStatus();
+        boolean statusCheck = (documentStatus.equals(KEWConstants.ROUTE_HEADER_FINAL_CD)
+                || (documentStatus.equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD)))
+                && (appDocStatus.equals(TravelReimbursementStatusCodeKeys.DEPT_APPROVED));
+        
+        
+        TravelDocument document = getDocument(docCriteriaDTO.getRouteHeaderId().toString());
+        Person user = GlobalVariables.getUserSession().getPerson();
+        
+        boolean hasInitAccess = true;
+        if ((!docType.equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) && getTemRoleService().canAccessTravelDocument(document, user) && document.getTemProfileId() != null){
+            hasInitAccess = getTemRoleService().isTravelDocumentArrangerForProfile(docType, user.getPrincipalId(), document.getTemProfileId());
+        }
+        
+        return statusCheck && hasInitAccess;
     }
     
     private boolean otherPaymentMethodsAllowed(DocSearchDTO docCriteriaDTO) {
@@ -62,8 +80,13 @@ public class TravelReimbursementDocumentSearchResultProcessor extends AbstractDo
     public DocumentSearchResult addActionsColumn(DocSearchDTO docCriteriaDTO, DocumentSearchResult result) {
         final String columnName = TemPropertyConstants.TRVL_DOC_SEARCH_RESULT_PROPERTY_NAME_ACTIONS;
         String tripID = docCriteriaDTO.getSearchableAttribute(TRVL_IDENTIFIER_PROPERTY).getUserDisplayValue();
+        String documentNumber = docCriteriaDTO.getSearchableAttribute(KNSConstants.DOCUMENT_DOCUMENT_NUMBER).getUserDisplayValue();
         String actionsHTML = "";
-        if (showReimbursementURL(docCriteriaDTO)){
+        if (showNewDocumentURL(docCriteriaDTO, TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT)) {
+            actionsHTML += createEntertainmentLink(tripID, docCriteriaDTO);
+            actionsHTML += "<br />";
+        }
+        if (showNewDocumentURL(docCriteriaDTO, TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) {
             actionsHTML += createTravelReimbursementLink(tripID);
         }
         if (otherPaymentMethodsAllowed(docCriteriaDTO)) {

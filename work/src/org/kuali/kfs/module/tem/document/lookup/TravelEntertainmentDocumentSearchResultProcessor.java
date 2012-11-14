@@ -47,7 +47,7 @@ public class TravelEntertainmentDocumentSearchResultProcessor extends AbstractDo
         String linkPopup = "target=\"_blank\"";
         
         
-        String link = String.format("<a href=\"%s&travelDocumentIdentifier=%s&command=initiate&docTypeName=%s\" %s>%s</a>", 
+        String link = String.format("<a href=\"%s&from=ENT&travelDocumentIdentifier=%s&command=initiate&docTypeName=%s\" %s>%s</a>", 
                 docType.getDocHandlerUrl(), 
                 docCriteriaDTO.getRouteHeaderId().toString(),
                 TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT,

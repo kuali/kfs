@@ -34,8 +34,10 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.service.TravelEntertainmentDocumentService;
@@ -52,6 +54,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -83,9 +86,46 @@ public class TravelEntertainmentAction extends TravelActionBase {
 
         initializeNewAttendeeLines(entForm.getNewAttendeeLines(), document.getAttendee());
         //initializeTemProfiles(document);
-        final String temDocId = request.getParameter(TRVL_IDENTIFIER_PROPERTY);
-        if (temDocId != null) {
-            populateFromPreviousENTDoc(document, temDocId);
+        final String identifierStr = request.getParameter(TRVL_IDENTIFIER_PROPERTY);
+        final String fromDocumentNumber = request.getParameter(KNSPropertyConstants.DOCUMENT_NUMBER);
+        if (identifierStr != null){
+            if (fromDocumentNumber != null){
+                LOG.debug("Creating reimbursement for document number "+ identifierStr);
+                document.setTravelDocumentIdentifier(identifierStr);
+                TravelDocument travelDocument = (TravelDocument) getDocumentService().getByDocumentHeaderId(fromDocumentNumber);
+                
+                LOG.debug("Setting traveler with id "+ travelDocument.getTravelerDetailId());
+                document.setTravelerDetailId(travelDocument.getTravelerDetailId());
+                document.refreshReferenceObject(TemPropertyConstants.TRAVELER);
+                LOG.debug("Traveler is "+ document.getTraveler()+ " with customer number "+ document.getTraveler().getCustomerNumber());
+
+                if (document.getTraveler().getPrincipalId() != null) {
+                    document.getTraveler().setPrincipalName(getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName());
+                }
+                
+                document.setPrimaryDestinationId(travelDocument.getPrimaryDestinationId());
+                document.setTripType(travelDocument.getTripType());
+                document.setTripTypeCode(travelDocument.getTripTypeCode());
+                
+                
+                document.setExpenseLimit(travelDocument.getExpenseLimit());
+                
+                document.getDocumentHeader().setOrganizationDocumentNumber(travelDocument.getDocumentHeader().getOrganizationDocumentNumber());
+                    
+                
+                document.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(travelDocument.getActualExpenses(), document.getDocumentNumber()));
+                
+                // add new detail for the copied actualExpenses            
+                if (document.getActualExpenses() != null && !document.getActualExpenses().isEmpty()) {
+                    for (int i = 0; i < document.getActualExpenses().size(); i++) {
+                        entForm.getNewActualExpenseLines().add(new ActualExpense());
+                    }
+                }           
+            }
+            else{
+                populateFromPreviousENTDoc(document, identifierStr);
+            }
+            
         }
         
         setEntHostCertificationWarning(document);

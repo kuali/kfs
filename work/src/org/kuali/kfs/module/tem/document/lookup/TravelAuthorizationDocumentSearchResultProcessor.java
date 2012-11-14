@@ -53,7 +53,7 @@ public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDo
      * @param docCriteriaDTO has the workflow document status and app doc status to determine if rendering of the link is necessary
      * @return true if the document should have a reimbursement link
      */
-    private boolean showReimbursementURL(DocSearchDTO docCriteriaDTO) {
+    private boolean showNewDocumentURL(DocSearchDTO docCriteriaDTO, String docType) {
         final String documentStatus = docCriteriaDTO.getDocRouteStatusCode();
         final String appDocStatus = docCriteriaDTO.getAppDocStatus();
         boolean statusCheck = (documentStatus.equals(KEWConstants.ROUTE_HEADER_FINAL_CD)
@@ -67,13 +67,14 @@ public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDo
         TravelDocument document = getDocument(docCriteriaDTO.getRouteHeaderId().toString());
         Person user = GlobalVariables.getUserSession().getPerson();
         
-        boolean hasInitTRAccess = true;
+        boolean hasInitAccess = true;
         if (getTemRoleService().canAccessTravelDocument(document, user) && document.getTemProfileId() != null){
-            //check if user also can init TR 
-            hasInitTRAccess = user.getPrincipalId().equals(document.getTraveler().getPrincipalId()) || getTemRoleService().isTravelDocumentArrangerForProfile(TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT, user.getPrincipalId(), document.getTemProfileId());
+            //check if user also can init other docs
+            hasInitAccess = user.getPrincipalId().equals(document.getTraveler().getPrincipalId()) || getTemRoleService().isTravelDocumentArrangerForProfile(docType, user.getPrincipalId(), document.getTemProfileId());
+
         }
         
-        return statusCheck && hasInitTRAccess;
+        return statusCheck && hasInitAccess;
     }
 
     /**
@@ -125,7 +126,11 @@ public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDo
         final String columnName = TemPropertyConstants.TRVL_DOC_SEARCH_RESULT_PROPERTY_NAME_ACTIONS;
         String tripID = docCriteriaDTO.getSearchableAttribute(TRVL_IDENTIFIER_PROPERTY).getUserDisplayValue();
         String actionsHTML = "";
-        if (showReimbursementURL(docCriteriaDTO)) {
+        if (showNewDocumentURL(docCriteriaDTO, TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT)) {
+            actionsHTML += createEntertainmentLink(tripID, docCriteriaDTO);
+            actionsHTML += "<br />";
+        }
+        if (showNewDocumentURL(docCriteriaDTO, TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) {
             actionsHTML += createTravelReimbursementLink(tripID);
         }
         if (otherPaymentMethodsAllowed(docCriteriaDTO) || !hasTripStarted(docCriteriaDTO)) {

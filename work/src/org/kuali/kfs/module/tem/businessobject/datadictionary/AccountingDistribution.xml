@@ -62,7 +62,7 @@
 	</bean>
 
 	<bean id="AccountingDistribution-cardType" parent="AccountingDistribution-cardType-parentBean" />
-    <bean id="AccountingDistribution-cardType-parentBean" parent="ImportedExpense-cardType-parentBean" />
+    <bean id="AccountingDistribution-cardType-parentBean" parent="TravelDocumentAccountingLine-cardType" />
 
 	<bean id="AccountingDistribution-selected" parent="AccountingDistribution-selected-parentBean" />
 	<bean id="AccountingDistribution-selected-parentBean" parent="GenericAttributes-genericBoolean">

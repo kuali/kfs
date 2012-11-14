@@ -25,6 +25,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.docsearch.DocSearchDTO;
@@ -69,7 +70,7 @@ public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDo
         boolean hasInitTRAccess = true;
         if (getTemRoleService().canAccessTravelDocument(document, user) && document.getTemProfileId() != null){
             //check if user also can init TR 
-            hasInitTRAccess = getTemRoleService().isTravelDocumentArrangerForProfile(TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT, user.getPrincipalId(), document.getTemProfileId());
+            hasInitTRAccess = user.getPrincipalId().equals(document.getTraveler().getPrincipalId()) || getTemRoleService().isTravelDocumentArrangerForProfile(TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT, user.getPrincipalId(), document.getTemProfileId());
         }
         
         return statusCheck && hasInitTRAccess;
@@ -145,7 +146,19 @@ public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDo
      */
     @Override
     public boolean filterSearchResult(DocSearchDTO docCriteriaDTO) {
-        return filterByUser(docCriteriaDTO);
+        boolean filtered = filterByUser(docCriteriaDTO);
+        
+        ///TA doc allows search result IF user has TR arranger access
+        TravelDocument document = getDocument(docCriteriaDTO.getRouteHeaderId().toString());
+        Person user = GlobalVariables.getUserSession().getPerson();
+        //check if user is an TR arranger to the document
+        boolean arrangerAccess = true;
+        
+        if (!user.getPrincipalId().equals(document.getTraveler().getPrincipalId())){
+            arrangerAccess = getTemRoleService().isTravelArranger(user, "", document.getTemProfileId().toString(), TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
+        }
+        
+        return filtered && !arrangerAccess;
     }
 
     private ParameterService getParameterService() {

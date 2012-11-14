@@ -23,39 +23,35 @@
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+		  
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="employeeDerivedRoleTypeService" 
+		p:localServiceName="employeeDerivedRoleTypeService" />
 
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="employeeDerivedRoleTypeService" p:localServiceName="employeeDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="batchJobModifierRoleTypeService" 
+		p:localServiceName="batchJobModifierRoleTypeService" /> 
 
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="batchJobModifierRoleTypeService" p:localServiceName="batchJobModifierRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+	<bean parent="permissionTypeServiceCallback" 
+		p:callbackService-ref="financialSystemDocumentTypePermissionTypeService" 
+		p:localServiceName="financialSystemDocumentTypePermissionTypeService" /> 
 
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="financialSystemDocumentTypePermissionTypeService" p:localServiceName="financialSystemDocumentTypePermissionTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.permission.PermissionTypeService" />
-
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="financialSystemUserRoleTypeService" p:localServiceName="financialSystemUserRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="financialSystemUserRoleTypeService" 
+		p:localServiceName="financialSystemUserRoleTypeService" /> 
                            	 
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="excludeSingleActorSeparationOfDutiesRoleTypeService" p:localServiceName="excludeSingleActorSeparationOfDutiesRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="excludeSingleActorSeparationOfDutiesRoleTypeService" 
+		p:localServiceName="excludeSingleActorSeparationOfDutiesRoleTypeService" /> 
 
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="namespaceOrFilePathPermissionTypeService" p:localServiceName="namespaceOrFilePathPermissionTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.permission.PermissionTypeService" />
+	<bean parent="permissionTypeServiceCallback" 
+		p:callbackService-ref="namespaceOrFilePathPermissionTypeService" 
+		p:localServiceName="namespaceOrFilePathPermissionTypeService" />
 
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="KFSDocumentSearchCustomizer" p:localServiceName="KFSDocumentSearchCustomizer" 
-		p:serviceInterface="org.kuali.rice.kew.framework.document.search.DocumentSearchCustomizer">
-	</bean>
+	<bean parent="documentSearchCustomizerCallback" 
+		p:callbackService-ref="KFSDocumentSearchCustomizer" p:localServiceName="KFSDocumentSearchCustomizer" /> 
 	
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="FinancialSystemSearchableAttribute" p:localServiceName="FinancialSystemSearchableAttribute" 
-		p:serviceInterface="org.kuali.rice.kew.framework.document.attribute.SearchableAttribute">
-	</bean>
+	<bean parent="searchableAttributeCallback" 
+		p:callbackService-ref="FinancialSystemSearchableAttribute" p:localServiceName="FinancialSystemSearchableAttribute" /> 
 	
 </beans>

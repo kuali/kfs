@@ -24,52 +24,40 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
                            
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="chartRoleTypeService" p:localServiceName="chartRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="chartRoleTypeService" p:localServiceName="chartRoleTypeService"  />
 
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="organizationRoleTypeService" p:localServiceName="organizationRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />	
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="organizationRoleTypeService" p:localServiceName="organizationRoleTypeService" />
 	
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="organizationOptionalHierarchyQualifierRoleTypeService" p:localServiceName="organizationOptionalHierarchyQualifierRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="organizationOptionalHierarchyQualifierRoleTypeService" p:localServiceName="organizationOptionalHierarchyQualifierRoleTypeService" />
 		
-    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="organizationHierarchyReviewRoleTypeService" p:localServiceName="organizationHierarchyReviewRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="organizationHierarchyReviewRoleTypeService" p:localServiceName="organizationHierarchyReviewRoleTypeService" />
 		
-    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="accountingOrganizationHierarchyReviewRoleTypeService" p:localServiceName="accountingOrganizationHierarchyReviewRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="accountingOrganizationHierarchyReviewRoleTypeService" p:localServiceName="accountingOrganizationHierarchyReviewRoleTypeService" />
 		
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="accountRoleTypeService" p:localServiceName="accountRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="accountRoleTypeService" p:localServiceName="accountRoleTypeService"  />
 		
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="accountDerivedRoleTypeService" p:localServiceName="accountDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="accountDerivedRoleTypeService" p:localServiceName="accountDerivedRoleTypeService" />
 		
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="subAccountReviewRoleTypeService" p:localServiceName="subAccountReviewRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="subAccountReviewRoleTypeService" p:localServiceName="subAccountReviewRoleTypeService" />
 		
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="subFundReviewRoleTypeService" p:localServiceName="subFundReviewRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="subFundReviewRoleTypeService" p:localServiceName="subFundReviewRoleTypeService" />
 		
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="chartDerivedRoleTypeService" p:localServiceName="chartDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="chartDerivedRoleTypeService" p:localServiceName="chartDerivedRoleTypeService"  />
 		
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="organizationGroupTypeService" p:localServiceName="organizationGroupTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.group.GroupTypeService" />
+	<bean parent="groupTypeServiceCallback" 
+		p:callbackService-ref="organizationGroupTypeService" p:localServiceName="organizationGroupTypeService" />
 		
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="contractsAndGrantsResponsibilityRoleTypeService" p:localServiceName="contractsAndGrantsResponsibilityRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />	                           
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="contractsAndGrantsResponsibilityRoleTypeService" p:localServiceName="contractsAndGrantsResponsibilityRoleTypeService" />
                            	 
 </beans>

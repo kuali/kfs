@@ -32,31 +32,17 @@
 	<!-- the distributed cache manager that calls into the CacheAdminService on the ksb -->
 	<bean id="kfs.core.DistributedCacheManager" class="org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator">
 		<property name="cacheManager" ref="kfs.core.LocalCacheManager" />
-		<property name="serviceName" value="{KFS}kfsCoreCacheAdminService" />
+		<property name="serviceName" value="{${kfs.service.namespace.uri}}kfsCoreCacheAdminService" />
 	</bean>
 
 	<bean id="kfs.core.cacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl">
 		<property name="cacheManager" ref="kfs.core.DistributedCacheManager" />
 	</bean>
 
-	<bean id="kfs.core.serviceExporter" abstract="true" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter"
-		p:serviceBus-ref="rice.ksb.serviceBus" />
-
-	<bean id="kfs.core.Service" class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" abstract="true">
-		<property name="serviceNameSpaceURI" value="KFS" />
-		<property name="jaxWsService" value="true" />
-		<property name="priority" value="3" />
-		<property name="retryAttempts" value="0" />
-		<property name="busSecurity" value="true" />
-		<property name="serviceVersion" value="${kfs.version}" />
-		<property name="servicePath" value="" />
-	</bean>
-
-
-	<bean id="kfs.core.CacheAdminService.exporter" parent="kfs.core.serviceExporter">
+	<bean id="kfs.core.CacheAdminService.exporter" parent="kfsServiceBusExporter">
 		<property name="serviceDefinition">
-			<bean parent="kfs.core.Service" p:service-ref="kfs.core.CacheAdminService" p:localServiceName="kfsCoreCacheAdminService"
-				p:queue="false" />
+			<bean parent="kfsSoapServiceDefinition" p:service-ref="kfs.core.CacheAdminService" p:localServiceName="kfsCoreCacheAdminService"
+				p:queue="false" p:busSecurity="${cache.service.bus.security.enabled}" />
 		</property>
 	</bean>
 

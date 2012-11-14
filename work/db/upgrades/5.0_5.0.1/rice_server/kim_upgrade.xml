@@ -144,9 +144,14 @@
 
 	</changeSet>
 
-
-
-
+	<changeSet author="KFS501" id="FIX_NAMESPACE_ON_TYPE_SERVICES">
+		<comment>For Bus security to work properly, the service namespace must be an URI instead of "KFS"</comment>
+		<sql>
+			UPDATE KRIM_TYP_T 
+			    SET SRVC_NM = REPLACE(SRVC_NM,'{KFS}','{http://kfs.kuali.org/kfs/v5_0}')
+			WHERE SRVC_NM LIKE '{KFS}%'
+		</sql>
+	</changeSet>
 
 	<changeSet id="REMOVE_KIM_ATTRIBUTE_ID_HYPHENS" author="KFS501">
 		<comment>

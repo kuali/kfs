@@ -23,35 +23,29 @@
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="relatedDocumentDerivedRoleTypeService" p:localServiceName="relatedDocumentDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
-    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="accountsPayableDocumentDerivedRoleTypeService" p:localServiceName="accountsPayableDocumentDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="paymentRequestHoldCancelInitiatorDerivedRoleTypeService" p:localServiceName="paymentRequestHoldCancelInitiatorDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="potentiallySensitiveDocumentRoleTypeService" p:localServiceName="potentiallySensitiveDocumentRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="sensitiveDataRoleTypeService" p:localServiceName="sensitiveDataRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
-                           	 
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="KFSPurapDocumentSearchCustomizer" p:localServiceName="KFSPurapDocumentSearchCustomizer" 
-		p:serviceInterface="org.kuali.rice.kew.framework.document.search.DocumentSearchCustomizer">
-	</bean>
-	
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="PurapFinancialSystemSearchableAttribute" p:localServiceName="PurapFinancialSystemSearchableAttribute" 
-		p:serviceInterface="org.kuali.rice.kew.framework.document.attribute.SearchableAttribute">
-	</bean>
 
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="PurchaseOrderActionListAttribute" p:localServiceName="PurchaseOrderActionListAttribute" 
-		p:serviceInterface="org.kuali.rice.kew.actionlist.CustomActionListAttribute">
-	</bean>
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="relatedDocumentDerivedRoleTypeService" p:localServiceName="relatedDocumentDerivedRoleTypeService" />
+
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="accountsPayableDocumentDerivedRoleTypeService" p:localServiceName="accountsPayableDocumentDerivedRoleTypeService" />
+
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="paymentRequestHoldCancelInitiatorDerivedRoleTypeService" p:localServiceName="paymentRequestHoldCancelInitiatorDerivedRoleTypeService" />
+
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="potentiallySensitiveDocumentRoleTypeService" p:localServiceName="potentiallySensitiveDocumentRoleTypeService" />
+
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="sensitiveDataRoleTypeService" p:localServiceName="sensitiveDataRoleTypeService" />
+                           	 
+	<bean parent="documentSearchCustomizerCallback" 
+		p:callbackService-ref="KFSPurapDocumentSearchCustomizer" p:localServiceName="KFSPurapDocumentSearchCustomizer" />
+	
+	<bean parent="searchableAttributeCallback" 
+		p:callbackService-ref="PurapFinancialSystemSearchableAttribute" p:localServiceName="PurapFinancialSystemSearchableAttribute" />
+
+	<bean parent="customActionListAttributeCallback" 
+		p:callbackService-ref="PurchaseOrderActionListAttribute" p:localServiceName="PurchaseOrderActionListAttribute" />
 
 </beans>

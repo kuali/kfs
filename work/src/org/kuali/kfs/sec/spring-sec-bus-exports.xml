@@ -23,17 +23,17 @@
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="securityAttributePermissionTypeService" p:localServiceName="securityAttributePermissionTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.permission.PermissionTypeService" />
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="securityAttributeDocTypePermissionTypeService" p:localServiceName="securityAttributeDocTypePermissionTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.permission.PermissionTypeService" />
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="securityAttributeNamespacePermissionTypeService" p:localServiceName="securityAttributeNamespacePermissionTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.permission.PermissionTypeService" />
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="securityAttributeRoleTypeService" p:localServiceName="securityAttributeRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+
+	<bean parent="permissionTypeServiceCallback" 
+		p:callbackService-ref="securityAttributePermissionTypeService" p:localServiceName="securityAttributePermissionTypeService" />
+
+	<bean parent="permissionTypeServiceCallback" 
+		p:callbackService-ref="securityAttributeDocTypePermissionTypeService" p:localServiceName="securityAttributeDocTypePermissionTypeService" />
+
+	<bean parent="permissionTypeServiceCallback" 
+		p:callbackService-ref="securityAttributeNamespacePermissionTypeService" p:localServiceName="securityAttributeNamespacePermissionTypeService"/>
+
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="securityAttributeRoleTypeService" p:localServiceName="securityAttributeRoleTypeService" />
                            	 
 </beans>

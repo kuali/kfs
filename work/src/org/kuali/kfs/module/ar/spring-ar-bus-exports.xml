@@ -24,11 +24,10 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="accountsReceivableOrganizationDerivedRoleTypeService" p:localServiceName="accountsReceivableOrganizationDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="accountsReceivableOrganizationDerivedRoleTypeService" p:localServiceName="accountsReceivableOrganizationDerivedRoleTypeService" />
 		
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="invoiceRecurrenceDerivedRoleTypeService" p:localServiceName="invoiceRecurrenceDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />                           	 
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="invoiceRecurrenceDerivedRoleTypeService" p:localServiceName="invoiceRecurrenceDerivedRoleTypeService" />
+		  	 
 </beans>

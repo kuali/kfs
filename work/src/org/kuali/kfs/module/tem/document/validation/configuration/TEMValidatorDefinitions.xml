@@ -44,7 +44,7 @@
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthBlanketTripTypeValidation" />
 		
 	<bean id="TravelModule-tripDetailEstimateGreaterThanZeroValidation"
-		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthRecalculateTripDetailTotalValidation" />
+		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthEstimateDetailNonNegativeValidation" />
 		
 	<bean id="TravelModule-tripDetailMileageRateValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TravelAuthTripDetailMileageRateValidation" />

@@ -362,7 +362,7 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
     /**
      * Return the expense type code by Travel Document
      * 
-     * TA document returns EMCUMBRANCE
+     * TA document returns EMCUMBRANCE or BLANK (if trip does not have encumbrance)
      * TEMReimbursement document returns OUT OF POCKET
      * 
      * @return
@@ -410,4 +410,11 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      * @return
      */
     public Map<String, String> getDisapprovedAppDocStatusMap();
+    
+    /**
+     * Check if document is of Travel Authorization
+     * 
+     * @return
+     */
+    public boolean isTravelAuthorizationDoc();
 }

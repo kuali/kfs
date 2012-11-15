@@ -100,6 +100,22 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
             }
         }
     }
+
+    /**
+     * Display accounting line only if - Trip is encumbrance OR for non-emcumbrance trip, if there are any imported expenses
+     * 
+     * @return
+     */
+    public boolean isDisplayAccountingLines(){
+        boolean display = true;
+        TravelAuthorizationDocument document = (TravelAuthorizationDocument) getTravelDocument();
+        //trip does not generate encumbrance - check if there is any imported expense to determine whether its necessary to display the tab
+        if (!document.isTripGenerateEncumbrance()){
+            //display the tab if there are imported expenses
+            display = !document.getImportedExpenses().isEmpty();
+        }
+        return display;
+    }
     
     /**
      * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getPerDiemLabel()

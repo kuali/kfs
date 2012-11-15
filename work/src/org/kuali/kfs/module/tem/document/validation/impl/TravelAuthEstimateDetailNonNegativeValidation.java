@@ -25,7 +25,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class TravelAuthRecalculateTripDetailTotalValidation extends GenericValidation {
+public class TravelAuthEstimateDetailNonNegativeValidation extends GenericValidation {
 
     @Override
     public boolean validate(AttributedDocumentEvent event) {

@@ -18,7 +18,7 @@
 
 <c:set var="otherExpenseAttributes" value="${DataDictionary.ActualExpense.attributes}" />
 <c:set var="temExtension" value="${DataDictionary.TemTravelExpenseTypeCode.attributes}" />
-<c:set var="isTA" value="${KualiForm.docTypeName == TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT}" />
+<c:set var="isTA" value="${KualiForm.isTravelAuthorizationDoc}" />
 
 <jsp:useBean id="paramMap" class="java.util.HashMap" />
 <c:set target="${paramMap}" property="tripType" value="${KualiForm.document.tripTypeCode}" />

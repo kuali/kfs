@@ -45,6 +45,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
@@ -1819,7 +1820,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         if (getSourceAccountingLines() != null) {
             for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)getSourceAccountingLines()){
                 //we are generating source accounting lines on document's expense type code 
-                // could be either ACTUAL or ENCUMBRANCE
+                // could be either OUT OF POCKET  or ENCUMBRANCE
                 if (line.getCardType().equals(getExpenseTypeCode())){
                     accountingLines.add((GeneralLedgerPendingEntrySourceDetail) line);
                 }              
@@ -2035,5 +2036,13 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getDisapprovedAppDocStatusMap()
      */
     public abstract Map<String, String> getDisapprovedAppDocStatusMap();
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#isTravelAuthorizationDoc()
+     */
+    @Override
+    public boolean isTravelAuthorizationDoc(){
+        return TravelDocTypes.getAuthorizationDocTypes().contains(getDocumentTypeName());
+    }
    
 }

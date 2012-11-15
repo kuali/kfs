@@ -778,7 +778,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
      */
     @Override
     public String getExpenseTypeCode() {
-        return TemConstants.ENCUMBRANCE;
+        return isTripGenerateEncumbrance()? TemConstants.ENCUMBRANCE : "";
     }
     
     /**

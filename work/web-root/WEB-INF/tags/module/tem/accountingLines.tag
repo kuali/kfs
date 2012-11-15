@@ -14,20 +14,16 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
-	<a name="${TEMConstants.SOURCE_ANCHOR }" id="${TEMConstants.SOURCE_ANCHOR }"></a>
-	<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="sourceAccountingLines,newSourceLine*">
-		<c:if test="${fullEntryMode }">
-			<div class="tab-container" align="left">
-		    	<c:if test="${fn:length(KualiForm.document.sourceAccountingLines) > 0}" >
-		    		<html:image
-						property="methodToCall.resetAccountingLines"
-						src="${ConfigProperties.externalizable.images.url}tinybutton-restartaccountinglines.gif"
-						alt="Restart Accounting Lines" title="Restart Accounting Lines"
-						styleClass="tinybutton" />    		
-				</c:if>
-			</div>
-		</c:if>
-		<sys-java:accountingLines>
-			<sys-java:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
-		</sys-java:accountingLines>
-	</kul:tab>
+<a name="${TEMConstants.SOURCE_ANCHOR }" id="${TEMConstants.SOURCE_ANCHOR }"></a>
+<kul:tab tabTitle="Accounting Lines" defaultOpen="true" tabErrorKey="sourceAccountingLines,newSourceLine*">
+	<c:if test="${fullEntryMode }">
+		<div class="tab-container" align="left">
+	    	<c:if test="${fn:length(KualiForm.document.sourceAccountingLines) > 0}" >
+	    		<html:image property="methodToCall.resetAccountingLines" src="${ConfigProperties.externalizable.images.url}tinybutton-restartaccountinglines.gif" alt="Restart Accounting Lines" title="Restart Accounting Lines" styleClass="tinybutton" />    		
+			</c:if>
+		</div>
+	</c:if>
+	<sys-java:accountingLines>
+		<sys-java:accountingLineGroup newLinePropertyName="newSourceLine" collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+	</sys-java:accountingLines>
+</kul:tab>

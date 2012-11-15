@@ -17,9 +17,6 @@
 <%@ taglib uri="/WEB-INF/tlds/temfunc.tld" prefix="temfunc"%>
 <c:set var="importedExpenseAttributes" value="${DataDictionary.ImportedExpense.attributes}" />
 <c:set var="temExtension" value="${DataDictionary.TemTravelExpenseTypeCode.attributes}" />
-<c:set var="isTA" value="${KualiForm.docTypeName == TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT}" />
-
-
 
 <jsp:useBean id="paramMap" class="java.util.HashMap" />
   

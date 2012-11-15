@@ -38,31 +38,37 @@ public class ActualExpenseServiceImpl extends ExpenseServiceBase implements TEME
      * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#calculateDistributionTotals(org.kuali.kfs.module.tem.document.TravelDocument, java.util.Map, java.util.List)
      */
     public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TEMExpense> expenses){
-        String defaultChartCode = ExpenseUtils.getDefaultChartCode(document);
+        
+        //calculate the distribution map for all actual expenses
         for (TEMExpense expense : expenses) {
+            
             if (expense.getExpenseDetails() != null && expense.getExpenseDetails().size() > 0){
+                //calculate using detail as it might have different details' object code
                 calculateDistributionTotals(document, distributionMap, expense.getExpenseDetails());
             }
             else {
-                if (expense.getTravelExpenseTypeCodeId() != null
-                        && !expense.getTravelExpenseTypeCode().isPrepaidExpense() && !expense.getNonReimbursable()) {
+                if (expense.getTravelExpenseTypeCodeId() != null && !expense.getTravelExpenseTypeCode().isPrepaidExpense() && !expense.getNonReimbursable()) {
 
+                    boolean skipDistribution = false;
                     TemTravelExpenseTypeCode code = SpringContext.getBean(TravelExpenseService.class).getExpenseType(expense.getTravelExpenseTypeCodeId());
                     expense.setTravelExpenseTypeCode(code);
                     
                     String financialObjectCode = null;
                     
-                    if (document instanceof TravelAuthorizationDocument) {
-                        if (document.getTripType() != null) {
+                    if (document.isTravelAuthorizationDoc()) {
+                        //check trip generate encumbrance
+                        if (((TravelAuthorizationDocument)document).isTripGenerateEncumbrance()) {
                             financialObjectCode = document.getTripType().getEncumbranceObjCode();
+                        }else{
+                            //non encumbrance actual expense in TA are informational only - no need to distribute
+                            skipDistribution = true;
                         }
-                    }
-                    else {
-                        financialObjectCode = expense.getTravelExpenseTypeCode() != null ? expense.getTravelExpenseTypeCode().getFinancialObjectCode() : code != null ? code.getFinancialObjectCode() : null;
+                    }else {
+                        financialObjectCode = expense.getTravelExpenseTypeCode() != null ? expense.getTravelExpenseTypeCode().getFinancialObjectCode() : null;
                     }
 
-                    final ObjectCode objCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, financialObjectCode);
-                    if (objCode != null) {                    
+                    final ObjectCode objCode = getObjectCodeService().getByPrimaryIdForCurrentYear(ExpenseUtils.getDefaultChartCode(document), financialObjectCode);
+                    if (objCode != null && !skipDistribution) {                    
                         AccountingDistribution distribution = null;
 
                         String key = objCode.getCode() + "-" + document.getExpenseTypeCode();

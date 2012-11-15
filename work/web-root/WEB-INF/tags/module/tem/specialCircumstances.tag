@@ -18,7 +18,7 @@
 <c:set var="specialAttributes" value="${DataDictionary.SpecialCircumstances.attributes}" />
 <c:set var="specialQuestionAttributes" value="${DataDictionary.SpecialCircumstancesQuestion.attributes}" />
 <c:set var="documentAttributes" value="${DataDictionary.TravelAuthorizationDocument.attributes}" />
-<c:set var="isTA" value="${KualiForm.docTypeName == TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT}" />
+<c:set var="isTA" value="${KualiForm.isTravelAuthorizationDoc}" />
 <c:set var="isTR" value="${KualiForm.docTypeName == TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT}" />
 <c:set var="isLimitEditable" value="${fullEntryMode || fiscalOfficer}" />
 

@@ -41,9 +41,11 @@
     </c:if>
     <tem:expenses />
     <tem-ta:estimateTotal /> 
-    <tem:summaryByObjectCode />
-    <tem:assignAccounts />
-    <tem:accountingLines />
+	<tem:summaryByObjectCode />
+	<tem:assignAccounts />
+    <c:if test="${KualiForm.displayAccountingLines}">
+    	<tem:accountingLines />
+    </c:if>
     <gl:generalLedgerPendingEntries />
 	<tem:relatedDocuments />
     <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"

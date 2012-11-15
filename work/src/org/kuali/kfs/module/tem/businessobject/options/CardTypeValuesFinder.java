@@ -46,13 +46,17 @@ public class CardTypeValuesFinder extends KeyValuesBase {
         
         String defaultCardType = document.getDefaultAccountingLineCardAgencyType();
         
-        //default to always include actual expense type 
+        //default to always include actual expense type
         map.put(defaultCardType, new KeyLabelPair(defaultCardType, defaultCardType));
         
         for (ImportedExpense expense : importedExpenses) {
             String cardType = StringUtils.defaultString(expense.getCardType());
             if (!map.containsKey(cardType)){
                 map.put(cardType, new KeyLabelPair(cardType,cardType));
+                //remove the default card type (if its blank) - since there is a new default
+                if (map.containsKey(defaultCardType) && StringUtils.isBlank(defaultCardType)){
+                    map.remove(defaultCardType);
+                }
             }
         }
         return new ArrayList<KeyLabelPair>(map.values());

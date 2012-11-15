@@ -171,8 +171,11 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         return travelerId;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean#getTravelDocument()
+     */
     @Override
-    public TravelDocument getTravelDocument() {
+    public TravelDocument getTravelDocument() {        
         return (TravelDocument) getDocument();
     }
 
@@ -953,6 +956,15 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
             }
         }
         return total;
+    }
+    
+    /**
+     * Check if document is of Travel Authorization
+     * 
+     * @return
+     */
+    public boolean getIsTravelAuthorizationDoc(){
+        return getTravelDocument().isTravelAuthorizationDoc();
     }
 
     public FormFile getAccountDistributionFile() {

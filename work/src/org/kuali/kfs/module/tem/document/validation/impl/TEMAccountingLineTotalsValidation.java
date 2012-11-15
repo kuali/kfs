@@ -26,6 +26,7 @@ import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
+import org.kuali.kfs.module.tem.document.web.bean.AccountingLineDistributionKey;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
@@ -36,6 +37,10 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public class TEMAccountingLineTotalsValidation extends GenericValidation {
 
+    /**
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
+     */
+    @SuppressWarnings("rawtypes")
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean rulePassed = true;
@@ -43,12 +48,12 @@ public class TEMAccountingLineTotalsValidation extends GenericValidation {
                 
         List<AccountingDistribution> distributions = SpringContext.getBean(AccountingDistributionService.class).buildDistributionFrom(travelDocument);
         KualiDecimal totalRemaining = KualiDecimal.ZERO;
-        Map<String,KualiDecimal> amounts = new HashMap<String, KualiDecimal>();
-        Map<String,KualiDecimal> finalAmounts = new HashMap<String, KualiDecimal>();
-        Map<String,Integer> lineIndexes = new HashMap<String, Integer>();
+        Map<AccountingLineDistributionKey,KualiDecimal> amounts = new HashMap<AccountingLineDistributionKey, KualiDecimal>();
+        Map<AccountingLineDistributionKey,KualiDecimal> finalAmounts = new HashMap<AccountingLineDistributionKey, KualiDecimal>();
+        Map<AccountingLineDistributionKey,Integer> lineIndexes = new HashMap<AccountingLineDistributionKey, Integer>();
         
         for (final AccountingDistribution dist : distributions) {
-            String key = dist.getObjectCode() + "_" + dist.getCardType();
+            AccountingLineDistributionKey key = new AccountingLineDistributionKey(dist.getObjectCode(), dist.getCardType());
             if (amounts.containsKey(key)){
                 KualiDecimal tempAmount = dist.getSubTotal().add(amounts.get(key));
                 amounts.put(key, tempAmount);
@@ -62,9 +67,11 @@ public class TEMAccountingLineTotalsValidation extends GenericValidation {
         
         if (travelDocument.getSourceAccountingLines() != null && !travelDocument.getSourceAccountingLines().isEmpty()) {
             
+            List errors = GlobalVariables.getMessageMap().getErrorPath();
+            GlobalVariables.getMessageMap().clearErrorPath();            
             //check the current accounting line
             for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)travelDocument.getSourceAccountingLines()){
-                String key = line.getFinancialObjectCode() + "_" + line.getCardType();
+                AccountingLineDistributionKey key = new AccountingLineDistributionKey(line.getFinancialObjectCode(),line.getCardType());
                 if (amounts.containsKey(key)){
                     if (amounts.get(key).isGreaterEqual(line.getAmount())){
                         KualiDecimal tempAmount = amounts.get(key).subtract(line.getAmount());
@@ -72,8 +79,7 @@ public class TEMAccountingLineTotalsValidation extends GenericValidation {
                         lineIndexes.put(key, line.getSequenceNumber());
                     }
                     else{
-                        String[] parts = key.split("_");
-                        GlobalVariables.getMessageMap().putError(KNSPropertyConstants.DOCUMENT + "." + TemPropertyConstants.SOURCE_ACCOUNTING_LINE + "[" + (line.getSequenceNumber().intValue()-1) + "]." + TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE_TOTAL, parts[0], parts[1], finalAmounts.get(key).toString());
+                        GlobalVariables.getMessageMap().putError(KNSPropertyConstants.DOCUMENT + "." + TemPropertyConstants.SOURCE_ACCOUNTING_LINE + "[" + (line.getSequenceNumber().intValue()-1) + "]." + TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE_TOTAL, key.getFinancialObjectCode(), key.getCardType(), finalAmounts.get(key).toString());
                         rulePassed = false;
                     }
                 }
@@ -85,18 +91,15 @@ public class TEMAccountingLineTotalsValidation extends GenericValidation {
                 }
             }
             
-            List errors = GlobalVariables.getMessageMap().getErrorPath();
             if (rulePassed){
-                GlobalVariables.getMessageMap().clearErrorPath();
-                for (String key : amounts.keySet()){
+                for (AccountingLineDistributionKey key : amounts.keySet()){
                     KualiDecimal tempAmount = amounts.get(key);
                     if (!tempAmount.isZero()){
-                        String[] parts = key.split("_");
                         if (lineIndexes.containsKey(key)){
-                            GlobalVariables.getMessageMap().putError(KNSPropertyConstants.DOCUMENT + "." + TemPropertyConstants.SOURCE_ACCOUNTING_LINE + "[" + (lineIndexes.get(key).intValue()-1) + "]." + TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE_TOTAL, parts[0], parts[1], finalAmounts.get(key).toString());                             
+                            GlobalVariables.getMessageMap().putError(KNSPropertyConstants.DOCUMENT + "." + TemPropertyConstants.SOURCE_ACCOUNTING_LINE + "[" + (lineIndexes.get(key).intValue()-1) + "]." + TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE_TOTAL, key.getFinancialObjectCode(), key.getCardType(), finalAmounts.get(key).toString());                             
                         }
                         else{
-                            GlobalVariables.getMessageMap().putError(TemPropertyConstants.NEW_SOURCE_ACCTG_LINE + "." + TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE_TOTAL, parts[0], parts[1], finalAmounts.get(key).toString());                            
+                            GlobalVariables.getMessageMap().putError(TemPropertyConstants.NEW_SOURCE_ACCTG_LINE + "." + TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE_TOTAL, key.getFinancialObjectCode(), key.getCardType(), finalAmounts.get(key).toString());                            
                         }
                         rulePassed = false;
                     }

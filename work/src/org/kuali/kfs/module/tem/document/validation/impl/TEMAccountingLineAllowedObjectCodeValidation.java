@@ -33,6 +33,7 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.authorization.TravelDocumentPresentationController;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
+import org.kuali.kfs.module.tem.document.web.bean.AccountingLineDistributionKey;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.util.SourceAccountingLineComparator;
 import org.kuali.kfs.sys.KFSConstants;
@@ -55,6 +56,10 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidation {
 
+    /**
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
+     */
+    @SuppressWarnings("rawtypes")
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         final Person currentUser = GlobalVariables.getUserSession().getPerson();
@@ -69,11 +74,6 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
         GlobalVariables.getMessageMap().clearErrorPath();
         TravelDocument travelDocument = (TravelDocument) event.getDocument();
 
-        // Skip object code validation if the travel document is of TravelAuthorizationDocument type
-        //if (event.getDocument() instanceof TravelAuthorizationDocument) {
-        //    return true;
-        //}
-                
         TravelDocumentPresentationController documentPresentationController = (TravelDocumentPresentationController) getDocumentHelperService().getDocumentPresentationController(travelDocument);
         boolean canUpdate = documentPresentationController.enableForDocumentManager(GlobalVariables.getUserSession().getPerson());
         
@@ -89,7 +89,7 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
         // Test added accounting lines for null values and if there is an access change.
         valid = SpringContext.getBean(TravelDocumentService.class).validateSourceAccountingLines(travelDocument, false);
 
-        if ((!travelDocument.getAppDocStatus().equalsIgnoreCase("Initiated")) 
+        if ((!travelDocument.getAppDocStatus().equalsIgnoreCase(TemConstants.TRAVEL_DOC_APP_DOC_STATUS_INIT)) 
                 && (!travelDocument.getAppDocStatus().equalsIgnoreCase(TemConstants.TravelAuthorizationStatusCodeKeys.IN_PROCESS)) 
                 && (!travelDocument.getAppDocStatus().equalsIgnoreCase(TemConstants.TravelAuthorizationStatusCodeKeys.CHANGE_IN_PROCESS))) {
             if (!line.getAccount().getAccountFiscalOfficerUser().getPrincipalId().equals(currentUser.getPrincipalId())
@@ -105,12 +105,12 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
             if (ObjectUtils.isNotNull(line.getObjectTypeCode())) {
                 // check to make sure they're the same
                 List<AccountingDistribution> list = SpringContext.getBean(AccountingDistributionService.class).buildDistributionFrom(travelDocument);
-                List<String> codes = new ArrayList<String>();
+                List<AccountingLineDistributionKey> distributionList = new ArrayList<AccountingLineDistributionKey>();
                 for (AccountingDistribution dist : list) {
-                    codes.add(dist.getObjectCode() + "_" + dist.getCardType());
+                    distributionList.add(new AccountingLineDistributionKey(dist.getObjectCode(), dist.getCardType()));
                 }
                 
-                if (!codes.contains(line.getFinancialObjectCode() + "_" + line.getCardType())) {
+                if (!distributionList.contains(new AccountingLineDistributionKey(line.getFinancialObjectCode(), line.getCardType()))) {
                     GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE, line.getFinancialObjectCode(), line.getCardType());
                     valid &= false;
                 }

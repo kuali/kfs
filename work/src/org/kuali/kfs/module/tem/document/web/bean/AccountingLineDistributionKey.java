@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 The Kuali Foundation.
+ * Copyright 2012 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 package org.kuali.kfs.module.tem.document.web.bean;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 
 public class AccountingLineDistributionKey implements Comparable<AccountingLineDistributionKey> {
@@ -63,6 +65,27 @@ public class AccountingLineDistributionKey implements Comparable<AccountingLineD
         return financialObjectCode;
     }
     
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        //for Map containKeys and List - contains checking
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        //for Map containKeys checking
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    /**
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
     @Override
     public int compareTo(AccountingLineDistributionKey o) {
         return CompareToBuilder.reflectionCompare(this, o);

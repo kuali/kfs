@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,12 +28,9 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.fp.document.service.BudgetAdjustmentLaborBenefitsService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
-import org.kuali.kfs.integration.ld.LaborBenefitRateCategory;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit;
 import org.kuali.kfs.integration.ld.LaborModuleService;
-import org.kuali.kfs.integration.ld.LaborBenefitsCalculation;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -43,13 +40,8 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.location.api.LocationConstants;
-import org.kuali.rice.location.framework.country.CountryEbo;
 
 /**
  * This is the default implementation of the methods defined by the BudgetAdjustmentLaborBenefitsService. These service performs
@@ -61,10 +53,11 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
 
     /**
      * This method generated labor benefit accounting lines to be added to the BudgetDocument provided.
-     * 
+     *
      * @param budgetDocument The BudgetDocument to have the new labor benefit accounting lines added to.
      * @see org.kuali.kfs.fp.document.service.BudgetAdjustmentLaborBenefitsService#generateLaborBenefitsAccountingLines(org.kuali.kfs.fp.document.BudgetAdjustmentDocument)
      */
+    @Override
     public void generateLaborBenefitsAccountingLines(BudgetAdjustmentDocument budgetDocument) {
         Integer fiscalYear = budgetDocument.getPostingYear();
 
@@ -106,7 +99,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
 
     /**
      * Given a budget adjustment accounting line, generates appropriate fringe benefit lines for the line
-     * 
+     *
      * @param line a line to generate fringe benefit lines for
      * @return a List of BudgetAdjustmentAccountingLines to add to the document as fringe benefit lines
      */
@@ -131,7 +124,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
                     fieldValues.put("accountNumber", line.getAccountNumber());
                     // use the budget adjustment accounting line to get the account number that will then be used to lookup the
                     // labor benefit rate category code
-                    Account lookupAccount = (Account) businessObjectService.findByPrimaryKey(Account.class, fieldValues);
+                    Account lookupAccount = businessObjectService.findByPrimaryKey(Account.class, fieldValues);
                     LaborLedgerBenefitsCalculation benefitsCalculation = null;
                     String laborBenefitsRateCategoryCode = "";
                     // make sure the parameter exists
@@ -201,7 +194,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
                         // compute the benefit current amount with all decimals and then round it to the closest integer by setting the
                         // scale to 0 and using the round half up rounding mode: exp. 1200*0.1866 = 223.92 -> rounded to 224
                         BigDecimal benefitCurrentAmount = line.getCurrentBudgetAdjustmentAmount().bigDecimalValue().multiply(fringeBenefitPercent);
-                        benefitCurrentAmount = benefitCurrentAmount.setScale(0, BigDecimal.ROUND_HALF_UP);  
+                        benefitCurrentAmount = benefitCurrentAmount.setScale(2, BigDecimal.ROUND_HALF_UP);
                         benefitLine.setCurrentBudgetAdjustmentAmount(new KualiDecimal(benefitCurrentAmount));
 
                         KualiInteger benefitBaseAmount = line.getBaseBudgetAdjustmentAmount().multiply(fringeBenefitPercent);
@@ -239,6 +232,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
      * @return
      * @see org.kuali.kfs.fp.document.service.BudgetAdjustmentLaborBenefitsService#hasLaborObjectCodes(org.kuali.kfs.fp.document.BudgetAdjustmentDocument)
      */
+    @Override
     public boolean hasLaborObjectCodes(BudgetAdjustmentDocument budgetDocument) {
         boolean hasLaborObjectCodes = false;
 
@@ -263,7 +257,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
     /**
      * Formats the stored percentage to be used in multiplication. For example if the percentage is 18.66 it will return 0.1866. The
      * returned number will always have 4 digits.
-     * 
+     *
      * @param percent the stored percent
      * @return percentage formatted for multiplication
      */
@@ -280,7 +274,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -289,7 +283,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

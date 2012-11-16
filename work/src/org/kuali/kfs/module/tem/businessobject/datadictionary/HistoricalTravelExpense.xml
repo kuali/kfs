@@ -320,8 +320,8 @@
 			<bean parent="FieldDefinition" p:attributeName="travelCompany" />
 			<bean parent="FieldDefinition" p:attributeName="location" />
 			<bean parent="FieldDefinition" p:attributeName="tripId" />
-			<bean parent="FieldDefinition" p:attributeName="reimbursable" />
-			<bean parent="FieldDefinition" p:attributeName="assigned" />
+			<bean parent="FieldDefinition" p:attributeName="reimbursable"/>
+			<bean parent="FieldDefinition" p:attributeName="assigned"  p:defaultValue="N"/>
 		</list>
 		</property>
 		<property name="resultFields">

@@ -15,4 +15,15 @@
 		</update>	
 	</changeSet>
 	
+	<changeSet author="KFS501" id="FIX_NAMESPACE_ON_KEW_ATTRIBUTE_SERVICES">
+		<comment>For Bus security to work properly, the service namespace must be an URI instead of "KFS"</comment>
+		<sql>
+			UPDATE KREW_RULE_ATTR_T 
+			    SET CLS_NM = REPLACE(CLS_NM,'{KFS}','{http://kfs.kuali.org/kfs/v5_0}')
+			WHERE CLS_NM LIKE '{KFS}%'
+		</sql>
+	</changeSet>
+
+
+	
 </databaseChangeLog>

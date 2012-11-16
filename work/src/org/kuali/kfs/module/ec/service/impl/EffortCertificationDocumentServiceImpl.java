@@ -45,6 +45,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
+import org.kuali.kfs.sys.businessobject.AccountingLineOverride.COMPONENT;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -386,8 +387,11 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param accountingLine the accounting line needed to be populated
      */
     protected void populateAccountingLine(EffortCertificationDocument effortCertificationDocument, EffortCertificationDetail detailLine, LaborLedgerExpenseTransferAccountingLine accountingLine) {
-        if (detailLine.isAccountExpiredOverride()) {
-            AccountingLineOverride override = EffortCertificationDetailLineOverride.determineNeededOverrides(detailLine);
+        // if an expired account override is needed, set it, otherwise validations on the downstream SET doc could fail
+        AccountingLineOverride override = EffortCertificationDetailLineOverride.determineNeededOverrides(detailLine);
+        accountingLine.setAccountExpiredOverrideNeeded(override.hasComponent(COMPONENT.EXPIRED_ACCOUNT));
+        accountingLine.setAccountExpiredOverride(accountingLine.getAccountExpiredOverrideNeeded());
+        if (accountingLine.getAccountExpiredOverrideNeeded()) {
             accountingLine.setOverrideCode(override.getCode());
         }
 
@@ -412,6 +416,8 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
         accountingLine.setPayrollEndDateFiscalYear(reportDefinition.getExpenseTransferFiscalYear());
         accountingLine.setPayrollEndDateFiscalPeriodCode(reportDefinition.getExpenseTransferFiscalPeriodCode());
+
+        accountingLine.refreshNonUpdateableReferences();
     }
 
     /**

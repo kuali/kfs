@@ -125,29 +125,47 @@
 		</property>
 	</bean>
 	
-    <bean id="kfsService" parent="kfsService-parentBean"/>
-	<bean id="kfsService-parentBean" class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition" abstract="true">
-      <property name="serviceNameSpaceURI" value="" />
-      <property name="retryAttempts" value="0" />
-    </bean>
-    
-    <bean id="kfsJaxWsSoapService" parent="kfsJaxWsSoapService-parentBean"/>
-    <bean id="kfsJaxWsSoapService-parentBean" class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" abstract="true">
-       <property name="serviceNameSpaceURI" value="KFS"/>
-       <property name="jaxWsService" value="true"/>
-       <property name="priority" value="3" />
-       <property name="retryAttempts" value="0" />
-       <!-- TODO: make config property for bus security -->
-       <property name="busSecurity" value="false"/>
-    </bean>
-    
-    <bean id="kfsJaxWsRestService" parent="kfsJaxWsRestService-parentBean"/>
-    <bean id="kfsJaxWsRestService-parentBean" class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition" abstract="true">
-       <property name="serviceNameSpaceURI" value="KFS"/>
-       <property name="priority" value="3" />
-       <property name="retryAttempts" value="0" />
-       <property name="busSecurity" value="false"/>
-    </bean>
+	<bean id="kfsSoapServiceDefinition" abstract="true" 
+		  class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+		  p:jaxWsService="true"
+		  p:priority="3"
+		  p:retryAttempts="0"
+		  p:busSecurity="${soap.service.default.service.bus.security.enabled}"
+		  p:serviceVersion="${kfs.version}"
+		  p:servicePath=""
+		  p:serviceNameSpaceURI="${kfs.service.namespace.uri}" />
+
+	<bean id="kfsServiceBusExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter" abstract="true"
+		  p:serviceBus-ref="rice.ksb.serviceBus" />
+
+	<bean id="kfsCallbackService" abstract="true" 
+		  class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
+		  p:serviceBus-ref="rice.ksb.serviceBus"
+		  p:serviceNameSpaceURI="${kfs.service.namespace.uri}" />
+
+	<bean id="roleTypeServiceCallback" parent="kfsCallbackService" abstract="true" 
+		  p:busSecurity="${kim.callback.service.bus.security.enabled}"
+		  p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+
+	<bean id="permissionTypeServiceCallback" parent="kfsCallbackService" abstract="true" 
+		  p:busSecurity="${kim.callback.service.bus.security.enabled}"
+		  p:serviceInterface="org.kuali.rice.kim.framework.permission.PermissionTypeService" />
+
+	<bean id="groupTypeServiceCallback" parent="kfsCallbackService" abstract="true" 
+		  p:busSecurity="${kim.callback.service.bus.security.enabled}"
+		  p:serviceInterface="org.kuali.rice.kim.framework.group.GroupTypeService" />
+
+	<bean id="documentSearchCustomizerCallback" parent="kfsCallbackService" abstract="true" 
+		  p:busSecurity="${kew.callback.service.bus.security.enabled}"
+		  p:serviceInterface="org.kuali.rice.kew.framework.document.search.DocumentSearchCustomizer" />
+
+	<bean id="searchableAttributeCallback" parent="kfsCallbackService" abstract="true" 
+		  p:busSecurity="${kew.callback.service.bus.security.enabled}"
+		  p:serviceInterface="org.kuali.rice.kew.framework.document.attribute.SearchableAttribute" />
+
+	<bean id="customActionListAttributeCallback" parent="kfsCallbackService" abstract="true" 
+		  p:busSecurity="${kew.callback.service.bus.security.enabled}"
+		  p:serviceInterface="org.kuali.rice.kew.actionlist.CustomActionListAttribute" />
     
     <bean id="schedulerService" parent="schedulerService-parentBean"/>
 	<bean id="schedulerService-parentBean" abstract="true" class="org.kuali.kfs.sys.batch.service.impl.SchedulerServiceImpl">

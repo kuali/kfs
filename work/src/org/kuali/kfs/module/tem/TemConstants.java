@@ -225,6 +225,7 @@ public class TemConstants extends JSTLConstants {
 
         public static final String ENABLE_VENDOR_PAYMENT_BEFORE_TA_FINAL_APPROVAL_IND = "ENABLE_VENDOR_PAYMENT_BEFORE_TA_FINAL_APPROVAL_IND";
         public static final String HOLD_NEW_FY_ENCUMBRANCES_IND = "HOLD_NEW_FY_ENCUMBRANCES_IND";
+        public static final String ALLOW_IMPORTED_EXPENSE_IND = "ALLOW_IMPORTED_EXPENSE_IND";
     }
 
     public static class TravelReimbursementParameters {

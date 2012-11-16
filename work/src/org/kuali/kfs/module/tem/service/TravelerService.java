@@ -28,7 +28,6 @@ import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
 import org.kuali.rice.kim.bo.entity.impl.KimEntityAddressImpl;
-import org.kuali.rice.kim.bo.impl.PersonImpl;
 
 public interface TravelerService {
     

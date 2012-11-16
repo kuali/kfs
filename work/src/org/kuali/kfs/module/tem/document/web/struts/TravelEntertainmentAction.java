@@ -37,7 +37,6 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
-import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.service.TravelEntertainmentDocumentService;

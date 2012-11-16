@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -22,6 +23,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TravelCardType;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
@@ -118,6 +120,18 @@ public class TravelServiceImpl implements TravelService {
         return travelDocumentDao.findAllDistinctPrimaryDestinations(tripType);
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.TravelService#getTravelCardTypes()
+     */
+    @Override
+    public List<String> getTravelCardTypes() {
+        List<String> travelCardTypes = new ArrayList<String>();
+        for (TravelCardType cardType : (List<TravelCardType>)businessObjectService.findAll(TravelCardType.class)){
+            travelCardTypes.add(cardType.getCode());
+        }
+        return travelCardTypes;
+    }
+    
     /**
      * @see org.kuali.kfs.module.tem.service.TravelService#findDefaultPrimaryDestinations(java.lang.Class, java.lang.String)
      */

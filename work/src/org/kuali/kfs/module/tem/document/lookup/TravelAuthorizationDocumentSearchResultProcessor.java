@@ -25,7 +25,6 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.docsearch.DocSearchDTO;

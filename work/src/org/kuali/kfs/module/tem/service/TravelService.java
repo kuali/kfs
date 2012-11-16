@@ -76,4 +76,12 @@ public interface TravelService {
      */
     @SuppressWarnings("rawtypes")
     public List findDefaultPrimaryDestinations(Class clazz, String countryCode);
+    
+
+    /**
+     * Get Travel Card Type code list
+     * 
+     * @return
+     */
+    public List<String> getTravelCardTypes();
 }

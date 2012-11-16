@@ -118,6 +118,16 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     }
     
     /**
+     * Display imported expense related tab base on Travel Authorization document base on system parameter
+     * 
+     * @return
+     */
+    public boolean isDisplayImportedExpenseRelatedTab(){
+        boolean display = getParameterService().getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ALLOW_IMPORTED_EXPENSE_IND);
+        return display;
+    }
+    
+    /**
      * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getPerDiemLabel()
      */
     @Override

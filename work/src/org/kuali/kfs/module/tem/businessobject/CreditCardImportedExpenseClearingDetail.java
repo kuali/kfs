@@ -19,7 +19,6 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class CreditCardImportedExpenseClearingDetail extends GlobalBusinessObjectDetailBase {
     private Integer creditCardStagingDataId;

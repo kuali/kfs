@@ -101,6 +101,7 @@ import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.PerDiemService;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
+import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -177,6 +178,10 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     
     protected TravelerService getTravelerService() {
         return SpringContext.getBean(TravelerService.class);
+    }
+    
+    protected TravelService getTravelService() {
+        return SpringContext.getBean(TravelService.class);
     }
 
     protected AccountingDistributionService getAccountingDistributionService() {
@@ -302,9 +307,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             request.setAttribute(FISCAL_OFFICER_TEST_ATTRIBUTE, setFiscalOfficer((TravelFormBase) form));
             request.setAttribute(DELINQUENT_TEST_ATTRIBUTE, document.getDelinquentAction());
         }
-        // if (travelFormBase.getTravelDocument().getSourceAccountingLines() != null){
-        // Collections.sort(travelFormBase.getTravelDocument().getSourceAccountingLines(), new SourceAccountingLineComparator());
-        // }
         
         ExpenseUtils.calculateMileage(document.getActualExpenses());
         
@@ -1205,6 +1207,9 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         final TravelMvcWrapperBean mvcWrapper = newMvcDelegate(form);
 
         travelForm.getObservable().notifyObservers(new Object[] { mvcWrapper, getSelectedLine(request) });
+        
+        //remove the imported expense accounting line if import expense list is empty
+        checkImportedExpenseAccountingLine(travelForm.getTravelDocument());
         this.save(mapping, travelForm, request, response);
         GlobalVariables.getMessageList().add(TemKeyConstants.INFO_TEM_IMPORT_DOCUMENT_SAVE);
         
@@ -1459,6 +1464,28 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         return forward;
     }
 
+    /**
+     * Remove the document accounting lines which were tied to import expenses
+     * 
+     * @param document
+     */
+    public void checkImportedExpenseAccountingLine(TravelDocument document){
+        //remove imported expenses accounting line if there is no import expense
+        if (!document.getSourceAccountingLines().isEmpty() && document.getImportedExpenses().isEmpty()){
+            List<SourceAccountingLine> filteredAccountingLine = new ArrayList<SourceAccountingLine>();
+            
+            //get the travel card type lists
+            List<String> cardTypes = getTravelService().getTravelCardTypes();
+            for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)document.getSourceAccountingLines()){
+                //filter out any source accounting line that is of travel card type
+                if (!cardTypes.contains(line.getCardType())){
+                    filteredAccountingLine.add(line);
+                }
+            }
+            document.setSourceAccountingLines(filteredAccountingLine);
+        }
+    }
+    
     /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#blanketApprove(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)

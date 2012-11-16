@@ -18,7 +18,6 @@ package org.kuali.kfs.module.tem.document.lookup;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementStatusCodeKeys;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.TemPropertyConstants;

@@ -39,10 +39,12 @@
     <c:if test="${not empty KualiForm.document.primaryDestinationName}"> 
     	<tem:perDiemExpenses />
     </c:if>
-    <tem:expenses />
+    <tem-ta:expenses />
     <tem-ta:estimateTotal /> 
-	<tem:summaryByObjectCode />
-	<tem:assignAccounts />
+	<c:if test="${KualiForm.displayImportedExpenseRelatedTab}">
+	    <tem:summaryByObjectCode />
+	    <tem:assignAccounts />
+    </c:if>
     <c:if test="${KualiForm.displayAccountingLines}">
     	<tem:accountingLines />
     </c:if>

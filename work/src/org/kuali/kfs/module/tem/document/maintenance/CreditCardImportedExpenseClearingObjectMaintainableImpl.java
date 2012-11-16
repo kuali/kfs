@@ -17,15 +17,12 @@ package org.kuali.kfs.module.tem.document.maintenance;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.module.tem.businessobject.CreditCardImportedExpenseClearingDetail;
 import org.kuali.kfs.module.tem.businessobject.CreditCardImportedExpenseClearingObject;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
 

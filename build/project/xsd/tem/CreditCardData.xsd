@@ -29,7 +29,7 @@
     <xsd:element name="sequenceNumber" type="sequenceNumber" />
     <xsd:element name="ticketNumber" type="ticketNumber" />
     <xsd:element name="transactionAmount" type="transactionAmount" />
-    <xsd:element name="trasnsactionCode" type="trasnsactionCode" />
+    <xsd:element name="transactionCode" type="transactionCode" />
     <xsd:element name="transactionDate" type="xsd:date" />
     <xsd:element name="travelerName" type="travelerName" />
     <xsd:element name="typeCode" type="typeCode" />
@@ -102,7 +102,7 @@
         </xsd:restriction>
     </xsd:simpleType>
     
-    <xsd:simpleType name="trasnsactionCode">
+    <xsd:simpleType name="transactionCode">
         <xsd:restriction base="xsd:normalizedString">
             <xsd:maxLength value="1"/>
             <xsd:whiteSpace value="replace"/>
@@ -181,7 +181,7 @@
 		    <xsd:element ref="sequenceNumber" minOccurs="0" maxOccurs="1" />
 		    <xsd:element ref="ticketNumber" minOccurs="0" maxOccurs="1" />
 		    <xsd:element ref="transactionAmount" minOccurs="0" maxOccurs="1" />
-		    <xsd:element ref="trasnsactionCode" minOccurs="0" maxOccurs="1" />
+		    <xsd:element ref="transactionCode" minOccurs="0" maxOccurs="1" />
 		    <xsd:element ref="transactionDate" minOccurs="0" maxOccurs="1" />
 		    <xsd:element ref="travelerName" minOccurs="0" maxOccurs="1" />    
 		    <xsd:element ref="typeCode" minOccurs="0" maxOccurs="1" />

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -54,6 +54,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#getAccountLabel()
      */
+    @Override
     public String getAccountLabel() {
         return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(Account.class.getName()).getAttributeDefinition(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME).getShortLabel();
     }
@@ -61,6 +62,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#getChartLabel()
      */
+    @Override
     public String getChartLabel() {
         return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(Chart.class.getName()).getAttributeDefinition(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME).getShortLabel();
     }
@@ -68,6 +70,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#getFundGroupCodeLabel()
      */
+    @Override
     public String getFundGroupCodeLabel() {
         return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(FundGroup.class.getName()).getAttributeDefinition(KFSPropertyConstants.CODE).getShortLabel();
     }
@@ -75,6 +78,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#getObjectCodeLabel()
      */
+    @Override
     public String getObjectCodeLabel() {
         return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(ObjectCode.class.getName()).getAttributeDefinition(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME).getShortLabel();
     }
@@ -82,6 +86,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#getObjectSubTypeCodeLabel()
      */
+    @Override
     public String getObjectSubTypeCodeLabel() {
         return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(ObjectSubType.class.getName()).getAttributeDefinition(KFSPropertyConstants.CODE).getShortLabel();
     }
@@ -89,6 +94,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#getObjectTypeCodeLabel()
      */
+    @Override
     public String getObjectTypeCodeLabel() {
         return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(ObjectType.class.getName()).getAttributeDefinition(KFSConstants.GENERIC_CODE_PROPERTY_NAME).getShortLabel();
     }
@@ -96,6 +102,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#getOrganizationCodeLabel()
      */
+    @Override
     public String getOrganizationCodeLabel() {
         return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(Organization.class.getName()).getAttributeDefinition(KFSPropertyConstants.ORGANIZATION_CODE).getShortLabel();
     }
@@ -103,6 +110,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#getProjectCodeLabel()
      */
+    @Override
     public String getProjectCodeLabel() {
         return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(ProjectCode.class.getName()).getAttributeDefinition(KFSPropertyConstants.CODE).getShortLabel();
     }
@@ -110,6 +118,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#getSubAccountLabel()
      */
+    @Override
     public String getSubAccountLabel() {
         return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(SubAccount.class.getName()).getAttributeDefinition(KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME).getShortLabel();
     }
@@ -117,6 +126,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#getSubFundGroupCodeLabel()
      */
+    @Override
     public String getSubFundGroupCodeLabel() {
         return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(SubFundGroup.class.getName()).getAttributeDefinition(KFSPropertyConstants.SUB_FUND_GROUP_CODE).getShortLabel();
     }
@@ -124,6 +134,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#getSubObjectCodeLabel()
      */
+    @Override
     public String getSubObjectCodeLabel() {
         return dataDictionaryService.getDataDictionary().getBusinessObjectEntry(SubObjectCode.class.getName()).getAttributeDefinition(KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME).getShortLabel();
     }
@@ -131,11 +142,12 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#hasRequiredOverrides(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String)
      */
+    @Override
     public boolean hasRequiredOverrides(AccountingLine line, String overrideCode) {
         return hasAccountRequiredOverrides(line, overrideCode) && hasObjectBudgetRequiredOverrides(line, overrideCode);
-        
+
     }
-    
+
     public boolean hasAccountRequiredOverrides(AccountingLine line, String overrideCode) {
         boolean retVal = true;
         AccountingLineOverride override = AccountingLineOverride.valueOf(overrideCode);
@@ -153,7 +165,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         }
         return retVal;
     }
-    
+
     public boolean hasObjectBudgetRequiredOverrides(AccountingLine line, String overrideCode) {
         boolean retVal = true;
         ObjectCode objectCode = line.getObjectCode();
@@ -165,7 +177,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         }
         return retVal;
     }
-    
+
     /**
      * @param account
      * @return an unexpired continuation account for the given account, or, if one cannot be found, null
@@ -193,6 +205,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidAccount(org.kuali.kfs.coa.businessobject.Account, org.kuali.rice.krad.datadictionary.DataDictionary)
      */
+    @Override
     public boolean isValidAccount(String accountIdentifyingPropertyName, Account account, DataDictionary dataDictionary) {
         return isValidAccount(account, dataDictionary, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountIdentifyingPropertyName);
     }
@@ -200,6 +213,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidAccount(org.kuali.kfs.coa.businessobject.Account, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
      */
+    @Override
     public boolean isValidAccount(Account account, DataDictionary dataDictionary, String errorPropertyName, String errorPropertyIdentifyingName) {
         String label = getAccountLabel();
 
@@ -221,6 +235,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidChart(org.kuali.kfs.coa.businessobject.Chart, org.kuali.rice.krad.datadictionary.DataDictionary)
      */
+    @Override
     public boolean isValidChart(String accountIdentifyingPropertyName, Chart chart, DataDictionary dataDictionary) {
         return isValidChart(chart, dataDictionary, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, accountIdentifyingPropertyName);
     }
@@ -228,6 +243,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidChart(org.kuali.kfs.coa.businessobject.Chart, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
      */
+    @Override
     public boolean isValidChart(Chart chart, DataDictionary dataDictionary, String errorPropertyName, String errorPropertyIdentifyingName) {
         String label = getChartLabel();
 
@@ -249,6 +265,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode, org.kuali.rice.krad.datadictionary.DataDictionary)
      */
+    @Override
     public boolean isValidObjectCode(String accountIdentifyingPropertyName, ObjectCode objectCode, DataDictionary dataDictionary) {
         return isValidObjectCode(objectCode, dataDictionary, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, accountIdentifyingPropertyName);
     }
@@ -256,6 +273,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectCode(org.kuali.kfs.coa.businessobject.ObjectCode, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
      */
+    @Override
     public boolean isValidObjectCode(ObjectCode objectCode, DataDictionary dataDictionary, String errorPropertyName, String errorPropertyIdentifyingName) {
         String label = getObjectCodeLabel();
 
@@ -277,6 +295,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectTypeCode(org.kuali.kfs.coa.businessobject.ObjectType, org.kuali.rice.krad.datadictionary.DataDictionary)
      */
+    @Override
     public boolean isValidObjectTypeCode(String accountIdentifyingPropertyName, ObjectType objectTypeCode, DataDictionary dataDictionary) {
         return isValidObjectTypeCode(objectTypeCode, dataDictionary, KFSConstants.OBJECT_TYPE_CODE_PROPERTY_NAME, accountIdentifyingPropertyName);
     }
@@ -284,6 +303,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidObjectTypeCode(org.kuali.kfs.coa.businessobject.ObjectType, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
      */
+    @Override
     public boolean isValidObjectTypeCode(ObjectType objectTypeCode, DataDictionary dataDictionary, String errorPropertyName, String errorPropertyIdentifyingName) {
         // note that the errorPropertyName does not match the actual attribute name
         String label = getObjectTypeCodeLabel();
@@ -306,6 +326,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidProjectCode(org.kuali.kfs.coa.businessobject.ProjectCode, org.kuali.rice.krad.datadictionary.DataDictionary)
      */
+    @Override
     public boolean isValidProjectCode(String errorPropertyIdentifyingName, ProjectCode projectCode, DataDictionary dataDictionary) {
         return isValidProjectCode(projectCode, dataDictionary, KFSConstants.PROJECT_CODE_PROPERTY_NAME, errorPropertyIdentifyingName);
     }
@@ -313,6 +334,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidProjectCode(org.kuali.kfs.coa.businessobject.ProjectCode, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
      */
+    @Override
     public boolean isValidProjectCode(ProjectCode projectCode, DataDictionary dataDictionary, String errorPropertyName, String errorPropertyIdentifyingName) {
         // note that the errorPropertyName does not match the actual attribute name
         String label = getProjectCodeLabel();
@@ -335,6 +357,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubAccount(org.kuali.kfs.coa.businessobject.SubAccount, org.kuali.rice.krad.datadictionary.DataDictionary)
      */
+    @Override
     public boolean isValidSubAccount(String accountIdentifyingPropertyName, SubAccount subAccount, DataDictionary dataDictionary) {
         return isValidSubAccount(subAccount, dataDictionary, KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, accountIdentifyingPropertyName);
     }
@@ -342,6 +365,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubAccount(org.kuali.kfs.coa.businessobject.SubAccount, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
      */
+    @Override
     public boolean isValidSubAccount(SubAccount subAccount, DataDictionary dataDictionary, String errorPropertyName, String errorPropertyIdentifyingName) {
         String label = getSubAccountLabel();
 
@@ -363,6 +387,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubObjectCode(org.kuali.kfs.coa.businessobject.SubObjCd, org.kuali.rice.krad.datadictionary.DataDictionary)
      */
+    @Override
     public boolean isValidSubObjectCode(String accountIdentifyingPropertyName, SubObjectCode subObjectCode, DataDictionary dataDictionary) {
         return isValidSubObjectCode(subObjectCode, dataDictionary, KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, accountIdentifyingPropertyName);
     }
@@ -370,6 +395,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#isValidSubObjectCode(org.kuali.kfs.coa.businessobject.SubObjCd, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
      */
+    @Override
     public boolean isValidSubObjectCode(SubObjectCode subObjectCode, DataDictionary dataDictionary, String errorPropertyName, String errorPropertyIdentifyingName) {
         String label = getSubObjectCodeLabel();
 
@@ -390,6 +416,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     /**
      * @see org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService#validateAccountingLine(org.kuali.kfs.sys.businessobject.AccountingLine)
      */
+    @Override
     public boolean validateAccountingLine(AccountingLine accountingLine) {
         if (accountingLine == null) {
             throw new IllegalStateException(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.ERROR_DOCUMENT_NULL_ACCOUNTING_LINE));
@@ -402,7 +429,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
 
         //get the accounting line sequence string to identify which line has error.
         String accountIdentifyingPropertyName = getAccountIdentifyingPropertyName(accountingLine);
-        
+
         // retrieve accounting line objects to validate
         accountingLine.refreshReferenceObject("chart");
         Chart chart = accountingLine.getChart();
@@ -415,7 +442,7 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         valid &= isValidChart(accountIdentifyingPropertyName, chart, dd);
         valid &= isValidAccount(accountIdentifyingPropertyName, account, dd);
         // sub account is not required
-        if (StringUtils.isNotBlank(accountingLine.getSubAccountNumber())) {
+        if (StringUtils.isNotBlank(accountingLine.getSubAccountNumber()) && !accountingLine.getSubAccountNumber().equals(KFSConstants.getDashSubAccountNumber())) {
             accountingLine.refreshReferenceObject("subAccount");
             SubAccount subAccount = accountingLine.getSubAccount();
             valid &= isValidSubAccount(accountIdentifyingPropertyName, subAccount, dd);
@@ -445,10 +472,10 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         valid &= hasRequiredOverrides(accountingLine, accountingLine.getOverrideCode());
         return valid;
     }
-    
+
     /**
      * This method will check the reference origin code for existence in the system and whether it can actively be used.
-     * 
+     *
      * @param referenceOriginCode
      * @param accountingLineEntry
      * @return boolean True if the object is valid; false otherwise.
@@ -456,10 +483,10 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     protected boolean isValidReferenceOriginCode(String accountIdentifyingPropertyName, OriginationCode referenceOriginCode, org.kuali.rice.krad.datadictionary.BusinessObjectEntry accountingLineEntry) {
         return checkExistence(referenceOriginCode, accountingLineEntry, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, accountIdentifyingPropertyName);
     }
-    
+
     /**
      * This method will check the reference type code for existence in the system and whether it can actively be used.
-     * 
+     *
      * @param documentTypeCode the document type name of the reference document type
      * @param referenceType
      * @param accountingLineEntry
@@ -472,11 +499,11 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
         }
         return checkExistence(referenceType, accountingLineEntry, KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSPropertyConstants.REFERENCE_TYPE_CODE, errorPropertyIdentifyingName);
     }
-    
+
     /**
      * Checks for the existence of the given Object. This is doing an OJB-proxy-smart check, so assuming the given Object is not in
      * need of a refresh(), this method adds an ERROR_EXISTENCE to the global error map if the given Object is not in the database.
-     * 
+     *
      * @param toCheck the Object to check for existence
      * @param accountingLineEntry to get the property's label for the error message parameter.
      * @param attributeName the name of the SourceAccountingLine attribute in the DataDictionary accountingLineEntry
@@ -495,14 +522,14 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
 
     protected String getAccountIdentifyingPropertyName(AccountingLine accountingLine) {
         String errorProperty = "";
-        
+
         if (accountingLine.getSequenceNumber() != null) {
             errorProperty = "Accounting Line: " + accountingLine.getSequenceNumber() + ", Chart: " + accountingLine.getChartOfAccountsCode() + ", Account: " + accountingLine.getAccountNumber() + " - ";
         }
-        
+
         return errorProperty;
     }
-    
+
     /**
      * Sets the dataDictionaryService attribute value.
      * @param dataDictionaryService The dataDictionaryService to set.
@@ -510,13 +537,13 @@ public class AccountingLineRuleHelperServiceImpl implements AccountingLineRuleHe
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
-    
+
     public DataDictionaryService getDataDictionaryService() {
         return this.dataDictionaryService;
     }
 
     /**
-     * Gets the financialSystemDocumentTypeService attribute. 
+     * Gets the financialSystemDocumentTypeService attribute.
      * @return Returns the financialSystemDocumentTypeService.
      */
     public FinancialSystemDocumentTypeService getFinancialSystemDocumentTypeService() {

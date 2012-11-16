@@ -452,6 +452,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
         // set the encumbrance update code Set to ENCUMB_UPDT_REFERENCE_DOCUMENT_CD ("R")
         explicitEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
+
+        // set the offset entry to Debit "D"
+        explicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
         explicitEntry.setDocumentNumber(this.getDocumentNumber());
 
         String referenceDocumentNumber = this.getTravelDocumentIdentifier();
@@ -460,13 +463,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
             explicitEntry.setReferenceFinancialDocumentTypeCode(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
             explicitEntry.setReferenceFinancialSystemOriginationCode(TemConstants.ORIGIN_CODE);
         }
-        // set the offset entry to Debit "D"
-        explicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
 
-        this.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
-        TripType tripType = this.getTripType();
-        if (ObjectUtils.isNotNull(tripType)) {
-            String balanceType = tripType.getEncumbranceBalanceType();
+        String balanceType = getTravelEncumbranceService().getEncumbranceBalanceTypeByTripType(this);
+        if (StringUtils.isNotEmpty(balanceType)) {
             explicitEntry.setFinancialBalanceTypeCode(balanceType);
         }
     }

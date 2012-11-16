@@ -445,7 +445,6 @@
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountsReceivableObjectCode" />
 	</reference-descriptor>
-	<!--
 	<reference-descriptor name="subObjectCode" class-ref="org.kuali.kfs.coa.businessobject.SubObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="postingYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
@@ -473,7 +472,6 @@
 	<reference-descriptor name="project" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="projectCode" />
 	</reference-descriptor>
-	 -->
  	<reference-descriptor name="unitOfMeasure" class-ref="org.kuali.kfs.sys.businessobject.UnitOfMeasure" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="invoiceItemUnitOfMeasureCode" />
 	</reference-descriptor>

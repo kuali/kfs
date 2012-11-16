@@ -60,7 +60,6 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * @see org.kuali.rice.core.api.datetime.DateTimeService#getCurrentFiscalYear()
      */
     @Override
-    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{CurrentFiscalYear}'")
     public Integer getCurrentFiscalYear() {
         java.util.Date now = dateTimeService.getCurrentDate();
 

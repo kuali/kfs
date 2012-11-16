@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
@@ -173,32 +174,10 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
 
         line.setDocumentNumber(getDocument().getDocumentNumber());
 
-        // SR 16387 : JHK : Because these are no longer OJB proxies and have smart getters, the setting of the
-        // keys in the child objects is no longer needed
-//        if (ObjectUtils.isNull(line.getAccount())) {
-//            line.setAccount(new Account());
-//        }
-//        line.getAccount().setChartOfAccountsCode(line.getChartOfAccountsCode());
-//
-//        if (ObjectUtils.isNull(line.getObjectCode())) {
-//            line.setObjectCode(new ObjectCode());
-//        }
-//        line.getObjectCode().setUniversityFiscalYear(getFinancialDocument().getPostingYear());
-//        line.getObjectCode().setChartOfAccountsCode(line.getChartOfAccountsCode());
-//
-//        if (ObjectUtils.isNull(line.getSubAccount())) {
-//            line.setSubAccount(new SubAccount());
-//        }
-//        line.getSubAccount().setChartOfAccountsCode(line.getChartOfAccountsCode());
-//        line.getSubAccount().setAccountNumber(line.getAccountNumber());
-//
-//        if (ObjectUtils.isNull(line.getSubObjectCode())) {
-//            line.setSubObjectCode(new SubObjectCode());
-//        }
-//        line.getSubObjectCode().setChartOfAccountsCode(line.getChartOfAccountsCode());
-//        line.getSubObjectCode().setAccountNumber(line.getAccountNumber());
-//        line.getSubObjectCode().setFinancialObjectCode(line.getFinancialObjectCode());
-//        line.getSubObjectCode().setUniversityFiscalYear(getFinancialDocument().getPostingYear());
+        if (ObjectUtils.isNull(line.getAccount())) {
+            line.setAccount(new Account());
+        }
+        line.getAccount().setChartOfAccountsCode(line.getChartOfAccountsCode());
 
         if (ObjectUtils.isNull(line.getObjectCode())) {
             line.setObjectCode(new ObjectCode());

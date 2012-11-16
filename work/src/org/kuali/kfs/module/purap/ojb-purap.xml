@@ -46,7 +46,6 @@
         <foreignkey field-ref="documentNumber" />
         <foreignkey field-ref="itemIdentifier" />
     </reference-descriptor>
-    <!-- 
     <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
@@ -72,7 +71,6 @@
     <reference-descriptor name="project" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
-     -->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem" table="PUR_PO_ITM_T">
@@ -2822,7 +2820,6 @@
     <reference-descriptor name="purapItem" class-ref="org.kuali.kfs.module.purap.businessobject.PaymentRequestItem" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="itemIdentifier" />
     </reference-descriptor>
-    <!-- 
     <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
@@ -2848,7 +2845,6 @@
     <reference-descriptor name="project" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
-     -->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.PaymentRequestItem" table="AP_PMT_RQST_ITM_T">
@@ -2906,7 +2902,6 @@
     <reference-descriptor name="purapItem" class-ref="org.kuali.kfs.module.purap.businessobject.RequisitionItem" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="itemIdentifier" />
     </reference-descriptor>
-    <!-- 
     <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
@@ -2932,7 +2927,6 @@
     <reference-descriptor name="project" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
-     -->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.RequisitionItemCapitalAsset" table="PUR_REQS_CPTL_AST_ITM_AST_T">
@@ -3601,7 +3595,6 @@
     <reference-descriptor name="purapItem" class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoItem" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="itemIdentifier" />
     </reference-descriptor>
-    <!-- 
     <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
@@ -3627,7 +3620,6 @@
     <reference-descriptor name="project" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
-     -->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.businessobject.AccountsPayableSummaryAccount" table="AP_SUM_ACCT_T">
@@ -3645,7 +3637,6 @@
     <field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="amount" column="ITM_ACCT_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="updateTimestamp" column="LST_UPDT_TS" jdbc-type="TIMESTAMP" />
-	 <!-- 
     <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
@@ -3668,7 +3659,6 @@
         <foreignkey field-ref="financialObjectCode" />
         <foreignkey field-ref="financialSubObjectCode" />
     </reference-descriptor>
-     -->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.purap.document.LineItemReceivingDocument" table="PUR_RCVNG_LN_T">
@@ -4161,7 +4151,6 @@
     <reference-descriptor name="purapItem" class-ref="org.kuali.kfs.module.purap.businessobject.PaymentRequestItem" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="itemIdentifier" />
     </reference-descriptor>
-    <!--
     <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
@@ -4187,7 +4176,6 @@
     <reference-descriptor name="project" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
-     -->
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="postingYear" />
         <foreignkey field-ref="postingPeriodCode" />
@@ -4213,7 +4201,6 @@
    <reference-descriptor name="purapItem" class-ref="org.kuali.kfs.module.purap.businessobject.CreditMemoItem" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="itemIdentifier" />
     </reference-descriptor>
-    <!-- 
     <reference-descriptor name="chart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
@@ -4239,7 +4226,6 @@
     <reference-descriptor name="project" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
-     -->
     <reference-descriptor name="accountingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="postingYear" />
         <foreignkey field-ref="postingPeriodCode" />

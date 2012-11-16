@@ -18,7 +18,6 @@ package org.kuali.kfs.fp.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -27,8 +26,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * This class is used to represent a fiscal year function control business object.
  */
 public class FiscalYearFunctionControl extends PersistableBusinessObjectBase implements FiscalYearBasedBusinessObject {
-
-    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "FiscalYearFunctionControl";
 
     private Integer universityFiscalYear;
     private String financialSystemFunctionControlCode;

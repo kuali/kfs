@@ -18,7 +18,6 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -27,7 +26,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * 
  */
 public class OriginationCode extends PersistableBusinessObjectBase implements MutableInactivatable {
-    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "OriginationCode";
 
     private String financialSystemOriginationCode;
     private String financialSystemServerName;

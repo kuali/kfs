@@ -1,11 +1,11 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2007 The Kuali Foundation
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.opensource.org/licenses/ecl2.php
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.businessobject;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -33,17 +34,9 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.coa.service.BalanceTypeService;
-import org.kuali.kfs.coa.service.ChartService;
-import org.kuali.kfs.coa.service.ObjectCodeService;
-import org.kuali.kfs.coa.service.ObjectTypeService;
-import org.kuali.kfs.coa.service.ProjectCodeService;
-import org.kuali.kfs.coa.service.SubAccountService;
-import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.fp.businessobject.SalesTax;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.OriginationCodeService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
@@ -123,13 +116,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      */
     @Override
     public Account getAccount() {
-        if ( StringUtils.isBlank(getChartOfAccountsCode()) || StringUtils.isBlank(getAccountNumber())) {
-            account = new Account();
-        } else if ( account == null
-                || !StringUtils.equals(account.getChartOfAccountsCode(), getChartOfAccountsCode())
-                || !StringUtils.equals(account.getAccountNumber(), getAccountNumber()) ) {
-            account = SpringContext.getBean(AccountService.class).getByPrimaryIdWithCaching(getChartOfAccountsCode(), getAccountNumber());
-        }
         return account;
     }
 
@@ -148,11 +134,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      */
     @Override
     public Chart getChart() {
-        if ( StringUtils.isBlank(getChartOfAccountsCode()) ) {
-            chart = new Chart();
-        } else if ( chart == null || !StringUtils.equals(chart.getChartOfAccountsCode(), getChartOfAccountsCode()) ) {
-            chart = SpringContext.getBean(ChartService.class).getByPrimaryId(getChartOfAccountsCode());
-        }
         return chart;
     }
 
@@ -195,11 +176,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      */
     @Override
     public BalanceType getBalanceTyp() {
-        if ( StringUtils.isBlank(getBalanceTypeCode()) ) {
-            balanceTyp = new BalanceType();
-        } else if ( balanceTyp == null || !StringUtils.equals(balanceTyp.getCode(), getBalanceTypeCode()) ) {
-            balanceTyp = SpringContext.getBean(BalanceTypeService.class).getBalanceTypeByCode(getBalanceTypeCode());
-        }
         return balanceTyp;
     }
 
@@ -218,18 +194,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      */
     @Override
     public ObjectCode getObjectCode() {
-        if ( StringUtils.isBlank(getFinancialObjectCode()) || getPostingYear() == null || StringUtils.isBlank(getChartOfAccountsCode()) ) {
-            objectCode = new ObjectCode();
-        } else if ( objectCode == null
-                || !StringUtils.equals(objectCode.getFinancialObjectCode(), getFinancialObjectCode())
-                || !StringUtils.equals(objectCode.getChartOfAccountsCode(), getChartOfAccountsCode())
-                || getPostingYear().equals(objectCode.getUniversityFiscalYear()) ) {
-            objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdWithCaching( getPostingYear(), getChartOfAccountsCode(), getFinancialObjectCode());
-            if ( objectCode == null ) {
-                objectCode = new ObjectCode();
-            }
-        }
-
         return objectCode;
     }
 
@@ -266,11 +230,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      */
     @Override
     public OriginationCode getReferenceOrigin() {
-        if ( StringUtils.isBlank(getReferenceOriginCode()) ) {
-            referenceOrigin = new OriginationCode();
-        } else if ( referenceOrigin == null || !StringUtils.equals(referenceOrigin.getFinancialSystemOriginationCode(), getReferenceOriginCode()) ) {
-            referenceOrigin = SpringContext.getBean(OriginationCodeService.class).getByPrimaryKey(getReferenceOriginCode());
-        }
         return referenceOrigin;
     }
 
@@ -427,14 +386,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      */
     @Override
     public SubAccount getSubAccount() {
-        if ( StringUtils.isBlank(getChartOfAccountsCode()) || StringUtils.isBlank(getAccountNumber()) || StringUtils.isBlank(getSubAccountNumber()) ) {
-            subAccount = new SubAccount();
-        } else if ( subAccount == null
-                || !StringUtils.equals(subAccount.getChartOfAccountsCode(), getChartOfAccountsCode())
-                || !StringUtils.equals(subAccount.getAccountNumber(), getAccountNumber())
-                || !StringUtils.equals(subAccount.getSubAccountNumber(), getSubAccountNumber())) {
-            subAccount = SpringContext.getBean(SubAccountService.class).getByPrimaryIdWithCaching(getChartOfAccountsCode(), getAccountNumber(), getSubAccountNumber() );
-        }
         return subAccount;
     }
 
@@ -453,16 +404,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      */
     @Override
     public SubObjectCode getSubObjectCode() {
-        if ( StringUtils.isBlank(getFinancialObjectCode()) || getPostingYear() == null || StringUtils.isBlank(getChartOfAccountsCode()) || StringUtils.isBlank(getAccountNumber()) || StringUtils.isBlank(getFinancialSubObjectCode()) ) {
-            subObjectCode = new SubObjectCode();
-        } else if ( subObjectCode == null
-                || !StringUtils.equals(subObjectCode.getFinancialSubObjectCode(), getFinancialSubObjectCode())
-                || !StringUtils.equals(subObjectCode.getFinancialObjectCode(), getFinancialObjectCode())
-                || !StringUtils.equals(subObjectCode.getAccountNumber(), getAccountNumber())
-                || !StringUtils.equals(subObjectCode.getChartOfAccountsCode(), getChartOfAccountsCode())
-                || getPostingYear().equals(subObjectCode.getUniversityFiscalYear()) ) {
-            subObjectCode = SpringContext.getBean(SubObjectCodeService.class).getByPrimaryId( getPostingYear(), getChartOfAccountsCode(), getAccountNumber(), getFinancialObjectCode(), getFinancialSubObjectCode() );
-        }
         return subObjectCode;
     }
 
@@ -572,8 +513,8 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      */
     @Override
     public ObjectType getObjectType() {
-        if ( StringUtils.isNotBlank(getObjectTypeCode()) ) {
-            return SpringContext.getBean(ObjectTypeService.class).getByPrimaryKey(getObjectTypeCode());
+        if ( getObjectTypeCode() != null ) {
+            return objectCode.getFinancialObjectType();
         }
         return null;
     }
@@ -665,12 +606,19 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      */
     @Override
     public String getObjectTypeCode() {
-        return getObjectCode().getFinancialObjectTypeCode();
+        if ( ObjectUtils.isNull(objectCode)
+                || !StringUtils.equals(getFinancialObjectCode(), objectCode.getFinancialObjectCode())
+                || !StringUtils.equals(getChartOfAccountsCode(), objectCode.getChartOfAccountsCode())
+                || !getPostingYear().equals(objectCode.getUniversityFiscalYear() )
+                        ) {
+            refreshReferenceObject("objectCode");
         }
 
-    public void setObjectTypeCode( String objectTypeCode ) {
-        // do nothing - just here to shut up the PojoFormBase about a missing setter
+        if (!ObjectUtils.isNull(objectCode)) {
+            return objectCode.getFinancialObjectTypeCode();
         }
+        return null;
+    }
 
     /**
      * @return Returns the financialDocumentLineTypeCode.
@@ -693,11 +641,6 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      */
     @Override
     public ProjectCode getProject() {
-        if ( StringUtils.isBlank(getProjectCode()) ) {
-            project = new ProjectCode();
-        } else if ( project == null || !StringUtils.equals(project.getCode(), getProjectCode()) ) {
-            project = SpringContext.getBean(ProjectCodeService.class).getByPrimaryId(getProjectCode());
-        }
         return project;
     }
 
@@ -741,6 +684,34 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     @Override
     public void setFinancialDocumentLineDescription(String financialDocumentLineDescription) {
         this.financialDocumentLineDescription = financialDocumentLineDescription;
+    }
+
+    /**
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
+        LinkedHashMap m = new LinkedHashMap();
+
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+
+        m.put("sequenceNumber", sequenceNumber);
+        m.put("postingYear", postingYear);
+        m.put("amount", amount);
+        m.put("debitCreditCode", debitCreditCode);
+        m.put("encumbranceUpdateCode", encumbranceUpdateCode);
+        m.put("financialDocumentLineDescription", financialDocumentLineDescription);
+
+        m.put("chart", getChartOfAccountsCode());
+        m.put("account", getAccountNumber());
+        m.put("objectCode", getFinancialObjectCode());
+        m.put("subAccount", getSubAccountNumber());
+        m.put("subObjectCode", getFinancialSubObjectCode());
+        m.put("projectCode", getProjectCode());
+        m.put("balanceTyp", getBalanceTypeCode());
+
+        m.put("orgRefId", getOrganizationReferenceId());
+
+        return m;
     }
 
     /**
@@ -859,7 +830,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
                 isLike = thisValues.equals(otherValues);
 
                 if (!isLike && LOG.isDebugEnabled()) {
-                    StringBuilder inequalities = new StringBuilder();
+                    StringBuffer inequalities = new StringBuffer();
                     boolean first = true;
 
                     for (Iterator i = thisValues.keySet().iterator(); i.hasNext();) {
@@ -879,10 +850,12 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
                         }
                     }
 
+                    if (LOG.isDebugEnabled()) {
                         LOG.debug("inequalities: " + inequalities);
                     }
                 }
             }
+        }
 
         return isLike;
     }
@@ -1042,58 +1015,39 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
         return new HashCodeBuilder(37, 41).append(this.chartOfAccountsCode).append(this.accountNumber).append(this.subAccountNumber).append(this.financialObjectCode).append(this.financialSubObjectCode).append(this.projectCode).append(this.organizationReferenceId).toHashCode();
     }
 
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("AccountingLineBase [");
-        if (documentNumber != null) {
+        if (documentNumber != null)
             builder.append("documentNumber=").append(documentNumber).append(", ");
-        }
-        if (sequenceNumber != null) {
+        if (sequenceNumber != null)
             builder.append("sequenceNumber=").append(sequenceNumber).append(", ");
-        }
-        if (postingYear != null) {
+        if (postingYear != null)
             builder.append("postingYear=").append(postingYear).append(", ");
-        }
-        if (amount != null) {
+        if (amount != null)
             builder.append("amount=").append(amount).append(", ");
-        }
-        if (debitCreditCode != null) {
+        if (debitCreditCode != null)
             builder.append("debitCreditCode=").append(debitCreditCode).append(", ");
-        }
-        if (chartOfAccountsCode != null) {
+        if (chartOfAccountsCode != null)
             builder.append("chartOfAccountsCode=").append(chartOfAccountsCode).append(", ");
-        }
-        if (accountNumber != null) {
+        if (accountNumber != null)
             builder.append("accountNumber=").append(accountNumber).append(", ");
-        }
-        if (subAccountNumber != null) {
+        if (subAccountNumber != null)
             builder.append("subAccountNumber=").append(subAccountNumber).append(", ");
-        }
-        if (financialObjectCode != null) {
+        if (financialObjectCode != null)
             builder.append("financialObjectCode=").append(financialObjectCode).append(", ");
-        }
-        if (financialSubObjectCode != null) {
+        if (financialSubObjectCode != null)
             builder.append("financialSubObjectCode=").append(financialSubObjectCode).append(", ");
-        }
-        if (projectCode != null) {
+        if (projectCode != null)
             builder.append("projectCode=").append(projectCode).append(", ");
-        }
-        if (balanceTypeCode != null) {
+        if (balanceTypeCode != null)
             builder.append("balanceTypeCode=").append(balanceTypeCode);
-        }
         builder.append("]");
         return builder.toString();
     }
 
-    @Override
-    public void refreshReferenceObject(String referenceName) {
-        if ( referenceName.equals("chart") || referenceName.equals("account") || referenceName.equals("objectCode")
-                || referenceName.equals("subAccount") || referenceName.equals("subObjectCode") || referenceName.equals("project")
-                || referenceName.equals("referenceOrigin") ) {
-            return; // do nothing - not OJB objects
-        }
-        super.refreshReferenceObject(referenceName);
-    }
+
 
 }

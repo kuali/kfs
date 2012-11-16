@@ -170,10 +170,8 @@ public class KFSConstants {
     public static final String DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION = "DocSaveBeforeClose";
     @Deprecated
     public static final String EMPLOYEE_ACTIVE_STATUS = "A";
-    @Deprecated
-    public static final String EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME = KFSPropertyConstants.SOURCE_ACCOUNTING_LINE;
-    @Deprecated
-    public static final String EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME = KFSPropertyConstants.TARGET_ACCOUNTING_LINE;
+    public static final String EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME = "sourceAccountingLine";
+    public static final String EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME = "targetAccountingLine";
     public static final String SOURCE_ACCT_LINE_TYPE_CODE = "F"; // F = From, the label for this on most documents
     public static final String TARGET_ACCT_LINE_TYPE_CODE = "T"; // T = To, the label for this on most documents
     public static final String NEW_DOCUMENT_NOTE_PROPERTY_NAME = "newDocumentNote";
@@ -318,8 +316,7 @@ public class KFSConstants {
     public static final String INSERT_SOURCE_LINE_METHOD = "insertSourceLine";
     public static final String INSERT_TARGET_LINE_METHOD = "insertTargetLine";
     public static final String ICR = "Receipt";
-    @Deprecated
-    public static final String PROJECT_CODE_PROPERTY_NAME = KFSPropertyConstants.PROJECT_CODE;
+    public static final String PROJECT_CODE_PROPERTY_NAME = "projectCode";
 
     public static final String INQUIRY_ACTION = "kr/inquiry.do";
     public static final String JOURNAL_VOUCHER_CHANGE_BALANCE_TYPE_QUESTION = "JournalVoucherChangeBalanceTypeQuestion";
@@ -1323,13 +1320,13 @@ public class KFSConstants {
     public static final String YEAR_END_ACCOUNTING_PERIOD_EDIT_DOCUMENT_ACTION = "AccountingPeriodEditAction";
     public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION = "AccountingPeriodViewAction";
     // CSU 6702 END
-
+    
     public static final String ACCOUNTING_PERIOD_TAB_ID = "Accounting Period";
-
+    
     public static final String BUDGET_REALLOCATION_LABEL = "Budget Reallocation";
     public static final String YEAR_END_BUDGET_ADJUSTMENT_LABEL = "Year End Budget Adjustment";
-
+    
     public static final String OVERRIDE_ACCOUNT_FOR_EXPIRED_QUESTION_ID = "OverrideAccountForExpiredQuestion";
-
+    
 }
 

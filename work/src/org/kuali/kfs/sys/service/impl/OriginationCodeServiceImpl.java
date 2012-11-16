@@ -19,7 +19,6 @@ import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.dataaccess.OriginationCodeDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OriginationCodeService;
-import org.springframework.cache.annotation.Cacheable;
 
 @NonTransactional
 public class OriginationCodeServiceImpl implements OriginationCodeService {
@@ -34,8 +33,6 @@ public class OriginationCodeServiceImpl implements OriginationCodeService {
      * 
      * @see org.kuali.rice.krad.service.OriginationCodeService#getByPrimaryKey(java.lang.String)
      */
-    @Override
-    @Cacheable(value=OriginationCode.CACHE_NAME, key="#p0")
     public OriginationCode getByPrimaryKey(String code) {
         return originationCodeDao.findByCode(code);
     }

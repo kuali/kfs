@@ -230,8 +230,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
 
         // force input to uppercase
         SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(accountingLine);
-        //accountingLine.refresh();
-        accountingLine.refreshNonUpdateableReferences();
+        accountingLine.refresh();
 
         return accountingLine;
     }

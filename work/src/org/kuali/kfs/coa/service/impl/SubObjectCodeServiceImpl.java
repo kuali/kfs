@@ -25,7 +25,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.springframework.cache.annotation.Cacheable;
 
 /**
  * This class is the service implementation for the SubObjectCode structure. This is the default implementation that gets delivered
@@ -40,8 +39,6 @@ public class SubObjectCodeServiceImpl implements SubObjectCodeService {
      * @see org.kuali.kfs.coa.service.SubObjectCodeService#getByPrimaryId(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.String)
      */
-    @Override
-    @Cacheable(value=SubObjectCode.CACHE_NAME, key="#p0+'-'+#p1+'-'+#p2+'-'+#p3+'-'+#p4")
     public SubObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
         
         Map<String, Object> keys = new HashMap<String, Object>();
@@ -50,15 +47,13 @@ public class SubObjectCodeServiceImpl implements SubObjectCodeService {
         keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
         keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, financialObjectCode);
         keys.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, financialSubObjectCode);
-        return SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SubObjectCode.class, keys);
+        return (SubObjectCode)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SubObjectCode.class, keys);
     }
 
     /**
      * @see org.kuali.kfs.coa.service.SubObjectCodeService#getByPrimaryIdForCurrentYear(java.lang.String, java.lang.String,
      *      java.lang.String, java.lang.String)
      */
-    @Override
-    @Cacheable(value=SubObjectCode.CACHE_NAME, key="'CURRFY-'+#p0+'-'+#p1+'-'+#p2+'-'+#p3")
     public SubObjectCode getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
         return this.getByPrimaryId(universityDateService.getCurrentFiscalYear(), chartOfAccountsCode, accountNumber, financialObjectCode, financialSubObjectCode);
     }

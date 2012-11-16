@@ -64,7 +64,6 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.PersistenceService;
@@ -197,8 +196,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
             for (Iterator i = accountingLines.iterator(); i.hasNext();) {
                 AccountingLine line = (AccountingLine) i.next();
                // line.refreshReferenceObject("account");
-                // SR 16387 : updating to prevent refresh since no longer OJB bound
-                //SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, AccountingLineOverride.REFRESH_FIELDS);
+                SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, AccountingLineOverride.REFRESH_FIELDS);
                 AccountingLineOverride.processForOutput(financialDocument,line);
             }
         }
@@ -517,9 +515,8 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
             }
 
             // Update the doc total
-            if (tdoc instanceof AmountTotaling) {
+            if (tdoc instanceof AmountTotaling)
                 ((FinancialSystemDocumentHeader) financialDocumentForm.getDocument().getDocumentHeader()).setFinancialDocumentTotalAmount(((AmountTotaling) tdoc).getTotalDollarAmount());
-        }
         }
         else {
             // add it to the document
@@ -531,7 +528,6 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
             }
         }
     }
-
 
     /**
      * TODO: remove this method once baseline accounting lines has been removed

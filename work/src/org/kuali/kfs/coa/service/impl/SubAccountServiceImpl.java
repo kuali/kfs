@@ -38,7 +38,6 @@ public class SubAccountServiceImpl implements SubAccountService {
      * @see org.kuali.kfs.coa.service.SubAccountService#getByPrimaryId(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    @Cacheable(value=SubAccount.CACHE_NAME, key="#p0+'-'+#p1+'-'+#p2")
     public SubAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         Map<String, Object> keys = new HashMap<String, Object>(3);
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);

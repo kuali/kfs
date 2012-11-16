@@ -66,7 +66,7 @@ public class BenefitExpenseTransferSameAccountValidation extends GenericValidati
      */  
     public boolean hasSameAccount(Document document, AccountingLine accountingLine) {
         LaborExpenseTransferDocumentBase expenseTransferDocument = (LaborExpenseTransferDocumentBase) document;
-        List<AccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
+        List<ExpenseTransferSourceAccountingLine> sourceAccountingLines = expenseTransferDocument.getSourceAccountingLines();
 
         accountingLine.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
         

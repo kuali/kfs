@@ -658,7 +658,6 @@
 	<field-descriptor name="overrideCode" 				column="FDOC_OVERRIDE_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="transferPaymentIndicator" 					column="AST_TRNFR_PMT_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 
-<!-- 
 	<reference-descriptor name="objectCode" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="postingYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
@@ -686,13 +685,16 @@
 	<reference-descriptor name="project" class-ref="org.kuali.kfs.coa.businessobject.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="projectCode" />
 	</reference-descriptor>
- -->	
 	<reference-descriptor name="financialDocumentPostingPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="postingYear" />
 		<foreignkey field-ref="postingPeriodCode" />
 	</reference-descriptor>
 	<reference-descriptor name="expenditureFinancialSystemOrigination" class-ref="org.kuali.kfs.sys.businessobject.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="expenditureFinancialSystemOriginationCode" />
+	</reference-descriptor>
+	<reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
 	</reference-descriptor>
 </class-descriptor>
 

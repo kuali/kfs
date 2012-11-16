@@ -29,7 +29,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.cache.annotation.Cacheable;
 
 /**
  * This service implementation is the default implementation of the SubFundGroup service that is delivered with Kuali.
@@ -42,7 +41,6 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
     /**
      * @see org.kuali.kfs.coa.service.SubFundGroupService#isForContractsAndGrants(org.kuali.kfs.coa.businessobject.SubFundGroup)
      */
-    @Override
     public boolean isForContractsAndGrants(SubFundGroup subFundGroup) {
         if (ObjectUtils.isNull(subFundGroup)) {
             return false;
@@ -61,7 +59,6 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
     /**
      * @see org.kuali.kfs.coa.service.SubFundGroupService#getContractsAndGrantsDenotingAttributeLabel()
      */
-    @Override
     public String getContractsAndGrantsDenotingAttributeLabel() {
         if (fundGroupDenotesContractsAndGrants()) {
             return dataDictionaryService.getAttributeLabel(FundGroup.class, KFSConstants.FUND_GROUP_CODE_PROPERTY_NAME);
@@ -75,7 +72,6 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
      * 
      * @see org.kuali.kfs.coa.service.SubFundGroupService#getContractsAndGrantsDenotingValue(org.kuali.kfs.coa.businessobject.SubFundGroup)
      */
-    @Override
     public String getContractsAndGrantsDenotingValue(SubFundGroup subFundGroup) {
         if (fundGroupDenotesContractsAndGrants()) {
             return subFundGroup.getFundGroupCode();
@@ -89,7 +85,6 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
     /**
      * @see org.kuali.kfs.coa.service.SubFundGroupService#getContractsAndGrantsDenotingValues()
      */
-    @Override
     public Collection<String> getContractsAndGrantsDenotingValues() {
         return parameterService.getParameterValuesAsString(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
     }
@@ -98,7 +93,6 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
     /**
      * @see org.kuali.kfs.coa.service.SubFundGroupService#getContractsAndGrantsDenotingValueForMessage()
      */
-    @Override
     public String getContractsAndGrantsDenotingValueForMessage() {
         return /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE).getParameterValuesForMessage();
     }
@@ -115,16 +109,13 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
     /**
      * @see org.kuali.kfs.coa.service.SubFundGroupService#getByPrimaryId(java.lang.String)
      */
-    @Override
-    @Cacheable(value=SubFundGroup.CACHE_NAME, key="#p0")
     public SubFundGroup getByPrimaryId(String subFundGroupCode) {
-        return SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SubFundGroup.class, subFundGroupCode);
+        return (SubFundGroup)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SubFundGroup.class, subFundGroupCode);
     }
 
     /**
      * @see org.kuali.kfs.coa.service.SubFundGroupService#getByChartAndAccount(java.lang.String, java.lang.String)
      */
-    @Override
     public SubFundGroup getByChartAndAccount(String chartCode, String accountNumber) {
         return subFundGroupDao.getByChartAndAccount(chartCode, accountNumber);
     }

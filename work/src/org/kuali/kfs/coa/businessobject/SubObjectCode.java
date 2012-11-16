@@ -17,7 +17,6 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
@@ -30,8 +29,6 @@ import org.kuali.rice.krad.service.impl.PersistenceStructureServiceImpl;
 public class SubObjectCode extends PersistableBusinessObjectBase implements MutableInactivatable, FiscalYearBasedBusinessObject {
 
     private static final long serialVersionUID = -5292158248714650271L;
-
-    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "SubObjectCode";
 
     static {
         PersistenceStructureServiceImpl.referenceConversionMap.put(SubObjectCode.class, SubObjectCodeCurrent.class);

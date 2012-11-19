@@ -35,6 +35,7 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -61,8 +62,9 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
         if (event.getDocument() instanceof TravelReimbursementDocument) {
             Date endDate = DateUtils.clearTimeFields(document.getTripEnd());
             Date today = DateUtils.clearTimeFields(new Date());
+            String value = getParameterService().getParameterValue(TemConstants.NAMESPACE, TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE, TemConstants.TravelReimbursementParameters.ALLOW_PRETRIP_REIMBURSEMENT_IND);
             
-            if (endDate != null && today.before(endDate)) {
+            if (endDate != null && today.before(endDate) && !value.equalsIgnoreCase("Y")) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Travel Reimbursement Document cannot be submitted before the trip end date has passed.");
                 rulePassed = false;
             }
@@ -155,5 +157,9 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
 
     public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
         this.travelDocumentService = travelDocumentService;
+    }
+    
+    public ParameterService getParameterService() {
+        return SpringContext.getBean(ParameterService.class);
     }
 }

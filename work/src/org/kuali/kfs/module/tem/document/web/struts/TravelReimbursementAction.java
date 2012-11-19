@@ -738,6 +738,18 @@ public class TravelReimbursementAction extends TravelActionBase {
 
         addTATRRelationship(form);
         
+        if (GlobalVariables.getMessageMap().getErrorCount() == 0){
+            TravelReimbursementForm travelReimbursementForm = (TravelReimbursementForm) form;
+            TravelReimbursementDocument travelReimbursementDocument = travelReimbursementForm.getTravelReimbursementDocument();
+            
+            String value = getParameterService().getParameterValue(TemConstants.NAMESPACE, TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE, TemConstants.TravelReimbursementParameters.ALLOW_PRETRIP_REIMBURSEMENT_IND);
+            
+            if (value.equalsIgnoreCase("Y")){
+                String description = travelReimbursementDocument.getDocumentHeader().getDocumentDescription();
+                travelReimbursementDocument.getDocumentHeader().setDocumentDescription(description + " (Pre-Trip)");
+            }
+        }
+        
         return forward;
     }
     
@@ -755,6 +767,19 @@ public class TravelReimbursementAction extends TravelActionBase {
         
         addTATRRelationship(form);
 
+        
+        if (GlobalVariables.getMessageMap().getErrorCount() == 0){
+            TravelReimbursementForm travelReimbursementForm = (TravelReimbursementForm) form;
+            TravelReimbursementDocument travelReimbursementDocument = travelReimbursementForm.getTravelReimbursementDocument();
+            
+            String value = getParameterService().getParameterValue(TemConstants.NAMESPACE, TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE, TemConstants.TravelReimbursementParameters.ALLOW_PRETRIP_REIMBURSEMENT_IND);
+            
+            if (value.equalsIgnoreCase("Y")){
+                String description = travelReimbursementDocument.getDocumentHeader().getDocumentDescription();
+                travelReimbursementDocument.getDocumentHeader().setDocumentDescription(description + " (Pre-Trip)");
+            }
+        }
+        
         return forward;
     }
     

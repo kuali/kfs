@@ -254,6 +254,7 @@ public class TemConstants extends JSTLConstants {
         public static final String TEM_FAX_NUMBER = "TEM_FAX_NUMBER";
         public static final String ENABLE_VENDOR_PAYMENT_BEFORE_FINAL_TR_APPROVAL_IND = "ENABLE_VENDOR_PAYMENT_BEFORE_FINAL_TR_APPROVAL_IND";
         public static final String TR_REIMBURSEMENT_DV_REASON_CODE = "TR_REIMBURSEMENT_DV_REASON_CODE";
+        public static final String ALLOW_PRETRIP_REIMBURSEMENT_IND = "ALLOW_PRETRIP_REIMBURSEMENT_IND";
     }
 
     public static class TravelRelocationParameters {

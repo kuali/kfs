@@ -841,3 +841,4 @@ KFS-TEM,TemCTSCardApplication,CTS_CARD_CODE,KFS-TEM-PARM-147,1,CONFG,CTSC,"Code 
 KFS-TEM,Document,ALLOW_ENTERTAINMENT_MANAGER_TO_MODIFY_ALL_IND,KFS-TEM-PARM-148,1,CONFG,Y,"When this flag is ""Y"" the Entertainment Manager can modify any fields on the ENT document during approval.",A,KFS
 KFS-TEM,Document,ALLOW_MOVING_RELOCATION_MANAGER_TO_MODIFY_ALL_IND,KFS-TEM-PARM-149,1,CONFG,Y,"When this flag is ""Y"" the Moving and Relocation Manager can modify any fields on the RELO document during approval.",A,KFS
 KFS-TEM,TravelAuthorization,ALLOW_IMPORTED_EXPENSE_IND,KFS-TEM-PARM-150,1,CONFG,Y,"When this flag is ""Y"" the Travel Authorization document will display the related sections for Import Expenses.",A,KFS
+KFS-TEM,TravelReimbursement,ALLOW_PRETRIP_REIMBURSEMENT_IND,KFS-TEM-PARM-151,1,CONFG,Y,"When this flag is ""Y"", it will disable trip date validation.",A,KFS

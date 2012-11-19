@@ -362,7 +362,7 @@
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="RequiresContractManagementReview" nextAppDocStatus="Awaiting Purchasing Approval" />
-          <split name="RequiresContractManagementReview" nextNode="Commodity" >
+          <split name="RequiresContractManagementReview" nextNode="Commodity" nextAppDocStatus="Awaiting Commodity Code Approval">
             <branch name="True">
               <role name="ContractManagement" nextNode="JoinRequiresContractManagementReview" nextAppDocStatus="Awaiting Commodity Code Approval" />
             </branch>

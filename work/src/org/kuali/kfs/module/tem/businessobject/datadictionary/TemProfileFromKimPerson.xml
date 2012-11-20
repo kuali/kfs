@@ -1,0 +1,291 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="TemProfileFromKimPerson" parent="TemProfileFromKimPerson-parentBean" />
+	<bean id="TemProfileFromKimPerson-parentBean" abstract="true" parent="BusinessObjectEntry" >
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson" />
+		<property name="lookupDefinition" ref="TemProfileFromKimPerson-lookupDefinition" />
+		<property name="inquiryDefinition" ref="TemProfileFromKimPerson-inquiryDefinition" />
+		<property name="objectLabel" value="TemProfileFromKimPerson" />
+		<property name="attributes">
+		<list>
+            <ref bean="TemProfileFromKimPerson-principalName" />
+			<ref bean="TemProfileFromKimPerson-principalId" />
+			<ref bean="TemProfileFromKimPerson-employeeId" />
+			<ref bean="TemProfileFromKimPerson-entityId" />
+			<ref bean="TemProfileFromKimPerson-firstName" />
+			<ref bean="TemProfileFromKimPerson-middleName" />
+			<ref bean="TemProfileFromKimPerson-lastName" />
+			<ref bean="TemProfileFromKimPerson-emailAddress" />
+			<ref bean="TemProfileFromKimPerson-phoneNumber" />
+			<ref bean="TemProfileFromKimPerson-employeeStatusCode" />
+			<ref bean="TemProfileFromKimPerson-employeeTypeCode" />
+			<ref bean="TemProfileFromKimPerson-primaryDepartmentCode" />
+			<ref bean="TemProfileFromKimPerson-campusCode" />
+			<ref bean="TemProfileFromKimPerson-active" />
+			<ref bean="TemProfileFromKimPerson-versionNumber" />
+		</list>
+		</property>
+		<property name="relationships">
+		<list>
+			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="employeeStatus" />
+				<property name="primitiveAttributes">
+				<list>
+				</list>
+				</property>
+				<property name="supportAttributes">
+				<list>
+				</list>
+				</property>
+			</bean>
+			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="employeeType" />
+				<property name="primitiveAttributes">
+				<list>
+				</list>
+				</property>
+				<property name="supportAttributes">
+				<list>
+				</list>
+				</property>
+			</bean>
+			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="campus" />
+				<property name="primitiveAttributes">
+				<list>
+				</list>
+				</property>
+				<property name="supportAttributes">
+				<list>
+				</list>
+				</property>
+			</bean>
+		</list>
+		</property>
+	</bean>
+	<bean id="TemProfileFromKimPerson-principalId" parent="TemProfileFromKimPerson-principalId-parentBean" />
+	<bean id="TemProfileFromKimPerson-principalId-parentBean" parent="AttributeDefinition">
+		<property name="name" value="principalId" />
+		<property name="label" value="Principal Id" />
+		<property name="shortLabel" value="Principal Id" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Principal Id" />
+		<property name="description" value="Principal Id" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="15"/></property>
+	</bean>
+	<bean id="TemProfileFromKimPerson-employeeId" parent="TemProfileFromKimPerson-employeeId-parentBean" />
+	<bean id="TemProfileFromKimPerson-employeeId-parentBean" parent="AttributeDefinition">
+		<property name="name" value="employeeId" />
+		<property name="label" value="Employee Id" />
+		<property name="shortLabel" value="Employee Id" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Employee Id" />
+		<property name="description" value="Employee Id" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="12"/></property>
+	</bean>
+	<bean id="TemProfileFromKimPerson-principalName" parent="TemProfileFromKimPerson-principalName-parentBean" />
+	<bean id="TemProfileFromKimPerson-principalName-parentBean" parent="AttributeDefinition">
+		<property name="name" value="principalName" />
+		<property name="label" value="Principal Name" />
+		<property name="shortLabel" value="Principal Name" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Principal Name" />
+		<property name="description" value="Principal Name" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="10"/></property>
+	</bean>
+	<bean id="TemProfileFromKimPerson-entityId" parent="TemProfileFromKimPerson-entityId-parentBean" />
+	<bean id="TemProfileFromKimPerson-entityId-parentBean" parent="AttributeDefinition">
+		<property name="name" value="entityId" />
+		<property name="label" value="Entity Id" />
+		<property name="shortLabel" value="Entity Id" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Entity Id" />
+		<property name="description" value="Entity Id" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="15"/></property>
+	</bean>
+	<bean id="TemProfileFromKimPerson-firstName" parent="TemProfileFromKimPerson-firstName-parentBean" />
+	<bean id="TemProfileFromKimPerson-firstName-parentBean" parent="AttributeDefinition">
+		<property name="name" value="firstName" />
+		<property name="label" value="First Name" />
+		<property name="shortLabel" value="First Name" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="First Name" />
+		<property name="description" value="First Name" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="20"/></property>
+	</bean>
+	<bean id="TemProfileFromKimPerson-middleName" parent="TemProfileFromKimPerson-middleName-parentBean" />
+	<bean id="TemProfileFromKimPerson-middleName-parentBean" parent="AttributeDefinition">
+		<property name="name" value="middleName" />
+		<property name="label" value="Middle Name" />
+		<property name="shortLabel" value="Middle Name" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Middle Name" />
+		<property name="description" value="Middle Name" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="20"/></property>
+	</bean>
+	<bean id="TemProfileFromKimPerson-lastName" parent="TemProfileFromKimPerson-lastName-parentBean" />
+	<bean id="TemProfileFromKimPerson-lastName-parentBean" parent="AttributeDefinition">
+		<property name="name" value="lastName" />
+		<property name="label" value="Last Name" />
+		<property name="shortLabel" value="Last Name" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Last Name" />
+		<property name="description" value="Last Name" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="20"/></property>
+	</bean>
+	<bean id="TemProfileFromKimPerson-emailAddress" parent="TemProfileFromKimPerson-emailAddress-parentBean" />
+	<bean id="TemProfileFromKimPerson-emailAddress-parentBean" parent="AttributeDefinition">
+		<property name="name" value="emailAddress" />
+		<property name="label" value="Email Address" />
+		<property name="shortLabel" value="Email Address" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Email Address" />
+		<property name="description" value="Email Address" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
+	</bean>
+	<bean id="TemProfileFromKimPerson-phoneNumber" parent="TemProfileFromKimPerson-phoneNumber-parentBean" />
+	<bean id="TemProfileFromKimPerson-phoneNumber-parentBean" parent="AttributeDefinition">
+		<property name="name" value="phoneNumber" />
+		<property name="label" value="Phone Number" />
+		<property name="shortLabel" value="Phone Number" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Phone Number" />
+		<property name="description" value="Phone Number" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
+	</bean>
+	<bean id="TemProfileFromKimPerson-employeeStatusCode" parent="TemProfileFromKimPerson-employeeStatusCode-parentBean" />
+	<bean id="TemProfileFromKimPerson-employeeStatusCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="employeeStatusCode" />
+		<property name="label" value="Employee Status Code" />
+		<property name="shortLabel" value="Employee Status Code" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Employee Status Code" />
+		<property name="description" value="Employee Status Code" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="3" /></property>
+	</bean>
+	<bean id="TemProfileFromKimPerson-employeeTypeCode" parent="TemProfileFromKimPerson-employeeTypeCode-parentBean" />
+	<bean id="TemProfileFromKimPerson-employeeTypeCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="employeeTypeCode" />
+		<property name="label" value="Employee Type Code" />
+		<property name="shortLabel" value="Employee Type Code" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Employee Type Code" />
+		<property name="description" value="Employee Type Code" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="3" /></property>
+	</bean>
+	<bean id="TemProfileFromKimPerson-primaryDepartmentCode" parent="TemProfileFromKimPerson-primaryDepartmentCode-parentBean" />
+	<bean id="TemProfileFromKimPerson-primaryDepartmentCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="primaryDepartmentCode" />
+		<property name="label" value="Primary Department Code" />
+		<property name="shortLabel" value="Primary Department Code" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Primary Department Code" />
+		<property name="description" value="Primary Department Code" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="20"/></property>
+	</bean>
+	<bean id="TemProfileFromKimPerson-campusCode" parent="TemProfileFromKimPerson-campusCode-parentBean" />
+	<bean id="TemProfileFromKimPerson-campusCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="campusCode" />
+		<property name="label" value="Campus Code" />
+		<property name="shortLabel" value="Campus Code" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Campus Code" />
+		<property name="description" value="Campus Code" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
+	</bean>
+	<bean id="TemProfileFromKimPerson-active" parent="TemProfileFromKimPerson-active-parentBean" />
+	<bean id="TemProfileFromKimPerson-active-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="shortLabel" value="Active" />
+		<property name="maxLength" value="1" />
+		<property name="summary" value="Active" />
+		<property name="description" value="Active" />
+	</bean>
+	<bean id="TemProfileFromKimPerson-versionNumber" parent="TemProfileFromKimPerson-versionNumber-parentBean" />
+	<bean id="TemProfileFromKimPerson-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+		<property name="name" value="versionNumber" />
+		<property name="label" value="Version Number" />
+		<property name="shortLabel" value="Version Number" />
+		<property name="summary" value="Version Number" />
+		<property name="description" value="Version Number" />
+	</bean>
+	<bean id="TemProfileFromKimPerson-inquiryDefinition" parent="TemProfileFromKimPerson-inquiryDefinition-parentBean" />
+	<bean id="TemProfileFromKimPerson-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Tem Profile From Kim Person Inquiry"/>
+		<property name="inquirySections">
+		<list>
+			<bean parent="InquirySectionDefinition">
+				<property name="title" value="Tem Profile From Kim Person Inquiry"/>
+				<property name="numberOfColumns" value="1"/>
+				<property name="inquiryFields">
+				<list>
+                    <bean parent="FieldDefinition" p:attributeName="principalName" />
+					<bean parent="FieldDefinition" p:attributeName="principalId" />
+					<bean parent="FieldDefinition" p:attributeName="employeeId" />
+					<bean parent="FieldDefinition" p:attributeName="entityId" />
+					<bean parent="FieldDefinition" p:attributeName="firstName" />
+					<bean parent="FieldDefinition" p:attributeName="middleName" />
+					<bean parent="FieldDefinition" p:attributeName="lastName" />
+					<bean parent="FieldDefinition" p:attributeName="emailAddress" />
+					<bean parent="FieldDefinition" p:attributeName="phoneNumber" />
+					<bean parent="FieldDefinition" p:attributeName="employeeStatusCode" />
+					<bean parent="FieldDefinition" p:attributeName="employeeTypeCode" />
+					<bean parent="FieldDefinition" p:attributeName="primaryDepartmentCode" />
+					<bean parent="FieldDefinition" p:attributeName="campusCode" />
+					<bean parent="FieldDefinition" p:attributeName="active" />
+				</list>
+				</property>
+			</bean>
+		</list>
+		</property>
+	</bean>
+	<bean id="TemProfileFromKimPerson-lookupDefinition" parent="TemProfileFromKimPerson-lookupDefinition-parentBean" />
+	<bean id="TemProfileFromKimPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="TEM Profile From Kim Person Lookup" />
+        <property name="lookupableID" value="temProfileFromKimLookupable"/>
+		<property name="defaultSort">
+		<bean parent="SortDefinition">
+			<property name="attributeNames"><list>
+			</list></property>
+		</bean>
+		</property>
+		<property name="lookupFields"><list>
+            <bean parent="FieldDefinition" p:attributeName="principalName" />
+		    <bean parent="FieldDefinition" p:attributeName="principalId" />
+            <bean parent="FieldDefinition" p:attributeName="employeeId" />
+            <bean parent="FieldDefinition" p:attributeName="entityId" />
+            <bean parent="FieldDefinition" p:attributeName="firstName" />
+            <bean parent="FieldDefinition" p:attributeName="middleName" />
+            <bean parent="FieldDefinition" p:attributeName="lastName" />
+            <bean parent="FieldDefinition" p:attributeName="emailAddress" />
+            <bean parent="FieldDefinition" p:attributeName="phoneNumber" />
+            <bean parent="FieldDefinition" p:attributeName="employeeStatusCode" />
+            <bean parent="FieldDefinition" p:attributeName="employeeTypeCode" />
+            <bean parent="FieldDefinition" p:attributeName="primaryDepartmentCode" />
+            <bean parent="FieldDefinition" p:attributeName="campusCode" />
+            <bean parent="FieldDefinition" p:attributeName="active" />
+		</list>
+		</property>
+		<property name="resultFields">
+		<list>
+            <bean parent="FieldDefinition" p:attributeName="principalName" />
+			<bean parent="FieldDefinition" p:attributeName="principalId" />
+			<bean parent="FieldDefinition" p:attributeName="employeeId" />
+			<bean parent="FieldDefinition" p:attributeName="entityId" />
+			<bean parent="FieldDefinition" p:attributeName="firstName" />
+			<bean parent="FieldDefinition" p:attributeName="middleName" />
+			<bean parent="FieldDefinition" p:attributeName="lastName" />
+			<bean parent="FieldDefinition" p:attributeName="emailAddress" />
+			<bean parent="FieldDefinition" p:attributeName="phoneNumber" />
+			<bean parent="FieldDefinition" p:attributeName="employeeStatusCode" />
+			<bean parent="FieldDefinition" p:attributeName="employeeTypeCode" />
+			<bean parent="FieldDefinition" p:attributeName="primaryDepartmentCode" />
+			<bean parent="FieldDefinition" p:attributeName="campusCode" />
+			<bean parent="FieldDefinition" p:attributeName="active" />
+		</list>
+		</property>
+	</bean>
+</beans>

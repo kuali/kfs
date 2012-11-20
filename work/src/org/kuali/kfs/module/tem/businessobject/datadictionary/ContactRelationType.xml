@@ -1,0 +1,100 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="ContactRelationType" parent="ContactRelationType-parentBean" />
+	<bean id="ContactRelationType-parentBean" abstract="true" parent="BusinessObjectEntry" >
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.ContactRelationType" />
+		<property name="lookupDefinition" ref="ContactRelationType-lookupDefinition" />
+		<property name="inquiryDefinition" ref="ContactRelationType-inquiryDefinition" />
+		<property name="titleAttribute" value="code" />
+		<property name="objectLabel" value="ContactRelationType" />
+		<property name="attributes">
+		<list>
+			<ref bean="ContactRelationType-code" />
+			<ref bean="ContactRelationType-name" />
+			<ref bean="ContactRelationType-active" />
+			<ref bean="ContactRelationType-versionNumber" />
+		</list>
+		</property>
+	</bean>
+	<bean id="ContactRelationType-code" parent="ContactRelationType-code-parentBean" />
+	<bean id="ContactRelationType-code-parentBean" parent="AttributeDefinition">
+		<property name="name" value="code" />
+		<property name="label" value="Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="3" />
+		<property name="required" value="true" />
+		<property name="summary" value="Code" />
+		<property name="description" value="Code" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
+	</bean>
+	<bean id="ContactRelationType-name" parent="ContactRelationType-name-parentBean" />
+	<bean id="ContactRelationType-name-parentBean" parent="AttributeDefinition">
+		<property name="name" value="name" />
+		<property name="label" value="Name" />
+		<property name="shortLabel" value="Name" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Name" />
+		<property name="description" value="Name" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
+	</bean>
+	<bean id="ContactRelationType-active" parent="ContactRelationType-active-parentBean" />
+	<bean id="ContactRelationType-active-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="shortLabel" value="Active" />
+		<property name="required" value="true" />
+		<property name="summary" value="Active" />
+		<property name="description" value="Active" />
+	</bean>
+	<bean id="ContactRelationType-versionNumber" parent="ContactRelationType-versionNumber-parentBean" />
+	<bean id="ContactRelationType-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+		<property name="name" value="versionNumber" />
+		<property name="label" value="Version Number" />
+		<property name="shortLabel" value="Version Number" />
+		<property name="summary" value="Version Number" />
+		<property name="description" value="Version Number" />
+	</bean>
+	<bean id="ContactRelationType-inquiryDefinition" parent="ContactRelationType-inquiryDefinition-parentBean" />
+	<bean id="ContactRelationType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Contact Relation Type Inquiry"/>
+		<property name="inquirySections">
+		<list>
+			<bean parent="InquirySectionDefinition">
+				<property name="title" value="Contact Relation Type Inquiry"/>
+				<property name="numberOfColumns" value="1"/>
+				<property name="inquiryFields">
+				<list>
+					<bean parent="FieldDefinition" p:attributeName="code" />
+					<bean parent="FieldDefinition" p:attributeName="name" />
+					<bean parent="FieldDefinition" p:attributeName="active" />
+				</list>
+				</property>
+			</bean>
+		</list>
+		</property>
+	</bean>
+	<bean id="ContactRelationType-lookupDefinition" parent="ContactRelationType-lookupDefinition-parentBean" />
+	<bean id="ContactRelationType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Contact Relation Type Lookup" />
+		<property name="defaultSort">
+		<bean parent="SortDefinition">
+			<property name="attributeNames"><list>
+			</list></property>
+		</bean>
+		</property>
+		<property name="lookupFields"><list>
+			<bean parent="FieldDefinition" p:attributeName="code" />
+			<bean parent="FieldDefinition" p:attributeName="active" />
+		</list>
+		</property>
+		<property name="resultFields">
+		<list>
+			<bean parent="FieldDefinition" p:attributeName="code" />
+			<bean parent="FieldDefinition" p:attributeName="name" />
+			<bean parent="FieldDefinition" p:attributeName="active" />
+		</list>
+		</property>
+	</bean>
+</beans>

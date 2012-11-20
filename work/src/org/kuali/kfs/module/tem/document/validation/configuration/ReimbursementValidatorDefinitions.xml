@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2008 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="TravelReimbursement-employeeCertificationValidation" class="org.kuali.kfs.module.tem.document.validation.impl.ReimbursementEmployeeCertificationValidation">
+      <property name="travelerService" ref="travelerService" />
+    </bean>
+
+<!-- 	<bean id="TravelReimbursement-addAccountingLineAllowedObjCodeValidation" class="org.kuali.kfs.module.tem.document.validation.impl.TEMAccountingLineAllowedObjectCodeValidation"> </bean> -->
+         
+    <bean id="TravelReimbursement-saveDocumentValidation" parent="TravelReimbursement-saveDocumentValidation-parentBean" scope="prototype" />
+  	<bean id="TravelReimbursement-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+    	<property name="validations">
+    		<list>
+    			<bean parent="TravelModule-tripDetailMileageRateValidation" scope="prototype" />
+    			<bean parent="TravelModule-expensesValidation" scope="prototype" />
+                <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
+    		</list>
+    	</property>
+    </bean>
+
+    <bean id="TravelReimbursement-routeDocumentValidation" parent="TravelReimbursement-routeDocumentValidation-parentBean" scope="prototype" /> 
+  	<bean id="TravelReimbursement-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+    	<property name="validations">
+    		<list>
+    			<bean parent="AccountingDocument-oneSidedRequiredAccountingLinesCountValidation" scope="prototype">
+					<property name="requiredMinimumCount" value="1" />
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+    			<bean parent="TravelReimbursement-employeeCertificationValidation" scope="prototype" />
+   				<bean parent="TravelModule-expenseTotalsValidation" scope="prototype" />  			    			
+    			<bean parent="TravelModule-accountingTotalsValidation" scope="prototype" />
+				<bean parent="TravelModule-tripInfoUpdateTripDetailsValidation" scope="prototype" p:quitOnFail="true" />
+				<bean parent="TravelModule-tripInformationValidation" scope="prototype" />
+    			<bean parent="TravelModule-expensesValidation" scope="prototype" />
+                <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
+				<bean parent="TravelModule-tripDetailMealsAndIncidentalsValidation" scope="prototype" />
+				<bean parent="TravelModule-requiredInfoValidation" scope="prototype" />
+    		</list>
+    	</property>
+    </bean>
+    
+	<bean id="TravelReimbursement-updateTripDetailsValidation" parent="TravelReimbursement-updateTripDetailsValidation-parentBean" scope="prototype" />
+	<bean id="TravelReimbursement-updateTripDetailsValidation-parentBean"
+		parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="TravelModule-tripInfoUpdateTripDetailsValidation" scope="prototype" p:quitOnFail="true" />
+			</list>
+		</property>
+	</bean> 
+	
+	<bean id="TravelReimbursement-approveDocumentValidation" parent="TravelReimbursement-approveDocumentValidation-parentBean" />   
+    <bean id="TravelReimbursement-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+    	<property name="validations">
+    		<list>
+    			<bean parent="TravelReimbursement-employeeCertificationValidation" scope="prototype" />
+    		</list>
+    	</property>
+    </bean> 
+    
+    <bean id="TravelReimbursement-blanketApproveDocumentValidation" parent="TravelReimbursement-blanketApproveDocumentValidation-parentBean" /> 
+    <bean id="TravelReimbursement-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+    	<property name="validations">
+    		<list>
+    			<bean parent="TravelReimbursement-employeeCertificationValidation" scope="prototype" />
+    		</list>
+    	</property>
+    </bean>
+    
+	<bean id="TravelReimbursement-addGroupTravelLineValidation" parent="TravelReimbursement-addGroupTravelLineValidation-parentBean" scope="prototype" />
+	<bean id="TravelReimbursement-addGroupTravelLineValidation-parentBean"
+		parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+			<list>
+				<bean parent="TravelModule-addGroupTravelLineRequiredInfoValidation" scope="prototype">
+					<property name="quitOnFail" value="true" />
+				</bean>
+			</list>
+		</property>
+	</bean>         
+    
+</beans>

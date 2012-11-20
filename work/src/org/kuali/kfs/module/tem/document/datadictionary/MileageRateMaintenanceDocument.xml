@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="MileageRateMaintenanceDocument" parent="MileageRateMaintenanceDocument-parentBean" />	
+	<bean id="MileageRateMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.MileageRate" />
+		<property name="maintainableClass"   value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+		<property name="maintainableSections" >
+			<list>
+				<ref bean="MileageRateMaintenanceDocument-Section" />
+			</list>
+		</property>
+		<property name="allowsNewOrCopy" value="true" />
+		<property name="lockingKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+		<property name="documentTypeName"        value="TMR" />
+		<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+	
+	</bean>
+
+	<bean id="MileageRateMaintenanceDocument-Section" parent="MileageRateMaintenanceDocument-Section-parentBean" />
+	<bean id="MileageRateMaintenanceDocument-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id"    value="MileageRate" />
+		<property name="title" value="Edit MileageRate" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="id" p:required="false"/>
+				<bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="rate" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="activeFromDate" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="activeToDate" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+			</list>
+		</property>
+	</bean>
+</beans>

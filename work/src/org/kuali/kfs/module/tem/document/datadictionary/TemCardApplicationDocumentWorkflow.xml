@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2005-2008 The Kuali Foundation Licensed under the Educational Community License, Version 
+    2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain 
+    a copy of the License at http://www.opensource.org/licenses/ecl2.php Unless required by applicable law 
+    or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT 
+    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language 
+    governing permissions and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="TemCardApplicationDocument-workflowAttributes" parent="TemCardApplicationDocument-workflowAttributes-parentBean" />
+    <bean id="TemCardApplicationDocument-workflowAttributes-parentBean" abstract="true" parent="Tem-WorkflowAttributes">
+        <property name="searchingTypeDefinitions">
+            <list>
+                <bean parent="TemCardApplicationDocument-SearchingTypeDefinition-temProfile.firstName" />
+                <bean parent="TemCardApplicationDocument-SearchingTypeDefinition-temProfile.lastName" />
+                <bean parent="TemCardApplicationDocument-SearchingTypeDefinition-temProfile.homeDepartment" />
+                <bean parent="TemCardApplicationDocument-SearchingTypeDefinition-temProfile.defaultChartCode" />
+                <bean parent="TemCardApplicationDocument-SearchingTypeDefinition-temProfile.defaultAccount" />
+            </list>
+        </property>
+        <property name="routingTypeDefinitions">
+            <map>
+                <entry key="Account" value-ref="TemCardApplicationDocument-RoutingType-temProfile.defaultAccount"/>
+            </map>
+        </property>
+    </bean>    
+    
+    <bean id="TemCardApplicationDocument-SearchingTypeDefinition-temProfile.firstName" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute">
+            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TEMProfile" />
+                <property name="attributeName" value="firstName" />
+                <property name="showAttributeInResultSet" value="true" />
+                <property name="showAttributeInSearchCriteria" value="true" />
+            </bean>
+        </property>
+        <property name="documentValues">
+            <list>
+                <value>temProfile.firstName</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="TemCardApplicationDocument-SearchingTypeDefinition-temProfile.lastName" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute">
+            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TEMProfile" />
+                <property name="attributeName" value="lastName" />
+                <property name="showAttributeInResultSet" value="true" />
+                <property name="showAttributeInSearchCriteria" value="true" />
+            </bean>
+        </property>
+        <property name="documentValues">
+            <list>
+                <value>temProfile.lastName</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="TemCardApplicationDocument-SearchingTypeDefinition-temProfile.homeDepartment" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute">
+            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TEMProfile" />
+                <property name="attributeName" value="homeDepartment" />
+                <property name="showAttributeInResultSet" value="true" />
+                <property name="showAttributeInSearchCriteria" value="true" />
+            </bean>
+        </property>
+        <property name="documentValues">
+            <list>
+                <value>temProfile.homeDepartment</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="TemCardApplicationDocument-SearchingTypeDefinition-temProfile.defaultChartCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute">
+            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TEMProfile" />
+                <property name="attributeName" value="defaultChartCode" />
+                <property name="showAttributeInResultSet" value="true" />
+                <property name="showAttributeInSearchCriteria" value="true" />
+            </bean>
+        </property>
+        <property name="documentValues">
+            <list>
+                <value>temProfile.defaultChartCode</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="TemCardApplicationDocument-SearchingTypeDefinition-temProfile.defaultAccount" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        <property name="searchingAttribute">
+            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TEMProfile" />
+                <property name="attributeName" value="defaultAccount" />
+                <property name="showAttributeInResultSet" value="true" />
+                <property name="showAttributeInSearchCriteria" value="true" />
+            </bean>
+        </property>
+        <property name="documentValues">
+            <list>
+                <value>temProfile.defaultAccount</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="TemCardApplicationDocument-RoutingType-temProfile.defaultAccount" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+    			<bean id="RoutingAttribute-temProfile.defaultAccount" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
+			    	<property name="qualificationAttributeName" value="accountNumber" />
+			   	</bean>
+			   	<bean id="RoutingAttribute-temProfile.defaultChartCode" class="org.kuali.rice.kns.datadictionary.RoutingAttribute" >
+			    	<property name="qualificationAttributeName" value="chartOfAccountsCode" />
+			   	</bean>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    				<property name="documentValues">
+    					<list>
+    						<value>temProfile.defaultAccount</value>
+    						<value>temProfile.defaultChartCode</value>
+    					</list>
+    				</property>
+			   	</bean>
+    		</list>
+    	</property>
+	</bean>
+	
+</beans>

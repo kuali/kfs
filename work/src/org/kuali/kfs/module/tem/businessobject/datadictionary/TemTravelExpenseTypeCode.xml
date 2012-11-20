@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	<!-- Copyright 2005-2008 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="TemTravelExpenseTypeCode" parent="TravelExpenseTypeCode-parentBean">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode" />
+		<property name="inquiryDefinition">
+			<ref bean="TemTravelExpenseTypeCode-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="TemTravelExpenseTypeCode-lookupDefinition" />
+		</property>		
+		<property name="attributes">
+			<list>
+				<ref bean="TravelExpenseTypeCode-code" />
+				<ref bean="TravelExpenseTypeCode-prepaidExpense" />
+				<ref bean="TravelExpenseTypeCode-name" />
+				<ref bean="TravelExpenseTypeCode-active" />
+				<ref bean="TravelExpenseTypeCode-financialObjectCode" />
+				<ref bean="TemTravelExpenseTypeCode-travelExpenseTypeCodeId" />
+				<ref bean="TemTravelExpenseTypeCode-tripType" />
+				<ref bean="TemTravelExpenseTypeCode-travelerType" />
+				<ref bean="TemTravelExpenseTypeCode-documentType" />
+				<ref bean="TemTravelExpenseTypeCode-hostedMeal" />
+				<ref bean="TemTravelExpenseTypeCode-longDescription" />
+				<ref bean="TemTravelExpenseTypeCode-individual" />
+				<ref bean="TemTravelExpenseTypeCode-groupTravel" />
+				<ref bean="TemTravelExpenseTypeCode-maximumAmount" />
+				<ref bean="TemTravelExpenseTypeCode-maximumAmountPer" />
+				<ref bean="TemTravelExpenseTypeCode-errorTypeCode" />
+				<ref bean="TemTravelExpenseTypeCode-noteRequired" />
+				<ref bean="TemTravelExpenseTypeCode-receiptRequired" />
+				<ref bean="TemTravelExpenseTypeCode-receiptRequirementThreshold" />
+				<ref bean="TemTravelExpenseTypeCode-taxable" />
+				<ref bean="TemTravelExpenseTypeCode-specialRequestRequired" />
+                <ref bean="TemTravelExpenseTypeCode-expenseDetailRequired" />
+				<ref bean="TemTravelExpenseTypeCode-versionNumber" />
+			</list>
+		</property>
+	</bean>
+    <bean id="TemTravelExpenseTypeCode-travelExpenseTypeCodeId" parent="TemTravelExpenseTypeCode-travelExpenseTypeCodeId-parentBean" />
+    <bean id="TemTravelExpenseTypeCode-travelExpenseTypeCodeId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="travelExpenseTypeCodeId" />
+        <property name="label" value="Id" />
+        <property name="shortLabel" value="Id" />
+        <property name="maxLength" value="32" />
+        <property name="required" value="true" />
+        <property name="summary" value="Id" />
+        <property name="description" value="Id" />
+        <property name="control"><bean parent="HiddenControlDefinition" /></property>
+        <property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
+    </bean>	
+	<bean id="TemTravelExpenseTypeCode-hostedMeal" parent="TemTravelExpenseTypeCode-hostedMeal-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-hostedMeal-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="hostedMeal" />
+		<property name="label" value="Hosted Meal" />
+		<property name="shortLabel" value="Hosted Meal" />
+		<property name="summary" value="Hosted Meal" />
+		<property name="description" value="Hosted Meal" />
+	</bean>
+	<bean id="TemTravelExpenseTypeCode-longDescription" parent="TemTravelExpenseTypeCode-longDescription-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-longDescription-parentBean"
+		parent="AttributeDefinition">
+		<property name="name" value="longDescription" />
+		<property name="label" value="Long Description" />
+		<property name="shortLabel" value="Long Description" />
+		<property name="maxLength" value="100" />
+		<property name="summary" value="Long Description" />
+		<property name="description" value="Long Description" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="100" />
+		</property>
+	</bean>
+	<bean id="TemTravelExpenseTypeCode-individual" parent="TemTravelExpenseTypeCode-individual-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-individual-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="individual" />
+		<property name="label" value="Individual" />
+		<property name="shortLabel" value="Individual" />
+		<property name="summary" value="Individual" />
+		<property name="description" value="Individual" />
+	</bean>
+	<bean id="TemTravelExpenseTypeCode-groupTravel" parent="TemTravelExpenseTypeCode-groupTravel-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-groupTravel-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="groupTravel" />
+		<property name="label" value="Group Travel" />
+		<property name="shortLabel" value="Group Travel" />
+		<property name="summary" value="Group Travel" />
+		<property name="description" value="Group Travel" />
+	</bean>
+	<bean id="TemTravelExpenseTypeCode-maximumAmount" parent="TemTravelExpenseTypeCode-maximumAmount-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-maximumAmount-parentBean" parent="GenericAttributes-genericAmount">
+		<property name="name" value="maximumAmount" />
+		<property name="label" value="Maximum Amount" />
+		<property name="shortLabel" value="Maximum Amount" />
+		<property name="summary" value="Maximum Amount" />
+		<property name="description" value="Maximum Amount" />
+	</bean>
+	<bean id="TemTravelExpenseTypeCode-maximumAmountPer" parent="TemTravelExpenseTypeCode-maximumAmountPer-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-maximumAmountPer-parentBean"
+		parent="AttributeDefinition">
+		<property name="name" value="maximumAmountPer" />
+		<property name="label" value="Maximum Amount Per" />
+		<property name="shortLabel" value="Maximum Amount Per" />
+		<property name="maxLength" value="1" />
+		<property name="summary" value="Maximum Amount Per" />
+		<property name="description" value="Maximum Amount Per" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="1" />
+		</property>
+	</bean>
+	<bean id="TemTravelExpenseTypeCode-errorTypeCode" parent="TemTravelExpenseTypeCode-errorTypeCode-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-errorTypeCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="errorTypeCode" />
+		<property name="label" value="Error Type Code" />
+		<property name="shortLabel" value="Error Type Code" />
+		<property name="maxLength" value="1" />
+		<property name="summary" value="Error Type Code" />
+		<property name="description" value="Error Type Code" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="1" />
+		</property>
+	</bean>
+	<bean id="TemTravelExpenseTypeCode-noteRequired" parent="TemTravelExpenseTypeCode-noteRequired-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-noteRequired-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="noteRequired" />
+		<property name="label" value="Note Required" />
+		<property name="shortLabel" value="Note Required" />
+		<property name="summary" value="Note Required" />
+		<property name="description" value="Note Required" />
+	</bean>
+	<bean id="TemTravelExpenseTypeCode-receiptRequired" parent="TemTravelExpenseTypeCode-receiptRequired-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-receiptRequired-parentBean"
+		parent="GenericAttributes-genericBoolean">
+		<property name="name" value="receiptRequired" />
+		<property name="label" value="Receipt Required" />
+		<property name="shortLabel" value="Receipt Required" />
+		<property name="summary" value="Receipt Required" />
+		<property name="description" value="Receipt Required" />
+	</bean>
+	<bean id="TemTravelExpenseTypeCode-receiptRequirementThreshold"
+		parent="TemTravelExpenseTypeCode-receiptRequirementThreshold-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-receiptRequirementThreshold-parentBean"
+		parent="AttributeDefinition">
+		<property name="name" value="receiptRequirementThreshold" />
+		<property name="label" value="Receipt Requirement Threshold" />
+		<property name="shortLabel" value="Receipt Requirement Threshold" />
+		<property name="maxLength" value="32" />
+		<property name="summary" value="Receipt Requirement Threshold" />
+		<property name="description" value="Receipt Requirement Threshold" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="32" />
+		</property>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+	</bean>
+	<bean id="TemTravelExpenseTypeCode-taxable" parent="TemTravelExpenseTypeCode-taxable-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-taxable-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="taxable" />
+		<property name="label" value="Taxable" />
+		<property name="shortLabel" value="Taxable" />
+		<property name="summary" value="Taxable" />
+		<property name="description" value="Taxable" />
+	</bean>
+	<bean id="TemTravelExpenseTypeCode-specialRequestRequired" parent="TemTravelExpenseTypeCode-specialRequestRequired-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-specialRequestRequired-parentBean"
+		parent="GenericAttributes-genericBoolean">
+		<property name="name" value="specialRequestRequired" />
+		<property name="label" value="Special Request Approval Required" />
+		<property name="shortLabel" value="Special Request Approval Required" />
+		<property name="summary" value="Special Request Approval Required" />
+		<property name="description" value="Special Request Approval Required" />
+	</bean>
+    <bean id="TemTravelExpenseTypeCode-expenseDetailRequired" parent="TemTravelExpenseTypeCode-expenseDetailRequired-parentBean" />
+    <bean id="TemTravelExpenseTypeCode-expenseDetailRequired-parentBean" parent="GenericAttributes-genericBoolean">
+        <property name="name" value="expenseDetailRequired" />
+        <property name="label" value="Expense Detail Required" />
+        <property name="shortLabel" value="Expense Detail Required" />
+    </bean>
+	<bean id="TemTravelExpenseTypeCode-active" parent="TemTravelExpenseTypeCode-active-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-active-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="shortLabel" value="Active" />
+		<property name="maxLength" value="1" />
+		<property name="summary" value="Active" />
+		<property name="description" value="Active" />
+	</bean>
+	<bean id="TemTravelExpenseTypeCode-versionNumber" parent="TemTravelExpenseTypeCode-versionNumber-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+		<property name="name" value="versionNumber" />
+		<property name="label" value="Version Number" />
+		<property name="shortLabel" value="Version Number" />
+		<property name="summary" value="Version Number" />
+		<property name="description" value="Version Number" />
+	</bean>
+	<bean id="TemTravelExpenseTypeCode-tripType" parent="TemTravelExpenseTypeCode-tripType-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-tripType-parentBean" parent="AttributeDefinition">
+		<property name="name" value="tripType" />
+		<property name="label" value="Trip Type" />
+		<property name="shortLabel" value="Trip Type" />
+		<property name="required" value="false" />
+		<property name="maxLength" value="3" />
+		<property name="summary" value="Trip Type" />
+		<property name="description" value="Trip Type" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.TripTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>	
+	<bean id="TemTravelExpenseTypeCode-travelerType" parent="TemTravelExpenseTypeCode-travelerType-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-travelerType-parentBean" parent="AttributeDefinition">
+		<property name="name" value="travelerType" />
+		<property name="label" value="Traveler Type" />
+		<property name="shortLabel" value="Traveler Type" />
+		<property name="maxLength" value="3" />
+		<property name="required" value="false" />
+		<property name="summary" value="Traveler Type" />
+		<property name="description" value="Traveler Type" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.TravelerTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>	
+	<bean id="TemTravelExpenseTypeCode-documentType" parent="TemTravelExpenseTypeCode-documentType-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-documentType-parentBean" parent="AttributeDefinition">
+		<property name="name" value="documentType" />
+		<property name="label" value="Document Type" />
+		<property name="shortLabel" value="Document Type" />
+		<property name="maxLength" value="4" />
+		<property name="required" value="false" />
+		<property name="summary" value="Document Type" />
+		<property name="description" value="Document Type" />
+		<property name="control">
+            <bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.TravelDocumentTypeValuesFinder"
+                p:includeKeyInLabel="false" />
+        </property>
+	</bean>	
+	<bean id="TemTravelExpenseTypeCode-inquiryDefinition" parent="TemTravelExpenseTypeCode-inquiryDefinition-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Travel Expense Type Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Travel Expense Type Inquiry" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+					        <bean parent="FieldDefinition" p:attributeName="code"/>
+					        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+					        <bean parent="FieldDefinition" p:attributeName="name"/>
+					        <bean parent="FieldDefinition" p:attributeName="prepaidExpense"/>
+							<bean parent="FieldDefinition" p:attributeName="hostedMeal" />
+							<bean parent="FieldDefinition" p:attributeName="longDescription" />				
+							<bean parent="FieldDefinition" p:attributeName="individual" />
+							<bean parent="FieldDefinition" p:attributeName="groupTravel" />
+							<bean parent="FieldDefinition" p:attributeName="maximumAmount" />
+							<bean parent="FieldDefinition" p:attributeName="maximumAmountPer" />
+							<bean parent="FieldDefinition" p:attributeName="errorTypeCode" />
+							<bean parent="FieldDefinition" p:attributeName="noteRequired" />
+							<bean parent="FieldDefinition" p:attributeName="receiptRequired" />
+							<bean parent="FieldDefinition" p:attributeName="receiptRequirementThreshold" />
+							<bean parent="FieldDefinition" p:attributeName="taxable" />
+							<bean parent="FieldDefinition" p:attributeName="specialRequestRequired" />
+                            <bean parent="FieldDefinition" p:attributeName="expenseDetailRequired" />
+							<bean parent="FieldDefinition" p:attributeName="tripType" />
+							<bean parent="FieldDefinition" p:attributeName="travelerType" />
+							<bean parent="FieldDefinition" p:attributeName="documentType" />							
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="TemTravelExpenseTypeCode-lookupDefinition" parent="TemTravelExpenseTypeCode-lookupDefinition-parentBean" />
+	<bean id="TemTravelExpenseTypeCode-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title" value="Travel Expense Type Lookup" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+		        <bean parent="FieldDefinition" p:attributeName="code"/>
+		        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+		        <bean parent="FieldDefinition" p:attributeName="name"/>
+		        <bean parent="FieldDefinition" p:attributeName="prepaidExpense"/>			
+				<bean parent="FieldDefinition" p:attributeName="hostedMeal" />
+				<bean parent="FieldDefinition" p:attributeName="longDescription" />
+				<bean parent="FieldDefinition" p:attributeName="individual" />
+				<bean parent="FieldDefinition" p:attributeName="groupTravel" />
+				<bean parent="FieldDefinition" p:attributeName="maximumAmount" />
+				<bean parent="FieldDefinition" p:attributeName="maximumAmountPer" />
+				<bean parent="FieldDefinition" p:attributeName="errorTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="noteRequired" />
+				<bean parent="FieldDefinition" p:attributeName="receiptRequired" />
+				<bean parent="FieldDefinition" p:attributeName="receiptRequirementThreshold" />
+				<bean parent="FieldDefinition" p:attributeName="taxable" />
+				<bean parent="FieldDefinition" p:attributeName="specialRequestRequired" />
+                <bean parent="FieldDefinition" p:attributeName="expenseDetailRequired" />
+				<bean parent="FieldDefinition" p:attributeName="tripType" />
+				<bean parent="FieldDefinition" p:attributeName="travelerType" />
+				<bean parent="FieldDefinition" p:attributeName="documentType" />				
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+		        <bean parent="FieldDefinition" p:attributeName="code"/>
+		        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+		        <bean parent="FieldDefinition" p:attributeName="name"/>
+		        <bean parent="FieldDefinition" p:attributeName="prepaidExpense"/>			
+				<bean parent="FieldDefinition" p:attributeName="hostedMeal" />
+				<bean parent="FieldDefinition" p:attributeName="longDescription" />
+				<bean parent="FieldDefinition" p:attributeName="individual" />
+				<bean parent="FieldDefinition" p:attributeName="groupTravel" />
+				<bean parent="FieldDefinition" p:attributeName="maximumAmount" />
+				<bean parent="FieldDefinition" p:attributeName="maximumAmountPer" />
+				<bean parent="FieldDefinition" p:attributeName="errorTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="noteRequired" />
+				<bean parent="FieldDefinition" p:attributeName="receiptRequired" />
+				<bean parent="FieldDefinition" p:attributeName="receiptRequirementThreshold" />
+				<bean parent="FieldDefinition" p:attributeName="taxable" />
+				<bean parent="FieldDefinition" p:attributeName="specialRequestRequired" />
+                <bean parent="FieldDefinition" p:attributeName="expenseDetailRequired" />
+				<bean parent="FieldDefinition" p:attributeName="tripType" />
+				<bean parent="FieldDefinition" p:attributeName="travelerType" />
+				<bean parent="FieldDefinition" p:attributeName="documentType" />					
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+</beans>

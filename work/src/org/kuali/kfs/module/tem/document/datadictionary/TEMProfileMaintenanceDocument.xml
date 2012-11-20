@@ -1,0 +1,198 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="TEMProfileMaintenanceDocument" parent="TEMProfileMaintenanceDocument-parentBean" />
+
+	<bean id="TEMProfileMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TEMProfile" />
+		<property name="maintainableClass" value="org.kuali.kfs.module.tem.document.maintenance.TEMProfileMaintainable" />
+		<property name="maintainableSections">
+			<list>
+				<ref bean="TEMProfileOverview-Section" />
+				<ref bean="TEMProfileEmergencyContacts-Section" />
+				<ref bean="TEMProfilePaymentMethod-Section" />
+				<ref bean="TEMProfileArrangers-Section" />
+				<ref bean="TEMProfileEmailPreferences-Section" />
+				<ref bean="TEMProfileAdministrator-Section" />
+			</list>
+		</property>
+		<property name="allowsNewOrCopy" value="false" />
+		<property name="lockingKeys">
+			<list>
+				<value>profileId</value>
+			</list>
+		</property>
+		<property name="documentTypeName" value="TTP" />
+        <property name="documentAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TemProfileAuthorizer"/>
+		<property name="businessRulesClass" value="org.kuali.kfs.module.tem.document.validation.impl.TEMProfileValidation" />
+		<property name="promptBeforeValidationClass" value="org.kuali.kfs.module.tem.document.validation.impl.TemProfilePreRules"/>
+		<property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.TEMProfileDocumentPresentationController" />
+		<property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.tem.businessobject.options.TEMProfileAttachmentTypeValuesFinder"/>
+	</bean>
+
+	<bean id="TEMProfileOverview-Section" parent="TEMProfileOverview-Section-parentBean" />
+	<bean id="TEMProfileOverview-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="TEMProfile" />
+		<property name="title" value="Edit TEMProfile" />
+		<property name="maintainableItems">
+			<list>
+			    <bean parent="MaintainableSubSectionHeaderDefinition" p:name="TEM Profile"/>
+				<bean parent="MaintainableFieldDefinition" p:name="profileId" p:required="true" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.module.tem.businessobject.options.TEMProfileIDFinder" />
+				<bean parent="MaintainableFieldDefinition" p:name="travelerTypeCode" p:required="true" p:noLookup="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="lastUpdate" p:required="false" p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="updatedBy" p:required="false" p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="firstName" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="middleName" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="lastName" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="employeeId" p:required="false" p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="homeDepartment" p:required="true" p:lookupReadOnly="true" p:overrideFieldConversions="organizationCode:homeDeptOrgCode,chartOfAccountsCode:homeDeptChartOfAccountsCode" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.Organization" />
+				<bean parent="MaintainableFieldDefinition" p:name="driversLicenseNumber" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="driversLicenseState" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="driversLicenseExpDate" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="motorVehicleRecordCheck" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="dateOfBirth" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="citizenship" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="nonResidentAlien" p:required="true" p:defaultValue="" />
+				<bean parent="MaintainableFieldDefinition" p:name="gender" p:required="true" />
+				<bean parent="MaintainableSubSectionHeaderDefinition" p:name="Default Accounting"/>
+				<bean parent="MaintainableFieldDefinition" p:name="defaultChartCode" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="defaultAccount" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="defaultSubAccount" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="defaultProjectCode" p:required="false" />
+				<bean parent="MaintainableSubSectionHeaderDefinition" p:name="Address"/>
+				<bean parent="MaintainableFieldDefinition" p:name="temProfileAddress.streetAddressLine1" p:required="true" p:noLookup="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="temProfileAddress.streetAddressLine2" p:noLookup="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="temProfileAddress.cityName" p:required="true" p:noLookup="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="temProfileAddress.stateCode" p:required="false" p:noLookup="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="temProfileAddress.zipCode" p:required="false" p:noLookup="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="temProfileAddress.countryCode" p:required="true" p:noLookup="true" />
+				<bean parent="MaintainableSubSectionHeaderDefinition" p:name="Contact Info"/>
+				<bean parent="MaintainableFieldDefinition" p:name="phoneNumber" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="emailAddress" p:required="false" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="TEMProfileEmergencyContacts-Section" parent="TEMProfileEmergencyContacts-Section-parentBean" />
+	<bean id="TEMProfileEmergencyContacts-Section-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="TEMProfileEmergencyContacts" />
+		<property name="title" value="Emergency Contacts" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableCollectionDefinition">
+					<property name="name" value="emergencyContacts" />
+					<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TemProfileEmergencyContact" />
+					<property name="summaryTitle" value="Emergency Contacts" />
+					<property name="summaryFields">
+						<list>
+							<bean parent="MaintainableFieldDefinition" p:name="contactName" />
+						</list>
+					</property>
+					<property name="maintainableFields">
+						<list>
+						    <bean parent="MaintainableFieldDefinition" p:name="contactRelationTypeCode"
+                                p:required="true" p:noLookup="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="contactName"
+								p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="phoneNumber"
+								p:required="false" />
+						    <bean parent="MaintainableFieldDefinition" p:name="emailAddress" 
+						        p:required="false"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="TEMProfilePaymentMethod-Section" parent="TEMProfilePaymentMethod-Section-parentBean" />
+	<bean id="TEMProfilePaymentMethod-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="TEMProfilePaymentMethod" />
+		<property name="title" value="Payment Method" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="achSignUp" p:required="true" p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="achTransactionType" p:required="true" p:unconditionallyReadOnly="true" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="TEMProfileArrangers-Section" parent="TEMProfileArrangers-Section-parentBean" />
+	<bean id="TEMProfileArrangers-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="TEMProfileArrangers" />
+		<property name="title" value="Arrangers" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableCollectionDefinition">
+					<property name="name" value="arrangers" />
+					<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TEMProfileArranger" />
+					<property name="summaryTitle" value="Arranger Information" />
+					<property name="summaryFields">
+						<list>
+							<bean parent="MaintainableFieldDefinition" p:name="principalName" />
+						</list>
+					</property>
+					<property name="maintainableFields">
+						<list>
+							<bean parent="MaintainableFieldDefinition" p:name="principalName" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="taInd" p:required="false" />
+                            <bean parent="MaintainableFieldDefinition" p:name="trInd" p:required="false" />
+							<bean parent="MaintainableFieldDefinition" p:name="primary" p:required="false" />
+							<bean parent="MaintainableFieldDefinition" p:name="active" p:required="false" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="TEMProfileEmailPreferences-Section" parent="TEMProfileEmailPreferences-Section-parentBean" />
+	<bean id="TEMProfileEmailPreferences-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="TEMProfileEmailPreferences" />
+		<property name="title" value="Email Notification Preferences" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="notifyTAFinal" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="notifyTAStatusChange" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="notifyTERFinal" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="notifyTERStatusChange" p:required="false" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="TEMProfileAdministrator-Section" parent="TEMProfileAdministrator-Section-parentBean" />
+	<bean id="TEMProfileAdministrator-Section-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="TEMProfileAdministrator" />
+		<property name="title" value="Administrator" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableCollectionDefinition">
+					<property name="name" value="accounts" />
+					<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TEMProfileAccount" />
+					<property name="summaryTitle" value="Corporate Credit Card and External Agency Accounts" />
+					<property name="summaryFields">
+						<list>
+							<bean parent="MaintainableFieldDefinition" p:name="tabName" />
+						</list>
+					</property>
+					<property name="maintainableFields">
+						<list>
+							<bean parent="MaintainableFieldDefinition" p:name="name" p:required="true" p:lookupReadOnly="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false" />
+							<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="false" />
+							<bean parent="MaintainableFieldDefinition" p:name="note" p:required="false" />
+							<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="MaintainableSubSectionHeaderDefinition" p:name="Profile Status"/>
+                <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" p:unconditionallyReadOnly="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="customerNumber" p:required="true" p:unconditionallyReadOnly="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" />
+			</list>
+		</property>
+	</bean>
+</beans>

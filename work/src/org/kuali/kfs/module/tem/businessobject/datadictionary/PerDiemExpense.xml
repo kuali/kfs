@@ -1,0 +1,369 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="PerDiemExpense" parent="PerDiemExpense-parentBean" />
+	<bean id="PerDiemExpense-parentBean" abstract="true" parent="BusinessObjectEntry" >
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.PerDiemExpense" />
+		<property name="lookupDefinition" ref="PerDiemExpense-lookupDefinition" />
+		<property name="inquiryDefinition" ref="PerDiemExpense-inquiryDefinition" />
+		<property name="titleAttribute" value="id" />
+		<property name="objectLabel" value="PerDiemExpense" />
+		<property name="attributes">
+		<list>
+			<ref bean="PerDiemExpense-id" />
+			<ref bean="PerDiemExpense-documentNumber" />
+			<ref bean="PerDiemExpense-mileageDate" />
+			<ref bean="PerDiemExpense-countryState" />
+			<ref bean="PerDiemExpense-county" />
+			<ref bean="PerDiemExpense-primaryDestination" />
+			<ref bean="PerDiemExpense-personal" />
+			<ref bean="PerDiemExpense-breakfast" />
+            <ref bean="PerDiemExpense-breakfastValue" />
+			<ref bean="PerDiemExpense-lunch" />
+            <ref bean="PerDiemExpense-lunchValue" />
+			<ref bean="PerDiemExpense-dinner" />
+            <ref bean="PerDiemExpense-dinnerValue" />
+            <ref bean="PerDiemExpense-perDiemId" />
+            <ref bean="PerDiemExpense-incidentalsValue" />
+            <ref bean="PerDiemExpense-lodging" />
+			<ref bean="PerDiemExpense-miles" />
+			<ref bean="PerDiemExpense-mileageRateId" />
+            <ref bean="PerDiemExpense-accommodationTypeCode" />
+            <ref bean="PerDiemExpense-accommodationName" />
+            <ref bean="PerDiemExpense-accommodationPhoneNum" />
+            <ref bean="PerDiemExpense-accommodationAddress" />
+			<ref bean="PerDiemExpense-versionNumber" />
+		</list>
+		</property>
+		<property name="relationships">
+		<list>
+			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="mileageRate" />
+				<property name="primitiveAttributes">
+				<list>
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="mileageRateId" p:targetName="id" />
+				</list>
+				</property>
+				<property name="supportAttributes">
+				<list>
+				</list>
+				</property>
+			</bean>
+		</list>
+		</property>
+	</bean>
+	<bean id="PerDiemExpense-id" parent="PerDiemExpense-id-parentBean" />
+	<bean id="PerDiemExpense-id-parentBean" parent="AttributeDefinition">
+		<property name="name" value="id" />
+		<property name="label" value="Id" />
+		<property name="shortLabel" value="Id" />
+		<property name="maxLength" value="32" />
+		<property name="required" value="true" />
+		<property name="summary" value="Id" />
+		<property name="description" value="Id" />
+		<property name="control"><bean parent="HiddenControlDefinition" /></property>
+		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
+	</bean>
+	<bean id="PerDiemExpense-mileageDate" parent="PerDiemExpense-mileageDate-parentBean" />
+	<bean id="PerDiemExpense-mileageDate-parentBean" parent="GenericAttributes-genericDate">
+		<property name="name" value="mileageDate" />
+		<property name="label" value="Date" />
+		<property name="shortLabel" value="Date" />
+		<property name="summary" value="Date" />
+		<property name="description" value="Date" />
+	</bean>
+	<bean id="PerDiemExpense-documentNumber" parent="PerDiemExpense-documentNumber-parentBean" />
+	<bean id="PerDiemExpense-documentNumber-parentBean" parent="AttributeDefinition">
+		<property name="name" value="documentNumber" />
+		<property name="label" value="Document Number" />
+		<property name="shortLabel" value="Document Number" />
+		<property name="maxLength" value="14" />
+		<property name="required" value="true" />
+		<property name="summary" value="Document Number" />
+		<property name="description" value="Document Number" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="14"/></property>
+	</bean>
+	<bean id="PerDiemExpense-countryState" parent="PerDiemExpense-countryState-parentBean" />
+	<bean id="PerDiemExpense-countryState-parentBean" parent="AttributeDefinition">
+		<property name="name" value="countryState" />
+		<property name="label" value="Country State" />
+		<property name="shortLabel" value="Country State" />
+		<property name="maxLength" value="100" />
+		<property name="required" value="false" />
+		<property name="summary" value="Country State" />
+		<property name="description" value="Country State" />
+		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateCodeValuesFinder" p:includeKeyInLabel="false"/></property>
+	</bean>
+	<bean id="PerDiemExpense-county" parent="PerDiemExpense-county-parentBean" />
+	<bean id="PerDiemExpense-county-parentBean" parent="AttributeDefinition">
+		<property name="name" value="county" />
+		<property name="label" value="County" />
+		<property name="shortLabel" value="County" />
+		<property name="maxLength" value="100" />
+		<property name="required" value="false" />
+		<property name="summary" value="County" />
+		<property name="description" value="County" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="20"/></property>
+	</bean>
+	<bean id="PerDiemExpense-primaryDestination" parent="PerDiemExpense-primaryDestination-parentBean" />
+	<bean id="PerDiemExpense-primaryDestination-parentBean" parent="AttributeDefinition">
+		<property name="name" value="primaryDestination" />
+		<property name="label" value="Primary Destination" />
+		<property name="shortLabel" value="Primary Destination" />
+		<property name="maxLength" value="100" />
+		<property name="required" value="true" />
+		<property name="summary" value="Primary Destination" />
+		<property name="description" value="Primary Destination" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
+	</bean>
+	<bean id="PerDiemExpense-personal" parent="PerDiemExpense-personal-parentBean" />
+	<bean id="PerDiemExpense-personal-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="personal" />
+		<property name="label" value="Personal" />
+		<property name="shortLabel" value="Personal" />
+		<property name="required" value="false" />
+		<property name="summary" value="Personal" />
+		<property name="description" value="Personal" />
+	</bean>
+	<bean id="PerDiemExpense-breakfast" parent="PerDiemExpense-breakfast-parentBean" />
+	<bean id="PerDiemExpense-breakfast-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="breakfast" />
+		<property name="label" value="Breakfast" />
+		<property name="shortLabel" value="Breakfast" />
+		<property name="required" value="false" />
+		<property name="summary" value="Breakfast" />
+		<property name="description" value="Breakfast" />
+	</bean>
+	<bean id="PerDiemExpense-lunch" parent="PerDiemExpense-lunch-parentBean" />
+	<bean id="PerDiemExpense-lunch-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="lunch" />
+		<property name="label" value="Lunch" />
+		<property name="shortLabel" value="Lunch" />
+		<property name="required" value="false" />
+		<property name="summary" value="Lunch" />
+		<property name="description" value="Lunch" />
+	</bean>
+	<bean id="PerDiemExpense-dinner" parent="PerDiemExpense-dinner-parentBean" />
+	<bean id="PerDiemExpense-dinner-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="dinner" />
+		<property name="label" value="Dinner" />
+		<property name="shortLabel" value="Dinner" />
+		<property name="required" value="false" />
+		<property name="summary" value="Dinner" />
+		<property name="description" value="Dinner" />
+	</bean>
+	<bean id="PerDiemExpense-breakfastValue" parent="PerDiemExpense-breakfastValue-parentBean" />
+    <bean id="PerDiemExpense-breakfastValue-parentBean" parent="GenericAttributes-genericAmount">
+        <property name="name" value="breakfastValue" />
+        <property name="label" value="Breakfast" />
+        <property name="shortLabel" value="Breakfast" />
+        <property name="maxLength" value="32" />
+        <property name="required" value="true" />
+        <property name="summary" value="Breakfast" />
+        <property name="description" value="Breakfast" />
+    </bean>
+    <bean id="PerDiemExpense-lunchValue" parent="PerDiemExpense-lunchValue-parentBean" />
+    <bean id="PerDiemExpense-lunchValue-parentBean" parent="GenericAttributes-genericAmount">
+        <property name="name" value="lunchValue" />
+        <property name="label" value="Lunch" />
+        <property name="shortLabel" value="Lunch" />
+        <property name="maxLength" value="32" />
+        <property name="required" value="true" />
+        <property name="summary" value="Lunch" />
+        <property name="description" value="Lunch" />
+    </bean>
+    <bean id="PerDiemExpense-dinnerValue" parent="PerDiemExpense-dinnerValue-parentBean" />
+    <bean id="PerDiemExpense-dinnerValue-parentBean" parent="GenericAttributes-genericAmount">
+        <property name="name" value="dinnerValue" />
+        <property name="label" value="Dinner" />
+        <property name="shortLabel" value="Dinner" />
+        <property name="maxLength" value="32" />
+        <property name="required" value="true" />
+        <property name="summary" value="Dinner" />
+        <property name="description" value="Dinner" />
+    </bean>
+	<bean id="PerDiemExpense-perDiemId" parent="PerDiemExpense-perDiemId-parentBean" />
+	<bean id="PerDiemExpense-perDiemId-parentBean" parent="AttributeDefinition">
+		<property name="name" value="perDiemId" />
+		<property name="label" value="Per Diem Id" />
+		<property name="shortLabel" value="Per Diem Id" />
+		<property name="maxLength" value="32" />
+		<property name="summary" value="Per Diem Id" />
+		<property name="description" value="Per Diem Id" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="32" /></property>
+		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
+	</bean>
+	<bean id="PerDiemExpense-incidentalsValue" parent="PerDiemExpense-incidentalsValue-parentBean" />
+    <bean id="PerDiemExpense-incidentalsValue-parentBean" parent="GenericAttributes-genericAmount">
+        <property name="name" value="incidentalsValue" />
+        <property name="label" value="Incidentals" />
+        <property name="shortLabel" value="Incidentals" />
+        <property name="maxLength" value="32" />
+        <property name="required" value="false" />
+        <property name="summary" value="Incidentals" />
+        <property name="description" value="Incidentals" />
+    </bean>
+	<bean id="PerDiemExpense-lodging" parent="PerDiemExpense-lodging-parentBean" />
+    <bean id="PerDiemExpense-lodging-parentBean" parent="GenericAttributes-genericAmount">
+        <property name="name" value="lodging" />
+        <property name="label" value="Lodging" />
+        <property name="shortLabel" value="Lodging" />
+        <property name="summary" value="Lodging" />
+        <property name="description" value="Lodging" />
+    </bean>
+	<bean id="PerDiemExpense-miles" parent="PerDiemExpense-miles-parentBean" />
+	<bean id="PerDiemExpense-miles-parentBean" parent="AttributeDefinition">
+		<property name="name" value="miles" />
+		<property name="label" value="Miles" />
+		<property name="shortLabel" value="Miles" />
+		<property name="maxLength" value="32" />
+		<property name="required" value="false" />
+		<property name="summary" value="Miles" />
+		<property name="description" value="Miles" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="10"/></property>
+		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
+	</bean>
+	<bean id="PerDiemExpense-mileageRateId" parent="PerDiemExpense-mileageRateId-parentBean" />
+	<bean id="PerDiemExpense-mileageRateId-parentBean" parent="AttributeDefinition">
+		<property name="name" value="mileageRateId" />
+		<property name="label" value="Mileage Rate" />
+		<property name="shortLabel" value="Mileage Rate" />
+		<property name="maxLength" value="32" />
+		<property name="required" value="false" />
+		<property name="summary" value="Mileage Rate Id" />
+		<property name="description" value="Mileage Rate Id" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
+		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
+	</bean>
+	<bean id="PerDiemExpense-accommodationTypeCode" parent="PerDiemExpense-accommodationTypeCode-parentBean" />
+	<bean id="PerDiemExpense-accommodationTypeCode-parentBean"
+		parent="AttributeDefinition">
+		<property name="name" value="accommodationTypeCode" />
+		<property name="label" value="Accommodation Type" />
+		<property name="shortLabel" value="Accommodation Type" />
+		<property name="maxLength" value="4" />
+		<property name="summary" value="accommodation Type Code" />
+		<property name="description" value="accommodation Type Code" />
+		<property name="control">
+            <bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.AccommodationTypeValuesFinder"
+                p:includeKeyInLabel="false" />
+        </property>
+	</bean>
+	<bean id="PerDiemExpense-accommodationName" parent="PerDiemExpense-accommodationName-parentBean" />
+	<bean id="PerDiemExpense-accommodationName-parentBean" parent="AttributeDefinition">
+		<property name="name" value="accommodationName" />
+		<property name="label" value="Name (i.e. Hotel Name, Campsite)" />
+		<property name="shortLabel" value="Name (i.e. Hotel Name, Campsite)" />
+		<property name="maxLength" value="255" />
+		<property name="summary" value="accommodation Name" />
+		<property name="description" value="accommodation Name" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="25" />
+		</property>
+	</bean>
+	<bean id="PerDiemExpense-accommodationPhoneNum" parent="PerDiemExpense-accommodationPhoneNum-parentBean" />
+	<bean id="PerDiemExpense-accommodationPhoneNum-parentBean"
+		parent="AttributeDefinition">
+		<property name="name" value="accommodationPhoneNum" />
+		<property name="label" value="Phone (if applicable)" />
+		<property name="shortLabel" value="Phone (if applicable)" />
+		<property name="maxLength" value="20" />
+		<property name="summary" value="accommodation Phone Num" />
+		<property name="description" value="accommodation Phone Num" />
+		<property name="validationPattern" >
+      		<bean parent="RegexValidationPattern" p:pattern="+?[0-9]{1}([0-9.]*|-|\s)*[0-9]" p:validationErrorMessageKey="error.document.tem.estimate.phoneNumber"/>
+    	</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+	</bean>
+	<bean id="PerDiemExpense-accommodationAddress" parent="PerDiemExpense-accommodationAddress-parentBean" />
+	<bean id="PerDiemExpense-accommodationAddress-parentBean"
+		parent="AttributeDefinition">
+		<property name="name" value="accommodationAddress" />
+		<property name="label" value="Address" />
+		<property name="shortLabel" value="Address" />
+		<property name="maxLength" value="255" />
+		<property name="summary" value="accommodation Address" />
+		<property name="description" value="accommodation Address" />
+		<property name="control">
+			<bean parent="TextareaControlDefinition" p:rows="5" p:cols="60" />
+		</property>
+	</bean>
+	<bean id="PerDiemExpense-versionNumber" parent="PerDiemExpense-versionNumber-parentBean" />
+	<bean id="PerDiemExpense-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+		<property name="name" value="versionNumber" />
+		<property name="label" value="Version Number" />
+		<property name="shortLabel" value="Version Number" />
+		<property name="summary" value="Version Number" />
+		<property name="description" value="Version Number" />
+	</bean>
+	<bean id="PerDiemExpense-inquiryDefinition" parent="PerDiemExpense-inquiryDefinition-parentBean" />
+	<bean id="PerDiemExpense-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Per Diem Mileage Inquiry"/>
+		<property name="inquirySections">
+		<list>
+			<bean parent="InquirySectionDefinition">
+				<property name="title" value="Per Diem Mileage Inquiry"/>
+				<property name="numberOfColumns" value="1"/>
+				<property name="inquiryFields">
+				<list>
+					<bean parent="FieldDefinition" p:attributeName="id" />
+					<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+					<bean parent="FieldDefinition" p:attributeName="countryState" />
+					<bean parent="FieldDefinition" p:attributeName="county" />
+					<bean parent="FieldDefinition" p:attributeName="primaryDestination" />
+					<bean parent="FieldDefinition" p:attributeName="breakfast" />
+					<bean parent="FieldDefinition" p:attributeName="lunch" />
+					<bean parent="FieldDefinition" p:attributeName="dinner" />
+					<bean parent="FieldDefinition" p:attributeName="perDiem" />
+					<bean parent="FieldDefinition" p:attributeName="miles" />
+					<bean parent="FieldDefinition" p:attributeName="mileageRateId" />
+				</list>
+				</property>
+			</bean>
+		</list>
+		</property>
+	</bean>
+	<bean id="PerDiemExpense-lookupDefinition" parent="PerDiemExpense-lookupDefinition-parentBean" />
+	<bean id="PerDiemExpense-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Per Diem Mileage Lookup" />
+		<property name="defaultSort">
+		<bean parent="SortDefinition">
+			<property name="attributeNames"><list>
+			</list></property>
+		</bean>
+		</property>
+		<property name="lookupFields"><list>
+			<bean parent="FieldDefinition" p:attributeName="id" />
+			<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+			<bean parent="FieldDefinition" p:attributeName="countryState" />
+			<bean parent="FieldDefinition" p:attributeName="county" />
+			<bean parent="FieldDefinition" p:attributeName="primaryDestination" />
+			<bean parent="FieldDefinition" p:attributeName="breakfast" />
+			<bean parent="FieldDefinition" p:attributeName="lunch" />
+			<bean parent="FieldDefinition" p:attributeName="dinner" />
+			<bean parent="FieldDefinition" p:attributeName="perDiem" />
+			<bean parent="FieldDefinition" p:attributeName="miles" />
+			<bean parent="FieldDefinition" p:attributeName="mileageRateId" />
+		</list>
+		</property>
+		<property name="resultFields">
+		<list>
+			<bean parent="FieldDefinition" p:attributeName="id" />
+			<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+			<bean parent="FieldDefinition" p:attributeName="countryState" />
+			<bean parent="FieldDefinition" p:attributeName="county" />
+			<bean parent="FieldDefinition" p:attributeName="primaryDestination" />
+			<bean parent="FieldDefinition" p:attributeName="breakfast" />
+			<bean parent="FieldDefinition" p:attributeName="lunch" />
+			<bean parent="FieldDefinition" p:attributeName="dinner" />
+			<bean parent="FieldDefinition" p:attributeName="perDiem" />
+			<bean parent="FieldDefinition" p:attributeName="miles" />
+			<bean parent="FieldDefinition" p:attributeName="mileageRateId" />
+		</list>
+		</property>
+	</bean>
+</beans>

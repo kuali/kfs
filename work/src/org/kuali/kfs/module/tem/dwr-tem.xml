@@ -1,0 +1,46 @@
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN" "http://www.getahead.ltd.uk/dwr/dwr10.dtd">
+
+<dwr>
+	<init>
+		<creator id="spring" class="org.kuali.rice.kns.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
+	</init>
+	<allow>
+	    <create creator="spring" javascript="TravelDocumentService">
+	    	<param name="beanName" value="temTravelDocumentService" />
+	    	<include method="checkNonEmployeeTravelerTypeCode" />
+	    	<include method="getAllStates" />
+	    </create>
+	</allow>	
+	<allow>
+	    <create creator="spring" javascript="TravelAuthorizationService">
+	    	<param name="beanName" value="temTravelAuthorizationService" />
+	    	<include method="checkNonReimbursable" />	    	
+	    </create>
+	</allow>
+	<allow>
+	    <create creator="spring" javascript="TravelReimbursementService">
+	    	<param name="beanName" value="temTravelReimbursementService" />
+	    </create>
+	</allow>	
+	<allow>
+	    <create creator="spring" javascript="TravelExpenseTypeService">
+	    	<param name="beanName" value="temTravelExpenseTypeService" />
+	    	<include method="getCompanyNameMapFrom" />
+	    </create>
+	</allow>	
+</dwr>

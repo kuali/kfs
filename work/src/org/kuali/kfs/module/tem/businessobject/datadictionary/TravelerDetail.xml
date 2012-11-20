@@ -1,0 +1,457 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="TravelerDetail" parent="TravelerDetail-parentBean" />
+	<bean id="TravelerDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TravelerDetail" />
+		<property name="lookupDefinition" ref="TravelerDetail-lookupDefinition" />
+		<property name="inquiryDefinition" ref="TravelerDetail-inquiryDefinition" />
+		<property name="titleAttribute" value="id" />
+		<property name="objectLabel" value="TravelerDetail" />
+		<property name="attributes">
+			<list>
+				<ref bean="TravelerDetail-id" />
+				<ref bean="TravelerDetail-documentNumber" />
+				<ref bean="TravelerDetail-principalId" />
+				<ref bean="TravelerDetail-principalName" />
+				<ref bean="TravelerDetail-customerNumber" />
+				<ref bean="TravelerDetail-firstName" />
+				<ref bean="TravelerDetail-lastName" />
+				<ref bean="TravelerDetail-streetAddressLine1" />
+				<ref bean="TravelerDetail-streetAddressLine2" />
+				<ref bean="TravelerDetail-cityName" />
+				<ref bean="TravelerDetail-stateCode" />
+				<ref bean="TravelerDetail-zipCode" />
+				<ref bean="TravelerDetail-countryCode" />
+				<ref bean="TravelerDetail-emailAddress" />
+				<ref bean="TravelerDetail-phoneNumber" />				
+				<ref bean="TravelerDetail-liabilityInsurance" />
+				<ref bean="TravelerDetail-travelerTypeCode" />
+				<ref bean="TravelerDetail-citizenship" />
+				<ref bean="TravelerDetail-active" />
+				<ref bean="TravelerDetail-versionNumber" />
+			</list>
+		</property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition" p:name="emergencyContacts"
+					p:label="emergencyContacts" p:shortLabel="emergencyContacts"
+					p:elementLabel="emergencyContacts" />				
+			</list>
+		</property>		
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="travelerType" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="travelerTypeCode"
+								p:targetName="code" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="TravelerDetail-id" parent="TravelerDetail-id-parentBean" />
+	<bean id="TravelerDetail-id-parentBean" parent="AttributeDefinition">
+		<property name="name" value="id" />
+		<property name="label" value="Id" />
+		<property name="shortLabel" value="Id" />
+		<property name="maxLength" value="32" />
+		<property name="required" value="true" />
+		<property name="summary" value="Id" />
+		<property name="description" value="Id" />
+		<property name="control">
+			<bean parent="HiddenControlDefinition" />
+		</property>
+		<property name="validationPattern">
+			<bean parent="NumericValidationPattern" />
+		</property>
+	</bean>
+	<bean id="TravelerDetail-documentNumber" parent="TravelerDetail-documentNumber-parentBean" />
+	<bean id="TravelerDetail-documentNumber-parentBean" parent="AttributeDefinition">
+		<property name="name" value="documentNumber" />
+		<property name="label" value="Document Number" />
+		<property name="shortLabel" value="Document Number" />
+		<property name="maxLength" value="255" />
+		<property name="summary" value="Document Number" />
+		<property name="description" value="Document Number" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="255" />
+		</property>
+	</bean>
+	<bean id="TravelerDetail-principalId" parent="TravelerDetail-principalId-parentBean" />
+	<bean id="TravelerDetail-principalId-parentBean" parent="AttributeDefinition">
+		<property name="name" value="principalId" />
+		<property name="label" value="Principal Id" />
+		<property name="shortLabel" value="Principal Id" />
+		<property name="maxLength" value="255" />
+		<property name="summary" value="Principal Id" />
+		<property name="description" value="Principal Id" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+	</bean>
+	<bean id="TravelerDetail-principalName" parent="TravelerDetail-principalName-parentBean" />
+	<bean id="TravelerDetail-principalName-parentBean" parent="KimBaseBeans-principalName" abstract="true">
+		<property name="required" value="false" />
+	</bean>
+	<bean id="TravelerDetail-customerNumber" parent="TravelerDetail-customerNumber-parentBean" />
+	<bean id="TravelerDetail-customerNumber-parentBean" abstract="true"
+		parent="Customer-customerNumber-parentBean">
+		<property name="name" value="customerNumber" />
+		<property name="label" value="Customer Number" />
+		<property name="shortLabel" value="Number" />
+	</bean>
+	<bean id="TravelerDetail-firstName" parent="TravelerDetail-firstName-parentBean" />
+	<bean id="TravelerDetail-firstName-parentBean" parent="AttributeDefinition">
+		<property name="name" value="firstName" />
+		<property name="label" value="First Name" />
+		<property name="shortLabel" value="First Name" />
+		<property name="maxLength" value="40" />
+		<property name="required" value="false" />
+		<property name="summary" value="First Name" />
+		<property name="description" value="First Name" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+	</bean>
+	<bean id="TravelerDetail-lastName" parent="TravelerDetail-lastName-parentBean" />
+	<bean id="TravelerDetail-lastName-parentBean" parent="AttributeDefinition">
+		<property name="name" value="lastName" />
+		<property name="label" value="Last Name" />
+		<property name="shortLabel" value="Last Name" />
+		<property name="maxLength" value="40" />
+		<property name="required" value="false" />
+		<property name="summary" value="Last Name" />
+		<property name="description" value="Last Name" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+	</bean>
+	<bean id="TravelerDetail-streetAddressLine1" parent="TravelerDetail-streetAddressLine1-parentBean" />
+	<bean id="TravelerDetail-streetAddressLine1-parentBean" parent="AttributeDefinition">
+		<property name="name" value="streetAddressLine1" />
+		<property name="label" value="Street Address Line1" />
+		<property name="shortLabel" value="Street Address Line1" />
+		<property name="maxLength" value="50" />
+		<property name="required" value="false" />
+		<property name="summary" value="Street Address Line1" />
+		<property name="description" value="Street Address Line1" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+	<bean id="TravelerDetail-streetAddressLine2" parent="TravelerDetail-streetAddressLine2-parentBean" />
+	<bean id="TravelerDetail-streetAddressLine2-parentBean" parent="AttributeDefinition">
+		<property name="name" value="streetAddressLine2" />
+		<property name="label" value="Street Address Line2" />
+		<property name="shortLabel" value="Street Address Line2" />
+		<property name="maxLength" value="50" />
+		<property name="summary" value="Street Address Line2" />
+		<property name="description" value="Street Address Line2" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+	<bean id="TravelerDetail-cityName" parent="TravelerDetail-cityName-parentBean" />
+	<bean id="TravelerDetail-cityName-parentBean" parent="AttributeDefinition">
+		<property name="name" value="cityName" />
+		<property name="label" value="City Name" />
+		<property name="shortLabel" value="City Name" />
+		<property name="maxLength" value="50" />
+		<property name="required" value="false" />
+		<property name="summary" value="City Name" />
+		<property name="description" value="City Name" />
+		<property name="forceUppercase" value="true"/>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterWithWhitespaceValidation"
+				p:allowWhitespace="true" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+	<bean id="TravelerDetail-stateCode" parent="TravelerDetail-stateCode-parentBean" />
+	<bean id="TravelerDetail-stateCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="stateCode" />
+		<property name="label" value="State Code" />
+		<property name="shortLabel" value="State Code" />
+		<property name="maxLength" value="50" />
+		<property name="required" value="false" />
+		<property name="summary" value="State Code" />
+		<property name="description" value="State Code" />
+		<property name="forceUppercase" value="true"/>	
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.StateCodeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+	<bean id="TravelerDetail-zipCode" parent="TravelerDetail-zipCode-parentBean" />
+	<bean id="TravelerDetail-zipCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="zipCode" />
+		<property name="label" value="Zip Code" />
+		<property name="shortLabel" value="Zip Code" />
+		<property name="maxLength" value="50" />
+		<property name="required" value="false" />
+		<property name="summary" value="Zip Code" />
+		<property name="description" value="Zip Code" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidation" p:allowWhitespace="true" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+	<bean id="TravelerDetail-countryCode" parent="TravelerDetail-countryCode-parentBean" />
+	<bean id="TravelerDetail-countryCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="countryCode" />
+		<property name="label" value="Country Code" />
+		<property name="shortLabel" value="Country Code" />
+		<property name="maxLength" value="50" />
+		<property name="required" value="false" />
+		<property name="summary" value="Country Code" />
+		<property name="description" value="Country Code" />
+		<property name="forceUppercase" value="true"/>	
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryNotRestrictedValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+	<bean id="TravelerDetail-emailAddress" parent="TravelerDetail-emailAddress-parentBean" />
+	<bean id="TravelerDetail-emailAddress-parentBean" parent="AttributeDefinition">
+		<property name="name" value="emailAddress" />
+		<property name="label" value="Email Address" />
+		<property name="shortLabel" value="Email Address" />
+		<property name="maxLength" value="50" />
+		<property name="summary" value="Email Address" />
+		<property name="description" value="Email Address" />
+		<property name="validationPattern">
+			<bean parent="EmailAddressValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+	<bean id="TravelerDetail-phoneNumber" parent="TravelerDetail-phoneNumber-parentBean" />
+	<bean id="TravelerDetail-phoneNumber-parentBean" parent="AttributeDefinition">
+		<property name="name" value="phoneNumber" />
+		<property name="label" value="Phone Number" />
+		<property name="shortLabel" value="Phone Number" />
+		<property name="maxLength" value="20" />
+		<property name="summary" value="Phone Number" />
+		<property name="description" value="Phone Number" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidation" p:allowWhitespace="true" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+	</bean>
+	<bean id="TravelerDetail-liabilityInsurance" parent="TravelerDetail-liabilityInsurance-parentBean" />
+	<bean id="TravelerDetail-liabilityInsurance-parentBean" parent="AttributeDefinition">
+		<property name="name" value="liabilityInsurance" />
+		<property name="label" value="Liability Insurance" />
+		<property name="shortLabel" value="Liability Insurance" />
+		<property name="maxLength" value="1" />
+		<property name="summary" value="Liability Insurance" />
+		<property name="description" value="Liability Insurance" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+	</bean>
+	<bean id="TravelerDetail-travelerTypeCode" parent="TravelerDetail-travelerTypeCode-parentBean" />
+	<bean id="TravelerDetail-travelerTypeCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="travelerTypeCode" />
+		<property name="label" value="Traveler Type Code" />
+		<property name="shortLabel" value="Traveler Type Code" />
+		<property name="maxLength" value="3" />
+		<property name="required" value="true" />
+		<property name="summary" value="Traveler Type Code" />
+		<property name="description" value="Traveler Type Code" />
+		<property name="control">
+			<bean parent="RadioControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.TravelerTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+	<bean id="TravelerDetail-citizenship" parent="TravelerDetail-citizenship-parentBean" />
+	<bean id="TravelerDetail-citizenship-parentBean" parent="AttributeDefinition">
+		<property name="name" value="citizenship" />
+		<property name="label" value="Citizenship" />
+		<property name="shortLabel" value="Citizenship" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Citizenship" />
+		<property name="description" value="Citizenship" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryNotRestrictedValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+	<bean id="TravelerDetail-active" parent="TravelerDetail-active-parentBean" />
+	<bean id="TravelerDetail-active-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="shortLabel" value="Active" />
+		<property name="required" value="true" />
+		<property name="summary" value="Active" />
+		<property name="description" value="Active" />
+	</bean>
+		
+	<bean id="TravelerDetail-versionNumber" parent="TravelerDetail-versionNumber-parentBean" />
+	<bean id="TravelerDetail-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+		<property name="name" value="versionNumber" />
+		<property name="label" value="Version Number" />
+		<property name="shortLabel" value="Version Number" />
+		<property name="summary" value="Version Number" />
+		<property name="description" value="Version Number" />
+	</bean>
+	<bean id="TravelerDetail-inquiryDefinition" parent="TravelerDetail-inquiryDefinition-parentBean" />
+	<bean id="TravelerDetail-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="title" value="Traveler Detail Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Traveler Detail Inquiry" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="id" />
+							<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+							<bean parent="FieldDefinition" p:attributeName="firstName" />
+							<bean parent="FieldDefinition" p:attributeName="lastName" />
+							<bean parent="FieldDefinition" p:attributeName="streetAddressLine1" />
+							<bean parent="FieldDefinition" p:attributeName="streetAddressLine2" />
+							<bean parent="FieldDefinition" p:attributeName="cityName" />
+							<bean parent="FieldDefinition" p:attributeName="stateCode" />
+							<bean parent="FieldDefinition" p:attributeName="zipCode" />
+							<bean parent="FieldDefinition" p:attributeName="countryCode" />
+							<bean parent="FieldDefinition" p:attributeName="emailAddress" />
+							<bean parent="FieldDefinition" p:attributeName="phoneNumber" />
+							<bean parent="FieldDefinition" p:attributeName="travelerTypeCode" p:noLookup="true" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Emergency Contact" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition">
+								<property name="attributeName" value="emergencyContacts" />
+								<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact" />
+								<property name="numberOfColumns" value="1" />
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="id" />
+										<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+										<bean parent="FieldDefinition" p:attributeName="financialDocumentLineNumber" />
+										<bean parent="FieldDefinition" p:attributeName="contactRelationTypeCode" />
+										<bean parent="FieldDefinition" p:attributeName="contactName" />
+										<bean parent="FieldDefinition" p:attributeName="phoneNumber" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>				
+			</list>
+		</property>
+	</bean>
+	<bean id="TravelerDetail-lookupDefinition" parent="TravelerDetail-lookupDefinition-parentBean" />
+	<bean id="TravelerDetail-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="title" value="Traveler Detail Lookup" />
+		<property name="lookupableID" value="travelerLookupable" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="principalName" />
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="MappedDefinition" p:attributeName="firstName">
+					<property name="attributeMap">
+						<map>
+							<entry key="Customer" value="customerName" />
+							<entry key="PersonImpl" value="firstName" />
+						</map>
+					</property>
+				</bean>
+				<bean parent="MappedDefinition" p:attributeName="lastName">
+					<property name="attributeMap">
+						<map>
+							<entry key="Customer" value="customerName" />
+							<entry key="PersonImpl" value="lastName" />
+						</map>
+					</property>
+				</bean>
+				<bean parent="MappedDefinition" p:attributeName="streetAddressLine1">
+					<property name="attributeMap">
+						<map>
+							<entry key="Customer" value="customerAddresses.customerLine1StreetAddress" />
+							<entry key="PersonImpl" value="addressLine1" />
+						</map>
+					</property>
+				</bean>
+				<bean parent="MappedDefinition" p:attributeName="stateCode">
+					<property name="attributeMap">
+						<map>
+							<entry key="Customer" value="customerAddresses.customerStateCode" />
+							<entry key="PersonImpl" value="addressStateCode" />
+						</map>
+					</property>
+				</bean>
+				<bean parent="MappedDefinition" p:attributeName="zipCode">
+					<property name="attributeMap">
+						<map>
+							<entry key="Customer" value="customerAddresses.customerPostalCode" />
+							<entry key="PersonImpl" value="addressPostalCode" />
+						</map>
+					</property>
+				</bean>
+				<bean parent="FieldDefinition" p:attributeName="travelerTypeCode"
+					p:noLookup="true" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="principalName" />
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="firstName" />
+				<bean parent="FieldDefinition" p:attributeName="lastName" />
+				<bean parent="FieldDefinition" p:attributeName="streetAddressLine1" />
+				<bean parent="FieldDefinition" p:attributeName="cityName" />
+				<bean parent="FieldDefinition" p:attributeName="stateCode" />
+				<bean parent="FieldDefinition" p:attributeName="zipCode" />
+				<bean parent="FieldDefinition" p:attributeName="countryCode" />
+				<bean parent="FieldDefinition" p:attributeName="emailAddress" />
+				<bean parent="FieldDefinition" p:attributeName="phoneNumber" />
+			</list>
+		</property>
+	</bean>
+</beans>

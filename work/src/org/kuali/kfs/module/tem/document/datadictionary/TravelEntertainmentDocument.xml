@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="TravelEntertainmentDocument" parent="TravelEntertainmentDocument-parentBean" />
+	<bean id="TravelEntertainmentDocument-parentBean" abstract="true" parent="AccountingDocumentEntry" >
+	
+	<property name="documentTypeName" value="ENT" />
+		<property name="documentClass" value="org.kuali.kfs.module.tem.document.TravelEntertainmentDocument" />
+		<property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+		<property name="promptBeforeValidationClass" value="org.kuali.kfs.module.tem.document.validation.impl.TravelEntertainmentDocumentPreRules" />
+	    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelEntertainmentDocumentPresentationController" />
+	    <property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.tem.businessobject.options.TravelEntertainmentAttachmentTypeValuesFinder"/>
+      	<property name="documentAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelEntertainmentAuthorizer"/>
+        <property name="validationMap" ref="TravelEntertainmentDocument-validations"/>
+		<property name="sessionDocument" value="true"/>
+		<property name="allowsCopy" value="true"/>
+		<property name="allowsNoteFYI" value="true"/>
+		<property name="potentiallySensitive" value="true"/>
+		<property name="allowsErrorCorrection" value="false"/>
+		<property name="workflowAttributes">
+    	  <ref bean="TravelEntertainmentDocument-workflowAttributes"/>
+        </property>
+        <property name="accountingLineGroups">
+			<map>
+				<entry>
+					<key><value>source</value></key>
+					<ref bean="TravelDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
+				</entry>
+				<entry>
+					<key><value>accountDistribution</value></key>
+					<ref bean="TravelDocument-accountDistributionSourceAccountingLineGroup" parent="AccountingLineGroup"/>
+				</entry>
+			</map>
+		</property>
+	
+	
+		<property name="attributes">
+		<list>
+			<ref bean="TravelEntertainmentDocument-travelDocumentNumber" />
+			<ref bean="TravelEntertainmentDocument-hostProfileId" />
+			<ref bean="TravelEntertainmentDocument-hostName" />
+			<ref bean="TravelEntertainmentDocument-temProfileId" />
+			<ref bean="TravelEntertainmentDocument-tripTypeCode" />
+			<ref bean="TravelEntertainmentDocument-tripBegin" />
+			<ref bean="TravelEntertainmentDocument-tripEnd" />
+			<ref bean="TravelEntertainmentDocument-eventTitle" />
+			<ref bean="TravelEntertainmentDocument-hostCertified" />
+			<ref bean="TravelEntertainmentDocument-nonEmployeeCertified" />
+			<ref bean="TravelEntertainmentDocument-spouseIncluded" />
+			<ref bean="TravelEntertainmentDocument-spouseIncludedForSearching" />
+			<ref bean="TravelEntertainmentDocument-description" />
+			<ref bean="TravelEntertainmentDocument-purposeCode" />
+			<ref bean="TravelEntertainmentDocument-paymentMethod" />
+			<ref bean="TravelEntertainmentDocument-attendeeListAttached" />
+			<ref bean="TravelEntertainmentDocument-numberOfAttendees" />
+			<ref bean="TravelEntertainmentDocument-versionNumber" />
+			<ref bean="TravelEntertainmentDocument-appDocStatus" />
+		</list>
+		</property>
+		<property name="collections">
+			<list>
+	            <bean parent="CollectionDefinition" p:name="perDiemExpenses" p:label="Per Diem Expenses" p:shortLabel="Per Diem Expenses" p:elementLabel="Per Diem Expenses" />
+				<bean parent="CollectionDefinition" p:name="actualExpenses" p:label="Actual Expenses" p:shortLabel="Actual Expenses" p:elementLabel="Actual Expenses" />
+				<bean parent="CollectionDefinition" p:name="attendee" p:label="Attendees" p:shortLabel="Attendees" p:elementLabel="Attendees" />
+				<bean parent="CollectionDefinition" p:name="historicalTravelExpenses" p:label="Reconciled Expenses" p:shortLabel="Reconciled Expenses" p:elementLabel="Reconciled Expenses" />
+			</list>
+		</property>
+		<property name="relationships">
+		<list>
+			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="temProfile" />
+				<property name="primitiveAttributes">
+				<list>
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="temProfileId" p:targetName="profileId" />
+				</list>
+				</property>
+				<property name="supportAttributes">
+				<list>
+				</list>
+				</property>
+			</bean>
+			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="purpose" />
+				<property name="primitiveAttributes">
+				<list>
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="purposeCode" p:targetName="purposeCode" />
+				</list>
+				</property>
+				<property name="supportAttributes">
+				<list>
+				</list>
+				</property>
+			</bean>
+			</list>
+		</property>
+		
+	</bean>
+	<bean id="TravelEntertainmentDocument-travelDocumentNumber" parent="TravelEntertainmentDocument-travelDocumentNumber-parentBean" />
+	<bean id="TravelEntertainmentDocument-travelDocumentNumber-parentBean" parent="AttributeDefinition">
+		<property name="name" value="travelDocumentIdentifier" />
+		<property name="label" value="TEM Doc #" />
+		<property name="shortLabel" value="TEM Doc #" />
+		<property name="maxLength" value="32" />
+		<property name="summary" value="TEM Doc #" />
+		<property name="description" value="TEM Doc #" />
+		<property name="forceUppercase" value="true"/>
+		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
+	</bean>
+	
+	<bean id="TravelEntertainmentDocument-tripTypeCode" parent="TravelEntertainmentDocument-tripTypeCode-parentBean" />
+	<bean id="TravelEntertainmentDocument-tripTypeCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="tripTypeCode" />
+		<property name="label" value="Trip Type Code" />
+		<property name="shortLabel" value="Trip Type Code" />
+		<property name="required" value="false" />
+		<property name="maxLength" value="3" />
+		<property name="summary" value="Trip Type Code" />
+		<property name="description" value="Trip Type Code" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
+	</bean>
+	
+	<bean id="TravelEntertainmentDocument-tripBegin" parent="TravelEntertainmentDocument-tripBegin-parentBean" />
+	<bean id="TravelEntertainmentDocument-tripBegin-parentBean" parent="GenericAttributes-genericDate">
+		<property name="name" value="tripBegin" />
+		<property name="label" value="Event Begin" />
+		<property name="shortLabel" value="Event Begin" />
+		<property name="required" value="true" />
+		<property name="summary" value="Event Begin" />
+		<property name="description" value="Event Begin" />
+	</bean>
+	<bean id="TravelEntertainmentDocument-tripEnd" parent="TravelEntertainmentDocument-tripEnd-parentBean" />
+	<bean id="TravelEntertainmentDocument-tripEnd-parentBean" parent="GenericAttributes-genericDate">
+		<property name="name" value="tripEnd" />
+		<property name="label" value="Event End" />
+		<property name="shortLabel" value="Event End" />
+		<property name="required" value="true" />
+		<property name="summary" value="Event End" />
+		<property name="description" value="Event End" />
+	</bean>
+	<bean id="TravelEntertainmentDocument-hostProfileId" parent="TravelEntertainmentDocument-hostProfileId-parentBean" />
+	<bean id="TravelEntertainmentDocument-hostProfileId-parentBean" parent="AttributeDefinition">
+		<property name="name" value="hostProfileId" />
+		<property name="label" value="Host Id" />
+		<property name="shortLabel" value="Host Id" />
+		<property name="maxLength" value="32" />
+		<property name="summary" value="Host Id" />
+		<property name="description" value="Host Id" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
+	</bean>
+	<bean id="TravelEntertainmentDocument-hostName" parent="TravelEntertainmentDocument-hostName-parentBean" />
+	<bean id="TravelEntertainmentDocument-hostName-parentBean" parent="AttributeDefinition">
+		<property name="name" value="hostName" />
+		<property name="label" value="Event Host Name" />
+		<property name="shortLabel" value="Event Host Name" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Event Host Name" />
+		<property name="description" value="Event Host Name" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="60"/></property>
+	</bean>
+	<bean id="TravelEntertainmentDocument-eventTitle" parent="TravelEntertainmentDocument-eventTitle-parentBean" />
+	<bean id="TravelEntertainmentDocument-eventTitle-parentBean" parent="AttributeDefinition">
+		<property name="name" value="eventTitle" />
+		<property name="label" value="Event Tite" />
+		<property name="shortLabel" value="Event Tite" />
+		<property name="maxLength" value="100" />
+		<property name="summary" value="Event Tite" />
+		<property name="description" value="Event Tite" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="100"/></property>
+	</bean>
+	<bean id="TravelEntertainmentDocument-hostCertified" parent="TravelEntertainmentDocument-hostCertified-parentBean" />
+	<bean id="TravelEntertainmentDocument-hostCertified-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="hostCertified" />
+		<property name="label" value="Certification of Official Host for Entertainment Expense Attached" />
+		<property name="shortLabel" value="Certification of Official Host for Entertainment Expense Attached" />
+		<property name="summary" value="Certification of Official Host for Entertainment Expense Attached" />
+		<property name="description" value="Certification of Official Host for Entertainment Expense Attached" />
+	</bean>
+	<bean id="TravelEntertainmentDocument-nonEmployeeCertified" parent="TravelEntertainmentDocument-nonEmployeeCertified-parentBean" />
+	<bean id="TravelEntertainmentDocument-nonEmployeeCertified-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="nonEmployeeCertified" />
+		<property name="label" value="Non-Employee Certification Form Attached" />
+		<property name="shortLabel" value="Non-Employee Certification Form Attached" />
+		<property name="summary" value="Non-Employee Certification Form Attached" />
+		<property name="description" value="Non-Employee Certification Form Attached" />
+	</bean>
+	<bean id="TravelEntertainmentDocument-spouseIncluded" parent="TravelEntertainmentDocument-spouseIncluded-parentBean" />
+	<bean id="TravelEntertainmentDocument-spouseIncluded-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="spouseIncluded" />
+		<property name="label" value="Partner/Spouse Expense Included" />
+		<property name="shortLabel" value="Partner/Spouse Expense Included" />
+		<property name="summary" value="Partner/Spouse Expense Included" />
+		<property name="description" value="Partner/Spouse Expense Included" />
+	</bean>
+	<bean id="TravelEntertainmentDocument-spouseIncludedForSearching" parent="TravelEntertainmentDocument-spouseIncludedForSearching-parentBean" />
+	<bean id="TravelEntertainmentDocument-spouseIncludedForSearching-parentBean" parent="GenericAttributes-genericBoolean" abstract="true">
+		<property name="name" value="spouseIncludedForSearching" />
+		<property name="label" value="Partner/Spouse Expense Included" />
+		<property name="shortLabel" value="Partner/Spouse Expense Included" />
+		<property name="summary" value="Partner/Spouse Expense Included" />
+		<property name="description" value="Partner/Spouse Expense Included" />
+		<property name="control">
+      	<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+	</bean>
+	<bean id="TravelEntertainmentDocument-description" parent="TravelEntertainmentDocument-description-parentBean" />
+	<bean id="TravelEntertainmentDocument-description-parentBean" parent="AttributeDefinition">
+		<property name="name" value="description" />
+		<property name="label" value="Description/Justification Comments" />
+		<property name="shortLabel" value="Description/Justification Comments" />
+		<property name="maxLength" value="255" />
+		<property name="summary" value="Description/Justification Comments" />
+		<property name="description" value="Description/Justification Comments" />
+		<property name="control"><bean parent="TextareaControlDefinition" p:rows="6" p:cols="100" /></property>
+	</bean>
+	<bean id="TravelEntertainmentDocument-purposeCode" parent="TravelEntertainmentDocument-purposeCode-parentBean" />
+	<bean id="TravelEntertainmentDocument-purposeCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="purposeCode" />
+		<property name="label" value="Purpose" />
+		<property name="shortLabel" value="Purpose" />
+		<property name="required" value="true" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Purpose" />
+		<property name="description" value="Purpose" />
+		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.PurposeValuesFinder" p:includeKeyInLabel="false"/></property>
+	</bean>
+	
+    <bean id="TravelEntertainmentDocument-paymentMethod" parent="TravelEntertainmentDocument-paymentMethod-parentBean" />
+	<bean id="TravelEntertainmentDocument-paymentMethod-parentBean" abstract="true" parent="TravelDocument-paymentMethod" />
+	
+	<bean id="TravelEntertainmentDocument-versionNumber" parent="TravelEntertainmentDocument-versionNumber-parentBean" />
+	<bean id="TravelEntertainmentDocument-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+		<property name="name" value="versionNumber" />
+		<property name="label" value="Version Number" />
+		<property name="shortLabel" value="Version Number" />
+		<property name="summary" value="Version Number" />
+		<property name="description" value="Version Number" />
+	</bean>
+	
+	<bean id="TravelEntertainmentDocument-temProfileId" parent="TravelEntertainmentDocument-temProfileId-parentBean" />
+	<bean id="TravelEntertainmentDocument-temProfileId-parentBean" parent="AttributeDefinition">
+		<property name="name" value="temProfileId" />
+		<property name="label" value="Requester Id" />
+		<property name="shortLabel" value="Requester Id" />
+		<property name="maxLength" value="32" />
+		<property name="summary" value="Requester Id" />
+		<property name="description" value="Requester Id" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
+		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
+	</bean>
+	<bean id="TravelEntertainmentDocument-attendeeListAttached" parent="TravelEntertainmentDocument-attendeeListAttached-parentBean" />
+	<bean id="TravelEntertainmentDocument-attendeeListAttached-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="attendeeListAttached" />
+		<property name="label" value="Attendee List Attached" />
+		<property name="shortLabel" value="Attendee List Attached" />
+		<property name="summary" value="Attendee List Attached" />
+		<property name="description" value="Attendee List Attached" />
+	</bean>
+	<bean id="TravelEntertainmentDocument-numberOfAttendees" parent="TravelEntertainmentDocument-numberOfAttendees-parentBean" />
+	<bean id="TravelEntertainmentDocument-numberOfAttendees-parentBean" parent="AttributeDefinition">
+		<property name="name" value="numberOfAttendees" />
+		<property name="label" value="Number Of Attendees" />
+		<property name="shortLabel" value="Number Of Attendees" />
+		<property name="maxLength" value="10" />
+		<property name="required" value="false" />
+		<property name="summary" value="Number Of Attendees" />
+		<property name="description" value="Number Of Attendees" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="10"/></property>
+		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
+	</bean>
+    <bean id="TravelEntertainmentDocument-expenseLimit" parent="TravelEntertainmentDocument-expenseLimit-parentBean" />
+	<bean id="TravelEntertainmentDocument-expenseLimit-parentBean" parent="GenericAttributes-genericAmount">
+		<property name="name" value="expenseLimit" />
+		<property name="label" value="Expense Limit" />
+		<property name="shortLabel" value="Expense Limit" />
+		<property name="required" value="false" />
+		<property name="summary" value="Expense Limit" />
+		<property name="description" value="Expense Limit" />
+	</bean>
+	<bean id="TravelEntertainmentDocument-appDocStatus" parent="TravelEntertainmentDocument-appDocStatus-parentBean" />
+	<bean id="TravelEntertainmentDocument-appDocStatus-parentBean" parent="FinancialSystemDocumentHeader-financialDocumentStatusCode">
+		<property name="name" value="dummyAppDocStatus" />
+		<property name="label" value="ENT Status Code" />
+		<property name="shortLabel" value="ENT Status" />
+	</bean>
+	
+  <bean id="TravelEntertainmentDocument-workflowAttributes" parent="TravelEntertainmentDocument-workflowAttributes-parentBean"/>
+  
+  <bean id="TravelEntertainmentDocument-workflowAttributes-parentBean" abstract="true" parent="TravelDocument-workflowAttributes">
+    <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelEntertainmentDocument" />
+	<property name="searchingTypeDefinitions">
+		<list>
+		    <bean parent="TravelMoudle-SearchingTypeDefinition-tripBegin" />
+            <bean parent="TravelMoudle-SearchingTypeDefinition-temProfileId" />
+			<bean parent="TravelMoudle-SearchingTypeDefinition-eventTitle" />
+            <bean parent="TravelMoudle-SearchingTypeDefinition-spouseIncludedForSearching" />
+            <bean parent="TravelMoudle-SearchingTypeDefinition-traveler.cityName" />
+            <bean parent="TravelMoudle-SearchingTypeDefinition-traveler.stateCode" />
+            <bean parent="TravelMoudle-SearchingTypeDefinition-traveler.countryCode" />
+            <bean parent="TravelMoudle-SearchingTypeDefinition-traveler.zipCode" />
+		</list>
+	</property>
+	
+	<property name="routingTypeDefinitions">
+		<map>
+			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly" />
+			<entry key="OrganizationHierarchy" value-ref="RoutingType-TravelAuthorizationDocument-OrganizationHierarchy" />
+			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly" />
+			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
+			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
+		</map>
+	</property>
+	</bean>
+	
+   <!-- Validations -->  
+  <bean id="TravelEntertainmentDocument-validations" parent="TravelEntertainmentDocument-validations-parentBean"/>
+  
+  <bean id="TravelEntertainmentDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+    <property name="sourceMap">
+     	<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>Entertainment-saveDocumentValidation</value>
+			</entry>     				
+			<entry>
+                <key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+                <value>Entertainment-routeDocumentValidation</value>
+            </entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
+				<value>TravelModule-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
+				<value>TravelModule-updateAccountingLineValidation</value>
+			</entry>            
+            <!-- Distribution Accounting lines -->
+            <entry>
+                <key><value>org.kuali.kfs.module.tem.document.validation.event.AssignDistributionAccountingLinesEvent</value></key>
+                <value>TravelModule-distributionAccountingLineValidation</value>
+            </entry> 	
+            <entry>
+                <key><value>org.kuali.kfs.module.tem.document.validation.event.AddDistributionAccountingLineValidationEvent</value></key>
+                <value>TravelModule-distributionAccountingLineValidation</value>
+            </entry> 
+            <entry>
+                <key><value>org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseLineEvent</value></key>
+                <value>TravelModule-addImportedExpenseLineValidation</value>
+            </entry> 
+            <entry>
+                <key><value>org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseDetailLineEvent</value></key>
+                <value>TravelModule-addImportedExpenseDetailLineValidation</value>
+            </entry>
+            <entry>
+                <key><value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent</value></key>
+                <value>TravelModule-addActualExpenseLineValidation</value>
+            </entry> 
+            <entry>
+                <key><value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseDetailLineEvent</value></key>
+                <value>TravelModule-addActualExpenseDetailLineValidation</value>
+            </entry> 	
+            <!--entry>
+                <key><value>org.kuali.kfs.module.tem.document.validation.event.UpdateDistributionAccountingLinesEvent</value></key>
+                <value>TravelModule-distributeAccountingLinesValidation</value>
+            </entry-->		         
+        </map>
+        
+    </property>
+  </bean>
+    
+</beans>

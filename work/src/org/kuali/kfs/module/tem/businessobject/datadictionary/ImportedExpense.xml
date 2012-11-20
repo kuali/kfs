@@ -1,0 +1,274 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="ImportedExpense" parent="ImportedExpense-parentBean" />
+	<bean id="ImportedExpense-parentBean" abstract="true" parent="BusinessObjectEntry" >
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.ImportedExpense" />
+		<property name="lookupDefinition" ref="ImportedExpense-lookupDefinition" />
+		<property name="inquiryDefinition" ref="ImportedExpense-inquiryDefinition" />
+		<property name="titleAttribute" value="id" />
+		<property name="objectLabel" value="ImportedExpense" />
+		<property name="attributes">
+			<list>
+				<ref bean="ImportedExpense-id" />
+				<ref bean="ImportedExpense-documentNumber" />
+				<ref bean="ImportedExpense-description" />
+				<ref bean="ImportedExpense-expenseAmount" />
+				<ref bean="ImportedExpense-expenseDate" />
+				<ref bean="ImportedExpense-currencyRate" />
+				<ref bean="ImportedExpense-travelExpenseTypeCodeId" />
+				<ref bean="ImportedExpense-travelCompanyCodeName" />
+				<ref bean="ImportedExpense-versionNumber" />			
+				<ref bean="ImportedExpense-documentLineNumber" />
+				<ref bean="ImportedExpense-expenseParentId" />
+				<ref bean="ImportedExpense-nonReimbursable" />
+				<ref bean="ImportedExpense-taxable" />
+				<ref bean="ImportedExpense-missingReceipt" />
+				<ref bean="ImportedExpense-convertedAmount" />	
+				<ref bean="ImportedExpense-cardType" />
+				<ref bean="ImportedExpense-receiptRequired" />
+			</list>
+		</property>
+	</bean>
+	<bean id="ImportedExpense-id" parent="ImportedExpense-id-parentBean" />
+	<bean id="ImportedExpense-id-parentBean" parent="AttributeDefinition">
+		<property name="name" value="id" />
+		<property name="label" value="Id" />
+		<property name="shortLabel" value="Id" />
+		<property name="maxLength" value="32" />
+		<property name="required" value="true" />
+		<property name="summary" value="Id" />
+		<property name="description" value="Id" />
+		<property name="control"><bean parent="HiddenControlDefinition" /></property>
+		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
+	</bean>
+	<bean id="ImportedExpense-documentNumber" parent="ImportedExpense-documentNumber-parentBean" />
+	<bean id="ImportedExpense-documentNumber-parentBean" parent="AttributeDefinition">
+		<property name="name" value="documentNumber" />
+		<property name="label" value="Document Number" />
+		<property name="shortLabel" value="Document Number" />
+		<property name="maxLength" value="14" />
+		<property name="required" value="false" />
+		<property name="summary" value="Document Number" />
+		<property name="description" value="Document Number" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="14"/></property>
+	</bean>
+	<bean id="ImportedExpense-cardType" parent="ImportedExpense-cardType-parentBean" />
+	<bean id="ImportedExpense-cardType-parentBean" parent="TravelCardType-code-parentBean">
+		<property name="name" value="cardType" />
+		<property name="label" value="Travel Card Type" />
+	</bean>
+	<bean id="ImportedExpense-currencyRate" parent="ImportedExpense-currencyRate-parentBean" />
+	<bean id="ImportedExpense-currencyRate-parentBean" parent="AttributeDefinition">
+		<property name="name" value="currencyRate" />
+		<property name="label" value="Currency Rate" />
+		<property name="shortLabel" value="Currency Rate" />
+		<property name="required" value="false" />
+		<property name="summary" value="Currency Rate" />
+        <property name="maxLength" value="10" />
+		<property name="description" value="The rate of currency conversion" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="6"/></property>
+	</bean>
+	<bean id="ImportedExpense-countryCode" parent="ImportedExpense-countryCode-parentBean" />
+	<bean id="ImportedExpense-countryCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="countryCode" />
+		<property name="label" value="Country" />
+		<property name="shortLabel" value="Country" />
+		<property name="required" value="false" />
+		<property name="summary" value="Country" />
+        <property name="maxLength" value="50" />
+		<property name="description" value="Used to determine the rate of the currency for conversion" />
+		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder" p:includeKeyInLabel="false"/></property>
+	</bean>
+	<bean id="ImportedExpense-expenseDate" parent="ImportedExpense-expenseDate-parentBean" />
+	<bean id="ImportedExpense-expenseDate-parentBean" parent="GenericAttributes-genericDate">
+		<property name="name" value="expenseDate" />
+		<property name="label" value="Expense Date" />
+		<property name="shortLabel" value="Expense Date" />
+		<property name="required" value="true" />
+		<property name="summary" value="Expense Date" />
+		<property name="description" value="Expense Date" />
+	</bean>
+	<bean id="ImportedExpense-expenseAmount" parent="ImportedExpense-expenseAmount-parentBean" />
+	<bean id="ImportedExpense-expenseAmount-parentBean" parent="GenericAttributes-genericAmount">
+		<property name="name" value="expenseAmount" />
+		<property name="label" value="Expense Amount" />
+		<property name="shortLabel" value="Expense Amount" />
+		<property name="summary" value="Expense Amount" />
+		<property name="description" value="Expense Amount" />
+		<property name="required" value="true" />
+	</bean>
+	<bean id="ImportedExpense-convertedAmount" parent="ImportedExpense-convertedAmount-parentBean" />
+	<bean id="ImportedExpense-convertedAmount-parentBean" parent="GenericAttributes-genericAmount">
+		<property name="name" value="convertedAmount" />
+		<property name="label" value="Converted Amount" />
+		<property name="shortLabel" value="Converted Amount" />
+		<property name="summary" value="Converted Amount" />
+		<property name="description" value="Converted Amount" />
+	</bean>
+	<bean id="ImportedExpense-description" parent="ImportedExpense-description-parentBean" />
+	<bean id="ImportedExpense-description-parentBean" parent="AttributeDefinition">
+		<property name="name" value="description" />
+		<property name="label" value="Notes" />
+		<property name="shortLabel" value="Notes" />
+		<property name="maxLength" value="250" />
+		<property name="required" value="false" />
+		<property name="summary" value="Notes" />
+		<property name="description" value="Notes" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
+	</bean>
+	<bean id="ImportedExpense-travelExpenseTypeCodeId" parent="ImportedExpense-travelExpenseTypeCodeId-parentBean" />
+	<bean id="ImportedExpense-travelExpenseTypeCodeId-parentBean" parent="TravelExpenseTypeCode-code-parentBean">
+		<property name="name" value="travelExpenseTypeCodeId" />
+		<property name="label" value="Expense Type" />
+		<property name="shortLabel" value="Expense Type" />
+		<property name="maxLength" value="32" />
+		<property name="required" value="true" />
+		<property name="summary" value="Travel Expense Type Code" />
+		<property name="description" value="Travel Expense Type Code" />
+      <property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.TravelExpenseTypeValuesFinder" p:includeKeyInLabel="false"/></property>
+	</bean>
+    <bean id="ImportedExpense-travelCompanyCodeName" parent="TravelCompanyCode-name-parentBean">
+      <property name="name" value="travelCompanyCodeName" />
+      <property name="label" value="Company Name" />
+      <property name="required" value="true" />
+      <property name="summary" value="Company Name " />
+      <property name="description" value="Company name related to a TravelExpense Type Code" />      
+      <property name="shortLabel" value="Company Name"/>
+      <property name="maxLength" value="40"/>      
+      <property name="control"><bean parent="TextControlDefinition" p:size="30"/></property>   
+    </bean>
+    
+    <bean id="ImportedExpense-documentLineNumber" parent="ImportedExpense-documentLineNumber-parentBean" />
+	<bean id="ImportedExpense-documentLineNumber-parentBean" parent="AttributeDefinition">
+		<property name="name" value="documentLineNumber" />
+		<property name="label" value="Document Line Number" />
+		<property name="shortLabel" value="Document Line Number" />
+		<property name="maxLength" value="19" />
+		<property name="required" value="false" />
+		<property name="summary" value="Document Line Number" />
+		<property name="description" value="Document Line Number" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="19"/></property>
+	</bean>
+	
+	<bean id="ImportedExpense-expenseParentId" parent="ImportedExpense-expenseParentId-parentBean" />
+	<bean id="ImportedExpense-expenseParentId-parentBean" parent="AttributeDefinition">
+		<property name="name" value="expenseParentId" />
+		<property name="label" value="Parent Id" />
+		<property name="shortLabel" value="Parent Id" />
+		<property name="maxLength" value="19" />
+		<property name="required" value="false" />
+		<property name="summary" value="Parent Id" />
+		<property name="description" value="Parent Id" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="19"/></property>
+	</bean>     
+    
+    <bean id="ImportedExpense-nonReimbursable" parent="ImportedExpense-nonReimbursable-parentBean" />	
+	<bean id="ImportedExpense-nonReimbursable-parentBean" parent="GenericAttributes-genericBoolean">		
+		<property name="name" value="nonReimbursable" />
+		<property name="label" value="Non- Reimbursable" />
+		<property name="shortLabel" value="Non- Reimbursable" />
+		<property name="maxLength" value="1" />
+		<property name="required" value="false" />
+		<property name="summary" value="Non Reimbursable" />
+		<property name="description" value="Non- Reimbursable" />		
+	</bean>
+	
+    <bean id="ImportedExpense-taxable" parent="ImportedExpense-taxable-parentBean" />
+	<bean id="ImportedExpense-taxable-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="taxable" />
+		<property name="label" value="Taxable" />
+		<property name="shortLabel" value="Taxable" />
+		<property name="maxLength" value="1" />
+		<property name="required" value="false" />
+		<property name="summary" value="Taxable" />
+		<property name="description" value="Taxable" />		
+	</bean>
+	
+	<bean id="ImportedExpense-missingReceipt" parent="ImportedExpense-missingReceipt-parentBean" />
+	<bean id="ImportedExpense-missingReceipt-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="missingReceipt" />
+		<property name="label" value="Missing Receipt" />
+		<property name="shortLabel" value="Missing Receipt" />
+		<property name="maxLength" value="1" />
+		<property name="required" value="false" />
+		<property name="summary" value="Missing Receipt" />
+		<property name="description" value="Missing Receipt" />		
+	</bean>
+    <bean id="ImportedExpense-receiptRequired" parent="ImportedExpense-receiptRequired-parentBean" />
+	<bean id="ImportedExpense-receiptRequired-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="receiptRequired" />
+		<property name="label" value="Receipt Required" />
+		<property name="shortLabel" value="Receipt Required" />
+		<property name="maxLength" value="1" />
+		<property name="required" value="false" />
+		<property name="summary" value="Receipt Required" />
+		<property name="description" value="Receipt Required" />		
+	</bean>
+	
+    
+	<bean id="ImportedExpense-versionNumber" parent="ImportedExpense-versionNumber-parentBean" />
+	<bean id="ImportedExpense-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+		<property name="name" value="versionNumber" />
+		<property name="label" value="Version Number" />
+		<property name="shortLabel" value="Version Number" />
+		<property name="summary" value="Version Number" />
+		<property name="description" value="Version Number" />
+	</bean>
+	<bean id="ImportedExpense-inquiryDefinition" parent="ImportedExpense-inquiryDefinition-parentBean" />
+	<bean id="ImportedExpense-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Imported Expense Inquiry"/>
+		<property name="inquirySections">
+		<list>
+			<bean parent="InquirySectionDefinition">
+				<property name="title" value="Imported Expense Inquiry"/>
+				<property name="numberOfColumns" value="1"/>
+				<property name="inquiryFields">
+				<list>
+                  <!--
+					<bean parent="FieldDefinition" p:attributeName="id" />
+					<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+					<bean parent="FieldDefinition" p:attributeName="expenseDate" />
+					<bean parent="FieldDefinition" p:attributeName="expenseAmount" />
+					<bean parent="FieldDefinition" p:attributeName="description" />
+					<bean parent="FieldDefinition" p:attributeName="nonReimbursable" />
+                    -->
+				</list>
+				</property>
+			</bean>
+		</list>
+		</property>
+	</bean>
+	<bean id="ImportedExpense-lookupDefinition" parent="ImportedExpense-lookupDefinition-parentBean" />
+	<bean id="ImportedExpense-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Imported Expense Lookup" />
+		<property name="defaultSort">
+		<bean parent="SortDefinition">
+			<property name="attributeNames"><list>
+			</list></property>
+		</bean>
+		</property>
+		<property name="lookupFields"><list>
+            <!--
+			<bean parent="FieldDefinition" p:attributeName="id" />
+			<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+			<bean parent="FieldDefinition" p:attributeName="expenseDate" />
+			<bean parent="FieldDefinition" p:attributeName="nonReimbursable" />
+            -->
+		</list>
+		</property>
+		<property name="resultFields">
+		<list>
+          <!--
+			<bean parent="FieldDefinition" p:attributeName="id" />
+			<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+			<bean parent="FieldDefinition" p:attributeName="expenseDate" />
+			<bean parent="FieldDefinition" p:attributeName="expenseAmount" />
+			<bean parent="FieldDefinition" p:attributeName="description" />
+			<bean parent="FieldDefinition" p:attributeName="nonReimbursable" />
+            -->
+		</list>
+		</property>
+	</bean>
+</beans>

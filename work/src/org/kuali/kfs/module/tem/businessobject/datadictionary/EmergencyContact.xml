@@ -1,0 +1,216 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="EmergencyContact-parentBean" abstract="true" parent="BusinessObjectEntry" >
+        <property name="lookupDefinition" ref="EmergencyContact-lookupDefinition" />
+        <property name="inquiryDefinition" ref="EmergencyContact-inquiryDefinition" />
+        <property name="titleAttribute" value="id" />
+        <property name="objectLabel" value="EmergencyContact" />
+        <property name="attributes">
+        <list>
+            <ref bean="EmergencyContact-id" />
+            <ref bean="EmergencyContact-documentNumber" />
+            <ref bean="EmergencyContact-financialDocumentLineNumber" />
+            <ref bean="EmergencyContact-contactRelationTypeCode" />
+            <ref bean="EmergencyContact-contactName" />
+            <ref bean="EmergencyContact-phoneNumber" />
+            <ref bean="EmergencyContact-emailAddress" />
+            <ref bean="EmergencyContact-primary" />
+            <ref bean="EmergencyContact-versionNumber" />
+        </list>
+        </property>
+        <property name="relationships">
+        <list>
+            <bean parent="RelationshipDefinition">
+                <property name="objectAttributeName" value="contactRelationType" />
+                <property name="primitiveAttributes">
+                <list>
+                    <bean parent="PrimitiveAttributeDefinition" p:sourceName="contactRelationTypeCode" p:targetName="code" />
+                </list>
+                </property>
+                <property name="supportAttributes">
+                <list>
+                </list>
+                </property>
+            </bean>
+        </list>
+        </property>
+    </bean>
+    <bean id="EmergencyContact-id" parent="EmergencyContact-id-parentBean" />
+    <bean id="EmergencyContact-id-parentBean" parent="AttributeDefinition">
+        <property name="name" value="id" />
+        <property name="label" value="Id" />
+        <property name="shortLabel" value="Id" />
+        <property name="maxLength" value="32" />
+        <property name="required" value="true" />
+        <property name="summary" value="Id" />
+        <property name="description" value="Id" />
+        <property name="control"><bean parent="HiddenControlDefinition" /></property>
+        <property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
+    </bean>
+    <bean id="EmergencyContact-documentNumber" parent="EmergencyContact-documentNumber-parentBean" />
+    <bean id="EmergencyContact-documentNumber-parentBean" parent="AttributeDefinition">
+        <property name="name" value="documentNumber" />
+        <property name="label" value="Document Number" />
+        <property name="shortLabel" value="Document Number" />
+        <property name="maxLength" value="255" />
+        <property name="summary" value="Document Number" />
+        <property name="description" value="Document Number" />
+        <property name="control"><bean parent="TextControlDefinition" p:size="255"/></property>
+    </bean>
+    <bean id="EmergencyContact-financialDocumentLineNumber" parent="EmergencyContact-financialDocumentLineNumber-parentBean" />
+    <bean id="EmergencyContact-financialDocumentLineNumber-parentBean" parent="AttributeDefinition">
+        <property name="name" value="financialDocumentLineNumber" />
+        <property name="label" value="Financial Document Line Number" />
+        <property name="shortLabel" value="Financial Document Line Number" />
+        <property name="maxLength" value="32" />
+        <property name="summary" value="Financial Document Line Number" />
+        <property name="description" value="Financial Document Line Number" />
+        <property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
+        <property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
+    </bean>
+    <bean id="EmergencyContact-contactRelationTypeCode" parent="EmergencyContact-contactRelationTypeCode-parentBean" />
+    <bean id="EmergencyContact-contactRelationTypeCode-parentBean" parent="AttributeDefinition">
+        <property name="name" value="contactRelationTypeCode" />
+        <property name="label" value="Contact Relation Type Code" />
+        <property name="shortLabel" value="Relationship" />
+        <property name="maxLength" value="3" />
+        <property name="required" value="true" />
+        <property name="summary" value="Contact Relation Type Code" />
+        <property name="description" value="Contact Relation Type Code" />
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.ContactRelationTypeValuesFinder"
+                p:includeKeyInLabel="false" />
+        </property>
+        <property name="attributeSecurity">
+			<bean parent="AttributeSecurity">
+	  			<property name="mask" value="true" /> 
+				<property name="maskFormatter">
+	  			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
+	  			</property>
+	  		</bean>
+	  	</property>
+    </bean>
+    <bean id="EmergencyContact-contactName" parent="EmergencyContact-contactName-parentBean" />
+    <bean id="EmergencyContact-contactName-parentBean" parent="AttributeDefinition">
+        <property name="name" value="contactName" />
+        <property name="label" value="Contact Name" />
+        <property name="shortLabel" value="Contact Name" />
+        <property name="maxLength" value="40" />
+        <property name="required" value="true" />
+        <property name="summary" value="Contact Name" />
+        <property name="description" value="Contact Name" />
+        <property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
+        <property name="attributeSecurity">
+			<bean parent="AttributeSecurity">
+	  			<property name="mask" value="true" /> 
+				<property name="maskFormatter">
+	  			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
+	  			</property>
+	  		</bean>
+	  	</property>
+    </bean>
+    <bean id="EmergencyContact-phoneNumber" parent="EmergencyContact-phoneNumber-parentBean" />
+    <bean id="EmergencyContact-phoneNumber-parentBean" parent="AttributeDefinition">
+        <property name="name" value="phoneNumber" />
+        <property name="label" value="Contact Phone Number" />
+        <property name="shortLabel" value="Contact Phone Number" />
+        <property name="maxLength" value="20" />
+        <property name="required" value="true" />
+        <property name="summary" value="Phone Number" />
+        <property name="description" value="Phone Number" />
+        <property name="validationPattern" >
+      		<bean parent="RegexValidationPattern" p:pattern="+?[0-9]{1}([0-9.]*|-|\s)*[0-9]" p:validationErrorMessageKey="error.document.tem.contact.phoneNumber"/>
+    	</property>
+        <property name="control"><bean parent="TextControlDefinition" p:size="20"/></property>
+        <property name="attributeSecurity">
+			<bean parent="AttributeSecurity">
+	  			<property name="mask" value="true" /> 
+				<property name="maskFormatter">
+	  			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
+	  			</property>
+	  		</bean>
+	  	</property>
+    </bean>
+    <bean id="EmergencyContact-emailAddress" parent="EmergencyContact-emailAddress-parentBean" />
+    <bean id="EmergencyContact-emailAddress-parentBean" parent="AttributeDefinition">
+        <property name="name" value="emailAddress" />
+        <property name="label" value="Email Address" />
+        <property name="shortLabel" value="Email Address" />
+        <property name="maxLength" value="50" />
+        <property name="summary" value="Email Address" />
+        <property name="description" value="Email Address" />
+        <property name="validationPattern">
+            <bean parent="EmailAddressValidationPattern"/>
+        </property>
+        <property name="control"><bean parent="TextControlDefinition" p:size="50"/></property>
+    </bean>
+	<bean id="EmergencyContact-primary" parent="EmergencyContact-primary-parentBean" />
+	<bean id="EmergencyContact-primary-parentBean" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="primary" />
+		<property name="label" value="Primary" />
+		<property name="shortLabel" value="Primary" />
+		<property name="required" value="true" />
+		<property name="summary" value="Primary" />
+		<property name="description" value="Primary" />
+	</bean>    
+    <bean id="EmergencyContact-versionNumber" parent="EmergencyContact-versionNumber-parentBean" />
+    <bean id="EmergencyContact-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+        <property name="name" value="versionNumber" />
+        <property name="label" value="Version Number" />
+        <property name="shortLabel" value="Version Number" />
+        <property name="summary" value="Version Number" />
+        <property name="description" value="Version Number" />
+    </bean>
+    <bean id="EmergencyContact-inquiryDefinition" parent="EmergencyContact-inquiryDefinition-parentBean" />
+    <bean id="EmergencyContact-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Emergency Contact Inquiry"/>
+        <property name="inquirySections">
+        <list>
+            <bean parent="InquirySectionDefinition">
+                <property name="title" value="Emergency Contact Inquiry"/>
+                <property name="numberOfColumns" value="1"/>
+                <property name="inquiryFields">
+                <list>
+                    <bean parent="FieldDefinition" p:attributeName="id" />
+                    <bean parent="FieldDefinition" p:attributeName="documentNumber" />
+                    <bean parent="FieldDefinition" p:attributeName="financialDocumentLineNumber" />
+                    <bean parent="FieldDefinition" p:attributeName="contactRelationTypeCode" />
+                    <bean parent="FieldDefinition" p:attributeName="contactName" />
+                    <bean parent="FieldDefinition" p:attributeName="phoneNumber" />
+                </list>
+                </property>
+            </bean>
+        </list>
+        </property>
+    </bean>
+    <bean id="EmergencyContact-lookupDefinition" parent="EmergencyContact-lookupDefinition-parentBean" />
+    <bean id="EmergencyContact-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Emergency Contact Lookup" />
+        <property name="defaultSort">
+        <bean parent="SortDefinition">
+            <property name="attributeNames"><list>
+            </list></property>
+        </bean>
+        </property>
+        <property name="lookupFields"><list>
+            <bean parent="FieldDefinition" p:attributeName="id" />
+            <bean parent="FieldDefinition" p:attributeName="contactRelationTypeCode" />
+            <bean parent="FieldDefinition" p:attributeName="contactName" />
+            <bean parent="FieldDefinition" p:attributeName="phoneNumber" />
+        </list>
+        </property>
+        <property name="resultFields">
+        <list>
+            <bean parent="FieldDefinition" p:attributeName="id" />
+            <bean parent="FieldDefinition" p:attributeName="documentNumber" />
+            <bean parent="FieldDefinition" p:attributeName="financialDocumentLineNumber" />
+            <bean parent="FieldDefinition" p:attributeName="contactRelationTypeCode" />
+            <bean parent="FieldDefinition" p:attributeName="contactName" />
+            <bean parent="FieldDefinition" p:attributeName="phoneNumber" />
+        </list>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,170 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+	<bean id="TemProfileAddress" parent="TemProfileAddress-parentBean" />
+	<bean id="TemProfileAddress-parentBean" abstract="true" parent="BusinessObjectEntry" >
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TemProfileAddress" />
+		<property name="lookupDefinition" ref="TemProfileAddress-lookupDefinition" />
+		<property name="inquiryDefinition" ref="TemProfileAddress-inquiryDefinition" />
+		<property name="objectLabel" value="TemProfileAddress" />
+		<property name="attributes">
+		<list>
+			<ref bean="TemProfileAddress-profileId" />
+			<ref bean="TemProfileAddress-streetAddressLine1" />
+			<ref bean="TemProfileAddress-streetAddressLine2" />
+			<ref bean="TemProfileAddress-cityName" />
+			<ref bean="TemProfileAddress-stateCode" />
+			<ref bean="TemProfileAddress-zipCode" />
+			<ref bean="TemProfileAddress-countryCode" />
+			<ref bean="TemProfileAddress-versionNumber" />
+			<ref bean="TemProfileAddress-customerNumber" />
+			<ref bean="TemProfileAddress-principalId" />
+		</list>
+		</property>
+	</bean>
+	<bean id="TemProfileAddress-principalId" parent="TemProfileAddress-principalId-parentBean" />
+	<bean id="TemProfileAddress-principalId-parentBean" parent="TEMProfile-principalId">
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+	
+	<bean id="TemProfileAddress-customerNumber" parent="TemProfileAddress-customerNumber-parentBean" />
+	<bean id="TemProfileAddress-customerNumber-parentBean" parent="TEMProfile-customerNumber">
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+	
+	<bean id="TemProfileAddress-profileId" parent="TemProfileAddress-profileId-parentBean" />
+	<bean id="TemProfileAddress-profileId-parentBean" parent="TEMProfile-profileId"/>
+	 
+	<bean id="TemProfileAddress-streetAddressLine1" parent="TemProfileAddress-streetAddressLine1-parentBean" />
+	<bean id="TemProfileAddress-streetAddressLine1-parentBean" parent="AttributeDefinition">
+		<property name="name" value="streetAddressLine1" />
+		<property name="label" value="Street Address Line1" />
+		<property name="shortLabel" value="Street Address Line1" />
+		<property name="maxLength" value="50" />
+        <property name="required" value="true" />
+		<property name="summary" value="Street Address Line1" />
+		<property name="description" value="Street Address Line1" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="50"/></property>
+	</bean>
+	<bean id="TemProfileAddress-streetAddressLine2" parent="TemProfileAddress-streetAddressLine2-parentBean" />
+	<bean id="TemProfileAddress-streetAddressLine2-parentBean" parent="AttributeDefinition">
+		<property name="name" value="streetAddressLine2" />
+		<property name="label" value="Street Address Line2" />
+		<property name="shortLabel" value="Street Address Line2" />
+		<property name="maxLength" value="50" />
+		<property name="summary" value="Street Address Line2" />
+		<property name="description" value="Street Address Line2" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="50"/></property>
+	</bean>
+	<bean id="TemProfileAddress-cityName" parent="TemProfileAddress-cityName-parentBean" />
+	<bean id="TemProfileAddress-cityName-parentBean" parent="AttributeDefinition">
+		<property name="name" value="cityName" />
+		<property name="label" value="City Name" />
+		<property name="shortLabel" value="City Name" />
+		<property name="maxLength" value="30" />
+        <property name="required" value="true" />
+		<property name="summary" value="City Name" />
+		<property name="description" value="City Name" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="30"/></property>
+	</bean>
+	<bean id="TemProfileAddress-stateCode" parent="TemProfileAddress-stateCode-parentBean" />
+	<bean id="TemProfileAddress-stateCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="stateCode" />
+		<property name="label" value="State" />
+		<property name="shortLabel" value="State" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="State" />
+		<property name="description" value="State" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
+	</bean>
+	<bean id="TemProfileAddress-zipCode" parent="TemProfileAddress-zipCode-parentBean" />
+	<bean id="TemProfileAddress-zipCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="zipCode" />
+		<property name="label" value="Zip Code" />
+		<property name="shortLabel" value="Zip Code" />
+		<property name="maxLength" value="40" />
+		<property name="summary" value="Zip Code" />
+		<property name="description" value="Zip Code" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
+	</bean>
+	<bean id="TemProfileAddress-countryCode" parent="TemProfileAddress-countryCode-parentBean" />
+	<bean id="TemProfileAddress-countryCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="countryCode" />
+		<property name="label" value="Country" />
+		<property name="shortLabel" value="Country" />
+		<property name="maxLength" value="40" />
+        <property name="required" value="true" />
+		<property name="summary" value="Country" />
+		<property name="description" value="Country" />
+		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
+	</bean>
+	<bean id="TemProfileAddress-versionNumber" parent="TemProfileAddress-versionNumber-parentBean" />
+	<bean id="TemProfileAddress-versionNumber-parentBean" parent="GenericAttributes-versionNumber">
+		<property name="name" value="versionNumber" />
+		<property name="label" value="Version Number" />
+		<property name="shortLabel" value="Version Number" />
+		<property name="summary" value="Version Number" />
+		<property name="description" value="Version Number" />
+	</bean>
+	<bean id="TemProfileAddress-inquiryDefinition" parent="TemProfileAddress-inquiryDefinition-parentBean" />
+	<bean id="TemProfileAddress-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Tem Profile Address Inquiry"/>
+		<property name="inquirySections">
+		<list>
+			<bean parent="InquirySectionDefinition">
+				<property name="title" value="Tem Profile Address Inquiry"/>
+				<property name="numberOfColumns" value="1"/>
+				<property name="inquiryFields">
+				<list>
+					<bean parent="FieldDefinition" p:attributeName="profileId" />
+					<bean parent="FieldDefinition" p:attributeName="streetAddressLine1" />
+					<bean parent="FieldDefinition" p:attributeName="streetAddressLine2" />
+					<bean parent="FieldDefinition" p:attributeName="cityName" />
+					<bean parent="FieldDefinition" p:attributeName="stateCode" />
+					<bean parent="FieldDefinition" p:attributeName="zipCode" />
+					<bean parent="FieldDefinition" p:attributeName="countryCode" />
+				</list>
+				</property>
+			</bean>
+		</list>
+		</property>
+	</bean>
+	<bean id="TemProfileAddress-lookupDefinition" parent="TemProfileAddress-lookupDefinition-parentBean" />
+	<bean id="TemProfileAddress-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Tem Profile Address Lookup" />
+        <property name="lookupableID" value="temProfileAddressLookupable"/>
+		<property name="defaultSort">
+		<bean parent="SortDefinition">
+			<property name="attributeNames"><list>
+			</list></property>
+		</bean>
+		</property>
+		<property name="lookupFields"><list>
+			<bean parent="FieldDefinition" p:attributeName="profileId" p:hidden="true" />
+			<bean parent="FieldDefinition" p:attributeName="customerNumber" p:hidden="true" />
+			<bean parent="FieldDefinition" p:attributeName="principalId" p:hidden="true" />
+			<bean parent="FieldDefinition" p:attributeName="streetAddressLine1" />
+			<bean parent="FieldDefinition" p:attributeName="streetAddressLine2" />
+			<bean parent="FieldDefinition" p:attributeName="cityName" />
+			<bean parent="FieldDefinition" p:attributeName="stateCode" />
+			<bean parent="FieldDefinition" p:attributeName="zipCode" />
+			<bean parent="FieldDefinition" p:attributeName="countryCode" />
+		</list>
+		</property>
+		<property name="resultFields">
+		<list>
+			<bean parent="FieldDefinition" p:attributeName="streetAddressLine1" />
+			<bean parent="FieldDefinition" p:attributeName="streetAddressLine2" />
+			<bean parent="FieldDefinition" p:attributeName="cityName" />
+			<bean parent="FieldDefinition" p:attributeName="stateCode" />
+			<bean parent="FieldDefinition" p:attributeName="zipCode" />
+			<bean parent="FieldDefinition" p:attributeName="countryCode" />
+		</list>
+		</property>
+	</bean>
+</beans>

@@ -1,12 +1,12 @@
 /*
- * Copyright 2011 The Kuali Foundation.
- * 
+ * Copyright 2012 The Kuali Foundation.
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,32 +18,25 @@ package org.kuali.kfs.module.tem.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class AttendeeTypeValuesFinder extends KeyValuesBase {
 
-    protected BusinessObjectService businessObjectService;
-    
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @Override
-    public List getKeyValues() {
-        
-       
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
-        labels.add(new KeyLabelPair("BG", "Business Guest"));
-        labels.add(new KeyLabelPair("EE", "Employee"));
-        labels.add(new KeyLabelPair("SP", "Spouse/Partner"));
-        labels.add(new KeyLabelPair("ST", "Student"));
-        labels.add(new KeyLabelPair("OT", "Other"));
-       
-        return labels;
-    }
-    
-    
+    public List<KeyValue> getKeyValues() {
 
+        List<KeyValue> attendeeType = new ArrayList<KeyValue>();
+        attendeeType.add(new ConcreteKeyValue("", ""));
+        attendeeType.add(new ConcreteKeyValue("BG", "Business Guest"));
+        attendeeType.add(new ConcreteKeyValue("EE", "Employee"));
+        attendeeType.add(new ConcreteKeyValue("SP", "Spouse/Partner"));
+        attendeeType.add(new ConcreteKeyValue("ST", "Student"));
+        attendeeType.add(new ConcreteKeyValue("OT", "Other"));
+        return attendeeType;
+    }
 }

@@ -1,12 +1,12 @@
 /*
- * Copyright 2010 The Kuali Foundation.
- * 
+ * Copyright 2012 The Kuali Foundation.
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,22 +27,25 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class PrimaryDestinationValuesFinder extends KeyValuesBase {
 
-
+    /**
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
+     */
+    @SuppressWarnings("rawtypes")
     @Override
-    public List getKeyValues() {
-        List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("", ""));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", ""));
         BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
         TravelService travelService = SpringContext.getBean(TravelService.class);
         Map<String,String> fieldValues = new HashMap<String, String>();
-        
+
         List<PrimaryDestination> primaryDestinationsInternational = travelService.findAllDistinctPrimaryDestinations(TemConstants.TEMTripTypes.INTERNATIONAL);
         Collections.sort(primaryDestinationsInternational,new Comparator() {
 
@@ -73,9 +76,9 @@ public class PrimaryDestinationValuesFinder extends KeyValuesBase {
                 }
             }
         });
-        
+
         Iterator<PrimaryDestination> it = primaryDestinationsDomestic.iterator();
-        
+
         String key = "";
         while (it.hasNext()){
             PrimaryDestination primaryDestination = it.next();
@@ -87,11 +90,11 @@ public class PrimaryDestinationValuesFinder extends KeyValuesBase {
             }
             String tempKey = primaryDestination.getCountryStateName();
             if (!tempKey.equals(key)){
-                keyValues.add(new KeyLabelPair(primaryDestination.getCountryState().toUpperCase(), primaryDestination.getCountryStateName().toUpperCase()));
+                keyValues.add(new ConcreteKeyValue(primaryDestination.getCountryState().toUpperCase(), primaryDestination.getCountryStateName().toUpperCase()));
             }
             key = tempKey;
         }
-        keyValues.add(new KeyLabelPair("---", "------------------------------------------"));
+        keyValues.add(new ConcreteKeyValue("---", "------------------------------------------"));
         it =primaryDestinationsInternational.iterator();
         while (it.hasNext()){
             PrimaryDestination primaryDestination = it.next();
@@ -103,12 +106,12 @@ public class PrimaryDestinationValuesFinder extends KeyValuesBase {
             }
             String tempKey = primaryDestination.getCountryStateName();
             if (!tempKey.equals(key)){
-                keyValues.add(new KeyLabelPair(primaryDestination.getCountryState().toUpperCase(), primaryDestination.getCountryStateName().toUpperCase()));
+                keyValues.add(new ConcreteKeyValue(primaryDestination.getCountryState().toUpperCase(), primaryDestination.getCountryStateName().toUpperCase()));
             }
             key = tempKey;
         }
 
-        
+
         return keyValues;
     }
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,9 +31,10 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemConstants.PerDiemParameter;
+import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.batch.PerDiemLoadStep;
 import org.kuali.kfs.module.tem.batch.businessobject.PerDiemForLoad;
 import org.kuali.kfs.module.tem.batch.service.PerDiemLoadService;
@@ -46,11 +47,11 @@ import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.kfs.sys.util.KfsDateUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -111,19 +112,19 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
         try {
             FileInputStream fileContents = new FileInputStream(dataFileName);
             LOG.info("Process Per Diem file [" + dataFileName + "]");
-            
+
             byte[] fileByteContent = IOUtils.toByteArray(fileContents);
             List<PerDiemForLoad> perDiemList = (List<PerDiemForLoad>) batchInputFileService.parse(inputFileType, fileByteContent);
             IOUtils.closeQuietly(fileContents);
-            
+
             List<PerDiemForLoad> validPerDiemList = this.validatePerDiem(perDiemList, dataFileName);
-            
+
             boolean isAllValid = validPerDiemList.size() == perDiemList.size();
             if (!isAllValid && this.isRejectAllWhenError()) {
                 String error = "The per diem records to be loaded are rejected due to data problem. Please check the per diem load report.";
                 throw new RuntimeException(error);
             }
-            
+
             boolean isDeactivatePerDiem = this.isDeactivatePerDiem();
             List<PerDiem> perDiemsForExpriation =  this.getPerDiemService().retrieveExpireDeactivatePreviousPerDiem(validPerDiemList, isDeactivatePerDiem);
 
@@ -133,7 +134,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
         catch (Exception ex) {
             LOG.error("Failed to process the file : " + dataFileName, ex);
             this.moveErrorFile(dataFileName, this.getPerDiemFileErrorDirectory());
-            
+
             throw new RuntimeException("Failed to process the file : " + dataFileName, ex);
         }
         finally {
@@ -144,14 +145,14 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
     }
 
     protected boolean isDeactivatePerDiem() {
-        return this.getParameterService().getIndicatorParameter(PerDiemLoadStep.class, PerDiemParameter.PREVIOUS_PER_DIEM_DEACTIVATION_IND_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsBoolean(PerDiemLoadStep.class, PerDiemParameter.PREVIOUS_PER_DIEM_DEACTIVATION_IND_PARAM_NAME);
     }
 
     /**
-     * determine whether the whole per diem file has to be rejected whenever an error occurs 
+     * determine whether the whole per diem file has to be rejected whenever an error occurs
      */
     protected boolean isRejectAllWhenError() {
-        return this.getParameterService().getIndicatorParameter(PerDiemLoadStep.class, PerDiemParameter.REJECT_FILE_WHEN_ERROR_IND_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsBoolean(PerDiemLoadStep.class, PerDiemParameter.REJECT_FILE_WHEN_ERROR_IND_PARAM_NAME);
     }
 
     /**
@@ -170,25 +171,25 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
      * @see org.kuali.kfs.module.tem.batch.service.PerDiemLoadService#updatePerDiem(org.kuali.kfs.module.tem.batch.businessobject.PerDiemForLoad)
      */
     @Override
-    public void updatePerDiem(PerDiemForLoad perDiem) {       
+    public void updatePerDiem(PerDiemForLoad perDiem) {
         Date effectiveDate = this.getEffectiveDateFromString(perDiem);
-        perDiem.setEffectiveFromDate(effectiveDate);       
+        perDiem.setEffectiveFromDate(effectiveDate);
 
         String seasonBeginMonthAndDay = perDiem.getSeasonBeginDateAsString();
         perDiem.setSeasonBeginMonthAndDay(seasonBeginMonthAndDay);
-        
+
         Date loadDate = this.getDateTimeService().getCurrentSqlDate();
         perDiem.setLoadDate(loadDate);
-        
+
         String primaryDestination = perDiem.getPrimaryDestination();
         if(StringUtils.isBlank(primaryDestination)){
             perDiem.setPrimaryDestination(StringUtils.EMPTY);
         }
-        
+
         String county = perDiem.getCounty();
         if(StringUtils.isBlank(county)){
             perDiem.setCounty(StringUtils.EMPTY);
-        }        
+        }
 
         this.getPerDiemService().updateTripType(perDiem);
         this.getPerDiemService().breakDownMealsIncidental(perDiem);
@@ -196,18 +197,18 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * get the session begin date built from the given date string
-     * 
+     *
      * @return the session begin date built from the given date string
      */
     protected Date getSessionBeginDateFromString(PerDiemForLoad perDiem) {
         String seasonBeginDateAsString = perDiem.getSeasonBeginDateAsString();
 
         return buildDate(perDiem, seasonBeginDateAsString);
-    }   
+    }
 
     /**
      * get the session end date built from the given date string
-     * 
+     *
      * @return the session end date built from the given date string
      */
     protected Date getSessionEndDateFromString(PerDiemForLoad perDiem) {
@@ -223,9 +224,9 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
      */
     protected Date buildDate(PerDiemForLoad perDiem, String seasonDateAsString) {
         int effectiveYear = this.getEffectiveYear(perDiem);
-        
+
         Date effectiveDate = perDiem.getEffectiveFromDate();
-        
+
         Date seasonDate = this.getDateFromString(seasonDateAsString, effectiveYear);
         int difference = this.getDateTimeService().dateDiff(effectiveDate, seasonDate, true);
         if(difference <= 0){
@@ -236,7 +237,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * get the effective date built from the given date string
-     * 
+     *
      * @return the effective date built from the given date string
      */
     protected Date getEffectiveDateFromString(PerDiemForLoad perDiem) {
@@ -244,10 +245,10 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
         return this.getDateFromString(perDiem.getEffectiveDateAsString(), effectiveYear);
     }
-    
+
     /**
      * get the expiration date built from the given date string
-     * 
+     *
      * @return the expiration date built from the given date string
      */
     protected Date getExpirationDateFromString(PerDiemForLoad perDiem) {
@@ -258,15 +259,15 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * get date from the given date string
-     * 
+     *
      * @param dateAsString the given date string
      * @return date built from the given date string
-     */ 
+     */
     protected Date getDateFromString(String dateAsString, int effectiveYear) {
         String localDateAsString = completeDateString(dateAsString, effectiveYear);
 
         return this.convertDateFrom(localDateAsString);
-    }    
+    }
 
     /**
      * complete the date string if the year is missing
@@ -285,26 +286,25 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
     protected Date convertDateFrom(String dateString) {
         try {
             java.util.Date localDate = TemConstants.SIMPLE_DATE_FORMAT.parse(dateString);
-
-            return DateUtils.convertToSqlDate(localDate);
+            return KfsDateUtils.convertToSqlDate(localDate);
         }
         catch (ParseException ex) {
             throw new RuntimeException("The date " + dateString + " must be formatted as " + TemConstants.DATE_FORMAT_STRING, ex);
         }
     }
-    
+
     /**
      * get the year of the per diem in effect
      */
     protected int getEffectiveYear(PerDiemForLoad perDiem){
         Date effectiveDate = perDiem.getEffectiveFromDate();
-        
+
         return this.getDateTimeService().getCurrentCalendar().get(Calendar.YEAR);
     }
 
     /**
      * move the given file to the specified directory
-     * 
+     *
      * @param fileName the given file name
      * @param directory the specified directory
      */
@@ -325,7 +325,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * get the file based on the given absolute file path
-     * 
+     *
      * @param absolutePath the given absolute file path
      * @return the file with the given absolute file path
      */
@@ -342,7 +342,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * generate the name of a companion file of the given file with the given companion file extension
-     * 
+     *
      * @param fileAbsPath the given file
      * @param fileExtension the extension of the given file
      * @param companionFileExtension the given companion file extension
@@ -354,7 +354,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * validate the given per diem records
-     * 
+     *
      * @return the valid per diem records
      */
     protected <T extends PerDiem> List<T> validatePerDiem(List<T> perDiemList, String fileName) {
@@ -453,7 +453,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Gets the perDiemService attribute.
-     * 
+     *
      * @return Returns the perDiemService.
      */
     public PerDiemService getPerDiemService() {
@@ -462,7 +462,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Sets the perDiemService attribute value.
-     * 
+     *
      * @param perDiemService The perDiemService to set.
      */
     public void setPerDiemService(PerDiemService perDiemService) {
@@ -471,7 +471,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -480,7 +480,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -489,7 +489,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Gets the perDiemFileErrorDirectory attribute.
-     * 
+     *
      * @return Returns the perDiemFileErrorDirectory.
      */
     public String getPerDiemFileErrorDirectory() {
@@ -498,7 +498,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Sets the perDiemFileErrorDirectory attribute value.
-     * 
+     *
      * @param perDiemFileErrorDirectory The perDiemFileErrorDirectory to set.
      */
     public void setPerDiemFileErrorDirectory(String perDiemFileErrorDirectory) {
@@ -507,7 +507,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Gets the parameterService attribute.
-     * 
+     *
      * @return Returns the parameterService.
      */
     public ParameterService getParameterService() {
@@ -516,7 +516,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -525,7 +525,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Gets the dateTimeService attribute.
-     * 
+     *
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -534,7 +534,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -543,7 +543,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Gets the perDiemLoadValidationService attribute.
-     * 
+     *
      * @return Returns the perDiemLoadValidationService.
      */
     public PerDiemLoadValidationService getPerDiemLoadValidationService() {
@@ -552,7 +552,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Sets the perDiemLoadValidationService attribute value.
-     * 
+     *
      * @param perDiemLoadValidationService The perDiemLoadValidationService to set.
      */
     public void setPerDiemLoadValidationService(PerDiemLoadValidationService perDiemLoadValidationService) {
@@ -561,7 +561,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Gets the perDiemReportDirectory attribute.
-     * 
+     *
      * @return Returns the perDiemReportDirectory.
      */
     public String getPerDiemReportDirectory() {
@@ -570,7 +570,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Sets the perDiemReportDirectory attribute value.
-     * 
+     *
      * @param perDiemReportDirectory The perDiemReportDirectory to set.
      */
     public void setPerDiemReportDirectory(String perDiemReportDirectory) {
@@ -579,7 +579,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Gets the perDiemReportFilePrefix attribute.
-     * 
+     *
      * @return Returns the perDiemReportFilePrefix.
      */
     public String getPerDiemReportFilePrefix() {
@@ -588,7 +588,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Sets the perDiemReportFilePrefix attribute value.
-     * 
+     *
      * @param perDiemReportFilePrefix The perDiemReportFilePrefix to set.
      */
     public void setPerDiemReportFilePrefix(String perDiemReportFilePrefix) {
@@ -597,7 +597,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Gets the perDiemUploadReportHelper attribute.
-     * 
+     *
      * @return Returns the perDiemUploadReportHelper.
      */
     public BusinessObjectReportHelper getPerDiemUploadReportHelper() {
@@ -606,7 +606,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Sets the perDiemUploadReportHelper attribute value.
-     * 
+     *
      * @param perDiemUploadReportHelper The perDiemUploadReportHelper to set.
      */
     public void setPerDiemUploadReportHelper(BusinessObjectReportHelper perDiemUploadReportHelper) {
@@ -615,7 +615,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Gets the batchInputFileService attribute.
-     * 
+     *
      * @return Returns the batchInputFileService.
      */
     public BatchInputFileService getBatchInputFileService() {
@@ -624,7 +624,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Sets the batchInputFileService attribute value.
-     * 
+     *
      * @param batchInputFileService The batchInputFileService to set.
      */
     public void setBatchInputFileService(BatchInputFileService batchInputFileService) {
@@ -633,7 +633,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Gets the perDiemInputFileTypes attribute.
-     * 
+     *
      * @return Returns the perDiemInputFileTypes.
      */
     public List<BatchInputFileType> getPerDiemInputFileTypes() {
@@ -642,7 +642,7 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
     /**
      * Sets the perDiemInputFileTypes attribute value.
-     * 
+     *
      * @param perDiemInputFileTypes The perDiemInputFileTypes to set.
      */
     public void setPerDiemInputFileTypes(List<BatchInputFileType> perDiemInputFileTypes) {

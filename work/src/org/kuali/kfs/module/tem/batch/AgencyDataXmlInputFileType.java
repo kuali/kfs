@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,18 +16,19 @@
 package org.kuali.kfs.module.tem.batch;
 
 import java.io.File;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.businessobject.AgencyImportData;
 import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
 import org.kuali.kfs.sys.exception.ParseException;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 public class AgencyDataXmlInputFileType extends XmlBatchInputFileTypeBase {
 
     private DateTimeService dateTimeService;
-    
+
     private String fileNamePrefix;
 
 
@@ -73,7 +74,7 @@ public class AgencyDataXmlInputFileType extends XmlBatchInputFileTypeBase {
     @Override
     public Object parse(byte[] fileByteContent) throws ParseException {
         AgencyImportData agencyData = (AgencyImportData) super.parse(fileByteContent);
-        return agencyData; 
+        return agencyData;
     }
 
     /**
@@ -93,7 +94,7 @@ public class AgencyDataXmlInputFileType extends XmlBatchInputFileTypeBase {
     }
 
     /**
-     * Gets the dateTimeService attribute. 
+     * Gets the dateTimeService attribute.
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -109,7 +110,7 @@ public class AgencyDataXmlInputFileType extends XmlBatchInputFileTypeBase {
     }
 
     /**
-     * Gets the fileNamePrefix attribute. 
+     * Gets the fileNamePrefix attribute.
      * @return Returns the fileNamePrefix.
      */
     public String getFileNamePrefix() {

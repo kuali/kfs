@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -50,7 +50,7 @@ import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.exception.XmlErrorHandler;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.springframework.core.io.UrlResource;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -87,26 +87,26 @@ public class PerDiemXmlInputFileType extends XmlBatchInputFileTypeBase {
     public String getFileTypeIdentifer() {
         return TemConstants.PER_DIEM_XML_INPUT_FILE_TYPE_INDENTIFIER;
     }
-    
+
     /**
      * @see org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase#parse(byte[])
      */
     @Override
     public Object parse(byte[] fileByteContent) throws ParseException {
         List<PerDiemForLoad> perDiemList = (List<PerDiemForLoad>)(super.parse(fileByteContent));
-        
-        PerDiemLoadService perDiemLoadService = SpringContext.getBean(PerDiemLoadService.class);  
+
+        PerDiemLoadService perDiemLoadService = SpringContext.getBean(PerDiemLoadService.class);
         perDiemLoadService.updatePerDiem(perDiemList);
-        
+
         return perDiemList;
-    }    
+    }
 
     /**
      * @see org.kuali.kfs.sys.batch.BatchInputFileType#validate(java.lang.Object)
      */
     @Override
-    public boolean validate(Object parsedFileContents) {        
-        PerDiemLoadValidationService perDiemLoadValidationService = SpringContext.getBean(PerDiemLoadValidationService.class);        
+    public boolean validate(Object parsedFileContents) {
+        PerDiemLoadValidationService perDiemLoadValidationService = SpringContext.getBean(PerDiemLoadValidationService.class);
         List<PerDiemForLoad> perDiemList = (List<PerDiemForLoad>)parsedFileContents;
 
         return perDiemLoadValidationService.validate(perDiemList);
@@ -209,11 +209,11 @@ public class PerDiemXmlInputFileType extends XmlBatchInputFileTypeBase {
             LOG.error("error occurred while validating file contents: " + ex.getMessage());
             throw new RuntimeException("error occurred while validating file contents: " + ex.getMessage(), ex);
         }
-    }    
+    }
 
     /**
      * Gets the dateTimeService attribute.
-     * 
+     *
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -222,7 +222,7 @@ public class PerDiemXmlInputFileType extends XmlBatchInputFileTypeBase {
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -231,7 +231,7 @@ public class PerDiemXmlInputFileType extends XmlBatchInputFileTypeBase {
 
     /**
      * Gets the fileNamePrefix attribute.
-     * 
+     *
      * @return Returns the fileNamePrefix.
      */
     public String getFileNamePrefix() {
@@ -240,7 +240,7 @@ public class PerDiemXmlInputFileType extends XmlBatchInputFileTypeBase {
 
     /**
      * Sets the fileNamePrefix attribute value.
-     * 
+     *
      * @param fileNamePrefix The fileNamePrefix to set.
      */
     public void setFileNamePrefix(String fileNamePrefix) {

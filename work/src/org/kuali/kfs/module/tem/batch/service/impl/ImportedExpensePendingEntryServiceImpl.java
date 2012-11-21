@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,12 +44,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
+@SuppressWarnings("deprecation")
 public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePendingEntryService{
 
     private static Logger LOG = org.apache.log4j.Logger.getLogger(ImportedExpensePendingEntryServiceImpl.class);
@@ -58,28 +59,30 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
     UniversityDateService universityDateService;
     ParameterService parameterService;
     GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
-    
+
     /**
      * @see org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService#getImportExpenseDocumentNumber(org.kuali.kfs.module.tem.businessobject.AgencyStagingData)
      */
+    @Override
     public String getImportExpenseDocumentNumber(AgencyStagingData agencyData){
         String documentNumber = "";
-        
+
         //3-Digit Code Agency Code + Number of day (001~365) + YY + hhmmss
         DateFormat dateFormat = new SimpleDateFormat("Dyyhhmmss");
-        documentNumber = agencyData.getCreditCardOrAgencyCode().substring(0,3) 
+        documentNumber = agencyData.getCreditCardOrAgencyCode().substring(0,3)
                 + dateFormat.format(dateTimeService.getCurrentSqlDate());
         return documentNumber;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService#checkAndAddPendingEntriesToList(java.util.List, org.kuali.kfs.module.tem.businessobject.AgencyStagingData, boolean, boolean)
      */
+    @Override
     public boolean checkAndAddPendingEntriesToList(List<GeneralLedgerPendingEntry> pendingEntries, List<GeneralLedgerPendingEntry> entryList, AgencyStagingData agencyData, boolean isCredit, boolean generateOffset){
         boolean result = true;
-        //if offset is expected, there should be two entries, otherwise only one 
+        //if offset is expected, there should be two entries, otherwise only one
         int expectedEntrySize = generateOffset? 2 : 1;
-        
+
         if (pendingEntries.size() != expectedEntrySize){
             LOG.error("Failed to create a " + (isCredit? " CREDIT" : "DEBIT") + " GLPE for agency: " + agencyData.getId() + " tripId: " + agencyData.getTripId());
             result = false;
@@ -87,17 +90,17 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
             //validated, add to list
             entryList.addAll(pendingEntries);
         }
-        
+
         return result;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService#buildGeneralLedgerPendingEntry(org.kuali.kfs.module.tem.businessobject.AgencyStagingData, org.kuali.kfs.module.tem.businessobject.TripAccountingInformation, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, java.lang.String, java.lang.String, org.kuali.rice.kns.util.KualiDecimal, java.lang.String)
      */
-    @SuppressWarnings("deprecation")
-    public GeneralLedgerPendingEntry buildGeneralLedgerPendingEntry(AgencyStagingData agencyData, TripAccountingInformation info, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, 
+    @Override
+    public GeneralLedgerPendingEntry buildGeneralLedgerPendingEntry(AgencyStagingData agencyData, TripAccountingInformation info, GeneralLedgerPendingEntrySequenceHelper sequenceHelper,
             String chartCode, String objectCode, KualiDecimal amount, String glCredtiDebitCode){
-        
+
         GeneralLedgerPendingEntry glpe = new GeneralLedgerPendingEntry();
         ObjectCode object = SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdForCurrentYear(chartCode, objectCode);
         if (ObjectUtils.isNull(object)) {
@@ -105,9 +108,9 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
             //set glpe as null
             glpe = null;
         }else{
-            
-            final String DIST_INCOME_DOC_TYPE = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class);         
-            
+
+            final String DIST_INCOME_DOC_TYPE = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class);
+
             //setup document number by agency data
             glpe.setDocumentNumber(getImportExpenseDocumentNumber(agencyData));
             glpe.setVersionNumber(new Long(1));
@@ -120,9 +123,9 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
             glpe.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
             glpe.setTransactionDate(agencyData.getTransactionPostingDate());
             glpe.setOrganizationReferenceId(DIST_INCOME_DOC_TYPE +TemConstants.IMPORTED_FLAG);
-            
+
             sequenceHelper.increment();
-    
+
             //set org document number to travelerId (for traveler) or tripId (on trip)
             glpe.setOrganizationDocumentNumber(StringUtils.isNotEmpty(agencyData.getTravelerId())? agencyData.getTravelerId() : agencyData.getTripId());
             glpe.setChartOfAccountsCode(chartCode);
@@ -134,23 +137,24 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
             glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
         }
         return glpe;
-        
+
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService#buildDebitPendingEntry(org.kuali.kfs.module.tem.businessobject.AgencyStagingData, org.kuali.kfs.module.tem.businessobject.TripAccountingInformation, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, java.lang.String, org.kuali.rice.kns.util.KualiDecimal, boolean)
      */
+    @Override
     public List<GeneralLedgerPendingEntry> buildDebitPendingEntry(AgencyStagingData agencyData, TripAccountingInformation info, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String objectCode, KualiDecimal amount, boolean generateOffset){
 
         List<GeneralLedgerPendingEntry> entryList = new ArrayList<GeneralLedgerPendingEntry>();
-        
+
         GeneralLedgerPendingEntry pendingEntry = buildGeneralLedgerPendingEntry(agencyData, info, sequenceHelper, info.getTripChartCode(), objectCode, amount, KFSConstants.GL_DEBIT_CODE);
         pendingEntry.setAccountNumber(info.getTripAccountNumber());
         pendingEntry.setSubAccountNumber(StringUtils.defaultIfEmpty(info.getTripSubAccountNumber(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber()));
-      
-        LOG.info("Created DEBIT GLPE: " + pendingEntry.getDocumentNumber() + " for AGENCY Import Expense: " + agencyData.getId() + " TripId: " + agencyData.getTripId() 
+
+        LOG.info("Created DEBIT GLPE: " + pendingEntry.getDocumentNumber() + " for AGENCY Import Expense: " + agencyData.getId() + " TripId: " + agencyData.getTripId()
                 + "\n\n" + ReflectionToStringBuilder.reflectionToString(pendingEntry, ToStringStyle.MULTI_LINE_STYLE));
-        
+
         //add to list if entry was created successfully
         if (pendingEntry != null){
             entryList.add(pendingEntry);
@@ -161,25 +165,26 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         }
         return entryList;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService#buildCreditPendingEntry(org.kuali.kfs.module.tem.businessobject.AgencyStagingData, org.kuali.kfs.module.tem.businessobject.TripAccountingInformation, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, java.lang.String, org.kuali.rice.kns.util.KualiDecimal, boolean)
      */
+    @Override
     public List<GeneralLedgerPendingEntry> buildCreditPendingEntry(AgencyStagingData agencyData, TripAccountingInformation info, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String objectCode, KualiDecimal amount, boolean generateOffset){
         List<GeneralLedgerPendingEntry> entryList = new ArrayList<GeneralLedgerPendingEntry>();
-        
+
         //get chart code from parameter
-        String chartCode = parameterService.getParameterValue(TemParameterConstants.TEM_AGENCY_MATCH.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_CHART);
-        
+        String chartCode = parameterService.getParameterValueAsString(TemParameterConstants.TEM_AGENCY_MATCH.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_CHART);
+
         GeneralLedgerPendingEntry pendingEntry = buildGeneralLedgerPendingEntry(agencyData, info, sequenceHelper, chartCode, objectCode, amount, KFSConstants.GL_CREDIT_CODE);
-        pendingEntry.setAccountNumber(parameterService.getParameterValue(TemParameterConstants.TEM_AGENCY_MATCH.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_ACCOUNT));
-        
-        final String AGENCY_SUBACCOUNT_NUM = parameterService.getParameterValue(TemParameterConstants.TEM_AGENCY_MATCH.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_SUB_ACCOUNT);
+        pendingEntry.setAccountNumber(parameterService.getParameterValueAsString(TemParameterConstants.TEM_AGENCY_MATCH.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_ACCOUNT));
+
+        final String AGENCY_SUBACCOUNT_NUM = parameterService.getParameterValueAsString(TemParameterConstants.TEM_AGENCY_MATCH.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_SUB_ACCOUNT);
         pendingEntry.setSubAccountNumber(StringUtils.defaultIfEmpty(AGENCY_SUBACCOUNT_NUM, GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber()));
-        
-        LOG.info("Created CREDIT GLPE: " + pendingEntry.getDocumentNumber() + " for AGENCY Import Expense: " + agencyData.getId() + " TripId: " + agencyData.getTripId() 
+
+        LOG.info("Created CREDIT GLPE: " + pendingEntry.getDocumentNumber() + " for AGENCY Import Expense: " + agencyData.getId() + " TripId: " + agencyData.getTripId()
                 + "\n\n" + ReflectionToStringBuilder.reflectionToString(pendingEntry, ToStringStyle.MULTI_LINE_STYLE));
-        
+
         //add to list if entry was created successfully
         if (pendingEntry != null){
             entryList.add(pendingEntry);
@@ -190,20 +195,21 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         }
         return entryList;
     }
-    
+
 
     /**
      * @see org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService#buildCreditPendingEntry(org.kuali.kfs.module.tem.businessobject.AgencyStagingData, org.kuali.kfs.module.tem.businessobject.TripAccountingInformation, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, java.lang.String, org.kuali.rice.kns.util.KualiDecimal, boolean)
      */
+    @Override
     public List<GeneralLedgerPendingEntry> buildServiceFeeCreditPendingEntry(AgencyStagingData agencyData, TripAccountingInformation info, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AgencyServiceFee serviceFee, KualiDecimal amount, boolean generateOffset){
         List<GeneralLedgerPendingEntry> entryList = new ArrayList<GeneralLedgerPendingEntry>();
-        
+
         GeneralLedgerPendingEntry pendingEntry = buildGeneralLedgerPendingEntry(agencyData, info, sequenceHelper, serviceFee.getCreditChartCode(), serviceFee.getCreditObjectCode(), amount, KFSConstants.GL_CREDIT_CODE);
         pendingEntry.setAccountNumber(serviceFee.getCreditAccountNumber());
-        
-        LOG.info("Created ServiceFee CREDIT GLPE: " + pendingEntry.getDocumentNumber() + " for AGENCY Import Expense: " + agencyData.getId() + " TripId: " + agencyData.getTripId() 
+
+        LOG.info("Created ServiceFee CREDIT GLPE: " + pendingEntry.getDocumentNumber() + " for AGENCY Import Expense: " + agencyData.getId() + " TripId: " + agencyData.getTripId()
                 + "\n\n" + ReflectionToStringBuilder.reflectionToString(pendingEntry, ToStringStyle.MULTI_LINE_STYLE));
-        
+
         //add to list if entry was created successfully
         if (pendingEntry != null){
             entryList.add(pendingEntry);
@@ -216,8 +222,8 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
     }
 
     /**
-     * Generate the offset entry from the given pending entry.  If entry is created successfully, add to the entry list 
-     * 
+     * Generate the offset entry from the given pending entry.  If entry is created successfully, add to the entry list
+     *
      * @param entryList
      * @param sequenceHelper
      * @param pendingEntry
@@ -231,10 +237,11 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
             entryList.add(offsetEntry);
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService#generateDocumentImportedExpenseGeneralLedgerPendingEntries(org.kuali.kfs.module.tem.document.TravelDocument, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, boolean, java.lang.String)
      */
+    @Override
     public boolean generateDocumentImportedExpenseGeneralLedgerPendingEntries(TravelDocument travelDocument, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isCredit, String docType){
         LOG.debug("processGenerateGeneralLedgerPendingEntries(TravelDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, boolean) - start");
 
@@ -244,18 +251,18 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,((GeneralLedgerPendingEntrySource)travelDocument).getPostingYear());
         BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
         ObjectCode objectCode = (ObjectCode) service.findByPrimaryKey(ObjectCode.class, fieldValues);*/
-        
+
         glpeSourceDetail.getObjectCode().setChartOfAccountsCode(glpeSourceDetail.getChartOfAccountsCode());
         glpeSourceDetail.getObjectCode().setFinancialObjectCode(glpeSourceDetail.getFinancialObjectCode());
         glpeSourceDetail.getObjectCode().setUniversityFiscalYear(glpeSourceDetail.getPostingYear());
-        
+
         ((TemSourceAccountingLine)glpeSourceDetail).getObjectTypeCode();
 
         // handle the explicit entry
         // create a reference to the explicitEntry to be populated, so we can pass to the offset method later
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
         processExplicitGeneralLedgerPendingEntry(travelDocument, sequenceHelper, glpeSourceDetail, explicitEntry);
-        
+
         explicitEntry.setFinancialDocumentTypeCode(docType);
         explicitEntry.setTransactionLedgerEntryDescription(TemConstants.TEM_IMPORTED_GLPE_DESC);
         explicitEntry.setOrganizationDocumentNumber(travelDocument.getTravelDocumentIdentifier());
@@ -269,7 +276,7 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
             explicitEntry.setProjectCode(travelDocument.getTemProfileId().toString());
             explicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
         }
-        
+
         // increment the sequence counter
         sequenceHelper.increment();
 
@@ -281,9 +288,9 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         LOG.debug("processGenerateGeneralLedgerPendingEntries(TravelDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, boolean) - end");
         return success;
     }
-    
+
     /**
-     * 
+     *
      * @param travelDocument
      * @param sequenceHelper
      * @param glpeSourceDetail
@@ -295,9 +302,9 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         generalLedgerPendingEntryService.populateExplicitGeneralLedgerPendingEntry(travelDocument, glpeSourceDetail, sequenceHelper, explicitEntry);
         travelDocument.addPendingEntry(explicitEntry);
     }
-    
+
     /**
-     * 
+     *
      * @param travelDocument
      * @param sequenceHelper
      * @param postable
@@ -307,7 +314,7 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
      */
     private boolean processOffsetGeneralLedgerPendingEntry(TravelDocument travelDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         LOG.debug("processOffsetGeneralLedgerPendingEntry(TravelDocument, GeneralLedgerPendingEntrySequenceHelper, AccountingLine, GeneralLedgerPendingEntry, GeneralLedgerPendingEntry) ");
-        
+
         // populate the offset entry
         boolean success = generalLedgerPendingEntryService.populateOffsetGeneralLedgerPendingEntry(travelDocument.getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
         travelDocument.addPendingEntry(offsetEntry);
@@ -329,5 +336,5 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
     public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
         this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
     }
-    
+
 }

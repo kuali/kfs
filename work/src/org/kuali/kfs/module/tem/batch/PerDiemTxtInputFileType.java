@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,14 +33,14 @@ import org.kuali.kfs.module.tem.batch.service.PerDiemLoadValidationService;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 public class PerDiemTxtInputFileType extends BatchInputFileTypeBase {
     private static Logger LOG = Logger.getLogger(PerDiemTxtInputFileType.class);
-    
-    private PerDiemFileParsingService perDiemFileParsingService; 
-    private DateTimeService dateTimeService; 
-    
+
+    private PerDiemFileParsingService perDiemFileParsingService;
+    private DateTimeService dateTimeService;
+
     private String fileNamePrefix;
     private String deliminator;
     private List<String> perDiemFieldsToPopulate;
@@ -51,14 +51,14 @@ public class PerDiemTxtInputFileType extends BatchInputFileTypeBase {
     @Override
     public String getFileName(String principalName, Object parsedFileContents, String fileUserIdentifier) {
         StringBuilder fileName = new StringBuilder();
-        
+
         fileUserIdentifier = StringUtils.deleteWhitespace(fileUserIdentifier);
         fileUserIdentifier = StringUtils.remove(fileUserIdentifier, TemConstants.FILE_NAME_PART_DELIMITER);
 
         fileName.append(this.getFileNamePrefix()).append(TemConstants.FILE_NAME_PART_DELIMITER);
         fileName.append(principalName).append(TemConstants.FILE_NAME_PART_DELIMITER);
         fileName.append(fileUserIdentifier).append(TemConstants.FILE_NAME_PART_DELIMITER);
-        
+
         fileName.append(dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate()));
 
         return fileName.toString();
@@ -78,12 +78,12 @@ public class PerDiemTxtInputFileType extends BatchInputFileTypeBase {
     @Override
     public Object parse(byte[] fileByteContent) throws ParseException {
         Reader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(fileByteContent)));
-        
+
         List<PerDiemForLoad> perDiemList = this.getPerDiemFileParsingService().buildPerDiemsFromFlatFile(reader, this.getDeliminator(), this.getPerDiemFieldsToPopulate());
-        
-        PerDiemLoadService perDiemLoadService = SpringContext.getBean(PerDiemLoadService.class);  
+
+        PerDiemLoadService perDiemLoadService = SpringContext.getBean(PerDiemLoadService.class);
         perDiemLoadService.updatePerDiem(perDiemList);
-        
+
         return perDiemList;
     }
 
@@ -92,7 +92,7 @@ public class PerDiemTxtInputFileType extends BatchInputFileTypeBase {
      */
     @Override
     public void process(String fileName, Object parsedFileContents) {
-        
+
     }
 
     /**
@@ -100,7 +100,7 @@ public class PerDiemTxtInputFileType extends BatchInputFileTypeBase {
      */
     @Override
     public boolean validate(Object parsedFileContents) {
-        PerDiemLoadValidationService perDiemLoadValidationService = SpringContext.getBean(PerDiemLoadValidationService.class);        
+        PerDiemLoadValidationService perDiemLoadValidationService = SpringContext.getBean(PerDiemLoadValidationService.class);
         List<PerDiemForLoad> perDiemList = (List<PerDiemForLoad>)parsedFileContents;
 
         return perDiemLoadValidationService.validate(perDiemList);
@@ -123,7 +123,7 @@ public class PerDiemTxtInputFileType extends BatchInputFileTypeBase {
     }
 
     /**
-     * Gets the dateTimeService attribute. 
+     * Gets the dateTimeService attribute.
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -139,7 +139,7 @@ public class PerDiemTxtInputFileType extends BatchInputFileTypeBase {
     }
 
     /**
-     * Gets the fileNamePrefix attribute. 
+     * Gets the fileNamePrefix attribute.
      * @return Returns the fileNamePrefix.
      */
     public String getFileNamePrefix() {
@@ -155,7 +155,7 @@ public class PerDiemTxtInputFileType extends BatchInputFileTypeBase {
     }
 
     /**
-     * Gets the perDiemFileParsingService attribute. 
+     * Gets the perDiemFileParsingService attribute.
      * @return Returns the perDiemFileParsingService.
      */
     public PerDiemFileParsingService getPerDiemFileParsingService() {
@@ -171,7 +171,7 @@ public class PerDiemTxtInputFileType extends BatchInputFileTypeBase {
     }
 
     /**
-     * Gets the deliminator attribute. 
+     * Gets the deliminator attribute.
      * @return Returns the deliminator.
      */
     public String getDeliminator() {
@@ -187,7 +187,7 @@ public class PerDiemTxtInputFileType extends BatchInputFileTypeBase {
     }
 
     /**
-     * Gets the perDiemFieldsToPopulate attribute. 
+     * Gets the perDiemFieldsToPopulate attribute.
      * @return Returns the perDiemFieldsToPopulate.
      */
     public List<String> getPerDiemFieldsToPopulate() {

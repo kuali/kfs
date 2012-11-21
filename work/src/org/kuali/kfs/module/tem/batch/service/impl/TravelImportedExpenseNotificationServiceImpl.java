@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,21 +30,21 @@ import org.kuali.kfs.module.tem.service.HistoricalTravelExpenseService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.service.KfsNotificationService;
-import org.kuali.rice.kns.mail.MailMessage;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.mail.MailMessage;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 public class TravelImportedExpenseNotificationServiceImpl implements TravelImportedExpenseNotificationService {
-    
+
     private DateTimeService dateTimeService;
     private BusinessObjectService businessObjectService;
     private TemProfileService temProfileService;
     private HistoricalTravelExpenseService historicalTravelExpenseService;
-    
+
     private KfsNotificationService kfsNotificationService;
     private ParameterService parameterService;
     private String notificationTemplate;
@@ -56,10 +56,10 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
     public void sendImportedExpenseNotification() {
        List<HistoricalTravelExpense> travelExpenses = this.getHistoricalTravelExpenseService().getImportedExpesnesToBeNotified();
        Map<Integer, List<HistoricalTravelExpense>> expensesGroupByTraveler = this.groupExpensesByTraveler(travelExpenses);
-       
+
        for(Integer travelerProfileId : expensesGroupByTraveler.keySet()){
            List<HistoricalTravelExpense> expensesOfTraveler = expensesGroupByTraveler.get(travelerProfileId);
-           
+
            if(ObjectUtils.isNotNull(expensesOfTraveler) && !expensesOfTraveler.isEmpty()){
                this.sendImportedExpenseNotification(travelerProfileId, expensesOfTraveler);
            }
@@ -71,12 +71,12 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
      */
     @Override
     @Transactional
-    public void sendImportedExpenseNotification(Integer travelerProfileId) {               
+    public void sendImportedExpenseNotification(Integer travelerProfileId) {
         List<HistoricalTravelExpense> expensesOfTraveler = this.getHistoricalTravelExpenseService().getImportedExpesnesToBeNotified(travelerProfileId);
-        
+
         this.sendImportedExpenseNotification(travelerProfileId, expensesOfTraveler);
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.batch.service.TravelImportedExpenseNotificationService#sendImportedExpenseNotification(java.lang.String, java.util.List)
      */
@@ -84,17 +84,17 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
     @Transactional
     public void sendImportedExpenseNotification(Integer travelerProfileId, List<HistoricalTravelExpense> expensesOfTraveler) {
         Date notificationDate = this.getDateTimeService().getCurrentSqlDate();
-        
+
         for(HistoricalTravelExpense expense : expensesOfTraveler){
             expense.setExpenseNotificationDate(notificationDate);
             this.getBusinessObjectService().save(expense);
         }
-        
+
         MailMessage mailMessage = this.buildExpenseNotificationMailMessage(travelerProfileId, expensesOfTraveler);
         this.getKfsNotificationService().sendNotificationByMail(mailMessage);
     }
 
-    
+
     protected MailMessage buildExpenseNotificationMailMessage(Integer travelerProfileId, List<HistoricalTravelExpense> expensesOfTraveler) {
         MailMessage mailMessage = new MailMessage();
 
@@ -113,7 +113,7 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
 
         return mailMessage;
     }
-    
+
     /**
      * collect all the information from the given customer invoice document and build the notification body
      */
@@ -126,13 +126,13 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
 
         return this.getKfsNotificationService().generateNotificationContent(this.getNotificationTemplate(), notificationInformationHolder);
     }
-    
+
     protected Map<Integer, List<HistoricalTravelExpense>> groupExpensesByTraveler(List<HistoricalTravelExpense> travelExpenses) {
         Map<Integer, List<HistoricalTravelExpense>> expensesGroupedByTraveler = new HashMap<Integer, List<HistoricalTravelExpense>>();
-        
+
         for(HistoricalTravelExpense expense : travelExpenses){
             Integer profileId = expense.getProfileId();
-            
+
             if(expensesGroupedByTraveler.containsKey(profileId)){
                 List<HistoricalTravelExpense> expensesOfTraveler = expensesGroupedByTraveler.get(profileId);
                 expensesOfTraveler.add(expense);
@@ -140,42 +140,42 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
             else{
                 List<HistoricalTravelExpense> expensesOfTraveler = new ArrayList<HistoricalTravelExpense>();
                 expensesOfTraveler.add(expense);
-                
+
                 expensesGroupedByTraveler.put(profileId, expensesOfTraveler);
             }
         }
-        
+
         return expensesGroupedByTraveler;
     }
 
     protected List<HistoricalTravelExpense> getImportedExpesnesToBeNotified() {
-        
+
         return null;
     }
-    
+
     /**
      * get the email notification sender from an application parameter
      */
     protected String getNotificationSender() {
-        return this.getParameterService().getParameterValue(TemConstants.PARAM_NAMESPACE, KNSConstants.DetailTypes.ALL_DETAIL_TYPE, TemConstants.TravelParameters.TEM_EMAIL_SENDER_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsString(TemConstants.PARAM_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, TemConstants.TravelParameters.TEM_EMAIL_SENDER_PARAM_NAME);
     }
 
     /**
      * get the notification subject from an application parameter
      */
     protected String getNotificationSubject() {
-        return this.getParameterService().getParameterValue(TravelImportedExpenseNotificationStep.class, TemConstants.ImportedExpenseParameter.IMPORTED_EXPENSE_NOTIFICATION_SUBJECT_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsString(TravelImportedExpenseNotificationStep.class, TemConstants.ImportedExpenseParameter.IMPORTED_EXPENSE_NOTIFICATION_SUBJECT_PARAM_NAME);
     }
-    
+
     /**
      * get the notification text from an application parameter
      */
     protected String getNotificationText() {
-        return this.getParameterService().getParameterValue(TravelImportedExpenseNotificationStep.class, TemConstants.ImportedExpenseParameter.IMPORTED_EXPENSE_NOTIFICATION_TEXT_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsString(TravelImportedExpenseNotificationStep.class, TemConstants.ImportedExpenseParameter.IMPORTED_EXPENSE_NOTIFICATION_TEXT_PARAM_NAME);
     }
 
     /**
-     * Gets the temProfileService attribute. 
+     * Gets the temProfileService attribute.
      * @return Returns the temProfileService.
      */
     public TemProfileService getTemProfileService() {
@@ -191,7 +191,7 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
     }
 
     /**
-     * Gets the dateTimeService attribute. 
+     * Gets the dateTimeService attribute.
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -207,7 +207,7 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
     }
 
     /**
-     * Gets the businessObjectService attribute. 
+     * Gets the businessObjectService attribute.
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -223,7 +223,7 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
     }
 
     /**
-     * Gets the kfsNotificationService attribute. 
+     * Gets the kfsNotificationService attribute.
      * @return Returns the kfsNotificationService.
      */
     public KfsNotificationService getKfsNotificationService() {
@@ -239,7 +239,7 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
     }
 
     /**
-     * Gets the parameterService attribute. 
+     * Gets the parameterService attribute.
      * @return Returns the parameterService.
      */
     public ParameterService getParameterService() {
@@ -255,7 +255,7 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
     }
 
     /**
-     * Gets the notificationTemplate attribute. 
+     * Gets the notificationTemplate attribute.
      * @return Returns the notificationTemplate.
      */
     public String getNotificationTemplate() {
@@ -271,7 +271,7 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
     }
 
     /**
-     * Gets the historicalTravelExpenseService attribute. 
+     * Gets the historicalTravelExpenseService attribute.
      * @return Returns the historicalTravelExpenseService.
      */
     public HistoricalTravelExpenseService getHistoricalTravelExpenseService() {

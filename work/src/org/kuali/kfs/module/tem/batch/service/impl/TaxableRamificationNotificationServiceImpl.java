@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,12 +31,12 @@ import org.kuali.kfs.module.tem.document.service.TaxableRamificationDocumentServ
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.KfsNotificationService;
-import org.kuali.rice.kns.mail.MailMessage;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.mail.MailMessage;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -60,7 +60,7 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
         Date taxableRamificationNotificationDate = this.getDateTimeService().getCurrentSqlDate();
         List<TravelAdvance> travelAdvances = this.getTaxableRamificationDocumentService().getAllQualifiedOutstandingTravelAdvance();
 
-        for (TravelAdvance advance : travelAdvances) {            
+        for (TravelAdvance advance : travelAdvances) {
             try{
                 TaxableRamificationDocument taxableRamificationDocument = this.createTaxableRamificationDocument(advance, taxableRamificationNotificationDate);
                 this.sendTaxableRamificationReport(taxableRamificationDocument);
@@ -69,7 +69,7 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
                 LOG.error("Failed to send taxable ramification document for the travel advance: " + advance, ex);
             }
         }
-        
+
         LOG.info("The total outstanding travel advance being processed is " + travelAdvances.size());
     }
 
@@ -84,7 +84,7 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
             this.getKfsNotificationService().sendNotificationByMail(mailMessage);
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.batch.service.TaxableRamificationNotificationService#sendTaxableRamificationReport(org.kuali.kfs.module.tem.businessobject.TravelAdvance,
      *      java.sql.Date)
@@ -96,12 +96,12 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
             throw new RuntimeException("The given travel advance cannot be null.");
         }
 
-        TaxableRamificationDocument taxRamificationDocument = this.getTaxableRamificationDocumentService().createAndBlanketApproveRamificationDocument(travelAdvance);        
+        TaxableRamificationDocument taxRamificationDocument = this.getTaxableRamificationDocumentService().createAndBlanketApproveRamificationDocument(travelAdvance);
         if (ObjectUtils.isNotNull(taxRamificationDocument)) {
             travelAdvance.setTaxRamificationNotificationDate(taxableRamificationNotificationDate);
             this.getBusinessObjectService().save(travelAdvance);
         }
-        
+
         return taxRamificationDocument;
     }
 
@@ -136,7 +136,7 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
         Map<String, Object> taxRamificationInformationHolder = new HashMap<String, Object>();
 
         taxRamificationInformationHolder.put(KFSPropertyConstants.DOCUMENT, taxRamificationDocument);
-        
+
         String campusTravelEmailAddress = this.getCampusTravelEmailAddress();
         taxRamificationInformationHolder.put(TemConstants.CAMPUS_TRAVEL_EMAIL_ADDRESS, campusTravelEmailAddress);
 
@@ -147,33 +147,33 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
      * get the email notification sender from an application parameter
      */
     protected String getNotificationSender() {
-        return this.getParameterService().getParameterValue(TemConstants.PARAM_NAMESPACE, KNSConstants.DetailTypes.ALL_DETAIL_TYPE, TemConstants.TravelParameters.TEM_EMAIL_SENDER_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsString(TemConstants.PARAM_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, TemConstants.TravelParameters.TEM_EMAIL_SENDER_PARAM_NAME);
     }
 
     /**
      * get the notification text from an application parameter
      */
     protected String getNotificationText() {
-        return this.getParameterService().getParameterValue(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.TAX_RAMIFICATION_NOTIFICATION_TEXT_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsString(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.TAX_RAMIFICATION_NOTIFICATION_TEXT_PARAM_NAME);
     }
 
     /**
      * get the notification subject from an application parameter
      */
     protected String getNotificationSubject() {
-        return this.getParameterService().getParameterValue(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.TAX_RAMIFICATION_NOTIFICATION_SUBJECT_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsString(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.TAX_RAMIFICATION_NOTIFICATION_SUBJECT_PARAM_NAME);
     }
-    
+
     /**
      * get the Campus Travel Email Address from an application parameter
      */
     protected String getCampusTravelEmailAddress() {
-        return this.getParameterService().getParameterValue(TemConstants.PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TemConstants.TravelParameters.CAMPUS_TRAVEL_EMAIL_ADDRESS);
-    }    
+        return this.getParameterService().getParameterValueAsString(TemConstants.PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TemConstants.TravelParameters.CAMPUS_TRAVEL_EMAIL_ADDRESS);
+    }
 
     /**
      * Gets the kfsNotificationService attribute.
-     * 
+     *
      * @return Returns the kfsNotificationService.
      */
     public KfsNotificationService getKfsNotificationService() {
@@ -182,7 +182,7 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
 
     /**
      * Sets the kfsNotificationService attribute value.
-     * 
+     *
      * @param kfsNotificationService The kfsNotificationService to set.
      */
     public void setKfsNotificationService(KfsNotificationService kfsNotificationService) {
@@ -191,7 +191,7 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
 
     /**
      * Gets the notificationTemplate attribute.
-     * 
+     *
      * @return Returns the notificationTemplate.
      */
     public String getNotificationTemplate() {
@@ -200,7 +200,7 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
 
     /**
      * Sets the notificationTemplate attribute value.
-     * 
+     *
      * @param notificationTemplate The notificationTemplate to set.
      */
     public void setNotificationTemplate(String notificationTemplate) {
@@ -209,7 +209,7 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -218,7 +218,7 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -227,7 +227,7 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
 
     /**
      * Gets the parameterService attribute.
-     * 
+     *
      * @return Returns the parameterService.
      */
     public ParameterService getParameterService() {
@@ -236,7 +236,7 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -245,7 +245,7 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
 
     /**
      * Gets the dateTimeService attribute.
-     * 
+     *
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -254,7 +254,7 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -262,7 +262,7 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
     }
 
     /**
-     * Gets the taxableRamificationDocumentService attribute. 
+     * Gets the taxableRamificationDocumentService attribute.
      * @return Returns the taxableRamificationDocumentService.
      */
     public TaxableRamificationDocumentService getTaxableRamificationDocumentService() {

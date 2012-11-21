@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,9 +41,9 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.batch.AbstractStep;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
@@ -56,15 +56,15 @@ public class TemProfileExportStep extends AbstractStep {
 
     private String fileDirectoryName;
     private String fileName;
-	
+
 	@Override
 	public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
 		List<TEMProfile> profiles = temProfileService.getAllActiveTemProfile();
-		
+
 		//Accessing EXPORT_FILE_FORMAT sys param for export file extension
         LOG.info("Accessing EXPORT_FILE_FORMAT system parameter for file extension");
-        String extension = getParameterService().getParameterValue(PARAM_NAMESPACE, "ProfileExport", TemConstants.TemProfileParameters.EXPORT_FILE_FORMAT);
-		
+        String extension = getParameterService().getParameterValueAsString(PARAM_NAMESPACE, "ProfileExport", TemConstants.TemProfileParameters.EXPORT_FILE_FORMAT);
+
         //Creating export file name
         String exportFile = fileDirectoryName + File.separator + fileName + "." + extension;
 
@@ -86,7 +86,7 @@ public class TemProfileExportStep extends AbstractStep {
 	            throw new RuntimeException(ex.toString(), ex);
 			}
 		} else {
-			OUTPUT_GLE_FILE_ps.printf("%s\n", getDateTimeService().toDateTimeString(getDateTimeService().getCurrentDate()) + "," + getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_REPORT_INSTITUTION_NAME));
+			OUTPUT_GLE_FILE_ps.printf("%s\n", getDateTimeService().toDateTimeString(getDateTimeService().getCurrentDate()) + "," + getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_REPORT_INSTITUTION_NAME));
 			for(TEMProfile profile : profiles) {
 				try {
 					OUTPUT_GLE_FILE_ps.printf("%s\n", generateCSVEntry(profile));
@@ -98,27 +98,27 @@ public class TemProfileExportStep extends AbstractStep {
 		}
 
         OUTPUT_GLE_FILE_ps.close();
-		
+
 		return false;
 	}
-	
+
 	private String generateXMLDoc(List<TEMProfile> profiles) throws ParserConfigurationException, TransformerException {
-		
+
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
         Document doc = docBuilder.newDocument();
-        
+
         //Create the Profile Header
         Element profileHeader = doc.createElement("profileHeader");
         profileHeader.appendChild(createElement(doc, "dateOfExport", getDateTimeService().toDateTimeString(getDateTimeService().getCurrentDate())));
-        profileHeader.appendChild(createElement(doc, "universityName", getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_REPORT_INSTITUTION_NAME)));
-		
+        profileHeader.appendChild(createElement(doc, "universityName", getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_REPORT_INSTITUTION_NAME)));
+
         //Create the Profile Detail section
 		Element profileDetailList = doc.createElement("profiles");
         for(TEMProfile profile : profiles) {
         	profileDetailList.appendChild(generateProfileDetailElement(doc, profile));
 		}
-        
+
         //Create the Root Element, add the Profile Header and Detail sections, add to document
 		Element rootElement = doc.createElement("temProfileExport");
         rootElement.appendChild(profileHeader);
@@ -135,10 +135,10 @@ public class TemProfileExportStep extends AbstractStep {
         StreamResult result = new StreamResult(sw);
         DOMSource source = new DOMSource(doc);
         trans.transform(source, result);
-        
+
         return sw.toString();
 	}
-	
+
 	private Element generateProfileDetailElement(Document doc, TEMProfile profile) {
 		Element profileDetail = doc.createElement("profileDetail");
 
@@ -171,24 +171,24 @@ public class TemProfileExportStep extends AbstractStep {
 		profileDetail.appendChild(createElement(doc, "phoneNumber", StringUtils.defaultIfEmpty(profile.getPhoneNumber(), "")));
 		profileDetail.appendChild(createElement(doc, "emailAddress", StringUtils.defaultIfEmpty(profile.getEmailAddress(), "")));
 		profileDetail.appendChild(createElement(doc, "primaryDepartment", StringUtils.defaultIfEmpty(profile.getHomeDepartment(), "")));
-		
+
 		return profileDetail;
 	}
-	
+
 	private Element createElement(Document doc, String elementName, String elementValue) {
 		//create element
         Element element = doc.createElement(elementName);
-        
+
         //add a text element to the child
         Text text = doc.createTextNode(elementValue);
         element.appendChild(text);
-        
+
         return element;
 	}
-	
+
 	private String generateCSVEntry(TEMProfile profile) {
 		StringBuffer line = new StringBuffer();
-		
+
 		line.append(profile.getProfileId().toString()).append(",");
 		line.append(StringUtils.defaultIfEmpty(profile.getTravelerTypeCode(), "")).append(",");
 		line.append(StringUtils.defaultIfEmpty(profile.getEmployeeId(), "")).append(",");
@@ -218,24 +218,24 @@ public class TemProfileExportStep extends AbstractStep {
 		line.append(StringUtils.defaultIfEmpty(profile.getPhoneNumber(), "")).append(",");
 		line.append(StringUtils.defaultIfEmpty(profile.getEmailAddress(), "")).append(",");
 		line.append(StringUtils.defaultIfEmpty(profile.getHomeDepartment(), ""));
-		
+
 		return line.toString();
 	}
-	
+
 	private String getPrincipalName(String principalId) {
 		String principalName = "";
-		
+
 		if(StringUtils.isNotEmpty(principalId)) {
 			Person person = personService.getPerson(principalId);
-			
+
 			principalName = person != null ? person.getPrincipalName() : "";
 		}
-		
+
 		return principalName;
 	}
 
 	/**
-	 * Gets the temProfileService attribute. 
+	 * Gets the temProfileService attribute.
 	 * @return Returns the temProfileService.
 	 */
 	public TemProfileService getTemProfileService() {
@@ -251,7 +251,7 @@ public class TemProfileExportStep extends AbstractStep {
 	}
 
 	/**
-	 * Gets the fileDirectoryName attribute. 
+	 * Gets the fileDirectoryName attribute.
 	 * @return Returns the fileDirectoryName.
 	 */
 	public String getFileDirectoryName() {
@@ -267,7 +267,7 @@ public class TemProfileExportStep extends AbstractStep {
 	}
 
 	/**
-	 * Gets the fileName attribute. 
+	 * Gets the fileName attribute.
 	 * @return Returns the fileName.
 	 */
 	public String getFileName() {
@@ -283,7 +283,7 @@ public class TemProfileExportStep extends AbstractStep {
 	}
 
 	/**
-	 * Gets the personService attribute. 
+	 * Gets the personService attribute.
 	 * @return Returns the personService.
 	 */
 	public PersonService getPersonService() {

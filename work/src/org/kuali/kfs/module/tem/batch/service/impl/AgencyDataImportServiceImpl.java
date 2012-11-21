@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
@@ -39,24 +40,25 @@ import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     public static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AgencyDataImportServiceImpl.class);
-    
+
     public final static String REPORT_FILE_NAME_PATTERN = "{0}/{1}_{2}{3}";
-    
+
     private BatchInputFileService batchInputFileService;
     private BusinessObjectService businessObjectService;
     private ExpenseImportByTravelerService expenseImportByTravelerService;
     private ExpenseImportByTripService expenseImportByTripService;
     private TemBatchService temBatchService;
     private TravelExpenseService travelExpenseService;
-    
+    private static ConfigurationService configurationService;
+
     private List<BatchInputFileType> agencyDataImportFileTypes;
     private String agencyDataFileErrorDirectory;
     private BusinessObjectReportHelper agencyDataTravelerUploadReportHelper;
@@ -71,7 +73,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
      */
     @Override
     public boolean importAgencyData() {
-        
+
         boolean success = true;
 
         LOG.info("Starting Agency Import Process");
@@ -93,7 +95,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
      */
     @Override
     public boolean importAgencyDataFile(String dataFileName, BatchInputFileType inputFileType) {
-        
+
         String fileExtension = "." + inputFileType.getFileExtension();
         String doneFileName = temBatchService.getCompanionFileName(dataFileName, fileExtension, TemConstants.DONE_FILE_SUFFIX);
         File doneFile = temBatchService.getFileByAbsolutePath(doneFileName);
@@ -104,11 +106,11 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
             byte[] fileByteContent = IOUtils.toByteArray(fileContents);
             AgencyImportData agencyData = (AgencyImportData) batchInputFileService.parse(inputFileType, fileByteContent);
             IOUtils.closeQuietly(fileContents);
-            
+
             LOG.info("Agency Import - validating: " + dataFileName);
 
             List<AgencyStagingData> validAgencyList = validateAgencyData(agencyData, dataFileName);
-            
+
             boolean isAllValid = validAgencyList.size() == agencyData.getAgencies().size();
             if (!isAllValid) {
                 String error = "The agency data records to be loaded are rejected due to data problem. Please check the agency data report.";
@@ -139,10 +141,10 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
             dataReportService.writeReportHeader(reportDataStream, dataFileName, TemKeyConstants.MESSAGE_AGENCY_DATA_REPORT_HEADER, reportHelper);
             int count = 1;
             for (AgencyStagingData agency : agencyData.getAgencies()) {
-                
+
                 agency.setImportBy(agencyData.getImportBy());
                 agency.setStagingFileName(StringUtils.substringAfterLast(dataFileName, "\\"));
-                
+
                 AgencyStagingData validAgency = null;
                 List<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>();
 
@@ -154,7 +156,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                         validAgency = expenseImportByTravelerService.validateAgencyData(agency);
                     }
                     errorMessages = expenseImportByTravelerService.getErrorMessages();
-                }  
+                }
                 // validate by Trip ID
                 else if (agency.getExpenseImport() == ExpenseImport.trip) {
                     LOG.info("Validating agency import by trip. Record# " + count + " of " + agencyData.getAgencies().size());
@@ -168,7 +170,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                 if (ObjectUtils.isNotNull(validAgency)) {
                     validData.add(validAgency);
                 }
-                
+
                 //writer to error report
                 if (!errorMessages.isEmpty()){
                     dataReportService.writeToReport(reportDataStream, agency, errorMessages, reportHelper);
@@ -185,13 +187,13 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         }
         return validData;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.batch.service.AgencyDataImportService#moveAgencyDataToHistoricalExpenseTable()
      */
     @Override
     public boolean moveAgencyDataToHistoricalExpenseTable() {
-        
+
         LOG.info("Starting Agency Expense Distribution/Reconciliation Process");
         List<AgencyStagingData> agencyData = travelExpenseService.retrieveValidAgencyData();
         if (ObjectUtils.isNotNull(agencyData) && agencyData.size() > 0) {
@@ -205,7 +207,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         LOG.info("Finished Agency Expense Distribution/Reconciliation Process");
         return true;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.batch.service.AgencyDataImportService#processAgencyStagingExpense(org.kuali.kfs.module.tem.businessobject.AgencyStagingData, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
@@ -219,7 +221,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
             expenseImportByTripService.reconciliateExpense(agency, sequenceHelper);
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.batch.service.AgencyDataImportService#matchExpenses()
      */
@@ -234,7 +236,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
             for (AgencyStagingData agency : agencyData) {
                 LOG.info("Matching agency data record# " + count + " of " + agencyData.size());
                 expenseImportByTripService.reconciliateExpense(agency, sequenceHelper);
-                count++;         
+                count++;
             }
         }
         businessObjectService.save(agencyData);
@@ -242,7 +244,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         LOG.info("Finished Agency Reconciliation Match Process");
         return true;
     }
-        
+
     private BusinessObjectReportHelper getReportHelper(ExpenseImport importType){
         BusinessObjectReportHelper reportHelper = getAgencyDataTravelerUploadReportHelper();
         if(ExpenseImport.traveler == importType){
@@ -255,7 +257,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     }
 
     /**
-     * Gets the batchInputFileService attribute. 
+     * Gets the batchInputFileService attribute.
      * @return Returns the batchInputFileService.
      */
     public BatchInputFileService getBatchInputFileService() {
@@ -271,7 +273,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     }
 
     /**
-     * Gets the agencyDataImportFileTypes attribute. 
+     * Gets the agencyDataImportFileTypes attribute.
      * @return Returns the agencyDataImportFileTypes.
      */
     public List<BatchInputFileType> getAgencyDataImportFileTypes() {
@@ -287,7 +289,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     }
 
     /**
-     * Gets the businessObjectService attribute. 
+     * Gets the businessObjectService attribute.
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -303,7 +305,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     }
 
     /**
-     * Gets the agencyDataFileErrorDirectory attribute. 
+     * Gets the agencyDataFileErrorDirectory attribute.
      * @return Returns the agencyDataFileErrorDirectory.
      */
     public String getAgencyDataFileErrorDirectory() {
@@ -319,7 +321,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     }
 
     /**
-     * Gets the expenseImportByTravelerService attribute. 
+     * Gets the expenseImportByTravelerService attribute.
      * @return Returns the expenseImportByTravelerService.
      */
     public ExpenseImportByTravelerService getExpenseImportByTravelerService() {
@@ -335,7 +337,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     }
 
     /**
-     * Gets the expenseImportByTripService attribute. 
+     * Gets the expenseImportByTripService attribute.
      * @return Returns the expenseImportByTripService.
      */
     public ExpenseImportByTripService getExpenseImportByTripService() {
@@ -351,7 +353,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     }
 
     /**
-     * Gets the temBatchService attribute. 
+     * Gets the temBatchService attribute.
      * @return Returns the temBatchService.
      */
     public TemBatchService getTemBatchService() {
@@ -367,7 +369,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     }
 
     /**
-     * Gets the travelExpenseService attribute. 
+     * Gets the travelExpenseService attribute.
      * @return Returns the travelExpenseService.
      */
     public TravelExpenseService getTravelExpenseService() {
@@ -421,10 +423,10 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     public void setAgencyDataReportFilePrefix(String agencyDataReportFilePrefix) {
         this.agencyDataReportFilePrefix = agencyDataReportFilePrefix;
     }
-    private static KualiConfigurationService configurationService;
-    private static KualiConfigurationService getConfigurationService() {
+
+    private static ConfigurationService getConfigurationService() {
         if (configurationService == null) {
-            configurationService = SpringContext.getBean(KualiConfigurationService.class);
+            configurationService = SpringContext.getBean(ConfigurationService.class);
         }
         return configurationService;
     }

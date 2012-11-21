@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,7 @@ package org.kuali.kfs.module.tem.batch.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class PerDiemForLoad extends PerDiem {
     public static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PerDiemForLoad.class);
@@ -31,7 +31,7 @@ public class PerDiemForLoad extends PerDiem {
 
     /**
      * Gets the unusedValueHolder attribute.
-     * 
+     *
      * @return Returns the unusedValueHolder.
      */
     public String getUnusedValueHolder() {
@@ -40,7 +40,7 @@ public class PerDiemForLoad extends PerDiem {
 
     /**
      * Sets the unusedValueHolder attribute value.
-     * 
+     *
      * @param unusedValueHolder The unusedValueHolder to set.
      */
     public void setUnusedValueHolder(String unusedValueHolder) {
@@ -49,7 +49,7 @@ public class PerDiemForLoad extends PerDiem {
 
     /**
      * Gets the seasonBeginDateAsString attribute.
-     * 
+     *
      * @return Returns the seasonBeginDateAsString.
      */
     public String getSeasonBeginDateAsString() {
@@ -58,7 +58,7 @@ public class PerDiemForLoad extends PerDiem {
 
     /**
      * Sets the seasonBeginDateAsString attribute value.
-     * 
+     *
      * @param seasonBeginDateAsString The seasonBeginDateAsString to set.
      */
     public void setSeasonBeginDateAsString(String seasonBeginDateAsString) {
@@ -67,7 +67,7 @@ public class PerDiemForLoad extends PerDiem {
 
     /**
      * Gets the seasonEndDateAsString attribute.
-     * 
+     *
      * @return Returns the seasonEndDateAsString.
      */
     public String getSeasonEndDateAsString() {
@@ -76,7 +76,7 @@ public class PerDiemForLoad extends PerDiem {
 
     /**
      * Sets the seasonEndDateAsString attribute value.
-     * 
+     *
      * @param seasonEndDateAsString The seasonEndDateAsString to set.
      */
     public void setSeasonEndDateAsString(String seasonEndDateAsString) {
@@ -85,7 +85,7 @@ public class PerDiemForLoad extends PerDiem {
 
     /**
      * Gets the effectiveDateAsString attribute.
-     * 
+     *
      * @return Returns the effectiveDateAsString.
      */
     public String getEffectiveDateAsString() {
@@ -94,15 +94,15 @@ public class PerDiemForLoad extends PerDiem {
 
     /**
      * Sets the effectiveDateAsString attribute value.
-     * 
+     *
      * @param effectiveDateAsString The effectiveDateAsString to set.
      */
     public void setEffectiveDateAsString(String effectiveDateAsString) {
         this.effectiveDateAsString = effectiveDateAsString;
     }
-    
+
     /**
-     * Gets the expirationDateAsString attribute. 
+     * Gets the expirationDateAsString attribute.
      * @return Returns the expirationDateAsString.
      */
     public String getExpirationDateAsString() {
@@ -115,7 +115,7 @@ public class PerDiemForLoad extends PerDiem {
      */
     public void setExpirationDateAsString(String expirationDateAsString) {
         this.expirationDateAsString = expirationDateAsString;
-    }    
+    }
 
     /**
      * Sets the localMeals attribute value.
@@ -124,7 +124,7 @@ public class PerDiemForLoad extends PerDiem {
     public void setLocalMeals(String localMeals) {
         this.setMealsAndIncidentals(new KualiDecimal(localMeals));
     }
-    
+
     /**
      * Sets the localMeals attribute value.
      * @param localMeals The localMeals to set.
@@ -132,7 +132,7 @@ public class PerDiemForLoad extends PerDiem {
     public void setIncidentals(String incidentals) {
         this.setIncidentals(new KualiDecimal(incidentals));
     }
-    
+
     /**
      * Sets the lodging attribute value.
      * @param lodging The lodging to set.
@@ -140,15 +140,16 @@ public class PerDiemForLoad extends PerDiem {
     public void setLodging(String lodging) {
         this.setLodging(new KualiDecimal(lodging));
     }
-    
+
+    @SuppressWarnings("rawtypes")
     @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = super.toStringMapper();
-        
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
+        LinkedHashMap map = super.toStringMapper_RICE20_REFACTORME();
+
         map.put("effectiveDateAsString", this.getEffectiveDateAsString());
         map.put("seasonBeginDateAsString", this.getSeasonBeginDateAsString());
         map.put("seasonEndDateAsString", this.getSeasonEndDateAsString());
-        
+
         return map;
     }
 }

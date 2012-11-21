@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,9 +19,9 @@ import org.kuali.kfs.module.tem.TemConstants.MEAL_CODE;
 import org.kuali.kfs.module.tem.TemConstants.PerDiemParameter;
 import org.kuali.kfs.module.tem.batch.PerDiemLoadStep;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class DefaultMealBreakDownStrategy implements MealBreakDownStrategy {
 
@@ -66,7 +66,7 @@ public class DefaultMealBreakDownStrategy implements MealBreakDownStrategy {
 
     /**
      * get meal percentage by meal code defined as an application parameter
-     * 
+     *
      * @return meal percentage by meal code defined as an application parameter
      */
     protected Integer getMealPercentByMealCode(String mealCode) {
@@ -89,11 +89,11 @@ public class DefaultMealBreakDownStrategy implements MealBreakDownStrategy {
      * get meal percentage from an application parameter
      */
     protected String getMealPercent(String mealCode) {
-        String mealPercentString = this.getParameterService().getParameterValue(PerDiemLoadStep.class, this.getParameterName(), mealCode);
+        String mealPercentString = this.getParameterService().getParameterValueAsString(PerDiemLoadStep.class, this.getParameterName(), mealCode);
 
         return mealPercentString;
     }
-    
+
     /**
      * get the parameter name that is used for break down
      */
@@ -103,7 +103,7 @@ public class DefaultMealBreakDownStrategy implements MealBreakDownStrategy {
 
     /**
      * Gets the parameterService attribute.
-     * 
+     *
      * @return Returns the parameterService.
      */
     public ParameterService getParameterService() {
@@ -112,7 +112,7 @@ public class DefaultMealBreakDownStrategy implements MealBreakDownStrategy {
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {

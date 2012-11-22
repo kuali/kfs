@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -59,24 +59,23 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
 import org.springframework.beans.BeanUtils;
 
 @Entity
 @Table(name = "TEM_TRVL_AUTH_DOC_T")
 public class TravelAuthorizationDocument extends TravelDocumentBase {
-    
+
     protected static Logger LOG = Logger.getLogger(TravelAuthorizationDocument.class);
-    
+
     private KualiDecimal perDiemAdjustment;
 
     // Emergency contact info section
@@ -106,20 +105,20 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     public TravelAuthorizationAmendmentDocument toCopyTAA() throws WorkflowException {
         TravelAuthorizationAmendmentDocument doc = (TravelAuthorizationAmendmentDocument) SpringContext.getBean(DocumentService.class).getNewDocument(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
-        toCopyTravelAuthorizationDocument(doc);       
-        
+        toCopyTravelAuthorizationDocument(doc);
+
         doc.getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
-        
+
         return doc;
     }
 
     public TravelAuthorizationCloseDocument toCopyTAC() throws WorkflowException {
         TravelAuthorizationCloseDocument doc = (TravelAuthorizationCloseDocument) SpringContext.getBean(DocumentService.class).getNewDocument(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
         toCopyTravelAuthorizationDocument(doc);
-        
+
         return doc;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#updateAppDocStatus(java.lang.String)
      */
@@ -129,8 +128,8 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
         //using the parent's update app doc status logic
         updated = super.updateAppDocStatus(status);
-        
-        if (!updated && (status.equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD) 
+
+        if (!updated && (status.equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD)
                 || status.equals(TravelAuthorizationStatusCodeKeys.OPEN_REIMB)
                 || status.equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)
                 || status.equals(TravelAuthorizationStatusCodeKeys.CANCELLED)
@@ -143,52 +142,52 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     }
 
     /**
-     * 
+     *
      * @param doc
      * @param documentID
      */
     private void toCopyTravelAuthorizationDocument(TravelAuthorizationDocument copyToDocument) {
         String documentID = copyToDocument.getDocumentNumber();
 
-        //copy over all possible elements from this self to TravelAuthorizationDocument except document header 
+        //copy over all possible elements from this self to TravelAuthorizationDocument except document header
         BeanUtils.copyProperties(this, copyToDocument, new String[]{KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME});
-        
+
         FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
         BeanUtils.copyProperties(copyToDocument.getDocumentHeader(), documentHeader);
         documentHeader.setOrganizationDocumentNumber(this.getDocumentHeader().getOrganizationDocumentNumber());
         copyToDocument.setDocumentHeader(documentHeader);
-        
+
         copyToDocument.setTransportationModes(getTravelDocumentService().copyTransportationModeDetails(getTransportationModes(), documentID));
         copyToDocument.setPerDiemExpenses(getTravelDocumentService().copyPerDiemExpenses(getPerDiemExpenses(), documentID));
         copyToDocument.setSpecialCircumstances(getTravelDocumentService().copySpecialCircumstances(getSpecialCircumstances(), documentID));
         copyToDocument.setTravelerDetailId(null);
         copyToDocument.setTraveler(getTravelerService().copyTravelerDetail(getTraveler(), documentID));
-        copyToDocument.setGroupTravelers(getTravelDocumentService().copyGroupTravelers(getGroupTravelers(), documentID));               
+        copyToDocument.setGroupTravelers(getTravelDocumentService().copyGroupTravelers(getGroupTravelers(), documentID));
         copyToDocument.setTravelAdvances(getTravelDocumentService().copyTravelAdvances(getTravelAdvances(), documentID));
         copyToDocument.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(getActualExpenses(), documentID));
         copyToDocument.setImportedExpenses(new ArrayList<ImportedExpense>());
-        
+
         copyToDocument.getDocumentHeader().getBoNotes().clear();
         copyToDocument.getBoNotes().clear();
         copyToDocument.getDocumentHeader().setDocumentDescription(getDocumentHeader().getDocumentDescription());
         copyToDocument.setTravelDocumentIdentifier(getTravelDocumentIdentifier());
         copyToDocument.setDocumentNumber(documentID);
         copyToDocument.setGeneralLedgerPendingEntries(new ArrayList<GeneralLedgerPendingEntry>());
-        
+
         //reset to only include the encumbrance line
         List<TemSourceAccountingLine> newList = new ArrayList<TemSourceAccountingLine>();
         int sequence = 1;
-        for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)copyToDocument.getEncumbranceSourceAccountingLines()){
+        for (TemSourceAccountingLine line : copyToDocument.getEncumbranceSourceAccountingLines()){
             line.setSequenceNumber(new Integer(sequence));
             sequence++;
             newList.add(line);
         }
         copyToDocument.setSourceAccountingLines(newList);
     }
-    
+
     /**
      * Gets the perDiemAdjustment attribute.
-     * 
+     *
      * @return Returns the perDiemAdjustment.
      */
     @Override
@@ -199,7 +198,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * Sets the perDiemAdjustment attribute value.
-     * 
+     *
      * @param perDiemAdjustment The perDiemAdjustment to set.
      */
     @Override
@@ -209,7 +208,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * This method returns the traveler's cell phone number
-     * 
+     *
      * @return cell phone of traveler
      */
     @Column(name = "CELL_PH_NUM", length = 10)
@@ -219,7 +218,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * This method sets the cell phone of the traveler
-     * 
+     *
      * @param cellPhoneNumber
      */
     public void setCellPhoneNumber(String cellPhoneNumber) {
@@ -229,7 +228,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * This method gets the traveler's familiarity with the region
-     * 
+     *
      * @return traveler's regional familiarity
      */
     @Column(name = "rgn_famil")
@@ -239,7 +238,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * This method sets the traveler's familiarity with the region
-     * 
+     *
      * @param regionFamiliarity
      */
     public void setRegionFamiliarity(String regionFamiliarity) {
@@ -248,7 +247,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * This method returns the citizenship country code for the traveler
-     * 
+     *
      * @return the traveler's citizenship
      */
     @Column(name = "CTZN_CNTRY_CD")
@@ -258,7 +257,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * This method sets the traveler's citizenship country
-     * 
+     *
      * @param citizenshipCountryCode
      */
     public void setCitizenshipCountryCode(String citizenshipCountryCode) {
@@ -267,7 +266,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * This method returns the country that the traveler is a citizen of
-     * 
+     *
      * @return country the traveler is a citizen of
      */
     @Transient
@@ -278,7 +277,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * This method sets the country the traveler is a citizen of Should only be used during OJB population
-     * 
+     *
      * @param citizenshipCountry
      */
     public void setCitizenshipCountry(Country citizenshipCountry) {
@@ -293,7 +292,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * This method sets the transportation modes
-     * 
+     *
      * @param transportationModes
      */
     @Override
@@ -303,7 +302,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * Helper method to add a transportation mode detail to a Travel Request
-     * 
+     *
      * @param transportationModeDetail
      */
     public void addTransportationMode(TransportationModeDetail transportationModeDetail) {
@@ -314,7 +313,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * This method populates the list of transportation modes from an array of strings
-     * 
+     *
      * @param selectedTransportationModes
      */
     @Transient
@@ -362,7 +361,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * This method adds a new travel expense line to the managed collection
-     * 
+     *
      * @param travel expense line
      */
     public void addActualExpenseLine(ActualExpense line) {
@@ -383,7 +382,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     public void initiateDocument() {
         super.initiateDocument();
         setAppDocStatus(TravelAuthorizationStatusCodeKeys.IN_PROCESS);
-        
+
         //always default trip begin/date
         Calendar calendar = getDateTimeService().getCurrentCalendar();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -396,18 +395,18 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * Adds a new emergency contact line
-     * 
+     *
      * @param line
      */
     public void addEmergencyContactLine(TravelerDetailEmergencyContact line) {
         if (getTraveler() != null) {
             line.setFinancialDocumentLineNumber(getTraveler().getEmergencyContacts().size() + 1);
-            line.setDocumentNumber(this.documentNumber);       
+            line.setDocumentNumber(this.documentNumber);
             line.setTravelerDetailId(getTraveler().getId());
             getTraveler().getEmergencyContacts().add(line);
         }
     }
-    
+
     public void addPerDiemExpensesLine(PerDiemExpense line) {
         line.setDocumentNumber(this.documentNumber);
         this.perDiemExpenses.add(line);
@@ -416,12 +415,12 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     /**
      * Determines if this document should be able to return to the fiscal officer node again. This can happen if the user has rights
      * to reroute and also if the document is already ENROUTE.
-     * 
+     *
      * @return true if the document is currently enroute and reroutable
      */
     @Override
     public boolean canReturn() {
-        return getDocumentHeader().getWorkflowDocument().stateIsEnroute();
+        return getDocumentHeader().getWorkflowDocument().isEnroute();
     }
 
     @Override
@@ -429,14 +428,14 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     public KualiDecimal getEncumbranceTotal() {
         TEMExpenseService service = (TEMExpenseService) SpringContext.getBean(TEMExpense.class,TemConstants.TEMExpenseTypes.PER_DIEM);
         KualiDecimal encTotal = service.getAllExpenseTotal(this, false);
-        
+
         service = (TEMExpenseService) SpringContext.getBean(TEMExpense.class,TemConstants.TEMExpenseTypes.ACTUAL);
         encTotal = service.getAllExpenseTotal(this, false).add(encTotal);
 
         if (ObjectUtils.isNotNull(this.perDiemAdjustment) && perDiemAdjustment.isPositive()) {
             encTotal = encTotal.subtract(this.perDiemAdjustment);
         }
-        
+
         return encTotal;
     }
 
@@ -468,7 +467,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
             explicitEntry.setFinancialBalanceTypeCode(balanceType);
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
@@ -491,7 +490,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
             offsetEntry.setReferenceFinancialDocumentTypeCode(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
             offsetEntry.setReferenceFinancialSystemOriginationCode(TemConstants.ORIGIN_CODE);
         }
-        
+
         String balanceType = getTravelEncumbranceService().getEncumbranceBalanceTypeByTripType(this);
         if (StringUtils.isNotEmpty(balanceType)) {
             offsetEntry.setFinancialBalanceTypeCode(balanceType);
@@ -501,26 +500,26 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.document.Document#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     * @see org.kuali.rice.kns.document.Document#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChange)
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
-        if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
+        if (DocumentStatus.PROCESSED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
             LOG.debug("New route status is " + statusChangeEvent.getNewRouteStatus());
-                        
+
             if (!(this instanceof TravelAuthorizationCloseDocument)) {
                 // for some reason when it goes to final it never updates to the last status, updating TA status to OPEN REIMBURSEMENT
                 updateAppDocStatus(TravelAuthorizationStatusCodeKeys.OPEN_REIMB);
-                
+
                 getTravelAuthorizationService().createTravelAdvanceDVDocument(this);
                 getTravelAuthorizationService().createCustomerInvoice(this);
-                
-                //If the hold new fiscal year encumbrance indicator is true and the trip end date is after the current fiscal year end date then mark all the gl pending entries 
+
+                //If the hold new fiscal year encumbrance indicator is true and the trip end date is after the current fiscal year end date then mark all the gl pending entries
                 //as 'H' (Hold) otherwise mark all the gl pending entries as 'A' (approved)
                 if (getGeneralLedgerPendingEntries() != null && !getGeneralLedgerPendingEntries().isEmpty()) {
-                    if(getParameterService().getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.HOLD_NEW_FY_ENCUMBRANCES_IND)) {
+                    if(getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.HOLD_NEW_FY_ENCUMBRANCES_IND)) {
                         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
                         java.util.Date endDate = universityDateService.getLastDateOfFiscalYear(universityDateService.getCurrentFiscalYear());
                         if (ObjectUtils.isNotNull(getTripEnd()) && getTripEnd().after(endDate)) {
@@ -541,18 +540,18 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * NOTE: need to find out all reference to TA's source accounting lines
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getSourceAccountingLines()
      */
     @Override
     public List getSourceAccountingLines() {
         return super.getSourceAccountingLines();
     }
-    
+
     /**
      * Get all of the encumbrance source accounting lines (for estimated expenses) - do not include any import
-     * expense lines 
-     * 
+     * expense lines
+     *
      * @return
      */
     public List<TemSourceAccountingLine> getEncumbranceSourceAccountingLines() {
@@ -567,25 +566,32 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * Provides answers to the following splits: PurchaseWasReceived VendorIsEmployeeOrNonResidentAlien
-     * 
+     *
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(TemWorkflowConstants.SPECIAL_REQUEST))
+        if (nodeName.equals(TemWorkflowConstants.SPECIAL_REQUEST)) {
             return requiresSpecialRequestReviewRouting();
-        if (nodeName.equals(TemWorkflowConstants.INTL_TRAVEL))
+        }
+        if (nodeName.equals(TemWorkflowConstants.INTL_TRAVEL)) {
             return requiresInternationalTravelReviewRouting();
-        if (nodeName.equals(TemWorkflowConstants.RISK_MANAGEMENT))
+        }
+        if (nodeName.equals(TemWorkflowConstants.RISK_MANAGEMENT)) {
             return requiresRiskManagementReviewRouting();
-        if (nodeName.equals(TemWorkflowConstants.TRVL_ADV_REQUESTED))
+        }
+        if (nodeName.equals(TemWorkflowConstants.TRVL_ADV_REQUESTED)) {
             return requiresTravelAdvanceReviewRouting();
-        if (nodeName.equals(TemWorkflowConstants.DIVISION_APPROVAL_REQUIRED))
+        }
+        if (nodeName.equals(TemWorkflowConstants.DIVISION_APPROVAL_REQUIRED)) {
             return requiresDivisionApprovalRouting();
-        if (nodeName.equals(TemWorkflowConstants.ACCOUNT_APPROVAL_REQUIRED))
+        }
+        if (nodeName.equals(TemWorkflowConstants.ACCOUNT_APPROVAL_REQUIRED)) {
             return requiresAccountApprovalRouting();
-        if (nodeName.equals(TemWorkflowConstants.REQUIRES_TRAVELER_REVIEW))
+        }
+        if (nodeName.equals(TemWorkflowConstants.REQUIRES_TRAVELER_REVIEW)) {
             return requiresTravelerApprovalRouting();
+        }
         if (nodeName.equals(TemWorkflowConstants.SEPARATION_OF_DUTIES)) {
             return requiresSeparationOfDutiesRouting();
         }
@@ -594,12 +600,12 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
     /**
      * Traveler approval is required if it requires review for travel advance
-     * 
+     *
      * @return
      */
     private boolean requiresTravelerApprovalRouting() {
         boolean routeToTraveler = false;
-        
+
         //If there's travel advances, route to traveler if necessary
         if (requiresTravelAdvanceReviewRouting()){
             String initiator = this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getInitiatorPrincipalId();
@@ -612,7 +618,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     }
 
     /**
-     * 
+     *
      * @return
      */
     private boolean requiresTravelAdvanceReviewRouting() {
@@ -626,16 +632,16 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
             }
         }
         return false;
-    }   
-    
+    }
+
     /**
      * This method checks to see if Risk Management needs to be routed
-     * 
+     *
      * @return
      */
     private boolean requiresRiskManagementReviewRouting() {
         // Right now this works just like International Travel Reviewer, but may change for next version
-        if (ObjectUtils.isNotNull(this.getTripTypeCode()) && getParameterService().getParameterValues(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INTERNATIONAL_TRIP_TYPE_CODES).contains(this.getTripTypeCode())) {
+        if (ObjectUtils.isNotNull(this.getTripTypeCode()) && getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INTERNATIONAL_TRIP_TYPE_CODES).contains(this.getTripTypeCode())) {
             return true;
         }
         return false;
@@ -686,36 +692,36 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         managedLists.add(getTransportationModes());
 
         return managedLists;
-    }  
-    
+    }
+
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument, org.kuali.kfs.module.tem.document.TravelDocument)
      */
     @Override
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
-      
+
         super.populateDisbursementVoucherFields(disbursementVoucherDocument);
 
         //override the check stub text
         disbursementVoucherDocument.setDisbVchrCheckStubText("Travel Advance for " + getTravelDocumentIdentifier() + " " + getTraveler().getLastName() + " - " + getPrimaryDestinationName() + " - " + getTripBegin());
         //set the payment method from the advance
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(getTravelAdvances().get(0).getPaymentMethod());
-        
-        final String paymentReasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_DV_PAYMENT_REASON_CODE);
+
+        final String paymentReasonCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_DV_PAYMENT_REASON_CODE);
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
-        final String paymentLocationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
+        final String paymentLocationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(paymentLocationCode);
-                
-        final String advancePaymentChartCode = getParameterService().getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_CHART_CODE);
-        final String advancePaymentAccountNumber = getParameterService().getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_ACCOUNT_NBR);
-        final String advancePaymentObjectCode = getParameterService().getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_OBJECT_CODE);
+
+        final String advancePaymentChartCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_CHART_CODE);
+        final String advancePaymentAccountNumber = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_ACCOUNT_NBR);
+        final String advancePaymentObjectCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_OBJECT_CODE);
 
         // set accounting (this should have been bypassed in the super class)
         KualiDecimal totalAmount = KualiDecimal.ZERO;
         for (TravelAdvance advance : getTravelAdvances()) {
             if (StringUtils.isBlank(advance.getArInvoiceDocNumber())) {
                 SourceAccountingLine accountingLine = new SourceAccountingLine();
-    
+
                 //if the parameter fields are empty, use that of the advance
                 accountingLine.setChartOfAccountsCode(StringUtils.defaultIfEmpty(advancePaymentChartCode, advance.getAcct().getChartOfAccountsCode()));
                 accountingLine.setAccountNumber(StringUtils.defaultIfEmpty(advancePaymentAccountNumber, advance.getAccountNumber()));
@@ -725,10 +731,10 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
                 accountingLine.setAmount(advance.getTravelAdvanceRequested());
                 accountingLine.setPostingYear(disbursementVoucherDocument.getPostingYear());
                 accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
-    
+
                 disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
                 totalAmount = totalAmount.add(advance.getTravelAdvanceRequested());
-                
+
                 //in case of multiple unprocessed advance, this becomes an issue what the due date and payment method will be set to
                 // this is now setting to the latest advance's information
                 if (advance.getDueDate() != null) {
@@ -739,21 +745,21 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         }
         disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);
     }
-    
+
     @Override
     public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
     }
-    
+
     /**
-     * 
+     *
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getReimbursableTotal()
      * This method is used for accounting line validation.
      */
     @Override
     public KualiDecimal getReimbursableTotal() {
-        return getEncumbranceTotal();        
+        return getEncumbranceTotal();
     }
-    
+
     @Override
     public String getReportPurpose() {
         return getTripDescription();
@@ -762,11 +768,11 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     @Override
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateVendorPayment(disbursementVoucherDocument);
-        String locationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
+        String locationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
         String startDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripBegin());
         String endDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripEnd());
         String checkStubText = this.getTravelDocumentIdentifier() + ", " + this.getPrimaryDestinationName() + ", " + startDate + " - " + endDate;
-        
+
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
         disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
     }
@@ -778,7 +784,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     public String getExpenseTypeCode() {
         return isTripGenerateEncumbrance()? TemConstants.ENCUMBRANCE : "";
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#hasCustomDVDistribution()
      */
@@ -786,7 +792,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     public boolean hasCustomDVDistribution(){
        return true;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getDisapprovedAppDocStatusMap()
      */
@@ -794,5 +800,5 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     public Map<String, String> getDisapprovedAppDocStatusMap() {
         return TravelAuthorizationStatusCodeKeys.getDisapprovedAppDocStatusMap();
     }
-   
+
 }

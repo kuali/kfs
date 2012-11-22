@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,8 +33,8 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.tem.TemConstants.DisbursementVoucherPaymentMethods;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "TEM_TRVL_ADV_T")
@@ -46,7 +46,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     private KualiDecimal travelAdvanceRequested;
     private KualiDecimal amountDue;
-    
+
     private String arCustomerId;
     private String arInvoiceDocNumber;
     private Date dueDate;
@@ -59,11 +59,11 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
     private String financialObjectCode;
     private String financialSubObjectCode;
     private String advancePaymentReasonCode;
-    
+
     private Boolean travelAdvancePolicy = Boolean.FALSE;
 
     private String additionalJustification;
-    
+
     private Account acct;
     private SubAccount subAcct;
     private ObjectCode objCode;
@@ -73,7 +73,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * This method returns the generated Id of this TravelAdvance
-     * 
+     *
      * @return generated id of this Travel Advance
      */
     @Id
@@ -86,7 +86,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * This method sets the generated Id of this Travel Advance
-     * 
+     *
      * @param id
      */
     public void setId(Integer id) {
@@ -95,7 +95,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
     @Column(name = "FDOC_NBR")
@@ -105,7 +105,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -114,7 +114,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialDocumentLineNumber attribute.
-     * 
+     *
      * @return Returns the financialDocumentLineNumber
      */
     @Column(name = "FDOC_LINE_NBR")
@@ -124,7 +124,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentLineNumber attribute.
-     * 
+     *
      * @param financialDocumentLineNumber The financialDocumentLineNumber to set.
      */
     public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
@@ -133,7 +133,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * This method returns the travel advance request
-     * 
+     *
      * @return travel advance requested amount
      */
     @Column(name = "TVL_ADV_REQ", precision = 19, scale = 2)
@@ -143,7 +143,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * This method sets the amount of advance being requested
-     * 
+     *
      * @param travelAdvanceRequested
      */
     public void setTravelAdvanceRequested(KualiDecimal travelAdvanceRequested) {
@@ -152,7 +152,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the amountDue attribute. 
+     * Gets the amountDue attribute.
      * @return Returns the amountDue.
      */
     public KualiDecimal getAmountDue() {
@@ -168,10 +168,10 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
     public void setAmountDue(KualiDecimal amountDue) {
         this.amountDue = amountDue;
     }
-    
+
     /**
      * This method returns the Accounts Receivable Customer ID associated with this traveler
-     * 
+     *
      * @return customer ID
      */
     @Column(name = "AR_CUST_ID")
@@ -181,7 +181,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * This method sets the Accounts Receivable Customer ID associated with this traveler
-     * 
+     *
      * @param arCustomerId
      */
     public void setArCustomerId(String arCustomerId) {
@@ -191,7 +191,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the arInvoiceDocNumber attribute.
-     * 
+     *
      * @return Returns the arInvoiceDocNumber.
      */
     @Column(name = "AR_INV_DOC_NBR")
@@ -201,7 +201,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the arInvoiceDocNumber attribute value.
-     * 
+     *
      * @param arInvoiceDocNumber The arInvoiceDocNumber to set.
      */
     public void setArInvoiceDocNumber(String arInvoiceDocNumber) {
@@ -210,7 +210,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the dueDate attribute.
-     * 
+     *
      * @return Returns the dueDate.
      */
     @Column(name = "DUE_DT")
@@ -220,7 +220,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the dueDate attribute value.
-     * 
+     *
      * @param dueDate The dueDate to set.
      */
     public void setDueDate(Date dueDate) {
@@ -229,7 +229,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the paymentMethod attribute.
-     * 
+     *
      * @return Returns the paymentMethod.
      */
     @Column(name = "PYMT_MTHD")
@@ -239,7 +239,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the paymentMethod attribute value.
-     * 
+     *
      * @param paymentMethod The paymentMethod to set.
      */
     public void setPaymentMethod(String paymentMethod) {
@@ -248,7 +248,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber.
      */
     @Column(name = "ACCOUNT_NBR")
@@ -258,7 +258,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the accountNumber attribute value.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -267,7 +267,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the subAccountNumber attribute.
-     * 
+     *
      * @return Returns the subAccountNumber.
      */
     @Column(name = "SUB_ACCT_NBR")
@@ -277,7 +277,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the subAccountNumber attribute value.
-     * 
+     *
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -286,7 +286,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialObjectCode attribute.
-     * 
+     *
      * @return Returns the financialObjectCode.
      */
     @Column(name = "FIN_OBJECT_CD")
@@ -296,7 +296,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialObjectCode attribute value.
-     * 
+     *
      * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -305,7 +305,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialSubObjectCode attribute.
-     * 
+     *
      * @return Returns the financialSubObjectCode.
      */
     @Column(name = "FIN_SUB_OBJ_CD")
@@ -315,7 +315,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialSubObjectCode attribute value.
-     * 
+     *
      * @param financialSubObjectCode The financialSubObjectCode to set.
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -324,7 +324,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the acct attribute.
-     * 
+     *
      * @return Returns the acct.
      */
     @Transient
@@ -334,7 +334,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the acct attribute value.
-     * 
+     *
      * @param acct The acct to set.
      */
     public void setAcct(Account acct) {
@@ -343,7 +343,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the subAcct attribute.
-     * 
+     *
      * @return Returns the subAcct.
      */
     @Transient
@@ -353,7 +353,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the subAcct attribute value.
-     * 
+     *
      * @param subAcct The subAcct to set.
      */
     public void setSubAcct(SubAccount subAcct) {
@@ -362,7 +362,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the objCode attribute.
-     * 
+     *
      * @return Returns the objCode.
      */
     @Transient
@@ -372,7 +372,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the objCode attribute value.
-     * 
+     *
      * @param objCode The objCode to set.
      */
     public void setObjCode(ObjectCode objCode) {
@@ -381,7 +381,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Gets the subObjCode attribute.
-     * 
+     *
      * @return Returns the subObjCode.
      */
     @Transient
@@ -391,7 +391,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the subObjCode attribute value.
-     * 
+     *
      * @param subObjCode The subObjCode to set.
      */
     public void setSubObjCode(SubObjectCode subObjCode) {
@@ -399,7 +399,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the advancePaymentReasonCode attribute. 
+     * Gets the advancePaymentReasonCode attribute.
      * @return Returns the advancePaymentReasonCode.
      */
     public String getAdvancePaymentReasonCode() {
@@ -415,7 +415,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the advancePaymentReason attribute. 
+     * Gets the advancePaymentReason attribute.
      * @return Returns the advancePaymentReason.
      */
     public AdvancePaymentReason getAdvancePaymentReason() {
@@ -431,7 +431,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the travelAdvancePolicy attribute. 
+     * Gets the travelAdvancePolicy attribute.
      * @return Returns the travelAdvancePolicy.
      */
     public boolean getTravelAdvancePolicy() {
@@ -447,7 +447,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the additionalJustification attribute. 
+     * Gets the additionalJustification attribute.
      * @return Returns the additionalJustification.
      */
     public String getAdditionalJustification() {
@@ -465,15 +465,14 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
     protected TravelDocumentService getTravelDocumentService() {
         return SpringContext.getBean(TravelDocumentService.class);
     }
-    
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
+
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         return null;
     }
 
     /**
-     * Gets the taxRamificationNotificationDate attribute. 
+     * Gets the taxRamificationNotificationDate attribute.
      * @return Returns the taxRamificationNotificationDate.
      */
     @Column(name = "TAX_RAM_NTF_DT")
@@ -490,7 +489,7 @@ public class TravelAdvance extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the chartOfAccountsCode attribute. 
+     * Gets the chartOfAccountsCode attribute.
      * @return Returns the chartOfAccountsCode.
      */
     @Column(name = "FIN_COA_CD")

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,17 +28,15 @@ import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.impl.PersonImpl;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TemProfileServiceImpl implements TemProfileService {
-    
+
     private BusinessObjectService businessObjectService;
-    private PersonService<Person> personService;
+    private PersonService personService;
 
     /**
      * @see org.kuali.kfs.module.tem.service.TemProfileService#findTemProfileByPrincipalId(java.lang.String)
@@ -77,14 +75,13 @@ public class TemProfileServiceImpl implements TemProfileService {
      */
     @Override
     public TemProfileAddress getAddressFromProfile(TEMProfile profile, TemProfileAddress defaultAddress) {
-        
+
         if(ObjectUtils.isNull(defaultAddress)) {
         	defaultAddress = new TemProfileAddress();
         }
 
         if (!StringUtils.isEmpty(profile.getPrincipalId())) {
-            PersonImpl person = (PersonImpl) getPersonService().getPerson(profile.getPrincipalId());
-            
+            Person person = getPersonService().getPerson(profile.getPrincipalId());
             TemProfileAddress kimAddress = createTemProfileAddressFromPerson(person, profile.getProfileId(), defaultAddress);
             return kimAddress;
         }
@@ -99,39 +96,40 @@ public class TemProfileServiceImpl implements TemProfileService {
         defaultAddress.setProfileId(profileId);
         defaultAddress.setStreetAddressLine1(person.getAddressLine1().toUpperCase());
         defaultAddress.setStreetAddressLine2(person.getAddressLine2().toUpperCase());
-        defaultAddress.setCityName(person.getAddressCityName().toUpperCase());
-        defaultAddress.setStateCode(person.getAddressStateCode().toUpperCase());
+        defaultAddress.setCityName(person.getAddressCity().toUpperCase());
+        defaultAddress.setStateCode(person.getAddressStateProvinceCode().toUpperCase());
         defaultAddress.setZipCode(person.getAddressPostalCode());
         defaultAddress.setCountryCode(person.getAddressCountryCode().toUpperCase());
         return defaultAddress;
     }
-    
+
 	/**
 	 * @see org.kuali.kfs.module.tem.service.TemProfileService#getAllActiveTemProfile()
 	 */
 	@Override
 	public List<TEMProfile> getAllActiveTemProfile() {
 		Map<String,Object> criteria = new HashMap<String,Object>(1);
-        criteria.put(KNSPropertyConstants.ACTIVE, true);
+        criteria.put(KFSPropertyConstants.ACTIVE, true);
 		List<TEMProfile> profiles = (List<TEMProfile>) getBusinessObjectService().findMatching(TEMProfile.class, criteria);
 		return profiles;
 	}
-	
+
 	/**
 	 * @see org.kuali.kfs.module.tem.service.TemProfileService#updateACHAccountInfo(org.kuali.kfs.module.tem.businessobject.TEMProfile)
 	 */
-	public void updateACHAccountInfo(TEMProfile profile){
+	@Override
+    public void updateACHAccountInfo(TEMProfile profile){
 
 	    //set defaults
         profile.setAchSignUp("No");
         profile.setAchTransactionType("None");
-        
-        if (TemConstants.EMP_TRAVELER_TYP_CD.equals(profile.getTravelerTypeCode()) && 
+
+        if (TemConstants.EMP_TRAVELER_TYP_CD.equals(profile.getTravelerTypeCode()) &&
                 profile.getEmployeeId() != null) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put(KFSPropertyConstants.PAYEE_ID_NUMBER, profile.getEmployeeId());
             List<PayeeACHAccount> accounts = (List<PayeeACHAccount>) getBusinessObjectService().findMatching(PayeeACHAccount.class, fieldValues);
-            
+
             //if there are any ACH accounts matching the employee Id lookup, use the first one for display
             if (!accounts.isEmpty()){
                 profile.setAchSignUp("Yes");
@@ -141,10 +139,10 @@ public class TemProfileServiceImpl implements TemProfileService {
 	}
 
     /**
-     * Gets the personService attribute. 
+     * Gets the personService attribute.
      * @return Returns the personService.
      */
-    public PersonService<Person> getPersonService() {
+    public PersonService getPersonService() {
         return personService;
     }
 
@@ -152,12 +150,12 @@ public class TemProfileServiceImpl implements TemProfileService {
      * Sets the personService attribute value.
      * @param personService The personService to set.
      */
-    public void setPersonService(PersonService<Person> personService) {
+    public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
 
     /**
-     * Gets the businessObjectService attribute. 
+     * Gets the businessObjectService attribute.
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {

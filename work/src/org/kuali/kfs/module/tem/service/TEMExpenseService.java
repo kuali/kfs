@@ -21,7 +21,7 @@ import java.util.Map;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public interface TEMExpenseService {
 

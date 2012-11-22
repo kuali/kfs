@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -53,20 +53,19 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 @Entity
 @Table(name = "TEM_ENT_DOC_T")
 public class TravelEntertainmentDocument extends TEMReimbursementDocument {
 
     protected static Logger LOG = Logger.getLogger(TravelEntertainmentDocument.class);
-    
+
     private Integer hostProfileId;
     private String hostName;
     private String eventTitle;
@@ -98,7 +97,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         BusinessObjectService service = (BusinessObjectService) SpringContext.getService("businessObjectService");
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, hostProfileId);
-        setHostProfile((TEMProfile) service.findByPrimaryKey(TEMProfile.class, primaryKeys));
+        setHostProfile(service.findByPrimaryKey(TEMProfile.class, primaryKeys));
     }
 
     @Column(name = "TITLE", length = 100, nullable = true)
@@ -235,18 +234,21 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     public TEMProfile getHostProfile() {
         return hostProfile;
     }
-    
+
     /**
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(TemWorkflowConstants.REQUIRES_TRAVELER_REVIEW))
+        if (nodeName.equals(TemWorkflowConstants.REQUIRES_TRAVELER_REVIEW)) {
             return requiresTravelerApprovalRouting();
-        if (nodeName.equals(TemWorkflowConstants.SPECIAL_REQUEST))
+        }
+        if (nodeName.equals(TemWorkflowConstants.SPECIAL_REQUEST)) {
             return requiresSpecialRequestReviewRouting();
-        if (nodeName.equals(TemWorkflowConstants.TAX_MANAGER))
+        }
+        if (nodeName.equals(TemWorkflowConstants.TAX_MANAGER)) {
             return requiresTaxManagerApprovalRouting();
+        }
         if (nodeName.equals(TemWorkflowConstants.SEPARATION_OF_DUTIES)) {
             return requiresSeparationOfDutiesRouting();
         }
@@ -254,7 +256,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     }
 
     /**
-     * 
+     *
      * @return
      */
     private boolean requiresEntertainmentManagerRouting() {
@@ -269,7 +271,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         if (super.requiresSpecialRequestReviewRouting()) {
             return true;
         }
-        
+
         if (getPurpose() != null) {
             String purposeCode = getPurpose().getPurposeCode();
             if (getPurpose().isReviewRequiredIndicator() != null && getPurpose().isReviewRequiredIndicator()) {
@@ -280,7 +282,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         if ((ObjectUtils.isNotNull(getSpouseIncluded()) && getSpouseIncluded())) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -292,14 +294,14 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         super.populateDisbursementVoucherFields(disbursementVoucherDocument);
 
         //override the check stub text on ENT doc
-        disbursementVoucherDocument.setDisbVchrCheckStubText(getTravelDocumentIdentifier() + " " + StringUtils.defaultString(getEventTitle()) + getTripBegin());              
-        //change to use payment method from the document 
+        disbursementVoucherDocument.setDisbVchrCheckStubText(getTravelDocumentIdentifier() + " " + StringUtils.defaultString(getEventTitle()) + getTripBegin());
+        //change to use payment method from the document
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(getPaymentMethod());
-        
-        final String paymentReasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelEntertainmentParameters.ENT_REIMBURSEMENT_DV_REASON_CODE);
+
+        final String paymentReasonCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelEntertainmentParameters.ENT_REIMBURSEMENT_DV_REASON_CODE);
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
-        
-        final String paymentLocationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelEntertainmentParameters.ENTERTAINMENT_DOCUMENT_LOCATION);
+
+        final String paymentLocationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelEntertainmentParameters.ENTERTAINMENT_DOCUMENT_LOCATION);
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(paymentLocationCode);
     }
 
@@ -318,17 +320,17 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChange)
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        
-        if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getNewRouteStatus()) 
-                || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
+
+        if (DocumentStatus.FINAL.getCode().equals(statusChangeEvent.getNewRouteStatus())
+                || DocumentStatus.PROCESSED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
 
             LOG.debug("New route status is " + statusChangeEvent.getNewRouteStatus());
-            
+
             // for some reason when it goes to final it never updates to the last status
             updateAppDocStatus(EntertainmentStatusCodeKeys.ENT_MANAGER_APPROVED);
             if (getDocumentGrandTotal() != null && getDocumentGrandTotal().isGreaterThan(KualiDecimal.ZERO)) {
@@ -339,7 +341,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
             // is after the current fiscal year end date then mark all the gl pending entries
             // as 'H' (Hold) otherwise mark all the gl pending entries as 'A' (approved)
             if (getGeneralLedgerPendingEntries() != null && !getGeneralLedgerPendingEntries().isEmpty()) {
-                if (getParameterService().getIndicatorParameter(TemConstants.PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.HOLD_NEW_FY_ENCUMBRANCES_IND)) {
+                if (getParameterService().getParameterValueAsBoolean(TemConstants.PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.HOLD_NEW_FY_ENCUMBRANCES_IND)) {
                     UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
                     java.util.Date endDate = universityDateService.getLastDateOfFiscalYear(universityDateService.getCurrentFiscalYear());
                     if (ObjectUtils.isNotNull(getTripEnd()) && getTripEnd().after(endDate)) {
@@ -370,7 +372,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     /**
      * Given the <code>financialObjectCode</code>, determine the total of the {@link SourceAccountingLine} instances with that
      * <code>financialObjectCode</code>
-     * 
+     *
      * @param financialObjectCode to search for total on
      * @return @{link KualiDecimal} with total value for {@link AccountingLines} with <code>finanncialObjectCode</code>
      */
@@ -402,7 +404,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     protected String generateDescription() {
         StringBuffer sb = new StringBuffer();
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        PersonService<Person> ps = SpringContext.getBean(PersonService.class);
+        PersonService ps = SpringContext.getBean(PersonService.class);
 
         Person person = ps.getPerson(getTraveler().getPrincipalId());
 
@@ -422,8 +424,9 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         if (this.getTripBegin() != null) {
             sb.append(format.format(this.getTripBegin()) + " ");
         }
-        if (eventTitle != null)
+        if (eventTitle != null) {
             sb.append(this.eventTitle);
+        }
         String tempStr = sb.toString();
 
         if (tempStr.length() > 40) {
@@ -450,7 +453,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     }
 
     /**
-     * 
+     *
      * @param hostProfile
      */
     public void setHostProfile(TEMProfile hostProfile) {
@@ -467,7 +470,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
             }
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getReportPurpose()
      */
@@ -482,14 +485,14 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     @Override
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateVendorPayment(disbursementVoucherDocument);
-        
-        String locationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE);
+
+        String locationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE);
         String checkStubText = this.getTravelDocumentIdentifier() + ", " + this.getEventTitle();
 
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
         disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
-        
+
     }
 
     /**

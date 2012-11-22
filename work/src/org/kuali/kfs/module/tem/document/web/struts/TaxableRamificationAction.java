@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,13 +28,13 @@ import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.DynamicCollectionComparator.SortOrder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TaxableRamificationAction extends FinancialSystemTransactionalDocumentActionBase {
     private final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TaxableRamificationAction.class);
@@ -69,7 +69,7 @@ public class TaxableRamificationAction extends FinancialSystemTransactionalDocum
 
                 relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(travelDocumentNumber);
                 this.addTravelAuthorizationDocumentToRelated(relatedDocuments, travelAdvance);
-                
+
                 taxRamificationForm.setRelatedDocuments(relatedDocuments);
             }
         }
@@ -79,7 +79,7 @@ public class TaxableRamificationAction extends FinancialSystemTransactionalDocum
             throw new RuntimeException("Failed to get related documents", ex);
         }
     }
-    
+
     /**
      * add the related travel authorization document to the related document list
      */
@@ -94,12 +94,12 @@ public class TaxableRamificationAction extends FinancialSystemTransactionalDocum
         if (documents == null) {
             documents = new ArrayList<Document>();
         }
-        
+
         documents.add(travelAuthorizationDocument);
-        
+
         relatedDocuments.put(docTypeName, documents);
     }
-    
+
     /**
      *  refresh the related document notes
      */
@@ -108,7 +108,7 @@ public class TaxableRamificationAction extends FinancialSystemTransactionalDocum
         if (ObjectUtils.isNull(relatedDocuments)  || relatedDocuments.isEmpty()) {
             return;
         }
-        
+
         Map<String, List<Note>> relatedDocumentNotes = taxRamificationForm.getRelatedDocumentNotes();
         if (ObjectUtils.isNotNull(relatedDocumentNotes) && !relatedDocumentNotes.isEmpty()) {
             return;
@@ -118,15 +118,13 @@ public class TaxableRamificationAction extends FinancialSystemTransactionalDocum
         for (List<Document> documents : relatedDocuments.values()) {
             for (Document document : documents) {
                 List<Note> listOfNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(document.getDocumentHeader().getObjectId());
-
                 DynamicCollectionComparator.sort(listOfNotes, SortOrder.DESC, "noteIdentifier");
-                
                 relatedDocumentNotes.put(document.getDocumentNumber(), listOfNotes);
             }
         }
-        
+
         taxRamificationForm.setRelatedDocumentNotes(relatedDocumentNotes);
-    }    
+    }
 
     // get travel document service
     protected TravelDocumentService getTravelDocumentService() {

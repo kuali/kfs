@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,12 +21,12 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.kuali.rice.kim.bo.reference.impl.EmploymentStatusImpl;
-import org.kuali.rice.kim.bo.reference.impl.EmploymentTypeImpl;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kim.framework.identity.employment.EntityEmploymentTypeEbo;
+import org.kuali.rice.kim.impl.identity.employment.EntityEmploymentStatusBo;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.campus.Campus;
 
-
+@SuppressWarnings("restriction")
 public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
 
     private String principalId;
@@ -39,17 +39,17 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
     private String emailAddress;
     private String phoneNumber;
     private String employeeStatusCode;
-    protected EmploymentStatusImpl employeeStatus;
+    protected EntityEmploymentStatusBo employeeStatus;
     protected String employeeTypeCode;
-    protected EmploymentTypeImpl employeeType;
+    protected EntityEmploymentTypeEbo employeeType;
     protected String primaryDepartmentCode;
     protected String campusCode;
     protected Campus campus;
     protected boolean active;
 
-    
+
     /**
-     * Gets the principalId attribute. 
+     * Gets the principalId attribute.
      * @return Returns the principalId.
      */
     @Column(name = "prncpl_id", length = 40, nullable = true)
@@ -68,7 +68,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the employeeId attribute. 
+     * Gets the employeeId attribute.
      * @return Returns the employeeId.
      */
     @Column(name = "empl_id", length = 40, nullable = true)
@@ -87,7 +87,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the principalName attribute. 
+     * Gets the principalName attribute.
      * @return Returns the principalName.
      */
     @Column(name = "prncpl_nm", length = 40, nullable = true)
@@ -106,7 +106,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the entityId attribute. 
+     * Gets the entityId attribute.
      * @return Returns the entityId.
      */
     @Column(name = "entity_id", length = 40, nullable = true)
@@ -125,7 +125,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the firstName attribute. 
+     * Gets the firstName attribute.
      * @return Returns the firstName.
      */
     @Column(name = "first_nm", length = 40, nullable = true)
@@ -144,7 +144,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the middleName attribute. 
+     * Gets the middleName attribute.
      * @return Returns the middleName.
      */
     @Column(name = "middle_nm", length = 40, nullable = true)
@@ -163,7 +163,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the lastName attribute. 
+     * Gets the lastName attribute.
      * @return Returns the lastName.
      */
     @Column(name = "last_nm", length = 40, nullable = true)
@@ -182,7 +182,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the emailAddress attribute. 
+     * Gets the emailAddress attribute.
      * @return Returns the emailAddress.
      */
     @Column(name = "email_addr", length = 40, nullable = true)
@@ -201,7 +201,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the phoneNumber attribute. 
+     * Gets the phoneNumber attribute.
      * @return Returns the phoneNumber.
      */
     @Column(name = "phone_num", length = 40, nullable = true)
@@ -220,7 +220,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the employeeStatusCode attribute. 
+     * Gets the employeeStatusCode attribute.
      * @return Returns the employeeStatusCode.
      */
     @Column(name = "emp_status_cd", length = 40, nullable = true)
@@ -239,12 +239,12 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the employeeStatus attribute. 
+     * Gets the employeeStatus attribute.
      * @return Returns the employeeStatus.
      */
     @ManyToOne
     @JoinColumn(name = "emp_status_cd")
-    public EmploymentStatusImpl getEmployeeStatus() {
+    public EntityEmploymentStatusBo getEmployeeStatus() {
         return employeeStatus;
     }
 
@@ -253,13 +253,13 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
      * Sets the employeeStatus attribute value.
      * @param employeeStatus The employeeStatus to set.
      */
-    public void setEmployeeStatus(EmploymentStatusImpl employeeStatus) {
+    public void setEmployeeStatus(EntityEmploymentStatusBo employeeStatus) {
         this.employeeStatus = employeeStatus;
     }
 
 
     /**
-     * Gets the employeeTypeCode attribute. 
+     * Gets the employeeTypeCode attribute.
      * @return Returns the employeeTypeCode.
      */
     @Column(name = "emp_typ_cd", length = 40, nullable = true)
@@ -278,12 +278,12 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the employeeType attribute. 
+     * Gets the employeeType attribute.
      * @return Returns the employeeType.
      */
     @ManyToOne
     @JoinColumn(name = "emp_typ_cd")
-    public EmploymentTypeImpl getEmployeeType() {
+    public EntityEmploymentTypeEbo getEmployeeType() {
         return employeeType;
     }
 
@@ -292,13 +292,13 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
      * Sets the employeeType attribute value.
      * @param employeeType The employeeType to set.
      */
-    public void setEmployeeType(EmploymentTypeImpl employeeType) {
+    public void setEmployeeType(EntityEmploymentTypeEbo employeeType) {
         this.employeeType = employeeType;
     }
 
 
     /**
-     * Gets the primaryDepartmentCode attribute. 
+     * Gets the primaryDepartmentCode attribute.
      * @return Returns the primaryDepartmentCode.
      */
     @Column(name = "primary_dept_cd", length = 40, nullable = true)
@@ -317,7 +317,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the campusCode attribute. 
+     * Gets the campusCode attribute.
      * @return Returns the campusCode.
      */
     @Column(name = "campus_cd", length = 40, nullable = true)
@@ -336,7 +336,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the campus attribute. 
+     * Gets the campus attribute.
      * @return Returns the campus.
      */
     @ManyToOne
@@ -356,7 +356,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
      * @return Returns the active.
      */
     @Column(length = 1, nullable = true)
@@ -373,10 +373,8 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
         this.active = active;
     }
 
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         return null;
     }
 

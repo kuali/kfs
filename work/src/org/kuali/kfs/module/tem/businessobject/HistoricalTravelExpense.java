@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,22 +26,22 @@ import javax.persistence.Table;
 public class HistoricalTravelExpense extends ImportedExpenseBase {
 
     //importDate is processingTimestamp from the agency import
-    
+
     private Integer creditCardStagingDataId;
     private Integer agencyStagingDataId;
     private Integer profileId;
-    
+
     private String tripId;
     private String documentType;
     private String creditCardOrAgencyCode;
     private String travelExpenseTypeString;
-    
+
     private CreditCardStagingData creditCardStagingData;
     private AgencyStagingData agencyStagingData;
-    
+
     /**
      * If CreditCardStagingDataId is null, this is agency data (CTS)
-     * 
+     *
      * @return
      */
     public boolean isAgencyTravelExpense(){
@@ -50,7 +50,7 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
 
     /**
      * is credit card travel expense if it is not agency travel expense
-     * 
+     *
      * @return
      */
     public boolean isCreditCardTravelExpense(){
@@ -58,7 +58,7 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
     }
 
     /**
-     * Gets the creditCardStagingData attribute. 
+     * Gets the creditCardStagingData attribute.
      * @return Returns the creditCardStagingData.
      */
     public CreditCardStagingData getCreditCardStagingData() {
@@ -74,7 +74,7 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
     }
 
     /**
-     * Gets the agencyStagingData attribute. 
+     * Gets the agencyStagingData attribute.
      * @return Returns the agencyStagingData.
      */
     public AgencyStagingData getAgencyStagingData() {
@@ -90,7 +90,7 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
     }
 
     /**
-     * Gets the creditCardStagingDataId attribute. 
+     * Gets the creditCardStagingDataId attribute.
      * @return Returns the creditCardStagingDataId.
      */
     @Column(name="CC_STAGE_ID")
@@ -107,7 +107,7 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
     }
 
     /**
-     * Gets the agencyStagingDataId attribute. 
+     * Gets the agencyStagingDataId attribute.
      * @return Returns the agencyStagingDataId.
      */
     @Column(name="AGENCY_STAGE_ID")
@@ -122,9 +122,9 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
     public void setAgencyStagingDataId(Integer agencyStagingDataId) {
         this.agencyStagingDataId = agencyStagingDataId;
     }
-    
+
     /**
-     * Gets the profileId attribute. 
+     * Gets the profileId attribute.
      * @return Returns the profileId.
      */
     @Column(name="PROFILE_ID")
@@ -141,7 +141,7 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
     }
 
     /**
-     * Gets the tripId attribute. 
+     * Gets the tripId attribute.
      * @return Returns the tripId.
      */
     @Column(name="TRIP_ID")
@@ -158,7 +158,7 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
     }
 
     /**
-     * Gets the documentType attribute. 
+     * Gets the documentType attribute.
      * @return Returns the documentType.
      */
     @Column(name="DOC_TYPE")
@@ -173,15 +173,15 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
     public void setDocumentType(String documentType) {
         this.documentType = documentType;
     }
-    
-    @Override
-    protected LinkedHashMap toStringMapper() {
+
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         // TODO Auto-generated method stub
         return null;
     }
 
     /**
-     * Gets the creditCardOrAgencyCode attribute. 
+     * Gets the creditCardOrAgencyCode attribute.
      * @return Returns the creditCardOrAgencyCode.
      */
     public String getCreditCardOrAgencyCode() {
@@ -197,7 +197,7 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
     }
 
     /**
-     * Gets the travelExpenseTypeString attribute. 
+     * Gets the travelExpenseTypeString attribute.
      * @return Returns the travelExpenseTypeString.
      */
     public String getTravelExpenseTypeString() {

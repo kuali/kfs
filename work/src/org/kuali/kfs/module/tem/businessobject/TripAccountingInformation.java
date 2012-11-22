@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,15 +26,15 @@ import javax.persistence.Table;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.SubAccount;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "TEM_TRP_ACCT_INFO_T")
 public class TripAccountingInformation extends PersistableBusinessObjectBase {
 
     private Integer id;
-    
+
     private Integer agencyStagingDataId;
     private String tripChartCode;
     private String tripAccountNumber;
@@ -44,21 +44,20 @@ public class TripAccountingInformation extends PersistableBusinessObjectBase {
     private String projectCode;
     private String organizationReference;
     private KualiDecimal amount;
-    
+
     private Account account;
     private SubAccount subAccount;
-    
+
     public TripAccountingInformation() {
     }
-    
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
+
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         return null;
     }
 
     /**
-     * Gets the id attribute. 
+     * Gets the id attribute.
      * @return Returns the id.
      */
     @Id
@@ -78,7 +77,7 @@ public class TripAccountingInformation extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the agencyStagingDataId attribute. 
+     * Gets the agencyStagingDataId attribute.
      * @return Returns the agencyStagingDataId.
      */
     @Column(name = "AGENCY_ID",nullable = true)
@@ -95,7 +94,7 @@ public class TripAccountingInformation extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the tripChartCode attribute. 
+     * Gets the tripChartCode attribute.
      * @return Returns the tripChartCode.
      */
     @Column(name = "FIN_COA_CD", length = 2, nullable = true)
@@ -112,7 +111,7 @@ public class TripAccountingInformation extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the tripAccountNumber attribute. 
+     * Gets the tripAccountNumber attribute.
      * @return Returns the tripAccountNumber.
      */
     @Column(name = "ACCT_NBR", length = 7, nullable = true)
@@ -129,7 +128,7 @@ public class TripAccountingInformation extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the tripSubAccountNumber attribute. 
+     * Gets the tripSubAccountNumber attribute.
      * @return Returns the tripSubAccountNumber.
      */
     @Column(name = "SUB_ACCT_NBR", length = 5, nullable = true)
@@ -146,7 +145,7 @@ public class TripAccountingInformation extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the objectCode attribute. 
+     * Gets the objectCode attribute.
      * @return Returns the objectCode.
      */
     @Column(name = "OBJ_CD", length = 4, nullable = true)
@@ -163,7 +162,7 @@ public class TripAccountingInformation extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the subObjectCode attribute. 
+     * Gets the subObjectCode attribute.
      * @return Returns the subObjectCode.
      */
     @Column(name = "SUB_OBJ_CD", length = 3, nullable = true)
@@ -180,7 +179,7 @@ public class TripAccountingInformation extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the projectCode attribute. 
+     * Gets the projectCode attribute.
      * @return Returns the projectCode.
      */
     @Column(name = "PRJ_CD", length = 10, nullable = true)
@@ -197,7 +196,7 @@ public class TripAccountingInformation extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the organizationReference attribute. 
+     * Gets the organizationReference attribute.
      * @return Returns the organizationReference.
      */
     @Column(name = "ORG_REF", length = 8, nullable = true)
@@ -214,7 +213,7 @@ public class TripAccountingInformation extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the amount attribute. 
+     * Gets the amount attribute.
      * @return Returns the amount.
      */
     @Column(name = "AMOUNT",nullable = true)
@@ -231,7 +230,7 @@ public class TripAccountingInformation extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the account attribute. 
+     * Gets the account attribute.
      * @return Returns the account.
      */
     public Account getAccount() {
@@ -247,7 +246,7 @@ public class TripAccountingInformation extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the subAccount attribute. 
+     * Gets the subAccount attribute.
      * @return Returns the subAccount.
      */
     public SubAccount getSubAccount() {

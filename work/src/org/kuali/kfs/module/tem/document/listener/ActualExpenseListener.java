@@ -31,7 +31,7 @@ import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 
 /**

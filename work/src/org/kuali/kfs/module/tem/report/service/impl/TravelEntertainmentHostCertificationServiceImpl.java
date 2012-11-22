@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,12 +45,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.ReportGenerationService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -60,27 +59,27 @@ import org.springframework.transaction.annotation.Transactional;
 public class TravelEntertainmentHostCertificationServiceImpl implements TravelEntertainmentHostCertificationService {
 
     public static Logger LOG = Logger.getLogger(TravelEntertainmentHostCertificationServiceImpl.class);
-    
-    private KualiConfigurationService configurationService;
+
+    private ConfigurationService configurationService;
     private ParameterService parameterService;
-    private PersonService<Person> personService;
+    private PersonService personService;
     private TravelDocumentService travelDocumentService;
     private ReportInfo entReportInfo;
     private TemProfileService temProfileService;
 
-    public KualiConfigurationService getConfigurationService() {
+    public ConfigurationService getConfigurationService() {
         return configurationService;
     }
 
-    public void setConfigurationService(final KualiConfigurationService kualiConfigurationService) {
-        this.configurationService = kualiConfigurationService;
+    public void setConfigurationService(final ConfigurationService ConfigurationService) {
+        this.configurationService = ConfigurationService;
     }
 
-    public PersonService<Person> getPersonService() {
+    public PersonService getPersonService() {
         return personService;
     }
 
-    public void setPersonService(final PersonService<Person> personService) {
+    public void setPersonService(final PersonService personService) {
         this.personService = personService;
     }
 
@@ -90,11 +89,11 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
     @Override
     public EntertainmentHostCertificationReport buildReport(final TravelEntertainmentDocument document) {
         EntertainmentHostCertificationReport report = new EntertainmentHostCertificationReport();
-        
+
         report.setTripId(document.getTravelDocumentIdentifier().toString());
         report.setPurpose(ObjectUtils.isNull(document.getPurpose())?KFSConstants.EMPTY_STRING:document.getPurpose().getPurposeDescription());
-        report.setInstitution(getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_REPORT_INSTITUTION_NAME));
-        report.setTemFaxNumber(getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TEM_FAX_NUMBER));
+        report.setInstitution(getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_REPORT_INSTITUTION_NAME));
+        report.setTemFaxNumber(getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TEM_FAX_NUMBER));
         report.setDocumentId(document.getDocumentNumber());
         report.setBeginDate(document.getTripBegin());
         report.setEndDate(document.getTripEnd());
@@ -104,9 +103,9 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
         report.setCertificationDescription(getTravelDocumentService().getMessageFrom(TemKeyConstants.TEM_ENT_HOST_CERTIFICATION,report.getInstitution() ));
         report.setEntertainmentHostName(document.getHostName());
         report.setEmployeeName(document.getTraveler().getFirstName()+" "+document.getTraveler().getLastName());
-        
+
         report.setApprovingDepartment(getApprovingDepartment(document.getTraveler()));
-             
+
         final List<NonEmployeeCertificationReport.Detail> expenseDetails = new ArrayList<NonEmployeeCertificationReport.Detail>();
         final Map<String,KualiDecimal> summaryData = new HashMap<String,KualiDecimal>();
         if(document.getActualExpenses().size()>0){
@@ -115,11 +114,13 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
                 final String expenseDate = new SimpleDateFormat("MM/dd/yyyy").format(expense.getExpenseDate());
                 final NonEmployeeCertificationReport.Detail detail = new NonEmployeeCertificationReport.Detail(expense.getTravelExpenseTypeCode().getName()==null?
                         "":expense.getTravelExpenseTypeCode().getName(),expense.getExpenseAmount().multiply(expense.getCurrencyRate()), expenseDate);
-                expenseDetails.add(detail);                
+                expenseDetails.add(detail);
                 incrementSummary(summaryData, expense);
             }
-        }else 
+        }
+        else {
             expenseDetails.add(new NonEmployeeCertificationReport.Detail("",null,""));
+        }
         report.setExpenseDetails(expenseDetails);
         return report;
     }
@@ -128,20 +129,22 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
         String approvingDepartment=KFSConstants.EMPTY_STRING;
         if(ObjectUtils.isNotNull(traveler)&&ObjectUtils.isNotNull(traveler.getPrincipalId())){
             TEMProfile profile=getTemProfileService().findTemProfileByPrincipalId(traveler.getPrincipalId());
-            if(ObjectUtils.isNotNull(profile)&&ObjectUtils.isNotNull(profile.getHomeDepartment()))
+            if(ObjectUtils.isNotNull(profile)&&ObjectUtils.isNotNull(profile.getHomeDepartment())) {
                 approvingDepartment=profile.getHomeDepartment();
+            }
         }else if(ObjectUtils.isNotNull(traveler)){
             Map<String,String> criteria=new HashMap<String, String>();
             criteria.put("firstName", traveler.getFirstName());
             criteria.put("lastName", traveler.getLastName());
             TEMProfile profile=getTemProfileService().findTemProfile(criteria);
-            if(ObjectUtils.isNotNull(profile)&&ObjectUtils.isNotNull(profile.getHomeDepartment()))
+            if(ObjectUtils.isNotNull(profile)&&ObjectUtils.isNotNull(profile.getHomeDepartment())) {
                 approvingDepartment=profile.getHomeDepartment();
-            
+            }
+
         }
         return approvingDepartment;
     }
-    
+
     protected void incrementSummary(final Map<String, KualiDecimal> summaryData, ActualExpense expense) {
         final String expenseDate = new SimpleDateFormat("MM/dd/yyyy").format(expense.getExpenseDate());
         KualiDecimal summaryAmount = summaryData.get(expenseDate);
@@ -161,18 +164,18 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
     protected boolean isMealsExpense(final ActualExpense expense) {
         return getTravelDocumentService().isHostedMeal(expense);
     }
-    
+
     protected boolean isLodgingExpense(final ActualExpense expense) {
         LOG.debug("Checking if "+ expense+ " is a lodging ");
         return expenseTypeCodeMatchesParameter(expense.getTravelExpenseTypeCodeCode(), LODGING_TYPE_CODES);
     }
 
     protected boolean expenseTypeCodeMatchesParameter(final String expenseTypeCode, final String parameter) {
-        return getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, parameter).indexOf(expenseTypeCode) != -1;
+        return getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, parameter).indexOf(expenseTypeCode) != -1;
     }
 
     /**
-     * Gets the parameterService attribute. 
+     * Gets the parameterService attribute.
      * @return Returns the parameterService.
      */
     public ParameterService getParameterService() {
@@ -187,9 +190,9 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
         this.parameterService = parameterService;
     }
 
-  
+
     /**
-     * Gets the travelAuthorizationService attribute. 
+     * Gets the travelAuthorizationService attribute.
      * @return Returns the travelAuthorizationService.
      */
     public TravelDocumentService getTravelDocumentService() {
@@ -210,22 +213,22 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
         String reportDirectory;
         String reportTemplateClassPath;
         String reportTemplateName;
-       
+
         String subReportTemplateClassPath;
-        Map<String, String> subReports; 
-       
+        Map<String, String> subReports;
+
         reportFileName = entReportInfo.getReportFileName();
         reportDirectory = entReportInfo.getReportsDirectory();
         reportTemplateClassPath = entReportInfo.getReportTemplateClassPath();
         reportTemplateName = entReportInfo.getReportTemplateName();
-    
+
         Map<String, Object> reportData = new HashMap<String, Object>();
         reportData.put("report", report);
-        
+
         String template = reportTemplateClassPath + reportTemplateName;
         String fullReportFileName = getReportGenerationService().buildFullFileName(new Date(), reportDirectory, reportFileName, "");
         getReportGenerationService().generateReportToPdfFile(reportData,report.getExpenseDetails() ,template, fullReportFileName);
-        
+
         File reportFile = new File(fullReportFileName+".pdf");
         return reportFile;
     }
@@ -248,6 +251,6 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
     public void setTemProfileService(TemProfileService temProfileService) {
         this.temProfileService = temProfileService;
     }
-   
-    
+
+
 }

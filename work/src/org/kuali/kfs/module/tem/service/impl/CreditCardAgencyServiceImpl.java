@@ -24,8 +24,8 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CreditCardAgencyServiceImpl implements CreditCardAgencyService {
 

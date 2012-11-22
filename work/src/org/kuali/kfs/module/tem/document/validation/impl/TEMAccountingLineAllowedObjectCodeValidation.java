@@ -44,15 +44,15 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidation {
 
@@ -138,7 +138,7 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
                         break;
                     }
                 }
-                boolean isCGEnabled = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
+                boolean isCGEnabled = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
                 if (isCGEnabled){   
                     for (TEMExpense expense : allExpenses){
                         if (expense.getTravelCompanyCodeCode().equals(TemConstants.ExpenseTypes.AIRFARE)){
@@ -154,7 +154,7 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
                                     }
                                 }
                                 if (financialObjectCode != null && financialObjectCode.equals(line.getFinancialObjectCode())){
-                                    String cg = SpringContext.getBean(ParameterService.class).getParameterValue(KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
+                                    String cg = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
                                     if (line.getAccount() == null){
                                         line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
                                     }

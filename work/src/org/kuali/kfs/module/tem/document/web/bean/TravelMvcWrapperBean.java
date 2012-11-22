@@ -24,9 +24,9 @@ import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 /**

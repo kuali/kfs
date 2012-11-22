@@ -35,8 +35,8 @@ import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.web.bean.TravelReimbursementMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 /**
@@ -111,7 +111,7 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
         super.getExtraButtons();
         final Map<String, ExtraButton> buttonsMap = createButtonsMap();
 
-        boolean enablePayments = getParameterService().getIndicatorParameter(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE, ENABLE_VENDOR_PAYMENT_BEFORE_FINAL_TR_APPROVAL_IND);
+        boolean enablePayments = getParameterService().getParameterValueAsBoolean(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE, ENABLE_VENDOR_PAYMENT_BEFORE_FINAL_TR_APPROVAL_IND);
         if (enablePayments && !SpringContext.getBean(TravelDocumentService.class).isUnsuccessful(this.getTravelDocument())){
             if (getTravelReimbursementDocument().canPayDVToVendor()) {                 
                 extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.payDVToVendor"));

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,30 +22,29 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Accommodation Type
- * 
- * @author Derek Helbert
+ *
  */
 @Entity
-@Table(name="tem_accomm_typ_t")
-public class AccommodationType extends PersistableBusinessObjectBase implements Inactivateable {
-    
+@Table(name="TEM_ACCOMM_TYP_T")
+public class AccommodationType extends PersistableBusinessObjectBase implements MutableInactivatable {
+
     private String code;
-    
+
     private String name;
 
     private Boolean active = Boolean.TRUE;
-    
+
     @Id
     @Column(name="code",length=4,nullable=false)
     public String getCode() {
         return code;
     }
-    
+
     public void setCode(String code) {
         this.code = code;
     }
@@ -58,7 +57,7 @@ public class AccommodationType extends PersistableBusinessObjectBase implements 
     public void setName(String name) {
         this.name = name;
     }
-    
+
     @Override
     @Column(name="actv_ind",nullable=false,length=1)
     public boolean isActive() {
@@ -70,12 +69,12 @@ public class AccommodationType extends PersistableBusinessObjectBase implements 
         this.active = active;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("code", code);
         map.put("name", name);
-        
+
         return map;
     }
 }

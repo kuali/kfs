@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * Travel Service

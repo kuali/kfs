@@ -29,7 +29,7 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 
 /**

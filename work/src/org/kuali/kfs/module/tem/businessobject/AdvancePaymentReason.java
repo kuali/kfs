@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name="TEM_ADV_PMNT_RSN_T")
@@ -30,14 +31,13 @@ public class AdvancePaymentReason extends PersistableBusinessObjectBase {
     private String code;
     private String description;
     private Boolean active = Boolean.TRUE;
-    
-    
+
+
     @Id
     @Column(name="CODE",length=2, nullable=false)
     public String getCode() {
         return code;
     }
-
 
     /**
      * Sets the code attribute value.
@@ -47,14 +47,10 @@ public class AdvancePaymentReason extends PersistableBusinessObjectBase {
         this.code = code;
     }
 
-
-
     @Column(name="DESCRIPTION",length=100,nullable=true)
     public String getDescription() {
         return description;
     }
-
-
 
     /**
      * Sets the description attribute value.
@@ -69,14 +65,13 @@ public class AdvancePaymentReason extends PersistableBusinessObjectBase {
         return active;
     }
 
-    
+
     public void setActive(boolean active) {
         this.active = active;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         return null;
     }
 

@@ -64,22 +64,22 @@ import org.kuali.kfs.module.tem.document.web.bean.TravelAuthorizationMvcWrapperB
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.dao.DocumentDao;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.dao.DocumentDao;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.BlankFormFile;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
@@ -110,15 +110,15 @@ public class TravelAuthorizationAction extends TravelActionBase {
         }
         
         setButtonPermissions(authForm);
-        String perDiemPercentage = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE);
+        String perDiemPercentage = getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE);
         final String travelIdentifier = travelAuthDocument.getTravelDocumentIdentifier();
         
         authForm.setPerDiemPercentage(perDiemPercentage);
 
         if (authForm.getNewTravelAdvanceLine() == null) {
-            String accountNumber = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_ADVANCE_PAYMENT_ACCOUNT_NBR);
-            String objectCode = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_ADVANCE_PAYMENT_OBJECT_CODE);
-            String chartCode = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_ADVANCE_PAYMENT_CHART_CODE);
+            String accountNumber = getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_ADVANCE_PAYMENT_ACCOUNT_NBR);
+            String objectCode = getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_ADVANCE_PAYMENT_OBJECT_CODE);
+            String chartCode = getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_ADVANCE_PAYMENT_CHART_CODE);
             TravelAdvance adv = new TravelAdvance();
             adv.setChartOfAccountsCode(chartCode);
             adv.setAccountNumber(accountNumber);
@@ -126,7 +126,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
             authForm.setNewTravelAdvanceLine(adv);
         }
         // try pulling the transpo modes from the form or the request
-        String[] transpoModes = request.getParameterValues("selectedTransportationModes");
+        String[] transpoModes = request.getParameterValuesAsString("selectedTransportationModes");
         if (transpoModes != null) {
             authForm.setSelectedTransportationModes(Arrays.asList(transpoModes));
         }
@@ -243,11 +243,11 @@ public class TravelAuthorizationAction extends TravelActionBase {
         TravelAuthorizationAuthorizer documentAuthorizer = getDocumentAuthorizer(authForm);
         can = documentAuthorizer.hideButtons(authForm.getTravelAuthorizationDocument(), GlobalVariables.getUserSession().getPerson());
         if (can){
-            authForm.getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
-            authForm.getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_CLOSE);
-            authForm.getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS);
-            authForm.getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_COPY);
-            authForm.getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_RELOAD);
+            authForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_SAVE);
+            authForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_CLOSE);
+            authForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS);
+            authForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_COPY);
+            authForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_RELOAD);
         }
     }
     
@@ -259,9 +259,9 @@ public class TravelAuthorizationAction extends TravelActionBase {
         TravelAuthorizationAuthorizer documentAuthorizer = getDocumentAuthorizer(authForm);
         boolean can = documentAuthorizer.canCopy(authForm.getTravelAuthorizationDocument(), GlobalVariables.getUserSession().getPerson());
         if(can){
-            authForm.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_COPY, true);
+            authForm.getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_COPY, true);
         }else{
-            authForm.getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_COPY);
+            authForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_COPY);
         }     
     }
     
@@ -282,10 +282,10 @@ public class TravelAuthorizationAction extends TravelActionBase {
         }
         
         if (can) {
-            authForm.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_SAVE,true);
+            authForm.getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_SAVE,true);
         }
         else{
-            authForm.getDocumentActions().remove(KNSConstants.KUALI_ACTION_CAN_SAVE);
+            authForm.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_SAVE);
         }
     }
 
@@ -796,7 +796,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
         LOG.debug("Save Called on "+ getClass().getSimpleName()+ " for "+ authForm.getDocument().getClass().getSimpleName());
         LOG.debug("Saving document traveler detail "+ travelReqDoc.getTravelerDetailId());
 
-        String[] transpoModes = request.getParameterValues("selectedTransportationModes");
+        String[] transpoModes = request.getParameterValuesAsString("selectedTransportationModes");
         if (transpoModes != null) {
             authForm.setSelectedTransportationModes(Arrays.asList(transpoModes));
         }
@@ -855,7 +855,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
         String noteText = "";
 
         try {
-            KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+            ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
             // Start in logic for confirming the proposed operation.
             if (ObjectUtils.isNull(question)) {
@@ -1156,7 +1156,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
      */
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
         if (ConfirmationQuestion.YES.equals(buttonClicked)) {
             reverseAmendment((TravelAuthorizationForm) form);
         }
@@ -1169,7 +1169,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
      */
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
         /*if (ConfirmationQuestion.NO.equals(buttonClicked)) {
             reverseAmendment((TravelAuthorizationForm) form);
         }*/
@@ -1184,7 +1184,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
         recalculateTripDetailTotalOnly(mapping, form, request, response);
         TravelAuthorizationForm authForm = (TravelAuthorizationForm) form;
         TravelAuthorizationDocument document = authForm.getTravelAuthorizationDocument();
-        String[] transpoModes = request.getParameterValues("selectedTransportationModes");
+        String[] transpoModes = request.getParameterValuesAsString("selectedTransportationModes");
         if(transpoModes != null) {
             authForm.setSelectedTransportationModes(Arrays.asList(transpoModes));
         }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,7 +37,6 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.businessobject.AgencyCorrectionChangeGroup;
 import org.kuali.kfs.module.tem.businessobject.AgencyEntryFull;
-import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.document.TemCorrectionProcessDocument;
 import org.kuali.kfs.module.tem.document.service.TemCorrectionDocumentService;
 import org.kuali.kfs.module.tem.service.AgencyEntryGroupService;
@@ -46,17 +45,17 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.web.comparator.NumericValueComparator;
-import org.kuali.rice.kns.web.comparator.TemporalValueComparator;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
 import org.kuali.rice.kns.web.struts.action.KualiTableRenderAction;
 import org.kuali.rice.kns.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.krad.comparator.NumericValueComparator;
+import org.kuali.rice.krad.comparator.TemporalValueComparator;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TemCorrectionAction extends KualiDocumentActionBase implements KualiTableRenderAction {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TemCorrectionAction.class);
@@ -67,7 +66,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
     protected static AgencyEntryGroupService agencyEntryGroupService;
     protected static AgencyEntryService agencyEntryService;
     protected static DateTimeService dateTimeService;
-    protected static KualiConfigurationService kualiConfigurationService;
+    protected static ConfigurationService ConfigurationService;
     protected static ExpenseImportByTripService expenseImportByTripService;
 
     public static final String SYSTEM_AND_EDIT_METHOD_ERROR_KEY = "systemAndEditMethod";
@@ -150,7 +149,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
                 document.setCorrectionInputFileName(newestAgencyMatchingErrorFileName);
             }
             /*
-             * else { KeyLabelPair klp = (KeyLabelPair) values.get(0); document.setCorrectionInputFileName((String) klp.getKey()); }
+             * else { ConcreteKeyValue klp = (ConcreteKeyValue) values.get(0); document.setCorrectionInputFileName((String) klp.getKey()); }
              * } else { GlobalVariables.getMessageMap().putError(SYSTEM_AND_EDIT_METHOD_ERROR_KEY,
              * KFSKeyConstants.ERROR_NO_ORIGIN_ENTRY_GROUPS); correctionForm.setChooseSystem(""); }
              */
@@ -196,7 +195,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
             TemCorrectionAction.agencyEntryGroupService = SpringContext.getBean(AgencyEntryGroupService.class);
             TemCorrectionAction.agencyEntryService = SpringContext.getBean(AgencyEntryService.class);
             TemCorrectionAction.dateTimeService = SpringContext.getBean(DateTimeService.class);
-            TemCorrectionAction.kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+            TemCorrectionAction.ConfigurationService = SpringContext.getBean(ConfigurationService.class);
             TemCorrectionAction.expenseImportByTripService = SpringContext.getBean(ExpenseImportByTripService.class);
         }
         TemCorrectionForm rForm = (TemCorrectionForm) form;
@@ -210,7 +209,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
             if (!rForm.isRestrictedFunctionalityMode()) {
                 loadAllEntries(correctionForm.getInputGroupId(), rForm);
                 rForm.setDisplayEntries(new ArrayList<AgencyEntryFull>(rForm.getAllEntries()));
-               
+
 
 
                 if (!KFSConstants.TableRenderConstants.SORT_METHOD.equals(rForm.getMethodToCall())) {
@@ -248,14 +247,14 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
         int entryId = Integer.parseInt(getImageContext(request, "entryId"));
 
         // Find it and put it in the editing spot
-        
+
         correctionForm.setEntryForManualEdit(correctionForm.getAllEntries().get(entryId - 1));
 
         correctionForm.setShowSummaryOutputFlag(true);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * Add a new row to the group
      */
@@ -286,7 +285,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
 
         // we've modified the list of all entries, so repersist it
         correctionForm.setDisplayEntries(new ArrayList<AgencyEntryFull>(correctionForm.getAllEntries()));
-        
+
 
         // list has changed, we'll need to repage and resort
         applyPagingAndSortingFromPreviousPageView(correctionForm);
@@ -320,7 +319,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
 
         // we've modified the list of all entries, so repersist it
         correctionForm.setDisplayEntries(new ArrayList<AgencyEntryFull>(correctionForm.getAllEntries()));
-        
+
         // list has changed, we'll need to repage and resort
         applyPagingAndSortingFromPreviousPageView(correctionForm);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -369,12 +368,12 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
     }
 
     private boolean validAgencyEntry(AgencyEntryFull entryForManualEdit) {
-        boolean valid = expenseImportByTripService.areMandatoryFieldsPresent((AgencyStagingData)entryForManualEdit);
+        boolean valid = expenseImportByTripService.areMandatoryFieldsPresent(entryForManualEdit);
         List<ErrorMessage> errors = expenseImportByTripService.getErrorMessages();
         for(ErrorMessage error: errors) {
             GlobalVariables.getMessageMap().putError("searchResults", error.toString());
         }
-        
+
         return valid;
     }
 
@@ -427,7 +426,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
     /**
      * This method checks that an origin entry group has been selected; and this method is intended to be used for selecting an
      * origin entry group when using the database method If a group has not been loaded, then an error will be added to the screen
-     * 
+     *
      * @param correctionForm
      * @return
      */
@@ -445,7 +444,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
      * This method updates the summary information contained within each document depending on the document status, editing method,
      * whether only the rows matching criteria are shown, and whether the output is being shown If the form is in restricted
      * functionality mode (and the override param is not set to true), then the summaries will be cleared out
-     * 
+     *
      * @param document the document
      * @param entries the entries to summarize
      * @param clearOutSummary whether to set the doc summary to 0s
@@ -463,7 +462,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
                 if(null != agency.getTripExpenseAmount()) {
                     tripTotal = tripTotal.add(agency.getTripExpenseAmount());
                 }
-                
+
             }
             document.setCorrectionTripTotalAmount(tripTotal);
         }
@@ -472,7 +471,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
     /**
      * Show all entries for Manual edit with groupId and persist these entries to the DB The restricted functionality mode flag MUST
      * BE SET PRIOR TO CALLING this method.
-     * 
+     *
      * @param groupId
      * @param correctionForm
      * @throws Exception
@@ -559,7 +558,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
         int maxRowsPerPage = 25;
         agencyEntrySearchResultTableMetadata.jumpToPage(agencyEntrySearchResultTableMetadata.getViewedPageNumber(), correctionForm.getDisplayEntries().size(), maxRowsPerPage);
     }
-    
+
     protected void sortList(List<AgencyEntryFull> list, String propertyToSortName, Comparator valueComparator, boolean sortDescending) {
         if (list != null) {
             if (valueComparator instanceof NumericValueComparator || valueComparator instanceof TemporalValueComparator) {
@@ -589,7 +588,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
     /**
      * This method restores the system and edit method to the selected values when the last call to the selectSystemAndMethod action
      * was made
-     * 
+     *
      * @param correctionForm
      * @return if the system and edit method were changed while not in read only mode and the selectSystemEditMethod method was not
      *         being called if true, this is ususally not a good condition
@@ -680,7 +679,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
         // TODO Auto-generated method stub
         return super.close(mapping, form, request, response);
     }
-    
+
     private boolean prepareForRoute(TemCorrectionForm correctionForm) {
         TemCorrectionProcessDocument document = correctionForm.getCorrectionDocument();
 
@@ -696,7 +695,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
         }
 
         document.setCorrectionInputFileName(correctionForm.getInputGroupId());
-        
+
         if (!checkAgencyEntryGroupSelectionBeforeRouting(document)) {
             return false;
         }
@@ -704,7 +703,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
         if (!validGroupsItemsForDocumentSave(correctionForm)) {
             return false;
         }
-        
+
         // Populate document
         document.setCorrectionTypeCode(correctionForm.getEditMethod());
         document.setCorrectionInputFileName(correctionForm.getInputGroupId());
@@ -715,9 +714,9 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
         SpringContext.getBean(TemCorrectionDocumentService.class).persistAgencyEntryGroupsForDocumentSave(document, correctionForm);
 
         return true;
-        
+
     }
-    
+
     private boolean validChangeGroups(TemCorrectionForm correctionForm) {
         // TODO Auto-generated method stub
         return false;
@@ -731,7 +730,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
     /**
      * This method checks that an origin entry group has been selected or uploaded, depending on the system of the document If a
      * group has not been loaded, then an error will be added to the screen
-     * 
+     *
      * @param document
      * @return
      */
@@ -742,7 +741,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
         }
         return true;
     }
-    
-    
+
+
 
 }

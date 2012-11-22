@@ -29,7 +29,7 @@ import java.util.Map;
 
 import org.kuali.kfs.module.tem.report.util.BarcodeHelper;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Cell;
@@ -589,7 +589,7 @@ public class Coversheet implements PdfStream {
         final Paragraph title = new Paragraph("TEM Coversheet", titleFont);
         doc.add(title);
         
-        final Paragraph faxNumber = new Paragraph("Fax this page to " + SpringContext.getBean(ParameterService.class).getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TEM_FAX_NUMBER), normalFont);
+        final Paragraph faxNumber = new Paragraph("Fax this page to " + SpringContext.getBean(ParameterService.class).getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TEM_FAX_NUMBER), normalFont);
         doc.add(faxNumber);
 
         final Paragraph header = new Paragraph("", headerFont);

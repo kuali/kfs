@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,57 +25,56 @@ import javax.persistence.Table;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Trip Type
- * 
- * @author Derek Helbert
+ *
  */
 @Entity
-@Table(name="tem_trip_typ_t")
-public class TripType extends PersistableBusinessObjectBase implements Inactivateable {
+@Table(name="TEM_TRIP_TYP_T")
+public class TripType extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String code;
-    
+
     private String name;
 
     private Boolean generateEncumbrance = Boolean.FALSE;
-    
+
     private String encumbranceBalanceType;
-    
+
     private String encumbranceObjCode;
-    
+
     private Boolean contactInfoRequired = Boolean.FALSE;
-    
+
     private Boolean blanketTravel = Boolean.FALSE;
-    
+
     private KualiDecimal autoTravelReimbursementLimit;
 
     private Boolean usePerDiem = Boolean.FALSE;
-    
+
     private Boolean travelAuthorizationRequired = Boolean.FALSE;
-    
+
     private String perDiemCalcMethod = TemConstants.PERCENTAGE;
-    
+
     private Boolean active = Boolean.TRUE;
-    
+
     private BalanceType balanceType;
-    
+
     private Encumbrance encumbrance;
-    
+
     @Id
     @Column(name="code",length=3,nullable=false)
     public String getCode() {
         return code;
     }
-    
+
     public void setCode(String code) {
         this.code = code;
     }
-    
+
     @Column(name="nm",length=40,nullable=false)
     public String getName() {
         return name;
@@ -131,7 +130,7 @@ public class TripType extends PersistableBusinessObjectBase implements Inactivat
     }
 
     /**
-     * Gets the autoTravelReimbursementLimit attribute. 
+     * Gets the autoTravelReimbursementLimit attribute.
      * @return Returns the autoTravelReimbursementLimit.
      */
     @Column(name="AUTO_TR_LIMIT",precision=19,scale=2,nullable=false)
@@ -148,7 +147,7 @@ public class TripType extends PersistableBusinessObjectBase implements Inactivat
     }
 
     /**
-     * Gets the usePerDiem attribute. 
+     * Gets the usePerDiem attribute.
      * @return Returns the usePerDiem.
      */
     @Column(name="USE_PER_DIEM",nullable=false,length=1)
@@ -165,7 +164,7 @@ public class TripType extends PersistableBusinessObjectBase implements Inactivat
     }
 
     /**
-     * Gets the travelAuthorizationRequired attribute. 
+     * Gets the travelAuthorizationRequired attribute.
      * @return Returns the travelAuthorizationRequired.
      */
     @Column(name="TA_REQUIRED",nullable=false,length=1)
@@ -182,7 +181,7 @@ public class TripType extends PersistableBusinessObjectBase implements Inactivat
     }
 
     /**
-     * Gets the perDiemCalcMethod attribute. 
+     * Gets the perDiemCalcMethod attribute.
      * @return Returns the perDiemCalcMethod.
      */
     @Column(name="PER_DIEM_CALC_METHOD",nullable=false,length=1)
@@ -225,14 +224,14 @@ public class TripType extends PersistableBusinessObjectBase implements Inactivat
         this.encumbrance = encumbrance;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("code", code);
         map.put("name", name);
         map.put("encumbranceBalanceType", encumbranceBalanceType);
         map.put("encumbranceObjCode", encumbranceObjCode);
-        
+
         return map;
     }
 }

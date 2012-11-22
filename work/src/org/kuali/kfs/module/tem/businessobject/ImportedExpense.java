@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,7 @@ import javax.persistence.Table;
 
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 @Entity
 @Table(name="TEM_TRVL_EXP_T")
@@ -36,17 +36,17 @@ public class ImportedExpense extends AbstractExpense implements TEMExpense, Expe
     private String temExpenseTypeCode = TemConstants.EXPENSE_IMPORTED;
     private Long historicalTravelExpenseId;
     private Boolean enableNonReimbursable = Boolean.TRUE;
-    
+
     public ImportedExpense(){
     }
-    
+
     @Override
     public String getTemExpenseTypeCode(){
         return temExpenseTypeCode;
     }
-    
+
     /**
-     * Gets the historicalTravelExpenseId attribute. 
+     * Gets the historicalTravelExpenseId attribute.
      * @return Returns the historicalTravelExpenseId.
      */
     public Long getHistoricalTravelExpenseId() {
@@ -62,7 +62,7 @@ public class ImportedExpense extends AbstractExpense implements TEMExpense, Expe
     }
 
     /**
-     * Gets the cardType attribute. 
+     * Gets the cardType attribute.
      * @return Returns the cardType.
      */
     public String getCardType() {
@@ -78,7 +78,7 @@ public class ImportedExpense extends AbstractExpense implements TEMExpense, Expe
     }
 
     /**
-     * Gets the missingReceipt attribute. 
+     * Gets the missingReceipt attribute.
      * @return Returns the missingReceipt.
      */
     public Boolean getReceiptRequired() {
@@ -94,11 +94,11 @@ public class ImportedExpense extends AbstractExpense implements TEMExpense, Expe
     }
 
     /**
-     * Gets the enableNonReimburable attribute. 
+     * Gets the enableNonReimburable attribute.
      * @return Returns the enableNonReimburable.
      */
     public Boolean getEnableNonReimbursable() {
-        String cardTypes  = SpringContext.getBean(ParameterService.class).getParameterValue(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TemConstants.TravelParameters.ALWAYS_REIMBURSABLE_CARD_TYPE);
+        String cardTypes  = SpringContext.getBean(ParameterService.class).getParameterValueAsString(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TemConstants.TravelParameters.ALWAYS_REIMBURSABLE_CARD_TYPE);
         if (cardTypes != null) {
             String[] cards = cardTypes.split(",");
             for (String cardStr : cards){
@@ -107,7 +107,7 @@ public class ImportedExpense extends AbstractExpense implements TEMExpense, Expe
                 }
             }
         }
-        
+
         return enableNonReimbursable;
     }
 
@@ -119,8 +119,9 @@ public class ImportedExpense extends AbstractExpense implements TEMExpense, Expe
         this.enableNonReimbursable = enableNonReimbursable;
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         return null;
     }
 

@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,71 +27,70 @@ import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.docsearch.DocSearchDTO;
-import org.kuali.rice.kew.docsearch.DocumentSearchResult;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.web.KeyValueSort;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Produces custom search results for {@link TravelAuthorizationDocument}
  */
-public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDocumentSearchResultProcessor implements TravelDocumentSearchResultsProcessor {
+public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDocumentSearchResultProcessor implements TravelDocumentSearchResultsCustomizer {
 
     protected static Logger LOG = Logger.getLogger(TravelAuthorizationDocumentSearchResultProcessor.class);
-    
+
     /**
      * Determines if the url column for actions should be rendered. This is done for {@link TravelAuthorizationDocument} instances
      * in the search results that have a workflow document status of FINAL or PROCESSED and on documents that do not have a workflow
      * App Doc Status of REIMB_HELD, CANCELLED, PEND_AMENDMENT, CLOSED, or RETIRED_VERSION.
-     * 
+     *
      * check status of document and don't create if the status is not final or processed
-     * 
+     *
      * @param docCriteriaDTO has the workflow document status and app doc status to determine if rendering of the link is necessary
      * @return true if the document should have a reimbursement link
      */
     private boolean showNewDocumentURL(DocSearchDTO docCriteriaDTO, String docType) {
         final String documentStatus = docCriteriaDTO.getDocRouteStatusCode();
         final String appDocStatus = docCriteriaDTO.getAppDocStatus();
-        boolean statusCheck = (documentStatus.equals(KEWConstants.ROUTE_HEADER_FINAL_CD)
-                || (documentStatus.equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD)))
+        boolean statusCheck = (documentStatus.equals(DocumentStatus.FINAL.getCode())
+                || (documentStatus.equals(DocumentStatus.PROCESSED.getCode())))
                 && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.REIMB_HELD))
                 && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CANCELLED))
                 && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT))
                 && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION))
                 && (!appDocStatus.equals(TravelAuthorizationStatusCodeKeys.CLOSED));
-        
+
         TravelDocument document = getDocument(docCriteriaDTO.getRouteHeaderId().toString());
         Person user = GlobalVariables.getUserSession().getPerson();
-        
+
         boolean hasInitAccess = true;
         if (getTemRoleService().canAccessTravelDocument(document, user) && document.getTemProfileId() != null){
             //check if user also can init other docs
             hasInitAccess = user.getPrincipalId().equals(document.getTraveler().getPrincipalId()) || getTemRoleService().isTravelDocumentArrangerForProfile(docType, user.getPrincipalId(), document.getTemProfileId());
 
         }
-        
+
         return statusCheck && hasInitAccess;
     }
 
     /**
      * Other payment is allowed
-     * 
+     *
      * @param docCriteriaDTO
      * @return
      */
     private boolean otherPaymentMethodsAllowed(DocSearchDTO docCriteriaDTO) {
         final String documentStatus = docCriteriaDTO.getDocRouteStatusCode();
-        return (getParameterService().getIndicatorParameter(TemConstants.PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.ENABLE_VENDOR_PAYMENT_BEFORE_TA_FINAL_APPROVAL_IND) 
-                || documentStatus.equals(KEWConstants.ROUTE_HEADER_FINAL_CD) 
-                || documentStatus.equals(KEWConstants.ROUTE_HEADER_PROCESSED_CD));
+        return (getParameterService().getParameterValueAsBoolean(TemConstants.PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.ENABLE_VENDOR_PAYMENT_BEFORE_TA_FINAL_APPROVAL_IND)
+                || documentStatus.equals(DocumentStatus.FINAL.getCode())
+                || documentStatus.equals(DocumentStatus.PROCESSED.getCode()));
     }
-    
+
     /**
      * check if the trip has already started
-     * 
+     *
      * @param docCriteriaDTO
      * @return
      */
@@ -104,7 +103,7 @@ public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDo
     }
 
     /**
-     * 
+     *
      * @param docCriteriaDTO
      * @param tripID
      * @return
@@ -151,22 +150,22 @@ public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDo
     @Override
     public boolean filterSearchResult(DocSearchDTO docCriteriaDTO) {
         boolean filtered = filterByUser(docCriteriaDTO);
-        
+
         ///TA doc allows search result IF user has TR arranger access
         TravelDocument document = getDocument(docCriteriaDTO.getRouteHeaderId().toString());
         Person user = GlobalVariables.getUserSession().getPerson();
         //check if user is an TR arranger to the document
         boolean arrangerAccess = true;
-        
+
         if (!user.getPrincipalId().equals(document.getTraveler().getPrincipalId())){
             arrangerAccess = getTemRoleService().isTravelArranger(user, "", document.getTemProfileId().toString(), TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
         }
-        
+
         return filtered && !arrangerAccess;
     }
 
     private ParameterService getParameterService() {
         return SpringContext.getBean(ParameterService.class);
     }
-    
+
 }

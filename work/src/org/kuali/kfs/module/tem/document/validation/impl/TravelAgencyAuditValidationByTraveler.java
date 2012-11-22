@@ -19,8 +19,8 @@ import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.document.service.TravelAgencyAuditValidationHelper;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Business rules validation for the Travel Agency Audit and Correction using the UCD method of importing
@@ -29,7 +29,7 @@ import org.kuali.rice.kns.util.KNSConstants;
  * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditValidationHelper {
-    public static final String MAINTAINABLE_ERROR_PREFIX = KNSConstants.MAINTENANCE_NEW_MAINTAINABLE;
+    public static final String MAINTAINABLE_ERROR_PREFIX = KRADConstants.MAINTENANCE_NEW_MAINTAINABLE;
     public static final String DOCUMENT_ERROR_PREFIX = "document.";
     public static final String MAINTAINABLE_ERROR_PATH = DOCUMENT_ERROR_PREFIX + "newMaintainableObject";
     

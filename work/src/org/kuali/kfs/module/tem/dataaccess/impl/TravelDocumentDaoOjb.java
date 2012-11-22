@@ -34,18 +34,17 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.OjbCollectionAware;
-import org.kuali.rice.kns.util.TransactionalServiceUtils;
+import org.kuali.kfs.sys.util.KfsDateUtils;
+import org.kuali.kfs.sys.util.TransactionalServiceUtils;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.OjbCollectionAware;
 
 /**
  * This class is the OJB implementation of the DocumentDao interface.
@@ -53,7 +52,7 @@ import org.kuali.rice.kns.util.TransactionalServiceUtils;
 public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements TravelDocumentDao, OjbCollectionAware {
 
     public static Logger LOG = Logger.getLogger(TravelDocumentDaoOjb.class);
-    
+
 	@Override
     public List<String> findDocumentNumbers(final Class<?> travelDocumentClass, final String travelDocumentNumber) {
         final Criteria c = new Criteria();
@@ -65,7 +64,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
         query.setAttributes(new String[] { "documentNumber" });
 
         final List<String> retval = new ArrayList<String>();
-               
+
         for (final Iterator it = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
              it.hasNext();) {
             final Object[] obj = (Object[]) it.next();
@@ -76,14 +75,14 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
 
         return retval;
     }
-	
+
 	/**
 	 * @see org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao#findPerDiem(java.util.Map)
 	 */
 	@Override
     public PerDiem findPerDiem(Map<String, Object> fieldValues){
 	    Criteria criteria = new Criteria();
-	    
+
 	    //Add all field values but the date
 	    for (String key : fieldValues.keySet()){
 	        if (!key.equals(TemPropertyConstants.PER_DIEM_LOOKUP_DATE)){
@@ -92,38 +91,38 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
 	            }
 	        }
 	    }
-	    
+
 	    //Add date criteria so the date falls in a specific range
 	    //or their is no "To" date.  (Open-ended)
         Criteria dateBetweenCriteria = new Criteria();
         Criteria dateNullCriteria = new Criteria();
-        
+
         Timestamp dayStart = (Timestamp) fieldValues.get(TemPropertyConstants.PER_DIEM_LOOKUP_DATE);
-        Date date = DateUtils.clearTimeFields(new Date(dayStart.getTime()));
+        Date date = KfsDateUtils.clearTimeFields(new Date(dayStart.getTime()));
         dayStart = new Timestamp(date.getTime());
-        
+
         Calendar cal = new GregorianCalendar();
         cal.setTime(dayStart);
         cal.add(Calendar.DATE, 1);
         cal.add(Calendar.MILLISECOND, -1);
-        
+
         Timestamp dayEnd = new Timestamp(cal.getTimeInMillis());
-        
+
         dateBetweenCriteria.addGreaterOrEqualThan(TemPropertyConstants.PER_DIEM_EFFECTIVE_TO_DATE, dayStart);
         dateBetweenCriteria.addLessOrEqualThan(TemPropertyConstants.PER_DIEM_EFFECTIVE_FROM_DATE, dayEnd);
-        
+
         dateNullCriteria.addIsNull(TemPropertyConstants.PER_DIEM_EFFECTIVE_TO_DATE);
         dateNullCriteria.addLessOrEqualThan(TemPropertyConstants.PER_DIEM_EFFECTIVE_FROM_DATE, dayEnd);
-        
+
         dateBetweenCriteria.addOrCriteria(dateNullCriteria);
         criteria.addAndCriteria(dateBetweenCriteria);
 	    QueryByCriteria query = QueryFactory.newQuery(PerDiem.class, criteria);
-	    
+
 	    PerDiem perDiem =  (PerDiem) getPersistenceBrokerTemplate().getObjectByQuery(query);
-	    
+
 	    return perDiem;
 	}
-	
+
 	/**
 	 * @see org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao#getOutstandingTravelAdvanceByInvoice(java.util.Set)
 	 */
@@ -132,7 +131,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
         if (ObjectUtils.isNull(arInvoiceDocNumbers) || arInvoiceDocNumbers.isEmpty()) {
             return new ArrayList<TravelAdvance>();
         }
-        
+
         Criteria criteria = new Criteria();
         criteria.addIn(TemPropertyConstants.AR_INVOICE_DOC_NUMBER, arInvoiceDocNumbers);
         criteria.addIsNull(TemPropertyConstants.TAXABLE_RAMIFICATION_NOTIFICATION_DATE);
@@ -153,7 +152,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
         }
         Query query = QueryFactory.newQuery(PrimaryDestination.class, criteria,true);
         List<PrimaryDestination> results = (List<PrimaryDestination>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        
+
         return results;
     }
 
@@ -164,7 +163,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
         Criteria likeCriteria = new Criteria();
         likeCriteria.addLike(TemPropertyConstants.PER_DIEM_NAME + (clazz.getSimpleName().equals(TemConstants.PRIMARY_DESTINATION_CLASS_NAME)?"Name":""), "%" + TemConstants.OTHER_PRIMARY_DESTINATION+ "%");
         criteria.addAndCriteria(likeCriteria);
-        
+
         Query query = QueryFactory.newQuery(clazz, criteria,true);
         List results = (List) getPersistenceBrokerTemplate().getCollectionByQuery(query);
         if (results.size() > 0){
@@ -185,7 +184,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
             query = QueryFactory.newQuery(clazz, criteria,true);
             results = (List) getPersistenceBrokerTemplate().getCollectionByQuery(query);
         }
-        
+
         return results;
     }
 
@@ -198,13 +197,13 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
 
         Criteria criteria = new Criteria();
         criteria.addNotNull(TemPropertyConstants.TAXABLE_RAMIFICATION_NOTIFICATION_DATE);
-        
+
         ReportQueryByCriteria query = QueryFactory.newReportQuery(TravelAdvance.class, criteria);
-        
+
         String selectionField = "max(" + TemPropertyConstants.TAXABLE_RAMIFICATION_NOTIFICATION_DATE + ")";
         query.setAttributes(new String[] { selectionField });
         query.setDistinct(true);
-        
+
         Iterator<Object[]> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         Object[] returnResult = TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iterator);
 

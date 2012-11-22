@@ -24,9 +24,9 @@ import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TravelerService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class TravelEntertainmentMovingModuleServiceImpl implements TravelEntertainmentMovingModuleService {
 

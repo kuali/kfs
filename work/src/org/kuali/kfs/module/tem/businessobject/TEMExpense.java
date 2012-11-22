@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,7 +24,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 
 public interface TEMExpense {
@@ -175,14 +175,14 @@ public interface TEMExpense {
 
     /**
      * Sets the value of convertedAmount
-     * 
-     * @param convertedAmount value to assign to this.convertedAmount 
+     *
+     * @param convertedAmount value to assign to this.convertedAmount
      */
     public void setConvertedAmount(final KualiDecimal convertedAmount);
 
     /**
      * Get the value of convertedAmount
-     * 
+     *
      * @return the value of convertedAmount
      */
     @Column(name = "CONVERTED_AMT", precision = 7, scale = 2, nullable = true)
@@ -220,7 +220,7 @@ public interface TEMExpense {
     public void setTravelCompanyCode(final TravelCompanyCode argTravelCompanyCode);
 
     /**
-     * Gets the expenseDetails attribute. 
+     * Gets the expenseDetails attribute.
      * @return Returns the expenseDetails.
      */
     public List<? extends TEMExpense> getExpenseDetails();
@@ -233,18 +233,18 @@ public interface TEMExpense {
 
     /**
      * Get the total detail expenses amount
-     * 
+     *
      * @return
      */
     public KualiDecimal getTotalDetailExpenseAmount();
-    
+
     /**
      * @param expense
      */
     public void addExpenseDetails(TEMExpense expense);
-    
+
     public String getSequenceName();
-    
+
     public String getTemExpenseTypeCode();
 
     public void setTemExpenseTypeCode(String temExpenseTypeCode);
@@ -256,7 +256,7 @@ public interface TEMExpense {
     public Boolean getRentalCarInsurance();
 
     public String getTravelCompanyCodeCode();
-    
+
     public Long getTravelExpenseTypeCodeId();
 
     public void setTravelExpenseTypeCodeId(Long travelExpenseTypeCodeId);

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,8 +22,6 @@ import static org.kuali.kfs.module.tem.TemConstants.CONFIRM_CLOSE_QUESTION_TEXT;
 import static org.kuali.kfs.sys.KFSConstants.BLANK_SPACE;
 import static org.kuali.kfs.sys.KFSConstants.MAPPING_BASIC;
 import static org.kuali.kfs.sys.KFSConstants.NOTE_TEXT_PROPERTY_NAME;
-import static org.kuali.rice.kns.util.ObjectUtils.isNotNull;
-import static org.kuali.rice.kns.util.ObjectUtils.isNull;
 
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
@@ -31,10 +29,11 @@ import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.util.MessageUtils;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  *
@@ -42,7 +41,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
     private DataDictionaryService dataDictionaryService;
     private TravelAuthorizationService travelAuthorizationService;
-    
+
     @Override
     public <T> T handleResponse(final Inquisitive<TravelDocument,?> asker) throws Exception {
         if (asker.denied(CLOSE_TA_QUESTION)) {
@@ -54,38 +53,38 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
             // After we inform the user that the close has been rerouted, we'll redirect to the portal page.
         }
         TravelAuthorizationDocument document = (TravelAuthorizationDocument)asker.getDocument();
-     
+
         try {
             // Below used as a place holder to allow code to specify actionForward to return if not a 'success question'
             T returnActionForward = (T) ((StrutsInquisitor) asker).getMapping().findForward(MAPPING_BASIC);
             TravelAuthorizationForm form = (TravelAuthorizationForm) ((StrutsInquisitor) asker).getForm();
-            
+
 //            String message = getMessageFrom(TA_MESSAGE_CLOSE_DOCUMENT_TEXT);
 //            String user = GlobalVariables.getUserSession().getPerson().getLastName() + ", " + GlobalVariables.getUserSession().getPerson().getFirstName();
 //            String note = replace(message, "{0}", user);
-//            
+//
 //            final Note taNote = documentService.createNoteFromDocument(document, note);
-//            documentService.addNoteToDocument(document, taNote); 
+//            documentService.addNoteToDocument(document, taNote);
 //            document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
 //            documentDao.save(document);
-//            
+//
 //            TravelAuthorizationCloseDocument tacDocument = ((TravelAuthorizationDocument) document).toCopyTAC();
 //            final Note tacNote= documentService.createNoteFromDocument(tacDocument, note);
-//            documentService.addNoteToDocument(tacDocument, tacNote);          
-//            
-//            
+//            documentService.addNoteToDocument(tacDocument, tacNote);
+//
+//
 //            // add relationship
 //            String relationDescription = "TA - TAC";
-//            accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(document.getDocumentNumber(), tacDocument.getDocumentNumber(), relationDescription));            
+//            accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(document.getDocumentNumber(), tacDocument.getDocumentNumber(), relationDescription));
 //            tacDocument.setAppDocStatus(TravelAuthorizationStatusCodeKeys.CLOSED);
 //            documentService.routeDocument(tacDocument, form.getAnnotation(), null);
-            
+
             TravelAuthorizationCloseDocument tacDocument = travelAuthorizationService.closeAuthorization(document, form.getAnnotation(), GlobalVariables.getUserSession().getPrincipalName());
-            
+
             form.setDocTypeName(TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
             form.setDocument(tacDocument);
-            
-            if (isNotNull(returnActionForward)) {
+
+            if (ObjectUtils.isNotNull(returnActionForward)) {
                 return returnActionForward;
             }
             else   {
@@ -107,7 +106,7 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
     }
 
     /**
-     * 
+     *
      * @param notePrefix
      * @param reason
      * @return
@@ -116,19 +115,19 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
         String noteText = "";
         // Have to check length on value entered.
         final String introNoteMessage = notePrefix + BLANK_SPACE;
-        
+
         // Build out full message.
         noteText = introNoteMessage + reason;
         final int noteTextLength = noteText.length();
-        
+
         // Get note text max length from DD.
         final int noteTextMaxLength = dataDictionaryService.getAttributeMaxLength(Note.class, NOTE_TEXT_PROPERTY_NAME).intValue();
-        
+
         if (isBlank(reason) || (noteTextLength > noteTextMaxLength)) {
             // Figure out exact number of characters that the user can enter.
             int reasonLimit = noteTextMaxLength - noteTextLength;
-            
-            if (isNull(reason)) {
+
+            if (ObjectUtils.isNull(reason)) {
                 // Prevent a NPE by setting the reason to a blank string.
                 reason = "";
             }

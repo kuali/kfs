@@ -26,8 +26,8 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class RemoveImportedExpenseDetailEvent implements Observer {
     

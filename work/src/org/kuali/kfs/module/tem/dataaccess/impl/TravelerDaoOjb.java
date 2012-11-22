@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,21 +26,21 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.dataaccess.TravelerDao;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.dao.LookupDao;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.util.OjbCollectionAware;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.dao.LookupDao;
+import org.kuali.rice.krad.util.OjbCollectionAware;
 
 /**
  * This is the data access interface for Travelers.
- * 
+ *
  */
 public class TravelerDaoOjb extends PlatformAwareDaoBaseOjb implements TravelerDao, OjbCollectionAware{
-    
+
     public static Logger LOG = Logger.getLogger(TravelerDaoOjb.class);
-    
+
     private static final String CUSTOMER_ADDRESSES_ATTR_PREFIX = "customerAddresses.";
-    
+
     private LookupDao lookupDao;
     private AccountsReceivableModuleService accountsReceivableModuleService;
 
@@ -66,9 +66,9 @@ public class TravelerDaoOjb extends PlatformAwareDaoBaseOjb implements TravelerD
                 crit = addressCrit;
                 obj = getAccountsReceivableModuleService().createCustomerAddress();
             }
-            
+
             LOG.debug("Adding "+ newKey+ "="+ value+ " to criteria");
-            
+
             LOG.debug("Criteria added successfully "+ getLookupDao().createCriteria(obj, value, newKey, crit));
 
             LOG.debug("New criteria is "+ crit);
@@ -80,12 +80,12 @@ public class TravelerDaoOjb extends PlatformAwareDaoBaseOjb implements TravelerD
         }
 
         LOG.debug("Creating query with criteria "+ customerCrit);
-        
+
         final Query query = QueryFactory.newQuery(getAccountsReceivableModuleService().createCustomer().getClass(), customerCrit);
 
         LOG.debug("Searching for Customers with query "+ query);
 
-        return (Collection<AccountsReceivableCustomer>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
     @Override
@@ -96,16 +96,16 @@ public class TravelerDaoOjb extends PlatformAwareDaoBaseOjb implements TravelerD
     protected LookupDao getLookupDao() {
         return lookupDao;
     }
-    
+
     protected AccountsReceivableModuleService getAccountsReceivableModuleService() {
         if (accountsReceivableModuleService == null) {
             this.accountsReceivableModuleService = SpringContext.getBean(AccountsReceivableModuleService.class);
         }
-        
+
         return accountsReceivableModuleService;
     }
 
     public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
         this.accountsReceivableModuleService = accountsReceivableModuleService;
-    }    
+    }
 }

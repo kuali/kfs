@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,14 +26,14 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name="TEM_ATTENDEE_T")
 public class Attendee  extends PersistableBusinessObjectBase{
 
     public static Logger LOG = Logger.getLogger(Attendee.class);
-    
+
     @GeneratedValue(generator="TEM_ATTENDEE_ID_SEQ")
     @SequenceGenerator(name="TEM_ATTENDEE_ID_SEQ",sequenceName="TEM_ATTENDEE_ID_SEQ", allocationSize=5)
     private Integer id;
@@ -42,9 +42,9 @@ public class Attendee  extends PersistableBusinessObjectBase{
     private String attendeeType;
     private String name;
     private String documentNumber;
-    
-    
-    @Id    
+
+
+    @Id
     @Column(name="id",nullable=false)
     public Integer getId() {
         return id;
@@ -55,7 +55,7 @@ public class Attendee  extends PersistableBusinessObjectBase{
     }
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
     @Column(name="FDOC_NBR")
@@ -66,7 +66,7 @@ public class Attendee  extends PersistableBusinessObjectBase{
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -100,7 +100,8 @@ public class Attendee  extends PersistableBusinessObjectBase{
     public void setName(String name) {
         this.name = name;
     }
-   
+
+    @SuppressWarnings("rawtypes")
     public String getSequenceName() {
         Class boClass = getClass();
         String retval = "";
@@ -112,24 +113,24 @@ public class Attendee  extends PersistableBusinessObjectBase{
                 try {
                     final Field idField = boClass.getDeclaredField("id");
                     final SequenceGenerator sequenceInfo = idField.getAnnotation(SequenceGenerator.class);
-                    
+
                     return sequenceInfo.sequenceName();
                 }
                 catch (Exception ee) {
                     // ignore and try again
                     LOG.debug("Could not find id in "+ boClass.getName());
-                    
+
                     // At the end. Went all the way up the hierarchy until we got to Object
                     if (Object.class.equals(boClass)) {
                         rethrow = false;
                     }
-                    
+
                     // get the next superclass
                     boClass = boClass.getSuperclass();
                     e = ee;
                 }
             }
-            
+
             if (e != null) {
                 throw e;
             }
@@ -144,17 +145,17 @@ public class Attendee  extends PersistableBusinessObjectBase{
         return retval;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("id", this.id);
         map.put("attendeeType", this.attendeeType);
         map.put("name", this.name);
         map.put("company", this.company);
         map.put("title", this.title);
-        
+
         return map;
     }
-   
+
 
 }

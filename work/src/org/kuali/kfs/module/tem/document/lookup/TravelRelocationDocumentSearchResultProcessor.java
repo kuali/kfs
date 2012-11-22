@@ -33,7 +33,7 @@ import org.kuali.rice.kew.web.KeyValueSort;
  *
  * @author Eswara Gadde (egadde [at] rsmart.com)
  */
-public class TravelRelocationDocumentSearchResultProcessor extends AbstractDocumentSearchResultProcessor implements TravelDocumentSearchResultsProcessor {
+public class TravelRelocationDocumentSearchResultProcessor extends AbstractDocumentSearchResultProcessor implements TravelDocumentSearchResultsCustomizer {
 
 	private String createPaymentsURL(DocSearchDTO docCriteriaDTO, String tripID) {
         String links = createDisbursementVoucherLink(docCriteriaDTO, TemConstants.TravelCustomSearchLinks.VENDOR_PAYMENT);

@@ -27,8 +27,8 @@ import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TravelAuthCustomerExistValidation extends GenericValidation {
 
@@ -49,7 +49,7 @@ public class TravelAuthCustomerExistValidation extends GenericValidation {
         LOG.debug("Got " + taDocument.getTraveler().getCustomer());
 
         if (taDocument.getTraveler().getCustomer() == null 
-            && getParameterService().getParameterValues(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, NON_EMPLOYEE_TRAVELER_TYPE_CODES).contains(taDocument.getTraveler().getTravelerTypeCode())) {
+            && getParameterService().getParameterValuesAsString(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, NON_EMPLOYEE_TRAVELER_TYPE_CODES).contains(taDocument.getTraveler().getTravelerTypeCode())) {
             // if not found and non-employee, throw an error
             GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRAVELER_TYPE, TemKeyConstants.ERROR_TA_AR_CUST_NOT_FOUND);
             rulePassed = false;

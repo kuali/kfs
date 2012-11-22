@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,25 +37,26 @@ import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.FieldDefinition;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    
+
     public static Logger LOG = Logger.getLogger(TemProfileFromCustomerLookupableHelperServiceImpl.class);
-    
+
     private TravelerService travelerService;
     private TravelerDao travelerDao;
     private TemProfileService temProfileService;
     private AccountsReceivableModuleService accountsReceivableModuleService;
-    
+
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.rice.kns.web.struts.form.LookupForm, java.util.Collection, boolean)
      */
@@ -73,10 +74,10 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        
+
         List<TemProfileFromCustomer> searchResults = new ArrayList<TemProfileFromCustomer>();
         searchResults.addAll(getCustomers(fieldValues));
-        
+
         CollectionIncomplete results = new CollectionIncomplete(searchResults, Long.valueOf(searchResults.size()));
 
         // sort list if default sort column given
@@ -101,7 +102,7 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
         retval.putAll(convertFieldValues(getAccountsReceivableModuleService().createCustomerAddress().getClass(), fieldValues, "customerAddresses.", TemProfileFromCustomer.class.getName()));
         // Only looking for primary addresses currently. Will need to modify to search all addresses with KUALITEM-467
         retval.put("customerAddresses.customerAddressTypeCode", "P");
-        
+
         //Restrict the search to only return customers of type "Traveler"
         List<AccountsReceivableCustomerType> customerTypes = getAccountsReceivableModuleService().findByCustomerTypeDescription(TemConstants.CUSTOMER_TRAVLER_TYPE_CODE);
 
@@ -109,10 +110,10 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
         	retval.put(TemPropertyConstants.CUSTOMER_TYPE_CODE, customerType.getCustomerTypeCode());
         	break;
         }
-        
+
         //Removing the customerEmailAddress so the search only happens with the email address in the customer address like the AR Customer search
         retval.remove("customerEmailAddress");
-        
+
         return retval;
     }
 
@@ -146,7 +147,7 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
 
         return retval;
     }
-    
+
     /**
      * Performs a customer search and converts the results to {@link TemProfileFromCustomer} instances
      *
@@ -154,14 +155,14 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
      * @return List of {@link TemProfileFromCustomer} instances
      */
     protected List<TemProfileFromCustomer> getCustomers(final Map<String, String> fieldValues) {
-        
+
         final List<TemProfileFromCustomer> profiles = new ArrayList<TemProfileFromCustomer>();
 
         final Map<String, String> fieldsForLookup = this.getCustomerFieldValues(fieldValues);
 
         final Map<String, String> lookupFieldValues = new HashMap<String, String>();
         LOG.debug("Using fieldsForLookup " + fieldsForLookup);
-                
+
         final Collection<AccountsReceivableCustomer> customers = getTravelerDao().findCustomersBy(fieldsForLookup);
 
         for (final AccountsReceivableCustomer customer : customers) {
@@ -169,16 +170,17 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
         }
 
         return profiles;
-    }    
+    }
 
     protected boolean containsAttribute(final Class boClass, final String attributeName) {
         return getDataDictionaryService().isAttributeDefined(boClass, attributeName);
     }
 
     private Collection<FieldDefinition>  getLookupFieldsFor(String className) {
-        return getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(className).getLookupDefinition().getLookupFields();
+        BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry)getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(className);
+        return businessObjectEntry.getLookupDefinition().getLookupFields();
     }
-    
+
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
      */
@@ -186,14 +188,14 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         String customerNumber = ((TemProfileFromCustomer) businessObject).getCustomerNumber();
-        
+
         Properties parameters = new Properties();
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TEMProfile.class.getName());
         parameters.put(KFSConstants.OVERRIDE_KEYS, "customerNumber");
         parameters.put(KFSConstants.REFRESH_CALLER, "customerNumber" + "::" + customerNumber);
         parameters.put("customerNumber", customerNumber);
 
-        
+
         Map<String,String> criteria = new HashMap<String,String>(2);
         criteria.put("customerNumber", customerNumber);
         criteria.put("active", "true");
@@ -201,7 +203,7 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
         // If an active TEM Profile doesn't exist, display a create link
         if (getTemProfileService().findTemProfile(criteria) == null) {
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
-            
+
             String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
             AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, "start", "create new profile");
             htmlDataList.add(anchorHtmlData);
@@ -209,17 +211,17 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
         else {
             // An active TEM Profile exists, display an edit link
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
-            
+
             String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
             AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, "start", "edit profile");
             htmlDataList.add(anchorHtmlData);
         }
-        
+
         return htmlDataList;
     }
-    
+
     /**
-     * Gets the travelerService attribute. 
+     * Gets the travelerService attribute.
      * @return Returns the travelerService.
      */
     public TravelerService getTravelerService() {
@@ -235,7 +237,7 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
     }
 
     /**
-     * Gets the travelerDao attribute. 
+     * Gets the travelerDao attribute.
      * @return Returns the travelerDao.
      */
     public TravelerDao getTravelerDao() {
@@ -251,7 +253,7 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
     }
 
     /**
-     * Gets the temProfileService attribute. 
+     * Gets the temProfileService attribute.
      * @return Returns the temProfileService.
      */
     public TemProfileService getTemProfileService() {
@@ -265,12 +267,12 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
     public void setTemProfileService(TemProfileService temProfileService) {
         this.temProfileService = temProfileService;
     }
-    
+
     protected AccountsReceivableModuleService getAccountsReceivableModuleService() {
         if (accountsReceivableModuleService == null) {
             this.accountsReceivableModuleService = SpringContext.getBean(AccountsReceivableModuleService.class);
         }
-        
+
         return accountsReceivableModuleService;
     }
 

@@ -32,8 +32,8 @@ import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.document.web.bean.TravelRelocationMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 /**

@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class HistoryValueObject implements Serializable {
     private String documentNumber;

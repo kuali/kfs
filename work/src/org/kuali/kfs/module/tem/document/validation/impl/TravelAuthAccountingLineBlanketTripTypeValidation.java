@@ -20,8 +20,8 @@ import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
    public class TravelAuthAccountingLineBlanketTripTypeValidation extends GenericValidation {
        //@Override

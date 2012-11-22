@@ -20,7 +20,7 @@ import org.kuali.kfs.module.tem.TemPropertyConstants.ArrangerFields;
 import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TravelArrangerResignsValidation extends GenericValidation {
 

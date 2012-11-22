@@ -108,7 +108,8 @@
 
 	<bean id="TravelModule-accountingObjectLevelValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.ReimbursementAccountingObjectLevelValidation">
-		<property name="parameterService" ref="parameterService" />
+		<property name="parameterEvaluatorService" ref="parameterEvaluatorService" />
+        <property name="parameterService" ref="parameterService" />
 	</bean>
 
 	<!-- Add Accounting Line Event -->

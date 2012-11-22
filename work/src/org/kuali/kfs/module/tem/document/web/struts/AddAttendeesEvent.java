@@ -27,8 +27,8 @@ import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.service.TravelEntertainmentDocumentService;
 import org.kuali.kfs.module.tem.document.validation.event.AddAttendeeLineEvent;
 import org.kuali.kfs.module.tem.document.web.bean.TravelEntertainmentMvcWrapperBean;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AddAttendeesEvent implements Observer {
     private KualiRuleService kualiRuleService;

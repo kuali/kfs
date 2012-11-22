@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,8 +22,12 @@ import static org.kuali.kfs.module.tem.TemConstants.TemProfileParameters.KIM_AFF
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.EMPLOYEE_TRAVELER_TYPE_CODES;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrTokenizer;
@@ -50,39 +54,38 @@ import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityAffiliationInfo;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityCitizenshipInfo;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
-import org.kuali.rice.kim.bo.entity.impl.KimEntityAddressImpl;
-import org.kuali.rice.kim.bo.impl.PersonImpl;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.address.EntityAddressContract;
+import org.kuali.rice.kim.api.identity.affiliation.EntityAffiliation;
+import org.kuali.rice.kim.api.identity.citizenship.EntityCitizenship;
+import org.kuali.rice.kim.api.identity.entity.Entity;
+import org.kuali.rice.kim.api.identity.personal.EntityBioDemographics;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 
 /**
- * 
+ *
  */
 public class TravelerServiceImpl implements TravelerService {
-    
+
     private ParameterService parameterService;
-    private PersonService<Person> personService;
+    private PersonService personService;
     private IdentityManagementService identityManagementService;
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private TEMRoleService temRoleService;
     private ChartService chartService;
     private OrganizationService organizationService;
-    private RoleManagementService roleManagementService;
+    private RoleService roleService;
     private AccountsReceivableModuleService accountsReceivableModuleService;
-    
+
     private static Logger LOG = Logger.getLogger(TravelerServiceImpl.class);
 
     /**
@@ -100,32 +103,32 @@ public class TravelerServiceImpl implements TravelerService {
         retval.setLastName(person.getLastName());
         retval.setStreetAddressLine1(person.getAddressLine1());
         retval.setStreetAddressLine2(person.getAddressLine2());
-        retval.setStateCode(person.getAddressStateCode());
+        retval.setStateCode(person.getAddressStateProvinceCode());
         retval.setZipCode(person.getAddressPostalCode());
-        retval.setCityName(person.getAddressCityName());
+        retval.setCityName(person.getAddressCity());
         retval.setCountryCode(person.getAddressCountryCode());
         retval.setEmailAddress(person.getEmailAddress());
         retval.setPhoneNumber(person.getPhoneNumber());
         retval.setTravelerTypeCode(EMP_TRAVELER_TYP_CD);
         return retval;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.service.TravelerService#canIncludeProfileInSearch(org.kuali.kfs.module.tem.businessobject.TEMProfile, java.lang.String, org.kuali.rice.kim.bo.Person, boolean, boolean, boolean, boolean, boolean)
      */
     @Override
     public boolean canIncludeProfileInSearch(TEMProfile profile, String docType, Person user, boolean isProfileAdmin, boolean isAssignedArranger, boolean isOrgArranger, boolean isArrangerDoc, boolean isRiskManagement) {
         boolean canInclude = false;
-        
+
         //arrange doc, risk management or user look up self
         if(isArrangerDoc || isRiskManagement || user.getPrincipalId().equals(profile.getPrincipalId())) {
             return true;
         }
-        
+
         if(isProfileAdmin || isOrgArranger) {
             //pull the org they are responsible for and filter on that
             Organization org = profile.getHomeDeptOrg();
-            String roleName; 
+            String roleName;
             if(isOrgArranger) {
                 roleName = TemConstants.TEM_ORGANIZATION_PROFILE_ARRANGER;
             } else {
@@ -136,9 +139,9 @@ public class TravelerServiceImpl implements TravelerService {
                 String roleChartOfAccountsCode = roleQualifiers[0];
                 String roleOrganizationCode = roleQualifiers[1];
                 canInclude |= isParentOrg(org.getChartOfAccountsCode(), org.getOrganizationCode(), roleChartOfAccountsCode, roleOrganizationCode, true);
-            } 
-        } 
-        
+            }
+        }
+
         //check in arranger details if it does not already have the authority to view the profile
         if(!canInclude && isAssignedArranger) {
             //pull the arranger's profiles it is responsible for
@@ -149,19 +152,19 @@ public class TravelerServiceImpl implements TravelerService {
                 canInclude |= getTemRoleService().isArrangerForProfile(user.getPrincipalId(), profile.getProfileId());
             }
         }
-        
+
         return canInclude;
     }
-    
+
     @Override
     public void convertTEMProfileToTravelerDetail(TEMProfile profile, TravelerDetail detail){
         if(profile != null){
             if(detail.getId() == null){
                 SequenceAccessorService sas = SpringContext.getBean(SequenceAccessorService.class);
-                long id = sas.getNextAvailableSequenceNumber(TemConstants.TEM_TRAVELER_DETAIL_SEQ_NAME);        
+                long id = sas.getNextAvailableSequenceNumber(TemConstants.TEM_TRAVELER_DETAIL_SEQ_NAME);
                 detail.setId((int)id);
             }
-            
+
             detail.setFirstName(profile.getFirstName());
             detail.setLastName(profile.getLastName());
             detail.setStreetAddressLine1(profile.getTemProfileAddress().getStreetAddressLine1());
@@ -190,10 +193,10 @@ public class TravelerServiceImpl implements TravelerService {
             detail.setNotifyTAStatusChange(profile.isNotifyTAStatusChange());
             detail.setNotifyTERFinal(profile.isNotifyTERFinal());
             detail.setNotifyTERStatusChange(profile.isNotifyTERStatusChange());
-            
+
             //reset traverl detail's emergency contact list
             detail.resetEmergencyContacts();
-            
+
             if (ObjectUtils.isNotNull(profile.getEmergencyContacts())){
                 int count = 1;
                 for(TemProfileEmergencyContact profileContact : profile.getEmergencyContacts()){
@@ -203,8 +206,8 @@ public class TravelerServiceImpl implements TravelerService {
                     contact.setTravelerDetailId(detail.getId());
                     detail.getEmergencyContacts().add(contact);
                     count++;
-                }            
-            }        
+                }
+            }
         }
     }
 
@@ -213,9 +216,9 @@ public class TravelerServiceImpl implements TravelerService {
      */
     @Override
     public TravelerDetail copyTravelerDetail(TravelerDetail travelerDetail, String documentNumber) {
-        
+
         TravelerDetail newTravelerDetail = new TravelerDetail();
-      
+
         //dateOfBirth actually doesn't belong to TravelDetail (only in Profile) so skipping it as it cause error in copyProperties
         BeanUtils.copyProperties(travelerDetail, newTravelerDetail, new String[]{TEMProfileProperties.DATE_OF_BIRTH});
         newTravelerDetail.setId(null);
@@ -228,7 +231,7 @@ public class TravelerServiceImpl implements TravelerService {
 
 
     /**
-     * 
+     *
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#copyTravelerDetailEmergencyContact(java.util.List, java.lang.String)
      */
     @Override
@@ -246,8 +249,8 @@ public class TravelerServiceImpl implements TravelerService {
             }
         }
         return newEmergencyContacts;
-    }     
-    
+    }
+
     /**
      * @see org.kuali.kfs.module.tem.service.TravelerService#convertToTemProfileFromKim(org.kuali.rice.kim.bo.Person)
      */
@@ -260,9 +263,9 @@ public class TravelerServiceImpl implements TravelerService {
 
     @Override
     public boolean isEmployee(final TravelerDetail traveler) {
-        final String param = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, EMPLOYEE_TRAVELER_TYPE_CODES);
+        final String param = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, EMPLOYEE_TRAVELER_TYPE_CODES);
         List<String> employeeTypes = StrTokenizer.getCSVInstance(param).getTokenList();
-        
+
         return employeeTypes.contains(StringUtils.defaultString(traveler.getTravelerTypeCode()));
     }
 
@@ -280,7 +283,7 @@ public class TravelerServiceImpl implements TravelerService {
         final String[] names = customer.getCustomerName().split(" ");
         final String firstName = names[0];
         final String lastName = names[names.length - 1];
-       
+
         retval.setCustomerNumber(customer.getCustomerNumber());
         retval.refreshReferenceObject(TemPropertyConstants.CUSTOMER);
         retval.setFirstName(firstName);
@@ -297,19 +300,19 @@ public class TravelerServiceImpl implements TravelerService {
 
         return retval;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.service.TravelerService#convertToTemProfileFromCustomer(org.kuali.kfs.integration.ar.AccountsReceivableCustomer)
      */
     @Override
     public TemProfileFromCustomer convertToTemProfileFromCustomer(AccountsReceivableCustomer person) {
         TemProfileFromCustomer retval = new TemProfileFromCustomer();
-    
+
         final AccountsReceivableCustomerAddress address = getAddressFor(person);
-                     
+
         BeanUtils.copyProperties(person, retval);
         BeanUtils.copyProperties(address, retval);
-        
+
         return retval;
     }
 
@@ -322,7 +325,7 @@ public class TravelerServiceImpl implements TravelerService {
     protected AccountsReceivableCustomerAddress getAddressFor(final AccountsReceivableCustomer customer) {
         return getAddressFor(customer, null);
     }
-    
+
     /**
      * Dig up the primary address for a {@link Customer}
      *
@@ -339,11 +342,11 @@ public class TravelerServiceImpl implements TravelerService {
         }
         return null;
     }
-    
+
     @Override
     public TemProfileAddress convertToTemProfileAddressFromCustomer(AccountsReceivableCustomerAddress customerAddress) {
     	TemProfileAddress retval = new TemProfileAddress();
-    
+
     	retval.setStreetAddressLine1(customerAddress.getCustomerLine1StreetAddress());
         retval.setStreetAddressLine2(customerAddress.getCustomerLine2StreetAddress());
         retval.setStateCode(customerAddress.getCustomerStateCode());
@@ -352,29 +355,29 @@ public class TravelerServiceImpl implements TravelerService {
         retval.setCountryCode(customerAddress.getCustomerCountryCode());
         retval.setCustomerNumber(customerAddress.getCustomerNumber());
         retval.setCustomerAddressIdentifier(customerAddress.getCustomerAddressIdentifier());
-        
-        return retval;
-    }
-    
-    /**
-     * @see org.kuali.kfs.module.tem.service.TravelerService#convertToTemProfileAddressFromKimAddress(org.kuali.rice.kim.bo.Person)
-     */
-    @Override
-    public TemProfileAddress convertToTemProfileAddressFromKimAddress(final KimEntityAddressImpl address) {
-    	TemProfileAddress retval = new TemProfileAddress();
-        
-    	retval.setStreetAddressLine1(address.getLine1());
-        retval.setStreetAddressLine2(address.getLine2());
-        retval.setStateCode(address.getStateCode());
-        retval.setZipCode(address.getPostalCode());
-        retval.setCityName(address.getCityName());
-        retval.setCountryCode(address.getCountryCode());
-        
+
         return retval;
     }
 
     /**
-     * Gets the parameterService attribute. 
+     * @see org.kuali.kfs.module.tem.service.TravelerService#convertToTemProfileAddressFromKimAddress(org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    public TemProfileAddress convertToTemProfileAddressFromKimAddress(final EntityAddressContract address) {
+    	TemProfileAddress retval = new TemProfileAddress();
+
+    	retval.setStreetAddressLine1(address.getLine1());
+        retval.setStreetAddressLine2(address.getLine2());
+        retval.setStateCode(address.getStateProvinceCode());
+        retval.setZipCode(address.getPostalCode());
+        retval.setCityName(address.getCity());
+        retval.setCountryCode(address.getCountryCode());
+
+        return retval;
+    }
+
+    /**
+     * Gets the parameterService attribute.
      * @return Returns the parameterService.
      */
     public ParameterService getParameterService() {
@@ -390,16 +393,16 @@ public class TravelerServiceImpl implements TravelerService {
     }
 
     /**
-     * Gets the personService attribute. 
+     * Gets the personService attribute.
      * @return Returns the personService.
      */
-    public PersonService<Person> getPersonService() {
+    public PersonService getPersonService() {
         if ( personService == null ) {
             personService = SpringContext.getBean(PersonService.class);
         }
         return personService;
     }
-    
+
     /**
      * Copies relevant data from {@link TemProfile} to {@link Customer}
      * @see org.kuali.kfs.module.tem.service.TravelerService#copyTEMProfileToCustomer(org.kuali.kfs.module.tem.businessobject.TEMProfile, org.kuali.kfs.integration.ar.AccountsReceivableCustomer)
@@ -418,9 +421,9 @@ public class TravelerServiceImpl implements TravelerService {
         customer.setCustomerPhoneNumber(profile.getPhoneNumber());
         AccountsReceivableCustomerAddress customerAddress = null;
         if(ObjectUtils.isNotNull(profile.getTemProfileAddress()) && ObjectUtils.isNotNull(profile.getTemProfileAddress().getCustomerAddressIdentifier())) {
-        	customerAddress = (AccountsReceivableCustomerAddress) getAddressFor(customer, profile.getTemProfileAddress().getCustomerAddressIdentifier());
+        	customerAddress = getAddressFor(customer, profile.getTemProfileAddress().getCustomerAddressIdentifier());
         } else {
-        	customerAddress = (AccountsReceivableCustomerAddress) getAddressFor(customer);
+        	customerAddress = getAddressFor(customer);
         }
         if (customerAddress == null){
             customerAddress = getAccountsReceivableModuleService().createCustomerAddress();
@@ -439,7 +442,7 @@ public class TravelerServiceImpl implements TravelerService {
         customerAddress.setCustomerZipCode(profile.getTemProfileAddress().getZipCode());
         customerAddress.setCustomerCountryCode(profile.getTemProfileAddress().getCountryCode());
         customerAddress.setCustomerEmailAddress(profile.getEmailAddress());
-        
+
         if (customer.getAccountsReceivableCustomerAddresses() == null){
             customer.setAccountsReceivableCustomerAddresses(new ArrayList<AccountsReceivableCustomerAddress>());
         }
@@ -448,11 +451,11 @@ public class TravelerServiceImpl implements TravelerService {
             customerAddresses.add(customerAddress);
             customer.setAccountsReceivableCustomerAddresses(customerAddresses);
         }
-        
+
         customer.setCustomerRecordAddDate(dateTimeService.getCurrentSqlDate());
         customer.setCustomerLastActivityDate(dateTimeService.getCurrentSqlDate());
         customer.setCustomerBirthDate(profile.getDateOfBirth());
-      
+
     }
 
     /**
@@ -462,10 +465,10 @@ public class TravelerServiceImpl implements TravelerService {
     public void populateTEMProfile(TEMProfile profile) {
         if(profile != null){
             if (!StringUtils.isBlank(profile.getPrincipalId())){
-                PersonImpl person = (PersonImpl) getPersonService().getPerson(profile.getPrincipalId());
+                Person person = getPersonService().getPerson(profile.getPrincipalId());
                 profile.setPrincipal(person);
-                KimEntityInfo kimEntityInfo = identityManagementService.getEntityInfoByPrincipalId(profile.getPrincipalId());
-                profile.setKimEntityInfo(kimEntityInfo);
+                Entity kimEntity = identityManagementService.getEntityByPrincipalId(profile.getPrincipalId());
+                profile.setKimEntityInfo(kimEntity);
                 copyKimDataToTEMProfile(profile, profile.getPrincipal(), profile.getKimEntityInfo());
             } else if (!StringUtils.isBlank(profile.getCustomerNumber())){
                 copyCustomerToTEMProfile(profile, profile.getCustomer());
@@ -499,25 +502,25 @@ public class TravelerServiceImpl implements TravelerService {
                 profile.setLastName(profile.getLastName() + " " + customerNames[i]);
             }
         }
-        
+
         AccountsReceivableCustomerAddress address = customer.getPrimaryAddress();
         TemProfileAddress profileAddress = new TemProfileAddress();
-        
+
         if(ObjectUtils.isNotNull(profile.getTemProfileAddress())) {
         	profileAddress = profile.getTemProfileAddress();
         }
-        
+
         profileAddress.setProfileId(profile.getProfileId());
-        
+
         profileAddress.setStreetAddressLine1(address.getCustomerLine1StreetAddress());
         profileAddress.setStreetAddressLine2(address.getCustomerLine2StreetAddress());
         profileAddress.setCityName(address.getCustomerCityName());
         profileAddress.setStateCode(address.getCustomerStateCode());
         profileAddress.setZipCode(address.getCustomerZipCode());
         profileAddress.setCountryCode(address.getCustomerCountryCode());
-        
+
         profile.setTemProfileAddress(profileAddress);
-        
+
         profile.setEmailAddress(customer.getCustomerEmailAddress());
         profile.setPhoneNumber(customer.getCustomerPhoneNumber());
         profile.setEmployeeId("None");
@@ -527,64 +530,72 @@ public class TravelerServiceImpl implements TravelerService {
      * @see org.kuali.kfs.module.tem.service.TravelerService#copyKimDataToTEMProfile(org.kuali.kfs.module.tem.businessobject.TEMProfile, org.kuali.rice.kim.bo.Person, org.kuali.rice.kim.bo.entity.dto.KimEntityInfo)
      */
     @Override
-    public void copyKimDataToTEMProfile(TEMProfile profile, Person principal, KimEntityInfo kimEntityInfo) {
+    public void copyKimDataToTEMProfile(TEMProfile profile, Person principal, Entity kimEntity) {
         // copy principal data
         profile.setFirstName(principal.getFirstName().toUpperCase());
         profile.setMiddleName(principal.getMiddleName().toUpperCase());
         profile.setLastName(principal.getLastName().toUpperCase());
-        
+
         TemProfileAddress profileAddress = new TemProfileAddress();
-        
+
         if(ObjectUtils.isNotNull(profile.getTemProfileAddress())) {
         	profileAddress = profile.getTemProfileAddress();
         }
-        
+
         profileAddress.setProfileId(profile.getProfileId());
-        
+
         profileAddress.setStreetAddressLine1(principal.getAddressLine1Unmasked().toUpperCase());
         profileAddress.setStreetAddressLine2(principal.getAddressLine2Unmasked().toUpperCase());
-        profileAddress.setCityName(principal.getAddressCityName().toUpperCase());
-        profileAddress.setStateCode(principal.getAddressStateCodeUnmasked().toUpperCase());
+        profileAddress.setCityName(principal.getAddressCity().toUpperCase());
+        profileAddress.setStateCode(principal.getAddressStateProvinceCodeUnmasked().toUpperCase());
         profileAddress.setZipCode(principal.getAddressPostalCodeUnmasked());
         profileAddress.setCountryCode(principal.getAddressCountryCodeUnmasked().toUpperCase());
-        
+
         profile.setTemProfileAddress(profileAddress);
         profile.setEmailAddress(principal.getEmailAddressUnmasked().toUpperCase());
         profile.setPhoneNumber(principal.getPhoneNumberUnmasked());
-        
+
         String primaryDeptCode[] = principal.getPrimaryDepartmentCode().split("-");
         if(primaryDeptCode != null && primaryDeptCode.length == 2){
             profile.setHomeDeptChartOfAccountsCode(primaryDeptCode[0]);
             profile.setHomeDeptOrgCode(primaryDeptCode[1]);
         }
-        
+
         profile.refreshReferenceObject("homeDeptOrg");
         profile.setEmployeeId(principal.getEmployeeId());
-        
-        // copy kim info
-        if (ObjectUtils.isNotNull(kimEntityInfo.getBioDemographics())) {
-            Date dob = new Date(kimEntityInfo.getBioDemographics().getBirthDate().getTime());
-            profile.setDateOfBirth(dob);
-            profile.setGender(kimEntityInfo.getBioDemographics().getGenderCode());
+
+        // Copy kim info to profile
+        if (ObjectUtils.isNotNull(kimEntity.getBioDemographics())) {
+
+            String birthDate = kimEntity.getBioDemographics().getBirthDate();
+            java.util.Date parsedBirthDate = new java.util.Date();
+            try {
+                parsedBirthDate = new SimpleDateFormat(EntityBioDemographics.BIRTH_DATE_FORMAT).parse(birthDate);
+            } catch (ParseException pe) {
+                LOG.error("Error parsing EntityBioDemographics birth date: '" + birthDate + "'", pe);
+            }
+            Date dateOfBirth = new Date(parsedBirthDate.getTime());
+            profile.setDateOfBirth(dateOfBirth);
+            profile.setGender(kimEntity.getBioDemographics().getGenderCode());
         }
-        List<KimEntityCitizenshipInfo> citizenships = kimEntityInfo.getCitizenships();
+        List<EntityCitizenship> citizenships = kimEntity.getCitizenships();
         if (ObjectUtils.isNotNull(citizenships) && citizenships.size() > 0) {
             profile.setCitizenship(citizenships.get(0).getCountryCode());
         }
     }
-    
-    
+
+
 
     /**
      * @see org.kuali.kfs.module.tem.service.TravelerService#isCustomerEmployee(org.kuali.kfs.integration.ar.AccountsReceivableCustomer)
      */
     @Override
     public boolean isCustomerEmployee(AccountsReceivableCustomer person) {
-        List<String> empParams = getParameterService().getParameterValues(TemParameterConstants.TEM_PROFILE.class, AR_CUSTOMER_TYPE_TO_TRAVELER_TYPE_CROSSWALK);
+        List<String> empParams = new ArrayList<String>(getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_PROFILE.class, AR_CUSTOMER_TYPE_TO_TRAVELER_TYPE_CROSSWALK));
         List<String> empCodes = new ArrayList<String>();
         List<String> nonEmpCodes = new ArrayList<String>();
         splitCodes(empCodes, nonEmpCodes, empParams);
-        
+
         if(empCodes.contains(person.getCustomerTypeCode())) {
             return true;
         } else if(nonEmpCodes.contains(person.getCustomerTypeCode())) {
@@ -598,24 +609,24 @@ public class TravelerServiceImpl implements TravelerService {
      */
     @Override
     public boolean isKimPersonEmployee(Person person) {
-        List<String> empParams = getParameterService().getParameterValues(TemParameterConstants.TEM_PROFILE.class, KIM_AFFILIATION_TYPE_TO_TRAVELER_TYPE_CROSSWALK);
+        List<String> empParams = new ArrayList<String>(getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_PROFILE.class, KIM_AFFILIATION_TYPE_TO_TRAVELER_TYPE_CROSSWALK));
         List<String> empCodes = new ArrayList<String>();
         List<String> nonEmpCodes = new ArrayList<String>();
         splitCodes(empCodes, nonEmpCodes, empParams);
-        
+
         //for KIM we need the affiliation type in the entity
-        KimEntityInfo kimEntityInfo = identityManagementService.getEntityInfoByPrincipalId(person.getPrincipalId());
-        for(KimEntityAffiliationInfo info: kimEntityInfo.getAffiliations()) {
-            if(empCodes.contains(info.getAffiliationTypeCode())) {
+        Entity kimEntity = identityManagementService.getEntityByPrincipalId(person.getPrincipalId());
+        for(EntityAffiliation affiliation: kimEntity.getAffiliations()) {
+            if(empCodes.contains(affiliation.getAffiliationType().getCode())) {
                 return true;
-            } else if(nonEmpCodes.contains(info.getAffiliationTypeCode())) {
+            } else if(nonEmpCodes.contains(affiliation.getAffiliationType().getCode())) {
                 return false;
             }
         }
-        
+
         return false;
     }
-    
+
     private void splitCodes(List<String> empCodes, List<String> nonEmpCodes, List<String> empParams) {
         for(String param: empParams) {
             String [] splitParams = param.split("=");
@@ -627,7 +638,7 @@ public class TravelerServiceImpl implements TravelerService {
             }
         }
     }
-    
+
     private boolean compareAddress(AccountsReceivableCustomerAddress customerAddress, TEMProfile temProfile) {
     	if(!StringUtils.equalsIgnoreCase(customerAddress.getCustomerLine1StreetAddress(), temProfile.getTemProfileAddress().getStreetAddressLine1())) {
     		return true;
@@ -650,7 +661,7 @@ public class TravelerServiceImpl implements TravelerService {
     	if(!StringUtils.equalsIgnoreCase(customerAddress.getCustomerEmailAddress(), temProfile.getEmailAddress())) {
     		return true;
     	}
-        
+
         return false;
     }
 
@@ -665,20 +676,20 @@ public class TravelerServiceImpl implements TravelerService {
             return false;
         }
         if (ObjectUtils.isNull(roleOrgCode)) {
-            return roleChartCode.equals(chartCode) 
+            return roleChartCode.equals(chartCode)
                     || (descendHierarchy && chartService.isParentChart(chartCode, roleChartCode));
         }
-        return (roleChartCode.equals(chartCode) && roleOrgCode.equals(orgCode)) 
+        return (roleChartCode.equals(chartCode) && roleOrgCode.equals(orgCode))
                 || (descendHierarchy && organizationService.isParentOrganization(chartCode, orgCode, roleChartCode, roleOrgCode));
     }
-    
+
     protected String[] getOrganizationForUser(String principalId, String roleName) {
         if (principalId == null) {
             return null;
         }
-        AttributeSet qualification = new AttributeSet(1);
+        Map<String,String> qualification = new HashMap<String,String>(1);
         qualification.put(TemOrganizationHierarchyRoleTypeService.PERFORM_QUALIFIER_MATCH, "false");
-        List<AttributeSet> roleQualifiers = getRoleManagementService().getRoleQualifiersForPrincipal(principalId, TemConstants.PARAM_NAMESPACE, roleName, qualification); 
+        List<Map<String,String>> roleQualifiers = getRoleService().getRoleQualifersForPrincipalByNamespaceAndRolename(principalId, TemConstants.PARAM_NAMESPACE, roleName, qualification);
         if ((roleQualifiers != null) && !roleQualifiers.isEmpty()) {
             String[] qualifiers = new String[2];
             qualifiers[0] = roleQualifiers.get(0).get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
@@ -688,7 +699,7 @@ public class TravelerServiceImpl implements TravelerService {
         return null;
     }
     /**
-     * Gets the identityManagementService attribute. 
+     * Gets the identityManagementService attribute.
      * @return Returns the identityManagementService.
      */
     public IdentityManagementService getIdentityManagementService() {
@@ -704,7 +715,7 @@ public class TravelerServiceImpl implements TravelerService {
     }
 
 	/**
-	 * Gets the businessObjectService attribute. 
+	 * Gets the businessObjectService attribute.
 	 * @return Returns the businessObjectService.
 	 */
 	public BusinessObjectService getBusinessObjectService() {
@@ -728,7 +739,7 @@ public class TravelerServiceImpl implements TravelerService {
 	}
 
 	/**
-	 * Gets the dateTimeService attribute. 
+	 * Gets the dateTimeService attribute.
 	 * @return Returns the dateTimeService.
 	 */
 	public DateTimeService getDateTimeService() {
@@ -760,31 +771,31 @@ public class TravelerServiceImpl implements TravelerService {
     }
 
     /**
-     * Gets the roleManagementService attribute. 
+     * Gets the roleManagementService attribute.
      * @return Returns the roleManagementService.
      */
-    public RoleManagementService getRoleManagementService() {
-        return roleManagementService;
+    public RoleService getRoleService() {
+        return roleService;
     }
 
     /**
      * Sets the roleManagementService attribute value.
      * @param roleManagementService The roleManagementService to set.
      */
-    public void setRoleManagementService(RoleManagementService roleManagementService) {
-        this.roleManagementService = roleManagementService;
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
     }
-    
+
     protected AccountsReceivableModuleService getAccountsReceivableModuleService() {
         if (accountsReceivableModuleService == null) {
             this.accountsReceivableModuleService = SpringContext.getBean(AccountsReceivableModuleService.class);
         }
-        
+
         return accountsReceivableModuleService;
     }
 
     public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
         this.accountsReceivableModuleService = accountsReceivableModuleService;
-    }    
-    
+    }
+
 }

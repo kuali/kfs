@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,8 +20,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.service.AgencyEntryGroupService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.KualiModuleService;
 
 public class AgencyEntryGroupServiceImpl implements AgencyEntryGroupService {
     protected DateTimeService dateTimeService;
@@ -30,7 +30,7 @@ public class AgencyEntryGroupServiceImpl implements AgencyEntryGroupService {
     protected KualiModuleService kualiModuleService;
     protected String nightlyOutFileName;
     protected String backupFileName;
-    
+
     @Override
     public void createBackupGroup() {
         // TODO Auto-generated method stub
@@ -102,7 +102,7 @@ public class AgencyEntryGroupServiceImpl implements AgencyEntryGroupService {
     }
 
     /**
-     * Gets the dateTimeService attribute. 
+     * Gets the dateTimeService attribute.
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -118,7 +118,7 @@ public class AgencyEntryGroupServiceImpl implements AgencyEntryGroupService {
     }
 
     /**
-     * Gets the batchFileDirectoryName attribute. 
+     * Gets the batchFileDirectoryName attribute.
      * @return Returns the batchFileDirectoryName.
      */
     public String getBatchFileErrorDirectoryName() {
@@ -134,7 +134,7 @@ public class AgencyEntryGroupServiceImpl implements AgencyEntryGroupService {
     }
 
     /**
-     * Gets the kualiModuleService attribute. 
+     * Gets the kualiModuleService attribute.
      * @return Returns the kualiModuleService.
      */
     public KualiModuleService getKualiModuleService() {
@@ -150,7 +150,7 @@ public class AgencyEntryGroupServiceImpl implements AgencyEntryGroupService {
     }
 
     /**
-     * Gets the nightlyOutFileName attribute. 
+     * Gets the nightlyOutFileName attribute.
      * @return Returns the nightlyOutFileName.
      */
     public String getNightlyOutFileName() {
@@ -166,7 +166,7 @@ public class AgencyEntryGroupServiceImpl implements AgencyEntryGroupService {
     }
 
     /**
-     * Gets the backupFileName attribute. 
+     * Gets the backupFileName attribute.
      * @return Returns the backupFileName.
      */
     public String getBackupFileName() {
@@ -182,7 +182,7 @@ public class AgencyEntryGroupServiceImpl implements AgencyEntryGroupService {
     }
 
     /**
-     * Gets the batchFileDirectoryName attribute. 
+     * Gets the batchFileDirectoryName attribute.
      * @return Returns the batchFileDirectoryName.
      */
     public String getBatchFileDirectoryName() {
@@ -196,7 +196,7 @@ public class AgencyEntryGroupServiceImpl implements AgencyEntryGroupService {
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }
-    
-    
+
+
 
 }

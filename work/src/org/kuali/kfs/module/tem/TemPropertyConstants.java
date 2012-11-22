@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,13 +18,11 @@ package org.kuali.kfs.module.tem;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.rice.core.util.JSTLConstants;
-
 /**
  * Travel and Entertainment module constants for business object properties
- * 
+ *
  */
-public class TemPropertyConstants extends JSTLConstants {
+public class TemPropertyConstants {
     public static final String TRAVELER_PROFILE_LOOKUPABLE = "travelerProfileLookupable";
     public static final String NEW_ATTENDEE_LINE = "newAttendeeLine";
     public static final String NEW_EMERGENCY_CONTACT_LINE = "newEmergencyContactLine";
@@ -50,10 +48,10 @@ public class TemPropertyConstants extends JSTLConstants {
 
     public static final String NEW_IMPORTED_EXPENSE_LINE = "newImportedExpenseLine";
     public static final String NEW_IMPORTED_EXPENSE_LINES = "newImportedExpenseLines";
-    
+
     public static final String NEW_ACTUAL_EXPENSE_LINE = "newActualExpenseLine";
     public static final String NEW_ACTUAL_EXPENSE_LINES = "newActualExpenseLines";
-    
+
 
     public static final String EXPENSE_DATE = "expenseDate";
     //TODO: this really should be named expenseDate in the PerDiem
@@ -92,7 +90,7 @@ public class TemPropertyConstants extends JSTLConstants {
 
     public static final String PER_DIEM_EXPENSE_DISABLED = "document.perDiemExpenses[%d].%s";
     public static final String AIRFARE_EXPENSE_DISABLED = "document.airfare";
-   
+
     public static final String PRIMARY_DESTINATION_NAME = "primaryDestinationName";
 
     public static final String PER_DIEM_NAME = "primaryDestination";
@@ -104,13 +102,13 @@ public class TemPropertyConstants extends JSTLConstants {
 
     public static final String PER_DIEM_EFFECTIVE_FROM_DATE = "effectiveFromDate";
     public static final String PER_DIEM_EFFECTIVE_TO_DATE = "effectiveToDate";
-    
+
     public static final String ATTACHMENT_FILE = "attachmentFile";
-    
+
     public static final String ACCOUNT_DISTRIBUTION_NEW_SRC_LINE = "accountDistributionnewSourceLine";
     public static final String ACCOUNT_DISTRIBUTION_SRC_LINES = "accountDistributionsourceAccountingLines";
     public static final String ACCOUNT_LINE_PERCENT = "accountLinePercent";
-    
+
     //credit card agency data properties
     public static final String CREDIT_CARD_AGENCY = "creditCardAgency";
     public static final String AGENCY_STAGING_DATA = "agencyStagingData";
@@ -118,7 +116,7 @@ public class TemPropertyConstants extends JSTLConstants {
     public static final String TRAVEL_CARD_TYPE = "travelCardType";
     //profile accounts
     public static final String CREDIT_CARD_AGENCY_ID = "creditCardAgencyId";
-    
+
     public static class TravelAuthorizationFields {
         public static final String TRVL_ADV_REQUESTED = "travelAdvanceRequested";
         public static final String TRIP_BEGIN_DT = "tripBegin";
@@ -165,9 +163,9 @@ public class TemPropertyConstants extends JSTLConstants {
         public static final String POSTAL_CODE = "postalCode";
         public static final String STATE_CODE = "stateCode";
         public static final String HOST_CERTIFIED = "hostCertified";
-        
+
     }
-    
+
     public static class ArrangerFields {
         public static final String TRAVELER_NAME = "travelerName";
         public static final String PRIMARY_ARRANGER = "primaryInd";
@@ -220,7 +218,7 @@ public class TemPropertyConstants extends JSTLConstants {
         public static final String TEM_PROFILE = "TEMProfile";
         public static final String TEM_PROFILE_ADMINISTRATOR = "TEMProfileAdministrator";
     }
-    
+
     public static class TravelAgencyAuditReportFields {
         public static final String ACCOUNTING_INFO = "accountingInfo";
         public static final String TRIP_ID = "tripId";
@@ -298,7 +296,7 @@ public class TemPropertyConstants extends JSTLConstants {
     public static final String MEALS_AND_INCIDENTALS = "mealsAndIncidentals";
     public static final String TRIP_TYPE_CODE = "tripTypeCode";
     public static final String SEASON_BEGIN_MONTH_AND_DAY = "seasonBeginMonthAndDay";
-    
+
     public static final String EMPLOYEE_ID = "employeeId";
     public static final String CUSTOMER_NUMBER = "customerNumber";
     public static final String TRAVELER_ID = "travelerId";
@@ -318,7 +316,7 @@ public class TemPropertyConstants extends JSTLConstants {
     public static final String TRAVELER_NAME = "travelerName";
     public static final String TRAVELER_NETWORK_ID = "travelerNetworkId";
     public static final String TRIP_ARRANGER_NAME = "tripArrangerName";
-    
+
     public static final String CREDIT_CARD_NUMBER = "creditCardNumber";
     public static final String CREDIT_CARD_KEY = "creditCardKey";
     public static final String REFERENCE_NUMBER = "referenceNumber";
@@ -332,7 +330,7 @@ public class TemPropertyConstants extends JSTLConstants {
     public static final String ITINERARY_NUMBER = "itineraryNumber";
     public static final String DISTRIBUTION_CODE = "diCode";
     public static final String IMPORT_BY = "importBy";
-   
+
     // delinquent actions ranking
     public static final Map<String, Integer> delinquentActionsRank() {
         Map<String, Integer> returnMap = new HashMap<String, Integer>();
@@ -340,7 +338,7 @@ public class TemPropertyConstants extends JSTLConstants {
         returnMap.put("S", 2);
         return returnMap;
     }
-    
+
     public static final String TRAVEL_ADVANCE_ID = "travelAdvanceId";
     public static final String ARRANGER_PROFILE_ID = "arrangerProfileId";
     public static final String AR_INVOICE_DOC_NUMBER = "arInvoiceDocNumber";
@@ -349,6 +347,9 @@ public class TemPropertyConstants extends JSTLConstants {
     public static final String CUSTOMER_TYPE_CODE = "customerTypeCode";
     public static final String NEW_ROUTE_STATUS = "newRouteStatus";
     public static final String OLD_ROUTE_STATUS = "oldRouteStatus";
-    
+
     public static final String EXPENSE_NOTIFICATION_DATE = "expenseNotificationDate";
+
+    public static final String EXPENSE_TYPE_CODE = "expenseTypeCode";
+    public static final String NAME = "name";
 }

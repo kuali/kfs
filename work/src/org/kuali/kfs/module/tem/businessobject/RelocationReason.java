@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,21 +21,21 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Relocation Reason
- * 
+ *
  */
 @Entity
-@Table(name="tem_relo_reason_t")
-public class RelocationReason extends PersistableBusinessObjectBase implements Inactivateable{
+@Table(name="TEM_RELO_REASON_T")
+public class RelocationReason extends PersistableBusinessObjectBase implements MutableInactivatable{
     private String reloReasonCode;
     private String reloReasonName;
     private String reloReasonDescription;
     private Boolean active = Boolean.TRUE;
-    
+
     public void setReloReasonCode(String reloReasonCode){
         this.reloReasonCode = reloReasonCode;
     }
@@ -70,8 +70,9 @@ public class RelocationReason extends PersistableBusinessObjectBase implements I
     public boolean getActive(){
         return this.active;
     }
-    @Override
-    protected LinkedHashMap toStringMapper() {
+
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("reloReasonCode", "" + this.reloReasonCode);
         return m;

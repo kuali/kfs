@@ -18,7 +18,7 @@ package org.kuali.kfs.module.tem.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 /**
  * This class returns list of travel expense company value pairs.
@@ -29,5 +29,5 @@ public interface TravelExpenseTypeService {
     
     Map<String, String> getCompanyNameMapFrom(final String expenseTypeCode);
 
-    List<KeyLabelPair> getCompanyNamePairsFrom(final String expenseTypeCode);
+    List<ConcreteKeyValue> getCompanyNamePairsFrom(final String expenseTypeCode);
 }

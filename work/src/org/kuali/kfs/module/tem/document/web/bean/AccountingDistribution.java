@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document.web.bean;
 
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Bean class used to hold values for creating the view for Accounting Distribution on the 

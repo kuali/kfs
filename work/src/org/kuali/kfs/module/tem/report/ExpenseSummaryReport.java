@@ -35,7 +35,7 @@ import org.kuali.kfs.module.tem.report.annotations.SubReport;
 import org.kuali.kfs.module.tem.report.annotations.Summary;
 import org.kuali.kfs.module.tem.report.annotations.TitleStyle;
 import org.kuali.kfs.sys.report.ReportInfoHolder;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Represents an Expense Summary Report

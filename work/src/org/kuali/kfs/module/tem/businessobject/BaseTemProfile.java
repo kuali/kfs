@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,7 @@ import javax.persistence.SequenceGenerator;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
@@ -47,7 +47,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
     protected String citizenship;
     protected String emailAddress;
     protected Date dateOfBirth;
-    protected String gender;    
+    protected String gender;
     protected String phoneNumber;
     protected String travelerTypeCode;
     protected TravelerType travelerType;
@@ -68,7 +68,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
     protected boolean active = Boolean.TRUE;
     protected boolean nonResidentAlien = Boolean.FALSE;
     protected boolean motorVehicleRecordCheck = Boolean.FALSE;
-    
+
     /**
      * Default Constructor
      */
@@ -77,7 +77,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * This method returns the document number this TravelerDetail object is associated with
-     * 
+     *
      * @return document number
      */
     @Column(name = "doc_nbr")
@@ -87,7 +87,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * This method sets the document number this TravelerDetail object will be associated with
-     * 
+     *
      * @param documentNumber
      */
     public void setDocumentNumber(String documentNumber) {
@@ -126,10 +126,10 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    
+
     /**
      * Gets the middleName attribute.
-     * 
+     *
      * @return Returns the middleName.
      */
     @Column(length = 40, nullable = true)
@@ -139,21 +139,24 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Sets the middleName attribute value.
-     * 
+     *
      * @param middleName The middleName to set.
      */
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
-    }    
-    
+    }
+
     public String getName() {
         String name = "";
-        if(StringUtils.isNotBlank(getFirstName()))
+        if(StringUtils.isNotBlank(getFirstName())) {
             name += getFirstName();
-        if(StringUtils.isNotBlank(getMiddleName()))
+        }
+        if(StringUtils.isNotBlank(getMiddleName())) {
             name += " " + getMiddleName();
-        if(StringUtils.isNotBlank(getLastName()))
+        }
+        if(StringUtils.isNotBlank(getLastName())) {
             name += " " + getLastName();
+        }
         return name;
     }
 
@@ -259,7 +262,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Gets the principalId attribute.
-     * 
+     *
      * @return Returns the principalId.
      */
     @Column(name = "EMP_PRINCIPAL_ID")
@@ -269,7 +272,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Sets the principalId attribute value.
-     * 
+     *
      * @param principalId The principalId to set.
      */
     public void setPrincipalId(String principalId) {
@@ -278,7 +281,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Gets the principalName attribute.
-     * 
+     *
      * @return Returns the principalName.
      */
     @Column(name = "EMP_PRINCIPAL_ID")
@@ -288,16 +291,16 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Sets the principalName attribute value.
-     * 
+     *
      * @param principalName The principalName to set.
      */
     public void setPrincipalName(String principalName) {
         this.principalName = principalName;
     }
-    
+
     /**
      * Gets the customerNumber attribute.
-     * 
+     *
      * @return Returns the customerNumber.
      */
     @Column(name = "customer_num", length = 40, nullable = true)
@@ -307,12 +310,12 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Sets the customerNumber attribute value.
-     * 
+     *
      * @param customerNumber The customerNumber to set.
      */
     public void setCustomerNumber(String customerNumber) {
         this.customerNumber = customerNumber;
-    }    
+    }
 
     public void setCustomer(final AccountsReceivableCustomer customer) {
         this.customer = customer;
@@ -322,8 +325,8 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
         return this.customer;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("id", id);
         map.put("firstName", firstName);
@@ -343,7 +346,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Gets the driversLicenseNumber attribute.
-     * 
+     *
      * @return Returns the driversLicenseNumber.
      */
     @Column(name = "drive_lic_num", length = 20, nullable = true)
@@ -353,7 +356,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Sets the driversLicenseNumber attribute value.
-     * 
+     *
      * @param driversLicenseNumber The driversLicenseNumber to set.
      */
     public void setDriversLicenseNumber(String driversLicenseNumber) {
@@ -362,7 +365,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Gets the driversLicenseState attribute.
-     * 
+     *
      * @return Returns the driversLicenseState.
      */
     public String getDriversLicenseState() {
@@ -371,7 +374,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Sets the driversLicenseState attribute value.
-     * 
+     *
      * @param driversLicenseState The driversLicenseState to set.
      */
     public void setDriversLicenseState(String driversLicenseState) {
@@ -380,7 +383,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Gets the driversLicenseExpDate attribute.
-     * 
+     *
      * @return Returns the driversLicenseExpDate.
      */
     @Column(name = "drive_lic_exp_dt", length = 10)
@@ -391,7 +394,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Sets the driversLicenseExpDate attribute value.
-     * 
+     *
      * @param driversLicenseExpDate The driversLicenseExpDate to set.
      */
     public void setDriversLicenseExpDate(Date driversLicenseExpDate) {
@@ -416,7 +419,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Gets the citizenship attribute.
-     * 
+     *
      * @return Returns the citizenship.
      */
     @Column(name = "citizenship", length = 40, nullable = true)
@@ -426,7 +429,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Sets the citizenship attribute value.
-     * 
+     *
      * @param citizenship The citizenship to set.
      */
     public void setCitizenship(String citizenship) {
@@ -435,7 +438,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
     @Column(name = "ACTV_IND", nullable = false, length = 1)
@@ -445,7 +448,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
     public void setActive(boolean active) {
@@ -454,7 +457,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Gets the notifyTAFinal attribute.
-     * 
+     *
      * @return Returns the notifyTAFinal.
      */
     public boolean isNotifyTAFinal() {
@@ -463,7 +466,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Sets the notifyTAFinal attribute value.
-     * 
+     *
      * @param notifyTAFinal The notifyTAFinal to set.
      */
     public void setNotifyTAFinal(boolean notifyTAFinal) {
@@ -472,7 +475,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Gets the notifyTAStatusChange attribute.
-     * 
+     *
      * @return Returns the notifyTAStatusChange.
      */
     public boolean isNotifyTAStatusChange() {
@@ -481,7 +484,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Sets the notifyTAStatusChange attribute value.
-     * 
+     *
      * @param notifyTAStatusChange The notifyTAStatusChange to set.
      */
     public void setNotifyTAStatusChange(boolean notifyTAStatusChange) {
@@ -490,7 +493,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Gets the notifyTERFinal attribute.
-     * 
+     *
      * @return Returns the notifyTERFinal.
      */
     public boolean isNotifyTERFinal() {
@@ -499,7 +502,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Sets the notifyTERFinal attribute value.
-     * 
+     *
      * @param notifyTERFinal The notifyTERFinal to set.
      */
     public void setNotifyTERFinal(boolean notifyTERFinal) {
@@ -508,7 +511,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Gets the notifyTERStatusChange attribute.
-     * 
+     *
      * @return Returns the notifyTERStatusChange.
      */
     public boolean isNotifyTERStatusChange() {
@@ -517,7 +520,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Sets the notifyTERStatusChange attribute value.
-     * 
+     *
      * @param notifyTERStatusChange The notifyTERStatusChange to set.
      */
     public void setNotifyTERStatusChange(boolean notifyTERStatusChange) {
@@ -531,10 +534,10 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
     public void setMotorVehicleRecordCheck(boolean motorVehicleRecordCheck) {
         this.motorVehicleRecordCheck = motorVehicleRecordCheck;
     }
-    
+
     /**
      * Gets the nonResIdentAlien attribute.
-     * 
+     *
      * @return Returns the nonResIdentAlien.
      */
     @Column(name = "non_res_alien", length = 1, nullable = true)
@@ -544,16 +547,16 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Sets the nonResIdentAlien attribute value.
-     * 
+     *
      * @param nonResIdentAlien The nonResIdentAlien to set.
      */
     public void setNonResidentAlien(boolean nonResidentAlien) {
         this.nonResidentAlien = nonResidentAlien;
-    }    
-    
+    }
+
     /**
      * Gets the dateOfBirth attribute.
-     * 
+     *
      * @return Returns the dateOfBirth.
      */
     @Column(name = "date_of_birth", length = 10, nullable = false)
@@ -563,7 +566,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Sets the dateOfBirth attribute value.
-     * 
+     *
      * @param dateOfBirth The dateOfBirth to set.
      */
     public void setDateOfBirth(Date dateOfBirth) {
@@ -572,7 +575,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Gets the gender attribute.
-     * 
+     *
      * @return Returns the gender.
      */
     @Column(name = "gender", length = 1, nullable = false)
@@ -582,10 +585,10 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
     /**
      * Sets the gender attribute value.
-     * 
+     *
      * @param gender The gender to set.
      */
     public void setGender(String gender) {
         this.gender = gender;
-    }    
+    }
 }

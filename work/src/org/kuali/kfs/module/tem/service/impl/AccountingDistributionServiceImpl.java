@@ -49,9 +49,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Accounting Distribution Service Implementation
@@ -228,7 +228,7 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
     }
     
     public String getObjectCodeFrom(final TravelDocument travelDocument, String paramName) {
-        final String parameterValue = getParameterService().getParameterValue(TemParameterConstants.TEM_REIMBURSEMENT.class, paramName);
+        final String parameterValue = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_REIMBURSEMENT.class, paramName);
         String paramSearchStr = "";
         TravelerDetail traveler = travelDocument.getTraveler();
         if(traveler != null){

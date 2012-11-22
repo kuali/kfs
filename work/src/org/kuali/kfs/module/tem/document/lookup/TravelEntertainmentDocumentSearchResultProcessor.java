@@ -28,7 +28,7 @@ import org.kuali.rice.kew.doctype.service.DocumentTypeService;
 import org.kuali.rice.kew.web.KeyValueSort;
 
 
-public class TravelEntertainmentDocumentSearchResultProcessor extends AbstractDocumentSearchResultProcessor implements TravelDocumentSearchResultsProcessor {
+public class TravelEntertainmentDocumentSearchResultProcessor extends AbstractDocumentSearchResultProcessor implements TravelDocumentSearchResultsCustomizer {
     
     private String createPaymentsURL(DocSearchDTO docCriteriaDTO, String tripID) {
         String links = createDisbursementVoucherLink(docCriteriaDTO, TemConstants.TravelCustomSearchLinks.VENDOR_PAYMENT);

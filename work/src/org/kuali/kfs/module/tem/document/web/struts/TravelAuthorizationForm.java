@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,11 +46,11 @@ import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.util.MessageUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.web.ui.ExtraButton;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DataDictionaryService;
 
 public class TravelAuthorizationForm extends TravelFormBase implements TravelAuthorizationMvcWrapperBean{
     private TravelerDetailEmergencyContact newEmergencyContactLine;
@@ -65,16 +65,16 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     private boolean travelArranger;
 
     private boolean allowIncidentals = true;
-    private String policyURL = getParameterService().getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCES_POLICY_URL);
-    private boolean multipleAdvances =getParameterService().getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.MULTIPLE_CASH_ADVANCES_ALLOWED_IND);
-    private boolean showPaymentMethods = getParameterService().getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_TRAVEL_ADVANCES_PAYMENT_METHOD_IND);
+    private String policyURL = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCES_POLICY_URL);
+    private boolean multipleAdvances =getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.MULTIPLE_CASH_ADVANCES_ALLOWED_IND);
+    private boolean showPaymentMethods = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_TRAVEL_ADVANCES_PAYMENT_METHOD_IND);
     private boolean showPolicy;
     private boolean waitingOnTraveler;
-    private boolean showCorporateCardTotal = getParameterService().getIndicatorParameter(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TravelParameters.ENABLE_AMOUNT_DUE_CORP_CARD_TOTAL_LINE_IND);
+    private boolean showCorporateCardTotal = getParameterService().getParameterValueAsBoolean(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TravelParameters.ENABLE_AMOUNT_DUE_CORP_CARD_TOTAL_LINE_IND);
 
     // parameters that affect the UI
     private List<String> tempSelectedTransportationModes = new ArrayList<String>();
-    
+
     /**
      * Constructs a TravelAuthorizationForm.java.
      */
@@ -89,9 +89,9 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     @Override
     public void setDistribution(final List<AccountingDistribution> distribution) {
         super.setDistribution(distribution);
-        
+
         TravelDocument travelDocument = (TravelDocument)getDocument();
-        
+
         //TA doc - always deselected the expesne type (ENCUMBRANCE) so it does not get distributed automatically
         for (AccountingDistribution accountdistribution : this.distribution){
             if (accountdistribution.getCardType().equals(travelDocument.getExpenseTypeCode())){
@@ -103,7 +103,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
 
     /**
      * Display accounting line only if - Trip is encumbrance OR for non-emcumbrance trip, if there are any imported expenses
-     * 
+     *
      * @return
      */
     public boolean isDisplayAccountingLines(){
@@ -116,17 +116,17 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         }
         return display;
     }
-    
+
     /**
      * Display imported expense related tab base on Travel Authorization document base on system parameter
-     * 
+     *
      * @return
      */
     public boolean isDisplayImportedExpenseRelatedTab(){
-        boolean display = getParameterService().getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ALLOW_IMPORTED_EXPENSE_IND);
+        boolean display = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ALLOW_IMPORTED_EXPENSE_IND);
         return display;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getPerDiemLabel()
      */
@@ -134,7 +134,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     public String getPerDiemLabel(){
         return TemConstants.ENCUMBRANCE_PREFIX + super.getPerDiemLabel();
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getExpenseLabel()
      */
@@ -142,17 +142,18 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     public String getExpenseLabel(){
         return TemConstants.ENCUMBRANCE_PREFIX + StringUtils.substringAfter(super.getExpenseLabel(), " ");
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getExpenseTabLabel()
      */
+    @Override
     public String getExpenseTabLabel(){
         return TemConstants.GENERAL_EXPENSES_LABEL;
     }
-    
+
     /**
      * Gets the newEmergencyContactLine attribute.
-     * 
+     *
      * @return Returns the newEmergencyContactLine.
      */
     @Override
@@ -162,7 +163,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
 
     /**
      * Sets the newEmergencyContactLine attribute value.
-     * 
+     *
      * @param newEmergencyContactLine The newEmergencyContactLine to set.
      */
     @Override
@@ -172,7 +173,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
 
     /**
      * Gets the newTravelAdvanceLine attribute.
-     * 
+     *
      * @return Returns the newTravelAdvanceLine.
      */
     @Override
@@ -182,7 +183,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
 
     /**
      * Sets the newTravelAdvanceLine attribute value.
-     * 
+     *
      * @param newTravelAdvanceLine The newTravelAdvanceLine to set.
      */
     @Override
@@ -192,7 +193,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
 
     /**
      * Gets the selectedTransportationModes attribute.
-     * 
+     *
      * @return Returns the selectedTransportationModes.
      */
     @Override
@@ -206,17 +207,17 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         }
         return mySelectedTransportationModes;
     }
-    
+
     /**
      * Sets the selectedTransportationModes attribute value.
-     * 
+     *
      * @param selectedTransportationModes The selectedTransportationModes to set.
      */
     @Override
     public void setSelectedTransportationModes(List<String> selectedTransportationModes) {
         this.tempSelectedTransportationModes = selectedTransportationModes;
     }
-    
+
     @Override
     public List<String> getTempSelectedTransporationModes() {
         return this.tempSelectedTransportationModes;
@@ -224,7 +225,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
 
     /**
      * Retrieve the name of the document identifier field for data dictionary queries
-     * 
+     *
      * @return String with the field name of the document identifier
      */
     @Override
@@ -258,7 +259,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
 
     /**
      * Creates a MAP for all the buttons to appear on the Travel Authorization Form, and sets the attributes of these buttons.
-     * 
+     *
      * @return the button map created.
      */
     protected Map<String, ExtraButton> createButtonsMap() {
@@ -293,13 +294,13 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         closeTAButton.setExtraButtonProperty("methodToCall.closeTa");
         closeTAButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_closeta.gif");
         closeTAButton.setExtraButtonAltText("Close Travel Authorization");
-            
+
         result.put(amendButton.getExtraButtonProperty(), amendButton);
         result.put(holdButton.getExtraButtonProperty(), holdButton);
         result.put(removeHoldButton.getExtraButtonProperty(), removeHoldButton);
         result.put(cancelTravelButton.getExtraButtonProperty(), cancelTravelButton);
         result.put(closeTAButton.getExtraButtonProperty(), closeTAButton);
-        
+
         result.putAll(createDVREQSExtraButtonMap());
         return result;
     }
@@ -308,45 +309,45 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     public List<ExtraButton> getExtraButtons() {
         super.getExtraButtons();
         Map<String, ExtraButton> buttonsMap = createButtonsMap();
-        
+
         if (canAmend()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.amendTa"));
+            extraButtons.add(buttonsMap.get("methodToCall.amendTa"));
         }
         if (canHold()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.holdTa"));
+            extraButtons.add(buttonsMap.get("methodToCall.holdTa"));
         }
         if (canRemoveHold()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.removeHoldTa"));
+            extraButtons.add(buttonsMap.get("methodToCall.removeHoldTa"));
         }
         if (canCloseTA()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.closeTa"));
+            extraButtons.add(buttonsMap.get("methodToCall.closeTa"));
         }
         if (canCancelTA()) {
-            extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.cancelTa"));
+            extraButtons.add(buttonsMap.get("methodToCall.cancelTa"));
         }
-        
-        boolean enablePayments = getParameterService().getIndicatorParameter(TemConstants.PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.ENABLE_VENDOR_PAYMENT_BEFORE_TA_FINAL_APPROVAL_IND);
+
+        boolean enablePayments = getParameterService().getParameterValueAsBoolean(TemConstants.PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.ENABLE_VENDOR_PAYMENT_BEFORE_TA_FINAL_APPROVAL_IND);
         if (enablePayments && !SpringContext.getBean(TravelDocumentService.class).isUnsuccessful(this.getTravelDocument())){
             if (getTravelAuthorizationDocument().canPayDVToVendor()) {
-                extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.payDVToVendor"));
-            }      
+                extraButtons.add(buttonsMap.get("methodToCall.payDVToVendor"));
+            }
             if (getTravelAuthorizationDocument().canCreateREQSForVendor()) {
-                extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.createREQSForVendor"));
-            } 
+                extraButtons.add(buttonsMap.get("methodToCall.createREQSForVendor"));
+            }
         }
-        
+
         return extraButtons;
     }
-    
+
     /**
-     * Gets the canCloseTA attribute. 
+     * Gets the canCloseTA attribute.
      * @return Returns the canCloseTA.
      */
     @Override
     public boolean canCloseTA() {
         return canCloseTA;
     }
-    
+
     /**
      * Sets the canCloseTA attribute value.
      * @param canCloseTA The canCloseTA to set.
@@ -355,7 +356,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     public void setCanCloseTA(boolean canCloseTA) {
         this.canCloseTA = canCloseTA;
     }
-    
+
     /**
      * Sets the canCloseTA attribute value.
      * @param canCloseTA The canCloseTA to set.
@@ -364,9 +365,9 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     public void setCanCancelTA(boolean canCancelTA) {
         this.canCancelTA = canCancelTA;
     }
-    
+
     /**
-     * Gets the canCancelTA attribute. 
+     * Gets the canCancelTA attribute.
      * @return Returns the canCancelTA.
      */
     @Override
@@ -375,7 +376,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     }
 
     /**
-     * Gets the canAmend attribute. 
+     * Gets the canAmend attribute.
      * @return Returns the canAmend.
      */
     @Override
@@ -393,19 +394,19 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     }
 
     /**
-     * 
+     *
      * Sets the canHold attribute value
      * @param canHold
      */
     @Override
     public void setCanHold(boolean canHold) {
         this.canHold = canHold;
-        
+
     }
-    
+
     /**
      * This method determines if the user can or cannot hold a TA based on permissions and state
-     * 
+     *
      * @return true if they can hold a TA
      */
     private boolean canHold() {
@@ -416,16 +417,16 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     public void setCanRemoveHold(boolean canRemoveHold) {
         this.canRemoveHold = canRemoveHold;
     }
-    
+
     /**
      * This method determines if the user can or cannot remove a hold on a TA based on permissions and state
-     * 
+     *
      * @return true if they can hold a TA
      */
     private boolean canRemoveHold() {
         return this.canRemoveHold;
     }
-   
+
     @Override
     public boolean isCanUnmask() {
         return canUnmask;
@@ -435,7 +436,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     public void setCanUnmask(boolean canUnmask) {
         this.canUnmask = canUnmask;
     }
-    
+
     @Override
     public Map<String, String> getModesOfTransportation() {
         Map<String, String> modesOfTrans = new HashMap<String, String>();
@@ -465,7 +466,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     }
 
     /**
-     * Gets the policyURL attribute. 
+     * Gets the policyURL attribute.
      * @return Returns the policyURL.
      */
     public String getPolicyURL() {
@@ -473,7 +474,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     }
 
     /**
-     * Gets the multipleAdvances attribute. 
+     * Gets the multipleAdvances attribute.
      * @return Returns the multipleAdvances.
      */
     public boolean isMultipleAdvances() {
@@ -481,7 +482,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     }
 
     /**
-     * Gets the showPaymentMethods attribute. 
+     * Gets the showPaymentMethods attribute.
      * @return Returns the showPaymentMethods.
      */
     public boolean isShowPaymentMethods() {
@@ -489,7 +490,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     }
 
     /**
-     * Gets the waitingOnTraveler attribute. 
+     * Gets the waitingOnTraveler attribute.
      * @return Returns the waitingOnTraveler.
      */
     public boolean isWaitingOnTraveler() {
@@ -505,7 +506,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     }
 
     /**
-     * Gets the showCorporateCardTotal attribute. 
+     * Gets the showCorporateCardTotal attribute.
      * @return Returns the showCorporateCardTotal.
      */
     public boolean getShowCorporateCardTotal() {
@@ -513,7 +514,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     }
 
     /**
-     * Gets the showPolicy attribute. 
+     * Gets the showPolicy attribute.
      * @return Returns the showPolicy.
      */
     public boolean isShowPolicy() {
@@ -527,29 +528,29 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     public void setShowPolicy(boolean showPolicy) {
         this.showPolicy = showPolicy;
     }
-    
+
     /**
-     * 
+     *
      * @return a list of all the DV doc numbers related to this TA that have not been finalized
      */
     public List<String> getDVDocNumbersNotFinalized() {
         List<String> docNumbers = new ArrayList<String>();
         String docTypeName = getDataDictionaryService().getDocumentTypeNameByClass(DisbursementVoucherDocument.class);
-        
+
         if(this.getRelatedDocuments().containsKey(docTypeName)) {
             for(Document document : this.getRelatedDocuments().get(docTypeName)) {
                 if(document instanceof DisbursementVoucherDocument) {
-                    KualiWorkflowDocument workflow = (KualiWorkflowDocument) document.getDocumentHeader().getWorkflowDocument();
-                    if((workflow.stateIsEnroute() || workflow.stateIsInitiated() || workflow.stateIsSaved()) && !workflow.stateIsApproved()) {
+                    WorkflowDocument workflow = document.getDocumentHeader().getWorkflowDocument();
+                    if((workflow.isEnroute() || workflow.isInitiated() || workflow.isSaved()) && !workflow.isApproved()) {
                         docNumbers.add(document.getDocumentNumber());
                     }
                 }
             }
         }
-        
+
         return docNumbers;
     }
-    
+
     protected DataDictionaryService getDataDictionaryService() {
         return SpringContext.getBean(DataDictionaryService.class);
     }
@@ -562,5 +563,5 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     public boolean getEnableImportedTaxable() {
         return false;
     }
-    
+
 }

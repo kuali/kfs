@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,20 +15,19 @@
  */
 package org.kuali.kfs.module.tem.context;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.web.listener.JstlConstantsInitListener;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * Implements the {@link ServletContextListener} to add a TEM-specific initialization of the web application context.
@@ -37,11 +36,16 @@ import org.kuali.kfs.sys.context.SpringContext;
  *
  * @author Leo Przybylski (leo [at] rsmart.com)
  */
-public class ContextInitListener extends JstlConstantsInitListener implements ServletContextListener {
+public class ContextInitListener implements ServletContextListener {
+
+    private static final Logger LOG = Logger.getLogger(ContextInitListener.class);
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+
+        LOG.info("Starting " + ContextInitListener.class.getName() + "...");
         ServletContext context = sce.getServletContext();
-        
+
         // publish application constants into JSP app context with name "Tem"
         context.setAttribute("Tem", buildParameterMap());
     }
@@ -63,15 +67,15 @@ public class ContextInitListener extends JstlConstantsInitListener implements Se
                     System.out.println("Proxying " + method.getName());
                     System.out.println("Searching for " + paramName + " in " + component);
                     if ("get".equalsIgnoreCase(method.getName())) {
-                        return getParameterService().getParameterValue("KFS-TEM", component, paramName);
+                        return getParameterService().getParameterValueAsString("KFS-TEM", component, paramName);
                     }
                     if ("contains".equalsIgnoreCase(method.getName())) {
                         try {
-                            return new Boolean(getParameterService().getParameterValue("KFS-TEM", component, paramName) != null);
+                            return new Boolean(getParameterService().getParameterValueAsString("KFS-TEM", component, paramName) != null);
                         }
                         catch (Exception e) {
                             return new Boolean(false);
-                        }                        
+                        }
                     }
                     if (method.getName().toLowerCase().startsWith("put")
                         || "clear".equalsIgnoreCase(method.getName())
@@ -84,12 +88,12 @@ public class ContextInitListener extends JstlConstantsInitListener implements Se
 
                     return null;
                 }
-                
+
                 protected ParameterService getParameterService() {
                     return SpringContext.getBean(ParameterService.class);
                 }
             };
-        final Map<String, Object> retval = (Map<String, Object>) 
+        final Map<String, Object> retval = (Map<String, Object>)
             Proxy.newProxyInstance(Map.class.getClassLoader(),
                                    new Class[] { Map.class },
                                    handler);

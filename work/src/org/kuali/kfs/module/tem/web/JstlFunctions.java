@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2010 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.osedu.org/licenses/ECL-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,13 +24,13 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Full of static methods for JSTL function access.
- * 
+ *
  */
 public final class JstlFunctions {
     private static final String SETTING_PARAMS_PROLOG = "Setting params ";
@@ -40,7 +40,7 @@ public final class JstlFunctions {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(JstlFunctions.class);
 
     private JstlFunctions() {}
-    
+
     /**
      * Returns a list of key/value pairs for displaying in an HTML option for a select list. This is a customized approach to retrieving
      * key/value data from database based on criteria specified in the <code>params {@link Map}</code><br/>
@@ -49,7 +49,7 @@ public final class JstlFunctions {
      * <code>
      * <jsp:useBean id="paramMap" class="java.util.HashMap"/>
                     <c:set target="${paramMap}" property="forAddedPerson" value="true" />
-                    <kul:checkErrors keyMatch="${proposalPerson}.proposalPersonRoleId" auditMatch="${proposalPerson}.proposalPersonRoleId"/>  
+                    <kul:checkErrors keyMatch="${proposalPerson}.proposalPersonRoleId" auditMatch="${proposalPerson}.proposalPersonRoleId"/>
                     <c:set var="roleStyle" value=""/>
                     <c:if test="${hasErrors==true}">
                         <c:set var="roleStyle" value="background-color:#FFD5D5"/>
@@ -67,19 +67,19 @@ public final class JstlFunctions {
                     </c:forEach>
                     </html:select>
        </code>
-     * 
-     * 
+     *
+     *
      * @param valuesFinderClassName
      * @param params mapped parameters
      * @return List of key values
      */
     @SuppressWarnings("unchecked")
     public static List getOptionList(String valuesFinderClassName, Map params) {
-        return setupValuesFinder(valuesFinderClassName, (Map<String, Object>) params).getKeyValues();
+        return setupValuesFinder(valuesFinderClassName, params).getKeyValues();
     }
-    
+
     /**
-     * Initiates the values finder by its <code>valuesFinderClassName</code>. First locates the class in the class path. Then, 
+     * Initiates the values finder by its <code>valuesFinderClassName</code>. First locates the class in the class path. Then,
      * creates an instance of it. A <code>{@link Map}</code> of key/values <code>{@link String}</code> instances a is used
      * to set properties on the values finder instance. Uses the apache <code>{@link PropertyUtils}</code> class to set properties
      * by the name of the key in the <code>{@link Map}</code>.<br/>
@@ -90,8 +90,8 @@ public final class JstlFunctions {
      * Since this is so flexible and the ambiguity of properties referenced in the <code>{@link Map}</code>, a number of exceptions are caught
      * if a property cannot be set or if the values finder cannot be instantiated. All of these exceptions are handled within the method. None
      * of these exceptions are thrown back.
-     * 
-     * 
+     *
+     *
      * @param valuesFinderClassName
      * @param params
      * @return KeyValuesFinder
@@ -99,11 +99,11 @@ public final class JstlFunctions {
      */
     private static KeyValuesFinder setupValuesFinder(String valuesFinderClassName, Map<String, Object> params) {
         KeyValuesFinder retval = getKeyFinder(valuesFinderClassName);
-        
+
         if(LOG.isDebugEnabled()) {
             LOG.debug(SETTING_PARAMS_PROLOG + params);
         }
-        
+
         addParametersToFinder(params, retval);
 
         return retval;
@@ -126,7 +126,7 @@ public final class JstlFunctions {
     private static KeyValuesFinder getKeyFinder(String valuesFinderClassName) {
         KeyValuesFinder retval = null;
         try {
-            retval = (KeyValuesFinder) forName(valuesFinderClassName).newInstance();                        
+            retval = (KeyValuesFinder) forName(valuesFinderClassName).newInstance();
         } catch (ClassNotFoundException e) {
             warnAboutValueFinderClassExceptions(valuesFinderClassName, e);
         } catch (InstantiationException e) {
@@ -149,16 +149,16 @@ public final class JstlFunctions {
 
     /**
      * Get the stack trace from a <code>{@link Throwable}</code> and create a log message from it for tracing purposes
-     * 
-     * @param thrownObj 
+     *
+     * @param thrownObj
      * @return String log message
      */
     private static String buildTraceMessage(Throwable thrownObj) {
         StackTraceElement stackTraceElement = thrownObj.getStackTrace()[0];
         return new StringBuilder(stackTraceElement.getClassName())
-                        .append("#") 
+                        .append("#")
                         .append(stackTraceElement.getMethodName())
-                        .append(":") 
+                        .append(":")
                         .append(stackTraceElement.getLineNumber())
                         .append(" ")
                         .append(thrownObj.getClass().getSimpleName())
@@ -166,18 +166,18 @@ public final class JstlFunctions {
                         .append(thrownObj.getMessage())
                         .toString();
     }
-    
+
     public static Boolean canDeleteDocumentRelationship(String documentNumber, String relDocumentNumber){
         AccountingDocumentRelationshipService accountingDocumentRelationshipService = SpringContext.getBean(AccountingDocumentRelationshipService.class);
         List<AccountingDocumentRelationship> adrList = accountingDocumentRelationshipService.find(new AccountingDocumentRelationship(documentNumber, relDocumentNumber));
-        
+
         if(adrList != null && adrList.size() == 1){
             return adrList.get(0).getPrincipalId().equals(GlobalVariables.getUserSession().getPerson().getPrincipalId());
         }
-        
+
         return false;
-    }  
-    
+    }
+
     public static KualiDecimal add(Object a, Object b){
         KualiDecimal tempA = new KualiDecimal(0);
         KualiDecimal tempB = new KualiDecimal(0);
@@ -193,7 +193,7 @@ public final class JstlFunctions {
         else if (a instanceof KualiDecimal){
             tempA = (KualiDecimal)a;
         }
-        
+
         if (b instanceof Double){
             tempB = new KualiDecimal((Double)b);
         }

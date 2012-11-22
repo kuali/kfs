@@ -25,7 +25,7 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingLineDistributionKey;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public interface AccountingDistributionService {
     

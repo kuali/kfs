@@ -22,7 +22,7 @@ import java.beans.PropertyChangeListener;
 
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.krad.service.DocumentService;
 
 
 /**

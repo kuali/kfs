@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,9 +37,8 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
-import org.kuali.rice.kim.bo.impl.PersonImpl;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 @Entity
@@ -68,14 +67,14 @@ public class TEMProfile extends BaseTemProfile {
     private Account account;
     private SubAccount subAccount;
     private ProjectCode project;
-    private PersonImpl principal;
-    private KimEntityInfo kimEntityInfo;
+    private Person principal;
+    private org.kuali.rice.kim.api.identity.entity.Entity kimEntityInfo;
 
     private String achSignUp;
     private String achTransactionType;
-    
+
     private ArrayList<TemProfileEmergencyContact> emergencyContacts;
-    
+
     public TEMProfile() {
         super();
         emergencyContacts = new ArrayList<TemProfileEmergencyContact>();
@@ -86,7 +85,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the profileId attribute.
-     * 
+     *
      * @return Returns the profileId.
      */
     @Id
@@ -99,7 +98,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the profileId attribute value.
-     * 
+     *
      * @param profileId The profileId to set.
      */
     public void setProfileId(Integer profileId) {
@@ -108,7 +107,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the updatedBy attribute.
-     * 
+     *
      * @return Returns the updatedBy.
      */
     @Column(name = "updated_by", length = 40, nullable = true)
@@ -119,7 +118,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the updatedBy attribute value.
-     * 
+     *
      * @param updatedBy The updatedBy to set.
      */
     public void setUpdatedBy(String updatedBy) {
@@ -129,7 +128,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the lastUpdate attribute.
-     * 
+     *
      * @return Returns the lastUpdate.
      */
     @Column(name = "last_update")
@@ -140,7 +139,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the lastUpdate attribute value.
-     * 
+     *
      * @param lastUpdate The lastUpdate to set.
      */
     public void setLastUpdate(Date lastUpdate) {
@@ -149,7 +148,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the nonResIdentAlien attribute.
-     * 
+     *
      * @return Returns the nonResIdentAlien.
      */
     @Override
@@ -160,7 +159,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the nonResIdentAlien attribute value.
-     * 
+     *
      * @param nonResIdentAlien The nonResIdentAlien to set.
      */
     public void setNonResidentAlien(Boolean nonResidentAlien) {
@@ -197,7 +196,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the motorVehicleRecordCheck attribute.
-     * 
+     *
      * @return Returns the motorVehicleRecordCheck.
      */
     @Override
@@ -208,7 +207,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the motorVehicleRecordCheck attribute value.
-     * 
+     *
      * @param motorVehicleRecordCheck The motorVehicleRecordCheck to set.
      */
     @Override
@@ -218,7 +217,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the employeeId attribute.
-     * 
+     *
      * @return Returns the employeeId.
      */
     @Column(length = 40, nullable = true)
@@ -228,7 +227,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the employeeId attribute value.
-     * 
+     *
      * @param employeeId The employeeId to set.
      */
     public void setEmployeeId(String employeeId) {
@@ -237,7 +236,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the homeDepartment attribute.
-     * 
+     *
      * @return Returns the homeDepartment.
      */
     @Column(name = "home_dept", length = 40, nullable = false)
@@ -252,7 +251,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the homeDeptOrgCode attribute.
-     * 
+     *
      * @return Returns the homeDeptOrgCode.
      */
     public String getHomeDeptOrgCode() {
@@ -261,7 +260,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the homeDeptOrgCode attribute value.
-     * 
+     *
      * @param homeDeptOrgCode The homeDeptOrgCode to set.
      */
     public void setHomeDeptOrgCode(String homeDeptOrgCode) {
@@ -270,7 +269,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the homeDeptChartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the homeDeptChartOfAccountsCode.
      */
     public String getHomeDeptChartOfAccountsCode() {
@@ -279,7 +278,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the homeDeptChartOfAccountsCode attribute value.
-     * 
+     *
      * @param homeDeptChartOfAccountsCode The homeDeptChartOfAccountsCode to set.
      */
     public void setHomeDeptChartOfAccountsCode(String homeDeptChartOfAccountsCode) {
@@ -288,7 +287,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the homeDeptOrg attribute.
-     * 
+     *
      * @return Returns the homeDeptOrg.
      */
     public Organization getHomeDeptOrg() {
@@ -297,7 +296,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the homeDeptOrg attribute value.
-     * 
+     *
      * @param homeDeptOrg The homeDeptOrg to set.
      */
     public void setHomeDeptOrg(Organization homeDeptOrg) {
@@ -306,7 +305,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the defaultChartCode attribute.
-     * 
+     *
      * @return Returns the defaultChartCode.
      */
     @Column(length = 2, nullable = true)
@@ -314,13 +313,13 @@ public class TEMProfile extends BaseTemProfile {
         if(defaultChartCode == null && homeDeptChartOfAccountsCode != null) {
             defaultChartCode = homeDeptChartOfAccountsCode;
         }
-        
+
         return defaultChartCode;
     }
 
     /**
      * Sets the defaultChartCode attribute value.
-     * 
+     *
      * @param defaultChartCode The defaultChartCode to set.
      */
     public void setDefaultChartCode(String defaultChartCode) {
@@ -329,7 +328,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the defaultAccount attribute.
-     * 
+     *
      * @return Returns the defaultAccount.
      */
     @Column(length = 7, nullable = true)
@@ -339,7 +338,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the defaultAccount attribute value.
-     * 
+     *
      * @param defaultAccount The defaultAccount to set.
      */
     public void setDefaultAccount(String defaultAccount) {
@@ -348,7 +347,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the defaultSubAccount attribute.
-     * 
+     *
      * @return Returns the defaultSubAccount.
      */
     @Column(length = 5, nullable = true)
@@ -358,7 +357,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the defaultSubAccount attribute value.
-     * 
+     *
      * @param defaultSubAccount The defaultSubAccount to set.
      */
     public void setDefaultSubAccount(String defaultSubAccount) {
@@ -367,7 +366,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the defaultProjectCode attribute.
-     * 
+     *
      * @return Returns the defaultProjectCode.
      */
     @Column(length = 10, nullable = false)
@@ -377,7 +376,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the defaultProjectCode attribute value.
-     * 
+     *
      * @param defaultProjectCode The defaultProjectCode to set.
      */
     public void setDefaultProjectCode(String defaultProjectCode) {
@@ -386,7 +385,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the chart attribute.
-     * 
+     *
      * @return Returns the chart.
      */
     public Chart getChart() {
@@ -395,7 +394,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the chart attribute value.
-     * 
+     *
      * @param chart The chart to set.
      */
     public void setChart(Chart chart) {
@@ -404,7 +403,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the account attribute.
-     * 
+     *
      * @return Returns the account.
      */
     public Account getAccount() {
@@ -413,7 +412,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the account attribute value.
-     * 
+     *
      * @param account The account to set.
      */
     public void setAccount(Account account) {
@@ -422,7 +421,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the subAccount attribute.
-     * 
+     *
      * @return Returns the subAccount.
      */
     public SubAccount getSubAccount() {
@@ -431,7 +430,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the subAccount attribute value.
-     * 
+     *
      * @param subAccount The subAccount to set.
      */
     public void setSubAccount(SubAccount subAccount) {
@@ -440,7 +439,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the project attribute.
-     * 
+     *
      * @return Returns the project.
      */
     public ProjectCode getProject() {
@@ -449,7 +448,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the project attribute value.
-     * 
+     *
      * @param project The project to set.
      */
     public void setProject(ProjectCode project) {
@@ -458,7 +457,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the achSignUp attribute.
-     * 
+     *
      * @return Returns the achSignUp.
      */
     public String getAchSignUp() {
@@ -467,7 +466,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the achSignUp attribute value.
-     * 
+     *
      * @param achSignUp The achSignUp to set.
      */
     public void setAchSignUp(String achSignUp) {
@@ -476,7 +475,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the achTransactionType attribute.
-     * 
+     *
      * @return Returns the achTransactionType.
      */
     public String getAchTransactionType() {
@@ -485,7 +484,7 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Sets the achTransactionType attribute value.
-     * 
+     *
      * @param achTransactionType The achTransactionType to set.
      */
     public void setAchTransactionType(String achTransactionType) {
@@ -494,25 +493,25 @@ public class TEMProfile extends BaseTemProfile {
 
     /**
      * Gets the principal attribute.
-     * 
+     *
      * @return Returns the principal.
      */
-    public PersonImpl getPrincipal() {
+    public Person getPrincipal() {
         return principal;
     }
 
     /**
      * Sets the principal attribute value.
-     * 
+     *
      * @param principal The principal to set.
      */
-    public void setPrincipal(PersonImpl principal) {
+    public void setPrincipal(Person principal) {
         this.principal = principal;
     }
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
     public void setActive(Boolean active) {
@@ -521,46 +520,46 @@ public class TEMProfile extends BaseTemProfile {
 
     @SuppressWarnings("rawtypes")
     @Override
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         return null;
     }
 
     /**
      * Gets the kimEntityInfo attribute.
-     * 
+     *
      * @return Returns the kimEntityInfo.
      */
-    public KimEntityInfo getKimEntityInfo() {
+    public org.kuali.rice.kim.api.identity.entity.Entity getKimEntityInfo() {
         return kimEntityInfo;
     }
 
     /**
      * Sets the kimEntityInfo attribute value.
-     * 
+     *
      * @param kimEntityInfo The kimEntityInfo to set.
      */
-    public void setKimEntityInfo(KimEntityInfo kimEntityInfo) {
+    public void setKimEntityInfo(org.kuali.rice.kim.api.identity.entity.Entity kimEntityInfo) {
         this.kimEntityInfo = kimEntityInfo;
     }
 
     /**
      * Gets the temProfileAddress attribute.
-     * 
+     *
      * @return Returns the temProfileAddress.
      */
     public TemProfileAddress getTemProfileAddress() {
         TemProfileService profileService = SpringContext.getBean(TemProfileService.class);
-        
+
         if(ObjectUtils.isNull(temProfileAddress)) {
         	temProfileAddress = new TemProfileAddress();
         }
-        
+
         return profileService.getAddressFromProfile(this, temProfileAddress);
     }
 
     /**
      * Sets the temProfileAddress attribute value.
-     * 
+     *
      * @param temProfileAddress The temProfileAddress to set.
      */
     public void setTemProfileAddress(TemProfileAddress temProfileAddress) {

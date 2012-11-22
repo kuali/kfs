@@ -28,8 +28,8 @@ import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TravelDocumentRequiredInfoValidation extends GenericValidation{
     public static final String ATTACHMENT_TYPE_CODE_RECEIPT = "RECEIPT";

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,13 +17,12 @@ package org.kuali.kfs.module.tem.businessobject;
 
 import java.sql.Date;
 
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Other Expense
- * 
- * @author Leo Przybylski (leo [at] rsmart.com)
+ *
  */
 public interface OtherExpense extends BusinessObject {
 
@@ -34,15 +33,15 @@ public interface OtherExpense extends BusinessObject {
     public String getDocumentNumber();
 
     public void setDocumentNumber(String documentNumber);
-    
+
     public Integer getDocumentLineNumber();
-    
+
     public void setDocumentLineNumber(Integer documentLineNumber);
 
     public Long getExpenseParentId();
-    
+
     public void setExpenseParentId(Long expenseParentId);
-    
+
     public Date getExpenseDate();
 
     public void setExpenseDate(Date expenseDate);
@@ -75,7 +74,7 @@ public interface OtherExpense extends BusinessObject {
      * @return the value of travelExpenseTypeCodeCode
      */
     String getTravelExpenseTypeCodeCode();
-    
+
     /**
      * Gets the value of travelExpenseTypeCode
      *
@@ -94,25 +93,25 @@ public interface OtherExpense extends BusinessObject {
 
     void setAirfareSourceCode(final String airfareSourceCode);
     String getAirfareSourceCode();
-    
+
     void setClassOfServiceCode(final String classOfServiceCode);
     String getClassOfServiceCode();
-    
+
     void setMileageRateId(final Integer mileageRateId);
     Integer getMileageRateId();
-    
+
     void setMileageRate(final MileageRate mileageRate);
     MileageRate getMileageRate();
-    
+
     void setMiles(final Integer miles);
     Integer getMiles();
-    
+
     void setMileageOtherRate(KualiDecimal mileageOtherRate);
     KualiDecimal getMileageOtherRate();
-    
+
     void setRentalCarInsurance(final Boolean rentalCarInsurance);
     Boolean getRentalCarInsurance();
-    
+
     void setTaxable(final Boolean taxable);
-       
+
 }

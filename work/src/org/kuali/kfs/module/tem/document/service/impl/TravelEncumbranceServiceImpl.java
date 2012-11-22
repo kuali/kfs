@@ -45,13 +45,13 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
 

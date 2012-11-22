@@ -27,9 +27,9 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericValidation {
     
@@ -50,7 +50,7 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
                 if (estimate.getPerDiem() != null && perDiemPercent != null) {
                     
                     //determine if per diem rule should be daily or per meal
-                    boolean checkDailyPerDiem = parameterService.getIndicatorParameter(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.ENABLE_DAILY_PER_DIEM_AND_INCIDENTALS_IND);
+                    boolean checkDailyPerDiem = parameterService.getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.ENABLE_DAILY_PER_DIEM_AND_INCIDENTALS_IND);
                     
                     //check daily per diem instead of validation in each meal
                     if (!checkDailyPerDiem){

@@ -28,8 +28,8 @@ import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TravelAuthTripDetailMileageRateValidation extends GenericValidation {
 
@@ -42,7 +42,7 @@ public class TravelAuthTripDetailMileageRateValidation extends GenericValidation
         TravelDocumentBase document = (TravelDocumentBase) event.getDocument();
         //check to see if mileage=Y in ENABLE_PER_DIEM_CATEGORIES param
         ParameterService paramService = SpringContext.getBean(ParameterService.class);
-        List<String> perDiemCats = paramService.getParameterValues(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, ENABLE_PER_DIEM_CATEGORIES);
+        List<String> perDiemCats = paramService.getParameterValuesAsString(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, ENABLE_PER_DIEM_CATEGORIES);
         for (String category : perDiemCats) {
             String[] pair = category.split("=");
             if (pair[0].equalsIgnoreCase(TemConstants.MILEAGE) && pair[1].equalsIgnoreCase(TemConstants.YES)) {

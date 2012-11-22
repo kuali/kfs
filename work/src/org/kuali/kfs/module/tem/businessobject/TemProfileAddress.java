@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "TEM_PROFILE_ADDR_T")
@@ -40,20 +40,18 @@ public class TemProfileAddress extends PersistableBusinessObjectBase {
     private String countryCode;
 
     private TEMProfile profile;
-    
+
     private String customerNumber;
     private Integer customerAddressIdentifier;
     private String principalId;
-    
-    
+
+
     public TemProfileAddress() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("streetAddressLine1", this.streetAddressLine1);
         m.put("cityName", this.cityName);
@@ -63,7 +61,7 @@ public class TemProfileAddress extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the temProfileId attribute. 
+     * Gets the temProfileId attribute.
      * @return Returns the temProfileId.
      */
     @Column(name = "tem_profile_id", nullable = false, length=19)
@@ -82,7 +80,7 @@ public class TemProfileAddress extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the streetAddressLine1 attribute. 
+     * Gets the streetAddressLine1 attribute.
      * @return Returns the streetAddressLine1.
      */
     @Column(name = "addr_line_1", length = 50)
@@ -101,7 +99,7 @@ public class TemProfileAddress extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the streetAddressLine2 attribute. 
+     * Gets the streetAddressLine2 attribute.
      * @return Returns the streetAddressLine2.
      */
     @Column(name = "addr_line_2", length = 50)
@@ -120,7 +118,7 @@ public class TemProfileAddress extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the cityName attribute. 
+     * Gets the cityName attribute.
      * @return Returns the cityName.
      */
     @Column(name = "city_nm", length = 30)
@@ -139,7 +137,7 @@ public class TemProfileAddress extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the state attribute. 
+     * Gets the state attribute.
      * @return Returns the state.
      */
     @Column(name = "state_cd", length = 40)
@@ -158,7 +156,7 @@ public class TemProfileAddress extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the zipCode attribute. 
+     * Gets the zipCode attribute.
      * @return Returns the zipCode.
      */
     @Column(name = "zip_cd", length = 40)
@@ -177,7 +175,7 @@ public class TemProfileAddress extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the country attribute. 
+     * Gets the country attribute.
      * @return Returns the country.
      */
     @Column(name = "country_cd", length = 40)
@@ -195,7 +193,7 @@ public class TemProfileAddress extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the profile attribute. 
+     * Gets the profile attribute.
      * @return Returns the profile.
      */
     public TEMProfile getProfile() {
@@ -222,7 +220,7 @@ public class TemProfileAddress extends PersistableBusinessObjectBase {
 
 
 	/**
-	 * Gets the customerNumber attribute. 
+	 * Gets the customerNumber attribute.
 	 * @return Returns the customerNumber.
 	 */
 	public String getCustomerNumber() {
@@ -240,7 +238,7 @@ public class TemProfileAddress extends PersistableBusinessObjectBase {
 
 
 	/**
-	 * Gets the principalId attribute. 
+	 * Gets the principalId attribute.
 	 * @return Returns the principalId.
 	 */
 	public String getPrincipalId() {
@@ -258,7 +256,7 @@ public class TemProfileAddress extends PersistableBusinessObjectBase {
 
 
 	/**
-	 * Gets the customerAddressIdentifier attribute. 
+	 * Gets the customerAddressIdentifier attribute.
 	 * @return Returns the customerAddressIdentifier.
 	 */
 	public Integer getCustomerAddressIdentifier() {

@@ -58,13 +58,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
@@ -221,7 +221,7 @@ public class TravelRelocationAction extends TravelActionBase {
     }
 
     protected String retrieveWireChargeMessage() {
-        String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.MESSAGE_DV_WIRE_CHARGE);
+        String message = SpringContext.getBean(ConfigurationService.class).getPropertyString(KFSKeyConstants.MESSAGE_DV_WIRE_CHARGE);
         WireCharge wireCharge = new WireCharge();
         wireCharge.setUniversityFiscalYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 

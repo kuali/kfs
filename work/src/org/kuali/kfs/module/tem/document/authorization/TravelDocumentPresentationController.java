@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,17 +30,17 @@ import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Travel Document Presentation Controller
- * 
+ *
  */
 public class TravelDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase{
 
@@ -52,43 +52,42 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
         Set<String> editModes = super.getEditModes(document);
         ParameterService paramService = SpringContext.getBean(ParameterService.class);
 
-        if (paramService.getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_CONTACT_INFORMATION_IND)) {
+        if (paramService.getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_CONTACT_INFORMATION_IND)) {
             editModes.add(TemConstants.DISPLAY_EMERGENCY_CONTACT_TAB);
         }
         return editModes;
     }
-    
+
     /**
-     * 
-     * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.kns.document.Document)
+     *
+     * @see org.kuali.rice.krad.document.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean canEdit(Document document) {
+    public boolean canEdit(Document document) {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         TravelDocument travelDocument = (TravelDocument) document;
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        
-        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+
+        if ((workflowDocument.isInitiated() || workflowDocument.isSaved())) {
             //check if the user can access the travel document as arranger
             boolean arrangerAccess = getTemRoleService().canAccessTravelDocument(travelDocument, currentUser);
             boolean isTraveler = currentUser.getPrincipalId().equals(travelDocument.getTraveler().getPrincipalId());
-            
+
             //if user does not have the access, user is not enabled as document manager throw doc exception with travel document edit error
             // also check if user is NOT the traveler
-            
+
             //NOTE: it doesn't get to here if the edit permission is set correctly
-            //NOTE2: cannot add traveler to the edit permission as it creates a circular role lookup 
+            //NOTE2: cannot add traveler to the edit permission as it creates a circular role lookup
             if (!arrangerAccess && !isTraveler && !enableForDocumentManager(currentUser, false)){
                 throw new DocumentInitiationException(TemKeyConstants.ERROR_TRAVEL_DOCUMENT_EDIT, new String[] {travelDocument.getDocumentTypeName()}, true);
             }
         }
-        
+
         return super.canEdit(travelDocument);
     }
-    
+
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canInitiate(java.lang.String)
+     * @see org.kuali.rice.krad.document.DocumentPresentationControllerBase#canInitiate(java.lang.String)
      */
     @Override
     public boolean canInitiate(String documentTypeName) {
@@ -105,19 +104,19 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
 
     /**
      * Check user's edit permission in order to grant full entry edit
-     * 
+     *
      * When the document is routed to document manager's approval node, check for permission on document
-     * manager to get full edit 
-     * 
+     * manager to get full edit
+     *
      * @param document
      * @param editModes
      */
     protected void addFullEntryEditMode(Document document, Set<String> editModes) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        
+
         //check edit permission when document is in init or saved
-        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
+        if ((workflowDocument.isInitiated() || workflowDocument.isSaved())) {
             DocumentAuthorizer authorizer = getDocumentHelperService().getDocumentAuthorizer(document);
             TravelArrangeableAuthorizer travelAuthorizer = (TravelArrangeableAuthorizer)authorizer;
             //check for edit permission on the document
@@ -125,19 +124,35 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
                 editModes.add(TravelEditMode.FULL_ENTRY);
             }
         }
-        
+
         //Document manager will also get full entry edit mode on the approval node
-        if(workflowDocument.getCurrentRouteNodeNames().equals(getDocumentManagerApprovalNode()) 
-                && enableForDocumentManager(currentUser)){
+        if(isAtNode(workflowDocument, getDocumentManagerApprovalNode()) && enableForDocumentManager(currentUser)){
             editModes.add(TravelEditMode.FULL_ENTRY);
-        }        
+        }
     }
-    
+
     /**
-     * Get the Document Manager approval node 
-     * 
+     * Check if workflow is at the specific node
+     *
+     * @param workflowDocument
+     * @param nodeName
+     * @return
+     */
+    public boolean isAtNode(WorkflowDocument workflowDocument, String nodeName) {
+        Set<String> nodeNames = workflowDocument.getNodeNames();
+        for (String nodeNamesNode : nodeNames) {
+            if (nodeName.equals(nodeNamesNode)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Get the Document Manager approval node
+     *
      * Default to Travel Manager's - AP_TRAVEL
-     * 
+     *
      * @return
      */
     public String getDocumentManagerApprovalNode(){
@@ -146,59 +161,59 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
 
     /**
      * Enable specifically for document manager, default to check for parameter setup
-     * 
+     *
      * @param workflowDocument
      * @return
      */
     public boolean enableForDocumentManager(Person currentUser){
         return enableForDocumentManager(currentUser, true);
     }
-    
+
 
     /**
-     * Enable specifically for document manager 
-     * 
-     * 1) user is Travel Manager 
+     * Enable specifically for document manager
+     *
+     * 1) user is Travel Manager
      * 2) parameter allow travel office has full edit
-     * 
+     *
      * @param workflowDocument
      * @return
      */
     public boolean enableForDocumentManager(Person currentUser, boolean checkParameters){
-        boolean isTravelManager = getTemRoleService().isTravelManager(currentUser); 
-        boolean allowUpdate = checkParameters? getParamService().getIndicatorParameter(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.ALLOW_TRAVEL_OFFICE_TO_MODIFY_ALL_IND) : true;
-        
+        boolean isTravelManager = getTemRoleService().isTravelManager(currentUser);
+        boolean allowUpdate = checkParameters? getParamService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.ALLOW_TRAVEL_OFFICE_TO_MODIFY_ALL_IND) : true;
+
         //specifically enabled on AP node on full edit
         boolean isEnabled = isTravelManager && allowUpdate;
         return isEnabled;
     }
-    
+
     /**
      * Check current user is the initiator
-     * 
+     *
      * @param workflowDocument
      * @return
      */
-    public boolean isInitiator(KualiWorkflowDocument workflowDocument){
-        String docInitiator = workflowDocument.getInitiatorPrincipalId(); 
+    public boolean isInitiator(WorkflowDocument workflowDocument){
+        String docInitiator = workflowDocument.getInitiatorPrincipalId();
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         return docInitiator.equals(currentUser.getPrincipalId());
     }
-    
+
     public ParameterService getParamService() {
         return SpringContext.getBean(ParameterService.class);
     }
-    
+
     protected TEMRoleService getTemRoleService() {
         return SpringContext.getBean(TEMRoleService.class);
     }
-    
+
     protected TemProfileService getTemProfileService() {
         return SpringContext.getBean(TemProfileService.class);
     }
-    
+
     protected DocumentHelperService getDocumentHelperService() {
         return SpringContext.getBean(DocumentHelperService.class);
     }
-    
+
 }

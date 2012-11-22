@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,8 +26,8 @@ import javax.persistence.Table;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "TEM_AGENCY_SRVC_FEE_T")
@@ -41,12 +41,12 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase{
     private String creditObjectCode;
     private KualiDecimal serviceFee;
     private Boolean active = Boolean.TRUE;
-    
+
     private Account account;
     private ObjectCode objectCode;
-    
-    @Override
-    protected LinkedHashMap toStringMapper() {
+
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("diCode", diCode);
         map.put("diCodeDescription", diCodeDescription);
@@ -54,12 +54,12 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase{
         map.put("creditAccountNumber", creditAccountNumber);
         map.put("creditObjectCode", creditObjectCode);
         map.put("serviceFee", serviceFee);
-        
+
         return map;
     }
 
     /**
-     * Gets the id attribute. 
+     * Gets the id attribute.
      * @return Returns the id.
      */
     @Id
@@ -77,9 +77,9 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase{
     public void setId(Integer id) {
         this.id = id;
     }
-    
+
     /**
-     * Gets the diCode attribute. 
+     * Gets the diCode attribute.
      * @return Returns the diCode.
      */
     @Column(name = "DI_CD", length = 3, nullable = false)
@@ -96,7 +96,7 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase{
     }
 
     /**
-     * Gets the diCodeDescription attribute. 
+     * Gets the diCodeDescription attribute.
      * @return Returns the diCodeDescription.
      */
     @Column(name = "DI_DESC", length = 40, nullable = true)
@@ -113,7 +113,7 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase{
     }
 
     /**
-     * Gets the creditChartCode attribute. 
+     * Gets the creditChartCode attribute.
      * @return Returns the creditChartCode.
      */
     @Column(name = "CHART_CD", length = 2, nullable = false)
@@ -130,7 +130,7 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase{
     }
 
     /**
-     * Gets the creditAccountNumber attribute. 
+     * Gets the creditAccountNumber attribute.
      * @return Returns the creditAccountNumber.
      */
     @Column(name = "ACCT_NBR", length = 7, nullable = false)
@@ -147,7 +147,7 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase{
     }
 
     /**
-     * Gets the creditObjectCode attribute. 
+     * Gets the creditObjectCode attribute.
      * @return Returns the creditObjectCode.
      */
     @Column(name = "OBJ_CD", length = 4, nullable = false)
@@ -164,7 +164,7 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase{
     }
 
     /**
-     * Gets the serviceFee attribute. 
+     * Gets the serviceFee attribute.
      * @return Returns the serviceFee.
      */
     @Column(name = "SRVC_FEE", nullable = true)
@@ -181,7 +181,7 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase{
     }
 
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
      * @return Returns the active.
      */
     @Column(name="ACTV_IND",nullable=false,length=1)
@@ -198,7 +198,7 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase{
     }
 
     /**
-     * Gets the account attribute. 
+     * Gets the account attribute.
      * @return Returns the account.
      */
     public Account getAccount() {
@@ -214,7 +214,7 @@ public class AgencyServiceFee extends PersistableBusinessObjectBase{
     }
 
     /**
-     * Gets the objectCode attribute. 
+     * Gets the objectCode attribute.
      * @return Returns the objectCode.
      */
     public ObjectCode getObjectCode() {

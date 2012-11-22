@@ -37,7 +37,7 @@ public class TravelCustomDocumentSearchResultsProcessor extends StandardDocument
     
     public static Logger LOG = Logger.getLogger(TravelCustomDocumentSearchResultsProcessor.class);
     
-    TravelDocumentSearchResultsProcessor searchProcessor = null;
+    TravelDocumentSearchResultsCustomizer searchProcessor = null;
     
     @Override
     public DocumentSearchResultComponents processIntoFinalResults(final List<DocSearchDTO> docSearchResultRows,

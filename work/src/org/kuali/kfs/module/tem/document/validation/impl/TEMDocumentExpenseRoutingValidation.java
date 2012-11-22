@@ -23,7 +23,7 @@ import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 public class TEMDocumentExpenseRoutingValidation extends GenericValidation {

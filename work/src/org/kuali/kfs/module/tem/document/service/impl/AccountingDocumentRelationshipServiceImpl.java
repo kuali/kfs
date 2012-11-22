@@ -24,8 +24,8 @@ import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.dataaccess.AccountingDocumentRelationshipDao;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.springframework.transaction.annotation.Transactional;
 
 public class AccountingDocumentRelationshipServiceImpl implements AccountingDocumentRelationshipService {

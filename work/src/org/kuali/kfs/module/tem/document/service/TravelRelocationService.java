@@ -19,7 +19,7 @@ import java.util.Collection;
 
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.pdf.Coversheet;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface TravelRelocationService {
     

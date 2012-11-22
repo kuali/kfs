@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 public interface TemProfileService {
 

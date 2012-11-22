@@ -23,8 +23,8 @@ import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * @author Leo Przybylski (leo [at] rsmart.com)

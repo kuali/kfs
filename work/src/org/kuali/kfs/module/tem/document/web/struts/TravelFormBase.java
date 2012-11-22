@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -52,18 +52,19 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.NoteType;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 /**
@@ -132,33 +133,33 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     @Override
     public void populate(final HttpServletRequest request) {
         super.populate(request);
-        final boolean enablePrimaryDestination = getParameterService().getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ALLOW_FREE_FORMAT_PRIMARY_DESTINATION_IND);
+        final boolean enablePrimaryDestination = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ALLOW_FREE_FORMAT_PRIMARY_DESTINATION_IND);
         request.setAttribute(ENABLE_PRIMARY_DESTINATION_ATTRIBUTE, enablePrimaryDestination);
-        final boolean enablePerDiemLookupLinks = getParameterService().getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_PER_DIEM_LOOKUP_LINKS_IND);
+        final boolean enablePerDiemLookupLinks = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_PER_DIEM_LOOKUP_LINKS_IND);
         request.setAttribute(ENABLE_PER_DIEM_LOOKUP_LINKS_ATTRIBUTE, enablePerDiemLookupLinks);
     }
-    
+
     /**
      * Retrieve the Per Diem Expense Label for the form
-     * 
+     *
      * @return
      */
     public String getPerDiemLabel(){
         return TemConstants.PER_DIEM_EXPENSES_LABEL;
     }
-    
+
     /**
      * Retrieve the Actual Expense Label for the form
-     * 
+     *
      * @return
      */
     public String getExpenseLabel(){
         return TemConstants.ACTUAL_EXPENSES_LABEL;
     }
-    
+
     /**
      * Retrieve the Actual Expense Tab Label for the form
-     * 
+     *
      * @return
      */
     public String getExpenseTabLabel(){
@@ -175,7 +176,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * @see org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean#getTravelDocument()
      */
     @Override
-    public TravelDocument getTravelDocument() {        
+    public TravelDocument getTravelDocument() {
         return (TravelDocument) getDocument();
     }
 
@@ -198,7 +199,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the observable attribute.
-     * 
+     *
      * @return Returns the observable.
      */
     public Observable getObservable() {
@@ -207,7 +208,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the empPrincipalId attribute.
-     * 
+     *
      * @return Returns the empPrincipalId.
      */
     @Override
@@ -218,7 +219,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the empPrincipalId attribute value.
-     * 
+     *
      * @param empPrincipalId The empPrincipalId to set.
      */
     @Override
@@ -229,7 +230,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the tempEmpPrincipalId attribute.
-     * 
+     *
      * @return Returns the tempEmpPrincipalId.
      */
     @Override
@@ -240,7 +241,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the tempEmpPrincipalId attribute value.
-     * 
+     *
      * @param tempEmpPrincipalId The tempEmpPrincipalId to set.
      */
     @Override
@@ -251,7 +252,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Add necessary boilerplate prefix and suffix to lookup a DataDictionary Header field
-     * 
+     *
      * @param attrName the name of the attribute you're looking for
      */
     protected String getDataDictionaryAttributeName(final String attrName) {
@@ -260,14 +261,14 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Retrieve the name of the document identifier field for datadictionary queries
-     * 
+     *
      * @return String with the field name of the document identifier
      */
     protected abstract String getDocumentIdentifierFieldName();
 
     /**
      * Retrieve the name of the status code field for datadictionary queries
-     * 
+     *
      * @return String with the field name of the status code
      */
     protected String getStatusCodeFieldName() {
@@ -277,11 +278,11 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     /**
      * This puts in some new custom header fields for TA and TR documents Travel Number - ties related documents together Travel
      * Auth Status Code - current status of this Travel Authorization
-     * 
+     *
      * @see org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase#populateHeaderFields(org.kuali.rice.kns.workflow.service.KualiWorkflowDocument)
      */
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         final TravelDocument travelDoc = (TravelDocument) getDocument();
 
@@ -312,10 +313,10 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * This method parses out the options from the parameters table and sets boolean values for each one LODGING MILEAGE PER_DIEM
-     * 
+     *
      * @param perDiemCats
      */
-    public void parsePerDiemCategories(List<String> perDiemCats) {
+    public void parsePerDiemCategories(Collection<String> perDiemCats) {
         for (String category : perDiemCats) {
             String[] pair = category.split("=");
             if (pair[0].equalsIgnoreCase(TemConstants.LODGING)) {
@@ -332,7 +333,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the showLodging attribute.
-     * 
+     *
      * @return Returns the showLodging.
      */
     @Override
@@ -342,7 +343,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the showLodging attribute value.
-     * 
+     *
      * @param showLodging The showLodging to set.
      */
     @Override
@@ -352,7 +353,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the showMileage attribute.
-     * 
+     *
      * @return Returns the showMileage.
      */
     @Override
@@ -362,7 +363,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the showMileage attribute value.
-     * 
+     *
      * @param showMileage The showMileage to set.
      */
     @Override
@@ -372,7 +373,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the showPerDiem attribute.
-     * 
+     *
      * @return Returns the showPerDiem.
      */
     @Override
@@ -382,7 +383,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the showPerDiemBreakdown attribute value.
-     * 
+     *
      * @param showPerDiemBreakdown The showPerDiemBreakdown to set.
      */
     public void setShowPerDiemBreakdown(boolean showPerDiemBreakdown) {
@@ -391,7 +392,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the showPerDiemBreakdown attribute.
-     * 
+     *
      * @return Returns the showPerDiemBreakdown.
      */
     public boolean isShowPerDiemBreakdown() {
@@ -400,7 +401,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the canReturn attribute value.
-     * 
+     *
      * @return canReturn The canReturn to set.
      */
     @Override
@@ -410,7 +411,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the canReturn attribute value.
-     * 
+     *
      * @param canReturn The canReturn to set.
      */
     @Override
@@ -425,19 +426,19 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     public void setCanCalculate(boolean canCalculate) {
         this.canCalculate = canCalculate;
     }
-    
+
     /**
      * Gets the canImportExpenses attribute.
-     * 
+     *
      * @return Returns the canImportExpenses.
      */
     public boolean getCanShowImportExpenseDetails() {
-        return !getParameterService().getIndicatorParameter(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.DISABLE_IMPORTED_EXPENSE_DETAIL_IND);
+        return !getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.DISABLE_IMPORTED_EXPENSE_DETAIL_IND);
     }
 
     /**
      * Sets the canShowImportExpenseDetails attribute value.
-     * 
+     *
      * @param canShowImportExpenseDetails The canShowImportExpenseDetails to set.
      */
     public void setCanShowImportExpenseDetails(boolean canShowImportExpenseDetails) {
@@ -446,7 +447,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the enableTaxable attribute.
-     * 
+     *
      * @return Returns the enableTaxable.
      */
     @Override
@@ -456,7 +457,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the enableTaxable attribute value.
-     * 
+     *
      * @param enableTaxable The enableTaxable to set.
      */
     @Override
@@ -466,7 +467,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the showPerDiem attribute value.
-     * 
+     *
      * @param showPerDiem The showPerDiem to set.
      */
     @Override
@@ -481,7 +482,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * This method takes a string parameter from the db and converts it to an int suitable for using in our calculations
-     * 
+     *
      * @param perDiemPercentage
      */
     @Override
@@ -491,7 +492,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the perDiemPercentage attribute.
-     * 
+     *
      * @return Returns the perDiemPercentage.
      */
     @Override
@@ -501,7 +502,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the perDiemPercentage attribute value.
-     * 
+     *
      * @param perDiemPercentage The perDiemPercentage to set.
      */
     @Override
@@ -521,7 +522,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the relatedDocumentNotes attribute.
-     * 
+     *
      * @return Returns the relatedDocumentNotes.
      */
     @Override
@@ -532,7 +533,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
                 for (Document document : documents) {
                     //retrieve by object Id base on document's usage with BoNotesSupport
                     List<Note> remoteNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(
-                            document.isBoNotesSupport()? document.getObjectId() : document.getDocumentHeader().getObjectId());
+                            document.getNoteType() == NoteType.BUSINESS_OBJECT? document.getObjectId() : document.getDocumentHeader().getObjectId());
                     Collections.reverse(remoteNotes);
                     relatedDocumentNotes.put(document.getDocumentNumber(), remoteNotes);
                 }
@@ -545,7 +546,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the relatedDocumentNotes attribute value.
-     * 
+     *
      * @param relatedDocumentNotes The relatedDocumentNotes to set.
      */
     @Override
@@ -569,13 +570,13 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Add extra buttons to the TEM forms
-     * 
+     *
      * @see org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase#getExtraButtons()
      */
     @Override
     public List<ExtraButton> getExtraButtons() {
         extraButtons.clear();
-        String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        String appExternalImageURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
 
         if (canReturn()) {
             addExtraButton("methodToCall.returnToFiscalOfficer", appExternalImageURL + "buttonsmall_return_to_fo.gif", "Return to Fiscal Officer");
@@ -589,7 +590,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Create and add button to the extraButton list
-     * 
+     *
      * @param property
      * @param source
      * @param altText
@@ -683,7 +684,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the newActualExpenseLine attribute.
-     * 
+     *
      * @return Returns the newActualExpenseLine.
      */
     @Override
@@ -694,13 +695,13 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
                 newActualExpenseLines.add(new ActualExpense());
             }
         }
-        
+
         return newActualExpenseLines;
     }
 
     /**
      * Sets the newActualExpenseLines attribute value.
-     * 
+     *
      * @param newActualExpenseLines The newActualExpenseLines to set.
      */
     @Override
@@ -710,7 +711,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the newOtherExpenseLine attribute.
-     * 
+     *
      * @return Returns the newOtherExpenseLine.
      */
     @Override
@@ -720,7 +721,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the newOtherExpenseLine attribute value.
-     * 
+     *
      * @param newOtherExpenseLine The newOtherExpenseLine to set.
      */
     @Override
@@ -730,7 +731,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the newImportedExpenseLines attribute.
-     * 
+     *
      * @return Returns the newImportedExpenseLines.
      */
     @Override
@@ -746,7 +747,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the newImportedExpenseLines attribute value.
-     * 
+     *
      * @param newImportedExpenseLines The newImportedExpenseLines to set.
      */
     @Override
@@ -756,7 +757,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the newImportedExpenseLine attribute.
-     * 
+     *
      * @return Returns the newImportedExpenseLine.
      */
     @Override
@@ -766,7 +767,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the newImportedExpenseLine attribute value.
-     * 
+     *
      * @param newImportedExpenseLine The newImportedExpenseLine to set.
      */
     @Override
@@ -786,7 +787,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the newGroupTravelerLine attribute.
-     * 
+     *
      * @return Returns the newGroupTravelerLine.
      */
     public GroupTraveler getNewGroupTravelerLine() {
@@ -795,7 +796,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the newGroupTravelerLine attribute value.
-     * 
+     *
      * @param newGroupTravelerLine The newGroupTravelerLine to set.
      */
     public void setNewGroupTravelerLine(GroupTraveler newGroupTravelerLine) {
@@ -812,7 +813,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the accountDistributionnextSourceLineNumber attribute.
-     * 
+     *
      * @return Returns the accountDistributionnextSourceLineNumber.
      */
     @Override
@@ -822,7 +823,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the accountDistributionnextSourceLineNumber attribute value.
-     * 
+     *
      * @param accountDistributionnextSourceLineNumber The accountDistributionnextSourceLineNumber to set.
      */
     @Override
@@ -832,7 +833,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the accountDistributionnewSourceLine attribute.
-     * 
+     *
      * @return Returns the accountDistributionnewSourceLine.
      */
     @Override
@@ -842,7 +843,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the accountDistributionnewSourceLine attribute value.
-     * 
+     *
      * @param accountDistributionnewSourceLine The accountDistributionnewSourceLine to set.
      */
     @Override
@@ -854,7 +855,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * Sets the sequence number appropriately for the passed in source accounting line using the value that has been stored in the
      * nextSourceLineNumber variable, adds the accounting line to the list that is aggregated by this object, and then handles
      * incrementing the nextSourceLineNumber variable.
-     * 
+     *
      * @param line the accounting line to add to the list.
      * @see org.kuali.kfs.sys.document.AccountingDocument#addSourceAccountingLine(SourceAccountingLine)
      */
@@ -871,16 +872,16 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      */
     @Override
     public void setDistribution(final List<AccountingDistribution> distribution) {
-        
+
         // set up the selected object code/card type
         if (!getDistribution().isEmpty() && this.distribution != null && !this.distribution.isEmpty()) {
-            
+
             Map<AccountingLineDistributionKey, AccountingDistribution> distributionMap = new HashMap<AccountingLineDistributionKey, AccountingDistribution>();
             for (AccountingDistribution accountDistribution : this.distribution) {
                 distributionMap.put(new AccountingLineDistributionKey(accountDistribution.getObjectCode(), accountDistribution.getCardType()), accountDistribution);
             }
-            
-            AccountingLineDistributionKey key; 
+
+            AccountingLineDistributionKey key;
             for (AccountingDistribution accountDistribution : distribution) {
                 key = new AccountingLineDistributionKey(accountDistribution.getObjectCode(), accountDistribution.getCardType());
                 if (distributionMap.containsKey(key)) {
@@ -899,7 +900,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         }
         return distribution;
     }
-    
+
     public Boolean getHasSelectedDistributionRemainingAmount() {
         return KualiDecimal.ZERO.isLessThan(getSelectedDistributionRemainingAmount());
     }
@@ -957,10 +958,10 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         }
         return total;
     }
-    
+
     /**
      * Check if document is of Travel Authorization
-     * 
+     *
      * @return
      */
     public boolean getIsTravelAuthorizationDoc(){
@@ -976,7 +977,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     }
 
     public String getUploadParserInstructionsUrl() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.UPLOAD_PARSER_INSTRUCTIONS_URL);
+        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.UPLOAD_PARSER_INSTRUCTIONS_URL);
     }
 
     public String getLookupResultsSequenceNumber() {
@@ -1005,7 +1006,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the accountDistributionsourceAccountingLines attribute.
-     * 
+     *
      * @return Returns the accountDistributionsourceAccountingLines.
      */
     @Override
@@ -1015,7 +1016,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the accountDistributionsourceAccountingLines attribute value.
-     * 
+     *
      * @param accountDistributionsourceAccountingLines The accountDistributionsourceAccountingLines to set.
      */
     @Override
@@ -1025,7 +1026,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Gets the displayNonEmployeeForm attribute.
-     * 
+     *
      * @return Returns the displayNonEmployeeForm.
      */
     public boolean isDisplayNonEmployeeForm() {
@@ -1034,7 +1035,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
 
     /**
      * Sets the displayNonEmployeeForm attribute value.
-     * 
+     *
      * @param displayNonEmployeeForm The displayNonEmployeeForm to set.
      */
     public void setDisplayNonEmployeeForm(boolean displayNonEmployeeForm) {

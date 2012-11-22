@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.tem.document.authorization;
 
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * Supplies abstract method to define whether an authorizer can generically check for return to fiscal officer permissions

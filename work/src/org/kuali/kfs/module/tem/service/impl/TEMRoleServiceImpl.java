@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,19 +31,18 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.RoleService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TEMRoleServiceImpl implements TEMRoleService{
 
     public static Logger LOG = Logger.getLogger(TEMRoleServiceImpl.class);
-    
+
     RoleService roleService;
     BusinessObjectService businessObjectService;
     TravelArrangerDocumentService arrangerDocumentService;
@@ -56,27 +55,27 @@ public class TEMRoleServiceImpl implements TEMRoleService{
 
         boolean canAccess = true;
         String initiatorId = travelDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-        
-        //check user is not the initiator 
+
+        //check user is not the initiator
         if (!initiatorId.equals(currentUser.getPrincipalId())) {
-            
+
             //Get the profile from the document
-            TEMProfile profile = (TEMProfile) SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(TEMProfile.class, travelDocument.getTemProfileId());
-            
-            if (ObjectUtils.isNotNull(profile)){ 
+            TEMProfile profile = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(TEMProfile.class, travelDocument.getTemProfileId());
+
+            if (ObjectUtils.isNotNull(profile)){
                 String profileId = travelDocument.getTemProfileId().toString();
                 String documentType = travelDocument.getDocumentTypeName();
-                
+
                 //profile exists and user does not have access as the arranger
                 if(!isTravelArranger(currentUser, profile.getHomeDepartment(), profileId, documentType)) {
                     canAccess = false;
                 }
             }
         }
-            
+
         return canAccess;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.service.TEMRoleService#isArrangerForProfile(java.lang.String, int)
      */
@@ -86,7 +85,7 @@ public class TEMRoleServiceImpl implements TEMRoleService{
         if(ObjectUtils.isNotNull(profileId) && ObjectUtils.isNotNull(principalId)) {
             isArranger = ObjectUtils.isNotNull(arrangerDocumentService.findTemProfileArranger(principalId, profileId));
         }
-        
+
         return isArranger;
     }
 
@@ -120,10 +119,10 @@ public class TEMRoleServiceImpl implements TEMRoleService{
             fieldValues.put(TEMProfileProperties.PRINCIPAL_ID, arrangerId);
             List<TEMProfileArranger> profileArrangers = new ArrayList<TEMProfileArranger>( businessObjectService.findMatching(TEMProfileArranger.class, fieldValues));
             isProfileArranger = ObjectUtils.isNotNull(profileArrangers) && !profileArrangers.isEmpty();
-        } 
+        }
         return isProfileArranger;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.service.TEMRoleService#isProfileAdmin(org.kuali.rice.kim.bo.Person, java.lang.String)
      */
@@ -131,7 +130,7 @@ public class TEMRoleServiceImpl implements TEMRoleService{
     public boolean isProfileAdmin(Person currentUser, String homeDepartment) {
         boolean hasAdminRole = checkUserRole(currentUser, TemConstants.TEMRoleNames.TEM_PROFILE_ADMINISTRATOR, TemConstants.PARAM_NAMESPACE, null);
         boolean hasOrgRole = checkOrganizationRole(currentUser, TemConstants.TEMRoleNames.TEM_PROFILE_ADMINISTRATOR, TemConstants.PARAM_NAMESPACE, homeDepartment);
-        
+
         return hasAdminRole && hasOrgRole;
     }
 
@@ -140,14 +139,15 @@ public class TEMRoleServiceImpl implements TEMRoleService{
      */
     @Override
     public boolean isTravelArranger(final Person user, final String primaryDepartmentCode, String profileId, String documentType) {
-        
-        //add the role qualification 
-        AttributeSet qualification = new AttributeSet(TEMProfileProperties.PROFILE_ID, profileId);
-        qualification.put(KimAttributes.DOCUMENT_TYPE_NAME, documentType);
-        
+
+        //add the role qualification
+        Map<String,String> qualification = new HashMap<String,String>();
+        qualification.put(TEMProfileProperties.PROFILE_ID, profileId);
+        qualification.put(KFSPropertyConstants.DOCUMENT_TYPE_NAME, documentType);
+
         boolean checkProfileAssignedRole = checkUserRole(user, TemConstants.TEM_ASSIGNED_PROFILE_ARRANGER, TemConstants.PARAM_NAMESPACE, qualification);
         boolean checkOrgRole = checkOrganizationRole(user, TemConstants.TEM_ORGANIZATION_PROFILE_ARRANGER, TemConstants.PARAM_NAMESPACE, primaryDepartmentCode);
-        
+
         //user is an arranger if either check is successful
         return checkProfileAssignedRole || checkOrgRole;
     }
@@ -159,7 +159,7 @@ public class TEMRoleServiceImpl implements TEMRoleService{
     public boolean isTravelArranger(final Person user) {
         return isTravelArranger(user, null, null, null);
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#isTravelManager(org.kuali.rice.kim.bo.Person)
      */
@@ -173,7 +173,7 @@ public class TEMRoleServiceImpl implements TEMRoleService{
      */
     @Override
     public boolean isFiscalOfficer(final Person user) {
-        return checkUserRole(user, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME, KFSConstants.CoreModuleNamespaces.KFS, null);
+        return checkUserRole(user, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME, KFSConstants.CoreModuleNamespaces.KFS, null);
     }
 
     /**
@@ -181,25 +181,25 @@ public class TEMRoleServiceImpl implements TEMRoleService{
      */
     @Override
     public boolean checkUserTEMRole(final Person user, String role){
-        return checkUserRole(user, role, TemConstants.PARAM_NAMESPACE, null);   
+        return checkUserRole(user, role, TemConstants.PARAM_NAMESPACE, null);
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.service.TEMRoleService#checkUserRole(org.kuali.rice.kim.bo.Person, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * @see org.kuali.kfs.module.tem.service.TEMRoleService#checkUserRole(org.kuali.rice.kim.bo.Person, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
      */
     @Override
-    public boolean checkUserRole(final Person user, String role, String parameterNamespace, AttributeSet qualification){
+    public boolean checkUserRole(final Person user, String role, String parameterNamespace, Map<String,String> qualification){
         try{
             List<String> roleIds = new ArrayList<String>();
-            roleIds.add(roleService.getRoleIdByName(parameterNamespace, role));
+            roleIds.add(roleService.getRoleIdByNamespaceCodeAndName(parameterNamespace, role));
             return roleService.principalHasRole(user.getPrincipalId(), roleIds, qualification);
-        } 
+        }
         catch (NullPointerException e) {
             LOG.error(e);
         }
-        return false;   
+        return false;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.service.TEMRoleService#checkOrganizationRole(org.kuali.rice.kim.bo.Person, java.lang.String, java.lang.String, java.lang.String)
      */
@@ -207,26 +207,26 @@ public class TEMRoleServiceImpl implements TEMRoleService{
     public boolean checkOrganizationRole(final Person user, String role, String parameterNamespace, String primaryDepartmentCode){
         try{
             List<String> roleIds = new ArrayList<String>();
-            roleIds.add(roleService.getRoleIdByName(parameterNamespace, role));
-            
-            AttributeSet qualification = null;
+            roleIds.add(roleService.getRoleIdByNamespaceCodeAndName(parameterNamespace, role));
+
+            Map<String,String> qualification = null;
             String chartOfAccounts, organizationCode = null;
             if (StringUtils.isNotEmpty(primaryDepartmentCode)) {
                 String[] split = primaryDepartmentCode.split("-");
-                if(split != null){ 
+                if(split != null){
                     chartOfAccounts = split[0];
-                    qualification = new AttributeSet();
+                    qualification = new HashMap<String,String>();
                     qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccounts);
                     qualification.put("performQualifierMatch", "True");
-                    
-                    if(split.length == 2){                     
+
+                    if(split.length == 2){
                         organizationCode = split[1];
-        
+
                         qualification.put(KfsKimAttributes.ORGANIZATION_CODE, organizationCode);
                     }
                 }
             }
-            
+
             if (roleService.principalHasRole(user.getPrincipalId(), roleIds, qualification)) {
                 return true;
             }
@@ -234,13 +234,13 @@ public class TEMRoleServiceImpl implements TEMRoleService{
         catch (NullPointerException e) {
             LOG.error(e);
         }
-        return false;   
+        return false;
     }
-    
+
     public void setRoleService(RoleService roleService) {
         this.roleService = roleService;
     }
-    
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -249,5 +249,5 @@ public class TEMRoleServiceImpl implements TEMRoleService{
         this.arrangerDocumentService = travelArrangerDocumentService;
     }
 
-    
+
 }

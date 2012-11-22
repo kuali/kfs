@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,33 +27,36 @@ import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.UrlFactory;
 
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({ "rawtypes", "deprecation" })
 public class CreditCardStagingDataLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    
+
+    /**
+     * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         if (backLocation.contains("maintenance.do")){   //coming from clearing maint doc, not from TEM trans doc
             List<CreditCardStagingData> cardStagingDataList =  (List<CreditCardStagingData>) super.getSearchResultsHelper(fieldValues, true);
             List<CreditCardStagingData> newCardStagingDataList = new ArrayList<CreditCardStagingData>();
-            
+
             // look through
             for (CreditCardStagingData cardStagingData : cardStagingDataList){
                 Map<String, Object> hteFieldValues = new HashMap<String, Object>();
                 hteFieldValues.put("creditCardStagingDataId", cardStagingData.getId());
                 hteFieldValues.put("reconciled", TemConstants.ReconciledCodes.UNRECONCILED);
                 List<HistoricalTravelExpense> expenseList = (List<HistoricalTravelExpense>) SpringContext.getBean(BusinessObjectService.class).findMatching(HistoricalTravelExpense.class, hteFieldValues);
-                
+
                 if (expenseList.size() > 0){
                     newCardStagingDataList.add(cardStagingData);
                 }
@@ -72,8 +75,8 @@ public class CreditCardStagingDataLookupableHelperServiceImpl extends KualiLooku
             return super.getSearchResults(fieldValues);
         }
     }
-    
-    
+
+
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
      */
@@ -83,14 +86,14 @@ public class CreditCardStagingDataLookupableHelperServiceImpl extends KualiLooku
 
         CreditCardStagingData stagingData = (CreditCardStagingData) bo;
         boolean isTravelManager = isUserTravelManager();
-        
+
         //SW: will never able to edit, copy as thisi s not maintainable
 //        // For matched records or if user is not travel manager edit and delete link will not be displayed .
 //        if (stagingData.getMoveToHistoryIndicator()||!isTravelManager) {
 //            // clear 'edit' and delete links
 //            //anchorHtmlDataList.clear();
 //        }
-        
+
         //CLEANUP - need to be able to generate view link (or search result filter) base on accessibility
         if(true){
             anchorHtmlDataList.add(getViewUrl(stagingData));
@@ -99,7 +102,7 @@ public class CreditCardStagingDataLookupableHelperServiceImpl extends KualiLooku
     }
 
     /**
-     * 
+     *
      * @return
      */
     private boolean isUserTravelManager() {
@@ -110,7 +113,7 @@ public class CreditCardStagingDataLookupableHelperServiceImpl extends KualiLooku
 
     /**
      * Create a view url for credit card staging data
-     * 
+     *
      * @param stagingData
      * @return
      */
@@ -119,12 +122,12 @@ public class CreditCardStagingDataLookupableHelperServiceImpl extends KualiLooku
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         parameters.put("id", stagingData.getId().toString());
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, CreditCardStagingData.class.getName());
-        
+
         String href = UrlFactory.parameterizeUrl(TemConstants.INQUIRY_URL, parameters);
         AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KFSConstants.START_METHOD, TemConstants.VIEW);
         anchorHtmlData.setTarget("blank");
         return anchorHtmlData;
     }
-    
-    
+
+
 }

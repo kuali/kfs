@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,7 +24,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "TEM_PROFILE_CUST_T")
@@ -47,14 +47,13 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
     private String customerAddressInternationalProvinceName;
     private String customerEmailAddress;
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         return null;
     }
 
     /**
-     * Gets the customerNumber attribute. 
+     * Gets the customerNumber attribute.
      * @return Returns the customerNumber.
      */
     @Column(name = "cust_nbr", nullable = true, length=40)
@@ -71,7 +70,7 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the customerTypeCode attribute. 
+     * Gets the customerTypeCode attribute.
      * @return Returns the customerTypeCode.
      */
     @Column(name = "customer_typ_cd", length = 2, nullable = true)
@@ -86,9 +85,9 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
     public void setCustomerTypeCode(String customerTypeCode) {
         this.customerTypeCode = customerTypeCode;
     }
-    
+
     /**
-     * Gets the customerType attribute. 
+     * Gets the customerType attribute.
      * @return Returns the customerType.
      */
     @ManyToOne
@@ -106,7 +105,7 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the customerName attribute. 
+     * Gets the customerName attribute.
      * @return Returns the customerName.
      */
     @Column(name = "cust_nm", nullable = true, length=19)
@@ -123,7 +122,7 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the customerPhoneNumber attribute. 
+     * Gets the customerPhoneNumber attribute.
      * @return Returns the customerPhoneNumber.
      */
     @Column(name = "cust_phone_nbr", length = 40, nullable = true)
@@ -140,7 +139,7 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the customerTaxNumber attribute. 
+     * Gets the customerTaxNumber attribute.
      * @return Returns customerThe taxNumber.
      */
     @Column(name = "cust_tax_nbr", length = 40, nullable = true)
@@ -157,7 +156,7 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the customerTaxTypeCode attribute. 
+     * Gets the customerTaxTypeCode attribute.
      * @return Returns the customerTaxTypeCode.
      */
     @Column(name = "cust_tax_typ_cd", length = 4, nullable = true)
@@ -174,7 +173,7 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
      * @return Returns the active.
      */
     @Column(name="ACTV_IND",nullable=false,length=1)
@@ -191,7 +190,7 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the customerAddressName attribute. 
+     * Gets the customerAddressName attribute.
      * @return Returns the customerAddressName.
      */
     @Column(name = "address_name", length = 40, nullable = true)
@@ -208,7 +207,7 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the customerLine1StreetAddress attribute. 
+     * Gets the customerLine1StreetAddress attribute.
      * @return Returns the customerLine1StreetAddress.
      */
     @Column(name = "addr_line_1", length = 50, nullable = true)
@@ -225,7 +224,7 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the customerLine2StreetAddress attribute. 
+     * Gets the customerLine2StreetAddress attribute.
      * @return Returns the customerLine2StreetAddress.
      */
     @Column(name = "addr_line_2", length = 50, nullable = true)
@@ -242,7 +241,7 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the customerCityName attribute. 
+     * Gets the customerCityName attribute.
      * @return Returns the customerCityName.
      */
     @Column(name = "city_nm", length = 30, nullable = true)
@@ -259,7 +258,7 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the customerStateCode attribute. 
+     * Gets the customerStateCode attribute.
      * @return Returns the customerStateCode.
      */
     @Column(name = "state_cd", length = 40, nullable = true)
@@ -276,7 +275,7 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the customerZipCode attribute. 
+     * Gets the customerZipCode attribute.
      * @return Returns the customerZipCode.
      */
     @Column(name = "zip_cd", length = 10, nullable = true)
@@ -293,7 +292,7 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the customerAddressInternationalProvinceName attribute. 
+     * Gets the customerAddressInternationalProvinceName attribute.
      * @return Returns the customerAddressInternationalProvinceName.
      */
     @Column(name = "intl_prov_nm", length = 45, nullable = true)
@@ -310,7 +309,7 @@ public class TemProfileFromCustomer extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the customerEmailAddress attribute. 
+     * Gets the customerEmailAddress attribute.
      * @return Returns the customerEmailAddress.
      */
     @Column(name = "cust_email_addr", length = 40, nullable = true)

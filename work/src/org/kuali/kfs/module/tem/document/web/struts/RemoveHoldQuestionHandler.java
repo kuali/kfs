@@ -36,12 +36,12 @@ import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.dao.DocumentDao;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.dao.DocumentDao;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 /**
@@ -49,7 +49,7 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
  * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument> {
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService ConfigurationService;
     private DataDictionaryService dataDictionaryService;
     private TravelDocumentService travelDocumentService;
     private DocumentService documentService;
@@ -136,21 +136,21 @@ public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument
 
 
     /**
-     * Sets the kualiConfigurationService attribute.
+     * Sets the ConfigurationService attribute.
      * 
-     * @return Returns the kualiConfigurationService.
+     * @return Returns the ConfigurationService.
      */
-    public void setConfigurationService(final KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    public void setConfigurationService(final ConfigurationService ConfigurationService) {
+        this.ConfigurationService = ConfigurationService;
     }
 
     /**
-     * Gets the kualiConfigurationService attribute.
+     * Gets the ConfigurationService attribute.
      * 
-     * @return Returns the kualiConfigurationService.
+     * @return Returns the ConfigurationService.
      */
-    protected KualiConfigurationService getConfigurationService() {
-        return kualiConfigurationService;
+    protected ConfigurationService getConfigurationService() {
+        return ConfigurationService;
     }
 
     /**
@@ -171,12 +171,12 @@ public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument
         return dataDictionaryService;
     }
 
-    public KualiConfigurationService getKualiConfigurationService() {
-        return kualiConfigurationService;
+    public ConfigurationService getConfigurationService() {
+        return ConfigurationService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    public void setConfigurationService(ConfigurationService ConfigurationService) {
+        this.ConfigurationService = ConfigurationService;
     }
 
     public DocumentService getDocumentService() {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,9 +22,8 @@ import javax.persistence.Table;
 
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.document.Document;
 
 
 @Entity
@@ -32,26 +31,26 @@ import org.kuali.rice.kns.document.Document;
 public class TravelAuthorizationAmendmentDocument extends TravelAuthorizationDocument {
 
     /**
-     * @see org.kuali.rice.kns.document.Document#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     * @see org.kuali.rice.kns.document.Document#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChange)
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
+
         super.doRouteStatusChange(statusChangeEvent);
-      
+
         //doc is processed
-        if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
-            
+        if (DocumentStatus.PROCESSED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
+
             List<Document> relatedDocs = getTravelDocumentService().getDocumentsRelatedTo(this, TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT,
                     TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
-            
+
             //updating the related's document appDocStatus to be retired
             for (Document document : relatedDocs){
                 if (!document.getDocumentNumber().equals(this.getDocumentNumber())) {
                     ((TravelAuthorizationDocument) document).updateAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
                 }
             }
-            getTravelEncumbranceService().adjustEncumbranceForAmendment((TravelAuthorizationAmendmentDocument)this);
+            getTravelEncumbranceService().adjustEncumbranceForAmendment(this);
         }
     }
 }

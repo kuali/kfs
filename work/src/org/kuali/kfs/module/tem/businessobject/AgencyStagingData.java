@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,41 +33,41 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImport;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "TEM_AGENCY_STAGING_T")
-public class AgencyStagingData extends PersistableBusinessObjectBase implements Inactivateable {
+public class AgencyStagingData extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private Integer id;
     private String errorCode;
     private Integer duplicateRecordId;
     private Integer temProfileId;
     private TEMProfile profile;
-    
+
     private String importBy;
-    
+
     // Agency Information
     private Integer agencyDataId;
     private String creditCardOrAgencyCode;
-    private Integer creditCardAgencyId; 
+    private Integer creditCardAgencyId;
     private String agency;
     private String otherCompanyName;
     private String agencyFileName;
     private String stagingFileName;
     private String merchantName;
     private Date billingCycleDate;
-    
+
     private CreditCardAgency creditCardAgency;
-    
+
     // Trip Information
     private String tripId;
     private String tripInvoiceNumber;
     private String tripTravelerTypeId;
     private KualiDecimal otherAmount;
-    
+
     // Traveler Information
     private String travelerName;
     private String travelerId;
@@ -75,7 +75,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     private KualiDecimal tripExpenseAmount;
     private String alternateTripId;
     private String tripArrangerName;
-    
+
     // Accounting Information
     private ArrayList<TripAccountingInformation> tripAccountingInformation;
     private String groupObjectCode;
@@ -86,11 +86,11 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     private String searchChartOfAccountsCode;
     private String searchAccountNumber;
     private String searchSubAccountNumber;
-    
+
     private Chart searchChart;
     private Account searchAccount;
     private SubAccount searchSubAccount;
-    
+
     // Airline Information
     private Date tripDepartureDate;
     private Date tripReturnDate;
@@ -110,7 +110,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     private String airServiceFeeNumber;
     private KualiDecimal airServiceFeeAmount;
     private String transactionUniqueId;
-    
+
     // Lodging Information
     private String lodgingItineraryNumber;
     private Date lodgingPrepayDate;
@@ -123,7 +123,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     private String lodgingPropertyCityName;
     private String lodgingPropertyStateCode;
     private String lodgingCountryName;
-    
+
     // Rental Car Information
     private String rentalCarItineraryNumber;
     private KualiDecimal rentalCarAmount;
@@ -138,33 +138,33 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     private KualiDecimal rentalCarGovernmentSurchargeAmount;
     private KualiDecimal rentalCarBillAmount;
     private String rentalCarDetailText;
-    
+
     // Conference Registration
     private String registrationCompanyName;
     private KualiDecimal registrationAmount;
-    
+
     // Processing Information
     private Date transactionPostingDate;
     private String objectVerNumber;
     private Timestamp creationTimestamp;
     private Timestamp processingTimestamp; // this is the import date
     private boolean moveToHistoryIndicator;
-    
+
     private Boolean active = Boolean.TRUE;
     private Boolean manualCreated = Boolean.FALSE;
     private Integer copiedFromId;
-   
+
     public AgencyStagingData() {
         tripAccountingInformation = new ArrayList<TripAccountingInformation>();
     }
-    
-    @Override
-    protected LinkedHashMap toStringMapper() {
+
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         return null;
     }
 
     /**
-     * Gets the id attribute. 
+     * Gets the id attribute.
      * @return Returns the id.
      */
     @Id
@@ -184,7 +184,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the errorCode attribute. 
+     * Gets the errorCode attribute.
      * @return Returns the errorCode.
      */
     @Column(name = "ERROR_CD", length = 40, nullable = true)
@@ -199,10 +199,10 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     public void setErrorCode(String errorCode) {
         this.errorCode = errorCode;
     }
-    
+
 
     /**
-     * Gets the duplicateRecordId attribute. 
+     * Gets the duplicateRecordId attribute.
      * @return Returns the duplicateRecordId.
      */
     @Column(name = "DUP_REC_ID", nullable = false)
@@ -219,7 +219,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the temProfileId attribute. 
+     * Gets the temProfileId attribute.
      * @return Returns the temProfileId.
      */
     @Column(name = "PROFILE_ID", length = 19, nullable = true)
@@ -236,7 +236,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the agencyDataId attribute. 
+     * Gets the agencyDataId attribute.
      * @return Returns the agencyDataId.
      */
     @Column(name = "AGENCY_DATA_ID", length = 10, nullable = true)
@@ -253,7 +253,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the creditCardOrAgencyCode attribute. 
+     * Gets the creditCardOrAgencyCode attribute.
      * @return Returns the creditCardOrAgencyCode.
      */
     @Column(name = "CREDIT_AGENCY_CD", length = 4, nullable = true)
@@ -270,7 +270,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the agency attribute. 
+     * Gets the agency attribute.
      * @return Returns the agency.
      */
     @Column(name = "AGENCY", length = 20, nullable = true)
@@ -287,7 +287,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the otherCompanyName attribute. 
+     * Gets the otherCompanyName attribute.
      * @return Returns the otherCompanyName.
      */
     @Column(name = "OTHER_CO_NM", length = 30, nullable = true)
@@ -304,7 +304,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the agencyFileName attribute. 
+     * Gets the agencyFileName attribute.
      * @return Returns the agencyFileName.
      */
     @Column(name = "AGENCY_FL_NM", length = 50, nullable = true)
@@ -321,7 +321,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the merchantName attribute. 
+     * Gets the merchantName attribute.
      * @return Returns the merchantName.
      */
     @Column(name = "MERCH_NM", length = 40, nullable = true)
@@ -338,7 +338,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the billingCycleDate attribute. 
+     * Gets the billingCycleDate attribute.
      * @return Returns the billingCycleDate.
      */
     @Column(name = "BILLING_CYCLE_DT", nullable = true)
@@ -355,7 +355,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the tripId attribute. 
+     * Gets the tripId attribute.
      * @return Returns the tripId.
      */
     @Column(name = "TRIP_ID", length = 12, nullable = true)
@@ -372,7 +372,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the tripInvoiceNumber attribute. 
+     * Gets the tripInvoiceNumber attribute.
      * @return Returns the tripInvoiceNumber.
      */
     @Column(name = "TRIP_INV_NBR", length = 20, nullable = true)
@@ -389,7 +389,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the tripTravelerTypeId attribute. 
+     * Gets the tripTravelerTypeId attribute.
      * @return Returns the tripTravelerTypeId.
      */
     @Column(name = "TRIP_TRV_TYP_ID", length = 1, nullable = true)
@@ -406,7 +406,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the otherAmount attribute. 
+     * Gets the otherAmount attribute.
      * @return Returns the otherAmount.
      */
     @Column(name = "OTHER_AMT", precision=8, scale=2, nullable = true)
@@ -426,7 +426,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the travelerName attribute. 
+     * Gets the travelerName attribute.
      * @return Returns the travelerName.
      */
     @Column(name = "TRAVELER_NM", length = 50, nullable = false)
@@ -443,7 +443,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the travelerId attribute. 
+     * Gets the travelerId attribute.
      * @return Returns the travelerId.
      */
     @Column(name = "TRAVELER_ID", length = 40, nullable = true)
@@ -460,7 +460,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the travelerNetworkId attribute. 
+     * Gets the travelerNetworkId attribute.
      * @return Returns the travelerNetworkId.
      */
     @Column(name = "TRAVELER_NTWK_ID", length = 9, nullable = true)
@@ -477,7 +477,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the tripExpenseAmount attribute. 
+     * Gets the tripExpenseAmount attribute.
      * @return Returns the tripExpenseAmount.
      */
     @Column(name = "TRP_EXP_AMT", precision=8, scale=2, nullable = true)
@@ -498,7 +498,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
 
 
     /**
-     * Gets the alternateTripId attribute. 
+     * Gets the alternateTripId attribute.
      * @return Returns the alternateTripId.
      */
     @Column(name = "ALT_TRP_ID", length = 20, nullable = true)
@@ -515,7 +515,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the tripArrangerName attribute. 
+     * Gets the tripArrangerName attribute.
      * @return Returns the tripArrangerName.
      */
     @Column(name = "TRP_ARR_NM", length = 50, nullable = true)
@@ -532,7 +532,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the tripAccountingInformation attribute. 
+     * Gets the tripAccountingInformation attribute.
      * @return Returns the tripAccountingInformation.
      */
     public ArrayList<TripAccountingInformation> getTripAccountingInformation() {
@@ -546,9 +546,9 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     public void setTripAccountingInformation(ArrayList<TripAccountingInformation> tripAccountingInformation) {
         this.tripAccountingInformation = tripAccountingInformation;
     }
-    
+
     /**
-     * 
+     *
      * This method adds a TripAccountingInformation to the list. Needed for agencyDataDigestorRules.xml.
      * @param accountingInfo
      */
@@ -557,7 +557,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the groupObjectCode attribute. 
+     * Gets the groupObjectCode attribute.
      * @return Returns the groupObjectCode.
      */
     @Column(name = "GRP_OBJ_CD", length = 20, nullable = true)
@@ -574,7 +574,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the distributionCode attribute. 
+     * Gets the distributionCode attribute.
      * @return Returns the distributionCode.
      */
     @Column(name = "DI_CD", length = 4, nullable = true)
@@ -591,7 +591,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the tripDepartureDate attribute. 
+     * Gets the tripDepartureDate attribute.
      * @return Returns the tripDepartureDate.
      */
     @Column(name = "TRP_DPT_DT", nullable = true)
@@ -608,7 +608,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the tripReturnDate attribute. 
+     * Gets the tripReturnDate attribute.
      * @return Returns the tripReturnDate.
      */
     @Column(name = "TRP_RTRN_DT", nullable = true)
@@ -625,7 +625,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the fareSaverCode attribute. 
+     * Gets the fareSaverCode attribute.
      * @return Returns the fareSaverCode.
      */
     @Column(name = "FARE_SVR_CD", length = 1, nullable = true)
@@ -642,7 +642,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the airBookDate attribute. 
+     * Gets the airBookDate attribute.
      * @return Returns the airBookDate.
      */
     @Column(name = "AIR_BK_DT", nullable = true)
@@ -659,7 +659,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the airCarrierCode attribute. 
+     * Gets the airCarrierCode attribute.
      * @return Returns the airCarrierCode.
      */
     @Column(name = "AIR_CARR_CD", length = 3, nullable = true)
@@ -676,7 +676,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the airTicketNumber attribute. 
+     * Gets the airTicketNumber attribute.
      * @return Returns the airTicketNumber.
      */
     @Column(name = "AIR_TKT_NBR", length = 20, nullable = true)
@@ -693,7 +693,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the pnrNumber attribute. 
+     * Gets the pnrNumber attribute.
      * @return Returns the pnrNumber.
      */
     @Column(name = "PNR_NBR", length = 20, nullable = true)
@@ -710,7 +710,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the airTicketClass attribute. 
+     * Gets the airTicketClass attribute.
      * @return Returns the airTicketClass.
      */
     @Column(name = "AIR_TKT_CLASS", length = 20, nullable = true)
@@ -727,7 +727,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the airTransactionAmount attribute. 
+     * Gets the airTransactionAmount attribute.
      * @return Returns the airTransactionAmount.
      */
     @Column(name = "AIR_TRANS_AMT", precision=8, scale=2, nullable = true)
@@ -748,7 +748,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
 
 
     /**
-     * Gets the airBaseFareAmount attribute. 
+     * Gets the airBaseFareAmount attribute.
      * @return Returns the airBaseFareAmount.
      */
     @Column(name = "AIR_BASE_FARE_AMT", precision=8, scale=2, nullable = true)
@@ -768,7 +768,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the airTaxAmount attribute. 
+     * Gets the airTaxAmount attribute.
      * @return Returns the airTaxAmount.
      */
     @Column(name = "AIR_TX_AMT", precision=8, scale=2, nullable = true)
@@ -788,7 +788,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the airLowFareAmount attribute. 
+     * Gets the airLowFareAmount attribute.
      * @return Returns the airLowFareAmount.
      */
     @Column(name = "AIR_LOW_FARE_AMT", precision=8, scale=2, nullable = true)
@@ -808,7 +808,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the airReasonCode attribute. 
+     * Gets the airReasonCode attribute.
      * @return Returns the airReasonCode.
      */
     @Column(name = "AIR_RSN_CD", length = 1, nullable = true)
@@ -825,7 +825,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the airSegmentId attribute. 
+     * Gets the airSegmentId attribute.
      * @return Returns the airSegmentId.
      */
     @Column(name = "AIR_SEG_ID", length = 100, nullable = true)
@@ -842,7 +842,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the airDestinationCode attribute. 
+     * Gets the airDestinationCode attribute.
      * @return Returns the airDestinationCode.
      */
     @Column(name = "AIR_DEST_CD", length = 3, nullable = true)
@@ -859,7 +859,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the airServiceFeeNumber attribute. 
+     * Gets the airServiceFeeNumber attribute.
      * @return Returns the airServiceFeeNumber.
      */
     @Column(name = "AIR_SRVC_FEE_NBR", length = 20, nullable = true)
@@ -876,7 +876,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the airServiceFeeAmount attribute. 
+     * Gets the airServiceFeeAmount attribute.
      * @return Returns the airServiceFeeAmount.
      */
     @Column(name = "AIR_SRVC_FEE_AMT", precision=8, scale=2, nullable = true)
@@ -896,7 +896,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the transactionUniqueId attribute. 
+     * Gets the transactionUniqueId attribute.
      * @return Returns the transactionUniqueId.
      */
     @Column(name = "TRANS_ID", length = 40, nullable = true)
@@ -913,7 +913,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the lodgingItineraryNumber attribute. 
+     * Gets the lodgingItineraryNumber attribute.
      * @return Returns the lodgingItineraryNumber.
      */
     @Column(name = "LDG_ITN_NBR", length = 20, nullable = true)
@@ -930,7 +930,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the lodgingPrepayDate attribute. 
+     * Gets the lodgingPrepayDate attribute.
      * @return Returns the lodgingPrepayDate.
      */
     @Column(name = "LDG_PRPY_DT", nullable = true)
@@ -947,7 +947,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the lodgingAmount attribute. 
+     * Gets the lodgingAmount attribute.
      * @return Returns the lodgingAmount.
      */
     @Column(name = "LDG_AMT", precision=8, scale=2, nullable = true)
@@ -967,7 +967,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the lodgingPrepayDaysNumber attribute. 
+     * Gets the lodgingPrepayDaysNumber attribute.
      * @return Returns the lodgingPrepayDaysNumber.
      */
     @Column(name = "LDG_PRPY_NBR", length = 3, nullable = true)
@@ -984,7 +984,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the lodgingPropertyName attribute. 
+     * Gets the lodgingPropertyName attribute.
      * @return Returns the lodgingPropertyName.
      */
     @Column(name = "LDG_PRP_NM", length = 30, nullable = true)
@@ -1001,7 +1001,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the tripLodgingArrivalDate attribute. 
+     * Gets the tripLodgingArrivalDate attribute.
      * @return Returns the tripLodgingArrivalDate.
      */
     @Column(name = "TRP_LDG_ARRV_DT", nullable = true)
@@ -1018,7 +1018,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the lodgingDepartureDate attribute. 
+     * Gets the lodgingDepartureDate attribute.
      * @return Returns the lodgingDepartureDate.
      */
     @Column(name = "LDG_DEPT_DT", nullable = true)
@@ -1035,7 +1035,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the lodgingBookingDate attribute. 
+     * Gets the lodgingBookingDate attribute.
      * @return Returns the lodgingBookingDate.
      */
     @Column(name = "LDG_BK_DT", nullable = true)
@@ -1052,7 +1052,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the lodgingPropertyCityName attribute. 
+     * Gets the lodgingPropertyCityName attribute.
      * @return Returns the lodgingPropertyCityName.
      */
     @Column(name = "LDG_PRP_CITY_NM", length = 30, nullable = true)
@@ -1069,7 +1069,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the lodgingPropertyStateCode attribute. 
+     * Gets the lodgingPropertyStateCode attribute.
      * @return Returns the lodgingPropertyStateCode.
      */
     @Column(name = "LDG_PRP_STATE_CD", length = 40, nullable = true)
@@ -1086,7 +1086,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the lodgingCountryName attribute. 
+     * Gets the lodgingCountryName attribute.
      * @return Returns the lodgingCountryName.
      */
     @Column(name = "LDG_PRP_COUNTRY_NM", length = 2, nullable = true)
@@ -1103,7 +1103,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the rentalCarItineraryNumber attribute. 
+     * Gets the rentalCarItineraryNumber attribute.
      * @return Returns the rentalCarItineraryNumber.
      */
     @Column(name = "RNT_CAR_ITN_NBR", nullable = true)
@@ -1120,7 +1120,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the rentalCarAmount attribute. 
+     * Gets the rentalCarAmount attribute.
      * @return Returns the rentalCarAmount.
      */
     @Column(name = "RNT_CAR_AMT", precision=8, scale=2, nullable = true)
@@ -1140,7 +1140,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the rentalCarNumberOfDays attribute. 
+     * Gets the rentalCarNumberOfDays attribute.
      * @return Returns the rentalCarNumberOfDays.
      */
     @Column(name = "RNT_CAR_NMR_DAYS", length = 3, nullable = true)
@@ -1157,7 +1157,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the rentalCarCompanyName attribute. 
+     * Gets the rentalCarCompanyName attribute.
      * @return Returns the rentalCarCompanyName.
      */
     @Column(name = "RNT_CAR_CO_NM", length = 30, nullable = true)
@@ -1174,7 +1174,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the rentalCarOpenDate attribute. 
+     * Gets the rentalCarOpenDate attribute.
      * @return Returns the rentalCarOpenDate.
      */
     @Column(name = "RNT_CAR_OPN_DT", nullable = true)
@@ -1191,7 +1191,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the rentalCarCloseDate attribute. 
+     * Gets the rentalCarCloseDate attribute.
      * @return Returns the rentalCarCloseDate.
      */
     @Column(name = "RNT_CAR_CLOSE_DT", nullable = true)
@@ -1208,7 +1208,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the rentalCarFuelAmount attribute. 
+     * Gets the rentalCarFuelAmount attribute.
      * @return Returns the rentalCarFuelAmount.
      */
     @Column(name = "RNT_CAR_FUEL_AMT", precision=8, scale=2,  nullable = true)
@@ -1228,7 +1228,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the rentalCarAdditionalAmount attribute. 
+     * Gets the rentalCarAdditionalAmount attribute.
      * @return Returns the rentalCarAdditionalAmount.
      */
     @Column(name = "RNT_CAR_ADD_AMT", precision=8, scale=2, nullable = true)
@@ -1248,7 +1248,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the rentalCarTaxAmount attribute. 
+     * Gets the rentalCarTaxAmount attribute.
      * @return Returns the rentalCarTaxAmount.
      */
     @Column(name = "RNT_CAR_TX_AMT", precision=8, scale=2, nullable = true)
@@ -1268,7 +1268,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the rentalCarSurchargeAmount attribute. 
+     * Gets the rentalCarSurchargeAmount attribute.
      * @return Returns the rentalCarSurchargeAmount.
      */
     @Column(name = "RNT_CAR_SRCHRG_AMT", precision=8, scale=2, nullable = true)
@@ -1288,7 +1288,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the rentalCarGovernmentSurchargeAmount attribute. 
+     * Gets the rentalCarGovernmentSurchargeAmount attribute.
      * @return Returns the rentalCarGovernmentSurchargeAmount.
      */
     @Column(name = "RNT_CAR_GOVR_SRCHRG_AMT", precision=8, scale=2, nullable = true)
@@ -1308,7 +1308,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the rentalCarBillAmount attribute. 
+     * Gets the rentalCarBillAmount attribute.
      * @return Returns the rentalCarBillAmount.
      */
     @Column(name = "RNT_CAR_BILL_AMT", precision=8, scale=2, nullable = true)
@@ -1328,7 +1328,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the rentalCarDetailText attribute. 
+     * Gets the rentalCarDetailText attribute.
      * @return Returns the rentalCarDetailText.
      */
     @Column(name = "RNT_CAR_DTL", length = 100, nullable = true)
@@ -1345,7 +1345,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the registrationCompanyName attribute. 
+     * Gets the registrationCompanyName attribute.
      * @return Returns the registrationCompanyName.
      */
     @Column(name = "REG_CO_NM", length = 50, nullable = true)
@@ -1362,7 +1362,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the registrationAmount attribute. 
+     * Gets the registrationAmount attribute.
      * @return Returns the registrationAmount.
      */
     @Column(name = "REG_AMT", precision=8, scale=2, nullable = true)
@@ -1382,7 +1382,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the transactionPostingDate attribute. 
+     * Gets the transactionPostingDate attribute.
      * @return Returns the transactionPostingDate.
      */
     @Column(name = "TRANS_POST_DT", nullable = true)
@@ -1399,7 +1399,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the objectVerNumber attribute. 
+     * Gets the objectVerNumber attribute.
      * @return Returns the objectVerNumber.
      */
     @Column(name = "OBJ_VER_NBR", nullable = true)
@@ -1416,7 +1416,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the creationTimestamp attribute. 
+     * Gets the creationTimestamp attribute.
      * @return Returns the creationTimestamp.
      */
     @Column(name = "CREATION_TS", nullable = true)
@@ -1433,7 +1433,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the processingTimestamp attribute. 
+     * Gets the processingTimestamp attribute.
      * @return Returns the processingTimestamp.
      */
     @Column(name = "PROCESSING_TS", nullable = true)
@@ -1450,7 +1450,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the moveToHistoryIndicator attribute. 
+     * Gets the moveToHistoryIndicator attribute.
      * @return Returns the moveToHistoryIndicator.
      */
     @Column(name = "MV_TO_HISTORY", length = 1, nullable = true)
@@ -1465,15 +1465,15 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     public void setMoveToHistoryIndicator(boolean moveToHistoryIndicator) {
         this.moveToHistoryIndicator = moveToHistoryIndicator;
     }
-    
+
     /**
-     * 
-     * This method returns the expense type based on whether the Air Ticket Number, 
+     *
+     * This method returns the expense type based on whether the Air Ticket Number,
      * Lodging Itinerary Number or Rental Car Itinerary Number is set.
      * @return
      */
     public String getExpenseType() {
-        
+
         String expenseType = ExpenseTypes.AIRFARE;
         if (StringUtils.isNotEmpty(this.getAirTicketNumber())) {
             expenseType = ExpenseTypes.AIRFARE;
@@ -1488,13 +1488,13 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * 
-     * This method returns the expense type name based on whether the Air Ticket Number, 
+     *
+     * This method returns the expense type name based on whether the Air Ticket Number,
      * Lodging Itinerary Number or Rental Car Itinerary Number is set.
      * @return
      */
     public String getExpenseTypeName() {
-        
+
         String expenseType = ExpenseTypes.AIRFARE;
         if (StringUtils.isNotEmpty(this.getAirTicketNumber())) {
             expenseType = ExpenseTypes.AIRFARE;
@@ -1509,7 +1509,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the profile attribute. 
+     * Gets the profile attribute.
      * @return Returns the profile.
      */
     public TEMProfile getProfile() {
@@ -1525,13 +1525,13 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the importBy attribute. 
+     * Gets the importBy attribute.
      * @return Returns the importBy.
      */
     public String getImportBy() {
         return importBy;
     }
-    
+
     public ExpenseImport getExpenseImport() {
         return ExpenseImport.getExpenseImportByCode(importBy);
     }
@@ -1545,7 +1545,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the creditCardAgency attribute. 
+     * Gets the creditCardAgency attribute.
      * @return Returns the creditCardAgency.
      */
     public CreditCardAgency getCreditCardAgency() {
@@ -1565,7 +1565,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the creditCardAgencyId attribute. 
+     * Gets the creditCardAgencyId attribute.
      * @return Returns the creditCardAgencyId.
      */
     public Integer getCreditCardAgencyId() {
@@ -1581,7 +1581,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the searchChartOfAccountsCode attribute. 
+     * Gets the searchChartOfAccountsCode attribute.
      * @return Returns the searchChartOfAccountsCode.
      */
     public String getSearchChartOfAccountsCode() {
@@ -1597,7 +1597,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the searchAccountNumber attribute. 
+     * Gets the searchAccountNumber attribute.
      * @return Returns the searchAccountNumber.
      */
     public String getSearchAccountNumber() {
@@ -1613,7 +1613,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the searchSubAccountNumber attribute. 
+     * Gets the searchSubAccountNumber attribute.
      * @return Returns the searchSubAccountNumber.
      */
     public String getSearchSubAccountNumber() {
@@ -1629,7 +1629,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the searchChart attribute. 
+     * Gets the searchChart attribute.
      * @return Returns the searchChart.
      */
     public Chart getSearchChart() {
@@ -1645,7 +1645,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the searchAccount attribute. 
+     * Gets the searchAccount attribute.
      * @return Returns the searchAccount.
      */
     public Account getSearchAccount() {
@@ -1661,7 +1661,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the searchSubAccount attribute. 
+     * Gets the searchSubAccount attribute.
      * @return Returns the searchSubAccount.
      */
     public SubAccount getSearchSubAccount() {

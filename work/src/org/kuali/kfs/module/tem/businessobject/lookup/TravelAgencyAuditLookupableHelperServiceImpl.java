@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,16 +29,15 @@ import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -51,13 +50,13 @@ public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupabl
         if (fieldValues != null) {
             String searchAccount = fieldValues.get(TemConstants.TEM_AGENCY_DATA_SEARCH_ACCOUNT).trim();
             String searchSubAccount = fieldValues.get(TemConstants.TEM_AGENCY_DATA_SEARCH_SUB_ACCOUNT).trim();
-            
+
             fieldValues.remove(TemConstants.TEM_AGENCY_DATA_SEARCH_ACCOUNT);
             fieldValues.remove(TemConstants.TEM_AGENCY_DATA_SEARCH_SUB_ACCOUNT);
             fieldValues.remove(TemConstants.TEM_AGENCY_DATA_SEARCH_CHART_CODE);
-            
+
             agencyData = (List<AgencyStagingData>) super.getSearchResults(fieldValues);
-            
+
             if(StringUtils.isNotBlank(searchAccount) || StringUtils.isNotBlank(searchSubAccount)) {
                 //loop through and find any records that have matching account and subaccount
                 List<AgencyStagingData> temp = new ArrayList<AgencyStagingData>();
@@ -71,33 +70,33 @@ public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupabl
                             } else if(searchSubAccount == null) {
                                 temp.add(agency);
                             }
-                            
+
                         } else if(StringUtils.isNotBlank(searchSubAccount) && StringUtils.isNotBlank(subAcct) && subAcct.equals(searchSubAccount)) {
                             temp.add(agency);
                         }
                     }
                 }
                 agencyData = temp;
-                
+
             }
         } else {
-            agencyData = (List<AgencyStagingData>) super.getSearchResults(fieldValues); 
+            agencyData = (List<AgencyStagingData>) super.getSearchResults(fieldValues);
         }
-        
+
         return agencyData;
-        
+
     }
-    
+
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#allowsMaintenanceNewOrCopyAction()
      */
     @Override
     public boolean allowsMaintenanceNewOrCopyAction() {
         boolean allows = super.allowsMaintenanceNewOrCopyAction();
-        
+
         Person user = GlobalVariables.getUserSession().getPerson();
-        IdentityManagementService idm = KIMServiceLocator.getIdentityManagementService();
-        
+        IdentityManagementService idm = SpringContext.getBean(IdentityManagementService.class);
+
         //if user does not have the permission, do not allow the to creating new
         allows &= idm.isAuthorizedByTemplateName(user.getPrincipalId(), TemConstants.NAMESPACE, PermissionTemplate.FULL_EDIT_AGENCY_DATA, null, null);
         return allows;
@@ -116,7 +115,7 @@ public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupabl
             // clear 'edit' and delete links
             anchorHtmlDataList.clear();
         }
-        
+
         if(isTravelManager) {
             anchorHtmlDataList.add(getViewUrl(agencyStagingData));
         }
@@ -124,7 +123,7 @@ public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupabl
     }
 
     /**
-     * 
+     *
      * @return
      */
     private boolean isUserTravelManager() {
@@ -134,7 +133,7 @@ public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupabl
     }
 
     /**
-     * 
+     *
      * @param agencyStagingData
      * @return
      */
@@ -148,7 +147,7 @@ public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupabl
         anchorHtmlData.setTarget("blank");
         return anchorHtmlData;
     }
-    
+
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.rice.kns.web.struts.form.LookupForm, java.util.Collection, boolean)
      */
@@ -160,9 +159,9 @@ public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupabl
         } else {
             lookupForm.setSuppressActions(true);
         }
-        
+
         return super.performLookup(lookupForm, resultTable, bounded);
     }
-    
-   
+
+
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,7 @@ import javax.persistence.Table;
 
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "TEM_TRANS_MD_DTL_T")
@@ -35,10 +35,10 @@ public class TransportationModeDetail extends PersistableBusinessObjectBase {
     private String transportationModeCode;
     private TransportationMode transportationMode;
     private TravelDocumentBase travelAuthorizationDocument;
-    
-    
+
+
     /**
-     * 
+     *
      * This method returns the document number this TransportationModeDetail object is associated with
      * @return document number
      */
@@ -48,7 +48,7 @@ public class TransportationModeDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * 
+     *
      * This method sets the document number this TransportationModeDetail object will be associated with
      * @param documentNumber
      */
@@ -86,9 +86,8 @@ public class TransportationModeDetail extends PersistableBusinessObjectBase {
         this.travelAuthorizationDocument = travelAuthorizationDocument;
     }
 
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("transportationModeCode", this.transportationModeCode);
@@ -101,13 +100,13 @@ public class TransportationModeDetail extends PersistableBusinessObjectBase {
     @Override
     public boolean equals(Object obj) {
         TransportationModeDetail detail = (TransportationModeDetail)obj;
-        
+
         if(this.transportationModeCode.equals(detail.getTransportationModeCode()) && this.documentNumber.equals(detail.getDocumentNumber())) {
             return true;
         }
         return false;
     }
-    
-    
+
+
 
 }

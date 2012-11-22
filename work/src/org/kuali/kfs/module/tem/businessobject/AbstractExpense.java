@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,29 +34,29 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name="tem_trvl_exp_t")
 public abstract class AbstractExpense extends PersistableBusinessObjectBase implements TEMExpense {
-    
+
     public static Logger LOG = Logger.getLogger(AbstractExpense.class);
-    
+
     @GeneratedValue(generator="tem_trvl_exp_id_seq")
     @SequenceGenerator(name="tem_trvl_exp_id_seq",sequenceName="tem_trvl_exp_id_seq", allocationSize=5)
-    private Long id;    
+    private Long id;
     private String documentNumber;
     private Integer documentLineNumber;
     private Date expenseDate;
     private KualiDecimal expenseAmount = new KualiDecimal(0.00);
     private Boolean nonReimbursable = Boolean.FALSE;
-    private Long travelExpenseTypeCodeId;    
+    private Long travelExpenseTypeCodeId;
     private TemTravelExpenseTypeCode travelExpenseTypeCode;
     private Long expenseParentId;
     private String description;
     private KualiDecimal currencyRate = new KualiDecimal(1.00);
-    private String travelCompanyCodeName;    
+    private String travelCompanyCodeName;
     private TravelCompanyCode travelCompanyCode;
     private String travelCompanyCodeCode;
     private Boolean taxable = Boolean.FALSE;
@@ -64,9 +64,9 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     private KualiDecimal convertedAmount;
     private String temExpenseTypeCode = "";
     private List<TEMExpense> expenseDetails = new ArrayList<TEMExpense>();
-    
+
     @Override
-    @Id    
+    @Id
     @Column(name="id",nullable=false)
     public Long getId() {
         return id;
@@ -87,7 +87,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
-    
+
     @Override
     @Column(name="fdoc_line_nbr",nullable=false)
     public Integer getDocumentLineNumber() {
@@ -98,7 +98,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     public void setDocumentLineNumber(Integer documentLineNumber) {
         this.documentLineNumber = documentLineNumber;
     }
-    
+
     @Override
     @Column(name="exp_parent_id",nullable=true)
     public Long getExpenseParentId() {
@@ -109,7 +109,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     public void setExpenseParentId(Long expenseParentId) {
         this.expenseParentId = expenseParentId;
     }
-    
+
     @Override
     @Column(name="exp_dt",nullable=true)
     public Date getExpenseDate() {
@@ -141,7 +141,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     public void setNonReimbursable(final Boolean nonReimbursable) {
         this.nonReimbursable = nonReimbursable;
     }
-    
+
     /**
      * Gets the value of taxable
      *
@@ -162,7 +162,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     public void setTaxable(final Boolean argTaxable) {
         this.taxable = argTaxable;
     }
-    
+
     /**
      * Gets the value of missingReceipt
      *
@@ -209,7 +209,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
         }
         return null;
     }
-       
+
     /**
      * Gets the value of travelExpenseTypeCode
      *
@@ -258,7 +258,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     public void setDescription(final String argDescription) {
         this.description = argDescription;
     }
-        
+
     /**
      * Gets the value of description
      *
@@ -305,8 +305,8 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
 
     /**
      * Sets the value of convertedAmount
-     * 
-     * @param convertedAmount value to assign to this.convertedAmount 
+     *
+     * @param convertedAmount value to assign to this.convertedAmount
      */
     @Override
     public void setConvertedAmount(final KualiDecimal convertedAmount) {
@@ -315,7 +315,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
 
     /**
      * Get the value of convertedAmount
-     * 
+     *
      * @return the value of convertedAmount
      */
     @Override
@@ -331,7 +331,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
         }
         return this.convertedAmount;
     }
-    
+
     /**
      * Gets the value of travelCompanyCodeName
      *
@@ -352,7 +352,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     public void setTravelCompanyCodeName(final String argTravelCompanyCodeName) {
         this.travelCompanyCodeName = argTravelCompanyCodeName;
     }
-    
+
     /**
      * Gets the value of travelCompanyCode
      *
@@ -374,9 +374,9 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     public void setTravelCompanyCode(final TravelCompanyCode argTravelCompanyCode) {
         this.travelCompanyCode = argTravelCompanyCode;
     }
-    
+
     /**
-     * Gets the travelCompanyCodeCode attribute. 
+     * Gets the travelCompanyCodeCode attribute.
      * @return Returns the travelCompanyCodeCode.
      */
     @Override
@@ -408,7 +408,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     }
 
     /**
-     * Gets the expenseDetails attribute. 
+     * Gets the expenseDetails attribute.
      * @return Returns the expenseDetails.
      */
     @Override
@@ -418,9 +418,9 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
         }
         return expenseDetails;
     }
-    
+
     /**
-     * Gets the expenseDetails attribute. 
+     * Gets the expenseDetails attribute.
      * @return Returns the expenseDetails.
      */
     @Override
@@ -437,6 +437,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
         this.expenseDetails = expenseDetails;
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public String getSequenceName() {
         Class boClass = getClass();
@@ -449,24 +450,24 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
                 try {
                     final Field idField = boClass.getDeclaredField("id");
                     final SequenceGenerator sequenceInfo = idField.getAnnotation(SequenceGenerator.class);
-                    
+
                     return sequenceInfo.sequenceName();
                 }
                 catch (Exception ee) {
                     // ignore and try again
                     LOG.debug("Could not find id in "+ boClass.getName());
-                    
+
                     // At the end. Went all the way up the hierarchy until we got to Object
                     if (Object.class.equals(boClass)) {
                         rethrow = false;
                     }
-                    
+
                     // get the next superclass
                     boClass = boClass.getSuperclass();
                     e = ee;
                 }
             }
-            
+
             if (e != null) {
                 throw e;
             }
@@ -480,9 +481,9 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
         }
         return retval;
     }
-    
-    @Override
-    protected LinkedHashMap toStringMapper() {
+
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -504,9 +505,9 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     public KualiDecimal getTotalDetailExpenseAmount() {
         KualiDecimal totalDetailExpenseAmount = KualiDecimal.ZERO;
         for(TEMExpense expense: getExpenseDetails()){
-            totalDetailExpenseAmount = totalDetailExpenseAmount.add(expense.getExpenseAmount());          
+            totalDetailExpenseAmount = totalDetailExpenseAmount.add(expense.getExpenseAmount());
         }
         return totalDetailExpenseAmount;
-    }    
-    
+    }
+
 }

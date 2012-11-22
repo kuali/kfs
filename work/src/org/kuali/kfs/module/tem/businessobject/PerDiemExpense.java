@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,14 +29,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 @Entity
 @Table(name = "TEM_PER_DIEM_EXP_T")
@@ -61,8 +62,8 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
     private KualiDecimal breakfastValue = KualiDecimal.ZERO;
     private KualiDecimal lunchValue = KualiDecimal.ZERO;
     private KualiDecimal dinnerValue = KualiDecimal.ZERO;
-    private KualiDecimal incidentalsValue = KualiDecimal.ZERO; 
-    
+    private KualiDecimal incidentalsValue = KualiDecimal.ZERO;
+
     @Column(name = "per_diem_id")
     private Integer perDiemId;
 
@@ -157,7 +158,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * Gets the perDiemId attribute.
-     * 
+     *
      * @return Returns the perDiemId.
      */
     public Integer getPerDiemId() {
@@ -166,7 +167,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * Sets the perDiemId attribute value.
-     * 
+     *
      * @param perDiemId The perDiemId to set.
      */
     public void setPerDiemId(Integer perDiemId) {
@@ -175,7 +176,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * Gets the perDiem attribute.
-     * 
+     *
      * @return Returns the perDiem.
      */
     public PerDiem getPerDiem() {
@@ -184,7 +185,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * Sets the perDiem attribute value.
-     * 
+     *
      * @param perDiem The perDiem to set.
      */
     public void setPerDiem(PerDiem perDiem) {
@@ -195,7 +196,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * This method gets the accommodation type code associated with this day
-     * 
+     *
      * @return accoomodation type code
      */
     @Column(name = "ACCOM_TYP_CD", length = 4)
@@ -205,7 +206,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * This method sets the accommodation type code for this day
-     * 
+     *
      * @param accommodationTypeCode
      */
     public void setAccommodationTypeCode(String accommodationTypeCode) {
@@ -214,7 +215,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * This method returns the current accommodation Type for this TripDetailEstimate
-     * 
+     *
      * @return accommodation Type
      */
     @ManyToOne
@@ -225,7 +226,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * This method is only used for when the object is initially populated from OJB
-     * 
+     *
      * @param accommodationType
      */
     public void setAccommodationType(AccommodationType accommodationType) {
@@ -234,7 +235,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * This method returns the name of the accommodation for this day
-     * 
+     *
      * @return accommodation name
      */
     @Column(name = "ACCOM_NM")
@@ -244,7 +245,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * This method sets the accommodation name for this day
-     * 
+     *
      * @param accommodationName
      */
     public void setAccommodationName(String accommodationName) {
@@ -253,7 +254,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * This method returns the accommodation's phone
-     * 
+     *
      * @return the phone number for the accommodation
      */
     @Column(name = "ACCOM_PH")
@@ -263,7 +264,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * This method sets the accommodation phone number
-     * 
+     *
      * @param accommodationPhoneNum
      */
     public void setAccommodationPhoneNum(String accommodationPhoneNum) {
@@ -272,7 +273,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * This method returns the accommodation's address
-     * 
+     *
      * @return accommodation's address
      */
     @Column(name = "ACCOM_ADDRESS")
@@ -282,7 +283,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * This method sets the accommodation's address
-     * 
+     *
      * @param accommodationAddress
      */
     public void setAccommodationAddress(String accommodationAddress) {
@@ -291,7 +292,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * This method gets the lodging cost for this day. This method does not take into account personal expenses. Use getLodgingTotal() for that.
-     * 
+     *
      * @return lodging cost
      */
     @Column(name = "LODGING", precision = 19, scale = 2)
@@ -299,17 +300,17 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         if (ObjectUtils.isNotNull(lodging) && this.lodging.isGreaterThan(KualiDecimal.ZERO)) {
             return lodging;
         }
-        
+
         return KualiDecimal.ZERO;
     }
-    
+
     public KualiDecimal getLodging(boolean defaultZero) {
         return defaultZero? getLodging() : lodging;
     }
 
     /**
      * This method sets the lodging cost for this day
-     * 
+     *
      * @param lodging
      */
     public void setLodging(KualiDecimal lodging) {
@@ -321,38 +322,38 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         if (ObjectUtils.isNotNull(miles) && miles > 0) {
             return miles;
         }
-        
+
         return 0;
     }
 
     public Integer getMiles(boolean defaultZero) {
         return defaultZero? getMiles() : miles;
     }
-    
+
     public void setMiles(Integer miles) {
         this.miles = miles;
     }
 
     /**
      * Gets the breakfastValue attribute.
-     * 
+     *
      * @return Returns the breakfastValue.
      */
     public KualiDecimal getBreakfastValue() {
         if (ObjectUtils.isNotNull(breakfastValue) && this.breakfastValue.isGreaterThan(KualiDecimal.ZERO)) {
             return breakfastValue;
         }
-        
+
         return KualiDecimal.ZERO;
     }
-    
+
     public KualiDecimal getBreakfastValue(boolean defaultZero) {
         return defaultZero? getBreakfastValue() : breakfastValue;
     }
 
     /**
      * Sets the breakfastValue attribute value.
-     * 
+     *
      * @param breakfastValue The breakfastValue to set.
      */
     public void setBreakfastValue(KualiDecimal breakfastValue) {
@@ -361,24 +362,24 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * Gets the lunchValue attribute.
-     * 
+     *
      * @return Returns the lunchValue.
      */
     public KualiDecimal getLunchValue() {
         if (ObjectUtils.isNotNull(lunchValue) && this.lunchValue.isGreaterThan(KualiDecimal.ZERO)) {
             return lunchValue;
         }
-        
+
         return KualiDecimal.ZERO;
     }
-    
+
     public KualiDecimal getLunchValue(boolean defaultZero) {
         return defaultZero? getLunchValue() : lunchValue;
     }
 
     /**
      * Sets the lunchValue attribute value.
-     * 
+     *
      * @param lunchValue The lunchValue to set.
      */
     public void setLunchValue(KualiDecimal lunchValue) {
@@ -387,24 +388,24 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * Gets the dinnerValue attribute.
-     * 
+     *
      * @return Returns the dinnerValue.
      */
     public KualiDecimal getDinnerValue() {
         if (ObjectUtils.isNotNull(dinnerValue) && this.dinnerValue.isGreaterThan(KualiDecimal.ZERO)) {
             return dinnerValue;
         }
-        
+
         return KualiDecimal.ZERO;
     }
-    
+
     public KualiDecimal getDinnerValue(boolean defaultZero) {
         return defaultZero? getDinnerValue() : dinnerValue;
     }
 
     /**
      * Sets the dinnerValue attribute value.
-     * 
+     *
      * @param dinnerValue The dinnerValue to set.
      */
     public void setDinnerValue(KualiDecimal dinnerValue) {
@@ -450,13 +451,13 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
             total = total.add(this.getLodging());
             total = total.add(getMealsAndIncidentals());
         }
-        
+
         return total;
     }
 
     /**
-     * 
-     * This method gets the mealsTotal with 
+     *
+     * This method gets the mealsTotal with
      * @return
      */
     public KualiDecimal getMealsTotal() {
@@ -474,9 +475,9 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         }
         return total;
     }
-    
+
     /**
-     * 
+     *
      * This method gets the Lodging Total if it is not a personal expense.
      * @return
      */
@@ -484,14 +485,14 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         if (!personal) {
             return this.getLodging();
         }
-        return KualiDecimal.ZERO;        
+        return KualiDecimal.ZERO;
     }
 
     /**
      * Retrieve the Mileage date of per diem
-     * 
+     *
      * CLEANUP: mileage date should be the per diem expense date
-     * 
+     *
      * @return mileage date
      */
     @Column(name = "MLG_DT")
@@ -505,7 +506,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
             total = total.add(getMealsTotal());
             total = total.add(getIncidentalsValue());
         }
-        return total;       
+        return total;
     }
 
 
@@ -516,7 +517,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
     }
 
     /**
-     * 
+     *
      * This method split mealsAndIncidentals into breakfast, lunch, dinner and incidentals (overriding the existing breakfast, lunch, dinner and incidentals values).
      * @param mealsAndIncidentals
      */
@@ -530,7 +531,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * This method returns whether or not this is a personal expense or not (true for personal expense, false otherwise)
-     * 
+     *
      * @return true for personal expense, false otherwise
      */
     @Column(name = "PERSONAL", nullable = false, length = 1)
@@ -540,7 +541,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * This method sets true if this is a personal expense
-     * 
+     *
      * @param true for personal expense
      */
     public void setPersonal(Boolean personal) {
@@ -549,15 +550,15 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * Assign the Mileage date of per diem
-     * 
+     *
      * @param mileageDate as Date
      */
     public void setMileageDate(final Timestamp mileageDate) {
         this.mileageDate = mileageDate;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("id", id);
         map.put("countryState", this.countryState);
@@ -613,7 +614,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * This method checks for incidentals inclusion to the mealsAndIncidentals calculation.
-     * 
+     *
      * @return
      */
     public Boolean getIncludeIncidentals() {
@@ -622,8 +623,8 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     public Boolean getIncidentalsWithMealsOnly() {
         if (incidentalsWithMealsOnly == null) {
-            String incidentalsWithMealsOnlyParam = SpringContext.getBean(ParameterService.class).getParameterValue(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TravelParameters.INCIDENTALS_WITH_MEALS_ONLY_IND);
-            
+            String incidentalsWithMealsOnlyParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TravelParameters.INCIDENTALS_WITH_MEALS_ONLY_IND);
+
             //incidentalsWithMealsOnly = incidentalsWithMealsOnlyParam != null && incidentalsWithMealsOnlyParam.equals(KFSConstants.DocumentTypeAttributes.INDICATOR_ATTRIBUTE_TRUE_VALUE);
             incidentalsWithMealsOnly = incidentalsWithMealsOnlyParam != null && incidentalsWithMealsOnlyParam.equals(KFSConstants.ParameterValues.YES);
         }
@@ -637,7 +638,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     /**
      * This method returns incidentalsValue affected by INCIDENTALS_WITH_MEALS_ONLY_IND parameter
-     * 
+     *
      * @return
      */
     public KualiDecimal getIncidentalsValue() {
@@ -649,7 +650,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
         return KualiDecimal.ZERO;
     }
-    
+
     public KualiDecimal getIncidentalsValue(boolean defaultZero) {
         return defaultZero? getIncidentalsValue() : incidentalsValue;
     }
@@ -662,7 +663,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
         if(isCustomPerDiem()){
             return false;
         }
-        
+
         return prorated;
     }
 

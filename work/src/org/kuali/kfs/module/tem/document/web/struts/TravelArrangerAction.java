@@ -29,8 +29,8 @@ import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 

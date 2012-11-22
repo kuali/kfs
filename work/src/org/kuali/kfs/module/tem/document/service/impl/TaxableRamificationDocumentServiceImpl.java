@@ -39,14 +39,14 @@ import org.kuali.kfs.module.tem.document.service.TaxableRamificationDocumentServ
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -266,14 +266,14 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
      * get the notification text from an application parameter
      */
     protected String getNotificationText() {
-        return this.getParameterService().getParameterValue(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.TAX_RAMIFICATION_NOTIFICATION_TEXT_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsString(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.TAX_RAMIFICATION_NOTIFICATION_TEXT_PARAM_NAME);
     }
 
     /**
      * get the indicator from an application parameter, which instructs whether to send notification to Fiscal Officer
      */
     protected boolean willSendNotificationToFiscalOfficer() {
-        return this.getParameterService().getIndicatorParameter(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.SEND_TAX_NOTIFICATION_TO_FISCAL_OFFICER_IND_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsBoolean(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.SEND_TAX_NOTIFICATION_TO_FISCAL_OFFICER_IND_PARAM_NAME);
     }
 
     /**
@@ -287,14 +287,14 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
      * get the notification text from an application parameter
      */
     protected List<String> getTravelerCustomerTypes() {
-        return this.getParameterService().getParameterValues(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVELER_AR_CUSTOMER_TYPE);
+        return this.getParameterService().getParameterValuesAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVELER_AR_CUSTOMER_TYPE);
     }
 
     /**
      * get the timing of when the aging email notification should be sent
      */
     protected Integer getNotificationOnDays() {
-        String daysAsString = this.getParameterService().getParameterValue(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.TAX_RAMIFICATION_NOTIFICATION_DAYS_PARAM_NAME);
+        String daysAsString = this.getParameterService().getParameterValueAsString(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.TAX_RAMIFICATION_NOTIFICATION_DAYS_PARAM_NAME);
         if (!StringUtils.isNumeric(daysAsString)) {
             return TemConstants.DEFAULT_NOTIFICATION_DAYS;
         }

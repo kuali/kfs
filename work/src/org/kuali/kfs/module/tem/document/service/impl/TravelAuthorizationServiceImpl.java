@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,6 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.fp.businessobject.TravelExpenseTypeCode;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
@@ -73,28 +72,27 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.dao.DocumentDao;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.dao.DocumentDao;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelAuthorizationServiceImpl implements TravelAuthorizationService {
-    
+
     protected static Logger LOG = Logger.getLogger(TravelAuthorizationServiceImpl.class);
-    
+
     private BusinessObjectService businessObjectService;
     private AccountsReceivableModuleService accountsReceivableModuleService;
     private ParameterService parameterService;
@@ -108,7 +106,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     private TemProfileService temProfileService;
     private TravelDocumentService travelDocumentService;
     private DocumentDao documentDao;
-    
+
     private List<PropertyChangeListener> propertyChangeListeners;
 
     private final int currentYear = Calendar.getInstance().get(Calendar.YEAR);
@@ -119,7 +117,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     @Override
     public void createCustomerInvoice(TravelAuthorizationDocument travelAuthorizationDocument) {
 
-        boolean enableInvoice = parameterService.getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_AR_INV_FOR_TRAVL_ADVANCE_IND);
+        boolean enableInvoice = parameterService.getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_AR_INV_FOR_TRAVL_ADVANCE_IND);
         if (enableInvoice) {
             KualiDecimal amount = KualiDecimal.ZERO;
             List<TravelAdvance> advances = new ArrayList<TravelAdvance>();
@@ -137,17 +135,17 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
     /**
      * Create customer invoice from advance
-     * 
+     *
      * @param travelAuthorizationDocument
      * @param advances
      * @param amount
      */
     private void createCustomerInvoiceFromAdvances(TravelAuthorizationDocument travelAuthorizationDocument, List<TravelAdvance> advances, KualiDecimal amount) {
 
-        int numDaysDue = Integer.parseInt(parameterService.getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.NUMBER_OF_DAYS_DUE));
-        String invoiceItemCode = parameterService.getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_INVOICE_ITEM_CODE);
-        String processingOrgCode = parameterService.getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_ORG_CODE);
-        String processingChartCode = parameterService.getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_CHART_CODE);
+        int numDaysDue = Integer.parseInt(parameterService.getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.NUMBER_OF_DAYS_DUE));
+        String invoiceItemCode = parameterService.getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_INVOICE_ITEM_CODE);
+        String processingOrgCode = parameterService.getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_ORG_CODE);
+        String processingChartCode = parameterService.getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_CHART_CODE);
 
         // store this so we can reset after we're finished
         UserSession originalUser = GlobalVariables.getUserSession();
@@ -170,7 +168,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
         AccountsReceivableCustomerInvoice customerInvoiceDocument = accountsReceivableModuleService.createCustomerInvoiceDocument();
         LOG.info("Created customer invoice document " + customerInvoiceDocument.getDocumentNumber());
-        
+
         setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument, processingChartCode, processingOrgCode);
 
         customerInvoiceDocument.getDocumentHeader().setOrganizationDocumentNumber(travelAuthorizationDocument.getTravelDocumentIdentifier() + "");
@@ -186,7 +184,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         customerInvoiceDocument.setInvoiceDueDate(new java.sql.Date(dueDate.getTime()));
         customerInvoiceDocument.setOrganizationInvoiceNumber(orgInvoiceNumber.toString());
         customerInvoiceDocument.setPaymentChartOfAccountsCode(processingChartCode);
-        customerInvoiceDocument.setPaymentOrganizationReferenceIdentifier(processingOrgCode);        
+        customerInvoiceDocument.setPaymentOrganizationReferenceIdentifier(processingOrgCode);
 
         //Make sure the address from the TA is a customer address for the Invoice that is getting created
         AccountsReceivableCustomerAddress customerBillToAddress = null;
@@ -197,8 +195,8 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         	profile = temProfileService.findTemProfileById(travelAuthorizationDocument.getTemProfileId());
         }
         AccountsReceivableCustomer customer = profile.getCustomer();
-        
-        //Compare the address from the TA to the addresses for this customer to see if it already exists 
+
+        //Compare the address from the TA to the addresses for this customer to see if it already exists
         for(AccountsReceivableCustomerAddress address: customer.getAccountsReceivableCustomerAddresses()) {
     		if (!compareAddress(address, traveler)) {
     			//Address found
@@ -206,12 +204,12 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             	break;
             }
     	}
-        
+
         if (customerBillToAddress == null){
         	//This address from the TA was not found as a customer address so create a new one for this customer
         	customerBillToAddress = accountsReceivableModuleService.createCustomerAddress();
         	customerBillToAddress.setCustomerAddressTypeCodeAsAlternate();
-        	
+
         	//Customer's name as the customer address name
         	String tempName = profile.getFirstName() + " " + (StringUtils.isEmpty(profile.getMiddleName()) ? "" : profile.getMiddleName() + " ") + profile.getLastName();
             if (tempName.length() > 40){
@@ -220,7 +218,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
                     tempName = tempName.substring(0, tempName.length()-1);
                 }
             }
-        	
+
             //Set all the fields for the new address
         	customerBillToAddress.setCustomerAddressName(tempName);
         	customer.setCustomerAddressChangeDate(dateTimeService.getCurrentSqlDate());
@@ -231,14 +229,14 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             customerBillToAddress.setCustomerZipCode(traveler.getZipCode());
             customerBillToAddress.setCustomerCountryCode(StringUtils.isNotEmpty(traveler.getCountryCode()) ? traveler.getCountryCode().toUpperCase() : "");
             customerBillToAddress.setCustomerEmailAddress(StringUtils.isNotEmpty(traveler.getEmailAddress()) ? traveler.getEmailAddress().toUpperCase() : "");
-            
+
             //Add the new address to the customer and save
             List<AccountsReceivableCustomerAddress> customerAddresses = customer.getAccountsReceivableCustomerAddresses();
             customerAddresses.add(customerBillToAddress);
             customer.setAccountsReceivableCustomerAddresses(customerAddresses);
             accountsReceivableModuleService.saveCustomer(customer);
         }
-        
+
         customerBillToAddress.refresh();
 
         customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
@@ -266,12 +264,12 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             }
             LOG.info("Saving customer invoice document after adding acctg lines " + customerInvoiceDocument.getDocumentNumber());
             accountsReceivableModuleService.saveCustomerInvoiceDocument(customerInvoiceDocument);
-            
+
             // add relationship
             String relationDescription = "TA - Customer Invoice";
             accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(travelAuthorizationDocument.getDocumentNumber(), customerInvoiceDocument.getDocumentNumber(), relationDescription));
-            
-            //update AR Invoice Doc number to the travel advances 
+
+            //update AR Invoice Doc number to the travel advances
             for (TravelAdvance adv : advances) {
                 if (StringUtils.isEmpty(adv.getArInvoiceDocNumber())) {
                     adv.setArInvoiceDocNumber(customerInvoiceDocument.getDocumentNumber());
@@ -280,16 +278,16 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             }
 
             // route
-        	KualiWorkflowDocument originalWorkflowDocument = customerInvoiceDocument.getDocumentHeader().getWorkflowDocument();
+        	WorkflowDocument originalWorkflowDocument = customerInvoiceDocument.getDocumentHeader().getWorkflowDocument();
             try {
                 // original initiator may not have permission to blanket approve the INV
                 GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
-                
-                KualiWorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(customerInvoiceDocument.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
+
+                WorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(customerInvoiceDocument.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
                 newWorkflowDocument.setTitle(originalWorkflowDocument.getTitle());
-                
+
                 customerInvoiceDocument.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
-            
+
                 accountsReceivableModuleService.blanketApproveCustomerInvoiceDocument(customerInvoiceDocument);
         	}
             finally {
@@ -308,9 +306,9 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         }
 
     }
-    
+
     /**
-     * 
+     *
      * @param customerAddress
      * @param traveler
      * @return
@@ -334,12 +332,12 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     	if(!StringUtils.equalsIgnoreCase(customerAddress.getCustomerCountryCode(), traveler.getCountryCode())) {
     		return true;
     	}
-        
+
         return false;
     }
 
     /**
-     * 
+     *
      * @param document
      * @param chartOfAccountsCode
      * @param organizationCode
@@ -384,7 +382,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", document.getBillByChartOfAccountCode());
         criteria.put("organizationCode", document.getBilledByOrganizationCode());
-        AccountsReceivableOrganizationOptions organizationOptions = accountsReceivableModuleService.getOrganizationOptionsByPrimaryKey(criteria); 
+        AccountsReceivableOrganizationOptions organizationOptions = accountsReceivableModuleService.getOrganizationOptionsByPrimaryKey(criteria);
 
         if (ObjectUtils.isNotNull(organizationOptions)) {
             document.setPrintInvoiceIndicator(organizationOptions.getPrintInvoiceIndicator());
@@ -399,7 +397,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
     protected AccountsReceivableCustomerInvoiceDetail createInvoiceDetailFromAdvance(TravelAdvance advance, String documentNumber, String invoiceItemCode, String processingOrgCode, String processingChartCode) {
         AccountsReceivableCustomerInvoiceDetail customerInvoiceDetail = accountsReceivableModuleService.getCustomerInvoiceDetailFromCustomerInvoiceItemCode(invoiceItemCode, processingChartCode, processingOrgCode);
-        
+
         customerInvoiceDetail.setDocumentNumber(documentNumber);
         customerInvoiceDetail.setInvoiceItemUnitPrice(advance.getTravelAdvanceRequested());
         customerInvoiceDetail.setInvoiceItemQuantity(new BigDecimal(1));
@@ -413,13 +411,13 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
     /**
      * This method takes a detail object, runs business rules and adds it to the source accounting lines of the invoice
-     * 
+     *
      * @param detail
      * @param customerInvoiceDocument
      */
     protected void addInvoiceDetailToDocument(AccountsReceivableCustomerInvoiceDetail detail, AccountsReceivableCustomerInvoice customerInvoiceDocument) {
         accountsReceivableModuleService.recalculateCustomerInvoiceDetail(customerInvoiceDocument, detail);
-        
+
         // run rules
         boolean rulePassed = true;
         // check any business rules
@@ -437,7 +435,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
     /**
      * Locate all {@link TravelAuthorizationDocument} instances with the same <code>travelDocumentIdentifier</code>
-     * 
+     *
      * @param travelDocumentIdentifier to locate {@link TravelAuthorizationDocument} instances
      * @return {@link Collection} of {@link TravelAuthorizationDocument} instances
      */
@@ -447,14 +445,14 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         criteria.put(TRVL_IDENTIFIER_PROPERTY, travelDocumentIdentifier);
         return businessObjectService.findMatching(TravelAuthorizationDocument.class, criteria);
     }
-    
+
     public void addListenersTo(final TravelAuthorizationDocument authorization) {
         authorization.setPropertyChangeListeners(propertyChangeListeners);
     }
 
     /**
      * Locate all {@link TravelAuthorizationAmendmentDocument} instances with the same <code>travelDocumentIdentifier</code>
-     * 
+     *
      * @param travelDocumentIdentifier to locate {@link TravelAuthorizationAmendmentDocument} instances
      * @return {@link Collection} of {@link TravelAuthorizationAmendmentDocument} instances
      */
@@ -470,7 +468,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
      */
     @Override
     public void createTravelAdvanceDVDocument(TravelAuthorizationDocument travelAuthorizationDocument) {
-        boolean enableDVAR = parameterService.getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_DV_FOR_TRAVEL_ADVANCE_IND);
+        boolean enableDVAR = parameterService.getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_DV_FOR_TRAVEL_ADVANCE_IND);
         if (enableDVAR) {
             KualiDecimal amount = KualiDecimal.ZERO;
             for (TravelAdvance adv : travelAuthorizationDocument.getTravelAdvances()) {
@@ -486,7 +484,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
     /**
      * This method creates a new travel auth document from a source document
-     * 
+     *
      * @param sourceDocument
      * @param docType
      * @return new Travel Authorization Document
@@ -529,7 +527,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             try {
                 TravelAuthorizationDocument doc = (TravelAuthorizationDocument) documentService.getByDocumentHeaderId(documentNumber);
                 if (ObjectUtils.isNotNull(doc)) {
-                    KualiWorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
+                    WorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
                     doc.refreshReferenceObject(KFSPropertyConstants.DOCUMENT_HEADER);
                     doc.getDocumentHeader().setWorkflowDocument(workflowDocument);
                 }
@@ -543,7 +541,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         }
         return null;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelAuthorizationService#closeAuthorization(org.kuali.kfs.module.tem.document.TravelAuthorizationDocument, java.lang.String, java.lang.String)
      */
@@ -570,7 +568,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(authorization.getDocumentNumber(), authorizationClose.getDocumentNumber(), relationDescription));
 
             // switching to KR user to route
-            GlobalVariables.setUserSession(new UserSession(KNSConstants.SYSTEM_USER));
+            GlobalVariables.setUserSession(new UserSession(KRADConstants.SYSTEM_USER));
             authorizationClose.setAppDocStatus(TravelAuthorizationStatusCodeKeys.CLOSED);
             documentService.routeDocument(authorizationClose, annotation, null);
         }
@@ -586,14 +584,14 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
      */
     @Override
     public TravelReimbursementDocument findEnrouteOrProcessedTravelReimbursement(TravelAuthorizationDocument authorization) {
-        
+
         TravelReimbursementDocument reimbursement = null;
         List<TravelReimbursementDocument> reimbursementDocumentList = travelDocumentService.find(TravelReimbursementDocument.class, authorization.getTravelDocumentIdentifier());
-        
+
         //look for enroute TR document - return the first document if any is found
         for (TravelReimbursementDocument document : reimbursementDocumentList){
-            KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-            if (workflowDocument.stateIsEnroute() || workflowDocument.stateIsFinal() || workflowDocument.stateIsProcessed()){
+            WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+            if (workflowDocument.isEnroute() || workflowDocument.isFinal() || workflowDocument.isProcessed()){
                 reimbursement = document;
             }
         }
@@ -601,20 +599,21 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     }
     /**
      * This method checks to see if the travel expense type code is a prepaid expense
-     * 
+     *
      * @param travelExpenseTypeCodeCode
      */
     public boolean checkNonReimbursable(String travelExpenseTypeCodeId) {
         boolean nonReimbursable = false;
-        Map<String, String> fieldValues = new HashMap<String, String>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("travelExpenseTypeCodeId", travelExpenseTypeCodeId);
-        List<TravelExpenseTypeCode> boList = (List<TravelExpenseTypeCode>) SpringContext.getBean(KeyValuesService.class).findMatching(TemTravelExpenseTypeCode.class, fieldValues);
-        for (TravelExpenseTypeCode typeCode : boList) {
+        Collection<TemTravelExpenseTypeCode> keyValueList = SpringContext.getBean(KeyValuesService.class).findMatching(TemTravelExpenseTypeCode.class, fieldValues);
+        //should only return 1
+        for (TemTravelExpenseTypeCode typeCode : keyValueList) {
             nonReimbursable = typeCode.isPrepaidExpense();
         }
         return nonReimbursable;
     }
-   
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -622,7 +621,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
         this.accountsReceivableModuleService = accountsReceivableModuleService;
     }
-    
+
     public void setPropertyChangeListeners(final List<PropertyChangeListener> propertyChangeListeners) {
         this.propertyChangeListeners = propertyChangeListeners;
     }
@@ -634,7 +633,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-    
+
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
     }
@@ -661,8 +660,8 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
 	public void setTemProfileService(TemProfileService temProfileService) {
 		this.temProfileService = temProfileService;
-	}   
-	
+	}
+
     public void setTravelDisbursementService(TravelDisbursementService travelDisbursementService) {
         this.travelDisbursementService = travelDisbursementService;
     }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,14 +23,14 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name="TEM_PER_DIEM_MIE_BREAK_DOWN_T")
-public class PerDiemMealIncidentalBreakDown extends PersistableBusinessObjectBase implements Inactivateable {
-    
+public class PerDiemMealIncidentalBreakDown extends PersistableBusinessObjectBase implements MutableInactivatable {
+
     private KualiDecimal mealsAndIncidentals;
 
     private Integer breakfast;
@@ -38,13 +38,13 @@ public class PerDiemMealIncidentalBreakDown extends PersistableBusinessObjectBas
     private Integer dinner;
     private KualiDecimal incidentals;
     private KualiDecimal firstOrLastDayAmount;
-    
+
     private Date lastUpdateDate;
 
     private Boolean active = Boolean.TRUE;
-    
 
-    @Column(name="MEALS_INC",precision=19,scale=2,nullable=false) 
+
+    @Column(name="MEALS_INC",precision=19,scale=2,nullable=false)
     public KualiDecimal getMealsAndIncidentals() {
         return mealsAndIncidentals;
     }
@@ -94,7 +94,7 @@ public class PerDiemMealIncidentalBreakDown extends PersistableBusinessObjectBas
     }
 
     /**
-     * Gets the firstOrLastDayAmount attribute. 
+     * Gets the firstOrLastDayAmount attribute.
      * @return Returns the firstOrLastDayAmount.
      */
     @Column(name="FIRST_LAST_DAY_AMOUNT")
@@ -108,7 +108,7 @@ public class PerDiemMealIncidentalBreakDown extends PersistableBusinessObjectBas
      */
     public void setFirstOrLastDayAmount(KualiDecimal firstOrLastDayAmount) {
         this.firstOrLastDayAmount = firstOrLastDayAmount;
-    }    
+    }
 
     @Override
     @Column(name="ACTV_IND",nullable=false,length=1)
@@ -122,7 +122,7 @@ public class PerDiemMealIncidentalBreakDown extends PersistableBusinessObjectBas
     }
 
     /**
-     * Gets the lastUpdateDate attribute. 
+     * Gets the lastUpdateDate attribute.
      * @return Returns the lastUpdateDate.
      */
     @Column(name="LAST_UPD_DT")
@@ -137,17 +137,17 @@ public class PerDiemMealIncidentalBreakDown extends PersistableBusinessObjectBas
     public void setLastUpdateDate(Date lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
     }
-    
-    @Override
-    protected LinkedHashMap toStringMapper() {
+
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
 
         map.put(TemPropertyConstants.MEALS_AND_INCIDENTALS, this.getMealsAndIncidentals());
         map.put(TemPropertyConstants.BREAKFAST, this.breakfast);
         map.put(TemPropertyConstants.LUNCH, this.lunch);
-        map.put(TemPropertyConstants.DINNER, this.dinner); 
-        map.put(TemPropertyConstants.INCIDENTALS, this.incidentals); 
-       
+        map.put(TemPropertyConstants.DINNER, this.dinner);
+        map.put(TemPropertyConstants.INCIDENTALS, this.incidentals);
+
         return map;
     }
 }

@@ -32,7 +32,7 @@ import org.kuali.kfs.module.tem.businessobject.AgencyEntryFull;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.service.AgencyEntryGroupService;
 import org.kuali.kfs.module.tem.service.AgencyEntryService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 public class AgencyEntryServiceImpl implements AgencyEntryService {
     private AgencyEntryGroupService agencyEntryGroupService;

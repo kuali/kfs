@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,10 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.tem.service.TravelExpenseTypeService;
 import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.kfs.module.tem.service.TravelExpenseTypeService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class returns list of travel expense company value pairs.
@@ -32,7 +32,7 @@ import org.kuali.rice.core.util.KeyLabelPair;
  */
 public class TravelExpenseTypeServiceImpl implements TravelExpenseTypeService {
     private KeyValuesService keyValuesService;
-    
+
     @Override
     public Map<String, String> getCompanyNameMapFrom(final String expenseTypeCode) {
         final Map<String, String> retval = new HashMap<String, String>();
@@ -44,22 +44,22 @@ public class TravelExpenseTypeServiceImpl implements TravelExpenseTypeService {
     }
 
     @Override
-    public List<KeyLabelPair> getCompanyNamePairsFrom(final String expenseTypeCode) {
+    public List<ConcreteKeyValue> getCompanyNamePairsFrom(final String expenseTypeCode) {
         final List<TravelCompanyCode> boList = getCompanyCodesBy(expenseTypeCode);
-        final List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", ""));
+        final List<ConcreteKeyValue> keyValues = new ArrayList<ConcreteKeyValue>();
+        keyValues.add(new ConcreteKeyValue("", ""));
         for (TravelCompanyCode element : boList) {
             if(element.isActive()) {
-                keyValues.add(new KeyLabelPair(element.getName(), element.getName()));
+                keyValues.add(new ConcreteKeyValue(element.getName(), element.getName()));
             }
         }
         return keyValues;
     }
 
     protected List<TravelCompanyCode> getCompanyCodesBy(final String expenseTypeCode) {
-        final Map<String, String> criteria = new HashMap<String, String>();
+        final Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put("travelExpenseTypeCode", expenseTypeCode);
-        final List<TravelCompanyCode> boList = (List<TravelCompanyCode>) 
+        final List<TravelCompanyCode> boList = (List<TravelCompanyCode>)
             getKeyValuesService().findMatching(TravelCompanyCode.class, criteria);
         return boList;
     }

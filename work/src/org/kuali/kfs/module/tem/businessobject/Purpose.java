@@ -1,12 +1,12 @@
 /*
- * Copyright 2011 The Kuali Foundation.
- * 
+ * Copyright 2012 The Kuali Foundation.
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,23 +21,23 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Relocation Reason
- * 
+ *
  */
 @Entity
-@Table(name="tem_purpose_t")
-public class Purpose extends PersistableBusinessObjectBase implements Inactivateable{
+@Table(name="TEM_PURPOSE_T")
+public class Purpose extends PersistableBusinessObjectBase implements MutableInactivatable{
     private String documentType;
     private String purposeCode;
     private String purposeName;
     private String purposeDescription;
     private Boolean reviewRequiredIndicator;
     private Boolean active = Boolean.TRUE;
-    
+
     @Column(name="DOCUMENT_TYPE",length=4,nullable=false)
     public String getDocumentType() {
         return documentType;
@@ -90,11 +90,11 @@ public class Purpose extends PersistableBusinessObjectBase implements Inactivate
     public void setActive(boolean active){
         this.active = active;
     }
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
+
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         return null;
     }
-   
-   
+
+
 }

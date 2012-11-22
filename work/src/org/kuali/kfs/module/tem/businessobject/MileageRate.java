@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,30 +27,30 @@ import javax.persistence.Table;
 
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Mileage Rate
- * 
+ *
  */
 @Entity
 @Table(name="TEM_MILEAGE_RATE_T")
-public class MileageRate extends PersistableBusinessObjectBase implements Inactivateable {
-    
+public class MileageRate extends PersistableBusinessObjectBase implements MutableInactivatable {
+
     private Integer id;
-    
+
     private String name;
-    
+
     private KualiDecimal rate;
-    
+
     private Date activeFromDate;
-    
+
     private Date activeToDate;
-    
+
     private boolean active = Boolean.TRUE;
-    
+
     @Id
     @GeneratedValue(generator="TEM_MILEAGE_RT_ID_SEQ")
     @SequenceGenerator(name="TEM_MILEAGE_RT_ID_SEQ",sequenceName="TEM_MILEAGE_RT_ID_SEQ", allocationSize=5)
@@ -62,7 +62,7 @@ public class MileageRate extends PersistableBusinessObjectBase implements Inacti
     public void setId(Integer id) {
         this.id = id;
     }
-    
+
     @Column(name="nm",length=40,nullable=false)
     public String getName() {
         return name;
@@ -109,18 +109,17 @@ public class MileageRate extends PersistableBusinessObjectBase implements Inacti
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-    @Override
-    protected LinkedHashMap<String,String> toStringMapper() {
+
+    protected LinkedHashMap<String,String> toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String,String> map = new LinkedHashMap<String,String>();
         map.put("name", name);
         map.put("rate", name);
-        
+
         return map;
     }
-    
+
     public String getCodeAndRate(MileageRateObjCode mileageRateObjectCode){
-        return mileageRateObjectCode.getTripTypeCode() + KFSConstants.BLANK_SPACE + KFSConstants.DASH + KFSConstants.BLANK_SPACE + TemConstants.DOLLAR_SIGN + this.getRate().toString();        
+        return mileageRateObjectCode.getTripTypeCode() + KFSConstants.BLANK_SPACE + KFSConstants.DASH + KFSConstants.BLANK_SPACE + TemConstants.DOLLAR_SIGN + this.getRate().toString();
     }
 
 }

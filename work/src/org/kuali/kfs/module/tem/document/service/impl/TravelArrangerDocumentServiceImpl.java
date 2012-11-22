@@ -24,9 +24,9 @@ import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
 import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 @SuppressWarnings("rawtypes")
 public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocumentService {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,38 +26,38 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Mileage Rate Object Code
- * 
+ *
  * @author Derek Helbert
  */
 @Entity
 @Table(name="TEM_MILEAGE_RATE_OBJ_CD_T")
-public class MileageRateObjCode extends PersistableBusinessObjectBase implements Inactivateable {
+public class MileageRateObjCode extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private Integer id;
-    
+
     private TravelerType travelerType;
-    
+
     private String travelerTypeCode;
-    
+
     private TripType tripType;
-    
+
     private String tripTypeCode;
-    
+
     private MileageRate mileageRate;
-    
+
     private Integer mileageRateId;
-    
+
     private String financialObjectCode;
-    
+
     private String documentType;
-    
+
     private boolean active = Boolean.TRUE;
-    
+
     @Id
     @GeneratedValue(generator="TEM_MILEAGE_RT_OBJ_CD_ID_SEQ")
     @SequenceGenerator(name="TEM_MILEAGE_RT_OBJ_CD_ID_SEQ",sequenceName="TEM_MILEAGE_RT_OBJ_CD_ID_SEQ", allocationSize=5)
@@ -142,7 +142,7 @@ public class MileageRateObjCode extends PersistableBusinessObjectBase implements
 
     public void setDocumentType(String documentType) {
         this.documentType = documentType;
-    }    
+    }
 
     @Override
     @Column(name="actv_ind",nullable=false,length=1)
@@ -154,12 +154,12 @@ public class MileageRateObjCode extends PersistableBusinessObjectBase implements
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-    @Override
-    protected LinkedHashMap toStringMapper() {
+
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("financialObjectCode", financialObjectCode);
-        
+
         return map;
     }
 }

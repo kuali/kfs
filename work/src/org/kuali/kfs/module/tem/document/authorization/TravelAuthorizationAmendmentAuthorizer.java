@@ -18,7 +18,7 @@ package org.kuali.kfs.module.tem.document.authorization;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 public class TravelAuthorizationAmendmentAuthorizer extends TravelAuthorizationAuthorizer {
 
@@ -38,8 +38,8 @@ public class TravelAuthorizationAmendmentAuthorizer extends TravelAuthorizationA
 //        //do not allow document to be route when there is an enroute TR document
 //        Set<String> documentActionsToReturn = super.getDocumentActions(document, user, documentActionsFromPresentationController);
 //        if (getTravelAuthorizationService().findEnrouteOrProcessedTravelReimbursement((TravelAuthorizationDocument)document) != null){
-//            documentActionsToReturn.remove(KNSConstants.KUALI_ACTION_CAN_ROUTE);
-//            documentActionsToReturn.remove(KNSConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
+//            documentActionsToReturn.remove(KRADConstants.KUALI_ACTION_CAN_ROUTE);
+//            documentActionsToReturn.remove(KRADConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
 //        }
 //        return documentActionsToReturn;
 //    }

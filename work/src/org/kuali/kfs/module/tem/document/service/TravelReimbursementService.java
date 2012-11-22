@@ -23,8 +23,8 @@ import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.pdf.Coversheet;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Travel Reimbursement Service

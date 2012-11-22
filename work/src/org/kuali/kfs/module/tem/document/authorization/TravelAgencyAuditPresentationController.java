@@ -23,13 +23,13 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TravelAgencyAuditPresentationController extends MaintenanceDocumentPresentationControllerBase {
 

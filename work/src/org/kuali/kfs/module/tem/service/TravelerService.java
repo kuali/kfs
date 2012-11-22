@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,12 +25,12 @@ import org.kuali.kfs.module.tem.businessobject.TemProfileFromCustomer;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
-import org.kuali.rice.kim.bo.entity.impl.KimEntityAddressImpl;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.address.EntityAddressContract;
+import org.kuali.rice.kim.api.identity.entity.Entity;
 
 public interface TravelerService {
-    
+
     /**
      * Creates a {@link TravelerDetail} from a {@link Person} instance
      *
@@ -50,7 +50,7 @@ public interface TravelerService {
     /**
      * Determines if the given {@link TravelerDetail} instance is an employee by comparing
      * what we know about employee traveler types. This is really up to the implementation.
-     * 
+     *
      * @param traveler a {@link TravelerDetail} instance to check
      * @return whether our institution regards the {@link TravelerDetail} instance to be an
      * employee or not
@@ -58,7 +58,7 @@ public interface TravelerService {
     boolean isEmployee(final TravelerDetail traveler);
 
     /**
-     * 
+     *
      * @param profile
      * @param docType
      * @param user
@@ -70,41 +70,41 @@ public interface TravelerService {
      * @return
      */
     public boolean canIncludeProfileInSearch(TEMProfile profile, String docType, Person user, boolean isProfileAdmin, boolean isAssignedArranger, boolean isOrgArranger, boolean isArrangerDoc, boolean isRiskManagement);
-    
+
     /**
-     * 
+     *
      * @param profile
      * @param customer
      */
     public void copyTEMProfileToCustomer(TEMProfile profile, AccountsReceivableCustomer customer);
-    
+
     /**
-     * 
+     *
      * @param profile
      * @param customer
      */
     public void copyCustomerToTEMProfile(TEMProfile profile, AccountsReceivableCustomer customer);
-    
+
     /**
-     * 
+     *
      * @param profile
      * @param principal
      * @param kimEntityInfo
      */
-    public void copyKimDataToTEMProfile(TEMProfile profile, Person principal, KimEntityInfo kimEntityInfo);
-    
+    public void copyKimDataToTEMProfile(TEMProfile profile, Person principal, Entity kimEntityInfo);
+
     /**
-     * 
-     * This method converts a KIM Person to a TemProfileFromKim object so that we can then use it to 
+     *
+     * This method converts a KIM Person to a TemProfileFromKim object so that we can then use it to
      * actually create a TemProfile from it
      * @param personDetail
      * @return the TemProfileFromKimPerson object populated from the search
      */
     TemProfileFromKimPerson convertToTemProfileFromKim(Person personDetail);
-    
+
     /**
-     * 
-     * This method converts a Customer to a TemProfileFromCustomer object so that we can then use it to 
+     *
+     * This method converts a Customer to a TemProfileFromCustomer object so that we can then use it to
      * actually create a TemProfile from it
      * @param person to create {@link TemProfileFromCustomer} instance from
      * @return a new {@link TemProfileFromCustomer} instance
@@ -113,47 +113,47 @@ public interface TravelerService {
 
 
     public void convertTEMProfileToTravelerDetail(TEMProfile profile, TravelerDetail detail);
-    
+
     /**
-     * 
-     * This method copies the fromTraveler to a new TravelerDetail. 
-     * 
+     *
+     * This method copies the fromTraveler to a new TravelerDetail.
+     *
      * Document Number is set in the copied emergency contacts and the TravelerDetail
-     * 
+     *
      * @param fromTraveler
      * @param documentNumber
      * @return
      */
     public TravelerDetail copyTravelerDetail(TravelerDetail fromTraveler, String documentNumber);
-    
+
     /**
      * Copies traveler detail emergency contacts and sets new document number
      */
     public List<TravelerDetailEmergencyContact> copyTravelerDetailEmergencyContact(List<TravelerDetailEmergencyContact> emergencyContacts, String documentNumber);
-    
+
     /**
-     * 
+     *
      * @param profile
      */
     public void populateTEMProfile(TEMProfile profile);
-    
+
     /**
-     * 
+     *
      * @param person
      * @return
      */
     public boolean isCustomerEmployee(AccountsReceivableCustomer person);
-    
+
     /**
-     * 
+     *
      * @param principal
      * @return
      */
     public boolean isKimPersonEmployee(Person principal);
 
     /**
-     * 
-     * This method converts a CustomerAddress to a TemProfileAddress object so that we can then use it to 
+     *
+     * This method converts a CustomerAddress to a TemProfileAddress object so that we can then use it to
      * actually create a TemProfile from it
      * @param person to create {@link CustomerAddress} instance from
      * @return a new {@link TemProfileAddress} instance
@@ -161,16 +161,16 @@ public interface TravelerService {
 	TemProfileAddress convertToTemProfileAddressFromCustomer(AccountsReceivableCustomerAddress customerAddress);
 
 	/**
-     * 
-     * This method converts a KimEntityAddressImpl to a TemProfileAddress object so that we can then use it to 
+     *
+     * This method converts a KimEntityAddressImpl to a TemProfileAddress object so that we can then use it to
      * actually create a TemProfile from it
      * @param person to create {@link KimEntityAddressImpl} instance from
      * @return a new {@link TemProfileAddress} instance
      */
-	TemProfileAddress convertToTemProfileAddressFromKimAddress(KimEntityAddressImpl address);
-	
+	TemProfileAddress convertToTemProfileAddressFromKimAddress(EntityAddressContract address);
+
 	/**
-	 * 
+	 *
 	 * @param chartCode
 	 * @param orgCode
 	 * @param roleChartCode

@@ -27,10 +27,10 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.rule.event.PromptBeforeValidationEvent;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 public class TemProfilePreRules extends MaintenancePreRulesBase {
             
@@ -44,10 +44,10 @@ public class TemProfilePreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#setConfigService(org.kuali.rice.kns.service.KualiConfigurationService)
+     * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#setConfigService(org.kuali.rice.kns.service.ConfigurationService)
      */
     @Override
-    public void setConfigService(KualiConfigurationService configService) {
+    public void setConfigService(ConfigurationService configService) {
         // TODO Auto-generated method stub
         super.setConfigService(configService);
     }
@@ -78,7 +78,7 @@ public class TemProfilePreRules extends MaintenancePreRulesBase {
         }
         
         if (StringUtils.isNotEmpty(profile.getTravelerTypeCode()) && !profile.getTravelerTypeCode().equalsIgnoreCase(TemConstants.NONEMP_TRAVELER_TYP_CD) && askQuestion){
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TemKeyConstants.TEM_PROFILE_ARRANGERS_QUESTION);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyString(TemKeyConstants.TEM_PROFILE_ARRANGERS_QUESTION);
             boolean confirm = super.askOrAnalyzeYesNoQuestion(TemKeyConstants.GENERATE_TEM_PROFILE_ID_QUESTION_ID, questionText);
             if (!confirm) {
                 super.abortRulesCheck();
@@ -127,7 +127,7 @@ public class TemProfilePreRules extends MaintenancePreRulesBase {
      * @see org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase#getConfigService()
      */
     @Override
-    public KualiConfigurationService getConfigService() {
+    public ConfigurationService getConfigService() {
         // TODO Auto-generated method stub
         return super.getConfigService();
     }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,33 +29,28 @@ import static org.kuali.kfs.sys.KFSConstants.BLANK_SPACE;
 import static org.kuali.kfs.sys.KFSConstants.MAPPING_BASIC;
 import static org.kuali.kfs.sys.KFSConstants.NOTE_TEXT_PROPERTY_NAME;
 import static org.kuali.kfs.sys.KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME;
-import static org.kuali.rice.kns.util.ObjectUtils.isNotNull;
 
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.AdHocRoutePerson;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.dao.DocumentDao;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.bo.AdHocRoutePerson;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.dao.DocumentDao;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
-/**
- *
- * @author Leo Przybylski (leo [at] rsmart.com)
- */
 public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService ConfigurationService;
     private DataDictionaryService dataDictionaryService;
     private TravelDocumentService travelDocumentService;
     private DocumentService documentService;
     private DocumentDao documentDao;
-    
+
     @Override
     public <T> T handleResponse(final Inquisitive<TravelDocument,?> asker) throws Exception {
         if (asker.denied(HOLD_TA_QUESTION)) {
@@ -69,12 +64,12 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
 
         // Have to check length on value entered.
         String introNoteMessage = HOLD_NOTE_PREFIX + BLANK_SPACE;
-        
+
         // Build out full message.
         final StringBuilder noteText = new StringBuilder(introNoteMessage + asker.getReason());
 
-        int noteTextLength = noteText.length();                    
-        
+        int noteTextLength = noteText.length();
+
         // Get note text max length from DD.
         int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, NOTE_TEXT_PROPERTY_NAME).intValue();
         if (isBlank(asker.getReason()) || (noteTextLength > noteTextMaxLength)) {
@@ -93,26 +88,26 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
 
         final String messageType = TA_MESSAGE_HOLD_DOCUMENT;
         final TravelDocument document = asker.getDocument();
-        
+
         // String previousDocumentId = ((StrutsInquisitor) asker).getForm().getDocId();
         try {
             // Below used as a place holder to allow code to specify actionForward to return if not a 'success question'
             T returnActionForward =  (T) ((StrutsInquisitor) asker).getMapping().findForward(MAPPING_BASIC);
-            
+
             final Note newNote = getDocumentService().createNoteFromDocument(document, noteText.toString());
             //newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.DOCUMENT_HEADER_NOTE_TYPE.getCode());
-            getDocumentService().addNoteToDocument(document, newNote); 
-            
+            getDocumentService().addNoteToDocument(document, newNote);
+
             //save the new state on the document
             document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.REIMB_HELD);
             getDocumentDao().save(document);
-            
-            //send FYI for to initiator and traveler   
+
+            //send FYI for to initiator and traveler
             getTravelDocumentService().addAdHocFYIRecipient(document,document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getInitiatorPrincipalId());
             getTravelDocumentService().addAdHocFYIRecipient(document,document.getTraveler().getPrincipalId());
             SpringContext.getBean(WorkflowDocumentService.class).sendWorkflowNotification(document.getDocumentHeader().getWorkflowDocument(), null, document.getAdHocRoutePersons());
-            
-            if (isNotNull(returnActionForward)) {
+
+            if (ObjectUtils.isNotNull(returnActionForward)) {
                 return returnActionForward;
             }
             else {
@@ -123,46 +118,46 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
             throw ve;
         }
     }
-    
+
     @Override
     public <T> T askQuestion(final Inquisitive<TravelDocument,?> asker) throws Exception {
         final String reason   = asker.getReason();
         final String key      = getMessageFrom(TA_QUESTION_DOCUMENT);
         final String question = replace(key, "{0}", HOLD_TA_TEXT);
-        
+
         T retval = (T) asker.confirm(HOLD_TA_QUESTION, question, true);
         return retval;
- 
+
     }
 
     /**
      * Digs up a message from the {@link ConfigurationService} by key
      */
     public String getMessageFrom(final String messageType) {
-        return getConfigurationService().getPropertyString(messageType);
+        return getConfigurationService().getPropertyValueAsString(messageType);
     }
 
     /**
-     * Sets the kualiConfigurationService attribute.
-     * 
-     * @return Returns the kualiConfigurationService.
+     * Sets the ConfigurationService attribute.
+     *
+     * @return Returns the ConfigurationService.
      */
-    public void setConfigurationService(final KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    public void setConfigurationService(final ConfigurationService ConfigurationService) {
+        this.ConfigurationService = ConfigurationService;
     }
 
     /**
-     * Gets the kualiConfigurationService attribute.
-     * 
-     * @return Returns the kualiConfigurationService.
+     * Gets the ConfigurationService attribute.
+     *
+     * @return Returns the ConfigurationService.
      */
-    protected KualiConfigurationService getConfigurationService() {
-        return kualiConfigurationService;
+    protected ConfigurationService getConfigurationService() {
+        return ConfigurationService;
     }
 
     /**
      * Sets the travelDocumentService attribute.
-     * 
+     *
      * @return Returns the travelDocumentService.
      */
     public void setTravelDocumentService(final TravelDocumentService travelDocumentService) {
@@ -171,7 +166,7 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
 
     /**
      * Gets the travelDocumentService attribute.
-     * 
+     *
      * @return Returns the travelDocumentService.
      */
     protected TravelDocumentService getTravelDocumentService() {
@@ -180,7 +175,7 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
 
     /**
      * Sets the documentService attribute.
-     * 
+     *
      * @return Returns the documentService.
      */
     public void setDocumentService(final DocumentService documentService) {
@@ -189,7 +184,7 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
 
     /**
      * Gets the documentService attribute.
-     * 
+     *
      * @return Returns the documentService.
      */
     protected DocumentService getDocumentService() {
@@ -198,7 +193,7 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
 
     /**
      * Sets the documentDao attribute.
-     * 
+     *
      * @return Returns the documentDao.
      */
     public void setDocumentDao(final DocumentDao documentDao) {
@@ -207,7 +202,7 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
 
     /**
      * Gets the documentDao attribute.
-     * 
+     *
      * @return Returns the documentDao.
      */
     protected DocumentDao getDocumentDao() {
@@ -216,7 +211,7 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
 
     /**
      * Sets the dataDictionaryService attribute.
-     * 
+     *
      * @return Returns the dataDictionaryService.
      */
     public void setDataDictionaryService(final DataDictionaryService dataDictionaryService) {
@@ -225,16 +220,16 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
 
     /**
      * Gets the dataDictionaryService attribute.
-     * 
+     *
      * @return Returns the dataDictionaryService.
      */
     protected DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
     }
-   
+
     protected AdHocRoutePerson buildFyiRecipient(String userName) {
         AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
-        adHocRoutePerson.setActionRequested(KEWConstants.ACTION_REQUEST_FYI_REQ);
+        adHocRoutePerson.setActionRequested(KewApiConstants.ACTION_REQUEST_FYI_REQ);
         adHocRoutePerson.setId(userName);
         return adHocRoutePerson;
     }

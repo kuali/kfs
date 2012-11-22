@@ -16,25 +16,23 @@
 
 package org.kuali.kfs.module.tem.datadictionary;
 
+import static org.apache.commons.lang.StringUtils.isBlank;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.datadictionary.SearchingTypeDefinition;
-
-import static org.apache.commons.lang.StringUtils.isBlank;
+import org.kuali.rice.krad.datadictionary.SearchingTypeDefinition;
 
 /**
  * Generic WorkflowAttributes that are aware of the business object. This makes it so that we can specify
  * attributes per business object if we need to and reduce the amount of repitious code.
  *
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
-public class WorkflowAttributes extends org.kuali.rice.kns.datadictionary.WorkflowAttributes {
+public class WorkflowAttributes extends org.kuali.rice.krad.datadictionary.WorkflowAttributes {
     private static final long serialVersionUID = -3426603523049661524L;
     private String businessObjectClassName;
-    
+
     /**
-     * Gets the businessObjectClassName attribute. 
      * @return Returns the businessObjectClassName.
      */
     public String getBusinessObjectClassName() {
@@ -42,7 +40,6 @@ public class WorkflowAttributes extends org.kuali.rice.kns.datadictionary.Workfl
     }
 
     /**
-     * Sets the businessObjectClassName attribute value.
      * @param businessObjectClassName The businessObjectClassName to set.
      */
     public void setBusinessObjectClassName(final String businessObjectClassName) {
@@ -52,13 +49,15 @@ public class WorkflowAttributes extends org.kuali.rice.kns.datadictionary.Workfl
         }
     }
 
-   
+    /**
+     * @see org.kuali.rice.krad.datadictionary.WorkflowAttributes#setSearchingTypeDefinitions(java.util.List)
+     */
     @Override
     public void setSearchingTypeDefinitions(final List<SearchingTypeDefinition> searchingTypeDefinitions) {
         super.setSearchingTypeDefinitions(new BoAwareList(searchingTypeDefinitions));
         ((BoAwareList) getSearchingTypeDefinitions()).setBusinessObjectClassName(getBusinessObjectClassName());
     }
-    
+
     private static class BoAwareList extends ArrayList<SearchingTypeDefinition> {
         private String businessObjectClassName;
 
@@ -67,13 +66,13 @@ public class WorkflowAttributes extends org.kuali.rice.kns.datadictionary.Workfl
         }
 
         /**
-         * Gets the businessObjectClassName attribute. 
+         * Gets the businessObjectClassName attribute.
          * @return Returns the businessObjectClassName.
          */
         public String getBusinessObjectClassName() {
             return businessObjectClassName;
         }
-        
+
         /**
          * Sets the businessObjectClassName attribute value.
          * @param businessObjectClassName The businessObjectClassName to set.
@@ -85,6 +84,6 @@ public class WorkflowAttributes extends org.kuali.rice.kns.datadictionary.Workfl
                     type.getSearchingAttribute().setBusinessObjectClassName(businessObjectClassName);
                 }
             }
-        }        
+        }
     }
 }

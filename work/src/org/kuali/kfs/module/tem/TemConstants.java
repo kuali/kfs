@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,16 +25,15 @@ import java.util.Map;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants.TransactionalEditMode;
-import org.kuali.rice.core.util.JSTLConstants;
 
-public class TemConstants extends JSTLConstants {
+public class TemConstants {
     public static final String PRE_FILLED_DESCRIPTION = "(Description will be filled upon submit)";
     public static final String PRIMARY_DESTINATION_LOOKUPABLE = "primaryDestinationLookupable";
 
     public static final String PER_DIEM_LOOKUPABLE = "perDiemLookupable";
     public static final String KIM_PERSON_LOOKUPABLE = "kimPersonLookupable";
     public static final String TEM_PROFILE_LOOKUPABLE = "temProfileLookupable";
-    
+
     public static final String NAMESPACE = "KFS-TEM";
     public static final String PARAM_NAMESPACE = NAMESPACE;
 
@@ -126,7 +125,7 @@ public class TemConstants extends JSTLConstants {
         public static final String TRAVEL_ENTERTAINMENT_DOCUMENT = "ENT";
         public static final String TRAVEL_ARRANGER_DOCUMENT = "TTA";
         public static final String TRAVEL_PROFILE_DOCUMENT = "TTP";
-        
+
         public static List<String> getAuthorizationDocTypes(){
             List<String> authorizationDocTypes = new ArrayList<String>();
             authorizationDocTypes.add(TRAVEL_AUTHORIZATION_DOCUMENT);
@@ -134,7 +133,7 @@ public class TemConstants extends JSTLConstants {
             authorizationDocTypes.add(TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
             return authorizationDocTypes;
         }
-        
+
         public static List<String> getReimbursementDocTypes(){
             List<String> authorizationDocTypes = new ArrayList<String>();
             authorizationDocTypes.add(TRAVEL_REIMBURSEMENT_DOCUMENT);
@@ -161,7 +160,7 @@ public class TemConstants extends JSTLConstants {
         public static final String INCIDENTALS_WITH_MEALS_ONLY_IND = "INCIDENTALS_WITH_MEALS_ONLY_IND";
         public static final String QUARTER_DAY_TIME_TABLE = "QUARTER_DAY_TIME_TABLE";
         public static final String NUMBER_OF_TR_DELINQUENT_DAYS = "NUMBER_OF_TR_DELINQUENT_DAYS";
-        
+
         public static final String EXPENSE_TYPES_FOR_HOSTED_MEAL = "EXPENSE_TYPES_FOR_HOSTED_MEAL";
         public static final String EXPENSE_TYPES_FOR_INCIDENTAL = "EXPENSE_TYPES_FOR_INCIDENTAL";
         public static final String EXPENSE_TYPE_FOR_AIRFARE = "EXPENSE_TYPE_FOR_AIRFARE";
@@ -285,21 +284,21 @@ public class TemConstants extends JSTLConstants {
     }
 
     public static final String TRAVEL_DOC_APP_DOC_STATUS_INIT = "Initiated";
-    
+
     public static class TravelStatusCodeKeys {
         public static final String IN_PROCESS = "In Process";
         public static final String CANCELLED = "Cancelled";
-        
+
         public static final String AWAIT_TRVLR = "Awaiting Traveler Review";
         public static final String AWAIT_FISCAL = "Awaiting Fiscal Officer Review";
-        public static final String AWAIT_ORG = "Awaiting Organization Review";        
+        public static final String AWAIT_ORG = "Awaiting Organization Review";
         public static final String AWAIT_DIV = "Awaiting Division Review";
         public static final String AWAIT_INTL = "Awaiting International Travel Review";
         public static final String AWAIT_SUB = "Awaiting Sub-Fund Review";
         public static final String AWAIT_AWARD = "Awaiting Award Review";
         public static final String AWAIT_SPCL = "Awaiting Special Request Review";
         public static final String AWAIT_SEP_DUTIES = "Awaiting Separation Of Duties Review";
-        
+
         public static final String DAPRVD_TRVLR = "Disapproved - Traveler";
         public static final String DAPRVD_FISCAL = "Disapproved - Fiscal Officer";
         public static final String DAPRVD_ORG = "Disapproved - Organization";
@@ -310,37 +309,37 @@ public class TemConstants extends JSTLConstants {
         public static final String DAPRVD_SPCL = "Disapproved - Special Request";
         public static final String DAPRVD_SEP_DUTIES = "Disapproved - Separation Of Duties";
     }
-    
+
     public static class TravelAuthorizationStatusCodeKeys extends TravelStatusCodeKeys{
-        
+
         public static final String AWAIT_RISK = "Awaiting Risk Management Review";
         public static final String AWAIT_TRVL_MGR = "Awaiting Travel Manager Review";
         public static final String DAPRVD_RISK = "Disapproved - Risk Management";
         public static final String DAPRVD_TRVL = "Disapproved - Travel";
-        
+
         public static final String REIMB_HELD = "Reimbursement On Hold";
         public static final String CLOSED = "Closed";
         public static final String OPEN_REIMB = "Open For Reimbursement";
         public static final String PEND_AMENDMENT = "Pending Amendment";
         public static final String CHANGE_IN_PROCESS = "Change In Process";
         public static final String RETIRED_VERSION = "Retired Version";
-        
+
         public static HashMap<String, String> getDisapprovedAppDocStatusMap() {
             HashMap<String, String> disapprovedAppDocStatusMap;
-            
+
             disapprovedAppDocStatusMap = new HashMap<String, String>();
             disapprovedAppDocStatusMap.put(AWAIT_TRVLR,  DAPRVD_TRVLR);
             disapprovedAppDocStatusMap.put(AWAIT_FISCAL, DAPRVD_FISCAL);
             disapprovedAppDocStatusMap.put(AWAIT_ORG, DAPRVD_ORG);
-            disapprovedAppDocStatusMap.put(AWAIT_DIV, DAPRVD_DIV); 
+            disapprovedAppDocStatusMap.put(AWAIT_DIV, DAPRVD_DIV);
             disapprovedAppDocStatusMap.put(AWAIT_INTL, DAPRVD_INTL);
             disapprovedAppDocStatusMap.put(AWAIT_RISK, DAPRVD_RISK);
             disapprovedAppDocStatusMap.put(AWAIT_SUB,  DAPRVD_SUB);
-            disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD); 
-            disapprovedAppDocStatusMap.put(AWAIT_SPCL, DAPRVD_SPCL); 
+            disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD);
+            disapprovedAppDocStatusMap.put(AWAIT_SPCL, DAPRVD_SPCL);
             disapprovedAppDocStatusMap.put(AWAIT_TRVL_MGR, DAPRVD_TRVL);
             disapprovedAppDocStatusMap.put(AWAIT_SEP_DUTIES, DAPRVD_SEP_DUTIES);
-            
+
             return disapprovedAppDocStatusMap;
         }
     }
@@ -352,27 +351,27 @@ public class TemConstants extends JSTLConstants {
     }
 
     public static class TravelReimbursementStatusCodeKeys extends TravelStatusCodeKeys{
-        
+
         public static final String DEPT_APPROVED = "Department Approved";
         public static final String AWAIT_TRVL_ACCOUNTING = "Awaiting Travel Accounting Review";
         public static final String AWAIT_TAX_MANAGER = "Awaiting Tax Manager Review";
         public static final String AWAIT_TRVL_MGR = "Awaiting Travel Manager Review";
-        
+
         public static final String DAPRVD_TRVL_ACCOUNTING = "Disapproved - Travel Accounting";
         public static final String DAPRVD_TAX_MANAGER = "Disapproved - Tax Manager";
         public static final String DAPRVD_TRVL = "Disapproved - Travel";
-        
+
         public static HashMap<String, String> getDisapprovedAppDocStatusMap() {
             HashMap<String, String> disapprovedAppDocStatusMap;
-            
+
             disapprovedAppDocStatusMap = new HashMap<String, String>();
             disapprovedAppDocStatusMap.put(AWAIT_TRVLR,  DAPRVD_TRVLR);
             disapprovedAppDocStatusMap.put(AWAIT_FISCAL, DAPRVD_FISCAL);
             disapprovedAppDocStatusMap.put(AWAIT_DIV,  DAPRVD_DIV);
             disapprovedAppDocStatusMap.put(AWAIT_INTL,  DAPRVD_INTL);
             disapprovedAppDocStatusMap.put(AWAIT_SUB,  DAPRVD_SUB);
-            disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD); 
-            disapprovedAppDocStatusMap.put(AWAIT_SPCL, DAPRVD_SPCL); 
+            disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD);
+            disapprovedAppDocStatusMap.put(AWAIT_SPCL, DAPRVD_SPCL);
             disapprovedAppDocStatusMap.put(AWAIT_TAX_MANAGER, DAPRVD_TAX_MANAGER);
             disapprovedAppDocStatusMap.put(AWAIT_TRVL_MGR, DAPRVD_TRVL);
             return disapprovedAppDocStatusMap;
@@ -382,49 +381,49 @@ public class TemConstants extends JSTLConstants {
     public static class TravelRelocationStatusCodeKeys extends TravelReimbursementStatusCodeKeys{
         public static final String AWAIT_RELO_MANAGER = "Awaiting Moving And Relocation Manager Review";
         public static final String AWAIT_EXECUTIVE = "Awaiting Executive Review";
-        
+
         public static final String RELO_MANAGER_APPROVED = "Moving And Relocation Manager Approved";
         public static final String DAPRVD_RELO_MANAGER = "Disapproved - Moving And Relocation Manager";
         public static final String DAPRVD_EXECUTIVE = "Disapproved - Executive";
 
         public static HashMap<String, String> getDisapprovedAppDocStatusMap() {
             HashMap<String, String> disapprovedAppDocStatusMap;
-            
+
             disapprovedAppDocStatusMap = new HashMap<String, String>();
             disapprovedAppDocStatusMap.put(AWAIT_TRVLR,  DAPRVD_TRVLR);
             disapprovedAppDocStatusMap.put(AWAIT_FISCAL, DAPRVD_FISCAL);
             disapprovedAppDocStatusMap.put(AWAIT_ORG, DAPRVD_ORG);
             disapprovedAppDocStatusMap.put(AWAIT_SUB,  DAPRVD_SUB);
-            disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD); 
-            disapprovedAppDocStatusMap.put(AWAIT_EXECUTIVE, DAPRVD_EXECUTIVE); 
+            disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD);
+            disapprovedAppDocStatusMap.put(AWAIT_EXECUTIVE, DAPRVD_EXECUTIVE);
             disapprovedAppDocStatusMap.put(AWAIT_TAX_MANAGER, DAPRVD_TAX_MANAGER);
             disapprovedAppDocStatusMap.put(AWAIT_SEP_DUTIES, DAPRVD_SEP_DUTIES);
-            disapprovedAppDocStatusMap.put(AWAIT_RELO_MANAGER, DAPRVD_RELO_MANAGER); 
-            
+            disapprovedAppDocStatusMap.put(AWAIT_RELO_MANAGER, DAPRVD_RELO_MANAGER);
+
             return disapprovedAppDocStatusMap;
         }
     }
 
     public static class EntertainmentStatusCodeKeys extends TravelReimbursementStatusCodeKeys{
-        
+
         public static final String AWAIT_ENT_MANAGER = "Awaiting Entertainment Manager Review";
         public static final String ENT_MANAGER_APPROVED = "Entertainment Manager Approved";
         public static final String DAPRVD_ENT_MANAGER = "Disapproved - Entertainment Manager";
-        
+
         public static HashMap<String, String> getDisapprovedAppDocStatusMap() {
             HashMap<String, String> disapprovedAppDocStatusMap;
-            
+
             disapprovedAppDocStatusMap = new HashMap<String, String>();
             disapprovedAppDocStatusMap.put(AWAIT_TRVLR,  DAPRVD_TRVLR);
             disapprovedAppDocStatusMap.put(AWAIT_FISCAL, DAPRVD_FISCAL);
             disapprovedAppDocStatusMap.put(AWAIT_ORG, DAPRVD_ORG);
             disapprovedAppDocStatusMap.put(AWAIT_SUB,  DAPRVD_SUB);
-            disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD); 
-            disapprovedAppDocStatusMap.put(AWAIT_SPCL, DAPRVD_SPCL); 
+            disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD);
+            disapprovedAppDocStatusMap.put(AWAIT_SPCL, DAPRVD_SPCL);
             disapprovedAppDocStatusMap.put(AWAIT_TAX_MANAGER, DAPRVD_TAX_MANAGER);
             disapprovedAppDocStatusMap.put(AWAIT_SEP_DUTIES, DAPRVD_SEP_DUTIES);
-            disapprovedAppDocStatusMap.put(AWAIT_ENT_MANAGER, DAPRVD_ENT_MANAGER); 
-            
+            disapprovedAppDocStatusMap.put(AWAIT_ENT_MANAGER, DAPRVD_ENT_MANAGER);
+
             return disapprovedAppDocStatusMap;
         }
     }
@@ -438,13 +437,12 @@ public class TemConstants extends JSTLConstants {
         public static final String CLOSE_TA = "Close TA";
         public static final String RETURN_TO_FO = "Return to Fiscal Officer";
         public static final String EDIT_TAXABLE_IND = "Edit Taxable Indicator";
-        
-        //CLEANUP - following does not exists
+        public static final String CREATE_PROFILE = "Create TEM Profile";
+
+        //Non-existing Permission
         public static final String HIDE_BUTTONS = "Hide Buttons TA";
-        public static final String CLOSE_RELO = "Close RELO";
-        public static final String CANCEL_RELO = "Cancel RELO";
     }
-    
+
     public class PermissionTemplate {
         public static final String FULL_EDIT_AGENCY_DATA = "Full Edit Agency Data";
     }
@@ -478,13 +476,13 @@ public class TemConstants extends JSTLConstants {
     public static final String TEM_TRAVELER_DETAIL_EM_CONTACT_SEQ_NAME = "TEM_EM_CONT_ID_SEQ";
     public static final String TEM_TRAVELER_DETAIL_ACCOUNT_SEQ_NAME = "TEM_TRVLR_DTL_ACCOUNT_ID_SEQ";
     public static final String TEM_CREDIT_CARD_AGENCY_SEQ_NAME = "TEM_CREDIT_CARD_AGENCY_ID_SEQ";
-    public static final String TEM_ACTUAL_EXPENSE_SEQ_NAME = "TEM_TRVL_EXP_ID_SEQ";   
-    public static final String TEM_CORP_CARD_PSEUDO_NUM_SEQ_NAME = "TEM_CORP_CARD_PSEUDO_NUM_SEQ";  
+    public static final String TEM_ACTUAL_EXPENSE_SEQ_NAME = "TEM_TRVL_EXP_ID_SEQ";
+    public static final String TEM_CORP_CARD_PSEUDO_NUM_SEQ_NAME = "TEM_CORP_CARD_PSEUDO_NUM_SEQ";
 
     public static final String TEM_PROFILE_HOME_DEPARTMENT = "homeDepartment";
     public static final String TEM_PROFILE_HOME_DEPT_ORG_CODE = "homeDeptOrgCode";
     public static final String TEM_PROFILE_HOME_DEPT_COA_CODE = "homeDeptChartOfAccountsCode";
-    
+
     public static final String TEM_AGENCY_DATA_SEARCH_ACCOUNT = "searchAccountNumber";
     public static final String TEM_AGENCY_DATA_SEARCH_SUB_ACCOUNT = "searchSubAccountNumber";
     public static final String TEM_AGENCY_DATA_SEARCH_CHART_CODE = "searchChartOfAccountsCode";
@@ -492,7 +490,7 @@ public class TemConstants extends JSTLConstants {
     public static enum AgencyAuditSection{
         airline, lodging, rentalcar;
     }
-    
+
     public static final class AttachmentTypeCodes {
         public static final String ATTACHMENT_TYPE_RECEIPT = "Receipt";
         public static final String ATTACHMENT_TYPE_W_9 = "W-9";
@@ -570,7 +568,7 @@ public class TemConstants extends JSTLConstants {
     public static final String CUSTOMER_TRAVLER_TYPE_CODE = "Traveler";
 
     public static final Integer DEFAULT_NOTIFICATION_DAYS = 120;
-    
+
     public class TaxRamificationParameter{
         public static final String TAX_RAMIFICATION_NOTIFICATION_DAYS_PARAM_NAME = "TAX_RAMIFICATION_NOTIFICATION_DAYS";
         public static final String TAX_RAMIFICATION_NOTIFICATION_TEXT_PARAM_NAME = "TAX_RAMIFICATION_NOTIFICATION_TEXT";
@@ -597,19 +595,19 @@ public class TemConstants extends JSTLConstants {
     public static final String TRAVEL_TYPE_CORP = "CORP";
     public static final String ACTUAL_EXPENSE = "OUT OF POCKET";
     public static final String ENCUMBRANCE = "ENCUMBRANCE";
-    
+
     //Expenses label
     public static final String ENCUMBRANCE_PREFIX = "Estimated ";
     public static final String PER_DIEM_EXPENSES_LABEL = "Per Diem Expenses";
     public static final String ACTUAL_EXPENSES_LABEL = "Actual Expenses";
     public static final String GENERAL_EXPENSES_LABEL = "Expenses";
-    
+
     public static final String ACCOUNTING_LINE_INDEX = "-1";
     public static final String DIST_ACCOUNTING_LINE_INDEX = "-2";
 
     public static final String UNSELECT_ALL_INDEX = "1";
     public static final String SELECT_ALL_INDEX = "0";
-    
+
     public static final String MILEAGE_EXPENSE = "MM";
 
     public static final String DISBURSEMENT_VOUCHER_DOCTYPE = "DV";
@@ -667,7 +665,7 @@ public class TemConstants extends JSTLConstants {
         public static final String VALIDATE_OBJECT_CODE = "Object Code";
         public static final String VALIDATE_SUBOBJECT_CODE = "Sub-Object Code";
     }
-    
+
     public static class CreditCardStagingDataErrorCodes {
         public static final String CREDIT_CARD_NO_ERROR = "OK";
         public static final String CREDIT_CARD_INVALID_TRAVELER = "TRAV";
@@ -675,14 +673,14 @@ public class TemConstants extends JSTLConstants {
         public static final String CREDIT_CARD_MOVED_TO_HISTORICAL = "HIS";
         public static final String CREDIT_CARD_INVALID_CC_AGENCY = "CCA";
     }
-    
+
     public static class ExpenseImportTypes {
         public static final String IMPORT_BY_TRIP = "TRP";
         public static final String IMPORT_BY_TRAVELLER = "TRV";
     }
-    
+
     public enum ExpenseImport {
-        trip(ExpenseImportTypes.IMPORT_BY_TRIP), 
+        trip(ExpenseImportTypes.IMPORT_BY_TRIP),
         traveler(ExpenseImportTypes.IMPORT_BY_TRAVELLER);
 
         public String code;
@@ -690,7 +688,7 @@ public class TemConstants extends JSTLConstants {
         private ExpenseImport(String code) {
             this.code = code;
         }
-        
+
         private static final Map<String, ExpenseImport> lookup = new LinkedHashMap<String, ExpenseImport>();
 
         static {
@@ -698,10 +696,10 @@ public class TemConstants extends JSTLConstants {
             lookup.put(type.code, type);
           }
         }
-        
+
         /**
          * Retrieve Expense Import by the code
-         * 
+         *
          * @param code
          * @return
          */
@@ -709,7 +707,7 @@ public class TemConstants extends JSTLConstants {
             return lookup.get(code);
         }
     }
-    
+
     public static class ReconciledCodes {
         public static final String RECONCILED = "R";
         public static final String UNRECONCILED = "N";
@@ -725,7 +723,7 @@ public class TemConstants extends JSTLConstants {
         returnMap.put(ReconciledCodes.CLEARED,"Cleared");
         return returnMap;
     }
-    
+
     public static class TravelCustomSearchLinks {
         public static final String NEW_REIMBURSEMENT = "New&nbsp;Reimbursement";
         public static final String NEW_ENTERTAINMENT = "New&nbsp;Entertainment";
@@ -742,7 +740,7 @@ public class TemConstants extends JSTLConstants {
         public static final String DOMESTIC = "DOM";
         public static final String INTERNATIONAL = "INT";
     }
-    
+
     public static class TEMExpenseTypes {
         public static final String PER_DIEM = "perDiemService";
         public static final String ACTUAL = "actualExpenseService";
@@ -751,10 +749,10 @@ public class TemConstants extends JSTLConstants {
     }
 
     public enum ExpenseType {
-        actual(TEMExpenseTypes.ACTUAL), 
-        importedCTS(TEMExpenseTypes.IMPORTED_CTS), 
-        importedCorpCard(TEMExpenseTypes.IMPORTED_CORP_CARD), 
-        perDiem(TEMExpenseTypes.PER_DIEM); 
+        actual(TEMExpenseTypes.ACTUAL),
+        importedCTS(TEMExpenseTypes.IMPORTED_CTS),
+        importedCorpCard(TEMExpenseTypes.IMPORTED_CORP_CARD),
+        perDiem(TEMExpenseTypes.PER_DIEM);
 
         public String service;
 
@@ -762,11 +760,11 @@ public class TemConstants extends JSTLConstants {
             this.service= service;
         }
     }
-    
+
     public enum PerDiemType {
-        mileage("Mileage"), 
-        meals("Meals"), 
-        lodging("Lodging"), 
+        mileage("Mileage"),
+        meals("Meals"),
+        lodging("Lodging"),
         refreshment("Refreshment");
 
         public String label;
@@ -778,25 +776,25 @@ public class TemConstants extends JSTLConstants {
 
 
     public enum DisburseType {
-        corpCard, 
-        reimbursable; 
+        corpCard,
+        reimbursable;
     }
-    
+
     public static final String CONUS = "CONUS";
     public static final String OTHER_PRIMARY_DESTINATION = "[OTHER]";
     public static final String BLANKET_IN_STATE = "BLN";
     public static final String ALL_STATES = "ALL";
-    
+
     public static final String ALL_DOCUMENT = "ALL";
 
     public static final String IMPORTED_FLAG = "-IMP";
 
     public static final String TEM_IMPORTED_SYS_ORIG_CD = "TM";
     public static final String TEM_IMPORTED_GLPE_DESC = "TEM Imported Expense Re-Distribution";
-    
+
     public static final String TEM_PROFILE_RELO_ENT = "Requester";
     public static final String TEM_PROFILE_TRAVEL = "Traveler";
-    
+
     public static final Map<String, String> documentProfileNames() {
         Map<String, String> returnMap = new HashMap<String, String>();
         returnMap.put(TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT, TEM_PROFILE_TRAVEL);
@@ -807,21 +805,21 @@ public class TemConstants extends JSTLConstants {
         returnMap.put(TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT, TEM_PROFILE_RELO_ENT);
         return returnMap;
     }
-    
+
     public static final String INQUIRY_URL = "inquiry.do";
     public static final String VIEW = "view";
-    
+
     public static final String SOURCE_ANCHOR = "sourceAnchor";
     public static final String DISTRIBUTION_ANCHOR = "distributionAnchor";
     public static final String SUMMARY_ANCHOR = "summaryAnchor";
-    
+
     public static final String PRIMARY_DESTINATION_CLASS_NAME = "PrimaryDestination";
-    
+
     public enum NotificationPreference {
-        TA_ON_FINAL("TA_ON_FINAL"), 
-        TA_ON_CHANGE("TA_ON_CHANGE"), 
-        TER_ON_FINAL("TER_ON_FINAL"), 
-        TER_ON_CHANGE("TER_ON_CHANGE"), 
+        TA_ON_FINAL("TA_ON_FINAL"),
+        TA_ON_CHANGE("TA_ON_CHANGE"),
+        TER_ON_FINAL("TER_ON_FINAL"),
+        TER_ON_CHANGE("TER_ON_CHANGE"),
         NONE("");
 
         public String code;
@@ -830,31 +828,31 @@ public class TemConstants extends JSTLConstants {
             this.code = code;
         }
     }
-    
+
     public static final String STATUS_CHANGE_DTO = "statusChangeDTO";
     public static final String CAMPUS_TRAVEL_EMAIL_ADDRESS = "campusTravelEmailAddress";
     public static final String NOTIFICATION_PREFERENCE = "notificationPreference";
-    
+
     public class ImportedExpenseParameter{
         public static final String IMPORTED_EXPENSE_NOTIFICATION_SUBJECT_PARAM_NAME = "IMPORTED_EXPENSE_NOTIFICATION_SUBJECT";
         public static final String IMPORTED_EXPENSE_NOTIFICATION_TEXT_PARAM_NAME = "IMPORTED_EXPENSE_NOTIFICATION_TEXT";
     }
-    
+
     public static final String TRAVEL_EXPENSES_KEY = "travelExpenses";
     public static final String TRAVELER_PROFILE_KEY = "travelerProfile";
-    
+
     public static final class DisbursementVoucherPaymentMethods {
         public static final String CHECK_ACH_PAYMENT_METHOD_CODE = "P";
         public static final String WIRE_TRANSFER_PAYMENT_METHOD_CODE = "W";
         public static final String FOREIGN_DRAFT_PAYMENT_METHOD_CODE = "F";
     }
-    
+
     public static final class ExpenseTypeReimbursementCodes {
         public static final String ALL = "A";
         public static final String NON_REIMBURSABLE = "N";
         public static final String REIMBURSABLE = "R";
     }
-    
+
     public static class TravelEditMode extends TransactionalEditMode {
         public static final String FULL_ENTRY = "fullEntry";
     }
@@ -862,7 +860,7 @@ public class TemConstants extends JSTLConstants {
     public static final String GENERATE_CC_NUMBER_IND = "GENERATE_CC_NUMBER_IND";
     public static final String CORP_CARD_CODE = "CORP_CARD_CODE";
     public static final String CTS_CARD_CODE = "CTS_CARD_CODE";
-    
+
 
     public static final String CTS_CARD_APPLICATION = "TemCTSCardApplicaton";
     public static final String CORP_CARD_APPLICATION = "TemCorporateCardApplication";

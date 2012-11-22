@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,27 +31,26 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.docsearch.DocSearchDTO;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowInfo;
 import org.kuali.rice.kew.util.Utilities;
 import org.kuali.rice.kew.web.KeyValueSort;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class AbstractDocumentSearchResultProcessor {
-    
+
     public static Logger LOG = Logger.getLogger(AbstractDocumentSearchResultProcessor.class);
 
     /**
-     * 
+     *
      * @param travelDocumentIdentifier
      * @return
      */
@@ -64,18 +63,18 @@ public abstract class AbstractDocumentSearchResultProcessor {
         String linkPopup = "target=\"_blank\"";
 
         String userDisplaySortValue = TemConstants.TravelCustomSearchLinks.NEW_REIMBURSEMENT;
-        String link = String.format("<a href=\"%s&travelDocumentIdentifier=%s&command=initiate&docTypeName=%s\" %s>%s</a>", 
-                docType.getDocHandlerUrl(), 
-                travelDocumentIdentifier, 
+        String link = String.format("<a href=\"%s&travelDocumentIdentifier=%s&command=initiate&docTypeName=%s\" %s>%s</a>",
+                docType.getDocHandlerUrl(),
+                travelDocumentIdentifier,
                 TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT,
-                linkPopup, 
+                linkPopup,
                 userDisplaySortValue);
 
         return link;
     }
-    
+
     /**
-     * 
+     *
      * @param travelDocumentIdentifier
      * @return
      */
@@ -88,18 +87,18 @@ public abstract class AbstractDocumentSearchResultProcessor {
         String linkPopup = "target=\"_blank\"";
 
         String userDisplaySortValue = TemConstants.TravelCustomSearchLinks.NEW_ENTERTAINMENT;
-        String link = String.format("<a href=\"%s&" + KNSPropertyConstants.DOCUMENT_NUMBER + "=" + docCriteriaDTO.getRouteHeaderId().toString() + "&travelDocumentIdentifier=%s&command=initiate&docTypeName=%s\" %s>%s</a>", 
-                docType.getDocHandlerUrl(), 
-                travelDocumentIdentifier, 
+        String link = String.format("<a href=\"%s&" + KFSPropertyConstants.DOCUMENT_NUMBER + "=" + docCriteriaDTO.getRouteHeaderId().toString() + "&travelDocumentIdentifier=%s&command=initiate&docTypeName=%s\" %s>%s</a>",
+                docType.getDocHandlerUrl(),
+                travelDocumentIdentifier,
                 TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT,
-                linkPopup, 
+                linkPopup,
                 userDisplaySortValue);
 
         return link;
     }
 
     /**
-     * 
+     *
      * @param docCriteriaDTO
      * @param title
      * @return
@@ -111,7 +110,7 @@ public abstract class AbstractDocumentSearchResultProcessor {
             throw new RuntimeException(String.format("DocType with name %s does not exist!", REQUISITION_DOCTYPE));
         }
         String linkPopup = "target=\"_blank\"";
-        
+
         String unresolvedREQSURL = "${application.url}/" + TemConstants.TravelCustomSearchLinks.REQ_URL + docCriteriaDTO.getRouteHeaderId().toString();
 
         String REQSURL = Utilities.substituteConfigParameters(docType.getServiceNamespace(), unresolvedREQSURL);
@@ -120,7 +119,7 @@ public abstract class AbstractDocumentSearchResultProcessor {
     }
 
     /**
-     * 
+     *
      * @param docCriteriaDTO
      * @param title
      * @return
@@ -132,7 +131,7 @@ public abstract class AbstractDocumentSearchResultProcessor {
             throw new RuntimeException(String.format("DocType with name %s does not exist!", DISBURSEMENT_VOUCHER_DOCTYPE));
         }
         String linkPopup = "target=\"_blank\"";
-        
+
         String unresolvedDVURL = "${application.url}/" + TemConstants.TravelCustomSearchLinks.DV_URL + docCriteriaDTO.getRouteHeaderId().toString();
 
         String DVURL = Utilities.substituteConfigParameters(docType.getServiceNamespace(), unresolvedDVURL);
@@ -141,14 +140,14 @@ public abstract class AbstractDocumentSearchResultProcessor {
     }
 
     /**
-     * 
+     *
      * @param tripID
      * @return
      */
     public String createAgencySitesLinks(String tripID) {
         String links = "";
         if (getMessageFrom(TemKeyConstants.ENABLE_AGENCY_SITES_URL).equals("Y")){
-            String agencySitesURL = getMessageFrom(AGENCY_SITES_URL); 
+            String agencySitesURL = getMessageFrom(AGENCY_SITES_URL);
             String linkPopup = "target=\"_blank\"";
             boolean passTripID = getMessageFrom(TemKeyConstants.PASS_TRIP_ID_TO_AGENCY_SITES).equals("Y");
             if(!StringUtils.isEmpty(agencySitesURL)){
@@ -160,19 +159,19 @@ public abstract class AbstractDocumentSearchResultProcessor {
                 }
             }
         }
-                
+
         return links;
     }
 
     /**
      * Do not filter IF the current user is
-     * 
+     *
      * 1. in the workflow?
      * 2. also the traveler?
      * 3. an arranger who created the doc for a traveler they authorize?
      * 4. a travel Manager?
      * 5. a TEM Profile Administrator within the traveler's org hierarchy?
-     * 
+     *
      * @param docCriteriaDTO
      * @return
      */
@@ -180,7 +179,7 @@ public abstract class AbstractDocumentSearchResultProcessor {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         try {
             TravelDocument document = getDocument(docCriteriaDTO.getRouteHeaderId().toString());
-            
+
             //check workflow
             if (isWorkflowApprover(docCriteriaDTO.getRouteHeaderId(), currentUser)){
                 return false;
@@ -212,18 +211,17 @@ public abstract class AbstractDocumentSearchResultProcessor {
         }
         return true;
     }
-    
+
     /**
      * Check if the user is in the workflow route log
-     * 
+     *
      * @param documentNumber
      * @param user
      * @return
      * @throws WorkflowException
      */
-    public boolean isWorkflowApprover(Long documentNumber, Person user) throws WorkflowException{
-        WorkflowInfo workflowInfo = new WorkflowInfo();
-        List<String> approvers = workflowInfo.getPrincipalIdsInRouteLog(documentNumber, true);
+    public boolean isWorkflowApprover(String documentNumber, Person user) throws WorkflowException{
+        List<String> approvers = KewApiServiceLocator.getWorkflowDocumentActionsService().getPrincipalIdsInRouteLog(documentNumber, true);
         for (String principalID : approvers){
             if (principalID.equals(user.getPrincipalId())){
                 return true;
@@ -231,10 +229,10 @@ public abstract class AbstractDocumentSearchResultProcessor {
         }
         return false;
     }
-    
-    
+
+
     /**
-     * 
+     *
      * @param documentNumber
      * @return
      * @throws WorkflowException
@@ -249,40 +247,40 @@ public abstract class AbstractDocumentSearchResultProcessor {
         }
         return document;
     }
-    
+
     /**
-     * 
+     *
      * @param messageType
      * @return
      */
     public String getMessageFrom(final String messageType) {
-        return getConfigurationService().getPropertyString(messageType);
+        return getConfigurationService().getPropertyValueAsString(messageType);
     }
-    
+
     protected DocumentTypeService getDocumentTypeService() {
         return SpringContext.getBean(DocumentTypeService.class);
     }
- 
-    protected KualiConfigurationService getConfigurationService() {
-        return SpringContext.getBean(KualiConfigurationService.class);
+
+    protected ConfigurationService getConfigurationService() {
+        return SpringContext.getBean(ConfigurationService.class);
     }
-    
+
     protected TravelDocumentService getTravelDocumentService() {
         return SpringContext.getBean(TravelDocumentService.class);
     }
-    
+
     protected DocumentService getDocumentService() {
         return SpringContext.getBean(DocumentService.class);
     }
-    
+
     protected TravelService getTravelService() {
         return SpringContext.getBean(TravelService.class);
     }
-    
+
     protected TemProfileService getTemProfileService() {
         return SpringContext.getBean(TemProfileService.class);
     }
-    
+
     protected TEMRoleService getTemRoleService() {
         return SpringContext.getBean(TEMRoleService.class);
     }

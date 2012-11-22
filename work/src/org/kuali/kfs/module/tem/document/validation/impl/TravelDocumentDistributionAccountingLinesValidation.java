@@ -32,10 +32,10 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.RiceKeyConstants;
 
 public class TravelDocumentDistributionAccountingLinesValidation extends GenericValidation {

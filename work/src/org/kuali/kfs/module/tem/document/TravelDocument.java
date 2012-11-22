@@ -37,7 +37,7 @@ import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Abstract Travel Document Base

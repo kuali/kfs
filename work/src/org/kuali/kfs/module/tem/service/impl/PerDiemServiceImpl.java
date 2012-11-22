@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,6 +23,7 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameter
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,20 +57,20 @@ import org.kuali.kfs.module.tem.service.TEMExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * implement the service method calls defined in PerDiemService
  */
 public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemService, TEMExpenseService {
-    
+
     private static Logger LOG = Logger.getLogger(PerDiemServiceImpl.class);
 
     private DateTimeService dateTimeService;
@@ -204,24 +205,24 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     public <T extends PerDiem> void updateTripType(T perDiem) {
         String countryState = perDiem.getCountryState();
         String institutionState = this.getInstitutionState();
-        
+
         String tripTypeCode = this.getInternationalTripTypeCode();
         if(StringUtils.equals(countryState, institutionState)) {
         	tripTypeCode = this.getInStateTripTypeCode();
         } else if(getAllStateCodes().contains( ";" + countryState.toUpperCase() +  ";")) {
         	tripTypeCode = this.getOutStateTripTypeCode();
         }
-        
+
         perDiem.setTripTypeCode(tripTypeCode);
     }
 
     /**
      * get institution state code defined as an application parameter
-     * 
+     *
      * @return institution state code
      */
     protected String getInstitutionState() {
-        String institutionState = this.getParameterService().getParameterValue(PerDiemLoadStep.class, PerDiemParameter.INSTITUTION_STATE_PARAM_NAME);
+        String institutionState = this.getParameterService().getParameterValueAsString(PerDiemLoadStep.class, PerDiemParameter.INSTITUTION_STATE_PARAM_NAME);
 
         return institutionState;
     }
@@ -299,10 +300,10 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
         return perviousPerDiems;
     }
-    
+
     /**
      * check whether the given per diem exists in the database
-     * 
+     *
      * @param perDiem the given per diem
      * @return true if the given per diem exists in the database
      */
@@ -310,7 +311,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     public <T extends PerDiem> boolean hasExistingPerDiem(T perDiem) {
     	Map<String, Object> fieldValues = new HashMap<String, Object>();
     	boolean atLeastOneNull = false;
-        
+
         if(StringUtils.isNotEmpty(perDiem.getCountryState())) {
         	fieldValues.put(TemPropertyConstants.COUNTRY_STATE, perDiem.getCountryState());
         } else {
@@ -340,7 +341,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
         if (atLeastOneNull) {
         	List<PerDiem> results = (List<PerDiem>) this.getBusinessObjectService().findMatching(PerDiem.class, fieldValues);
-        
+
         	boolean existing = false;
 	    	for(PerDiem result : results) {
 	    		existing = false;
@@ -383,7 +384,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 	            	return existing;
 	            }
 	        }
-	
+
 	        return existing;
         } else {
         	int count = this.getBusinessObjectService().countMatching(PerDiem.class, fieldValues);
@@ -409,49 +410,50 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
     /**
      * get out state trip type code defined as an application parameter
-     * 
+     *
      * @return out state trip type code
      */
     protected String getOutStateTripTypeCode() {
-        String outStateTripTypeCode = this.getParameterService().getParameterValue(PerDiemLoadStep.class, PerDiemParameter.OUT_STATE_TRIP_TYPE_CODE_PARAM_NAME);
+        String outStateTripTypeCode = this.getParameterService().getParameterValueAsString(PerDiemLoadStep.class, PerDiemParameter.OUT_STATE_TRIP_TYPE_CODE_PARAM_NAME);
 
         return outStateTripTypeCode;
     }
 
     /**
      * get in state trip type code defined as an application parameter
-     * 
+     *
      * @return in state trip type code
      */
     protected String getInStateTripTypeCode() {
-        String inStateTripTypeCode = this.getParameterService().getParameterValue(PerDiemLoadStep.class, PerDiemParameter.IN_STATE_TRIP_TYPE_CODE_PARAM_NAME);
+        String inStateTripTypeCode = this.getParameterService().getParameterValueAsString(PerDiemLoadStep.class, PerDiemParameter.IN_STATE_TRIP_TYPE_CODE_PARAM_NAME);
 
         return inStateTripTypeCode;
     }
-    
+
     /**
      * get international trip type code defined as an application parameter
-     * 
+     *
      * @return international trip type code
      */
     protected String getInternationalTripTypeCode() {
-        String internationalTripTypeCode = this.getParameterService().getParameterValue(PerDiemLoadStep.class, PerDiemParameter.INTERNATIONAL_TRIP_TYPE_CODE_PARAM_NAME);
+        String internationalTripTypeCode = this.getParameterService().getParameterValueAsString(PerDiemLoadStep.class, PerDiemParameter.INTERNATIONAL_TRIP_TYPE_CODE_PARAM_NAME);
 
         return internationalTripTypeCode;
     }
 
     /**
      * Gets the parameterService attribute.
-     * 
+     *
      * @return Returns the parameterService.
      */
+    @Override
     public ParameterService getParameterService() {
         return parameterService;
     }
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -460,16 +462,17 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -478,7 +481,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
     /**
      * Gets the dateTimeService attribute.
-     * 
+     *
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -487,7 +490,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -496,7 +499,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
     /**
      * Gets the mealBreakDownStrategies attribute.
-     * 
+     *
      * @return Returns the mealBreakDownStrategies.
      */
     public Map<String, MealBreakDownStrategy> getMealBreakDownStrategies() {
@@ -505,7 +508,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
     /**
      * Sets the mealBreakDownStrategies attribute value.
-     * 
+     *
      * @param mealBreakDownStrategies The mealBreakDownStrategies to set.
      */
     public void setMealBreakDownStrategies(Map<String, MealBreakDownStrategy> mealBreakDownStrategies) {
@@ -513,7 +516,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     }
 
 	/**
-	 * Gets the stateService attribute. 
+	 * Gets the stateService attribute.
 	 * @return Returns the stateService.
 	 */
 	public StateService getStateService() {
@@ -537,31 +540,31 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 	}
 
 	/**
-	 * Gets the allStateCodes attribute. 
+	 * Gets the allStateCodes attribute.
 	 * @return Returns the allStateCodes.
 	 */
 	public String getAllStateCodes() {
-		
+
 		if(StringUtils.isEmpty(allStateCodes)) {
-			final List<State> codes = getStateService().findAllStates(KFSConstants.COUNTRY_CODE_UNITED_STATES);
-	        
+			final List<State> codes = getStateService().findAllStatesInCountry(KFSConstants.COUNTRY_CODE_UNITED_STATES);
+
 	        final StringBuffer sb = new StringBuffer();
 	        sb.append(";").append(KFSConstants.COUNTRY_CODE_UNITED_STATES.toUpperCase()).append(";");
 	        for (final State state : codes) {
-	            if(state.isActive()) {                
-	                sb.append(state.getPostalStateCode().toUpperCase()).append( ";");
+	            if(state.isActive()) {
+	                sb.append(state.getCode().toUpperCase()).append( ";");
 	            }
 	        }
-	
+
 	        allStateCodes = sb.toString();
-		}		
-		
+		}
+
 		return allStateCodes;
 	}
 
 	public String getObjectCodeFrom(final TravelDocument travelDocument, String paramName) {
 	    if (travelDocument instanceof TravelReimbursementDocument){
-	        final String parameterValue = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, paramName);
+	        final String parameterValue = getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, paramName);
 	        String paramSearchStr = "";
 	        TravelerDetail traveler = travelDocument.getTraveler();
 	        if(traveler != null){
@@ -571,7 +574,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 	        if(tripType != null){
 	            paramSearchStr += tripType.getCode() + "=";
 	        }
-	        
+
 	        final int searchIdx = parameterValue.indexOf(paramSearchStr);
 
 	        if (searchIdx == -1) {
@@ -592,7 +595,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 	        return null;
 	    }
     }
-    
+
     @Override
     public Map<String, AccountingDistribution> getAccountingDistribution(TravelDocument document) {
         Map<String, AccountingDistribution> distributionMap = new HashMap<String, AccountingDistribution>();
@@ -614,10 +617,10 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
             // Per Diem
             AccountingDistribution accountingDistribution = new AccountingDistribution();
-            
+
             if (perDiemObjCode != null) {
                 String key = perDiemObjCode.getCode() + "-" + document.getExpenseTypeCode();
-                
+
                 for(PerDiemExpense expense : document.getPerDiemExpenses()){
                     if (!expense.getPersonal()){
                         if (!distributionMap.containsKey(key)){
@@ -628,11 +631,11 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
                         }
                         distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(expense.getMealsAndIncidentals()));
                         distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().add(expense.getMealsAndIncidentals()));
-                        LOG.debug("Set perdiem distribution subtotal to "+ accountingDistribution.getSubTotal());       
+                        LOG.debug("Set perdiem distribution subtotal to "+ accountingDistribution.getSubTotal());
                     }
                 }
-                
-                if (document.getPerDiemAdjustment() != null 
+
+                if (document.getPerDiemAdjustment() != null
                         && document.getPerDiemAdjustment().isPositive()){
                     distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().subtract(document.getPerDiemAdjustment()));
                     distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().subtract(document.getPerDiemAdjustment()));
@@ -643,11 +646,11 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
             else {
                 LOG.error("PerDiemObjCode is null!");
             }
-        }        
-        
+        }
+
         return distributionMap;
     }
-    
+
     protected void distributeLodging(Map<String, AccountingDistribution> distributionMap, final TravelDocument document) {
         String defaultChartCode = ExpenseUtils.getDefaultChartCode(document);
         String lodgingCode = getObjectCodeFrom(document, LODGING_OBJECT_CODE);
@@ -666,7 +669,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
         AccountingDistribution accountingDistribution = new AccountingDistribution();
         String key = lodgingObjCode.getCode() + "-" + document.getExpenseTypeCode();
 
-        if (document.getPerDiemExpenses() != null) {           
+        if (document.getPerDiemExpenses() != null) {
             for(PerDiemExpense expense : document.getPerDiemExpenses()){
                 if (!distributionMap.containsKey(key)){
                     accountingDistribution.setCardType(document.getExpenseTypeCode());
@@ -675,17 +678,17 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
                     distributionMap.put(key, accountingDistribution);
                 }
                 distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(expense.getLodgingTotal()));
-                distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().add(expense.getLodgingTotal()));       
+                distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().add(expense.getLodgingTotal()));
             }
         }
     }
-    
+
     protected void distributeMileage(Map<String, AccountingDistribution> distributionMap, TravelDocument document) {
         String defaultChartCode = ExpenseUtils.getDefaultChartCode(document);
-        
+
         AccountingDistribution accountingDistribution = new AccountingDistribution();
 
-        if (document.getPerDiemExpenses() != null) {           
+        if (document.getPerDiemExpenses() != null) {
             for(PerDiemExpense expense : document.getPerDiemExpenses()){
                 if (expense.getMileageRateId() != null) {
                     String mileageCode = getMileageObjectCodeFrom(document, expense.getMileageRateId());
@@ -701,7 +704,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
                     final ObjectCode mileageObjCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, mileageCode);
                     LOG.debug("Got mileage object code "+ mileageObjCode);
                     String key = mileageObjCode.getCode() + "-" + document.getExpenseTypeCode();
-                    
+
                     if (!distributionMap.containsKey(key)){
                         accountingDistribution.setCardType(document.getExpenseTypeCode());
                         accountingDistribution.setObjectCode(mileageObjCode.getCode());
@@ -709,19 +712,19 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
                         distributionMap.put(key, accountingDistribution);
                     }
                     distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(expense.getMileageTotal()));
-                    distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().add(expense.getMileageTotal()));       
+                    distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().add(expense.getMileageTotal()));
                 }
             }
         }
     }
-    
+
     protected String getMileageObjectCodeFrom(final TravelDocument travelDocument, Integer mileageRateId) {
         String objCode = null;
         if (travelDocument instanceof TravelReimbursementDocument){
             final String travelerType = travelDocument.getTraveler().getTravelerTypeCode();
             final String tripType = travelDocument.getTripType().getCode();
 
-            
+
             Map<String, Object> fields = new HashMap<String, Object>();
 
             fields.put("travelerTypeCode", travelerType);
@@ -738,24 +741,24 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
                 objCode = travelDocument.getTripType().getEncumbranceObjCode();
             }
         }
-        
+
         return objCode;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#getAllExpenseTotal(org.kuali.kfs.module.tem.document.TravelDocument, boolean)
      */
     @Override
     public KualiDecimal getAllExpenseTotal(TravelDocument document, boolean includeNonReimbursable) {
         KualiDecimal total = KualiDecimal.ZERO;
-        
+
         for (PerDiemExpense expense : document.getPerDiemExpenses()){
             if ((expense.getPersonal().booleanValue() && includeNonReimbursable)
                     || !expense.getPersonal().booleanValue()){
                 total = total.add(expense.getDailyTotal());
             }
         }
-        
+
         return total;
     }
 
@@ -765,7 +768,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     @Override
     public KualiDecimal getNonReimbursableExpenseTotal(TravelDocument document) {
 //        KualiDecimal total = KualiDecimal.ZERO;
-//        
+//
 //        for (PerDiemExpense expense : document.getPerDiemExpenses()){
 //            if (expense.getPersonal().booleanValue()){
 //                total = total.add(expense.getDailyTotal());
@@ -774,7 +777,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 //        return total;
 
         // This is because for per diem, when the personal checkbox is checked the amount is already excluded from the total.
-        return KualiDecimal.ZERO; 
+        return KualiDecimal.ZERO;
     }
 
     @Override
@@ -783,7 +786,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
         for (PerDiemExpense expense : travelDocument.getPerDiemExpenses()) {
             mealsAndIncidentalsTotal = mealsAndIncidentalsTotal.add(expense.getMealsAndIncidentals());
         }
-        return mealsAndIncidentalsTotal;        
+        return mealsAndIncidentalsTotal;
     }
 
     @Override
@@ -814,7 +817,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
         }
         return dailyTotal;
     }
-    
+
     @Override
     public Integer getMilesGrandTotal(TravelDocument travelDocument) {
         Integer milesTotal = 0;
@@ -823,7 +826,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
         }
         return milesTotal;
     }
-    
+
     @Override
     public void processExpense(TravelDocument travelDocument) {
         //do nothing
@@ -838,7 +841,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
     public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TEMExpense> expenses) {
         //not used for PerDiem
     }
-    
+
     @Override
     public List<? extends TEMExpense> getExpenseDetails(TravelDocument document) {
         //not used for PerDiem
@@ -850,13 +853,13 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
      */
     @Override
     public void setPerDiemCategoriesAndBreakdown(TravelFormBase form) {
-        List<String> perDiemCats = getParameterService().getParameterValues(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.ENABLE_PER_DIEM_CATEGORIES);
-        form.parsePerDiemCategories(perDiemCats);        
-        
+        Collection<String> perDiemCats = getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.ENABLE_PER_DIEM_CATEGORIES);
+        form.parsePerDiemCategories(perDiemCats);
+
         //default to TA
-        Boolean showPerDiemBreakdown = parameterService.getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_TA_PER_DIEM_AMOUNT_EDIT_IND);
+        Boolean showPerDiemBreakdown = parameterService.getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_TA_PER_DIEM_AMOUNT_EDIT_IND);
         if (TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT.equals(form.getDocTypeName())){
-            showPerDiemBreakdown = parameterService.getIndicatorParameter(TemParameterConstants.TEM_REIMBURSEMENT.class, TravelReimbursementParameters.ENABLE_TR_PER_DIEM_AMOUNT_EDIT_IND);
+            showPerDiemBreakdown = parameterService.getParameterValueAsBoolean(TemParameterConstants.TEM_REIMBURSEMENT.class, TravelReimbursementParameters.ENABLE_TR_PER_DIEM_AMOUNT_EDIT_IND);
         }
         form.setShowPerDiemBreakdown(showPerDiemBreakdown);
     }

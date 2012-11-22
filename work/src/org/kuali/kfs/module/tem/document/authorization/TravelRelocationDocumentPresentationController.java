@@ -21,8 +21,8 @@ import org.kuali.kfs.module.tem.TemConstants.TEMRoleNames;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
 
 
 /**
@@ -55,7 +55,7 @@ public class TravelRelocationDocumentPresentationController extends TravelDocume
     @Override
     public boolean enableForDocumentManager(Person currentUser, boolean checkParameters){
         boolean isRelocationManager = getTemRoleService().checkUserTEMRole(currentUser, TEMRoleNames.MOVING_AND_RELOCATION_MANAGER);
-        boolean allowUpdate = checkParameters? getParamService().getIndicatorParameter(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.ALLOW_TRAVEL_OFFICE_TO_MODIFY_ALL_IND) : true;
+        boolean allowUpdate = checkParameters? getParamService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.ALLOW_TRAVEL_OFFICE_TO_MODIFY_ALL_IND) : true;
         
         boolean isEnabled = isRelocationManager && allowUpdate;
         return isEnabled;

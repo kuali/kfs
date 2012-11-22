@@ -39,8 +39,8 @@ import org.kuali.kfs.module.tem.service.TEMExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements TEMExpenseService {
     
@@ -62,13 +62,13 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
                 String financialObjectCode= "";
                 expense.getTravelExpenseTypeCode();
                 if (expense.getTravelExpenseTypeCode().getCode().equals(TemConstants.ExpenseTypes.AIRFARE)){
-                    financialObjectCode= getParameterService().getParameterValue(PARAM_NAMESPACE, TemConstants.AgencyMatchProcessParameter.AGENCY_MATCH_DTL_TYPE, TemConstants.AgencyMatchProcessParameter.CTS_AIR_OBJECT_CODE);
+                    financialObjectCode= getParameterService().getParameterValueAsString(PARAM_NAMESPACE, TemConstants.AgencyMatchProcessParameter.AGENCY_MATCH_DTL_TYPE, TemConstants.AgencyMatchProcessParameter.CTS_AIR_OBJECT_CODE);
                 }
                 else if (expense.getTravelExpenseTypeCode().getCode().equals(TemConstants.ExpenseTypes.LODGING)){
-                    financialObjectCode= getParameterService().getParameterValue(PARAM_NAMESPACE, TemConstants.AgencyMatchProcessParameter.AGENCY_MATCH_DTL_TYPE, TemConstants.AgencyMatchProcessParameter.CTS_LODGING_OBJECT_CODE);             
+                    financialObjectCode= getParameterService().getParameterValueAsString(PARAM_NAMESPACE, TemConstants.AgencyMatchProcessParameter.AGENCY_MATCH_DTL_TYPE, TemConstants.AgencyMatchProcessParameter.CTS_LODGING_OBJECT_CODE);             
                 }
                 else if (expense.getTravelExpenseTypeCode().getCode().equals(TemConstants.ExpenseTypes.RENTAL_CAR)){
-                    financialObjectCode= getParameterService().getParameterValue(PARAM_NAMESPACE, TemConstants.AgencyMatchProcessParameter.AGENCY_MATCH_DTL_TYPE, TemConstants.AgencyMatchProcessParameter.CTS_RENTAL_CAR_OBJECT_CODE);
+                    financialObjectCode= getParameterService().getParameterValueAsString(PARAM_NAMESPACE, TemConstants.AgencyMatchProcessParameter.AGENCY_MATCH_DTL_TYPE, TemConstants.AgencyMatchProcessParameter.CTS_RENTAL_CAR_OBJECT_CODE);
                 }
                  
                 LOG.debug("Refreshed importedExpense with expense type code " + expense.getTravelExpenseTypeCode() + " and financialObjectCode " + financialObjectCode);

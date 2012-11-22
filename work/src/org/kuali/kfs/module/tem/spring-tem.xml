@@ -71,13 +71,21 @@
 			</list>
 		</property>
 	</bean>
+    
+    <!-- TEM constants -->
+    <bean id="TemKeyConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+        <property name="constantClass" value="org.kuali.kfs.module.tem.TemKeyConstants" />
+    </bean>
+
+    <bean id="TemConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+        <property name="constantClass" value="org.kuali.kfs.module.tem.TemConstants" />
+    </bean>
 
 	<bean id="temProfileAddressLookupableHelperService"
 		class="org.kuali.kfs.module.tem.businessobject.lookup.TemProfileAddressLookupableHelperServiceImpl"
 		scope="prototype" parent="lookupableHelperService">
 		<property name="travelerDao" ref="travelerDao" />
 		<property name="travelerService" ref="travelerService" />
-		<property name="identityService" ref="kimIdentityService" />
 		<property name="accountsReceivableModuleService" ref="accountsReceivableModuleService" />		
 		<property name="temProfileAddressToKimAddress">
 			<map>
@@ -175,8 +183,8 @@
 		<property name="temRoleService" ref="temRoleService" />
 		<property name="travelerService" ref="travelerService" />
 		<property name="personService" ref="personService" />
-		<property name="identityManagementService" ref="kimIdentityManagementService" />
 		<property name="temProfileService" ref="temProfileService" />
+        <property name="identityManagementService" ref="kimIdentityManagementService" />
 	</bean>
 	<bean id="temProfileLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
 		scope="prototype">
@@ -246,7 +254,7 @@
         <property name="temRoleService" ref="temRoleService" />
         <property name="chartService" ref="chartService" />
         <property name="organizationService" ref="organizationService" />
-        <property name="roleManagementService" ref="kimRoleManagementService" />
+        <property name="roleService" ref="kimRoleService" />
 		<property name="accountsReceivableModuleService" ref="accountsReceivableModuleService" />        
 	</bean>
 
@@ -1387,7 +1395,6 @@
 		<property name="travelService" ref="temTravelService" />
 		<property name="travelerService" ref="travelerService" />
 		<property name="personService" ref="personService" />
-		<property name="identityManagementService" ref="kimIdentityManagementService" />
 		<property name="temProfileService" ref="temProfileService" />
 	</bean>
 	<bean id="temProfileAccountLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"

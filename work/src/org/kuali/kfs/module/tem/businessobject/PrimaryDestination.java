@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,13 +26,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name="TEM_PER_DIEM_T")
-public class PrimaryDestination extends PersistableBusinessObjectBase implements Inactivateable {
-    
+public class PrimaryDestination extends PersistableBusinessObjectBase implements MutableInactivatable {
+
     @Id
     @GeneratedValue(generator="TEM_PER_DIEM_ID_SEQ")
     @SequenceGenerator(name="TEM_PER_DIEM_ID_SEQ",sequenceName="TEM_PER_DIEM_ID_SEQ", allocationSize=5)
@@ -41,14 +41,14 @@ public class PrimaryDestination extends PersistableBusinessObjectBase implements
 
     @ManyToOne
     @JoinColumn(name="trip_typ_cd")
-    private TripType tripType;    
+    private TripType tripType;
 
     @Column(name="trip_typ_cd",length=3,nullable=false)
     private String tripTypeCode;
 
     @Column(name="COUNTRY",length=100, nullable=false)
     private String countryState;
-    
+
     @Column(name="COUNTRY_NM",length=100, nullable=false)
     private String countryStateName;
 
@@ -60,7 +60,7 @@ public class PrimaryDestination extends PersistableBusinessObjectBase implements
 
     @Column(name="ACTV_IND",nullable=false,length=1)
     private Boolean active = Boolean.TRUE;
-    
+
     public Integer getId() {
         return id;
     }
@@ -68,7 +68,7 @@ public class PrimaryDestination extends PersistableBusinessObjectBase implements
     public void setId(Integer id) {
         this.id = id;
     }
-   
+
     public TripType getTripType() {
         return tripType;
     }
@@ -76,7 +76,7 @@ public class PrimaryDestination extends PersistableBusinessObjectBase implements
     public void setTripType(TripType tripType) {
         this.tripType = tripType;
     }
-    
+
     public String getTripTypeCode() {
         return tripTypeCode;
     }
@@ -94,7 +94,7 @@ public class PrimaryDestination extends PersistableBusinessObjectBase implements
     }
 
     /**
-     * Gets the countryStateName attribute. 
+     * Gets the countryStateName attribute.
      * @return Returns the countryStateName.
      */
     public String getCountryStateName() {
@@ -137,15 +137,14 @@ public class PrimaryDestination extends PersistableBusinessObjectBase implements
         this.active = active;
     }
 
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("tripType", this.tripTypeCode);
         map.put("countryState", this.countryState);
         map.put("county", this.county);
         map.put("primaryDestinationName", this.primaryDestinationName);
-        
+
         return map;
     }
 

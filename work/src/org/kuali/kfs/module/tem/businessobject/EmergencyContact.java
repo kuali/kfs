@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,24 +22,24 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Emergency Contact
- * 
+ *
  */
 public abstract class EmergencyContact extends PersistableBusinessObjectBase {
 
-    private Integer id;    
-    private String documentNumber;    
-    private Integer financialDocumentLineNumber;    
-    private boolean primary;   
-    private String contactRelationTypeCode;  
-    private ContactRelationType contactRelationType;  
-    private String contactName;  
-    private String phoneNumber;   
+    private Integer id;
+    private String documentNumber;
+    private Integer financialDocumentLineNumber;
+    private boolean primary;
+    private String contactRelationTypeCode;
+    private ContactRelationType contactRelationType;
+    private String contactName;
+    private String phoneNumber;
     private String emailAddress;
-    
+
     @Id
     @Column(name="id",nullable=false)
     public Integer getId() {
@@ -49,10 +49,10 @@ public abstract class EmergencyContact extends PersistableBusinessObjectBase {
     public void setId(Integer id) {
         this.id = id;
     }
-    
+
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
     @Column(name="FDOC_NBR")
@@ -63,16 +63,16 @@ public abstract class EmergencyContact extends PersistableBusinessObjectBase {
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
-    
+
     /**
      * Gets the financialDocumentLineNumber attribute.
-     * 
+     *
      * @return Returns the financialDocumentLineNumber
      */
     @Column(name="FDOC_LINE_NBR")
@@ -82,7 +82,7 @@ public abstract class EmergencyContact extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentLineNumber attribute.
-     * 
+     *
      * @param financialDocumentLineNumber The financialDocumentLineNumber to set.
      */
     public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
@@ -118,7 +118,7 @@ public abstract class EmergencyContact extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the emailAddress attribute. 
+     * Gets the emailAddress attribute.
      * @return Returns the emailAddress.
      */
     @Column(name="email_addr",length=50,nullable=true)
@@ -135,7 +135,7 @@ public abstract class EmergencyContact extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the phoneNumber attribute. 
+     * Gets the phoneNumber attribute.
      * @return Returns the phoneNumber.
      */
     @Column(name="phone_nbr",length=20,nullable=true)
@@ -151,13 +151,13 @@ public abstract class EmergencyContact extends PersistableBusinessObjectBase {
         this.phoneNumber = phoneNumber;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("id", id);
         map.put("contactName", contactName);
         map.put("contactRelationTypeCode", contactRelationTypeCode);
-        
+
         return map;
     }
 
@@ -168,6 +168,6 @@ public abstract class EmergencyContact extends PersistableBusinessObjectBase {
     public void setPrimary(boolean primary) {
         this.primary = primary;
     }
-    
-    
+
+
 }

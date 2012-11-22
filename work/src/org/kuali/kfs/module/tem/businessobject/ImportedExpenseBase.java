@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,8 +20,9 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase {
 
@@ -37,18 +38,18 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     protected Date reconciliationDate;
     protected String reconciled;
     protected String description;
-    protected KualiDecimal currencyRate = new KualiDecimal(1.000);  
+    protected KualiDecimal currencyRate = new KualiDecimal(1.000);
     protected KualiDecimal convertedAmount;
     protected Boolean reimbursable = Boolean.TRUE;
     protected Boolean missingReceipt = Boolean.FALSE;
 
-    protected Boolean assigned = Boolean.FALSE;        
+    protected Boolean assigned = Boolean.FALSE;
     protected String documentNumber;
 
     protected Date expenseNotificationDate;
 
     /**
-     * Gets the id attribute. 
+     * Gets the id attribute.
      * @return Returns the id.
      */
     @Column(name = "ID", nullable = false)
@@ -65,7 +66,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the creditCardAgencyId attribute. 
+     * Gets the creditCardAgencyId attribute.
      * @return Returns the creditCardAgencyId.
      */
     @Column(name="CC_AGENCY_ID",nullable=false)
@@ -82,7 +83,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the creditCardAgency attribute. 
+     * Gets the creditCardAgency attribute.
      * @return Returns the creditCardAgency.
      */
     @ManyToOne
@@ -100,7 +101,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the importDate attribute. 
+     * Gets the importDate attribute.
      * @return Returns the importDate.
      */
     @Column(name="IMPORT_DT")
@@ -117,7 +118,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the travelCompany attribute. 
+     * Gets the travelCompany attribute.
      * @return Returns the travelCompany.
      */
     @Column(name="COMPANY")
@@ -134,7 +135,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the location attribute. 
+     * Gets the location attribute.
      * @return Returns the location.
      */
     @Column(name="LOCATION")
@@ -151,7 +152,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the travelExpenseType attribute. 
+     * Gets the travelExpenseType attribute.
      * @return Returns the travelExpenseType.
      */
     @Column(name="DV_EXP_CD")
@@ -168,7 +169,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the amount attribute. 
+     * Gets the amount attribute.
      * @return Returns the amount.
      */
     @Column(name="AMOUNT")
@@ -185,7 +186,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the transactionPostingDate attribute. 
+     * Gets the transactionPostingDate attribute.
      * @return Returns the transactionPostingDate.
      */
     @Column(name="TRANS_POST_DT")
@@ -202,7 +203,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the reconciliationDate attribute. 
+     * Gets the reconciliationDate attribute.
      * @return Returns the reconciliationDate.
      */
     @Column(name="RECON_DT")
@@ -219,7 +220,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the reconciled attribute. 
+     * Gets the reconciled attribute.
      * @return Returns the reconciled.
      */
     @Column(name="RECONCILED")
@@ -236,7 +237,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the description attribute. 
+     * Gets the description attribute.
      * @return Returns the description.
      */
     @Column(name="DESCRIPTION")
@@ -253,7 +254,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the currencyRate attribute. 
+     * Gets the currencyRate attribute.
      * @return Returns the currencyRate.
      */
     @Column(name="CURR_RT")
@@ -270,7 +271,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the convertedAmount attribute. 
+     * Gets the convertedAmount attribute.
      * @return Returns the convertedAmount.
      */
     @Column(name="CONV_AMT")
@@ -290,7 +291,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the reimbursable attribute. 
+     * Gets the reimbursable attribute.
      * @return Returns the reimbursable.
      */
     @Column(name="REIMB")
@@ -307,7 +308,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the missingReceipt attribute. 
+     * Gets the missingReceipt attribute.
      * @return Returns the missingReceipt.
      */
     @Column(name="MISSING_RCPT")
@@ -324,7 +325,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the assigned attribute. 
+     * Gets the assigned attribute.
      * @return Returns the assigned.
      */
     @Column(name="ASSIGNED")
@@ -341,7 +342,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the documentNumber attribute. 
+     * Gets the documentNumber attribute.
      * @return Returns the documentNumber.
      */
     @Column(name="DOC_NBR")
@@ -358,7 +359,7 @@ public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase 
     }
 
     /**
-     * Gets the expenseNotificationDate attribute. 
+     * Gets the expenseNotificationDate attribute.
      * @return Returns the expenseNotificationDate.
      */
     @Column(name="EXP_NTF_DT")

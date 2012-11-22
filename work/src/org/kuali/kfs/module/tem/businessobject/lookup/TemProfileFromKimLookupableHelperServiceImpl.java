@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,27 +29,28 @@ import org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.FieldDefinition;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.UrlFactory;
 
-@SuppressWarnings("rawtypes") 
+@SuppressWarnings("rawtypes")
 public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     public static Logger LOG = Logger.getLogger(TemProfileFromKimLookupableHelperServiceImpl.class);
-    
+
     private TravelerService travelerService;
-    private PersonService<Person> personService;
+    private PersonService personService;
     private TemProfileService temProfileService;
-    
+
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.rice.kns.web.struts.form.LookupForm, java.util.Collection, boolean)
      */
@@ -74,11 +75,11 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
 
         LOG.debug("Looking up people with criteria " + kimFieldsForLookup);
         final List<? extends Person> persons = personService.findPeople(kimFieldsForLookup);
-        
+
         for (Person personDetail : persons) {
             searchResults.add(travelerService.convertToTemProfileFromKim(personDetail));
         }
-        
+
         CollectionIncomplete results = new CollectionIncomplete(searchResults, Long.valueOf(searchResults.size()));
 
         // sort list if default sort column given
@@ -89,7 +90,7 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
 
         return results;
     }
-    
+
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getBusinessObjectClass()
      */
@@ -108,7 +109,7 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
 //    protected Map<String, String> getPersonFieldValues(final Map<String, String> fieldValues) {
 //        return convertFieldValues(PersonImpl.class, fieldValues);
 //    }
-//    
+//
 //    protected Map<String, String> convertFieldValues(final Class boClass, final Map<String, String> fieldValues) {
 //        Map<String, String> retval = new HashMap<String, String>();
 //
@@ -139,21 +140,22 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
 //
 //        return retval;
 //    }
-    
+
     /**
      * @see org.kuali.rice.kns.datadictionary.DataDictionary#getBusinessObjectEntry(String)
      */
     protected Collection<FieldDefinition> getLookupFieldsFor(final String className) {
-        return getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(className).getLookupDefinition().getLookupFields();
+        BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry)getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(className);
+        return businessObjectEntry.getLookupDefinition().getLookupFields();
     }
-    
+
     /**
      * @see org.kuali.rice.kns.datadictionary.DataDictionary#getBusinessObjectEntry(String)
      */
     protected boolean containsAttribute(final Class boClass, final String attributeName) {
         return getDataDictionaryService().isAttributeDefined(boClass, attributeName);
     }
-    
+
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResultsUnbounded(java.util.Map)
      */
@@ -161,7 +163,7 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
     public List<? extends BusinessObject> getSearchResultsUnbounded(Map<String, String> fieldValues) {
         return super.getSearchResultsUnbounded(fieldValues);
     }
-    
+
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
      */
@@ -170,13 +172,13 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
         List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
 
         String principalId = ((TemProfileFromKimPerson) businessObject).getPrincipalId();
-        
+
         Properties parameters = new Properties();
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, TEMProfile.class.getName());
         parameters.put(KFSConstants.OVERRIDE_KEYS, "principalId");
         parameters.put(KFSConstants.REFRESH_CALLER, "principalId" + "::" + principalId);
         parameters.put("principalId", principalId);
-        
+
         Map<String,String> criteria = new HashMap<String,String>(2);
         criteria.put("principalId", principalId);
         criteria.put("active", "true");
@@ -192,26 +194,26 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
         else {
             // An active TEM Profile exists, display an edit link
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
-            
+
             String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
             AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, "start", "edit profile");
             htmlDataList.add(anchorHtmlData);
         }
-        
+
         return htmlDataList;
     }
-    
+
     /**
      * Sets the personService attribute value.
-     * 
+     *
      * @param personService The personService to set.
      */
-    public void setPersonService(PersonService<Person> personService) {
+    public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
 
     /**
-     * 
+     *
      * Sets the travelerService attribute
      * @param travelerService
      */

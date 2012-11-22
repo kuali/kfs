@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,14 +32,14 @@ import javax.persistence.Table;
 
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 @Entity
 @Table(name="TEM_PER_DIEM_T")
-public class PerDiem extends PersistableBusinessObjectBase implements Inactivateable {
+public class PerDiem extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     @Id
     @GeneratedValue(generator="TEM_PER_DIEM_ID_SEQ")
@@ -49,14 +49,14 @@ public class PerDiem extends PersistableBusinessObjectBase implements Inactivate
 
     @ManyToOne
     @JoinColumn(name="trip_typ_cd")
-    private TripType tripType;    
+    private TripType tripType;
 
     @Column(name="trip_typ_cd",length=3,nullable=false)
     private String tripTypeCode;
 
     @Column(name="COUNTRY",length=100, nullable=false)
     private String countryState;
-    
+
     @Column(name="COUNTRY_NM",length=100, nullable=false)
     private String countryStateName;
 
@@ -80,28 +80,28 @@ public class PerDiem extends PersistableBusinessObjectBase implements Inactivate
 
     @Column(name="lodging",nullable=false)
     private KualiDecimal lodging = KualiDecimal.ZERO;
-    
+
     @Column(name="INC",precision=19,scale=2,nullable=false)
     private KualiDecimal incidentals = KualiDecimal.ZERO;
 
-    @Column(name="MEALS_INC",precision=19,scale=2,nullable=false) 
+    @Column(name="MEALS_INC",precision=19,scale=2,nullable=false)
     private KualiDecimal mealsAndIncidentals = KualiDecimal.ZERO;
 
     @Column(name="ACTV_IND",nullable=false,length=1)
     private Boolean active = Boolean.TRUE;
-    
+
     private String seasonBeginMonthAndDay;
-    
+
     private Date loadDate;
-    
+
     @Column(name="EFFECT_FROM_DT")
     private Date effectiveFromDate;
-    
+
     private Date effectiveToDate;
-    
-    private String conusIndicator;    
+
+    private String conusIndicator;
     private int lineNumber;
-    
+
     @Id
     @GeneratedValue(generator="TEM_PER_DIEM_ID_SEQ")
     @SequenceGenerator(name="TEM_PER_DIEM_ID_SEQ",sequenceName="TEM_PER_DIEM_ID_SEQ", allocationSize=5)
@@ -113,7 +113,7 @@ public class PerDiem extends PersistableBusinessObjectBase implements Inactivate
     public void setId(Integer id) {
         this.id = id;
     }
-   
+
     public TripType getTripType() {
         return tripType;
     }
@@ -121,7 +121,7 @@ public class PerDiem extends PersistableBusinessObjectBase implements Inactivate
     public void setTripType(TripType tripType) {
         this.tripType = tripType;
     }
-    
+
     public String getTripTypeCode() {
         return tripTypeCode;
     }
@@ -136,13 +136,13 @@ public class PerDiem extends PersistableBusinessObjectBase implements Inactivate
 
     public void setCountryState(String countryState) {
         this.countryState = countryState;
-        
+
         if (countryState != null) {
             Map<String, String> tempFieldValues = new HashMap<String, String>();
             BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
             tempFieldValues.put(TemPropertyConstants.PER_DIEM_COUNTRY_STATE, countryState);
             List<PrimaryDestination> results = (List<PrimaryDestination>) service.findMatching(PrimaryDestination.class, tempFieldValues);
-            
+
             if (results != null && !results.isEmpty()) {
                 this.countryStateName = results.get(0).getCountryStateName();
             }
@@ -150,7 +150,7 @@ public class PerDiem extends PersistableBusinessObjectBase implements Inactivate
     }
 
     /**
-     * Gets the countryStateName attribute. 
+     * Gets the countryStateName attribute.
      * @return Returns the countryStateName.
      */
     public String getCountryStateName() {
@@ -225,7 +225,7 @@ public class PerDiem extends PersistableBusinessObjectBase implements Inactivate
     public void setDinner(Integer dinner) {
         this.dinner = dinner;
     }
-    
+
     public KualiDecimal getLodging() {
         return lodging != null ? lodging : KualiDecimal.ZERO;
     }
@@ -262,16 +262,16 @@ public class PerDiem extends PersistableBusinessObjectBase implements Inactivate
     }
 
     /**
-     * Gets the effectiveFromDate attribute. 
+     * Gets the effectiveFromDate attribute.
      * @return Returns the effectiveFromDate.
      */
     @Column(name="EFFECT_FROM_DT")
     public Date getEffectiveFromDate() {
         return effectiveFromDate;
     }
-    
+
     /**
-     * Gets the lineNumber attribute. 
+     * Gets the lineNumber attribute.
      * @return Returns the lineNumber.
      */
     public int getLineNumber() {
@@ -284,10 +284,10 @@ public class PerDiem extends PersistableBusinessObjectBase implements Inactivate
      */
     public void setLineNumber(int lineNumber) {
         this.lineNumber = lineNumber;
-    }     
+    }
 
     /**
-     * Gets the conusIndicator attribute. 
+     * Gets the conusIndicator attribute.
      * @return Returns the conusIndicator.
      */
     public String getConusIndicator() {
@@ -301,9 +301,9 @@ public class PerDiem extends PersistableBusinessObjectBase implements Inactivate
     public void setConusIndicator(String conusIndicator) {
         this.conusIndicator = conusIndicator;
     }
-    
+
     /**
-     * Gets the loadDate attribute. 
+     * Gets the loadDate attribute.
      * @return Returns the loadDate.
      */
     @Column(name="LOAD_DT")
@@ -318,9 +318,9 @@ public class PerDiem extends PersistableBusinessObjectBase implements Inactivate
     public void setLoadDate(Date loadDate) {
         this.loadDate = loadDate;
     }
-    
+
     /**
-     * Gets the seasonBeginMonthAndDay attribute. 
+     * Gets the seasonBeginMonthAndDay attribute.
      * @return Returns the seasonBeginMonthAndDay.
      */
     @Column(name="SSN_BGN_MONTH_DAY")
@@ -334,10 +334,10 @@ public class PerDiem extends PersistableBusinessObjectBase implements Inactivate
      */
     public void setSeasonBeginMonthAndDay(String seasonBeginMonthAndDay) {
         this.seasonBeginMonthAndDay = seasonBeginMonthAndDay;
-    }    
+    }
 
     /**
-     * Gets the expirationDate attribute. 
+     * Gets the expirationDate attribute.
      * @return Returns the expirationDate.
      */
     @Column(name="EFFECT_TO_DT")
@@ -351,10 +351,10 @@ public class PerDiem extends PersistableBusinessObjectBase implements Inactivate
      */
     public void setEffectiveToDate(Date effectiveToDate) {
         this.effectiveToDate = effectiveToDate;
-    }    
+    }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put(TemPropertyConstants.TRIP_TYPE, this.tripTypeCode);
         map.put(TemPropertyConstants.COUNTRY_STATE, this.countryState);
@@ -362,13 +362,13 @@ public class PerDiem extends PersistableBusinessObjectBase implements Inactivate
         map.put(TemPropertyConstants.PRIMARY_DESTINATION, this.primaryDestination);
         map.put(TemPropertyConstants.EFFECTIVE_FROM_DATE, this.effectiveFromDate);
         map.put(TemPropertyConstants.EFFECTIVE_TO_DATE, this.effectiveToDate);
-        
+
         map.put(TemPropertyConstants.BREAKFAST, this.breakfast);
         map.put(TemPropertyConstants.LUNCH, this.lunch);
-        map.put(TemPropertyConstants.DINNER, this.dinner); 
-        map.put(TemPropertyConstants.INCIDENTALS, this.incidentals); 
+        map.put(TemPropertyConstants.DINNER, this.dinner);
+        map.put(TemPropertyConstants.INCIDENTALS, this.incidentals);
         map.put(TemPropertyConstants.MEALS_AND_INCIDENTALS, this.getMealsAndIncidentals());
-       
+
         return map;
     }
 }

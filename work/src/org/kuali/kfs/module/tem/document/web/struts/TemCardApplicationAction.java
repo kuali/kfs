@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,30 +34,29 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class TemCardApplicationAction extends KualiTransactionalDocumentActionBase {
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.docHandler(mapping, form, request, response);
-        
-        
+
+
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         TemCardApplicationForm applicationForm = (TemCardApplicationForm)form;
         TEMProfile profile = null;
-        
+
         CardApplicationDocument document = (CardApplicationDocument) applicationForm.getDocument();
         String command = applicationForm.getCommand();
-        if (!StringUtils.equals(KEWConstants.INITIATE_COMMAND,command)) {
+        if (!StringUtils.equals(KewApiConstants.INITIATE_COMMAND,command)) {
             profile = document.getTemProfile();
             //If not the user's profile, check if they are the FO or Travel Manager.
             if (!currentUser.getPrincipalId().equals(profile.getPrincipalId())){
@@ -68,11 +67,11 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
                 else if (applicationForm.isFiscalOfficer()){
                     canView = true;
                 }
-                
+
                 if (!canView){
                     throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "view",this.getClass().getSimpleName());
                 }
-                
+
             }
         }
         else{
@@ -87,10 +86,10 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
                     return mapping.findForward("cardApplicationError");
                 }
             }
-            
+
             //Find any pre-existing cards
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
-            Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
             if (question != null) {
                 if (ConfirmationQuestion.NO.equals(buttonClicked)){
                     return this.cancel(mapping, applicationForm, request, response);
@@ -110,19 +109,19 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
                         }
                     }
                     if (hasCardType){
-                        String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TemKeyConstants.MESSAGE_CARD_EXISTS_PROMPT);
+                        String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(TemKeyConstants.MESSAGE_CARD_EXISTS_PROMPT);
                         return this.performQuestionWithoutInput(mapping, form, request, response, TemConstants.CARD_EXISTS_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.DOC_HANDLER_METHOD, "");
                     }
-                    
+
                 }
             }
-            
+
             document.setTemProfile(profile);
             document.setTemProfileId(profile.getProfileId());
-            profile.getTravelerTypeCode(); 
+            profile.getTravelerTypeCode();
             applicationForm.setInitiator(true);
         }
-        
+
         return forward;
     }
 
@@ -139,7 +138,7 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
                     GlobalVariables.getMessageMap().putError("departmentHeadAgreement", TemKeyConstants.ERROR_TEM_CARD_APP_NO_AGREEMENT, "Department Head");
                 }
             }
-            
+
         }
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         if (SpringContext.getBean(TravelDocumentService.class).isTravelManager(currentUser)
@@ -181,7 +180,7 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
                 GlobalVariables.getMessageMap().putError("document.documentHeader.documentDescription", RiceKeyConstants.ERROR_REQUIRED, "Description");
             }
         }
-        
+
         return super.route(mapping, form, request, response);
     }
 
@@ -197,8 +196,8 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
         document.saveAppDocStatus();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
-    
+
+
     public ActionForward submit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TemCardApplicationForm applicationForm = (TemCardApplicationForm)form;
         CardApplicationDocument document = (CardApplicationDocument) applicationForm.getDocument();
@@ -210,12 +209,5 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
         document.saveAppDocStatus();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
-    protected KualiConfigurationService getKualiConfigurationService() {
-        return SpringContext.getBean(KualiConfigurationService.class);
-    }
-    
-    protected DocumentService getDocumentService() {
-        return SpringContext.getBean(DocumentService.class);
-    }
+
 }

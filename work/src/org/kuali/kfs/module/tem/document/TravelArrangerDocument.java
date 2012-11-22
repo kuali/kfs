@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,14 +21,13 @@ import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelArrangerDocument extends FinancialSystemTransactionalDocumentBase {
-    
+
     private Integer profileId;
     private String arrangerId;
     private String travelerName;
@@ -36,12 +35,12 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
     private Boolean trInd = Boolean.FALSE;
     private Boolean resign = Boolean.FALSE;
     private Boolean primaryInd = Boolean.FALSE;
-    
+
     private TEMProfile profile;
     private Person arranger;
-    
+
     /**
-     * Gets the profileId attribute. 
+     * Gets the profileId attribute.
      * @return Returns the profileId.
      */
     public Integer getProfileId() {
@@ -55,7 +54,7 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
         this.profileId = profileId;
     }
     /**
-     * Gets the arrangerId attribute. 
+     * Gets the arrangerId attribute.
      * @return Returns the arrangerId.
      */
     public String getArrangerId() {
@@ -68,10 +67,10 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
     public void setArrangerId(String arrangerId) {
         this.arrangerId = arrangerId;
     }
-    
-    
+
+
     /**
-     * Gets the travelerName attribute. 
+     * Gets the travelerName attribute.
      * @return Returns the travelerName.
      */
     public String getTravelerName() {
@@ -80,9 +79,9 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
         } else {
             return "";
         }
-            
+
     }
-    
+
     /**
      * Sets the travelerName attribute value.
      * @param travelerName The travelerName to set.
@@ -91,7 +90,7 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
         this.travelerName = travelerName;
     }
     /**
-     * Gets the taInd attribute. 
+     * Gets the taInd attribute.
      * @return Returns the taInd.
      */
     public Boolean getTaInd() {
@@ -105,7 +104,7 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
         this.taInd = taInd;
     }
     /**
-     * Gets the trInd attribute. 
+     * Gets the trInd attribute.
      * @return Returns the trInd.
      */
     public Boolean getTrInd() {
@@ -118,9 +117,9 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
     public void setTrInd(Boolean trInd) {
         this.trInd = trInd;
     }
-    
+
     /**
-     * Gets the resign attribute. 
+     * Gets the resign attribute.
      * @return Returns the resign.
      */
     public Boolean getResign() {
@@ -133,11 +132,11 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
     public void setResign(Boolean resign) {
         this.resign = resign;
     }
-    
-    
-    
+
+
+
     /**
-     * Gets the primaryInd attribute. 
+     * Gets the primaryInd attribute.
      * @return Returns the primaryInd.
      */
     public Boolean getPrimaryInd() {
@@ -151,7 +150,7 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
         this.primaryInd = primaryInd;
     }
     /**
-     * Gets the profile attribute. 
+     * Gets the profile attribute.
      * @return Returns the profile.
      */
     public TEMProfile getProfile() {
@@ -165,7 +164,7 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
         this.profile = profile;
     }
     /**
-     * Gets the arranger attribute. 
+     * Gets the arranger attribute.
      * @return Returns the arranger.
      */
     public Person getArranger() {
@@ -178,20 +177,20 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
     public void setArranger(Person arranger) {
         this.arranger = arranger;
     }
-    
+
     public void initiateDocument() {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         this.setArrangerId(currentUser.getPrincipalId());
         this.setArranger(currentUser);
     }
     /**
-     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChange)
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
 
         super.doRouteStatusChange(statusChangeEvent);
-        if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getNewRouteStatus()) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
+        if (DocumentStatus.FINAL.getCode().equals(statusChangeEvent.getNewRouteStatus()) || DocumentStatus.PROCESSED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
             //here is where we need to remove or add them as a new arranger
             if(this.resign) {
                 getArrangerDocumentService().removeTravelProfileArranger(this);
@@ -200,21 +199,22 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
             }
         }
     }
-    
+
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(TemWorkflowConstants.REQUIRES_TRAVELER_REVIEW))
+        if (nodeName.equals(TemWorkflowConstants.REQUIRES_TRAVELER_REVIEW)) {
             return requiresTravelerApprovalRouting();
+        }
         return false;
     }
-    
+
     private boolean requiresTravelerApprovalRouting() {
         //If the arranger is not resigning then route to traveler
           if (!this.getResign()){
               this.refreshReferenceObject("profile");
               String principalId = this.getProfile().getPrincipalId();
               boolean routeToTraveler = false;
-              
+
               if (principalId != null){
                   return true;
               }
@@ -225,9 +225,9 @@ public class TravelArrangerDocument extends FinancialSystemTransactionalDocument
     protected TravelArrangerDocumentService getArrangerDocumentService() {
         return SpringContext.getBean(TravelArrangerDocumentService.class);
     }
-    
+
     protected TravelDocumentService getTravelDocumentService() {
         return SpringContext.getBean(TravelDocumentService.class);
     }
-    
+
 }

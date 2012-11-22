@@ -1,12 +1,12 @@
 /*
- * Copyright 2011 The Kuali Foundation.
- * 
+ * Copyright 2012 The Kuali Foundation.
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,11 +17,11 @@ package org.kuali.kfs.module.tem.businessobject;
 
 import javax.persistence.Transient;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.KualiCodeBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
-public class TemTravelExpenseTypeCode extends KualiCodeBase implements Inactivateable{
+public class TemTravelExpenseTypeCode extends KualiCodeBase implements MutableInactivatable{
     private Long travelExpenseTypeCodeId;
     private boolean prepaidExpense;
     private String financialObjectCode;
@@ -38,11 +38,11 @@ public class TemTravelExpenseTypeCode extends KualiCodeBase implements Inactivat
     private Boolean taxable = Boolean.FALSE;
     private Boolean specialRequestRequired = Boolean.FALSE;
     private Boolean expenseDetailRequired = Boolean.TRUE;
-    
+
     private String tripType;
     private String travelerType;
     private String documentType;
-    
+
     /**
      * Default no-arg constructor.
      */
@@ -191,15 +191,15 @@ public class TemTravelExpenseTypeCode extends KualiCodeBase implements Inactivat
     public void setDocumentType(String documentType) {
         this.documentType = documentType;
     }
-    
-    @Transient    
+
+    @Transient
     public Boolean isPerDaily(){
         if(this.maximumAmountPer != null && this.maximumAmountPer.equals("D")){
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
     }
-    
+
     @Transient
     public Boolean isPerOccurrence(){
         if(this.maximumAmountPer != null && this.maximumAmountPer.equals("O")){

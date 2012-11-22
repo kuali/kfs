@@ -41,11 +41,11 @@ import org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEven
 import org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class TravelAuthTravelAdvanceValidation extends GenericValidation {
     private TemProfileService temProfileService;
@@ -142,9 +142,9 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
             }
         }
         
-        boolean testCards = ((ParameterService)SpringContext.getBean(ParameterService.class)).getIndicatorParameter(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_CC_CASH_ADVANCE_WARNING_IND);
+        boolean testCards = ((ParameterService)SpringContext.getBean(ParameterService.class)).getParameterValueAsBoolean(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_CC_CASH_ADVANCE_WARNING_IND);
         if (testCards){
-            String cardTypesValue = ((ParameterService)SpringContext.getBean(ParameterService.class)).getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.CASH_ADVANCE_CREDIT_CARD_TYPES);
+            String cardTypesValue = ((ParameterService)SpringContext.getBean(ParameterService.class)).getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.CASH_ADVANCE_CREDIT_CARD_TYPES);
             String[] cardTypes = cardTypesValue.split(",");
             Map<String,String> cardTypeMap = new HashMap<String, String>();
             for (String cardType : cardTypes){

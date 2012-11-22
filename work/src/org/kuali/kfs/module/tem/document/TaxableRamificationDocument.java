@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * if the cash advance is not cleared on an expense report, the system will generate a tax ramification document showing all taxable

@@ -22,11 +22,11 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelEntertainmentDocumentPreRules extends PromptBeforeValidationBase{
     
@@ -57,15 +57,15 @@ public class TravelEntertainmentDocumentPreRules extends PromptBeforeValidationB
         }
         
         String question = "";
-        String proceed=SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TemKeyConstants.TEM_ENT_QUESTION_PROCEED);
+        String proceed=SpringContext.getBean(ConfigurationService.class).getPropertyString(TemKeyConstants.TEM_ENT_QUESTION_PROCEED);
         if(entDoc.getAttendeeListAttached()!=null&&entDoc.getAttendeeListAttached()&&!attendeelistAttached){
-            question = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TemKeyConstants.TEM_ENT_DOC_ATTENDEE_LIST_QUESTION);
+            question = SpringContext.getBean(ConfigurationService.class).getPropertyString(TemKeyConstants.TEM_ENT_DOC_ATTENDEE_LIST_QUESTION);
         }
         else if (entDoc.getNonEmployeeCertified()!=null&&entDoc.getNonEmployeeCertified()&&!nonEmployeeFormAttached){
-            question = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TemKeyConstants.TEM_ENT_NON_EMPLOYEE_FORM_QUESTION);
+            question = SpringContext.getBean(ConfigurationService.class).getPropertyString(TemKeyConstants.TEM_ENT_NON_EMPLOYEE_FORM_QUESTION);
         }
         else if (entDoc.getHostCertified()!=null&&entDoc.getHostCertified()&&!hostCertificationAttached){
-            question = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(TemKeyConstants.TEM_ENT_HOST_CERTIFICATION_QUESTION);
+            question = SpringContext.getBean(ConfigurationService.class).getPropertyString(TemKeyConstants.TEM_ENT_HOST_CERTIFICATION_QUESTION);
         }
             
         boolean userClickedYes = super.askOrAnalyzeYesNoQuestion("ENT_WARNING", question + proceed);

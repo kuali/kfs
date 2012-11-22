@@ -1,12 +1,12 @@
 /*
- * Copyright 2010 The Kuali Foundation.
- * 
+ * Copyright 2012 The Kuali Foundation.
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,12 +26,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "TEM_CREDIT_CARD_AGENCY_T")
-public class CreditCardAgency extends PersistableBusinessObjectBase implements Inactivateable {
+public class CreditCardAgency extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private Integer id;
     private String creditCardOrAgencyCode;
@@ -56,7 +56,7 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements I
 
 
     /**
-     * Gets the id attribute. 
+     * Gets the id attribute.
      * @return Returns the id.
      */
     @Id
@@ -147,7 +147,7 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements I
     public String getAddress2() {
         return address2;
     }
-    
+
     public void setAddress2(String address2) {
         this.address2 = address2;
     }
@@ -218,7 +218,7 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements I
     }
 
 
-   
+
 
     @Column(name = "CONTACT_NAME", nullable = true, length = 45)
     public String getContactName() {
@@ -285,15 +285,13 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements I
         return active;
     }
 
-
     @Override
     public void setActive(boolean active) {
-        this.active = active;
+       this.active = active;
     }
 
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("creditCardOrAgencyCode", this.creditCardOrAgencyCode);
         map.put("travelCardType", this.travelCardType);

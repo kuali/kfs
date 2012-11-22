@@ -27,7 +27,7 @@ import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class...
@@ -43,7 +43,7 @@ public class TravelRequisitionAction extends RequisitionAction {
             TravelDocumentBase document=(TravelDocumentBase)getDocumentService().getByDocumentHeaderId(travelREQSForm.getTemDocID().toString());
             RequisitionDocument reqsDoc= (RequisitionDocument)travelREQSForm.getDocument();
             document.populateRequisitionFields(reqsDoc, document);
-            travelREQSForm.getDocumentActions().put(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW, "false");
+            travelREQSForm.getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW, "false");
             String relationDescription = document.getDocumentHeader().getWorkflowDocument().getDocumentType() + " - REQS";
             SpringContext.getBean(AccountingDocumentRelationshipService.class).save(new AccountingDocumentRelationship(document.getDocumentNumber(), reqsDoc.getDocumentNumber(), relationDescription));
         }

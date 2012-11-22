@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,6 +25,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.Permission;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
@@ -36,30 +37,32 @@ import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.FieldDefinition;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.SessionDocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    
+
     public static Logger LOG = Logger.getLogger(TEMProfileLookupableHelperServiceImpl.class);
-    
+
     private TEMRoleService temRoleService;
     private TravelerService travelerService;
-    private PersonService<Person> personService;
-    private IdentityManagementService identityManagementService;
+    private PersonService personService;
     private TemProfileService temProfileService;
+    private IdentityManagementService identityManagementService;
 
     private static final String[] addressLookupFields = { TEMProfileProperties.ADDRESS_1, TEMProfileProperties.ADDRESS_2, TEMProfileProperties.CITY_NAME, TEMProfileProperties.STATE_CODE, TEMProfileProperties.ZIP_CODE, TEMProfileProperties.COUNTRY_CODE };
 
@@ -73,7 +76,8 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
         String docNum = fieldValues.get("docNum");
         String docType = null;
         if(StringUtils.isNotEmpty(docNum)) {
-        	docType = GlobalVariables.getUserSession().getWorkflowDocument(docNum).getDocumentType();
+            WorkflowDocument workflowDocument = SpringContext.getBean(SessionDocumentService.class).getDocumentFromSession(GlobalVariables.getUserSession(), docNum);
+        	docType = workflowDocument.getDocumentTypeName();
         }
         boolean isProfileAdmin = temRoleService.checkUserTEMRole(user, TemConstants.TEM_PROFILE_ADMIN);
         boolean isAssignedArranger = temRoleService.checkUserTEMRole(user, TemConstants.TEM_ASSIGNED_PROFILE_ARRANGER);
@@ -150,7 +154,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     /**
      * This method searches through fieldValues for a not null value. Returns true if a not null value is found. Use this to
      * determine if a kim lookup is necessary or not.
-     * 
+     *
      * @param fieldValues
      * @return
      */
@@ -186,9 +190,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
 
         boolean canCreateNewProfile = false;
         boolean canCreateMyProfile = false;
-        AttributeSet permissionDetails = new AttributeSet();
-        // permissionDetails.put(KimAttributes.NAMESPACE_CODE, "KFS-TEM");
-        if (getIdentityManagementService().hasPermission(user.getPrincipalId(), "KFS-TEM", "Create TEM Profile", permissionDetails)) {
+        if (getIdentityManagementService().hasPermission(user.getPrincipalId(), TemConstants.NAMESPACE, Permission.CREATE_PROFILE)) {
             canCreateNewProfile = true;
         }
 
@@ -203,7 +205,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
 
         String url = "<div class=\"createnew\" title=\"Create TEM Profile\">";
 
-        String imageBaseUrl = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        String imageBaseUrl = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
 
         Properties myProfileParameters = new Properties();
         myProfileParameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
@@ -224,7 +226,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
             parameters.put(KFSConstants.DOC_FORM_KEY, "88888888");
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
 
-            String personUrl = UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, parameters);
+            String personUrl = UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, parameters);
 
             url += "<a href=\"" + personUrl + "\"><img src=\"" + imageBaseUrl + "tinybutton-createnewfromkim.gif\" alt=\"refresh\"></a>";
 
@@ -234,7 +236,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
             custParameters.put(KFSConstants.DOC_FORM_KEY, "88888888");
             custParameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
 
-            String custUrl = UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, custParameters);
+            String custUrl = UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, custParameters);
             url = url + "&nbsp;<a href=\"" + custUrl + "\"><img src=\"" + imageBaseUrl + "tinybutton-createnewfromcustomer.gif\" alt=\"refresh\"></a>";
         }
         url += "</div>";
@@ -243,7 +245,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     }
 
     /**
-     * 
+     *
      * @param boClass
      * @param fieldValues
      * @param prefix
@@ -282,7 +284,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     }
 
     /**
-     * 
+     *
      * @param boClass
      * @param attributeName
      * @return
@@ -293,12 +295,13 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
     }
 
     /**
-     * 
+     *
      * @param className
      * @return
      */
     private Collection<FieldDefinition> getLookupFieldsFor(String className) {
-        return getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(className).getLookupDefinition().getLookupFields();
+        BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry)getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(className);
+        return businessObjectEntry.getLookupDefinition().getLookupFields();
     }
 
     public TEMRoleService getTemRoleService() {
@@ -311,7 +314,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
 
     /**
      * Gets the travelerService attribute.
-     * 
+     *
      * @return Returns the travelerService.
      */
     public TravelerService getTravelerService() {
@@ -320,7 +323,7 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
 
     /**
      * Sets the travelerService attribute value.
-     * 
+     *
      * @param travelerService The travelerService to set.
      */
     public void setTravelerService(TravelerService travelerService) {
@@ -330,44 +333,25 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
 
     /**
      * Sets the personService attribute value.
-     * 
+     *
      * @param personService The personService to set.
      */
-    public void setPersonService(PersonService<Person> personService) {
+    public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
 
     /**
      * Gets the personService attribute.
-     * 
+     *
      * @return Returns the personService.
      */
-    public PersonService<Person> getPersonService() {
+    public PersonService getPersonService() {
         return personService;
     }
 
     /**
-     * Gets the identityManagementService attribute.
-     * 
-     * @return Returns the identityManagementService.
-     */
-    public IdentityManagementService getIdentityManagementService() {
-        return identityManagementService;
-    }
-
-
-    /**
-     * Sets the identityManagementService attribute value.
-     * 
-     * @param identityManagementService The identityManagementService to set.
-     */
-    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
-        this.identityManagementService = identityManagementService;
-    }
-
-    /**
      * Gets the temProfileService attribute.
-     * 
+     *
      * @return Returns the temProfileService.
      */
     public TemProfileService getTemProfileService() {
@@ -376,11 +360,19 @@ public class TEMProfileLookupableHelperServiceImpl extends KualiLookupableHelper
 
     /**
      * Sets the temProfileService attribute value.
-     * 
+     *
      * @param temProfileService The temProfileService to set.
      */
     public void setTemProfileService(TemProfileService temProfileService) {
         this.temProfileService = temProfileService;
+    }
+
+    public IdentityManagementService getIdentityManagementService() {
+        return identityManagementService;
+    }
+
+    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
+        this.identityManagementService = identityManagementService;
     }
 
 }

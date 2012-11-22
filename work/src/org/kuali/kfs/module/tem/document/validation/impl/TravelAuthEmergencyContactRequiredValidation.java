@@ -31,11 +31,11 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelAuthEmergencyContactRequiredValidation extends GenericValidation {
     MessageMap mm = GlobalVariables.getMessageMap();
@@ -50,12 +50,12 @@ public class TravelAuthEmergencyContactRequiredValidation extends GenericValidat
         taDocument.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
         TripType tripType = taDocument.getTripType();
 
-        if (paramService.getIndicatorParameter(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_CONTACT_INFORMATION_IND) && ObjectUtils.isNotNull(tripType)) {
+        if (paramService.getParameterValueAsBoolean(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_CONTACT_INFORMATION_IND) && ObjectUtils.isNotNull(tripType)) {
             if (tripType.isContactInfoRequired()  && (taDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated() || taDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved())) {
                 rulePassed = validEmergencyContact(taDocument);
             }
             
-            if (paramService.getParameterValues(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.INTERNATIONAL_TRIP_TYPE_CODES).contains(tripType.getCode())) {
+            if (paramService.getParameterValuesAsString(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.INTERNATIONAL_TRIP_TYPE_CODES).contains(tripType.getCode())) {
                 if (StringUtils.isBlank(taDocument.getCellPhoneNumber())) {
                     rulePassed = false;
                     GlobalVariables.getMessageMap().addToErrorPath(KNSPropertyConstants.DOCUMENT);

@@ -17,7 +17,7 @@ package org.kuali.kfs.module.tem.document.authorization;
 
 import java.util.Set;
 
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Travel Reimbursement Document Presentation Controller

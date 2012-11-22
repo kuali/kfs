@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,19 +51,19 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.ReportGenerationService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCertificationReportService{
-    
+
     public static Logger LOG = Logger.getLogger(NonEmployeeCertificationReportServiceImpl.class);
-    
+
     private ParameterService parameterService;
     private ReportInfo reportInfo;
-    private PersonService<Person> personService;
+    private PersonService personService;
     private OrganizationService organizationService;
     private TravelDocumentService travelDocumentService;
     private TemProfileService temProfileService;
@@ -71,12 +71,12 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
     @Override
     public NonEmployeeCertificationReport buildReport(TravelDocument travelDocument) {
         NonEmployeeCertificationReport report = new NonEmployeeCertificationReport();
-        
+
         report.setTripId(travelDocument.getTravelDocumentIdentifier().toString());
         report.setPurpose(travelDocument.getReportPurpose() == null ? "" : travelDocument.getReportPurpose());
-        report.setInstitution(getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_REPORT_INSTITUTION_NAME));
+        report.setInstitution(getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_REPORT_INSTITUTION_NAME));
         report.setCertificationDescription(getTravelDocumentService().getMessageFrom(TemKeyConstants.TEM_NON_EMPLOYEE_CERTIFICATION,report.getInstitution() ));
-        
+
         report.setDocumentId(travelDocument.getTravelDocumentIdentifier().toString());
         report.setTraveler(travelDocument.getTraveler().getFirstName() + " " + travelDocument.getTraveler().getLastName());
         report.setBeginDate(travelDocument.getTripBegin());
@@ -84,10 +84,10 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
         report.setEventId(travelDocument.getTravelDocumentIdentifier().toString());
         report.setEventName(travelDocument.getDocumentTitle());
         report.setTotalExpense(travelDocument.getDocumentGrandTotal());
-                
+
         if (travelDocument instanceof TravelReimbursementDocument) {
             report.setDestination(travelDocument.getPrimaryDestination().getPrimaryDestinationName());
-            report.setEventType(TravelReimbursementParameters.PARAM_DTL_TYPE);           
+            report.setEventType(TravelReimbursementParameters.PARAM_DTL_TYPE);
         }else if (travelDocument instanceof TravelRelocationDocument) {
             report.setDestination(getDestination((TravelRelocationDocument) travelDocument));
             report.setEventType(TravelRelocationParameters.PARAM_DTL_TYPE);
@@ -95,7 +95,7 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
             report.setEventType(((TravelEntertainmentDocument)travelDocument).getPurpose().getPurposeName());
             report.setEventName(((TravelEntertainmentDocument)travelDocument).getEventTitle());
         }
-                       
+
         //Lookup the Organization Name of the initiator's primary department for the Approving Department
         final String initiatorId = travelDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         final Person initiator = getPersonService().getPerson(initiatorId);
@@ -105,32 +105,33 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
         } else {
             report.setApprovingDepartment("N/A");
         }
-                
+
         final List<NonEmployeeCertificationReport.Detail> other = new ArrayList<NonEmployeeCertificationReport.Detail>();
         final Map<String,KualiDecimal> summaryData = new HashMap<String,KualiDecimal>();
-        
+
         if (travelDocument.getActualExpenses() != null) {
             for (final ActualExpense expense : travelDocument.getActualExpenses()) {
                 expense.refreshReferenceObject("travelExpenseTypeCode");
                 final String expenseDate = new SimpleDateFormat("MM/dd").format(expense.getExpenseDate());
                 final NonEmployeeCertificationReport.Detail detail = new NonEmployeeCertificationReport.Detail(expense.getTravelExpenseTypeCode().getName()==null?
                         "":expense.getTravelExpenseTypeCode().getName(), expense.getExpenseAmount().multiply(expense.getCurrencyRate()), expenseDate);
-                
-                other.add(detail);                
+
+                other.add(detail);
                 incrementSummary(summaryData, expense);
             }
         }
-        
-        if(other.size()==0)
+
+        if(other.size()==0) {
             other.add(new NonEmployeeCertificationReport.Detail("",null,""));
+        }
         report.setExpenseDetails(other);
 
         return report;
     }
-    
+
     public String getDestination(TravelRelocationDocument relocation){
         StringBuffer destination = new StringBuffer();
-        
+
         if(relocation.getToAddress1() != null){
             destination.append(relocation.getToAddress1() + " ");
         }
@@ -146,10 +147,10 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
         if(relocation.getToCountryCode() != null){
             destination.append(relocation.getToCountryCode());
         }
-        
+
         return destination.toString();
     }
-    
+
     protected void incrementSummary(final Map<String, KualiDecimal> summaryData, ActualExpense expense) {
         final String expenseDate = new SimpleDateFormat("MM/dd").format(expense.getExpenseDate());
         KualiDecimal summaryAmount = summaryData.get(expenseDate);
@@ -160,62 +161,62 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
         LOG.debug("Adding " + summaryAmount + " for " + expenseDate + " to summary data");
         summaryData.put(expenseDate, summaryAmount);
     }
-    
+
     @Override
     public File generateReport(NonEmployeeCertificationReport report) {
         String reportFileName;
         String reportDirectory;
         String reportTemplateClassPath;
         String reportTemplateName;
-       
+
         String subReportTemplateClassPath;
-        Map<String, String> subReports; 
-       
+        Map<String, String> subReports;
+
         reportFileName = getReportInfo().getReportFileName();
         reportDirectory = getReportInfo().getReportsDirectory();
         reportTemplateClassPath = getReportInfo().getReportTemplateClassPath();
         reportTemplateName = getReportInfo().getReportTemplateName();
-    
+
         Map<String, Object> reportData = new HashMap<String, Object>();
         reportData.put("report", report);
-        reportData.put("temFaxNumber", getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TEM_FAX_NUMBER));
-        
+        reportData.put("temFaxNumber", getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TEM_FAX_NUMBER));
+
         String template = reportTemplateClassPath + reportTemplateName;
         String fullReportFileName = getReportGenerationService().buildFullFileName(new Date(), reportDirectory, reportFileName, "");
         getReportGenerationService().generateReportToPdfFile(reportData, report.getExpenseDetails(), template, fullReportFileName);
         File reportFile = new File(fullReportFileName+ PDF_FILE_EXTENSION);
         return reportFile;
     }
-    
+
     /**
-     * 
+     *
      * This method...
      * @return
      */
     protected ReportGenerationService getReportGenerationService() {
         return SpringContext.getBean(ReportGenerationService.class);
     }
-    
+
     /**
-     * 
+     *
      * This method...
      * @return
      */
     public ReportInfo getReportInfo(){
         return this.reportInfo;
     }
-    
+
     /**
-     * 
+     *
      * This method...
      * @param reportInfo
      */
     public void setReportInfo(ReportInfo reportInfo){
         this.reportInfo = reportInfo;
     }
-    
+
     /**
-     * Gets the parameterService attribute. 
+     * Gets the parameterService attribute.
      * @return Returns the parameterService.
      */
     public ParameterService getParameterService() {
@@ -229,26 +230,28 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
+
     public String getApprovingDepartment(final TravelerDetail traveler) {
         String approvingDepartment=KFSConstants.EMPTY_STRING;
         if(ObjectUtils.isNotNull(traveler)&&ObjectUtils.isNotNull(traveler.getPrincipalId())){
             TEMProfile profile=getTemProfileService().findTemProfileByPrincipalId(traveler.getPrincipalId());
-            if(ObjectUtils.isNotNull(profile)&&ObjectUtils.isNotNull(profile.getHomeDepartment()))
+            if(ObjectUtils.isNotNull(profile)&&ObjectUtils.isNotNull(profile.getHomeDepartment())) {
                 approvingDepartment=profile.getHomeDepartment();
+            }
         }else if(ObjectUtils.isNotNull(traveler)){
             Map<String,String> criteria=new HashMap<String, String>();
             criteria.put("firstName", traveler.getFirstName());
             criteria.put("lastName", traveler.getLastName());
             TEMProfile profile=getTemProfileService().findTemProfile(criteria);
-            if(ObjectUtils.isNotNull(profile)&&ObjectUtils.isNotNull(profile.getHomeDepartment()))
-                approvingDepartment=profile.getHomeDepartment();           
+            if(ObjectUtils.isNotNull(profile)&&ObjectUtils.isNotNull(profile.getHomeDepartment())) {
+                approvingDepartment=profile.getHomeDepartment();
+            }
         }
         return approvingDepartment;
     }
 
 	/**
-	 * Gets the personService attribute. 
+	 * Gets the personService attribute.
 	 * @return Returns the personService.
 	 */
 	public PersonService getPersonService() {
@@ -264,7 +267,7 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
 	}
 
 	/**
-	 * Gets the organizationService attribute. 
+	 * Gets the organizationService attribute.
 	 * @return Returns the organizationService.
 	 */
 	public OrganizationService getOrganizationService() {
@@ -280,7 +283,7 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
 	}
 
 	/**
-	 * Gets the travelDocumentService attribute. 
+	 * Gets the travelDocumentService attribute.
 	 * @return Returns the travelDocumentService.
 	 */
 	public TravelDocumentService getTravelDocumentService() {

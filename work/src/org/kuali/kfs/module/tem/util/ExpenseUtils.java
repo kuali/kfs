@@ -32,8 +32,8 @@ import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class ExpenseUtils {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExpenseUtils.class);

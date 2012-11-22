@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,8 +18,8 @@ package org.kuali.kfs.module.tem.document.web.struts;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_ATTENDEE_LINE;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.AttendeeProperties.ATTENDEE_TYPE;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.AttendeeProperties.COMPANY;
-import static org.kuali.kfs.module.tem.TemPropertyConstants.AttendeeProperties.TITLE;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.AttendeeProperties.NAME;
+import static org.kuali.kfs.module.tem.TemPropertyConstants.AttendeeProperties.TITLE;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,9 +37,9 @@ import org.kuali.kfs.module.tem.document.service.TravelEntertainmentDocumentServ
 import org.kuali.kfs.module.tem.document.validation.event.AddAttendeeLineEvent;
 import org.kuali.kfs.module.tem.document.web.bean.TravelEntertainmentMvcWrapperBean;
 import org.kuali.kfs.module.tem.exception.UploadParserException;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Event that handles import of attendees from CSV File. Activated by the "Import Attendees" link
@@ -76,13 +76,13 @@ public class ImportAttendeesEvent implements Observer {
 
         try {
             final Map<String, List<String>> defaultValues = new HashMap<String, List<String>>();
-            final List<String> defaultList = new ArrayList<String>();
             final AttendeeTypeValuesFinder finder = new AttendeeTypeValuesFinder();
-            final List<KeyLabelPair> values = finder.getKeyValues();
-            for (final KeyLabelPair pair : values) {
-                if (!pair.getLabel().equals("")) {
+
+            final List<String> defaultList = new ArrayList<String>();
+            for (final KeyValue pair : finder.getKeyValues()) {
+                if (!pair.getValue().equals("")) {
                     defaultList.add(pair.getKey().toString());
-                    defaultList.add(pair.getLabel());
+                    defaultList.add(pair.getValue());
                 }
             }
 

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,12 +24,12 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "TEM_ACCT_DOC_REL_T")
-public class AccountingDocumentRelationship extends PersistableBusinessObjectBase implements Inactivateable {
+public class AccountingDocumentRelationship extends PersistableBusinessObjectBase implements MutableInactivatable {
     public static final String ID = "ID";
     public static final String DOC_NBR = "DOC_NBR";
     public static final String REL_DOC_NBR = "REL_DOC_NBR";
@@ -56,8 +56,8 @@ public class AccountingDocumentRelationship extends PersistableBusinessObjectBas
 
     public AccountingDocumentRelationship(String documentNumber, String relDocumentNumber, String description) {
         this(null, documentNumber, relDocumentNumber, null, description, true);
-    }    
-    
+    }
+
     public AccountingDocumentRelationship(String documentNumber, String relDocumentNumber) {
         this(documentNumber, relDocumentNumber, null);
     }
@@ -112,8 +112,8 @@ public class AccountingDocumentRelationship extends PersistableBusinessObjectBas
         this.active = active;
     }
 
-    @Override
-    public LinkedHashMap toStringMapper() {
+    @SuppressWarnings("rawtypes")
+    public LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("id", id);
         map.put("documentNumber", documentNumber);

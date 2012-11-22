@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,9 +27,9 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.service.TEMExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public abstract class ExpenseServiceBase implements TEMExpenseService {
 
@@ -42,7 +42,7 @@ public abstract class ExpenseServiceBase implements TEMExpenseService {
         calculateDistributionTotals(document, distributionMap, getExpenseDetails(document));
         return distributionMap;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.service.TEMExpenseService#calculateDistributionTotals(org.kuali.kfs.module.tem.document.TravelDocument, java.util.Map, java.util.List)
      */
@@ -53,12 +53,12 @@ public abstract class ExpenseServiceBase implements TEMExpenseService {
      * @see org.kuali.kfs.module.tem.service.TEMExpenseService#getExpenseDetails(org.kuali.kfs.module.tem.document.TravelDocument)
      */
     @Override
-    abstract public List<? extends TEMExpense> getExpenseDetails(TravelDocument document);        
+    abstract public List<? extends TEMExpense> getExpenseDetails(TravelDocument document);
 
     public ObjectCodeService getObjectCodeService() {
         return SpringContext.getBean(ObjectCodeService.class);
     }
-    
+
     public ParameterService getParameterService() {
         return SpringContext.getBean(ParameterService.class);
     }
@@ -70,7 +70,7 @@ public abstract class ExpenseServiceBase implements TEMExpenseService {
     public BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.service.TEMExpenseService#getAllExpenseTotal(org.kuali.kfs.module.tem.document.TravelDocument, boolean)
      */
@@ -83,7 +83,7 @@ public abstract class ExpenseServiceBase implements TEMExpenseService {
         else{
             total = calculateTotals(total, getExpenseDetails(document), TemConstants.ExpenseTypeReimbursementCodes.REIMBURSABLE);
         }
-        
+
         return total;
     }
 
@@ -100,7 +100,7 @@ public abstract class ExpenseServiceBase implements TEMExpenseService {
 
     /**
      * Calculate total expenses recursively through the expense list and each of its details
-     * 
+     *
      * @param total
      * @param expenses
      * @param code
@@ -133,16 +133,16 @@ public abstract class ExpenseServiceBase implements TEMExpenseService {
         }
         return total;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.service.TEMExpenseService#validateExpenseCalculation(org.kuali.kfs.module.tem.businessobject.TEMExpense)
      */
     @Override
     public boolean validateExpenseCalculation(TEMExpense expense){
-        //no validation needed by default 
+        //no validation needed by default
         return true;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.service.TEMExpenseService#processExpense(org.kuali.kfs.module.tem.document.TravelDocument)
      */

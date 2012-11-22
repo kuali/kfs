@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,9 +26,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.impl.PersonImpl;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 @Entity
 @Table(name = "TEM_PROFILE_ARRANGER_T")
@@ -43,11 +43,11 @@ public class TEMProfileArranger extends PersistableBusinessObjectBase {
     private Boolean trInd = Boolean.FALSE;
     private Boolean active = Boolean.TRUE;
     private Boolean primary = Boolean.FALSE;
-    
-    private PersonImpl principal;
-        
+
+    private Person principal;
+
     /**
-     * Gets the arrangerId attribute. 
+     * Gets the arrangerId attribute.
      * @return Returns the arrangerId.
      */
     @Id
@@ -66,11 +66,11 @@ public class TEMProfileArranger extends PersistableBusinessObjectBase {
     public void setArrangerId(Integer arrangerId) {
         this.arrangerId = arrangerId;
     }
-    
-    
-    
+
+
+
     /**
-     * Gets the taInd attribute. 
+     * Gets the taInd attribute.
      * @return Returns the taInd.
      */
     public Boolean getTaInd() {
@@ -88,7 +88,7 @@ public class TEMProfileArranger extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the trInd attribute. 
+     * Gets the trInd attribute.
      * @return Returns the trInd.
      */
     public Boolean getTrInd() {
@@ -106,7 +106,7 @@ public class TEMProfileArranger extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the principalId attribute. 
+     * Gets the principalId attribute.
      * @return Returns the principalId.
      */
     @Column(name = "prncpl_id", length = 40, nullable = true)
@@ -126,7 +126,7 @@ public class TEMProfileArranger extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
      * @return Returns the active.
      */
     @Column(name="ACTV_IND",nullable=false,length=1)
@@ -145,7 +145,7 @@ public class TEMProfileArranger extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the primary attribute. 
+     * Gets the primary attribute.
      * @return Returns the primary.
      */
     @Column(name="primary_ind",nullable=false,length=1)
@@ -164,7 +164,7 @@ public class TEMProfileArranger extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the profileId attribute. 
+     * Gets the profileId attribute.
      * @return Returns the profileId.
      */
     @Column(name = "profile_id", nullable = false, length=19)
@@ -183,7 +183,7 @@ public class TEMProfileArranger extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the profile attribute. 
+     * Gets the profile attribute.
      * @return Returns the profile.
      */
     @JoinColumn(name = "profile_id")
@@ -202,7 +202,7 @@ public class TEMProfileArranger extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the principalName attribute. 
+     * Gets the principalName attribute.
      * @return Returns the principalName.
      */
     public String getPrincipalName() {
@@ -224,39 +224,38 @@ public class TEMProfileArranger extends PersistableBusinessObjectBase {
      * Sets the principal attribute value.
      * @param principal The principal to set.
      */
-    public void setPrincipal(PersonImpl principal) {
+    public void setPrincipal(Person principal) {
         this.principal = principal;
         setPrincipalId(principal.getPrincipalId());
         setPrincipalName(principal.getPrincipalName());
     }
-    
-    
+
+
     /**
-     * Gets the principal attribute. 
+     * Gets the principal attribute.
      * @return Returns the principal.
      */
-    public PersonImpl getPrincipal() {
+    public Person getPrincipal() {
         return principal;
     }
 
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    @SuppressWarnings("rawtypes")
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         // TODO Auto-generated method stub
         return null;
     }
 
     /**
-     * 
+     *
      * This method sets up the principal data based on whether the id or name is currently set.
      */
     private void setupPrincipal() {
         if (getPrincipal() == null) {
-            PersonImpl person = null;
+            Person person = null;
             if(this.principalName != null){
-                person = (PersonImpl)SpringContext.getBean(PersonService.class).getPersonByPrincipalName(this.principalName);
+                person = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(this.principalName);
             }else if(this.principalId != null){
-                person = (PersonImpl)SpringContext.getBean(PersonService.class).getPerson(this.principalId);
+                person = SpringContext.getBean(PersonService.class).getPerson(this.principalId);
             }
             if (person != null) {
                 setPrincipal(person);

@@ -27,8 +27,8 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.validation.event.AddGroupTravelLineEvent;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Fires when the import group travelers button is clicked. Handles importing {@link GroupTraveler}

@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.tem.document;
 
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
-import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.DocumentHeader;
 
 
 public interface CardApplicationDocument {

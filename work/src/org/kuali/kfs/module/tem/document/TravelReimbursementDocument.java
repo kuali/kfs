@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,21 +49,21 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.dao.DocumentDao;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.dao.DocumentDao;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Travel Reimbursement Document
@@ -73,7 +73,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class TravelReimbursementDocument extends TEMReimbursementDocument implements AmountTotaling {
 
     public static Logger LOG = Logger.getLogger(TravelReimbursementDocument.class);
-    
+
     @Column(name = "final_reimb_ind", nullable = false, length = 1)
     private Boolean finalReimbursement = Boolean.FALSE;
     private Boolean employeeCertification = Boolean.FALSE;
@@ -85,7 +85,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     private KualiDecimal travelAdvanceAmount = KualiDecimal.ZERO;
     @Transient
     private KualiDecimal reimbursableAmount = KualiDecimal.ZERO;
-    
+
     public TravelReimbursementDocument() {
     }
 
@@ -180,7 +180,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     public void setTravelAdvanceAmount(KualiDecimal travelAdvanceAmount) {
         this.travelAdvanceAmount = travelAdvanceAmount;
     }
-    
+
     public KualiDecimal getReimbursableAmount() {
         return reimbursableAmount;
     }
@@ -190,15 +190,15 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChange)
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
         LOG.debug("Handling route status change");
 
-        if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
+        if (DocumentStatus.PROCESSED.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
 
             // 1. process the reimbursement on the TR
             try {
@@ -214,26 +214,26 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
             try {
                 TravelAuthorizationDocument openAuthorization = getTravelReimbursementService().getRelatedOpenTravelAuthorizationDocument(this);
                 List<Document> authorizations = getTravelDocumentService().getDocumentsRelatedTo(this, TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
-                
+
                 // 2. if there is an authorization and there isn't a TAC then we process dis-encumbrance
                 if (openAuthorization != null) {
                     // check TAC existance
                     List<Document> relatedCloseDocuments = getTravelDocumentService().getDocumentsRelatedTo(openAuthorization, TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
-    
+
                     // Trip is encumbrance and no TAC(TAC doc would have handled dis encumbrance)
                     if (relatedCloseDocuments.isEmpty()) {
                         if (isTripGenerateEncumbrance()) {
                             getTravelEncumbranceService().disencumberTravelReimbursementFunds(this);
                         }
-    
+
                         // 3. No TAC - then if it is indicated as final TR - we will spawn the TAC doc
                         if (getFinalReimbursement()) {
                             // store this so we can reset after we're finished
                             UserSession originalUser = GlobalVariables.getUserSession();
-                            
+
                             String initiatorId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
                             Person initiator = getPersonService().getPerson(initiatorId);
-                            
+
                             //close the authorization
                             getTravelAuthorizationService().closeAuthorization(openAuthorization, getTripDescription(), initiator.getPrincipalName());
                             GlobalVariables.setUserSession(originalUser);
@@ -253,7 +253,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
             }
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#toCopy()
      */
@@ -262,14 +262,14 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         super.toCopy();
 
         //TODO?? super class already performed the cleanTravelDocument, this part seems to do nothing (unless it is moved to the base)
-        final boolean isTaFree = getParameterService().getIndicatorParameter(TemParameterConstants.TEM_REIMBURSEMENT.class, ALLOW_TR_WITHOUT_TA_IND);
+        final boolean isTaFree = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_REIMBURSEMENT.class, ALLOW_TR_WITHOUT_TA_IND);
         if (isTaFree) {
             cleanTravelDocument();
         }
         setBoNotes(new ArrayList<Note>());
         addContactInformation();
     }
-    
+
     /**
      * Adds contact information of the initiator of the {@link TravelReimbursementDocument} instance
      * to the {@link TravelReimbursementDocument}. Initiator is determined as the current person in the
@@ -284,7 +284,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         this.setContactPhoneNum(initiator.getPhoneNumber());
         this.setContactEmailAddress(initiator.getEmailAddress());
         this.setContactCampusCode(initiator.getCampusCode());
-    }    
+    }
 
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#initiateDocument()
@@ -297,7 +297,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
 
     /**
      * Provides answers to the following splits: PurchaseWasReceived VendorIsEmployeeOrNonResidentAlien
-     * 
+     *
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     @Override
@@ -335,11 +335,11 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     }
 
     /**
-     * 
+     *
      * @return
      */
     private boolean isNotAutomaticReimbursement() {
-        boolean enabled = getParameterService().getIndicatorParameter(TemParameterConstants.TEM_REIMBURSEMENT.class, TemConstants.TravelReimbursementParameters.ENABLE_AUTOMATIC_TR_IND);
+        boolean enabled = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_REIMBURSEMENT.class, TemConstants.TravelReimbursementParameters.ENABLE_AUTOMATIC_TR_IND);
         if (!enabled) {
             return true;
         }
@@ -368,8 +368,8 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
             trTotal = trTotal.add(line.getAmount());
         }
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(KNSPropertyConstants.CODE, this.getTripTypeCode());
-        TripType tripType = (TripType) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TripType.class, fieldValues);
+        fieldValues.put(KRADPropertyConstants.CODE, this.getTripTypeCode());
+        TripType tripType = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TripType.class, fieldValues);
         KualiDecimal threshold = tripType.getAutoTravelReimbursementLimit();
         if (trTotal.isGreaterEqual(threshold)) {
             return true;
@@ -392,17 +392,17 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     protected boolean requiresDivisionApprovalRouting() {
         boolean reqDivApproval = false;
         KualiDecimal trTotal = getTravelDocumentService().getTotalCumulativeReimbursements(this);
-        KualiDecimal divApprovalMax = new KualiDecimal(getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CUMULATIVE_REIMBURSABLE_AMT_WITHOUT_DIV_APPROVAL));
+        KualiDecimal divApprovalMax = new KualiDecimal(getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CUMULATIVE_REIMBURSABLE_AMT_WITHOUT_DIV_APPROVAL));
         return (trTotal.isGreaterThan(divApprovalMax)) && requiresAccountingReviewRouting();
     }
 
     /**
-     * 
+     *
      * @return
      */
     private boolean requiresAccountingReviewRouting() {
         // start with getting the TA encumbrance amount
-        String percent = getParameterService().getParameterValue(TemParameterConstants.TEM_REIMBURSEMENT.class, TravelReimbursementParameters.REIMBURSEMENT_PERCENT_OVER_ENCUMBRANCE_AMT);
+        String percent = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_REIMBURSEMENT.class, TravelReimbursementParameters.REIMBURSEMENT_PERCENT_OVER_ENCUMBRANCE_AMT);
 
         KualiDecimal taTotal = getTravelDocumentService().getTotalAuthorizedEncumbrance(this);
         if (taTotal.isLessEqual(KualiDecimal.ZERO)) {
@@ -430,7 +430,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     }
 
     /**
-     * 
+     *
      * @return
      */
     public DocumentDao getDocumentDao() {
@@ -443,17 +443,17 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     @Override
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateDisbursementVoucherFields(disbursementVoucherDocument);
-        
-        final String paymentReasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_REIMBURSEMENT.class,TravelReimbursementParameters.TR_REIMBURSEMENT_DV_REASON_CODE);
+
+        final String paymentReasonCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_REIMBURSEMENT.class,TravelReimbursementParameters.TR_REIMBURSEMENT_DV_REASON_CODE);
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
-        final String paymentLocationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
+        final String paymentLocationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(paymentLocationCode);
 
         //check if the reimbursable total and the reimbursable amount (reduced by CRM) is different, which means we need to adjust the DV's accounting line amounts
         if (!getReimbursableTotal().equals(getReimbursableAmount())){
             //change the DV's total to the reimbursable amount set previously
             disbursementVoucherDocument.setDisbVchrCheckTotalAmount(getReimbursableAmount());
-            
+
             //Distribute the DV accounting line to the reimbursable amount
             if (getReimbursableSourceAccountingLines().size() > 1){
                 getTravelDisbursementService().redistributeDisbursementAccountingLine(disbursementVoucherDocument, getReimbursableSourceAccountingLines());
@@ -463,9 +463,9 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
             }
         }
     }
-    
+
     /**
-     * 
+     *
      * @return
      */
     public KualiDecimal getAdvancesTotal() {
@@ -480,8 +480,8 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
             }else {
                 advanceTotal = getTravelDocumentService().getAdvancesTotalFor(this);
             }
-            
-            // Calculate the amount previously applied on the trip (i.e. there are multiple TRs on the TA and the 
+
+            // Calculate the amount previously applied on the trip (i.e. there are multiple TRs on the TA and the
             // first TR did not use all of the Travel Advance amount)
             KualiDecimal previouslyAppliedAmount = KualiDecimal.ZERO;
             List<TravelAuthorizationDocument> taDocs = (List<TravelAuthorizationDocument>) getTravelAuthorizationService().find(travelDocumentIdentifier);
@@ -493,8 +493,8 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
                 }
             }
             retval = advanceTotal.subtract(previouslyAppliedAmount);
-            
-            // Note that the travelAdvanceAmount is not set here. It is only set when the APP doc is created. 
+
+            // Note that the travelAdvanceAmount is not set here. It is only set when the APP doc is created.
         }
         else
         {
@@ -502,7 +502,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         }
         return retval;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#getReimbursableGrandTotal()
      */
@@ -511,14 +511,14 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         KualiDecimal grandTotal = super.getReimbursableGrandTotal();
         return grandTotal.subtract(getAdvancesTotal());
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateRequisitionFields(org.kuali.kfs.module.purap.document.RequisitionDocument, org.kuali.kfs.module.tem.document.TravelDocument)
      */
     @Override
     public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getReportPurpose()
      */
@@ -533,15 +533,15 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     @Override
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateVendorPayment(disbursementVoucherDocument);
-        String locationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
+        String locationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
         String startDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripBegin());
         String endDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripEnd());
         String checkStubText = this.getTravelDocumentIdentifier() + ", " + this.getPrimaryDestinationName() + ", " + startDate + " - " + endDate;
-        
+
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
         disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
@@ -559,7 +559,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         return getReimbursableTotal();
     }
 
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         return SpringContext.getBean(PersonService.class);
     }
 
@@ -578,11 +578,11 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     protected GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
         return SpringContext.getBean(GeneralLedgerPendingEntryService.class);
     }
-    
+
     protected AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {
         return SpringContext.getBean(AccountingDocumentRelationshipService.class);
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getDisapprovedAppDocStatusMap()
      */

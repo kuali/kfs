@@ -31,16 +31,16 @@ import static org.kuali.rice.kns.util.ObjectUtils.isNull;
 
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  *
  * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class ReturnToFiscalOfficerQuestionHandler implements QuestionHandler<TravelDocument> {
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService ConfigurationService;
     private DataDictionaryService dataDictionaryService;
     private TravelDocumentService travelDocumentService;
     
@@ -120,21 +120,21 @@ public class ReturnToFiscalOfficerQuestionHandler implements QuestionHandler<Tra
     }
 
     /**
-     * Sets the kualiConfigurationService attribute.
+     * Sets the ConfigurationService attribute.
      * 
-     * @return Returns the kualiConfigurationService.
+     * @return Returns the ConfigurationService.
      */
-    public void setConfigurationService(final KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
+    public void setConfigurationService(final ConfigurationService ConfigurationService) {
+        this.ConfigurationService = ConfigurationService;
     }
 
     /**
-     * Gets the kualiConfigurationService attribute.
+     * Gets the ConfigurationService attribute.
      * 
-     * @return Returns the kualiConfigurationService.
+     * @return Returns the ConfigurationService.
      */
-    protected KualiConfigurationService getConfigurationService() {
-        return kualiConfigurationService;
+    protected ConfigurationService getConfigurationService() {
+        return ConfigurationService;
     }
 
     /**

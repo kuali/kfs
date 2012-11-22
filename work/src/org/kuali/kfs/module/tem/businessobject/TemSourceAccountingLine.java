@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,9 +24,9 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 public class TemSourceAccountingLine extends SourceAccountingLine implements TemAccountingLine {
     private String cardType;
     private Long id;
-    
+
     /**
-     * Gets the cardType attribute. 
+     * Gets the cardType attribute.
      * @return Returns the cardType.
      */
     @Override
@@ -44,7 +44,7 @@ public class TemSourceAccountingLine extends SourceAccountingLine implements Tem
     }
 
     /**
-     * Gets the id attribute. 
+     * Gets the id attribute.
      * @return Returns the id.
      */
     public Long getId() {
@@ -67,16 +67,16 @@ public class TemSourceAccountingLine extends SourceAccountingLine implements Tem
     /**
      * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#getValuesMap()
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public Map getValuesMap() {
-        // TODO Auto-generated method stub
         Map temp = super.getValuesMap();
         return temp;
     }
-    
+
     /**
      * Override needed for PURAP GL entry creation (hjs) - please do not add "amount" to this method
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override

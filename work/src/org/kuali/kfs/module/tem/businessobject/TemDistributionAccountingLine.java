@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,7 @@ public class TemDistributionAccountingLine extends SourceAccountingLine implemen
     private String cardType;
 
     /**
-     * Gets the cardType attribute. 
+     * Gets the cardType attribute.
      * @return Returns the cardType.
      */
     @Override
@@ -47,7 +47,7 @@ public class TemDistributionAccountingLine extends SourceAccountingLine implemen
     }
 
     /**
-     * Gets the accountLinePercent attribute. 
+     * Gets the accountLinePercent attribute.
      * @return Returns the accountLinePercent.
      */
     public BigDecimal getAccountLinePercent() {
@@ -66,9 +66,9 @@ public class TemDistributionAccountingLine extends SourceAccountingLine implemen
     /**
      * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#getValuesMap()
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public Map getValuesMap() {
-        // TODO Auto-generated method stub
         Map temp = super.getValuesMap();
         temp.put("accountLinePercent", accountLinePercent);
         return temp;

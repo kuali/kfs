@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,35 +41,37 @@ import org.kuali.kfs.module.tem.dataaccess.TravelerDao;
 import org.kuali.kfs.module.tem.datadictionary.MappedDefinition;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.impl.PersonImpl;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.impl.identity.PersonImpl;
+import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.FieldDefinition;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Custom helper service used to find {@link TravelerDetail} instances of employees or non-employees or both.
  *
  */
+@SuppressWarnings("deprecation")
 public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     public static Logger LOG = Logger.getLogger(TEMProfileLookupableHelperServiceImpl.class);
-    
+
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
-    private PersonService<Person> personService;
+    private PersonService personService;
     private TravelerService travelerService;
     private TravelerDao travelerDao;
     private AccountsReceivableModuleService accountsReceivableModuleService;
-    
+
     private static final int NAME_REQUIRED_FILLED_WITH_WILDCARD = 4;
 
     /**
@@ -86,7 +88,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
             LOG.debug("Doing search for customers");
             searchResults.addAll(getNonEmployeesAsTravelers(fieldValues));
         }
-        
+
         CollectionIncomplete results = new CollectionIncomplete(searchResults, Long.valueOf(searchResults.size()));
 
         // sort list if default sort column given
@@ -104,14 +106,14 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
     @Override
     public void validateSearchParameters(Map fieldValues) {
         super.validateSearchParameters(fieldValues);
-        
+
         if (fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD) == null || fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD).equals("")) {
             GlobalVariables.getMessageMap().putError(TRVL_DOC_TRAVELER_TYP_CD, ERROR_TRAVELER_TYPES_NOT_SELECTED, new String[] { (String) fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD) });
         }
-        
+
         if (!isEmployeeSearch(fieldValues) && !isNonEmployeeSearch(fieldValues)) {
-            GlobalVariables.getMessageMap().putError(TRVL_DOC_TRAVELER_TYP_CD, 
-                                                     ERROR_TRAVELER_TYPES_NOT_CONFIGURED, 
+            GlobalVariables.getMessageMap().putError(TRVL_DOC_TRAVELER_TYP_CD,
+                                                     ERROR_TRAVELER_TYPES_NOT_CONFIGURED,
                                                      new String[] { (String) fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD) });
         }
 
@@ -172,7 +174,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
     protected Map<String, String> getCustomerFieldValues(final Map<String, String> fieldValues) {
         return convertFieldValues(getAccountsReceivableModuleService().createCustomer().getClass(), fieldValues);
     }
-    
+
     /**
      * Determine using fieldValues map from the lookup form whether the user is doing an employee or non-employee
      * search
@@ -182,7 +184,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
      */
     protected boolean isEmployeeSearch(final Map<String, String> fieldValues) {
         LOG.debug("Checking traveler type code " + fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD));
-        final String employeeTypes = getParameterService().getParameterValue(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, EMPLOYEE_TRAVELER_TYPE_CODES);
+        final String employeeTypes = getParameterService().getParameterValueAsString(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, EMPLOYEE_TRAVELER_TYPE_CODES);
         return employeeTypes.indexOf(fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD)) != -1;
     }
 
@@ -195,7 +197,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
      */
     protected boolean isNonEmployeeSearch(final Map<String, String> fieldValues) {
         LOG.debug("Checking traveler type code " + fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD));
-        final String nonEmployeeTypes = getParameterService().getParameterValue(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, NON_EMPLOYEE_TRAVELER_TYPE_CODES);
+        final String nonEmployeeTypes = getParameterService().getParameterValueAsString(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, NON_EMPLOYEE_TRAVELER_TYPE_CODES);
         return nonEmployeeTypes.indexOf(fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD)) != -1;
     }
 
@@ -211,16 +213,16 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
      */
     protected List<TravelerDetail> getEmployeesAsTravelers(Map<String, String> fieldValues) {
         final List<TravelerDetail> travelers = new ArrayList<TravelerDetail>();
-        
+
         final Map<String, String> kimFieldsForLookup = this.getPersonFieldValues(fieldValues);
 
         LOG.debug("Looking up people with criteria " + kimFieldsForLookup);
         final List<? extends Person> persons = getPersonService().findPeople(kimFieldsForLookup);
-        
+
         for (Person personDetail : persons) {
             travelers.add(getTravelerService().convertToTraveler(personDetail));
         }
-        
+
         if (!isKimOnlySearch(fieldValues)) {
             final Map<String, String> arFieldsForLookup  = this.getCustomerFieldValues(fieldValues);
             final Collection<AccountsReceivableCustomer> customers = getTravelerDao().findCustomersBy(arFieldsForLookup);
@@ -228,7 +230,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
                 travelers.add(getTravelerService().convertToTraveler(customer));
             }
         }
-       
+
         return travelers;
     }
 
@@ -258,7 +260,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
         }
 
         return travelers;
-    }    
+    }
 
     // replace the keys in fieldValues with the corresponding values defined in fieldConversionMap
     protected void replaceFieldKeys(final Map<String, String> fieldValues, final Map<String, String> helperMap) {
@@ -275,20 +277,20 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
 
     /**
      * Sets the personService attribute value.
-     * 
+     *
      * @param personService The personService to set.
      */
-    public void setPersonService(PersonService<Person> personService) {
+    public void setPersonService(PersonService personService) {
         this.personService = personService;
     }
 
-    public PersonService<Person> getPersonService() {
+    public PersonService getPersonService() {
         return this.personService;
     }
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     @Override
@@ -303,7 +305,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     @Override
@@ -316,11 +318,10 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
         return this.businessObjectService;
     }
 
-    /**
-     * @see org.kuali.rice.kns.datadictionary.DataDictionary#getBusinessObjectEntry(String)
-     */
     protected Collection<FieldDefinition> getLookupFieldsFor(final String className) {
-        return getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(className).getLookupDefinition().getLookupFields();
+
+        BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry)getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(className);
+        return businessObjectEntry.getLookupDefinition().getLookupFields();
     }
 
     /**
@@ -333,7 +334,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
 
     /**
      * Sets the dataDictionaryService attribute value.
-     * 
+     *
      * @param dataDictionaryService The dataDictionaryService to set.
      */
     @Override
@@ -361,23 +362,23 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
     public TravelerService getTravelerService() {
         return this.travelerService;
     }
-    
+
     /**
      * Gets the accountsReceivableModuleService attribute.
-     * 
+     *
      * @return Returns the accountsReceivableModuleService.
      */
     protected AccountsReceivableModuleService getAccountsReceivableModuleService() {
         if (accountsReceivableModuleService == null) {
             this.accountsReceivableModuleService = SpringContext.getBean(AccountsReceivableModuleService.class);
         }
-        
+
         return accountsReceivableModuleService;
     }
 
     /**
      * Sets the accountsReceivableModuleService attribute value.
-     * 
+     *
      * @param accountsReceivableModuleService The accountsReceivableModuleService to set.
      */
     public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {

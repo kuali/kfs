@@ -68,7 +68,10 @@
   
   	<bean id="DistributionOfIncomeAndExpense-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
-  			<list><bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" /></list>
+  			<list>
+  				<bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" />
+				<bean parent="AccountingDocument-capitalAssetLineUniquenessValidation" scope="prototype" />
+  			</list>
   		</property>
   	</bean>
   

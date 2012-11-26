@@ -23,7 +23,7 @@ public class KFSKeyConstants {
     public static final String ERROR_EXISTING_WITH_IDENTIFYING_ACCOUNTING_LINE = "error.existence.with.identifying.accounting.line";
     public static final String ERROR_INACTIVE_WITH_IDENTIFYING_ACCOUNTING_LINE = "error.inactive.with.identifying.accounting.line";
     public static final String ERROR_DOCUMENT_ACCOUNT_CLOSED_WITH_IDENTIFYING_ACCOUNTING_LINE = "error.document.account.Closedwith.identifying.accounting.line";
-    
+
     public static final String CONTINUE_QUESTION = "document.question.continue.text";
     public static final String WARNING_NOT_SAME_OBJECT_SUB_TYPES = "warning.capital.object.subtype.not.the.same";
     public static final String ERROR_EXISTENCE = "error.existence";
@@ -48,7 +48,7 @@ public class KFSKeyConstants {
 
     // Document-specific errors
     public static final String ERROR_DOCUMENT_DESCRIPTION_REQUIRED = "error.document.documentDescription.required";
-    
+
     public static final String ERROR_DOCUMENT_ACCOUNT_CLOSED = "error.document.accountClosed";
     public static final String ERROR_DOCUMENT_ACCOUNT_EXPIRED = "error.document.accountExpired";
     public static final String ERROR_DOCUMENT_ACCOUNT_EXPIRED_NO_CONTINUATION = "error.document.accountExpiredNoContinuation";
@@ -137,13 +137,15 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_ACCOUNTING_LINES_MORE_TOTALS_DISTRIBUTED_TO_CAPITAL_ASSETS = "error.document.capitalAccountingLines.moreTotalAmountDistributed";
     public static final String ERROR_DOCUMENT_CAPITAL_ASSETS_AMOUNTS_GREATER_THAN_CAPITAL_ACCOUNTING_LINE = "error.document.capitalAccountingLines.capitalAssetsAmountGreater";
 
+    public static final String ERROR_NONUNIQUE_CAPITAL_ASSET_ACCOUNTING_LINE = "error.document.capital.asset.nonunique.accountingLine";
+
     //capital asset information errors
     public static final String ERROR_DOCUMENT_CAPITAL_ASSET_NUMBER_REQUIRED = "error.document.capitalAsset.capitalAssetNumber.required";
     public static final String ERROR_DOCUMENT_CAPITAL_ASSET_QUANTITY_REQUIRED = "error.document.capitalAsset.quantity.notEntered";
 
     public static final String ERROR_DOCUMENT_CAPITAL_ASSET_DETAIL_INACTIVE_BUILDING_NOT_ALLOWED = "error.document.capitalAssetDetail.inactive.building.notAllowed";
     public static final String ERROR_DOCUMENT_CAPITAL_ASSET_DETAIL_INACTIVE_ROOM_NOT_ALLOWED = "error.document.capitalAssetDetail.inactive.room.notAllowed";
-    
+
     public static final String ERROR_DOCUMENT_PRE_ENCUMBRANCE_SINGLE_SECTION_NO_ACCOUNTING_LINES="error.document.singleSectionNoAccountingLines";
 
     // General Maintenance Document Error Messages
@@ -379,13 +381,13 @@ public class KFSKeyConstants {
     public static final String ERROR_DV_GENERATE_TAX_NOT_NRA = "error.dv.generateNotNRA";
     public static final String ERROR_DV_STATE_TAX_SHOULD_BE_ZERO = "error.dv.nraTaxStateTaxShouldBeZero";
     public static final String ERROR_DV_STATE_INCOME_TAX_PERCENT_SHOULD_BE_GREATER_THAN_ZERO = "error.dv.nraTaxStateTaxShouldBeGreaterThanZero";
-    public static final String ERROR_DV_NRA_TAX_ONLY_ONE_SELECTION_ALLOWED = "error.dv.nraTax.OnlyOneSelectionAllowed";    
+    public static final String ERROR_DV_NRA_TAX_ONLY_ONE_SELECTION_ALLOWED = "error.dv.nraTax.OnlyOneSelectionAllowed";
     public static final String ERROR_DV_NRA_TAX_WHEN_CHECKED_FEDERAL_AND_STATE_TAXES_SHOULD_BE_ZERO = "error.dv.nraTax.WhenCheckedFederalAndStateTaxesShouldBeZero";
     public static final String ERROR_DV_NRA_TAX_WHEN_CHECKED_FEDERAL_TAX_CANNOT_BE_ZERO = "error.dv.nraTax.WhenCheckedFederalTaxCannotBeZero";
     public static final String ERROR_DV_NRA_TAX_WHEN_CHECKED_SHOULD_BE_SELECTED = "error.dv.nraTax.WhenCheckedShouldBeSelected";
     public static final String ERROR_DV_NRA_TAX_WHEN_CHECKED_CANNOT_BE_SELECTED = "error.dv.nraTax.WhenCheckedCannotBeSelected";
     public static final String ERROR_DV_NRA_TAX_WHEN_CHECKED_CANNOT_HAVE_VALUE = "error.dv.nraTax.WhenCheckedCannotHaveValue";
-    
+
     public static final String ERROR_DV_GENERATE_TAX_DOC_REFERENCE = "error.dv.generateDocReference";
     public static final String ERROR_DV_ADD_LINE_MISSING_PAYMENT_REASON = "error.dv.addLineMissingPaymentReason";
     public static final String ERROR_DV_ADD_LINE_MISSING_PAYEE = "error.dv.addLineMissingPayee";

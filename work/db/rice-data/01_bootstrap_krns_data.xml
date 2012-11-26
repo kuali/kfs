@@ -52,10 +52,10 @@
 		</rollback>
     </changeSet>
     
-  <changeSet context="bootstrap,demo" author="kfs" id="KFS_LOAD_KR_STATE_T">
-    <loadData tableName="KR_STATE_T" file="bootstrap/kr_state_t.csv" />
+  <changeSet context="bootstrap,demo" author="kfs" id="KFS_LOAD_KRLC_ST_T">
+    <loadData tableName="KRLC_ST_T" file="bootstrap/krlc_st_t.csv" />
     <rollback>
-      <delete tableName="KR_STATE_T" >
+      <delete tableName="KRLC_ST_T" >
         <where>POSTAL_CNTRY_CD in ('AU', 'CA', 'MX')</where>
       </delete>
     </rollback>

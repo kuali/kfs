@@ -43,6 +43,8 @@
 					<property name="quitOnFail" value="true" />
 				</bean>
 				
+				<bean parent="AccountingDocument-capitalAssetLineUniquenessValidation" scope="prototype" />
+				
 				<bean parent="CapitalAccountingLines-capitalAccountingLinesValidations" scope="prototype" >
 					<property name="quitOnFail" value="true" />
 				</bean>
@@ -76,6 +78,7 @@
   		<property name="validations">
   			<list>
   				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
+				<bean parent="AccountingDocument-capitalAssetLineUniquenessValidation" scope="prototype" />
 				<bean parent="CapitalAccountingLines-capitalAccountingLinesValidations" scope="prototype" />
   				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
   			</list>

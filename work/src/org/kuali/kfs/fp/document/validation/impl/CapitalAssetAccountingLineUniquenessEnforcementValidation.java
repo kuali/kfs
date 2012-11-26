@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.cab.CabParameterConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -52,12 +51,19 @@ public class CapitalAssetAccountingLineUniquenessEnforcementValidation extends A
     protected Collection<String> getCapitalAssetObjectSubTypes() {
         return getParameterService().getParameterValuesAsString(
                 KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class,
-                CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
+                "FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES");
+        // JHK: I don't like the use of the constant above - but this parameter exists in the CAB module
+        // Fortunately, since Rice 2.0 - the statement above will not blow up if CAB is not installed.
+        // It will just return an empty list which will short-circuit the validation.
     }
 
     protected Collection<AccountingLine> getCapitalAssetAccountingLines( Collection<AccountingLine> allLines ) {
         Collection<AccountingLine> capitalAssetAccountingLines = new ArrayList<AccountingLine>(allLines.size());
         Collection<String> capitalAssetObjectSubTypes = getCapitalAssetObjectSubTypes();
+        // if none defined, exit
+        if ( capitalAssetObjectSubTypes.isEmpty() ) {
+            return capitalAssetAccountingLines;
+        }
         for ( AccountingLine line : allLines ) {
             // we only care about expenses (not encumbrance or budget)
             // many documents leave the balance type blank when going to use the "default" of "AC"

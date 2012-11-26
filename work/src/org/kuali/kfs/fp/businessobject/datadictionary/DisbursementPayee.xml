@@ -41,6 +41,9 @@
         <ref bean="DisbursementPayee-lastName"/> 
         <ref bean="DisbursementPayee-address"/>
         
+        <ref bean="DisbursementPayee-customerNumber"/> 
+        <ref bean="DisbursementPayee-customerName"/>    
+        
         <ref bean="DisbursementPayee-active"/>    
       </list>
     </property>
@@ -154,6 +157,36 @@
     <property name="name" value="active"/>
     <property name="label" value="Active?"/>
   </bean>  
+  
+  <bean id="DisbursementPayee-customerNumber" parent="DisbursementPayee-customerNumber-parentBean"/>
+  <bean id="DisbursementPayee-customerNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="customerNumber"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Customer Number"/>
+        <property name="shortLabel" value="Number"/>
+        <property name="maxLength" value="9"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="11"/>
+        </property>
+  </bean>    
+  
+  <bean id="DisbursementPayee-customerName" parent="DisbursementPayee-customerName-parentBean"/>
+  <bean id="DisbursementPayee-customerName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="customerName"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Customer Name"/>
+        <property name="shortLabel" value="Name"/>
+        <property name="maxLength" value="60"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="62"/>
+        </property>
+  </bean>   
 
 <!-- Business Object Lookup Definition -->
   <bean id="DisbursementPayee-lookupDefinition" parent="DisbursementPayee-lookupDefinition-parentBean"/>
@@ -183,6 +216,8 @@
         -->
         <bean parent="FieldDefinition" p:attributeName="employeeId"/>
         <bean parent="FieldDefinition" p:attributeName="vendorNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="customerName"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>  
       </list>
     </property>

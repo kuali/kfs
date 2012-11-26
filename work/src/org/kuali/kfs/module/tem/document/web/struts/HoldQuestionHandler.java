@@ -30,6 +30,8 @@ import static org.kuali.kfs.sys.KFSConstants.MAPPING_BASIC;
 import static org.kuali.kfs.sys.KFSConstants.NOTE_TEXT_PROPERTY_NAME;
 import static org.kuali.kfs.sys.KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME;
 
+import java.util.ArrayList;
+
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -37,12 +39,14 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
     private ConfigurationService ConfigurationService;
@@ -96,16 +100,16 @@ public class HoldQuestionHandler implements QuestionHandler<TravelDocument> {
 
             final Note newNote = getDocumentService().createNoteFromDocument(document, noteText.toString());
             //newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.DOCUMENT_HEADER_NOTE_TYPE.getCode());
-            getDocumentService().addNoteToDocument(document, newNote);
+            document.addNote(newNote);
 
             //save the new state on the document
             document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.REIMB_HELD);
             getDocumentDao().save(document);
 
             //send FYI for to initiator and traveler
-            getTravelDocumentService().addAdHocFYIRecipient(document,document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getInitiatorPrincipalId());
+            getTravelDocumentService().addAdHocFYIRecipient(document,document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
             getTravelDocumentService().addAdHocFYIRecipient(document,document.getTraveler().getPrincipalId());
-            SpringContext.getBean(WorkflowDocumentService.class).sendWorkflowNotification(document.getDocumentHeader().getWorkflowDocument(), null, document.getAdHocRoutePersons());
+            SpringContext.getBean(WorkflowDocumentService.class).sendWorkflowNotification(document.getDocumentHeader().getWorkflowDocument(), null, new ArrayList<AdHocRouteRecipient>(document.getAdHocRoutePersons()));
 
             if (ObjectUtils.isNotNull(returnActionForward)) {
                 return returnActionForward;

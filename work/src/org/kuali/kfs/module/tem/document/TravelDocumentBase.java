@@ -107,6 +107,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.NoteType;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  * Abstract Travel Document Base
@@ -253,7 +254,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      */
     @Override
     public String getAppDocStatus() {
-        String status = getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
+        String status = getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
         return StringUtils.defaultIfEmpty(status, TemConstants.TRAVEL_DOC_APP_DOC_STATUS_INIT);
     }
 
@@ -267,8 +268,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         String currStatus = getAppDocStatus();
         if (StringUtils.isBlank(currStatus) || !status.equalsIgnoreCase(currStatus)) {
             LOG.debug("NEW status is [" + status + "] was {" + currStatus + "}");
-            getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(status);
-            getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatusDate(Calendar.getInstance());
+            getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(status);
         }
     }
 
@@ -1900,7 +1900,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         LOG.debug("Handling Route Status changing to [" + statusChangeEvent.getNewRouteStatus() + "]");
 
         //Update internal app doc status status
-        String currStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
+        String currStatus = getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
         if (ObjectUtils.isNotNull(currStatus)) {
             updateAppDocStatus(currStatus);
         }

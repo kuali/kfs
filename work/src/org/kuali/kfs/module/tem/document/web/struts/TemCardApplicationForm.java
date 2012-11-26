@@ -53,18 +53,18 @@ public class TemCardApplicationForm extends FinancialSystemTransactionalDocument
         List<ExtraButton> extraButtons = super.getExtraButtons();
 
         if (isTravelManager()){
-            RouteHeaderDTO routeHeader = this.getDocument().getDocumentHeader().getWorkflowDocument().getRouteHeader();
-            if (routeHeader.getAppDocStatus().equals(TemWorkflowConstants.RouteNodeNames.PENDING_BANK_APPLICATION)
-                    || routeHeader.getAppDocStatus().equals(TemWorkflowConstants.RouteNodeNames.TRAVEL_OFFICE_REVIEW)){
+            String documentStatus = getDocument().getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
+            if (TemWorkflowConstants.RouteNodeNames.PENDING_BANK_APPLICATION.equals(documentStatus)
+                    || TemWorkflowConstants.RouteNodeNames.TRAVEL_OFFICE_REVIEW.equals(documentStatus)){
                 this.getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_APPROVE);
             }
-            String applyToBankButtonURL = getConfigurationService().getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
-            String submitButtonURL = getConfigurationService().getPropertyString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
+            String applyToBankButtonURL = getConfigurationService().getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+            String submitButtonURL = getConfigurationService().getPropertyValueAsString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
 
-            if (routeHeader.getAppDocStatus().equals(TemWorkflowConstants.RouteNodeNames.PENDING_BANK_APPLICATION)){
+            if (TemWorkflowConstants.RouteNodeNames.PENDING_BANK_APPLICATION.equals(documentStatus)){
                 addExtraButton("methodToCall.applyToBank", applyToBankButtonURL + "buttonsmall_applytobank.gif", "Apply To Bank");
             }
-            else if (routeHeader.getAppDocStatus().equals(TemWorkflowConstants.RouteNodeNames.TRAVEL_OFFICE_REVIEW)) {
+            else if (TemWorkflowConstants.RouteNodeNames.TRAVEL_OFFICE_REVIEW.equals(documentStatus)) {
                 addExtraButton("methodToCall.submit", submitButtonURL + "buttonsmall_submit.gif", "Submit");
             }
         }

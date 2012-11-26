@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,19 +25,19 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
 import org.kuali.kfs.module.tem.document.TravelArrangerDocument;
 import org.kuali.kfs.module.tem.document.service.TravelArrangerDocumentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 @SuppressWarnings("rawtypes")
 public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocumentService {
 
     private BusinessObjectService businessObjectService;
-    
+
     @Override
     public void createTravelProfileArranger(TravelArrangerDocument arrangerDoc) {
         Integer profileId = arrangerDoc.getProfileId();
         String arrangerId = arrangerDoc.getArrangerId();
-        
+
         TEMProfileArranger profileArranger = findTemProfileArranger(arrangerId, profileId);
         if(ObjectUtils.isNull(profileArranger)) {
            profileArranger = createNewTravelProfileArranger(arrangerDoc);
@@ -50,7 +50,7 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
         }
 
         businessObjectService.save(profileArranger);
-        
+
     }
 
     @Override
@@ -61,16 +61,16 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
         if(ObjectUtils.isNotNull(profileArranger)) {
             businessObjectService.delete(profileArranger);
         }
-        
+
     }
-    
+
     @Override
     public TEMProfileArranger findPrimaryTravelProfileArranger(String arrangerId, Integer profileId) {
         Map fieldValues = new HashMap();
         fieldValues.put("profileId", profileId);
-        
+
         List<TEMProfileArranger> profileArrangers = new ArrayList<TEMProfileArranger>( businessObjectService.findMatching(TEMProfileArranger.class, fieldValues));
-        
+
         for(TEMProfileArranger profileArranger: profileArrangers) {
             if(profileArranger.getPrimary() && !profileArranger.getPrincipalId().equals(arrangerId)) {
                 return profileArranger;
@@ -78,9 +78,9 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
         }
         return null;
     }
-    
+
     /**
-     * 
+     *
      * @param arrangerDoc
      * @return
      */
@@ -92,7 +92,7 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
         profileArranger.setPrimary(arrangerDoc.getPrimaryInd());
         profileArranger.setTaInd(arrangerDoc.getTaInd());
         profileArranger.setTrInd(arrangerDoc.getTrInd());
-        
+
         return profileArranger;
     }
 
@@ -105,8 +105,8 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
         fieldValues.put(TEMProfileProperties.PRINCIPAL_ID, principalId);
         fieldValues.put(TEMProfileProperties.PROFILE_ID, profileId);
         //find active profile arrangers only
-        fieldValues.put(KNSPropertyConstants.ACTIVE, "Y");
-        
+        fieldValues.put(KRADPropertyConstants.ACTIVE, "Y");
+
         List<TEMProfileArranger> profileArrangers = new ArrayList<TEMProfileArranger>( businessObjectService.findMatching(TEMProfileArranger.class, fieldValues));
         if(profileArrangers.size() == 1) {
             return profileArrangers.get(0);
@@ -122,5 +122,5 @@ public class TravelArrangerDocumentServiceImpl implements TravelArrangerDocument
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }    
+    }
 }

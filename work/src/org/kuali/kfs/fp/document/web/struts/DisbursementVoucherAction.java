@@ -17,7 +17,9 @@ package org.kuali.kfs.fp.document.web.struts;
 
 import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -33,12 +35,15 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.kfs.fp.businessobject.WireCharge;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants.TabByReasonCode;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
+import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -508,6 +513,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
         boolean isPayeeLookupable = KFSConstants.KUALI_DISBURSEMENT_PAYEE_LOOKUPABLE_IMPL.equals(refreshCaller);
         boolean isAddressLookupable = KFSConstants.KUALI_VENDOR_ADDRESS_LOOKUPABLE_IMPL.equals(refreshCaller);
+        boolean isKualiLookupable = KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(refreshCaller);
 
         // if a cancel occurred on address lookup we need to reset the payee id and type, rest of fields will still have correct information
         if (refreshCaller == null && hasFullEdit(document)) {
@@ -520,7 +526,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         }
 
         // do not execute the further refreshing logic if the refresh caller is not a lookupable
-        if (!isPayeeLookupable && !isAddressLookupable) {
+        if (!isPayeeLookupable && !isAddressLookupable && !isKualiLookupable) {
             return null;
         }
 
@@ -560,13 +566,49 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
             return null;
         }
 
+        String payeeAddressIdentifier = request.getParameter(KFSPropertyConstants.VENDOR_ADDRESS_GENERATED_ID);
+        if (isAddressLookupable && StringUtils.isNotBlank(payeeAddressIdentifier)) {
+            setupPayeeAsVendor(dvForm, payeeIdNumber, payeeAddressIdentifier);
+        }
+
         if (isPayeeLookupable && dvForm.isEmployee()) {
             this.setupPayeeAsEmployee(dvForm, payeeIdNumber);
         }
 
-        String payeeAddressIdentifier = request.getParameter(KFSPropertyConstants.VENDOR_ADDRESS_GENERATED_ID);
-        if (isAddressLookupable && StringUtils.isNotBlank(payeeAddressIdentifier)) {
-            setupPayeeAsVendor(dvForm, payeeIdNumber, payeeAddressIdentifier);
+		// check for multiple custom addresses
+        if (isPayeeLookupable && dvForm.isCustomer()) {
+            AccountsReceivableCustomer customer = SpringContext.getBean(AccountsReceivableModuleService.class).findCustomer(payeeIdNumber);
+
+            AccountsReceivableCustomerAddress defaultCustomerAddress = null;
+            if (customer != null) {
+                defaultCustomerAddress = customer.getPrimaryAddress();
+
+                Map<String, String> addressSearch = new HashMap<String, String>();
+                addressSearch.put(KFSPropertyConstants.CUSTOMER_NUMBER, payeeIdNumber);
+
+                List<AccountsReceivableCustomerAddress> customerAddresses = (List<AccountsReceivableCustomerAddress>)
+                                             SpringContext.getBean(AccountsReceivableModuleService.class).searchForCustomerAddresses(addressSearch);
+                if (customerAddresses != null && !customerAddresses.isEmpty()) {
+                    if (customerAddresses.size() > 1) {
+                        dvForm.setHasMultipleAddresses(true);
+                    }
+                    else if (defaultCustomerAddress == null) {
+                        defaultCustomerAddress = customerAddresses.get(0);
+                    }
+                }
+            }
+
+            if (dvForm.hasMultipleAddresses()) {
+                return renderCustomerAddressSelection(mapping, request, dvForm);
+            }
+            else if (defaultCustomerAddress != null) {
+                setupPayeeAsCustomer(dvForm, payeeIdNumber, defaultCustomerAddress.getCustomerAddressIdentifier().toString());
+            }
+        }
+
+        String customerAddressIdentifier = request.getParameter(KFSPropertyConstants.CUSTOMER_ADDRESS_IDENTIFIER);
+        if (isKualiLookupable && StringUtils.isNotBlank(customerAddressIdentifier)) {
+            setupPayeeAsCustomer(dvForm, payeeIdNumber, customerAddressIdentifier);
         }
 
         String paymentReasonCode = document.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
@@ -686,6 +728,60 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         }
 
         ((DisbursementVoucherDocument) dvForm.getDocument()).templateVendor(vendorDetail, vendorAddress);
+    }
+
+    /**
+     * render the customer address lookup results if there are multiple addresses for the selected customer
+     */
+    protected ActionForward renderCustomerAddressSelection(ActionMapping mapping, HttpServletRequest request, DisbursementVoucherForm dvForm) {
+        Properties props = new Properties();
+
+        props.put(KRADConstants.SUPPRESS_ACTIONS, Boolean.toString(true));
+        props.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AccountsReceivableCustomerAddress.class.getName());
+        props.put(KRADConstants.LOOKUP_ANCHOR, KRADConstants.ANCHOR_TOP_OF_FORM);
+        props.put(KRADConstants.LOOKED_UP_COLLECTION_NAME, KFSPropertyConstants.VENDOR_ADDRESSES);
+
+        String conversionPatttern = "{0}" + KFSConstants.FIELD_CONVERSION_PAIR_SEPERATOR + "{0}";
+        StringBuilder filedConversion = new StringBuilder();
+        filedConversion.append(MessageFormat.format(conversionPatttern, KFSPropertyConstants.CUSTOMER_NUMBER)).append(KFSConstants.FIELD_CONVERSIONS_SEPERATOR);
+        filedConversion.append(MessageFormat.format(conversionPatttern, KFSPropertyConstants.CUSTOMER_ADDRESS_IDENTIFIER));
+        props.put(KRADConstants.CONVERSION_FIELDS_PARAMETER, filedConversion);
+
+        props.put(KFSPropertyConstants.CUSTOMER_NUMBER, dvForm.getPayeeIdNumber());
+        props.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
+
+        props.put(KRADConstants.RETURN_LOCATION_PARAMETER, this.getReturnLocation(request, mapping));
+        props.put(KRADConstants.BACK_LOCATION, this.getReturnLocation(request, mapping));
+
+        props.put(KRADConstants.LOOKUP_AUTO_SEARCH, "Yes");
+        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
+
+        props.put(KRADConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(dvForm));
+        props.put(KRADConstants.DOC_NUM, dvForm.getDocument().getDocumentNumber());
+
+        // TODO: how should this forward be handled
+        String url = UrlFactory.parameterizeUrl(getApplicationBaseUrl() + "/kr/" + KRADConstants.LOOKUP_ACTION, props);
+
+        dvForm.registerEditableProperty("methodToCall");
+
+        return new ActionForward(url, true);
+    }
+
+    /**
+     * setup the payee as a customer with the given id number and address id
+     */
+    protected void setupPayeeAsCustomer(DisbursementVoucherForm dvForm, String payeeIdNumber, String payeeAddressIdentifier) {
+        AccountsReceivableCustomer customer = SpringContext.getBean(AccountsReceivableModuleService.class).findCustomer(payeeIdNumber);
+
+        AccountsReceivableCustomerAddress customerAddress = null;
+        if (StringUtils.isNotBlank(payeeAddressIdentifier)) {
+            customerAddress = SpringContext.getBean(AccountsReceivableModuleService.class).findCustomerAddress(payeeIdNumber, payeeAddressIdentifier);
+        }
+
+        dvForm.setTempPayeeIdNumber(payeeIdNumber);
+        dvForm.setOldPayeeType(DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER);
+
+        ((DisbursementVoucherDocument) dvForm.getDocument()).templateCustomer(customer, customerAddress);
     }
 
     /**

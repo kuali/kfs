@@ -116,9 +116,11 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
@@ -128,6 +130,8 @@ import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import com.lowagie.text.pdf.PdfCopy;
 import com.lowagie.text.pdf.PdfImportedPage;
@@ -371,7 +375,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
                 }
                 if (rawValues != null && rawValues.size() > 0) {
                     this.save(mapping, travelForm, request, response);
-                    GlobalVariables.getMessageList().add(TemKeyConstants.INFO_TEM_IMPORT_DOCUMENT_SAVE);
+                    KNSGlobalVariables.getMessageList().add(TemKeyConstants.INFO_TEM_IMPORT_DOCUMENT_SAVE);
                 }
             }
         }
@@ -393,7 +397,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             if (document.getTemProfileId() == null) {
                 String identifier = TemConstants.documentProfileNames().get(document.getFinancialDocumentTypeCode());
 
-                GlobalVariables.getMessageMap().putError(KNSPropertyConstants.DOCUMENT + "." + KIMPropertyConstants.Person.FIRST_NAME, TemKeyConstants.ERROR_TEM_IMPORT_EXPENSES_PROFILE_MISSING, identifier);
+                GlobalVariables.getMessageMap().putError(KRADPropertyConstants.DOCUMENT + "." + KIMPropertyConstants.Person.FIRST_NAME, TemKeyConstants.ERROR_TEM_IMPORT_EXPENSES_PROFILE_MISSING, identifier);
                 success = false;
 
             }
@@ -914,7 +918,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      * @throws Exception
      */
     public ActionForward recalculateTripDetailTotal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        GlobalVariables.getMessageList().remove(new ErrorMessage(TemKeyConstants.MESSAGE_RECALCULATE_SUCCESSFUL));
+        KNSGlobalVariables.getMessageList().remove(new ErrorMessage(TemKeyConstants.MESSAGE_RECALCULATE_SUCCESSFUL));
 
         // check to make sure all the number fields in the Trip Detail Estimates section are not negative
         TravelFormBase travelReqForm = (TravelFormBase) form;
@@ -938,7 +942,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         LOG.debug("Recalculating travel auth document " + travelReqDoc.getTravelDocumentIdentifier());
         travelReqForm.setCalculated(true);
 
-        GlobalVariables.getMessageList().add(TemKeyConstants.MESSAGE_RECALCULATE_SUCCESSFUL);
+        KNSGlobalVariables.getMessageList().add(TemKeyConstants.MESSAGE_RECALCULATE_SUCCESSFUL);
 
         showAccountDistribution(request, travelReqForm.getDocument());
 
@@ -948,7 +952,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         }
 
         // Flag to display reports (TR, ENT, RELO)
-        request.setAttribute(SHOW_REPORTS_ATTRIBUTE, !travelReqDoc.getDocumentHeader().getWorkflowDocument().stateIsInitiated());
+        request.setAttribute(SHOW_REPORTS_ATTRIBUTE, !travelReqDoc.getDocumentHeader().getWorkflowDocument().isInitiated());
 
         if (travelReqDoc.getReimbursableTotal() != null && travelReqDoc.getExpenseLimit() != null && travelReqDoc.getReimbursableTotal().isGreaterThan(travelReqDoc.getExpenseLimit())) {
             GlobalVariables.getMessageMap().putWarning(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.TRVL_AUTH_TOTAL_ESTIMATE, KFSKeyConstants.ERROR_CUSTOM, "Travel expense is exceeding the expense limit.");
@@ -988,7 +992,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     public ActionForward recalculateTripDetailTotalOnly(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // call recalculateTripDetailTotal where all the magic happens
         ActionForward actionForward = recalculateTripDetailTotal(mapping, form, request, response);
-        GlobalVariables.getMessageList().remove(new ErrorMessage(TemKeyConstants.MESSAGE_RECALCULATE_SUCCESSFUL));
+        KNSGlobalVariables.getMessageList().remove(new ErrorMessage(TemKeyConstants.MESSAGE_RECALCULATE_SUCCESSFUL));
 
         return actionForward;
     }
@@ -1039,7 +1043,14 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         // apparently even checking if a workflow document is null will cause it to send a RuntimeException - hence the try catch.
         boolean workflowCheck = false;
         try {
-            workflowCheck = reqForm.getWorkflowDocument().getCurrentRouteNodeNames().equals(TemWorkflowConstants.RouteNodeNames.ACCOUNT) && reqForm.getWorkflowDocument().stateIsEnroute();
+
+            List<RouteNodeInstance> nodes = reqForm.getWorkflowDocument().getRouteNodeInstances();
+            for (RouteNodeInstance routeNode : nodes){
+                if (routeNode.getName().equals(TemWorkflowConstants.RouteNodeNames.ACCOUNT)){
+                    workflowCheck = true;
+                }
+            }
+            workflowCheck &= reqForm.getWorkflowDocument().isEnroute();
         }
         catch (RuntimeException e) {
             e.printStackTrace();
@@ -1211,7 +1222,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         //remove the imported expense accounting line if import expense list is empty
         checkImportedExpenseAccountingLine(travelForm.getTravelDocument());
         this.save(mapping, travelForm, request, response);
-        GlobalVariables.getMessageList().add(TemKeyConstants.INFO_TEM_IMPORT_DOCUMENT_SAVE);
+        KNSGlobalVariables.getMessageList().add(TemKeyConstants.INFO_TEM_IMPORT_DOCUMENT_SAVE);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -1393,7 +1404,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      * @return
      */
     protected boolean isFinal(TravelFormBase reqForm) {
-        return reqForm.getTransactionalDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal();
+        return reqForm.getTransactionalDocument().getDocumentHeader().getWorkflowDocument().isFinal();
     }
 
     /**
@@ -1441,7 +1452,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
         if (forward.getName() != null && forward.getName().equals(KRADConstants.MAPPING_PORTAL)) {
             // Document is not saved. Free up imported expenses.
-            if (document.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
+            if (document.getDocumentHeader().getWorkflowDocument().isInitiated()) {
                 getTravelDocumentService().detachImportedExpenses(document);
             }
         }
@@ -1509,7 +1520,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      * @return
      */
     protected boolean isProcessed(TravelFormBase reqForm) {
-        return reqForm.getTransactionalDocument().getDocumentHeader().getWorkflowDocument().stateIsProcessed();
+        return reqForm.getTransactionalDocument().getDocumentHeader().getWorkflowDocument().isProcessed();
     }
 
     protected void refreshRelatedDocuments(TravelFormBase form) {

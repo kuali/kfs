@@ -55,6 +55,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -62,6 +63,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.util.AutoPopulatingList;
 
 /**
@@ -90,20 +92,13 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
 
         disbursementVoucherDocument.setDisbVchrCheckStubText(StringUtils.defaultString(document.getDocumentTitle()));
         disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for " + travelDocumentService.getDocumentType(document) +" doc: " + StringUtils.defaultString(document.getDocumentTitle(), document.getTravelDocumentIdentifier()));
-        travelDocumentService.trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getDocumentHeader());
+        travelDocumentService.trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getFinancialSystemDocumentHeader());
         disbursementVoucherDocument.getDvPayeeDetail().setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
         disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(document.getTravelDocumentIdentifier());
 
         //due date is set to the next day
         setDVDocNextDueDay(disbursementVoucherDocument);
-
-        try {
-            disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument().setTitle("Disbursement Voucher - " + document.getDocumentHeader().getDocumentDescription());
-        }
-        catch (WorkflowException ex) {
-            LOG.error("cannot set title for DV " + disbursementVoucherDocument.getDocumentNumber(), ex);
-            throw new RuntimeException("Error setting DV title: " + disbursementVoucherDocument.getDocumentNumber(), ex);
-        }
+        disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument().setTitle("Disbursement Voucher - " + document.getDocumentHeader().getDocumentDescription());
         disbursementVoucherDocument.initiateDocument();
         Person initiator = SpringContext.getBean(PersonService.class).getPerson(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
 
@@ -327,7 +322,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
             String note = String.format("System generated note by %s Document # %s TEM Doc #: %s",  travelDocumentService.getDocumentType(document),
                     document.getDocumentNumber(), document.getTravelDocumentIdentifier());
             Note dvNote = documentService.createNoteFromDocument(disbursementVoucherDocument, note);
-            documentService.addNoteToDocument(disbursementVoucherDocument, dvNote);
+            disbursementVoucherDocument.addNote(dvNote);
 
             if (!(TemConstants.DisbursementVoucherPaymentMethods.WIRE_TRANSFER_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode())
                     || TemConstants.DisbursementVoucherPaymentMethods.FOREIGN_DRAFT_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode()))) {
@@ -338,7 +333,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
                     // original initiator may not have permission to blanket approve the DV
                     GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
 
-                    WorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(disbursementVoucherDocument.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
+                    WorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(disbursementVoucherDocument.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
                     newWorkflowDocument.setTitle(originalWorkflowDocument.getTitle());
 
                     disbursementVoucherDocument.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
@@ -348,7 +343,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
 
                     final String noteText = String.format("DV Document %s was system generated and blanket approved", disbursementVoucherDocument.getDocumentNumber());
                     final Note noteToAdd = documentService.createNoteFromDocument(document, noteText);
-                    documentService.addNoteToDocument(document, noteToAdd);
+                    document.addNote(noteToAdd);
                 }
                  catch (WorkflowException wfe) {
                      LOG.error(wfe.getMessage(), wfe);
@@ -391,11 +386,11 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
      * @param document
      */
     private void processTravelDocumentDV(TravelDocument document){
-        String relationDescription = document.getDocumentHeader().getWorkflowDocument().getDocumentType() + " - DV";
+        String relationDescription = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName() + " - DV";
         try {
             DisbursementVoucherDocument disbursementVoucherDocument = createAndApproveDisbursementVoucherDocument(DisburseType.reimbursable, document);
             accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(document.getDocumentNumber(), disbursementVoucherDocument.getDocumentNumber(), relationDescription));
-            GlobalVariables.getMessageList().add(TemKeyConstants.MESSAGE_DV_IN_ACTION_LIST, disbursementVoucherDocument.getDocumentNumber());
+            KNSGlobalVariables.getMessageList().add(TemKeyConstants.MESSAGE_DV_IN_ACTION_LIST, disbursementVoucherDocument.getDocumentNumber());
         }
         catch (Exception ex) {
             LOG.error("Could not spawn " + relationDescription + " for reimbursement:" + ex.getMessage(), ex);
@@ -430,7 +425,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
 
         final String noteText = String.format("DV Document %s is saved in the initiator's action list", disbursementVoucherDocument.getDocumentNumber());
         final Note noteToAdd = documentService.createNoteFromDocument(travelDocument, noteText);
-        documentService.addNoteToDocument(travelDocument, noteToAdd);
+        travelDocument.addNote(noteToAdd);
 
         travelDocumentService.addAdHocFYIRecipient(disbursementVoucherDocument, travelDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
     }

@@ -26,6 +26,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
@@ -848,6 +849,7 @@ public class KFSConstants {
     public static class PENDING_ENTRY_APPROVED_STATUS_CODE {
         public static final String APPROVED = "A";
         public static final String PROCESSED = "X";
+        public static final String HOLD = "H";
     }
 
     public static class TableRenderConstants {
@@ -1320,13 +1322,23 @@ public class KFSConstants {
     public static final String YEAR_END_ACCOUNTING_PERIOD_EDIT_DOCUMENT_ACTION = "AccountingPeriodEditAction";
     public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION = "AccountingPeriodViewAction";
     // CSU 6702 END
-    
+
     public static final String ACCOUNTING_PERIOD_TAB_ID = "Accounting Period";
-    
+
     public static final String BUDGET_REALLOCATION_LABEL = "Budget Reallocation";
     public static final String YEAR_END_BUDGET_ADJUSTMENT_LABEL = "Year End Budget Adjustment";
-    
+
     public static final String OVERRIDE_ACCOUNT_FOR_EXPIRED_QUESTION_ID = "OverrideAccountForExpiredQuestion";
-    
+
+    public static final String NOTIFICATION_TEXT_KEY = "notificationText";
+    public static final int NOTIFICATION_TEXT_LINE_LENGTH = 80;
+
+    private static Integer MAX_LENGTH_OF_DOCUMENT_DESCRIPTION = null;
+    public static Integer getMaxLengthOfDocumentDescription() {
+        if (MAX_LENGTH_OF_DOCUMENT_DESCRIPTION == null) {
+            MAX_LENGTH_OF_DOCUMENT_DESCRIPTION = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KFSPropertyConstants.DOCUMENT_DESCRIPTION);
+        }
+        return MAX_LENGTH_OF_DOCUMENT_DESCRIPTION;
+    }
 }
 

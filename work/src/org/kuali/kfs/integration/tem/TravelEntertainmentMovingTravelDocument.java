@@ -18,7 +18,6 @@ package org.kuali.kfs.integration.tem;
 import java.sql.Timestamp;
 
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 public interface TravelEntertainmentMovingTravelDocument extends ExternalizableBusinessObject {
@@ -30,7 +29,4 @@ public interface TravelEntertainmentMovingTravelDocument extends ExternalizableB
 	public Timestamp getTripBegin();
 
 	public TravelerDetail getTraveler();
-
-	public FinancialSystemDocumentHeader getDocumentHeader();
-
 }

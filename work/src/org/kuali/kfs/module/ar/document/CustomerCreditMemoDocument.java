@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerCreditMemo;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
@@ -61,7 +62,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, AmountTotaling {
+public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, AmountTotaling, AccountsReceivableCustomerCreditMemo {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerCreditMemoDocument.class);
 
@@ -329,11 +330,13 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
         CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
         setStatusCode(ArConstants.CustomerCreditMemoStatuses.IN_PROCESS);
         
-        //set accounts receivable document header
-        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class).getNewAccountsReceivableDocumentHeaderForCurrentUser();
-        accountsReceivableDocumentHeader.setDocumentNumber(getDocumentNumber());
-        accountsReceivableDocumentHeader.setCustomerNumber(invoice.getAccountsReceivableDocumentHeader().getCustomerNumber());
-        setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+        //set accounts receivable document header if not already set
+        if (getAccountsReceivableDocumentHeader() == null){
+            AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class).getNewAccountsReceivableDocumentHeaderForCurrentUser();
+            accountsReceivableDocumentHeader.setDocumentNumber(getDocumentNumber());
+            accountsReceivableDocumentHeader.setCustomerNumber(invoice.getAccountsReceivableDocumentHeader().getCustomerNumber());
+            setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+        }
 
         List<CustomerInvoiceDetail> customerInvoiceDetails = invoice.getCustomerInvoiceDetailsWithoutDiscounts();
         for (CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDetails) {
@@ -678,6 +681,14 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
         //  lazy init the service if its been nullified by session-izing the document
         if (arTaxService == null) arTaxService = SpringContext.getBean(AccountsReceivableTaxService.class);
         return arTaxService;
+    }
+    
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableCustomerCreditMemo#setAccountsReceivableDocumentHeader(org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader)
+     */
+    @Override
+    public void setAccountsReceivableDocumentHeader(org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader arDocHeader) {
+        this.accountsReceivableDocumentHeader = (org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader) arDocHeader;
     }
 
 }

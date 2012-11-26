@@ -60,6 +60,7 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -167,8 +168,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         copyToDocument.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(getActualExpenses(), documentID));
         copyToDocument.setImportedExpenses(new ArrayList<ImportedExpense>());
 
-        copyToDocument.getDocumentHeader().getBoNotes().clear();
-        copyToDocument.getBoNotes().clear();
+        copyToDocument.getNotes().clear();
         copyToDocument.getDocumentHeader().setDocumentDescription(getDocumentHeader().getDocumentDescription());
         copyToDocument.setTravelDocumentIdentifier(getTravelDocumentIdentifier());
         copyToDocument.setDocumentNumber(documentID);
@@ -271,7 +271,13 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
      */
     @Transient
     public Country getCitizenshipCountry() {
-        citizenshipCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(citizenshipCountryCode, citizenshipCountry);
+        if (citizenshipCountry != null){
+            if (StringUtils.equals(citizenshipCountryCode, citizenshipCountry.getCode())) {
+                return citizenshipCountry;
+            }
+        }
+        //re-update by the country code
+        citizenshipCountry = SpringContext.getBean(CountryService.class).getCountry(citizenshipCountryCode);
         return citizenshipCountry;
     }
 
@@ -608,7 +614,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
         //If there's travel advances, route to traveler if necessary
         if (requiresTravelAdvanceReviewRouting()){
-            String initiator = this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getInitiatorPrincipalId();
+            String initiator = this.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
             String travelerID = this.getTraveler().getPrincipalId();
 
             //traveler must accept policy, if initiator is arranger, the traveler will have to accept later.

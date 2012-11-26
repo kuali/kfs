@@ -132,7 +132,7 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TemCardApplicationForm applicationForm = (TemCardApplicationForm)form;
         CardApplicationDocument document = (CardApplicationDocument) applicationForm.getDocument();
-        if (document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus().equals(TemWorkflowConstants.RouteNodeNames.FISCAL_OFFICER_REVIEW)){
+        if (document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus().equals(TemWorkflowConstants.RouteNodeNames.FISCAL_OFFICER_REVIEW)){
             if (document instanceof TemCorporateCardApplicationDocument){
                 if (!((TemCorporateCardApplicationDocument)document).isDepartmentHeadAgreement()){
                     GlobalVariables.getMessageMap().putError("departmentHeadAgreement", TemKeyConstants.ERROR_TEM_CARD_APP_NO_AGREEMENT, "Department Head");
@@ -142,7 +142,7 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
         }
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         if (SpringContext.getBean(TravelDocumentService.class).isTravelManager(currentUser)
-                && document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus().equals(TemWorkflowConstants.RouteNodeNames.APPLIED_TO_BANK)){
+                && document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus().equals(TemWorkflowConstants.RouteNodeNames.APPLIED_TO_BANK)){
             document.sendAcknowledgement();
             document.approvedByBank();
         }
@@ -158,7 +158,7 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
         CardApplicationDocument document = (CardApplicationDocument) applicationForm.getDocument();
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         if (SpringContext.getBean(TravelDocumentService.class).isTravelManager(currentUser)
-                && document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus().equals(TemWorkflowConstants.RouteNodeNames.APPLIED_TO_BANK)){
+                && document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus().equals(TemWorkflowConstants.RouteNodeNames.APPLIED_TO_BANK)){
             document.sendAcknowledgement();
         }
         return super.disapprove(mapping, form, request, response);
@@ -172,7 +172,7 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
         TemCardApplicationForm applicationForm = (TemCardApplicationForm)form;
         CardApplicationDocument document = (CardApplicationDocument) applicationForm.getDocument();
 
-        if (applicationForm.getDocument().getDocumentHeader().getWorkflowDocument().stateIsInitiated()){
+        if (applicationForm.getDocument().getDocumentHeader().getWorkflowDocument().isInitiated()){
             if (!document.isUserAgreement()){
                 GlobalVariables.getMessageMap().putError("userAgreement", TemKeyConstants.ERROR_TEM_CARD_APP_NO_AGREEMENT, "User");
             }
@@ -192,7 +192,7 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
             throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Apply To Bank",this.getClass().getSimpleName());
         }
         document.applyToBank();
-        document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(TemWorkflowConstants.RouteNodeNames.APPLIED_TO_BANK);
+        document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(TemWorkflowConstants.RouteNodeNames.APPLIED_TO_BANK);
         document.saveAppDocStatus();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -205,7 +205,7 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
         if (!SpringContext.getBean(TravelDocumentService.class).isTravelManager(currentUser)){
             throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Submit",this.getClass().getSimpleName());
         }
-        document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(TemWorkflowConstants.RouteNodeNames.PENDING_BANK_APPLICATION);
+        document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(TemWorkflowConstants.RouteNodeNames.PENDING_BANK_APPLICATION);
         document.saveAppDocStatus();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

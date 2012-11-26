@@ -114,7 +114,7 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
         if (!StringUtils.isEmpty(profile.getDefaultProjectCode())){
             fieldValues.clear();
             fieldValues.put(KFSConstants.GENERIC_CODE_PROPERTY_NAME, profile.getDefaultProjectCode());
-            List<SubAccount> subAccountList = (List<SubAccount>) businessObjectService.findMatching(ProjectCode.class, fieldValues);
+            List<ProjectCode> subAccountList = (List<ProjectCode>) businessObjectService.findMatching(ProjectCode.class, fieldValues);
             if (subAccountList.size() == 0){
                 GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEMProfileProperties.DEFAULT_PROJECT_CODE,
                         TemKeyConstants.ERROR_TEM_PROFILE_PROJECT_CODE_NOT_EXIST, profile.getDefaultProjectCode());

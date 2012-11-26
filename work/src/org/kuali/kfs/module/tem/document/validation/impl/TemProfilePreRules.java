@@ -78,7 +78,7 @@ public class TemProfilePreRules extends MaintenancePreRulesBase {
         }
         
         if (StringUtils.isNotEmpty(profile.getTravelerTypeCode()) && !profile.getTravelerTypeCode().equalsIgnoreCase(TemConstants.NONEMP_TRAVELER_TYP_CD) && askQuestion){
-            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyString(TemKeyConstants.TEM_PROFILE_ARRANGERS_QUESTION);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(TemKeyConstants.TEM_PROFILE_ARRANGERS_QUESTION);
             boolean confirm = super.askOrAnalyzeYesNoQuestion(TemKeyConstants.GENERATE_TEM_PROFILE_ID_QUESTION_ID, questionText);
             if (!confirm) {
                 super.abortRulesCheck();

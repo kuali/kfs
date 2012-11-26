@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,25 +41,25 @@ import org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEven
 import org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 public class TravelAuthTravelAdvanceValidation extends GenericValidation {
     private TemProfileService temProfileService;
-    
+
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean success = true;
         TravelAuthorizationDocument document = (TravelAuthorizationDocument)event.getDocument();
-   
+
         if (document.getTraveler() == null){
             GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRAVELER_TYPE, TemKeyConstants.ERROR_TA_TRVL_ADV_MISSING_PROFILE);
             return false;
         }
-        
+
         if (event instanceof AttributedRouteDocumentEvent
                 || event instanceof AttributedApproveDocumentEvent
                 || event instanceof AttributedBlanketApproveDocumentEvent){
@@ -67,26 +67,26 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
                 TravelAdvance advance = document.getTravelAdvances().get(i);
                 success = isTravelAdvanceValid(document, advance,i);
             }
-            
+
         }
-        else{                       
+        else{
             AddTravelAdvanceLineEvent travelEvent = (AddTravelAdvanceLineEvent)event;
             TravelAdvance advance = travelEvent.getTravelAdvance();
-            
+
             success = isTravelAdvanceValid(document, advance, -1);
         }
-        
+
         return success;
     }
-    
+
     private boolean isTravelAdvanceValid(TravelAuthorizationDocument document, TravelAdvance advance, int index){
         boolean success = true;
         String temp = "";
         if (index > -1){
-            GlobalVariables.getMessageMap().addToErrorPath(KNSPropertyConstants.DOCUMENT);
+            GlobalVariables.getMessageMap().addToErrorPath(KRADPropertyConstants.DOCUMENT);
             temp = TravelAuthorizationFields.TRVL_ADV + "[" + index + "].";
         }
-             
+
         if(advance.getTravelAdvanceRequested() != null) {
             KualiDecimal advReq = advance.getTravelAdvanceRequested();
             if(advReq.isLessEqual(KualiDecimal.ZERO)) {
@@ -96,19 +96,19 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
         else{
             success = false;
         }
-        
+
         if(!success) {
-            GlobalVariables.getMessageMap().putError(temp+TravelAuthorizationFields.TRVL_ADV_REQUESTED, ERROR_TA_TRVL_REQ_GRTR_THAN_ZERO);            
+            GlobalVariables.getMessageMap().putError(temp+TravelAuthorizationFields.TRVL_ADV_REQUESTED, ERROR_TA_TRVL_REQ_GRTR_THAN_ZERO);
         }
-        
+
         if (advance.getDueDate() == null) {
             GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRVL_ADV_DUE_DATE, TemKeyConstants.ERROR_TA_TRVL_ADV_DUE_DATE_MISSING);
-            success = false;            
+            success = false;
         }
         else {
-            Date dueDate = DateUtils.clearTimeFields(advance.getDueDate());
-            Date today = DateUtils.clearTimeFields(new Date());
-            
+            Date dueDate = KfsDateUtils.clearTimeFields(advance.getDueDate());
+            Date today = KfsDateUtils.clearTimeFields(new Date());
+
             if (dueDate != null && dueDate.before(today)) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "The Payment Due Date cannot be in the past.");
                 success = false;
@@ -123,8 +123,8 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
             GlobalVariables.getMessageMap().putError(temp + TravelAuthorizationFields.TRVL_ADV_DUE_DATE, TemKeyConstants.ERROR_TA_TRVL_ADV_DUE_DATE_INVALID);
             success = false;
         }
-        
-        String initiator = document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getInitiatorPrincipalId();
+
+        String initiator = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         String travelerID = document.getTraveler().getPrincipalId();
         Boolean checkPolicy = Boolean.FALSE;
         if (travelerID != null){
@@ -134,34 +134,34 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
         else{ //Non-kim traveler, arranger accepts policy
             checkPolicy = Boolean.TRUE;
         }
-        
+
         if (checkPolicy){
             if (!advance.getTravelAdvancePolicy()){
                 success = false;
                 GlobalVariables.getMessageMap().putError(temp+TravelAuthorizationFields.TRVL_ADV_POLICY, TemKeyConstants.ERROR_TA_TRVL_ADV_POLICY);
             }
         }
-        
-        boolean testCards = ((ParameterService)SpringContext.getBean(ParameterService.class)).getParameterValueAsBoolean(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_CC_CASH_ADVANCE_WARNING_IND);
+
+        boolean testCards = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_CC_CASH_ADVANCE_WARNING_IND);
         if (testCards){
-            String cardTypesValue = ((ParameterService)SpringContext.getBean(ParameterService.class)).getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.CASH_ADVANCE_CREDIT_CARD_TYPES);
+            String cardTypesValue = SpringContext.getBean(ParameterService.class).getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.CASH_ADVANCE_CREDIT_CARD_TYPES);
             String[] cardTypes = cardTypesValue.split(",");
             Map<String,String> cardTypeMap = new HashMap<String, String>();
             for (String cardType : cardTypes){
                 cardTypeMap.put(cardType.toUpperCase(), cardType.toUpperCase());
             }
-            
+
             TEMProfile temProfile = document.getTemProfile();
             if (temProfile == null && travelerID != null){
                 temProfile = temProfileService.findTemProfileByPrincipalId(travelerID);
             }
-                        
+
             if (temProfile != null && temProfile.getAccounts() != null && temProfile.getAccounts().size() > 0){
                 for (TEMProfileAccount account  : temProfile.getAccounts()){
                     if (cardTypeMap.containsKey(account.getName().toUpperCase())){
                         if (StringUtils.isBlank(advance.getAdditionalJustification())){
                             success = false;
-                            
+
                             GlobalVariables.getMessageMap().putError(temp+TravelAuthorizationFields.TRVL_ADV_ADD_JUST, TemKeyConstants.ERROR_TA_TRVL_ADV_ADD_JUST);
                         }
                     }
@@ -171,7 +171,7 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
         if (index > -1){
             GlobalVariables.getMessageMap().removeFromErrorPath("document");
         }
-        
+
         return success;
     }
 

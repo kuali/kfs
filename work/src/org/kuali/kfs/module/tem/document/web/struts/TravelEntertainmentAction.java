@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,12 +51,12 @@ import org.kuali.kfs.module.tem.report.util.BarcodeHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class...
@@ -64,10 +64,10 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 public class TravelEntertainmentAction extends TravelActionBase {
 
     public static Logger LOG = Logger.getLogger(TravelEntertainmentAction.class);
-    
+
     public static final String[] ATTENDEE_ATTRIBUTE_NAMES = { TemPropertyConstants.AttendeeProperties.ATTENDEE_TYPE, TemPropertyConstants.AttendeeProperties.COMPANY, TemPropertyConstants.AttendeeProperties.TITLE,TemPropertyConstants.AttendeeProperties.NAME};
     public static final Integer[] MAX_LENGTH={10,40,40,40};
-    
+
     /**
      * Constructs a TravelEntertainmentDocumentAction.java.
      */
@@ -80,19 +80,19 @@ public class TravelEntertainmentAction extends TravelActionBase {
         final ActionForward retval = super.docHandler(mapping, form, request, response);
         final TravelEntertainmentForm entForm = (TravelEntertainmentForm) form;
         final TravelEntertainmentDocument document = entForm.getEntertainmentDocument();
-        
+
         refreshCollectionsFor(document);
 
         initializeNewAttendeeLines(entForm.getNewAttendeeLines(), document.getAttendee());
         //initializeTemProfiles(document);
         final String identifierStr = request.getParameter(TRVL_IDENTIFIER_PROPERTY);
-        final String fromDocumentNumber = request.getParameter(KNSPropertyConstants.DOCUMENT_NUMBER);
+        final String fromDocumentNumber = request.getParameter(KRADPropertyConstants.DOCUMENT_NUMBER);
         if (identifierStr != null){
             if (fromDocumentNumber != null){
                 LOG.debug("Creating reimbursement for document number "+ identifierStr);
                 document.setTravelDocumentIdentifier(identifierStr);
                 TravelDocument travelDocument = (TravelDocument) getDocumentService().getByDocumentHeaderId(fromDocumentNumber);
-                
+
                 LOG.debug("Setting traveler with id "+ travelDocument.getTravelerDetailId());
                 document.setTravelerDetailId(travelDocument.getTravelerDetailId());
                 document.refreshReferenceObject(TemPropertyConstants.TRAVELER);
@@ -101,34 +101,34 @@ public class TravelEntertainmentAction extends TravelActionBase {
                 if (document.getTraveler().getPrincipalId() != null) {
                     document.getTraveler().setPrincipalName(getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName());
                 }
-                
+
                 document.setPrimaryDestinationId(travelDocument.getPrimaryDestinationId());
                 document.setTripType(travelDocument.getTripType());
                 document.setTripTypeCode(travelDocument.getTripTypeCode());
-                
-                
+
+
                 document.setExpenseLimit(travelDocument.getExpenseLimit());
-                
+
                 document.getDocumentHeader().setOrganizationDocumentNumber(travelDocument.getDocumentHeader().getOrganizationDocumentNumber());
-                    
-                
+
+
                 document.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(travelDocument.getActualExpenses(), document.getDocumentNumber()));
-                
-                // add new detail for the copied actualExpenses            
+
+                // add new detail for the copied actualExpenses
                 if (document.getActualExpenses() != null && !document.getActualExpenses().isEmpty()) {
                     for (int i = 0; i < document.getActualExpenses().size(); i++) {
                         entForm.getNewActualExpenseLines().add(new ActualExpense());
                     }
-                }           
+                }
             }
             else{
                 populateFromPreviousENTDoc(document, identifierStr);
             }
-            
+
         }
-        
+
         setEntHostCertificationWarning(document);
-       
+
         return retval;
     }
 
@@ -193,23 +193,23 @@ public class TravelEntertainmentAction extends TravelActionBase {
 
         initializeNames(entForm, document);
         setEntHostCertificationWarning(document);
-        
+
         if(ObjectUtils.isNotNull(document.getActualExpenses())){
             document.enableExpenseTypeSpecificFields(document.getActualExpenses());
         }
-        
+
         if(!getCalculateIgnoreList().contains(entForm.getMethodToCall())){
             recalculateTripDetailTotalOnly(mapping, form, request, response);
         }
-        
+
         refreshRelatedDocuments(entForm);
-        
+
         showAccountDistribution(request, document);
-        
-        request.setAttribute(SHOW_REPORTS_ATTRIBUTE, !document.getDocumentHeader().getWorkflowDocument().stateIsInitiated());
+
+        request.setAttribute(SHOW_REPORTS_ATTRIBUTE, !document.getDocumentHeader().getWorkflowDocument().isInitiated());
 
         entForm.setCanPrintHostCertification(document.canShowHostCertification());
-        
+
         return retval;
     }
 
@@ -224,53 +224,54 @@ public class TravelEntertainmentAction extends TravelActionBase {
     private String getTravelerCompleteName(TravelerDetail travelerdetail) {
         String completeName = KFSConstants.EMPTY_STRING;
         if (validateTravelerDetailName(travelerdetail)) {
-            completeName = travelerdetail.getLastName() + KFSConstants.COMMA + travelerdetail.getFirstName() + KFSConstants.BLANK_SPACE + 
+            completeName = travelerdetail.getLastName() + KFSConstants.COMMA + travelerdetail.getFirstName() + KFSConstants.BLANK_SPACE +
                     (travelerdetail.getMiddleName() == null ? KFSConstants.BLANK_SPACE : travelerdetail.getMiddleName());
         }
         return completeName;
     }
-    
+
     private boolean validateTravelerDetailName(TravelerDetail travelerdetail){
-        if (travelerdetail == null)
+        if (travelerdetail == null) {
             return false;
-        if (travelerdetail.getLastName() == null)
+        }
+        if (travelerdetail.getLastName() == null) {
             return false;
-        if (travelerdetail.getFirstName() == null)
+        }
+        if (travelerdetail.getFirstName() == null) {
             return false;
-        if (travelerdetail.getLastName().equals(KFSConstants.EMPTY_STRING) && travelerdetail.getFirstName().equals(KFSConstants.EMPTY_STRING))
+        }
+        if (travelerdetail.getLastName().equals(KFSConstants.EMPTY_STRING) && travelerdetail.getFirstName().equals(KFSConstants.EMPTY_STRING)) {
             return false;
+        }
 
         return true;
     }
-    
+
     private void setEntHostCertificationWarning(final TravelEntertainmentDocument document) {
-        if (document.getDocumentHeader().getWorkflowDocument().stateIsInitiated() || document.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
+        if (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved()) {
             boolean entertainmentHostAttached = false;
-            List boNotes = document.getBoNotes();
-            if (ObjectUtils.isNotNull(boNotes)) {
-                for (Object obj : boNotes) {
-                    Note note = (Note) obj;
-                    if (ObjectUtils.isNotNull(note.getAttachment()) && TemConstants.AttachmentTypeCodes.ATTACHMENT_TYPE_ENT_HOST_CERT.equals(note.getAttachment().getAttachmentTypeCode())) {
-                        entertainmentHostAttached = true;
-                        break;
-                    }
+            List<Note> notes = document.getNotes();
+            for (Note note : notes) {
+                if (ObjectUtils.isNotNull(note.getAttachment()) && TemConstants.AttachmentTypeCodes.ATTACHMENT_TYPE_ENT_HOST_CERT.equals(note.getAttachment().getAttachmentTypeCode())) {
+                    entertainmentHostAttached = true;
+                    break;
                 }
             }
-            
+
             if (document.getHostProfile() != null && document.getTemProfile() != null && !document.getHostProfile().getProfileId().equals(document.getTemProfile().getProfileId())) {
                 GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.EntertainmentFields.HOST_NAME, TemKeyConstants.HOST_CERTIFICATION_REQUIRED_IND);
-            }            
+            }
         }
     }
-    
+
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
     }
-    
+
     /**
      * Recalculates the Expenses Total Tab
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -281,8 +282,8 @@ public class TravelEntertainmentAction extends TravelActionBase {
         return recalculateTripDetailTotal(mapping, form, request, response);
     }
 
-    protected void refreshCollectionsFor(final TravelEntertainmentDocument entDoc) {       
-        if (!entDoc.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
+    protected void refreshCollectionsFor(final TravelEntertainmentDocument entDoc) {
+        if (!entDoc.getDocumentHeader().getWorkflowDocument().isInitiated()) {
             LOG.debug("Refreshing objects in entertainment document");
             entDoc.refreshReferenceObject(TemPropertyConstants.TRAVELER);
             entDoc.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
@@ -317,18 +318,18 @@ public class TravelEntertainmentAction extends TravelActionBase {
     	final TravelEntertainmentForm entForm = (TravelEntertainmentForm) form;
         entForm.setDocument(getEntertainmentDocumentService().find(request.getParameter(DOCUMENT_NUMBER)));
         final TravelEntertainmentDocument entertainment = entForm.getEntertainmentDocument();
-        final NonEmployeeCertificationReport report = getNonEmployeeCertificationReportService().buildReport(entertainment); 
+        final NonEmployeeCertificationReport report = getNonEmployeeCertificationReportService().buildReport(entertainment);
         BarcodeHelper barcode = new BarcodeHelper();
         report.setBarcodeImage(barcode.generateBarcodeImage(entertainment.getDocumentNumber()));
         File reportFile = getNonEmployeeCertificationReportService().generateReport(report);
-        
+
         StringBuilder fileName = new StringBuilder();
         fileName.append(entForm.getDocument().getDocumentNumber());
         fileName.append(KFSConstants.ReportGeneration.PDF_FILE_EXTENSION);
         if (reportFile.length() == 0) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+
         displayPDF(request, response, reportFile, fileName);
 
         return null;
@@ -368,10 +369,10 @@ public class TravelEntertainmentAction extends TravelActionBase {
         final TravelEntertainmentForm entertainment = (TravelEntertainmentForm) form;
         TravelDocument document = entertainment.getTravelDocument();
         document.getTraveler().getEmergencyContacts().clear();
-        
+
         return super.route(mapping, form, request, response);
     }
-    
+
     @Override
     public ActionForward createREQSForVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -380,7 +381,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
     public ActionForward addAttendeeLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final TravelFormBase travelForm = (TravelFormBase) form;
         final TravelEntertainmentMvcWrapperBean mvcWrapper = newMvcDelegate(form);
-        mvcWrapper.setNewAttendeeLine(mvcWrapper.getNewAttendeeLines().get((int) getSelectedLine(request)));
+        mvcWrapper.setNewAttendeeLine(mvcWrapper.getNewAttendeeLines().get(getSelectedLine(request)));
         travelForm.getObservable().notifyObservers(mvcWrapper);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -394,7 +395,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
 
     /**
      * Import Attendees to the document from a spreadsheet.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest

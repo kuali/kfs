@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.document.service;
 
 import java.util.List;
 
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
@@ -117,5 +118,29 @@ public interface PaymentApplicationDocumentService {
      * @return
      */
     public boolean customerInvoiceDetailPairsWithInvoicePaidApplied(CustomerInvoiceDetail customerInvoiceDetail, InvoicePaidApplied invoicePaidApplied);
-        
+//        
+//    /**
+//     * Creates a new DV document from the payment application document and refund information then either saves, routes, or blanket
+//     * approves based on parameter configuration
+//     * 
+//     * @param paymentApplicationDocument - payment application document to generate DV for
+//     */
+//    public void createDisbursementVoucherDocumentForRefund(PaymentApplicationDocument paymentApplicationDocument);
+//    
+//    /**
+//     * When refund DV is disapproved, a note needs to be added to the related payment request document
+//     * 
+//     * @param relatedDocumentNumber - document number for the related disbursement voucher
+//     * @param noteText - text for the new note
+//     */
+//    public void addNoteToRelatedPaymentRequestDocument(String relatedDocumentNumber, String noteText);
+//    
+//    /**
+//     * Returns the processing organization associated with the payment request given by the related document number
+//     * 
+//     * @param relatedDocumentNumber - document number for the related document (dv)
+//     * @return Organization instance for processing org
+//     */
+//    public Organization getProcessingOrganizationForRelatedPaymentRequestDocument(String relatedDocumentNumber);
+    
 }

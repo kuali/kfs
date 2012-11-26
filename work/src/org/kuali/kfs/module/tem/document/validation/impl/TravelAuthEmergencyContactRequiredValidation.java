@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,7 +33,7 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -51,18 +51,18 @@ public class TravelAuthEmergencyContactRequiredValidation extends GenericValidat
         TripType tripType = taDocument.getTripType();
 
         if (paramService.getParameterValueAsBoolean(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_CONTACT_INFORMATION_IND) && ObjectUtils.isNotNull(tripType)) {
-            if (tripType.isContactInfoRequired()  && (taDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated() || taDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved())) {
+            if (tripType.isContactInfoRequired()  && (taDocument.getDocumentHeader().getWorkflowDocument().isInitiated() || taDocument.getDocumentHeader().getWorkflowDocument().isSaved())) {
                 rulePassed = validEmergencyContact(taDocument);
             }
-            
+
             if (paramService.getParameterValuesAsString(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.INTERNATIONAL_TRIP_TYPE_CODES).contains(tripType.getCode())) {
                 if (StringUtils.isBlank(taDocument.getCellPhoneNumber())) {
                     rulePassed = false;
-                    GlobalVariables.getMessageMap().addToErrorPath(KNSPropertyConstants.DOCUMENT);
+                    GlobalVariables.getMessageMap().addToErrorPath(KRADPropertyConstants.DOCUMENT);
                     GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.CELL_PHONE_NUMBER, KFSKeyConstants.ERROR_REQUIRED, "Traveler's Cell or Other Contact Number During Trip");
-                    GlobalVariables.getMessageMap().removeFromErrorPath(KNSPropertyConstants.DOCUMENT);
-                }                
-                
+                    GlobalVariables.getMessageMap().removeFromErrorPath(KRADPropertyConstants.DOCUMENT);
+                }
+
                 // make sure at least one mode of transportation is filled in
                 if(taDocument.getTransportationModes() == null || taDocument.getTransportationModes().size() == 0) {
                     rulePassed = false;
@@ -70,21 +70,21 @@ public class TravelAuthEmergencyContactRequiredValidation extends GenericValidat
                     GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.MODE_OF_TRANSPORT, TemKeyConstants.ERROR_TA_AUTH_MODE_OF_TRANSPORT_REQUIRED);
                     GlobalVariables.getMessageMap().removeFromErrorPath(TemPropertyConstants.EM_CONTACT);
                 }
-                
+
                 // we have an international trip, make sure fields are filled in
                 if (StringUtils.isBlank(taDocument.getRegionFamiliarity())) {
                     rulePassed = false;
-                    GlobalVariables.getMessageMap().addToErrorPath(KNSPropertyConstants.DOCUMENT);
+                    GlobalVariables.getMessageMap().addToErrorPath(KRADPropertyConstants.DOCUMENT);
                     GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.REGION_FAMILIARITY, KFSKeyConstants.ERROR_REQUIRED, "Region Familiarity");
-                    GlobalVariables.getMessageMap().removeFromErrorPath(KNSPropertyConstants.DOCUMENT);
-                }  
+                    GlobalVariables.getMessageMap().removeFromErrorPath(KRADPropertyConstants.DOCUMENT);
+                }
             }
         }
-        
+
         return rulePassed;
     }
-    
-    
+
+
     private boolean validEmergencyContact(TravelAuthorizationDocument taDocument){
         // check to see if there are emergency contacts and that at least one of them has real data
         boolean validEmergencyContact = false;
@@ -101,7 +101,7 @@ public class TravelAuthEmergencyContactRequiredValidation extends GenericValidat
             GlobalVariables.getMessageMap().putError(TemPropertyConstants.TRVL_AUTH_EM_CONTACT_CONTACT_NAME, TemKeyConstants.ERROR_TA_AUTH_EMERGENCY_CONTACT_REQUIRED);
             GlobalVariables.getMessageMap().removeFromErrorPath(TemPropertyConstants.EM_CONTACT);
         }
-        
+
         return validEmergencyContact;
     }
 

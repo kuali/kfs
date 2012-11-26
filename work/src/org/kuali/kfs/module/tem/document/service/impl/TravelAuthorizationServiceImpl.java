@@ -88,6 +88,7 @@ import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class TravelAuthorizationServiceImpl implements TravelAuthorizationService {
 
@@ -283,7 +284,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
                 // original initiator may not have permission to blanket approve the INV
                 GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
 
-                WorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(customerInvoiceDocument.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
+                WorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(customerInvoiceDocument.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
                 newWorkflowDocument.setTitle(originalWorkflowDocument.getTitle());
 
                 customerInvoiceDocument.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
@@ -553,7 +554,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             String note = MessageUtils.getMessage(TA_MESSAGE_CLOSE_DOCUMENT_TEXT, user);
 
             final Note newNote = documentService.createNoteFromDocument(authorization, note);
-            documentService.addNoteToDocument(authorization, newNote);
+            authorization.addNote(newNote);
             authorization.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
             documentDao.save(authorization);
 
@@ -561,7 +562,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             GlobalVariables.setUserSession(new UserSession(initiatorPrincipalName));
             authorizationClose = authorization.toCopyTAC();
             final Note newNoteTAC = documentService.createNoteFromDocument(authorizationClose, note);
-            documentService.addNoteToDocument(authorizationClose, newNoteTAC);
+            authorizationClose.addNote(newNoteTAC);
 
             // add relationship
             String relationDescription = authorization.getDocumentTypeName() + " - " + authorizationClose.getDocumentTypeName();
@@ -586,7 +587,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     public TravelReimbursementDocument findEnrouteOrProcessedTravelReimbursement(TravelAuthorizationDocument authorization) {
 
         TravelReimbursementDocument reimbursement = null;
-        List<TravelReimbursementDocument> reimbursementDocumentList = travelDocumentService.find(TravelReimbursementDocument.class, authorization.getTravelDocumentIdentifier());
+        List<TravelReimbursementDocument> reimbursementDocumentList = travelDocumentService.findReimbursementDocuments(authorization.getTravelDocumentIdentifier());
 
         //look for enroute TR document - return the first document if any is found
         for (TravelReimbursementDocument document : reimbursementDocumentList){

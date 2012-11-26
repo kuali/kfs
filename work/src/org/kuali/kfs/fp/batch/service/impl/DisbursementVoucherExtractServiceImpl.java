@@ -315,8 +315,12 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         DisbursementVoucherPayeeDetail pd = document.getDvPayeeDetail();
         String rc = pd.getDisbVchrPaymentReasonCode();
 
+        if (DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER.equals(document.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode())) {
+            pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.CUSTOMER);
+            pg.setTaxablePayment(Boolean.FALSE);
+        }
         // If the payee is an employee, set these flags accordingly
-        if ((document.getDvPayeeDetail().isVendor() && SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(pd.getDisbVchrVendorHeaderIdNumberAsInteger())) || document.getDvPayeeDetail().isEmployee()) {
+        else if ((document.getDvPayeeDetail().isVendor() && SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(pd.getDisbVchrVendorHeaderIdNumberAsInteger())) || document.getDvPayeeDetail().isEmployee()) {
             pg.setEmployeeIndicator(Boolean.TRUE);
             pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.EMPLOYEE);
             pg.setTaxablePayment(

@@ -40,6 +40,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -269,7 +270,7 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
 
             LOG.debug("New route status is: " + statusChangeEvent.getNewRouteStatus());
             updateAppDocStatus(TravelRelocationStatusCodeKeys.RELO_MANAGER_APPROVED);
-            if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
                 if (getDocumentGrandTotal().isGreaterThan(KualiDecimal.ZERO)) {
                     getTravelDisbursementService().processTEMReimbursementDV(this);
                 }

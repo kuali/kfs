@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.Customer;
@@ -51,6 +52,7 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -219,8 +221,9 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         // trim and force-caps the customer name
         customerName = StringUtils.replace(customerName, KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN);
         customerName = customerName.trim();
-        if (customerName.indexOf("%") < 0)
+        if (customerName.indexOf("%") < 0) {
             customerName += "%";
+        }
 
         // trim and force-caps
         customerTypeCode = customerTypeCode.trim().toUpperCase();
@@ -236,8 +239,9 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         // trim and force-caps the customer name
         customerName = StringUtils.replace(customerName, KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN);
         customerName = customerName.trim();
-        if (customerName.indexOf("%") < 0)
+        if (customerName.indexOf("%") < 0) {
             customerName += "%";
+        }
 
         invoices.addAll(customerInvoiceDocumentDao.getOpenByCustomerName(customerName));
         return invoices;
@@ -311,7 +315,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         HashMap criteria = new HashMap();
         criteria.put("documentNumber", customerInvoiceDocument.getDocumentHeader().getDocumentTemplateNumber());
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        FinancialSystemDocumentHeader financialSystemDocumentHeader = (FinancialSystemDocumentHeader) businessObjectService.findByPrimaryKey(FinancialSystemDocumentHeader.class, criteria);
+        FinancialSystemDocumentHeader financialSystemDocumentHeader = businessObjectService.findByPrimaryKey(FinancialSystemDocumentHeader.class, criteria);
         KualiDecimal originalTotalAmount = KualiDecimal.ZERO;
         originalTotalAmount = financialSystemDocumentHeader.getFinancialDocumentTotalAmount();
 
@@ -409,7 +413,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         // This isnt as performant a solution as the other getPrintableCustomerInvoiceBy...
         // methods, but its the best we can do in this release, and it should be manageable.
 
-        // 
+        //
         // attempt to retrieve the initiator person specified, and puke if not found
         Person initiator = getPersonService().getPersonByPrincipalName(initiatorPrincipalName);
         if (initiator == null) {
@@ -512,7 +516,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
     /**
      * Refactor to have all the setters in here.
-     * 
+     *
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#setupDefaultValuesForNewCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     @Override
@@ -535,7 +539,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", document.getBillByChartOfAccountCode());
         criteria.put("organizationCode", document.getBilledByOrganizationCode());
-        OrganizationOptions organizationOptions = (OrganizationOptions) businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
+        OrganizationOptions organizationOptions = businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
 
         if (ObjectUtils.isNotNull(organizationOptions)) {
             document.setPrintInvoiceIndicator(organizationOptions.getPrintInvoiceIndicator());
@@ -673,7 +677,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
     /**
      * This method sets due date equal to todays date +30 days by default
-     * 
+     *
      * @param dateTimeService
      */
     protected Date getDefaultInvoiceDueDate() {
@@ -704,7 +708,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         //businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         HashMap<String, String> criteria = new HashMap<String, String>();
         criteria.put("documentNumber", docNumber);
-        CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument)businessObjectService.findByPrimaryKey(CustomerInvoiceDocument.class, criteria);
+        CustomerInvoiceDocument customerInvoiceDocument = businessObjectService.findByPrimaryKey(CustomerInvoiceDocument.class, criteria);
         Date reportedDate = dateTimeService.getCurrentSqlDate();
         if (ObjectUtils.isNotNull(customerInvoiceDocument)) {
             customerInvoiceDocument.setReportedDate(reportedDate);
@@ -719,7 +723,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public void updateReportedInvoiceInfo(CustomerStatementResultHolder data) {
         HashMap<String, String> criteria = new HashMap<String, String>();
         criteria.put("customerNumber", data.getCustomerNumber());
-        CustomerBillingStatement customerBillingStatement = (CustomerBillingStatement)businessObjectService.findByPrimaryKey(CustomerBillingStatement.class, criteria);
+        CustomerBillingStatement customerBillingStatement = businessObjectService.findByPrimaryKey(CustomerBillingStatement.class, criteria);
         if (ObjectUtils.isNotNull(customerBillingStatement)) {
             customerBillingStatement.setPreviouslyBilledAmount(data.getCurrentBilledAmount());
             customerBillingStatement.setReportedDate(dateTimeService.getCurrentSqlDate());
@@ -812,8 +816,9 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
      * @return Returns the personService.
      */
     protected PersonService getPersonService() {
-        if (personService == null)
+        if (personService == null) {
             personService = SpringContext.getBean(PersonService.class);
+        }
         return personService;
     }
 
@@ -849,4 +854,58 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         return success;
     }
 
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getAllAgingInvoiceDocumentsByBilling(java.util.List, java.util.List, java.lang.Integer)
+     */
+    @Override
+    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByBilling(List<String> charts, List<String> organizations, Integer invoiceAge) {
+        Date invoiceBillingDateFrom = null;
+        Date invoiceBillingDateTo = this.getPastDate(invoiceAge - 1) ;
+
+        return customerInvoiceDocumentDao.getAllAgingInvoiceDocumentsByBilling(charts, organizations, invoiceBillingDateFrom, invoiceBillingDateTo);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getAllAgingInvoiceDocumentsByAccounts(java.util.List, java.util.List, java.lang.Integer)
+     */
+    @Override
+    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByAccounts(List<String> charts, List<String> accounts, Integer invoiceAge) {
+        Date invoiceBillingDateFrom = null;
+        Date invoiceBillingDateTo = this.getPastDate(invoiceAge - 1) ;
+
+        return customerInvoiceDocumentDao.getAllAgingInvoiceDocumentsByAccounts(charts, accounts, invoiceBillingDateFrom, invoiceBillingDateTo);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getAllAgingInvoiceDocumentsByProcessing(java.util.List, java.util.List, java.lang.Integer)
+     */
+    @Override
+    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByProcessing(List<String> charts, List<String> organizations, Integer invoiceAge) {
+        Date invoiceBillingDateFrom = null;
+        Date invoiceBillingDateTo = this.getPastDate(invoiceAge - 1) ;
+
+        return customerInvoiceDocumentDao.getAllAgingInvoiceDocumentsByProcessing(charts, organizations, invoiceBillingDateFrom, invoiceBillingDateTo);
+    }
+
+    /**
+     * get the date before the given amount of days
+     */
+    protected Date getPastDate(Integer amount){
+        Integer pastDateAmount = -1 * amount;
+
+        java.util.Date today = this.getDateTimeService().getCurrentDate();
+        java.util.Date pastDate = DateUtils.addDays(today, pastDateAmount);
+
+        return KfsDateUtils.convertToSqlDate(pastDate);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#getAllAgingInvoiceDocumentsByCustomerTypes(java.util.List, java.lang.Integer, java.sql.Date)
+     */
+    @Override
+    public Collection<CustomerInvoiceDocument> getAllAgingInvoiceDocumentsByCustomerTypes(List<String> customerTypes, Integer invoiceAge, Date invoiceBillingDateFrom) {
+        Date invoiceBillingDateTo = this.getPastDate(invoiceAge - 1) ;
+
+        return customerInvoiceDocumentDao.getAllAgingInvoiceDocumentsByCustomerTypes(customerTypes, invoiceBillingDateFrom, invoiceBillingDateTo);
+    }
 }

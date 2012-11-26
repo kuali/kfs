@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,9 +24,9 @@ import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TravelerService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class TravelEntertainmentMovingModuleServiceImpl implements TravelEntertainmentMovingModuleService {
 
@@ -34,30 +34,30 @@ public class TravelEntertainmentMovingModuleServiceImpl implements TravelEnterta
 	private TravelDocumentService travelDocumentService;
 	private TravelerService travelerService;
 	private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
-	
+
 	@Override
 	public boolean isTEMDocument(String docId) {
 		boolean isTEMDoc = false;
 		Document doc;
-		
+
 		doc = find(docId);
 		isTEMDoc = doc.getClass().getPackage().getName().contains("org.kuali.kfs.module.tem");
-		
+
 		return isTEMDoc;
 	}
 
 	@Override
 	public TravelEntertainmentMovingTravelDocument getTEMDocument(String temDocId) {
-		
+
 		TravelEntertainmentMovingTravelDocument doc = null;
 		doc = (TravelEntertainmentMovingTravelDocument) find(temDocId);
-		
+
 		return doc;
 	}
-	
+
 	private Document find(String temDocId) {
 		TravelReimbursementDocument doc = null;
-			List<TravelReimbursementDocument> results = travelDocumentService.find(TravelReimbursementDocument.class, temDocId);
+			List<TravelReimbursementDocument> results = travelDocumentService.findReimbursementDocuments(temDocId);
 			if(results != null && !results.isEmpty()) {
 				doc = results.get(0);
 			}
@@ -79,10 +79,10 @@ public class TravelEntertainmentMovingModuleServiceImpl implements TravelEnterta
         accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(documentNumber, relDocumentNumber, relationDescription));
     }
 
-    @Override 
+    @Override
     public boolean isTravelReimbursementDocument(TravelEntertainmentMovingTravelDocument document) {
         return document instanceof TravelReimbursementDocument;
-    }	
+    }
 
 	/**
 	 * Sets the parameterService attribute value.
@@ -93,7 +93,7 @@ public class TravelEntertainmentMovingModuleServiceImpl implements TravelEnterta
 	}
 
 	/**
-	 * Gets the parameterService attribute. 
+	 * Gets the parameterService attribute.
 	 * @return Returns the parameterService.
 	 */
 	public ParameterService getParameterService() {
@@ -109,7 +109,7 @@ public class TravelEntertainmentMovingModuleServiceImpl implements TravelEnterta
 	}
 
 	/**
-	 * Gets the travelDocumentService attribute. 
+	 * Gets the travelDocumentService attribute.
 	 * @return Returns the travelDocumentService.
 	 */
 	public TravelDocumentService getTravelDocumentService() {
@@ -125,7 +125,7 @@ public class TravelEntertainmentMovingModuleServiceImpl implements TravelEnterta
 	}
 
 	/**
-	 * Gets the travelerService attribute. 
+	 * Gets the travelerService attribute.
 	 * @return Returns the travelerService.
 	 */
 	public TravelerService getTravelerService() {

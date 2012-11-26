@@ -38,6 +38,13 @@
                 <value>org.kuali.kfs.integration.ar</value>
             </list>
         </property>
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomer" value="org.kuali.kfs.module.ar.businessobject.Customer" />
+                <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress" value="org.kuali.kfs.module.ar.businessobject.CustomerAddress" />
+                <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerType" value="org.kuali.kfs.module.ar.businessobject.CustomerType" />
+            </map>
+        </property>  
 		<property name="dataDictionaryPackages">
 			<list>
                 <value>org/kuali/kfs/module/ar/businessobject/datadictionary</value>
@@ -55,6 +62,7 @@
 				<value>customerLoadJob</value>
 				<value>invoiceRecurrenceJob</value>
 				<value>customerInvoiceWriteoffBatchJob</value>
+				<value>customerAgingReportNotificationJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -89,8 +97,10 @@
 		<property name="moduleConfiguration" ref="arModuleConfiguration" />
 	</bean>
 
-    <bean id="accountsReceivableModuleService"  parent="accountsReceivableModuleService-parentBean"/>
-    <bean id="accountsReceivableModuleService-parentBean" class="org.kuali.kfs.module.ar.service.impl.AccountsReceivableModuleServiceImpl" abstract="true"/>
+    <bean id="accountsReceivableModuleService" parent="accountsReceivableModuleService-parentBean"/>
+    <bean id="accountsReceivableModuleService-parentBean" class="org.kuali.kfs.module.ar.service.impl.AccountsReceivableModuleServiceImpl" abstract="true">
+        <property name="customerLookupable" ref="customerLookupable" />
+    </bean>
 
 	<!--  AR DAOs  -->
 	<bean id="customerDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerDaoOjb" />
@@ -1015,6 +1025,28 @@
 		</property>	
 	</bean>	
 	
+		<bean id="customerAgingReportNotificationJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="customerAgingReportNotificationStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="customerAgingReportNotificationStep" class="org.kuali.kfs.module.ar.batch.CustomerAgingReportNotificationStep" parent="step">
+		<property name="customerNotificationService" ref="customerNotificationService"/>
+	</bean>
+	
+	<bean id="customerNotificationService" class="org.kuali.kfs.module.ar.batch.service.impl.CustomerNotificationServiceImpl">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="customerInvoiceDocumentService" ref="customerInvoiceDocumentService" />
+		<property name="kfsNotificationService" ref="kfsNotificationService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+
+		<property name="agingReportTemplate" value="org/kuali/kfs/module/ar/report/email/agingReportTemplate.vm" />		
+	</bean>		
+		
 	<import resource="document/validation/configuration/AccountsReceivableValidators.xml" />
 	<import resource="document/validation/configuration/CustomerInvoiceValidation.xml" />
 	<import resource="document/validation/configuration/CustomerCreditMemoValidation.xml" />

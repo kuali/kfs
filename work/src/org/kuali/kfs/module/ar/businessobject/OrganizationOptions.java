@@ -21,6 +21,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -38,7 +39,7 @@ import org.kuali.rice.location.framework.state.StateEbo;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class OrganizationOptions extends PersistableBusinessObjectBase {
+public class OrganizationOptions extends PersistableBusinessObjectBase implements AccountsReceivableOrganizationOptions {
 
 	protected String chartOfAccountsCode;
 	protected String organizationCode;
@@ -134,7 +135,8 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * @return Returns the processingChartOfAccountCode
 	 *
 	 */
-	public String getProcessingChartOfAccountCode() {
+	@Override
+    public String getProcessingChartOfAccountCode() {
 		return processingChartOfAccountCode;
 	}
 
@@ -155,7 +157,8 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * @return Returns the processingOrganizationCode
 	 *
 	 */
-	public String getProcessingOrganizationCode() {
+	@Override
+    public String getProcessingOrganizationCode() {
 		return processingOrganizationCode;
 	}
 
@@ -175,7 +178,8 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * @return Returns the printInvoiceIndicator
 	 *
 	 */
-	public String getPrintInvoiceIndicator() {
+	@Override
+    public String getPrintInvoiceIndicator() {
 		return printInvoiceIndicator;
 	}
 
@@ -196,7 +200,8 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	 * @return Returns the organizationPaymentTermsText
 	 *
 	 */
-	public String getOrganizationPaymentTermsText() {
+	@Override
+    public String getOrganizationPaymentTermsText() {
 		return organizationPaymentTermsText;
 	}
 

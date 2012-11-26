@@ -53,4 +53,10 @@ public class KFSParameterKeyConstants {
         public static final String OBJECT_SUB_TYPE_GROUPS = "OBJECT_SUB_TYPE_GROUPS";
     }
  
+    
+    public static class ARRefundDVParameterConstants {
+        public static final String DISBURSEMENT_VOUCHER_DTL_TYPE = "DisbursementVoucher";
+        public static final String AR_PRE_DISBURSEMENT_EXTRACT_ORGNIZATION = "AR_PRE_DISBURSEMENT_EXTRACT_ORGNIZATION";
+        public static final String AR_PRE_DISBURSEMENT_EXTRACT_SUB_UNIT = "AR_PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
+    }
 }

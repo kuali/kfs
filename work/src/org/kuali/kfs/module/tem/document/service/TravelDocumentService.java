@@ -39,8 +39,8 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 
 /**
@@ -56,7 +56,9 @@ public interface TravelDocumentService {
 
     List<SpecialCircumstances> findActiveSpecialCircumstances(String documentNumber, String documentType);
 
-    <T> List<T> find(final Class<T> travelDocumentClass, final String travelDocumentNumber);
+    List<TravelAuthorizationDocument> findAuthorizationDocuments(final String travelDocumentNumber);
+
+    List<TravelReimbursementDocument> findReimbursementDocuments(final String travelDocumentNumber);
 
     /**
      * Updates the perdiem items in a {@link TravelReimbursementDocument}. Can be used on an empty {@link Collection}. This means

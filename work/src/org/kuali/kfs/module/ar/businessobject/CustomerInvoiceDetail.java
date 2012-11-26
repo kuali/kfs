@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -42,10 +43,11 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * This class represents a customer invoice detail on the customer invoice document. This class extends SourceAccountingLine since
  * each customer invoice detail has associated accounting line information.
- * 
+ *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerInvoiceDetail extends SourceAccountingLine implements AppliedPayment {
+public class CustomerInvoiceDetail extends SourceAccountingLine implements AppliedPayment, AccountsReceivableCustomerInvoiceDetail {
+
     private static Logger LOG = Logger.getLogger(CustomerInvoiceDetail.class);
     public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "CustomerInvoiceDetail";
 
@@ -84,20 +86,20 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         super();
         invoiceItemTaxAmount = KualiDecimal.ZERO;
     }
-    
+
     // ---- BEGIN OPEN AMOUNTS
-    
-    public KualiDecimal getAmountOpen() { 
-        
-        //  if the parent isnt saved, or if its saved but not approved, we 
-        // need to include the discounts.  If its both saved AND approved, 
+
+    public KualiDecimal getAmountOpen() {
+
+        //  if the parent isnt saved, or if its saved but not approved, we
+        // need to include the discounts.  If its both saved AND approved,
         // we do not include the discounts.
         boolean includeDiscounts = !(isParentSaved() && isParentApproved());
-        
+
         KualiDecimal amount = getAmount();
         KualiDecimal applied = getAmountApplied();
         KualiDecimal a = amount.subtract(applied);
-        
+
         if (includeDiscounts) {
             CustomerInvoiceDetail discount = getDiscountCustomerInvoiceDetail();
             if (ObjectUtils.isNotNull(discount)) {
@@ -106,18 +108,18 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         }
         return a;
     }
-    
+
     private boolean isParentSaved() {
         return getCustomerInvoiceDocument() != null;
     }
-    
+
     private boolean isParentApproved() {
         if (getCustomerInvoiceDocument() == null) {
             return false;
         }
         return KFSConstants.DocumentStatusCodes.APPROVED.equalsIgnoreCase(getCustomerInvoiceDocument().getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
     }
-    
+
     //TODO Andrew
 //    @Deprecated
 //    private KualiDecimal getAmountOpenFromDatabaseNoDiscounts() {
@@ -143,15 +145,15 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     //public KualiDecimal getAmountOpenExcludingAnyAmountFromCurrentPaymentApplicationDocument() {
     //    return getAmountOpenExcludingAnyAmountFrom(getCurrentPaymentApplicationDocument());
     //}
-    
+
     /**
-     * 
-     * Retrieves the discounted amount.  This is the amount minues any 
-     * discounts that might exist.  If no discount exists, then it 
+     *
+     * Retrieves the discounted amount.  This is the amount minues any
+     * discounts that might exist.  If no discount exists, then it
      * just returns the amount.
-     * 
+     *
      * NOTE this does not subtract PaidApplieds, only discounts.
-     * 
+     *
      * @return
      */
     //PAYAPP
@@ -164,19 +166,19 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         }
         return a;
     }
-    
+
     //TODO Andrew
 //    public KualiDecimal getAmountOpenExcludingAnyAmountFrom(PaymentApplicationDocument paymentApplicationDocument) {
 //        return getAmountDiscounted().subtract(getAmountAppliedExcludingAnyAmountAppliedBy(paymentApplicationDocument));
 //    }
-//    
+//
 //    public KualiDecimal getAmountOpenPerCurrentPaymentApplicationDocument() {
 //        return getAmountDiscounted().subtract(getAmountAppliedByCurrentPaymentApplicationDocument());
 //    }
-    
+
     /**
      * This method returns the amount that remained unapplied on a given date.
-     * 
+     *
      * @param date
      * @return
      */
@@ -185,24 +187,24 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         //TODO Andrew - need to fix this to actually respect the dates
         //return getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(date, null);
     }
-    
+
     public KualiDecimal getAmountOpenByDateFromDatabase(java.util.Date date) {
         return getAmountOpen();
         //TODO Andrew - need to fix this to actually respect the dates
         //return getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(new java.sql.Date(date.getTime()),null);
     }
-    
+
     //TODO Andrew
 //    public KualiDecimal getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(java.sql.Date date, PaymentApplicationDocument paymentApplicationDocument) {
 //        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-//        
+//
 //        // Lookup all applied payments as of the given date
 //        Map<String,Object> criteria = new HashMap<String,Object>();
 //        criteria.put("invoiceItemNumber", getSequenceNumber());
 //        criteria.put("financialDocumentReferenceInvoiceNumber", getDocumentNumber());
 //        criteria.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
 //        Collection<InvoicePaidApplied> invoicePaidAppliedsAsOfDate = businessObjectService.findMatching(InvoicePaidApplied.class, criteria);
-//        
+//
 //        KualiDecimal totalAppliedAmount = new KualiDecimal(0);
 //        KualiDecimal appliedAmount = new KualiDecimal(0);
 //        for (InvoicePaidApplied invoicePaidApplied : invoicePaidAppliedsAsOfDate) {
@@ -219,18 +221,18 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 //                }
 //            }
 //        }
-//        
+//
 //        return getAmount().subtract(totalAppliedAmount);
 //    }
-//    
+//
 //    public KualiDecimal getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(java.util.Date date, PaymentApplicationDocument paymentApplicationDocument) {
 //        return getAmountOpenByDateFromDatabaseExcludingAnyAmountAppliedByPaymentApplicationDocument(new java.sql.Date(date.getTime()),paymentApplicationDocument);
 //    }
-    
+
     // ---- END OPEN AMOUNTS
-    
+
     // ---- BEGIN APPLIED AMOUNTS
-    public KualiDecimal getAmountApplied() { 
+    public KualiDecimal getAmountApplied() {
         List<InvoicePaidApplied> invoicePaidApplieds = null;
         invoicePaidApplieds = getMatchingInvoicePaidAppliedsMatchingAnyDocumentFromDatabase();
         KualiDecimal appliedAmount = new KualiDecimal(0);
@@ -239,7 +241,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         }
         return appliedAmount;
     }
-    
+
     //TODO Andrew
 //    /**
 //     * @return the applied amount by getting it from the matching invoice paid applied
@@ -247,7 +249,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 //    public KualiDecimal getAmountAppliedFromDatabase() {
 //        return getAmountAppliedBy(null);
 //    }
-//    
+//
 //  /**
 //  * This method is a convenience method used from the Struts form on the payment application document screen.
 //  * @return
@@ -255,10 +257,10 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 // public KualiDecimal getAmountAppliedByCurrentPaymentApplicationDocument() {
 //     return getAmountAppliedBy(getCurrentPaymentApplicationDocument());
 // }
-// 
+//
     /**
      * @param paymentApplicationDocument
-     * @return 
+     * @return
      */
     public KualiDecimal getAmountAppliedBy(String documentNumber) {
         List<InvoicePaidApplied> invoicePaidApplieds = null;
@@ -273,7 +275,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         }
         return appliedAmount;
     }
-    
+
     /**
      * @param paymentApplicationDocument
      * @return the sum of applied amounts according to the database, excluding any amounts applied by paymentApplicationDocument
@@ -291,20 +293,20 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         }
         return appliedAmount;
     }
-    
+
     // ---- END APPLIED AMOUNTS
-    
+
     /**
      * This method returns the writeoff amount. If writeoff document hasn't been approved yet, display the open amount. Else display
      * the amount applied from the specific approved writeoff document.
-     * 
+     *
      * @param customerInvoiceWriteoffDocumentNumber
      * @return
      */
     public KualiDecimal getWriteoffAmount() {
         if (SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class).isCustomerInvoiceWriteoffDocumentApproved(customerInvoiceWriteoffDocumentNumber)) {
-            //TODO this probably isnt right ... in the case of discounts and/or credit 
-            //     memos, the getAmount() isnt the amount that the writeoff document will have 
+            //TODO this probably isnt right ... in the case of discounts and/or credit
+            //     memos, the getAmount() isnt the amount that the writeoff document will have
             //     written off
             return super.getAmount(); // using the accounting line amount ... see comments at top of class
         }
@@ -312,10 +314,10 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
             return getAmountOpen();
         }
     }
-    
+
     /**
      * This method returns the invoice pre tax amount
-     * 
+     *
      * @return
      */
     public KualiDecimal getInvoiceItemPreTaxAmount() {
@@ -330,7 +332,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Gets the accountsReceivableObjectCode attribute.
-     * 
+     *
      * @return Returns the accountsReceivableObjectCode
      */
     public String getAccountsReceivableObjectCode() {
@@ -339,7 +341,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Sets the accountsReceivableObjectCode attribute.
-     * 
+     *
      * @param accountsReceivableObjectCode The accountsReceivableObjectCode to set.
      */
     public void setAccountsReceivableObjectCode(String accountsReceivableObjectCode) {
@@ -348,7 +350,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Gets the accountsReceivableSubObjectCode attribute.
-     * 
+     *
      * @return Returns the accountsReceivableSubObjectCode
      */
     public String getAccountsReceivableSubObjectCode() {
@@ -357,7 +359,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Sets the accountsReceivableSubObjectCode attribute.
-     * 
+     *
      * @param accountsReceivableSubObjectCode The accountsReceivableSubObjectCode to set.
      */
     public void setAccountsReceivableSubObjectCode(String accountsReceivableSubObjectCode) {
@@ -366,7 +368,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Gets the invoiceItemQuantity attribute.
-     * 
+     *
      * @return Returns the invoiceItemQuantity
      */
     public BigDecimal getInvoiceItemQuantity() {
@@ -375,7 +377,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Sets the invoiceItemQuantity attribute.
-     * 
+     *
      * @param invoiceItemQuantity The invoiceItemQuantity to set.
      */
     public void setInvoiceItemQuantity(BigDecimal invoiceItemQuantity) {
@@ -384,7 +386,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Gets the invoiceItemUnitOfMeasureCode attribute.
-     * 
+     *
      * @return Returns the invoiceItemUnitOfMeasureCode
      */
     public String getInvoiceItemUnitOfMeasureCode() {
@@ -393,7 +395,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Sets the invoiceItemUnitOfMeasureCode attribute.
-     * 
+     *
      * @param invoiceItemUnitOfMeasureCode The invoiceItemUnitOfMeasureCode to set.
      */
     public void setInvoiceItemUnitOfMeasureCode(String invoiceItemUnitOfMeasureCode) {
@@ -402,7 +404,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Gets the invoiceItemUnitPrice attribute.
-     * 
+     *
      * @return Returns the invoiceItemUnitPrice
      */
     public BigDecimal getInvoiceItemUnitPrice() {
@@ -423,7 +425,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Sets the invoiceItemUnitPrice attribute.
-     * 
+     *
      * @param invoiceItemUnitPrice The invoiceItemUnitPrice to set.
      */
     public void setInvoiceItemUnitPrice(BigDecimal invoiceItemUnitPrice) {
@@ -432,7 +434,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Gets the invoiceItemServiceDate attribute.
-     * 
+     *
      * @return Returns the invoiceItemServiceDate
      */
     public Date getInvoiceItemServiceDate() {
@@ -441,7 +443,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Sets the invoiceItemServiceDate attribute.
-     * 
+     *
      * @param invoiceItemServiceDate The invoiceItemServiceDate to set.
      */
     public void setInvoiceItemServiceDate(Date invoiceItemServiceDate) {
@@ -450,7 +452,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Gets the invoiceItemCode attribute.
-     * 
+     *
      * @return Returns the invoiceItemCode
      */
     public String getInvoiceItemCode() {
@@ -459,7 +461,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Sets the invoiceItemCode attribute.
-     * 
+     *
      * @param invoiceItemCode The invoiceItemCode to set.
      */
     public void setInvoiceItemCode(String invoiceItemCode) {
@@ -468,7 +470,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Gets the invoiceItemDescription attribute.
-     * 
+     *
      * @return Returns the invoiceItemDescription
      */
     public String getInvoiceItemDescription() {
@@ -477,7 +479,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Sets the invoiceItemDescription attribute.
-     * 
+     *
      * @param invoiceItemDescription The invoiceItemDescription to set.
      */
     public void setInvoiceItemDescription(String invoiceItemDescription) {
@@ -486,7 +488,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Gets the invoiceItemTaxAmount attribute. TODO Use tax service to get invoice item tax amount
-     * 
+     *
      * @return Returns the invoiceItemTaxAmount.
      */
     public KualiDecimal getInvoiceItemTaxAmount() {
@@ -495,7 +497,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Sets the invoiceItemTaxAmount attribute value.
-     * 
+     *
      * @param invoiceItemTaxAmount The invoiceItemTaxAmount to set.
      */
     public void setInvoiceItemTaxAmount(KualiDecimal invoiceItemTaxAmount) {
@@ -504,7 +506,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Gets the invoiceItemDiscountLineNumber attribute.
-     * 
+     *
      * @return Returns the invoiceItemDiscountLineNumber.
      */
     public Integer getInvoiceItemDiscountLineNumber() {
@@ -513,7 +515,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Sets the invoiceItemDiscountLineNumber attribute value.
-     * 
+     *
      * @param invoiceItemDiscountLineNumber The invoiceItemDiscountLineNumber to set.
      */
     public void setInvoiceItemDiscountLineNumber(Integer invoiceItemDiscountLineNumber) {
@@ -522,7 +524,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Gets the accountsReceivableSubObject attribute.
-     * 
+     *
      * @return Returns the accountsReceivableSubObject
      */
     public SubObjectCode getAccountsReceivableSubObject() {
@@ -531,17 +533,18 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Sets the accountsReceivableSubObject attribute.
-     * 
+     *
      * @param accountsReceivableSubObject The accountsReceivableSubObject to set.
      * @deprecated
      */
+    @Deprecated
     public void setAccountsReceivableSubObject(SubObjectCode accountsReceivableSubObject) {
         this.accountsReceivableSubObject = accountsReceivableSubObject;
     }
 
     /**
      * Gets the accountsReceivableObject attribute.
-     * 
+     *
      * @return Returns the accountsReceivableObject
      */
     public ObjectCode getAccountsReceivableObject() {
@@ -550,10 +553,11 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * Sets the accountsReceivableObject attribute.
-     * 
+     *
      * @param accountsReceivableObject The accountsReceivableObject to set.
      * @deprecated
      */
+    @Deprecated
     public void setAccountsReceivableObject(ObjectCode accountsReceivableObject) {
         this.accountsReceivableObject = accountsReceivableObject;
     }
@@ -561,6 +565,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
+    @Override
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
@@ -602,7 +607,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * This method returns true if customer invoice detail has a corresponding discount line
-     * 
+     *
      * @return
      */
     public boolean isDiscountLineParent() {
@@ -612,7 +617,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     /**
      * This method should only be used to determine if detail is discount line in JSP. If you want to determine if invoice detail is
      * a detail line use CustomerInvoiceDocument.isDiscountLineBasedOnSequenceNumber() instead.
-     * 
+     *
      * @return
      */
     public boolean isDiscountLine() {
@@ -621,7 +626,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * This method sets the amount to negative if it isn't already negative
-     * 
+     *
      * @return
      */
     public void setInvoiceItemUnitPriceToNegative() {
@@ -648,7 +653,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     }
 
     // ---- Methods to find matching InvoicePaidApplieds.
-    
+
     /**
      * @return matching InvoicePaidApplieds from the database if they exist
      */
@@ -670,7 +675,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         }
         return invoicePaidApplieds;
     }
-    
+
     /**
      * @param paymentApplicationDocumentNumber
      * @return the List of matching InvoicePaidApplieds.
@@ -681,7 +686,7 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         if (StringUtils.isBlank(documentNumber)) {
             return getMatchingInvoicePaidAppliedsMatchingAnyDocumentFromDatabase();
         }
-        
+
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         Map<String,Object> criteria = new HashMap<String,Object>();
         criteria.put("documentNumber", documentNumber);
@@ -712,14 +717,14 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 //        List<InvoicePaidApplied> matchingInvoicePaidApplieds = getMatchingInvoicePaidApplieds(paymentApplicationDocumentNumber);
 //        return matchingInvoicePaidApplieds.iterator().next();
 //    }
-//    
-//    
+//
+//
 //    /**
-//     * Get InvoicePaidApplieds related to this CustomerInvoiceDetail if they 
+//     * Get InvoicePaidApplieds related to this CustomerInvoiceDetail if they
 //     * exist in a PaymentApplicationDocument and do it just by looking at the
 //     * PaymentApplicationDocument as it is in memory. Don't get anything from
 //     * the database.
-//     * 
+//     *
 //     * @param paymentApplicationDocument
 //     * @return
 //     */
@@ -736,12 +741,12 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 //        }
 //        return selectedInvoicePaidApplieds;
 //    }
-//    
+//
 //    /**
 //     * This method returns the results of @link getMatchingInvoicePaidAppliedsMatchingPaymentApplicationDocumentNoDatabase(PaymentApplicationDocument)
 //     * as a single InvoicePaidApplied. This is OK because there's only one
 //     * InvoicePaidApplied for a CustomerInvoiceDetail on a given PaymentApplicationDocument.
-//     * 
+//     *
 //     * @param paymentApplicationDocument
 //     * @return
 //     */
@@ -751,10 +756,10 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 //    }
 
     // ---- Simple getters/setters
-    
+
     public CustomerInvoiceDocument getCustomerInvoiceDocument() {
         if (customerInvoiceDocument == null) {
-            DocumentService documentService = (DocumentService) SpringContext.getBean(DocumentService.class);
+            DocumentService documentService = SpringContext.getBean(DocumentService.class);
             try {
                 customerInvoiceDocument = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(getDocumentNumber());
             }
@@ -764,11 +769,11 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
         }
         return customerInvoiceDocument;
     }
-    
+
     public void setCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument) {
         this.customerInvoiceDocument = customerInvoiceDocument;
     }
-    
+
     public String getCustomerInvoiceWriteoffDocumentNumber() {
         return customerInvoiceWriteoffDocumentNumber;
     }
@@ -800,9 +805,10 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
 
     /**
      * If the detail is a discount customer invoice detail, return the parent customer invoice detail's sequence number instead
-     * 
+     *
      * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getInvoiceItemNumber()
      */
+    @Override
     public Integer getInvoiceItemNumber() {
         if (isDiscountLine()) {
             return parentDiscountCustomerInvoiceDetail.getSequenceNumber();
@@ -814,20 +820,32 @@ public class CustomerInvoiceDetail extends SourceAccountingLine implements Appli
     /**
      * If detail is part of an invoice that is a reversal, return the invoice that is being corrected. Else return the customer
      * details document number.
-     * 
+     *
      * @see org.kuali.kfs.module.ar.businessobject.AppliedPayment#getInvoiceReferenceNumber()
      */
+    @Override
     public String getInvoiceReferenceNumber() {
         return getDocumentNumber();
     }
-    
+
     /**
-     * 
+     *
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#refresh()
      */
+    @Override
     public void refresh() {
         super.refresh();
         this.updateAmountBasedOnQuantityAndUnitPrice();
     }
-    
+
+    @Override
+    public void refreshNonUpdateableReferences() {
+        super.refreshNonUpdateableReferences();
+    }
+
+    @Override
+    public void setDocumentNumber(String documentNumber) {
+        super.setDocumentNumber(documentNumber);
+    }
+
 }

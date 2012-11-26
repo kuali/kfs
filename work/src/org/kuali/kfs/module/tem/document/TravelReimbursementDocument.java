@@ -18,7 +18,6 @@ package org.kuali.kfs.module.tem.document;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.ALLOW_TR_WITHOUT_TA_IND;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -244,7 +243,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
                 else if (!authorizations.isEmpty()){
                     // authorization that is not opened; note to the TR document
                     Note newNote = getDocumentService().createNoteFromDocument(this, "TA is no longer Open; skip Dis-encumberance process.");
-                    getDocumentService().addNoteToDocument(this, newNote);
+                    addNote(newNote);
                     getDocumentDao().save(this);
                 }
             }catch (Exception e) {
@@ -266,7 +265,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         if (isTaFree) {
             cleanTravelDocument();
         }
-        setBoNotes(new ArrayList<Note>());
+        getNotes().clear();
         addContactInformation();
     }
 

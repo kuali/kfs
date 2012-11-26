@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.document;
 
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 
 public class TravelAuthorizationCloseDocument extends TravelAuthorizationDocument {

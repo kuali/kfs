@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
@@ -36,30 +37,27 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.location.api.LocationConstants;
-import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.StateService;
-import org.kuali.rice.location.framework.campus.CampusEbo;
 import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class SystemInformation extends PersistableBusinessObjectBase implements MutableInactivatable, FiscalYearBasedBusinessObject {
+public class SystemInformation extends PersistableBusinessObjectBase implements MutableInactivatable, AccountsReceivableSystemInformation, FiscalYearBasedBusinessObject {
 
-	protected Integer universityFiscalYear;
-	protected String processingChartOfAccountCode;
-	protected String processingOrganizationCode;
-	protected String universityFederalEmployerIdentificationNumber;
-	protected String discountObjectCode;
-	protected String universityClearingChartOfAccountsCode;
-	protected String universityClearingAccountNumber;
-	protected String universityClearingSubAccountNumber;
-	protected String universityClearingObjectCode;
-	protected String universityClearingSubObjectCode;
-	protected String creditCardObjectCode;
-	protected String lockboxNumber;
-	protected boolean active;
+    protected Integer universityFiscalYear;
+    protected String processingChartOfAccountCode;
+    protected String processingOrganizationCode;
+    protected String universityFederalEmployerIdentificationNumber;
+    protected String discountObjectCode;
+    protected String universityClearingChartOfAccountsCode;
+    protected String universityClearingAccountNumber;
+    protected String universityClearingSubAccountNumber;
+    protected String universityClearingObjectCode;
+    protected String universityClearingSubObjectCode;
+    protected String creditCardObjectCode;
+    protected String lockboxNumber;
+    protected boolean active;
     protected String organizationRemitToAddressName;
     protected String organizationRemitToLine1StreetAddress;
     protected String organizationRemitToLine2StreetAddress;
@@ -73,15 +71,15 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 //    protected String wireSubAccountNumber;
 //    protected String wireObjectCode;
 //    protected String wireSubObjectCode;
-    
-	protected ObjectCode creditCardFinancialObject;
-	protected SubObjectCode universityClearingSubObject;
-	protected ObjectCode universityClearingObject;
-	protected ObjectCode discountFinancialObject;
-	protected Organization processingOrganization;
-	protected Chart processingChartOfAccount;
-	protected Account universityClearingAccount;
-	protected Chart universityClearingChartOfAccounts;
+
+    protected ObjectCode creditCardFinancialObject;
+    protected SubObjectCode universityClearingSubObject;
+    protected ObjectCode universityClearingObject;
+    protected ObjectCode discountFinancialObject;
+    protected Organization processingOrganization;
+    protected Chart processingChartOfAccount;
+    protected Account universityClearingAccount;
+    protected Chart universityClearingChartOfAccounts;
     protected SubAccount universityClearingSubAccount;
     protected ObjectCode universityFiscalYearObject;
     protected StateEbo organizationRemitToState;
@@ -91,9 +89,9 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 //    protected ObjectCode wireObject;
 //    protected SubObjectCode wireSubObject;
     protected Person financialDocumentInitiator;
-    protected transient SystemOptions universityFiscal;
+    protected SystemOptions universityFiscal;
     protected PostalCodeEbo orgRemitToZipCode;
-    
+
 	public Person getFinancialDocumentInitiator() {
 	    financialDocumentInitiator = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(financialDocumentInitiatorIdentifier, financialDocumentInitiator);
         return financialDocumentInitiator;
@@ -112,39 +110,42 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 
 	/**
 	 * Gets the universityFiscalYear attribute.
-	 * 
+	 *
 	 * @return Returns the universityFiscalYear
-	 * 
+	 *
 	 */
-	public Integer getUniversityFiscalYear() { 
+	@Override
+    public Integer getUniversityFiscalYear() {
 		return universityFiscalYear;
 	}
 
 	/**
 	 * Sets the universityFiscalYear attribute.
-	 * 
+	 *
 	 * @param universityFiscalYear The universityFiscalYear to set.
-	 * 
+	 *
 	 */
-	public void setUniversityFiscalYear(Integer universityFiscalYear) {
+	@Override
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
 		this.universityFiscalYear = universityFiscalYear;
 	}
 
 	/**
 	 * Gets the processingChartOfAccountCode attribute.
-	 * 
+	 *
 	 * @return Returns the processingChartOfAccountCode
-	 * 
+	 *
 	 */
-	public String getProcessingChartOfAccountCode() { 
+	@Override
+    public String getProcessingChartOfAccountCode() {
 		return processingChartOfAccountCode;
 	}
 
 	/**
 	 * Sets the processingChartOfAccountCode attribute.
-	 * 
+	 *
 	 * @param processingChartOfAccountCode The processingChartOfAccountCode to set.
-	 * 
+	 *
 	 */
 	public void setProcessingChartOfAccountCode(String processingChartOfAccountCode) {
 		this.processingChartOfAccountCode = processingChartOfAccountCode;
@@ -153,19 +154,20 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 
 	/**
 	 * Gets the processingOrganizationCode attribute.
-	 * 
+	 *
 	 * @return Returns the processingOrganizationCode
-	 * 
+	 *
 	 */
-	public String getProcessingOrganizationCode() { 
+	@Override
+    public String getProcessingOrganizationCode() {
 		return processingOrganizationCode;
 	}
 
 	/**
 	 * Sets the processingOrganizationCode attribute.
-	 * 
+	 *
 	 * @param processingOrganizationCode The processingOrganizationCode to set.
-	 * 
+	 *
 	 */
 	public void setProcessingOrganizationCode(String processingOrganizationCode) {
 		this.processingOrganizationCode = processingOrganizationCode;
@@ -173,39 +175,39 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 
     /**
      * Gets the universityFederalEmployerIdentificationNumber attribute.
-     * 
+     *
      * @return Returns the universityFederalEmployerIdentificationNumber
-     * 
+     *
      */
-    public String getUniversityFederalEmployerIdentificationNumber() { 
+    public String getUniversityFederalEmployerIdentificationNumber() {
         return universityFederalEmployerIdentificationNumber;
     }
 
     /**
      * Sets the universityFederalEmployerIdentificationNumber attribute.
-     * 
+     *
      * @param universityFederalEmployerIdentificationNumber The universityFederalEmployerIdentificationNumber to set.
-     * 
+     *
      */
     public void setUniversityFederalEmployerIdentificationNumber(String universityFederalEmployerIdentificationNumber) {
         this.universityFederalEmployerIdentificationNumber = universityFederalEmployerIdentificationNumber;
-    }    
+    }
 
 	/**
 	 * Gets the discountObjectCode attribute.
-	 * 
+	 *
 	 * @return Returns the discountObjectCode
-	 * 
+	 *
 	 */
-	public String getDiscountObjectCode() { 
+	public String getDiscountObjectCode() {
 		return discountObjectCode;
 	}
 
 	/**
 	 * Sets the discountObjectCode attribute.
-	 * 
+	 *
 	 * @param discountObjectCode The discountObjectCode to set.
-	 * 
+	 *
 	 */
 	public void setDiscountObjectCode(String refundFinancialObjectCode) {
 		this.discountObjectCode = refundFinancialObjectCode;
@@ -213,19 +215,19 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 
 	/**
 	 * Gets the universityClearingChartOfAccountsCode attribute.
-	 * 
+	 *
 	 * @return Returns the universityClearingChartOfAccountsCode
-	 * 
+	 *
 	 */
-	public String getUniversityClearingChartOfAccountsCode() { 
+	public String getUniversityClearingChartOfAccountsCode() {
 		return universityClearingChartOfAccountsCode;
 	}
 
 	/**
 	 * Sets the universityClearingChartOfAccountsCode attribute.
-	 * 
+	 *
 	 * @param universityClearingChartOfAccountsCode The universityClearingChartOfAccountsCode to set.
-	 * 
+	 *
 	 */
 	public void setUniversityClearingChartOfAccountsCode(String universityClearingChartOfAccountsCode) {
 		this.universityClearingChartOfAccountsCode = universityClearingChartOfAccountsCode;
@@ -234,19 +236,19 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 
 	/**
 	 * Gets the universityClearingAccountNumber attribute.
-	 * 
+	 *
 	 * @return Returns the universityClearingAccountNumber
-	 * 
+	 *
 	 */
-	public String getUniversityClearingAccountNumber() { 
+	public String getUniversityClearingAccountNumber() {
 		return universityClearingAccountNumber;
 	}
 
 	/**
 	 * Sets the universityClearingAccountNumber attribute.
-	 * 
+	 *
 	 * @param universityClearingAccountNumber The universityClearingAccountNumber to set.
-	 * 
+	 *
 	 */
 	public void setUniversityClearingAccountNumber(String universityClearingAccountNumber) {
 		this.universityClearingAccountNumber = universityClearingAccountNumber;
@@ -255,19 +257,19 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 
 	/**
 	 * Gets the universityClearingSubAccountNumber attribute.
-	 * 
+	 *
 	 * @return Returns the universityClearingSubAccountNumber
-	 * 
+	 *
 	 */
-	public String getUniversityClearingSubAccountNumber() { 
+	public String getUniversityClearingSubAccountNumber() {
 		return universityClearingSubAccountNumber;
 	}
 
 	/**
 	 * Sets the universityClearingSubAccountNumber attribute.
-	 * 
+	 *
 	 * @param universityClearingSubAccountNumber The universityClearingSubAccountNumber to set.
-	 * 
+	 *
 	 */
 	public void setUniversityClearingSubAccountNumber(String universityClearingSubAccountNumber) {
 		this.universityClearingSubAccountNumber = universityClearingSubAccountNumber;
@@ -276,19 +278,19 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 
 	/**
 	 * Gets the universityClearingObjectCode attribute.
-	 * 
+	 *
 	 * @return Returns the universityClearingObjectCode
-	 * 
+	 *
 	 */
-	public String getUniversityClearingObjectCode() { 
+	public String getUniversityClearingObjectCode() {
 		return universityClearingObjectCode;
 	}
 
 	/**
 	 * Sets the universityClearingObjectCode attribute.
-	 * 
+	 *
 	 * @param universityClearingObjectCode The universityClearingObjectCode to set.
-	 * 
+	 *
 	 */
 	public void setUniversityClearingObjectCode(String universityClearingObjectCode) {
 		this.universityClearingObjectCode = universityClearingObjectCode;
@@ -297,19 +299,19 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 
 	/**
 	 * Gets the universityClearingSubObjectCode attribute.
-	 * 
+	 *
 	 * @return Returns the universityClearingSubObjectCode
-	 * 
+	 *
 	 */
-	public String getUniversityClearingSubObjectCode() { 
+	public String getUniversityClearingSubObjectCode() {
 		return universityClearingSubObjectCode;
 	}
 
 	/**
 	 * Sets the universityClearingSubObjectCode attribute.
-	 * 
+	 *
 	 * @param universityClearingSubObjectCode The universityClearingSubObjectCode to set.
-	 * 
+	 *
 	 */
 	public void setUniversityClearingSubObjectCode(String universityClearingSubObjectCode) {
 		this.universityClearingSubObjectCode = universityClearingSubObjectCode;
@@ -318,19 +320,19 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 
 	/**
 	 * Gets the creditCardObjectCode attribute.
-	 * 
+	 *
 	 * @return Returns the creditCardObjectCode
-	 * 
+	 *
 	 */
-	public String getCreditCardObjectCode() { 
+	public String getCreditCardObjectCode() {
 		return creditCardObjectCode;
 	}
 
 	/**
 	 * Sets the creditCardObjectCode attribute.
-	 * 
+	 *
 	 * @param creditCardObjectCode The creditCardObjectCode to set.
-	 * 
+	 *
 	 */
 	public void setCreditCardObjectCode(String creditCardObjectCode) {
 		this.creditCardObjectCode = creditCardObjectCode;
@@ -339,56 +341,58 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 
 	/**
 	 * Gets the lockboxNumber attribute.
-	 * 
+	 *
 	 * @return Returns the lockboxNumber
-	 * 
+	 *
 	 */
-	public String getLockboxNumber() { 
+	public String getLockboxNumber() {
 		return lockboxNumber;
 	}
 
 	/**
 	 * Sets the lockboxNumber attribute.
-	 * 
+	 *
 	 * @param lockboxNumber The lockboxNumber to set.
-	 * 
+	 *
 	 */
 	public void setLockboxNumber(String lockboxNumber) {
 		this.lockboxNumber = lockboxNumber;
 	}
-	
+
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active
-     * 
+     *
      */
-    public boolean isActive() { 
+    @Override
+    public boolean isActive() {
         return active;
     }
 
 	/**
 	 * Gets the active attribute.
-	 * 
+	 *
 	 * @return Returns the active
-	 * 
+	 *
 	 */
-	public boolean getActive() { 
+	public boolean getActive() {
 		return active;
 	}
 
 	/**
 	 * Sets the active attribute.
-	 * 
+	 *
 	 * @param active The active to set.
-	 * 
+	 *
 	 */
-	public void setActive(boolean active) {
+	@Override
+    public void setActive(boolean active) {
 		this.active = active;
 	}
 
 	/**
-     * Gets the financialDocumentInitiatorIdentifier attribute. 
+     * Gets the financialDocumentInitiatorIdentifier attribute.
      * @return Returns the financialDocumentInitiatorIdentifier.
      */
     public String getFinancialDocumentInitiatorIdentifier() {
@@ -404,7 +408,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the organizationCheckPayableToName attribute. 
+     * Gets the organizationCheckPayableToName attribute.
      * @return Returns the organizationCheckPayableToName.
      */
     public String getOrganizationCheckPayableToName() {
@@ -420,7 +424,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the organizationRemitToAddressName attribute. 
+     * Gets the organizationRemitToAddressName attribute.
      * @return Returns the organizationRemitToAddressName.
      */
     public String getOrganizationRemitToAddressName() {
@@ -436,7 +440,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the organizationRemitToCityName attribute. 
+     * Gets the organizationRemitToCityName attribute.
      * @return Returns the organizationRemitToCityName.
      */
     public String getOrganizationRemitToCityName() {
@@ -452,7 +456,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the organizationRemitToLine1StreetAddress attribute. 
+     * Gets the organizationRemitToLine1StreetAddress attribute.
      * @return Returns the organizationRemitToLine1StreetAddress.
      */
     public String getOrganizationRemitToLine1StreetAddress() {
@@ -468,7 +472,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the organizationRemitToLine2StreetAddress attribute. 
+     * Gets the organizationRemitToLine2StreetAddress attribute.
      * @return Returns the organizationRemitToLine2StreetAddress.
      */
     public String getOrganizationRemitToLine2StreetAddress() {
@@ -484,7 +488,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the organizationRemitToStateCode attribute. 
+     * Gets the organizationRemitToStateCode attribute.
      * @return Returns the organizationRemitToStateCode.
      */
     public String getOrganizationRemitToStateCode() {
@@ -500,7 +504,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the organizationRemitToZipCode attribute. 
+     * Gets the organizationRemitToZipCode attribute.
      * @return Returns the organizationRemitToZipCode.
      */
     public String getOrganizationRemitToZipCode() {
@@ -516,7 +520,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     }
 
 //    /**
-//     * Gets the wireAccountNumber attribute. 
+//     * Gets the wireAccountNumber attribute.
 //     * @return Returns the wireAccountNumber.
 //     */
 //    public String getWireAccountNumber() {
@@ -532,7 +536,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 //    }
 //
 //    /**
-//     * Gets the wireChartOfAccountsCode attribute. 
+//     * Gets the wireChartOfAccountsCode attribute.
 //     * @return Returns the wireChartOfAccountsCode.
 //     */
 //    public String getWireChartOfAccountsCode() {
@@ -548,7 +552,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 //    }
 //
 //    /**
-//     * Gets the wireObjectCode attribute. 
+//     * Gets the wireObjectCode attribute.
 //     * @return Returns the wireObjectCode.
 //     */
 //    public String getWireObjectCode() {
@@ -564,7 +568,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 //    }
 //
 //    /**
-//     * Gets the wireSubAccountNumber attribute. 
+//     * Gets the wireSubAccountNumber attribute.
 //     * @return Returns the wireSubAccountNumber.
 //     */
 //    public String getWireSubAccountNumber() {
@@ -580,7 +584,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 //    }
 //
 //    /**
-//     * Gets the wireSubObjectCode attribute. 
+//     * Gets the wireSubObjectCode attribute.
 //     * @return Returns the wireSubObjectCode.
 //     */
 //    public String getWireSubObjectCode() {
@@ -597,166 +601,174 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 
 	/**
 	 * Gets the creditCardFinancialObject attribute.
-	 * 
+	 *
 	 * @return Returns the creditCardFinancialObject
-	 * 
+	 *
 	 */
-	public ObjectCode getCreditCardFinancialObject() { 
+	public ObjectCode getCreditCardFinancialObject() {
 		return creditCardFinancialObject;
 	}
 
 	/**
 	 * Sets the creditCardFinancialObject attribute.
-	 * 
+	 *
 	 * @param creditCardFinancialObject The creditCardFinancialObject to set.
 	 * @deprecated
 	 */
-	public void setCreditCardFinancialObject(ObjectCode creditCardFinancialObject) {
+	@Deprecated
+    public void setCreditCardFinancialObject(ObjectCode creditCardFinancialObject) {
 		this.creditCardFinancialObject = creditCardFinancialObject;
 	}
 
 	/**
 	 * Gets the universityClearingSubObject attribute.
-	 * 
+	 *
 	 * @return Returns the universityClearingSubObject
-	 * 
+	 *
 	 */
-	public SubObjectCode getUniversityClearingSubObject() { 
+	public SubObjectCode getUniversityClearingSubObject() {
 		return universityClearingSubObject;
 	}
 
 	/**
 	 * Sets the universityClearingSubObject attribute.
-	 * 
+	 *
 	 * @param universityClearingSubObject The universityClearingSubObject to set.
 	 * @deprecated
 	 */
-	public void setUniversityClearingSubObject(SubObjectCode universityClearingSubObject) {
+	@Deprecated
+    public void setUniversityClearingSubObject(SubObjectCode universityClearingSubObject) {
 		this.universityClearingSubObject = universityClearingSubObject;
 	}
 
 	/**
 	 * Gets the universityClearingObject attribute.
-	 * 
+	 *
 	 * @return Returns the universityClearingObject
-	 * 
+	 *
 	 */
-	public ObjectCode getUniversityClearingObject() { 
+	public ObjectCode getUniversityClearingObject() {
 		return universityClearingObject;
 	}
 
 	/**
 	 * Sets the universityClearingObject attribute.
-	 * 
+	 *
 	 * @param universityClearingObject The universityClearingObject to set.
 	 * @deprecated
 	 */
-	public void setUniversityClearingObject(ObjectCode universityClearingObject) {
+	@Deprecated
+    public void setUniversityClearingObject(ObjectCode universityClearingObject) {
 		this.universityClearingObject = universityClearingObject;
 	}
 
 	/**
 	 * Gets the discountFinancialObject attribute.
-	 * 
+	 *
 	 * @return Returns the discountFinancialObject
-	 * 
+	 *
 	 */
-	public ObjectCode getDiscountFinancialObject() { 
+	public ObjectCode getDiscountFinancialObject() {
 		return discountFinancialObject;
 	}
 
 	/**
 	 * Sets the discountFinancialObject attribute.
-	 * 
+	 *
 	 * @param discountFinancialObject The discountFinancialObject to set.
 	 * @deprecated
 	 */
-	public void setDiscountFinancialObject(ObjectCode refundFinancialObject) {
+	@Deprecated
+    public void setDiscountFinancialObject(ObjectCode refundFinancialObject) {
 		this.discountFinancialObject = refundFinancialObject;
 	}
 
 	/**
 	 * Gets the processingOrganization attribute.
-	 * 
+	 *
 	 * @return Returns the processingOrganization
-	 * 
+	 *
 	 */
-	public Organization getProcessingOrganization() { 
+	public Organization getProcessingOrganization() {
 		return processingOrganization;
 	}
 
 	/**
 	 * Sets the processingOrganization attribute.
-	 * 
+	 *
 	 * @param processingOrganization The processingOrganization to set.
 	 * @deprecated
 	 */
-	public void setProcessingOrganization(Organization processingOrganization) {
+	@Deprecated
+    public void setProcessingOrganization(Organization processingOrganization) {
 		this.processingOrganization = processingOrganization;
 	}
 
 	/**
 	 * Gets the processingChartOfAccount attribute.
-	 * 
+	 *
 	 * @return Returns the processingChartOfAccount
-	 * 
+	 *
 	 */
-	public Chart getProcessingChartOfAccount() { 
+	public Chart getProcessingChartOfAccount() {
 		return processingChartOfAccount;
 	}
 
 	/**
 	 * Sets the processingChartOfAccount attribute.
-	 * 
+	 *
 	 * @param processingChartOfAccount The processingChartOfAccount to set.
 	 * @deprecated
 	 */
-	public void setProcessingChartOfAccount(Chart processingChartOfAccount) {
+	@Deprecated
+    public void setProcessingChartOfAccount(Chart processingChartOfAccount) {
 		this.processingChartOfAccount = processingChartOfAccount;
 	}
 
 	/**
 	 * Gets the universityClearingAccount attribute.
-	 * 
+	 *
 	 * @return Returns the universityClearingAccount
-	 * 
+	 *
 	 */
-	public Account getUniversityClearingAccount() { 
+	public Account getUniversityClearingAccount() {
 		return universityClearingAccount;
 	}
 
 	/**
 	 * Sets the universityClearingAccount attribute.
-	 * 
+	 *
 	 * @param universityClearingAccount The universityClearingAccount to set.
 	 * @deprecated
 	 */
-	public void setUniversityClearingAccount(Account universityClearingAccount) {
+	@Deprecated
+    public void setUniversityClearingAccount(Account universityClearingAccount) {
 		this.universityClearingAccount = universityClearingAccount;
 	}
 
 	/**
 	 * Gets the universityClearingChartOfAccounts attribute.
-	 * 
+	 *
 	 * @return Returns the universityClearingChartOfAccounts
-	 * 
+	 *
 	 */
-	public Chart getUniversityClearingChartOfAccounts() { 
+	public Chart getUniversityClearingChartOfAccounts() {
 		return universityClearingChartOfAccounts;
 	}
 
 	/**
 	 * Sets the universityClearingChartOfAccounts attribute.
-	 * 
+	 *
 	 * @param universityClearingChartOfAccounts The universityClearingChartOfAccounts to set.
 	 * @deprecated
 	 */
-	public void setUniversityClearingChartOfAccounts(Chart universityClearingChartOfAccounts) {
+	@Deprecated
+    public void setUniversityClearingChartOfAccounts(Chart universityClearingChartOfAccounts) {
 		this.universityClearingChartOfAccounts = universityClearingChartOfAccounts;
 	}
 
     /**
-     * Gets the universityClearingSubAccount attribute. 
+     * Gets the universityClearingSubAccount attribute.
      * @return Returns the universityClearingSubAccount.
      */
     public SubAccount getUniversityClearingSubAccount() {
@@ -768,12 +780,13 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
      * @param universityClearingSubAccount The universityClearingSubAccount to set.
      * @deprecated
      */
+    @Deprecated
     public void setUniversityClearingSubAccount(SubAccount universityClearingSubAccount) {
         this.universityClearingSubAccount = universityClearingSubAccount;
-    }    
-    
+    }
+
 	/**
-     * Gets the organizationRemitToState attribute. 
+     * Gets the organizationRemitToState attribute.
      * @return Returns the organizationRemitToState.
      */
     public StateEbo getOrganizationRemitToState() {
@@ -792,7 +805,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
                 }
             }
         }
-        
+
         return organizationRemitToState;
     }
 
@@ -801,12 +814,13 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
      * @param organizationRemitToState The organizationRemitToState to set.
      * @deprecated
      */
+    @Deprecated
     public void setOrganizationRemitToState(StateEbo organizationRemitToState) {
         this.organizationRemitToState = organizationRemitToState;
     }
 
 //    /**
-//     * Gets the wireAccount attribute. 
+//     * Gets the wireAccount attribute.
 //     * @return Returns the wireAccount.
 //     */
 //    public Account getWireAccount() {
@@ -823,7 +837,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 //    }
 //
 //    /**
-//     * Gets the wireChartOfAccounts attribute. 
+//     * Gets the wireChartOfAccounts attribute.
 //     * @return Returns the wireChartOfAccounts.
 //     */
 //    public Chart getWireChartOfAccounts() {
@@ -840,7 +854,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 //    }
 //
 //    /**
-//     * Gets the wireObject attribute. 
+//     * Gets the wireObject attribute.
 //     * @return Returns the wireObject.
 //     */
 //    public ObjectCode getWireObject() {
@@ -857,7 +871,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 //    }
 //
 //    /**
-//     * Gets the wireSubAccount attribute. 
+//     * Gets the wireSubAccount attribute.
 //     * @return Returns the wireSubAccount.
 //     */
 //    public SubAccount getWireSubAccount() {
@@ -874,7 +888,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 //    }
 //
 //    /**
-//     * Gets the wireSubObject attribute. 
+//     * Gets the wireSubObject attribute.
 //     * @return Returns the wireSubObject.
 //     */
 //    public SubObjectCode getWireSubObject() {
@@ -894,7 +908,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+	    LinkedHashMap m = new LinkedHashMap();
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
         }
@@ -903,11 +917,12 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 	    return m;
     }
 
-	public String toString() {
-	    return ((this.universityFiscalYear == null) ? "" : this.universityFiscalYear + "-") + 
+	@Override
+    public String toString() {
+	    return ((this.universityFiscalYear == null) ? "" : this.universityFiscalYear + "-") +
 	            this.processingChartOfAccountCode + "-" + this.processingOrganizationCode;
 	}
-	
+
     public ObjectCode getUniversityFiscalYearObject() {
         return universityFiscalYearObject;
     }
@@ -915,11 +930,11 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     public void setUniversityFiscalYearObject(ObjectCode universityFiscalYearObject) {
         this.universityFiscalYearObject = universityFiscalYearObject;
     }
-    
+
     /**
      * This method (a hack by any other name...) returns a string so that an organization options can have a link to view its own
      * inquiry page after a look up
-     * 
+     *
      * @return the String "View System Information"
      */
     public String getSystemInformationViewer() {
@@ -928,7 +943,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 
     /**
      * Gets the universityFiscal attribute.
-     * 
+     *
      * @return Returns the universityFiscal.
      */
     public SystemOptions getUniversityFiscal() {
@@ -937,7 +952,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 
     /**
      * Sets the universityFiscal attribute value.
-     * 
+     *
      * @param universityFiscal The universityFiscal to set.
      */
     public void setUniversityFiscal(SystemOptions universityFiscal) {
@@ -945,7 +960,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the orgRemitToZipCode attribute. 
+     * Gets the orgRemitToZipCode attribute.
      * @return Returns the orgRemitToZipCode.
      */
     public PostalCodeEbo getOrgRemitToZipCode() {
@@ -964,7 +979,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
                 }
             }
         }
-        
+
         return orgRemitToZipCode;
     }
 
@@ -975,5 +990,4 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     public void setOrgRemitToZipCode(PostalCodeEbo orgRemitToZipCode) {
         this.orgRemitToZipCode = orgRemitToZipCode;
     }
-
 }

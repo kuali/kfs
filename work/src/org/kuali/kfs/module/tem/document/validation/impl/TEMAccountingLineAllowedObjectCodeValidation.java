@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,14 +44,14 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidation {
@@ -76,7 +76,7 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
 
         TravelDocumentPresentationController documentPresentationController = (TravelDocumentPresentationController) getDocumentHelperService().getDocumentPresentationController(travelDocument);
         boolean canUpdate = documentPresentationController.enableForDocumentManager(GlobalVariables.getUserSession().getPerson());
-        
+
         boolean valid = true;
         String errorPath = TemPropertyConstants.NEW_SOURCE_ACCTG_LINE;
         for (TemSourceAccountingLine sourceLine : (List<TemSourceAccountingLine>)travelDocument.getSourceAccountingLines()){
@@ -85,12 +85,12 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
                 break;
             }
         }
-                
+
         // Test added accounting lines for null values and if there is an access change.
         valid = SpringContext.getBean(TravelDocumentService.class).validateSourceAccountingLines(travelDocument, false);
 
-        if ((!travelDocument.getAppDocStatus().equalsIgnoreCase(TemConstants.TRAVEL_DOC_APP_DOC_STATUS_INIT)) 
-                && (!travelDocument.getAppDocStatus().equalsIgnoreCase(TemConstants.TravelAuthorizationStatusCodeKeys.IN_PROCESS)) 
+        if ((!travelDocument.getAppDocStatus().equalsIgnoreCase(TemConstants.TRAVEL_DOC_APP_DOC_STATUS_INIT))
+                && (!travelDocument.getAppDocStatus().equalsIgnoreCase(TemConstants.TravelAuthorizationStatusCodeKeys.IN_PROCESS))
                 && (!travelDocument.getAppDocStatus().equalsIgnoreCase(TemConstants.TravelAuthorizationStatusCodeKeys.CHANGE_IN_PROCESS))) {
             if (!line.getAccount().getAccountFiscalOfficerUser().getPrincipalId().equals(currentUser.getPrincipalId())
                     && !canUpdate) {
@@ -100,7 +100,7 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
         }
         GlobalVariables.getMessageMap().addToErrorPath(errorPath);
 
-        // skip accounting line validation for TA 
+        // skip accounting line validation for TA
         if (!(event.getDocument() instanceof TravelAuthorizationDocument)) {
             if (ObjectUtils.isNotNull(line.getObjectTypeCode())) {
                 // check to make sure they're the same
@@ -109,20 +109,20 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
                 for (AccountingDistribution dist : list) {
                     distributionList.add(new AccountingLineDistributionKey(dist.getObjectCode(), dist.getCardType()));
                 }
-                
+
                 if (!distributionList.contains(new AccountingLineDistributionKey(line.getFinancialObjectCode(), line.getCardType()))) {
                     GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.FIN_OBJ_CD, TemKeyConstants.ERROR_TEM_ACCOUNTING_LINES_OBJECT_CODE_CARD_TYPE, line.getFinancialObjectCode(), line.getCardType());
                     valid &= false;
                 }
             }
         }
-        
+
 
         if (line.getAmount().isLessEqual(KualiDecimal.ZERO)) {
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.AMOUNT, KFSKeyConstants.ERROR_CUSTOM, "Amount must be greater than zero.");
             valid &= false;
         }
-        
+
         if (valid){
           //Fly America validation
             TravelDocument document = (TravelDocument) event.getDocument();
@@ -132,20 +132,20 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
             if (allExpenses.size() > 0){
                 boolean hasAttachment = false;
                 boolean showFlyAmerica = false;
-                for (Note note : (List<Note>)document.getBoNotes()){
+                for (Note note : document.getNotes()){
                     if (note.getAttachment() != null){
                         hasAttachment = true;
                         break;
                     }
                 }
                 boolean isCGEnabled = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
-                if (isCGEnabled){   
+                if (isCGEnabled){
                     for (TEMExpense expense : allExpenses){
                         if (expense.getTravelCompanyCodeCode().equals(TemConstants.ExpenseTypes.AIRFARE)){
                             Map<String,Object> fieldValues = new HashMap<String, Object>();
-                            fieldValues.put(KNSPropertyConstants.CODE,TemConstants.ExpenseTypes.AIRFARE);
-                            fieldValues.put(KNSPropertyConstants.NAME,expense.getTravelCompanyCodeName());
-                            TravelCompanyCode travelCompany = (TravelCompanyCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TravelCompanyCode.class, fieldValues);
+                            fieldValues.put(KRADPropertyConstants.CODE,TemConstants.ExpenseTypes.AIRFARE);
+                            fieldValues.put(KRADPropertyConstants.NAME,expense.getTravelCompanyCodeName());
+                            TravelCompanyCode travelCompany = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(TravelCompanyCode.class, fieldValues);
                             if (travelCompany != null && travelCompany.isForeignCompany()){
                                 String financialObjectCode = expense.getTravelExpenseTypeCode() != null ? expense.getTravelExpenseTypeCode().getFinancialObjectCode() : null;
                                 if (travelDocument instanceof TravelAuthorizationDocument && expense instanceof ActualExpense){
@@ -169,7 +169,7 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
                         }
                     }
                 }
-                
+
                 //Fly America error has been triggered, determine what accounting line to show it on.
                 if (showFlyAmerica && !hasAttachment){
                     boolean newLine = true;
@@ -183,7 +183,7 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
                     if (newLine) {
                         GlobalVariables.getMessageMap().clearErrorPath();
                         SourceAccountingLineComparator comparator = new SourceAccountingLineComparator();
-                        
+
                         int newIndex = 0;
                         for (TemSourceAccountingLine sourceLine : (List<TemSourceAccountingLine>)document.getSourceAccountingLines()){
                             if (comparator.compare(line,sourceLine) < 0){
@@ -197,13 +197,13 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
                         errorPath = "document." + TemPropertyConstants.SOURCE_ACCOUNTING_LINE + "[" + newIndex + "]";
                         GlobalVariables.getMessageMap().addToErrorPath(errorPath);
                     }
-                    
+
                     GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, TemKeyConstants.ERROR_ACCOUNTING_LINE_CG);
                 }
             }
         }
-        
-        
+
+
         GlobalVariables.getMessageMap().clearErrorPath();
         GlobalVariables.getMessageMap().getErrorPath().addAll(errors);
 
@@ -213,5 +213,5 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
     private DocumentHelperService getDocumentHelperService() {
         return SpringContext.getBean(DocumentHelperService.class);
     }
-    
+
 }

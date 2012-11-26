@@ -45,10 +45,12 @@ import org.kuali.kfs.fp.businessobject.options.DisbursementVoucherDocumentationL
 import org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
@@ -1007,7 +1009,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         } else {
             this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(false);
         }
-        
+
         // I'm assuming that if a tax id type code other than 'TAX' is present, then the employee must be foreign
         for ( String externalIdentifierTypeCode : employee.getExternalIdentifiers().keySet() ) {
             if (KimConstants.PersonExternalIdentifierTypes.TAX.equals(externalIdentifierTypeCode)) {
@@ -1031,6 +1033,42 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
         this.disbVchrPayeeTaxControlCode = "";
         this.disbVchrPayeeW9CompleteCode = true;
+    }
+
+    /**
+     * Convenience method to set dv payee detail fields based on a given customer
+     *
+     * @param customer - customer to use as payee
+     * @param customerAddress - customer address to use for payee address
+     */
+    public void templateCustomer(AccountsReceivableCustomer customer, AccountsReceivableCustomerAddress customerAddress) {
+        if (customer == null) {
+            return;
+        }
+
+        this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER);
+        this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(customer.getCustomerNumber());
+        this.getDvPayeeDetail().setDisbVchrPayeePersonName(customer.getCustomerName());
+        this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
+
+        if (ObjectUtils.isNotNull(customerAddress) && ObjectUtils.isNotNull(customerAddress.getCustomerAddressIdentifier())) {
+            this.getDvPayeeDetail().setDisbVchrVendorAddressIdNumber(customerAddress.getCustomerAddressIdentifier().toString());
+            this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(customerAddress.getCustomerLine1StreetAddress());
+            this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(customerAddress.getCustomerLine2StreetAddress());
+            this.getDvPayeeDetail().setDisbVchrPayeeCityName(customerAddress.getCustomerCityName());
+            this.getDvPayeeDetail().setDisbVchrPayeeStateCode(customerAddress.getCustomerStateCode());
+            this.getDvPayeeDetail().setDisbVchrPayeeZipCode(customerAddress.getCustomerZipCode());
+            this.getDvPayeeDetail().setDisbVchrPayeeCountryCode(customerAddress.getCustomerCountryCode());
+        }
+        else {
+            this.getDvPayeeDetail().setDisbVchrVendorAddressIdNumber("");
+            this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr("");
+            this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
+            this.getDvPayeeDetail().setDisbVchrPayeeCityName("");
+            this.getDvPayeeDetail().setDisbVchrPayeeStateCode("");
+            this.getDvPayeeDetail().setDisbVchrPayeeZipCode("");
+            this.getDvPayeeDetail().setDisbVchrPayeeCountryCode("");
+        }
     }
 
     /**
@@ -1874,6 +1912,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         return personService;
     }
 
+    @Override
     protected ParameterService getParameterService() {
         if ( parameterService == null ) {
             parameterService = SpringContext.getBean(ParameterService.class);
@@ -1943,18 +1982,18 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     public void setDisbExcptAttachedIndicator(boolean disbExcptAttachedIndicator) {
         this.disbExcptAttachedIndicator = disbExcptAttachedIndicator;
     }
-    
-    
+
+
     /**
      * RQ_AP_0760: Ability to view disbursement information on the
      * Disbursement Voucher Document.
-     * 
+     *
      * This method returns the document type of payment detail of the
      * Disbursement Voucher Document. It is invoked when the user clicks
      * on the disbursement info button on the Pre-Disbursement Processor
      * Status tab on Disbursement Voucher Document.
-     * 
-     * 
+     *
+     *
      * @return
      */
     public String getPaymentDetailDocumentType() {

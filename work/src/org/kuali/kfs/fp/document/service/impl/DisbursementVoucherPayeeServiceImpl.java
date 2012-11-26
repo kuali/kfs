@@ -85,6 +85,9 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
         else if (DisbursementVoucherConstants.DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR.equals(payeeTypeCode)) {
             payeeTypeDescription = this.getVendorTypeDescription(VendorConstants.VendorTypes.SUBJECT_PAYMENT);
         }
+        else if (DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER.equals(payeeTypeCode)) {
+            payeeTypeDescription = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.CUSTOMER_PAYEE_TYPE_PARM_NM);
+        }
 
         return payeeTypeDescription;
     }
@@ -174,7 +177,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
         Map<String, String> pks = new HashMap<String, String>();
         pks.put("documentNumber", dvDoc.getDocumentNumber());
 
-        DisbursementVoucherDocument savedDv = (DisbursementVoucherDocument) businessObjectService.findByPrimaryKey(DisbursementVoucherDocument.class, pks);
+        DisbursementVoucherDocument savedDv = businessObjectService.findByPrimaryKey(DisbursementVoucherDocument.class, pks);
         DisbursementVoucherPayeeDetail newPayeeDetail = dvDoc.getDvPayeeDetail();
         DisbursementVoucherPayeeDetail oldPayeeDetail = savedDv.getDvPayeeDetail();
 
@@ -433,7 +436,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(KFSPropertyConstants.VENDOR_TYPE_CODE, vendorTypeCode);
 
-        VendorType vendorType = (VendorType) businessObjectService.findByPrimaryKey(VendorType.class, primaryKeys);
+        VendorType vendorType = businessObjectService.findByPrimaryKey(VendorType.class, primaryKeys);
         return ObjectUtils.isNotNull(vendorType) ? vendorType.getVendorTypeDescription() : StringUtils.EMPTY;
     }
 

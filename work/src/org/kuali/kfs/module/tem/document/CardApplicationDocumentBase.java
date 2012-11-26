@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.tem.document;
 
+import java.util.ArrayList;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
@@ -25,10 +27,12 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class CardApplicationDocumentBase extends TransactionalDocumentBase implements CardApplicationDocument {
     protected static Logger LOG = Logger.getLogger(CardApplicationDocumentBase.class);
@@ -64,7 +68,6 @@ public class CardApplicationDocumentBase extends TransactionalDocumentBase imple
 
     @Override
     public String getUserAgreementText() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -122,10 +125,11 @@ public class CardApplicationDocumentBase extends TransactionalDocumentBase imple
         return SpringContext.getBean(DocumentDao.class);
     }
 
-    public String getAppDocStatus() {
+    public String getApplicationDocumentStatus() {
         String status = getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
         return StringUtils.defaultIfEmpty(status, TemConstants.TRAVEL_DOC_APP_DOC_STATUS_INIT);
     }
+
     @Override
     public void applyToBank() {
         // TODO Auto-generated method stub
@@ -135,7 +139,7 @@ public class CardApplicationDocumentBase extends TransactionalDocumentBase imple
     public void sendAcknowledgement() {
         getTravelDocumentService().addAdHocRecipient(this, getTemProfile().getPrincipalId(), KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ);
         try {
-            SpringContext.getBean(WorkflowDocumentService.class).acknowledge(this.getDocumentHeader().getWorkflowDocument(), null, this.getAdHocRoutePersons());
+            SpringContext.getBean(WorkflowDocumentService.class).acknowledge(this.getDocumentHeader().getWorkflowDocument(), null, new ArrayList<AdHocRouteRecipient>(getAdHocRoutePersons()));
         }
         catch (WorkflowException ex) {
             // TODO Auto-generated catch block

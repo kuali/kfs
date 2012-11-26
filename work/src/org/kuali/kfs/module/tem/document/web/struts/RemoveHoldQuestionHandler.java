@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,19 +30,22 @@ import static org.kuali.kfs.sys.KFSConstants.BLANK_SPACE;
 import static org.kuali.kfs.sys.KFSConstants.MAPPING_BASIC;
 import static org.kuali.kfs.sys.KFSConstants.NOTE_TEXT_PROPERTY_NAME;
 import static org.kuali.kfs.sys.KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME;
-import static org.kuali.rice.kns.util.ObjectUtils.isNotNull;
+
+import java.util.ArrayList;
 
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  *
@@ -54,19 +57,19 @@ public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument
     private TravelDocumentService travelDocumentService;
     private DocumentService documentService;
     private DocumentDao documentDao;
-    
+
     @Override
     public <T> T handleResponse(final Inquisitive<TravelDocument,?> asker) throws Exception {
         if (asker.denied(REMOVE_HOLD_TA_QUESTION)) {
             return (T) asker.back();
         }
-        
+
      // Have to check length on value entered.
         String introNoteMessage = REMOVE_HOLD_NOTE_PREFIX + BLANK_SPACE;
         // Build out full message.
         final StringBuilder noteText = new StringBuilder(introNoteMessage + asker.getReason());
 
-        int noteTextLength = noteText.length(); 
+        int noteTextLength = noteText.length();
      // Get note text max length from DD.
         int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, NOTE_TEXT_PROPERTY_NAME).intValue();
         if (isBlank(asker.getReason()) || (noteTextLength > noteTextMaxLength)) {
@@ -91,21 +94,21 @@ public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument
             // Below used as a place holder to allow code to specify actionForward to return if not a 'success question'
             T returnActionForward = null;
             returnActionForward = (T) ((StrutsInquisitor) asker).getMapping().findForward(MAPPING_BASIC);
-            
+
             final Note newNote = getDocumentService().createNoteFromDocument(document, noteText.toString());
-            getDocumentService().addNoteToDocument(document, newNote); 
-            
+            document.addNote(newNote);
+
             //save the new state on the document
              document.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.OPEN_REIMB);
             getDocumentDao().save(document);
-            
-          //send FYI for to initiator and traveler   
-            getTravelDocumentService().addAdHocFYIRecipient(document,document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getInitiatorPrincipalId());
-            getTravelDocumentService().addAdHocFYIRecipient(document,document.getTraveler().getPrincipalId());
-            
-            SpringContext.getBean(WorkflowDocumentService.class).sendWorkflowNotification(document.getDocumentHeader().getWorkflowDocument(), null, document.getAdHocRoutePersons());
 
-            if (isNotNull(returnActionForward)) {
+          //send FYI for to initiator and traveler
+            getTravelDocumentService().addAdHocFYIRecipient(document,document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+            getTravelDocumentService().addAdHocFYIRecipient(document,document.getTraveler().getPrincipalId());
+
+            SpringContext.getBean(WorkflowDocumentService.class).sendWorkflowNotification(document.getDocumentHeader().getWorkflowDocument(), null, new ArrayList<AdHocRouteRecipient>(document.getAdHocRoutePersons()));
+
+            if (ObjectUtils.isNotNull(returnActionForward)) {
                 return returnActionForward;
             }
             else {
@@ -115,7 +118,7 @@ public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument
         catch (ValidationException ve) {
             throw ve;
         }
-        
+
     }
 
     @Override
@@ -123,21 +126,20 @@ public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument
         final String reason   = asker.getReason();
         final String key      = getMessageFrom(TA_QUESTION_DOCUMENT);
         final String question = replace(key, "{0}", REMOVE_HOLD_TA_TEXT);
-        
+
         T retval = (T) asker.confirm(REMOVE_HOLD_TA_QUESTION, question, true);
         return retval;
     }
 
- 
+
 
     public String getMessageFrom(final String messageType) {
-        return getConfigurationService().getPropertyString(messageType);
+        return getConfigurationService().getPropertyValueAsString(messageType);
     }
-
 
     /**
      * Sets the ConfigurationService attribute.
-     * 
+     *
      * @return Returns the ConfigurationService.
      */
     public void setConfigurationService(final ConfigurationService ConfigurationService) {
@@ -146,7 +148,7 @@ public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument
 
     /**
      * Gets the ConfigurationService attribute.
-     * 
+     *
      * @return Returns the ConfigurationService.
      */
     protected ConfigurationService getConfigurationService() {
@@ -155,7 +157,7 @@ public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument
 
     /**
      * Sets the dataDictionaryService attribute.
-     * 
+     *
      * @return Returns the dataDictionaryService.
      */
     public void setDataDictionaryService(final DataDictionaryService dataDictionaryService) {
@@ -164,19 +166,11 @@ public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument
 
     /**
      * Gets the dataDictionaryService attribute.
-     * 
+     *
      * @return Returns the dataDictionaryService.
      */
     protected DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
-    }
-
-    public ConfigurationService getConfigurationService() {
-        return ConfigurationService;
-    }
-
-    public void setConfigurationService(ConfigurationService ConfigurationService) {
-        this.ConfigurationService = ConfigurationService;
     }
 
     public DocumentService getDocumentService() {
@@ -202,5 +196,5 @@ public class RemoveHoldQuestionHandler implements QuestionHandler<TravelDocument
     public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
         this.travelDocumentService = travelDocumentService;
     }
-   
+
 }

@@ -431,6 +431,9 @@
 		<property name="disbursementVoucherPaymentReasonService">
 			<ref bean="disbursementVoucherPaymentReasonService" />
 		</property>
+        <property name="accountsReceivableModuleService">
+            <ref bean="accountsReceivableModuleService" />
+        </property> 
 	</bean>
 	
 	<bean id="disbursementPayeeInquirable" class="org.kuali.kfs.fp.businessobject.inquirable.DisbursementPayeeInquirableImpl" scope="prototype" parent="kualiInquirable"/>

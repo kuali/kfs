@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,18 +45,18 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
 
     protected static Logger LOG = Logger.getLogger(TravelEncumbranceServiceImpl.class);
-    
+
     private BusinessObjectService businessObjectService;
     private TravelDocumentService travelDocumentService;
     private DocumentService documentService;
@@ -68,7 +68,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
      */
     @Override
     public void liquidateEncumbranceForCancelTA(TravelAuthorizationDocument travelAuthDocument) {
-        
+
         //perform base on trip type
         if (travelAuthDocument.getTripType().isGenerateEncumbrance()) {
 
@@ -82,7 +82,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
             final Map<String, Object> criteria = new HashMap<String, Object>();
             criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, travelAuthDocument.getTravelDocumentIdentifier());
 
-            final Iterator<Encumbrance> encumbranceIterator = encumbranceService.findOpenEncumbrance(criteria);
+            final Iterator<Encumbrance> encumbranceIterator = encumbranceService.findOpenEncumbrance(criteria, false);
             while (encumbranceIterator.hasNext()) {
                 liquidateEncumbrance(encumbranceIterator.next(), sequenceHelper, travelAuthDocument);
             }
@@ -102,13 +102,14 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#getEncumbranceBalanceTypeByTripType(org.kuali.kfs.module.tem.document.TravelDocument)
      */
+    @Override
     public String getEncumbranceBalanceTypeByTripType(TravelDocument document){
         document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
-        
+
         TripType tripType = document.getTripType();
         return ObjectUtils.isNotNull(tripType)? StringUtils.defaultString(tripType.getEncumbranceBalanceType()) : "";
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#liquidateEncumbrance(org.kuali.kfs.gl.businessobject.Encumbrance, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, org.kuali.kfs.module.tem.document.TravelDocument)
      */
@@ -154,11 +155,11 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         generalLedgerPendingEntryService.populateOffsetGeneralLedgerPendingEntry(pendingEntry.getUniversityFiscalYear(), pendingEntry, sequenceHelper, offsetEntry);
         updateEncumbranceEntry(encumbrance, document, offsetEntry);
         return offsetEntry;
-    }    
-    
+    }
+
     /**
      * Using encumbrance information to preset the GLPE entry
-     * 
+     *
      * @param encumbrance
      * @param document
      * @param entry
@@ -173,16 +174,16 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         //entry.setReferenceFinancialDocumentTypeCode(document.getFinanancialDocumentTypeCode());
         entry.setReferenceFinancialSystemOriginationCode(encumbrance.getOriginCode());
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#disencumberTravelAuthorizationClose(org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument)
      */
     @Override
     public void disencumberTravelAuthorizationClose(TravelAuthorizationCloseDocument document) {
-        
+
         //Get rid of all pending entries relating to encumbrance.
         clearAuthroizationEncumbranceGLPE(document);
-        
+
         final Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, document.getTravelDocumentIdentifier());
 
@@ -190,12 +191,12 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
 
         //calculate the previous dis-encumber funds from the related TR
         //TODO: do open encumbrance incluing the pending entries?? if it does, then
-        final Iterator<Encumbrance> encumbranceIterator = encumbranceService.findOpenEncumbrance(criteria);
+        final Iterator<Encumbrance> encumbranceIterator = encumbranceService.findOpenEncumbrance(criteria, false);
         //look for the open enc with pending EX entries from TR, then update the map by the reimbursement encumbrance
-        
+
         // Create encumbrance map based on account numbers
         while (encumbranceIterator.hasNext()) {
-            Encumbrance encumbrance = (Encumbrance) encumbranceIterator.next();
+            Encumbrance encumbrance = encumbranceIterator.next();
             StringBuffer key = new StringBuffer();
             key.append(encumbrance.getAccountNumber());
             key.append(encumbrance.getSubAccountNumber());
@@ -204,7 +205,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
             key.append(encumbrance.getDocumentNumber());
             openEncumbranceMap.put(key.toString(), encumbrance);
         }
-        
+
         int counter = document.getGeneralLedgerPendingEntries().size() + 1;
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(counter);
 
@@ -218,7 +219,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
 
     /**
      * This method adjusts the encumbrance for a TAA document.
-     * 
+     *
      * @param taDoc The document who pending entries need to be disencumbered.
      */
     @Override
@@ -231,11 +232,11 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
             GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(counter);
 
             final Map<String, Encumbrance> encumbranceMap = new HashMap<String, Encumbrance>();
-            final Iterator<Encumbrance> encumbrance_it = encumbranceService.findOpenEncumbrance(criteria);
+            final Iterator<Encumbrance> encumbrance_it = encumbranceService.findOpenEncumbrance(criteria, false);
 
             // Create encumbrance map based on account numbers
             while (encumbrance_it.hasNext()) {
-                Encumbrance encumbrance = (Encumbrance) encumbrance_it.next();
+                Encumbrance encumbrance = encumbrance_it.next();
                 StringBuffer key = new StringBuffer();
                 key.append(encumbrance.getAccountNumber());
                 key.append(encumbrance.getSubAccountNumber());
@@ -247,14 +248,14 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
 
             processRelatedDocuments(document);
 
-            
+
             //Adjust current encumbrances with the new amounts If new pending entry is found in encumbrance map, create a pending
             // entry to balance the difference by either crediting or debiting. If not found just continue on to be processed as
             // normal.
             Iterator<GeneralLedgerPendingEntry> pendingEntriesIterator = document.getGeneralLedgerPendingEntries().iterator();
             while (pendingEntriesIterator.hasNext()) {
                 GeneralLedgerPendingEntry pendingEntry = pendingEntriesIterator.next();
-                
+
                 if (! StringUtils.defaultString(pendingEntry.getOrganizationReferenceId()).contains(TemConstants.IMPORTED_FLAG)){
                     StringBuffer key = new StringBuffer();
                     key.append(pendingEntry.getAccountNumber());
@@ -263,7 +264,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
                     key.append(pendingEntry.getFinancialSubObjectCode());
                     key.append(pendingEntry.getReferenceFinancialDocumentNumber());
                     Encumbrance encumbrance = encumbranceMap.get(key.toString());
-                    
+
                      //If encumbrance found, find and calculate difference. If the difference is zero don't add to new list of glpe's If
                      // encumbrance is not found and glpe is not an offset glpe, add it and it's offset to the new list
                     if (encumbrance != null) {
@@ -320,29 +321,29 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
 
     /**
      * Find All related TA, TAA glpe's. Make sure they are not offsets(???) and not the current doc (this will be
-     * previous document) 
-     * 
-     * Rather than deal with the complicated math of taking the old document's glpe's into account, just remove them 
+     * previous document)
+     *
+     * Rather than deal with the complicated math of taking the old document's glpe's into account, just remove them
      * so they will never be picked up by the jobs and placed into encumbrance.  (Already processed document should
-     * already have its GLPE scrubbed and 
-     * 
-     * 
-     * NOTE: this is really meant to prepare for TAC and TAA to remove the encumbrance entries.  However, if we remove 
+     * already have its GLPE scrubbed and
+     *
+     *
+     * NOTE: this is really meant to prepare for TAC and TAA to remove the encumbrance entries.  However, if we remove
      * everything from previous TA, TAA document (what about TR?)
-     * 
+     *
      *  In case of TAC - deleting the TA/TAA entries are fine (we should probably note in the doc encumbrance were removed
      *  and liquidated by TAC) when there is no TR - if there are TRs, we need to look for the processed TR's dis-encumbrance
-     * 
+     *
      * Once there is TR in route, no more TA/TAA can be amend
-     * 
+     *
      * @param travelAuthDocument        The document being processed.  Should only be a TAA or TAC.
      */
     @Override
     public void processRelatedDocuments(TravelAuthorizationDocument travelAuthDocument) {
-        List<Document> relatedDocs = travelDocumentService.getDocumentsRelatedTo(travelAuthDocument, 
+        List<Document> relatedDocs = travelDocumentService.getDocumentsRelatedTo(travelAuthDocument,
                 TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT,
                 TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
-        
+
         for (final Document tempDocument : relatedDocs) {
             if (!travelAuthDocument.getDocumentNumber().equals(tempDocument.getDocumentNumber())) {
                 /*
@@ -355,30 +356,30 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
                 }
             }
         }
-    }    
-    
+    }
+
     /**
      * Remove all the GLPE entries from the TAA documents (encumbrance adjust if exists), also annotated with note
-     * 
+     *
      * @param travelAuthDocument
      */
     @SuppressWarnings("deprecation")
     public void clearAuthroizationEncumbranceGLPE(TravelAuthorizationCloseDocument travelAuthCloseDocument) {
-        List<Document> relatedDocs = travelDocumentService.getDocumentsRelatedTo(travelAuthCloseDocument, 
+        List<Document> relatedDocs = travelDocumentService.getDocumentsRelatedTo(travelAuthCloseDocument,
                 TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT,
                 TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
-        
+
         for (Document document : relatedDocs) {
             TravelAuthorizationDocument authorizationDocument = (TravelAuthorizationDocument)document;
-            
-            
+
+
             String docType = document instanceof TravelAuthorizationDocument ? TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT
                     : TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT;
-            
+
             boolean hasRemovedGLPE = false;
             String note = String.format("TA Close Document # %s has cleared encumbrance GLPEs in %s # %s", travelAuthCloseDocument.getDocumentNumber(),
                     docType, document.getDocumentNumber());
-            
+
             //if it has been processed and there are GLPEs, remove those which are encumbrance balance type
             if (travelDocumentService.isTravelAuthorizationProcessed(authorizationDocument)){
                 for (GeneralLedgerPendingEntry glpe : authorizationDocument.getGeneralLedgerPendingEntries()){
@@ -387,11 +388,11 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
                         hasRemovedGLPE = true;
                     }
                 }
-                
+
                 if (hasRemovedGLPE){
                     try {
                         Note clearedGLPENote = documentService.createNoteFromDocument(authorizationDocument, note);
-                        documentService.addNoteToDocument(authorizationDocument, clearedGLPENote);
+                        authorizationDocument.addNote(clearedGLPENote);
                         businessObjectService.save(authorizationDocument);
                     }catch (Exception ex) {
                         LOG.warn(ex.getMessage(), ex);
@@ -399,19 +400,19 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
                 }
             }
         }
-    }    
-    
+    }
+
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#disencumberTravelReimbursementFunds(org.kuali.kfs.module.tem.document.TravelReimbursementDocument)
      */
     @Override
     public void disencumberTravelReimbursementFunds(TravelReimbursementDocument travelReimbursementDocument) {
-    
+
         //final Map<String, Object> criteria = new HashMap<String, Object>();
         //criteria.put("referenceFinancialDocumentNumber", trDocument.getTravelDocumentIdentifier());
         //criteria.put("financialDocumentTypeCode", TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
         //List<GeneralLedgerPendingEntry> tripPendingEntryList = (List<GeneralLedgerPendingEntry>) this.getBusinessObjectService().findMatching(GeneralLedgerPendingEntry.class, criteria);
-        
+
         //Need to find out encumbrance and reimbursement totals from related documents
         KualiDecimal reimbursementTotal = new KualiDecimal(0);
         KualiDecimal encumbranceTotal = new KualiDecimal(0);
@@ -422,11 +423,11 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
             relatedDocuments = travelDocumentService.getDocumentsRelatedTo(travelReimbursementDocument);
             List<Document> trDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
             taDocument = (TravelAuthorizationDocument) travelDocumentService.findCurrentTravelAuthorization(travelReimbursementDocument);
-            
+
             for (TemSourceAccountingLine line : taDocument.getEncumbranceSourceAccountingLines()){
                 encumbranceTotal = encumbranceTotal.add(line.getAmount());
             }
-            
+
             //Get total of all TR's that aren't disapproved not including this one.
             if (trDocs != null) {
                 for (Document tempDocument : trDocs) {
@@ -443,16 +444,16 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         catch (WorkflowException ex) {
             ex.printStackTrace();
         }
-                  
+
         KualiDecimal factor = new KualiDecimal(1);
         KualiDecimal totalReimbursement = travelReimbursementDocument.getReimbursableTotal();
-        KualiDecimal encumbranceBalance = encumbranceTotal.subtract(reimbursementTotal); 
-        
-        //requested reimbursement (dis-encumbrance) is more than the balance, then calculate the factor 
+        KualiDecimal encumbranceBalance = encumbranceTotal.subtract(reimbursementTotal);
+
+        //requested reimbursement (dis-encumbrance) is more than the balance, then calculate the factor
         if (totalReimbursement.isGreaterThan(encumbranceBalance)){
             factor = encumbranceBalance.divide(totalReimbursement);
         }
-        
+
         int counter = travelReimbursementDocument.getGeneralLedgerPendingEntries().size() + 1;
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(counter);
 
@@ -463,14 +464,14 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
             GeneralLedgerPendingEntry offsetEntry = null;
             KualiDecimal calculatedTotal = new KualiDecimal(0);
             KualiDecimal disencumbranceAmount = new KualiDecimal(0);
-            
+
             for (TemSourceAccountingLine line : taDocument.getEncumbranceSourceAccountingLines()){
                 //first setup the encumbrance using the original source accounting lines
                 pendingEntry = setupPendingEntry(line, sequenceHelper, travelReimbursementDocument);
                 sequenceHelper.increment();
                 offsetEntry = setupOffsetEntry(sequenceHelper, travelReimbursementDocument, pendingEntry);
                 sequenceHelper.increment();
-  
+
                 if (taDocument.getEncumbranceSourceAccountingLines().size() != 1){
                     //last line - use the left over
                     if (++index == taDocument.getSourceAccountingLines().size()){
@@ -489,11 +490,11 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
                 pendingEntry.setTransactionLedgerEntryAmount(disencumbranceAmount);
                 offsetEntry.setTransactionLedgerEntryAmount(disencumbranceAmount);
                 travelReimbursementDocument.addPendingEntry(pendingEntry);
-                travelReimbursementDocument.addPendingEntry(offsetEntry);                   
+                travelReimbursementDocument.addPendingEntry(offsetEntry);
             }
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#setupPendingEntry(org.kuali.kfs.sys.businessobject.AccountingLineBase, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, org.kuali.kfs.module.tem.document.TravelDocument)
      */
@@ -518,8 +519,8 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         pendingEntry.setReferenceFinancialSystemOriginationCode("01");
 
         return pendingEntry;
-    }  
-    
+    }
+
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelEncumbranceService#setupOffsetEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, org.kuali.kfs.module.tem.document.TravelDocument, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
@@ -542,8 +543,8 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         offsetEntry.setReferenceFinancialSystemOriginationCode(pendingEntry.getReferenceFinancialSystemOriginationCode());
 
         return offsetEntry;
-    } 
-    
+    }
+
 
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#convertTo(Encumbrance)
@@ -567,7 +568,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
         accountLine.setPostingYear(encumbrance.getUniversityFiscalYear());
         accountLine.setBalanceTypeCode(encumbrance.getBalanceTypeCode());
         return accountLine;
-        
+
 //        return new AccountingLineBase() {
 //            /**
 //             * @return Returns the chartOfAccountsCode.
@@ -714,7 +715,7 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-    
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -730,5 +731,5 @@ public class TravelEncumbranceServiceImpl implements TravelEncumbranceService {
     public void setEncumbranceService(EncumbranceService encumbranceService) {
         this.encumbranceService = encumbranceService;
     }
-   
+
 }

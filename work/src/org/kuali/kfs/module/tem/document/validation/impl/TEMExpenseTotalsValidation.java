@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,9 +23,9 @@ import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 public class TEMExpenseTotalsValidation extends GenericValidation {
 
@@ -33,13 +33,13 @@ public class TEMExpenseTotalsValidation extends GenericValidation {
     public boolean validate(AttributedDocumentEvent event) {
         boolean rulePassed = true;
         TravelDocument travelDocument = (TravelDocument) event.getDocument();
-        GlobalVariables.getMessageMap().addToErrorPath(KNSPropertyConstants.DOCUMENT);
+        GlobalVariables.getMessageMap().addToErrorPath(KRADPropertyConstants.DOCUMENT);
         //Actual Expenses
         int counter = 0;
         for (ActualExpense actualExpense : travelDocument.getActualExpenses()){
             String property = TemPropertyConstants.ACTUAL_EXPENSES + "[" + counter +"]";
             /*
-             * Determine if the detail is an amount that doesn't go over the threshold 
+             * Determine if the detail is an amount that doesn't go over the threshold
              */
             KualiDecimal total = actualExpense.getTotalDetailExpenseAmount();
             if (!total.isZero()) {
@@ -51,21 +51,21 @@ public class TEMExpenseTotalsValidation extends GenericValidation {
                     GlobalVariables.getMessageMap().putError(property + "." + TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_TEM_DETAIL_LESS_THAN_EXPENSE);
                     rulePassed = false;
                 }
-                
+
             }
             counter++;
         }
-        
+
         //Imported Expenses
         counter = 0;
         for (ImportedExpense importedExpense : travelDocument.getImportedExpenses()){
             String property = TemPropertyConstants.IMPORTED_EXPENSES + "[" + counter +"]";
             /*
-             * Determine if the detail is an amount that doesn't go over the threshold 
+             * Determine if the detail is an amount that doesn't go over the threshold
              */
             KualiDecimal total = KualiDecimal.ZERO;
             for (TEMExpense detail : importedExpense.getExpenseDetails()) {
-                total = total.add(detail.getExpenseAmount()); 
+                total = total.add(detail.getExpenseAmount());
             }
             if (!total.isZero()) {
                 if (total.isGreaterThan(importedExpense.getExpenseAmount())){
@@ -76,11 +76,11 @@ public class TEMExpenseTotalsValidation extends GenericValidation {
                     GlobalVariables.getMessageMap().putError(property + "." + TemPropertyConstants.EXPENSE_AMOUNT, TemKeyConstants.ERROR_TEM_DETAIL_LESS_THAN_EXPENSE);
                     rulePassed = false;
                 }
-                
+
             }
             counter++;
         }
-        
+
         return rulePassed;
     }
 

@@ -54,6 +54,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -393,7 +394,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     }
 
     public boolean canShowHostCertification() {
-        return (getHostProfile() != null && getTemProfile() != null && !getHostProfile().getProfileId().equals(getTemProfile().getProfileId()) && !getDocumentHeader().getWorkflowDocument().stateIsInitiated());
+        return (getHostProfile() != null && getTemProfile() != null && !getHostProfile().getProfileId().equals(getTemProfile().getProfileId()) && !getDocumentHeader().getWorkflowDocument().isInitiated());
     }
 
     public boolean canDisplayNonEmployeeCheckbox() {

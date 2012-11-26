@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,12 +33,12 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.kfs.sys.util.KfsDateUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class TravelAuthTripInformationValidation extends GenericValidation {
     private TravelService travelService;
@@ -58,12 +58,12 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
                 rulePassed = false;
             }
         }
-        
+
         if (event.getDocument() instanceof TravelReimbursementDocument) {
-            Date endDate = DateUtils.clearTimeFields(document.getTripEnd());
-            Date today = DateUtils.clearTimeFields(new Date());
+            Date endDate = KfsDateUtils.clearTimeFields(document.getTripEnd());
+            Date today = KfsDateUtils.clearTimeFields(new Date());
             String value = getParameterService().getParameterValueAsString(TemConstants.NAMESPACE, TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE, TemConstants.TravelReimbursementParameters.ALLOW_PRETRIP_REIMBURSEMENT_IND);
-            
+
             if (endDate != null && today.before(endDate) && !value.equalsIgnoreCase("Y")) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_CUSTOM, "Travel Reimbursement Document cannot be submitted before the trip end date has passed.");
                 rulePassed = false;
@@ -82,7 +82,7 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
                 GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.TRVL_AUTH_TOTAL_ESTIMATE, TemKeyConstants.ERROR_DOCUMENT_TOTAL_ESTIMATED);
                 rulePassed = false;
             }
-            
+
             //validate the primary destination if selected indicator
             if (!document.getPrimaryDestinationIndicator()){
                 PrimaryDestination destination = document.getPrimaryDestination();
@@ -93,7 +93,7 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
                 }
             }
 
-            if (document.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) {
+            if (document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)) {
                 if (document.getTripType().getTravelAuthorizationRequired()) {
                     try {
                         TravelAuthorizationDocument taDoc = (TravelAuthorizationDocument) getTravelDocumentService().findCurrentTravelAuthorization(document);
@@ -114,7 +114,7 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
 
     /**
      * Gets the travelService attribute.
-     * 
+     *
      * @return Returns the travelService.
      */
     public TravelService getTravelService() {
@@ -123,7 +123,7 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
 
     /**
      * Sets the travelService attribute value.
-     * 
+     *
      * @param travelService The travelService to set.
      */
     public void setTravelService(TravelService travelService) {
@@ -132,7 +132,7 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
 
     /**
      * Gets the dictionaryValidationService attribute.
-     * 
+     *
      * @return Returns the dictionaryValidationService.
      */
     public DictionaryValidationService getDictionaryValidationService() {
@@ -141,7 +141,7 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
 
     /**
      * Sets the dictionaryValidationService attribute value.
-     * 
+     *
      * @param dictionaryValidationService The dictionaryValidationService to set.
      */
     public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
@@ -158,7 +158,7 @@ public class TravelAuthTripInformationValidation extends GenericValidation {
     public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
         this.travelDocumentService = travelDocumentService;
     }
-    
+
     public ParameterService getParameterService() {
         return SpringContext.getBean(ParameterService.class);
     }

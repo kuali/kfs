@@ -31,8 +31,8 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
      */
     @Override
     public boolean canBlanketApprove(Document document) {
-        return false;
-    }
+                return false;
+            }
 
     @Override
     public Set<String> getDocumentActions(Document document) {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,8 +28,8 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.TaxableRamificationNotificationStep;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
@@ -39,13 +39,14 @@ import org.kuali.kfs.module.tem.document.service.TaxableRamificationDocumentServ
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -91,7 +92,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
         try {
             this.addAdHocRoutePersons(taxRamificationDocument);
 
-            this.getDocumentService().blanketApproveDocument(taxRamificationDocument, KFSConstants.EMPTY_STRING, taxRamificationDocument.getAdHocRoutePersons());
+            this.getDocumentService().blanketApproveDocument(taxRamificationDocument, KFSConstants.EMPTY_STRING, new ArrayList<AdHocRouteRecipient>(taxRamificationDocument.getAdHocRoutePersons()));
         }
         catch (WorkflowException we) {
             LOG.error("Failed to blanket approve the given tax ramification document. ", we);
@@ -236,7 +237,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
             travelerDetail.setPrincipalName(person.getPrincipalName());
         }
     }
-    
+
     /**
      * get the last taxable ramification notification date
      */
@@ -287,7 +288,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
      * get the notification text from an application parameter
      */
     protected List<String> getTravelerCustomerTypes() {
-        return this.getParameterService().getParameterValuesAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVELER_AR_CUSTOMER_TYPE);
+        return new ArrayList<String>(getParameterService().getParameterValuesAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVELER_AR_CUSTOMER_TYPE));
     }
 
     /**
@@ -304,7 +305,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
 
     /**
      * Gets the documentService attribute.
-     * 
+     *
      * @return Returns the documentService.
      */
     public DocumentService getDocumentService() {
@@ -313,7 +314,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
 
     /**
      * Sets the documentService attribute value.
-     * 
+     *
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {
@@ -322,7 +323,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
 
     /**
      * Gets the parameterService attribute.
-     * 
+     *
      * @return Returns the parameterService.
      */
     public ParameterService getParameterService() {
@@ -331,7 +332,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -340,7 +341,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -349,7 +350,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -358,7 +359,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
 
     /**
      * Gets the accountsReceivableModuleService attribute.
-     * 
+     *
      * @return Returns the accountsReceivableModuleService.
      */
     public AccountsReceivableModuleService getAccountsReceivableModuleService() {
@@ -367,7 +368,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
 
     /**
      * Sets the accountsReceivableModuleService attribute value.
-     * 
+     *
      * @param accountsReceivableModuleService The accountsReceivableModuleService to set.
      */
     public void setAccountsReceivableModuleService(AccountsReceivableModuleService accountsReceivableModuleService) {
@@ -376,7 +377,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
 
     /**
      * Gets the travelDocumentService attribute.
-     * 
+     *
      * @return Returns the travelDocumentService.
      */
     public TravelDocumentService getTravelDocumentService() {
@@ -385,7 +386,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
 
     /**
      * Sets the travelDocumentService attribute value.
-     * 
+     *
      * @param travelDocumentService The travelDocumentService to set.
      */
     public void setTravelDocumentService(TravelDocumentService travelDocumentService) {

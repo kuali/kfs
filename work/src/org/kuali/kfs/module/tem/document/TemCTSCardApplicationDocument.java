@@ -30,6 +30,7 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.web.format.DateFormatter;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 
 public class TemCTSCardApplicationDocument extends CardApplicationDocumentBase implements CardApplicationDocument {
@@ -64,9 +65,8 @@ public class TemCTSCardApplicationDocument extends CardApplicationDocumentBase i
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        String status = getAppDocStatus();
-        if (this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equalsIgnoreCase(DocumentStatus.FINAL.getCode())
-                || this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equalsIgnoreCase(DocumentStatus.PROCESSED.getCode())){
+        DocumentStatus status = getDocumentHeader().getWorkflowDocument().getStatus();
+        if (status.equals(DocumentStatus.FINAL) || status.equals(DocumentStatus.PROCESSED)){
             TEMProfileAccount profileAccount = new TEMProfileAccount();
             Date now = new Date();
             profileAccount.setEffectiveDate(new java.sql.Date(now.getTime()));
@@ -80,7 +80,7 @@ public class TemCTSCardApplicationDocument extends CardApplicationDocumentBase i
             profileAccount.setName(creditCardAgency.getCreditCardOrAgencyName());
             profileAccount.setActive(true);
             profileAccount.setAccountNumber(temProfile.getEmployeeId());
-            String text = getConfigurationService().getPropertyString(TemKeyConstants.CARD_NOTE_TEXT);
+            String text = getConfigurationService().getPropertyValueAsString(TemKeyConstants.CARD_NOTE_TEXT);
             DateFormatter formatter = new DateFormatter();
             String note = MessageFormat.format(text, formatter.format(now), getDocumentHeader().getDocumentNumber());
             profileAccount.setNote(note);
@@ -91,7 +91,7 @@ public class TemCTSCardApplicationDocument extends CardApplicationDocumentBase i
     @Override
     public String getUserAgreementText() {
         // TODO Auto-generated method stub
-        return SpringContext.getBean(ConfigurationService.class).getPropertyString(TemKeyConstants.CTS_CARD_DOCUMENT_USER_AGREEMENT);
+        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(TemKeyConstants.CTS_CARD_DOCUMENT_USER_AGREEMENT);
     }
 
 

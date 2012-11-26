@@ -84,6 +84,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class TravelReimbursementServiceImpl implements TravelReimbursementService {
 
@@ -113,7 +114,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      */
     @Override
     public List<TravelReimbursementDocument> findByTravelId(final String travelDocumentIdentifier) throws WorkflowException {
-        final List<TravelReimbursementDocument> retval = travelDocumentService.find(TravelReimbursementDocument.class, travelDocumentIdentifier);
+        final List<TravelReimbursementDocument> retval = travelDocumentService.findReimbursementDocuments(travelDocumentIdentifier);
         for (final TravelReimbursementDocument reimbursement : retval) {
             addListenersTo(reimbursement);
         }
@@ -152,7 +153,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         final String mailTo = travelDocumentService.retrieveAddressFromLocationCode(parameterService.getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TRAVEL_DOCUMENTATION_LOCATION_CODE));
         final String destination  = document.getPrimaryDestination().getPrimaryDestinationName();
 
-        final String directory = ConfigurationService.getPropertyString(EXTERNALIZABLE_HELP_URL_KEY);
+        final String directory = ConfigurationService.getPropertyValueAsString(EXTERNALIZABLE_HELP_URL_KEY);
 
         final Person initiator = personService.getPerson(initiatorId);
         final TravelerDetail traveler = document.getTraveler();
@@ -332,7 +333,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         final String noteText = String.format(DATE_CHANGED_MESSAGE, origStartDateStr, origEndDateStr, newStartDateStr, newEndDateStr);
 
         final Note noteToAdd = documentService.createNoteFromDocument(reimbursement, noteText);
-        documentService.addNoteToDocument(reimbursement, noteToAdd);
+        reimbursement.addNote(noteToAdd);
         documentDao.save(reimbursement);
     }
 
@@ -406,7 +407,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
             reimbursement.setReimbursableAmount(reimbursableTotal.subtract(invoicesTotal));
             DisbursementVoucherDocument disbursementVoucherDocument = travelDisbursementService.createAndApproveDisbursementVoucherDocument(DisburseType.reimbursable, reimbursement);
 
-            String relationDescription = reimbursement.getDocumentHeader().getWorkflowDocument().getDocumentType() + " - DV";
+            String relationDescription = reimbursement.getDocumentHeader().getWorkflowDocument().getDocumentTypeName() + " - DV";
             accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(reimbursement.getDocumentNumber(), disbursementVoucherDocument.getDocumentNumber(), relationDescription));
         }
         //reimbursable < invoice (owe more than reimbursable, then all will go into owed invoice)
@@ -464,10 +465,10 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
             // original initiator may not have permission to blanket approve the credit memo document, switch to sys user
             GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
 
-            WorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(customerCreditMemo.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
+            WorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(customerCreditMemo.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
             newWorkflowDocument.setTitle(originalWorkflowDocument.getTitle());
 
-            customerCreditMemo.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
+            customerCreditMemo.getFinancialSystemDocumentHeader().setWorkflowDocument(newWorkflowDocument);
 
             //blanket approve CRM doc
             accountsReceivableModuleService.blanketApproveCustomerCreditMemoDocument(customerCreditMemo, blanketApproveAnnotation);
@@ -475,7 +476,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
             //Adding note to the TR document
             final String noteText = String.format("Customer Credit Memo Document %s was system generated.", customerCreditMemo.getDocumentNumber());
             final Note noteToAdd = documentService.createNoteFromDocument(reimbursement, noteText);
-            documentService.addNoteToDocument(reimbursement, noteToAdd);
+            reimbursement.addNote(noteToAdd);
             documentService.saveDocument(reimbursement);
         }
         catch (Exception ex) {
@@ -484,7 +485,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         }
         finally {
             GlobalVariables.setUserSession(originalUser);
-            customerCreditMemo.getDocumentHeader().setWorkflowDocument(originalWorkflowDocument);
+            customerCreditMemo.getFinancialSystemDocumentHeader().setWorkflowDocument(originalWorkflowDocument);
         }
 
         // add relationship
@@ -507,8 +508,8 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
 
         //pre-populate the AR DocHeader so it will be bypassed in the CRM populate CRM details
         arCreditMemoDoc.setAccountsReceivableDocumentHeader(createAccountsReceivableDocumentHeader(arCreditMemoDoc.getDocumentNumber(), reimbursement.getTraveler().getCustomerNumber()));
-        arCreditMemoDoc.getDocumentHeader().setDocumentDescription(reimbursement.getDocumentHeader().getDocumentDescription());
-        arCreditMemoDoc.getDocumentHeader().setOrganizationDocumentNumber(reimbursement.getTravelDocumentIdentifier());
+        arCreditMemoDoc.getFinancialSystemDocumentHeader().setDocumentDescription(reimbursement.getDocumentHeader().getDocumentDescription());
+        arCreditMemoDoc.getFinancialSystemDocumentHeader().setOrganizationDocumentNumber(reimbursement.getTravelDocumentIdentifier());
 
         //populate detail of CRM doc by invoice number and the amount to credit
         accountsReceivableModuleService.populateCustomerCreditMemoDocumentDetails(arCreditMemoDoc, invoice.getDocumentNumber(), creditAmount);

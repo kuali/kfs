@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document.web.struts;
 
-import static org.apache.commons.lang.StringUtils.isBlank;
-import static org.apache.commons.lang.StringUtils.replace;
 import static org.kuali.kfs.module.tem.TemConstants.AMENDMENT_TA_QUESTION;
 import static org.kuali.kfs.module.tem.TemConstants.AMEND_NOTE_PREFIX;
 import static org.kuali.kfs.module.tem.TemConstants.AMEND_NOTE_SUFFIX;
@@ -32,6 +30,7 @@ import static org.kuali.kfs.sys.KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
@@ -54,7 +53,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  *
- * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
     private ConfigurationService ConfigurationService;
@@ -85,13 +83,13 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
 
         // Get note text max length from DD.
         int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, NOTE_TEXT_PROPERTY_NAME).intValue();
-        if (isBlank(asker.getReason()) || (noteTextLength > noteTextMaxLength)) {
+        if (StringUtils.isBlank(asker.getReason()) || (noteTextLength > noteTextMaxLength)) {
             // Figure out exact number of characters that the user can enter.
             int reasonLimit = noteTextMaxLength - noteTextLength;
             reasonLimit = reasonLimit<0?reasonLimit*-1:reasonLimit;
             String message = getMessageFrom(TA_QUESTION_DOCUMENT);
-            String question = replace(message, "{0}", AMEND_TA_TEXT);
-            if (isBlank(asker.getReason())){
+            String question = StringUtils.replace(message, "{0}", AMEND_TA_TEXT);
+            if (StringUtils.isBlank(asker.getReason())){
                 return (T) asker.confirm(AMENDMENT_TA_QUESTION, question, true, ERROR_TA_REASON_REQUIRED,QUESTION_REASON_ATTRIBUTE_NAME,AMEND_TA_TEXT);
             }
             else {
@@ -113,9 +111,9 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             String headerID = document.getDocumentHeader().getDocumentNumber();
 
             TravelAuthorizationAmendmentDocument taaDocument = ((TravelAuthorizationDocument) document).toCopyTAA();
-            getDocumentService().addNoteToDocument(taaDocument, newNote);
+            taaDocument.addNote(newNote);
             Note secondNote = getDocumentService().createNoteFromDocument(document, getMessageFrom(TemKeyConstants.TA_MESSAGE_AMEND_DOCUMENT_TEXT));
-            getDocumentService().addNoteToDocument(document, secondNote);
+            document.addNote(secondNote);
             getDocumentDao().save(document);
 
             TravelAuthorizationForm form = (TravelAuthorizationForm) ((StrutsInquisitor) asker).getForm();
@@ -146,7 +144,7 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
             }
             else {
                 String message = getMessageFrom(TA_QUESTION_DOCUMENT);
-                String question = replace(message, "{0}", AMEND_TA_TEXT);
+                String question = StringUtils.replace(message, "{0}", AMEND_TA_TEXT);
                 return (T) asker.confirm(AMENDMENT_TA_QUESTION, question, true, "temSingleConfirmationQuestion", AMENDMENT_TA_QUESTION, "");
             }
         }
@@ -158,7 +156,7 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
 
     private String createNote(String reason, String documentNumber) {
         String introNoteMessage = AMEND_NOTE_PREFIX + BLANK_SPACE;
-        String suffix = replace(AMEND_NOTE_SUFFIX, "{0}", documentNumber);
+        String suffix = StringUtils.replace(AMEND_NOTE_SUFFIX, "{0}", documentNumber);
         return introNoteMessage + reason + BLANK_SPACE + suffix;
     }
 
@@ -166,7 +164,7 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
     @Override
     public <T> T askQuestion(final Inquisitive<TravelDocument,?> asker) throws Exception {
         final String key      = getMessageFrom(TA_QUESTION_DOCUMENT);
-        final String question = replace(key, "{0}", AMEND_TA_TEXT);
+        final String question = StringUtils.replace(key, "{0}", AMEND_TA_TEXT);
 
         T retval = (T) asker.confirm(AMENDMENT_TA_QUESTION, question,true);
         return retval;
@@ -175,15 +173,15 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
 
     public String getReturnToFiscalOfficerQuestion(final String operation) {
         String message = "";
-        //final String key = getConfigurationService().getPropertyString(TR_FISCAL_OFFICER_QUESTION);
-        final String key = getConfigurationService().getPropertyString(TA_QUESTION_DOCUMENT);
-        message = replace(key, "{0}", operation);
+        //final String key = getConfigurationService().getPropertyValueAsString(TR_FISCAL_OFFICER_QUESTION);
+        final String key = getConfigurationService().getPropertyValueAsString(TA_QUESTION_DOCUMENT);
+        message = StringUtils.replace(key, "{0}", operation);
         // Ask question if not already asked.
         return message;
     }
 
     public String getMessageFrom(final String messageType) {
-        return getConfigurationService().getPropertyString(messageType);
+        return getConfigurationService().getPropertyValueAsString(messageType);
     }
 
     public String getReturnToFiscalOfficerNote(final String notePrefix, String reason) {
@@ -198,11 +196,11 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
         // Get note text max length from DD.
         final int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, NOTE_TEXT_PROPERTY_NAME).intValue();
 
-        if (isBlank(reason) || (noteTextLength > noteTextMaxLength)) {
+        if (StringUtils.isBlank(reason) || (noteTextLength > noteTextMaxLength)) {
             // Figure out exact number of characters that the user can enter.
             int reasonLimit = noteTextMaxLength - noteTextLength;
 
-            if (isNull(reason)) {
+            if (ObjectUtils.isNull(reason)) {
                 // Prevent a NPE by setting the reason to a blank string.
                 reason = "";
             }

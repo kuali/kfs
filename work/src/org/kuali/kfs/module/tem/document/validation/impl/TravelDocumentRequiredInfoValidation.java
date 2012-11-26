@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
-
-import java.util.List;
 
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
@@ -37,7 +35,7 @@ public class TravelDocumentRequiredInfoValidation extends GenericValidation{
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         TravelDocument document = (TravelDocument)event.getDocument();
-        
+
         //Check to see if receipt required
         if(isReceiptRequired(document)){
             //Check to see if missing receipt selected
@@ -54,12 +52,12 @@ public class TravelDocumentRequiredInfoValidation extends GenericValidation{
                 GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(TemPropertyConstants.ATTACHMENT_FILE, TemKeyConstants.ERROR_ATTACHMENT_REQUIRED);
             }
         }
-        
+
         return valid;
     }
-    
+
     private boolean isReceiptRequired(TravelDocument document){
-        
+
         for(ActualExpense actualExpense: document.getActualExpenses()){
             TemTravelExpenseTypeCode expenseTypeCode = actualExpense.getTravelExpenseTypeCode();
             if(expenseTypeCode!=null && expenseTypeCode.getReceiptRequired() != null && expenseTypeCode.getReceiptRequired()
@@ -67,25 +65,25 @@ public class TravelDocumentRequiredInfoValidation extends GenericValidation{
                 return true;
             }
         }
-        
+
         for(ImportedExpense importedExpense: document.getImportedExpenses()){
             if(importedExpense.getReceiptRequired() != null && importedExpense.getReceiptRequired()){
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     private boolean isReceiptAttached(TravelDocument document){
-        for(Note note: (List<Note>)document.getBoNotes()){
+        for(Note note: document.getNotes()){
             if(note.getAttachment() != null && note.getAttachment().getAttachmentTypeCode().equalsIgnoreCase(ATTACHMENT_TYPE_CODE_RECEIPT)){
                 return true;
             }
         }
         return false;
     }
-    
+
     private boolean isMissingReceiptSelected(TravelDocument document){
         for(ActualExpense actualExpense: document.getActualExpenses()){
             TemTravelExpenseTypeCode expenseTypeCode = actualExpense.getTravelExpenseTypeCode();
@@ -93,16 +91,16 @@ public class TravelDocumentRequiredInfoValidation extends GenericValidation{
                 return true;
             }
         }
-        
+
         for(ImportedExpense importedExpense: document.getImportedExpenses()){
             if(importedExpense.getReceiptRequired() != null && importedExpense.getReceiptRequired() && importedExpense.getMissingReceipt() != null && importedExpense.getMissingReceipt()){
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     private boolean isNotesEnteredForTheMissingReceipts(TravelDocument document){
         for(ActualExpense actualExpense: document.getActualExpenses()){
             if(actualExpense.getMissingReceipt() != null && actualExpense.getMissingReceipt()){
@@ -111,7 +109,7 @@ public class TravelDocumentRequiredInfoValidation extends GenericValidation{
                 }
             }
         }
-        
+
         for(ImportedExpense importedExpense: document.getImportedExpenses()){
             if(importedExpense.getMissingReceipt() != null && importedExpense.getMissingReceipt()){
                 if(importedExpense.getNotes() == null || importedExpense.getNotes().length() == 0){
@@ -119,16 +117,16 @@ public class TravelDocumentRequiredInfoValidation extends GenericValidation{
                 }
             }
         }
-        
+
         return true;
     }
-    
+
     /**
-     * 
+     *
      * @return
      */
     private TravelExpenseService getTravelExpenseService(){
         return SpringContext.getBean(TravelExpenseService.class);
     }
-    
+
 }

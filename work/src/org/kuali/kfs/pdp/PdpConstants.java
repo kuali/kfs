@@ -38,6 +38,7 @@ public class PdpConstants {
     public static final int CHECK_NUMBER_PLACEHOLDER_VALUE = -1;
 
     public static class PayeeIdTypeCodes {
+        public static String CUSTOMER = "C";
         public static String SSN = "S";
         public static String EMPLOYEE = "E";
         public static String ENTITY = "T";

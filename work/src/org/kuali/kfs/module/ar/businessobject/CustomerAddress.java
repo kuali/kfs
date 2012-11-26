@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType;
+import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -32,7 +36,7 @@ import org.kuali.rice.location.framework.country.CountryEbo;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CustomerAddress extends PersistableBusinessObjectBase implements Comparable<CustomerAddress> {
+public class CustomerAddress extends PersistableBusinessObjectBase implements Comparable<CustomerAddress>, AccountsReceivableCustomerAddress {
 
     private String customerNumber;
     private Integer customerAddressIdentifier;
@@ -62,18 +66,20 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     /**
      * Gets the customerNumber attribute.
-     * 
+     *
      * @return Returns the customerNumber
      */
+    @Override
     public String getCustomerNumber() {
         return customerNumber;
     }
 
     /**
      * Sets the customerNumber attribute.
-     * 
+     *
      * @param customerNumber The customerNumber to set.
      */
+    @Override
     public void setCustomerNumber(String customerNumber) {
         this.customerNumber = customerNumber;
     }
@@ -81,16 +87,17 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     /**
      * Gets the customerAddressIdentifier attribute.
-     * 
+     *
      * @return Returns the customerAddressIdentifier
      */
+    @Override
     public Integer getCustomerAddressIdentifier() {
         return customerAddressIdentifier;
     }
 
     /**
      * Sets the customerAddressIdentifier attribute.
-     * 
+     *
      * @param customerAddressIdentifier The customerAddressIdentifier to set.
      */
     public void setCustomerAddressIdentifier(Integer customerAddressIdentifier) {
@@ -100,18 +107,20 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     /**
      * Gets the customerAddressName attribute.
-     * 
+     *
      * @return Returns the customerAddressName
      */
+    @Override
     public String getCustomerAddressName() {
         return customerAddressName;
     }
 
     /**
      * Sets the customerAddressName attribute.
-     * 
+     *
      * @param customerAddressName The customerAddressName to set.
      */
+    @Override
     public void setCustomerAddressName(String customerAddressName) {
         this.customerAddressName = customerAddressName;
     }
@@ -119,18 +128,20 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     /**
      * Gets the customerLine1StreetAddress attribute.
-     * 
+     *
      * @return Returns the customerLine1StreetAddress
      */
+    @Override
     public String getCustomerLine1StreetAddress() {
         return customerLine1StreetAddress;
     }
 
     /**
      * Sets the customerLine1StreetAddress attribute.
-     * 
+     *
      * @param customerLine1StreetAddress The customerLine1StreetAddress to set.
      */
+    @Override
     public void setCustomerLine1StreetAddress(String customerLine1StreetAddress) {
         this.customerLine1StreetAddress = customerLine1StreetAddress;
     }
@@ -138,18 +149,20 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     /**
      * Gets the customerLine2StreetAddress attribute.
-     * 
+     *
      * @return Returns the customerLine2StreetAddress
      */
+    @Override
     public String getCustomerLine2StreetAddress() {
         return customerLine2StreetAddress;
     }
 
     /**
      * Sets the customerLine2StreetAddress attribute.
-     * 
+     *
      * @param customerLine2StreetAddress The customerLine2StreetAddress to set.
      */
+    @Override
     public void setCustomerLine2StreetAddress(String customerLine2StreetAddress) {
         this.customerLine2StreetAddress = customerLine2StreetAddress;
     }
@@ -157,18 +170,20 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     /**
      * Gets the customerCityName attribute.
-     * 
+     *
      * @return Returns the customerCityName
      */
+    @Override
     public String getCustomerCityName() {
         return customerCityName;
     }
 
     /**
      * Sets the customerCityName attribute.
-     * 
+     *
      * @param customerCityName The customerCityName to set.
      */
+    @Override
     public void setCustomerCityName(String customerCityName) {
         this.customerCityName = customerCityName;
     }
@@ -176,18 +191,20 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     /**
      * Gets the customerStateCode attribute.
-     * 
+     *
      * @return Returns the customerStateCode
      */
+    @Override
     public String getCustomerStateCode() {
         return customerStateCode;
     }
 
     /**
      * Sets the customerStateCode attribute.
-     * 
+     *
      * @param customerStateCode The customerStateCode to set.
      */
+    @Override
     public void setCustomerStateCode(String customerStateCode) {
         this.customerStateCode = customerStateCode;
     }
@@ -195,34 +212,37 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     /**
      * Gets the customerZipCode attribute.
-     * 
+     *
      * @return Returns the customerZipCode
      */
+    @Override
     public String getCustomerZipCode() {
         return customerZipCode;
     }
 
     /**
      * Sets the customerZipCode attribute.
-     * 
+     *
      * @param customerZipCode The customerZipCode to set.
      */
+    @Override
     public void setCustomerZipCode(String customerZipCode) {
         this.customerZipCode = customerZipCode;
     }
 
     /**
      * Gets the customerAddressInternationalProvinceName attribute.
-     * 
+     *
      * @return Returns the customerAddressInternationalProvinceName.
      */
+    @Override
     public String getCustomerAddressInternationalProvinceName() {
         return customerAddressInternationalProvinceName;
     }
 
     /**
      * Sets the customerAddressInternationalProvinceName attribute value.
-     * 
+     *
      * @param customerAddressInternationalProvinceName The customerAddressInternationalProvinceName to set.
      */
     public void setCustomerAddressInternationalProvinceName(String customerAddressInternationalProvinceName) {
@@ -231,34 +251,37 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     /**
      * Gets the customerCountryCode attribute.
-     * 
+     *
      * @return Returns the customerCountryCode.
      */
+    @Override
     public String getCustomerCountryCode() {
         return customerCountryCode;
     }
 
     /**
      * Sets the customerCountryCode attribute value.
-     * 
+     *
      * @param customerCountryCode The customerCountryCode to set.
      */
+    @Override
     public void setCustomerCountryCode(String customerCountryCode) {
         this.customerCountryCode = customerCountryCode;
     }
 
     /**
      * Gets the customerInternationalMailCode attribute.
-     * 
+     *
      * @return Returns the customerInternationalMailCode
      */
+    @Override
     public String getCustomerInternationalMailCode() {
         return customerInternationalMailCode;
     }
 
     /**
      * Sets the customerInternationalMailCode attribute.
-     * 
+     *
      * @param customerInternationalMailCode The customerInternationalMailCode to set.
      */
     public void setCustomerInternationalMailCode(String customerInternationalMailCode) {
@@ -267,18 +290,20 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     /**
      * Gets the customerEmailAddress attribute.
-     * 
+     *
      * @return Returns the customerEmailAddress
      */
+    @Override
     public String getCustomerEmailAddress() {
         return customerEmailAddress;
     }
 
     /**
      * Sets the customerEmailAddress attribute.
-     * 
+     *
      * @param customerEmailAddress The customerEmailAddress to set.
      */
+    @Override
     public void setCustomerEmailAddress(String customerEmailAddress) {
         this.customerEmailAddress = customerEmailAddress;
     }
@@ -286,35 +311,37 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     /**
      * Gets the customerAddressTypeCode attribute.
-     * 
+     *
      * @return Returns the customerAddressTypeCode
      */
+    @Override
     public String getCustomerAddressTypeCode() {
         return customerAddressTypeCode;
     }
 
     /**
      * Sets the customerAddressTypeCode attribute.
-     * 
+     *
      * @param customerAddressTypeCode The customerAddressTypeCode to set.
      */
+    @Override
     public void setCustomerAddressTypeCode(String customerAddressTypeCode) {
         this.customerAddressTypeCode = customerAddressTypeCode;
     }
 
-
     /**
      * Gets the customerAddressEndDate attribute.
-     * 
+     *
      * @return Returns the customerAddressEndDate
      */
+    @Override
     public Date getCustomerAddressEndDate() {
         return customerAddressEndDate;
     }
 
     /**
      * Sets the customerAddressEndDate attribute.
-     * 
+     *
      * @param customerAddressEndDate The customerAddressEndDate to set.
      */
     public void setCustomerAddressEndDate(Date customerAddressEndDate) {
@@ -323,7 +350,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     /**
      * Gets the customerAddressType attribute.
-     * 
+     *
      * @return Returns the customerAddressType
      */
     public CustomerAddressType getCustomerAddressType() {
@@ -332,17 +359,18 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     /**
      * Sets the customerAddressType attribute.
-     * 
+     *
      * @param customerAddressType The customerAddressType to set.
      * @deprecated
      */
+    @Deprecated
     public void setCustomerAddressType(CustomerAddressType customerAddressType) {
         this.customerAddressType = customerAddressType;
     }
 
     /**
      * Gets the customer attribute.
-     * 
+     *
      * @return Returns the customer.
      */
     public Customer getCustomer() {
@@ -351,17 +379,18 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
 
     /**
      * Sets the customer attribute value.
-     * 
+     *
      * @param customer The customer to set.
      * @deprecated
      */
+    @Deprecated
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
     /**
      * Gets the customerCountry attribute.
-     * 
+     *
      * @return Returns the customerCountry.
      */
     public CountryEbo getCustomerCountry() {
@@ -379,15 +408,16 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
                 }
             }
         }
-        return customerCountry;    
+        return customerCountry;
     }
 
     /**
      * Sets the customerCountry attribute value.
-     * 
+     *
      * @param customerCountry The customerCountry to set.
      * @deprecated
      */
+    @Deprecated
     public void setCustomerCountry(CountryEbo customerCountry) {
         this.customerCountry = customerCountry;
     }
@@ -409,6 +439,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
     /**
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
+    @Override
     public int compareTo(CustomerAddress address) {
         if (this.getCustomerNumber() != null && address.getCustomerNumber() != null && !this.getCustomerNumber().equalsIgnoreCase(address.getCustomerNumber())) {
             return -1;
@@ -456,7 +487,7 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
         return 0;
     }
 
-    @Override 
+    @Override
     protected void prePersist() {
         super.prePersist();
         CustomerAddressService customerAddressService = SpringContext.getBean(CustomerAddressService.class);
@@ -464,4 +495,28 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
         this.setCustomerAddressIdentifier(customerAddressIdentifier);
     }
 
+    @Override
+    public AccountsReceivableCustomerAddressType getAccountsReceivableCustomerAddressType() {
+        return customerAddressType;
+    }
+
+    @Override
+    public void setCustomerAddressTypeCodeAsPrimary() {
+        setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_PRIMARY);
+    }
+
+    @Override
+    public void setCustomerAddressTypeCodeAsAlternate() {
+        setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
+    }
+
+    @Override
+    public AccountsReceivableCustomer getAccountsReceivableCustomer() {
+        return customer;
+    }
+
+    @Override
+    public void refresh() {
+        super.refresh();
+    }
 }

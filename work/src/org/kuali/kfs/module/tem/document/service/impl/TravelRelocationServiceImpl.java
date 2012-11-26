@@ -101,7 +101,7 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
         final String mailTo = travelDocumentService.retrieveAddressFromLocationCode(getParameterService().getParameterValueAsString(TemParameterConstants.TEM_RELOCATION.class, RELOCATION_DOCUMENTATION_LOCATION_CODE));
         final String destination = document.getToCity();
 
-        final String directory = getConfigurationService().getPropertyString(EXTERNALIZABLE_HELP_URL_KEY);
+        final String directory = getConfigurationService().getPropertyValueAsString(EXTERNALIZABLE_HELP_URL_KEY);
 
         final Person initiator = getPersonService().getPerson(initiatorId);
         final TravelerDetail traveler = document.getTraveler();

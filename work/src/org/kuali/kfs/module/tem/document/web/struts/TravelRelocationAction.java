@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -58,20 +58,20 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TravelRelocationAction extends TravelActionBase {
-    
+
     public static Logger LOG = Logger.getLogger(TravelRelocationAction.class);
-    
+
     private static final String[] reloMethodToCallExclusionArray = { "recalculate", "calculate", "recalculateTripDetailTotal" };
 
     /**
@@ -145,11 +145,11 @@ public class TravelRelocationAction extends TravelActionBase {
         if (document.getTraveler() != null && document.getTraveler().getPrincipalId() != null) {
             document.getTraveler().setPrincipalName(getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName());
         }
-        
+
         if (ObjectUtils.isNotNull(document.getActualExpenses())) {
             document.enableExpenseTypeSpecificFields(document.getActualExpenses());
         }
-        
+
         refreshRelatedDocuments(reloForm);
 
         if (!reloForm.getMethodToCall().equalsIgnoreCase("dochandler")) {
@@ -167,7 +167,7 @@ public class TravelRelocationAction extends TravelActionBase {
 
         showAccountDistribution(request, document);
 
-        request.setAttribute(SHOW_REPORTS_ATTRIBUTE, !document.getDocumentHeader().getWorkflowDocument().stateIsInitiated());
+        request.setAttribute(SHOW_REPORTS_ATTRIBUTE, !document.getDocumentHeader().getWorkflowDocument().isInitiated());
 
         return retval;
     }
@@ -197,7 +197,7 @@ public class TravelRelocationAction extends TravelActionBase {
 
     /**
      * Do initialization for a new {@link TravelRelocationDocument}
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
@@ -212,7 +212,7 @@ public class TravelRelocationAction extends TravelActionBase {
         Document doc = getDocumentService().getNewDocument(kualiDocumentFormBase.getDocTypeName());
 
         kualiDocumentFormBase.setDocument(doc);
-        kualiDocumentFormBase.setDocTypeName(doc.getDocumentHeader().getWorkflowDocument().getDocumentType());
+        kualiDocumentFormBase.setDocTypeName(doc.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
 
         ((DisbursementVoucherDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
 
@@ -221,7 +221,7 @@ public class TravelRelocationAction extends TravelActionBase {
     }
 
     protected String retrieveWireChargeMessage() {
-        String message = SpringContext.getBean(ConfigurationService.class).getPropertyString(KFSKeyConstants.MESSAGE_DV_WIRE_CHARGE);
+        String message = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.MESSAGE_DV_WIRE_CHARGE);
         WireCharge wireCharge = new WireCharge();
         wireCharge.setUniversityFiscalYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 
@@ -246,7 +246,7 @@ public class TravelRelocationAction extends TravelActionBase {
 
     /**
      * Action method for adding an {@link ActualExpense} instance to the {@link TravelDocument}
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -264,7 +264,7 @@ public class TravelRelocationAction extends TravelActionBase {
 
     /**
      * This method removes an other travel expense from this collection
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -282,7 +282,7 @@ public class TravelRelocationAction extends TravelActionBase {
 
     /**
      * Recalculates the Expenses Total Tab
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -294,7 +294,7 @@ public class TravelRelocationAction extends TravelActionBase {
     }
 
     protected void refreshCollectionsFor(final TravelRelocationDocument relocation) {
-        if (!relocation.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
+        if (!relocation.getDocumentHeader().getWorkflowDocument().isInitiated()) {
             LOG.debug("Refreshing objects in relocation");
             relocation.refreshReferenceObject(TemPropertyConstants.TRAVELER);
             relocation.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
@@ -306,7 +306,7 @@ public class TravelRelocationAction extends TravelActionBase {
     /**
      * Uses the {@link TravelRelocationService} to lookup a {@link TravelRelocationDocument} instance via its
      * <code>travelDocumentIdentifier</code>
-     * 
+     *
      * @param travelDocumentIdentifier to location a {@link TravelRelocationDocument} with
      * @return {@link TravelRelocationDocument} instance
      */
@@ -315,13 +315,13 @@ public class TravelRelocationAction extends TravelActionBase {
         if (ObjectUtils.isNotNull(reloList) && reloList.iterator().hasNext()) {
             return reloList.iterator().next();
         }
-        
+
         return null;
     }
 
     /**
      * This method...
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -352,7 +352,7 @@ public class TravelRelocationAction extends TravelActionBase {
 
         final ByteArrayOutputStream baos = getTravelReportService().buildReport(report);
         WebUtils.saveMimeOutputStreamAsFile(response, PDF_MIME_TYPE, baos, "ExpenseSummary" + PDF_FILE_EXTENSION);
-        
+
         return null;
     }
 
@@ -367,7 +367,7 @@ public class TravelRelocationAction extends TravelActionBase {
 
         final ByteArrayOutputStream baos = getTravelReportService().buildReport(report);
         WebUtils.saveMimeOutputStreamAsFile(response, PDF_MIME_TYPE, baos, "SummaryByDay" + PDF_FILE_EXTENSION);
-        
+
         return null;
     }
 
@@ -411,7 +411,7 @@ public class TravelRelocationAction extends TravelActionBase {
 
         return null;
     }
-    
+
     protected NonEmployeeCertificationReportService getNonEmployeeCertificationReportService() {
         return SpringContext.getBean(NonEmployeeCertificationReportService.class);
     }

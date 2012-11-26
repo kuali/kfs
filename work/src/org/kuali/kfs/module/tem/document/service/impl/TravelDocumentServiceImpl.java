@@ -101,9 +101,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -113,6 +115,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
@@ -126,7 +129,9 @@ import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.kuali.rice.location.api.state.State;
 import org.kuali.rice.location.api.state.StateService;
 import org.springframework.beans.BeanUtils;
@@ -216,8 +221,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             final Calendar cal = getDateTimeService().getCurrentCalendar();
             cal.setTime(start);
 
-            for (; !cal.getTime().after(end) || DateUtils.isSameDay(cal.getTime(), end); cal.add(Calendar.DATE, 1)) {
-                if (DateUtils.isSameDay(cal.getTime(), end)) {
+            for (; !cal.getTime().after(end) || KfsDateUtils.isSameDay(cal.getTime(), end); cal.add(Calendar.DATE, 1)) {
+                if (KfsDateUtils.isSameDay(cal.getTime(), end)) {
                     retval.add(new Timestamp(end.getTime()));
                 }
                 else {
@@ -313,7 +318,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             for (final Timestamp someDate : dateRange(start, end)) {
                 // Check if a per diem entry exists for this date
                 if (!perDiemMapped.containsKey(someDate)) {
-                    boolean prorated = !DateUtils.isSameDay(start, end) && (DateUtils.isSameDay(someDate, start) || DateUtils.isSameDay(someDate, end));
+                    boolean prorated = !KfsDateUtils.isSameDay(start, end) && (KfsDateUtils.isSameDay(someDate, start) || KfsDateUtils.isSameDay(someDate, end));
                     PerDiemExpense perDiemExpense = createPerDiemItem(document,perDiemList.get(counter), someDate, prorated);
                     if (counter < perDiemExpenseList.size()) {
                         // copy mileage data over from the original perdiem expense
@@ -347,11 +352,10 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     protected PerDiemExpense setupMileageRate(PerDiemExpense newExpense, PerDiemExpense oldExpense) {
         try {
             Date searchDate = getDateTimeService().convertToSqlDate(newExpense.getMileageDate());
-            List<ConcreteKeyValue> mileageRates = getMileageRateKeyValues(searchDate);
+            List<KeyValue> mileageRates = getMileageRateKeyValues(searchDate);
             if (ObjectUtils.isNotNull(mileageRates)) {
-                for (ConcreteKeyValue pair : mileageRates) {
-                    Integer key = (Integer) pair.getKey();
-                    if (ObjectUtils.isNotNull(oldExpense) && oldExpense.getMileageRateId().intValue() == key.intValue()) {
+                for (KeyValue pair : mileageRates) {
+                    if (ObjectUtils.isNotNull(oldExpense) && oldExpense.getMileageRateId().intValue() == Integer.valueOf(pair.getKey()).intValue()) {
                         // use the same mileage rate as before
                         newExpense.setMileageRateId(oldExpense.getMileageRateId());
                         newExpense.setMiles(oldExpense.getMiles());
@@ -360,7 +364,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 }
                 if (ObjectUtils.isNull(newExpense.getMileageRateId())) {
                     // mileage rate is different than it was before the change, use the first element in the list
-                    newExpense.setMileageRateId((Integer) mileageRates.get(0).getKey());
+                    newExpense.setMileageRateId(Integer.valueOf(mileageRates.get(0).getKey()));
                 }
             }
         }
@@ -375,10 +379,10 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getMileageRateKeyValues(java.sql.Date)
      */
     @Override
-    public List<ConcreteKeyValue> getMileageRateKeyValues(Date searchDate) {
-        List<ConcreteKeyValue> keyValues = new ArrayList<ConcreteKeyValue>();
+    public List<KeyValue> getMileageRateKeyValues(Date searchDate) {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        TravelDocument document = (TravelDocument) ((TravelFormBase)GlobalVariables.getKualiForm()).getDocument();
+        TravelDocument document = (TravelDocument) ((TravelFormBase)KNSGlobalVariables.getKualiForm()).getDocument();
         String documentType = SpringContext.getBean(TravelDocumentService.class).getDocumentType(document);
         Map<String,Object> fieldValues = new HashMap<String,Object>();
 
@@ -399,20 +403,20 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             final Date toDate = mileageRate.getActiveToDate();
             if(ObjectUtils.isNull(searchDate)) {
                 //just add them all
-                keyValues.add(new ConcreteKeyValue(mileageRate.getId(), mileageRate.getName()));
+                keyValues.add(new ConcreteKeyValue(mileageRate.getId().toString(), mileageRate.getName()));
             } else if((fromDate.equals(searchDate) || fromDate.before(searchDate)) && (toDate.equals(searchDate) || toDate.after(searchDate))) {
 
                 if (mileageRate != null && mileageRate.isActive()) {
-                    keyValues.add(new ConcreteKeyValue(mileageRate.getId(), mileageRate.getCodeAndRate(mileageRateObject)));
+                    keyValues.add(new ConcreteKeyValue(mileageRate.getId().toString(), mileageRate.getCodeAndRate(mileageRateObject)));
                 }
             }
         }
 
         //sort by label
-        Comparator<ConcreteKeyValue> labelComparator = new Comparator<ConcreteKeyValue>() {
+        Comparator<KeyValue> labelComparator = new Comparator<KeyValue>() {
             @Override
-            public int compare(ConcreteKeyValue o1, ConcreteKeyValue o2) {
-                return o1.getLabel().compareTo(o2.getLabel());
+            public int compare(KeyValue o1, KeyValue o2) {
+                return o1.getKey().compareTo(o2.getKey());
             }
         };
 
@@ -550,21 +554,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         docMap.put(docTypeName, results);
     }
 
-
-    /**
-     * @param docMap contains {@link List} instances of documents mapped by doc type name
-     * @param clazz is the {@link Class} of documents to lookup
-     * @param headerIds is a list of constrained header ids belonging to documents to search for
-     */
-    @Deprecated
-    protected void addDocuments(final Map<String, List<Document>> docMap, final Class<? extends Document> clazz, final String travelDocumentIdentifier) throws WorkflowException {
-        final String docTypeName = getDataDictionaryService().getDocumentTypeNameByClass(clazz);
-        final List<Document> results = (List<Document>) find(clazz, travelDocumentIdentifier);
-        filterResults(clazz, results);
-        LOG.debug("Found "+ results.size()+ " documents with travel id "+ travelDocumentIdentifier);
-        docMap.put(docTypeName, results);
-    }
-
     /**
      * Make sure that the elements returned are of the right class.
      *
@@ -584,7 +573,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     protected Collection<DocumentHeader> getHeadersWith(final Integer orgDocId) throws WorkflowException {
         final Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put("organizationDocumentNumber", "" + orgDocId);
-        return getBusinessObjectService().findMatching(FinancialSystemDocumentHeader.class, criteria);
+        return getBusinessObjectService().findMatching(DocumentHeader.class, criteria);
     }
 
     @Override
@@ -616,23 +605,48 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#find(java.lang.Class, java.lang.String)
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#findAuthorizationDocuments(java.lang.String)
      */
     @Override
-    public <T> List<T> find(final Class<T> travelDocumentClass, final String travelDocumentNumber) {
-        final List<String> ids = getTravelDocumentDao().findDocumentNumbers(travelDocumentClass, travelDocumentNumber);
+    public List<TravelAuthorizationDocument> findAuthorizationDocuments(final String travelDocumentNumber){
+        final List<String> ids = getTravelDocumentDao().findDocumentNumbers(TravelAuthorizationDocument.class, travelDocumentNumber);
 
-        List<T> resultDocumentLists = new ArrayList<T>();
+        List<TravelAuthorizationDocument> resultDocumentLists = new ArrayList<TravelAuthorizationDocument>();
         //retrieve the actual documents
         try {
             if (!ids.isEmpty()) {
-                resultDocumentLists = getDocumentService().getDocumentsByListOfDocumentHeaderIds(travelDocumentClass, ids);
+                for (Document document : getDocumentService().getDocumentsByListOfDocumentHeaderIds(TravelAuthorizationDocument.class, ids)){
+                    resultDocumentLists.add((TravelAuthorizationDocument)document);
+                }
             }
         }catch (WorkflowException wfe){
             LOG.error(wfe.getMessage(), wfe);
         }
         return resultDocumentLists;
     }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#findReimbursementDocuments(java.lang.String)
+     */
+    @Override
+    public List<TravelReimbursementDocument> findReimbursementDocuments(final String travelDocumentNumber) {
+        final List<String> ids = getTravelDocumentDao().findDocumentNumbers(TravelReimbursementDocument.class, travelDocumentNumber);
+
+        List<TravelReimbursementDocument> resultDocumentLists = new ArrayList<TravelReimbursementDocument>();
+        // retrieve the actual documents
+        try {
+            if (!ids.isEmpty()) {
+                for (Document document : getDocumentService().getDocumentsByListOfDocumentHeaderIds(TravelReimbursementDocument.class, ids)) {
+                    resultDocumentLists.add((TravelReimbursementDocument) document);
+                }
+            }
+        }
+        catch (WorkflowException wfe) {
+            LOG.error(wfe.getMessage(), wfe);
+        }
+        return resultDocumentLists;
+    }
+
 
     /**
      *
@@ -735,11 +749,11 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         // Below used as a place holder to allow code to specify actionForward to return if not a 'success question'
 
         final Note newNote = getDocumentService().createNoteFromDocument(document, noteText);
-        getDocumentService().addNoteToDocument(document, newNote);
+        document.addNote(newNote);
 
         document.getDocumentHeader().getWorkflowDocument().returnToPreviousNode(noteText, TemWorkflowConstants.ACCOUNT_APPROVAL_REQUIRED);
 
-        addAdHocFYIRecipient(document, document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getInitiatorPrincipalId());
+        addAdHocFYIRecipient(document, document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
 
         getDocumentService().saveDocument(document);
     }
@@ -778,7 +792,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     public Integer calculatePerDiemPercentageFromTimestamp(PerDiemExpense perDiemExpense, Timestamp tripEnd) {
         if (perDiemExpense.getMileageDate() != null) {
             try {
-                List<String> quarterTimes = parameterService.getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.QUARTER_DAY_TIME_TABLE);
+                Collection<String> quarterTimes = parameterService.getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.QUARTER_DAY_TIME_TABLE);
 
                 // Take date and compare to the quadrant specified.
                 Calendar prorateDate = new GregorianCalendar();
@@ -801,7 +815,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 }
 
                 // Prorate on trip begin. (12:01 AM arrival = 100%, 11:59 PM arrival = 25%)
-                if (!DateUtils.isSameDay(prorateDate.getTime(), tripEnd)) {
+                if (!KfsDateUtils.isSameDay(prorateDate.getTime(), tripEnd)) {
                     return 100 - ((quadrantIndex - 1) * TemConstants.QUADRANT_PERCENT_VALUE);
                 }
                 else { // Prorate on trip end. (12:01 AM departure = 25%, 11:59 PM arrival = 100%).
@@ -942,7 +956,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             LOG.debug("Set converted amount for "+ newActualExpenseLine+ " to "+ newActualExpenseLine.getConvertedAmount());
 
             if (isHostedMeal(newActualExpenseLine)) {
-                getMessageList().add(TemKeyConstants.MESSAGE_HOSTED_MEAL_ADDED,
+                KNSGlobalVariables.getMessageList().add(TemKeyConstants.MESSAGE_HOSTED_MEAL_ADDED,
                         new SimpleDateFormat("MM/dd/yyyy").format(newActualExpenseLine.getExpenseDate()),
                         newActualExpenseLine.getTravelExpenseTypeCode().getName());
                 newActualExpenseLine.setNonReimbursable(true);
@@ -998,7 +1012,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public String getMessageFrom(final String messageType, String... args) {
-        String strTemp = getConfigurationService().getPropertyString(messageType);
+        String strTemp = getConfigurationService().getPropertyValueAsString(messageType);
         for(int i=0;i<args.length;i++){
             strTemp = strTemp.replaceAll("\\{"+i+"\\}", args[i]);
         }
@@ -1107,7 +1121,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public boolean isFinal(TravelDocument document) {
-        return document.getDocumentHeader().getWorkflowDocument().stateIsFinal();
+        return document.getDocumentHeader().getWorkflowDocument().isFinal();
     }
 
     /**
@@ -1132,7 +1146,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     @Override
     public boolean isUnsuccessful(TravelDocument document) {
-        String status = document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+        String status = document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
         List<String> unsuccessful = KewApiConstants.DOCUMENT_STATUS_PARENT_TYPES.get(KewApiConstants.DOCUMENT_STATUS_PARENT_TYPE_UNSUCCESSFUL);
         for (String tempStatus : unsuccessful){
             if (status.equals(tempStatus)){
@@ -1151,7 +1165,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public boolean isProcessed(TravelDocument document) {
-        return document.getDocumentHeader().getWorkflowDocument().stateIsProcessed();
+        return document.getDocumentHeader().getWorkflowDocument().isProcessed();
     }
 
     @Override
@@ -1205,7 +1219,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
             if (taDocs.isEmpty()) {
                 //this should find the TA document for sure
-                final List<TravelAuthorizationDocument> tempTaDocs = find(TravelAuthorizationDocument.class, document.getTravelDocumentIdentifier());
+                final List<TravelAuthorizationDocument> tempTaDocs = findAuthorizationDocuments(document.getTravelDocumentIdentifier());
                 if (!tempTaDocs.isEmpty()){
                     travelDocument = tempTaDocs.get(0);
                 }
@@ -1228,7 +1242,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             }
         }
 
-        if (document.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)){
+        if (document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)){
             List<AccountingLine> lines = document.getSourceAccountingLines();
             for(AccountingLine line: lines) {
                 trTotal = trTotal.add(line.getAmount());
@@ -1783,7 +1797,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             try {
                 TravelAuthorizationDocument authorization = (TravelAuthorizationDocument) findCurrentTravelAuthorization(document);
                 if (authorization == null){
-                    GlobalVariables.getMessageMap().putError(KNSPropertyConstants.DOCUMENT + "." + TemPropertyConstants.TRIP_TYPE_CODE, TemKeyConstants.ERROR_TRIP_TYPE_TA_REQUIRED, document.getTripType().getName());
+                    GlobalVariables.getMessageMap().putError(KRADPropertyConstants.DOCUMENT + "." + TemPropertyConstants.TRIP_TYPE_CODE, TemKeyConstants.ERROR_TRIP_TYPE_TA_REQUIRED, document.getTripType().getName());
                 }
             }
             catch (WorkflowException ex) {
@@ -1876,7 +1890,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     public boolean validateSourceAccountingLines(TravelDocument travelDocument, boolean addToErrorPath) {
         boolean success = true;
         Map<String,Object> fieldValues = new HashMap<String,Object>();
-        fieldValues.put(KNSPropertyConstants.DOCUMENT_NUMBER, travelDocument.getDocumentNumber());
+        fieldValues.put(KRADPropertyConstants.DOCUMENT_NUMBER, travelDocument.getDocumentNumber());
 
         List<SourceAccountingLine> currentLines = (List<SourceAccountingLine>) getBusinessObjectService().findMatching(SourceAccountingLine.class, fieldValues);
 
@@ -2020,13 +2034,13 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
 
         for (Document taDocument : relatedDocumentList) {
-            if (taDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus().equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)) {
+            if (taDocument.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus().equals(TravelAuthorizationStatusCodeKeys.PEND_AMENDMENT)) {
                 TravelAuthorizationDocument taDoc = (TravelAuthorizationDocument) taDocument;
                 taDoc.updateAppDocStatus(status);
 
                 try {
-                    Note cancelNote = getDocumentService().createNoteFromDocument(taDoc, ((ConfigurationService) SpringContext.getService("ConfigurationService")).getPropertyString(TemKeyConstants.TA_MESSAGE_AMEND_DOCUMENT_CANCELLED_TEXT));
-                    getDocumentService().addNoteToDocument(taDoc, cancelNote);
+                    Note cancelNote = getDocumentService().createNoteFromDocument(taDoc, ((ConfigurationService) SpringContext.getService("ConfigurationService")).getPropertyValueAsString(TemKeyConstants.TA_MESSAGE_AMEND_DOCUMENT_CANCELLED_TEXT));
+                    taDoc.addNote(cancelNote);
                     getDocumentService().saveDocument(taDoc);
                 }
                 catch (Exception ex) {

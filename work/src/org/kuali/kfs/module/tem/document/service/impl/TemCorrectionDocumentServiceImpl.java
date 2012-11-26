@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,18 +22,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.kuali.kfs.module.tem.businessobject.AgencyEntryFull;
 import org.kuali.kfs.module.tem.document.TemCorrectionProcessDocument;
 import org.kuali.kfs.module.tem.document.service.TemCorrectionDocumentService;
 import org.kuali.kfs.module.tem.document.web.struts.TemCorrectionForm;
-import org.kuali.rice.kns.web.comparator.NumericValueComparator;
-import org.kuali.rice.kns.web.comparator.StringValueComparator;
-import org.kuali.rice.kns.web.comparator.TemporalValueComparator;
 import org.kuali.rice.kns.web.ui.Column;
-
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
+import org.kuali.rice.krad.comparator.NumericValueComparator;
+import org.kuali.rice.krad.comparator.StringValueComparator;
+import org.kuali.rice.krad.comparator.TemporalValueComparator;
 
 public class TemCorrectionDocumentServiceImpl implements TemCorrectionDocumentService {
 
@@ -42,7 +41,7 @@ public class TemCorrectionDocumentServiceImpl implements TemCorrectionDocumentSe
     protected String batchFileDirectoryName;
     /**
      * Returns metadata to help render columns in the TMCP. Do not modify this list or the contents in this list.
-     * 
+     *
      * @param docId the document id of a GLCP document
      * @return a List of Columns to render
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#getTableRenderColumnMetadata(java.lang.String)
@@ -95,37 +94,37 @@ public class TemCorrectionDocumentServiceImpl implements TemCorrectionDocumentSe
                 columnToAdd.setPropertyName("tripExpenseAmount");
                 columnToAdd.setValueComparator(NumericValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
-                
+
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Arranger Name");
                 columnToAdd.setPropertyName("tripArrangerName");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
-                
+
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Departure Date");
                 columnToAdd.setPropertyName("tripDepartureDate");
                 columnToAdd.setValueComparator(TemporalValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
-                
+
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Air Book Date");
                 columnToAdd.setPropertyName("airBookDate");
                 columnToAdd.setValueComparator(TemporalValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
-                
+
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Air Carrier Code");
                 columnToAdd.setPropertyName("airCarrierCode");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
-                
+
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Air Ticket Number");
                 columnToAdd.setPropertyName("airTicketNumber");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
-                
+
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("PNR Number");
                 columnToAdd.setPropertyName("pnrNumber");
@@ -137,7 +136,7 @@ public class TemCorrectionDocumentServiceImpl implements TemCorrectionDocumentSe
                 columnToAdd.setPropertyName("transactionUniqueId");
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
-                
+
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Posting Date");
                 columnToAdd.setPropertyName("transactionPostingDate");
@@ -153,9 +152,9 @@ public class TemCorrectionDocumentServiceImpl implements TemCorrectionDocumentSe
     @Override
     public void persistAgencyEntryGroupsForDocumentSave(TemCorrectionProcessDocument document, TemCorrectionForm correctionForm) {
         Document xml = DocumentHelper.createDocument();
-        
+
         Element root = xml.addElement( "agencyData" );
-        
+
         for (AgencyEntryFull agency: correctionForm.getAllEntries()) {
             Element agencyXml = root.addElement("record");
             agencyXml.addElement("creditCardOrAgencyCode").addText(agency.getCreditCardOrAgencyCode());
@@ -185,14 +184,14 @@ public class TemCorrectionDocumentServiceImpl implements TemCorrectionDocumentSe
             // TODO Auto-generated catch block
             ex.printStackTrace();
         }
-        
+
     }
-    
+
     @Override
     public String getBatchFileDirectoryName() {
         return this.batchFileDirectoryName;
     }
-    
+
     /**
      * Sets the batchFileDirectoryName attribute value.
      * @param batchFileDirectoryName The batchFileDirectoryName to set.
@@ -200,7 +199,7 @@ public class TemCorrectionDocumentServiceImpl implements TemCorrectionDocumentSe
     public void setBatchFileDirectoryName(String batchFileDirectoryName) {
         this.batchFileDirectoryName = batchFileDirectoryName;
     }
-    
-    
+
+
 
 }

@@ -91,7 +91,7 @@ public class CapitalAssetAccountingLineUniquenessEnforcementValidationTest exten
 
     public void testGetLineUniquenessKey_EQUALS() throws Exception {
         SourceAccountingLine sourceLine = AccountingLineFixture.LINE17.createSourceAccountingLine();
-        TargetAccountingLine targetLine = AccountingLineFixture.LINE17.createTargetAccountingLine();
+        SourceAccountingLine targetLine = AccountingLineFixture.LINE17.createSourceAccountingLine();
         assertEquals( "Lines created from same fixture should have been equal", validator.getLineUniquenessKey(sourceLine), validator.getLineUniquenessKey(targetLine) );
     }
 

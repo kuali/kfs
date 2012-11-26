@@ -56,12 +56,12 @@ public class CapitalAssetAccountingLineUniquenessEnforcementValidationTest exten
     }
 
     public void testValidate_NO_CAP_LINES() throws Exception {
-        validator.getAccountingDocumentForValidation().addSourceAccountingLine(AccountingLineFixture.LINE1.createSourceAccountingLine() );
+        validator.getAccountingDocumentForValidation().addSourceAccountingLine(AccountingLineFixture.LINE.createSourceAccountingLine() );
         assertTrue( "When no capital asset accounting lines, should have returned true", validator.validate(event) );
     }
 
     public void testGetCapitalAssetAccountingLines() throws Exception {
-        addSourceLine(AccountingLineFixture.LINE1);
+        addSourceLine(AccountingLineFixture.LINE);
         SourceAccountingLine capLine = addSourceLine(AccountingLineFixture.LINE17);
         Collection<AccountingLine> capAssetLines = validator.getCapitalAssetAccountingLines(validator.getAccountingDocumentForValidation().getSourceAccountingLines());
         assertEquals( "One of the lines should have been returned: " + capAssetLines, 1, capAssetLines.size() );
@@ -78,8 +78,13 @@ public class CapitalAssetAccountingLineUniquenessEnforcementValidationTest exten
 
     public void testValidateLineUniqueness_NO_IDENTICAL_LINES() throws Exception {
         // need to alter the line so that it's a cap asset line
-        addSourceLine(AccountingLineFixture.LINE1).setFinancialObjectCode("7600");
+        addSourceLine(AccountingLineFixture.LINE).setFinancialObjectCode("7600");
         addSourceLine(AccountingLineFixture.LINE17);
+        // double check - if line filtered out it would pass the test below as well
+        System.err.println(validator.getAccountingDocumentForValidation().getSourceAccountingLines());
+        Collection<AccountingLine> capAssetLines = validator.getCapitalAssetAccountingLines(validator.getAccountingDocumentForValidation().getSourceAccountingLines());
+        assertEquals( "Both lines should have been returned: " + validator.getAccountingDocumentForValidation().getSourceAccountingLines(),
+                2, capAssetLines.size() );
         assertTrue( "Rule should not have failed - lines were unique: " + validator.getAccountingDocumentForValidation().getSourceAccountingLines(),
                 validator.validateLineUniqueness(validator.getAccountingDocumentForValidation().getSourceAccountingLines()) );
     }
@@ -92,7 +97,7 @@ public class CapitalAssetAccountingLineUniquenessEnforcementValidationTest exten
 
     public void testGetLineUniquenessKey_NOT_EQUALS() throws Exception  {
         SourceAccountingLine sourceLine = AccountingLineFixture.LINE17.createSourceAccountingLine();
-        TargetAccountingLine targetLine = AccountingLineFixture.LINE1.createTargetAccountingLine();
+        TargetAccountingLine targetLine = AccountingLineFixture.LINE.createTargetAccountingLine();
         assertFalse( "Lines created from different fixtures should not have been equal", validator.getLineUniquenessKey(sourceLine).equals(validator.getLineUniquenessKey(targetLine)) );
     }
 

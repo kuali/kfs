@@ -1,0 +1,33 @@
+RSP_ID,OBJ_ID,VER_NBR,RSP_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
+10000,KFS-TEM-RSP-000,1,1,KFS-TEM,Review,Responsible for reviewing Travel Authorization Document on SpecialRequestReviewer,Y
+10001,KFS-TEM-RSP-001,1,1,KFS-TEM,Review,Responsible for reviewing Travel Authorization Document on InternationalTravelReviewer,Y
+10002,KFS-TEM-RSP-002,1,1,KFS-TEM,Review,Responsible for reviewing Travel Authorization Document on RiskManagement,Y
+10003,KFS-TEM-RSP-003,1,1,KFS-TEM,Review,Responsible for reviewing Travel Authorization Document on APTravel,Y
+10004,KFS-TEM-RSP-004,1,1,KFS-TEM,Review,Responsible for reviewing Travel Reimbursement Document on AccountingReviewer,Y
+10005,KFS-TEM-RSP-005,1,1,KFS-TEM,Review,Responsible for reviewing Travel Reimbursement Document on DivisionReviewer,Y
+10006,KFS-TEM-RSP-006,1,1,KFS-TEM,Review,Responsible for reviewing Travel Reimbursement Document on TravelReview,Y
+10007,KFS-TEM-RSP-007,1,1,KFS-TEM,Review,Responsible for reviewing TEM Profile,Y
+10008,KFS-TEM-RSP-008,1,1,KFS-TEM,Review,Responsible for reviewing Entertainment Document Review,Y
+10009,KFS-TEM-RSP-009,1,1,KFS-TEM,Review,Responsible for reviewing Entertainment Document on ENTSpecialRequestReviewer,Y
+10010,KFS-TEM-RSP-010,1,1,KFS-TEM,Review,Responsible for reviewing Entertainment Document on ENTTaxManager,Y
+10011,KFS-TEM-RSP-011,1,1,KFS-TEM,Review,Responsible for reviewing Moving and Relocation Document on MovingAndRelocationManager,Y
+10012,KFS-TEM-RSP-012,1,1,KFS-TEM,Review,Responsible for reviewing Moving and Relocation Document on ExecutiveApproval,Y
+10013,KFS-TEM-RSP-013,1,1,KFS-TEM,Review,Responsible for reviewing Moving and Relocation Document on Tax,Y
+10014,KFS-TEM-RSP-014,1,1,KFS-TEM,Review,Responsible for reviewing Travel Authorization Document on SeparationOfDutiesReviewer,Y
+10015,KFS-TEM-RSP-015,1,1,KFS-TEM,Review,Responsible for reviewing Travel Reimbursement Document on SpecialRequestReviewer,Y
+10016,KFS-TEM-RSP-016,1,1,KFS-TEM,Review,Responsible for reviewing Travel Reimbursement Document on DivisionReviewer,Y
+10017,KFS-TEM-RSP-017,1,1,KFS-TEM,Review,Responsible for reviewing Travel Reimbursement Document on Tax,Y
+10018,KFS-TEM-RSP-018,1,1,KFS-TEM,Review,Responsible for reviewing Travel Reimbursement Document on InternationalTravelReviewer,Y,Y
+10019,KFS-TEM-RSP-019,1,1,KFS-TEM,Review,Responsible for reviewing Travel Reimbursement Document on APTravel,Y
+10020,KFS-TEM-RSP-020,1,1,KFS-TEM,Review,Responsible for reviewing Travel Reimbursement Document on SeparationOfDutiesReviewer,Y
+10021,KFS-TEM-RSP-021,1,1,KFS-TEM,Review,Responsible for reviewing Travel Authorization Document on TravelReview,Y
+10022,KFS-TEM-RSP-022,1,1,KFS-TEM,Review,Responsible for reviewing Travel Authorization Amendment Document on TravelReview,Y
+10023,KFS-TEM-RSP-023,1,1,KFS-TEM,Review,Responsible for reviewing CTS Card Application Document on TravelManagerReview,Y
+10024,KFS-TEM-RSP-024,1,1,KFS-TEM,Review,Responsible for reviewing CTS Card Application Document on Account,Y
+10025,KFS-TEM-RSP-025,1,1,KFS-TEM,Review,Responsible for reviewing Corporate Card Application Document on TravelManagerReview,Y
+10026,KFS-TEM-RSP-026,1,1,KFS-TEM,Review,Responsible for reviewing Corporate Card Application Document on Account,Y
+10027,KFS-TEM-RSP-027,1,1,KFS-TEM,Review,Responsible for reviewing Entertainment Document on TravelReview,Y
+10028,KFS-TEM-RSP-028,1,1,KFS-TEM,Review,Responsible for reviewing Moving and Relocation Document on TravelReview,Y
+10029,KFS-TEM-RSP-029,1,1,KFS-TEM,Review,Responsible for reviewing Entertainment Document on SeparationOfDutiesReviewer,Y
+10030,KFS-TEM-RSP-030,1,1,KFS-TEM,Review,Responsible for reviewing Moving and Relocation Document on SeparationOfDutiesReviewer,Y
+10031,KFS-TEM-RSP-031,1,1,KFS-TEM,Review,Responsible for reviewing Moving and Relocation Document on SpecialRequestReviewer,Y

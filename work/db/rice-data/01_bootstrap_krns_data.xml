@@ -51,6 +51,15 @@
 			<delete tableName="KRLC_PSTL_CODE_T" />
 		</rollback>
     </changeSet>
+    
+  <changeSet context="bootstrap,demo" author="kfs" id="KFS_LOAD_KR_STATE_T">
+    <loadData tableName="KR_STATE_T" file="bootstrap/kr_state_t.csv" />
+    <rollback>
+      <delete tableName="KR_STATE_T" >
+        <where>POSTAL_CNTRY_CD in ('AU', 'CA', 'MX')</where>
+      </delete>
+    </rollback>
+  </changeSet>
 
 </databaseChangeLog>   
       

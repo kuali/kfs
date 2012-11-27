@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,7 +26,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.module.cab.CabConstants;
-import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.document.service.GlAndPurApHelperService;
@@ -34,7 +33,6 @@ import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.RiceConstants;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -47,7 +45,7 @@ public class GlLineAction extends CabActionBase {
 
     /**
      * Action "process" from CAB GL Lookup screen is processed by this method
-     * 
+     *
      * @param mapping {@link ActionMapping}
      * @param form {@link ActionForm}
      * @param request {@link HttpServletRequest}
@@ -59,19 +57,19 @@ public class GlLineAction extends CabActionBase {
         GlLineForm glLineForm = (GlLineForm) form;
         String glAcctId = request.getParameter(CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER);
         Long cabGlEntryId = Long.valueOf(glAcctId);
-        
+
         GeneralLedgerEntry entry = findGeneralLedgerEntry(request);
-        
-        
+
+
         String assetLineNumber = request.getParameter(CabPropertyConstants.CapitalAssetInformation.ASSET_LINE_NUMBER);
         Integer capitalAssetLineNumber = Integer.valueOf(assetLineNumber);
         glLineForm.setCapitalAssetLineNumber(capitalAssetLineNumber);
-        
+
         if (ObjectUtils.isNotNull(entry)) {
             prepareRecordsForDisplay(glLineForm, entry, capitalAssetLineNumber);
         }
-        
-        glLineForm.setGeneralLedgerEntry(entry);        
+
+        glLineForm.setGeneralLedgerEntry(entry);
      //   if (!entry.isActive()) {
      //       KNSGlobalVariables.getMessageList().add(CabKeyConstants.WARNING_GL_PROCESSED);
      //   }
@@ -83,14 +81,14 @@ public class GlLineAction extends CabActionBase {
         entry.setSelected(true);
         glLineForm.setGeneralLedgerEntry(entry);
         glLineForm.setPrimaryGlAccountId(entry.getGeneralLedgerAccountIdentifier());
-        
-        CapitalAssetInformation capitalAssetInformation = glLineService.findCapitalAssetInformation(entry, capitalAssetLineNumber);
+
+        CapitalAssetInformation capitalAssetInformation = glLineService.findCapitalAssetInformation(entry.getDocumentNumber(), capitalAssetLineNumber);
         glLineForm.setCapitalAssetInformation(capitalAssetInformation);
     }
 
     /**
      * Finds GL entry using the key from request
-     * 
+     *
      * @param request HttpServletRequest
      * @return GeneralLedgerEntry
      */
@@ -103,7 +101,7 @@ public class GlLineAction extends CabActionBase {
     /**
      * Action "Create Assets" from CAB GL Detail Selection screen is processed by this method. This will initiate an asset global
      * document and redirect the user to document edit page.
-     * 
+     *
      * @param mapping ActionMapping
      * @param form ActionForm
      * @param request HttpServletRequest
@@ -116,9 +114,9 @@ public class GlLineAction extends CabActionBase {
         GlLineService glLineService = SpringContext.getBean(GlLineService.class);
         GeneralLedgerEntry defaultGeneralLedgerEntry = findGeneralLedgerEntry(glLineForm.getPrimaryGlAccountId(), true);
         defaultGeneralLedgerEntry.setSelected(true);
-        
+
         Integer capitalAssetLineNumber = glLineForm.getCapitalAssetLineNumber();
-        
+
         // set the default as the first entry in the list if it's null
         if (ObjectUtils.isNull(defaultGeneralLedgerEntry)) {
             form.reset(mapping, request);
@@ -133,7 +131,7 @@ public class GlLineAction extends CabActionBase {
     /**
      * Action "Create Payments" from CAB GL Detail Selection screen is processed by this method. This will initiate an asset payment
      * global document and redirect the user to document edit page.
-     * 
+     *
      * @param mapping ActionMapping
      * @param form ActionForm
      * @param request HttpServletRequest
@@ -154,13 +152,13 @@ public class GlLineAction extends CabActionBase {
 
         Integer capitalAssetLineNumber = glLineForm.getCapitalAssetLineNumber();
         Document document = glLineService.createAssetPaymentDocument(defaultGeneralLedgerEntry, capitalAssetLineNumber);
-        
+
         return new ActionForward(getGlAndPurApHelperService().getDocHandlerUrl(document.getDocumentNumber(), DocumentTypeName.ASSET_PAYMENT), true);
     }
 
     /**
      * Retrieves the CAB General Ledger Entry from DB
-     * 
+     *
      * @param generalLedgerEntryId Entry Id
      * @return GeneralLedgerEntry
      */
@@ -171,13 +169,13 @@ public class GlLineAction extends CabActionBase {
         if (requireNew) {
             pkeys.put(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE, CabConstants.ActivityStatusCode.NEW);
         }
-        GeneralLedgerEntry entry = (GeneralLedgerEntry) boService.findByPrimaryKey(GeneralLedgerEntry.class, pkeys);
+        GeneralLedgerEntry entry = boService.findByPrimaryKey(GeneralLedgerEntry.class, pkeys);
         return entry;
     }
 
     /**
      * Cancels the action and returns to portal main page
-     * 
+     *
      * @param mapping {@link ActionMapping}
      * @param form {@link ActionForm}
      * @param request {@link HttpServletRequest}
@@ -198,17 +196,17 @@ public class GlLineAction extends CabActionBase {
         GlLineForm glLineForm = (GlLineForm) form;
         GeneralLedgerEntry generalLedgerEntry = glLineForm.getGeneralLedgerEntry();
         generalLedgerEntry.setSelected(true);
-        
+
         return super.showAllTabs(mapping, form, request, response);
     }
 
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GlLineForm glLineForm = (GlLineForm) form;
-        
+
         Integer capitalAssetLineNumber = glLineForm.getCapitalAssetLineNumber();
-        
+
         GeneralLedgerEntry entry = glLineForm.getGeneralLedgerEntry();
-        
+
         if (entry != null) {
             prepareRecordsForDisplay(glLineForm, entry, capitalAssetLineNumber);
         }

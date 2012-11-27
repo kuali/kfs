@@ -108,7 +108,6 @@ public class CapitalAssetAccountingLineUniquenessEnforcementValidation extends A
         sb.append( line.getFinancialSubObjectCode() );
         sb.append( line.getProjectCode() );
         sb.append( line.getOrganizationReferenceId() );
-        sb.append( line.getFinancialDocumentLineDescription() );
         return sb.toString();
     }
 

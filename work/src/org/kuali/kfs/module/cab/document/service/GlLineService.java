@@ -26,29 +26,20 @@ import org.kuali.rice.krad.document.Document;
 
 public interface GlLineService {
 
-    Collection<GeneralLedgerEntry> findMatchingGeneralLedgerEntry(String documentNumber, String chartCode, String accountNumber, String finalcialObjectcode);
-
     Collection<GeneralLedgerEntry> findAllGeneralLedgerEntry(String documentNumber);
 
-    List<CapitalAssetInformation> findCapitalAssetInformation(GeneralLedgerEntry entry);
+    Collection<GeneralLedgerEntry> findMatchingGeneralLedgerEntries( Collection<GeneralLedgerEntry> allGLEntries, CapitalAssetAccountsGroupDetails accountingDetails );
 
-    List<CapitalAssetInformation> findAllCapitalAssetInformation(GeneralLedgerEntry entry);
+    List<CapitalAssetInformation> findAllCapitalAssetInformation(String documentNumber);
 
     List<CapitalAssetInformation> findCapitalAssetInformationForGLLine(GeneralLedgerEntry entry);
 
-    long findUnprocessedCapitalAssetInformation(GeneralLedgerEntry entry);
+    long findUnprocessedCapitalAssetInformation( String documentNumber );
 
-    CapitalAssetInformation findCapitalAssetInformation(GeneralLedgerEntry entry, Integer capitalAssetLineNumber);
+    CapitalAssetInformation findCapitalAssetInformation(String documentNumber, Integer capitalAssetLineNumber);
 
     Document createAssetGlobalDocument(GeneralLedgerEntry primary, Integer capitalAssetLineNumber) throws WorkflowException;
 
     Document createAssetPaymentDocument(GeneralLedgerEntry primary, Integer capitalAssetLineNumber) throws WorkflowException;
 
-    /**
-     * Helper method to get the debit or credit code for the given group capital accounting line
-     *
-     * @param accountingLine
-     * @return Debit if the accountingl line is target else return Credit
-     */
-    public String getDebitCreditForAccountingLineAmount(CapitalAssetAccountsGroupDetails accountingLine);
 }

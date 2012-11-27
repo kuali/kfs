@@ -34,6 +34,7 @@
  	<bean id="mailService" p:serviceName="mailService" parent="grlBeanImporter" />
  	<bean id="kualiModuleService" p:serviceName="kualiModuleService" parent="grlBeanImporter" />
  	<bean id="parameterService" p:serviceName="parameterService" parent="grlBeanImporter" />
+ 	<bean id="parameterRepositoryService" p:serviceName="parameterRepositoryService" parent="grlBeanImporter" />
  	<bean id="configurationService" p:serviceName="kualiConfigurationService" parent="grlBeanImporter" />
  	<alias name="configurationService" alias="kualiConfigurationService" />
  	<bean id="persistenceStructureService" p:serviceName="persistenceStructureService" parent="grlBeanImporter" />
@@ -46,6 +47,7 @@
  	<bean id="stateService" p:serviceName="stateService" parent="grlBeanImporter" />
  	<bean id="countryService" p:serviceName="countryService" parent="grlBeanImporter" />
  	<bean id="countyService" p:serviceName="countyService" parent="grlBeanImporter" />
+ 	<bean id="campusService" p:serviceName="campusService" parent="grlBeanImporter" />
 	<!-- KNS/KRAD -->
  	<bean id="dataDictionaryService" p:serviceName="dataDictionaryService" parent="grlBeanImporter" />
  	<bean id="attachmentService" p:serviceName="attachmentService" parent="grlBeanImporter" />

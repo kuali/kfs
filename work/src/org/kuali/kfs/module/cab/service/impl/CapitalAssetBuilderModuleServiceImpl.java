@@ -68,9 +68,9 @@ import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableLineAsse
 import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
@@ -100,7 +100,6 @@ import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -128,9 +127,23 @@ import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
 
 public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilderModuleService {
-    private static Logger LOG = Logger.getLogger(CapitalAssetBuilderModuleService.class);
+    private static final Logger LOG = Logger.getLogger(CapitalAssetBuilderModuleService.class);
 
-    private boolean duplicateTagLineChecked = false;
+    protected GlLineService glLineService;
+    protected DataDictionaryService dataDictionaryService;
+    protected ParameterEvaluatorService parameterEvaluatorService;
+    protected ConfigurationService configurationService;
+    protected ParameterRepositoryService parameterRepositoryService;
+    protected BusinessObjectService businessObjectService;
+    protected ParameterService parameterService;
+    protected AssetService assetService;
+    protected PurApInfoService purApInfoService;
+    protected CapitalAssetManagementModuleService capitalAssetManagementModuleService;
+    protected KualiModuleService kualiModuleService;
+    protected BusinessObjectDictionaryService businessObjectDictionaryService;
+    protected CampusService campusService;
+    protected DictionaryValidationService dictionaryValidationService;
+    protected PurchasingAccountsPayableModuleService purchasingAccountsPayableModuleService;
 
     protected static enum AccountCapitalObjectCode {
         BOTH_NONCAP {
@@ -256,6 +269,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#getAllAssetTransactionTypes()
      */
+    @Override
     public List<CapitalAssetBuilderAssetTransactionType> getAllAssetTransactionTypes() {
         // RICE20: FIX ME!!!!!  Someone did not understand the concept of "Externalizable" business objects...We can not
         // necessarily retrieve them from the business object service
@@ -264,12 +278,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         Class<? extends CapitalAssetBuilderAssetTransactionType> assetTransactionTypeClass = this.getKualiModuleService().getResponsibleModuleService(CapitalAssetBuilderAssetTransactionType.class).getExternalizableBusinessObjectImplementation(CapitalAssetBuilderAssetTransactionType.class);
         Map<String, Object> searchKeys = new HashMap<String, Object>();
         searchKeys.put("active", "Y");
-        return (List<CapitalAssetBuilderAssetTransactionType>) this.getBusinessObjectService().findMatching(assetTransactionTypeClass, searchKeys);
+        return (List<CapitalAssetBuilderAssetTransactionType>) businessObjectService.findMatching(assetTransactionTypeClass, searchKeys);
     }
 
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validatePurchasingAccountsPayableData(org.kuali.kfs.sys.document.AccountingDocument)
      */
+    @Override
     public boolean validatePurchasingData(AccountingDocument accountingDocument) {
         Boolean valid = true;
         PurchasingDocument purchasingDocument = (PurchasingDocument) accountingDocument;
@@ -295,6 +310,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return valid;
     }
 
+    @Override
     public boolean validateAccountsPayableData(AccountingDocument accountingDocument) {
         AccountsPayableDocument apDocument = (AccountsPayableDocument) accountingDocument;
         boolean valid = true;
@@ -313,16 +329,18 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * Purchase Order (APO). The APO is not allowed if any accounting strings on the document are using an object level indicated as
      * capital via a parameter setting.
      */
+    @Override
     public boolean doesAccountingLineFailAutomaticPurchaseOrderRules(AccountingLine accountingLine) {
         PurApAccountingLine purapAccountingLine = (PurApAccountingLine) accountingLine;
         purapAccountingLine.refreshNonUpdateableReferences();
-        return /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.CAPITAL_ASSET_OBJECT_LEVELS, purapAccountingLine.getObjectCode().getFinancialObjectLevelCode()).evaluationSucceeds();
+        return parameterEvaluatorService.getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.CAPITAL_ASSET_OBJECT_LEVELS, purapAccountingLine.getObjectCode().getFinancialObjectLevelCode()).evaluationSucceeds();
     }
 
     /**
      * Perform the document level capital asset validation to determine if the given document is not allowed to become an Automatic
      * Purchase Order (APO). The APO is not allowed if any capital asset items exist on the document.
      */
+    @Override
     public boolean doesDocumentFailAutomaticPurchaseOrderRules(AccountingDocument accountingDocument) {
         PurchasingDocument purchasingDocument = (PurchasingDocument) accountingDocument;
         return ObjectUtils.isNotNull(purchasingDocument.getPurchasingCapitalAssetItems()) && !purchasingDocument.getPurchasingCapitalAssetItems().isEmpty();
@@ -342,6 +360,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#doesItemNeedCapitalAsset(java.lang.String, java.util.List)
      */
+    @Override
     public boolean doesItemNeedCapitalAsset(String itemTypeCode, List accountingLines) {
         if (PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE.equals(itemTypeCode)) {
             // FIXME: Chris - this should be true but need to look to see where itemline number is referenced first
@@ -362,6 +381,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateUpdateCAMSView(org.kuali.kfs.sys.document.AccountingDocument)
      */
+    @Override
     public boolean validateUpdateCAMSView(AccountingDocument accountingDocument) {
         PurchasingDocument purchasingDocument = (PurchasingDocument) accountingDocument;
         boolean valid = true;
@@ -382,13 +402,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateAddItemCapitalAssetBusinessRules(org.kuali.kfs.integration.purap.ItemCapitalAsset)
      */
+    @Override
     public boolean validateAddItemCapitalAssetBusinessRules(ItemCapitalAsset asset) {
         boolean valid = true;
         if (asset.getCapitalAssetNumber() == null) {
             valid = false;
         }
         else {
-            valid = SpringContext.getBean(DictionaryValidationService.class).isBusinessObjectValid(asset);
+            valid = dictionaryValidationService.isBusinessObjectValid(asset);
         }
         if (!valid) {
             String propertyName = "newPurchasingItemCapitalAssetLine." + PurapPropertyConstants.CAPITAL_ASSET_NUMBER;
@@ -397,7 +418,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }else{
             Map<String, String> params = new HashMap<String, String>();
             params.put(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
-            Asset retrievedAsset = this.getBusinessObjectService().findByPrimaryKey(Asset.class, params);
+            Asset retrievedAsset = businessObjectService.findByPrimaryKey(Asset.class, params);
 
             if (ObjectUtils.isNull(retrievedAsset)) {
                 valid = false;
@@ -412,6 +433,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#warningObjectLevelCapital(org.kuali.kfs.sys.document.AccountingDocument)
      */
+    @Override
     public boolean warningObjectLevelCapital(AccountingDocument accountingDocument) {
         org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument purapDocument = (org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument) accountingDocument;
         for (PurApItem item : purapDocument.getItems()) {
@@ -511,14 +533,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     protected boolean validateAllFieldRequirementsByChart(String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String documentType, String systemType) {
         boolean valid = true;
-        ParameterRepositoryService paramRepositoryService = SpringContext.getBean(ParameterRepositoryService.class);
         Builder qbc = QueryByCriteria.Builder.create();
         qbc.setPredicates(and(
                 equal(CabPropertyConstants.Parameter.PARAMETER_NAMESPACE_CODE, CabConstants.Parameters.NAMESPACE),
                 equal(CabPropertyConstants.Parameter.PARAMETER_DETAIL_TYPE_CODE, CabConstants.Parameters.DETAIL_TYPE_DOCUMENT),
                 PredicateFactory.like(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType)));
 
-        List<Parameter> results = paramRepositoryService.findParameters(qbc.build()).getResults();
+        List<Parameter> results = parameterRepositoryService.findParameters(qbc.build()).getResults();
         for (Parameter parameter : results) {
             if (ObjectUtils.isNotNull(parameter)) {
                 if (systemType.equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
@@ -539,14 +560,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param accountingDocument
      * @return
      */
+    @Override
     public boolean validateAllFieldRequirementsByChart(AccountingDocument accountingDocument) {
         PurchasingDocument purchasingDocument = (PurchasingDocument) accountingDocument;
 
         String documentType = (purchasingDocument instanceof RequisitionDocument) ? "REQUISITION" : "PURCHASE_ORDER";
         boolean valid = true;
-
-        //moved the springcontext out of for loop....
-        ParameterRepositoryService paramRepositoryService = SpringContext.getBean(ParameterRepositoryService.class);
 
         for (PurApItem item : purchasingDocument.getItems()) {
             String itemTypeCode = item.getItemTypeCode();
@@ -554,7 +573,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             for (Iterator iterator = accountingLines.iterator(); iterator.hasNext();) {
                 PurApAccountingLine accountingLine = (PurApAccountingLine) iterator.next();
                 String coa = accountingLine.getChartOfAccountsCode();
-                List<Parameter> results = new ArrayList<Parameter>();
                  //rice20  not sure if this will work trying to replace getBean(ParameterService.class).retrieveParametersGivenLookupCriteria(criteria));
                 Builder qbc = QueryByCriteria.Builder.create();
                 qbc.setPredicates(and(
@@ -563,7 +581,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                             PredicateFactory.like(CabPropertyConstants.Parameter.PARAMETER_NAME, "CHARTS_REQUIRING%" + documentType),
                             PredicateFactory.like(CabPropertyConstants.Parameter.PARAMETER_VALUE, "%" + coa + "%")));
 
-                results = (paramRepositoryService.findParameters(qbc.build())).getResults();
+                List<Parameter> results = (parameterRepositoryService.findParameters(qbc.build())).getResults();
 
                 for (Parameter parameter : results) {
                     if (ObjectUtils.isNotNull(parameter)) {
@@ -584,6 +602,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param accountingDocument
      * @return
      */
+    @Override
     public boolean validatePurchasingObjectSubType(AccountingDocument accountingDocument) {
         boolean valid = true;
         PurchasingDocument purchasingDocument = (PurchasingDocument) accountingDocument;
@@ -615,7 +634,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     protected boolean validateFieldRequirementByChartForOneOrMultipleSystemType(String systemType, String systemState, List<CapitalAssetSystem> capitalAssetSystems, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String parameterName, String parameterValueString) {
         boolean valid = true;
-        boolean needValidation = (/*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
+        boolean needValidation = (parameterEvaluatorService.getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
 
         if (needValidation) {
             if (parameterName.startsWith("CHARTS_REQUIRING_LOCATIONS_ADDRESS")) {
@@ -676,7 +695,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     protected boolean validateFieldRequirementByChartForIndividualSystemType(String systemState, List<PurchasingCapitalAssetItem> capitalAssetItems, String chartCode, String parameterName, String parameterValueString) {
         boolean valid = true;
-        boolean needValidation = (/*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
+        boolean needValidation = (parameterEvaluatorService.getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, parameterName, chartCode).evaluationSucceeds());
 
         if (needValidation) {
             if (parameterName.startsWith("CHARTS_REQUIRING_LOCATIONS_ADDRESS")) {
@@ -752,7 +771,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         Object value = ObjectUtils.getPropertyValue(bean, (String) mappedNames[0]);
         if (ObjectUtils.isNull(value)) {
             errorKey.append(mappedNames[0]);
-            String fieldName = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(bean.getClass(), (String) mappedNames[0]);
+            String fieldName = dataDictionaryService.getAttributeErrorLabel(bean.getClass(), (String) mappedNames[0]);
             if (itemNumber != null) {
                 fieldName = fieldName + " in Item " + itemNumber;
             }
@@ -773,10 +792,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
-                org.kuali.rice.krad.datadictionary.BusinessObjectEntry boe = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(offendingClass.getSimpleName());
+                org.kuali.rice.krad.datadictionary.BusinessObjectEntry boe = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(offendingClass.getSimpleName());
                 List<AttributeDefinition> offendingAttributes = boe.getAttributes();
                 AttributeDefinition offendingAttribute = offendingAttributes.get(0);
-                String fieldName = SpringContext.getBean(DataDictionaryService.class).getAttributeShortLabel(offendingClass, offendingAttribute.getName());
+                String fieldName = dataDictionaryService.getAttributeShortLabel(offendingClass, offendingAttribute.getName());
                 GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, fieldName);
                 return false;
             }
@@ -884,7 +903,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      *         itemCapitalAsset contains at least one asset numbers.
      */
     protected boolean validatePurchasingTransactionTypesAllowingAssetNumbers(CapitalAssetSystem capitalAssetSystem, String capitalAssetTransactionType, String prefix) {
-        boolean allowedAssetNumbers = (/*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS, capitalAssetTransactionType).evaluationSucceeds());
+        boolean allowedAssetNumbers = (parameterEvaluatorService.getParameterEvaluator(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.PURCHASING_ASSET_TRANSACTION_TYPES_ALLOWING_ASSET_NUMBERS, capitalAssetTransactionType).evaluationSucceeds());
         if (allowedAssetNumbers) {
             // If this is a transaction type that allows asset numbers, we don't need to validate anymore, just return true here.
             return true;
@@ -939,6 +958,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param apoCheck True if this check is for APO purposes
      * @return True if the item passes all Capital Asset validations
      */
+    @Override
     public boolean validateItemCapitalAssetWithErrors(String recurringPaymentTypeCode, ExternalPurApItem item, boolean apoCheck) {
         PurchasingItemBase purchasingItem = (PurchasingItemBase) item;
         List<String> previousErrorPath = GlobalVariables.getMessageMap().getErrorPath();
@@ -1058,7 +1078,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         if (unitPrice.compareTo(priceThreshold) >= 0) {
             List<String> possibleCAMSObjectLevels = new ArrayList<String>( this.getParameterService().getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS) );
             if (possibleCAMSObjectLevels.contains(objectCode.getFinancialObjectLevelCode())) {
-                String warning = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(CabKeyConstants.WARNING_ABOVE_THRESHOLD_SUGESTS_CAPITAL_ASSET_LEVEL);
+                String warning = configurationService.getPropertyValueAsString(CabKeyConstants.WARNING_ABOVE_THRESHOLD_SUGESTS_CAPITAL_ASSET_LEVEL);
                 warning = StringUtils.replace(warning, "{0}", itemIdentifier);
                 warning = StringUtils.replace(warning, "{1}", priceThreshold.toString());
                 KNSGlobalVariables.getMessageList().add(warning);
@@ -1330,6 +1350,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param accountingDocument and capitalAssetInformation
      * @return True if the FinancialProcessingData is valid.
      */
+    @Override
     public boolean validateFinancialProcessingData(AccountingDocument accountingDocument, CapitalAssetInformation capitalAssetInformation, int index) {
         boolean valid = true;
 
@@ -1411,6 +1432,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#hasCapitalAssetObjectSubType(org.kuali.kfs.sys.document.AccountingDocument)
      */
+    @Override
     public boolean hasCapitalAssetObjectSubType(AccountingDocument accountingDocument) {
         final AccountCapitalObjectCode accountCapitalObjectCode = getCapitalAssetObjectSubTypeLinesFlag(accountingDocument);
         return accountCapitalObjectCode != null && !accountCapitalObjectCode.equals(AccountCapitalObjectCode.BOTH_NONCAP);
@@ -1462,7 +1484,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         Map<String, String> params = new HashMap<String, String>();
         params.put(KFSPropertyConstants.CAPITAL_ASSET_NUMBER, capitalAssetInformation.getCapitalAssetNumber().toString());
-        Asset asset = this.getBusinessObjectService().findByPrimaryKey(Asset.class, params);
+        Asset asset = businessObjectService.findByPrimaryKey(Asset.class, params);
 
         List<Long> assetNumbers = new ArrayList<Long>();
         assetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());
@@ -1624,6 +1646,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param accountingDocument
      * @return true if duplicate tags else return false.
      */
+    @Override
     public boolean validateAssetTags(AccountingDocument accountingDocument) {
         boolean valid = true;
 
@@ -1631,8 +1654,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
         CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) accountingDocument;
         List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
-
-        BusinessObjectDictionaryService businessDictionaryService = SpringContext.getBean(BusinessObjectDictionaryService.class);
 
         int indexCapital = 0;
 
@@ -1661,7 +1682,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
                     index++;
 
-                    businessDictionaryService.performForceUppercase(dtl);
+                    businessObjectDictionaryService.performForceUppercase(dtl);
                     if (StringUtils.isNotBlank(dtl.getCapitalAssetTagNumber()) && !dtl.getCapitalAssetTagNumber().equalsIgnoreCase(CamsConstants.Asset.NON_TAGGABLE_ASSET)) {
                         allTags.add(new TagRecord(dtl.getCapitalAssetTagNumber(), capitalAsset.getCapitalAssetLineNumber(), dtl.getCapitalAssetLineNumber(), dtl.getItemLineNumber()));
                     }
@@ -1868,10 +1889,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
             // We have to explicitly call this DD service to upper case each field. This may not be the best place and maybe form
             // populate is a better place but we CAMS team don't own FP document. This is the best we can do for now.
-            SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(dtl);
+            businessObjectDictionaryService.performForceUppercase(dtl);
             String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + capitalAssetIndex + "]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
 
-            Campus campus = SpringContext.getBean(CampusService.class).getCampus(dtl.getCampusCode());
+            Campus campus = campusService.getCampus(dtl.getCampusCode());
             if (ObjectUtils.isNull(campus)) {
                 valid = false;
                 String label = this.getDataDictionaryService().getAttributeLabel(Campus.class, KFSPropertyConstants.CAMPUS_CODE);
@@ -1882,7 +1903,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             params = new HashMap<String, String>();
             params.put(KFSPropertyConstants.CAMPUS_CODE, dtl.getCampusCode());
             params.put(KFSPropertyConstants.BUILDING_CODE, dtl.getBuildingCode());
-            Building building = this.getBusinessObjectService().findByPrimaryKey(Building.class, params);
+            Building building = businessObjectService.findByPrimaryKey(Building.class, params);
             if (ObjectUtils.isNull(building)) {
                 valid = false;
                 GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_CODE, CamsKeyConstants.AssetLocationGlobal.ERROR_INVALID_BUILDING_CODE, dtl.getBuildingCode(), dtl.getCampusCode());
@@ -1892,7 +1913,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             params.put(KFSPropertyConstants.CAMPUS_CODE, dtl.getCampusCode());
             params.put(KFSPropertyConstants.BUILDING_CODE, dtl.getBuildingCode());
             params.put(KFSPropertyConstants.BUILDING_ROOM_NUMBER, dtl.getBuildingRoomNumber());
-            Room room = this.getBusinessObjectService().findByPrimaryKey(Room.class, params);
+            Room room = businessObjectService.findByPrimaryKey(Room.class, params);
             AssetType assetType = getAssetType(capitalAssetInformation.getCapitalAssetTypeCode());
             if (ObjectUtils.isNull(room) && (ObjectUtils.isNull(assetType) || assetType.isMovingIndicator())) {
                 valid = false;
@@ -1910,6 +1931,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param assetTypeCode
      * @return
      */
+    @Override
     public boolean isAssetTypeExisting(String assetTypeCode) {
         AssetType assetType = getAssetType(assetTypeCode);
         return ObjectUtils.isNotNull(assetType);
@@ -1924,7 +1946,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     protected AssetType getAssetType(String assetTypeCode) {
         Map<String, String> params = new HashMap<String, String>();
         params.put(KFSPropertyConstants.CAPITAL_ASSET_TYPE_CODE, assetTypeCode);
-        AssetType assetType = this.getBusinessObjectService().findByPrimaryKey(AssetType.class, params);
+        AssetType assetType = businessObjectService.findByPrimaryKey(AssetType.class, params);
         return assetType;
     }
 
@@ -1980,6 +2002,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#notifyRouteStatusChange(java.lang.String,
      *      java.lang.String)
      */
+    @Override
     public void notifyRouteStatusChange(DocumentHeader documentHeader) {
 
         WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
@@ -2009,7 +2032,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
                 if (!assetNumbers.isEmpty()) {
                     String noteText = buildNoteTextForPurApDoc(documentType, assetNumbers);
-                    SpringContext.getBean(PurchasingAccountsPayableModuleService.class).addAssignedAssetNumbers(poId, workflowDocument.getInitiatorPrincipalId(), noteText);
+                    purchasingAccountsPayableModuleService.addAssignedAssetNumbers(poId, workflowDocument.getInitiatorPrincipalId(), noteText);
                 }
             }
         }
@@ -2024,7 +2047,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     protected void updateGlLinesStatusAsProcessed(String documentNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
-        Collection<GeneralLedgerEntryAsset> matchingGlAssets = this.getBusinessObjectService().findMatching(GeneralLedgerEntryAsset.class, fieldValues);
+        Collection<GeneralLedgerEntryAsset> matchingGlAssets = businessObjectService.findMatching(GeneralLedgerEntryAsset.class, fieldValues);
         if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
             for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
                 GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
@@ -2032,7 +2055,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 // update gl status as processed
                 if (generalLedgerEntry.getTransactionLedgerEntryAmount().compareTo(generalLedgerEntry.getTransactionLedgerSubmitAmount()) == 0) {
                     generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
-                    this.getBusinessObjectService().save(generalLedgerEntry);
+                    businessObjectService.save(generalLedgerEntry);
                 }
 
                 //if all the capital assets have been processed then update the
@@ -2056,7 +2079,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     protected boolean isFpDocumentFullyProcessed(GeneralLedgerEntry generalLedgerEntry) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.DOCUMENT_NUMBER, generalLedgerEntry.getDocumentNumber());
-        Collection<GeneralLedgerEntry> matchingGlEntries = this.getBusinessObjectService().findMatching(GeneralLedgerEntry.class, fieldValues);
+        Collection<GeneralLedgerEntry> matchingGlEntries = businessObjectService.findMatching(GeneralLedgerEntry.class, fieldValues);
 
         for (GeneralLedgerEntry glEntry : matchingGlEntries) {
             if (!CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS.equals(glEntry.getActivityStatusCode())) {
@@ -2074,7 +2097,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     protected void updatePOLinesStatusAsProcessed(String documentNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
-        Collection<PurchasingAccountsPayableItemAsset> matchingAssets = this.getBusinessObjectService().findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
+        Collection<PurchasingAccountsPayableItemAsset> matchingAssets = businessObjectService.findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
         if (matchingAssets != null && !matchingAssets.isEmpty()) {
             // Map<Long, GeneralLedgerEntry> updateGlLines = new HashMap<Long, GeneralLedgerEntry>();
             // update item and account status code to 'P' as fully processed
@@ -2089,7 +2112,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
 
                     if (isGlEntryFullyProcessed(generalLedgerEntry)) {
                         generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
-                        this.getBusinessObjectService().save(generalLedgerEntry);
+                        businessObjectService.save(generalLedgerEntry);
                     }
                 }
 
@@ -2099,7 +2122,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     purapDocument.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
                 }
 
-                this.getBusinessObjectService().save(purapDocument);
+                businessObjectService.save(purapDocument);
 
                 String lockingInformation = null;
                 PurchaseOrderDocument poDocument = getPurApInfoService().getCurrentDocumentForPurchaseOrderIdentifier(purapDocument.getPurchaseOrderIdentifier());
@@ -2203,7 +2226,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         List<Long> assetNumbers = new ArrayList<Long>();
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CamsPropertyConstants.AssetGlobalDetail.DOCUMENT_NUMBER, documentNumber);
-        Collection<AssetGlobalDetail> assetGlobalDetails = this.getBusinessObjectService().findMatching(AssetGlobalDetail.class, fieldValues);
+        Collection<AssetGlobalDetail> assetGlobalDetails = businessObjectService.findMatching(AssetGlobalDetail.class, fieldValues);
         for (AssetGlobalDetail detail : assetGlobalDetails) {
             assetNumbers.add(detail.getCapitalAssetNumber());
         }
@@ -2220,7 +2243,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         List<Long> assetNumbers = new ArrayList<Long>();
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CamsPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-        Collection<AssetPaymentAssetDetail> paymentAssetDetails = this.getBusinessObjectService().findMatching(AssetPaymentAssetDetail.class, fieldValues);
+        Collection<AssetPaymentAssetDetail> paymentAssetDetails = businessObjectService.findMatching(AssetPaymentAssetDetail.class, fieldValues);
         for (AssetPaymentAssetDetail detail : paymentAssetDetails) {
             if (ObjectUtils.isNotNull(detail.getAsset())) {
                 assetNumbers.add(detail.getCapitalAssetNumber());
@@ -2240,7 +2263,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     protected Integer getPurchaseOrderIdentifier(String camsDocumentNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, camsDocumentNumber);
-        Collection<PurchasingAccountsPayableItemAsset> matchingItems = this.getBusinessObjectService().findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
+        Collection<PurchasingAccountsPayableItemAsset> matchingItems = businessObjectService.findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
 
         for (PurchasingAccountsPayableItemAsset item : matchingItems) {
             if (ObjectUtils.isNull(item.getPurchasingAccountsPayableDocument())) {
@@ -2254,6 +2277,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#getCurrentPurchaseOrderDocumentNumber(java.lang.String)
      */
+    @Override
     public String getCurrentPurchaseOrderDocumentNumber(String camsDocumentNumber) {
         Integer poId = getPurchaseOrderIdentifier(camsDocumentNumber);
         if (poId != null) {
@@ -2273,7 +2297,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     protected void activateCabGlLines(String documentNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
-        List<GeneralLedgerEntryAsset> matchingGlAssets = (List)this.getBusinessObjectService().findMatching(GeneralLedgerEntryAsset.class, fieldValues);
+        Collection<GeneralLedgerEntryAsset> matchingGlAssets = getBusinessObjectService().findMatching(GeneralLedgerEntryAsset.class, fieldValues);
 
         if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
             Integer capitalAssetLineNumber = 0;
@@ -2287,16 +2311,15 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 break;
             }
 
-            GlLineService glLineService = SpringContext.getBean(GlLineService.class);
-
             //get the capital asset information....
-            CapitalAssetInformation capitalAssetInformation = glLineService.findCapitalAssetInformation(generalLedgerEntry, capitalAssetLineNumber);
+            CapitalAssetInformation capitalAssetInformation = glLineService.findCapitalAssetInformation(generalLedgerEntry.getDocumentNumber(), capitalAssetLineNumber);
 
             List<CapitalAssetAccountsGroupDetails> groupAccountingLines = capitalAssetInformation.getCapitalAssetAccountsGroupDetails();
+            Collection<GeneralLedgerEntry> documentGlEntries = glLineService.findAllGeneralLedgerEntry(documentNumber);
 
             for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
                 //find the matching GL entry for this accounting line.
-                Collection<GeneralLedgerEntry> glEntries = glLineService.findMatchingGeneralLedgerEntry(accountingLine.getDocumentNumber(), accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getFinancialObjectCode());
+                Collection<GeneralLedgerEntry> glEntries = glLineService.findMatchingGeneralLedgerEntries(documentGlEntries, accountingLine);
 
                 for (GeneralLedgerEntry glEntry : glEntries) {
                     reduceTransactionSumbitGlEntryAmount(glEntry, accountingLine.getAmount());
@@ -2313,7 +2336,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
 
         //remove the gl entry asset records for this gl entry.
-        this.getBusinessObjectService().delete(matchingGlAssets);
+        getBusinessObjectService().delete( new ArrayList<GeneralLedgerEntryAsset>( matchingGlAssets ) );
     }
 
     /**
@@ -2336,7 +2359,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
 
         //save the updated gl entry in CAB
-        this.getBusinessObjectService().save(matchingGLEntry);
+        businessObjectService.save(matchingGLEntry);
     }
 
     /**
@@ -2348,9 +2371,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @return true if amounts are reset to 0.00 else return false
      */
     protected boolean resetTransactionSumbitGlEntryAmounts(GeneralLedgerEntry glEntry) {
-        GlLineService glLineService = SpringContext.getBean(GlLineService.class);
-
-        List<CapitalAssetInformation> capitalAssets = glLineService.findAllCapitalAssetInformation(glEntry);
+        List<CapitalAssetInformation> capitalAssets = glLineService.findAllCapitalAssetInformation(glEntry.getDocumentNumber());
         for (CapitalAssetInformation capitalAsset : capitalAssets) {
             if (capitalAsset.isCapitalAssetProcessedIndicator()) {
                 //processed capital asset exists so do not continue...
@@ -2358,14 +2379,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
         }
 
-        List<GeneralLedgerEntry> glLines = (List)glLineService.findAllGeneralLedgerEntry(glEntry.getDocumentNumber());
+        Collection<GeneralLedgerEntry> glLines = glLineService.findAllGeneralLedgerEntry(glEntry.getDocumentNumber());
 
         for (GeneralLedgerEntry glLine: glLines) {
             glLine.setTransactionLedgerSubmitAmount(KualiDecimal.ZERO);
             glLine.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
         }
 
-        this.getBusinessObjectService().save(glLines);
+        getBusinessObjectService().save( new ArrayList<GeneralLedgerEntry>( glLines ) );
 
         return true;
     }
@@ -2379,9 +2400,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @return true if gl amounts and processed indicators are updated else return false.
      */
     protected boolean updateTransactionLedgerEntryAmount(GeneralLedgerEntry glEntry) {
-        GlLineService glLineService = SpringContext.getBean(GlLineService.class);
-
-        List<CapitalAssetInformation> capitalAssets = glLineService.findAllCapitalAssetInformation(glEntry);
+        List<CapitalAssetInformation> capitalAssets = glLineService.findAllCapitalAssetInformation(glEntry.getDocumentNumber());
         for (CapitalAssetInformation capitalAsset : capitalAssets) {
             if (!capitalAsset.isCapitalAssetProcessedIndicator()) {
                 //there is a capital asset not yet processed..
@@ -2396,7 +2415,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             glLine.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
         }
 
-        this.getBusinessObjectService().save(glLines);
+        businessObjectService.save(glLines);
 
         return true;
 
@@ -2410,19 +2429,19 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     protected void activateCabPOLines(String documentNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
-        Collection<PurchasingAccountsPayableItemAsset> matchingPoAssets = this.getBusinessObjectService().findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
+        Collection<PurchasingAccountsPayableItemAsset> matchingPoAssets = businessObjectService.findMatching(PurchasingAccountsPayableItemAsset.class, fieldValues);
 
         if (matchingPoAssets != null && !matchingPoAssets.isEmpty()) {
             for (PurchasingAccountsPayableItemAsset itemAsset : matchingPoAssets) {
                 PurchasingAccountsPayableDocument purapDocument = itemAsset.getPurchasingAccountsPayableDocument();
                 purapDocument.setActivityStatusCode(CabConstants.ActivityStatusCode.MODIFIED);
-                this.getBusinessObjectService().save(purapDocument);
+                businessObjectService.save(purapDocument);
                 itemAsset.setActivityStatusCode(CabConstants.ActivityStatusCode.MODIFIED);
-                this.getBusinessObjectService().save(itemAsset);
+                businessObjectService.save(itemAsset);
                 List<PurchasingAccountsPayableLineAssetAccount> lineAssetAccounts = itemAsset.getPurchasingAccountsPayableLineAssetAccounts();
                 for (PurchasingAccountsPayableLineAssetAccount assetAccount : lineAssetAccounts) {
                     assetAccount.setActivityStatusCode(CabConstants.ActivityStatusCode.MODIFIED);
-                    this.getBusinessObjectService().save(assetAccount);
+                    businessObjectService.save(assetAccount);
                     GeneralLedgerEntry generalLedgerEntry = assetAccount.getGeneralLedgerEntry();
                     KualiDecimal submitAmount = generalLedgerEntry.getTransactionLedgerSubmitAmount();
                     if (submitAmount == null) {
@@ -2431,7 +2450,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     submitAmount = submitAmount.subtract(assetAccount.getItemAccountTotalAmount());
                     generalLedgerEntry.setTransactionLedgerSubmitAmount(submitAmount);
                     generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.MODIFIED);
-                    this.getBusinessObjectService().save(generalLedgerEntry);
+                    businessObjectService.save(generalLedgerEntry);
                 }
             }
         }
@@ -2483,32 +2502,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         return documentTypeName;
     }
 
-    public ParameterService getParameterService() {
-        return SpringContext.getBean(ParameterService.class);
-    }
-
     public BusinessObjectService getBusinessObjectService() {
-        return SpringContext.getBean(BusinessObjectService.class);
+        return businessObjectService;
     }
 
     public DataDictionaryService getDataDictionaryService() {
-        return SpringContext.getBean(DataDictionaryService.class);
-    }
-
-    public AssetService getAssetService() {
-        return SpringContext.getBean(AssetService.class);
-    }
-
-    public KualiModuleService getKualiModuleService() {
-        return SpringContext.getBean(KualiModuleService.class);
-    }
-
-    public CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
-        return SpringContext.getBean(CapitalAssetManagementModuleService.class);
-    }
-
-    protected PurApInfoService getPurApInfoService() {
-        return SpringContext.getBean(PurApInfoService.class);
+        return dataDictionaryService;
     }
 
     /**
@@ -2518,15 +2517,13 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @return true if the accounting line has an object code that belongs to
      * OBJECT_SUB_TYPE_GROUPS system paramters list else return false;
      */
+    @Override
     public boolean hasCapitalAssetObjectSubType(AccountingLine accountingLine) {
-        List<String> financialProcessingCapitalObjectSubTypes = new ArrayList<String>( this.getParameterService().getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES) );
+        Collection<String> financialProcessingCapitalObjectSubTypes = getParameterService().getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, CabParameterConstants.CapitalAsset.FINANCIAL_PROCESSING_CAPITAL_OBJECT_SUB_TYPES);
 
         ObjectCode objectCode = accountingLine.getObjectCode();
         if (ObjectUtils.isNotNull(objectCode)) {
-            String objectSubTypeCode = objectCode.getFinancialObjectSubTypeCode();
-            if (financialProcessingCapitalObjectSubTypes.contains(objectSubTypeCode)) {
-                return true;
-            }
+            return financialProcessingCapitalObjectSubTypes.contains(objectCode.getFinancialObjectSubTypeCode());
         }
 
         return false ;
@@ -2535,6 +2532,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateAllCapitalAccountingLinesProcessed(org.kuali.kfs.sys.document.AccountingDocument)
      */
+    @Override
     public boolean validateAllCapitalAccountingLinesProcessed(AccountingDocument accountingDocumentForValidation) {
         LOG.debug("validateCapitalAccountingLines - start");
         boolean isValid = true;
@@ -2578,6 +2576,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateTotalAmountMatch(org.kuali.kfs.sys.document.AccountingDocument)
      */
+    @Override
     public boolean validateTotalAmountMatch(AccountingDocument accountingDocumentForValidation) {
         LOG.debug("validateTotalAmountMatch - start");
 
@@ -2636,6 +2635,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateCapitlAssetsAmountToAccountingLineAmount(org.kuali.kfs.sys.document.AccountingDocument)
      */
+    @Override
     public boolean validateCapitlAssetsAmountToAccountingLineAmount(AccountingDocument accountingDocument) {
         boolean valid = true;
 
@@ -2685,6 +2685,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#validateCapitalAccountingLines(org.kuali.kfs.sys.document.AccountingDocument)
      */
+    @Override
     public boolean validateCapitalAccountingLines(AccountingDocument accountingDocumentForValidation) {
         LOG.debug("validateCapitalAccountingLines - start");
 
@@ -2758,28 +2759,107 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#markProcessedGLEntryLine(java.lang.String)
      */
+    @Override
     public boolean markProcessedGLEntryLine(String documentNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.CAMS_DOCUMENT_NUMBER, documentNumber);
-        Collection<GeneralLedgerEntryAsset> matchingGlAssets = this.getBusinessObjectService().findMatching(GeneralLedgerEntryAsset.class, fieldValues);
+        Collection<GeneralLedgerEntryAsset> matchingGlAssets = businessObjectService.findMatching(GeneralLedgerEntryAsset.class, fieldValues);
         if (matchingGlAssets != null && !matchingGlAssets.isEmpty()) {
-            GlLineService glLineService = SpringContext.getBean(GlLineService.class);
-
             for (GeneralLedgerEntryAsset generalLedgerEntryAsset : matchingGlAssets) {
                 GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
 
                 // update gl status as processed
-                if (glLineService.findUnprocessedCapitalAssetInformation(generalLedgerEntry) == 0) {
+                if (glLineService.findUnprocessedCapitalAssetInformation(generalLedgerEntry.getDocumentNumber()) == 0) {
                     generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.ENROUTE);
                 }
                 else {
                     generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
                 }
 
-                this.getBusinessObjectService().save(generalLedgerEntry);
+                businessObjectService.save(generalLedgerEntry);
             }
         }
 
         return true;
+    }
+
+    public void setGlLineService(GlLineService glLineService) {
+        this.glLineService = glLineService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+
+    public void setParameterEvaluatorService(ParameterEvaluatorService parameterEvaluatorService) {
+        this.parameterEvaluatorService = parameterEvaluatorService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
+
+    public void setParameterRepositoryService(ParameterRepositoryService parameterRepositoryService) {
+        this.parameterRepositoryService = parameterRepositoryService;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public void setAssetService(AssetService assetService) {
+        this.assetService = assetService;
+    }
+
+    public void setPurApInfoService(PurApInfoService purApInfoService) {
+        this.purApInfoService = purApInfoService;
+    }
+
+    public void setCapitalAssetManagementModuleService(CapitalAssetManagementModuleService capitalAssetManagementModuleService) {
+        this.capitalAssetManagementModuleService = capitalAssetManagementModuleService;
+    }
+
+    public void setKualiModuleService(KualiModuleService kualiModuleService) {
+        this.kualiModuleService = kualiModuleService;
+    }
+
+    public AssetService getAssetService() {
+        return assetService;
+    }
+
+    public PurApInfoService getPurApInfoService() {
+        return purApInfoService;
+    }
+
+    public CapitalAssetManagementModuleService getCapitalAssetManagementModuleService() {
+        return capitalAssetManagementModuleService;
+    }
+
+    public KualiModuleService getKualiModuleService() {
+        return kualiModuleService;
+    }
+
+    public void setBusinessObjectDictionaryService(BusinessObjectDictionaryService businessObjectDictionaryService) {
+        this.businessObjectDictionaryService = businessObjectDictionaryService;
+    }
+
+    public void setCampusService(CampusService campusService) {
+        this.campusService = campusService;
+    }
+
+    public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
+        this.dictionaryValidationService = dictionaryValidationService;
+    }
+
+    public void setPurchasingAccountsPayableModuleService(PurchasingAccountsPayableModuleService purchasingAccountsPayableModuleService) {
+        this.purchasingAccountsPayableModuleService = purchasingAccountsPayableModuleService;
     }
 }

@@ -24,7 +24,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.document.validation.AccountingDocumentValidationBase;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -110,12 +109,6 @@ public class CapitalAssetAccountingLineUniquenessEnforcementValidation extends A
         sb.append( line.getProjectCode() );
         sb.append( line.getOrganizationReferenceId() );
         sb.append( line.getFinancialDocumentLineDescription() );
-        if ( line instanceof SourceAccountingLine ) {
-            sb.append( line.getAmount() );
-        } else {
-            sb.append( (line.getAmount() == null)?null:line.getAmount().negated() );
-        }
-        sb.append( line.getDebitCreditCode() );
         return sb.toString();
     }
 

@@ -21,12 +21,14 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.velocity.app.VelocityEngine;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.service.KfsNotificationService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.krad.service.MailService;
+import org.springframework.ui.velocity.VelocityEngineUtils;
 
 /**
  * implement the service methods defined in KFS notification service
@@ -39,7 +41,7 @@ public class KfsNotificationServiceImpl implements KfsNotificationService {
     public final String SUBJECT = "subject";
     public final String MESSAGE = "message";
 
-    //private VelocityEngine velocityEngine;
+    private VelocityEngine velocityEngine;
     private ConfigurationService configurationService;
     private MailService mailService;
 
@@ -48,7 +50,7 @@ public class KfsNotificationServiceImpl implements KfsNotificationService {
      */
     @Override
     public String generateNotificationContent(String template, Map<String, Object> model) {
-        return "  ";//VelocityEngineUtils.mergeTemplateIntoString(this.getVelocityEngine(), template, model);
+        return VelocityEngineUtils.mergeTemplateIntoString(this.getVelocityEngine(), template, model);
     }
 
     /**
@@ -112,22 +114,22 @@ public class KfsNotificationServiceImpl implements KfsNotificationService {
 
         return String.valueOf(ObjectUtil.buildPropertyMap(mailMessage, keyFields));
     }
-//
-//    /**
-//     * Gets the velocityEngine attribute.
-//     * @return Returns the velocityEngine.
-//     */
-//    public VelocityEngine getVelocityEngine() {
-//        return velocityEngine;
-//    }
-//
-//    /**
-//     * Sets the velocityEngine attribute value.
-//     * @param velocityEngine The velocityEngine to set.
-//     */
-//    public void setVelocityEngine(VelocityEngine velocityEngine) {
-//        this.velocityEngine = velocityEngine;
-//    }
+
+    /**
+     * Gets the velocityEngine attribute.
+     * @return Returns the velocityEngine.
+     */
+    public VelocityEngine getVelocityEngine() {
+        return velocityEngine;
+    }
+
+    /**
+     * Sets the velocityEngine attribute value.
+     * @param velocityEngine The velocityEngine to set.
+     */
+    public void setVelocityEngine(VelocityEngine velocityEngine) {
+        this.velocityEngine = velocityEngine;
+    }
 
     /**
      * Gets the kualiConfigurationService attribute.

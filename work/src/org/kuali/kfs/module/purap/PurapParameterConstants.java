@@ -98,7 +98,7 @@ public class PurapParameterConstants {
     public static final String RECEIVING_DOCUMENT_REQUIRED_IND = "RECEIVING_DOCUMENT_REQUIRED_IND";
     public static final String PAYMENT_REQUEST_POSITIVE_APPROVAL_IND = "PAYMENT_REQUEST_POSITIVE_APPROVAL_IND";
 
-    public static final String PO_REQUIRE_SENSITIVE_DATA_NOTE_IND="REQUIRE_SENSITIVE_DATA_NOTE_IND";
+    public static final String PO_SENSITIVE_DATA_NOTE_IND="SENSITIVE_DATA_NOTE_IND";
 
 
     public static class CapitalAsset {

@@ -689,7 +689,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // reset the sensitive data related fields in the po form
         po.setAssigningSensitiveData(false);
         ParameterService parmService = SpringContext.getBean(ParameterService.class);
-        if (parmService.parameterExists(PurchaseOrderDocument.class, PurapParameterConstants.PO_REQUIRE_SENSITIVE_DATA_NOTE_IND) && parmService.getParameterValueAsBoolean(PurchaseOrderDocument.class, PurapParameterConstants.PO_REQUIRE_SENSITIVE_DATA_NOTE_IND)) {
+        if (parmService.parameterExists(PurchaseOrderDocument.class, PurapParameterConstants.PO_SENSITIVE_DATA_NOTE_IND) && parmService.getParameterValueAsBoolean(PurchaseOrderDocument.class, PurapParameterConstants.PO_SENSITIVE_DATA_NOTE_IND)) {
             Note newNote = new Note();
             String introNoteMessage = "Sensitive Data:" + KFSConstants.BLANK_SPACE;
             String reason = sda.getSensitiveDataAssignmentReasonText();

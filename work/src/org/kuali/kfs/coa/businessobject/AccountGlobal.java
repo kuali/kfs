@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.integration.ld.LaborBenefitRateCategory;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -84,16 +85,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     protected HigherEducationFunction financialHigherEdFunction;
     protected PostalCodeEbo postalZipCode;
     protected SufficientFundsCode sufficientFundsCode;
-    //MSU Contribution KFSMI-8505 DTT-601 KFSCNTRB-939
-    protected CFDA cfda;
-
-    public CFDA getCfda() {
-        return cfda;
-    }
-
-    public void setCfda(CFDA cfda) {
-        this.cfda = cfda;
-    }
+    protected ContractsAndGrantsCfda cfda;
 
     // added for the employee labor benefit calculation
     private String laborBenefitRateCategoryCode;
@@ -128,7 +120,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
         for (AccountGlobalDetail detail : accountGlobalDetails) {
 
             // load the object by keys
-            Account account = (Account) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, detail.getPrimaryKeys());
+            Account account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, detail.getPrimaryKeys());
 
             // if we got a valid account, do the processing
             if (account != null) {
@@ -544,6 +536,15 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     }
 
     /**
+     * Gets the related CFDA record for this account
+     *
+     * @return a CFDA record
+     */
+    public ContractsAndGrantsCfda getCfda() {
+        return cfda = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCfda.class).retrieveExternalizableBusinessObjectIfNecessary(this, cfda, "cfda");
+    }
+
+    /**
      * Gets the accountSearchCriteriaTxt attribute.
      *
      * @return Returns the accountSearchCriteriaTxt
@@ -577,6 +578,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * @param financialDocument The financialDocument to set.
      * @deprecated
      */
+    @Deprecated
     public void setFinancialDocument(DocumentHeader financialDocument) {
         this.financialDocument = financialDocument;
     }
@@ -591,6 +593,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * @param accountFiscalOfficerUser The accountFiscalOfficerUser to set.
      * @deprecated
      */
+    @Deprecated
     public void setAccountFiscalOfficerUser(Person accountFiscalOfficerUser) {
         this.accountFiscalOfficerUser = accountFiscalOfficerUser;
     }
@@ -604,6 +607,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * @param accountManagerUser The accountManagerUser to set.
      * @deprecated
      */
+    @Deprecated
     public void setAccountManagerUser(Person accountManagerUser) {
         this.accountManagerUser = accountManagerUser;
     }
@@ -619,6 +623,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * @param accountSupervisoryUser The accountSupervisoryUser to set.
      * @deprecated
      */
+    @Deprecated
     public void setAccountSupervisoryUser(Person accountSupervisoryUser) {
         this.accountSupervisoryUser = accountSupervisoryUser;
     }
@@ -638,6 +643,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * @param continuationFinChrtOfAcct The continuationFinChrtOfAcct to set.
      * @deprecated
      */
+    @Deprecated
     public void setContinuationFinChrtOfAcct(Chart continuationFinChrtOfAcct) {
         this.continuationFinChrtOfAcct = continuationFinChrtOfAcct;
     }
@@ -657,6 +663,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * @param continuationAccount The continuationAccount to set.
      * @deprecated
      */
+    @Deprecated
     public void setContinuationAccount(Account continuationAccount) {
         this.continuationAccount = continuationAccount;
     }
@@ -676,6 +683,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * @param incomeStreamAccount The incomeStreamAccount to set.
      * @deprecated
      */
+    @Deprecated
     public void setIncomeStreamAccount(Account incomeStreamAccount) {
         this.incomeStreamAccount = incomeStreamAccount;
     }
@@ -695,6 +703,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * @param incomeStreamFinancialCoa The incomeStreamFinancialCoa to set.
      * @deprecated
      */
+    @Deprecated
     public void setIncomeStreamFinancialCoa(Chart incomeStreamFinancialCoa) {
         this.incomeStreamFinancialCoa = incomeStreamFinancialCoa;
     }
@@ -800,6 +809,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
+    @Deprecated
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
     }

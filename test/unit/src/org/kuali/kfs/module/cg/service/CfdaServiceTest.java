@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.coa.service;
+package org.kuali.kfs.module.cg.service;
 
 import java.io.IOException;
 
-import org.kuali.kfs.coa.businessobject.CfdaUpdateResults;
-import org.kuali.kfs.coa.service.impl.CfdaServiceImpl;
+import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
+import org.kuali.kfs.module.cg.service.impl.CfdaServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;

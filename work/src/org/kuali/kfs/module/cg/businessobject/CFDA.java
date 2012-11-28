@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package org.kuali.kfs.coa.businessobject;
+package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -26,7 +27,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * Instances of this class refer to Catalog of Federal Domestic Assistance codes. Some of these codes are taken directly from a
  * government web-site. Additional codes can be created manually however. Codes can be updated automatically via the CfdaBatchStep.
  */
-public class CFDA extends PersistableBusinessObjectBase implements  MutableInactivatable {
+public class CFDA extends PersistableBusinessObjectBase implements ContractsAndGrantsCfda, MutableInactivatable {
 
     private String cfdaNumber;
     private String cfdaProgramTitleName;
@@ -44,6 +45,7 @@ public class CFDA extends PersistableBusinessObjectBase implements  MutableInact
      *
      * @return Returns the cfdaNumber
      */
+    @Override
     public String getCfdaNumber() {
         return cfdaNumber;
     }
@@ -63,6 +65,7 @@ public class CFDA extends PersistableBusinessObjectBase implements  MutableInact
      *
      * @return Returns the cfdaProgramTitleName
      */
+    @Override
     public String getCfdaProgramTitleName() {
         return cfdaProgramTitleName;
     }
@@ -81,6 +84,7 @@ public class CFDA extends PersistableBusinessObjectBase implements  MutableInact
      *
      * @return Returns the cfdaMaintenanceTypeId
      */
+    @Override
     public String getCfdaMaintenanceTypeId() {
         return cfdaMaintenanceTypeId;
     }

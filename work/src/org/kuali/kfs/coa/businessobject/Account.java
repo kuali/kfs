@@ -29,6 +29,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.integration.ld.LaborBenefitRateCategory;
 import org.kuali.kfs.sys.KFSConstants;
@@ -125,7 +126,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     protected PostalCodeEbo postalZipCode;
     protected BudgetRecordingLevel budgetRecordingLevel;
     protected SufficientFundsCode sufficientFundsCode;
-    protected CFDA cfda;
+    protected ContractsAndGrantsCfda cfda;
 
     protected Chart fringeBenefitsChartOfAccount;
     protected Chart continuationChartOfAccount;
@@ -723,16 +724,8 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      *
      * @return a CFDA record
      */
-    public CFDA getCfda() {
-        return cfda ;
-    }
-
-    /**
-     * Sets the given related CFDA object
-     * @param cfda the related CFDA object.
-     */
-    public void setCfda(CFDA cfda) {
-        this.cfda = cfda;
+    public ContractsAndGrantsCfda getCfda() {
+        return cfda = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCfda.class).retrieveExternalizableBusinessObjectIfNecessary(this, cfda, "cfda");
     }
 
     public List<ContractsAndGrantsAccountAwardInformation> getAwards() {

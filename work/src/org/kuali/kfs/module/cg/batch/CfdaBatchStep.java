@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.coa.batch;
+package org.kuali.kfs.module.cg.batch;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.coa.businessobject.CfdaUpdateResults;
-import org.kuali.kfs.coa.service.CfdaService;
+import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
+import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;

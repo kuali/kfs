@@ -3,7 +3,7 @@
   <bean id="Cfda" parent="Cfda-parentBean"/>
 
   <bean id="Cfda-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.CFDA"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.module.external.kc.businessobject.CfdaDTO"/>
     <property name="inquiryDefinition">
       <ref bean="Cfda-inquiryDefinition"/>
     </property>
@@ -16,7 +16,7 @@
         <ref bean="Cfda-cfdaMaintenanceTypeId"/>
         <ref bean="Cfda-cfdaNumber"/>
         <ref bean="Cfda-cfdaProgramTitleName"/>
-        <ref bean="Cfda-active"/>
+        <ref bean="CFDA-active"/>
       </list>
     </property>
     <property name="primaryKeys">
@@ -40,20 +40,47 @@
       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.integration.cg.businessobject.options.CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
+
+  <bean id="Cfda-cfdaNumber" parent="Cfda-cfdaNumber-parentBean"/>
+
+  <bean id="Cfda-cfdaNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="cfdaNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="CFDA Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
       <bean parent="TextControlDefinition" p:size="8"/>
     </property>
   </bean>
-  <bean id="Cfda-cfdaNumber" parent="Cfda-cfdaNumber-parentBean"/>
-
-  <bean id="Cfda-cfdaNumber-parentBean" abstract="true" parent="CFDA-cfdaNumber"/>
   
   <bean id="Cfda-cfdaProgramTitleName" parent="Cfda-cfdaProgramTitleName-parentBean"/>
 
-  <bean id="Cfda-cfdaProgramTitleName-parentBean" abstract="true" parent="CFDA-cfdaProgramTitleName-parentBean"/>  
+  <bean id="Cfda-cfdaProgramTitleName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="cfdaProgramTitleName"/>
+    <property name="label" value="CFDA Program Title Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="300"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
+    </property>
+  </bean>
   
-  <bean id="Cfda-active" parent="Cfda-active-parentBean"/>
-  <bean id="Cfda-active-parentBean" abstract="true" parent="CFDA-active-parentBean"/>
+  <bean id="CFDA-active" parent="CFDA-active-parentBean"/>
 
+  <bean id="CFDA-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+	<property name="name" value="active"/>
+  </bean>
+ 
 <!-- Business Object Inquiry Definition -->
 
 
@@ -71,7 +98,7 @@
               <bean parent="FieldDefinition" p:attributeName="cfdaMaintenanceTypeId"/>
               <bean parent="FieldDefinition" p:attributeName="cfdaNumber"/>
               <bean parent="FieldDefinition" p:attributeName="cfdaProgramTitleName"/>    
-              <bean parent="FieldDefinition" p:attributeName="active"/>          
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>

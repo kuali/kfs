@@ -36,11 +36,11 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceRecurrenceDetails;
+import org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
-import org.kuali.kfs.integration.ar.AccountsRecievableCustomerInvoiceRecurrenceDetails;
-import org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader;
 import org.kuali.kfs.module.purap.util.PurApObjectUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
@@ -352,7 +352,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
         // set up the default values for the AR DOC Header
 
-        AccountsRecievableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableModuleService.createAccountsReceivableDocumentHeader();
+        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableModuleService.createAccountsReceivableDocumentHeader();
 
         // we try to get the processing org directly, which we'll get if the initiating user is an AR Processor
         // Remove once we switch our parameters
@@ -375,7 +375,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
 
         // set up the primary key for AR_INV_RCURRNC_DTL_T
-        AccountsRecievableCustomerInvoiceRecurrenceDetails recurrenceDetails = accountsReceivableModuleService.createCustomerInvoiceRecurrenceDetails();
+        AccountsReceivableCustomerInvoiceRecurrenceDetails recurrenceDetails = accountsReceivableModuleService.createCustomerInvoiceRecurrenceDetails();
         recurrenceDetails.setInvoiceNumber(document.getDocumentNumber());
         // recurrenceDetails.setCustomerNumber(document.getCustomer().getCustomerNumber());
         document.setCustomerInvoiceRecurrenceDetails(recurrenceDetails);

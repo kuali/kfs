@@ -39,9 +39,9 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerCreditMemo;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
+import org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
-import org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.DisburseType;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
@@ -549,13 +549,13 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @param customerNumber
      * @return
      */
-    public AccountsRecievableDocumentHeader createAccountsReceivableDocumentHeader(String documentNumber, String customerNumber){
+    public AccountsReceivableDocumentHeader createAccountsReceivableDocumentHeader(String documentNumber, String customerNumber){
 
         final AccountsReceivableOrganizationOptions orgOptions = getOrgOptions();
         final String processingChart = orgOptions.getProcessingChartOfAccountCode();
         final String processingOrg = orgOptions.getProcessingOrganizationCode();
 
-        final AccountsRecievableDocumentHeader arDocHeader = accountsReceivableModuleService.getNewAccountsReceivableDocumentHeader(processingChart, processingOrg);
+        final AccountsReceivableDocumentHeader arDocHeader = accountsReceivableModuleService.getNewAccountsReceivableDocumentHeader(processingChart, processingOrg);
         arDocHeader.setDocumentNumber(documentNumber);
         arDocHeader.setCustomerNumber(customerNumber);
 

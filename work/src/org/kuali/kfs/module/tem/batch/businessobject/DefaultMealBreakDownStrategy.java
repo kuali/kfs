@@ -89,8 +89,7 @@ public class DefaultMealBreakDownStrategy implements MealBreakDownStrategy {
      * get meal percentage from an application parameter
      */
     protected String getMealPercent(String mealCode) {
-        String mealPercentString = this.getParameterService().getParameterValueAsString(PerDiemLoadStep.class, this.getParameterName(), mealCode);
-
+        String mealPercentString = this.getParameterService().getSubParameterValueAsString(PerDiemLoadStep.class, getParameterName(), mealCode);
         return mealPercentString;
     }
 

@@ -34,7 +34,7 @@ public class MealBreakDownStrategyForContinental extends DefaultMealBreakDownStr
             throw new RuntimeException("The given mealsAndIncidentals cannot be null or negative.");
         }
 
-        PerDiemMealIncidentalBreakDown breakDown = this.getBusinessObjectService().findBySinglePrimaryKey(PerDiemMealIncidentalBreakDown.class, mealsAndIncidentals);
+        PerDiemMealIncidentalBreakDown breakDown = this.getBusinessObjectService().findBySinglePrimaryKey(PerDiemMealIncidentalBreakDown.class, Float.valueOf(mealsAndIncidentals.floatValue()));
 
         if(ObjectUtils.isNull(breakDown)){
             super.breakDown(perDiem, mealsAndIncidentals);

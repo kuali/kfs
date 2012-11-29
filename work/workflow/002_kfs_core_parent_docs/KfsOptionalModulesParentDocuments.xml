@@ -121,6 +121,23 @@
     </documentType>
     <documentType>
       <name>
+        TTSM
+      </name>
+      <parent>
+        FSSM
+      </parent>
+      <label>
+        TemSimpleMaintenanceDocument
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
         ARM
       </name>
       <parent>
@@ -333,6 +350,25 @@
       <parent>
         KFST
       </parent>
+    </documentType>
+    <documentType>
+      <name>
+        TT
+      </name>
+      <parent>
+        KFST
+      </parent>
+      <label>TravelTransactionalDocument</label>
+      <active>
+        true
+      </active>
+      <!-- RICE20 security attribute is disabled until fixed -->
+      <!-- <security>
+        <securityAttribute class="org.kuali.kfs.module.tem.document.workflow.TEMSecurityAttribute"/>
+      </security> -->
+      <routingVersion>
+        1
+      </routingVersion>
     </documentType>
   </documentTypes>
 </data>

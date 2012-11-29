@@ -62,5 +62,16 @@
 	        <li><portal:portalLink displayTitle="true" title='Vendor Credit Memos' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CM'/></li>
 	     </ul>
 	</c:if>
+    <c:if test="${ConfigProperties.module.travel.enabled == 'true'}">
+	    <strong>Travel/Entertainment</strong><br/>
+        <ul class="chan">
+        	<li><portal:portalLink displayTitle="true" title="Corporate Card Application" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CCAP&methodToCall=search" /></li>
+	        <li><portal:portalLink displayTitle="true" title="CTS Card Application" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CTAP&methodToCall=search" /></li>
+            <li><portal:portalLink displayTitle="true" title='Entertainment Reimbursement' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=ENT&methodToCall=search'/></li>
+            <li><portal:portalLink displayTitle="true" title='Moving and Relocation Reimbursement' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=RELO&methodToCall=search'/></li>            
+            <li><portal:portalLink displayTitle="true" title='Travel Authorization' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=TA&statusCodeForMultiboxSearching=OPEN&methodToCall=search'/></li>
+            <li><portal:portalLink displayTitle="true" title='Travel Reimbursement' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=TR&methodToCall=search'/></li>
+        </ul>
+    </c:if>
     </div>
 <channel:portalChannelBottom />

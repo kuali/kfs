@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>7 set up ar customer record</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">7 set up ar customer record</td></tr>
+</thead><tbody>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>backdoorId</td>
+	<td>khuntley</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>imageField</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Maintenance</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Customer</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@alt='create new']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.documentHeader.documentDescription']</td>
+	<td>add new AR customer</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.newMaintainableObject.customerName']</td>
+	<td>Joe Satriani</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.newMaintainableObject.customerTypeCode']</td>
+	<td>label=Traveler</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=document.newMaintainableObject.add.customerAddresses.customerAddressName</td>
+	<td>Joe Satriani</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=document.newMaintainableObject.add.customerAddresses.customerLine1StreetAddress</td>
+	<td>123 Joe's Street</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=document.newMaintainableObject.add.customerAddresses.customerCityName</td>
+	<td>Indianapolis</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=document.newMaintainableObject.add.customerAddresses.customerStateCode</td>
+	<td>label=INDIANA</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=document.newMaintainableObject.add.customerAddresses.customerZipCode</td>
+	<td>46464</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=document.newMaintainableObject.add.customerAddresses.customerCountryCode</td>
+	<td>label=United States</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=methodToCall.addLine.customerAddresses.(!!org.kuali.kfs.module.ar.businessobject.CustomerAddress!!)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.blanketApprove</td>
+	<td></td>
+</tr>
+<!--setup complete-->
+</tbody></table>
+</body>
+</html>

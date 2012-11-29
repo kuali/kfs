@@ -16,7 +16,8 @@
 package org.kuali.kfs.module.tem.util;
 
 import java.util.Comparator;
-import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
+
+import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 
 
 public class AccountingDistributionComparator implements Comparator<AccountingDistribution> {

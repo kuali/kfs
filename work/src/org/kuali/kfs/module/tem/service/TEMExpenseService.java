@@ -18,7 +18,7 @@ package org.kuali.kfs.module.tem.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
+import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;

@@ -251,6 +251,9 @@
 		<condition property="internal.endowment.spring.files" value="${endowment.spring.files}" else="">
 			<istrue value="${module.endowment.enabled}"/>
 		</condition>
+		<condition property="internal.travel.spring.files" value="${travel.spring.files}" else="">
+			<istrue value="${module.travel.enabled}"/>
+		</condition>
 
 		<!-- Do the same for the test configurations for the optional modules -->
 		<condition property="internal.contracts.and.grants.spring.test.files" value="${contracts.and.grants.spring.test.files}" else="">
@@ -270,6 +273,9 @@
 		</condition>
 		<condition property="internal.endowment.spring.test.files" value="${endowment.spring.test.files}" else="">
 			<istrue value="${module.endowment.enabled}"/>
+		</condition>
+		<condition property="internal.travel.spring.test.files" value="${travel.spring.test.files}" else="">
+			<istrue value="${module.travel.enabled}"/>
 		</condition>
 		
 		<!-- Access security files - these are split into three files, since pieces 
@@ -299,8 +305,8 @@
         </condition>
 		
 		<!-- build the optional module spring files lists, but defer to ones set by the institution -->
-		<property name="optional.module.spring.source.files" value="${internal.contracts.and.grants.spring.files}${internal.kuali.coeus.spring.files}${internal.accounts.receivable.spring.files}${internal.purchasing.spring.files}${internal.access.security.purap.spring.files}${internal.capital.asset.spring.files}${internal.labor.distribution.spring.files}${internal.access.security.ld.spring.files}${internal.endowment.spring.files}" />
-		<property name="optional.module.spring.test.files" value="${internal.contracts.and.grants.spring.test.files}${internal.accounts.receivable.spring.test.files}${internal.purchasing.spring.test.files}${internal.capital.asset.spring.test.files}${internal.labor.distribution.spring.test.files}${internal.endowment.spring.test.files}" />
+		<property name="optional.module.spring.source.files" value="${internal.contracts.and.grants.spring.files}${internal.kuali.coeus.spring.files}${internal.accounts.receivable.spring.files}${internal.purchasing.spring.files}${internal.access.security.purap.spring.files}${internal.capital.asset.spring.files}${internal.labor.distribution.spring.files}${internal.access.security.ld.spring.files}${internal.endowment.spring.files}${internal.travel.spring.files}" />
+		<property name="optional.module.spring.test.files" value="${internal.contracts.and.grants.spring.test.files}${internal.accounts.receivable.spring.test.files}${internal.purchasing.spring.test.files}${internal.capital.asset.spring.test.files}${internal.labor.distribution.spring.test.files}${internal.endowment.spring.test.files}${internal.travel.spring.test.files}" />
 		
 		<!-- set the final properties used by the server (placed into configuration.properties) -->
 		<property name="spring.source.files"

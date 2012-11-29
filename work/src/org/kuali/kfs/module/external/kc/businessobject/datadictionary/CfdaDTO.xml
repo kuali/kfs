@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Cfda" parent="Cfda-parentBean"/>
+  <bean id="cfdaDTO" parent="cfdaDTO-parentBean"/>
 
-  <bean id="Cfda-parentBean" abstract="true" parent="BusinessObjectEntry">
+  <bean id="cfdaDTO-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.external.kc.businessobject.CfdaDTO"/>
     <property name="inquiryDefinition">
-      <ref bean="Cfda-inquiryDefinition"/>
+      <ref bean="cfdaDTO-inquiryDefinition"/>
     </property>
     <property name="lookupDefinition">
-      <ref bean="Cfda-lookupDefinition"/>
+      <ref bean="cfdaDTO-lookupDefinition"/>
     </property>
     <property name="objectLabel" value="CFDA Reference"/>
     <property name="attributes">
       <list>
-        <ref bean="Cfda-cfdaMaintenanceTypeId"/>
-        <ref bean="Cfda-cfdaNumber"/>
-        <ref bean="Cfda-cfdaProgramTitleName"/>
-        <ref bean="CFDA-active"/>
+        <ref bean="cfdaDTO-cfdaMaintenanceTypeId"/>
+        <ref bean="cfdaDTO-cfdaNumber"/>
+        <ref bean="cfdaDTO-cfdaProgramTitleName"/>
+        <ref bean="cfdaDTO-active"/>
       </list>
     </property>
     <property name="primaryKeys">
@@ -29,9 +29,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="Cfda-cfdaMaintenanceTypeId" parent="Cfda-cfdaMaintenanceTypeId-parentBean"/>
+  <bean id="cfdaDTO-cfdaMaintenanceTypeId" parent="cfdaDTO-cfdaMaintenanceTypeId-parentBean"/>
 
-  <bean id="Cfda-cfdaMaintenanceTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="cfdaDTO-cfdaMaintenanceTypeId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cfdaMaintenanceTypeId"/>
     <property name="label" value="CFDA Maintenance Type Id"/>
     <property name="shortLabel" value="Id"/>
@@ -44,9 +44,9 @@
     </property>
   </bean>
 
-  <bean id="Cfda-cfdaNumber" parent="Cfda-cfdaNumber-parentBean"/>
+  <bean id="cfdaDTO-cfdaNumber" parent="cfdaDTO-cfdaNumber-parentBean"/>
 
-  <bean id="Cfda-cfdaNumber-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="cfdaDTO-cfdaNumber-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cfdaNumber"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="CFDA Number"/>
@@ -60,9 +60,9 @@
     </property>
   </bean>
   
-  <bean id="Cfda-cfdaProgramTitleName" parent="Cfda-cfdaProgramTitleName-parentBean"/>
+  <bean id="cfdaDTO-cfdaProgramTitleName" parent="cfdaDTO-cfdaProgramTitleName-parentBean"/>
 
-  <bean id="Cfda-cfdaProgramTitleName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="cfdaDTO-cfdaProgramTitleName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cfdaProgramTitleName"/>
     <property name="label" value="CFDA Program Title Name"/>
     <property name="shortLabel" value="Name"/>
@@ -75,18 +75,18 @@
     </property>
   </bean>
   
-  <bean id="CFDA-active" parent="CFDA-active-parentBean"/>
+  <bean id="cfdaDTO-active" parent="cfdaDTO-active-parentBean"/>
 
-  <bean id="CFDA-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+  <bean id="cfdaDTO-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
 	<property name="name" value="active"/>
   </bean>
  
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="Cfda-inquiryDefinition" parent="Cfda-inquiryDefinition-parentBean"/>
+  <bean id="cfdaDTO-inquiryDefinition" parent="cfdaDTO-inquiryDefinition-parentBean"/>
 
-  <bean id="Cfda-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="cfdaDTO-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="CFDA Reference Inquiry"/>
     <property name="inquirySections">
       <list>
@@ -109,9 +109,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="Cfda-lookupDefinition" parent="Cfda-lookupDefinition-parentBean"/>
+  <bean id="cfdaDTO-lookupDefinition" parent="cfdaDTO-lookupDefinition-parentBean"/>
 
-  <bean id="Cfda-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="cfdaDTO-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="CFDA Reference Lookup"/>
     <property name="lookupableID" value="kualiLookupable"/>
     

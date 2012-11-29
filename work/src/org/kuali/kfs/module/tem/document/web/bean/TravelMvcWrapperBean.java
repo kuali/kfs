@@ -18,7 +18,7 @@ package org.kuali.kfs.module.tem.document.web.bean;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
+import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;

@@ -3,7 +3,7 @@
 
 	<bean id="AccountingDistribution" parent="AccountingDistribution-parentBean" />
 	<bean id="AccountingDistribution-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution" />
+		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.AccountingDistribution" />
 		<property name="objectLabel" value="AccountingDistribution" />
 		<property name="titleAttribute" value="objectCode" />
 		<property name="attributes">

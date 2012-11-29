@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
 import org.kuali.kfs.module.tem.service.TravelExpenseTypeService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.service.KeyValuesService;
 
@@ -64,11 +65,7 @@ public class TravelExpenseTypeServiceImpl implements TravelExpenseTypeService {
         return boList;
     }
 
-    public void setKeyValuesService(final KeyValuesService keyValuesService) {
-        this.keyValuesService = keyValuesService;
-    }
-
     protected KeyValuesService getKeyValuesService() {
-        return keyValuesService;
+        return SpringContext.getBean(KeyValuesService.class);
     }
 }

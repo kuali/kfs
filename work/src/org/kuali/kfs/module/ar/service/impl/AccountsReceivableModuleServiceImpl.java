@@ -28,12 +28,12 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerCreditMemo;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
+import org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
-import org.kuali.kfs.integration.ar.AccountsRecievableCustomerInvoiceRecurrenceDetails;
-import org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants.CustomerTypeFields;
 import org.kuali.kfs.module.ar.ArPropertyConstants.OrganizationOptionsFields;
@@ -283,7 +283,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#createCustomerInvoiceRecurrenceDetails()
      */
     @Override
-    public AccountsRecievableCustomerInvoiceRecurrenceDetails createCustomerInvoiceRecurrenceDetails() {
+    public AccountsReceivableCustomerInvoiceRecurrenceDetails createCustomerInvoiceRecurrenceDetails() {
         return new CustomerInvoiceRecurrenceDetails();
     }
 
@@ -291,7 +291,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#createAccountsReceivableDocumentHeader()
      */
     @Override
-    public AccountsRecievableDocumentHeader createAccountsReceivableDocumentHeader() {
+    public AccountsReceivableDocumentHeader createAccountsReceivableDocumentHeader() {
         return new org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader();
     }
 
@@ -395,7 +395,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getNewAccountsReceivableDocumentHeader(java.lang.String, java.lang.String)
      */
     @Override
-    public AccountsRecievableDocumentHeader getNewAccountsReceivableDocumentHeader(String processingChart, String processingOrg) {
+    public AccountsReceivableDocumentHeader getNewAccountsReceivableDocumentHeader(String processingChart, String processingOrg) {
         return SpringContext.getBean(AccountsReceivableDocumentHeaderService.class).getNewAccountsReceivableDocumentHeader(processingChart, processingOrg);
     }
 

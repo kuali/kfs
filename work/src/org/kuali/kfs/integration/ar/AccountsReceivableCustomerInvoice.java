@@ -150,8 +150,8 @@ public interface AccountsReceivableCustomerInvoice extends ExternalizableBusines
 
     public void addSourceAccountingLine(SourceAccountingLine detail);
 
-    public void setCustomerInvoiceRecurrenceDetails(AccountsRecievableCustomerInvoiceRecurrenceDetails recurrenceDetails);
+    public void setCustomerInvoiceRecurrenceDetails(AccountsReceivableCustomerInvoiceRecurrenceDetails recurrenceDetails);
 
-    public void setAccountsReceivableDocumentHeader(AccountsRecievableDocumentHeader accountsReceivableDocumentHeader);
+    public void setAccountsReceivableDocumentHeader(org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader accountsReceivableDocumentHeader);
 
 }

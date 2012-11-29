@@ -198,13 +198,13 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     }
 
     @Override
-    public AccountsRecievableCustomerInvoiceRecurrenceDetails createCustomerInvoiceRecurrenceDetails() {
+    public AccountsReceivableCustomerInvoiceRecurrenceDetails createCustomerInvoiceRecurrenceDetails() {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public AccountsRecievableDocumentHeader createAccountsReceivableDocumentHeader() {
+    public AccountsReceivableDocumentHeader createAccountsReceivableDocumentHeader() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -270,7 +270,7 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     }
 
     @Override
-    public AccountsRecievableDocumentHeader getNewAccountsReceivableDocumentHeader(String processingChart, String processingOrg) {
+    public AccountsReceivableDocumentHeader getNewAccountsReceivableDocumentHeader(String processingChart, String processingOrg) {
         // TODO Auto-generated method stub
         return null;
     }

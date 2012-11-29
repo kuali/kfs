@@ -17,7 +17,7 @@ package org.kuali.kfs.integration.ar;
 
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
-public interface AccountsRecievableDocumentHeader extends ExternalizableBusinessObject {
+public interface AccountsReceivableDocumentHeader extends ExternalizableBusinessObject {
 
     public void setDocumentNumber(String documentNumber);
 

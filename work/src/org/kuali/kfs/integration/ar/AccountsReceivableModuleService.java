@@ -172,13 +172,13 @@ public interface AccountsReceivableModuleService {
      *
      * @return
      */
-    public AccountsRecievableCustomerInvoiceRecurrenceDetails createCustomerInvoiceRecurrenceDetails();
+    public AccountsReceivableCustomerInvoiceRecurrenceDetails createCustomerInvoiceRecurrenceDetails();
 
     /**
      *
      * @return
      */
-    public AccountsRecievableDocumentHeader createAccountsReceivableDocumentHeader();
+    public AccountsReceivableDocumentHeader createAccountsReceivableDocumentHeader();
 
     /**
      *
@@ -260,7 +260,7 @@ public interface AccountsReceivableModuleService {
      * @param processingOrg
      * @return
      */
-    public AccountsRecievableDocumentHeader getNewAccountsReceivableDocumentHeader(String processingChart, String processingOrg);
+    public AccountsReceivableDocumentHeader getNewAccountsReceivableDocumentHeader(String processingChart, String processingOrg);
 
     /**
      * Create cusotmer invoice document

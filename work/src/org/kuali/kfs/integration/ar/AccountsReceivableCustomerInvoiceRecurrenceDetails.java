@@ -17,7 +17,7 @@ package org.kuali.kfs.integration.ar;
 
 import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
-public interface AccountsRecievableCustomerInvoiceRecurrenceDetails extends ExternalizableBusinessObject {
+public interface AccountsReceivableCustomerInvoiceRecurrenceDetails extends ExternalizableBusinessObject {
 
     public void setInvoiceNumber(String documentNumber);
 

@@ -23,7 +23,6 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
-import org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -32,7 +31,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectBase implements AccountsRecievableDocumentHeader{
+public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectBase implements org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader{
 
 	private String documentNumber;
 	private String customerNumber;

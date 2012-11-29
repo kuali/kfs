@@ -24,6 +24,6 @@ public interface AccountsReceivableCustomerCreditMemo extends ExternalizableBusi
 
     public String getDocumentNumber();
 
-    public void setAccountsReceivableDocumentHeader(AccountsRecievableDocumentHeader arDocHeader);
+    public void setAccountsReceivableDocumentHeader(AccountsReceivableDocumentHeader arDocHeader);
 
 }

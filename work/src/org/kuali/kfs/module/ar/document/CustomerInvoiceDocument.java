@@ -36,7 +36,7 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
-import org.kuali.kfs.integration.ar.AccountsRecievableCustomerInvoiceRecurrenceDetails;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
@@ -2029,13 +2029,13 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
     }
 
     @Override
-    public void setCustomerInvoiceRecurrenceDetails(AccountsRecievableCustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails) {
+    public void setCustomerInvoiceRecurrenceDetails(AccountsReceivableCustomerInvoiceRecurrenceDetails customerInvoiceRecurrenceDetails) {
         this.customerInvoiceRecurrenceDetails = (CustomerInvoiceRecurrenceDetails) customerInvoiceRecurrenceDetails;
     }
 
     @Override
-    public void setAccountsReceivableDocumentHeader(org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader accountsReceivableDocumentHeader) {
-        this.accountsReceivableDocumentHeader = (org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader) accountsReceivableDocumentHeader;
+    public void setAccountsReceivableDocumentHeader(org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
+        this.accountsReceivableDocumentHeader = (org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader)accountsReceivableDocumentHeader;
     }
 
     private Timestamp agingReportSentTime;

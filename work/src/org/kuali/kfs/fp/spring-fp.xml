@@ -427,11 +427,7 @@
 	</bean>
  
  	<bean id="disbursementPayeeLookupableHelperService" scope="prototype" parent="disbursementPayeeLookupableHelperService-parentBean"/>
-	<bean id="disbursementPayeeLookupableHelperService-parentBean"  parent="payeeLookupableHelperServiceImpl-parentBean" abstract="true"  class="org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl" scope="prototype" >
-		<property name="disbursementVoucherPaymentReasonService">
-			<ref bean="disbursementVoucherPaymentReasonService" />
-		</property>
-	</bean>
+	<bean id="disbursementPayeeLookupableHelperService-parentBean"  parent="payeeLookupableHelperServiceImpl-parentBean" abstract="true"  class="org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl" scope="prototype" />
 	
 	<bean id="disbursementPayeeInquirable" class="org.kuali.kfs.fp.businessobject.inquirable.DisbursementPayeeInquirableImpl" scope="prototype" parent="kualiInquirable"/>
 	
@@ -485,7 +481,10 @@
 		</property>	
 		<property name="kualiInquirable">
 			<ref bean="disbursementPayeeInquirable" />
-		</property>			
+		</property>		
+		<property name="disbursementVoucherPaymentReasonService">
+			<ref bean="disbursementVoucherPaymentReasonService" />	
+		</property>
 		<property name="disbursementVoucherPayeeService">
 			<ref bean="disbursementVoucherPayeeService" />
 		</property>

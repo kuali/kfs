@@ -48,6 +48,28 @@
 	    </modifySql>
 	</changeSet>
 	
+	<changeSet author="KFS501" id="GRANT_PERIOD_PERMS_TO_OPS">
+		<comment>Grant permission to view/use the accounting period fields and grant to KFS-SYS Operations</comment>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS_OPS_VIEW_PERIOD" />
+			<column name="OBJ_ID" valueComputed="sys_guid() "/>
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" valueComputed=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-SYS' and role_nm = 'Operations') " />
+			<column name="PERM_ID" value="KFSSYS7145a" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS_OPS_EDIT_PERIOD" />
+			<column name="OBJ_ID" valueComputed="sys_guid() "/>
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" valueComputed=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-SYS' and role_nm = 'Operations') " />
+			<column name="PERM_ID" value="KFSSYS7145b" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<modifySql dbms='mysql'>
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
+	</changeSet>
 
 	<changeSet id="KFSMI-9598-ADD_SUPERUSER_TAB_USE_PERMISSIONS" author="KFS501">
 		<comment>Add the necessary KIM data for the Rice permission which is used to grant access to the superuser tab on documents.</comment>

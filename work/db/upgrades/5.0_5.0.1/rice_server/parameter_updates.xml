@@ -252,4 +252,13 @@
 		</update>
 	</changeSet>
 
+	<changeSet author="KFS501" id="KFSMI9670_CFDA_LOOKUP_REFERENCE_KC">
+		<comment>Update CFDA Batch parm values to move back to CG from COA to support looking up CFDA from KC when integrated.</comment>
+		<update tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD"
+				value="KFS-CG" />
+			<where>NMSPC_CD='KFS-COA' AND CMPNT_CD='CfdaBatchStep'</where>
+		</update>
+	</changeSet>
+
 </databaseChangeLog>

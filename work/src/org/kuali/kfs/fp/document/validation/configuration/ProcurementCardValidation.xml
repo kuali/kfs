@@ -25,6 +25,7 @@
 		<property name="validations">
 			<list>
 				<bean parent="AccountingDocument-RouteDocument-DefaultValidation" scope="prototype" /> 
+				<bean parent="AccountingDocument-capitalAssetLineUniquenessValidation" scope="prototype" />
 				<bean parent="CapitalAccountingLines-capitalAccountingLinesValidations" scope="prototype" />
                 <bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />
 			</list>
@@ -256,14 +257,19 @@
 	<bean id="ProcurementCard-deleteAccountingLineValidation" parent="ProcurementCard-deleteAccountingLineValidation-parentBean" scope="prototype" />  
 	<bean id="ProcurementCard-deleteAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
-  			<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
+  			<list>
+  				<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
+  			</list>
   		</property>
 	</bean>
 	
 	<bean id="ProcurementCard-approveDocumentValidation" parent="ProcurementCard-approveDocumentValidation-parent" scope="prototype" />	
 	<bean id="ProcurementCard-approveDocumentValidation-parent" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
-            <bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" />
+			<list>
+            	<bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" />
+            	<bean parent="AccountingDocument-capitalAssetLineUniquenessValidation" scope="prototype" />
+            </list>
 		</property>
 	</bean> 
 <!-- object sub type check Event  -->

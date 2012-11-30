@@ -174,7 +174,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
         Map<String, String> pks = new HashMap<String, String>();
         pks.put("documentNumber", dvDoc.getDocumentNumber());
 
-        DisbursementVoucherDocument savedDv = (DisbursementVoucherDocument) businessObjectService.findByPrimaryKey(DisbursementVoucherDocument.class, pks);
+        DisbursementVoucherDocument savedDv = businessObjectService.findByPrimaryKey(DisbursementVoucherDocument.class, pks);
         DisbursementVoucherPayeeDetail newPayeeDetail = dvDoc.getDvPayeeDetail();
         DisbursementVoucherPayeeDetail oldPayeeDetail = savedDv.getDvPayeeDetail();
 
@@ -232,7 +232,6 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
         Map<String, String> fieldConversionMap = new HashMap<String, String>();
 
         fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, VendorPropertyConstants.VENDOR_TAX_NUMBER);
-        fieldConversionMap.put(KFSPropertyConstants.PAYEE_NAME, VendorPropertyConstants.VENDOR_NAME);
 
         fieldConversionMap.put(KFSPropertyConstants.VENDOR_NAME, VendorPropertyConstants.VENDOR_NAME);
         fieldConversionMap.put(KFSPropertyConstants.VENDOR_NUMBER, VendorPropertyConstants.VENDOR_NUMBER);
@@ -254,7 +253,6 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
 
         //fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, KIMPropertyConstants.Person.EXTERNAL_ID);
 
-        fieldConversionMap.put(KFSPropertyConstants.PAYEE_NAME, KIMPropertyConstants.Person.NAME);
         fieldConversionMap.put(KFSPropertyConstants.PERSON_FIRST_NAME, KIMPropertyConstants.Person.FIRST_NAME);
         fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, KIMPropertyConstants.Person.LAST_NAME);
 
@@ -433,7 +431,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(KFSPropertyConstants.VENDOR_TYPE_CODE, vendorTypeCode);
 
-        VendorType vendorType = (VendorType) businessObjectService.findByPrimaryKey(VendorType.class, primaryKeys);
+        VendorType vendorType = businessObjectService.findByPrimaryKey(VendorType.class, primaryKeys);
         return ObjectUtils.isNotNull(vendorType) ? vendorType.getVendorTypeDescription() : StringUtils.EMPTY;
     }
 

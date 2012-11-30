@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.coa.service.impl;
+package org.kuali.kfs.module.cg.service.impl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,10 +30,10 @@ import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
-import org.kuali.kfs.coa.batch.CfdaBatchStep;
-import org.kuali.kfs.coa.businessobject.CFDA;
-import org.kuali.kfs.coa.businessobject.CfdaUpdateResults;
-import org.kuali.kfs.coa.service.CfdaService;
+import org.kuali.kfs.module.cg.batch.CfdaBatchStep;
+import org.kuali.kfs.module.cg.businessobject.CFDA;
+import org.kuali.kfs.module.cg.businessobject.CfdaUpdateResults;
+import org.kuali.kfs.module.cg.service.CfdaService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;

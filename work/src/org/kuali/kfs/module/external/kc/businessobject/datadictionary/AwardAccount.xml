@@ -235,7 +235,7 @@
 	<bean id="AwardAccount-award.cfdaNumber" parent="AwardAccount-award.cfdaNumber-parentBean" />
 
 	<bean id="AwardAccount-award.cfdaNumber-parentBean" abstract="true"
-		parent="Cfda-cfdaNumber">
+		parent="cfdaDTO-cfdaNumber">
 		<property name="name" value="award.cfdaNumber" />
 		<property name="label" value="CFDA Number" />
 		<property name="shortLabel" value="CFDA Num" />

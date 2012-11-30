@@ -4,6 +4,7 @@
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 
 
+	<include file="01_structure/coa-module-structure-updates.xml"/>
 	<include file="01_structure/fp-module-structure-updates.xml"/>
 	<include file="01_structure/purap-module-structure-updates.xml"/>
 <!-- 

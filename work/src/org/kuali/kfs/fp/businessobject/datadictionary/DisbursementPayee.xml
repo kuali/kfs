@@ -175,12 +175,9 @@
       <list>
       	<bean parent="FieldDefinition" p:attributeName="paymentReasonCode" p:required="true"/>
         <bean parent="FieldDefinition" p:attributeName="taxNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="payeeName"/>
-        <!-- 
         <bean parent="FieldDefinition" p:attributeName="firstName"/>
         <bean parent="FieldDefinition" p:attributeName="lastName"/>
         <bean parent="FieldDefinition" p:attributeName="vendorName"/>
-        -->
         <bean parent="FieldDefinition" p:attributeName="employeeId"/>
         <bean parent="FieldDefinition" p:attributeName="vendorNumber"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>  

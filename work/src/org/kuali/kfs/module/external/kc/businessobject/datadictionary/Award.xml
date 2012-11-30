@@ -148,7 +148,9 @@
 	<bean id="Award-cfdaNumber" parent="Award-cfdaNumber-parentBean" />
 
 	<bean id="Award-cfdaNumber-parentBean" abstract="true"
-		parent="Cfda-cfdaNumber">
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda"
+		p:sourceAttributeName="cfdaNumber">
 		<property name="name" value="cfdaNumber" />
 		<property name="required" value="false" />
 	</bean>

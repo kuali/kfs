@@ -28,7 +28,7 @@
 <table width="80%" cellpadding="0" cellspacing="0" class="datatable"  align="center"
 	       style="width: 85%; text-align: left;">	
 	<tr>
-		<td class="tab-subhead"  width="100%" colspan="11">Accounting Lines Amount Distributions</td>
+		<td class="tab-subhead"  width="100%" colspan="15">Accounting Lines Amount Distributions</td>
 	</tr>
 	<tr>
 		<c:set var="tabKey" value="payment-${capitalAssetPosition}"/>
@@ -38,7 +38,7 @@
 	       style="width: 100%; text-align: left;">
 	       <c:if test="${showViewButton == true}" >
 				<tr>
-					<td colspan="7" class="tab-subhead" style="border-right: medium none;">
+					<td colspan="11" class="tab-subhead" style="border-right: medium none;">
 					<html:image src="${ConfigProperties.kr.externalizable.images.url}tinybutton-show.gif"
 			                                    property="methodToCall.toggleTab.tab${tabKey}"
 			                                    title="toggle"
@@ -67,9 +67,21 @@
 					hideRequiredAsterisk="true" />
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${groupAccountingLinesAttributes.accountNumber}"
-					useShortLabel="false" />
+					useShortLabel="true" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${groupAccountingLinesAttributes.subAccountNumber}"
+					useShortLabel="true" />
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${groupAccountingLinesAttributes.financialObjectCode}"
+					useShortLabel="true" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${groupAccountingLinesAttributes.financialSubObjectCode}"
+					useShortLabel="true" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${groupAccountingLinesAttributes.projectCode}"
+					useShortLabel="true" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${groupAccountingLinesAttributes.organizationReferenceId}"
 					useShortLabel="true" />
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${groupAccountingLinesAttributes.amount}"
@@ -92,16 +104,17 @@
 					        	<c:out value="${KFSConstants.SOURCE}" />
 					        </c:if>
 				            <c:if test="${lineType eq KFSConstants.TARGET_ACCT_LINE_TYPE_CODE}">
-					            	<c:out value="${KFSConstants.TARGET}" />
+					            <c:out value="${KFSConstants.TARGET}" />
 					        </c:if>
 				       </div></td>					
 					<td class="infoline">${accountLine.chartOfAccountsCode}&nbsp;</td>
 					<td class="infoline">${accountLine.accountNumber}&nbsp;</td>
+					<td class="infoline">${accountLine.subAccountNumber}&nbsp;</td>
 					<td class="infoline">${accountLine.financialObjectCode}&nbsp;</td>
-						
-					<td class="infoline">
-						<div align="right" valign="middle">
-							${accountLine.amount}&nbsp;</div></td>
+					<td class="infoline">${accountLine.financialSubObjectCode}&nbsp;</td>
+					<td class="infoline">${accountLine.projectCode}&nbsp;</td>
+					<td class="infoline">${accountLine.organizationReferenceId}&nbsp;</td>
+					<td class="infoline"><div align="right" valign="middle">${accountLine.amount}&nbsp;</div></td>
 				</tr>
 			</c:forEach>
 			</tbody>

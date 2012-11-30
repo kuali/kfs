@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,12 +16,19 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapSize;
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.AccountGlobal;
+import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
-@ConfigureContext
+@ConfigureContext(session = khuntley)
 public class AccountGlobalRuleTest extends ChartRuleTestBase {
 
     private class Accounts {
@@ -122,6 +129,12 @@ public class AccountGlobalRuleTest extends ChartRuleTestBase {
             private static final String GOOD1 = "kcopley";
             private static final String GOOD2 = "khuntley";
         }
+
+        private class Cfda {
+            private static final String GOOD1 = "10.576";
+            private static final String BAD = "XX.XXX";
+        }
+
     }
 
     AccountGlobal newAccountGlobals;
@@ -157,6 +170,54 @@ public class AccountGlobalRuleTest extends ChartRuleTestBase {
         // run the test
         testDefaultExistenceCheck(newAccountGlobals, "accountStateCode", false);
         assertGlobalMessageMapEmpty();
+    }
+
+    public void testCustomRouteDocumentBusinessRules_Cfda_KnownGood() {
+
+        // create new account global, maint doc and rule to test
+        setupAccountGlobal();
+        newAccountGlobals.setAccountCfdaNumber(Accounts.Cfda.GOOD1);
+        maintDoc = newMaintDoc(newAccountGlobals);
+        rule = (AccountGlobalRule) setupMaintDocRule(maintDoc, AccountGlobalRule.class);
+
+        // run the test
+        boolean result = rule.processCustomRouteDocumentBusinessRules(maintDoc);
+
+        assertEquals("Rule should return true.", true, result);
+        assertGlobalMessageMapEmpty();
+    }
+
+    public void testCustomRouteDocumentBusinessRules_Cfda_KnownBad() {
+
+        // create new account global, maint doc and rule to test
+        setupAccountGlobal();
+        newAccountGlobals.setAccountCfdaNumber(Accounts.Cfda.BAD);
+        maintDoc = newMaintDoc(newAccountGlobals);
+        rule = (AccountGlobalRule) setupMaintDocRule(maintDoc, AccountGlobalRule.class);
+
+        // run the test
+        boolean result = rule.processCustomRouteDocumentBusinessRules(maintDoc);
+
+        assertEquals("Rule should return false with invalid CFDA number.", false, result);
+        assertGlobalMessageMapSize(1);
+        assertFieldErrorExists("accountCfdaNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_CFDA_NUMBER_INVALID);
+    }
+
+    private void setupAccountGlobal() {
+        newAccountGlobals = new AccountGlobal();
+        newAccountGlobals.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        newAccountGlobals.setOrganizationCode(Accounts.Org.GOOD1);
+        setUsersThatExist();
+
+        AccountGlobalDetail accountGlobalDetail = new AccountGlobalDetail();
+        accountGlobalDetail.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        accountGlobalDetail.setAccountNumber(Accounts.AccountNumber.GOOD1);
+        accountGlobalDetail.refreshNonUpdateableReferences();
+
+        List<AccountGlobalDetail> accountGlobalDetails = new ArrayList<AccountGlobalDetail>();
+        accountGlobalDetails.add(accountGlobalDetail);
+
+        newAccountGlobals.setAccountGlobalDetails(accountGlobalDetails);
     }
 }
 

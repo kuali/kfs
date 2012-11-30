@@ -812,7 +812,7 @@
 		<property name="summary" value="Move To History Indicator" />
 		<property name="description" value="Move To History Indicator" />
 		<property name="control">
-		<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
+		<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
 		</property>
 	</bean>
     <bean id="AgencyStagingData-importBy" parent="AgencyStagingData-importBy-parentBean" />

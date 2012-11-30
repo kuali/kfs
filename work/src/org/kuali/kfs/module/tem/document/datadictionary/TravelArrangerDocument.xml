@@ -182,7 +182,7 @@
 	<bean id="TravelArrangerDocument-workflowAttributes" parent="TravelArrangerDocument-workflowAttributes-parentBean" />
 
 	<bean id="TravelArrangerDocument-workflowAttributes-parentBean"
-		class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+		class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
 	</bean>
 
 </beans>

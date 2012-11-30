@@ -73,7 +73,7 @@
                     p:shortLabel="Per Diem Expenses" p:elementLabel="Per Diem Expenses" />
                 <bean parent="CollectionDefinition" p:name="actualExpenses" p:label="Actual Expenses"
                     p:shortLabel="Actual Expenses" p:elementLabel="Actual Expenses" />
-                <bean parent="CollectionDefinition" p:name="boNotes" p:label="Notes"
+                <bean parent="CollectionDefinition" p:name="notes" p:label="Notes"
                     p:shortLabel="Notes" p:elementLabel="Notes" />
                 <bean parent="CollectionDefinition" p:name="historicalTravelExpenses" p:label="Reconciled Expenses"
                     p:shortLabel="Reconciled Expenses" p:elementLabel="Reconciled Expenses" />
@@ -263,7 +263,7 @@
         <property name="summary" value="Moving From Country" />
         <property name="description" value="Moving From Country" />
         <property name="control">
-            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryNotRestrictedValuesFinder"
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder"
                 p:includeKeyInLabel="false" />
         </property>
     </bean>
@@ -326,7 +326,7 @@
         <property name="summary" value="Moving To Country" />
         <property name="description" value="Moving To Country" />
         <property name="control">
-            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryNotRestrictedValuesFinder"
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder"
                 p:includeKeyInLabel="false" />
         </property>
     </bean>
@@ -402,101 +402,6 @@
         <property name="name" value="dummyAppDocStatus" />
         <property name="label" value="RELO Status Code" />
         <property name="shortLabel" value="RELO Status" />
-    </bean>
-
-    <bean id="TravelRelocationDocument-inquiryDefinition" parent="TravelRelocationDocument-inquiryDefinition-parentBean" />
-    <bean id="TravelRelocationDocument-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" >
-        <property name="title" value="Travel Relocation Document Inquiry" />
-        <property name="inquirySections">
-            <list>
-                <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Travel Relocation Document Inquiry" />
-                    <property name="numberOfColumns" value="1" />
-                    <property name="inquiryFields">
-                        <list>
-                            <bean parent="FieldDefinition" p:attributeName="travelDocumentIdentifier" />
-                            <bean parent="FieldDefinition" p:attributeName="tripBegin" />
-                            <bean parent="FieldDefinition" p:attributeName="tripEnd" />
-                            <bean parent="FieldDefinition" p:attributeName="fromAddress1" />
-                            <bean parent="FieldDefinition" p:attributeName="fromAddress2" />
-                            <bean parent="FieldDefinition" p:attributeName="fromCity" />
-                            <bean parent="FieldDefinition" p:attributeName="fromStateCode" />
-                            <bean parent="FieldDefinition" p:attributeName="fromCountryCode" />
-                            <bean parent="FieldDefinition" p:attributeName="toAddress1" />
-                            <bean parent="FieldDefinition" p:attributeName="toAddress2" />
-                            <bean parent="FieldDefinition" p:attributeName="toCity" />
-                            <bean parent="FieldDefinition" p:attributeName="toStateCode" />
-                            <bean parent="FieldDefinition" p:attributeName="toCountryCode" />
-                            <bean parent="FieldDefinition" p:attributeName="reasonCode" />
-                            <bean parent="FieldDefinition" p:attributeName="jobClsCode" />
-                            <bean parent="FieldDefinition" p:attributeName="titleCode" />
-                            <bean parent="FieldDefinition" p:attributeName="comments" />
-                        </list>
-                    </property>
-                </bean>
-
-                <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Notes" />
-                    <property name="numberOfColumns" value="1" />
-                    <property name="inquiryFields">
-                        <list>
-                            <bean parent="InquiryCollectionDefinition">
-                                <property name="attributeName" value="boNotes" />
-                                <property name="businessObjectClass" value="org.kuali.rice.kns.bo.Note" />
-                                <property name="numberOfColumns" value="1" />
-                                <property name="inquiryFields">
-                                    <list>
-                                        <bean parent="FieldDefinition" p:attributeName="noteText" />
-                                        <bean parent="FieldDefinition" p:attributeName="notePostedTimestamp" />
-                                        <bean parent="FieldDefinition" p:attributeName="authorUniversal.principalName" />
-                                        <bean parent="FieldDefinition" p:attributeName="attachmentLink" />
-                                        <bean parent="FieldDefinition" p:attributeName="attachment.attachmentTypeCode" />
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-    <bean id="TravelRelocationDocument-lookupDefinition" parent="TravelRelocationDocument-lookupDefinition-parentBean" />
-    <bean id="TravelRelocationDocument-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Travel Relocation Document Lookup" />
-        <property name="lookupableID" value="travelRelocationLookupable" />
-        <property name="defaultSort">
-            <bean parent="SortDefinition">
-                <property name="attributeNames">
-                    <list>
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="lookupFields">
-            <list>
-            </list>
-        </property>
-        <property name="resultFields">
-            <list>
-                <bean parent="FieldDefinition" p:attributeName="travelDocumentIdentifier" />
-                <bean parent="FieldDefinition" p:attributeName="tripBegin" />
-                <bean parent="FieldDefinition" p:attributeName="tripEnd" />
-                <bean parent="FieldDefinition" p:attributeName="fromAddress1" />
-                <bean parent="FieldDefinition" p:attributeName="fromAddress2" />
-                <bean parent="FieldDefinition" p:attributeName="fromCity" />
-                <bean parent="FieldDefinition" p:attributeName="fromStateCode" />
-                <bean parent="FieldDefinition" p:attributeName="fromCountryCode" />
-                <bean parent="FieldDefinition" p:attributeName="toAddress1" />
-                <bean parent="FieldDefinition" p:attributeName="toAddress2" />
-                <bean parent="FieldDefinition" p:attributeName="toCity" />
-                <bean parent="FieldDefinition" p:attributeName="toStateCode" />
-                <bean parent="FieldDefinition" p:attributeName="toCountryCode" />
-                <bean parent="FieldDefinition" p:attributeName="reasonCode" />
-                <bean parent="FieldDefinition" p:attributeName="jobClsCode" />
-                <bean parent="FieldDefinition" p:attributeName="titleCode" />
-                <bean parent="FieldDefinition" p:attributeName="comments" />
-            </list>
-        </property>
     </bean>
 
     <!-- Validations -->
@@ -595,7 +500,7 @@
         </property>
     </bean>
 
-    <bean id="RoutingType-TravelRelocationDocument-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    <bean id="RoutingType-TravelRelocationDocument-OrganizationHierarchy" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
         <property name="routingAttributes">
             <list>
                 <ref bean="RoutingAttribute-financialDocumentTotalAmount" />
@@ -614,7 +519,7 @@
     <bean id="DocumentValuePathGroup-TravelRelocationDocument-OrganizationHierarchy-accountingLines"
         parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
         <property name="documentCollectionPath">
-            <bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
+            <bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath">
                 <property name="collectionPath" value="sourceAccountingLines" />
                 <property name="documentValues">
                     <list>

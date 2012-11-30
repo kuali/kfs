@@ -68,7 +68,7 @@
 	<bean id="TemSourceAccountingLine-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="amount" />
 		<property name="required" value="false" />
-		<property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 
 	<!-- Attribute Definitions -->

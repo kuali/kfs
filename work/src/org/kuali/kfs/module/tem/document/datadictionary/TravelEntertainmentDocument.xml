@@ -199,7 +199,7 @@
 		<property name="summary" value="Partner/Spouse Expense Included" />
 		<property name="description" value="Partner/Spouse Expense Included" />
 		<property name="control">
-      	<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
+      	<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
     </property>
 	</bean>
 	<bean id="TravelEntertainmentDocument-description" parent="TravelEntertainmentDocument-description-parentBean" />

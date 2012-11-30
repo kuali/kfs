@@ -95,7 +95,7 @@
 		<property name="summary" value="Country" />
         <property name="maxLength" value="50" />
 		<property name="description" value="Used to determine the rate of the currency for conversion" />
-		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder" p:includeKeyInLabel="false"/></property>
+		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder" p:includeKeyInLabel="false"/></property>
 	</bean>
 	<bean id="ActualExpense-expenseDate" parent="ActualExpense-expenseDate-parentBean" />
 	<bean id="ActualExpense-expenseDate-parentBean" parent="GenericAttributes-genericDate">

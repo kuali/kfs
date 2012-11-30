@@ -38,9 +38,9 @@
         </property>
     </bean>
 
-    <bean id="TravelMoudle-SearchingTypeDefinition-travelDocumentIdentifier" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-travelDocumentIdentifier" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="attributeName" value="travelDocumentIdentifier" />
                 <property name="showAttributeInSearchCriteria" value="true" />
                 <property name="showAttributeInResultSet" value="true" />
@@ -53,9 +53,9 @@
         </property>
     </bean>
 
-    <bean id="TravelMoudle-SearchingTypeDefinition-temProfileId" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-temProfileId" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="attributeName" value="temProfileId" />
             </bean>
         </property>
@@ -66,9 +66,9 @@
         </property>
     </bean>
     
-    <bean id="TravelMoudle-SearchingTypeDefinition-hostProfileId" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-hostProfileId" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="attributeName" value="hostProfileId" />
             </bean>
         </property>
@@ -79,9 +79,9 @@
         </property>
     </bean>
     
-    <bean id="TravelMoudle-SearchingTypeDefinition-eventTitle" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-eventTitle" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="attributeName" value="eventTitle"/>
             </bean>
         </property>
@@ -92,9 +92,9 @@
         </property>
     </bean>
     
-    <bean id="TravelMoudle-SearchingTypeDefinition-spouseIncludedForSearching" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-spouseIncludedForSearching" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="attributeName" value="spouseIncludedForSearching"/>
             </bean>
         </property>
@@ -105,9 +105,9 @@
         </property>
     </bean>
     
-    <bean id="TravelMoudle-SearchingTypeDefinition-reasonCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-reasonCode" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="attributeName" value="reasonCode"/>
             </bean>
         </property>
@@ -118,9 +118,9 @@
         </property>
     </bean>
     
-    <bean id="TravelMoudle-SearchingTypeDefinition-tripBegin" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-tripBegin" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="attributeName" value="tripBegin" />
             </bean>
         </property>
@@ -131,9 +131,9 @@
         </property>
     </bean>
 
-    <bean id="TravelMoudle-SearchingTypeDefinition-tripEnd" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-tripEnd" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="attributeName" value="tripEnd" />
             </bean>
         </property>
@@ -144,9 +144,9 @@
         </property>
     </bean>
 
-    <bean id="TravelMoudle-SearchingTypeDefinition-titleCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-titleCode" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="attributeName" value="titleCode"/>
             </bean>
         </property>
@@ -157,9 +157,9 @@
         </property>
     </bean>
 
-    <bean id="TravelMoudle-SearchingTypeDefinition-primaryDestinationName" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-primaryDestinationName" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="attributeName" value="primaryDestinationName" />
             </bean>
         </property>
@@ -170,9 +170,9 @@
         </property>
     </bean>
 
-    <bean id="TravelMoudle-SearchingTypeDefinition-tripTypeCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-tripTypeCode" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="attributeName" value="tripTypeCode" />
             </bean>
         </property>
@@ -183,9 +183,9 @@
         </property>
     </bean>
 
-    <bean id="TravelMoudle-SearchingTypeDefinition-traveler.travelerTypeCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-traveler.travelerTypeCode" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TravelerDetail" />
                 <property name="attributeName" value="travelerTypeCode" />
             </bean>
@@ -197,9 +197,9 @@
         </property>
     </bean>
 
-    <bean id="TravelMoudle-SearchingTypeDefinition-traveler.firstName" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-traveler.firstName" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TravelerDetail" />
                 <property name="attributeName" value="firstName" />
             </bean>
@@ -211,9 +211,9 @@
         </property>
     </bean>
 
-    <bean id="TravelMoudle-SearchingTypeDefinition-traveler.lastName" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-traveler.lastName" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TravelerDetail" />
                 <property name="attributeName" value="lastName" />
             </bean>
@@ -225,9 +225,9 @@
         </property>
     </bean>
     
-    <bean id="TravelMoudle-SearchingTypeDefinition-traveler.cityName" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-traveler.cityName" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TravelerDetail" />
                 <property name="attributeName" value="cityName" />
             </bean>
@@ -239,9 +239,9 @@
         </property>
     </bean>
 
-    <bean id="TravelMoudle-SearchingTypeDefinition-traveler.stateCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-traveler.stateCode" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TravelerDetail" />
                 <property name="attributeName" value="stateCode" />
             </bean>
@@ -253,9 +253,9 @@
         </property>
     </bean>
     
-    <bean id="TravelMoudle-SearchingTypeDefinition-traveler.countryCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-traveler.countryCode" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TravelerDetail" />
                 <property name="attributeName" value="countryCode" />
             </bean>
@@ -267,9 +267,9 @@
         </property>
     </bean>
 
-    <bean id="TravelMoudle-SearchingTypeDefinition-traveler.zipCode" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-traveler.zipCode" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.businessobject.TravelerDetail" />
                 <property name="attributeName" value="zipCode" />
             </bean>
@@ -281,9 +281,9 @@
         </property>
     </bean>
 
-    <bean id="TravelMoudle-SearchingTypeDefinition-primaryDestinationCountryState" class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    <bean id="TravelMoudle-SearchingTypeDefinition-primaryDestinationCountryState" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="attributeName" value="primaryDestinationCountryState" />
             </bean>
         </property>
@@ -295,9 +295,9 @@
     </bean>
 
     <bean id="TravelMoudle-SearchingTypeDefinition-sourceAccountingLines.financialObjectCode"
-        class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+        class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
         <property name="searchingAttribute">
-            <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+            <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                 <property name="businessObjectClassName" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
                 <property name="attributeName" value="financialObjectCode" />
                 <property name="showAttributeInResultSet" value="true" />
@@ -310,7 +310,7 @@
         </property>
     </bean>
 
-    <bean id="RoutingType-TravelAuthorizationDocument-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    <bean id="RoutingType-TravelAuthorizationDocument-OrganizationHierarchy" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
         <property name="routingAttributes">
             <list>
                 <ref bean="RoutingAttribute-financialDocumentTotalAmount" />
@@ -330,7 +330,7 @@
     <bean id="DocumentValuePathGroup-TravelAuthorizationDocument-OrganizationHierarchy-accountingLines"
         parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
         <property name="documentCollectionPath">
-            <bean class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath">
+            <bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath">
                 <property name="collectionPath" value="sourceAccountingLines" />
                 <property name="documentValues">
                     <list>

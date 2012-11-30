@@ -66,7 +66,7 @@
 					p:shortLabel="arrangers" p:elementLabel="arrangers" />
 				<bean parent="CollectionDefinition" p:name="accounts" p:label="accounts"
 					p:shortLabel="accounts" p:elementLabel="accounts" />
-				<bean parent="CollectionDefinition" p:name="boNotes" p:label="Notes" p:shortLabel="Notes" p:elementLabel="Notes"/>
+				<!-- <bean parent="CollectionDefinition" p:name="boNotes" p:label="Notes" p:shortLabel="Notes" p:elementLabel="Notes"/> -->
 			</list>
 		</property>
 		<property name="relationships">
@@ -210,7 +210,7 @@
 	</bean>
 
 	<bean id="TEMProfile-driversLicenseState" parent="TEMProfile-driversLicenseState-parentBean" />
-	<bean id="TEMProfile-driversLicenseState-parentBean" parent="DocAddress-stateCode">
+	<bean id="TEMProfile-driversLicenseState-parentBean" parent="State-code-parentBean">
 		<property name="name" value="driversLicenseState" />
 		<property name="label" value="Driver's License State" />
 		<property name="shortLabel" value="Driver's License State" />
@@ -256,7 +256,7 @@
 		<property name="description" value="Citizenship" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryNotRestrictedValuesFinder"
+				p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
@@ -364,7 +364,7 @@
 		<property name="name" value="temProfileAddress.countryCode" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryNotRestrictedValuesFinder"
+				p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
@@ -466,7 +466,7 @@
 		<property name="description" value="Non Resident Alien" />
 		<property name="control">
 			<bean parent="RadioControlDefinition" 
-				p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder"
+				p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorYNOnlyValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
@@ -746,14 +746,14 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="InquirySectionDefinition">
+				<!-- <bean parent="InquirySectionDefinition">
 					<property name="title" value="Notes" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
 							<bean parent="InquiryCollectionDefinition">
 								<property name="attributeName" value="boNotes" />
-								<property name="businessObjectClass" value="org.kuali.rice.kns.bo.Note" />
+								<property name="businessObjectClass" value="org.kuali.rice.krad.bo.Note" />
 								<property name="numberOfColumns" value="1" />
 								<property name="inquiryFields">
 									<list>
@@ -766,7 +766,7 @@
 							</bean>
 						</list>
 					</property>
-				</bean>
+				</bean> -->
 			</list>
 		</property>
 	</bean>

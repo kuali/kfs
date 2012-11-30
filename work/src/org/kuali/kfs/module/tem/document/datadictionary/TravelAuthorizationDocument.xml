@@ -260,7 +260,7 @@
 		<property name="description" value="Citizenship Country Code" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryNotRestrictedValuesFinder"
+				p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 		<property name="attributeSecurity">

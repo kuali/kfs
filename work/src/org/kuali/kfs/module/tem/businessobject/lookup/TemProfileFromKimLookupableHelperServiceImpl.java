@@ -31,6 +31,7 @@ import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.FieldDefinition;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -70,8 +71,8 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<TemProfileFromKimPerson> searchResults = new ArrayList<TemProfileFromKimPerson>();
 
-        final Map<String, String> kimFieldsForLookup = fieldValues;
-        //final Map<String, String> kimFieldsForLookup = this.getPersonFieldValues(fieldValues);
+        //final Map<String, String> kimFieldsForLookup = fieldValues;
+        final Map<String, String> kimFieldsForLookup = getPersonFieldValues(fieldValues);
 
         LOG.debug("Looking up people with criteria " + kimFieldsForLookup);
         final List<? extends Person> persons = personService.findPeople(kimFieldsForLookup);
@@ -99,54 +100,26 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
         return TemProfileFromKimPerson.class;
     }
 
-//    /**
-//     * Generates a {@link Map} of field values where object properties are mapped to values for
-//     * search purposes.
-//     *
-//     * @param fieldValues original field values passed to the lookup
-//     * @return Map of values
-//     */
-//    protected Map<String, String> getPersonFieldValues(final Map<String, String> fieldValues) {
-//        return convertFieldValues(PersonImpl.class, fieldValues);
-//    }
-//
-//    protected Map<String, String> convertFieldValues(final Class boClass, final Map<String, String> fieldValues) {
-//        Map<String, String> retval = new HashMap<String, String>();
-//
-//        debug("Converting field values ", fieldValues);
-//
-//        for (final FieldDefinition lookupField : getLookupFieldsFor(TravelerDetail.class.getName())) {
-//            final String attrName = lookupField.getAttributeName();
-//
-//            if (lookupField instanceof MappedDefinition) {
-//                final MappedDefinition mappedField = (MappedDefinition) lookupField;
-//                final String key = mappedField.getAttributeMap().get(boClass.getSimpleName());
-//                String value = fieldValues.get(attrName);
-//
-//                if (retval.containsKey(key)) {
-//                    value = retval.get(key) + value;
-//                }
-//                if (key != null) {
-//                    retval.put(key, value);
-//                }
-//                else {
-//                    warn("Got a null key for attribute name ", attrName);
-//                }
-//            }
-//            else if (containsAttribute(boClass, attrName)) {
-//                retval.put(attrName, fieldValues.get(attrName));
-//            }
-//        }
-//
-//        return retval;
-//    }
-
     /**
-     * @see org.kuali.rice.kns.datadictionary.DataDictionary#getBusinessObjectEntry(String)
+     * Generates a {@link Map} of field values where object properties are mapped to values for
+     * search purposes.
+     *
+     * @param fieldValues original field values passed to the lookup
+     * @return Map of values
      */
-    protected Collection<FieldDefinition> getLookupFieldsFor(final String className) {
-        BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry)getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(className);
-        return businessObjectEntry.getLookupDefinition().getLookupFields();
+    protected Map<String, String> getPersonFieldValues(final Map<String, String> fieldValues) {
+        BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry)getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(PersonImpl.class.getName());
+        Collection<FieldDefinition> lookupFields = businessObjectEntry.getLookupDefinition().getLookupFields();
+
+        Map<String, String> personFieldValues = new HashMap<String, String>();
+        for (final FieldDefinition lookupField : lookupFields) {
+            final String attrName = lookupField.getAttributeName();
+            if (containsAttribute(PersonImpl.class, attrName)) {
+                personFieldValues.put(attrName, fieldValues.get(attrName));
+            }
+        }
+
+        return personFieldValues;
     }
 
     /**

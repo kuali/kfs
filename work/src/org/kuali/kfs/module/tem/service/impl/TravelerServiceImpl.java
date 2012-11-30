@@ -334,7 +334,7 @@ public class TravelerServiceImpl implements TravelerService {
      */
     protected AccountsReceivableCustomerAddress getAddressFor(final AccountsReceivableCustomer customer, Integer addressId) {
         for (final AccountsReceivableCustomerAddress address : customer.getAccountsReceivableCustomerAddresses()) {
-            if (ObjectUtils.isNull(addressId) && "P".equals(address.getAccountsReceivableCustomerAddressType().getCustomerAddressTypeCode())) {
+            if (ObjectUtils.isNull(addressId) && TemConstants.CUSTOMER_PRIMARY_ADDRESS_TYPE_CODE.equals(address.getCustomerAddressTypeCode())) {
                 return address;
             } else if (address.getCustomerAddressIdentifier().equals(addressId)) {
             	return address;
@@ -427,7 +427,7 @@ public class TravelerServiceImpl implements TravelerService {
         }
         if (customerAddress == null){
             customerAddress = getAccountsReceivableModuleService().createCustomerAddress();
-            customerAddress.setCustomerAddressTypeCode("P");
+            customerAddress.setCustomerAddressTypeCode(TemConstants.CUSTOMER_PRIMARY_ADDRESS_TYPE_CODE);
             customerAddress.setCustomerAddressName(tempName);
             customer.setCustomerAddressChangeDate(dateTimeService.getCurrentSqlDate());
         } else {

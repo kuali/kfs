@@ -21,10 +21,11 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.kuali.rice.kim.framework.identity.employment.EntityEmploymentStatusEbo;
 import org.kuali.rice.kim.framework.identity.employment.EntityEmploymentTypeEbo;
 import org.kuali.rice.kim.impl.identity.employment.EntityEmploymentStatusBo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 
 @SuppressWarnings("restriction")
 public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
@@ -39,12 +40,12 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
     private String emailAddress;
     private String phoneNumber;
     private String employeeStatusCode;
-    protected EntityEmploymentStatusBo employeeStatus;
+    protected EntityEmploymentStatusEbo employeeStatus;
     protected String employeeTypeCode;
     protected EntityEmploymentTypeEbo employeeType;
     protected String primaryDepartmentCode;
     protected String campusCode;
-    protected Campus campus;
+    protected CampusEbo campus;
     protected boolean active;
 
 
@@ -244,7 +245,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
      */
     @ManyToOne
     @JoinColumn(name = "emp_status_cd")
-    public EntityEmploymentStatusBo getEmployeeStatus() {
+    public EntityEmploymentStatusEbo getEmployeeStatus() {
         return employeeStatus;
     }
 
@@ -341,7 +342,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
      */
     @ManyToOne
     @JoinColumn(name="campus_cd")
-    public Campus getCampus() {
+    public CampusEbo getCampus() {
         return campus;
     }
 
@@ -350,7 +351,7 @@ public class TemProfileFromKimPerson extends PersistableBusinessObjectBase {
      * Sets the campus attribute value.
      * @param campus The campus to set.
      */
-    public void setCampus(Campus campus) {
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 

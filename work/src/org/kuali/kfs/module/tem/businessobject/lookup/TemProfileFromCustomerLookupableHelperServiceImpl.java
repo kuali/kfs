@@ -101,18 +101,15 @@ public class TemProfileFromCustomerLookupableHelperServiceImpl extends KualiLook
         retval.putAll(convertFieldValues(getAccountsReceivableModuleService().createCustomer().getClass(), fieldValues, "", TemProfileFromCustomer.class.getName()));
         retval.putAll(convertFieldValues(getAccountsReceivableModuleService().createCustomerAddress().getClass(), fieldValues, "customerAddresses.", TemProfileFromCustomer.class.getName()));
         // Only looking for primary addresses currently. Will need to modify to search all addresses with KUALITEM-467
-        retval.put("customerAddresses.customerAddressTypeCode", "P");
+        retval.put(TemPropertyConstants.CUSTOMER_ADDRESS_ADDRESS_TYPE_CODE, TemConstants.CUSTOMER_PRIMARY_ADDRESS_TYPE_CODE);
 
         //Restrict the search to only return customers of type "Traveler"
         List<AccountsReceivableCustomerType> customerTypes = getAccountsReceivableModuleService().findByCustomerTypeDescription(TemConstants.CUSTOMER_TRAVLER_TYPE_CODE);
-
-        for (AccountsReceivableCustomerType customerType : customerTypes) {
-        	retval.put(TemPropertyConstants.CUSTOMER_TYPE_CODE, customerType.getCustomerTypeCode());
-        	break;
-        }
+        //should only have 1 with matching type description
+        retval.put(TemPropertyConstants.CUSTOMER_TYPE_CODE, customerTypes.get(0).getCustomerTypeCode());
 
         //Removing the customerEmailAddress so the search only happens with the email address in the customer address like the AR Customer search
-        retval.remove("customerEmailAddress");
+        retval.remove(TemPropertyConstants.CUSTOMER_EMAIL_ADDRESS);
 
         return retval;
     }

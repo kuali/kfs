@@ -345,6 +345,8 @@ public class TemPropertyConstants {
     public static final String TAXABLE_RAMIFICATION_NOTIFICATION_DATE = "taxRamificationNotificationDate";
     public static final String TRAVELER_DETAIL = "travelerDetail";
     public static final String CUSTOMER_TYPE_CODE = "customerTypeCode";
+    public static final String CUSTOMER_ADDRESS_ADDRESS_TYPE_CODE = "customerAddresses.customerAddressTypeCode";
+    public static final String CUSTOMER_EMAIL_ADDRESS =  "customerEmailAddress";
     public static final String NEW_ROUTE_STATUS = "newRouteStatus";
     public static final String OLD_ROUTE_STATUS = "oldRouteStatus";
 

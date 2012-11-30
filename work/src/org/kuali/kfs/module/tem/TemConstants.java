@@ -566,6 +566,7 @@ public class TemConstants {
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT_STRING);
 
     public static final String CUSTOMER_TRAVLER_TYPE_CODE = "Traveler";
+    public static final String CUSTOMER_PRIMARY_ADDRESS_TYPE_CODE = "P";
 
     public static final Integer DEFAULT_NOTIFICATION_DAYS = 120;
 

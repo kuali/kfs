@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="travelerDerivedRoleTypeService" p:localServiceName="travelerDerivedRoleTypeService" />
+
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="temProfileOrganizationHierarchyRoleTypeService" p:localServiceName="temProfileOrganizationHierarchyRoleTypeService" />
+
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="temProfileArrangerOrganizationHierarchyRoleTypeService" p:localServiceName="temProfileArrangerOrganizationHierarchyRoleTypeService" />
+
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="temInternationalTravelManagerService" p:localServiceName="temInternationalTravelManagerService" />
+
+	<bean parent="roleTypeServiceCallback" 
+		p:callbackService-ref="temProfileDerivedRoleTypeService" p:localServiceName="temProfileDerivedRoleTypeService" />
+                    
+    <bean parent="roleTypeServiceCallback" 
+        p:callbackService-ref="arrangerDerivedRoleTypeService" p:localServiceName="arrangerDerivedRoleTypeService" />
+
+    <bean parent="roleTypeServiceCallback" 
+        p:callbackService-ref="temExecutiveManagerService" p:localServiceName="temExecutiveManagerService" />
+       	 
+<!-- 	<bean parent="documentSearchCustomizerCallback" 
+		p:callbackService-ref="KFSPurapDocumentSearchCustomizer" p:localServiceName="KFSPurapDocumentSearchCustomizer" />
+	
+	<bean parent="searchableAttributeCallback" 
+		p:callbackService-ref="PurapFinancialSystemSearchableAttribute" p:localServiceName="PurapFinancialSystemSearchableAttribute" />
+
+	<bean parent="customActionListAttributeCallback" 
+		p:callbackService-ref="PurchaseOrderActionListAttribute" p:localServiceName="PurchaseOrderActionListAttribute" />
+
+ -->
+</beans>

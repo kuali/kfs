@@ -77,7 +77,7 @@ public class ExpenseImportByTravelerServiceTest extends KualiTestBase {
         Parameter param = parameterService.getParameter(PARAM_NAMESPACE, AgencyMatchProcessParameter.AGENCY_MATCH_DTL_TYPE, AgencyMatchProcessParameter.CTS_AIR_OBJECT_CODE);
         Parameter.Builder builder = Parameter.Builder.create(param);
         builder.setValue("5000");
-        businessObjectService.save(builder.build());
+        parameterService.updateParameter(builder.build());
 
         // success case
         agency = expenseImportByTravelerService.validateAccountingInfo(profile, agency);
@@ -112,7 +112,7 @@ public class ExpenseImportByTravelerServiceTest extends KualiTestBase {
         // test with an invalid object code
         profile = createTemProfile();
         builder.setValue("1");
-        businessObjectService.save(builder.build());
+        parameterService.updateParameter(builder.build());
         agency.setTripAccountingInformation(new ArrayList<TripAccountingInformation>());
         agency.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
         agency = expenseImportByTravelerService.validateAccountingInfo(profile, agency);

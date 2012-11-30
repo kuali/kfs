@@ -80,7 +80,7 @@ public class ParametersTest extends KualiTestBase {
         for (Class key : criteria.keySet()) {
             List<String> parameterList = getParametersByConstantClass(key);
             Parameter p = criteria.get(key);
-            badParameters.addAll(checkParameters(p.getParameterNamespaceCode(), p.getParameterDetailTypeCode(), parameterList));
+            badParameters.addAll(checkParameters(p.getNamespaceCode(), p.getComponentCode(), parameterList));
         }
 
         return badParameters;
@@ -89,23 +89,20 @@ public class ParametersTest extends KualiTestBase {
     /**
      * Convenience method to populate a new parameter with namespace code and detailtype code
      */
-    private Parameter setupParameter(String parameterNameSpace, String parameterDetailTypeCode) {
-        Parameter.Builder builder = new Parameter.Builder();
-        param.setParameterNamespaceCode(parameterNameSpace);
-        param.setParameterDetailTypeCode(parameterDetailTypeCode);
-
-        return param;
+    private Parameter setupParameter(String parameterNameSpace, String componentCode) {
+        Parameter.Builder builder = Parameter.Builder.create("KFS", parameterNameSpace, componentCode, "", null);
+        return builder.build();
     }
 
     /**
      * Perform parameter lookup
      */
-    private List<String> checkParameters(String paramNamespace, String parameterDetailTypeCode, List<String> parameterList) {
+    private List<String> checkParameters(String paramNamespace, String componentCode, List<String> parameterList) {
         List<String> badParameters = new ArrayList<String>();
 
         if (parameterList != null) {
             for (String parameterName : parameterList) {
-                Parameter p = parameterService.getParameter(paramNamespace, parameterDetailTypeCode, parameterName);
+                Parameter p = parameterService.getParameter(paramNamespace, componentCode, parameterName);
                 if (p == null) {
                     badParameters.add(parameterName);
                 }

@@ -126,8 +126,8 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     public AccountsReceivableCustomer findCustomer(String customerNumber) {
     	Map<String, Object> primaryKey = new HashMap<String, Object>();
     	primaryKey.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
-
-        return getKualiModuleService().getResponsibleModuleService(Customer.class).getExternalizableBusinessObject(Customer.class, primaryKey);
+        Customer customer = getKualiModuleService().getResponsibleModuleService(Customer.class).getExternalizableBusinessObject(Customer.class, primaryKey);
+        return customer;
     }
 
     /**

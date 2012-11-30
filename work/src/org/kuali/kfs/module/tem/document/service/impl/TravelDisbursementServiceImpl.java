@@ -40,6 +40,7 @@ import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipS
 import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingLineDistributionKey;
+import org.kuali.kfs.module.tem.rule.event.BlanketApproveDocumentWithoutRuleEvent;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -58,9 +59,13 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.SessionDocumentService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
@@ -339,7 +344,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
                     disbursementVoucherDocument.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
 
                     String annotation= String.format("Blanket Approved by system for %s Document: %s",  travelDocumentService.getDocumentType(document), document.getDocumentNumber());
-                    documentService.blanketApproveDocument(disbursementVoucherDocument, annotation, null);
+                    blanketApproveDocumentWithoutRule(disbursementVoucherDocument, annotation);
 
                     final String noteText = String.format("DV Document %s was system generated and blanket approved", disbursementVoucherDocument.getDocumentNumber());
                     final Note noteToAdd = documentService.createNoteFromDocument(document, noteText);
@@ -456,6 +461,23 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
                 remainder = remainder.subtract(line.getAmount());
             }
         }
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#blanketApproveDocumentWithoutRule(org.kuali.rice.krad.document.Document, java.lang.String)
+     */
+    @Override
+    public Document blanketApproveDocumentWithoutRule(Document document, String annotation) throws ValidationException, WorkflowException {
+        document.prepareForSave();
+
+        // using the new Event which does not invoke approve rule nor generate the route event
+        documentService.validateAndPersistDocument(document, new BlanketApproveDocumentWithoutRuleEvent(document));
+        documentService.prepareWorkflowDocument(document);
+        KRADServiceLocatorWeb.getWorkflowDocumentService().blanketApprove(document.getDocumentHeader().getWorkflowDocument(), annotation, null);
+
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        SpringContext.getBean(SessionDocumentService.class).addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDocument);
+        return document;
     }
 
     public void setDateTimeService(DateTimeService dateTimeService) {

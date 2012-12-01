@@ -1474,7 +1474,17 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
 
         SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(this, (AccountingLine)postable, explicitEntry, getPurapDocumentIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.PO_DOCUMENT, true);
 
-        KualiDecimal accountTotalGLEntryAmount = this.getAccountTotalGLEntryAmount((AccountingLine)postable);
+        KualiDecimal accountTotalGLEntryAmount = KualiDecimal.ZERO;
+
+        //KFSMI-9842: if the entry's financial document type is POA then generate GLPEs only
+        //for the updated amount or new items, not for the entire items' accounts.
+        if (PurapDocTypeCodes.PO_AMENDMENT_DOCUMENT.equals(explicitEntry.getFinancialDocumentTypeCode())) {
+            accountTotalGLEntryAmount = explicitEntry.getTransactionLedgerEntryAmount();
+        }
+        else {
+            accountTotalGLEntryAmount = this.getAccountTotalGLEntryAmount((AccountingLine)postable);
+        }
+
         explicitEntry.setTransactionLedgerEntryAmount(accountTotalGLEntryAmount);
         String debitCreditCode = GL_DEBIT_CODE;
 

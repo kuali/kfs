@@ -1,0 +1,12 @@
+<Record name="tem_mileage_rate_t" type="delimited">
+  <Field name="id"                              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="nm"                              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="rate"                            type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="actv_from_dt"                    type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="actv_to_dt"                      type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="actv_ind"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="min_miles"                       type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="max_miles"                       type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

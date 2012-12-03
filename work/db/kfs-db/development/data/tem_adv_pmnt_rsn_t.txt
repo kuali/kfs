@@ -1,0 +1,7 @@
+code|description|actv_ind|ver_nbr|obj_id|
+01|Special handling, group leader|Y|1.0|BD96AA2416495898E040540A5EFD3A74|
+02|Not eligible for corporate card program, students and non-employees|Y|1.0|BD96AA24164A5898E040540A5EFD3A74|
+03|Corporate card not yet issued/rejected|Y|1.0|BD96AA24164B5898E040540A5EFD3A74|
+04|Expenses incurred before trip that need to be paid|Y|1.0|BD96AA24164C5898E040540A5EFD3A74|
+05|Foreign travel - Per Diem|Y|1.0|BD96AA24164D5898E040540A5EFD3A74|
+06|Other (requires free form text)|Y|1.0|BD96AA24164E5898E040540A5EFD3A74|

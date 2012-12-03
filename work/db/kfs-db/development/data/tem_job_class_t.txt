@@ -1,0 +1,5 @@
+job_cls_cd|job_cls_nm|row_actv_ind|ver_nbr|obj_id|
+AP|Academic Personnel|Y|1.0|BD96AA2416555898E040540A5EFD3A74|
+MSP|Management/Senior Professional|Y|1.0|BD96AA2416535898E040540A5EFD3A74|
+PSS|Professional Support Staff|Y|1.0|BD96AA2416545898E040540A5EFD3A74|
+TA|Teaching Assistants|Y|1.0|BD96AA2416565898E040540A5EFD3A74|

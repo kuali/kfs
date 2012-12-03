@@ -1,0 +1,8 @@
+<Record name="tem_relo_reason_t" type="delimited">
+  <Field name="relo_reason_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="relo_reason_nm"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="relo_reason_descr"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

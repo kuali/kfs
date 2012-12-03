@@ -1,0 +1,2 @@
+id|trip_typ_cd|country|country_nm|county_cd|pri_dest|ssn_bgn_dt|effect_from_dt|effect_to_dt|load_dt|ssn_bgn_month_day|bkfst|lunch|din|lodging|inc|meals_inc|actv_ind|ver_nbr|obj_id|
+2.147483647E9|IN|***|***|***|Record used for custom per diems||||||0.0|0.0|0.0|0.0|0.0|0.0|Y|1.0|BD96AA2416625898E040540A5EFD3A74|

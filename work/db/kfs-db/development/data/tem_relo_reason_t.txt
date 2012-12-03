@@ -1,0 +1,5 @@
+relo_reason_cd|relo_reason_nm|relo_reason_descr|row_actv_ind|ver_nbr|obj_id|
+HH|House Hunting||Y|1.0|BD96AA24164F5898E040540A5EFD3A74|
+IC|Inter Campus Transfer||Y|1.0|BD96AA2416525898E040540A5EFD3A74|
+NH|New Hire||Y|1.0|BD96AA2416505898E040540A5EFD3A74|
+RM|Removal||Y|1.0|BD96AA2416515898E040540A5EFD3A74|

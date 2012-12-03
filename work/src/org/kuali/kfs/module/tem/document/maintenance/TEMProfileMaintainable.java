@@ -233,13 +233,6 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
                     profile.setCustomerNumber(newCustNumber);
                     profile.getCustomer().setCustomerNumber(newCustNumber);
 
-                    //Add note to indicate a customer has been generated for this profile (BO)
-                    Note noteObj = addCustomerCreatedNote(profile);
-                    List<Note> noteList = getNoteService().getByRemoteObjectId(profile.getObjectId());
-                    noteList.add(noteObj);
-                    getNoteService().saveNoteList(noteList);
-                    getNoteService().save(noteObj);
-
                     try {
                     	//Add note to indicate a customer has been generated for this profile to the document
                     	MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(getDocumentNumber());

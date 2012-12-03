@@ -57,8 +57,6 @@
     <class-descriptor class="org.kuali.kfs.module.tem.businessobject.TemProfileEmergencyContact" table="TEM_PROFILE_EM_CONT_T">
         <field-descriptor name="id" primarykey="true" sequence-name="TEM_PROFILE_EM_CONT_ID_SEQ" autoincrement="true" column="id" jdbc-type="INTEGER"/>
         <field-descriptor name="profileId" column="TEM_PROFILE_ID" jdbc-type="INTEGER"/>
-        <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR"/>
-        <field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER"/>
         <field-descriptor name="contactRelationTypeCode" column="CONT_REL_TYP_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="contactName" column="CONT_NM" jdbc-type="VARCHAR"/>
         <field-descriptor name="phoneNumber" column="PHONE_NBR" jdbc-type="VARCHAR"/>

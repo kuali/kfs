@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,20 +23,20 @@ import javax.persistence.Table;
 
 /**
  * Emergency Contact
- * 
+ *
  */
 @Entity
-@Table(name="tem_profile_em_cont_t")
+@Table(name="TEM_PROFILE_EM_CONT_T")
 public class TemProfileEmergencyContact extends EmergencyContact {
-    private TEMProfile profile; 
+    private TEMProfile profile;
     private Integer profileId;
-    
+
     @ManyToOne
     @JoinColumn(name="tem_profile_id")
     public TEMProfile getProfile() {
         return profile ;
     }
-    
+
     public void setProfile(TEMProfile profile) {
         this.profile = profile;
     }
@@ -48,5 +48,5 @@ public class TemProfileEmergencyContact extends EmergencyContact {
 
     public void setProfileId(Integer profileId) {
         this.profileId = profileId;
-    }    
+    }
 }

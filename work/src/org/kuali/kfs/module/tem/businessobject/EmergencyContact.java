@@ -31,8 +31,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 public abstract class EmergencyContact extends PersistableBusinessObjectBase {
 
     private Integer id;
-    private String documentNumber;
-    private Integer financialDocumentLineNumber;
+
     private boolean primary;
     private String contactRelationTypeCode;
     private ContactRelationType contactRelationType;
@@ -48,45 +47,6 @@ public abstract class EmergencyContact extends PersistableBusinessObjectBase {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    /**
-     * Gets the documentNumber attribute.
-     *
-     * @return Returns the documentNumber
-     */
-    @Column(name="FDOC_NBR")
-    public String getDocumentNumber() {
-        return documentNumber;
-    }
-
-
-    /**
-     * Sets the documentNumber attribute.
-     *
-     * @param documentNumber The documentNumber to set.
-     */
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
-    }
-
-    /**
-     * Gets the financialDocumentLineNumber attribute.
-     *
-     * @return Returns the financialDocumentLineNumber
-     */
-    @Column(name="FDOC_LINE_NBR")
-    public Integer getFinancialDocumentLineNumber() {
-        return financialDocumentLineNumber;
-    }
-
-    /**
-     * Sets the financialDocumentLineNumber attribute.
-     *
-     * @param financialDocumentLineNumber The financialDocumentLineNumber to set.
-     */
-    public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
-        this.financialDocumentLineNumber = financialDocumentLineNumber;
     }
 
     @Column(name="cont_rel_typ_cd",length=3,nullable=false)
@@ -168,6 +128,5 @@ public abstract class EmergencyContact extends PersistableBusinessObjectBase {
     public void setPrimary(boolean primary) {
         this.primary = primary;
     }
-
 
 }

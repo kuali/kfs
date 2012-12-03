@@ -66,8 +66,9 @@
 					p:shortLabel="arrangers" p:elementLabel="arrangers" />
 				<bean parent="CollectionDefinition" p:name="accounts" p:label="accounts"
 					p:shortLabel="accounts" p:elementLabel="accounts" />
-				<!-- <bean parent="CollectionDefinition" p:name="boNotes" p:label="Notes" p:shortLabel="Notes" p:elementLabel="Notes"/> -->
-			</list>
+ 				<bean parent="CollectionDefinition" p:name="boNotes" p:label="Notes" 
+                    p:shortLabel="Notes" p:elementLabel="Notes"/>
+            </list>
 		</property>
 		<property name="relationships">
 			<list>
@@ -621,7 +622,6 @@
 
 	<bean id="TEMProfile-versionNumber" parent="GenericAttributes-versionNumber" />
 
-
 	<bean id="TEMProfile-inquiryDefinition" parent="TEMProfile-inquiryDefinition-parentBean" />
 	<bean id="TEMProfile-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition">
@@ -681,8 +681,6 @@
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="id" />
-										<bean parent="FieldDefinition" p:attributeName="documentNumber" />
-										<bean parent="FieldDefinition" p:attributeName="financialDocumentLineNumber" />
 										<bean parent="FieldDefinition" p:attributeName="contactRelationTypeCode" />
 										<bean parent="FieldDefinition" p:attributeName="contactName" />
 										<bean parent="FieldDefinition" p:attributeName="phoneNumber" />
@@ -736,17 +734,6 @@
 					</property>
 				</bean>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Administrator" />
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<!--bean parent="FieldDefinition" p:attributeName="principalId" /-->
-							<!--bean parent="FieldDefinition" p:attributeName="customerNumber" /-->
-							<!--bean parent="FieldDefinition" p:attributeName="active" /-->
-						</list>
-					</property>
-				</bean>
-				<!-- <bean parent="InquirySectionDefinition">
 					<property name="title" value="Notes" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
@@ -766,7 +753,7 @@
 							</bean>
 						</list>
 					</property>
-				</bean> -->
+				</bean>
 			</list>
 		</property>
 	</bean>

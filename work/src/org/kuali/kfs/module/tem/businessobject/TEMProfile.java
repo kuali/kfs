@@ -38,6 +38,8 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
@@ -73,7 +75,8 @@ public class TEMProfile extends BaseTemProfile {
     private String achSignUp;
     private String achTransactionType;
 
-    private ArrayList<TemProfileEmergencyContact> emergencyContacts;
+    private List<TemProfileEmergencyContact> emergencyContacts;
+    private List<Note> boNotes;
 
     public TEMProfile() {
         super();
@@ -579,13 +582,35 @@ public class TEMProfile extends BaseTemProfile {
 		this.accounts = accounts;
 	}
 
-    public ArrayList<TemProfileEmergencyContact> getEmergencyContacts() {
+    public List<TemProfileEmergencyContact> getEmergencyContacts() {
         return emergencyContacts;
     }
 
 
-    public void setEmergencyContacts(ArrayList<TemProfileEmergencyContact> emergencyContacts) {
+    public void setEmergencyContacts(List<TemProfileEmergencyContact> emergencyContacts) {
         this.emergencyContacts = emergencyContacts;
+    }
+
+    /**
+     * Set Notes related to this BO
+     *
+     * @return
+     */
+    public void setBoNotes(List<Note>notes){
+        this.boNotes = notes;
+    }
+
+    /**
+     * Get Notes related to this BO
+     *
+     * @return
+     */
+    public List<Note> getBoNotes(){
+        if (ObjectUtils.isNull(boNotes)){
+            List<Note> noteList = KRADServiceLocator.getNoteService().getByRemoteObjectId(getObjectId());
+            boNotes = noteList;
+        }
+        return boNotes;
     }
 
 }

@@ -164,6 +164,7 @@
         <property name="summary" value="Version Number" />
         <property name="description" value="Version Number" />
     </bean>
+    
     <bean id="EmergencyContact-inquiryDefinition" parent="EmergencyContact-inquiryDefinition-parentBean" />
     <bean id="EmergencyContact-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
         <property name="title" value="Emergency Contact Inquiry"/>

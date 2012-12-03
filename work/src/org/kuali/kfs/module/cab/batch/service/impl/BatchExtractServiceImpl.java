@@ -64,7 +64,6 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -441,10 +440,10 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 // update negative and positive GL entry once again
                 if (positiveEntry != null && negativeEntry != null) {
 
-                    fixGlEntryAmountWithGlPendingEntryAmount(positiveEntry);
+                    fixCabGlEntryAmountWithGlEntryAmount(positiveEntry);
                     businessObjectService.save(positiveEntry);
 
-                    fixGlEntryAmountWithGlPendingEntryAmount(negativeEntry);
+                    fixCabGlEntryAmountWithGlEntryAmount(negativeEntry);
                     businessObjectService.save(negativeEntry);
                 }
 
@@ -463,17 +462,17 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     }
 
     /**
-     * Helper method to find the GLPE matching the current entry and get total glpe's amount and
+     * Helper method to find the GL Entry matching the current entry and get total gl's amount and
      * set that amount as the transaction ledger entry amount on the current entry.
      *
      * @param currentEntry
      */
-    protected void fixGlEntryAmountWithGlPendingEntryAmount(GeneralLedgerEntry currentEntry) {
-        Collection<GeneralLedgerPendingEntry> matchingGlPendingEntries = extractDao.findMatchingGlPendingEntries(currentEntry);
+    protected void fixCabGlEntryAmountWithGlEntryAmount(GeneralLedgerEntry currentEntry) {
+        Collection<Entry> matchingGlEntries = extractDao.findMatchingGLEntries(currentEntry);
 
         KualiDecimal glPendingEntryAmount = KualiDecimal.ZERO;
 
-        for (GeneralLedgerPendingEntry glEntry : matchingGlPendingEntries) {
+        for (Entry glEntry : matchingGlEntries) {
             glPendingEntryAmount = glPendingEntryAmount.add(glEntry.getTransactionLedgerEntryAmount());
         }
 

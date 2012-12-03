@@ -34,7 +34,6 @@ import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
@@ -192,7 +191,7 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
     /**
      * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findMatchingGlPendingEntry(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
      */
-    public Collection<GeneralLedgerPendingEntry> findMatchingGlPendingEntries(GeneralLedgerEntry currentEntry) {
+    public Collection<Entry> findMatchingGLEntries(GeneralLedgerEntry currentEntry) {
         Criteria criteria = new Criteria();
 
         criteria.addEqualTo(CabPropertyConstants.GeneralLedgerEntry.DOCUMENT_NUMBER, currentEntry.getDocumentNumber());
@@ -211,10 +210,10 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
         criteria.addEqualTo(CabPropertyConstants.GeneralLedgerEntry.SUB_ACCOUNT_NUMBER, currentEntry.getSubAccountNumber());
         criteria.addEqualTo(CabPropertyConstants.GeneralLedgerEntry.TRANSACTION_DEBIT_CREDIT_CODE, currentEntry.getTransactionDebitCreditCode());
 
-        QueryByCriteria query = new QueryByCriteria(GeneralLedgerPendingEntry.class, criteria);
+        QueryByCriteria query = new QueryByCriteria(Entry.class, criteria);
         query.addOrderByAscending(CabPropertyConstants.GeneralLedgerEntry.ACCOUNT_NUMBER);
-        Collection<GeneralLedgerPendingEntry> matchingPendingEntries = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        Collection<Entry> matchingGlEntries = getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
-        return matchingPendingEntries;
+        return matchingGlEntries;
     }
 }

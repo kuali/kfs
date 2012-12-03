@@ -23,7 +23,6 @@ import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 
 public interface ExtractDao {
     /**
@@ -60,10 +59,10 @@ public interface ExtractDao {
     Collection<PurchaseOrderAccount> findPreTaggablePOAccounts(BatchParameters batchParameters);
 
     /**
-     * This method finds the matching gl pending entry for the given current entry and returns the entry.
+     * This method finds the matching gl entry for the given current entry and returns the entry.
      *
      * @param currentEntry
      * @return List of matching gl pending entry
      */
-    Collection<GeneralLedgerPendingEntry> findMatchingGlPendingEntries(GeneralLedgerEntry currentEntry);
+    Collection<Entry> findMatchingGLEntries(GeneralLedgerEntry currentEntry);
 }

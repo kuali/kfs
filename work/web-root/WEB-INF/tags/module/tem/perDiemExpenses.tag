@@ -220,7 +220,7 @@
 											<c:set var="mileageSelected" value="selected" />
 										</c:if>
 
-										<option value="${option.key}"${mileageSelected}>${option.label}</option>
+										<option value="${option.key}"${mileageSelected}>${option.value}</option>
 									</c:forEach>
 								</html:select> 
 								<c:if test="${fn:length(temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.MileageRateValuesFinder', paramMap)) == 0}">

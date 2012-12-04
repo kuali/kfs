@@ -47,7 +47,7 @@
 							<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.TravelExpenseTypeValuesFinder', paramMap)}" var="option">						
 								<c:set var="isSelected" value="${detailObject.travelCompanyCodeCode == option.key}" />
 								<%-- Populate the value that was previously selected before error occurred --%>
-								<option value="${option.key}" ${isSelected?'selected=true':'' }>${option.label}</option>
+								<option value="${option.key}" ${isSelected?'selected=true':'' }>${option.value}</option>
 							</c:forEach>
 						</html:select>
 						<c:forEach items="${ErrorPropertyList}" var="key">

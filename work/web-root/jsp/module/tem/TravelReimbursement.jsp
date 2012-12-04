@@ -56,10 +56,7 @@
     <gl:generalLedgerPendingEntries />
     <tem:relatedDocuments />
 
-	<kul:notes
-	notesBo="${KualiForm.document.documentBusinessObject.boNotes}"
-	noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"
-	attachmentTypesValuesFinderClass="${DataDictionary.TravelReimbursementDocument.attachmentTypesValuesFinderClass}" />  
+	<kul:notes attachmentTypesValuesFinderClass="${DataDictionary.TravelReimbursementDocument.attachmentTypesValuesFinderClass}" />  
     
     <kul:adHocRecipients />
 

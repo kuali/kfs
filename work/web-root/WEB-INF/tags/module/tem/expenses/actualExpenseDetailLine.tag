@@ -56,7 +56,7 @@
 					property="${detail}.travelCompanyCodeCode">
 					<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.TravelExpenseTypeValuesFinder', paramMap)}" var="option">
 						<c:set var="isSelected" value="${detailObject.travelCompanyCodeCode == option.key}" />
-						<option value="${option.key}" ${isSelected?'selected=true':'' }>${option.label}</option>
+						<option value="${option.key}" ${isSelected?'selected=true':'' }>${option.value}</option>
 					</c:forEach>
 				</html:select>
 			</c:otherwise>
@@ -88,7 +88,7 @@
 						<c:set var="mileageSelected" value="selected" />
 					</c:if>
 
-					<option value="${option.key}"${mileageSelected}>${option.label}</option>
+					<option value="${option.key}"${mileageSelected}>${option.value}</option>
 				</c:forEach>
 			</html:select> 
 			<c:if test="${fn:length(temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.MileageRateValuesFinder', paramMap)) == 0}">
@@ -154,7 +154,7 @@
 					<html:select property="${detail}.classOfServiceCode" disabled="${!fullEntryMode}">
 						<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.ClassOfServiceValuesFinder', paramMap)}" var="option">
 							<c:set var="isSelected" value="${detailObject.classOfServiceCode == option.key}" />
-							<option value="${option.key}" ${isSelected?'selected=true':'' }>${option.label}</option>
+							<option value="${option.key}" ${isSelected?'selected=true':'' }>${option.value}</option>
 						</c:forEach>
 					</html:select>
 				</c:when>
@@ -173,7 +173,7 @@
 					<html:select property="${detail}.classOfServiceCode" disabled="${!fullEntryMode}">
 						<c:forEach items="${temfunc:getOptionList('org.kuali.kfs.module.tem.businessobject.options.ClassOfServiceValuesFinder', paramMap)}" var="option">
 							<c:set var="isSelected" value="${detailObject.classOfServiceCode == option.key}" />
-							<option value="${option.key}" ${isSelected?'selected=true':'' }>${option.label}</option>
+							<option value="${option.key}" ${isSelected?'selected=true':'' }>${option.value}</option>
 						</c:forEach>
 					</html:select>
 				</c:when>

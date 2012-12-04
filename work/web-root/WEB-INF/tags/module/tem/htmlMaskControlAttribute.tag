@@ -170,13 +170,13 @@
 			   	
 			   	    if(collection != null && collection.size() > 0) {
 			   		  for(Object obj : collection) {
-				   	    org.kuali.rice.core.util.KeyLabelPair pair = (org.kuali.rice.core.util.KeyLabelPair) obj;
+			   		    org.kuali.rice.core.api.util.KeyValue pair = (org.kuali.rice.core.api.util.KeyValue) obj;
 				   	    for (Object val : propertyValue) {
 					   	  if(pair.getKey() != null && pair.getKey().toString().equals(val)) {
 					   	    if (!selectedOptionDescription.trim().equals("")) {
 					   	      selectedOptionDescription += "<br />";
 					   	    }
-					   	    selectedOptionDescription += pair.getLabel();
+					   	    selectedOptionDescription += pair.getValue();
 					   	    break;
 					   	  }
 				   	    }
@@ -237,7 +237,7 @@
                   <c:set var="methodAndParms" value="actionFormUtilMap.getOptionsMap${Constants.ACTION_FORM_UTIL_MAP_METHOD_PARM_DELIMITER}${finderClass}"/>
               	</c:otherwise>
            	  </c:choose>
-              <html:optionsCollection property="${methodAndParms}" label="label" value="key"/>
+              <html:optionsCollection property="${methodAndParms}" label="value" value="key"/>
             </html:select>
     </c:when>
 
@@ -281,10 +281,10 @@
    	    </c:choose>
 
        	<logic:iterate name="KualiForm" property="${methodAndParms}" id="KeyValue">
-       		<c:set var="accessibleRadioTitle" value="${accessibleTitle} - ${KeyValue.label}"/>
+       		<c:set var="accessibleRadioTitle" value="${accessibleTitle} - ${KeyValue.value}"/>
             <html:radio property="${property}" style="${textStyle}" title="${accessibleRadioTitle}" tabindex="${tabindex}"
             	value="key" idName="KeyValue" disabled="${disableField}" onclick="${onchange}"
-            	styleClass="${styleClass}"/>${KeyValue.label}
+            	styleClass="${styleClass}"/>${KeyValue.value}
         </logic:iterate>
     </c:when>
 

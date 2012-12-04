@@ -42,7 +42,7 @@
             </th>
             <td class="datacell" colspan="3">
             	<div align="left">
-            		<kul:htmlControlAttribute attributeEntry="${travelerAttributes.travelerType.name}" property="document.traveler.travelerType.name" readOnly="true"/>
+            		<kul:htmlControlAttribute attributeEntry="${DataDictionary.TravelerType.attributes.name}" property="document.traveler.travelerType.name" readOnly="true"/>
             	</div>                 
             </td>
        </tr>

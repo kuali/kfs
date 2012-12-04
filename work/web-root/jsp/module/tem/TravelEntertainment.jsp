@@ -37,10 +37,9 @@
     <tem:assignAccounts />
     <tem:accountingLines/>
     <gl:generalLedgerPendingEntries />
-    <tem:relatedDocuments />
+    <tem:relatedDocuments /> 
     
-	<kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"
-	attachmentTypesValuesFinderClass="${DataDictionary.TravelEntertainmentDocument.attachmentTypesValuesFinderClass}" />
+	<kul:notes attachmentTypesValuesFinderClass="${DataDictionary.TravelEntertainmentDocument.attachmentTypesValuesFinderClass}" />
 	
  	<kul:adHocRecipients />
 

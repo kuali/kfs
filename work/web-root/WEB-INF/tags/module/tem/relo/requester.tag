@@ -44,7 +44,7 @@
             <th class="bord-l-b"><div align="right">Requester Type:</div></th>
             <td class="datacell" colspan="3">
             	<div align="left">
-			    	<kul:htmlControlAttribute attributeEntry="${requesterAttributes.travelerType.name}" property="document.traveler.travelerType.name" readOnly="true"/>
+			    	<kul:htmlControlAttribute attributeEntry="${DataDictionary.TravelerType.attributes.name}" property="document.traveler.travelerType.name" readOnly="true"/>
 				</div>
             </td>
         </tr>
@@ -61,7 +61,7 @@
             	<div align="right">Preparer:</div>
             </th>
             <td class="datacell">
-            	<kul:htmlControlAttribute attributeEntry="${documentAttributes.preparer}" property="document.preparer" readOnly="true"/>
+            	${KualiForm.document.preparer}
 			</td>            
 		</tr>
        	<tr>

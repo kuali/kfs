@@ -32,23 +32,17 @@
 					</tr>
 					<tr>
 						<th class="bord-l-b"><div align="right">Less CTS Charges: -</div></th>
-					    <td><kul:htmlControlAttribute
-							attributeEntry="${documentAttributes.CTSTotal}"
-							property="document.CTSTotal" readOnly="true" /></td>
+					    <td><bean:write name="KualiForm" property="document.CTSTotal" /></td>
 					</tr>
 					<c:if test="${KualiForm.showCorporateCardTotal}">
 						<tr>
 						    <th class="bord-l-b"><div align="right">Amount due Corporate Credit Card: -</div></th>
-						    <td><kul:htmlControlAttribute
-								attributeEntry="${documentAttributes.CorporateCardTotal}"
-								property="document.CorporateCardTotal" readOnly="true" /></td>
+						    <td><bean:write name="KualiForm" property="document.corporateCardTotal" /></td>
 						</tr>
 					</c:if>
 					<tr>
 			             <th class="bord-l-b"><div align="right">Less Non-Reimbursable: -</div></th>
-			             <td><kul:htmlControlAttribute
-							attributeEntry="${documentAttributes.nonReimbursableTotal}"
-							property="document.nonReimbursableTotal" readOnly="true" /></td>
+			             <td><bean:write name="KualiForm" property="document.nonReimbursableTotal" /></td>
 		           </tr>
 <!-- 					<tr> -->
 <!-- 						<th> -->

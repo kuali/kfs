@@ -27,7 +27,7 @@ import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.web.bean.TravelReimbursementMvcWrapperBean;
 import org.kuali.kfs.module.tem.document.web.struts.AddActualExpenseEvent;
-import org.kuali.kfs.module.tem.test.infrastructure.TemUnitTestBase;
+import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.impl.KualiRuleServiceImpl;
@@ -36,7 +36,7 @@ import org.kuali.rice.krad.service.impl.KualiRuleServiceImpl;
  * Tests execution of the {@link AddActualExpenseEvent}
  *
  */
-public class AddActualExpenseEventTest extends TemUnitTestBase {
+public class AddActualExpenseEventTest extends KualiTestBase {
     private AddActualExpenseEvent event;
 
     @Override

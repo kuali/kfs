@@ -29,7 +29,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jetty.util.log.Log;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
@@ -54,6 +54,8 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
  */
 @ConfigureContext
 public class TravelDocumentServiceTest extends KualiTestBase {
+
+    private static final Logger LOG = Logger.getLogger(TravelDocumentServiceTest.class);
 
     private TravelDocumentService travelDocumentService;
     private ParameterService parameterService;
@@ -87,6 +89,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                 if(method.getName().equals("newperDiemExpense")) {
                     PerDiemExpense perDiemExpense = new PerDiemExpense() {
+                        @Override
                         public void refreshReferenceObject(String refObject) {
                             if(refObject.equals("mileageRate")) {
                                 MileageRate rate = new MileageRate();
@@ -116,6 +119,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
      */
     public final void testCalculateDailyTotal_oneDay() {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
+            @Override
             public void refreshReferenceObject(String refObject) {
                 if(refObject.equals("mileageRate")) {
                     MileageRate rate = new MileageRate();
@@ -164,6 +168,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
      */
     public final void testCalculateDailyTotal_oneDayProrate() {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
+            @Override
             public void refreshReferenceObject(String refObject) {
                 if(refObject.equals("mileageRate")) {
                     MileageRate rate = new MileageRate();
@@ -201,6 +206,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
      */
     public final void testCalculateDailyTotals_threeDays() {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
+            @Override
             public void refreshReferenceObject(String refObject) {
                 if(refObject.equals("mileageRate")) {
                     MileageRate rate = new MileageRate();
@@ -296,6 +302,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
      */
     public final void testUpdatePerDiemExpenses_addDay() {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
+            @Override
             public void refreshReferenceObject(String refObject) {
                 if(refObject.equals("mileageRate")) {
                     MileageRate rate = new MileageRate();
@@ -370,6 +377,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
      */
     public final void testUpdatePerDiemExpenses_shiftAndAddADay() {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
+            @Override
             public void refreshReferenceObject(String refObject) {
                 if(refObject.equals("mileageRate")) {
                     MileageRate rate = new MileageRate();
@@ -561,6 +569,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
      */
     private PerDiemExpense copyPerDiem(PerDiemExpense perDiemExpense) {
         PerDiemExpense currentPerDiemExpense = new PerDiemExpense() {
+            @Override
             public void refreshReferenceObject(String refObject) {
                 if(refObject.equals("mileageRate")) {
                     MileageRate rate = new MileageRate();
@@ -594,6 +603,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
      */
     private List<PerDiemExpense> createAListOfPerDiems() {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
+            @Override
             public void refreshReferenceObject(String refObject) {
                 if(refObject.equals("mileageRate")) {
                     MileageRate rate = new MileageRate();
@@ -660,6 +670,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
      */
     public final void testCalculateMileage_mileageRatePresent() {
         ActualExpense actualExpense = new ActualExpense() {
+            @Override
             public void refreshReferenceObject(String refObject) {
                 if(refObject.equals("mileageRate")) {
                     MileageRate rate = new MileageRate();
@@ -693,6 +704,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
      */
     public final void testCalculateExpenseAmountTotalForMileage() {
         ActualExpense actualExpense = new ActualExpense() {
+            @Override
             public void refreshReferenceObject(String refObject) {
                 if(refObject.equals("mileageRate")) {
                     MileageRate rate = new MileageRate();
@@ -738,6 +750,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         ActualExpense actualExpense_2 = new ActualExpense();
         ActualExpense actualExpense_3 = new ActualExpense();
         ActualExpense actualExpense_4 = new ActualExpense(){
+            @Override
             public void refreshReferenceObject(String refObject) {
                 if(refObject.equals("mileageRate")) {
                     MileageRate rate = new MileageRate();
@@ -802,7 +815,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
         try{
             isHostedMeal = travelDocumentService.isHostedMeal(null);
         }catch(NullPointerException e){
-            Log.warn("NPE.", e);
+            LOG.warn("NPE.", e);
         }
         assertFalse(isHostedMeal);
 
@@ -828,6 +841,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     @Test
     public void testCalculateProratePercentage() {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
+            @Override
             public void refreshReferenceObject(String refObject) {
                 if(refObject.equals("mileageRate")) {
                     MileageRate rate = new MileageRate();
@@ -865,6 +879,7 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     @Test
     public void testCalculatePerDiemPercentageFromTimestamp() {
         PerDiemExpense perDiemExpense = new PerDiemExpense() {
+            @Override
             public void refreshReferenceObject(String refObject) {
                 if(refObject.equals("mileageRate")) {
                     MileageRate rate = new MileageRate();

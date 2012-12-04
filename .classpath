@@ -84,6 +84,7 @@
 	</accessrules>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/FastInfoset-1.2.2.jar" /><!-- KFS lib -->
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/barcode4j.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/c1searchengine.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/commons-net-ftp-2.0.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/fop-0.20.5.jar" /><!-- KFS lib -->
@@ -93,6 +94,7 @@
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/jrobin-1.5.9.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/jsearch.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/opencsv-2.3.jar" /><!-- KFS lib -->
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/velocity-1.5.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/aspectjrt-1.6.8.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/aspectjweaver-1.6.8.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/btm-2.1.2.jar" /><!-- KFS lib -->
@@ -204,7 +206,7 @@
 	<classpathentry exported="true" kind="lib" path="test/lib/jakarta-oro-2.0.8.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="test/lib/jetty-6.1.1.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="test/lib/jetty-util-6.1.1.jar" /><!-- KFS lib -->
-	<classpathentry exported="true" kind="lib" path="test/lib/junit-3.8.1.jar" /><!-- KFS lib -->
+	<classpathentry exported="true" kind="lib" path="test/lib/junit-4.9b2.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/log4j-1.2.16.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/batik-1.6.jar"><!-- Runtime Only lib -->
 		<accessrules>

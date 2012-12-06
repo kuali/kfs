@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.service.TravelExpenseTypeService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -59,7 +60,7 @@ public class TravelExpenseTypeServiceImpl implements TravelExpenseTypeService {
 
     protected List<TravelCompanyCode> getCompanyCodesBy(final String expenseTypeCode) {
         final Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put("travelExpenseTypeCode", expenseTypeCode);
+        criteria.put(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE, expenseTypeCode);
         final List<TravelCompanyCode> boList = (List<TravelCompanyCode>)
             getKeyValuesService().findMatching(TravelCompanyCode.class, criteria);
         return boList;

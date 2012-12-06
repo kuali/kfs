@@ -27,7 +27,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
@@ -36,7 +36,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * implement the validation methods against the given per diem
  */
-@SuppressWarnings("deprecation")
 public class PerDiemLoadValidationServiceImpl implements PerDiemLoadValidationService {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PerDiemLoadValidationServiceImpl.class);

@@ -32,6 +32,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -69,6 +70,21 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
 
     public ActualExpense() {
         // details = new ArrayList<OtherExpenseDetail>();
+    }
+
+    /**
+     * Override refreshReferenceObject for travelExpenseTypeCode because its primary key is not the code
+     *
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#refreshReferenceObject(java.lang.String)
+     */
+    @Override
+    public void refreshReferenceObject(String referenceObjectName) {
+        //we will retrieve with the service instead if there is a request to refresh the travelExpenseTypeCode
+        if (TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE.equals(referenceObjectName)){
+            if (getTravelExpenseTypeCodeId() != null){
+                getTravelExpenseTypeCode();
+            }
+        }
     }
 
     public boolean getDefaultTabOpen(){
@@ -147,7 +163,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
     @ManyToOne
     @JoinColumn(name="MILEAGE_RT_ID",nullable=false)
     public MileageRate getMileageRate(){
-        if (this.mileageRate == null){
+        if (this.mileageRate == null && mileageRateId != null){
             this.mileageRate = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(MileageRate.class, mileageRateId);
         }
         return this.mileageRate;

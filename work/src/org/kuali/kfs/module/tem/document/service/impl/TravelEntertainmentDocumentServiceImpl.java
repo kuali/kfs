@@ -50,8 +50,8 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -127,7 +127,7 @@ public class TravelEntertainmentDocumentServiceImpl implements TravelEntertainme
         if (document.getActualExpenses() != null) {
             for (final ActualExpense expense : document.getActualExpenses()) {
                 final Map<String, String> expenseMap = new HashMap<String, String>();
-                expense.refreshReferenceObject("travelExpenseTypeCode");
+                expense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
                 expenseMap.put("expenseType", expense.getTravelExpenseTypeCode().getName());
 
                 final KualiDecimal rate = expense.getCurrencyRate();
@@ -221,7 +221,7 @@ public class TravelEntertainmentDocumentServiceImpl implements TravelEntertainme
 
     @Override
     public void handleNewAttendee(Attendee newAttendeeLine) {
-        getDictionaryValidationService().validateBusinessObject(newAttendeeLine,true);
+        getDictionaryValidationService().validate(newAttendeeLine);
     }
 
     protected DictionaryValidationService getDictionaryValidationService() {

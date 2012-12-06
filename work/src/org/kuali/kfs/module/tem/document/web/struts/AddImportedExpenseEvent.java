@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,6 +24,7 @@ import java.util.Observer;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
@@ -50,21 +51,21 @@ public class AddImportedExpenseEvent implements Observer {
 
         final TravelDocument document = wrapper.getTravelDocument();
         final ImportedExpense newImportedExpenseLine = wrapper.getNewImportedExpenseLine();
-        
+
         if(newImportedExpenseLine != null){
-            newImportedExpenseLine.refreshReferenceObject("travelExpenseTypeCode");
+            newImportedExpenseLine.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
         }
-        
+
         boolean rulePassed = true;
 
         // check any business rules
-        rulePassed &= getRuleService().applyRules(new AddImportedExpenseLineEvent(NEW_IMPORTED_EXPENSE_LINE, document, newImportedExpenseLine));
-        
+        rulePassed &= getRuleService().applyRules(new AddImportedExpenseLineEvent<ImportedExpense>(NEW_IMPORTED_EXPENSE_LINE, document, newImportedExpenseLine));
+
         if (rulePassed){
             if(newImportedExpenseLine != null){
-                document.addExpense(newImportedExpenseLine);                
+                document.addExpense(newImportedExpenseLine);
             }
-            
+
             ImportedExpense newExpense = new ImportedExpense();
             try {
                 BeanUtils.copyProperties(newExpense, newImportedExpenseLine);
@@ -82,23 +83,23 @@ public class AddImportedExpenseEvent implements Observer {
                 // TODO Auto-generated catch block
                 ex.printStackTrace();
             }
-            
-            //ExpenseUtils.disableImportNonReimbursable(wrapper, newImportedExpenseLine, false);           
+
+            //ExpenseUtils.disableImportNonReimbursable(wrapper, newImportedExpenseLine, false);
             wrapper.setNewImportedExpenseLine(new ImportedExpense());
             wrapper.getNewImportedExpenseLines().add(newExpense);
             wrapper.setDistribution(getAccountingDistributionService().buildDistributionFrom(document));
-            
+
             //Add the appropriate source accounting line
-            if (newImportedExpenseLine.getCardType() != null && newImportedExpenseLine.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)){                
+            if (newImportedExpenseLine.getCardType() != null && newImportedExpenseLine.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)){
                 HistoricalTravelExpense historicalTravelExpense = getBusinessObjectService().findBySinglePrimaryKey(HistoricalTravelExpense.class, newImportedExpenseLine.getHistoricalTravelExpenseId());
                 historicalTravelExpense.refreshReferenceObject("agencyStagingData");
                 List<TripAccountingInformation> tripAccountinfoList = historicalTravelExpense.getAgencyStagingData().getTripAccountingInformation();
-                
+
                 for (TripAccountingInformation tripAccountingInformation : tripAccountinfoList){
                     TemSourceAccountingLine importedLine = new TemSourceAccountingLine();
                     importedLine.setAmount(tripAccountingInformation.getAmount());
                     importedLine.setChartOfAccountsCode(tripAccountingInformation.getTripChartCode());
-                    
+
                     importedLine.setAccountNumber(tripAccountingInformation.getTripAccountNumber());
                     importedLine.setSubAccountNumber(tripAccountingInformation.getTripSubAccountNumber());
                     importedLine.setFinancialObjectCode(tripAccountingInformation.getObjectCode());
@@ -116,7 +117,7 @@ public class AddImportedExpenseEvent implements Observer {
 
     /**
      * Gets the travelReimbursementService attribute.
-     * 
+     *
      * @return Returns the travelReimbursementService.
      */
     protected TravelDocumentService getTravelDocumentService() {
@@ -129,14 +130,14 @@ public class AddImportedExpenseEvent implements Observer {
 
     /**
      * Gets the kualiRulesService attribute.
-     * 
+     *
      * @return Returns the kualiRuleseService.
      */
     protected KualiRuleService getRuleService() {
         return SpringContext.getBean(KualiRuleService.class);
     }
-    
+
     protected AccountingDistributionService getAccountingDistributionService() {
         return SpringContext.getBean(AccountingDistributionService.class);
-    }  
+    }
 }

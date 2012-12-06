@@ -161,7 +161,7 @@ public class SummaryByDayReportServiceImpl implements SummaryByDayReportService 
         }
 
         for (final ActualExpense expense : travelDocument.getActualExpenses()) {
-            expense.refreshReferenceObject("travelExpenseTypeCode");
+            expense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
             final String expenseDate = monthDay.format(expense.getExpenseDate());
             final SummaryByDayReport.Detail detail = new SummaryByDayReport.Detail(expense.getTravelExpenseTypeCode().getName()==null?"":expense.getTravelExpenseTypeCode().getName(), expense.getExpenseAmount().multiply(expense.getCurrencyRate()), expenseDate);
 

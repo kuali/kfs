@@ -116,10 +116,13 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         return null;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.TravelExpenseService#getExpenseType(java.lang.Long)
+     */
     @Override
     public TemTravelExpenseTypeCode getExpenseType(Long travelExpenseTypeCodeId) {
         Map<String,String> criteria = new HashMap<String,String>();
-        criteria.put("travelExpenseTypeCodeId", travelExpenseTypeCodeId.toString());
+        criteria.put(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE_ID, travelExpenseTypeCodeId.toString());
 
         List<TemTravelExpenseTypeCode> expenseType = (List<TemTravelExpenseTypeCode>) getBusinessObjectService().findMatching(TemTravelExpenseTypeCode.class, criteria);
         if (ObjectUtils.isNotNull(expenseType) && !expenseType.isEmpty()) {

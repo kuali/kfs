@@ -30,6 +30,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
@@ -137,7 +138,7 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
         LOG.info("Adding details from other expenses");
         LOG.debug("There are "+ travelDocument.getActualExpenses().size() + " other expenses");
         for (final ActualExpense expense : travelDocument.getActualExpenses()) {
-            expense.refreshReferenceObject("travelExpenseTypeCode");
+            expense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
 
             if (expense.getNonReimbursable()) {
                 LOG.debug("Adding detail for non reimbursable item");

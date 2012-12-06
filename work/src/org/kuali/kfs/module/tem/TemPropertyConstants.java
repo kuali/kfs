@@ -68,8 +68,8 @@ public class TemPropertyConstants {
 
     public static final String CONTACT_CELL_PHONENUMBER = "cellPhoneNumber";
 
-    // fields for adding a new authorization other expense line
-    public static final String TRVL_AUTH_OTHER_EXP_CODE = "travelExpenseTypeCodeId";
+    public static final String TRAVEL_EXEPENSE_TYPE_CODE_ID = "travelExpenseTypeCodeId";
+    public static final String TRAVEL_EXEPENSE_TYPE_CODE = "travelExpenseTypeCode";
     public static final String EXPENSE_AMOUNT = "expenseAmount";
     public static final String CURRENCY_RATE = "currencyRate";
     public static final String TRVL_AUTH_OTHER_EXP_DATE = "expenseDate";

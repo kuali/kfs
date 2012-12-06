@@ -32,6 +32,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
@@ -110,7 +111,7 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
         final Map<String,KualiDecimal> summaryData = new HashMap<String,KualiDecimal>();
         if(document.getActualExpenses().size()>0){
             for (final ActualExpense expense : document.getActualExpenses()) {
-                expense.refreshReferenceObject("travelExpenseTypeCode");
+                expense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
                 final String expenseDate = new SimpleDateFormat("MM/dd/yyyy").format(expense.getExpenseDate());
                 final NonEmployeeCertificationReport.Detail detail = new NonEmployeeCertificationReport.Detail(expense.getTravelExpenseTypeCode().getName()==null?
                         "":expense.getTravelExpenseTypeCode().getName(),expense.getExpenseAmount().multiply(expense.getCurrencyRate()), expenseDate);

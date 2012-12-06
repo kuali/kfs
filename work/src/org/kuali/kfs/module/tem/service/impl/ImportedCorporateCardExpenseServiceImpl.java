@@ -29,6 +29,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.DisburseType;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
@@ -79,7 +80,7 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
                 if (expense.getCardType() != null
                         && !expense.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)
                         && !expense.getNonReimbursable()){
-                    expense.refreshReferenceObject("travelExpenseTypeCode");
+                    expense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
                     TemTravelExpenseTypeCode code = SpringContext.getBean(TravelExpenseService.class).getExpenseType(expense.getTravelExpenseTypeCodeCode(),
                             document.getFinancialDocumentTypeCode(), document.getTripTypeCode(), document.getTraveler().getTravelerTypeCode());
 

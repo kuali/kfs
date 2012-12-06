@@ -10,33 +10,33 @@
 		<property name="objectLabel" value="JobClassification" />
 		<property name="attributes">
 		<list>
-			<ref bean="JobClassification-jobClsCode" />
-			<ref bean="JobClassification-jobClsName" />
+			<ref bean="JobClassification-jobClassCode" />
+			<ref bean="JobClassification-jobClassName" />
 			<ref bean="JobClassification-active" />
 			<ref bean="JobClassification-versionNumber" />
 		</list>
 		</property>
 	</bean>
-	<bean id="JobClassification-jobClsCode" parent="JobClassification-jobClsCode-parentBean" />
-	<bean id="JobClassification-jobClsCode-parentBean" parent="AttributeDefinition">
+	<bean id="JobClassification-jobClassCode" parent="JobClassification-jobClassCode-parentBean" />
+	<bean id="JobClassification-jobClassCode-parentBean" parent="AttributeDefinition">
 		<property name="name" value="jobClsCode" />
-		<property name="label" value="Job Cls Code" />
-		<property name="shortLabel" value="Job Cls Code" />
+		<property name="label" value="Job Class Code" />
+		<property name="shortLabel" value="Job Class Code" />
 		<property name="maxLength" value="3" />
 		<property name="required" value="true" />
-		<property name="summary" value="Job Cls Code" />
-		<property name="description" value="Job Cls Code" />
+		<property name="summary" value="Job Class Code" />
+		<property name="description" value="Job Class Code" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="3"/></property>
 	</bean>
-	<bean id="JobClassification-jobClsName" parent="JobClassification-jobClsName-parentBean" />
-	<bean id="JobClassification-jobClsName-parentBean" parent="AttributeDefinition">
+	<bean id="JobClassification-jobClassName" parent="JobClassification-jobClassName-parentBean" />
+	<bean id="JobClassification-jobClassName-parentBean" parent="AttributeDefinition">
 		<property name="name" value="jobClsName" />
-		<property name="label" value="Job Cls Name" />
-		<property name="shortLabel" value="Job Cls Name" />
+		<property name="label" value="Job Class Name" />
+		<property name="shortLabel" value="Job Class Name" />
 		<property name="maxLength" value="40" />
 		<property name="required" value="true" />
-		<property name="summary" value="Job Cls Name" />
-		<property name="description" value="Job Cls Name" />
+		<property name="summary" value="Job Class Name" />
+		<property name="description" value="Job Class Name" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
 	</bean>
 	<bean id="JobClassification-active" parent="JobClassification-active-parentBean" />

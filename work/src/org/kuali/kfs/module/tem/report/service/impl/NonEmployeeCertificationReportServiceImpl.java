@@ -36,6 +36,7 @@ import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
@@ -111,7 +112,7 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
 
         if (travelDocument.getActualExpenses() != null) {
             for (final ActualExpense expense : travelDocument.getActualExpenses()) {
-                expense.refreshReferenceObject("travelExpenseTypeCode");
+                expense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
                 final String expenseDate = new SimpleDateFormat("MM/dd").format(expense.getExpenseDate());
                 final NonEmployeeCertificationReport.Detail detail = new NonEmployeeCertificationReport.Detail(expense.getTravelExpenseTypeCode().getName()==null?
                         "":expense.getTravelExpenseTypeCode().getName(), expense.getExpenseAmount().multiply(expense.getCurrencyRate()), expenseDate);

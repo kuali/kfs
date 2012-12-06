@@ -77,9 +77,10 @@
 				</c:choose>
 			</td>
 			<td valign="top" nowrap class="infoline">
-				<div align="center" id="div_${expense}.expenseAmount"><kul:htmlControlAttribute
-					attributeEntry="${otherExpenseAttributes.expenseAmount}"
-					property="${expense}.expenseAmount" readOnly="${!fullEntryMode || detailObject.travelCompanyCodeCode == TemConstants.MILEAGE_EXPENSE}" />
+				<div align="center" id="div_${expense}.expenseAmount">
+					<kul:htmlControlAttribute
+						attributeEntry="${otherExpenseAttributes.expenseAmount}"
+						property="${expense}.expenseAmount" readOnly="${!fullEntryMode || detailObject.travelCompanyCodeCode == TemConstants.MILEAGE_EXPENSE}" />
 				</div>
 			</td>
 			<td valign="top" nowrap class="infoline">
@@ -114,7 +115,7 @@
             	<div align="center">
             		<c:if test="${! empty detailObject.travelExpenseTypeCode}" >
 					<kul:htmlControlAttribute
-						attributeEntry="${otherExpenseAttributes.travelExpenseTypeCode.receiptRequired}"
+						attributeEntry="${DataDictionary.TemTravelExpenseTypeCode.attributes.receiptRequired}"
 						property="${expense}.travelExpenseTypeCode.receiptRequired" readOnly="true" />
 					</c:if>
 				</div>

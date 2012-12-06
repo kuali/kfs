@@ -408,65 +408,45 @@
     <bean id="TravelRelocationDocument-validations" parent="TravelRelocationDocument-validations-parentBean" />
     <bean id="TravelRelocationDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
         <property name="sourceMap">
-            <map>
+            <map key-type="java.lang.Class">
                 <entry>
-                    <key>
-                        <value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value>
-                    </key>
+                    <key><value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
                     <value>TravelRelocation-saveDocumentValidation</value>
                 </entry>
                 <entry>
-                    <key>
-                        <value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value>
-                    </key>
+                    <key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
                     <value>TravelRelocation-routeDocumentValidation</value>
                 </entry>
                 <entry>
-                    <key>
-                        <value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value>
-                    </key>
+                    <key><value>org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent</value></key>
                     <value>TravelModule-addAccountingLineValidation</value>
                 </entry>
                 <entry>
-                    <key>
-                        <value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value>
-                    </key>
+                    <key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
                     <value>TravelModule-updateAccountingLineValidation</value>
                 </entry>
                 <entry>
-                    <key>
-                        <value>org.kuali.kfs.module.tem.document.validation.event.AssignDistributionAccountingLinesEvent</value>
-                    </key>
+                    <key><value>org.kuali.kfs.module.tem.document.validation.event.AssignDistributionAccountingLinesEvent</value></key>
                     <value>TravelModule-distributionAccountingLineValidation</value>
                 </entry>
                 <entry>
-                    <key>
-                        <value>org.kuali.kfs.module.tem.document.validation.event.AddDistributionAccountingLineValidationEvent</value>
-                    </key>
+                    <key><value>org.kuali.kfs.module.tem.document.validation.event.AddDistributionAccountingLineValidationEvent</value></key>
                     <value>TravelModule-distributionAccountingLineValidation</value>
                 </entry>
                 <entry>
-                    <key>
-                        <value>org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseLineEvent</value>
-                    </key>
+                    <key><value>org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseLineEvent</value></key>
                     <value>TravelModule-addImportedExpenseLineValidation</value>
                 </entry>
                 <entry>
-                    <key>
-                        <value>org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseDetailLineEvent</value>
-                    </key>
+                    <key><value>org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseDetailLineEvent</value></key>
                     <value>TravelModule-addImportedExpenseDetailLineValidation</value>
                 </entry>
                 <entry>
-                    <key>
-                        <value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent</value>
-                    </key>
+                    <key><value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseLineEvent</value></key>
                     <value>TravelModule-addActualExpenseLineValidation</value>
                 </entry>
                 <entry>
-                    <key>
-                        <value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseDetailLineEvent</value>
-                    </key>
+                    <key><value>org.kuali.kfs.module.tem.document.validation.event.AddActualExpenseDetailLineEvent</value></key>
                     <value>TravelModule-addActualExpenseDetailLineValidation</value>
                 </entry>
                 <!--entry> <key><value>org.kuali.kfs.module.tem.document.validation.event.UpdateDistributionAccountingLinesEvent</value></key> 

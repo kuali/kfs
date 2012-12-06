@@ -63,7 +63,7 @@
 	     </ul>
 	</c:if>
     <c:if test="${ConfigProperties.module.travel.enabled == 'true'}">
-	    <strong>Travel/Entertainment</strong><br/>
+	    <strong>Travel</strong><br/>
         <ul class="chan">
         	<li><portal:portalLink displayTitle="true" title="Corporate Card Application" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CCAP&methodToCall=search" /></li>
 	        <li><portal:portalLink displayTitle="true" title="CTS Card Application" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CTAP&methodToCall=search" /></li>

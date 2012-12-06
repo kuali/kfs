@@ -219,10 +219,9 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     @ManyToOne
     @JoinColumn(name="DV_EXP_CD",nullable=false)
     public TemTravelExpenseTypeCode getTravelExpenseTypeCode() {
-        if (travelExpenseTypeCodeId != null) {
+        if (travelExpenseTypeCodeId != null && travelExpenseTypeCode == null) {
             travelExpenseTypeCode = SpringContext.getBean(TravelExpenseService.class).getExpenseType(travelExpenseTypeCodeId);
-        }
-        else if (travelExpenseTypeCodeId == null){
+        } else if (travelExpenseTypeCodeId == null){
             this.travelExpenseTypeCode = null;
         }
         return this.travelExpenseTypeCode;

@@ -306,7 +306,7 @@
   
   <bean id="TravelAuthorizationDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
     <property name="sourceMap">
-        <map>
+        <map key-type="java.lang.Class">
             <entry>
                 <key><value>org.kuali.kfs.module.tem.document.validation.event.AddTravelAdvanceLineEvent</value></key>
                 <value>TravelAuthorization-addTravelAdvanceLineValidation</value>

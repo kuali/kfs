@@ -34,8 +34,8 @@ import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TravelDocumentDistributionAccountingLinesValidation extends GenericValidation {
@@ -47,7 +47,6 @@ public class TravelDocumentDistributionAccountingLinesValidation extends Generic
     public boolean validate(AttributedDocumentEvent event) {
         boolean success = true;
 
-        List errors = GlobalVariables.getMessageMap().getErrorPath();
         if (event instanceof AddDistributionAccountingLineValidationEvent){
             AddDistributionAccountingLineValidationEvent distributionEvent = (AddDistributionAccountingLineValidationEvent) event;
             TravelMvcWrapperBean wrapper = distributionEvent.getTravelForm();

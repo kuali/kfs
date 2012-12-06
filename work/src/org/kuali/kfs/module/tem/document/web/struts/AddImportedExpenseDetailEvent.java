@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,6 +23,7 @@ import java.util.Observer;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -30,16 +31,16 @@ import org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseDeta
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.KualiRuleService;
 
 public class AddImportedExpenseDetailEvent implements Observer {
-    
+
     public static Logger LOG = Logger.getLogger(AddImportedExpenseDetailEvent.class);
-    
+
     private static final int WRAPPER_ARG_IDX       = 0;
     private static final int SELECTED_LINE_ARG_IDX = 1;
-    
+
     @SuppressWarnings("null")
     @Override
     public void update(Observable arg0, Object arg1) {
@@ -55,19 +56,19 @@ public class AddImportedExpenseDetailEvent implements Observer {
 
         final TravelDocument document = wrapper.getTravelDocument();
         final Integer index = (Integer) args[SELECTED_LINE_ARG_IDX];
-        
+
         final ImportedExpense newImportedExpenseLine = wrapper.getNewImportedExpenseLines().get(index);
-        
+
         if(newImportedExpenseLine != null){
-            newImportedExpenseLine.refreshReferenceObject("travelExpenseTypeCode");
+            newImportedExpenseLine.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
         }
-        
+
         ImportedExpense line = document.getImportedExpenses().get(index);
         boolean rulePassed = true;
 
         // check any business rules
-        rulePassed &= getRuleService().applyRules(new AddImportedExpenseDetailLineEvent(NEW_IMPORTED_EXPENSE_LINES + "["+index + "]", document, newImportedExpenseLine));
-        
+        rulePassed &= getRuleService().applyRules(new AddImportedExpenseDetailLineEvent<ImportedExpense>(NEW_IMPORTED_EXPENSE_LINES + "["+index + "]", document, newImportedExpenseLine));
+
         if (rulePassed){
             if(newImportedExpenseLine != null && line != null){
                 newImportedExpenseLine.setTemExpenseTypeCode(null);
@@ -75,9 +76,9 @@ public class AddImportedExpenseDetailEvent implements Observer {
                 document.addExpenseDetail(newImportedExpenseLine, index);
                 newImportedExpenseLine.setExpenseDetails(null);
             }
-            
+
             KualiDecimal detailTotal = line.getTotalDetailExpenseAmount();
-            
+
             ImportedExpense newExpense = new ImportedExpense();
             try {
                 BeanUtils.copyProperties(newExpense, line);
@@ -105,7 +106,7 @@ public class AddImportedExpenseDetailEvent implements Observer {
             }
             wrapper.getNewImportedExpenseLines().add(index,newExpense);
             wrapper.getNewImportedExpenseLines().remove(index+1);
-            
+
             wrapper.setDistribution(getAccountingDistributionService().buildDistributionFrom(document));
         }
 
@@ -113,7 +114,7 @@ public class AddImportedExpenseDetailEvent implements Observer {
 
     /**
      * Gets the travelReimbursementService attribute.
-     * 
+     *
      * @return Returns the travelReimbursementService.
      */
     protected TravelDocumentService getTravelDocumentService() {
@@ -123,14 +124,14 @@ public class AddImportedExpenseDetailEvent implements Observer {
 
     /**
      * Gets the kualiRulesService attribute.
-     * 
+     *
      * @return Returns the kualiRuleseService.
      */
     protected KualiRuleService getRuleService() {
         return SpringContext.getBean(KualiRuleService.class);
     }
-    
+
     protected AccountingDistributionService getAccountingDistributionService() {
         return SpringContext.getBean(AccountingDistributionService.class);
-    }  
+    }
 }

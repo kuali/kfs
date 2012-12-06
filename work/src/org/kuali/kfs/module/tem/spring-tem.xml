@@ -79,6 +79,15 @@
     <bean id="TemConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
         <property name="constantClass" value="org.kuali.kfs.module.tem.TemConstants" />
     </bean>
+    
+    <bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+        <property name="attributes">
+            <map>
+                <entry key="TemConstants" value-ref="TemConstants" />
+                <entry key="TemKeyConstants" value-ref="TemKeyConstants" />
+            </map>
+        </property>
+    </bean>
 
 	<bean id="temProfileAddressLookupableHelperService"
 		class="org.kuali.kfs.module.tem.businessobject.lookup.TemProfileAddressLookupableHelperServiceImpl"

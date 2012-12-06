@@ -142,7 +142,7 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
      */
     public boolean validateExpenseDetail(ActualExpense actualExpense, boolean isWarning) {
         boolean success = true;
-        actualExpense.refreshReferenceObject("travelExpenseTypeCode");
+        actualExpense.refreshReferenceObject(TemPropertyConstants.TRAVEL_EXEPENSE_TYPE_CODE);
         TemTravelExpenseTypeCode expenseType = actualExpense.getTravelExpenseTypeCode();
 
         if (ObjectUtils.isNotNull(expenseType)){

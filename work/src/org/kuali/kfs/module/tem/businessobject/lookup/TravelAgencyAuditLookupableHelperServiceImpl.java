@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -98,7 +99,7 @@ public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupabl
         IdentityManagementService idm = SpringContext.getBean(IdentityManagementService.class);
 
         //if user does not have the permission, do not allow the to creating new
-        allows &= idm.isAuthorizedByTemplateName(user.getPrincipalId(), TemConstants.NAMESPACE, PermissionTemplate.FULL_EDIT_AGENCY_DATA, null, null);
+        allows &= idm.isAuthorizedByTemplateName(user.getPrincipalId(), TemConstants.NAMESPACE, PermissionTemplate.FULL_EDIT_AGENCY_DATA, new HashMap<String, String>(), null);
         return allows;
     }
 

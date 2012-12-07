@@ -1873,16 +1873,13 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return retval;
     }*/
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#retrieveAddressFromLocationCode(java.lang.String)
+     */
     @Override
     public String retrieveAddressFromLocationCode(String locationCode) {
-        String address = "";
-        try {
-            address = ((DisbursementVoucherDocumentationLocation) retrieveObjectByKey(DisbursementVoucherDocumentationLocation.class, locationCode)).getDisbursementVoucherDocumentationLocationAddress();
-        }
-        catch (NullPointerException e) {
-            // ignored
-        }
-
+        DisbursementVoucherDocumentationLocation dvDocumentLocation = businessObjectService.findBySinglePrimaryKey(DisbursementVoucherDocumentationLocation.class, locationCode);
+        String address = ObjectUtils.isNotNull(dvDocumentLocation)? dvDocumentLocation.getDisbursementVoucherDocumentationLocationAddress() : "";
         return address;
     }
 
@@ -1935,18 +1932,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
 
         return success;
-    }
-
-    protected PersistableBusinessObject retrieveObjectByKey(Class clazz, String keyValue) {
-        List primaryKeyFields = persistenceStructureService.listPrimaryKeyFieldNames(clazz);
-        if (primaryKeyFields.size() != 1) {
-            throw new IllegalArgumentException("multi-part key found. expecting single key field for " + clazz.getName());
-        }
-        Map primaryKeys = new HashMap();
-        primaryKeys.put(primaryKeyFields.get(0), keyValue);
-        PersistableBusinessObject b = businessObjectService.findByPrimaryKey(clazz, primaryKeys);
-
-        return b;
     }
 
     /**

@@ -338,7 +338,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
                     // original initiator may not have permission to blanket approve the DV
                     GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
 
-                    WorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(disbursementVoucherDocument.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
+                    WorkflowDocument newWorkflowDocument = workflowDocumentService.loadWorkflowDocument(disbursementVoucherDocument.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
                     newWorkflowDocument.setTitle(originalWorkflowDocument.getTitle());
 
                     disbursementVoucherDocument.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);

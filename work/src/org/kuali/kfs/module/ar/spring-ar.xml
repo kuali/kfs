@@ -43,8 +43,6 @@
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomer" value="org.kuali.kfs.module.ar.businessobject.Customer" />
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress" value="org.kuali.kfs.module.ar.businessobject.CustomerAddress" />
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType" value="org.kuali.kfs.module.ar.businessobject.CustomerAddressType" />
-                <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerCreditMemo" value="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument" />
-                <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice" value="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument" />
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail" />
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerType" value="org.kuali.kfs.module.ar.businessobject.CustomerType" />
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions" value="org.kuali.kfs.module.ar.businessobject.OrganizationOptions" />

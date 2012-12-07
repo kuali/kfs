@@ -65,12 +65,12 @@
     <c:if test="${ConfigProperties.module.travel.enabled == 'true'}">
 	    <strong>Travel</strong><br/>
         <ul class="chan">
-        	<li><portal:portalLink displayTitle="true" title="Corporate Card Application" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CCAP&methodToCall=search" /></li>
-	        <li><portal:portalLink displayTitle="true" title="CTS Card Application" url="${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=CTAP&methodToCall=search" /></li>
-            <li><portal:portalLink displayTitle="true" title='Entertainment Reimbursement' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=ENT&methodToCall=search'/></li>
-            <li><portal:portalLink displayTitle="true" title='Moving and Relocation Reimbursement' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=RELO&methodToCall=search'/></li>            
-            <li><portal:portalLink displayTitle="true" title='Travel Authorization' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=TA&statusCodeForMultiboxSearching=OPEN&methodToCall=search'/></li>
-            <li><portal:portalLink displayTitle="true" title='Travel Reimbursement' url='${ConfigProperties.workflow.documentsearch.base.url}&docTypeFullName=TR&methodToCall=search'/></li>
+        	<li><portal:portalLink displayTitle="true" title="Corporate Card Application" url="${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CCAP&methodToCall=search" /></li>
+	        <li><portal:portalLink displayTitle="true" title="CTS Card Application" url="${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=CTAP&methodToCall=search" /></li>
+            <li><portal:portalLink displayTitle="true" title='Entertainment Reimbursement' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=ENT&methodToCall=search'/></li>
+            <li><portal:portalLink displayTitle="true" title='Moving and Relocation Reimbursement' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=RELO&methodToCall=search'/></li>            
+            <li><portal:portalLink displayTitle="true" title='Travel Authorization' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=TA&statusCodeForMultiboxSearching=OPEN&methodToCall=search'/></li>
+            <li><portal:portalLink displayTitle="true" title='Travel Reimbursement' url='${ConfigProperties.workflow.documentsearch.base.url}&documentTypeName=TR&methodToCall=search'/></li>
         </ul>
     </c:if>
     </div>

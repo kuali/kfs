@@ -284,7 +284,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
                 // original initiator may not have permission to blanket approve the INV
                 GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
 
-                WorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(customerInvoiceDocument.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
+                WorkflowDocument newWorkflowDocument = workflowDocumentService.loadWorkflowDocument(customerInvoiceDocument.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
                 newWorkflowDocument.setTitle(originalWorkflowDocument.getTitle());
 
                 customerInvoiceDocument.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);

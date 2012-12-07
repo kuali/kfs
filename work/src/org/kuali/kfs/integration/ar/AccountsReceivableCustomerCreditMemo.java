@@ -16,9 +16,8 @@
 package org.kuali.kfs.integration.ar;
 
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
-public interface AccountsReceivableCustomerCreditMemo extends ExternalizableBusinessObject {
+public interface AccountsReceivableCustomerCreditMemo {
 
     public FinancialSystemDocumentHeader getFinancialSystemDocumentHeader();
 

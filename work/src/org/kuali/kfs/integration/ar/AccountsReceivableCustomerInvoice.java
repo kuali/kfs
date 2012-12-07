@@ -22,10 +22,9 @@ import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 
-public interface AccountsReceivableCustomerInvoice extends ExternalizableBusinessObject {
+public interface AccountsReceivableCustomerInvoice {
 
     /**
      * This method calculates the outstanding balance on an invoice.

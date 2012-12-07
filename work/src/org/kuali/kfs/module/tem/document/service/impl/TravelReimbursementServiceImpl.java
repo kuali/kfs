@@ -465,7 +465,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
             // original initiator may not have permission to blanket approve the credit memo document, switch to sys user
             GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
 
-            WorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(customerCreditMemo.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
+            WorkflowDocument newWorkflowDocument = workflowDocumentService.loadWorkflowDocument(customerCreditMemo.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
             newWorkflowDocument.setTitle(originalWorkflowDocument.getTitle());
 
             customerCreditMemo.getFinancialSystemDocumentHeader().setWorkflowDocument(newWorkflowDocument);

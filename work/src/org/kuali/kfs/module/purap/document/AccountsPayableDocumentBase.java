@@ -186,7 +186,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
         // KFSMI-9715 - need to call this after processNodeChange, otherwise if PO is closed while processing PREQ
         // it gets saved before encumbrence is relieved, and the Total Encumbrance Amount Relieved and TotalPaidAmount
-        // on the PREQ didn’t reflect the invoice amount, and the amount paid on the PO wasn’t being set correctly.
+        // on the PREQ didn't reflect the invoice amount, and the amount paid on the PO wasn't being set correctly.
         saveDocumentFromPostProcessing();
     }
 

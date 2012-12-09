@@ -26,13 +26,14 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.KimConstants;
@@ -224,8 +225,12 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
             return true;
         }
 
+        //figure out if the chart manager is the university chart manager and if so
+        //then have to complete the plant fund fields before approving the documemnt.
+        //KFSMI-9089
+
         // relax this edit for
-        if (!getOrgMustReportToSelf(newOrg)) {
+        if (!getOrgMustReportToSelf(newOrg) && isUniversityChartManager(user)) {
             // require Org Plant ChartCode
             success &= checkEmptyBOField("organizationPlantChartCode", newOrg.getOrganizationPlantChartCode(), "Organization Plant Chart of Accounts Code");
 
@@ -243,6 +248,28 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
             // validate Campus Plant Account
             success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "campusPlantAccount", MAINTAINABLE_ERROR_PREFIX + "campusPlantAccountNumber", "Campus Plant Account");
+        }
+
+        return success;
+    }
+
+    /**
+     * Helper method to check if the chart code is reporting to the univerity chart code and if the
+     * user has access to the university's chart code.
+     *
+     * @param user
+     * @return true user is the university chart manager else false.
+     */
+    protected boolean isUniversityChartManager(Person user) {
+        boolean success = true;
+
+        ChartService chartService = SpringContext.getBean(ChartService.class);
+
+        Chart univeristyChart = chartService.getUniversityChart();
+        Person chartManager = chartService.getChartManager(univeristyChart.getChartOfAccountsCode());
+
+        if (!user.getPrincipalId().equals(chartManager.getPrincipalId())) {
+            return false;
         }
 
         return success;
@@ -608,38 +635,66 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This method checks whether the specified user is part of the group who can approve
+     * at the campus chart level when the plant fund attributes are null.
+     *
+     * @param user
+     * @parm propertyName
+     * @param roleQualifiers
+     * @return true if belongs to campus chart group else return false.
+     */
+    protected boolean isCampusChartManagerAuthorized(Person user, String propertyName, Map<String,String> roleQualifiers) {
+        String principalId = user.getPrincipalId();
+        String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
+        String permissionTemplateName = KimConstants.PermissionTemplateNames.MODIFY_FIELD;
+
+        Map<String,String> permissionDetails = new HashMap<String,String>();
+        permissionDetails.put(KimConstants.AttributeConstants.COMPONENT_NAME, Organization.class.getSimpleName());
+        permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, propertyName);
+
+        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
+        Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
+        if (!isAuthorized) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * This method tests whether the specified user is part of the group that grants authorization to the Plant fields.
      *
      * @param user - the user to test
      * @return true if user is part of the group, false otherwise
      */
     protected boolean isPlantAuthorized(Person user) {
+        boolean plantAuthorized = true;
+
         String principalId = user.getPrincipalId();
         String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
         String permissionTemplateName = KimConstants.PermissionTemplateNames.MODIFY_FIELD;
 
         Map<String,String> roleQualifiers = new HashMap<String,String>();
-        roleQualifiers.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, newOrg.getChartOfAccountsCode());
 
-        Map<String,String> permissionDetails = new HashMap<String,String>();
-        permissionDetails.put(KimConstants.AttributeConstants.COMPONENT_NAME, Organization.class.getSimpleName());
-        permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, KFSPropertyConstants.ORGANIZATION_PLANT_CHART_CODE);
-
-        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-        Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
-        if (!isAuthorized) {
+        if (!isCampusChartManagerAuthorized(user, KFSPropertyConstants.CAMPUS_PLANT_CHART_CODE, roleQualifiers)) {
             LOG.info("User '" + user.getPrincipalName() + "' has no access to the Plant Chart.");
             return false;
         }
-
-        permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, KFSPropertyConstants.ORGANIZATION_PLANT_ACCOUNT_NUMBER);
-        isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
-        if (!isAuthorized) {
-            LOG.info("User '" + user.getPrincipalName() + "' has no access to the Plant account.");
+        if (!isCampusChartManagerAuthorized(user, KFSPropertyConstants.CAMPUS_PLANT_ACCOUNT_NUMBER, roleQualifiers)) {
+            LOG.info("User '" + user.getPrincipalName() + "' has no access to the Plant Account Number.");
             return false;
         }
 
-        LOG.info("User '" + user.getPrincipalName() + "' has access to the Plant fields.");
-        return true;
+        if (!isCampusChartManagerAuthorized(user, KFSPropertyConstants.ORGANIZATION_PLANT_CHART_CODE, roleQualifiers)) {
+            LOG.info("User '" + user.getPrincipalName() + "' has no access to the Organization Plant Chart.");
+            return false;
+        }
+
+        if (!isCampusChartManagerAuthorized(user, KFSPropertyConstants.ORGANIZATION_PLANT_ACCOUNT_NUMBER, roleQualifiers)) {
+            LOG.info("User '" + user.getPrincipalName() + "' has no access to the Organization Plant Account Number.");
+            return false;
+        }
+
+        return plantAuthorized;
     }
 }

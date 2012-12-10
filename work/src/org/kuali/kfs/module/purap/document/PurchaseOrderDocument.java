@@ -637,8 +637,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         // child classes need to call super, but we don't want to inherit the post-processing done by this PO class other than to the Split
         if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT.equals(currentDocumentTypeName) || PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT.equals(currentDocumentTypeName)) {
             try {
+                //KFSMI-9880
+                //DOCUMENT IS FINAL so mark the GLPEs FDOC_APPROVED_CD TO "A" from "N"
+                if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isFinal()) {
+                    super.changeGeneralLedgerPendingEntriesApprovedStatusCode();
+                    SpringContext.getBean(BusinessObjectService.class).save(this.generalLedgerPendingEntries);
+                }
                 // DOCUMENT PROCESSED
-                if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed()) {
+                else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed()) {
                     SpringContext.getBean(PurchaseOrderService.class).completePurchaseOrder(this);
                     SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(this.getFinancialSystemDocumentHeader().getWorkflowDocument());
                 }
@@ -1473,7 +1479,17 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
 
         SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(this, (AccountingLine)postable, explicitEntry, getPurapDocumentIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.PO_DOCUMENT, true);
 
-        KualiDecimal accountTotalGLEntryAmount = this.getAccountTotalGLEntryAmount((AccountingLine)postable);
+        KualiDecimal accountTotalGLEntryAmount = KualiDecimal.ZERO;
+
+        //KFSMI-9842: if the entry's financial document type is POA then generate GLPEs only
+        //for the updated amount or new items, not for the entire items' accounts.
+        if (PurapDocTypeCodes.PO_AMENDMENT_DOCUMENT.equals(explicitEntry.getFinancialDocumentTypeCode())) {
+            accountTotalGLEntryAmount = explicitEntry.getTransactionLedgerEntryAmount();
+        }
+        else {
+            accountTotalGLEntryAmount = this.getAccountTotalGLEntryAmount((AccountingLine)postable);
+        }
+
         explicitEntry.setTransactionLedgerEntryAmount(accountTotalGLEntryAmount);
         String debitCreditCode = GL_DEBIT_CODE;
 

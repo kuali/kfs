@@ -123,13 +123,13 @@
 				<routePath>
 					<start name="AdHoc" nextNode="RequiresContractManagementReview"
 						nextAppDocStatus="Awaiting Purchasing Approval" />
-					<split name="RequiresContractManagementReview" nextNode="Commodity" nextAppDocStatus="Awaiting Commodity Code Approval">
-						<branch name="True">
+					<split name="RequiresContractManagementReview" nextNode="Commodity">
+						<branch name="True" >
 							<role name="ContractManagement" nextNode="JoinRequiresContractManagementReview" nextAppDocStatus="Awaiting Commodity Code Approval" />
 						</branch>
 						<branch name="False">
 							<simple name="NoOpRequiresContractManagementReview"
-								nextNode="JoinRequiresContractManagementReview" />
+								nextNode="JoinRequiresContractManagementReview" nextAppDocStatus="Awaiting Commodity Code Approval" />
 						</branch>
 						<join name="JoinRequiresContractManagementReview" />
 					</split>

@@ -166,19 +166,15 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
             List<DelegateMember> roleDelegationMembers = results.getResults();
 
             //validate if the newly entered delegation members are already assigned to the role
-            if(roleDelegationMembers!=null){
+            if(roleDelegationMembers!=null && StringUtils.isNotBlank(orr.getMemberId()) && StringUtils.isNotBlank(orr.getRoleMemberId()) ) {
                 for(DelegateMember delegationMember: roleDelegationMembers){
                     // ignore if retrieved the current delegation member
                     if ( delegationMember.getDelegationMemberId().equals(orr.getDelegationMemberId() )) {
                         continue;
                     }
-                    boolean attributesUnique = areAttributesUnique(orr, delegationMember.getAttributes());
-                    if(!attributesUnique
-                            && StringUtils.isNotBlank(orr.getMemberId())
-                            && orr.getMemberId().equals(delegationMember.getMemberId())
-                            && (StringUtils.isNotBlank(orr.getRoleMemberId())
-                                    && StringUtils.isNotBlank(delegationMember.getRoleMemberId()))
-                            ){
+                    if( orr.getMemberId().equals(delegationMember.getMemberId())
+                            && StringUtils.isNotBlank(delegationMember.getRoleMemberId())
+                            && doAttributesMatch(orr, delegationMember.getAttributes())  ){
                        putFieldError(orr.getMemberFieldName(), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
                        return false;
                     }
@@ -258,16 +254,16 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
             String roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(
                     KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
             List<RoleMembership> roleMembershipInfoList = KimApiServiceLocator.getRoleService().getFirstLevelRoleMembers( Collections.singletonList(roleId));
-            if(roleMembershipInfoList!=null){
+            String documentMemberId = orr.getMemberId();
+            if(roleMembershipInfoList!=null && StringUtils.isNotEmpty(documentMemberId) ){
                 for(RoleMembership roleMembershipInfo: roleMembershipInfoList){
                     // ignore if retrieved the current role member
                     if ( roleMembershipInfo.getId().equals(orr.getRoleMemberId() )) {
                         continue;
                     }
-                    String memberId = orr.getMemberId();
-                    boolean attributesUnique = areAttributesUnique(orr, roleMembershipInfo.getQualifier());
-                    if(!attributesUnique && StringUtils.isNotEmpty(memberId) && memberId.equals(roleMembershipInfo.getMemberId()) &&
-                            orr.getMemberType().equals(roleMembershipInfo.getType())){
+                    if(        documentMemberId.equals(roleMembershipInfo.getMemberId())
+                            && orr.getMemberType().equals(roleMembershipInfo.getType())
+                            && doAttributesMatch(orr, roleMembershipInfo.getQualifier()) ) {
                        putFieldError(orr.getMemberFieldName(), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
                        return false;
                     }
@@ -277,15 +273,13 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
-    protected boolean areAttributesUnique(OrgReviewRole orr, Map<String,String> attributeSet){
+    protected boolean doAttributesMatch(OrgReviewRole orr, Map<String,String> attributeSet){
         String docTypeName = orr.getFinancialSystemDocumentTypeCode();
         String chartOfAccountCode = orr.getChartOfAccountsCode();
         String organizationCode = orr.getOrganizationCode();
-        boolean uniqueAttributes =
-            !StringUtils.equals(docTypeName, attributeSet.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) ||
-            !StringUtils.equals(chartOfAccountCode, attributeSet.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)) ||
-            !StringUtils.equals(organizationCode, attributeSet.get(KfsKimAttributes.ORGANIZATION_CODE));
-        return uniqueAttributes;
+        return     StringUtils.equals(docTypeName, attributeSet.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME))
+                && StringUtils.equals(chartOfAccountCode, attributeSet.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE))
+                && StringUtils.equals(organizationCode, attributeSet.get(KfsKimAttributes.ORGANIZATION_CODE));
     }
 
     protected OrgReviewRoleService getOrgReviewRoleService(){

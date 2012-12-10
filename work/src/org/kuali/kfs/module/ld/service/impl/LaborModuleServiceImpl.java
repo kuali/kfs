@@ -52,8 +52,6 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -68,6 +66,7 @@ import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.SessionDocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -117,7 +116,6 @@ public class LaborModuleServiceImpl implements LaborModuleService {
             return;
         }
 
-        WorkflowDocumentService workflowDocumentService = KewApiServiceLocator.getWorkflowDocumentService();
         SalaryExpenseTransferDocument document = (SalaryExpenseTransferDocument) getDocumentService().getNewDocument(SalaryExpenseTransferDocument.class);
 
         document.setEmplid(sourceAccountingLines.get(0).getEmplid());
@@ -149,7 +147,8 @@ public class LaborModuleServiceImpl implements LaborModuleService {
             adHocRecipientList.add(this.buildApprovePersonRecipient(adHocRouteRecipient));
          }
 
-        SpringContext.getBean(DocumentService.class).blanketApproveDocument(document, annotation, adHocRecipientList);
+        // blanket approve salary expense transfer doc bypassing all rules
+        SpringContext.getBean(WorkflowDocumentService.class).blanketApprove(document.getDocumentHeader().getWorkflowDocument(), annotation, adHocRecipientList);
         SpringContext.getBean(SessionDocumentService.class).addDocumentToUserSession(GlobalVariables.getUserSession(), document.getDocumentHeader().getWorkflowDocument());
 
     }
@@ -296,6 +295,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         return getKualiModuleService().getResponsibleModuleService(LaborLedgerPositionObjectBenefit.class).getExternalizableBusinessObjectsList(LaborLedgerPositionObjectBenefit.class, searchCriteria);
     }
 
+    @Override
     public List<LaborLedgerPositionObjectBenefit> retrieveActiveLaborPositionObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
         Map<String, Object> searchCriteria = new HashMap<String, Object>();
 

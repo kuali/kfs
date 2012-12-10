@@ -243,7 +243,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends AbstractPayeeL
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<DisbursementPayee> searchResults = new ArrayList<DisbursementPayee>();
 
-        if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER)) || StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.TAX_NUMBER))) {
+        if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER)) || StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.VENDOR_NAME))) {
             searchResults.addAll(this.getVendorsAsPayees(fieldValues));
         }
         else if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.EMPLOYEE_ID))) {

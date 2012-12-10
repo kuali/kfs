@@ -21,16 +21,21 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
-<bean id="AccountMaintenanceDocument-parentBean" parent="AccountMaintenanceDocument-baseBean" abstract="true"
+ <bean id="AccountMaintenanceDocument-parentBean" parent="AccountMaintenanceDocument-baseBean" abstract="true"
 	p:maintainableClass="org.kuali.kfs.module.external.kc.document.KualiAccountMaintainableImpl">
-	    <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.external.kc.validation.impl.AccountPreRules"/>
+	<property name="promptBeforeValidationClass" value="org.kuali.kfs.module.external.kc.validation.impl.AccountPreRules"/>
   	<property name="maintainableSections">
 		<list merge="true">
 			<ref bean="AccountMaintenanceDocument-ContractsAndGrants"/>
 			<ref bean="AccountMaintenanceDocument-IndirectCostRecoveryAccounts"/>
 		</list>
 	</property>
-</bean>
+	<property name="defaultExistenceChecks">
+        <list merge="true">
+	      	<bean parent="ReferenceDefinition" p:attributeName="cfda" p:attributeToHighlightOnFail="accountCfdaNumber" />
+ 	    </list>   
+    </property>
+ </bean>
  <!-- Maintenance Section Definitions -->
  <bean id="AccountMaintenanceDocument-ContractsAndGrants" parent="AccountMaintenanceDocument-ContractsAndGrants-parentBean"/>
 

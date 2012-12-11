@@ -1,2 +1,0 @@
-trans_typ|obj_id|ver_nbr|trans_typ_desc|
-PRAP|5A429044CF5941B0E0404F8189D80C66|1.0|Purchasing/AP Direct Deposit Records|

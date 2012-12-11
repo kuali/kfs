@@ -1,3 +1,0 @@
-tran_sub_typ_cd|tran_sub_typ_desc|obj_id|ver_nbr|
-C|Cash|8529CD486614060AE0404F8189D81C0B|1.0|
-N|Non-Cash|8529CD486615060AE0404F8189D81C0B|1.0|

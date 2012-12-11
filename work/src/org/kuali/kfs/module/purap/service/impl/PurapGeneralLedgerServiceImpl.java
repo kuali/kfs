@@ -42,6 +42,7 @@ import org.kuali.kfs.module.purap.businessobject.AccountsPayableSummaryAccount;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
@@ -709,7 +710,22 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         if (shouldGenerateGLPEForPurchaseOrder(po)) {
             generalLedgerPendingEntryService.generateGeneralLedgerPendingEntries(po);
             saveGLEntries(po.getGeneralLedgerPendingEntries());
-            LOG.debug("generateEntriesClosePurchaseOrder() gl entries created");
+            LOG.debug("generateEntriesClosePurchaseOrder() gl entries created; exit method");
+        }
+
+        //MSU Contribution DTT-3812 KFSMI-8642 KFSCNTRB-957
+        // Set outstanding encumbered quantity/amount on items
+        for (Iterator items = po.getItems().iterator(); items.hasNext();) {
+            PurchaseOrderItem item = (PurchaseOrderItem) items.next();
+            if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                item.setItemOutstandingEncumberedQuantity(KualiDecimal.ZERO);
+            }
+            item.setItemOutstandingEncumberedAmount(KualiDecimal.ZERO);
+            List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
+            for (PurApAccountingLine purApAccountingLine : sourceAccountingLines) {
+                PurchaseOrderAccount account = (PurchaseOrderAccount) purApAccountingLine;
+                account.setItemAccountOutstandingEncumbranceAmount(KualiDecimal.ZERO);
+            }
         }
 
         LOG.debug("generateEntriesClosePurchaseOrder() exit method");
@@ -737,6 +753,25 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
     @Override
     public void generateEntriesReopenPurchaseOrder(PurchaseOrderDocument po) {
         LOG.debug("generateEntriesReopenPurchaseOrder() started");
+
+        //MSU Contribution DTT-3812 KFSMI-8642 KFSCNTRB-957
+        // Set outstanding encumbered quantity/amount on items
+        for (Iterator items = po.getItems().iterator(); items.hasNext();) {
+            PurchaseOrderItem item = (PurchaseOrderItem) items.next();
+            if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                item.getItemQuantity().subtract(item.getItemInvoicedTotalQuantity());
+                item.setItemOutstandingEncumberedQuantity(item.getItemQuantity().subtract(item.getItemInvoicedTotalQuantity()));
+                item.setItemOutstandingEncumberedAmount(new KualiDecimal(item.getItemOutstandingEncumberedQuantity().bigDecimalValue().multiply(item.getItemUnitPrice())));
+            }
+            else {
+                item.setItemOutstandingEncumberedAmount(item.getTotalAmount().subtract(item.getItemInvoicedTotalAmount()));
+            }
+            List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
+            for (PurApAccountingLine purApAccountingLine : sourceAccountingLines) {
+                PurchaseOrderAccount account = (PurchaseOrderAccount) purApAccountingLine;
+                account.setItemAccountOutstandingEncumbranceAmount(new KualiDecimal(item.getItemOutstandingEncumberedAmount().bigDecimalValue().multiply(account.getAccountLinePercent()).divide(KFSConstants.ONE_HUNDRED.bigDecimalValue())));
+            }
+        }// endfor
 
         // Set outstanding encumbered quantity/amount on items
         for (Iterator items = po.getItems().iterator(); items.hasNext();) {

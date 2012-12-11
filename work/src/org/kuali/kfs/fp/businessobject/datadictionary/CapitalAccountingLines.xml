@@ -27,10 +27,11 @@
         <ref bean="CapitalAccountingLines-lineType"/>
         <ref bean="CapitalAccountingLines-chartOfAccountsCode"/>
         <ref bean="CapitalAccountingLines-accountNumber"/>
-        <ref bean="CapitalAccountingLines-financialObjectCode"/>
         <ref bean="CapitalAccountingLines-subAccountNumber"/>
+        <ref bean="CapitalAccountingLines-financialObjectCode"/>
         <ref bean="CapitalAccountingLines-financialSubObjectCode"/>
         <ref bean="CapitalAccountingLines-projectCode"/>
+        <ref bean="CapitalAccountingLines-organizationReferenceId"/>
         <ref bean="CapitalAccountingLines-financialDocumentLineDescription"/>
         <ref bean="CapitalAccountingLines-amount"/>
         <ref bean="CapitalAccountingLines-selectLine"/>
@@ -44,18 +45,12 @@
 <!-- Attribute Definitions -->
 
   <bean id="CapitalAccountingLines-documentNumber" parent="CapitalAccountingLines-documentNumber-parentBean"/>
+  <bean id="CapitalAccountingLines-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
 
-  <bean id="CapitalAccountingLines-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
   <bean id="CapitalAccountingLines-sequenceNumber" parent="CapitalAccountingLines-sequenceNumber-parentBean"/>
+  <bean id="CapitalAccountingLines-sequenceNumber-parentBean" abstract="true" parent="SourceAccountingLine-sequenceNumber" />
 
-  <bean id="CapitalAccountingLines-sequenceNumber-parentBean" abstract="true" parent="SourceAccountingLine-sequenceNumber">
-	<property name="maxLength" value="8"/>
-  	<property name="forceUppercase" value="true"/>
-  </bean>
   <bean id="CapitalAccountingLines-lineType" parent="CapitalAccountingLines-lineType-parentBean"/>
-
   <bean id="CapitalAccountingLines-lineType-parentBean" abstract="true" parent="AttributeDefinition">
 	<property name="name" value="lineType"/>
 	<property name="maxLength" value="10"/>
@@ -66,56 +61,43 @@
       <bean parent="TextControlDefinition" p:size="10"/>
     </property>
   </bean>
+  
   <bean id="CapitalAccountingLines-chartOfAccountsCode" parent="CapitalAccountingLines-chartOfAccountsCode-parentBean"/>
+  <bean id="CapitalAccountingLines-chartOfAccountsCode-parentBean" abstract="true" parent="SourceAccountingLine-chartOfAccountsCode" />
 
-  <bean id="CapitalAccountingLines-chartOfAccountsCode-parentBean" abstract="true" parent="SourceAccountingLine-chartOfAccountsCode">
-	<property name="maxLength" value="10"/>
-  	<property name="forceUppercase" value="true"/>
-  </bean>
   <bean id="CapitalAccountingLines-accountNumber" parent="CapitalAccountingLines-accountNumber-parentBean"/>
+  <bean id="CapitalAccountingLines-accountNumber-parentBean" abstract="true" parent="SourceAccountingLine-accountNumber" />
 
-  <bean id="CapitalAccountingLines-accountNumber-parentBean" abstract="true" parent="SourceAccountingLine-accountNumber">
-	<property name="maxLength" value="10"/>
-  	<property name="forceUppercase" value="true"/>
-  </bean>
   <bean id="CapitalAccountingLines-financialObjectCode" parent="CapitalAccountingLines-financialObjectCode-parentBean"/>
+  <bean id="CapitalAccountingLines-financialObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-financialObjectCode" />
 
-  <bean id="CapitalAccountingLines-financialObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-financialObjectCode">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
   <bean id="CapitalAccountingLines-subAccountNumber" parent="CapitalAccountingLines-subAccountNumber-parentBean"/>
+  <bean id="CapitalAccountingLines-subAccountNumber-parentBean" abstract="true" parent="SourceAccountingLine-subAccountNumber" />
 
-  <bean id="CapitalAccountingLines-subAccountNumber-parentBean" abstract="true" parent="SourceAccountingLine-subAccountNumber">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
   <bean id="CapitalAccountingLines-financialSubObjectCode" parent="CapitalAccountingLines-financialSubObjectCode-parentBean"/>
+  <bean id="CapitalAccountingLines-financialSubObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-financialSubObjectCode" />
 
-  <bean id="CapitalAccountingLines-financialSubObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-financialSubObjectCode">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
   <bean id="CapitalAccountingLines-projectCode" parent="CapitalAccountingLines-projectCode-parentBean"/>
+  <bean id="CapitalAccountingLines-projectCode-parentBean" abstract="true" parent="SourceAccountingLine-projectCode" />
 
-  <bean id="CapitalAccountingLines-projectCode-parentBean" abstract="true" parent="SourceAccountingLine-projectCode">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
+  <bean id="CapitalAccountingLines-organizationReferenceId" parent="CapitalAccountingLines-organizationReferenceId-parentBean"/>
+  <bean id="CapitalAccountingLines-organizationReferenceId-parentBean" abstract="true" parent="SourceAccountingLine-organizationReferenceId" />
+
   <bean id="CapitalAccountingLines-financialDocumentLineDescription" parent="CapitalAccountingLines-financialDocumentLineDescription-parentBean"/>
+  <bean id="CapitalAccountingLines-financialDocumentLineDescription-parentBean" abstract="true" parent="SourceAccountingLine-financialDocumentLineDescription" />
 
-  <bean id="CapitalAccountingLines-financialDocumentLineDescription-parentBean" abstract="true" parent="SourceAccountingLine-financialDocumentLineDescription">
-  </bean> 
   <bean id="CapitalAccountingLines-amount" parent="CapitalAccountingLines-amount-parentBean"/>
+  <bean id="CapitalAccountingLines-amount-parentBean" abstract="true" parent="SourceAccountingLine-amount" />
 
-  <bean id="CapitalAccountingLines-amount-parentBean" abstract="true" parent="SourceAccountingLine-amount">
-  </bean>
   <bean id="CapitalAccountingLines-selectLine" parent="CapitalAccountingLines-selectLine-parentBean"/>
-
   <bean id="CapitalAccountingLines-selectLine-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="selectLine"/>
     <property name="label" value="Select Line"/>
     <property name="shortLabel" value="Sel Ln."/>
     <property name="required" value="false"/>
   </bean>
-  <bean id="CapitalAccountingLines-distributionAmountCode" parent="CapitalAccountingLines-distributionAmountCode-parentBean"/>
 
+  <bean id="CapitalAccountingLines-distributionAmountCode" parent="CapitalAccountingLines-distributionAmountCode-parentBean"/>
   <bean id="CapitalAccountingLines-distributionAmountCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="distributionAmountCode"/>
     <property name="forceUppercase" value="false"/>
@@ -127,16 +109,16 @@
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.DistributeAmountsForAssetsValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
+  
   <bean id="CapitalAccountingLines-amountDistributed" parent="CapitalAccountingLines-amountDistributed-parentBean"/>
-
   <bean id="CapitalAccountingLines-amountDistributed-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
     <property name="name" value="amountDistributed"/>
     <property name="label" value="Amount Distributed"/>
     <property name="shortLabel" value="Distributed"/>
     <property name="required" value="false"/>
   </bean>
+  
   <bean id="CapitalAccountingLines-accountLinePercent" parent="CapitalAccountingLines-accountLinePercent-parentBean"/>
-
   <bean id="CapitalAccountingLines-accountLinePercent-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="accountLinePercent"/>
     <property name="forceUppercase" value="true"/>

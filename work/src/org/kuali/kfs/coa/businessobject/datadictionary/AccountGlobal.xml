@@ -90,6 +90,13 @@
             </list>
           </property>
         </bean>
+        <bean parent="RelationshipDefinition" p:objectAttributeName="cfda">
+		  <property name="primitiveAttributes">
+			<list>
+        	  <bean parent="PrimitiveAttributeDefinition" p:sourceName="accountCfdaNumber" p:targetName="cfdaNumber" />
+			</list>
+		  </property>
+		</bean>
         <dd:relationship objectAttribute="postalZipCode">
             <dd:primitiveAttribute source="accountZipCode" target="code"/>
         </dd:relationship>
@@ -168,10 +175,13 @@
 
 	<bean id="AccountGlobal-accountCfdaNumber" parent="AccountGlobal-accountCfdaNumber-parentBean" />
 	<bean id="AccountGlobal-accountCfdaNumber-parentBean" abstract="true"
-		parent="Account-accountCfdaNumber">
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda"
+		p:sourceAttributeName="cfdaNumber">
+		<property name="name" value="accountCfdaNumber" />
 		<property name="required" value="false" />
 	</bean>
-
+	
 	<bean id="AccountGlobal-continuationAccountNumber" parent="AccountGlobal-continuationAccountNumber-parentBean" />
 	<bean id="AccountGlobal-continuationAccountNumber-parentBean"
 		abstract="true" parent="Account-continuationAccountNumber">

@@ -54,7 +54,7 @@
 						/>
 					<kul:htmlAttributeHeaderCell
 						attributeEntry="${capitalAccountingLinesAttributes.accountNumber}"
-						useShortLabel="false"
+						useShortLabel="true"
 						/>
 					<kul:htmlAttributeHeaderCell
 						attributeEntry="${capitalAccountingLinesAttributes.subAccountNumber}"
@@ -73,6 +73,10 @@
 						useShortLabel="true"
 						/>
 					<kul:htmlAttributeHeaderCell
+						attributeEntry="${capitalAccountingLinesAttributes.organizationReferenceId}"
+						useShortLabel="true"
+						/>
+					<kul:htmlAttributeHeaderCell
 						attributeEntry="${capitalAccountingLinesAttributes.amount}"
 						useShortLabel="false"
 						/>
@@ -82,7 +86,7 @@
 						/>
 					<kul:htmlAttributeHeaderCell
 						attributeEntry="${capitalAccountingLinesAttributes.financialDocumentLineDescription}"
-						useShortLabel="false"
+						useShortLabel="true"
 						/>
 					<kul:htmlAttributeHeaderCell
 						attributeEntry="${capitalAccountingLinesAttributes.selectLine}"
@@ -110,6 +114,7 @@
 			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.financialObjectCode}" property="document.capitalAccountingLines[${ctr}].financialObjectCode" readOnly="true"/></td>
 			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.financialSubObjectCode}" property="document.capitalAccountingLines[${ctr}].financialSubObjectCode" readOnly="true"/></td>
 			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.projectCode}" property="document.capitalAccountingLines[${ctr}].projectCode" readOnly="true"/></td>
+			            <td class="datacell"><kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.organizationReferenceId}" property="document.capitalAccountingLines[${ctr}].organizationReferenceId" readOnly="true"/></td>
 			            <td class="datacell">
 			            	<div align="right">
 			            		<kul:htmlControlAttribute attributeEntry="${capitalAccountingLinesAttributes.amount}" property="document.capitalAccountingLines[${ctr}].amount" readOnly="true"/>
@@ -131,7 +136,7 @@
 				<c:if test="${!empty KualiForm.document.capitalAccountingLines}">
 					<c:if test="${!readOnly}">
 						<tr height="40">
-							<td colSpan="12">
+							<td colSpan="13">
 							<div align="center"><b>Select Amount Distribution Method&nbsp;</b>
 									<kul:htmlControlAttribute
 									attributeEntry="${capitalAccountingLineAttributes.distributionCode}"
@@ -143,7 +148,7 @@
 					</c:if>
 					<c:if test="${!readOnly}">
 						<tr height="40">
-				            <td class="datacell" colSpan="12">
+				            <td class="datacell" colSpan="13">
 				            	<div align="center">
 				            		<c:if test="${KualiForm.capitalAccountingLine.canCreateAsset}">
 				                		<html:image property="methodToCall.createAsset" src="${ConfigProperties.externalizable.images.url}tinybutton-createasset.gif" alt="Create Asset Details" title="Create Asset Details" styleClass="tinybutton"/>

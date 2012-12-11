@@ -103,7 +103,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
             Map<String, String> primaryKeys = new HashMap<String, String>();
             primaryKeys.put(CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, purApDoc.getDocumentNumber());
             // check if doc is already in CAB
-            PurchasingAccountsPayableDocument cabPurapDoc = (PurchasingAccountsPayableDocument) businessObjectService.findByPrimaryKey(PurchasingAccountsPayableDocument.class, primaryKeys);
+            PurchasingAccountsPayableDocument cabPurapDoc = businessObjectService.findByPrimaryKey(PurchasingAccountsPayableDocument.class, primaryKeys);
 
             candidateDocs.add(cabPurapDoc);
             // keep the original list of items for iteration since purApLineService.processAllocate() may remove the line item when
@@ -351,7 +351,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 businessObjectService.save(negativeEntry);
             }
 
-            // KFSMI-7214, create a active document reference map 
+            // KFSMI-7214, create a active document reference map
             boolean newApDoc = false;
             // KFSMI-7214, find from active document reference map first
             PurchasingAccountsPayableDocument cabPurapDoc = papdMap.get(entry.getDocumentNumber());
@@ -359,13 +359,13 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 // find from DB
                 cabPurapDoc = findPurchasingAccountsPayableDocument(entry);
             }
-            
+
             // if document is found already, update the active flag
             if (ObjectUtils.isNull(cabPurapDoc)) {
                 cabPurapDoc = createPurchasingAccountsPayableDocument(entry);
                 newApDoc = true;
             }
-            
+
             if (cabPurapDoc != null) {
                 // KFSMI-7214, add to the cached document map
                 papdMap.put(entry.getDocumentNumber(), cabPurapDoc);
@@ -375,12 +375,12 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 for (PurApAccountingLineBase purApAccountingLine : matchedPurApAcctLines) {
                     // KFSMI-7214,tracking down changes on CAB item.
                     newAssetItem = false;
-                    
+
                     PurApItem purapItem = purApAccountingLine.getPurapItem();
                     String itemAssetKey = cabPurapDoc.getDocumentNumber() + "-" + purapItem.getItemIdentifier();
                     // KFSMI-7214, search CAB item from active object reference map first
                     PurchasingAccountsPayableItemAsset itemAsset = assetItems.get(itemAssetKey);
-                    
+
                     if (ObjectUtils.isNull(itemAsset)) {
                         itemAsset = findMatchingPurapAssetItem(cabPurapDoc, purapItem);
                     }
@@ -391,7 +391,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                         cabPurapDoc.getPurchasingAccountsPayableItemAssets().add(itemAsset);
                         newAssetItem = true;
                     }
-                    
+
                     assetItems.put(itemAssetKey, itemAsset);
                     PurchasingAccountsPayableLineAssetAccount assetAccount = null;
                     String acctLineKey = cabPurapDoc.getDocumentNumber() + "-" + itemAsset.getAccountsPayableLineItemIdentifier() + "-" + itemAsset.getCapitalAssetBuilderLineNumber() + "-" + generalLedgerEntry.getGeneralLedgerAccountIdentifier();
@@ -409,12 +409,14 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                         if (CabConstants.CM.equals(entry.getFinancialDocumentTypeCode())) {
                             purapAmount = purapAmount.negated();
                         }
+
                         if (purapAmount.isPositive()) {
                             currentEntry = positiveEntry;
                         }
                         else {
                             currentEntry = negativeEntry;
                         }
+
                         currentEntry.setTransactionLedgerEntryAmount(currentEntry.getTransactionLedgerEntryAmount().add(purapAmount.abs()));
                         assetAccount = createPurchasingAccountsPayableLineAssetAccount(currentEntry, cabPurapDoc, purApAccountingLine, itemAsset);
                         itemAsset.getPurchasingAccountsPayableLineAssetAccounts().add(assetAccount);
@@ -424,21 +426,24 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                         assetAccount.setItemAccountTotalAmount(assetAccount.getItemAccountTotalAmount().add(purApAccountingLine.getAmount()));
                     }
 
-                    
-                    // KFSMI-7214: fixed OJB auto-update object issue. 
+                    // KFSMI-7214: fixed OJB auto-update object issue.
                     if (!newAssetItem) {
                         businessObjectService.save(itemAsset);
                     }
 
                     businessObjectService.save(cabPurapDoc);
-                    
+
                     // Add to the asset lock table if purap has asset number information
                     addAssetLocks(assetLockMap, cabPurapDoc, purapItem, itemAsset.getAccountsPayableLineItemIdentifier(), poDocMap);
                 }
 
                 // update negative and positive GL entry once again
                 if (positiveEntry != null && negativeEntry != null) {
+
+                    fixCabGlEntryAmountWithGlEntryAmount(positiveEntry);
                     businessObjectService.save(positiveEntry);
+
+                    fixCabGlEntryAmountWithGlEntryAmount(negativeEntry);
                     businessObjectService.save(negativeEntry);
                 }
 
@@ -447,8 +452,6 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 if (newApDoc) {
                     purApDocuments.add(cabPurapDoc);
                 }
-
-
             }
             else {
                 LOG.error("Could not create a valid PurchasingAccountsPayableDocument object for document number " + entry.getDocumentNumber());
@@ -456,6 +459,24 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         }
         updateProcessLog(processLog, reconciliationService);
         return purApDocuments;
+    }
+
+    /**
+     * Helper method to find the GL Entry matching the current entry and get total gl's amount and
+     * set that amount as the transaction ledger entry amount on the current entry.
+     *
+     * @param currentEntry
+     */
+    protected void fixCabGlEntryAmountWithGlEntryAmount(GeneralLedgerEntry currentEntry) {
+        Collection<Entry> matchingGlEntries = extractDao.findMatchingGLEntries(currentEntry);
+
+        KualiDecimal glPendingEntryAmount = KualiDecimal.ZERO;
+
+        for (Entry glEntry : matchingGlEntries) {
+            glPendingEntryAmount = glPendingEntryAmount.add(glEntry.getTransactionLedgerEntryAmount());
+        }
+
+        currentEntry.setTransactionLedgerEntryAmount(glPendingEntryAmount);
     }
 
     /**
@@ -635,7 +656,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, entry.getDocumentNumber());
         // check if doc is already in CAB
-        PurchasingAccountsPayableDocument cabPurapDoc = (PurchasingAccountsPayableDocument) businessObjectService.findByPrimaryKey(PurchasingAccountsPayableDocument.class, primaryKeys);
+        PurchasingAccountsPayableDocument cabPurapDoc = businessObjectService.findByPrimaryKey(PurchasingAccountsPayableDocument.class, primaryKeys);
         return cabPurapDoc;
     }
 
@@ -796,7 +817,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                     primaryKeys.put(CabPropertyConstants.Pretag.PURCHASE_ORDER_NUMBER, poId);
                     primaryKeys.put(CabPropertyConstants.Pretag.ITEM_LINE_NUMBER, itemLineNumber);
                     // check if already in pre-tag table
-                    Pretag pretag = (Pretag) businessObjectService.findByPrimaryKey(Pretag.class, primaryKeys);
+                    Pretag pretag = businessObjectService.findByPrimaryKey(Pretag.class, primaryKeys);
                     if (ObjectUtils.isNull(pretag) && savedLines.add("" + poId + "-" + itemLineNumber)) {
                         pretag = new Pretag();
                         pretag.setPurchaseOrderNumber(poId.toString());

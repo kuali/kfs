@@ -428,9 +428,6 @@
  
  	<bean id="disbursementPayeeLookupableHelperService" scope="prototype" parent="disbursementPayeeLookupableHelperService-parentBean"/>
 	<bean id="disbursementPayeeLookupableHelperService-parentBean"  parent="payeeLookupableHelperServiceImpl-parentBean" abstract="true"  class="org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl" scope="prototype" >
-		<property name="disbursementVoucherPaymentReasonService">
-			<ref bean="disbursementVoucherPaymentReasonService" />
-		</property>
         <property name="accountsReceivableModuleService">
             <ref bean="accountsReceivableModuleService" />
         </property> 
@@ -488,7 +485,10 @@
 		</property>	
 		<property name="kualiInquirable">
 			<ref bean="disbursementPayeeInquirable" />
-		</property>			
+		</property>		
+		<property name="disbursementVoucherPaymentReasonService">
+			<ref bean="disbursementVoucherPaymentReasonService" />	
+		</property>
 		<property name="disbursementVoucherPayeeService">
 			<ref bean="disbursementVoucherPayeeService" />
 		</property>

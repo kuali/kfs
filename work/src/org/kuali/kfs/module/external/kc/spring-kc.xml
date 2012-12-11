@@ -39,6 +39,7 @@
             <map>
 	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" /> 
        			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" />
+                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.module.external.kc.businessobject.CfdaDTO" />
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.module.external.kc.businessobject.Award"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.external.kc.businessobject.AwardAccount"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.module.external.kc.businessobject.Agency"/>
@@ -49,6 +50,7 @@
              <map>
 	            <entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" value="institutionalUnitService"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" value="budgetCategoryService"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.CfdaDTO" value="cfdaNumberService"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.AwardAccount" value="awardAccountService"/>       			
              </map>
         </property>
@@ -58,6 +60,7 @@
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Proposal" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposal"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency" value="org.kuali.kra.bo.Sponsor"/>
       			<entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" value="org.kuali.kra.bo.Unit"/>
+      			<entry key="org.kuali.kfs.module.external.kc.businessobject.CfdaDTO" value="org.kuali.kra.award.home.CFDA"/>
              </map>
         </property>        
         <property name="kfsToKcInquiryUrlParameterMapping">
@@ -66,7 +69,8 @@
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Proposal.proposalNumber" value="proposalId"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency.agencyNumber" value="sponsorCode"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency.primeAgencyNumber" value="sponsorCode"/>
-       			<entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO.unitNumber" value="unitNumber"/>      			
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO.unitNumber" value="unitNumber"/>
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.CfdaDTO.cfdaNumber" value="cfdaNumber"/>
              </map>
         </property>        
  		<property name="dataDictionaryPackages">
@@ -87,20 +91,21 @@
 		<property name="moduleConfiguration" ref="cgModuleConfiguration" />
 	</bean>
 	
-	<bean id="contractsAndGrantsModuleService" parent="contractsAndGrantsModuleService_parentBean"/>
-	<bean id="contractsAndGrantsModuleService_parentBean" class="org.kuali.kfs.module.external.kc.service.impl.ContractsAndGrantsModuleServiceImpl">
+	<bean id="contractsAndGrantsModuleService" parent="contractsAndGrantsModuleService-parentBean"/>
+	<bean id="contractsAndGrantsModuleService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.ContractsAndGrantsModuleServiceImpl" abstract="true">
 	<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
-	
-                        
-    <bean id="accountCreationService" class="org.kuali.kfs.module.external.kc.service.impl.AccountCreationServiceImpl">
+	                        
+    <bean id="accountCreationService" parent="accountCreationService-parentBean"/>
+    <bean id="accountCreationService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AccountCreationServiceImpl" abstract="true">
         <property name="documentService" ref="documentService" />
         <property name="parameterService" ref="parameterService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
 	    
-    <bean id="budgetAdjustmentService" class="org.kuali.kfs.module.external.kc.service.impl.BudgetAdjustmentServiceImpl">
+    <bean id="budgetAdjustmentService" parent="budgetAdjustmentService-parentBean"/>
+    <bean id="budgetAdjustmentService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.BudgetAdjustmentServiceImpl" abstract="true">
         <property name="documentService" ref="documentService" />
         <property name="parameterService" ref="parameterService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
@@ -117,13 +122,20 @@
     </bean>
    -->
    
-	<bean id="kcObjectCodeService" class = "org.kuali.kfs.module.external.kc.service.impl.KcObjectCodeServiceImpl"/>
+    <bean id="kcObjectCodeService" parent="kcObjectCodeService-parentBean"/>
+	<bean id="kcObjectCodeService-parentBean" class = "org.kuali.kfs.module.external.kc.service.impl.KcObjectCodeServiceImpl" abstract="true"/>
 	
-	<bean id="budgetCategoryService" class="org.kuali.kfs.module.external.kc.service.impl.BudgetCategoryServiceImpl"/>
+    <bean id="budgetCategoryService" parent="budgetCategoryService-parentBean"/>
+	<bean id="budgetCategoryService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.BudgetCategoryServiceImpl" abstract="true"/>
 	
-	<bean id="institutionalUnitService" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl"/>
+    <bean id="institutionalUnitService" parent="institutionalUnitService-parentBean"/>
+	<bean id="institutionalUnitService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl" abstract="true"/>
 		 	  	  	
-  	<bean id="awardAccountService" class="org.kuali.kfs.module.external.kc.service.impl.AwardAccountServiceImpl"/>  
+    <bean id="cfdaNumberService" parent="cfdaNumberService-parentBean"/>
+	<bean id="cfdaNumberService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.CfdaServiceImpl" abstract="true"/>
+		 	  	  	
+    <bean id="awardAccountService" parent="awardAccountService-parentBean"/>
+  	<bean id="awardAccountService-parentBean" class="org.kuali.kfs.module.external.kc.service.impl.AwardAccountServiceImpl" abstract="true"/>  
   	  		
   	<import resource="spring-kc-bus-exports.xml"/>
 </beans>

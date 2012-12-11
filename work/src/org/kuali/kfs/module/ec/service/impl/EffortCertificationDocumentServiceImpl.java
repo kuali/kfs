@@ -35,12 +35,12 @@ import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortKeyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetail;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailBuild;
-import org.kuali.kfs.module.ec.businessobject.EffortCertificationDetailLineOverride;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.document.validation.impl.EffortCertificationDocumentRuleUtil;
 import org.kuali.kfs.module.ec.service.EffortCertificationDocumentService;
+import org.kuali.kfs.module.ld.businessobject.LaborAccountingLineOverride;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.MessageBuilder;
@@ -387,14 +387,6 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param accountingLine the accounting line needed to be populated
      */
     protected void populateAccountingLine(EffortCertificationDocument effortCertificationDocument, EffortCertificationDetail detailLine, LaborLedgerExpenseTransferAccountingLine accountingLine) {
-        // if an expired account override is needed, set it, otherwise validations on the downstream SET doc could fail
-        AccountingLineOverride override = EffortCertificationDetailLineOverride.determineNeededOverrides(detailLine);
-        accountingLine.setAccountExpiredOverrideNeeded(override.hasComponent(COMPONENT.EXPIRED_ACCOUNT));
-        accountingLine.setAccountExpiredOverride(accountingLine.getAccountExpiredOverrideNeeded());
-        if (accountingLine.getAccountExpiredOverrideNeeded()) {
-            accountingLine.setOverrideCode(override.getCode());
-        }
-
         accountingLine.setChartOfAccountsCode(detailLine.getChartOfAccountsCode());
         accountingLine.setAccountNumber(detailLine.getAccountNumber());
         accountingLine.setSubAccountNumber(detailLine.getSubAccountNumber());
@@ -418,6 +410,21 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         accountingLine.setPayrollEndDateFiscalPeriodCode(reportDefinition.getExpenseTransferFiscalPeriodCode());
 
         accountingLine.refreshNonUpdateableReferences();
+
+        AccountingLineOverride override = LaborAccountingLineOverride.determineNeededOverrides(accountingLine);
+
+        // if an expired account override is needed, set it, otherwise validations on the downstream ST doc could fail
+        accountingLine.setAccountExpiredOverrideNeeded(override.hasComponent(COMPONENT.EXPIRED_ACCOUNT));
+        accountingLine.setAccountExpiredOverride(accountingLine.getAccountExpiredOverrideNeeded());
+
+        // if a non-budgeted object code override is needed, set it, otherwise validations on the downstream ST doc could fail
+        accountingLine.setObjectBudgetOverrideNeeded(override.hasComponent(COMPONENT.NON_BUDGETED_OBJECT));
+        accountingLine.setObjectBudgetOverride(accountingLine.isObjectBudgetOverrideNeeded());
+
+        if (accountingLine.getAccountExpiredOverrideNeeded() || accountingLine.isObjectBudgetOverrideNeeded()) {
+            accountingLine.setOverrideCode(override.getCode());
+        }
+
     }
 
     /**

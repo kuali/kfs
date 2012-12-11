@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
@@ -40,10 +39,10 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class OrganizationtMaintenanceDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
     /**
      * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
-     * 
+     *
      * This methods adds the extra COA code fields that are PKs of nested reference accounts but don't exist in the BO as FKs
-     * to the readOnlyPropertyNames set when accounts can't cross charts. 
-     * Since these fields aren't included in AccountPersistenceStructureService.listChartOfAccountsCodeNames as 
+     * to the readOnlyPropertyNames set when accounts can't cross charts.
+     * Since these fields aren't included in AccountPersistenceStructureService.listChartOfAccountsCodeNames as
      * in super.getConditionallyReadOnlyPropertyNames, they need to be added individually for such special cases.
      */
     @Override
@@ -51,53 +50,53 @@ public class OrganizationtMaintenanceDocumentPresentationController extends Fina
         Set<String> readOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
 
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        
+
         AttributeSecurity chartReadOnlyAttributeSecurity = dataDictionaryService.getAttributeSecurity(Organization.class.getName(), KFSPropertyConstants.CAMPUS_PLANT_CHART_CODE);
         chartReadOnlyAttributeSecurity.setReadOnly(true);
 
         AttributeSecurity plantAccountReadOnlyAttributeSecurity = dataDictionaryService.getAttributeSecurity(Organization.class.getName(), KFSPropertyConstants.CAMPUS_PLANT_ACCOUNT_NUMBER);
         plantAccountReadOnlyAttributeSecurity.setReadOnly(true);
-        
+
         AttributeSecurity OrgChartReadOnlyAttributeSecurity = dataDictionaryService.getAttributeSecurity(Organization.class.getName(), KFSPropertyConstants.ORGANIZATION_PLANT_CHART_CODE);
         OrgChartReadOnlyAttributeSecurity.setReadOnly(true);
 
         AttributeSecurity orgPlantAccountReadOnlyAttributeSecurity = dataDictionaryService.getAttributeSecurity(Organization.class.getName(), KFSPropertyConstants.ORGANIZATION_PLANT_ACCOUNT_NUMBER);
         orgPlantAccountReadOnlyAttributeSecurity.setReadOnly(true);
-        
-        Organization organization = (Organization) document.getNewMaintainableObject().getDataObject(); 
+
+        Organization organization = (Organization) document.getNewMaintainableObject().getDataObject();
 
         // get user
         Person user = GlobalVariables.getUserSession().getPerson();
         Map<String,String> roleQualifiers = new HashMap<String,String>();
-        
-        if (isCampuChartManagerAuthorized(user, KFSPropertyConstants.CAMPUS_PLANT_CHART_CODE, roleQualifiers)) {
+
+        if (isCampusChartManagerAuthorized(user, KFSPropertyConstants.CAMPUS_PLANT_CHART_CODE, roleQualifiers)) {
             chartReadOnlyAttributeSecurity.setReadOnly(false);
         }
-        if (isCampuChartManagerAuthorized(user, KFSPropertyConstants.CAMPUS_PLANT_ACCOUNT_NUMBER, roleQualifiers)) {
+        if (isCampusChartManagerAuthorized(user, KFSPropertyConstants.CAMPUS_PLANT_ACCOUNT_NUMBER, roleQualifiers)) {
             plantAccountReadOnlyAttributeSecurity.setReadOnly(false);
         }
 
-        if (isCampuChartManagerAuthorized(user, KFSPropertyConstants.ORGANIZATION_PLANT_CHART_CODE, roleQualifiers)) {
+        if (isCampusChartManagerAuthorized(user, KFSPropertyConstants.ORGANIZATION_PLANT_CHART_CODE, roleQualifiers)) {
             OrgChartReadOnlyAttributeSecurity.setReadOnly(false);
         }
-        
-        if (isCampuChartManagerAuthorized(user, KFSPropertyConstants.ORGANIZATION_PLANT_ACCOUNT_NUMBER, roleQualifiers)) {
+
+        if (isCampusChartManagerAuthorized(user, KFSPropertyConstants.ORGANIZATION_PLANT_ACCOUNT_NUMBER, roleQualifiers)) {
             orgPlantAccountReadOnlyAttributeSecurity.setReadOnly(false);
         }
 
-        return readOnlyPropertyNames;                
+        return readOnlyPropertyNames;
     }
-    
+
     /**
-     * This method checks whether the specified user is part of the group who can approve 
+     * This method checks whether the specified user is part of the group who can approve
      * at the campus chart level when the plant fund attributes are null.
-     * 
+     *
      * @param user
      * @parm propertyName
      * @param roleQualifiers
      * @return true if belongs to campus chart group else return false.
      */
-    protected boolean isCampuChartManagerAuthorized(Person user, String propertyName, Map<String,String> roleQualifiers) {
+    protected boolean isCampusChartManagerAuthorized(Person user, String propertyName, Map<String,String> roleQualifiers) {
         String principalId = user.getPrincipalId();
         String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
         String permissionTemplateName = KimConstants.PermissionTemplateNames.MODIFY_FIELD;
@@ -111,8 +110,8 @@ public class OrganizationtMaintenanceDocumentPresentationController extends Fina
         if (!isAuthorized) {
             return false;
         }
-        
+
         return true;
     }
-    
+
 }

@@ -1321,8 +1321,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         newPO.setPurchaseOrderCurrentIndicator(true);
         newPO.setPendingActionIndicator(false);
 
-        //this was never being saved.  Should call the method to save the newPO.
-        saveDocumentNoValidationUsingClearMessageMap(newPO);
+        // KFSMI-9879 - Don't save the newPO here - if it's a PO Close Doc, that could delete previously
+        // saved GLPEs.
     }
 
     /**

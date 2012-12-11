@@ -20,6 +20,14 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+	<bean id="AccountingDocument-capitalAssetLineUniquenessValidation" class="org.kuali.kfs.fp.document.validation.impl.CapitalAssetAccountingLineUniquenessEnforcementValidation" abstract="true">
+		<property name="parameterProperties">
+			<list>
+				<bean parent="accountingDocumentFieldConversion" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="AdvanceDeposit-advanceDepositValidation" class="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositValidation" abstract="true" />
 
 	<bean id="AdvanceDeposit-minimumAdvanceDepositValidation" class="org.kuali.kfs.fp.document.validation.impl.AdvanceDepositMinimumAdvanceDepositValidation" abstract="true" />

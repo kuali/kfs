@@ -75,7 +75,23 @@
 	</bean>
 
     <bean id="capitalAssetBuilderModuleService"  parent="capitalAssetBuilderModuleService-parentBean"/>
-    <bean id="capitalAssetBuilderModuleService-parentBean" class="org.kuali.kfs.module.cab.service.impl.CapitalAssetBuilderModuleServiceImpl" abstract="true" />
+    <bean id="capitalAssetBuilderModuleService-parentBean" class="org.kuali.kfs.module.cab.service.impl.CapitalAssetBuilderModuleServiceImpl" abstract="true">
+    	<property name="glLineService" ref="glLineService" />
+    	<property name="dataDictionaryService" ref="dataDictionaryService" />
+    	<property name="parameterEvaluatorService" ref="parameterEvaluatorService" />
+    	<property name="configurationService" ref="configurationService" />
+    	<property name="parameterRepositoryService" ref="parameterRepositoryService" />
+    	<property name="parameterService" ref="parameterService" />
+    	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="assetService" ref="assetService" />
+    	<property name="purApInfoService" ref="purApInfoService" />
+    	<property name="capitalAssetManagementModuleService" ref="capitalAssetManagementModuleService" />
+    	<property name="kualiModuleService" ref="kualiModuleService" />
+    	<property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
+    	<property name="campusService" ref="campusService" />
+    	<property name="dictionaryValidationService" ref="dictionaryValidationService" />
+    	<property name="purchasingAccountsPayableModuleService" ref="purchasingAccountsPayableModuleService" />
+    </bean>
 	
 <!-- Begin - CAB Batch Beans -->
 	<bean id="extractDao" parent="platformAwareDao" class="org.kuali.kfs.module.cab.batch.dataaccess.impl.ExtractDaoOjb" />
@@ -251,6 +267,10 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="assetGlobalService" ref="assetGlobalService"/>
 		<property name="objectTypeService" ref="objectTypeService"/>
+		<property name="documentService" ref="documentService"/>
+		<property name="documentHeaderService" ref="documentHeaderService"/>
+		<property name="parameterService" ref="parameterService"/>
+		<property name="parameterEvaluatorService" ref="parameterEvaluatorService"/>
 	</bean> 
 <!-- End GL Line Processing beans -->
 

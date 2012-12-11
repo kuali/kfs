@@ -915,9 +915,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         else {
             // zero out if extended price is zero
             for (T account : sourceAccountingLines) {
-                if (ObjectUtils.isNotNull(account.getAmount())) {
-                    account.setAmount(KualiDecimal.ZERO);
-                }
+                account.setAmount(KualiDecimal.ZERO);
             }
         }
     }

@@ -69,9 +69,6 @@
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
-    <reference-descriptor name="cfda" class-ref="org.kuali.kfs.coa.businessobject.CFDA" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="accountCfdaNumber" />
-    </reference-descriptor>
 
     <reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Organization" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="chartOfAccountsCode" />
@@ -1497,9 +1494,6 @@
     <reference-descriptor name="sufficientFundsCode" class-ref="org.kuali.kfs.coa.businessobject.SufficientFundsCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="accountSufficientFundsCode" />
     </reference-descriptor>	
-    <reference-descriptor name="cfda" class-ref="org.kuali.kfs.coa.businessobject.CFDA" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="accountCfdaNumber" />
-    </reference-descriptor>	
     <collection-descriptor name="accountGlobalDetails" element-class-ref="org.kuali.kfs.coa.businessobject.AccountGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
@@ -1884,21 +1878,7 @@
     <field-descriptor name="orgReviewRoleMemberId" column="ORG_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="delegate" column="OBJ_ID" jdbc-type="VARCHAR" primarykey="true"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
   </class-descriptor>
-   
-<!-- 
- 
- CATALOG OF FEDERAL DOMESTIC ASSISTANCE REFERENCE (CFDA)
-
 -->
-<class-descriptor class="org.kuali.kfs.coa.businessobject.CFDA" table="CA_CFDA_REF_T">
-    <field-descriptor name="cfdaNumber" column="CG_CFDA_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="cfdaProgramTitleName" column="CG_CFDA_PGM_TTL_NM" jdbc-type="VARCHAR" />
-    <!--field-descriptor name="cfdaStatusCode" column="CG_CFDA_STAT_CD" jdbc-type="VARCHAR" conversion="org.kuali.kfs.sys.dataaccess.OjbCharBooleanFieldAIConversion"/-->
-    <field-descriptor name="cfdaMaintenanceTypeId" column="CG_CFDA_MAINT_TYP_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-</class-descriptor>
 
 </descriptor-repository>
 

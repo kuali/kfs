@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,8 +20,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Collection;
 
 import org.kuali.kfs.fp.businessobject.TravelMileageRate;
 import org.kuali.kfs.fp.document.dataaccess.TravelMileageRateDao;
@@ -38,39 +37,40 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 @NonTransactional
 public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucherTravelService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherTravelServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherTravelServiceImpl.class);
 
-    private TravelMileageRateDao travelMileageRateDao;
-    private DateTimeService dateTimeService;
+    protected TravelMileageRateDao travelMileageRateDao;
+    protected DateTimeService dateTimeService;
 
     /**
-     * This method calculates the per diem amount for a given period of time at the rate provided.  The per diem amount is 
+     * This method calculates the per diem amount for a given period of time at the rate provided.  The per diem amount is
      * calculated as described below.
-     * 
-     * For same day trips: 
-     * - Per diem is equal to 1/2 of the per diem rate provided if the difference in time between the start and end time is 
-     * greater than 12 hours.  An additional 1/4 of a day is added back to the amount if the trip lasted past 7:00pm.  
+     *
+     * For same day trips:
+     * - Per diem is equal to 1/2 of the per diem rate provided if the difference in time between the start and end time is
+     * greater than 12 hours.  An additional 1/4 of a day is added back to the amount if the trip lasted past 7:00pm.
      * - If the same day trip is less than 12 hours, the per diem amount will be zero.
-     * 
+     *
      * For multiple day trips:
      * - Per diem amount is equal to the full rate times the number of full days of travel.  A full day is equal to any day
      * during the trip that is not the first day or last day of the trip.
-     * - For the first day of the trip, 
-     *   if the travel starts before noon, you receive a full day per diem, 
+     * - For the first day of the trip,
+     *   if the travel starts before noon, you receive a full day per diem,
      *   if the travel starts between noon and 5:59pm, you get a half day per diem,
      *   if the travel starts after 6:00pm, you only receive a quarter day per diem
-     * - For the last day of the trip, 
+     * - For the last day of the trip,
      *   if the travel ends before 6:00am, you only receive a quarter day per diem,
      *   if the travel ends between 6:00am and noon, you receive a half day per diem,
      *   if the travel ends after noon, you receive a full day per diem
-     *   
+     *
      * @param stateDateTime The starting date and time of the period the per diem amount is calculated for.
      * @param endDateTime The ending date and time of the period the per diema mount is calculated for.
      * @param rate The per diem rate used to calculate the per diem amount.
      * @return The per diem amount for the period specified, at the rate given.
-     * 
+     *
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService#calculatePerDiemAmount(org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel)
      */
+    @Override
     public KualiDecimal calculatePerDiemAmount(Timestamp startDateTime, Timestamp endDateTime, KualiDecimal rate) {
         KualiDecimal perDiemAmount = KualiDecimal.ZERO;
         KualiDecimal perDiemRate = new KualiDecimal(rate.doubleValue());
@@ -146,7 +146,7 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
 
     /**
      * Checks whether the date is in a per diem period given by the start hour and end hour and minutes.
-     * 
+     *
      * @param cal The date being checked to see if it occurred within the defined travel per diem period.
      * @param periodStartHour The starting hour of the per diem period.
      * @param periodStartMinute The starting minute of the per diem period.
@@ -164,17 +164,18 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
     /**
      * This method calculates the mileage amount based on the total mileage traveled and the using the reimbursement rate
      * applicable to when the trip started.
-     * 
-     * For this method, a collection of mileage rates is retrieved, where each mileage rate is defined by a mileage limit.  
-     * This collection is iterated over to determine which mileage rate will be used for calculating the total mileage 
+     *
+     * For this method, a collection of mileage rates is retrieved, where each mileage rate is defined by a mileage limit.
+     * This collection is iterated over to determine which mileage rate will be used for calculating the total mileage
      * amount due.
-     * 
+     *
      * @param totalMileage The total mileage traveled that will be reimbursed for.
      * @param travelStartDate The start date of the travel, which will be used to retrieve the mileage reimbursement rate.
      * @return The total reimbursement due to the traveler for the mileage traveled.
-     * 
+     *
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService#calculateMileageAmount(org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel)
      */
+    @Override
     public KualiDecimal calculateMileageAmount(Integer totalMileage, Timestamp travelStartDate) {
         KualiDecimal mileageAmount = KualiDecimal.ZERO;
 
@@ -187,14 +188,13 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
         Date effectiveDate = null;
         try {
             effectiveDate = dateTimeService.convertToSqlDate(travelStartDate);
-        }
-        catch (ParseException e) {
-            LOG.error("Unable to parse travel start date into sql date " + e.getMessage());
-            throw new RuntimeException("Unable to parse travel start date into sql date " + e.getMessage());
+        } catch (ParseException e) {
+            LOG.error("Unable to parse travel start date into sql date " + travelStartDate, e);
+            throw new RuntimeException("Unable to parse travel start date into sql date ", e);
         }
 
         // retrieve mileage rates
-        List mileageRates = (List) travelMileageRateDao.retrieveMostEffectiveMileageRates(effectiveDate);
+        Collection<TravelMileageRate> mileageRates = travelMileageRateDao.retrieveMostEffectiveMileageRates(effectiveDate);
 
         if (mileageRates == null || mileageRates.isEmpty()) {
             LOG.error("Unable to retreive mileage rates.");
@@ -208,8 +208,7 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
          * Iterate over mileage rates sorted in descending order by the mileage limit amount. For all miles over the mileage limit
          * amount, the rate times those number of miles over is added to the mileage amount.
          */
-        for (Iterator iter = mileageRates.iterator(); iter.hasNext();) {
-            TravelMileageRate rate = (TravelMileageRate) iter.next();
+        for ( TravelMileageRate rate : mileageRates ) {
             int mileageLimitAmount = rate.getMileageLimitAmount().intValue();
             if (mileageRemaining > mileageLimitAmount) {
                 BigDecimal numMiles = new BigDecimal(mileageRemaining - mileageLimitAmount);

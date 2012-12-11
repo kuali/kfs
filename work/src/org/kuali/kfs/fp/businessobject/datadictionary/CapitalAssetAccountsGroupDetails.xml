@@ -29,7 +29,11 @@
         <ref bean="CapitalAssetAccountsGroupDetails-financialDocumentLineTypeCode"/>
         <ref bean="CapitalAssetAccountsGroupDetails-chartOfAccountsCode"/>
         <ref bean="CapitalAssetAccountsGroupDetails-accountNumber"/>
+        <ref bean="CapitalAssetAccountsGroupDetails-subAccountNumber"/>
         <ref bean="CapitalAssetAccountsGroupDetails-financialObjectCode"/>
+        <ref bean="CapitalAssetAccountsGroupDetails-financialSubObjectCode"/>
+        <ref bean="CapitalAssetAccountsGroupDetails-projectCode"/>
+        <ref bean="CapitalAssetAccountsGroupDetails-organizationReferenceId"/>
         <ref bean="CapitalAssetAccountsGroupDetails-amount"/>
       </list>
     </property>
@@ -79,27 +83,30 @@
     </property>
   </bean>
   <bean id="CapitalAssetAccountsGroupDetails-chartOfAccountsCode" parent="CapitalAssetAccountsGroupDetails-chartOfAccountsCode-parentBean"/>
+  <bean id="CapitalAssetAccountsGroupDetails-chartOfAccountsCode-parentBean" abstract="true" parent="SourceAccountingLine-chartOfAccountsCode" />
 
-  <bean id="CapitalAssetAccountsGroupDetails-chartOfAccountsCode-parentBean" abstract="true" parent="SourceAccountingLine-chartOfAccountsCode">
-	<property name="maxLength" value="10"/>
-  	<property name="forceUppercase" value="true"/>
-  </bean>
   <bean id="CapitalAssetAccountsGroupDetails-accountNumber" parent="CapitalAssetAccountsGroupDetails-accountNumber-parentBean"/>
+  <bean id="CapitalAssetAccountsGroupDetails-accountNumber-parentBean" abstract="true" parent="SourceAccountingLine-accountNumber" />
 
-  <bean id="CapitalAssetAccountsGroupDetails-accountNumber-parentBean" abstract="true" parent="SourceAccountingLine-accountNumber">
-	<property name="maxLength" value="10"/>
-  	<property name="forceUppercase" value="true"/>
-  </bean>
+  <bean id="CapitalAssetAccountsGroupDetails-subAccountNumber" parent="CapitalAssetAccountsGroupDetails-subAccountNumber-parentBean"/>
+  <bean id="CapitalAssetAccountsGroupDetails-subAccountNumber-parentBean" abstract="true" parent="SourceAccountingLine-subAccountNumber" />
+
   <bean id="CapitalAssetAccountsGroupDetails-financialObjectCode" parent="CapitalAssetAccountsGroupDetails-financialObjectCode-parentBean"/>
+  <bean id="CapitalAssetAccountsGroupDetails-financialObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-financialObjectCode" />
 
-  <bean id="CapitalAssetAccountsGroupDetails-financialObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-financialObjectCode">
-  	<property name="forceUppercase" value="true"/>
-  </bean>
+  <bean id="CapitalAssetAccountsGroupDetails-financialSubObjectCode" parent="CapitalAssetAccountsGroupDetails-financialSubObjectCode-parentBean"/>
+  <bean id="CapitalAssetAccountsGroupDetails-financialSubObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-financialSubObjectCode" />
+
+  <bean id="CapitalAssetAccountsGroupDetails-projectCode" parent="CapitalAssetAccountsGroupDetails-projectCode-parentBean"/>
+  <bean id="CapitalAssetAccountsGroupDetails-projectCode-parentBean" abstract="true" parent="SourceAccountingLine-projectCode" />
+
+  <bean id="CapitalAssetAccountsGroupDetails-organizationReferenceId" parent="CapitalAssetAccountsGroupDetails-organizationReferenceId-parentBean"/>
+  <bean id="CapitalAssetAccountsGroupDetails-organizationReferenceId-parentBean" abstract="true" parent="SourceAccountingLine-organizationReferenceId" />
+
   <bean id="CapitalAssetAccountsGroupDetails-amount" parent="CapitalAssetAccountsGroupDetails-amount-parentBean"/>
-
   <bean id="CapitalAssetAccountsGroupDetails-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
-    <property name="name" value="amount"/>
-    
+    <property name="name" value="amount"/>   
     <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
+  
 </beans>

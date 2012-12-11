@@ -179,31 +179,15 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public void doRouteLevelChange(DocumentRouteLevelChange levelChangeEvent) {
         LOG.debug("handleRouteLevelChange() started");
         super.doRouteLevelChange(levelChangeEvent);
-        saveDocumentFromPostProcessing();
 
         //process node change for documents
         String newNodeName = levelChangeEvent.getNewNodeName();
         processNodeChange(newNodeName, levelChangeEvent.getOldNodeName());
-        /*
-         * FIXME: Should be handled by XML now
-        String newNodeName = levelChangeEvent.getNewNodeName();
-        if (processNodeChange(newNodeName, levelChangeEvent.getOldNodeName())) {
-            if (StringUtils.isNotBlank(newNodeName)) {
-                NodeDetails nodeDetailEnum = getNodeDetailEnum(newNodeName);
-                if (ObjectUtils.isNotNull(nodeDetailEnum)) {
-                    String statusCode = nodeDetailEnum.getAwaitingStatusCode();
-                    if (StringUtils.isNotBlank(statusCode)) {                        
-                        setAppDocStatus(statusCode);
-                        
-                    }
-                    else {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Document with id " + getDocumentNumber() + " will stop in route node '" + newNodeName + "' but no awaiting status found to set");
-                        }
-                    }
-                }
-            }
-        }*/        
+
+        // KFSMI-9715 - need to call this after processNodeChange, otherwise if PO is closed while processing PREQ
+        // it gets saved before encumbrence is relieved, and the Total Encumbrance Amount Relieved and TotalPaidAmount
+        // on the PREQ didn't reflect the invoice amount, and the amount paid on the PO wasn't being set correctly.
+        saveDocumentFromPostProcessing();
     }
 
     /**
@@ -424,6 +408,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * @deprecated
      * @param processingCampus
      */
+    @Deprecated
     public void setProcessingCampus(CampusParameter processingCampus) {
         this.processingCampus = processingCampus;
     }
@@ -510,8 +495,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     @Override
     public AccountsPayableItem getAPItemFromPOItem(PurchaseOrderItem poi) {
         for (AccountsPayableItem preqItem : (List<AccountsPayableItem>) this.getItems()) {
-            preqItem.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE); 
-            
+            preqItem.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+
             if (preqItem.getItemType().isLineItemIndicator()) {
                 if (preqItem.getItemLineNumber().compareTo(poi.getItemLineNumber()) == 0) {
                     return preqItem;

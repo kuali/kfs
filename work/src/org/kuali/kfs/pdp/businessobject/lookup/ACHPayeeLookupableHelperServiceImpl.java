@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,6 +31,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
+import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
@@ -45,10 +46,10 @@ public class ACHPayeeLookupableHelperServiceImpl extends AbstractPayeeLookupable
 
     /**
      * @see org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl#getSearchResults(java.util.Map)
-     * 
+     *
      * KRAD Conversion: Lookupable performs customization of the search results and performs a sort
      * by retrieving the default sort columns using data dictionary service..
-     * 
+     *
      * Uses data dictionary.
      */
     @Override
@@ -59,7 +60,7 @@ public class ACHPayeeLookupableHelperServiceImpl extends AbstractPayeeLookupable
         if (StringUtils.isBlank(payeeTypeCode)) {
             GlobalVariables.getMessageMap().putInfo(KFSPropertyConstants.PAYEE_TYPE_CODE, PdpKeyConstants.MESSAGE_PDP_ACH_PAYEE_LOOKUP_NO_PAYEE_TYPE);
         }
-        
+
         if (StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER)) || StringUtils.isNotBlank(fieldValues.get(KFSPropertyConstants.VENDOR_NAME)) || (StringUtils.isNotBlank(payeeTypeCode) && PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(payeeTypeCode))) {
             searchResults.addAll(this.getVendorsAsPayees(fieldValues));
         }
@@ -85,7 +86,7 @@ public class ACHPayeeLookupableHelperServiceImpl extends AbstractPayeeLookupable
 
     /**
      * Override to set entity id as the payee id and set the pdp payee type
-     * 
+     *
      * @see org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl#getPayeeFromPerson(org.kuali.rice.kim.api.identity.Person,
      *      java.util.Map)
      */
@@ -93,7 +94,7 @@ public class ACHPayeeLookupableHelperServiceImpl extends AbstractPayeeLookupable
     protected DisbursementPayee getPayeeFromPerson(Person personDetail, Map<String, String> fieldValues) {
         DisbursementPayee payee = super.getPayeeFromPerson(personDetail, fieldValues);
 
-        String payeeTypeCode = (String) fieldValues.get(KFSPropertyConstants.PAYEE_TYPE_CODE);
+        String payeeTypeCode = fieldValues.get(KFSPropertyConstants.PAYEE_TYPE_CODE);
 
         ACHPayee achPayee = new ACHPayee();
 
@@ -105,7 +106,7 @@ public class ACHPayeeLookupableHelperServiceImpl extends AbstractPayeeLookupable
             achPayee.setPayeeIdNumber(personDetail.getEmployeeId());
             achPayee.setPayeeTypeCode(PdpConstants.PayeeIdTypeCodes.EMPLOYEE);
         }
-        
+
         achPayee.setPayeeName(payee.getPayeeName());
         achPayee.setPrincipalId(payee.getPrincipalId());
         achPayee.setTaxNumber(payee.getTaxNumber());
@@ -189,5 +190,18 @@ public class ACHPayeeLookupableHelperServiceImpl extends AbstractPayeeLookupable
             throw new ValidationException("errors in search criteria");
         }
     }
+    /**
+        * Override to not filter rows based on payment reason
+        *
+         * @see org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl#filterReturnUrl(java.util.List,
+         *      java.util.List, java.lang.String)
+         *
+         * KRAD Conversion: Performs customization of the result list of rows.
+         *
+         * No use of data dictionary
+         */
+        @Override
 
+        protected void filterReturnUrl(List<ResultRow> resultRowList, List<DisbursementPayee> payeeList, String paymentReasonCode) {
+        }
 }

@@ -166,6 +166,13 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="cfda">
+					<property name="primitiveAttributes">
+						<list>
+        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountCfdaNumber" p:targetName="cfdaNumber" />
+						</list>
+					</property>
+				</bean>
 		        <bean parent="RelationshipDefinition" p:objectAttributeName="awards" p:targetClass="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation">
 							<property name="primitiveAttributes">
 								<list>
@@ -663,7 +670,10 @@
 
 	<bean id="Account-accountCfdaNumber" parent="Account-accountCfdaNumber-parentBean" />
 
-	<bean id="Account-accountCfdaNumber-parentBean" abstract="true" parent="CFDA-cfdaNumber" >
+	<bean id="Account-accountCfdaNumber-parentBean" abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda"
+		p:sourceAttributeName="cfdaNumber">
 		<property name="name" value="accountCfdaNumber" />
 		<property name="required" value="false" />
 	</bean>

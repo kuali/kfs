@@ -235,7 +235,6 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
         Map<String, String> fieldConversionMap = new HashMap<String, String>();
 
         fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, VendorPropertyConstants.VENDOR_TAX_NUMBER);
-        fieldConversionMap.put(KFSPropertyConstants.PAYEE_NAME, VendorPropertyConstants.VENDOR_NAME);
 
         fieldConversionMap.put(KFSPropertyConstants.VENDOR_NAME, VendorPropertyConstants.VENDOR_NAME);
         fieldConversionMap.put(KFSPropertyConstants.VENDOR_NUMBER, VendorPropertyConstants.VENDOR_NUMBER);
@@ -257,7 +256,6 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
 
         //fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, KIMPropertyConstants.Person.EXTERNAL_ID);
 
-        fieldConversionMap.put(KFSPropertyConstants.PAYEE_NAME, KIMPropertyConstants.Person.NAME);
         fieldConversionMap.put(KFSPropertyConstants.PERSON_FIRST_NAME, KIMPropertyConstants.Person.FIRST_NAME);
         fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, KIMPropertyConstants.Person.LAST_NAME);
 

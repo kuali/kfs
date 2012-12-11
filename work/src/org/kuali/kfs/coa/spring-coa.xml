@@ -56,12 +56,6 @@
 			<list>
 				<value>populatePriorYearDataJob</value>
 				<value>addPriorYearAccountsJob</value>
-				<value>cfdaJob</value>
-			</list>
-		</property>
-		<property name="triggerNames">
-			<list>
-				<value>cfdaJobTrigger</value>
 			</list>
 		</property>
         <property name="fiscalYearMakers">
@@ -618,37 +612,6 @@
 
 	<bean id="orgReviewRoleService" parent="orgReviewRoleService-parentBean" />
 	<bean id="orgReviewRoleService-parentBean" class="org.kuali.kfs.coa.service.impl.OrgReviewRoleServiceImpl" abstract="true" />
-		
-	<bean id="cfdaService" parent="cfdaService-parentBean" />
-	<bean id="cfdaService-parentBean" class="org.kuali.kfs.coa.service.impl.CfdaServiceImpl" abstract="true">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-	
-    <bean id="cfdaBatchStep" class="org.kuali.kfs.coa.batch.CfdaBatchStep" parent="step">
-        <property name="cfdaService">
-            <ref bean="cfdaService" />
-        </property>
-        <property name="mailService">
-            <ref bean="mailService" />
-        </property>
-        <property name="parameterService">
-            <ref bean="parameterService" />
-        </property>
-        <property name="configurationService" ref="kualiConfigurationService" />
-    </bean>
 
-    <bean id="cfdaJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="cfdaBatchStep" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="cfdaJobTrigger" parent="cronTrigger">
-		<property name="jobName" value="cfdaJob" />
-		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />
-	</bean>
-	 
-	 <import resource="spring-coa-bus-exports.xml"/>
+    <import resource="spring-coa-bus-exports.xml"/>
 </beans>

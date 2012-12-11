@@ -44,9 +44,21 @@
 				hideRequiredAsterisk="true" />
 			<kul:htmlAttributeHeaderCell
 				attributeEntry="${attributes.accountNumber}"
-				useShortLabel="false" />
+				useShortLabel="true" />
+			<kul:htmlAttributeHeaderCell
+				attributeEntry="${attributes.subAccountNumber}"
+				useShortLabel="true" />
 			<kul:htmlAttributeHeaderCell
 				attributeEntry="${attributes.financialObjectCode}"
+				useShortLabel="true" />
+			<kul:htmlAttributeHeaderCell
+				attributeEntry="${attributes.financialSubObjectCode}"
+				useShortLabel="true" />
+			<kul:htmlAttributeHeaderCell
+				attributeEntry="${attributes.projectCode}"
+				useShortLabel="true" />
+			<kul:htmlAttributeHeaderCell
+				attributeEntry="${attributes.organizationReferenceId}"
 				useShortLabel="true" />
 			<kul:htmlAttributeHeaderCell
 				attributeEntry="${attributes.amount}"
@@ -75,7 +87,11 @@
 					</div></td>
 					<td class="datacell center"><kul:htmlControlAttribute attributeEntry="${attributes.chartOfAccountsCode}" property="${capitalAssetAccountsGroupDetailsName}[${status.index}].chartOfAccountsCode" readOnly="true"/></td>
 					<td class="datacell center"><kul:htmlControlAttribute attributeEntry="${attributes.accountNumber}" property="${capitalAssetAccountsGroupDetailsName}[${status.index}].accountNumber" readOnly="true"/></td>
+					<td class="datacell center"><kul:htmlControlAttribute attributeEntry="${attributes.subAccountNumber}" property="${capitalAssetAccountsGroupDetailsName}[${status.index}].subAccountNumber" readOnly="true"/></td>
 					<td class="datacell center"><kul:htmlControlAttribute attributeEntry="${attributes.financialObjectCode}" property="${capitalAssetAccountsGroupDetailsName}[${status.index}].financialObjectCode" readOnly="true"/></td>
+					<td class="datacell center"><kul:htmlControlAttribute attributeEntry="${attributes.financialSubObjectCode}" property="${capitalAssetAccountsGroupDetailsName}[${status.index}].financialSubObjectCode" readOnly="true"/></td>
+					<td class="datacell center"><kul:htmlControlAttribute attributeEntry="${attributes.projectCode}" property="${capitalAssetAccountsGroupDetailsName}[${status.index}].projectCode" readOnly="true"/></td>
+					<td class="datacell center"><kul:htmlControlAttribute attributeEntry="${attributes.organizationReferenceId}" property="${capitalAssetAccountsGroupDetailsName}[${status.index}].organizationReferenceId" readOnly="true"/></td>
 					<td class="datacell center">
 						<div align="right" valign="middle">
 							<kul:htmlControlAttribute attributeEntry="${attributes.amount}" property="${capitalAssetAccountsGroupDetailsName}[${status.index}].amount" readOnly="true"/>

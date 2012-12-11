@@ -1,0 +1,10 @@
+<Record name="ca_balance_type_t" type="delimited">
+  <Field name="fin_balance_typ_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_balance_typ_nm"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_baltyp_shrt_nm"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_offst_gnrtn_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_baltyp_enc_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

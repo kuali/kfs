@@ -1,0 +1,8 @@
+<Record name="end_sec_rpt_grp_t" type="delimited">
+  <Field name="sec_rpt_grp"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_rpt_grp_desc"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_rpt_grp_ord"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

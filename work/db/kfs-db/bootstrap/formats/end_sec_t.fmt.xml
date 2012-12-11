@@ -1,0 +1,31 @@
+<Record name="end_sec_t" type="delimited">
+  <Field name="sec_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_desc"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_tkr_symb"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_cls_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_subcls_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_mat_dt"                      type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="sec_unit_val"                    type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_units_held"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_val_dt"                      type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="unit_val_src"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="prev_unit_val"                   type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="prev_unit_val_dt"                type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="sec_cval"                        type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="last_tran_dt"                    type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="sec_inc_pay_freq"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_inc_next_pay_dt"             type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="sec_rt"                          type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_inc_chg_dt"                  type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="sec_iss_dt"                      type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="sec_dvdnd_rec_dt"                type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="sec_ex_dvdnd_dt"                 type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="sec_dvdnd_pay_dt"                type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="sec_dvdnd_amt"                   type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cmtmnt_amt"                      type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="nxt_fscl_yr_dstrb_amt"           type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_val_by_mkt"                  type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

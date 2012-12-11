@@ -1,0 +1,5 @@
+ach_acct_gnrtd_id|obj_id|ver_nbr|bnk_rtng_nbr|bnk_acct_nbr|payee_nm|payee_email_addr|payee_id_typ_cd|ach_trans_typ|row_actv_ind|bnk_acct_typ_cd|payee_id_nbr|
+10000.0|3DD0823DD81A9036E043814FD8819036|1.0|012345678|XBy8HbA0p2kc3lalnjPKpA==|John Doe|xy@xy.com|E|PRAP|Y|22|1|
+10001.0|3DD0823DD81B9036E043814FD8819036|1.0|876543210|UeteX8/H6dO39UFEd4GMnQ==|Jane Smith|xy@xy.com|E|PRAP|Y|22|1|
+10002.0|3DD0823DD81A9036E043814FD8819036|1.0|012345678|XBy8HbA0p2kc3lalnjPKpA==|John Doe|xy@xy.com|E|PRAP|Y|22|1|
+10003.0|3DD0823DD81B9036E043814FD8819036|1.0|876543210|UeteX8/H6dO39UFEd4GMnQ==|Jane Smith|xy@xy.com|E|PRAP|Y|22|1|

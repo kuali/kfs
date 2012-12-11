@@ -1,0 +1,4 @@
+ctrl_attrib_typ_cd|obj_id|ver_nbr|dobj_maint_cd_actv_ind|reqd_ind|ctrl_attrib_typ_desc|
+A|233DE6DA95C0B1A8E043814FD881B1A8|1.0|N|N||
+D|233DE6DA95BFB1A8E043814FD881B1A8|1.0|N|N||
+S|233DE6DA95BEB1A8E043814FD881B1A8|1.0|N|N||

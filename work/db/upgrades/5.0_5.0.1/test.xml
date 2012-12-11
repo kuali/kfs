@@ -1,0 +1,22 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+
+	<changeSet author="KFS501" id="PREQ_SU_DISAPPROVE_PERM2">
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="PREQ_SU_DISAPPROVE_DOCTYPE" />
+			<column name="OBJ_ID" valueComputed="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="PREQ_SU_DISAPPROVE" />
+			<column name="KIM_TYP_ID" valueComputed=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-WKFLW' and nm = 'Super User Disapprove Document') "  />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="PREQ" />
+		</insert>
+		<modifySql dbms='mysql'>
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
+	</changeSet>
+
+
+</databaseChangeLog>

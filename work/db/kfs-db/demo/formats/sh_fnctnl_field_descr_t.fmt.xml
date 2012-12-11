@@ -1,0 +1,9 @@
+<Record name="sh_fnctnl_field_descr_t" type="delimited">
+  <Field name="nmspc_cd"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cmpnt_clss"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="prprty_nm"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fnctnl_field_descr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="active_ind"                      type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

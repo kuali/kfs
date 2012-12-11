@@ -1,0 +1,32 @@
+<Record name="fs_option_t" type="delimited">
+  <Field name="univ_fiscal_yr"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="act_fin_bal_typ_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="bdgt_chk_baltyp_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="bdgt_chk_optn_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="univ_fscyr_strt_yr"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="univ_fscyr_strt_mo"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fobjtp_inc_csh_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fobjtp_xpnd_exp_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fobjtp_xpndnexp_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fobjtp_expnxpnd_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fobj_typ_asset_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fobj_typ_lblty_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fobj_typ_fndbal_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ext_enc_fbaltyp_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="int_enc_fbaltyp_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pre_enc_fbaltyp_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="elim_finbal_typ_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fobjtp_inc_ncsh_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fobjtp_csh_ninc_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="univ_fin_coa_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="univ_fiscal_yr_nm"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_begbalload_ind"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cstshr_encum_fin_bal_typ_cd"     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="base_bdgt_fin_bal_typ_cd"        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mo_bdgt_fin_bal_typ_cd"          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_object_typ_trnfr_inc_cd"     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_object_typ_trnfr_exp_cd"     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="nmnl_fin_bal_typ_cd"             type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

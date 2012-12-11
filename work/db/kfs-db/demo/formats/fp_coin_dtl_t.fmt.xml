@@ -1,0 +1,14 @@
+<Record name="fp_coin_dtl_t" type="delimited">
+  <Field name="fdoc_nbr"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_typ_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_50_cent_amt"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_25_cent_amt"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_10_cent_amt"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_5_cent_amt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_1_cent_amt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_othr_cent_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_100_cent_amt"               type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cshr_stat_cd"                    type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

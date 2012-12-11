@@ -1,0 +1,21 @@
+<Record name="ar_inv_itm_code_t" type="delimited">
+  <Field name="fin_coa_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_cd"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ar_inv_itm_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ar_inv_itm_desc"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ar_rltd_stock_nbr"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="inv_fin_coa_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="inv_acct_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="inv_sub_acct_nbr"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="inv_fin_obj_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="inv_fin_sub_obj_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="inv_project_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="inv_org_ref_id"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ar_itm_dflt_prc"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ar_dflt_uom_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ar_itm_dflt_qty"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ar_inv_itm_txbl_ind"             type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

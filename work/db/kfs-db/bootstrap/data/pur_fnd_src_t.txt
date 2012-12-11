@@ -1,0 +1,2 @@
+fnd_src_cd|obj_id|ver_nbr|fnd_src_desc|dobj_maint_cd_actv_ind|
+INST|2DD90798F84931E4E043814FD88131E4|1.0|INSTITUTION ACCOUNT|Y|

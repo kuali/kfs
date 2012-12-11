@@ -1,0 +1,3 @@
+itm_reas_add_cd|obj_id|ver_nbr|itm_reas_add_desc|dobj_maint_cd_actv_ind|
+NTOR|4A9AB8C8A74F6B33E0404F8189D86C69|1.0|Not on Order|Y|
+SUBS|4A9AB8C8A7506B33E0404F8189D86C69|1.0|Substitution|Y|

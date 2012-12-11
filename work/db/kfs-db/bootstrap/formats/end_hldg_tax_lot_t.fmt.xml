@@ -1,0 +1,15 @@
+<Record name="end_hldg_tax_lot_t" type="delimited">
+  <Field name="kemid"                           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="regis_cd"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="hldg_lot_nbr"                    type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="hldg_ip_ind"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="hldg_units"                      type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="hldg_cost"                       type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="hldg_acqd_dt"                    type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="hldg_prior_acrd_inc"             type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="hldg_acrd_inc_due"               type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="last_tran_dt"                    type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

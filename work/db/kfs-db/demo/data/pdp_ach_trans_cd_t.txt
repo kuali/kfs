@@ -1,0 +1,3 @@
+trans_cd|obj_id|ver_nbr|trans_desc|
+22|582371A112D34DEDE0404F8189D83A6C|1.0|Checking Deposit (Credit)|
+32|582371A112D44DEDE0404F8189D83A6C|1.0|Share Deposit (Credit)|

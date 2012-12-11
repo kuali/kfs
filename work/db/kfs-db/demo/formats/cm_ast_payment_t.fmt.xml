@@ -1,0 +1,38 @@
+<Record name="cm_ast_payment_t" type="delimited">
+  <Field name="cptlast_nbr"                     type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_pmt_seq_nbr"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_coa_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="account_nbr"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sub_acct_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_object_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_sub_obj_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fs_origin_cd"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_typ_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_nbr"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_post_yr"                    type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_post_prd_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_post_dt"                    type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="project_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_reference_id"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_charge_amt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="po_number"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="requisition_nbr"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_depr1_base_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_acum_depr1_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_prvyrdepr1_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_prd1_depr1_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_prd2_depr1_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_prd3_depr1_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_prd4_depr1_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_prd5_depr1_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_prd6_depr1_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_prd7_depr1_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_prd8_depr1_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_prd9_depr1_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_prd10depr1_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_prd11depr1_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_prd12depr1_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_trnfr_pmt_cd"                type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

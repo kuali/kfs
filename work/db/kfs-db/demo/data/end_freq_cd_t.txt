@@ -1,0 +1,720 @@
+freq_cd|freq_desc|ver_nbr|obj_id|
+AA01|Annual month April on the 1st|1.0|8529CD484562060AE0404F8189D81C0B|
+AA02|Annual month April on the 2nd|1.0|8529CD484563060AE0404F8189D81C0B|
+AA03|Annual month April on the 3rd|1.0|8529CD484564060AE0404F8189D81C0B|
+AA04|Annual month April on the 4th|1.0|8529CD484565060AE0404F8189D81C0B|
+AA05|Annual month April on the 5th|1.0|8529CD484566060AE0404F8189D81C0B|
+AA06|Annual month April on the 6th|1.0|8529CD484567060AE0404F8189D81C0B|
+AA07|Annual month April on the 7th|1.0|8529CD484568060AE0404F8189D81C0B|
+AA08|Annual month April on the 8th|1.0|8529CD484569060AE0404F8189D81C0B|
+AA09|Annual month April on the 9th|1.0|8529CD48456A060AE0404F8189D81C0B|
+AA10|Annual month April on the 10th|1.0|8529CD48456B060AE0404F8189D81C0B|
+AA11|Annual month April on the 11th|1.0|8529CD48456C060AE0404F8189D81C0B|
+AA12|Annual month April on the 12th|1.0|8529CD48456D060AE0404F8189D81C0B|
+AA13|Annual month April on the 13th|1.0|8529CD48456E060AE0404F8189D81C0B|
+AA14|Annual month April on the 14th|1.0|8529CD48456F060AE0404F8189D81C0B|
+AA15|Annual month April on the 15th|1.0|8529CD484570060AE0404F8189D81C0B|
+AA16|Annual month April on the 16th|1.0|8529CD484571060AE0404F8189D81C0B|
+AA17|Annual month April on the 17th|1.0|8529CD484572060AE0404F8189D81C0B|
+AA18|Annual month April on the 18th|1.0|8529CD484573060AE0404F8189D81C0B|
+AA19|Annual month April on the 19th|1.0|8529CD484574060AE0404F8189D81C0B|
+AA20|Annual month April on the 20th|1.0|8529CD484575060AE0404F8189D81C0B|
+AA21|Annual month April on the 21st|1.0|8529CD484576060AE0404F8189D81C0B|
+AA22|Annual month April on the 22nd|1.0|8529CD484577060AE0404F8189D81C0B|
+AA23|Annual month April on the 23rd|1.0|8529CD484578060AE0404F8189D81C0B|
+AA24|Annual month April on the 24th|1.0|8529CD484579060AE0404F8189D81C0B|
+AA25|Annual month April on the 25th|1.0|8529CD48457A060AE0404F8189D81C0B|
+AA26|Annual month April on the 26th|1.0|8529CD48457B060AE0404F8189D81C0B|
+AA27|Annual month April on the 27th|1.0|8529CD48457C060AE0404F8189D81C0B|
+AA28|Annual month April on the 28th|1.0|8529CD48457D060AE0404F8189D81C0B|
+AA29|Annual month April on the 29th|1.0|8529CD48457E060AE0404F8189D81C0B|
+AA30|Annual month April on the 30th|1.0|8529CD48457F060AE0404F8189D81C0B|
+AAME|Annual month April on the Month End|1.0|8529CD484580060AE0404F8189D81C0B|
+AD01|Annual month December on the 1st|1.0|8529CD484581060AE0404F8189D81C0B|
+AD02|Annual month December on the 2nd|1.0|8529CD484582060AE0404F8189D81C0B|
+AD03|Annual month December on the 3rd|1.0|8529CD484583060AE0404F8189D81C0B|
+AD04|Annual month December on the 4th|1.0|8529CD484584060AE0404F8189D81C0B|
+AD05|Annual month December on the 5th|1.0|8529CD484585060AE0404F8189D81C0B|
+AD06|Annual month December on the 6th|1.0|8529CD484586060AE0404F8189D81C0B|
+AD07|Annual month December on the 7th|1.0|8529CD484587060AE0404F8189D81C0B|
+AD08|Annual month December on the 8th|1.0|8529CD484588060AE0404F8189D81C0B|
+AD09|Annual month December on the 9th|1.0|8529CD484589060AE0404F8189D81C0B|
+AD10|Annual month December on the 10th|1.0|8529CD48458A060AE0404F8189D81C0B|
+AD11|Annual month December on the 11th|1.0|8529CD48458B060AE0404F8189D81C0B|
+AD12|Annual month December on the 12th|1.0|8529CD48458C060AE0404F8189D81C0B|
+AD13|Annual month December on the 13th|1.0|8529CD48458D060AE0404F8189D81C0B|
+AD14|Annual month December on the 14th|1.0|8529CD48458E060AE0404F8189D81C0B|
+AD15|Annual month December on the 15th|1.0|8529CD48458F060AE0404F8189D81C0B|
+AD16|Annual month December on the 16th|1.0|8529CD484590060AE0404F8189D81C0B|
+AD17|Annual month December on the 17th|1.0|8529CD484591060AE0404F8189D81C0B|
+AD18|Annual month December on the 18th|1.0|8529CD484592060AE0404F8189D81C0B|
+AD19|Annual month December on the 19th|1.0|8529CD484593060AE0404F8189D81C0B|
+AD20|Annual month December on the 20th|1.0|8529CD484594060AE0404F8189D81C0B|
+AD21|Annual month December on the 21st|1.0|8529CD484595060AE0404F8189D81C0B|
+AD22|Annual month December on the 22nd|1.0|8529CD484596060AE0404F8189D81C0B|
+AD23|Annual month December on the 23rd|1.0|8529CD484597060AE0404F8189D81C0B|
+AD24|Annual month December on the 24th|1.0|8529CD484598060AE0404F8189D81C0B|
+AD25|Annual month December on the 25th|1.0|8529CD484599060AE0404F8189D81C0B|
+AD26|Annual month December on the 26th|1.0|8529CD48459A060AE0404F8189D81C0B|
+AD27|Annual month December on the 27th|1.0|8529CD48459B060AE0404F8189D81C0B|
+AD28|Annual month December on the 28th|1.0|8529CD48459C060AE0404F8189D81C0B|
+AD29|Annual month December on the 29th|1.0|8529CD48459D060AE0404F8189D81C0B|
+AD30|Annual month December on the 30th|1.0|8529CD48459E060AE0404F8189D81C0B|
+AD31|Annual month December on the 31st|1.0|8529CD48459F060AE0404F8189D81C0B|
+ADME|Annual month December on the Month End|1.0|8529CD4845A0060AE0404F8189D81C0B|
+AF01|Annual month February on the 1st|1.0|8529CD4845A1060AE0404F8189D81C0B|
+AF02|Annual month February on the 2nd|1.0|8529CD4845A2060AE0404F8189D81C0B|
+AF03|Annual month February on the 3rd|1.0|8529CD4845A3060AE0404F8189D81C0B|
+AF04|Annual month February on the 4th|1.0|8529CD4845A4060AE0404F8189D81C0B|
+AF05|Annual month February on the 5th|1.0|8529CD4845A5060AE0404F8189D81C0B|
+AF06|Annual month February on the 6th|1.0|8529CD4845A6060AE0404F8189D81C0B|
+AF07|Annual month February on the 7th|1.0|8529CD4845A7060AE0404F8189D81C0B|
+AF08|Annual month February on the 8th|1.0|8529CD4845A8060AE0404F8189D81C0B|
+AF09|Annual month February on the 9th|1.0|8529CD4845A9060AE0404F8189D81C0B|
+AF10|Annual month February on the 10th|1.0|8529CD4845AA060AE0404F8189D81C0B|
+AF11|Annual month February on the 11th|1.0|8529CD4845AB060AE0404F8189D81C0B|
+AF12|Annual month February on the 12th|1.0|8529CD4845AC060AE0404F8189D81C0B|
+AF13|Annual month February on the 13th|1.0|8529CD4845AD060AE0404F8189D81C0B|
+AF14|Annual month February on the 14th|1.0|8529CD4845AE060AE0404F8189D81C0B|
+AF15|Annual month February on the 15th|1.0|8529CD4845AF060AE0404F8189D81C0B|
+AF16|Annual month February on the 16th|1.0|8529CD4845B0060AE0404F8189D81C0B|
+AF17|Annual month February on the 17th|1.0|8529CD4845B1060AE0404F8189D81C0B|
+AF18|Annual month February on the 18th|1.0|8529CD4845B2060AE0404F8189D81C0B|
+AF19|Annual month February on the 19th|1.0|8529CD4845B3060AE0404F8189D81C0B|
+AF20|Annual month February on the 20th|1.0|8529CD4845B4060AE0404F8189D81C0B|
+AF21|Annual month February on the 21st|1.0|8529CD4845B5060AE0404F8189D81C0B|
+AF22|Annual month February on the 22nd|1.0|8529CD4845B6060AE0404F8189D81C0B|
+AF23|Annual month February on the 23rd|1.0|8529CD4845B7060AE0404F8189D81C0B|
+AF24|Annual month February on the 24th|1.0|8529CD4845B8060AE0404F8189D81C0B|
+AF25|Annual month February on the 25th|1.0|8529CD4845B9060AE0404F8189D81C0B|
+AF26|Annual month February on the 26th|1.0|8529CD4845BA060AE0404F8189D81C0B|
+AF27|Annual month February on the 27th|1.0|8529CD4845BB060AE0404F8189D81C0B|
+AF28|Annual month February on the 28th|1.0|8529CD4845BC060AE0404F8189D81C0B|
+AF29|Annual month February on the 29th|1.0|8529CD4845BD060AE0404F8189D81C0B|
+AFME|Annual month February on the Month End|1.0|8529CD4845BE060AE0404F8189D81C0B|
+AG01|Annual month August on the 1st|1.0|8529CD4845BF060AE0404F8189D81C0B|
+AG02|Annual month August on the 2nd|1.0|8529CD4845C0060AE0404F8189D81C0B|
+AG03|Annual month August on the 3rd|1.0|8529CD4845C1060AE0404F8189D81C0B|
+AG04|Annual month August on the 4th|1.0|8529CD4845C2060AE0404F8189D81C0B|
+AG05|Annual month August on the 5th|1.0|8529CD4845C3060AE0404F8189D81C0B|
+AG06|Annual month August on the 6th|1.0|8529CD4845C4060AE0404F8189D81C0B|
+AG07|Annual month August on the 7th|1.0|8529CD4845C5060AE0404F8189D81C0B|
+AG08|Annual month August on the 8th|1.0|8529CD4845C6060AE0404F8189D81C0B|
+AG09|Annual month August on the 9th|1.0|8529CD4845C7060AE0404F8189D81C0B|
+AG10|Annual month August on the 10th|1.0|8529CD4845C8060AE0404F8189D81C0B|
+AG11|Annual month August on the 11th|1.0|8529CD4845C9060AE0404F8189D81C0B|
+AG12|Annual month August on the 12th|1.0|8529CD4845CA060AE0404F8189D81C0B|
+AG13|Annual month August on the 13th|1.0|8529CD4845CB060AE0404F8189D81C0B|
+AG14|Annual month August on the 14th|1.0|8529CD4845CC060AE0404F8189D81C0B|
+AG15|Annual month August on the 15th|1.0|8529CD4845CD060AE0404F8189D81C0B|
+AG16|Annual month August on the 16th|1.0|8529CD4845CE060AE0404F8189D81C0B|
+AG17|Annual month August on the 17th|1.0|8529CD4845CF060AE0404F8189D81C0B|
+AG18|Annual month August on the 18th|1.0|8529CD4845D0060AE0404F8189D81C0B|
+AG19|Annual month August on the 19th|1.0|8529CD4845D1060AE0404F8189D81C0B|
+AG20|Annual month August on the 20th|1.0|8529CD4845D2060AE0404F8189D81C0B|
+AG21|Annual month August on the 21st|1.0|8529CD4845D3060AE0404F8189D81C0B|
+AG22|Annual month August on the 22nd|1.0|8529CD4845D4060AE0404F8189D81C0B|
+AG23|Annual month August on the 23rd|1.0|8529CD4845D5060AE0404F8189D81C0B|
+AG24|Annual month August on the 24th|1.0|8529CD4845D6060AE0404F8189D81C0B|
+AG25|Annual month August on the 25th|1.0|8529CD4845D7060AE0404F8189D81C0B|
+AG26|Annual month August on the 26th|1.0|8529CD4845D8060AE0404F8189D81C0B|
+AG27|Annual month August on the 27th|1.0|8529CD4845D9060AE0404F8189D81C0B|
+AG28|Annual month August on the 28th|1.0|8529CD4845DA060AE0404F8189D81C0B|
+AG29|Annual month August on the 29th|1.0|8529CD4845DB060AE0404F8189D81C0B|
+AG30|Annual month August on the 30th|1.0|8529CD4845DC060AE0404F8189D81C0B|
+AG31|Annual month August on the 31st|1.0|8529CD4845DD060AE0404F8189D81C0B|
+AGME|Annual month August on the Month End|1.0|8529CD4845DE060AE0404F8189D81C0B|
+AJ01|Annual month January on the 1st|1.0|8529CD4845DF060AE0404F8189D81C0B|
+AJ02|Annual month January on the 2nd|1.0|8529CD4845E0060AE0404F8189D81C0B|
+AJ03|Annual month January on the 3rd|1.0|8529CD4845E1060AE0404F8189D81C0B|
+AJ04|Annual month January on the 4th|1.0|8529CD4845E2060AE0404F8189D81C0B|
+AJ05|Annual month January on the 5th|1.0|8529CD4845E3060AE0404F8189D81C0B|
+AJ06|Annual month January on the 6th|1.0|8529CD4845E4060AE0404F8189D81C0B|
+AJ07|Annual month January on the 7th|1.0|8529CD4845E5060AE0404F8189D81C0B|
+AJ08|Annual month January on the 8th|1.0|8529CD4845E6060AE0404F8189D81C0B|
+AJ09|Annual month January on the 9th|1.0|8529CD4845E7060AE0404F8189D81C0B|
+AJ10|Annual month January on the 10th|1.0|8529CD4845E8060AE0404F8189D81C0B|
+AJ11|Annual month January on the 11th|1.0|8529CD4845E9060AE0404F8189D81C0B|
+AJ12|Annual month January on the 12th|1.0|8529CD4845EA060AE0404F8189D81C0B|
+AJ13|Annual month January on the 13th|1.0|8529CD4845EB060AE0404F8189D81C0B|
+AJ14|Annual month January on the 14th|1.0|8529CD4845EC060AE0404F8189D81C0B|
+AJ15|Annual month January on the 15th|1.0|8529CD4845ED060AE0404F8189D81C0B|
+AJ16|Annual month January on the 16th|1.0|8529CD4845EE060AE0404F8189D81C0B|
+AJ17|Annual month January on the 17th|1.0|8529CD4845EF060AE0404F8189D81C0B|
+AJ18|Annual month January on the 18th|1.0|8529CD4845F0060AE0404F8189D81C0B|
+AJ19|Annual month January on the 19th|1.0|8529CD4845F1060AE0404F8189D81C0B|
+AJ20|Annual month January on the 20th|1.0|8529CD4845F2060AE0404F8189D81C0B|
+AJ21|Annual month January on the 21st|1.0|8529CD4845F3060AE0404F8189D81C0B|
+AJ22|Annual month January on the 22nd|1.0|8529CD4845F4060AE0404F8189D81C0B|
+AJ23|Annual month January on the 23rd|1.0|8529CD4845F5060AE0404F8189D81C0B|
+AJ24|Annual month January on the 24th|1.0|8529CD4845F6060AE0404F8189D81C0B|
+AJ25|Annual month January on the 25th|1.0|8529CD4845F7060AE0404F8189D81C0B|
+AJ26|Annual month January on the 26th|1.0|8529CD4845F8060AE0404F8189D81C0B|
+AJ27|Annual month January on the 27th|1.0|8529CD4845F9060AE0404F8189D81C0B|
+AJ28|Annual month January on the 28th|1.0|8529CD4845FA060AE0404F8189D81C0B|
+AJ29|Annual month January on the 29th|1.0|8529CD4845FB060AE0404F8189D81C0B|
+AJ30|Annual month January on the 30th|1.0|8529CD4845FC060AE0404F8189D81C0B|
+AJ31|Annual month January on the 31st|1.0|8529CD4845FD060AE0404F8189D81C0B|
+AJME|Annual month January on the Month End|1.0|8529CD4845FE060AE0404F8189D81C0B|
+AL01|Annual month July on the 1st|1.0|8529CD4845FF060AE0404F8189D81C0B|
+AL02|Annual month July on the 2nd|1.0|8529CD484600060AE0404F8189D81C0B|
+AL03|Annual month July on the 3rd|1.0|8529CD484601060AE0404F8189D81C0B|
+AL04|Annual month July on the 4th|1.0|8529CD484602060AE0404F8189D81C0B|
+AL05|Annual month July on the 5th|1.0|8529CD484603060AE0404F8189D81C0B|
+AL06|Annual month July on the 6th|1.0|8529CD484604060AE0404F8189D81C0B|
+AL07|Annual month July on the 7th|1.0|8529CD484605060AE0404F8189D81C0B|
+AL08|Annual month July on the 8th|1.0|8529CD484606060AE0404F8189D81C0B|
+AL09|Annual month July on the 9th|1.0|8529CD484607060AE0404F8189D81C0B|
+AL10|Annual month July on the 10th|1.0|8529CD484608060AE0404F8189D81C0B|
+AL11|Annual month July on the 11th|1.0|8529CD484609060AE0404F8189D81C0B|
+AL12|Annual month July on the 12th|1.0|8529CD48460A060AE0404F8189D81C0B|
+AL13|Annual month July on the 13th|1.0|8529CD48460B060AE0404F8189D81C0B|
+AL14|Annual month July on the 14th|1.0|8529CD48460C060AE0404F8189D81C0B|
+AL15|Annual month July on the 15th|1.0|8529CD48460D060AE0404F8189D81C0B|
+AL16|Annual month July on the 16th|1.0|8529CD48460E060AE0404F8189D81C0B|
+AL17|Annual month July on the 17th|1.0|8529CD48460F060AE0404F8189D81C0B|
+AL18|Annual month July on the 18th|1.0|8529CD484610060AE0404F8189D81C0B|
+AL19|Annual month July on the 19th|1.0|8529CD484611060AE0404F8189D81C0B|
+AL20|Annual month July on the 20th|1.0|8529CD484612060AE0404F8189D81C0B|
+AL21|Annual month July on the 21st|1.0|8529CD484613060AE0404F8189D81C0B|
+AL22|Annual month July on the 22nd|1.0|8529CD484614060AE0404F8189D81C0B|
+AL23|Annual month July on the 23rd|1.0|8529CD484615060AE0404F8189D81C0B|
+AL24|Annual month July on the 24th|1.0|8529CD484616060AE0404F8189D81C0B|
+AL25|Annual month July on the 25th|1.0|8529CD484617060AE0404F8189D81C0B|
+AL26|Annual month July on the 26th|1.0|8529CD484618060AE0404F8189D81C0B|
+AL27|Annual month July on the 27th|1.0|8529CD484619060AE0404F8189D81C0B|
+AL28|Annual month July on the 28th|1.0|8529CD48461A060AE0404F8189D81C0B|
+AL29|Annual month July on the 29th|1.0|8529CD48461B060AE0404F8189D81C0B|
+AL30|Annual month July on the 30th|1.0|8529CD48461C060AE0404F8189D81C0B|
+AL31|Annual month July on the 31st|1.0|8529CD48461D060AE0404F8189D81C0B|
+ALME|Annual month July on the Month End|1.0|8529CD48461E060AE0404F8189D81C0B|
+AM01|Annual month March on the 1st|1.0|8529CD48461F060AE0404F8189D81C0B|
+AM02|Annual month March on the 2nd|1.0|8529CD484620060AE0404F8189D81C0B|
+AM03|Annual month March on the 3rd|1.0|8529CD484621060AE0404F8189D81C0B|
+AM04|Annual month March on the 4th|1.0|8529CD484622060AE0404F8189D81C0B|
+AM05|Annual month March on the 5th|1.0|8529CD484623060AE0404F8189D81C0B|
+AM06|Annual month March on the 6th|1.0|8529CD484624060AE0404F8189D81C0B|
+AM07|Annual month March on the 7th|1.0|8529CD484625060AE0404F8189D81C0B|
+AM08|Annual month March on the 8th|1.0|8529CD484626060AE0404F8189D81C0B|
+AM09|Annual month March on the 9th|1.0|8529CD484627060AE0404F8189D81C0B|
+AM10|Annual month March on the 10th|1.0|8529CD484628060AE0404F8189D81C0B|
+AM11|Annual month March on the 11th|1.0|8529CD484629060AE0404F8189D81C0B|
+AM12|Annual month March on the 12th|1.0|8529CD48462A060AE0404F8189D81C0B|
+AM13|Annual month March on the 13th|1.0|8529CD48462B060AE0404F8189D81C0B|
+AM14|Annual month March on the 14th|1.0|8529CD48462C060AE0404F8189D81C0B|
+AM15|Annual month March on the 15th|1.0|8529CD48462D060AE0404F8189D81C0B|
+AM16|Annual month March on the 16th|1.0|8529CD48462E060AE0404F8189D81C0B|
+AM17|Annual month March on the 17th|1.0|8529CD48462F060AE0404F8189D81C0B|
+AM18|Annual month March on the 18th|1.0|8529CD484630060AE0404F8189D81C0B|
+AM19|Annual month March on the 19th|1.0|8529CD484631060AE0404F8189D81C0B|
+AM20|Annual month March on the 20th|1.0|8529CD484632060AE0404F8189D81C0B|
+AM21|Annual month March on the 21st|1.0|8529CD484633060AE0404F8189D81C0B|
+AM22|Annual month March on the 22nd|1.0|8529CD484634060AE0404F8189D81C0B|
+AM23|Annual month March on the 23rd|1.0|8529CD484635060AE0404F8189D81C0B|
+AM24|Annual month March on the 24th|1.0|8529CD484636060AE0404F8189D81C0B|
+AM25|Annual month March on the 25th|1.0|8529CD484637060AE0404F8189D81C0B|
+AM26|Annual month March on the 26th|1.0|8529CD484638060AE0404F8189D81C0B|
+AM27|Annual month March on the 27th|1.0|8529CD484639060AE0404F8189D81C0B|
+AM28|Annual month March on the 28th|1.0|8529CD48463A060AE0404F8189D81C0B|
+AM29|Annual month March on the 29th|1.0|8529CD48463B060AE0404F8189D81C0B|
+AM30|Annual month March on the 30th|1.0|8529CD48463C060AE0404F8189D81C0B|
+AM31|Annual month March on the 31st|1.0|8529CD48463D060AE0404F8189D81C0B|
+AMME|Annual month March on the Month End|1.0|8529CD48463E060AE0404F8189D81C0B|
+AN01|Annual month November on the 1st|1.0|8529CD48463F060AE0404F8189D81C0B|
+AN02|Annual month November on the 2nd|1.0|8529CD484640060AE0404F8189D81C0B|
+AN03|Annual month November on the 3rd|1.0|8529CD484641060AE0404F8189D81C0B|
+AN04|Annual month November on the 4th|1.0|8529CD484642060AE0404F8189D81C0B|
+AN05|Annual month November on the 5th|1.0|8529CD484643060AE0404F8189D81C0B|
+AN06|Annual month November on the 6th|1.0|8529CD484644060AE0404F8189D81C0B|
+AN07|Annual month November on the 7th|1.0|8529CD484645060AE0404F8189D81C0B|
+AN08|Annual month November on the 8th|1.0|8529CD484646060AE0404F8189D81C0B|
+AN09|Annual month November on the 9th|1.0|8529CD484647060AE0404F8189D81C0B|
+AN10|Annual month November on the 10th|1.0|8529CD484648060AE0404F8189D81C0B|
+AN11|Annual month November on the 11th|1.0|8529CD484649060AE0404F8189D81C0B|
+AN12|Annual month November on the 12th|1.0|8529CD48464A060AE0404F8189D81C0B|
+AN13|Annual month November on the 13th|1.0|8529CD48464B060AE0404F8189D81C0B|
+AN14|Annual month November on the 14th|1.0|8529CD48464C060AE0404F8189D81C0B|
+AN15|Annual month November on the 15th|1.0|8529CD48464D060AE0404F8189D81C0B|
+AN16|Annual month November on the 16th|1.0|8529CD48464E060AE0404F8189D81C0B|
+AN17|Annual month November on the 17th|1.0|8529CD48464F060AE0404F8189D81C0B|
+AN18|Annual month November on the 18th|1.0|8529CD484650060AE0404F8189D81C0B|
+AN19|Annual month November on the 19th|1.0|8529CD484651060AE0404F8189D81C0B|
+AN20|Annual month November on the 20th|1.0|8529CD484652060AE0404F8189D81C0B|
+AN21|Annual month November on the 21st|1.0|8529CD484653060AE0404F8189D81C0B|
+AN22|Annual month November on the 22nd|1.0|8529CD484654060AE0404F8189D81C0B|
+AN23|Annual month November on the 23rd|1.0|8529CD484655060AE0404F8189D81C0B|
+AN24|Annual month November on the 24th|1.0|8529CD484656060AE0404F8189D81C0B|
+AN25|Annual month November on the 25th|1.0|8529CD484657060AE0404F8189D81C0B|
+AN26|Annual month November on the 26th|1.0|8529CD484658060AE0404F8189D81C0B|
+AN27|Annual month November on the 27th|1.0|8529CD484659060AE0404F8189D81C0B|
+AN28|Annual month November on the 28th|1.0|8529CD48465A060AE0404F8189D81C0B|
+AN29|Annual month November on the 29th|1.0|8529CD48465B060AE0404F8189D81C0B|
+AN30|Annual month November on the 30th|1.0|8529CD48465C060AE0404F8189D81C0B|
+ANME|Annual month November on the Month End|1.0|8529CD48465D060AE0404F8189D81C0B|
+AO01|Annual month October on the 1st|1.0|8529CD48465E060AE0404F8189D81C0B|
+AO02|Annual month October on the 2nd|1.0|8529CD48465F060AE0404F8189D81C0B|
+AO03|Annual month October on the 3rd|1.0|8529CD484660060AE0404F8189D81C0B|
+AO04|Annual month October on the 4th|1.0|8529CD484661060AE0404F8189D81C0B|
+AO05|Annual month October on the 5th|1.0|8529CD484662060AE0404F8189D81C0B|
+AO06|Annual month October on the 6th|1.0|8529CD484663060AE0404F8189D81C0B|
+AO07|Annual month October on the 7th|1.0|8529CD484664060AE0404F8189D81C0B|
+AO08|Annual month October on the 8th|1.0|8529CD484665060AE0404F8189D81C0B|
+AO09|Annual month October on the 9th|1.0|8529CD484666060AE0404F8189D81C0B|
+AO10|Annual month October on the 10th|1.0|8529CD484667060AE0404F8189D81C0B|
+AO11|Annual month October on the 11th|1.0|8529CD484668060AE0404F8189D81C0B|
+AO12|Annual month October on the 12th|1.0|8529CD484669060AE0404F8189D81C0B|
+AO13|Annual month October on the 13th|1.0|8529CD48466A060AE0404F8189D81C0B|
+AO14|Annual month October on the 14th|1.0|8529CD48466B060AE0404F8189D81C0B|
+AO15|Annual month October on the 15th|1.0|8529CD48466C060AE0404F8189D81C0B|
+AO16|Annual month October on the 16th|1.0|8529CD48466D060AE0404F8189D81C0B|
+AO17|Annual month October on the 17th|1.0|8529CD48466E060AE0404F8189D81C0B|
+AO18|Annual month October on the 18th|1.0|8529CD48466F060AE0404F8189D81C0B|
+AO19|Annual month October on the 19th|1.0|8529CD484670060AE0404F8189D81C0B|
+AO20|Annual month October on the 20th|1.0|8529CD484671060AE0404F8189D81C0B|
+AO21|Annual month October on the 21st|1.0|8529CD484672060AE0404F8189D81C0B|
+AO22|Annual month October on the 22nd|1.0|8529CD484673060AE0404F8189D81C0B|
+AO23|Annual month October on the 23rd|1.0|8529CD484674060AE0404F8189D81C0B|
+AO24|Annual month October on the 24th|1.0|8529CD484675060AE0404F8189D81C0B|
+AO25|Annual month October on the 25th|1.0|8529CD484676060AE0404F8189D81C0B|
+AO26|Annual month October on the 26th|1.0|8529CD484677060AE0404F8189D81C0B|
+AO27|Annual month October on the 27th|1.0|8529CD484678060AE0404F8189D81C0B|
+AO28|Annual month October on the 28th|1.0|8529CD484679060AE0404F8189D81C0B|
+AO29|Annual month October on the 29th|1.0|8529CD48467A060AE0404F8189D81C0B|
+AO30|Annual month October on the 30th|1.0|8529CD48467B060AE0404F8189D81C0B|
+AO31|Annual month October on the 31st|1.0|8529CD48467C060AE0404F8189D81C0B|
+AOME|Annual month October on the Month End|1.0|8529CD48467D060AE0404F8189D81C0B|
+AS01|Annual month September on the 1st|1.0|8529CD48467E060AE0404F8189D81C0B|
+AS02|Annual month September on the 2nd|1.0|8529CD48467F060AE0404F8189D81C0B|
+AS03|Annual month September on the 3rd|1.0|8529CD484680060AE0404F8189D81C0B|
+AS04|Annual month September on the 4th|1.0|8529CD484681060AE0404F8189D81C0B|
+AS05|Annual month September on the 5th|1.0|8529CD484682060AE0404F8189D81C0B|
+AS06|Annual month September on the 6th|1.0|8529CD484683060AE0404F8189D81C0B|
+AS07|Annual month September on the 7th|1.0|8529CD484684060AE0404F8189D81C0B|
+AS08|Annual month September on the 8th|1.0|8529CD484685060AE0404F8189D81C0B|
+AS09|Annual month September on the 9th|1.0|8529CD484686060AE0404F8189D81C0B|
+AS10|Annual month September on the 10th|1.0|8529CD484687060AE0404F8189D81C0B|
+AS11|Annual month September on the 11th|1.0|8529CD484688060AE0404F8189D81C0B|
+AS12|Annual month September on the 12th|1.0|8529CD484689060AE0404F8189D81C0B|
+AS13|Annual month September on the 13th|1.0|8529CD48468A060AE0404F8189D81C0B|
+AS14|Annual month September on the 14th|1.0|8529CD48468B060AE0404F8189D81C0B|
+AS15|Annual month September on the 15th|1.0|8529CD48468C060AE0404F8189D81C0B|
+AS16|Annual month September on the 16th|1.0|8529CD48468D060AE0404F8189D81C0B|
+AS17|Annual month September on the 17th|1.0|8529CD48468E060AE0404F8189D81C0B|
+AS18|Annual month September on the 18th|1.0|8529CD48468F060AE0404F8189D81C0B|
+AS19|Annual month September on the 19th|1.0|8529CD484690060AE0404F8189D81C0B|
+AS20|Annual month September on the 20th|1.0|8529CD484691060AE0404F8189D81C0B|
+AS21|Annual month September on the 21st|1.0|8529CD484692060AE0404F8189D81C0B|
+AS22|Annual month September on the 22nd|1.0|8529CD484693060AE0404F8189D81C0B|
+AS23|Annual month September on the 23rd|1.0|8529CD484694060AE0404F8189D81C0B|
+AS24|Annual month September on the 24th|1.0|8529CD484695060AE0404F8189D81C0B|
+AS25|Annual month September on the 25th|1.0|8529CD484696060AE0404F8189D81C0B|
+AS26|Annual month September on the 26th|1.0|8529CD484697060AE0404F8189D81C0B|
+AS27|Annual month September on the 27th|1.0|8529CD484698060AE0404F8189D81C0B|
+AS28|Annual month September on the 28th|1.0|8529CD484699060AE0404F8189D81C0B|
+AS29|Annual month September on the 29th|1.0|8529CD48469A060AE0404F8189D81C0B|
+AS30|Annual month September on the 30th|1.0|8529CD48469B060AE0404F8189D81C0B|
+ASME|Annual month September on the Month End|1.0|8529CD48469C060AE0404F8189D81C0B|
+AU01|Annual month June on the 1st|1.0|8529CD48469D060AE0404F8189D81C0B|
+AU02|Annual month June on the 2nd|1.0|8529CD48469E060AE0404F8189D81C0B|
+AU03|Annual month June on the 3rd|1.0|8529CD48469F060AE0404F8189D81C0B|
+AU04|Annual month June on the 4th|1.0|8529CD4846A0060AE0404F8189D81C0B|
+AU05|Annual month June on the 5th|1.0|8529CD4846A1060AE0404F8189D81C0B|
+AU06|Annual month June on the 6th|1.0|8529CD4846A2060AE0404F8189D81C0B|
+AU07|Annual month June on the 7th|1.0|8529CD4846A3060AE0404F8189D81C0B|
+AU08|Annual month June on the 8th|1.0|8529CD4846A4060AE0404F8189D81C0B|
+AU09|Annual month June on the 9th|1.0|8529CD4846A5060AE0404F8189D81C0B|
+AU10|Annual month June on the 10th|1.0|8529CD4846A6060AE0404F8189D81C0B|
+AU11|Annual month June on the 11th|1.0|8529CD4846A7060AE0404F8189D81C0B|
+AU12|Annual month June on the 12th|1.0|8529CD4846A8060AE0404F8189D81C0B|
+AU13|Annual month June on the 13th|1.0|8529CD4846A9060AE0404F8189D81C0B|
+AU14|Annual month June on the 14th|1.0|8529CD4846AA060AE0404F8189D81C0B|
+AU15|Annual month June on the 15th|1.0|8529CD4846AB060AE0404F8189D81C0B|
+AU16|Annual month June on the 16th|1.0|8529CD4846AC060AE0404F8189D81C0B|
+AU17|Annual month June on the 17th|1.0|8529CD4846AD060AE0404F8189D81C0B|
+AU18|Annual month June on the 18th|1.0|8529CD4846AE060AE0404F8189D81C0B|
+AU19|Annual month June on the 19th|1.0|8529CD4846AF060AE0404F8189D81C0B|
+AU20|Annual month June on the 20th|1.0|8529CD4846B0060AE0404F8189D81C0B|
+AU21|Annual month June on the 21st|1.0|8529CD4846B1060AE0404F8189D81C0B|
+AU22|Annual month June on the 22nd|1.0|8529CD4846B2060AE0404F8189D81C0B|
+AU23|Annual month June on the 23rd|1.0|8529CD4846B3060AE0404F8189D81C0B|
+AU24|Annual month June on the 24th|1.0|8529CD4846B4060AE0404F8189D81C0B|
+AU25|Annual month June on the 25th|1.0|8529CD4846B5060AE0404F8189D81C0B|
+AU26|Annual month June on the 26th|1.0|8529CD4846B6060AE0404F8189D81C0B|
+AU27|Annual month June on the 27th|1.0|8529CD4846B7060AE0404F8189D81C0B|
+AU28|Annual month June on the 28th|1.0|8529CD4846B8060AE0404F8189D81C0B|
+AU29|Annual month June on the 29th|1.0|8529CD4846B9060AE0404F8189D81C0B|
+AU30|Annual month June on the 30th|1.0|8529CD4846BA060AE0404F8189D81C0B|
+AUME|Annual month June on the Month End|1.0|8529CD4846BB060AE0404F8189D81C0B|
+AY01|Annual month May on the 1st|1.0|8529CD4846BC060AE0404F8189D81C0B|
+AY02|Annual month May on the 2nd|1.0|8529CD4846BD060AE0404F8189D81C0B|
+AY03|Annual month May on the 3rd|1.0|8529CD4846BE060AE0404F8189D81C0B|
+AY04|Annual month May on the 4th|1.0|8529CD4846BF060AE0404F8189D81C0B|
+AY05|Annual month May on the 5th|1.0|8529CD4846C0060AE0404F8189D81C0B|
+AY06|Annual month May on the 6th|1.0|8529CD4846C1060AE0404F8189D81C0B|
+AY07|Annual month May on the 7th|1.0|8529CD4846C2060AE0404F8189D81C0B|
+AY08|Annual month May on the 8th|1.0|8529CD4846C3060AE0404F8189D81C0B|
+AY09|Annual month May on the 9th|1.0|8529CD4846C4060AE0404F8189D81C0B|
+AY10|Annual month May on the 10th|1.0|8529CD4846C5060AE0404F8189D81C0B|
+AY11|Annual month May on the 11th|1.0|8529CD4846C6060AE0404F8189D81C0B|
+AY12|Annual month May on the 12th|1.0|8529CD4846C7060AE0404F8189D81C0B|
+AY13|Annual month May on the 13th|1.0|8529CD4846C8060AE0404F8189D81C0B|
+AY14|Annual month May on the 14th|1.0|8529CD4846C9060AE0404F8189D81C0B|
+AY15|Annual month May on the 15th|1.0|8529CD4846CA060AE0404F8189D81C0B|
+AY16|Annual month May on the 16th|1.0|8529CD4846CB060AE0404F8189D81C0B|
+AY17|Annual month May on the 17th|1.0|8529CD4846CC060AE0404F8189D81C0B|
+AY18|Annual month May on the 18th|1.0|8529CD4846CD060AE0404F8189D81C0B|
+AY19|Annual month May on the 19th|1.0|8529CD4846CE060AE0404F8189D81C0B|
+AY20|Annual month May on the 20th|1.0|8529CD4846CF060AE0404F8189D81C0B|
+AY21|Annual month May on the 21st|1.0|8529CD4846D0060AE0404F8189D81C0B|
+AY22|Annual month May on the 22nd|1.0|8529CD4846D1060AE0404F8189D81C0B|
+AY23|Annual month May on the 23rd|1.0|8529CD4846D2060AE0404F8189D81C0B|
+AY24|Annual month May on the 24th|1.0|8529CD4846D3060AE0404F8189D81C0B|
+AY25|Annual month May on the 25th|1.0|8529CD4846D4060AE0404F8189D81C0B|
+AY26|Annual month May on the 26th|1.0|8529CD4846D5060AE0404F8189D81C0B|
+AY27|Annual month May on the 27th|1.0|8529CD4846D6060AE0404F8189D81C0B|
+AY28|Annual month May on the 28th|1.0|8529CD4846D7060AE0404F8189D81C0B|
+AY29|Annual month May on the 29th|1.0|8529CD4846D8060AE0404F8189D81C0B|
+AY30|Annual month May on the 30th|1.0|8529CD4846D9060AE0404F8189D81C0B|
+AY31|Annual month May on the 31st|1.0|8529CD4846DA060AE0404F8189D81C0B|
+AYME|Annual month May on the Month End|1.0|8529CD4846DB060AE0404F8189D81C0B|
+D|Daily|1.0|8529CD4846DC060AE0404F8189D81C0B|
+IA01|Semi-Annual months April and October on the 1st of each of those months|1.0|8529CD4846DD060AE0404F8189D81C0B|
+IA02|Semi-Annual months April and October on the 2nd of each of those months|1.0|8529CD4846DE060AE0404F8189D81C0B|
+IA03|Semi-Annual months April and October on the 3rd of each of those months|1.0|8529CD4846DF060AE0404F8189D81C0B|
+IA04|Semi-Annual months April and October on the 4th of each of those months|1.0|8529CD4846E0060AE0404F8189D81C0B|
+IA05|Semi-Annual months April and October on the 5th of each of those months|1.0|8529CD4846E1060AE0404F8189D81C0B|
+IA06|Semi-Annual months April and October on the 6th of each of those months|1.0|8529CD4846E2060AE0404F8189D81C0B|
+IA07|Semi-Annual months April and October on the 7th of each of those months|1.0|8529CD4846E3060AE0404F8189D81C0B|
+IA08|Semi-Annual months April and October on the 8th of each of those months|1.0|8529CD4846E4060AE0404F8189D81C0B|
+IA09|Semi-Annual months April and October on the 9th of each of those months|1.0|8529CD4846E5060AE0404F8189D81C0B|
+IA10|Semi-Annual months April and October on the 10th of each of those months|1.0|8529CD4846E6060AE0404F8189D81C0B|
+IA11|Semi-Annual months April and October on the 11th of each of those months|1.0|8529CD4846E7060AE0404F8189D81C0B|
+IA12|Semi-Annual months April and October on the 12th of each of those months|1.0|8529CD4846E8060AE0404F8189D81C0B|
+IA13|Semi-Annual months April and October on the 13th of each of those months|1.0|8529CD4846E9060AE0404F8189D81C0B|
+IA14|Semi-Annual months April and October on the 14th of each of those months|1.0|8529CD4846EA060AE0404F8189D81C0B|
+IA15|Semi-Annual months April and October on the 15th of each of those months|1.0|8529CD4846EB060AE0404F8189D81C0B|
+IA16|Semi-Annual months April and October on the 16th of each of those months|1.0|8529CD4846EC060AE0404F8189D81C0B|
+IA17|Semi-Annual months April and October on the 17th of each of those months|1.0|8529CD4846ED060AE0404F8189D81C0B|
+IA18|Semi-Annual months April and October on the 18th of each of those months|1.0|8529CD4846EE060AE0404F8189D81C0B|
+IA19|Semi-Annual months April and October on the 19th of each of those months|1.0|8529CD4846EF060AE0404F8189D81C0B|
+IA20|Semi-Annual months April and October on the 20th of each of those months|1.0|8529CD4846F0060AE0404F8189D81C0B|
+IA21|Semi-Annual months April and October on the 21st of each of those months|1.0|8529CD4846F1060AE0404F8189D81C0B|
+IA22|Semi-Annual months April and October on the 22nd of each of those months|1.0|8529CD4846F2060AE0404F8189D81C0B|
+IA23|Semi-Annual months April and October on the 23rd of each of those months|1.0|8529CD4846F3060AE0404F8189D81C0B|
+IA24|Semi-Annual months April and October on the 24th of each of those months|1.0|8529CD4846F4060AE0404F8189D81C0B|
+IA25|Semi-Annual months April and October on the 25th of each of those months|1.0|8529CD4846F5060AE0404F8189D81C0B|
+IA26|Semi-Annual months April and October on the 26th of each of those months|1.0|8529CD4846F6060AE0404F8189D81C0B|
+IA27|Semi-Annual months April and October on the 27th of each of those months|1.0|8529CD4846F7060AE0404F8189D81C0B|
+IA28|Semi-Annual months April and October on the 28th of each of those months|1.0|8529CD4846F8060AE0404F8189D81C0B|
+IA29|Semi-Annual months April and October on the 29th of each of those months|1.0|8529CD4846F9060AE0404F8189D81C0B|
+IA30|Semi-Annual months April and October on the 30th of each of those months|1.0|8529CD4846FA060AE0404F8189D81C0B|
+IA31|Semi-Annual months April and October on the 31st of each of those months|1.0|8529CD4846FB060AE0404F8189D81C0B|
+IAME|Semi-Annual months April and October on the Month End of each of those months|1.0|8529CD4846FC060AE0404F8189D81C0B|
+IF01|Semi-Annual months February and August on the 1st of each of those months|1.0|8529CD4846FD060AE0404F8189D81C0B|
+IF02|Semi-Annual months February and August on the 2nd of each of those months|1.0|8529CD4846FE060AE0404F8189D81C0B|
+IF03|Semi-Annual months February and August on the 3rd of each of those months|1.0|8529CD4846FF060AE0404F8189D81C0B|
+IF04|Semi-Annual months February and August on the 4th of each of those months|1.0|8529CD484700060AE0404F8189D81C0B|
+IF05|Semi-Annual months February and August on the 5th of each of those months|1.0|8529CD484701060AE0404F8189D81C0B|
+IF06|Semi-Annual months February and August on the 6th of each of those months|1.0|8529CD484702060AE0404F8189D81C0B|
+IF07|Semi-Annual months February and August on the 7th of each of those months|1.0|8529CD484703060AE0404F8189D81C0B|
+IF08|Semi-Annual months February and August on the 8th of each of those months|1.0|8529CD484704060AE0404F8189D81C0B|
+IF09|Semi-Annual months February and August on the 9th of each of those months|1.0|8529CD484705060AE0404F8189D81C0B|
+IF10|Semi-Annual months February and August on the 10th of each of those months|1.0|8529CD484706060AE0404F8189D81C0B|
+IF11|Semi-Annual months February and August on the 11th of each of those months|1.0|8529CD484707060AE0404F8189D81C0B|
+IF12|Semi-Annual months February and August on the 12th of each of those months|1.0|8529CD484708060AE0404F8189D81C0B|
+IF13|Semi-Annual months February and August on the 13th of each of those months|1.0|8529CD484709060AE0404F8189D81C0B|
+IF14|Semi-Annual months February and August on the 14th of each of those months|1.0|8529CD48470A060AE0404F8189D81C0B|
+IF15|Semi-Annual months February and August on the 15th of each of those months|1.0|8529CD48470B060AE0404F8189D81C0B|
+IF16|Semi-Annual months February and August on the 16th of each of those months|1.0|8529CD48470C060AE0404F8189D81C0B|
+IF17|Semi-Annual months February and August on the 17th of each of those months|1.0|8529CD48470D060AE0404F8189D81C0B|
+IF18|Semi-Annual months February and August on the 18th of each of those months|1.0|8529CD48470E060AE0404F8189D81C0B|
+IF19|Semi-Annual months February and August on the 19th of each of those months|1.0|8529CD48470F060AE0404F8189D81C0B|
+IF20|Semi-Annual months February and August on the 20th of each of those months|1.0|8529CD484710060AE0404F8189D81C0B|
+IF21|Semi-Annual months February and August on the 21st of each of those months|1.0|8529CD484711060AE0404F8189D81C0B|
+IF22|Semi-Annual months February and August on the 22nd of each of those months|1.0|8529CD484712060AE0404F8189D81C0B|
+IF23|Semi-Annual months February and August on the 23rd of each of those months|1.0|8529CD484713060AE0404F8189D81C0B|
+IF24|Semi-Annual months February and August on the 24th of each of those months|1.0|8529CD484714060AE0404F8189D81C0B|
+IF25|Semi-Annual months February and August on the 25th of each of those months|1.0|8529CD484715060AE0404F8189D81C0B|
+IF26|Semi-Annual months February and August on the 26th of each of those months|1.0|8529CD484716060AE0404F8189D81C0B|
+IF27|Semi-Annual months February and August on the 27th of each of those months|1.0|8529CD484717060AE0404F8189D81C0B|
+IF28|Semi-Annual months February and August on the 28th of each of those months|1.0|8529CD484718060AE0404F8189D81C0B|
+IF29|Semi-Annual months February and August on the 29th of each of those months|1.0|8529CD484719060AE0404F8189D81C0B|
+IF30|Semi-Annual months February and August on the 30th of each of those months|1.0|8529CD48471A060AE0404F8189D81C0B|
+IF31|Semi-Annual months February and August on the 31st of each of those months|1.0|8529CD48471B060AE0404F8189D81C0B|
+IFME|Semi-Annual months February and August on the Month End of each of those months|1.0|8529CD48471C060AE0404F8189D81C0B|
+IJ01|Semi-Annual months January and July on the 1st of each of those months|1.0|8529CD48471D060AE0404F8189D81C0B|
+IJ02|Semi-Annual months January and July on the 2nd of each of those months|1.0|8529CD48471E060AE0404F8189D81C0B|
+IJ03|Semi-Annual months January and July on the 3rd of each of those months|1.0|8529CD48471F060AE0404F8189D81C0B|
+IJ04|Semi-Annual months January and July on the 4th of each of those months|1.0|8529CD484720060AE0404F8189D81C0B|
+IJ05|Semi-Annual months January and July on the 5th of each of those months|1.0|8529CD484721060AE0404F8189D81C0B|
+IJ06|Semi-Annual months January and July on the 6th of each of those months|1.0|8529CD484722060AE0404F8189D81C0B|
+IJ07|Semi-Annual months January and July on the 7th of each of those months|1.0|8529CD484723060AE0404F8189D81C0B|
+IJ08|Semi-Annual months January and July on the 8th of each of those months|1.0|8529CD484724060AE0404F8189D81C0B|
+IJ09|Semi-Annual months January and July on the 9th of each of those months|1.0|8529CD484725060AE0404F8189D81C0B|
+IJ10|Semi-Annual months January and July on the 10th of each of those months|1.0|8529CD484726060AE0404F8189D81C0B|
+IJ11|Semi-Annual months January and July on the 11th of each of those months|1.0|8529CD484727060AE0404F8189D81C0B|
+IJ12|Semi-Annual months January and July on the 12th of each of those months|1.0|8529CD484728060AE0404F8189D81C0B|
+IJ13|Semi-Annual months January and July on the 13th of each of those months|1.0|8529CD484729060AE0404F8189D81C0B|
+IJ14|Semi-Annual months January and July on the 14th of each of those months|1.0|8529CD48472A060AE0404F8189D81C0B|
+IJ15|Semi-Annual months January and July on the 15th of each of those months|1.0|8529CD48472B060AE0404F8189D81C0B|
+IJ16|Semi-Annual months January and July on the 16th of each of those months|1.0|8529CD48472C060AE0404F8189D81C0B|
+IJ17|Semi-Annual months January and July on the 17th of each of those months|1.0|8529CD48472D060AE0404F8189D81C0B|
+IJ18|Semi-Annual months January and July on the 18th of each of those months|1.0|8529CD48472E060AE0404F8189D81C0B|
+IJ19|Semi-Annual months January and July on the 19th of each of those months|1.0|8529CD48472F060AE0404F8189D81C0B|
+IJ20|Semi-Annual months January and July on the 20th of each of those months|1.0|8529CD484730060AE0404F8189D81C0B|
+IJ21|Semi-Annual months January and July on the 21st of each of those months|1.0|8529CD484731060AE0404F8189D81C0B|
+IJ22|Semi-Annual months January and July on the 22nd of each of those months|1.0|8529CD484732060AE0404F8189D81C0B|
+IJ23|Semi-Annual months January and July on the 23rd of each of those months|1.0|8529CD484733060AE0404F8189D81C0B|
+IJ24|Semi-Annual months January and July on the 24th of each of those months|1.0|8529CD484734060AE0404F8189D81C0B|
+IJ25|Semi-Annual months January and July on the 25th of each of those months|1.0|8529CD484735060AE0404F8189D81C0B|
+IJ26|Semi-Annual months January and July on the 26th of each of those months|1.0|8529CD484736060AE0404F8189D81C0B|
+IJ27|Semi-Annual months January and July on the 27th of each of those months|1.0|8529CD484737060AE0404F8189D81C0B|
+IJ28|Semi-Annual months January and July on the 28th of each of those months|1.0|8529CD484738060AE0404F8189D81C0B|
+IJ29|Semi-Annual months January and July on the 29th of each of those months|1.0|8529CD484739060AE0404F8189D81C0B|
+IJ30|Semi-Annual months January and July on the 30th of each of those months|1.0|8529CD48473A060AE0404F8189D81C0B|
+IJ31|Semi-Annual months January and July on the 31st of each of those months|1.0|8529CD48473B060AE0404F8189D81C0B|
+IJME|Semi-Annual months January and July on the Month End of each of those months|1.0|8529CD48473C060AE0404F8189D81C0B|
+IM01|Semi-Annual months March and September on the 1st of each of those months|1.0|8529CD48473D060AE0404F8189D81C0B|
+IM02|Semi-Annual months March and September on the 2nd of each of those months|1.0|8529CD48473E060AE0404F8189D81C0B|
+IM03|Semi-Annual months March and September on the 3rd of each of those months|1.0|8529CD48473F060AE0404F8189D81C0B|
+IM04|Semi-Annual months March and September on the 4th of each of those months|1.0|8529CD484740060AE0404F8189D81C0B|
+IM05|Semi-Annual months March and September on the 5th of each of those months|1.0|8529CD484741060AE0404F8189D81C0B|
+IM06|Semi-Annual months March and September on the 6th of each of those months|1.0|8529CD484742060AE0404F8189D81C0B|
+IM07|Semi-Annual months March and September on the 7th of each of those months|1.0|8529CD484743060AE0404F8189D81C0B|
+IM08|Semi-Annual months March and September on the 8th of each of those months|1.0|8529CD484744060AE0404F8189D81C0B|
+IM09|Semi-Annual months March and September on the 9th of each of those months|1.0|8529CD484745060AE0404F8189D81C0B|
+IM10|Semi-Annual months March and September on the 10th of each of those months|1.0|8529CD484746060AE0404F8189D81C0B|
+IM11|Semi-Annual months March and September on the 11th of each of those months|1.0|8529CD484747060AE0404F8189D81C0B|
+IM12|Semi-Annual months March and September on the 12th of each of those months|1.0|8529CD484748060AE0404F8189D81C0B|
+IM13|Semi-Annual months March and September on the 13th of each of those months|1.0|8529CD484749060AE0404F8189D81C0B|
+IM14|Semi-Annual months March and September on the 14th of each of those months|1.0|8529CD48474A060AE0404F8189D81C0B|
+IM15|Semi-Annual months March and September on the 15th of each of those months|1.0|8529CD48474B060AE0404F8189D81C0B|
+IM16|Semi-Annual months March and September on the 16th of each of those months|1.0|8529CD48474C060AE0404F8189D81C0B|
+IM17|Semi-Annual months March and September on the 17th of each of those months|1.0|8529CD48474D060AE0404F8189D81C0B|
+IM18|Semi-Annual months March and September on the 18th of each of those months|1.0|8529CD48474E060AE0404F8189D81C0B|
+IM19|Semi-Annual months March and September on the 19th of each of those months|1.0|8529CD48474F060AE0404F8189D81C0B|
+IM20|Semi-Annual months March and September on the 20th of each of those months|1.0|8529CD484750060AE0404F8189D81C0B|
+IM21|Semi-Annual months March and September on the 21st of each of those months|1.0|8529CD484751060AE0404F8189D81C0B|
+IM22|Semi-Annual months March and September on the 22nd of each of those months|1.0|8529CD484752060AE0404F8189D81C0B|
+IM23|Semi-Annual months March and September on the 23rd of each of those months|1.0|8529CD484753060AE0404F8189D81C0B|
+IM24|Semi-Annual months March and September on the 24th of each of those months|1.0|8529CD484754060AE0404F8189D81C0B|
+IM25|Semi-Annual months March and September on the 25th of each of those months|1.0|8529CD484755060AE0404F8189D81C0B|
+IM26|Semi-Annual months March and September on the 26th of each of those months|1.0|8529CD484756060AE0404F8189D81C0B|
+IM27|Semi-Annual months March and September on the 27th of each of those months|1.0|8529CD484757060AE0404F8189D81C0B|
+IM28|Semi-Annual months March and September on the 28th of each of those months|1.0|8529CD484758060AE0404F8189D81C0B|
+IM29|Semi-Annual months March and September on the 29th of each of those months|1.0|8529CD484759060AE0404F8189D81C0B|
+IM30|Semi-Annual months March and September on the 30th of each of those months|1.0|8529CD48475A060AE0404F8189D81C0B|
+IM31|Semi-Annual months March and September on the 31st of each of those months|1.0|8529CD48475B060AE0404F8189D81C0B|
+IMME|Semi-Annual months March and September on the Month End of each of those months|1.0|8529CD48475C060AE0404F8189D81C0B|
+IU01|Semi-Annual months June and Decmeber on the 1st of each of those months|1.0|8529CD48475D060AE0404F8189D81C0B|
+IU02|Semi-Annual months June and December on the 2nd of each of those months|1.0|8529CD48475E060AE0404F8189D81C0B|
+IU03|Semi-Annual months June and December on the 3rd of each of those months|1.0|8529CD48475F060AE0404F8189D81C0B|
+IU04|Semi-Annual months June and December on the 4th of each of those months|1.0|8529CD484760060AE0404F8189D81C0B|
+IU05|Semi-Annual months June and December on the 5th of each of those months|1.0|8529CD484761060AE0404F8189D81C0B|
+IU06|Semi-Annual months June and December on the 6th of each of those months|1.0|8529CD484762060AE0404F8189D81C0B|
+IU07|Semi-Annual months June and December on the 7th of each of those months|1.0|8529CD484763060AE0404F8189D81C0B|
+IU08|Semi-Annual months June and December on the 8th of each of those months|1.0|8529CD484764060AE0404F8189D81C0B|
+IU09|Semi-Annual months June and December on the 9th of each of those months|1.0|8529CD484765060AE0404F8189D81C0B|
+IU10|Semi-Annual months June and December on the 10th of each of those months|1.0|8529CD484766060AE0404F8189D81C0B|
+IU11|Semi-Annual months June and December on the 11th of each of those months|1.0|8529CD484767060AE0404F8189D81C0B|
+IU12|Semi-Annual months June and December on the 12th of each of those months|1.0|8529CD484768060AE0404F8189D81C0B|
+IU13|Semi-Annual months June and December on the 13th of each of those months|1.0|8529CD484769060AE0404F8189D81C0B|
+IU14|Semi-Annual months June and December on the 14th of each of those months|1.0|8529CD48476A060AE0404F8189D81C0B|
+IU15|Semi-Annual months June and December on the 15th of each of those months|1.0|8529CD48476B060AE0404F8189D81C0B|
+IU16|Semi-Annual months June and December on the 16th of each of those months|1.0|8529CD48476C060AE0404F8189D81C0B|
+IU17|Semi-Annual months June and December on the 17th of each of those months|1.0|8529CD48476D060AE0404F8189D81C0B|
+IU18|Semi-Annual months June and December on the 18th of each of those months|1.0|8529CD48476E060AE0404F8189D81C0B|
+IU19|Semi-Annual months June and December on the 19th of each of those months|1.0|8529CD48476F060AE0404F8189D81C0B|
+IU20|Semi-Annual months June and December on the 20th of each of those months|1.0|8529CD484770060AE0404F8189D81C0B|
+IU21|Semi-Annual months June and December on the 21st of each of those months|1.0|8529CD484771060AE0404F8189D81C0B|
+IU22|Semi-Annual months June and December on the 22nd of each of those months|1.0|8529CD484772060AE0404F8189D81C0B|
+IU23|Semi-Annual months June and December on the 23rd of each of those months|1.0|8529CD484773060AE0404F8189D81C0B|
+IU24|Semi-Annual months June and December on the 24th of each of those months|1.0|8529CD484774060AE0404F8189D81C0B|
+IU25|Semi-Annual months June and December on the 25th of each of those months|1.0|8529CD484775060AE0404F8189D81C0B|
+IU26|Semi-Annual months June and December on the 26th of each of those months|1.0|8529CD484776060AE0404F8189D81C0B|
+IU27|Semi-Annual months June and December on the 27th of each of those months|1.0|8529CD484777060AE0404F8189D81C0B|
+IU28|Semi-Annual months June and December on the 28th of each of those months|1.0|8529CD484778060AE0404F8189D81C0B|
+IU29|Semi-Annual months June and December on the 29th of each of those months|1.0|8529CD484779060AE0404F8189D81C0B|
+IU30|Semi-Annual months June and December on the 30th of each of those months|1.0|8529CD48477A060AE0404F8189D81C0B|
+IU31|Semi-Annual months June and December on the 31st of each of those months|1.0|8529CD48477B060AE0404F8189D81C0B|
+IUME|Semi-Annual months June and December on the Month End of each of those months|1.0|8529CD48477C060AE0404F8189D81C0B|
+IY01|Semi-Annual months May and November on the 1st of each of those months|1.0|8529CD48477D060AE0404F8189D81C0B|
+IY02|Semi-Annual months May and November on the 2nd of each of those months|1.0|8529CD48477E060AE0404F8189D81C0B|
+IY03|Semi-Annual months May and November on the 3rd of each of those months|1.0|8529CD48477F060AE0404F8189D81C0B|
+IY04|Semi-Annual months May and November on the 4th of each of those months|1.0|8529CD484780060AE0404F8189D81C0B|
+IY05|Semi-Annual months May and November on the 5th of each of those months|1.0|8529CD484781060AE0404F8189D81C0B|
+IY06|Semi-Annual months May and November on the 6th of each of those months|1.0|8529CD484782060AE0404F8189D81C0B|
+IY07|Semi-Annual months May and November on the 7th of each of those months|1.0|8529CD484783060AE0404F8189D81C0B|
+IY08|Semi-Annual months May and November on the 8th of each of those months|1.0|8529CD484784060AE0404F8189D81C0B|
+IY09|Semi-Annual months May and November on the 9th of each of those months|1.0|8529CD484785060AE0404F8189D81C0B|
+IY10|Semi-Annual months May and November on the 10th of each of those months|1.0|8529CD484786060AE0404F8189D81C0B|
+IY11|Semi-Annual months May and November on the 11th of each of those months|1.0|8529CD484787060AE0404F8189D81C0B|
+IY12|Semi-Annual months May and November on the 12th of each of those months|1.0|8529CD484788060AE0404F8189D81C0B|
+IY13|Semi-Annual months May and November on the 13th of each of those months|1.0|8529CD484789060AE0404F8189D81C0B|
+IY14|Semi-Annual months May and November on the 14th of each of those months|1.0|8529CD48478A060AE0404F8189D81C0B|
+IY15|Semi-Annual months May and November on the 15th of each of those months|1.0|8529CD48478B060AE0404F8189D81C0B|
+IY16|Semi-Annual months May and November on the 16th of each of those months|1.0|8529CD48478C060AE0404F8189D81C0B|
+IY17|Semi-Annual months May and November on the 17th of each of those months|1.0|8529CD48478D060AE0404F8189D81C0B|
+IY18|Semi-Annual months May and November on the 18th of each of those months|1.0|8529CD48478E060AE0404F8189D81C0B|
+IY19|Semi-Annual months May and November on the 19th of each of those months|1.0|8529CD48478F060AE0404F8189D81C0B|
+IY20|Semi-Annual months May and November on the 20th of each of those months|1.0|8529CD484790060AE0404F8189D81C0B|
+IY21|Semi-Annual months May and November on the 21st of each of those months|1.0|8529CD484791060AE0404F8189D81C0B|
+IY22|Semi-Annual months May and November on the 22nd of each of those months|1.0|8529CD484792060AE0404F8189D81C0B|
+IY23|Semi-Annual months May and November on the 23rd of each of those months|1.0|8529CD484793060AE0404F8189D81C0B|
+IY24|Semi-Annual months May and November on the 24th of each of those months|1.0|8529CD484794060AE0404F8189D81C0B|
+IY25|Semi-Annual months May and November on the 25th of each of those months|1.0|8529CD484795060AE0404F8189D81C0B|
+IY26|Semi-Annual months May and November on the 26th of each of those months|1.0|8529CD484796060AE0404F8189D81C0B|
+IY27|Semi-Annual months May and November on the 27th of each of those months|1.0|8529CD484797060AE0404F8189D81C0B|
+IY28|Semi-Annual months May and November on the 28th of each of those months|1.0|8529CD484798060AE0404F8189D81C0B|
+IY29|Semi-Annual months May and November on the 29th of each of those months|1.0|8529CD484799060AE0404F8189D81C0B|
+IY30|Semi-Annual months May and November on the 30th of each of those months|1.0|8529CD48479A060AE0404F8189D81C0B|
+IY31|Semi-Annual months May and November on the 31st of each of those months|1.0|8529CD48479B060AE0404F8189D81C0B|
+IYME|Semi-Annual months May and November on the Month End of each of those months|1.0|8529CD48479C060AE0404F8189D81C0B|
+M01|Monthly on the 1st|1.0|8529CD48479D060AE0404F8189D81C0B|
+M02|Monthly on the 2nd|1.0|8529CD48479E060AE0404F8189D81C0B|
+M03|Monthly on the 3rd|1.0|8529CD48479F060AE0404F8189D81C0B|
+M04|Monthly on the 4th|1.0|8529CD4847A0060AE0404F8189D81C0B|
+M05|Monthly on the 5th|1.0|8529CD4847A1060AE0404F8189D81C0B|
+M06|Monthly on the 6th|1.0|8529CD4847A2060AE0404F8189D81C0B|
+M07|Monthly on the 7th|1.0|8529CD4847A3060AE0404F8189D81C0B|
+M08|Monthly on the 8th|1.0|8529CD4847A4060AE0404F8189D81C0B|
+M09|Monthly on the 9th|1.0|8529CD4847A5060AE0404F8189D81C0B|
+M10|Monthly on the 10th|1.0|8529CD4847A6060AE0404F8189D81C0B|
+M11|Monthly on the 11th|1.0|8529CD4847A7060AE0404F8189D81C0B|
+M12|Monthly on the 12th|1.0|8529CD4847A8060AE0404F8189D81C0B|
+M13|Monthly on the 13th|1.0|8529CD4847A9060AE0404F8189D81C0B|
+M14|Monthly on the 14th|1.0|8529CD4847AA060AE0404F8189D81C0B|
+M15|Monthly on the 15th|1.0|8529CD4847AB060AE0404F8189D81C0B|
+M16|Monthly on the 16th|1.0|8529CD4847AC060AE0404F8189D81C0B|
+M17|Monthly on the 17th|1.0|8529CD4847AD060AE0404F8189D81C0B|
+M18|Monthly on the 18th|1.0|8529CD4847AE060AE0404F8189D81C0B|
+M19|Monthly on the 19th|1.0|8529CD4847AF060AE0404F8189D81C0B|
+M20|Monthly on the 20th|1.0|8529CD4847B0060AE0404F8189D81C0B|
+M21|Monthly on the 21th|1.0|8529CD4847B1060AE0404F8189D81C0B|
+M22|Monthly on the 22nd|1.0|8529CD4847B2060AE0404F8189D81C0B|
+M23|Monthly on the 23rd|1.0|8529CD4847B3060AE0404F8189D81C0B|
+M24|Monthly on the 24th|1.0|8529CD4847B4060AE0404F8189D81C0B|
+M25|Monthly on the 25th|1.0|8529CD4847B5060AE0404F8189D81C0B|
+M26|Monthly on the 26th|1.0|8529CD4847B6060AE0404F8189D81C0B|
+M27|Monthly on the 27th|1.0|8529CD4847B7060AE0404F8189D81C0B|
+M28|Monthly on the 28th|1.0|8529CD4847B8060AE0404F8189D81C0B|
+M29|Monthly on the 29th|1.0|8529CD4847B9060AE0404F8189D81C0B|
+M30|Monthly on the 30th|1.0|8529CD4847BA060AE0404F8189D81C0B|
+M31|Monthly on the 31st|1.0|8529CD4847BB060AE0404F8189D81C0B|
+MME|Monthly on the Month End|1.0|8529CD4847BC060AE0404F8189D81C0B|
+QF01|Quarterly on months February, May, August and November on the 1st of each of those months|1.0|8529CD4847BD060AE0404F8189D81C0B|
+QF02|Quarterly on months February, May, August and November on the 2nd of each of those months|1.0|8529CD4847BE060AE0404F8189D81C0B|
+QF03|Quarterly on months February, May, August and November on the 3rd of each of those months|1.0|8529CD4847BF060AE0404F8189D81C0B|
+QF04|Quarterly on months February, May, August and November on the 4th of each of those months|1.0|8529CD4847C0060AE0404F8189D81C0B|
+QF05|Quarterly on months February, May, August and November on the 5th of each of those months|1.0|8529CD4847C1060AE0404F8189D81C0B|
+QF06|Quarterly on months February, May, August and November on the 6th of each of those months|1.0|8529CD4847C2060AE0404F8189D81C0B|
+QF07|Quarterly on months February, May, August and November on the 7th of each of those months|1.0|8529CD4847C3060AE0404F8189D81C0B|
+QF08|Quarterly on months February, May, August and November on the 8th of each of those months|1.0|8529CD4847C4060AE0404F8189D81C0B|
+QF09|Quarterly on months February, May, August and November on the 9th of each of those months|1.0|8529CD4847C5060AE0404F8189D81C0B|
+QF10|Quarterly on months February, May, August and November on the 10th of each of those months|1.0|8529CD4847C6060AE0404F8189D81C0B|
+QF11|Quarterly on months February, May, August and November on the 11th of each of those months|1.0|8529CD4847C7060AE0404F8189D81C0B|
+QF12|Quarterly on months February, May, August and November on the 12th of each of those months|1.0|8529CD4847C8060AE0404F8189D81C0B|
+QF13|Quarterly on months February, May, August and November on the 13th of each of those months|1.0|8529CD4847C9060AE0404F8189D81C0B|
+QF14|Quarterly on months February, May, August and November on the 14th of each of those months|1.0|8529CD4847CA060AE0404F8189D81C0B|
+QF15|Quarterly on months February, May, August and November on the 15th of each of those months|1.0|8529CD4847CB060AE0404F8189D81C0B|
+QF16|Quarterly on months February, May, August and November on the 16th of each of those months|1.0|8529CD4847CC060AE0404F8189D81C0B|
+QF17|Quarterly on months February, May, August and November on the 17th of each of those months|1.0|8529CD4847CD060AE0404F8189D81C0B|
+QF18|Quarterly on months February, May, August and November on the 18th of each of those months|1.0|8529CD4847CE060AE0404F8189D81C0B|
+QF19|Quarterly on months February, May, August and November on the 19th of each of those months|1.0|8529CD4847CF060AE0404F8189D81C0B|
+QF20|Quarterly on months February, May, August and November on the 20th of each of those months|1.0|8529CD4847D0060AE0404F8189D81C0B|
+QF21|Quarterly on months February, May, August and November on the 21st of each of those months|1.0|8529CD4847D1060AE0404F8189D81C0B|
+QF22|Quarterly on months February, May, August and November on the 22nd of each of those months|1.0|8529CD4847D2060AE0404F8189D81C0B|
+QF23|Quarterly on months February, May, August and November on the 23rd of each of those months|1.0|8529CD4847D3060AE0404F8189D81C0B|
+QF24|Quarterly on months February, May, August and November on the 24th of each of those months|1.0|8529CD4847D4060AE0404F8189D81C0B|
+QF25|Quarterly on months February, May, August and November on the 25th of each of those months|1.0|8529CD4847D5060AE0404F8189D81C0B|
+QF26|Quarterly on months February, May, August and November on the 26th of each of those months|1.0|8529CD4847D6060AE0404F8189D81C0B|
+QF27|Quarterly on months February, May, August and November on the 27th of each of those months|1.0|8529CD4847D7060AE0404F8189D81C0B|
+QF28|Quarterly on months February, May, August and November on the 28th of each of those months|1.0|8529CD4847D8060AE0404F8189D81C0B|
+QF29|Quarterly on months February, May, August and November on the 29th of each of those months|1.0|8529CD4847D9060AE0404F8189D81C0B|
+QF30|Quarterly on months February, May, August and November on the 30th of each of those months|1.0|8529CD4847DA060AE0404F8189D81C0B|
+QF31|Quarterly on months February, May, August and November on the 31st of each of those months|1.0|8529CD4847DB060AE0404F8189D81C0B|
+QFME|Quarterly on months February, May, August and November on the Month End of each of those months|1.0|8529CD4847DC060AE0404F8189D81C0B|
+QJ01|Quarterly on months January, April, July and October on the 1st of each of those months|1.0|8529CD4847DD060AE0404F8189D81C0B|
+QJ02|Quarterly on months January, April, July and October on the 2nd of each of those months|1.0|8529CD4847DE060AE0404F8189D81C0B|
+QJ03|Quarterly on months January, April, July and October on the 3rd of each of those months|1.0|8529CD4847DF060AE0404F8189D81C0B|
+QJ04|Quarterly on months January, April, July and October on the 4th of each of those months|1.0|8529CD4847E0060AE0404F8189D81C0B|
+QJ05|Quarterly on months January, April, July and October on the 5th of each of those months|1.0|8529CD4847E1060AE0404F8189D81C0B|
+QJ06|Quarterly on months January, April, July and October on the 6th of each of those months|1.0|8529CD4847E2060AE0404F8189D81C0B|
+QJ07|Quarterly on months January, April, July and October on the 7th of each of those months|1.0|8529CD4847E3060AE0404F8189D81C0B|
+QJ08|Quarterly on months January, April, July and October on the 8th of each of those months|1.0|8529CD4847E4060AE0404F8189D81C0B|
+QJ09|Quarterly on months January, April, July and October on the 9th of each of those months|1.0|8529CD4847E5060AE0404F8189D81C0B|
+QJ10|Quarterly on months January, April, July and October on the 10th of each of those months|1.0|8529CD4847E6060AE0404F8189D81C0B|
+QJ11|Quarterly on months January, April, July and October on the 11th of each of those months|1.0|8529CD4847E7060AE0404F8189D81C0B|
+QJ12|Quarterly on months January, April, July and October on the 12th of each of those months|1.0|8529CD4847E8060AE0404F8189D81C0B|
+QJ13|Quarterly on months January, April, July and October on the 13th of each of those months|1.0|8529CD4847E9060AE0404F8189D81C0B|
+QJ14|Quarterly on months January, April, July and October on the 14th of each of those months|1.0|8529CD4847EA060AE0404F8189D81C0B|
+QJ15|Quarterly on months January, April, July and October on the 15th of each of those months|1.0|8529CD4847EB060AE0404F8189D81C0B|
+QJ16|Quarterly on months January, April, July and October on the 16th of each of those months|1.0|8529CD4847EC060AE0404F8189D81C0B|
+QJ17|Quarterly on months January, April, July and October on the 17th of each of those months|1.0|8529CD4847ED060AE0404F8189D81C0B|
+QJ18|Quarterly on months January, April, July and October on the 18th of each of those months|1.0|8529CD4847EE060AE0404F8189D81C0B|
+QJ19|Quarterly on months January, April, July and October on the 19th of each of those months|1.0|8529CD4847EF060AE0404F8189D81C0B|
+QJ20|Quarterly on months January, April, July and October on the 20th of each of those months|1.0|8529CD4847F0060AE0404F8189D81C0B|
+QJ21|Quarterly on months January, April, July and October on the 21st of each of those months|1.0|8529CD4847F1060AE0404F8189D81C0B|
+QJ22|Quarterly on months January, April, July and October on the 22nd of each of those months|1.0|8529CD4847F2060AE0404F8189D81C0B|
+QJ23|Quarterly on months January, April, July and October on the 23rd of each of those months|1.0|8529CD4847F3060AE0404F8189D81C0B|
+QJ24|Quarterly on months January, April, July and October on the 24th of each of those months|1.0|8529CD4847F4060AE0404F8189D81C0B|
+QJ25|Quarterly on months January, April, July and October on the 25th of each of those months|1.0|8529CD4847F5060AE0404F8189D81C0B|
+QJ26|Quarterly on months January, April, July and October on the 26th of each of those months|1.0|8529CD4847F6060AE0404F8189D81C0B|
+QJ27|Quarterly on months January, April, July and October on the 27th of each of those months|1.0|8529CD4847F7060AE0404F8189D81C0B|
+QJ28|Quarterly on months January, April, July and October on the 28th of each of those months|1.0|8529CD4847F8060AE0404F8189D81C0B|
+QJ29|Quarterly on months January, April, July and October on the 29th of each of those months|1.0|8529CD4847F9060AE0404F8189D81C0B|
+QJ30|Quarterly on months January, April, July and October on the 30th of each of those months|1.0|8529CD4847FA060AE0404F8189D81C0B|
+QJ31|Quarterly on months January, April, July and October on the 31st of each of those months|1.0|8529CD4847FB060AE0404F8189D81C0B|
+QJME|Quarterly on months January, April, July and October on the Month End of each of those months|1.0|8529CD4847FC060AE0404F8189D81C0B|
+QM01|Quarterly on months March, June, September and December on the 1st of each of those months|1.0|8529CD4847FD060AE0404F8189D81C0B|
+QM02|Quarterly on months March, June, September and December on the 2nd of each of those months|1.0|8529CD4847FE060AE0404F8189D81C0B|
+QM03|Quarterly on months March, June, September and December on the 3rd of each of those months|1.0|8529CD4847FF060AE0404F8189D81C0B|
+QM04|Quarterly on months March, June, September and December on the 4th of each of those months|1.0|8529CD484800060AE0404F8189D81C0B|
+QM05|Quarterly on months March, June, September and December on the 5th of each of those months|1.0|8529CD484801060AE0404F8189D81C0B|
+QM06|Quarterly on months March, June, September and December on the 6th of each of those months|1.0|8529CD484802060AE0404F8189D81C0B|
+QM07|Quarterly on months March, June, September and December on the 7th of each of those months|1.0|8529CD484803060AE0404F8189D81C0B|
+QM08|Quarterly on months March, June, September and December on the 8th of each of those months|1.0|8529CD484804060AE0404F8189D81C0B|
+QM09|Quarterly on months March, June, September and December on the 9th of each of those months|1.0|8529CD484805060AE0404F8189D81C0B|
+QM10|Quarterly on months March, June, September and December on the 10th of each of those months|1.0|8529CD484806060AE0404F8189D81C0B|
+QM11|Quarterly on months March, June, September and December on the 11th of each of those months|1.0|8529CD484807060AE0404F8189D81C0B|
+QM12|Quarterly on months March, June, September and December on the 12th of each of those months|1.0|8529CD484808060AE0404F8189D81C0B|
+QM13|Quarterly on months March, June, September and December on the 13th of each of those months|1.0|8529CD484809060AE0404F8189D81C0B|
+QM14|Quarterly on months March, June, September and December on the 14th of each of those months|1.0|8529CD48480A060AE0404F8189D81C0B|
+QM15|Quarterly on months March, June, September and December on the 15th of each of those months|1.0|8529CD48480B060AE0404F8189D81C0B|
+QM16|Quarterly on months March, June, September and December on the 16th of each of those months|1.0|8529CD48480C060AE0404F8189D81C0B|
+QM17|Quarterly on months March, June, September and December on the 17th of each of those months|1.0|8529CD48480D060AE0404F8189D81C0B|
+QM18|Quarterly on months March, June, September and December on the 18th of each of those months|1.0|8529CD48480E060AE0404F8189D81C0B|
+QM19|Quarterly on months March, June, September and December on the 19th of each of those months|1.0|8529CD48480F060AE0404F8189D81C0B|
+QM20|Quarterly on months March, June, September and December on the 20th of each of those months|1.0|8529CD484810060AE0404F8189D81C0B|
+QM21|Quarterly on months March, June, September and December on the 21st of each of those months|1.0|8529CD484811060AE0404F8189D81C0B|
+QM22|Quarterly on months March, June, September and December on the 22nd of each of those months|1.0|8529CD484812060AE0404F8189D81C0B|
+QM23|Quarterly on months March, June, September and December on the 23rd of each of those months|1.0|8529CD484813060AE0404F8189D81C0B|
+QM24|Quarterly on months March, June, September and December on the 24th of each of those months|1.0|8529CD484814060AE0404F8189D81C0B|
+QM25|Quarterly on months March, June, September and December on the 25th of each of those months|1.0|8529CD484815060AE0404F8189D81C0B|
+QM26|Quarterly on months March, June, September and December on the 26th of each of those months|1.0|8529CD484816060AE0404F8189D81C0B|
+QM27|Quarterly on months March, June, September and December on the 27th of each of those months|1.0|8529CD484817060AE0404F8189D81C0B|
+QM28|Quarterly on months March, June, September and December on the 28th of each of those months|1.0|8529CD484818060AE0404F8189D81C0B|
+QM29|Quarterly on months March, June, September and December on the 29th of each of those months|1.0|8529CD484819060AE0404F8189D81C0B|
+QM30|Quarterly on months March, June, September and December on the 30th of each of those months|1.0|8529CD48481A060AE0404F8189D81C0B|
+QM31|Quarterly on months March, June, September and December on the 31st of each of those months|1.0|8529CD48481B060AE0404F8189D81C0B|
+QMME|Quarterly on months March, June, September and December on the Month End of each of those months|1.0|8529CD48481C060AE0404F8189D81C0B|
+S01|Semi-Monthly on the 1st and the 16th|1.0|8529CD48481D060AE0404F8189D81C0B|
+S02|Semi-Monthly on the 2nd and the 17th|1.0|8529CD48481E060AE0404F8189D81C0B|
+S03|Semi-Monthly on the 3rd and the 18th|1.0|8529CD48481F060AE0404F8189D81C0B|
+S04|Semi-Monthly on the 4th and the 19th|1.0|8529CD484820060AE0404F8189D81C0B|
+S05|Semi-Monthly on the 5th and the 20th|1.0|8529CD484821060AE0404F8189D81C0B|
+S06|Semi-Monthly on the 6th and the 21st|1.0|8529CD484822060AE0404F8189D81C0B|
+S07|Semi-Monthly on the 7th and the 22nd|1.0|8529CD484823060AE0404F8189D81C0B|
+S08|Semi-Monthly on the 8th and the 23rd|1.0|8529CD484824060AE0404F8189D81C0B|
+S09|Semi-Monthly on the 9th and the 24th|1.0|8529CD484825060AE0404F8189D81C0B|
+S10|Semi-Monthly on the 10th and the 25th|1.0|8529CD484826060AE0404F8189D81C0B|
+S11|Semi-Monthly on the 11th and the 26th|1.0|8529CD484827060AE0404F8189D81C0B|
+S12|Semi-Monthly on the 12th and the 27th|1.0|8529CD484828060AE0404F8189D81C0B|
+S13|Semi-Monthly on the 13th and the 28th|1.0|8529CD484829060AE0404F8189D81C0B|
+S14|Semi-Monthly on the 14th and the 29th|1.0|8529CD48482A060AE0404F8189D81C0B|
+S15|Semi-Monthly on the 15th and the 30th|1.0|8529CD48482B060AE0404F8189D81C0B|
+WFRI|Weekly on Fridays|1.0|8529CD48482C060AE0404F8189D81C0B|
+WMON|Weekly on Mondays|1.0|8529CD48482D060AE0404F8189D81C0B|
+WTHU|Weekly on Thursdays|1.0|8529CD48482E060AE0404F8189D81C0B|
+WTUE|Weekly on Tuesdays|1.0|8529CD48482F060AE0404F8189D81C0B|
+WWED|Weekly on Wednesdays|1.0|8529CD484830060AE0404F8189D81C0B|

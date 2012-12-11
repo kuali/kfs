@@ -1,0 +1,8 @@
+agrmnt_spcl_instrc_cd|agrmnt_spcl_instrc_desc|row_actv_ind|obj_id|ver_nbr|
+0|None|Y|8529CD484831060AE0404F8189D81C0B|1.0|
+OT|Other|Y|8529CD4848E7060AE0404F8189D81C0B|1.0|
+RE|Reinvest earnings to specific fund balances|Y|8529CD4848E3060AE0404F8189D81C0B|1.0|
+RF|Reinvest unused FY earnings per GA|Y|8529CD4848E8060AE0404F8189D81C0B|1.0|
+RP|Reinvest % of earnings|Y|8529CD4848E4060AE0404F8189D81C0B|1.0|
+TP|Transfer % of earnings to separate account|Y|8529CD4848E5060AE0404F8189D81C0B|1.0|
+TS|Transfer specific amount to separate account|Y|8529CD4848E6060AE0404F8189D81C0B|1.0|

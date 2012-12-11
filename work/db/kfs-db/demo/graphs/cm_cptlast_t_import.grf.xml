@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph name="Export CM_CPTLAST_T" revision="1.0">
+  <Global>
+    <Property fileURL="workspace.prm" id="WorkspaceParameters" />
+    <Connection dbConfig="${DATABASE}" id="TargetDB" type="JDBC" />
+    <Metadata id="OutputFileFormat" fileURL="${FORMAT_DIR}/cm_cptlast_t.fmt.xml" />
+  </Global>
+   <Phase number="0">
+     <Node id="DATABASE_RUN"
+           type="DB_EXECUTE"
+           dbConnection="TargetDB"
+           sqlQuery="TRUNCATE TABLE CM_CPTLAST_T" />
+   </Phase>
+   <Phase number="1">
+    <Node id="INPUT" type="DATA_READER" skipLeadingBlanks="false" fileURL="${DATA_DIR}/cm_cptlast_t.txt" skipFirstLine="true" dataPolicy="strict" charset="UTF-8" quotedStrings="false" trim="false" treatMultipleDelimitersAsOne="false" />
+    <Edge fromNode="INPUT:0" toNode="FIX_DELIM:0" id="INPUT_TO_FIX_DELIM" metadata="OutputFileFormat" />
+    <Node id="FIX_DELIM" type="REFORMAT">
+      <attr name="transform"><![CDATA[
+//#TL
+    function transform() {
+        $0.cptlast_nbr := $cptlast_nbr;
+        $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
+        $0.ver_nbr := $ver_nbr;
+        $0.cptlast_desc := replace(nvl($cptlast_desc, ""), "~!~", "|" );
+        $0.cptlast_typ_cd := replace(nvl($cptlast_typ_cd, ""), "~!~", "|" );
+        $0.cptlast_cond_cd := replace(nvl($cptlast_cond_cd, ""), "~!~", "|" );
+        $0.cptlast_crt_dt := $cptlast_crt_dt;
+        $0.cptlast_receive_dt := $cptlast_receive_dt;
+        $0.cptlast_ln_rtrn_dt := $cptlast_ln_rtrn_dt;
+        $0.cptlast_loan_dt := $cptlast_loan_dt;
+        $0.ast_expctreturn_dt := $ast_expctreturn_dt;
+        $0.fdoc_post_prd_cd := replace(nvl($fdoc_post_prd_cd, ""), "~!~", "|" );
+        $0.fdoc_post_yr := $fdoc_post_yr;
+        $0.org_owner_acct_nbr := replace(nvl($org_owner_acct_nbr, ""), "~!~", "|" );
+        $0.org_owner_coa_cd := replace(nvl($org_owner_coa_cd, ""), "~!~", "|" );
+        $0.cptlast_vendor_nm := replace(nvl($cptlast_vendor_nm, ""), "~!~", "|" );
+        $0.cptlast_acq_typ_cd := replace(nvl($cptlast_acq_typ_cd, ""), "~!~", "|" );
+        $0.cptlast_totcst_amt := $cptlast_totcst_amt;
+        $0.cptlast_rplc_amt := $cptlast_rplc_amt;
+        $0.cptlast_sale_prc := $cptlast_sale_prc;
+        $0.ast_est_sell_prc := $ast_est_sell_prc;
+        $0.cptlast_salvag_amt := $cptlast_salvag_amt;
+        $0.campus_cd := replace(nvl($campus_cd, ""), "~!~", "|" );
+        $0.bldg_cd := replace(nvl($bldg_cd, ""), "~!~", "|" );
+        $0.bldg_room_nbr := replace(nvl($bldg_room_nbr, ""), "~!~", "|" );
+        $0.bldg_sub_room_nbr := replace(nvl($bldg_sub_room_nbr, ""), "~!~", "|" );
+        $0.ast_retir_coa_cd := replace(nvl($ast_retir_coa_cd, ""), "~!~", "|" );
+        $0.ast_retir_acct_nbr := replace(nvl($ast_retir_acct_nbr, ""), "~!~", "|" );
+        $0.ast_retire_reas_cd := replace(nvl($ast_retire_reas_cd, ""), "~!~", "|" );
+        $0.ast_retir_prd_cd := replace(nvl($ast_retir_prd_cd, ""), "~!~", "|" );
+        $0.ast_retir_fscl_yr := $ast_retir_fscl_yr;
+        $0.cash_rcpt_fdoc_nbr := replace(nvl($cash_rcpt_fdoc_nbr, ""), "~!~", "|" );
+        $0.ast_depr_mthd1_cd := replace(nvl($ast_depr_mthd1_cd, ""), "~!~", "|" );
+        $0.ast_estfabrcmpl_dt := $ast_estfabrcmpl_dt;
+        $0.ast_fabresttot_amt := $ast_fabresttot_amt;
+        $0.trnfr_fnd_fdoc_nbr := replace(nvl($trnfr_fnd_fdoc_nbr, ""), "~!~", "|" );
+        $0.ast_invn_stat_cd := replace(nvl($ast_invn_stat_cd, ""), "~!~", "|" );
+        $0.cptlast_tag_nbr := replace(nvl($cptlast_tag_nbr, ""), "~!~", "|" );
+        $0.cptlast_lstinvn_dt := $cptlast_lstinvn_dt;
+        $0.org_invn_nm := replace(nvl($org_invn_nm, ""), "~!~", "|" );
+        $0.cptlast_oldtag_nbr := replace(nvl($cptlast_oldtag_nbr, ""), "~!~", "|" );
+        $0.cptlast_mfr_nm := replace(nvl($cptlast_mfr_nm, ""), "~!~", "|" );
+        $0.cptlast_mfrmdl_nbr := replace(nvl($cptlast_mfrmdl_nbr, ""), "~!~", "|" );
+        $0.cptlast_serial_nbr := replace(nvl($cptlast_serial_nbr, ""), "~!~", "|" );
+        $0.ast_rep_unvl_id := replace(nvl($ast_rep_unvl_id, ""), "~!~", "|" );
+        $0.cg_agency_nbr := replace(nvl($cg_agency_nbr, ""), "~!~", "|" );
+        $0.ast_pd_case_nbr := replace(nvl($ast_pd_case_nbr, ""), "~!~", "|" );
+        $0.ast_invn_scan_cd := replace(nvl($ast_invn_scan_cd, ""), "~!~", "|" );
+        $0.cptl_ast_in_srvc_dt := $cptl_ast_in_srvc_dt;
+        $0.cptl_ast_gov_tag_nbr := replace(nvl($cptl_ast_gov_tag_nbr, ""), "~!~", "|" );
+        $0.cptl_ast_ntl_stock_nbr := replace(nvl($cptl_ast_ntl_stock_nbr, ""), "~!~", "|" );
+        $0.cptl_ast_land_cnty_nm := replace(nvl($cptl_ast_land_cnty_nm, ""), "~!~", "|" );
+        $0.cptl_ast_land_acrg_sz := $cptl_ast_land_acrg_sz;
+        $0.cptl_ast_land_prcl_nbr := replace(nvl($cptl_ast_land_prcl_nbr, ""), "~!~", "|" );
+        $0.cptl_ast_depr_dt := $cptl_ast_depr_dt;
+        $0.fin_obj_sub_typ_cd := replace(nvl($fin_obj_sub_typ_cd, ""), "~!~", "|" );
+        $0.ast_fabr_est_retn_yrs := $ast_fabr_est_retn_yrs;
+   }
+      ]]></attr>
+    </Node>
+    <Edge fromNode="FIX_DELIM:0" toNode="DB_OUTPUT:0" id="TO_OUTPUT"  metadata="OutputFileFormat" />
+    <Node id="DB_OUTPUT" type="KUL_DB_OUTPUT_TABLE" metadata="OutputFileFormat" dbConnection="TargetDB" dbTable="cm_cptlast_t" batchMode="true" errorAction="ROLLBACK" />
+  </Phase>
+</Graph>
+  
+  

@@ -1,0 +1,28 @@
+<Record name="end_donr_t" type="delimited">
+  <Field name="donr_id"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="first_nm"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mid_nm"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="last_nm"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="addr1"                           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="addr2"                           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="addr3"                           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="city"                            type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="st"                              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pstl_cd"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cntry"                           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="phn_nbr"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="indiv_sltn"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="indiv_mail_lbl"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="jnt_sltn"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="jnt_mail_lbl"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="devel_offcr"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dec_dt"                          type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="corp_nm1"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="corp_ttl1"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="corp_nm2"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="corp_ttl2"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cmnt"                            type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

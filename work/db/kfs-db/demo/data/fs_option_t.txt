@@ -1,0 +1,8 @@
+univ_fiscal_yr|obj_id|ver_nbr|act_fin_bal_typ_cd|bdgt_chk_baltyp_cd|bdgt_chk_optn_cd|univ_fscyr_strt_yr|univ_fscyr_strt_mo|fobjtp_inc_csh_cd|fobjtp_xpnd_exp_cd|fobjtp_xpndnexp_cd|fobjtp_expnxpnd_cd|fobj_typ_asset_cd|fobj_typ_lblty_cd|fobj_typ_fndbal_cd|ext_enc_fbaltyp_cd|int_enc_fbaltyp_cd|pre_enc_fbaltyp_cd|elim_finbal_typ_cd|fobjtp_inc_ncsh_cd|fobjtp_csh_ninc_cd|univ_fin_coa_cd|univ_fiscal_yr_nm|fin_begbalload_ind|cstshr_encum_fin_bal_typ_cd|base_bdgt_fin_bal_typ_cd|mo_bdgt_fin_bal_typ_cd|fin_object_typ_trnfr_inc_cd|fin_object_typ_trnfr_exp_cd|nmnl_fin_bal_typ_cd|
+2008.0|682B40E65635B493E0404F8189D85FDE|1.0|AC|CB|Y|2007.0|07|IN|EX|EE|ES|AS|LI|FB|EX|IE|PE|TR|IC|CH|IU|2007-2008|Y|CE|BB|MB|TI|TE|NB|
+2009.0|903B13D9-D2D2-76C1-4749-9B0E8BE9B49B|1.0|AC|CB|Y|2008.0|07|IN|EX|EE|ES|AS|LI|FB|EX|IE|PE|TR|IC|CH|IU|2008-2009|Y|CE|BB|MB|TI|TE|NB|
+2010.0|4B52FB81-3B61-0E7B-07F2-9F5C418CC72A|1.0|AC|CB|Y|2009.0|07|IN|EX|EE|ES|AS|LI|FB|EX|IE|PE|TR|IC|CH|IU|2009-2010|N|CE|BB|MB|TI|TE|NB|
+2011.0|9177D6BE-A490-86C8-BA99-AAB76679A321|2.0|AC|CB|Y|2010.0|07|IN|EX|EE|ES|AS|LI|FB|EX|IE|PE|TR|IC|CH|IU|2010-2011|N|CE|BB|MB|TI|TE|NB|
+2012.0|CB0E3B2B-C339-4645-BC96-BDFA3E9CCDD8|2.0|AC|CB|Y|2011.0|07|IN|EX|EE|ES|AS|LI|FB|EX|IE|PE|TR|IC|CH|IU|2011-2012|N|CE|BB|MB|TI|TE|NB|
+2013.0|D44267AA-D707-8E6E-AFE4-F58784F22954|2.0|AC|CB|Y|2012.0|07|IN|EX|EE|ES|AS|LI|FB|EX|IE|PE|TR|IC|CH|IU|2012-2013|N|CE|BB|MB|TI|TE|NB|
+2014.0|959cb8bf-ffae-4ea2-80ad-8b370fea9eae|2.0|AC|CB|Y|2013.0|07|IN|EX|EE|ES|AS|LI|FB|EX|IE|PE|TR|IC|CH|IU|2013-2014|N|CE|BB|MB|TI|TE|NB|

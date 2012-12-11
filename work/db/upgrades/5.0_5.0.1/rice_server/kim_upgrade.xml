@@ -256,6 +256,50 @@
 		</delete>
 	</changeSet>
 
+	<changeSet author="KFS501" id="PREQ_SU_DISAPPROVE_PERM">
+		<comment>KFSMI-9022 : Permission and assignment to allow the "kfs" user to Super-User disapprove PREQ documents.</comment>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="PREQ_SU_DISAPPROVE" />
+			<column name="OBJ_ID" valueComputed="sys_guid() "/>
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" valueComputed=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-WKFLW' and nm = 'Super User Disapprove Document') " />
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="NM" value="Super User Disapprove PREQ Document" />
+			<column name="DESC_TXT" value="Allow super-user disapproval of Payment Request documents." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<!-- This permission overrides a top-level permission granted to KFS-SYS / Operations - so we need to restore that. -->
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="PREQ_SU_DISAPPROVE_OPS" />
+			<column name="OBJ_ID" valueComputed="sys_guid() "/>
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" valueComputed=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-SYS' and role_nm = 'Operations') " />
+			<column name="PERM_ID" value="PREQ_SU_DISAPPROVE" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="PREQ_SU_DISAPPROVE_SYSUSER" />
+			<column name="OBJ_ID" valueComputed="sys_guid() "/>
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" valueComputed=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-SYS' and role_nm = 'System User') " />
+			<column name="PERM_ID" value="PREQ_SU_DISAPPROVE" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="PREQ_SU_DISAPPROVE_DOCTYPE" />
+			<column name="OBJ_ID" valueComputed="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="PREQ_SU_DISAPPROVE" />
+			<column name="KIM_TYP_ID" valueComputed=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-WKFLW' and nm = 'Super User Disapprove Document') "  />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="PREQ" />
+		</insert>
+		<modifySql dbms='mysql'>
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
+	</changeSet>
+
+
 <!-- 
 	<changeSet author="KFS502" id="SAMPLE_NEW_PERM">
 		<insert tableName="KRIM_PERM_T">

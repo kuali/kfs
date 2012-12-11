@@ -1,0 +1,5 @@
+ast_pmt_dst_cd|obj_id|ver_nbr|ast_pmt_dst_nm|ast_pmt_dst_col_nm|ast_pmt_dst_edt|row_actv_ind|
+1|A7F821439F059F91E040007F0100607D|1.0|Distribute cost by amount|Allocate Amount|Y|Y|
+2|A7F821439F069F91E040007F0100607D|1.0|Distribute cost evenly|Allocated|N|Y|
+3|A7F821439F079F91E040007F0100607D|1.0|Distribute cost by total cost|Allocated|N|Y|
+4|A7F821439F089F91E040007F0100607D|1.0|Distribute cost by percentage|Allocate Percentage|Y|Y|

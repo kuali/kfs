@@ -1,0 +1,23 @@
+<Record name="ld_csf_tracker_t" type="delimited">
+  <Field name="univ_fiscal_yr"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_coa_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="account_nbr"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sub_acct_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_object_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_sub_obj_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="position_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="emplid"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pos_csf_create_tm"               type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pos_csf_delete_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pos_csf_amt"                     type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pos_csf_fte_qty"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pos_csf_tm_pct"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pos_csf_fndstat_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="empl_rcd"                        type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="erncd"                           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="addl_seq"                        type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="effdt"                           type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="effseq"                          type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

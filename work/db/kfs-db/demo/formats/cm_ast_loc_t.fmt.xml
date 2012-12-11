@@ -1,0 +1,15 @@
+<Record name="cm_ast_loc_t" type="delimited">
+  <Field name="cptlast_nbr"                     type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_loc_typ_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_loc_cntct_nm"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_loc_cntct_id"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_loc_inst_nm"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_loc_phn_nbr"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_loc_strt_addr"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_loc_city_nm"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_loc_state_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_loc_cntry_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_loc_zip_cd"                  type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

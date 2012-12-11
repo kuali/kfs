@@ -1,0 +1,4 @@
+cptl_ast_sys_typ_cd|obj_id|ver_nbr|cptl_ast_sys_typ_desc|dobj_maint_cd_actv_ind|
+IND|D1D060B7-6100-26B1-44C0-42505FA89117|1.0|Individual Assets|Y|
+MUL|35F298D5-202F-8A7C-D32F-3C5E9B692315|1.0|Multiple Systems|Y|
+ONE|0A6314AE-3E3A-47B9-7DAE-088C854C68CA|1.0|One System|Y|

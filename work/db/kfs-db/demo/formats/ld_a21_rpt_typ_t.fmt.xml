@@ -1,0 +1,7 @@
+<Record name="ld_a21_rpt_typ_t" type="delimited">
+  <Field name="a21_lbr_rpt_typ_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="a21_lbr_rpt_desc"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

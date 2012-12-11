@@ -1,0 +1,48 @@
+donr_id|first_nm|mid_nm|last_nm|addr1|addr2|addr3|city|st|pstl_cd|cntry|phn_nbr|indiv_sltn|indiv_mail_lbl|jnt_sltn|jnt_mail_lbl|devel_offcr|dec_dt|corp_nm1|corp_ttl1|corp_nm2|corp_ttl2|cmnt|row_actv_ind|obj_id|ver_nbr|
+107545|Donor||One||||||||||||||||||||Y|8529CD48492D060AE0404F8189D81C0B|1.0|
+109948|Donor||Two||||||||||||||||||||Y|8529CD48491F060AE0404F8189D81C0B|1.0|
+118381|Donora||Two||||||||||||||||||||Y|8529CD484920060AE0404F8189D81C0B|1.0|
+12082|Donor||Four||||||||||||||||||||Y|8529CD48493F060AE0404F8189D81C0B|1.0|
+14541|Donor||Five||||||||||||||||||||Y|8529CD48493B060AE0404F8189D81C0B|1.0|
+169507|Donor||Six||||||||||||||||||||Y|8529CD484930060AE0404F8189D81C0B|1.0|
+17537|Donor||Seven||||||||||||||||||||Y|8529CD484938060AE0404F8189D81C0B|1.0|
+204836|Donor||Eight||||||||||||||||||||Y|8529CD484935060AE0404F8189D81C0B|1.0|
+207159|Donor||Nine||||||||||||||||||||Y|8529CD48492A060AE0404F8189D81C0B|1.0|
+215823|Donor||Ten||||||||||||||||||||Y|8529CD48491D060AE0404F8189D81C0B|1.0|
+219073|Donor||Eleven||||||||||||||||||||Y|8529CD48491B060AE0404F8189D81C0B|1.0|
+254306|Donora||Seven||||||||||||||||||||Y|8529CD484939060AE0404F8189D81C0B|1.0|
+279927|Donor||Thirteen||||||||||||||||||||Y|8529CD484924060AE0404F8189D81C0B|1.0|
+285639|Donor||Fourteen||||||||||||||||||||Y|8529CD484932060AE0404F8189D81C0B|1.0|
+295944|Donor||Fifteen||||||||||||||||||||Y|8529CD484940060AE0404F8189D81C0B|1.0|
+295956|||Sixty||||||||||||||||||||Y|8529CD484946060AE0404F8189D81C0B|1.0|
+301745|Donor||Sixteen||||||||||||||||||||Y|8529CD48492B060AE0404F8189D81C0B|1.0|
+302969|Donor||Seventeen||||||||||||||||||||Y|8529CD48492C060AE0404F8189D81C0B|1.0|
+327773|Donor||Eighteen||||||||||||||||||||Y|8529CD48493C060AE0404F8189D81C0B|1.0|
+337605|Donora||One||||||||||||||||||||Y|8529CD48492E060AE0404F8189D81C0B|1.0|
+338203|Donor||Twenty||||||||||||||||||||Y|8529CD484934060AE0404F8189D81C0B|1.0|
+367814|Donor||Twentyone||||||||||||||||||||Y|8529CD484942060AE0404F8189D81C0B|1.0|
+380980|Donor||Twentytwo||||||||||||||||||||Y|8529CD484923060AE0404F8189D81C0B|1.0|
+393833|Donor||Twentythree||||||||||||||||||||Y|8529CD484943060AE0404F8189D81C0B|1.0|
+405935|Donor||Twentyfour||||||||||||||||||||Y|8529CD484922060AE0404F8189D81C0B|1.0|
+428275|Donora||Six||||||||||||||||||||Y|8529CD484931060AE0404F8189D81C0B|1.0|
+451251|Donor||Twentysix||||||||||||||||||||Y|8529CD484933060AE0404F8189D81C0B|1.0|
+451957|Donor||Twentyseven||||||||||||||||||||Y|8529CD48492F060AE0404F8189D81C0B|1.0|
+50595|Donor||Twentyeight||||||||||||||||||||Y|8529CD484925060AE0404F8189D81C0B|1.0|
+54593|Donor||Twentynine||||||||||||||||||||Y|8529CD48493D060AE0404F8189D81C0B|1.0|
+565335|Donor||Thirty||||||||||||||||||||Y|8529CD48491C060AE0404F8189D81C0B|1.0|
+576391|Donor||Thirtyone||||||||||||||||||||Y|8529CD48493E060AE0404F8189D81C0B|1.0|
+63304|Donor||Thirtytwo||||||||||||||||||||Y|8529CD484928060AE0404F8189D81C0B|1.0|
+646422|Donor||Thirtythree||||||||||||||||||||Y|8529CD484919060AE0404F8189D81C0B|1.0|
+66798|Donora||Thirtythree||||||||||||||||||||Y|8529CD48491A060AE0404F8189D81C0B|1.0|
+741828|Donor||Thirtyfive||||||||||||||||||||Y|8529CD484941060AE0404F8189D81C0B|1.0|
+887434|Donor||Thirtysix||||||||||||||||||||Y|8529CD484926060AE0404F8189D81C0B|1.0|
+89712|Donor||Thirtyseven||||||||||||||||||||Y|8529CD48493A060AE0404F8189D81C0B|1.0|
+89713|||Fiftysix||||||||||||||||||||Y|8529CD484947060AE0404F8189D81C0B|1.0|
+C124241a|||Alumni Chapter of the South Pacific||||||||||||||||||||Y|8529CD484945060AE0404F8189D81C0B|1.0|
+C1663a|||Phipps & Funkey Inc||||||||||||||||||||Y|8529CD484921060AE0404F8189D81C0B|1.0|
+C2267a|||New York Foundation||||||||||||||||||||Y|8529CD484936060AE0404F8189D81C0B|1.0|
+C28826a|||Tuneland Rock Club Inc||||||||||||||||||||Y|8529CD484937060AE0404F8189D81C0B|1.0|
+C2907a|||Clark Sand Company||||||||||||||||||||Y|8529CD484944060AE0404F8189D81C0B|1.0|
+C32273a|||Heritage Financial Group Inc||||||||||||||||||||Y|8529CD48491E060AE0404F8189D81C0B|1.0|
+C3617a|||Assn for the Advancement of Urban Health||||||||||||||||||||Y|8529CD484929060AE0404F8189D81C0B|1.0|
+C37451a|||Embassy of the Republic of Croatia||||||||||||||||||||Y|8529CD484927060AE0404F8189D81C0B|1.0|

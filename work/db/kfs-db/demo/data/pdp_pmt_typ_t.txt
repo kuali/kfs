@@ -1,0 +1,7 @@
+pmt_typ_cd|obj_id|ver_nbr|pmt_typ_desc|
+all|59DD323FB199B3EFE0404F8189D83BC1|1.0|All Payment Types|
+immediate|59DD323FB19EB3EFE0404F8189D83BC1|1.0|Only Disbursements Flagged as Immediate|
+pymtAttachment|59DD323FB19AB3EFE0404F8189D83BC1|1.0|Only Disbursements with Attachments|
+pymtAttachmentFalse|59DD323FB19BB3EFE0404F8189D83BC1|1.0|Only Disbursements with No Attachments|
+pymtSpecialHandling|59DD323FB19CB3EFE0404F8189D83BC1|1.0|Only Disbursements with Special Handling|
+pymtSpecialHandlingFalse|59DD323FB19DB3EFE0404F8189D83BC1|1.0|Only Disbursements with No Special Handling|

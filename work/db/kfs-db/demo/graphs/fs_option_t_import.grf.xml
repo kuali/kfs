@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph name="Export FS_OPTION_T" revision="1.0">
+  <Global>
+    <Property fileURL="workspace.prm" id="WorkspaceParameters" />
+    <Connection dbConfig="${DATABASE}" id="TargetDB" type="JDBC" />
+    <Metadata id="OutputFileFormat" fileURL="${FORMAT_DIR}/fs_option_t.fmt.xml" />
+  </Global>
+   <Phase number="0">
+     <Node id="DATABASE_RUN"
+           type="DB_EXECUTE"
+           dbConnection="TargetDB"
+           sqlQuery="TRUNCATE TABLE FS_OPTION_T" />
+   </Phase>
+   <Phase number="1">
+    <Node id="INPUT" type="DATA_READER" skipLeadingBlanks="false" fileURL="${DATA_DIR}/fs_option_t.txt" skipFirstLine="true" dataPolicy="strict" charset="UTF-8" quotedStrings="false" trim="false" treatMultipleDelimitersAsOne="false" />
+    <Edge fromNode="INPUT:0" toNode="FIX_DELIM:0" id="INPUT_TO_FIX_DELIM" metadata="OutputFileFormat" />
+    <Node id="FIX_DELIM" type="REFORMAT">
+      <attr name="transform"><![CDATA[
+//#TL
+    function transform() {
+        $0.univ_fiscal_yr := $univ_fiscal_yr;
+        $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
+        $0.ver_nbr := $ver_nbr;
+        $0.act_fin_bal_typ_cd := replace(nvl($act_fin_bal_typ_cd, ""), "~!~", "|" );
+        $0.bdgt_chk_baltyp_cd := replace(nvl($bdgt_chk_baltyp_cd, ""), "~!~", "|" );
+        $0.bdgt_chk_optn_cd := replace(nvl($bdgt_chk_optn_cd, ""), "~!~", "|" );
+        $0.univ_fscyr_strt_yr := $univ_fscyr_strt_yr;
+        $0.univ_fscyr_strt_mo := replace(nvl($univ_fscyr_strt_mo, ""), "~!~", "|" );
+        $0.fobjtp_inc_csh_cd := replace(nvl($fobjtp_inc_csh_cd, ""), "~!~", "|" );
+        $0.fobjtp_xpnd_exp_cd := replace(nvl($fobjtp_xpnd_exp_cd, ""), "~!~", "|" );
+        $0.fobjtp_xpndnexp_cd := replace(nvl($fobjtp_xpndnexp_cd, ""), "~!~", "|" );
+        $0.fobjtp_expnxpnd_cd := replace(nvl($fobjtp_expnxpnd_cd, ""), "~!~", "|" );
+        $0.fobj_typ_asset_cd := replace(nvl($fobj_typ_asset_cd, ""), "~!~", "|" );
+        $0.fobj_typ_lblty_cd := replace(nvl($fobj_typ_lblty_cd, ""), "~!~", "|" );
+        $0.fobj_typ_fndbal_cd := replace(nvl($fobj_typ_fndbal_cd, ""), "~!~", "|" );
+        $0.ext_enc_fbaltyp_cd := replace(nvl($ext_enc_fbaltyp_cd, ""), "~!~", "|" );
+        $0.int_enc_fbaltyp_cd := replace(nvl($int_enc_fbaltyp_cd, ""), "~!~", "|" );
+        $0.pre_enc_fbaltyp_cd := replace(nvl($pre_enc_fbaltyp_cd, ""), "~!~", "|" );
+        $0.elim_finbal_typ_cd := replace(nvl($elim_finbal_typ_cd, ""), "~!~", "|" );
+        $0.fobjtp_inc_ncsh_cd := replace(nvl($fobjtp_inc_ncsh_cd, ""), "~!~", "|" );
+        $0.fobjtp_csh_ninc_cd := replace(nvl($fobjtp_csh_ninc_cd, ""), "~!~", "|" );
+        $0.univ_fin_coa_cd := replace(nvl($univ_fin_coa_cd, ""), "~!~", "|" );
+        $0.univ_fiscal_yr_nm := replace(nvl($univ_fiscal_yr_nm, ""), "~!~", "|" );
+        $0.fin_begbalload_ind := replace(nvl($fin_begbalload_ind, ""), "~!~", "|" );
+        $0.cstshr_encum_fin_bal_typ_cd := replace(nvl($cstshr_encum_fin_bal_typ_cd, ""), "~!~", "|" );
+        $0.base_bdgt_fin_bal_typ_cd := replace(nvl($base_bdgt_fin_bal_typ_cd, ""), "~!~", "|" );
+        $0.mo_bdgt_fin_bal_typ_cd := replace(nvl($mo_bdgt_fin_bal_typ_cd, ""), "~!~", "|" );
+        $0.fin_object_typ_trnfr_inc_cd := replace(nvl($fin_object_typ_trnfr_inc_cd, ""), "~!~", "|" );
+        $0.fin_object_typ_trnfr_exp_cd := replace(nvl($fin_object_typ_trnfr_exp_cd, ""), "~!~", "|" );
+        $0.nmnl_fin_bal_typ_cd := replace(nvl($nmnl_fin_bal_typ_cd, ""), "~!~", "|" );
+   }
+      ]]></attr>
+    </Node>
+    <Edge fromNode="FIX_DELIM:0" toNode="DB_OUTPUT:0" id="TO_OUTPUT"  metadata="OutputFileFormat" />
+    <Node id="DB_OUTPUT" type="KUL_DB_OUTPUT_TABLE" metadata="OutputFileFormat" dbConnection="TargetDB" dbTable="fs_option_t" batchMode="true" errorAction="ROLLBACK" />
+  </Phase>
+</Graph>
+  
+  

@@ -63,6 +63,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -524,8 +525,12 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             // in the context of kfs user because that is where it is in the route path.
             UserSession originalUserSession = GlobalVariables.getUserSession();
             GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
-
-            documentService.superUserDisapproveDocument(document, noteText);
+            // JHK : You need to load the Workflow Document in the context of the "kfs" user so that user account is passed to the workflow engine on the call below
+//            Document docLoadedAsKfs = documentService.getByDocumentHeaderId(document.getDocumentNumber());
+//            KewApiServiceLocator.get
+            WorkflowDocument workflowDocument = KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(document.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
+            document.getDocumentHeader().setWorkflowDocument(workflowDocument);
+            documentService.superUserDisapproveDocumentWithoutSaving(document, noteText);
 
             //restore the original user session
             GlobalVariables.setUserSession(originalUserSession);

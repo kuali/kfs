@@ -1,0 +1,5 @@
+fee_mthd|fee_mthd_desc|fee_freq_cd|fee_nxt_proc_dt|fee_lst_proc_dt|fee_rt_def_cd|fee_rt_1|fee_brk_1|fee_rt_2|fee_brk_2|fee_rt_3|fee_min_amt|fee_typ_cd|fee_base_cd|fee_exp_etran_cd|fee_post_pend_ind|corpus_pct_tlrnc|fee_bal_typ_cd|fee_by_cls_cd|fee_by_sec_id|fee_by_tran_doc_typ|fee_by_etran_cd|row_actv_ind|obj_id|ver_nbr|fee_min_thrshld|
+CRTMF1|Charitable Remainder Trust Management Fee 1|QMME|20100630000000|20090630000000|V|0.01|1000000.0|0.0050|9.9999999999999E11|0.0|1.0|B|B|77000|N|1.2|AMV|Y|N|N|N|Y|8529CD48497D060AE0404F8189D81C0B|1.0||
+CRTMF2|Charitable Remainder Trust Management Fee 2|QMME|20100630000000|20090630000000|V|0.0050|9.9999999999999E11|0.0|9.9999999999999E11|0.0|1.0|B|B|77000|N|1.2|AMV|Y|N|N|N|Y|8529CD48497E060AE0404F8189D81C0B|1.0||
+SHMF1|Separately Held Management Fee 1|QMME|20100630000000|20090630000000|V|0.01|1000000.0|0.0050|9.9999999999999E11|0.0|1.0|B|B|77000|N|1.2|AMV|Y|N|N|N|Y|8529CD48497F060AE0404F8189D81C0B|1.0||
+SHMF2|Separately Held Management Fee 2|QMME|20100630000000|20090630000000|V|0.0050|9.9999999999999E11|0.0|9.9999999999999E11|0.0|1.0|B|B|77000|N|1.2|AMV|Y|N|N|N|Y|8529CD484980060AE0404F8189D81C0B|1.0||

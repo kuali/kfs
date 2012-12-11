@@ -1,0 +1,59 @@
+<Record name="cm_cptlast_t" type="delimited">
+  <Field name="cptlast_nbr"                     type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_desc"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_typ_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_cond_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_crt_dt"                  type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="cptlast_receive_dt"              type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="cptlast_ln_rtrn_dt"              type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="cptlast_loan_dt"                 type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="ast_expctreturn_dt"              type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="fdoc_post_prd_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_post_yr"                    type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_owner_acct_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_owner_coa_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_vendor_nm"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_acq_typ_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_totcst_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_rplc_amt"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_sale_prc"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_est_sell_prc"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_salvag_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="campus_cd"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="bldg_cd"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="bldg_room_nbr"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="bldg_sub_room_nbr"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_retir_coa_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_retir_acct_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_retire_reas_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_retir_prd_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_retir_fscl_yr"               type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cash_rcpt_fdoc_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_depr_mthd1_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_estfabrcmpl_dt"              type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="ast_fabresttot_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="trnfr_fnd_fdoc_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_invn_stat_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_tag_nbr"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_lstinvn_dt"              type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="org_invn_nm"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_oldtag_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_mfr_nm"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_mfrmdl_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_serial_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_rep_unvl_id"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_agency_nbr"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_pd_case_nbr"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_invn_scan_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptl_ast_in_srvc_dt"             type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="cptl_ast_gov_tag_nbr"            type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptl_ast_ntl_stock_nbr"          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptl_ast_land_cnty_nm"           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptl_ast_land_acrg_sz"           type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptl_ast_land_prcl_nbr"          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptl_ast_depr_dt"                type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="fin_obj_sub_typ_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ast_fabr_est_retn_yrs"           type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

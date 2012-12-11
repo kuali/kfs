@@ -1,0 +1,23 @@
+<Record name="ca_object_code_t" type="delimited">
+  <Field name="univ_fiscal_yr"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_coa_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_object_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_obj_cd_nm"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_obj_cd_shrt_nm"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_obj_level_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="rpts_to_fin_coa_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="rpts_to_fin_obj_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_obj_typ_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_obj_sub_typ_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="hist_fin_object_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_obj_active_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fobj_bdgt_aggr_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fobj_mnxfr_elim_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_fed_funded_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="nxt_yr_fin_obj_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="rsch_bdgt_ctgry_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="rsch_obj_cd_desc"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="rsch_on_cmp_ind"                 type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

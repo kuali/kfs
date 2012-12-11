@@ -1,0 +1,27 @@
+<Record name="cm_ast_component_t" type="delimited">
+  <Field name="cptlast_nbr"                     type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_nbr"                       type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_desc"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_cntctphn_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_cond_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_est_lftm_lmt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_mfr_nm"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_mfr_mdl_nbr"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_serial_nbr"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_org_tag_nbr"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_org_txt"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_replace_amt"               type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_vendor_nm"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_wrnty_nbr"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_wrntyphn_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_wrntycntc_nm"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_wrnty_po_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cacmp_wrnty_beg_dt"              type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="cacmp_wrnty_end_dt"              type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="cacmp_wrnty_txt"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptl_ast_gov_tag_nbr"            type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptl_ast_ntl_stock_nbr"          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="actv_ind"                        type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

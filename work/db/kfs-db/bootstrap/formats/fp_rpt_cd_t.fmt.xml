@@ -1,0 +1,11 @@
+<Record name="fp_rpt_cd_t" type="delimited">
+  <Field name="fin_rpt_chrt_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_rpt_org_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_rpt_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_rpt_cd_desc"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_rep_cd_mgr_id"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_rpts_to_rpt_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

@@ -1,0 +1,7 @@
+<Record name="end_fnd_src_cd_t" type="delimited">
+  <Field name="fnd_src_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fnd_src_desc"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

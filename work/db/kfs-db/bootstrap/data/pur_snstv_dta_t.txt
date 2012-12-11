@@ -1,0 +1,3 @@
+snstv_dta_cd|obj_id|ver_nbr|snstv_dta_desc|dobj_maint_cd_actv_ind|
+ANIM|636024D36C7A8EC6E0404F8189D80405|1.0|Animal|Y|
+RADI|636024D36C7B8EC6E0404F8189D80405|1.0|Radio Active Material|Y|

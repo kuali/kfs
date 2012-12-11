@@ -1,0 +1,4 @@
+cust_addr_type_cd|obj_id|ver_nbr|cust_addr_typ_desc|row_actv_ind|
+A|48A7ED7FBD58FC83E0404F8189D860FE|1.0|Alternate|Y|
+P|48A7ED7FBD59FC83E0404F8189D860FE|1.0|Primary|Y|
+T|48A7ED7FBD5AFC83E0404F8189D860FE|1.0|Temporary|Y|

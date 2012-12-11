@@ -1,0 +1,2 @@
+fin_coa_cd|account_nbr|fin_obj_coa_cd|fin_object_cd|obj_id|ver_nbr|actv_ind|
+BA|6044900|BA|9900|0CC48498C5CCDF3EE043814FD881DF3E|1.0||

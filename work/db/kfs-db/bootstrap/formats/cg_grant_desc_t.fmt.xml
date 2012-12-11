@@ -1,0 +1,7 @@
+<Record name="cg_grant_desc_t" type="delimited">
+  <Field name="cg_grant_desc_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_grant_desc"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_grnt_desc_actv_cd"            type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

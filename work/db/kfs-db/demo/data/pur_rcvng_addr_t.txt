@@ -1,0 +1,3 @@
+pur_rcvng_addr_id|obj_id|ver_nbr|fin_coa_cd|org_cd|pur_rcvng_nm|pur_rcvng_ln1_addr|pur_rcvng_ln2_addr|pur_rcvng_cty_nm|pur_rcvng_st_cd|pur_rcvng_pstl_cd|pur_rcvng_cntry_cd|pur_rcvng_dflt_addr_ind|vndr_addr_use_rcvng_ind|dobj_maint_cd_actv_ind|
+1000.0|4C95554BF981AC7AE0404F8189D81998|1.0|BL||KUALI UNIVERSITY|400 E. Main Street|Central Receiving|Kuali City|WY|83444|US|Y|Y|Y|
+1001.0|4E38D982D10A34BCE0404F8189D82DAB|2.0|BL|PSY|KUALI UNIVERSITY - PSYCHOLOGY DEPT.|3201 Sigmund Lane||Kuali City|WY|83444|US|Y|Y|Y|

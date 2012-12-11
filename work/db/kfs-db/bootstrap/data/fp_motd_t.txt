@@ -1,0 +1,2 @@
+fs_origin_cd|obj_id|ver_nbr|fs_motd_txt|
+01|0DCE0F5255F3F910E043814FD881F910|1.0||

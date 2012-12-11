@@ -1,0 +1,3 @@
+<Record name="qrtz_locks" type="delimited">
+  <Field name="lock_name"                       type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

@@ -1,0 +1,4 @@
+fdoc_ccrd_vndr_nbr|obj_id|ver_nbr|fdoc_ccrd_vndr_nm|fdoc_ccrd_typ_cd|inc_fin_coa_cd|inc_acct_nbr|inc_fin_obj_cd|inc_fin_sub_obj_cd|inc_sub_acct_nbr|exp_fin_coa_cd|exp_acct_nbr|exp_fin_obj_cd|exp_fin_sub_obj_cd|exp_sub_acct_nbr|row_actv_ind|
+00123457|82A36E63-1B5B-366A-DAF2-18A3F16DB753|1.0|PARKING|AE|||||||||||Y|
+001247454|8A6DC343-D622-7ABB-450C-BC6348DCCA55|1.0|ATHLETICS|VM|||||||||||Y|
+00142678|B4727410-C3EE-871E-7DFE-00425FD787D4|1.0|BURSARS OFFICE|DI|||||||||||Y|

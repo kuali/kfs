@@ -1,0 +1,2 @@
+cptlast_nbr|cacmp_nbr|obj_id|ver_nbr|cacmp_desc|cacmp_cntctphn_nbr|cacmp_cond_cd|cacmp_est_lftm_lmt|cacmp_mfr_nm|cacmp_mfr_mdl_nbr|cacmp_serial_nbr|cacmp_org_tag_nbr|cacmp_org_txt|cacmp_replace_amt|cacmp_vendor_nm|cacmp_wrnty_nbr|cacmp_wrntyphn_nbr|cacmp_wrntycntc_nm|cacmp_wrnty_po_nbr|cacmp_wrnty_beg_dt|cacmp_wrnty_end_dt|cacmp_wrnty_txt|cptl_ast_gov_tag_nbr|cptl_ast_ntl_stock_nbr|actv_ind|
+131295.0|1.0|4634C70306AD4B6FE0404F8189D86B51|1.0|Keybord||E||||||||||||||||||Y|

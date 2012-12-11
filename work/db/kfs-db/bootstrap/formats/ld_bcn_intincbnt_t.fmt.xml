@@ -1,0 +1,10 @@
+<Record name="ld_bcn_intincbnt_t" type="delimited">
+  <Field name="emplid"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="person_nm"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="setid_salary"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sal_admin_plan"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="grade"                           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="iu_classif_level"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="actv_ind"                        type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

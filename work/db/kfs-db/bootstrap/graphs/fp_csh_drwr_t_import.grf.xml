@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph name="Export FP_CSH_DRWR_T" revision="1.0">
+  <Global>
+    <Property fileURL="workspace.prm" id="WorkspaceParameters" />
+    <Connection dbConfig="${DATABASE}" id="TargetDB" type="JDBC" />
+    <Metadata id="OutputFileFormat" fileURL="${FORMAT_DIR}/fp_csh_drwr_t.fmt.xml" />
+  </Global>
+   <Phase number="0">
+     <Node id="DATABASE_RUN"
+           type="DB_EXECUTE"
+           dbConnection="TargetDB"
+           sqlQuery="TRUNCATE TABLE FP_CSH_DRWR_T" />
+   </Phase>
+   <Phase number="1">
+    <Node id="INPUT" type="DATA_READER" skipLeadingBlanks="false" fileURL="${DATA_DIR}/fp_csh_drwr_t.txt" skipFirstLine="true" dataPolicy="strict" charset="UTF-8" quotedStrings="false" trim="false" treatMultipleDelimitersAsOne="false" />
+    <Edge fromNode="INPUT:0" toNode="FIX_DELIM:0" id="INPUT_TO_FIX_DELIM" metadata="OutputFileFormat" />
+    <Node id="FIX_DELIM" type="REFORMAT">
+      <attr name="transform"><![CDATA[
+//#TL
+    function transform() {
+        $0.campus_cd := replace(nvl($campus_cd, ""), "~!~", "|" );
+        $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
+        $0.ver_nbr := $ver_nbr;
+        $0.fdoc_open_dpst_cd := replace(nvl($fdoc_open_dpst_cd, ""), "~!~", "|" );
+        $0.csh_drwr_tot_amt := $csh_drwr_tot_amt;
+        $0.fdoc_100_dlr_amt := $fdoc_100_dlr_amt;
+        $0.fdoc_50_dlr_amt := $fdoc_50_dlr_amt;
+        $0.fdoc_20_dlr_amt := $fdoc_20_dlr_amt;
+        $0.fdoc_10_dlr_amt := $fdoc_10_dlr_amt;
+        $0.fdoc_5_dlr_amt := $fdoc_5_dlr_amt;
+        $0.fdoc_2_dlr_amt := $fdoc_2_dlr_amt;
+        $0.fdoc_1_dlr_amt := $fdoc_1_dlr_amt;
+        $0.fdoc_othr_dlr_amt := $fdoc_othr_dlr_amt;
+        $0.fdoc_50_cent_amt := $fdoc_50_cent_amt;
+        $0.fdoc_25_cent_amt := $fdoc_25_cent_amt;
+        $0.fdoc_10_cent_amt := $fdoc_10_cent_amt;
+        $0.fdoc_5_cent_amt := $fdoc_5_cent_amt;
+        $0.fdoc_1_cent_amt := $fdoc_1_cent_amt;
+        $0.fdoc_othr_cent_amt := $fdoc_othr_cent_amt;
+        $0.fdoc_100_cent_amt := $fdoc_100_cent_amt;
+        $0.fdoc_misc_adv_amt := $fdoc_misc_adv_amt;
+        $0.fdoc_ref_nbr := replace(nvl($fdoc_ref_nbr, ""), "~!~", "|" );
+   }
+      ]]></attr>
+    </Node>
+    <Edge fromNode="FIX_DELIM:0" toNode="DB_OUTPUT:0" id="TO_OUTPUT"  metadata="OutputFileFormat" />
+    <Node id="DB_OUTPUT" type="KUL_DB_OUTPUT_TABLE" metadata="OutputFileFormat" dbConnection="TargetDB" dbTable="fp_csh_drwr_t" batchMode="true" errorAction="ROLLBACK" />
+  </Phase>
+</Graph>
+  
+  

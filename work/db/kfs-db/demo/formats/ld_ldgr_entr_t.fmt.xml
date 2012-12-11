@@ -1,0 +1,50 @@
+<Record name="ld_ldgr_entr_t" type="delimited">
+  <Field name="univ_fiscal_yr"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_coa_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="account_nbr"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sub_acct_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_object_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_sub_obj_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_balance_typ_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_obj_typ_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="univ_fiscal_prd_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_typ_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fs_origin_cd"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_nbr"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="trn_entr_seq_nbr"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="position_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="project_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="trn_ldgr_entr_desc"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="trn_ldgr_entr_amt"               type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="trn_debit_crdt_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="transaction_dt"                  type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="org_doc_nbr"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_reference_id"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_ref_typ_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fs_ref_origin_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_ref_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_reversal_dt"                type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="trn_encum_updt_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="trn_post_dt"                     type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="pay_period_end_dt"               type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="trn_total_hr"                    type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pyrl_dt_fscl_yr"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pyrl_dt_fsclprd_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="emplid"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="empl_rcd"                        type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="erncd"                           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="paygroup"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sal_admin_plan"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="grade"                           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="run_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ll_orig_fin_coa_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ll_orig_acct_nbr"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ll_orig_sub_acct_nbr"            type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ll_orig_fin_object_cd"           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ll_orig_fin_sub_obj_cd"          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="company"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="setid"                           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="timestamp"                       type="date"       nullable="true"  trim="false" delimiter="|\r\n" format="yyyyMMddHHmmss" />
+</Record>

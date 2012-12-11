@@ -1,0 +1,6 @@
+<Record name="end_acrl_mthd_t" type="delimited">
+  <Field name="sec_acrl_mthd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_acrl_mthd_desc"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

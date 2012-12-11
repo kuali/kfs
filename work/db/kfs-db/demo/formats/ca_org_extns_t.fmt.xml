@@ -1,0 +1,46 @@
+<Record name="ca_org_extns_t" type="delimited">
+  <Field name="fin_coa_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_cd"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="descrshort"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="company"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="setid_location"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="location"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="tax_location_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="manager_unvl_id"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="manager_posn"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="budget_yr_end_dt"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="budget_lvl"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="gl_expense"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="eeo4_function"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="accident_ins"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="si_accident_num"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="hazard"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="estabid"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="riskcd"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fte_edit_indc"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dept_tenure_flg"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="tl_distrib_info"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="use_budgets"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="use_encumbrances"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="use_distribution"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="budget_deptid"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dist_prorate_optn"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="hp_stats_dept_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="hp_stats_faculty"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="accounting_owner"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="country_grp"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="iu_org_mail_drp_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="iu_org_address_2"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="iu_org_address_3"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="iu_campus_cd"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="iu_campus_bldg"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="iu_campus_room"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="iu_posn_allow_fl"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="iu_tenure_allow_fl"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="iu_title_allow_fl"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="iu_occ_un_allow_fl"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_fscl_aprvr_uid"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="last_update_date"                type="date"       nullable="true"  trim="false" delimiter="|\r\n" format="yyyyMMddHHmmss" />
+</Record>

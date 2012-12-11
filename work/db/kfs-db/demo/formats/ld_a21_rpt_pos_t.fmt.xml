@@ -1,0 +1,8 @@
+<Record name="ld_a21_rpt_pos_t" type="delimited">
+  <Field name="univ_fiscal_yr"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="a21_lbr_rpt_nbr"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="lbr_rpt_posobj_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

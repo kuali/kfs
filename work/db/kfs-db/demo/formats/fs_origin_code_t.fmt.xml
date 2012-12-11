@@ -1,0 +1,17 @@
+<Record name="fs_origin_code_t" type="delimited">
+  <Field name="fs_origin_cd"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fs_server_nm"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fs_database_nm"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fs_database_desc"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="next_cptlast_nbr"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="next_nonca_nbr"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="next_cg_agency_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="next_cg_subcnr_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="nxt_dv_payeeid_nbr"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="nxt_fdoc_att_id"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ar_next_cust_nbr"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_next_item_id"               type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

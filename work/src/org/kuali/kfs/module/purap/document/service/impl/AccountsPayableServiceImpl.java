@@ -25,9 +25,9 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -525,10 +525,9 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             UserSession originalUserSession = GlobalVariables.getUserSession();
             GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
 
-            DocumentActionParameters parameters = DocumentActionParameters.create(document.getDocumentNumber(), GlobalVariables.getUserSession().getPrincipalId(), noteText);
-            KewApiServiceLocator.getWorkflowDocumentActionsService().superUserDisapprove(parameters, false);
+            documentService.superUserDisapproveDocument(document, noteText);
 
-            //restore the original user session 
+            //restore the original user session
             GlobalVariables.setUserSession(originalUserSession);
         }
         else if (document instanceof PaymentRequestDocument && PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW.equals(document.getApplicationDocumentStatus()) && ((PaymentRequestDocument)document).isPaymentRequestedCancelIndicator()) {

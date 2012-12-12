@@ -160,6 +160,111 @@
 		</c:choose>
 	
 	</kul:tabTop>
+	<%--
+		KFSMI-9881
+        Put back the GL Entry Processing tab, because for GL Entries without capital asset information, we need this tab
+		because the Financial Document Capital Asset Info tab will be empty.
+ 	--%>
+	<c:if test="${empty KualiForm.capitalAssetInformation }">
+	<kul:tab tabTitle="GL Entry Processing" defaultOpen="true">
+		<div class="tab-container" align=center>
+		<c:set var="entryAttributes"	value="${DataDictionary.GeneralLedgerEntry.attributes}" />
+		<table width="95%" border="0" cellpadding="0" cellspacing="0" class="datatable">
+				<tr>
+					<th><html:checkbox property="selectAllGlEntries" onclick="selectAll(this,'glselect');" />Select</th>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.universityFiscalYear}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.universityFiscalPeriodCode}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.chartOfAccountsCode}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.accountNumber}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.subAccountNumber}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialObjectCode}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialSubObjectCode}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialDocumentTypeCode}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialSystemOriginationCode}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.documentNumber}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.transactionLedgerEntryDescription}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.organizationDocumentNumber}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.organizationReferenceId}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.referenceFinancialSystemOriginationCode}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.referenceFinancialDocumentNumber}" hideRequiredAsterisk="true" scope="col"/>
+		            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.amount}" hideRequiredAsterisk="true" scope="col"/>
+				</tr>
+		<c:set var="pos" value="-1" />		   			 
+    	<c:set var="entry" value="${KualiForm.generalLedgerEntry}" />
+	 	<c:set var="pos" value="${pos+1}" />    	
+			<tr>
+				<td class="grid">
+					<c:choose> 
+					<c:when test="${entry.generalLedgerAccountIdentifier == KualiForm.primaryGlAccountId && entry.active}">
+						<html:checkbox property="generalLedgerEntry.selected" disabled="true" />
+						<c:set var="allowSubmit" value="true" />
+					</c:when>
+					<c:when test="${!entry.active}">
+						<a href="cabGlLine.do?methodToCall=viewDoc&documentNumber=${entry.generalLedgerEntryAssets[0].capitalAssetManagementDocumentNumber}" target="${entry.generalLedgerEntryAssets[0].capitalAssetManagementDocumentNumber}">						
+						${entry.generalLedgerEntryAssets[0].capitalAssetManagementDocumentNumber}</a>
+					</c:when>
+					<c:otherwise> 
+						<html:checkbox styleId="glselect" property="generalLedgerEntry.selected"/>
+						<c:set var="allowSubmit" value="true" />
+					</c:otherwise>
+					</c:choose>
+				</td>
+				<td class="grid"><kul:htmlControlAttribute property="generalLedgerEntry.universityFiscalYear" 
+				attributeEntry="${entryAttributes.universityFiscalYear}" readOnly="true"/></td>
+				<td class="grid"><kul:htmlControlAttribute property="generalLedgerEntry.universityFiscalPeriodCode" 
+				attributeEntry="${entryAttributes.universityFiscalPeriodCode}" readOnly="true"/></td>
+				<td class="grid">
+					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Chart" keyValues="chartOfAccountsCode=${entry.chartOfAccountsCode}" render="true">
+					<kul:htmlControlAttribute property="generalLedgerEntry.chartOfAccountsCode" 
+					attributeEntry="${entryAttributes.chartOfAccountsCode}" readOnly="true"/>
+				</kul:inquiry>
+				</td>
+				<td class="grid">
+					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Account" keyValues="chartOfAccountsCode=${entry.chartOfAccountsCode}&accountNumber=${entry.accountNumber}" render="true">
+					<kul:htmlControlAttribute property="generalLedgerEntry.accountNumber" 
+					attributeEntry="${entryAttributes.accountNumber}" readOnly="true"/>
+					</kul:inquiry>
+				</td>
+				<td class="grid"><kul:htmlControlAttribute property="generalLedgerEntry.subAccountNumber" 
+				attributeEntry="${entryAttributes.subAccountNumber}" readOnly="true"/></td>
+				<td class="grid">
+				<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.ObjectCode" keyValues="universityFiscalYear=${entry.universityFiscalYear}&chartOfAccountsCode=${entry.chartOfAccountsCode}&financialObjectCode=${entry.financialObjectCode}" render="true">
+				<kul:htmlControlAttribute property="generalLedgerEntry.financialObjectCode" 
+				attributeEntry="${entryAttributes.financialObjectCode}" readOnly="true"/>
+				</kul:inquiry>
+				</td>
+				<td class="grid"><kul:htmlControlAttribute property="generalLedgerEntry.financialSubObjectCode" 
+				attributeEntry="${entryAttributes.financialSubObjectCode}" readOnly="true"/></td>
+				<td class="grid">
+				<kul:inquiry boClassName="org.kuali.rice.kew.doctype.bo.DocumentTypeEBO" keyValues="documentTypeId=${entry.financialSystemDocumentTypeCode.documentTypeId}" render="true">
+				<kul:htmlControlAttribute property="generalLedgerEntry.financialDocumentTypeCode" 
+				attributeEntry="${entryAttributes.financialDocumentTypeCode}" readOnly="true"/>
+				</kul:inquiry>
+				</td>
+				<td class="grid"><kul:htmlControlAttribute property="generalLedgerEntry.financialSystemOriginationCode" 
+				attributeEntry="${entryAttributes.financialSystemOriginationCode}" readOnly="true"/></td>
+				<td class="grid">
+					<html:link target="_blank" href="cabGlLine.do?methodToCall=viewDoc&documentNumber=${entry.documentNumber}">
+						<kul:htmlControlAttribute property="generalLedgerEntry.documentNumber" attributeEntry="${entryAttributes.documentNumber}" readOnly="true"/>
+					</html:link>
+				</td>
+				<td class="grid"><kul:htmlControlAttribute property="generalLedgerEntry.transactionLedgerEntryDescription" 
+				attributeEntry="${entryAttributes.transactionLedgerEntryDescription}" readOnly="true"/></td>
+				<td class="grid"><kul:htmlControlAttribute property="generalLedgerEntry.organizationDocumentNumber" 
+				attributeEntry="${entryAttributes.organizationDocumentNumber}" readOnly="true"/></td>
+				<td class="grid"><kul:htmlControlAttribute property="generalLedgerEntry.organizationReferenceId" 
+				attributeEntry="${entryAttributes.organizationReferenceId}" readOnly="true"/>&nbsp;</td>
+				<td class="grid"><kul:htmlControlAttribute property="generalLedgerEntry.referenceFinancialSystemOriginationCode" 
+				attributeEntry="${entryAttributes.referenceFinancialSystemOriginationCode}" readOnly="true"/>&nbsp;</td>
+				<td class="grid"><kul:htmlControlAttribute property="generalLedgerEntry.referenceFinancialDocumentNumber" 
+				attributeEntry="${entryAttributes.referenceFinancialDocumentNumber}" readOnly="true"/>&nbsp;</td>
+				<td class="grid"><kul:htmlControlAttribute property="generalLedgerEntry.amount" 
+				attributeEntry="${entryAttributes.amount}" readOnly="true"/></td>
+			</tr>
+    	</table>
+		</div>
+	</kul:tab>
+	</c:if>
 	<kul:panelFooter />
 	<div id="globalbuttons" class="globalbuttons">
         <c:if test="${not readOnly}">

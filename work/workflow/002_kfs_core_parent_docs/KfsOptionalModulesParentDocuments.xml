@@ -362,10 +362,9 @@
       <active>
         true
       </active>
-      <!-- RICE20 security attribute is disabled until fixed -->
-      <!-- <security>
+      <security>
         <securityAttribute class="org.kuali.kfs.module.tem.document.workflow.TEMSecurityAttribute"/>
-      </security> -->
+      </security>
       <routingVersion>
         1
       </routingVersion>

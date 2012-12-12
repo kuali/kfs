@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.pdp.service.impl;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -281,6 +281,10 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
             // Tax Group Requirements for automatic Holding
             checkForTaxEmailRequired(paymentFile, paymentGroup, customer);
+
+            // KFSMI-9997 / KFSMI-9998
+            // Checks for valid payment date or set to tomorrow if missing
+            checkGroupPaymentDate(paymentGroup, warnings);
 
             // do edits on detail lines
             for (PaymentDetail paymentDetail : paymentGroup.getPaymentDetails()) {
@@ -607,12 +611,15 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
             }
         }
         else {
-            try {
-                paymentGroup.setPaymentDate(dateTimeService.convertToSqlDate(now));
-            }
-            catch (ParseException e) {
-                throw new RuntimeException("Unable to parse current timestamp into sql date " + e.getMessage());
-            }
+            // KFSMI-9997
+            // Calculate tomorrow's date to set as payment date rather than null
+            Calendar tomorrow = Calendar.getInstance();
+            tomorrow.setTime(now);
+            tomorrow.add(Calendar.DATE, 1);
+            tomorrow.getTime();
+
+            Date paymentDate = new Date(tomorrow.getTime().getTime());
+            paymentGroup.setPaymentDate(paymentDate);
         }
     }
 

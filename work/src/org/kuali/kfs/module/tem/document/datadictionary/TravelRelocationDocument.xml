@@ -42,6 +42,7 @@
         <property name="attributes">
             <list>
                 <ref bean="TravelRelocationDocument-travelDocumentNumber" />
+                <ref bean="TravelRelocationDocument-applicationDocumentStatus" />
                 <ref bean="TravelRelocationDocument-tripTypeCode" />
                 <ref bean="TravelRelocationDocument-tripBegin" />
                 <ref bean="TravelRelocationDocument-tripEnd" />
@@ -136,6 +137,11 @@
         <property name="control">
             <bean parent="TextControlDefinition" p:size="32" />
         </property>
+    </bean>
+    <bean id="TravelRelocationDocument-applicationDocumentStatus" parent="TravelRelocationDocument-applicationDocumentStatus-parentBean"/>
+    <bean id="TravelRelocationDocument-applicationDocumentStatus-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-applicationDocumentStatus" >
+        <property name="name" value="applicationDocumentStatus"/>
+        <property name="label" value="Document Status" />
     </bean>
     <bean id="TravelRelocationDocument-tripTypeCode" parent="TravelRelocationDocument-tripTypeCode-parentBean" />
     <bean id="TravelRelocationDocument-tripTypeCode-parentBean" parent="AttributeDefinition">
@@ -461,6 +467,7 @@
         <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelRelocationDocument" />
         <property name="searchingTypeDefinitions">
             <list>
+                <bean parent="TravelMoudle-SearchingTypeDefinition-applicationDocumentStatus" />
                 <bean parent="TravelMoudle-SearchingTypeDefinition-travelDocumentIdentifier" />
                 <bean parent="TravelMoudle-SearchingTypeDefinition-temProfileId" />
                 <bean parent="TravelMoudle-SearchingTypeDefinition-reasonCode" />

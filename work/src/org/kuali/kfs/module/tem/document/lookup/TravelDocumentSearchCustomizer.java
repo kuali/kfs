@@ -18,83 +18,57 @@ package org.kuali.kfs.module.tem.document.lookup;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.WordUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer;
+import org.kuali.rice.core.api.uif.DataType;
+import org.kuali.rice.core.api.uif.RemotableAttributeField;
+import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttribute;
+import org.kuali.rice.kew.api.document.attribute.DocumentAttributeString;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchResultSetConfiguration;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchResultValue;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchResultValues;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TravelDocumentSearchCustomizer extends KFSDocumentSearchCustomizer {
 
     public static Logger LOG = Logger.getLogger(TravelDocumentSearchCustomizer.class);
 
     /**
-     * @see org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer#customizeResults(org.kuali.rice.kew.api.document.search.DocumentSearchCriteria, java.util.List)
+     * @see org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer#customizeResults(org.kuali.rice.kew.api.document.search.DocumentSearchCriteria,
+     *      java.util.List)
      */
     @Override
     public DocumentSearchResultValues customizeResults(DocumentSearchCriteria documentSearchCriteria, List<DocumentSearchResult> defaultResults) {
 
-        org.kuali.rice.kew.framework.document.search.DocumentSearchResultValues.Builder customResultsBuilder = DocumentSearchResultValues.Builder.create();
+        DocumentSearchResultValues.Builder customResultsBuilder = DocumentSearchResultValues.Builder.create();
         List<DocumentSearchResultValue.Builder> customResultValueBuilders = new ArrayList<DocumentSearchResultValue.Builder>();
 
-        String documentTypeName = documentSearchCriteria.getDocumentTypeName();
-
-//        if (TravelDocTypes.getAuthorizationDocTypes().contains(documentTypeName)){
-//            searchCustomizer = new TravelAuthorizationDocumentSearchResultProcessor();
-//        }
-//        else if (TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT.equals(documentTypeName)){
-//              searchCustomizer = new TravelReimbursementDocumentSearchResultProcessor();
-//        }
-//        else if (TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT.equals(documentTypeName)){
-//              searchCustomizer = new TravelEntertainmentDocumentSearchResultProcessor();
-//        }
-//        else if (TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT.equals(documentTypeName)){
-//              searchCustomizer = new TravelRelocationDocumentSearchResultProcessor();
-//        }
-/*
-        boolean isAuthorizedToViewPurapDocId = false;
-        if ( defaultResults.size() > 0 ) {
-            for (DocumentAttribute documentAttribute : defaultResults.get(0).getDocumentAttributes()) {
-                if (KFSPropertyConstants.PURAP_DOC_ID.equals(documentAttribute.getName())) {
-                    isAuthorizedToViewPurapDocId = isAuthorizedToViewPurapDocId(documentSearchCriteria.getDocSearchUserId());
-                }
-            }
-        }*/
         for (DocumentSearchResult result : defaultResults) {
+            // add the action attribute for the TEM documents for processed documents
+            List<DocumentAttribute.AbstractBuilder<?>> custAttrBuilders = new ArrayList<DocumentAttribute.AbstractBuilder<?>>();
+            Document document = result.getDocument();
 
-            generateSearchResults(result);
+            DocumentAttributeString.Builder attributeBuilder = DocumentAttributeString.Builder.create(TemPropertyConstants.TRVL_DOC_SEARCH_RESULT_PROPERTY_NAME_ACTIONS);
+            attributeBuilder.setValue(buildCustomActionHTML(result, getDocument(document.getDocumentId())));
+            custAttrBuilders.add(attributeBuilder);
 
-//            List<DocumentAttribute.AbstractBuilder<?>> custAttrBuilders = new ArrayList<DocumentAttribute.AbstractBuilder<?>>();
-//            Document document = result.getDocument();
-//
-//            for (DocumentAttribute documentAttribute : result.getDocumentAttributes()) {
-//                if (KFSPropertyConstants.PURAP_DOC_ID.equals(documentAttribute.getName())) {
-//                    if (!isAuthorizedToViewPurapDocId && !document.getStatus().getCategory().equals(DocumentStatusCategory.SUCCESSFUL) ) {
-//                        DocumentAttributeString.Builder builder = DocumentAttributeString.Builder.create(KFSPropertyConstants.PURAP_DOC_ID);
-//                        builder.setValue("********");
-//                        custAttrBuilders.add(builder);
-//                        break;
-//                    }
-//                }
-//            }
-//            DocumentSearchResultValue.Builder builder = DocumentSearchResultValue.Builder.create(document.getDocumentId());
-//            builder.setDocumentAttributes(custAttrBuilders);
-//            customResultValueBuilders.add(builder);
+            DocumentSearchResultValue.Builder builder = DocumentSearchResultValue.Builder.create(document.getDocumentId());
+            builder.setDocumentAttributes(custAttrBuilders);
+            customResultValueBuilders.add(builder);
         }
         customResultsBuilder.setResultValues(customResultValueBuilders);
-
         return customResultsBuilder.build();
     }
 
@@ -105,16 +79,23 @@ public class TravelDocumentSearchCustomizer extends KFSDocumentSearchCustomizer 
     public DocumentSearchResultSetConfiguration customizeResultSetConfiguration(DocumentSearchCriteria documentSearchCriteria) {
 
         DocumentSearchResultSetConfiguration.Builder config = DocumentSearchResultSetConfiguration.Builder.create(super.customizeResultSetConfiguration(documentSearchCriteria));
+        // do not remove any standard fields
+        config.setStandardResultFieldsToRemove(null);
 
-        /*List<String> displayTypeList = documentSearchCriteria.getSearchOptions().get(FinancialSystemSearchableAttribute.DISPLAY_TYPE_SEARCH_ATTRIBUTE_NAME);
-        if ( displayTypeList != null && !displayTypeList.isEmpty() ) {
+        final String ACTION = TemPropertyConstants.TRVL_DOC_SEARCH_RESULT_PROPERTY_NAME_ACTIONS;
+        List<String> customFieldNames = new ArrayList<String>();
+        customFieldNames.add(ACTION);
+        config.setCustomFieldNamesToAdd(customFieldNames);
 
-            String displayType =  displayTypeList.get(0);
-            if ( StringUtils.equals(displayType, FinancialSystemSearchableAttribute.WORKFLOW_DISPLAY_TYPE_VALUE)) {
-                config.setOverrideSearchableAttributes(true);
-                config.setStandardResultFieldsToRemove(null);
-            }
-        }*/
+        // set the additional attribute field for action
+        List<RemotableAttributeField.Builder> attributeBuilderList = new ArrayList<RemotableAttributeField.Builder>();
+        RemotableAttributeField.Builder builder = RemotableAttributeField.Builder.create(ACTION);
+        builder.setDataType(DataType.MARKUP);
+        builder.setLongLabel(WordUtils.capitalize(ACTION));
+        builder.setShortLabel(WordUtils.capitalize(ACTION));
+        builder.setMaxLength(1000);
+        attributeBuilderList.add(builder);
+        config.setAdditionalAttributeFields(attributeBuilderList);
         return config.build();
     }
 
@@ -126,199 +107,59 @@ public class TravelDocumentSearchCustomizer extends KFSDocumentSearchCustomizer 
         return true;
     }
 
-//
-//
-//    @Override
-//    public DocumentSearchResultComponents processIntoFinalResults(final List<DocSearchDTO> docSearchResultRows,
-//            final DocSearchCriteriaDTO criteria,
-//            final String principalId) {
-//
-////        if (criteria.getDocTypeFullName().equals(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT)
-////                || criteria.getDocTypeFullName().equals(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT)
-////                || criteria.getDocTypeFullName().equals(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT)){
-////            searchCustomizer = new TravelAuthorizationDocumentSearchResultProcessor();
-////        }
-////        else if (criteria.getDocTypeFullName().equals(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT)){
-////            searchCustomizer = new TravelReimbursementDocumentSearchResultProcessor();
-////        }
-////        else if (criteria.getDocTypeFullName().equals(TemConstants.TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT)){
-////            searchCustomizer = new TravelEntertainmentDocumentSearchResultProcessor();
-////        }
-////        else if (criteria.getDocTypeFullName().equals(TemConstants.TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT)){
-////            searchCustomizer = new TravelRelocationDocumentSearchResultProcessor();
-////        }
-//        try {
-//
-//         // this.setSearchCriteria(criteria);
-//            this.setSearchingUser(principalId);
-//            final List<Column> columns = constructColumnList(criteria, docSearchResultRows);
-//
-//            final List<DocumentSearchResult> documentSearchResults = new ArrayList<DocumentSearchResult>();
-//            for (DocSearchDTO docCriteriaDTO : docSearchResultRows) {
-//                DocumentSearchResult docSearchResult = generateSearchResults(docCriteriaDTO, columns);
-//                if (docSearchResult != null) {
-//                    documentSearchResults.add(docSearchResult);
-//                }
-//            }
-//            return new DocumentSearchResultComponents(columns, documentSearchResults);
-//        }
-//        catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//        return new DocumentSearchResultComponents(new ArrayList<Column>(), new ArrayList<DocumentSearchResult>());
-//
-//    }
-//
-//    @Override
-//    public List<Column> constructColumnList(final DocSearchCriteriaDTO criteria, final List<DocSearchDTO> docSearchResultRows) {
-//        List<Column> columns = super.constructColumnList(criteria, docSearchResultRows);
-//        columns.add(0, constructColumnUsingKey(TRVL_DOC_SEARCH_RESULT_PROPERTY_NAME_ACTIONS, null,null));
-//        return columns;
-//    }
-//
-//
-//    /*
-//     * Below methods should probably not be overridden by overriding classes but
-//     * could be if desired
-//     */
-//    @Override
-//    public Column constructColumnUsingKey(String key, String label,
-//            Boolean sortable) {
-//        LOG.debug("Constructing column with key "+ key);
-//        if (sortable == null) {
-//            // sortable = getSortableByKey().get(key);
-//        }
-//        if (label == null) {
-//            label = getLabelsByKey().get(key);
-//        }
-//        Column c = new Column(
-//                label,key);
-//
-//        return c;
-//    }
-//
-    public DocumentSearchResult generateSearchResults(final DocumentSearchResult docCriteriaDTO) {
-        LOG.debug("Searching with "+ docCriteriaDTO);
-        boolean isFilteredOut = filterSearchResult(docCriteriaDTO);
-        return isFilteredOut? docCriteriaDTO : null;
-//        final Map<String, Object> alternateSortValues = getSortValuesMap(docCriteriaDTO);
-//
-//        for (final Column column: columns) {
-//            LOG.debug("Handling the column "+ column.getPropertyName());
-//            if (column.getPropertyName().equals(KEWPropertyConstants.DOC_SEARCH_RESULT_PROPERTY_NAME_ROUTE_HEADER_ID)){
-//                column.setColumnTitle(TemConstants.DOCUMENT_NUMBER);
-//            }
-//            final KeyValueSort kvs = generateSearchResult(docCriteriaDTO, column, alternateSortValues);
-//            LOG.debug("Got kvs result "+ kvs);
-//        }
-//
-//        final DocumentSearchResult result = super.generateSearchResult(docCriteriaDTO, columns);
-
-        //LOG.debug("Got search results retval "+ result);
-        //return searchProcessor.addActionsColumn(docCriteriaDTO, result);
-
+    /**
+     * @param documentNumber
+     * @return
+     * @throws WorkflowException
+     */
+    public TravelDocument getDocument(String documentNumber) {
+        TravelDocument document = null;
+        try {
+            document = (TravelDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
+        }
+        catch (WorkflowException ex) {
+            LOG.error(ex.getMessage(), ex);
+        }
+        return document;
     }
 
     /**
-  *
-  * @param documentNumber
-  * @return
-  * @throws WorkflowException
-  */
- public TravelDocument getDocument(String documentNumber) {
-     TravelDocument document = null;
-     try {
-         document = (TravelDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
-     }
-     catch (WorkflowException ex) {
-         LOG.error(ex.getMessage(), ex);
-     }
-     return document;
- }
-
-  /**
-   * Do not filter IF the current user is
-   *
-   * 1. in the workflow?
-   * 2. also the traveler?
-   * 3. an arranger who created the doc for a traveler they authorize?
-   * 4. a travel Manager?
-   * 5. a TEM Profile Administrator within the traveler's org hierarchy?
-   *
-   * @param docCriteriaDTO
-   * @return
-   */
-  public boolean filterByUser(DocumentSearchResult searchResult){
-      Person currentUser = GlobalVariables.getUserSession().getPerson();
-//      try {
-          List<DocumentAttribute> attributes = searchResult.getDocumentAttributes();
-          //TravelDocument document = getDocument(searchResult.getRouteHeaderId().toString());
-
-          //check workflow
-//          if (isWorkflowApprover(searchResult.getRouteHeaderId(), currentUser)){
-//              return false;
-//          }
-          //check traveler
-//          if (currentUser.getPrincipalId().equals(document.getTraveler().getPrincipalId())){
-//              return false;
-//          }
-//          //check Travel Manager
-//          if (getTravelDocumentService().isTravelManager(currentUser)){
-//              return false;
-//          }
-//
-//          //check if user is an arranger to the document
-//          boolean arrangerAccess = getTemRoleService().canAccessTravelDocument(document, currentUser);
-//          if (arrangerAccess){
-//              return false;
-//          }
-//
-//          //check if user is profile admin on the org
-//          TEMProfile profile = getTemProfileService().findTemProfileById(document.getTemProfileId());
-//          boolean profileAdminAccess = getTemRoleService().isProfileAdmin(currentUser, ObjectUtils.isNotNull(profile)? profile.getHomeDepartment() : null);
-//          if (profileAdminAccess){
-//              return false;
-//          }
-//      }
-//      catch (WorkflowException ex) {
-//          LOG.error(ex.getMessage(), ex);
-//      }
-      return true;
-  }
-
-protected TravelDocumentService getTravelDocumentService() {
-return SpringContext.getBean(TravelDocumentService.class);
-}
-protected TEMRoleService getTemRoleService() {
-return SpringContext.getBean(TEMRoleService.class);
-}
-protected TemProfileService getTemProfileService() {
-return SpringContext.getBean(TemProfileService.class);
-}
-protected DocumentService getDocumentService() {
-return SpringContext.getBean(DocumentService.class);
-}
-
-    public boolean filterSearchResult(DocumentSearchResult searchResult) {
-        boolean filtered = filterByUser(searchResult);
-//
-//        ///TA doc allows search result IF user has TR arranger access
-//        TravelDocument document = getDocument(docCriteriaDTO.getRouteHeaderId().toString());
-//        Person user = GlobalVariables.getUserSession().getPerson();
-        //check if user is an TR arranger to the document
-        boolean arrangerAccess = true;
-
-//        if (!user.getPrincipalId().equals(document.getTraveler().getPrincipalId())){
-//            arrangerAccess = getTemRoleService().isTravelArranger(user, "", document.getTemProfileId().toString(), TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
-//        }
-
-        return filtered && !arrangerAccess;
+     * Build the full action URL.
+     * NOTE: status check should be done in the override class
+     *
+     * @param documentSearchResult
+     * @param document
+     * @return
+     */
+    String buildCustomActionHTML(DocumentSearchResult documentSearchResult, TravelDocument document){
+        TravelDocumentCustomActionBuilder actionBuilder = null;
+        if (TravelDocTypes.getAuthorizationDocTypes().contains(document.getDocumentTypeName())){
+            actionBuilder = new TravelAuthorizationDocumentCustomActionBuilder();
+        }else if (TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT.equals(document.getDocumentTypeName())){
+            actionBuilder = new TravelReimbursementDocumentCustomActionBuilder();
+        }else if (TravelDocTypes.TRAVEL_ENTERTAINMENT_DOCUMENT.equals(document.getDocumentTypeName())){
+            actionBuilder = new TravelEntertainmentDocumentCustomActionBuilder();
+        }else if (TravelDocTypes.TRAVEL_RELOCATION_DOCUMENT.equals(document.getDocumentTypeName())){
+            actionBuilder = new TravelRelocationDocumentCustomActionBuilder();
+        }else{
+            LOG.error("Travel Document [" + document.getDocumentTypeName() + "] does not have a customActionURL defined");
+        }
+        return actionBuilder != null? actionBuilder.buildCustomActionHTML(documentSearchResult, document) : "";
     }
-//
-//    @Override
-//    public Map<String, String> getLabelsByKey() {
-//        Map<String, String> retval = new HashMap<String, String>(); // super.getLabelsByKey();
-//        retval.put(TRVL_DOC_SEARCH_RESULT_PROPERTY_NAME_ACTIONS, "Actions");
-//        return retval;
-//    }
+
+    protected TravelDocumentService getTravelDocumentService() {
+        return SpringContext.getBean(TravelDocumentService.class);
+    }
+
+    protected TEMRoleService getTemRoleService() {
+        return SpringContext.getBean(TEMRoleService.class);
+    }
+
+    protected TemProfileService getTemProfileService() {
+        return SpringContext.getBean(TemProfileService.class);
+    }
+
+    protected DocumentService getDocumentService() {
+        return SpringContext.getBean(DocumentService.class);
+    }
 }

@@ -88,6 +88,9 @@
             </map>
         </property>
     </bean>
+    
+    <bean id="TravelDocumentSearchCustomizer" class="org.kuali.kfs.module.tem.document.lookup.TravelDocumentSearchCustomizer" />
+	<alias name="TravelDocumentSearchCustomizer" alias="TemFinancialSystemSearchableAttribute" />
 
 	<bean id="temProfileAddressLookupableHelperService"
 		class="org.kuali.kfs.module.tem.businessobject.lookup.TemProfileAddressLookupableHelperServiceImpl"

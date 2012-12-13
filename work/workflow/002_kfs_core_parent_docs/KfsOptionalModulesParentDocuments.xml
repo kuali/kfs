@@ -362,9 +362,6 @@
       <active>
         true
       </active>
-      <security>
-        <securityAttribute class="org.kuali.kfs.module.tem.document.workflow.TEMSecurityAttribute"/>
-      </security>
       <routingVersion>
         1
       </routingVersion>

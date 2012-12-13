@@ -37,6 +37,7 @@
 		<property name="attributes">
 		<list>
 			<ref bean="TravelEntertainmentDocument-travelDocumentNumber" />
+            <ref bean="TravelEntertainmentDocument-applicationDocumentStatus"/>
 			<ref bean="TravelEntertainmentDocument-hostProfileId" />
 			<ref bean="TravelEntertainmentDocument-hostName" />
 			<ref bean="TravelEntertainmentDocument-temProfileId" />
@@ -106,7 +107,13 @@
 		<property name="forceUppercase" value="true"/>
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 	</bean>
-	
+   
+    <bean id="TravelEntertainmentDocument-applicationDocumentStatus" parent="TravelEntertainmentDocument-applicationDocumentStatus-parentBean"/>
+    <bean id="TravelEntertainmentDocument-applicationDocumentStatus-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-applicationDocumentStatus" >
+        <property name="name" value="applicationDocumentStatus"/>
+        <property name="label" value="Document Status" />
+    </bean>
+    
 	<bean id="TravelEntertainmentDocument-tripTypeCode" parent="TravelEntertainmentDocument-tripTypeCode-parentBean" />
 	<bean id="TravelEntertainmentDocument-tripTypeCode-parentBean" parent="AttributeDefinition">
 		<property name="name" value="tripTypeCode" />
@@ -289,7 +296,8 @@
     <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelEntertainmentDocument" />
 	<property name="searchingTypeDefinitions">
 		<list>
-		    <bean parent="TravelMoudle-SearchingTypeDefinition-tripBegin" />
+		    <bean parent="TravelMoudle-SearchingTypeDefinition-applicationDocumentStatus" />
+            <bean parent="TravelMoudle-SearchingTypeDefinition-tripBegin" />
             <bean parent="TravelMoudle-SearchingTypeDefinition-temProfileId" />
 			<bean parent="TravelMoudle-SearchingTypeDefinition-eventTitle" />
             <bean parent="TravelMoudle-SearchingTypeDefinition-spouseIncludedForSearching" />

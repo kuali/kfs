@@ -42,6 +42,7 @@
 		<property name="attributes">
 		<list>
 			<ref bean="TravelReimbursementDocument-travelDocumentNumber" />
+            <ref bean="TravelReimbursementDocument-applicationDocumentStatus"/>
             <ref bean="TravelReimbursementDocument-finalReimbursement" />
 			<ref bean="TravelReimbursementDocument-temProfileId" />
 			<ref bean="TravelReimbursementDocument-employeeCertification" />
@@ -125,6 +126,11 @@
 		<property name="forceUppercase" value="true"/>
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 	</bean>
+    <bean id="TravelReimbursementDocument-applicationDocumentStatus" parent="TravelReimbursementDocument-applicationDocumentStatus-parentBean"/>
+    <bean id="TravelReimbursementDocument-applicationDocumentStatus-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-applicationDocumentStatus" >
+        <property name="name" value="applicationDocumentStatus"/>
+        <property name="label" value="Document Status" />
+    </bean>
 	<bean id="TravelReimbursementDocument-finalReimbursement" parent="TravelReimbursementDocument-finalReimbursement-parentBean" />
 	<bean id="TravelReimbursementDocument-finalReimbursement-parentBean" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="finalReimbursement" />

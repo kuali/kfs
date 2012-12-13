@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.module.tem.document.workflow;
 
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.SensitiveDataSecurityAttribute;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -51,16 +51,25 @@ public class TEMSecurityAttribute extends SensitiveDataSecurityAttribute {
      * @param documentId
      * @return
      */
-    public final Boolean canOpen(Person currentUser, String docTypeName, String documentId) {
+    public Boolean canOpen(Person currentUser, String docTypeName, String documentId) {
         DocumentAuthorizer docAuthorizer = getDocumentHelperService().getDocumentAuthorizer(docTypeName);
-        Document doc = null;
+        return docAuthorizer.canOpen(getDocument(documentId), currentUser);
+    }
+
+    /**
+     * @param documentNumber
+     * @return
+     * @throws WorkflowException
+     */
+    public TravelDocument getDocument(String documentNumber) {
+        TravelDocument document = null;
         try {
-            doc = getDocumentService().getByDocumentHeaderIdSessionless(documentId);
+            document = (TravelDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
         }
-        catch (WorkflowException we) {
-            throw new RuntimeException(we);
+        catch (WorkflowException ex) {
+            throw new RuntimeException(ex);
         }
-        return docAuthorizer.canOpen(doc, currentUser);
+        return document;
     }
 
     public DocumentHelperService getDocumentHelperService() {

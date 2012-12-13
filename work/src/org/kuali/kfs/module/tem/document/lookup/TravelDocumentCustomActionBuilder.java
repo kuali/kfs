@@ -15,26 +15,15 @@
  */
 package org.kuali.kfs.module.tem.document.lookup;
 
-import java.util.List;
-
-import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
-import org.kuali.rice.kew.framework.document.search.DocumentSearchResultValues;
-
-public interface TravelDocumentSearchResultsCustomizer {
+public interface TravelDocumentCustomActionBuilder {
 
     /**
      *
-     * @param searchCriteria
-     * @param defaultResults
+     * @param documentSearchResult
+     * @param document
      * @return
      */
-    public DocumentSearchResultValues addActionsColumn(DocumentSearchCriteria searchCriteria, List<DocumentSearchResult> defaultResults);
-
-    /**
-     *
-     * @param searchCriteria
-     * @return
-     */
-    public boolean filterSearchResult(DocumentSearchCriteria searchCriteria);
+    public String buildCustomActionHTML(DocumentSearchResult documentSearchResult, TravelDocument document);
 }

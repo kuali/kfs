@@ -45,14 +45,10 @@
     <bean parent="roleTypeServiceCallback" 
         p:callbackService-ref="temExecutiveManagerService" p:localServiceName="temExecutiveManagerService" />
        	 
-<!-- 	<bean parent="documentSearchCustomizerCallback" 
-		p:callbackService-ref="KFSPurapDocumentSearchCustomizer" p:localServiceName="KFSPurapDocumentSearchCustomizer" />
+ 	<bean parent="documentSearchCustomizerCallback" 
+		p:callbackService-ref="TravelDocumentSearchCustomizer" p:localServiceName="TravelDocumentSearchCustomizer" />
 	
 	<bean parent="searchableAttributeCallback" 
-		p:callbackService-ref="PurapFinancialSystemSearchableAttribute" p:localServiceName="PurapFinancialSystemSearchableAttribute" />
-
-	<bean parent="customActionListAttributeCallback" 
-		p:callbackService-ref="PurchaseOrderActionListAttribute" p:localServiceName="PurchaseOrderActionListAttribute" />
-
- -->
+		p:callbackService-ref="TemFinancialSystemSearchableAttribute" p:localServiceName="TemFinancialSystemSearchableAttribute" />
+        
 </beans>

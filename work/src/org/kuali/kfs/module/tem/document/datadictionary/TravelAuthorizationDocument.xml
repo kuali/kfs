@@ -35,6 +35,7 @@
 		<property name="attributes">
 		<list>
 			<ref bean="TravelAuthorizationDocument-travelDocumentNumber" />
+            <ref bean="TravelAuthorizationDocument-applicationDocumentStatus"/>
 			<ref bean="TravelAuthorizationDocument-temProfileId" />
 			<ref bean="TravelAuthorizationDocument-tripTypeCode" />
 			<ref bean="TravelAuthorizationDocument-tripBegin" />
@@ -113,6 +114,12 @@
 		<property name="forceUppercase" value="true"/>
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 	</bean>
+    <bean id="TravelAuthorizationDocument-applicationDocumentStatus" parent="TravelAuthorizationDocument-applicationDocumentStatus-parentBean"/>
+    <bean id="TravelAuthorizationDocument-applicationDocumentStatus-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-applicationDocumentStatus" >
+        <property name="name" value="applicationDocumentStatus"/>
+        <property name="label" value="Document Status" />
+    </bean>
+
 	<bean id="TravelAuthorizationDocument-temProfileId" parent="TravelAuthorizationDocument-temProfileId-parentBean" />
 	<bean id="TravelAuthorizationDocument-temProfileId-parentBean" abstract="true" parent="TEMProfile-profileId">
 		<property name="name" value="temProfileId" />

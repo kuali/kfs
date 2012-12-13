@@ -10,15 +10,23 @@
 <data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="ns:workflow resource:WorkflowData">
-      <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-    <ruleAttribute>
-      <name>TravelAuthorizationDocumentSearchCustomizer</name>
-      <label>KFS Document Search Customizer</label>
-      <className>{http://kfs.kuali.org/kfs/v5_0}KFSDocumentSearchCustomizer</className>
-      <type>DocumentSearchCustomizer</type>
-      <applicationId>KFS</applicationId>
-    </ruleAttribute>
-  </ruleAttributes>
+    <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+        <ruleAttribute>
+            <name>TravelDocumentSearchCustomizer</name>
+            <label>TEM Document Search Customizer</label>
+            <className>{http://kfs.kuali.org/kfs/v5_0}TravelDocumentSearchCustomizer</className>
+            <type>DocumentSearchCustomizer</type>
+            <applicationId>KFS</applicationId>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>TemFinancialSystemSearchableAttribute</name>
+            <className>{http://kfs.kuali.org/kfs/v5_0}TemFinancialSystemSearchableAttribute</className>
+            <label>TEM Searchable Attribute</label>
+            <description>TEM Searchable Attribute</description>
+            <type>SearchableAttribute</type>
+            <applicationId>KFS</applicationId>
+        </ruleAttribute>
+    </ruleAttributes>
 	<documentTypes xmlns="ns:workflow/DocumentType"
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
@@ -29,15 +37,18 @@
 			<label>Travel Authorization</label>
 			<attributes>
 				<attribute>
-					<name>FinancialSystemSearchableAttribute</name>
+					<name>TemFinancialSystemSearchableAttribute</name>
 				</attribute>
 				<attribute>
-					<name>TravelAuthorizationDocumentSearchCustomizer</name>
+					<name>TravelDocumentSearchCustomizer</name>
 				</attribute>
 			</attributes>
 			<active>
 				true
             </active>
+            <security>
+                <securityAttribute class="org.kuali.kfs.module.tem.document.workflow.TravelAuthorizationDocumentSecurityAttribute"/>
+            </security>
 			<routingVersion>
 				2
             </routingVersion>

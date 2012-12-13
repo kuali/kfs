@@ -61,6 +61,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.krad.bo.KualiCodeBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -636,13 +637,17 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     }
 
     /**
-     * Helper method for subsituting message parameters and adding the message to the warning list.
+     * Helper method for substituting message parameters and adding the message to the warning list.
      *
      * @param warnings <code>List</code> of messages to add to
      * @param messageKey resource key for message
      * @param arguments message substitute parameters
      */
     protected void addWarningMessage(List<String> warnings, String messageKey, String... arguments) {
+        // Add to global warnings so they will show up on the Payment File Batch Upload screen if
+        // the payment file was loaded via that screen
+        GlobalVariables.getMessageMap().putWarning(KFSConstants.GLOBAL_MESSAGES, messageKey, arguments);
+
         String message = kualiConfigurationService.getPropertyValueAsString(messageKey);
         warnings.add(MessageFormat.format(message, (Object[]) arguments));
     }

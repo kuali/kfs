@@ -735,6 +735,9 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         // Cleanup Travel Advances and notes
         setTravelAdvances(new ArrayList<TravelAdvance>());
         setNotes(new ArrayList<Note>());
+
+        //set it to in-progress so it will be updated
+        setAppDocStatus(TemConstants.TravelStatusCodeKeys.IN_PROCESS);
     }
 
     /**
@@ -955,8 +958,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
 
     /**
-     * TODO: refactor this to addExpense and addExpenseDetail
-     *
      * @see org.kuali.kfs.module.tem.document.TravelDocument#addActualExpense(org.kuali.kfs.module.tem.businessobject.ActualExpense)
      */
     @Override

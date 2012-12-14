@@ -299,6 +299,40 @@
 	    </modifySql>
 	</changeSet>
 
+	<changeSet author="KFS501" id="KFSMI9756_FIX_PERMISSIONS_FOR_PDP_MANAGER_UNMASKING">
+		<update tableName="KRIM_PERM_T">
+			<column name="NM" value="Full Unmask Field PaymentDetail achBankRoutingNbr" />
+			<where>nmspc_cd = 'KFS-PDP' AND nm = 'Full Unmask Field PaymentGroup achBankRoutingNbr'</where>
+		</update>
+		<update tableName="KRIM_PERM_T">
+			<column name="NM" value="Full Unmask Field PaymentDetail achBankAccountNbr" />
+			<where>nmspc_cd = 'KFS-PDP' AND nm = 'Full Unmask Field AchAccountNumber achBankAccountNbr'</where>
+		</update>
+		<update tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_VAL" value="PaymentDetail" />
+			<where>perm_id = (select perm_id from krim_perm_t where nmspc_cd = 'KFS-PDP' AND nm = 'Full Unmask Field PaymentDetail achBankRoutingNbr') 
+			and kim_typ_id = (select kim_typ_id from KRIM_TYP_T where nmspc_cd = 'KR-NS' and nm = 'Component Field') 
+			and kim_attr_defn_id = (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'componentName')</where>
+		</update>
+		<update tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_VAL" value="paymentGroup.achBankRoutingNbr" />
+			<where>perm_id = (select perm_id from krim_perm_t where nmspc_cd = 'KFS-PDP' AND nm = 'Full Unmask Field PaymentDetail achBankRoutingNbr') 
+			and kim_typ_id = (select kim_typ_id from KRIM_TYP_T where nmspc_cd = 'KR-NS' and nm = 'Component Field') 
+			and kim_attr_defn_id = (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'propertyName')</where>
+		</update>
+		<update tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_VAL" value="PaymentDetail" />
+			<where>perm_id = (select perm_id from krim_perm_t where nmspc_cd = 'KFS-PDP' AND nm = 'Full Unmask Field PaymentDetail achBankAccountNbr') 
+			and kim_typ_id = (select kim_typ_id from KRIM_TYP_T where nmspc_cd = 'KR-NS' and nm = 'Component Field') 
+			and kim_attr_defn_id = (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'componentName')</where>
+		</update>
+		<update tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_VAL" value="paymentGroup.achAccountNumber.achBankAccountNbr" />
+			<where>perm_id = (select perm_id from krim_perm_t where nmspc_cd = 'KFS-PDP' AND nm = 'Full Unmask Field PaymentDetail achBankAccountNbr') 
+			and kim_typ_id = (select kim_typ_id from KRIM_TYP_T where nmspc_cd = 'KR-NS' and nm = 'Component Field') 
+			and kim_attr_defn_id = (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'propertyName')</where>
+		</update>
+	</changeSet>
 
 <!-- 
 	<changeSet author="KFS502" id="SAMPLE_NEW_PERM">

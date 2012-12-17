@@ -118,7 +118,7 @@ public class DepositWizardAction extends KualiAction {
             if (dwForm.getTargetDepositAmount() == null) {
                 calculateTargetFinalDepositAmount(dwForm);
             }
-            //loadEditModesAndDocumentActions(dwForm);
+            loadEditModesAndDocumentActions(dwForm);
         }
 
         return dest;
@@ -215,14 +215,14 @@ public class DepositWizardAction extends KualiAction {
             dform.addCashReceiptToChecks(receipt);
         }
     }
-    
+
     /**
      * Loads cashiering transactions for final deposit target amount
      * @param dwform
      */
     private void calculateTargetFinalDepositAmount(DepositWizardForm dwform) {
         final CashReceiptService cashReceiptService = SpringContext.getBean(CashReceiptService.class);
-        final List<CashReceiptDocument> interestingReceipts = 
+        final List<CashReceiptDocument> interestingReceipts =
                 cashReceiptService.getCashReceipts(dwform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM, CashReceipt.FINAL });
         for (CashReceiptDocument crDoc : interestingReceipts) {
             crDoc.refreshCashDetails();

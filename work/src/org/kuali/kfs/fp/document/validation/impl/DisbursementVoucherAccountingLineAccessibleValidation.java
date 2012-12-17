@@ -59,37 +59,6 @@ public class DisbursementVoucherAccountingLineAccessibleValidation extends Accou
 
         }
         return super.validate(event);
-//
-//
-//        Person financialSystemUser = GlobalVariables.getUserSession().getPerson();
-//        AccountingLine accountingLineForValidation = this.getAccountingLineForValidation();
-//
-//        final AccountingLineAuthorizer accountingLineAuthorizer = lookupAccountingLineAuthorizer();
-//        final boolean lineIsAccessible = accountingLineAuthorizer.hasEditPermissionOnAccountingLine(accountingDocument, accountingLineForValidation, getAccountingLineCollectionProperty(), financialSystemUser, true);
-//        boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocument, accountingLineForValidation, getAccountingLineCollectionProperty(), KFSPropertyConstants.ACCOUNT_NUMBER, lineIsAccessible, true, financialSystemUser);
-//
-//        // get the authorizer class to check for special conditions routing and if the user is part of a particular workgroup
-//        // but only if the document is enroute
-//        if (!isAccessible && workflowDocument.isEnroute()) {
-//
-//        	if (oldAccountingLineForValidation == null || accountUnchanged(accountingLineForValidation, oldAccountingLineForValidation)) {
-//        		isAccessible = true;
-//        	} else {
-//                // if approval is requested and the user has required edit permission, then the line is accessible
-//                List<String> candidateEditModes = this.getCandidateEditModes();
-//        	}
-//        }
-//
-//        // report errors if the current user can have no access to the account
-//        if (!isAccessible) {
-//            String accountNumber = accountingLineForValidation.getAccountNumber();
-//            String principalName = GlobalVariables.getUserSession().getPerson().getPrincipalName();
-//            String errorKey = this.convertEventToMessage(event);
-//
-//            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, errorKey, accountNumber, principalName);
-//        }
-//
-//        return isAccessible;
     }
 
     /**

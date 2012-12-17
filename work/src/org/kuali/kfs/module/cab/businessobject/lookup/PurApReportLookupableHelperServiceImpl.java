@@ -59,7 +59,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Custom action urls for CAB PurAp lines.
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.LookupableHelperService#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
      *      java.util.List, java.util.List pkNames)
      */
@@ -94,8 +94,8 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         // purapDocumentIdentifier should query PurchasingAccountsPayableDocument
         String purapDocumentIdentifier = getSelectedField(fieldValues, CabPropertyConstants.PurchasingAccountsPayableProcessingReport.PURAP_DOCUMENT_IDENTIFIER);
@@ -134,7 +134,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Get PurapDocumentIdentifier from PurchasingAccountsPayableDocument and add it to the search result.
-     * 
+     *
      * @param purApReportCollection
      */
     private List<PurchasingAccountsPayableProcessingReport> updateResultList(List<PurchasingAccountsPayableProcessingReport> purApReportList) {
@@ -144,7 +144,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
         for (PurchasingAccountsPayableProcessingReport report : purApReportList) {
             pKeys.put(CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, report.getDocumentNumber());
-            PurchasingAccountsPayableDocument purApDocument = (PurchasingAccountsPayableDocument) boService.findByPrimaryKey(PurchasingAccountsPayableDocument.class, pKeys);
+            PurchasingAccountsPayableDocument purApDocument = boService.findByPrimaryKey(PurchasingAccountsPayableDocument.class, pKeys);
             if (ObjectUtils.isNotNull(purApDocument)) {
                 report.setPurapDocumentIdentifier(purApDocument.getPurapDocumentIdentifier());
                 newResultList.add(report);
@@ -156,23 +156,30 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Build the search result list.
-     * 
+     *
      * @param purApReportCollection
      * @return
      */
     private List<? extends BusinessObject> buildSearchResultList(List purApReportList) {
-        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(GeneralLedgerEntry.class);
+        List<? extends BusinessObject> searchResults = null;
+
+        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(PurchasingAccountsPayableProcessingReport.class);
         Long matchingResultsCount = Long.valueOf(purApReportList.size());
-        if (matchingResultsCount.intValue() <= searchResultsLimit.intValue()) {
-            matchingResultsCount = Long.valueOf(0);
+
+        // apply results set limit if necessary
+        if (searchResultsLimit > 0 && matchingResultsCount.intValue() > searchResultsLimit.intValue()) {
+            searchResults = new CollectionIncomplete(purApReportList.subList(0, searchResultsLimit), matchingResultsCount);
+        } else {
+            searchResults = new CollectionIncomplete(purApReportList, 0L);
         }
-        return new CollectionIncomplete(purApReportList, matchingResultsCount);
+
+        return searchResults;
     }
 
 
     /**
      * Build a HashMap for documentNumbers from the PurchasingAccountsPayableDocument search results
-     * 
+     *
      * @param purApDocs
      * @return
      */
@@ -187,7 +194,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Build lookup fields for PurchasingAccountsPayableDocument lookup.
-     * 
+     *
      * @param fieldValues
      * @param purapDocumentIdentifier
      * @return
@@ -195,14 +202,14 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
     private Map<String, String> getPurApDocumentLookupFields(Map<String, String> fieldValues, String purapDocumentIdentifier) {
         Map<String, String> purapDocumentLookupFields = new HashMap<String, String>();
         purapDocumentLookupFields.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURAP_DOCUMENT_IDENTIFIER, purapDocumentIdentifier);
-        purapDocumentLookupFields.put(CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, (String) fieldValues.get(CabPropertyConstants.GeneralLedgerEntry.DOCUMENT_NUMBER));
-        purapDocumentLookupFields.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER, (String) fieldValues.get(CabPropertyConstants.GeneralLedgerEntry.REFERENCE_FINANCIAL_DOCUMENT_NUMBER));
+        purapDocumentLookupFields.put(CabPropertyConstants.PurchasingAccountsPayableDocument.DOCUMENT_NUMBER, fieldValues.get(CabPropertyConstants.GeneralLedgerEntry.DOCUMENT_NUMBER));
+        purapDocumentLookupFields.put(CabPropertyConstants.PurchasingAccountsPayableDocument.PURCHASE_ORDER_IDENTIFIER, fieldValues.get(CabPropertyConstants.GeneralLedgerEntry.REFERENCE_FINANCIAL_DOCUMENT_NUMBER));
         return purapDocumentLookupFields;
     }
 
     /**
      * Join PurapReportCollection and PurApDocsCollection by documentNumber and remove from PurapReportCollection for mismatch.
-     * 
+     *
      * @param purApReportCollection
      * @param purApDocNumbers
      */
@@ -211,7 +218,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
         for (PurchasingAccountsPayableProcessingReport report : purApReportList) {
             if (purApDocNumberMap.containsKey(report.getDocumentNumber())) {
-                report.setPurapDocumentIdentifier((Integer) purApDocNumberMap.get(report.getDocumentNumber()));
+                report.setPurapDocumentIdentifier(purApDocNumberMap.get(report.getDocumentNumber()));
                 newReportsList.add(report);
             }
         }
@@ -221,7 +228,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Build search result collection as PurchasingAccountsPayableProcessingReport collection.
-     * 
+     *
      * @param searchResultIterator
      * @return
      */
@@ -277,7 +284,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
     /**
      * Get the Date instance. Why we need this? Looks OJB returns different type of instance when connect to MySql and Oracle:
      * Oracle returns Date instance while MySql returns TimeStamp instance.
-     * 
+     *
      * @param obj
      * @return
      */
@@ -296,7 +303,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * To decide if the the given newReport should be added to the search result collection.
-     * 
+     *
      * @param newReport
      * @param activeSelection
      * @return
@@ -311,7 +318,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * set partial commit report amount
-     * 
+     *
      * @param active
      * @param newReport
      */
@@ -339,7 +346,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Return and remove the selected field from the user input.
-     * 
+     *
      * @param fieldValues
      * @param fieldName
      * @return
@@ -355,7 +362,7 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Gets the purApReportService attribute.
-     * 
+     *
      * @return Returns the purApReportService.
      */
     public PurchasingAccountsPayableReportService getPurApReportService() {
@@ -365,13 +372,14 @@ public class PurApReportLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Sets the purApReportService attribute value.
-     * 
+     *
      * @param purApReportService The purApReportService to set.
      */
     public void setPurApReportService(PurchasingAccountsPayableReportService purApReportService) {
         this.purApReportService = purApReportService;
     }
 
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
     }

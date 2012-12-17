@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,11 +41,10 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
     /**
      * @see org.kuali.kfs.module.cab.dataaccess.PurchasingAccountsPayableReportDao#findPurchasingAccountsPayableDocuments(java.util.Map)
      */
+    @Override
     public Collection findPurchasingAccountsPayableDocuments(Map fieldValues) {
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new PurchasingAccountsPayableDocument());
         QueryByCriteria query = QueryFactory.newQuery(PurchasingAccountsPayableDocument.class, criteria);
-        OJBUtility.limitResultSize(query);
-
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
@@ -53,16 +52,16 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
     /**
      * @see org.kuali.kfs.module.cab.dataaccess.PurchasingAccountsPayableReportDao#findGeneralLedgers(java.util.Map)
      */
+    @Override
     public Iterator findGeneralLedgers(Map fieldValues) {
         LOG.debug("findGeneralLedgers started...");
         ReportQueryByCriteria query = getGeneralLedgerReportQuery(fieldValues);
-        OJBUtility.limitResultSize(query);
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
     }
 
     /**
      * Generate Query object for GeneralLedgerEntry search.
-     * 
+     *
      * @param fieldValues
      * @return
      */
@@ -93,7 +92,7 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
 
     /**
      * Get activity_statu_code
-     * 
+     *
      * @param fieldValues
      * @return
      */
@@ -115,7 +114,7 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
 
     /**
      * Get Document type code selection
-     * 
+     *
      * @param fieldValues
      * @return
      */
@@ -141,7 +140,7 @@ public class PurchasingAccountsPayableReportDaoOjb extends PlatformAwareDaoBaseO
 
     /**
      * Build attribute list for select clause.
-     * 
+     *
      * @param isExtended
      * @return
      */

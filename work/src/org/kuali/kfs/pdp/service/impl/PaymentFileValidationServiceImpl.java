@@ -15,9 +15,9 @@
  */
 package org.kuali.kfs.pdp.service.impl;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -61,6 +61,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.krad.bo.KualiCodeBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -281,6 +282,10 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
             // Tax Group Requirements for automatic Holding
             checkForTaxEmailRequired(paymentFile, paymentGroup, customer);
+
+            // KFSMI-9997 / KFSMI-9998
+            // Checks for valid payment date or set to tomorrow if missing
+            checkGroupPaymentDate(paymentGroup, warnings);
 
             // do edits on detail lines
             for (PaymentDetail paymentDetail : paymentGroup.getPaymentDetails()) {
@@ -607,12 +612,15 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
             }
         }
         else {
-            try {
-                paymentGroup.setPaymentDate(dateTimeService.convertToSqlDate(now));
-            }
-            catch (ParseException e) {
-                throw new RuntimeException("Unable to parse current timestamp into sql date " + e.getMessage());
-            }
+            // KFSMI-9997
+            // Calculate tomorrow's date to set as payment date rather than null
+            Calendar tomorrow = Calendar.getInstance();
+            tomorrow.setTime(now);
+            tomorrow.add(Calendar.DATE, 1);
+            tomorrow.getTime();
+
+            Date paymentDate = new Date(tomorrow.getTime().getTime());
+            paymentGroup.setPaymentDate(paymentDate);
         }
     }
 
@@ -629,13 +637,17 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     }
 
     /**
-     * Helper method for subsituting message parameters and adding the message to the warning list.
+     * Helper method for substituting message parameters and adding the message to the warning list.
      *
      * @param warnings <code>List</code> of messages to add to
      * @param messageKey resource key for message
      * @param arguments message substitute parameters
      */
     protected void addWarningMessage(List<String> warnings, String messageKey, String... arguments) {
+        // Add to global warnings so they will show up on the Payment File Batch Upload screen if
+        // the payment file was loaded via that screen
+        GlobalVariables.getMessageMap().putWarning(KFSConstants.GLOBAL_MESSAGES, messageKey, arguments);
+
         String message = kualiConfigurationService.getPropertyValueAsString(messageKey);
         warnings.add(MessageFormat.format(message, (Object[]) arguments));
     }

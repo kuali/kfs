@@ -25,9 +25,9 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -63,6 +63,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -524,11 +525,14 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             // in the context of kfs user because that is where it is in the route path.
             UserSession originalUserSession = GlobalVariables.getUserSession();
             GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
+            // JHK : You need to load the Workflow Document in the context of the "kfs" user so that user account is passed to the workflow engine on the call below
+//            Document docLoadedAsKfs = documentService.getByDocumentHeaderId(document.getDocumentNumber());
+//            KewApiServiceLocator.get
+            WorkflowDocument workflowDocument = KRADServiceLocatorWeb.getWorkflowDocumentService().loadWorkflowDocument(document.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
+            document.getDocumentHeader().setWorkflowDocument(workflowDocument);
+            documentService.superUserDisapproveDocumentWithoutSaving(document, noteText);
 
-            DocumentActionParameters parameters = DocumentActionParameters.create(document.getDocumentNumber(), GlobalVariables.getUserSession().getPrincipalId(), noteText);
-            KewApiServiceLocator.getWorkflowDocumentActionsService().superUserDisapprove(parameters, false);
-
-            //restore the original user session 
+            //restore the original user session
             GlobalVariables.setUserSession(originalUserSession);
         }
         else if (document instanceof PaymentRequestDocument && PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW.equals(document.getApplicationDocumentStatus()) && ((PaymentRequestDocument)document).isPaymentRequestedCancelIndicator()) {

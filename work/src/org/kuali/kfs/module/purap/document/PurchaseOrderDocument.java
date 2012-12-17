@@ -36,15 +36,15 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.QuoteTypeDescriptions;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
@@ -1481,9 +1481,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
 
         KualiDecimal accountTotalGLEntryAmount = KualiDecimal.ZERO;
 
-        //KFSMI-9842: if the entry's financial document type is POA then generate GLPEs only
+        //KFSMI-9842: if the entry's financial document type is POA (or POC or POR - KFSMI-9879) then generate GLPEs only
         //for the updated amount or new items, not for the entire items' accounts.
-        if (PurapDocTypeCodes.PO_AMENDMENT_DOCUMENT.equals(explicitEntry.getFinancialDocumentTypeCode())) {
+        if (PurapDocTypeCodes.PO_AMENDMENT_DOCUMENT.equals(explicitEntry.getFinancialDocumentTypeCode()) ||
+                PurapDocTypeCodes.PO_CLOSE_DOCUMENT.equals(explicitEntry.getFinancialDocumentTypeCode()) ||
+                PurapDocTypeCodes.PO_REOPEN_DOCUMENT.equals(explicitEntry.getFinancialDocumentTypeCode())) {
             accountTotalGLEntryAmount = explicitEntry.getTransactionLedgerEntryAmount();
         }
         else {

@@ -29,7 +29,7 @@
 	</br>
 	
 	<table width="100%" border="0"><tr><td>	
-	  <kul:errors keyMatch="*" errorTitle="Errors Found In File:"/>
+	  <kul:errors keyMatch="*" errorTitle="Errors Found In File:" warningTitle="Warnings Found In File:"/>
 	</td></tr></table>  
 	</br>
 		

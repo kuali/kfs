@@ -24,9 +24,14 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.AccountGlobal;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
+import org.kuali.kfs.integration.UnimplementedKfsModuleServiceImpl;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 
 @ConfigureContext(session = khuntley)
 public class AccountGlobalRuleTest extends ChartRuleTestBase {
@@ -183,8 +188,17 @@ public class AccountGlobalRuleTest extends ChartRuleTestBase {
         // run the test
         boolean result = rule.processCustomRouteDocumentBusinessRules(maintDoc);
 
-        assertEquals("Rule should return true.", true, result);
-        assertGlobalMessageMapEmpty();
+        // if neither C&G nor KFS/KC integration are enabled, test should fail otherwise it should pass
+        ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCfda.class);
+        if ( moduleService instanceof UnimplementedKfsModuleServiceImpl ) {
+            assertEquals("Rule should return false with invalid CFDA number.", false, result);
+            assertGlobalMessageMapSize(1);
+            assertFieldErrorExists("accountCfdaNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_CFDA_NUMBER_INVALID);
+        } else {
+            assertEquals("Rule should return true.", true, result);
+            assertGlobalMessageMapEmpty();
+        }
+
     }
 
     public void testCustomRouteDocumentBusinessRules_Cfda_KnownBad() {

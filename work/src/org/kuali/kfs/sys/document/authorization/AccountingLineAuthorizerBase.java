@@ -40,6 +40,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -327,14 +328,20 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      */
     protected Map<String,String> getPermissionDetails(Document document, String fieldName) {
         Map<String,String> permissionDetails = new HashMap<String,String>();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if (StringUtils.isNotBlank(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName())) {
-            permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
+        if (StringUtils.isNotBlank(workflowDocument.getDocumentTypeName())) {
+            permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, workflowDocument.getDocumentTypeName());
         }
 
-        String routeNode = document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().iterator().next();
-        if (StringUtils.isNotBlank(routeNode)) {
-            permissionDetails.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME, routeNode);
+        if ( workflowDocument.isEnroute() && !workflowDocument.isApproved() ) {
+            String routeNode = workflowDocument.getCurrentNodeNames().iterator().next();
+            if (StringUtils.isNotBlank(routeNode)) {
+                permissionDetails.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME, routeNode);
+            }
+        } else {
+            // document has not been routed yet - use the "PreRoute" note
+            permissionDetails.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME, DocumentAuthorizerBase.PRE_ROUTING_ROUTE_NAME);
         }
 
         if (StringUtils.isNotBlank(fieldName)) {

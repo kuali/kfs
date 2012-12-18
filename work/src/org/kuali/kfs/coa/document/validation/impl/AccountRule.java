@@ -380,10 +380,10 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         // check FringeBenefit account rules
         success &= checkFringeBenefitAccountRule(newAccount);
 
-        // When closing an account skip the edits to see if fiscal officer, manager and supervisor are allowed in that role.
-        // There are cases where the people in these roles have left the university but showing that they did serve in those roles
-        // at the time the account was active is desired.
-        if (!newAccount.isClosed() || oldAccount.isClosed()) {
+        // When closing an account (or editing a closed account) skip the edits to see if fiscal officer, manager and supervisor are allowed in that role.
+        // There are cases where the people in these roles have left the university but showing that they did serve in those roles at the time the account
+        // was active is desired.
+        if (!newAccount.isClosed() && !oldAccount.isClosed()) {
             if (ObjectUtils.isNotNull(fiscalOfficer) && fiscalOfficer.getPrincipalId() != null && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name, fiscalOfficer.getPrincipalId())) {
                 super.putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {fiscalOfficer.getName(), KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name});
                 success = false;

@@ -180,17 +180,19 @@
         2
       </routingVersion>
     </documentType>
-     <documentType>
-      <name>YEARENDDEPR</name>
-      <label>Year End Depreciation Assets</label>
-      <parent>CMSM</parent>
+    <documentType>
+		<name>YDPA</name>
+		<label>Year End Depreciation Assets</label>
+		<parent>CMSM</parent>
+		<active>true</active>
+		<routingVersion>2</routingVersion>
     </documentType>
-		<documentType>
-			<name>APDT</name>
-			<parent>CMSM</parent>
-			<label>Asset Payment Document Type</label>
-			<active>true</active>
-			<routingVersion>2</routingVersion>
-		</documentType>
+	<documentType>
+		<name>APDT</name>
+		<parent>CMSM</parent>
+		<label>Asset Payment Document Type</label>
+		<active>true</active>
+		<routingVersion>2</routingVersion>
+	</documentType>
   </documentTypes>
 </data>

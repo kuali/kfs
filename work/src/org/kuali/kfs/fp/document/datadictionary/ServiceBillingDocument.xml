@@ -134,6 +134,7 @@
 								</list>
 							</property>
 						</bean>
+						<ref bean="salesTaxInformation" />
 					</list>
 				</property>
 			</bean>

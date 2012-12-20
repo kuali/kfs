@@ -49,10 +49,12 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -972,6 +974,22 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         Date newExpDate = newAccount.getAccountExpirationDate();
         Date today = new Date(getDateTimeService().getCurrentDate().getTime());
         today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime()); // remove any time components
+
+        // if the date was valid upon submission, and this is an approval,
+        // we're not interested unless the approver changed the value
+        if (maintDoc.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
+            try {
+                MaintenanceDocument oldMaintDoc = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(maintDoc.getDocumentNumber());
+                Account oldAccount = (Account)oldMaintDoc.getDocumentBusinessObject();
+
+                if (ObjectUtils.isNotNull(oldAccount.getAccountExpirationDate()) && oldAccount.getAccountExpirationDate().equals(newExpDate)) {
+                    return false;
+                }
+            }
+            catch (WorkflowException ex) {
+                LOG.warn( "Error retrieving maintenance doc for doc #" + maintDoc.getDocumentNumber()+ ". This shouldn't happen.", ex );
+            }
+        }
 
         // When updating an account expiration date, the date must be today or later
         // Only run this test if this maintenance doc

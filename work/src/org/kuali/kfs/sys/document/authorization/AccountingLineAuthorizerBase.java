@@ -409,12 +409,23 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return the corrected name
      */
     protected String replaceCollectionElementsWithPlurals(String name) {
-        String temp = name.replaceAll("\\[\\d+\\]", "s");
-        // now - need to check if the property name ends with a double "s", which is incorrect
-        if ( temp.endsWith( "ss" ) ) {
-            temp = StringUtils.chop(temp);
+        //KFSMI-9923 - modified to replace collection elements in each part of the name otherwise prefixes could end up
+        //with the unwanted double "s" (ex: targetAccountingLiness.financialObjectCode)
+        String newName = "";
+        String[] names = name.split("\\.");
+        for (int i = 0;i < names.length;i++) {
+            String temp = names[i].replaceAll("\\[\\d+\\]", "s");
+            // now - need to check if the property name ends with a double "s", which is incorrect
+            if ( temp.endsWith( "ss" ) ) {
+                temp = StringUtils.chop(temp);
+            }
+            if (i > 0) {
+                newName += "." + temp;
+            } else {
+                newName = temp;
+            }
         }
-        return temp;
+        return newName;
     }
 
     /**

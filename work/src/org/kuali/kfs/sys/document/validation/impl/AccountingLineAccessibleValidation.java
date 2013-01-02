@@ -82,8 +82,18 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
         final boolean lineIsAccessible = accountingLineAuthorizer.hasEditPermissionOnAccountingLine(accountingDocumentForValidation, accountingLineForValidation, getAccountingLineCollectionProperty(), currentUser, true);
         final boolean isAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocumentForValidation, accountingLineForValidation, getAccountingLineCollectionProperty(), KFSPropertyConstants.ACCOUNT_NUMBER, lineIsAccessible, true, currentUser);
 
-        // report errors
         if (!isAccessible) {
+            // if only object code changed and the user has edit permissions on object code, that's ok
+            if (event instanceof UpdateAccountingLineEvent) {
+                final boolean isObjectCodeAccessible = accountingLineAuthorizer.hasEditPermissionOnField(accountingDocumentForValidation, accountingLineForValidation, getAccountingLineCollectionProperty(), KFSPropertyConstants.FINANCIAL_OBJECT_CODE, lineIsAccessible, true, currentUser);
+                final boolean onlyObjectCodeChanged = onlyObjectCodeChanged(((UpdateAccountingLineEvent) event).getAccountingLine(), ((UpdateAccountingLineEvent) event).getUpdatedAccountingLine());
+
+                if (isObjectCodeAccessible && onlyObjectCodeChanged) {
+                    return true;
+                }
+            }
+
+            // report errors
             final String principalName = currentUser.getPrincipalName();
 
             final String[] accountErrorParams = new String[] { getDataDictionaryService().getAttributeLabel(accountingLineForValidation.getClass(), KFSPropertyConstants.ACCOUNT_NUMBER), accountingLineForValidation.getChartOfAccountsCode()+"-"+accountingLineForValidation.getAccountNumber(), principalName };
@@ -91,6 +101,26 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
         }
 
         return isAccessible;
+    }
+
+    /**
+     * Checks to see if the object code is the only difference between the original accounting line and the updated accounting line.
+     *
+     * @param accountingLine
+     * @param updatedAccountingLine
+     * @return true if only the object code has changed on the accounting line, false otherwise
+     */
+    private boolean onlyObjectCodeChanged(AccountingLine accountingLine, AccountingLine updatedAccountingLine) {
+        // no changes, return false
+        if (accountingLine.isLike(updatedAccountingLine)) {
+            return false;
+        }
+
+        // set the object code on the updated accounting line to be the original value
+        updatedAccountingLine.setFinancialObjectCode(accountingLine.getFinancialObjectCode());
+
+        // if they're the same, the only change was the object code
+        return (accountingLine.isLike(updatedAccountingLine));
     }
 
     /**

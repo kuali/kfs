@@ -473,6 +473,9 @@
 	    <property name="paymentFileService">
 	       <ref bean="paymentFileService"/>
 	    </property>
+	    <property name="paymentFileEmailService">
+	       <ref bean="pdpEmailService"/>
+	    </property>
 	</bean>
     <bean id="pdpPaymentGroupService" parent="pdpPaymentGroupService-parentBean"/>
 

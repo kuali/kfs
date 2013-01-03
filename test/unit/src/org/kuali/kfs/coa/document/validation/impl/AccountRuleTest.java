@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -433,7 +433,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setClosed(false);
         Person user = getKualiUserByUserName(Accounts.UserIds.GOOD1);
         boolean result = rule.isNonSystemSupervisorEditingAClosedAccount(maintDoc, user);
-        
+
         assertEquals("Account is not closed, and is not being reopened.", false, result);
     }
 
@@ -454,7 +454,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setClosed(false);
         Person user = getKualiUserByUserName(Accounts.UserIds.GOOD1);
         boolean result = rule.isNonSystemSupervisorEditingAClosedAccount(maintDoc, user);
-        
+
         assertEquals("Account is being reopened by a non-System-Supervisor.", false, result);
     }
 
@@ -475,7 +475,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setClosed(false);
         Person user = getKualiUserByUserName(Accounts.UserIds.SUPER1);
         boolean result = rule.isNonSystemSupervisorEditingAClosedAccount(maintDoc, user);
-        
+
         assertEquals("Account is being reopened by a System-Supervisor.", false, result);
     }
 
@@ -487,7 +487,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountRestrictedStatusCode(null);
         newAccount.setAccountRestrictedStatusDate(null);
         boolean result = rule.hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate(newAccount);
-        
+
         assertEquals("No error should be thrown if code is blank.", false, result);
 
     }
@@ -827,7 +827,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setContinuationAccountNumber(Accounts.AccountNumber.GOOD1);
         result = rule.checkCloseAccount(maintDoc);
         assertEquals("Null continuation coa code should fail with one error.", false, result);
-        assertFieldErrorExists("continuationFinChrtOfAcctCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
+        assertFieldErrorExists("continuationFinChrtOfAcctCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_CHART_CODE_REQD);
         assertGlobalMessageMapSize(1);
 
     }
@@ -946,14 +946,14 @@ public class AccountRuleTest extends ChartRuleTestBase {
         // run the rule
         rule.setActiveIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
         result = rule.checkCgRequiredFields(newAccount);
-        
+
         assertGlobalMessageMapEmpty();
         assertEquals("Rule should return true with no missing fields.", true, result);
     }
-    
+
     /**
      * Set IndirectCostRecovery Account
-     * 
+     *
      * @param newAccount
      */
     private void addIndirectCostRecoveryAccount(Account newAccount) {
@@ -962,7 +962,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         icr.setIndirectCostRecoveryFinCoaCode(Accounts.ChartCode.GOOD1);
         newAccount.getIndirectCostRecoveryAccounts().add(icr);
     }
-    
+
     /**
      * @RelatesTo KULRNE-4662 This test makes sure that if the account has a non-CG subfund group, no fields are allowed to be
      *            filled in. (The contrary test--that if we have an account with a CG fund group, all fields are now required--
@@ -995,9 +995,9 @@ public class AccountRuleTest extends ChartRuleTestBase {
         // run the rule
         rule.setActiveIndirectCostRecoveryAccountList(newAccount.getIndirectCostRecoveryAccounts());
         result = rule.checkCgRequiredFields(newAccount);
-        
+
         System.out.println(GlobalVariables.getMessageMap());
-        
+
         assertFieldErrorExists("acctIndirectCostRcvyTypeCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
         assertFieldErrorExists("financialIcrSeriesIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
         assertFieldErrorExists(KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNTS, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_ICR_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
@@ -1244,7 +1244,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
     @SuppressWarnings("deprecation")
     public void testCheckUniqueAccountNumber_AccountsCanCrossCharts() {
         TestUtils.setSystemParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND, "Y");
-        
+
         MaintenanceDocument maintDoc = newMaintDoc(newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
@@ -1252,15 +1252,18 @@ public class AccountRuleTest extends ChartRuleTestBase {
         // find an existing account
         Iterator accountList = SpringContext.getBean(AccountService.class).getAllAccounts();
         Account account = accountList.hasNext() ? (Account)accountList.next() : null;
-        if (account == null) return; // shouldn't happen: there shall always be some accounts in the system
-        
-        // set new COA code different from the existing account        
-        String chartCode = account.getChartOfAccountsCode().equals("BL") ? "BA" : "BL";               
+        if (account == null)
+         {
+            return; // shouldn't happen: there shall always be some accounts in the system
+        }
+
+        // set new COA code different from the existing account
+        String chartCode = account.getChartOfAccountsCode().equals("BL") ? "BA" : "BL";
         newAccount.setChartOfAccountsCode(chartCode);
-        
-        // set new account number same as the existing account        
-        String accountNumber = account.getAccountNumber();               
-        newAccount.setAccountNumber(accountNumber);        
+
+        // set new account number same as the existing account
+        String accountNumber = account.getAccountNumber();
+        newAccount.setAccountNumber(accountNumber);
 
         // run the rule
         result = rule.checkUniqueAccountNumber(maintDoc);
@@ -1272,7 +1275,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
     @SuppressWarnings("deprecation")
     public void testCheckUniqueAccountNumber_AccountsCantCrossCharts() {
         TestUtils.setSystemParameter(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, SystemGroupParameterNames.ACCOUNTS_CAN_CROSS_CHARTS_IND, "N");
-        
+
         MaintenanceDocument maintDoc = newMaintDoc(newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         boolean result;
@@ -1280,16 +1283,19 @@ public class AccountRuleTest extends ChartRuleTestBase {
         // find an existing account
         Iterator accountList = SpringContext.getBean(AccountService.class).getAllAccounts();
         Account account = accountList.hasNext() ? (Account)accountList.next() : null;
-        if (account == null) return; // shouldn't happen: there shall always be some accounts in the system
-        
-        // set new COA code different from the existing account        
-        String chartCode = account.getChartOfAccountsCode().equals("BL") ? "BA" : "BL";               
+        if (account == null)
+         {
+            return; // shouldn't happen: there shall always be some accounts in the system
+        }
+
+        // set new COA code different from the existing account
+        String chartCode = account.getChartOfAccountsCode().equals("BL") ? "BA" : "BL";
         newAccount.setChartOfAccountsCode(chartCode);
-        
-        // set new account number same as the existing account        
-        String accountNumber = account.getAccountNumber();               
-        newAccount.setAccountNumber(accountNumber);  
-        
+
+        // set new account number same as the existing account
+        String accountNumber = account.getAccountNumber();
+        newAccount.setAccountNumber(accountNumber);
+
         // run the rule
         result = rule.checkUniqueAccountNumber(maintDoc);
         assertEquals("Accounts shouldn't be allowed to cross charts with current settings", false, result);
@@ -1479,7 +1485,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountGuideline(new AccountGuideline());
         newAccount.getAccountGuideline().setAccountPurposeText("01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789\r" + "01324567890123456789012345678901324567890132456789012345678901234567890132456789");
         assertTrue("Purpose text should be more than 400 characters.  (was: " + newAccount.getAccountGuideline().getAccountPurposeText().length() + ")", newAccount.getAccountGuideline().getAccountPurposeText().length() > 400);
-        
+
         // setup new subfund
         SubFundGroup subFundGroup = new SubFundGroup();
         subFundGroup.setFundGroupCode(Accounts.SubFund.Code.GF1);
@@ -1488,7 +1494,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         // set subfund group to null
         newAccount.setSubFundGroupCode(Accounts.SubFund.Code.GF1);
         newAccount.setSubFundGroup(subFundGroup);
-        
+
         MaintenanceDocument maintDoc = newMaintDoc(oldAccount, newAccount);
         AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
         rule.processCustomRouteDocumentBusinessRules(maintDoc);

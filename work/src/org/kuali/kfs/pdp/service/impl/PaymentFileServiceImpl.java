@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -79,6 +79,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
     /**
      * @see org.kuali.kfs.pdp.service.PaymentFileService#processPaymentFiles(org.kuali.kfs.sys.batch.BatchInputFileType)
      */
+    @Override
     public void processPaymentFiles(BatchInputFileType paymentInputFileType) {
         List<String> fileNamesToLoad = batchInputFileService.listInputFileNamesWithDoneFile(paymentInputFileType);
 
@@ -101,7 +102,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
                     createOutputFile(status, incomingFileName);
                 }else{
                     //if we encounter an error for the payment file, we will remove the .done file so it will not be parse again
-                    
+
                     LOG.warn("Encounter a problem while processing payment file: " + incomingFileName + " .  Removing the done file to stop re-process.");
                     removeDoneFile(incomingFileName);
                 }
@@ -115,7 +116,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
     /**
      * Attempt to parse the file, run validations, and store batch data
-     * 
+     *
      * @param paymentInputFileType <code>BatchInputFileType</code> for payment files
      * @param incomingFileName name of payment file
      * @param errorMap <code>Map</code> of errors
@@ -137,6 +138,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
      * @see org.kuali.kfs.pdp.service.PaymentFileService#doPaymentFileValidation(org.kuali.kfs.pdp.businessobject.PaymentFileLoad,
      *      org.kuali.rice.krad.util.MessageMap)
      */
+    @Override
     public void doPaymentFileValidation(PaymentFileLoad paymentFile, MessageMap errorMap) {
         paymentFileValidationService.doHardEdits(paymentFile, errorMap);
 
@@ -150,6 +152,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
     /**
      * @see org.kuali.kfs.pdp.service.PaymentFileService#loadPayments(java.lang.String)
      */
+    @Override
     public void loadPayments(PaymentFileLoad paymentFile, LoadPaymentStatus status, String incomingFileName) {
         status.setChart(paymentFile.getChart());
         status.setUnit(paymentFile.getUnit());
@@ -188,7 +191,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
     /**
      * Calls <code>BatchInputFileService</code> to validate XML against schema and parse.
-     * 
+     *
      * @param paymentInputFileType <code>BatchInputFileType</code> for payment files
      * @param incomingFileName name of the payment file to parse
      * @param errorMap any errors encountered while parsing are adding to
@@ -218,9 +221,6 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
             LOG.error("Error parsing xml " + e1.getMessage());
 
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML, new String[] { e1.getMessage() });
-
-            // Send error email
-            paymentFileEmailService.sendErrorEmail(paymentFile, errorMap);
         }
 
         return paymentFile;
@@ -230,11 +230,12 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
      * @see org.kuali.kfs.pdp.service.PaymentFileService#createOutputFile(org.kuali.kfs.pdp.businessobject.LoadPaymentStatus,
      *      java.lang.String)
      */
+    @Override
     public boolean createOutputFile(LoadPaymentStatus status, String inputFileName) {
-        
+
         //add a step to check for directory paths
         prepareDirectories(getRequiredDirectoryNames());
-        
+
         // construct the outgoing file name
         String filename = outgoingDirectoryName + "/" + getBaseFileName(inputFileName);
 
@@ -296,7 +297,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
     /**
      * Create a new <code>Batch</code> record for the payment file.
-     * 
+     *
      * @param paymentFile parsed payment file object
      * @param fileName payment file name (without path)
      * @return <code>Batch<code> object
@@ -351,7 +352,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
     /**
      * Clears out the associated .done file for the processed data file
-     * 
+     *
      * @param dataFileName the name of date file with done file to remove
      */
     protected void removeDoneFile(String dataFileName) {
@@ -363,7 +364,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
     /**
      * Sets the outgoingDirectoryName attribute value.
-     * 
+     *
      * @param outgoingDirectoryName The outgoingDirectoryName to set.
      */
     public void setOutgoingDirectoryName(String outgoingDirectoryName) {
@@ -372,7 +373,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -381,7 +382,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
     /**
      * Sets the customerProfileService attribute value.
-     * 
+     *
      * @param customerProfileService The customerProfileService to set.
      */
     public void setCustomerProfileService(CustomerProfileService customerProfileService) {
@@ -390,7 +391,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
     /**
      * Sets the batchInputFileService attribute value.
-     * 
+     *
      * @param batchInputFileService The batchInputFileService to set.
      */
     public void setBatchInputFileService(BatchInputFileService batchInputFileService) {
@@ -399,7 +400,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
     /**
      * Sets the paymentFileValidationService attribute value.
-     * 
+     *
      * @param paymentFileValidationService The paymentFileValidationService to set.
      */
     public void setPaymentFileValidationService(PaymentFileValidationService paymentFileValidationService) {
@@ -408,7 +409,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -417,7 +418,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -426,7 +427,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
     /**
      * Sets the paymentFileEmailService attribute value.
-     * 
+     *
      * @param paymentFileEmailService The paymentFileEmailService to set.
      */
     public void setPaymentFileEmailService(PdpEmailService paymentFileEmailService) {
@@ -435,7 +436,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
     /**
      * Sets the kualiConfigurationService attribute value.
-     * 
+     *
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setConfigurationService(ConfigurationService kualiConfigurationService) {

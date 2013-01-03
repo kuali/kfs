@@ -36,7 +36,6 @@ import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.service.BalanceService;
 import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
-import org.kuali.kfs.integration.ld.LaborBenefitRateCategory;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -50,10 +49,12 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -381,17 +382,22 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         // check FringeBenefit account rules
         success &= checkFringeBenefitAccountRule(newAccount);
 
-        if (ObjectUtils.isNotNull(fiscalOfficer) && fiscalOfficer.getPrincipalId() != null && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name, fiscalOfficer.getPrincipalId())) {
-            super.putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {fiscalOfficer.getName(), KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name});
-            success = false;
-        }
-        if (ObjectUtils.isNotNull(accountSupervisor) && accountSupervisor.getPrincipalId() != null && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.name, accountSupervisor.getPrincipalId())) {
-            super.putFieldError("accountSupervisoryUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountSupervisor.getName(), KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.name});
-            success = false;
-        }
-        if (ObjectUtils.isNotNull(accountManager) && accountManager.getPrincipalId() != null && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.name, accountManager.getPrincipalId())) {
-            super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountManager.getName(), KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.namespace,KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.name});
-            success = false;
+        // When closing an account (or editing a closed account) skip the edits to see if fiscal officer, manager and supervisor are allowed in that role.
+        // There are cases where the people in these roles have left the university but showing that they did serve in those roles at the time the account
+        // was active is desired.
+        if (!newAccount.isClosed() && !oldAccount.isClosed()) {
+            if (ObjectUtils.isNotNull(fiscalOfficer) && fiscalOfficer.getPrincipalId() != null && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name, fiscalOfficer.getPrincipalId())) {
+                super.putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {fiscalOfficer.getName(), KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name});
+                success = false;
+            }
+            if (ObjectUtils.isNotNull(accountSupervisor) && accountSupervisor.getPrincipalId() != null && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.name, accountSupervisor.getPrincipalId())) {
+                super.putFieldError("accountSupervisoryUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountSupervisor.getName(), KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.name});
+                success = false;
+            }
+            if (ObjectUtils.isNotNull(accountManager) && accountManager.getPrincipalId() != null && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.name, accountManager.getPrincipalId())) {
+                super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountManager.getName(), KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.namespace,KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.name});
+                success = false;
+            }
         }
 
         // the supervisor cannot be the same as the fiscal officer or account manager.
@@ -418,7 +424,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
                 }
             }
         }
-        
+
         success &= isLaborBenefitRateCategoryCodeValid();
         return success;
     }
@@ -433,7 +439,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
             //if sysParam == Y then Labor Benefit Rate Category Code must be filled in
             if (sysParam.equalsIgnoreCase("Y")) {
                 //check to see if the labor benefit category code is empty
-               
+
                 if (ObjectUtils.isNull(newAccount.getLaborBenefitRateCategoryCode())) {
                     putFieldError("laborBenefitRateCategoryCode", KFSKeyConstants.ERROR_EMPTY_LABOR_BENEFIT_CATEGORY_CODE);
                     success &= false;
@@ -443,14 +449,14 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
                     if (newAccount.getLaborBenefitRateCategory() == null) {
                         putFieldError("laborBenefitRateCategoryCode", KFSKeyConstants.ERROR_LABOR_BENEFIT_CATEGORY_CODE);
                         success &= false;
-                    }   
+                    }
                 }
             }
         }
         return success;
     }
-    
-    
+
+
     /**
      * This method tests whether the account and continuation account are same.
      *
@@ -903,7 +909,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         // is an edit doc
 
         if (isUpdatedExpirationDateInvalid(maintenanceDocument)) {
-            Account newAccount = (Account) maintenanceDocument.getNewMaintainableObject().getBusinessObject();            
+            Account newAccount = (Account) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
             if(newAccount.isClosed()){
                 /*If the Account is being closed and the date is before today's date, the EXP date can only be today*/
                 putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
@@ -964,6 +970,22 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         Date newExpDate = newAccount.getAccountExpirationDate();
         Date today = new Date(getDateTimeService().getCurrentDate().getTime());
         today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime()); // remove any time components
+
+        // if the date was valid upon submission, and this is an approval,
+        // we're not interested unless the approver changed the value
+        if (maintDoc.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
+            try {
+                MaintenanceDocument oldMaintDoc = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(maintDoc.getDocumentNumber());
+                Account oldAccount = (Account)oldMaintDoc.getDocumentBusinessObject();
+
+                if (ObjectUtils.isNotNull(oldAccount.getAccountExpirationDate()) && oldAccount.getAccountExpirationDate().equals(newExpDate)) {
+                    return false;
+                }
+            }
+            catch (WorkflowException ex) {
+                LOG.warn( "Error retrieving maintenance doc for doc #" + maintDoc.getDocumentNumber()+ ". This shouldn't happen.", ex );
+            }
+        }
 
         // When updating an account expiration date, the date must be today or later
         // Only run this test if this maintenance doc

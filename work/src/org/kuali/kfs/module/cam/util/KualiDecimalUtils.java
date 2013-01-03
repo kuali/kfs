@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,7 +39,7 @@ public class KualiDecimalUtils {
 
     /**
      * Constructs a KualiDecimalService.
-     * 
+     *
      * @param amount
      * @param currency
      */
@@ -50,7 +50,7 @@ public class KualiDecimalUtils {
 
     /**
      * Gets the default number of fraction digits used with the given currency.
-     * 
+     *
      * @return int
      */
     private int centFactor() {
@@ -59,7 +59,7 @@ public class KualiDecimalUtils {
 
     /**
      * Sets a new amount.
-     * 
+     *
      * @param amount
      * @return KualiDecimalService
      */
@@ -71,7 +71,7 @@ public class KualiDecimalUtils {
 
     /**
      * Allocate a sum of money amongst many targets by quantity.
-     * 
+     *
      * @param divisor
      * @return KualiDecimal[]
      */
@@ -80,7 +80,7 @@ public class KualiDecimalUtils {
         KualiDecimalUtils lowAmount = setNewAmount(totalAmount / divisor);
         KualiDecimalUtils highAmount = setNewAmount(lowAmount.totalAmount + 1);
 
-        int remainder = (int) totalAmount % divisor;
+        int remainder = (int) Math.abs(totalAmount % divisor);
 
         // allocate amounts into array
         KualiDecimal[] amountsArray = new KualiDecimal[divisor];
@@ -104,7 +104,7 @@ public class KualiDecimalUtils {
 
     /**
      * Allocate a sum of money amongst many targets by ratio.
-     * 
+     *
      * @param divisor
      * @return KualiDecimal[]
      */
@@ -135,7 +135,7 @@ public class KualiDecimalUtils {
     /**
      * Makes sure no null pointer exception occurs on fields that can accurately be null when multiplying. If either field are null
      * the value is returned.
-     * 
+     *
      * @param value
      * @param multiplier
      * @return
@@ -152,7 +152,7 @@ public class KualiDecimalUtils {
     /**
      * Makes sure no null pointer exception occurs on fields that can accurately be null when subtracting. If either field are null
      * the value is returned.
-     * 
+     *
      * @param value
      * @param subtrahend
      * @return

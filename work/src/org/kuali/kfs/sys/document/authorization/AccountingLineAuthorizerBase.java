@@ -40,6 +40,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -327,14 +328,20 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      */
     protected Map<String,String> getPermissionDetails(Document document, String fieldName) {
         Map<String,String> permissionDetails = new HashMap<String,String>();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if (StringUtils.isNotBlank(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName())) {
-            permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
+        if (StringUtils.isNotBlank(workflowDocument.getDocumentTypeName())) {
+            permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, workflowDocument.getDocumentTypeName());
         }
 
-        String routeNode = document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().iterator().next();
-        if (StringUtils.isNotBlank(routeNode)) {
-            permissionDetails.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME, routeNode);
+        if ( workflowDocument.isEnroute() && !workflowDocument.isApproved() ) {
+            String routeNode = workflowDocument.getCurrentNodeNames().iterator().next();
+            if (StringUtils.isNotBlank(routeNode)) {
+                permissionDetails.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME, routeNode);
+            }
+        } else {
+            // document has not been routed yet - use the "PreRoute" note
+            permissionDetails.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME, DocumentAuthorizerBase.PRE_ROUTING_ROUTE_NAME);
         }
 
         if (StringUtils.isNotBlank(fieldName)) {
@@ -402,12 +409,23 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return the corrected name
      */
     protected String replaceCollectionElementsWithPlurals(String name) {
-        String temp = name.replaceAll("\\[\\d+\\]", "s");
-        // now - need to check if the property name ends with a double "s", which is incorrect
-        if ( temp.endsWith( "ss" ) ) {
-            temp = StringUtils.chop(temp);
+        //KFSMI-9923 - modified to replace collection elements in each part of the name otherwise prefixes could end up
+        //with the unwanted double "s" (ex: targetAccountingLiness.financialObjectCode)
+        String newName = "";
+        String[] names = name.split("\\.");
+        for (int i = 0;i < names.length;i++) {
+            String temp = names[i].replaceAll("\\[\\d+\\]", "s");
+            // now - need to check if the property name ends with a double "s", which is incorrect
+            if ( temp.endsWith( "ss" ) ) {
+                temp = StringUtils.chop(temp);
+            }
+            if (i > 0) {
+                newName += "." + temp;
+            } else {
+                newName = temp;
+            }
         }
-        return temp;
+        return newName;
     }
 
     /**

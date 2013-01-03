@@ -49,7 +49,7 @@
                 <value>universityFiscalYear</value>
             </list>
         </property>
-        <property name="documentTypeName" value="YEARENDDEPR"/>
+        <property name="documentTypeName" value="YDPA"/>
         <property name="businessRulesClass" value="org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase"/>
         <!--<property name="businessRulesClass"-->
                   <!--value="org.kuali.kfs.module.cam.document.validation.impl.AssetYearEndDepreciationRule"/>-->

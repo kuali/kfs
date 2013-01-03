@@ -36,11 +36,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -434,10 +436,29 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
         // If creating a new account if acct_expiration_dt is set then
         // the acct_expiration_dt must be changed to a date that is today or later
+        // unless the date was valid upon submission, this is an approval action
+        // and the approver hasn't changed the value
         if (maintenanceDocument.isNew() && ObjectUtils.isNotNull(newExpDate)) {
-            if (!newExpDate.after(today) && !newExpDate.equals(today)) {
-                putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
-                success &= false;
+            Date oldExpDate = null;
+
+            if (maintenanceDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
+                try {
+                    MaintenanceDocument oldMaintDoc = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(maintenanceDocument.getDocumentNumber());
+                    AccountGlobal oldAccountGlobal = (AccountGlobal)oldMaintDoc.getDocumentBusinessObject();
+                    if (ObjectUtils.isNotNull(oldAccountGlobal)) {
+                        oldExpDate = oldAccountGlobal.getAccountExpirationDate();
+                    }
+                }
+                catch (WorkflowException ex) {
+                    LOG.warn( "Error retrieving maintenance doc for doc #" + maintenanceDocument.getDocumentNumber()+ ". This shouldn't happen.", ex );
+                }
+            }
+
+            if (ObjectUtils.isNull(oldExpDate) || !oldExpDate.equals(newExpDate)) {
+                if (!newExpDate.after(today) && !newExpDate.equals(today)) {
+                    putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
+                    success &= false;
+                }
             }
         }
 
@@ -462,6 +483,23 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         boolean success = true;
         Date newExpDate = newAccountGlobal.getAccountExpirationDate();
 
+        Date prevExpDate = null;
+
+        // get previous expiration date for possible check later
+        if (maintenanceDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
+            try {
+                MaintenanceDocument oldMaintDoc = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(maintenanceDocument.getDocumentNumber());
+                AccountGlobal oldAccountGlobal = (AccountGlobal)oldMaintDoc.getDocumentBusinessObject();
+                if (ObjectUtils.isNotNull(oldAccountGlobal)) {
+                    prevExpDate = oldAccountGlobal.getAccountExpirationDate();
+                }
+            }
+            catch (WorkflowException ex) {
+                LOG.warn( "Error retrieving maintenance doc for doc #" + maintenanceDocument.getDocumentNumber()+ ". This shouldn't happen.", ex );
+            }
+        }
+
+
         // load the object by keys
         Account account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, detail.getPrimaryKeys());
         if (ObjectUtils.isNotNull(account)) {
@@ -471,22 +509,33 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
             // (except for C&G accounts). Only run this test if this maint doc
             // is an edit doc
             if (isUpdatedExpirationDateInvalid(account, newAccountGlobal)) {
-                putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
-                success &= false;
+                // if the date was valid upon submission, and this is an approval,
+                // we're not interested unless the approver changed the value
+                if (ObjectUtils.isNull(prevExpDate) || !prevExpDate.equals(newExpDate)) {
+                    putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
+                    success &= false;
+                }
             }
 
             // If creating a new account if acct_expiration_dt is set and the fund_group is not "CG" then
             // the acct_expiration_dt must be changed to a date that is today or later
-            if (ObjectUtils.isNotNull(newExpDate) && ObjectUtils.isNull(newAccountGlobal.getSubFundGroup())) {
-                if (ObjectUtils.isNotNull(account.getSubFundGroup())) {
-                    if (!account.isForContractsAndGrants()) {
-                        if (!newExpDate.after(today) && !newExpDate.equals(today)) {
-                            putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
-                            success &= false;
+            // unless the date was valid upon submission, this is an approval action
+            // and the approver hasn't changed the value
+            if (maintenanceDocument.isNew() && ObjectUtils.isNotNull(newExpDate)) {
+                if (ObjectUtils.isNull(prevExpDate) || !prevExpDate.equals(newExpDate)) {
+                    if (ObjectUtils.isNotNull(newExpDate) && ObjectUtils.isNull(newAccountGlobal.getSubFundGroup())) {
+                        if (ObjectUtils.isNotNull(account.getSubFundGroup())) {
+                            if (!account.isForContractsAndGrants()) {
+                                if (!newExpDate.after(today) && !newExpDate.equals(today)) {
+                                    putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
+                                    success &= false;
+                                }
+                            }
                         }
                     }
                 }
             }
+
             // acct_expiration_dt can not be before acct_effect_dt
             Date effectiveDate = account.getAccountEffectiveDate();
             if (ObjectUtils.isNotNull(effectiveDate) && ObjectUtils.isNotNull(newExpDate)) {

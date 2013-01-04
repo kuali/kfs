@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+ 
+	<changeSet author="KFS501" id='KFSMI-10037_REMOVE_FK_CONSTRAINT'>
+		<dropForeignKeyConstraint constraintName="AP_ELCTRNC_INV_RJT_DOC_TR2" baseTableName="AP_ELCTRNC_INV_RJT_DOC_T"/>
+	</changeSet>	
+ 
+</databaseChangeLog>

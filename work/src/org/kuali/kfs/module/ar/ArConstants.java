@@ -31,7 +31,7 @@ public class ArConstants {
     public static final String GLPE_WRITEOFF_GENERATION_METHOD = "GLPE_WRITEOFF_GENERATION_METHOD";
     public static final String ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND = "ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND";
     public static final String MAXIMUM_NUMBER_OF_DAYS_AFTER_CURRENT_DATE_FOR_INVOICE_DUE_DATE = "MAXIMUM_NUMBER_OF_DAYS_AFTER_CURRENT_DATE_FOR_INVOICE_DUE_DATE";
-    public static final String OBJECT_CONSOLIDATIONS = "OBJECT_CONSOLIDATIONS"; 
+    public static final String OBJECT_CONSOLIDATIONS = "OBJECT_CONSOLIDATIONS";
     public static final String OBJECT_LEVELS = "OBJECT_LEVELS";
     public static final String REMIT_TO_ADDRESS_EDITABLE_IND = "REMIT_TO_ADDRESS_EDITABLE_IND";
     public static final String REMIT_TO_NAME_EDITABLE_IND = "REMIT_TO_NAME_EDITABLE_IND";
@@ -165,34 +165,23 @@ public class ArConstants {
     public static final String INCLUDE_ZERO_BALANCE_YES = "Yes";
     public static final String INCLUDE_ZERO_BALANCE_NO = "No";
 
-/*    public static class ArRefunding {
-        public static final String DV_ROUTE_SAVE = "SAVE";
-        public static final String DV_ROUTE_ROUTE = "ROUTE";
-        public static final String DV_ROUTE_BLANKETAPPROVE = "BLANKETAPPROVE";
-    }
-    
-    public static class ArRefundingParameters {
-        public static final String DV_ROUTE_PARAMETER_NAME = "DV_DOCUMENT_ROUTE";
-        public static final String DEFAULT_REFUND_PAYMENT_REASON_CODE_PARAMETER_NAME = "DEFAULT_REFUND_PAYMENT_REASON_CODE";
-    }   
-    */
     public enum ArNotificationSelectionField{
         CHART("CHART"), ORGANIZATION("ORG"), ACCOUNT("ACCOUNT");
-        
+
         public String fieldName;
-        
+
         private ArNotificationSelectionField(String fieldName){
             this.fieldName = fieldName;
-        }       
+        }
     }
-    
+
     public enum ArNotificationOptions{
         PROCESSING_ORG("PROCESSING_ORG"), BILLING_ORG("BILLING_ORG"), ACCOUNT("ACCOUNT");
-        
+
         public String option;
-        
+
         private ArNotificationOptions(String option){
             this.option = option;
-        }       
+        }
     }
 }

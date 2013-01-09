@@ -45,7 +45,6 @@ TEM-10048,KFS-TEM-PERM-048,1,41,KFS-TEM,Modify Accounting Lines TAA Account sour
 TEM-10049,KFS-TEM-PERM-049,1,41,KFS-TEM,Modify Accounting Lines ENT EntertainmentManager sourceAccountingLines,Allows access to Modify the Accounting Lines on a ENT doc,Y
 TEM-10050,KFS-TEM-PERM-050,1,41,KFS-TEM,Modify Accounting Lines RELO MovingAndRelocationManager sourceAccountingLines,Allows access to Modify the Accounting Lines on a RELO doc,Y
 TEM-10051,KFS-TEM-PERM-051,1,10,KFS-AR,Initiate Document CRM,Authorizes the initiation of the Customer Credit Memo Document.,Y
-TEM-11001,KFS-TEM-PERM-101,1,1,KFS-FP,Pay AR Customers,Allows users to select AR customers for payment on the disbursement voucher document.,Y
 TEM-10052,KFS-TEM-PERM-052,1,40,KFS-TEM,Open Document TT,Authorizes users to open TT TEM Transactional Documents.,Y
 TEM-10053,KFS-TEM-PERM-053,1,41,KFS-TEM,Modify Accounting Lines TT PreRoute sourceAccountingLines,Allows access to Modify the Accounting Lines on a TT doc that has not yet been submitted for routing.,Y
 TEM-10054,KFS-TEM-PERM-054,1,16,KFS-TEM,Edit Document TT P,Edit permission for the TT document in PreRoute status.,Y

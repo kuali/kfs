@@ -252,6 +252,7 @@
 	<field-descriptor name="shippingEmailAddress" column="SHIP_EMAIL_ADDR" jdbc-type="VARCHAR" />
 	<field-descriptor name="shippingAddressTypeCode" column="SHIP_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="recurredInvoiceIndicator" column="RECURRED_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    <field-descriptor name="agingReportSentTime" column="AGING_RPT_SENT_TM" jdbc-type="TIMESTAMP" />
 	<field-descriptor name="reportedDate" column="REPORTED_DT" jdbc-type="DATE"/>
 	
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false" >

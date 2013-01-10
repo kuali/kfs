@@ -106,11 +106,9 @@ public class TravelEntertainmentAction extends TravelActionBase {
                 document.setTripType(travelDocument.getTripType());
                 document.setTripTypeCode(travelDocument.getTripTypeCode());
 
-
                 document.setExpenseLimit(travelDocument.getExpenseLimit());
-
+                document.configureTraveler(travelDocument.getTemProfileId(), travelDocument.getTraveler());
                 document.getDocumentHeader().setOrganizationDocumentNumber(travelDocument.getDocumentHeader().getOrganizationDocumentNumber());
-
 
                 document.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(travelDocument.getActualExpenses(), document.getDocumentNumber()));
 

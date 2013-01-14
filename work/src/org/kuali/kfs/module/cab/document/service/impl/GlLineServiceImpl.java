@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.ObjectTypeService;
+import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
 import org.kuali.kfs.fp.businessobject.CapitalAssetAccountsGroupDetails;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
@@ -632,6 +633,138 @@ public class GlLineServiceImpl implements GlLineService {
             }
         }
         return "";
+    }
+
+    /**
+     * Setup shell Capital Asset Information where it doesn't already exist (for example GL Entries
+     * from enterprise feed or Vendor Credit Memo)
+     *
+     * @param entry
+     */
+    @Override
+    public void setupCapitalAssetInformation(GeneralLedgerEntry entry) {
+        List<CapitalAccountingLines> capitalAccountingLines;
+
+        // get all related entries and create capital asset record for each
+        Collection<GeneralLedgerEntry> glEntries = findAllGeneralLedgerEntry(entry.getDocumentNumber());
+        int nextCapitalAssetLineNumber = 1;
+        for (GeneralLedgerEntry glEntry: glEntries) {
+            capitalAccountingLines = new ArrayList<CapitalAccountingLines>();
+            createCapitalAccountingLine(capitalAccountingLines, glEntry, null);
+            createNewCapitalAsset(capitalAccountingLines,entry.getDocumentNumber(),null,nextCapitalAssetLineNumber);
+            nextCapitalAssetLineNumber++;
+        }
+
+    }
+
+    private List<CapitalAccountingLines> createCapitalAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, GeneralLedgerEntry entry, String distributionAmountCode) {
+        Integer sequenceNumber = capitalAccountingLines.size() + 1;
+
+        //capital object code so we need to build the capital accounting line...
+        CapitalAccountingLines cal = addCapitalAccountingLine(capitalAccountingLines, entry);
+        cal.setDistributionAmountCode(distributionAmountCode);
+        capitalAccountingLines.add(cal);
+
+        return capitalAccountingLines;
+    }
+
+    /**
+     * convenience method to add a new capital accounting line to the collection of capital
+     * accounting lines.
+     *
+     * @param capitalAccountingLines
+     * @param entry
+     * @return
+     */
+    protected CapitalAccountingLines addCapitalAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, GeneralLedgerEntry entry) {
+        CapitalAccountingLines cal = new CapitalAccountingLines();
+        cal.setLineType(KFSConstants.SOURCE);
+        cal.setSequenceNumber(entry.getTransactionLedgerEntrySequenceNumber());
+        cal.setChartOfAccountsCode(entry.getChartOfAccountsCode());
+        cal.setAccountNumber(entry.getAccountNumber());
+        cal.setSubAccountNumber(entry.getSubAccountNumber());
+        cal.setFinancialObjectCode(entry.getFinancialObjectCode());
+        cal.setFinancialSubObjectCode(entry.getFinancialSubObjectCode());
+        cal.setProjectCode(entry.getProjectCode());
+        cal.setOrganizationReferenceId(entry.getOrganizationReferenceId());
+        cal.setFinancialDocumentLineDescription(entry.getTransactionLedgerEntryDescription());
+        cal.setAmount(entry.getAmount());
+        cal.setAccountLinePercent(null);
+        cal.setSelectLine(false);
+
+        return cal;
+    }
+
+    /**
+     * helper method to add accounting details for this new capital asset record
+     *
+     * @param capitalAccountingLines
+     * @param currentCapitalAssetInformation
+     * @param documentNumber
+     * @param actionType
+     * @param nextCapitalAssetLineNumnber
+     */
+    protected void createNewCapitalAsset(List<CapitalAccountingLines> capitalAccountingLines, String documentNumber, String actionType, Integer nextCapitalAssetLineNumber) {
+        CapitalAssetInformation capitalAsset = new CapitalAssetInformation();
+        capitalAsset.setCapitalAssetLineAmount(KualiDecimal.ZERO);
+        capitalAsset.setDocumentNumber(documentNumber);
+        capitalAsset.setCapitalAssetLineNumber(nextCapitalAssetLineNumber);
+        capitalAsset.setCapitalAssetActionIndicator(actionType);
+        capitalAsset.setCapitalAssetProcessedIndicator(false);
+
+        KualiDecimal capitalAssetLineAmount = KualiDecimal.ZERO;
+        //now setup the account line information associated with this capital asset
+        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            capitalAsset.setDistributionAmountCode(capitalAccountingLine.getDistributionAmountCode());
+            createCapitalAssetAccountingLinesDetails(capitalAccountingLine, capitalAsset);
+            capitalAssetLineAmount = capitalAssetLineAmount.add(capitalAccountingLine.getAmount());
+        }
+
+        capitalAsset.setCapitalAssetLineAmount(capitalAssetLineAmount);
+
+        businessObjectService.save(capitalAsset);
+    }
+
+    /**
+     *
+     *
+     * @param capitalAccountingLine
+     * @param capitalAsset
+     */
+    protected void createCapitalAssetAccountingLinesDetails(CapitalAccountingLines capitalAccountingLine, CapitalAssetInformation capitalAsset) {
+        //now setup the account line information associated with this capital asset
+        CapitalAssetAccountsGroupDetails capitalAssetAccountLine = new CapitalAssetAccountsGroupDetails();
+        capitalAssetAccountLine.setDocumentNumber(capitalAsset.getDocumentNumber());
+        capitalAssetAccountLine.setChartOfAccountsCode(capitalAccountingLine.getChartOfAccountsCode());
+        capitalAssetAccountLine.setAccountNumber(capitalAccountingLine.getAccountNumber());
+        capitalAssetAccountLine.setSubAccountNumber(capitalAccountingLine.getSubAccountNumber());
+        capitalAssetAccountLine.setFinancialDocumentLineTypeCode(KFSConstants.SOURCE.equals(capitalAccountingLine.getLineType()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE);
+        capitalAssetAccountLine.setCapitalAssetAccountLineNumber(getNextAccountingLineNumber(capitalAccountingLine, capitalAsset));
+        capitalAssetAccountLine.setCapitalAssetLineNumber(capitalAsset.getCapitalAssetLineNumber());
+        capitalAssetAccountLine.setFinancialObjectCode(capitalAccountingLine.getFinancialObjectCode());
+        capitalAssetAccountLine.setFinancialSubObjectCode(capitalAccountingLine.getFinancialSubObjectCode());
+        capitalAssetAccountLine.setProjectCode(capitalAccountingLine.getProjectCode());
+        capitalAssetAccountLine.setOrganizationReferenceId(capitalAccountingLine.getOrganizationReferenceId());
+        capitalAssetAccountLine.setSequenceNumber(capitalAccountingLine.getSequenceNumber());
+        capitalAssetAccountLine.setAmount(capitalAccountingLine.getAmount());
+        capitalAsset.getCapitalAssetAccountsGroupDetails().add(capitalAssetAccountLine);
+    }
+
+    /**
+     * calculates the next accounting line number for accounts details for each capital asset.
+     * Goes through the current records and gets the last accounting line number.
+     *
+     * @param capitalAsset
+     * @return nextAccountingLineNumber
+     */
+    protected Integer getNextAccountingLineNumber(CapitalAccountingLines capitalAccountingLine, CapitalAssetInformation capitalAsset) {
+        Integer nextAccountingLineNumber = 0;
+        List<CapitalAssetAccountsGroupDetails> capitalAssetAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
+        for (CapitalAssetAccountsGroupDetails capitalAssetAccountLine : capitalAssetAccountLines) {
+            nextAccountingLineNumber = capitalAssetAccountLine.getCapitalAssetAccountLineNumber();
+        }
+
+        return ++nextAccountingLineNumber;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

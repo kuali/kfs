@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,6 +16,7 @@
 package org.kuali.kfs.fp.document;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -30,13 +31,14 @@ import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 public class ServiceBillingDocument extends InternalBillingDocument implements CapitalAssetEditable {
 
     /**
-     * This method further restricts the valid accounting line types exclusively to those with income or expense object type codes
+     * This method further restricts the valid accounting line types exclusively to those with income, expense
+     * or liability (in the case of income lines) object type codes
      * only. This is done by calling isIncome() and isExpense() passing the accounting line.
-     * 
+     *
      * @param financialDocument The document used to determine if the accounting line is a debit line.
      * @param accountingLine The accounting line to be analyzed.
-     * @return True if the accounting line passed in is an expense or income accounting line and meets the rules defined by
-     *         super.isDebit() method.
+     * @return True if the accounting line passed in is an expense, income or liability (in the case of income lines)
+     *  (accounting line and meets the rules defined by super.isDebit() method.
      * @see org.kuali.kfs.fp.document.validation.impl.InternalBillingDocumentRule#isDebit(org.kuali.rice.krad.document.FinancialDocument,
      *      org.kuali.rice.krad.bo.AccountingLine)
      */
@@ -45,7 +47,9 @@ public class ServiceBillingDocument extends InternalBillingDocument implements C
         AccountingLine accountingLine = (AccountingLine) postable;
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         if (!isDebitUtils.isIncome(accountingLine) && !isDebitUtils.isExpense(accountingLine)) {
-            throw new IllegalStateException(isDebitUtils.getDebitCalculationIllegalStateExceptionMessage());
+            if (accountingLine.getFinancialDocumentLineTypeCode().equals(KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) || !isDebitUtils.isLiability(accountingLine)) {
+                throw new IllegalStateException(isDebitUtils.getDebitCalculationIllegalStateExceptionMessage());
+            }
         }
 
         return super.isDebit(postable);
@@ -54,7 +58,7 @@ public class ServiceBillingDocument extends InternalBillingDocument implements C
     /**
      * This method sets extra accounting line fields in explicit general ledger pending entries. Internal billing transactions don't
      * have this field.
-     * 
+     *
      * @param financialDocument The accounting document containing the general ledger pending entries being customized.
      * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
      * @param explicitEntry The explicit general ledger pending entry to be customized.

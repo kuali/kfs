@@ -42,4 +42,6 @@ public interface GlLineService {
 
     Document createAssetPaymentDocument(GeneralLedgerEntry primary, Integer capitalAssetLineNumber) throws WorkflowException;
 
+    void setupCapitalAssetInformation(GeneralLedgerEntry entry);
+
 }

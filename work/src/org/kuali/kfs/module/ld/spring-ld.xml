@@ -86,6 +86,7 @@
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerBenefitsType" value="org.kuali.kfs.module.ld.businessobject.BenefitsType" />
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerEntry" value="org.kuali.kfs.module.ld.businessobject.LedgerEntry" />
  				<entry key="org.kuali.kfs.integration.ld.LaborLedgerEntryGLSummary" value="org.kuali.kfs.module.ld.businessobject.LedgerEntryGLSummary" />
+ 				<entry key="org.kuali.kfs.integration.ld.LaborLedgerEntryForExpenseTransfer" value="org.kuali.kfs.module.ld.businessobject.LedgerEntryForExpenseTransfer" />
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerObject" value="org.kuali.kfs.module.ld.businessobject.LaborObject" />
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit" value="org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit" />
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerPositionObjectGroup" value="org.kuali.kfs.module.ld.businessobject.PositionObjectGroup" />

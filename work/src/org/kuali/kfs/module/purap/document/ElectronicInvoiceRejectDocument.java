@@ -41,8 +41,8 @@ import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.module.purap.util.PurapSearchUtils;
-import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
+import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -395,20 +395,22 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         }
 
         Integer vendorHeaderGeneratedIdentifier = this.getVendorDetail().getVendorHeaderGeneratedIdentifier();
-        VendorService vendorService = SpringContext.getBean(VendorService.class);
+        if (vendorHeaderGeneratedIdentifier != null) {
+            VendorService vendorService = SpringContext.getBean(VendorService.class);
 
-        Object[] indicators = new String[2];
+            Object[] indicators = new String[2];
 
-        boolean isEmployeeVendor = vendorService.isVendorInstitutionEmployee(vendorHeaderGeneratedIdentifier);
-        indicators[0] = isEmployeeVendor ? AdHocPaymentIndicator.EMPLOYEE_VENDOR : AdHocPaymentIndicator.OTHER;
+            boolean isEmployeeVendor = vendorService.isVendorInstitutionEmployee(vendorHeaderGeneratedIdentifier);
+            indicators[0] = isEmployeeVendor ? AdHocPaymentIndicator.EMPLOYEE_VENDOR : AdHocPaymentIndicator.OTHER;
 
-        boolean isVendorForeign = vendorService.isVendorForeign(vendorHeaderGeneratedIdentifier);
-        indicators[1] = isVendorForeign ? AdHocPaymentIndicator.ALIEN_VENDOR : AdHocPaymentIndicator.OTHER;
+            boolean isVendorForeign = vendorService.isVendorForeign(vendorHeaderGeneratedIdentifier);
+            indicators[1] = isVendorForeign ? AdHocPaymentIndicator.ALIEN_VENDOR : AdHocPaymentIndicator.OTHER;
 
-        for(Object indicator : indicators) {
-            if(!AdHocPaymentIndicator.OTHER.equals(indicator)) {
-                String titlePattern = title + " [{0}:{1}]";
-                return MessageFormat.format(titlePattern, indicators);
+            for(Object indicator : indicators) {
+                if(!AdHocPaymentIndicator.OTHER.equals(indicator)) {
+                    String titlePattern = title + " [{0}:{1}]";
+                    return MessageFormat.format(titlePattern, indicators);
+                }
             }
         }
 

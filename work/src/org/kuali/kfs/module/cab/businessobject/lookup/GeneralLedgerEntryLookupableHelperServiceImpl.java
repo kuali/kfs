@@ -21,15 +21,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntryAsset;
 import org.kuali.kfs.module.cab.businessobject.PurchasingAccountsPayableDocument;
-import org.kuali.kfs.module.cab.document.service.GlLineService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.kim.api.KimConstants;
@@ -67,19 +64,8 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
 
         GeneralLedgerEntry entry = (GeneralLedgerEntry) bo;
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
-
         if (entry.isActive()) {
-            AnchorHtmlData processLink = null;
-            // KFSMI-9881
-            // For GL Entries without capital asset information, we need to skip the Capital Asset Information Processing screen
-            // and go strait to the General Ledger Processing screen.
-            List<CapitalAssetInformation> capitalAssetInformation = SpringContext.getBean(GlLineService.class).findCapitalAssetInformationForGLLine(entry);
-
-            if (capitalAssetInformation.isEmpty()) {
-                processLink = new AnchorHtmlData("../cabGlLine.do?methodToCall=process&" + KFSPropertyConstants.DOCUMENT_NUMBER + "=" + entry.getDocumentNumber() + "&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier() + "&capitalAssetLineNumber=0", "process", "process");
-            } else {
-                processLink = new AnchorHtmlData("../cabCapitalAssetInformation.do?methodToCall=process&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "process", "process");
-            }
+            AnchorHtmlData processLink = new AnchorHtmlData("../cabCapitalAssetInformation.do?methodToCall=process&" + CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER + "=" + entry.getGeneralLedgerAccountIdentifier(), "process", "process");
             processLink.setTarget(entry.getGeneralLedgerAccountIdentifier().toString());
             anchorHtmlDataList.add(processLink);
         }
@@ -101,7 +87,7 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
 
     /**
      * This method will remove all PO related transactions from display on GL results
-     *
+     * 
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
@@ -144,13 +130,13 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
     /**
      * Update activity status code to the value used in DB. The reason is the value from user input will be 'Y' or 'N'. However,
      * these two status code are now replaced by 'N','E' and 'P'.
-     *
+     * 
      * @param fieldValues
      */
     protected void updateStatusCodeCriteria(Map<String, String> fieldValues) {
         String activityStatusCode = null;
         if (fieldValues.containsKey(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE)) {
-            activityStatusCode = fieldValues.get(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE);
+            activityStatusCode = (String) fieldValues.get(CabPropertyConstants.GeneralLedgerEntry.ACTIVITY_STATUS_CODE);
         }
 
         if (KFSConstants.NON_ACTIVE_INDICATOR.equalsIgnoreCase(activityStatusCode)) {
@@ -166,20 +152,18 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
 
     /**
      * Gets the businessObjectService attribute.
-     *
+     * 
      * @return Returns the businessObjectService.
      */
-    @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
     /**
      * Sets the businessObjectService attribute value.
-     *
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
-    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

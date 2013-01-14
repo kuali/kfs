@@ -352,10 +352,6 @@
         <column name="INV_RJT_RSRCH_IND" size="1" type="VARCHAR"/>
         <column name="AP_APRVL_DT" type="DATE"/>
         <column name="PREQ_ID" size="9" type="DECIMAL"/>
-        <foreign-key foreignTable="AP_ELCTRNC_INV_LOAD_SUM_T" name="AP_ELCTRNC_INV_RJT_DOC_TR2">
-            <reference foreign="INV_LOAD_SUM_ID" local="INV_LOAD_SUM_ID"/>
-            <reference foreign="VNDR_DUNS_NBR" local="VNDR_DUNS_NBR"/>
-        </foreign-key>
         <unique name="AP_ELCTRNC_INV_HDR_INFO_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

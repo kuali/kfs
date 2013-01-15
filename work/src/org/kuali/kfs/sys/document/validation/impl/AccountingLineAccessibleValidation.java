@@ -20,12 +20,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
@@ -117,10 +118,16 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
             return false;
         }
 
-        AccountingLine updatedLine = new ExpenseTransferTargetAccountingLine();
-        updatedLine.copyFrom(updatedAccountingLine);
+        // copy the updatedAccountLine so we can set the object code on the copy of the updated accounting line
+        // to be the original value for comparison purposes
+        AccountingLine updatedLine = null;
+        if (updatedAccountingLine.isSourceAccountingLine()) {
+            updatedLine = new SourceAccountingLine();
+        } else {
+            updatedLine = new TargetAccountingLine();
+        }
 
-        // set the object code on the copy of the updated accounting line to be the original value
+        updatedLine.copyFrom(updatedAccountingLine);
         updatedLine.setFinancialObjectCode(accountingLine.getFinancialObjectCode());
 
         // if they're the same, the only change was the object code

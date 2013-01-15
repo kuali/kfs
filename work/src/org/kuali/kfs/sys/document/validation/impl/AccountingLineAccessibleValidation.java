@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -116,11 +117,14 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
             return false;
         }
 
-        // set the object code on the updated accounting line to be the original value
-        updatedAccountingLine.setFinancialObjectCode(accountingLine.getFinancialObjectCode());
+        AccountingLine updatedLine = new ExpenseTransferTargetAccountingLine();
+        updatedLine.copyFrom(updatedAccountingLine);
+
+        // set the object code on the copy of the updated accounting line to be the original value
+        updatedLine.setFinancialObjectCode(accountingLine.getFinancialObjectCode());
 
         // if they're the same, the only change was the object code
-        return (accountingLine.isLike(updatedAccountingLine));
+        return (accountingLine.isLike(updatedLine));
     }
 
     /**

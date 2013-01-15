@@ -2315,7 +2315,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             CapitalAssetInformation capitalAssetInformation = glLineService.findCapitalAssetInformation(generalLedgerEntry.getDocumentNumber(), capitalAssetLineNumber);
 
             List<CapitalAssetAccountsGroupDetails> groupAccountingLines = capitalAssetInformation.getCapitalAssetAccountsGroupDetails();
-            Collection<GeneralLedgerEntry> documentGlEntries = glLineService.findAllGeneralLedgerEntry(documentNumber);
+            Collection<GeneralLedgerEntry> documentGlEntries = glLineService.findAllGeneralLedgerEntry(generalLedgerEntry.getDocumentNumber());
 
             for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
                 //find the matching GL entry for this accounting line.

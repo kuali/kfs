@@ -327,6 +327,26 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     /**
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#deleteItem(int lineNum)
+     */
+    @Override
+    public void deleteItem(int lineNum) {
+        // remove associated asset items
+        PurApItem item = items.get(lineNum);
+        PurchasingCapitalAssetItem purchasingCapitalAssetItem = getPurchasingCapitalAssetItemByItemIdentifier(item.getItemIdentifier());
+
+        if (ObjectUtils.isNotNull(purchasingCapitalAssetItem)) {
+            getPurchasingCapitalAssetItems().remove(purchasingCapitalAssetItem);
+        }
+        // no more capital asset items, clear cap asset fields
+        if (getPurchasingCapitalAssetItems().size() == 0) {
+            clearCapitalAssetFields();
+        }
+
+        super.deleteItem(lineNum);
+    }
+
+    /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#populateDocumentForRouting()
      */
     @Override
@@ -1433,7 +1453,9 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      */
     @Override
     public List buildListOfDeletionAwareLists() {
-        List managedLists = super.buildListOfDeletionAwareLists();
+        List managedLists = new ArrayList<List>();
+        managedLists.add(getDeletionAwareAccountingLines());
+        managedLists.add(getDeletionAwareUseTaxItems());
         if (allowDeleteAwareCollection) {
             List<ItemCapitalAsset> assetLists = new ArrayList<ItemCapitalAsset>();
             if (StringUtils.equals(this.getCapitalAssetSystemTypeCode(),PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
@@ -1453,6 +1475,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
             managedLists.add(assetLists);
             managedLists.add(this.getPurchasingCapitalAssetSystems());
             managedLists.add(this.getPurchasingCapitalAssetItems());
+            managedLists.add(this.getItems());
         }
         return managedLists;
     }

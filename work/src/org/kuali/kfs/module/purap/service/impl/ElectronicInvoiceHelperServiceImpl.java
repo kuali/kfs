@@ -827,7 +827,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
 
         Attachment attachment = null;
         try {
-            attachment = SpringContext.getBean(AttachmentService.class).createAttachment(eInvoiceRejectDocument, attachmentFile.getName(),INVOICE_FILE_MIME_TYPE , (int)attachmentFile.length(), fileStream, attachmentType);
+            attachment = SpringContext.getBean(AttachmentService.class).createAttachment(eInvoiceRejectDocument.getNoteTarget(), attachmentFile.getName(),INVOICE_FILE_MIME_TYPE , (int)attachmentFile.length(), fileStream, attachmentType);
         } catch (IOException e) {
             throw new RuntimeException("Unable to create attachment", e);
         }finally{

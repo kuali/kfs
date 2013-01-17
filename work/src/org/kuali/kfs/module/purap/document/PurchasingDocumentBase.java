@@ -333,16 +333,17 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public void deleteItem(int lineNum) {
         // remove associated asset items
         PurApItem item = items.get(lineNum);
-        PurchasingCapitalAssetItem purchasingCapitalAssetItem = getPurchasingCapitalAssetItemByItemIdentifier(item.getItemIdentifier());
+        if (ObjectUtils.isNotNull(item) && item.getItemIdentifier() != null) {
+            PurchasingCapitalAssetItem purchasingCapitalAssetItem = getPurchasingCapitalAssetItemByItemIdentifier(item.getItemIdentifier());
 
-        if (ObjectUtils.isNotNull(purchasingCapitalAssetItem)) {
-            getPurchasingCapitalAssetItems().remove(purchasingCapitalAssetItem);
+            if (ObjectUtils.isNotNull(purchasingCapitalAssetItem)) {
+                getPurchasingCapitalAssetItems().remove(purchasingCapitalAssetItem);
+            }
+            // no more capital asset items, clear cap asset fields
+            if (getPurchasingCapitalAssetItems().size() == 0) {
+                clearCapitalAssetFields();
+            }
         }
-        // no more capital asset items, clear cap asset fields
-        if (getPurchasingCapitalAssetItems().size() == 0) {
-            clearCapitalAssetFields();
-        }
-
         super.deleteItem(lineNum);
     }
 

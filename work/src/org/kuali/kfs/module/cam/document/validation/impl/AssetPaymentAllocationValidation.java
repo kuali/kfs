@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,7 +39,8 @@ public class AssetPaymentAllocationValidation extends GenericValidation {
 	/**
 	 * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
 	 */
-	public boolean validate(AttributedDocumentEvent event) {
+	@Override
+    public boolean validate(AttributedDocumentEvent event) {
 		boolean valid = true;
 
 		AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
@@ -47,22 +48,22 @@ public class AssetPaymentAllocationValidation extends GenericValidation {
 
 		if (CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_BY_PERCENTAGE_CODE.equals(assetPaymentDocument.getAssetPaymentAllocationTypeCode())) {
 			valid &= validatePercentSum(assetPaymentDocument);
-		} else if (CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_BY_AMOUNT_CODE.equals(assetPaymentDocument.getAssetPaymentAllocationTypeCode())) {			
+		} else if (CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_BY_AMOUNT_CODE.equals(assetPaymentDocument.getAssetPaymentAllocationTypeCode())) {
 			valid = validateAmountSum(assetPaymentDocument);
 		}
-		
+
 		return valid;
 	}
 
 	/**
 	 * Allocation by amount must sum to the accounting line total
-	 * 
+	 *
 	 * @param assetPaymentDocument
 	 * @return true if the amounts are correct
 	 */
 	protected boolean validateAmountSum(AssetPaymentDocument assetPaymentDocument) {
 	    KualiDecimal total = getAllocatedTotal(assetPaymentDocument);
-	    
+
 		KualiDecimal sourceTotal = getSourceLinesTotal(assetPaymentDocument);
 
 		if (!total.equals(sourceTotal)) {
@@ -85,23 +86,29 @@ public class AssetPaymentAllocationValidation extends GenericValidation {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param assetPaymentDocument
 	 * @return sum of allocated user value.
 	 */
 	private KualiDecimal getAllocatedTotal(AssetPaymentDocument assetPaymentDocument) {
 		KualiDecimal total = KualiDecimal.ZERO;
-		
+
 		for (AssetPaymentAssetDetail apad : assetPaymentDocument.getAssetPaymentAssetDetail()) {
-		    total = total.add(apad.getAllocatedAmount());
+            //KFSCNTRB-1209: if the document is created by the system from fp/purap side then
+		    //use the property allocatedAmount to sum up the amounts of the assets else
+		    //use allocatedUserValue to sum up the total.
+		    if (assetPaymentDocument.isAllocationFromFPDocuments()) {
+		        total = total.add(apad.getAllocatedAmount());
+		    } else {
+		        total = total.add(apad.getAllocatedUserValue());
+		    }
 		}
-		
 		return total;
 	}
 
 	/**
 	 * Allocation by percentages must total 100%
-	 * 
+	 *
 	 * @param assetPaymentDocument
 	 * @return true if the percentage is correct
 	 */

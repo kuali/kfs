@@ -196,6 +196,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             if (!hasBeenChanged) {
                 continue;
             }
+            boolean isNewLine = detailLine.isNewLineIndicator();
             if ( LOG.isInfoEnabled() ) {
                 LOG.info( "EC Detail Line has been changed: " + detailLine );
             }
@@ -207,7 +208,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
                 // String actionRequestOfOfficer = this.getActionRequest(routeLevelName, KFSConstants.RouteLevelNames.ACCOUNT);
                 AdHocRoutePerson adHocRoutePerson = buildAdHocRouteRecipient(fiscalOfficer.getPrincipalName(), ActionRequestType.APPROVE);
 
-                addAdHocRoutePerson(effortCertificationDocument.getAdHocRoutePersons(), priorApprovers, adHocRoutePerson);
+                addAdHocRoutePerson(effortCertificationDocument.getAdHocRoutePersons(), priorApprovers, adHocRoutePerson, isNewLine);
             } else {
                 LOG.warn( "Unable to obtain a fiscal officer for the detail line's account: " + account.getChartOfAccountsCode() + "-" + account.getAccountNumber() );
             }
@@ -220,16 +221,35 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
                 // KFSConstants.RouteLevelNames.PROJECT_MANAGEMENT);
                 AdHocRoutePerson adHocRoutePerson = buildAdHocRouteRecipient(accountProjectDirectorPersonUserId, ActionRequestType.APPROVE);
 
-                addAdHocRoutePerson(effortCertificationDocument.getAdHocRoutePersons(), priorApprovers, adHocRoutePerson);
+                addAdHocRoutePerson(effortCertificationDocument.getAdHocRoutePersons(), priorApprovers, adHocRoutePerson, isNewLine);
             }
         }
     }
 
-    // add the given ad hoc route person in the list if the person is one of prior approvers and is not in the list
+    /**
+     * add the given ad hoc route person in the list if the person is one of prior approvers and is not in the list
+     *
+     * @param adHocRoutePersonList Collection of adhoc route persons
+     * @param priorApprovers Set of prior approvers
+     * @param adHocRoutePerson person to adhoc route to
+     */
     protected void addAdHocRoutePerson(Collection<AdHocRoutePerson> adHocRoutePersonList, Set<Person> priorApprovers, AdHocRoutePerson adHocRoutePerson) {
+        addAdHocRoutePerson(adHocRoutePersonList, priorApprovers, adHocRoutePerson, false);
+    }
+
+    /**
+     * add the given ad hoc route person in the list if the person is one of prior approvers, or the change was a new line, and the person is not in the list
+     *
+     * @param adHocRoutePersonList Collection of adhoc route persons
+     * @param priorApprovers Set of prior approvers
+     * @param adHocRoutePerson person to adhoc route to
+     * @param isNewLine whether the change was a new line
+     */
+    protected void addAdHocRoutePerson(Collection<AdHocRoutePerson> adHocRoutePersonList, Set<Person> priorApprovers, AdHocRoutePerson adHocRoutePerson, boolean isNewLine) {
         boolean canBeAdded = false;
 
-        if (priorApprovers == null) {
+        // if it's a new line, person can be added even if they weren't a prior approver
+        if (priorApprovers == null || isNewLine) {
             canBeAdded = true;
         } else {
             // we only want to ad-hoc if the user previously approved this document

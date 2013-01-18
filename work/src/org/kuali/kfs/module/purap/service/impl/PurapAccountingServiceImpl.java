@@ -974,6 +974,10 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     lastAccount.setAccountLinePercent(lastAccount.getAccountLinePercent().add(percentDifference));
                 }
             }
+        } else {
+            for (T account : sourceAccountingLines) {
+                account.setAmount(KualiDecimal.ZERO);
+            }
         }
     }
 
@@ -1033,6 +1037,10 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             if (accountTotal.isGreaterThan(KualiDecimal.ZERO) && ObjectUtils.isNotNull(lastAccount)) {
                 //add the difference to the last overage account....
                 lastAccount.setAmount(lastAccount.getAmount().add(accountTotal));
+            }
+        } else {
+            for (T account : sourceAccountingLines) {
+                account.setAmount(KualiDecimal.ZERO);
             }
         }
     }

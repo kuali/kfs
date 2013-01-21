@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,6 +45,7 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
      * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#storeAssetLocks(java.util.List, java.lang.String,
      *      java.lang.String, java.lang.String)
      */
+    @Override
     public boolean storeAssetLocks(List<Long> capitalAssetNumbers, String documentNumber, String documentType, String lockingInformation) {
         List<AssetLock> assetLocks = getAssetLockService().buildAssetLockHelper(capitalAssetNumbers, documentNumber, documentType, StringUtils.isBlank(lockingInformation) ? CamsConstants.defaultLockingInformation : lockingInformation);
         Integer lockingIndex = 1;
@@ -52,13 +53,14 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
             assetLock.setLockingInformation(lockingIndex.toString());
             lockingIndex++;
         }
-        
+
         return getAssetLockService().checkAndSetAssetLocks(assetLocks);
     }
 
     /**
      * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#deleteAssetLocks(java.lang.String, java.lang.String)
      */
+    @Override
     public void deleteAssetLocks(String documentNumber, String lockingInformation) {
         //getAssetLockService().deleteAssetLocks(documentNumber, lockingInformation == null ? CamsConstants.defaultLockingInformation : lockingInformation);
         getAssetLockService().deleteAssetLocks(documentNumber, lockingInformation);
@@ -72,6 +74,7 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
      * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#isAssetLockedByDocument(java.lang.String,
      *      java.lang.String)
      */
+    @Override
     public boolean isAssetLockedByCurrentDocument(String documentNumber, String lockingInformation) {
         //return getAssetLockService().isAssetLockedByCurrentDocument(documentNumber, lockingInformation == null ? CamsConstants.defaultLockingInformation : lockingInformation);
         return getAssetLockService().isAssetLockedByCurrentDocument(documentNumber, lockingInformation);
@@ -81,6 +84,7 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
      * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#isAssetLocked(java.util.List, java.lang.String,
      *      java.lang.String)
      */
+    @Override
     public boolean isAssetLocked(List<Long> assetNumbers, String documentTypeName, String excludingDocumentNumber) {
         return getAssetLockService().isAssetLocked(assetNumbers, documentTypeName, excludingDocumentNumber);
     }
@@ -88,12 +92,13 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
     /**
      * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#generateCapitalAssetLock(org.kuali.rice.krad.document.Document)
      */
+    @Override
     public void generateCapitalAssetLock(Document document, String documentTypeName) {
         List<CapitalAssetInformation> capitalAssets = ((CapitalAssetEditable) document).getCapitalAssetInformation();
-        
+
         String capitalAssetToBeLocked = "";
         ArrayList<Long> capitalAssetNumbers = new ArrayList<Long>();
-        
+
         for (CapitalAssetInformation capitalAssetInformation : capitalAssets) {
             if (ObjectUtils.isNotNull(capitalAssetInformation) && ObjectUtils.isNotNull(capitalAssetInformation.getCapitalAssetNumber())) {
                 capitalAssetNumbers.add(capitalAssetInformation.getCapitalAssetNumber());
@@ -106,8 +111,8 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
 
             }
         }
-        
-        if (capitalAssetNumbers.size() > 1) {
+
+        if (capitalAssetNumbers.size() > 0) {
             if (document instanceof AccountingDocument) {
                 if (isFpDocumentEligibleForAssetLock((AccountingDocument) document, documentTypeName) && !this.storeAssetLocks(capitalAssetNumbers, document.getDocumentNumber(), documentTypeName, null)) {
                     throw new ValidationException("Asset " + capitalAssetToBeLocked.toString() + " is being locked by other documents.");
@@ -118,10 +123,11 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
 
     /**
      * FP document eligible for asset lock when any of its accounting line is taken into CAB during CAB batch.
-     * 
+     *
      * @param accountingDocument
      * @return
      */
+    @Override
     public boolean isFpDocumentEligibleForAssetLock(AccountingDocument accountingDocument, String documentType) {
         // get the system parameter values first so we don't need to repeat this step for each accounting line check
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
@@ -156,7 +162,7 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
 
     /**
      * This method check if accounting line eligible for CAB batch taking into CAB
-     * 
+     *
      * @param includedFinancialBalanceTypeCodes
      * @param includedFinancialObjectSubTypeCodes
      * @param excludedChartCodes
@@ -188,11 +194,12 @@ public class CapitalAssetManagementModuleServiceImpl implements CapitalAssetMana
     /**
      * @see org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService#deleteDocumentAssetLocks(org.kuali.rice.krad.document.Document)
      */
+    @Override
     public void deleteDocumentAssetLocks(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         List<CapitalAssetInformation> capitalAssets = ((CapitalAssetEditable) document).getCapitalAssetInformation();
-        
+
         for (CapitalAssetInformation capitalAssetInformation : capitalAssets) {
             // Deleting document lock
             if (workflowDocument.isCanceled() || workflowDocument.isDisapproved()) {

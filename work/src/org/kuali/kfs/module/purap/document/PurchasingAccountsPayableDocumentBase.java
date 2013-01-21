@@ -33,6 +33,7 @@ import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemBase;
+import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -348,14 +349,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             //super.buildListOfDeletionAwareLists() is executed when it calls getSourceAccountingLines().
             //So we can remove the old codes that used to exist here to add the accounts to the
             //managedLists and just use the one from the super.buildListOfDeletionAwareLists()
-            List<PurApItemBase> subManageList = this.getItems();
-            List useTaxItems = new ArrayList();
-        	for (PurApItemBase subManage : subManageList) {
-        		useTaxItems.addAll(subManage.getUseTaxItems());
-        	}
-
             managedLists.add(this.getItems());
-            managedLists.add(useTaxItems);
+            managedLists.add(getDeletionAwareUseTaxItems());
         }
         return managedLists;
     }
@@ -375,6 +370,23 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             }
         }
         return deletionAwareAccountingLines;
+    }
+
+    /**
+     * Build deletion list of use tax items for PurAp generic use.
+     *
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    protected List getDeletionAwareUseTaxItems() {
+        List<PurApItemUseTax> deletionAwareUseTaxItems = new ArrayList<PurApItemUseTax>();
+
+        List<PurApItemBase> subManageList = this.getItems();
+        for (PurApItemBase subManage : subManageList) {
+            deletionAwareUseTaxItems.addAll(subManage.getUseTaxItems());
+        }
+
+        return deletionAwareUseTaxItems;
     }
 
     /**
@@ -1385,6 +1397,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @return Returns the calculated
      */
 
+    @Override
     public boolean isCalculated() {
         return calculated;
     }
@@ -1394,6 +1407,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      *
      * @param calculated The calculated to set.
      */
+    @Override
     public void setCalculated(boolean calculated) {
         this.calculated = calculated;
     }

@@ -287,8 +287,14 @@ public class GlLineServiceImpl implements GlLineService {
         if ( !StringUtils.equals( entry.getChartOfAccountsCode(), accountingDetails.getChartOfAccountsCode() ) ) {
             return false;
         }
+        // account for blank equaling null
         if ( !StringUtils.equals( entry.getOrganizationReferenceId(), accountingDetails.getOrganizationReferenceId() ) ) {
-            return false;
+            if ( StringUtils.isBlank( entry.getOrganizationReferenceId() )
+                    && StringUtils.isBlank( accountingDetails.getOrganizationReferenceId() ) ) {
+                // this is a match, keep going
+            } else {
+                return false;
+            }
         }
         // optional attributes - need to account for blank being equivalent to dashes
         // it's always dashes on the CAB GL Entry table - but could be blank on the accounting details
@@ -315,6 +321,12 @@ public class GlLineServiceImpl implements GlLineService {
             } else {
                 return false;
             }
+        }
+
+        // compare lineTypeCode to debitCreditCode
+        String capitalAssetLineTypeCode = KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE;
+        if (!StringUtils.equals(capitalAssetLineTypeCode, accountingDetails.getFinancialDocumentLineTypeCode())) {
+            return false;
         }
 
         return true;
@@ -390,8 +402,15 @@ public class GlLineServiceImpl implements GlLineService {
         CapitalAssetInformation capitalAssetInformation = findCapitalAssetInformation(primaryGlEntry.getDocumentNumber(), capitalAssetLineNumber);
 
         if (ObjectUtils.isNotNull(capitalAssetInformation)) {
-            document.setAssetPaymentAllocationTypeCode(capitalAssetInformation.getDistributionAmountCode());
-            document.setAllocationFromFPDocuments(true);
+            // If this was a shell Capital Asset Information record (for example GL Entries from enterprise feed or Vendor Credit Memo)
+            // setup asset allocation info accordingly so it can be changed on Asset Payment Document
+            if (ObjectUtils.isNull(capitalAssetInformation.getDistributionAmountCode())) {
+                document.setAssetPaymentAllocationTypeCode(KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_CODE);
+                document.setAllocationFromFPDocuments(false);
+            } else {
+                document.setAssetPaymentAllocationTypeCode(capitalAssetInformation.getDistributionAmountCode());
+                document.setAllocationFromFPDocuments(true);
+            }
         }
 
         document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primaryGlEntry.getDocumentNumber());
@@ -678,7 +697,8 @@ public class GlLineServiceImpl implements GlLineService {
      */
     protected CapitalAccountingLines addCapitalAccountingLine(List<CapitalAccountingLines> capitalAccountingLines, GeneralLedgerEntry entry) {
         CapitalAccountingLines cal = new CapitalAccountingLines();
-        cal.setLineType(KFSConstants.SOURCE);
+        String capitalAssetLineType = KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) ? KFSConstants.SOURCE : KFSConstants.TARGET;
+        cal.setLineType(capitalAssetLineType);
         cal.setSequenceNumber(entry.getTransactionLedgerEntrySequenceNumber());
         cal.setChartOfAccountsCode(entry.getChartOfAccountsCode());
         cal.setAccountNumber(entry.getAccountNumber());

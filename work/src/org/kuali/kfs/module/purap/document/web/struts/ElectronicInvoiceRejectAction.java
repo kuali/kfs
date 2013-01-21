@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,7 +25,6 @@ import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -42,10 +39,7 @@ public class ElectronicInvoiceRejectAction extends FinancialSystemTransactionalD
         eirDocument.setInvoiceResearchIndicator(true);
 
         Note noteObj = getDocumentService().createNoteFromDocument(eirDocument, "Research started by: " + GlobalVariables.getUserSession().getPerson().getName());
-        PersistableBusinessObject noteParent = eirDocument.getNoteTarget();
-        List<Note> noteList = getNoteService().getByRemoteObjectId(noteParent.getObjectId());
-        noteList.add(noteObj);
-        getNoteService().saveNoteList(noteList);
+        eirDocument.addNote(noteObj);
         getNoteService().save(noteObj);
         getDocumentService().saveDocument(eirDocument);
 
@@ -59,11 +53,7 @@ public class ElectronicInvoiceRejectAction extends FinancialSystemTransactionalD
         eirDocument.setInvoiceResearchIndicator(false);
 
         Note noteObj = getDocumentService().createNoteFromDocument(eirDocument, "Research completed by: " + GlobalVariables.getUserSession().getPerson().getName());
-        PersistableBusinessObject noteParent = eirDocument.getNoteTarget();
-        List<Note> noteList = this.getNoteService().getByRemoteObjectId(noteParent.getObjectId());
-        noteList.add(noteObj);
-        getNoteService().saveNoteList(noteList);
-
+        eirDocument.addNote(noteObj);
         getNoteService().save(noteObj);
         getDocumentService().saveDocument(eirDocument);
 

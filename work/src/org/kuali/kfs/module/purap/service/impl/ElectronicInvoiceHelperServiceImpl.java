@@ -46,7 +46,6 @@ import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
 import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType;
@@ -1838,11 +1837,6 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
 
         if ( poDoc == null){
             throw new RuntimeException("PurchaseOrder not available");
-        }
-
-        if (!poDoc.getApplicationDocumentStatus().equals(PurchaseOrderStatuses.APPDOC_OPEN)) {
-            orderHolder.addInvoiceOrderRejectReason(matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PO_NOT_OPEN,null,orderHolder.getFileName()));
-            return;
         }
 
         if (!orderHolder.isInvoiceNumberAcceptIndicatorEnabled()){

@@ -1,0 +1,9 @@
+<Record name="krlc_cmp_t" type="delimited">
+  <Field name="campus_cd"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="campus_nm"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="campus_shrt_nm"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="campus_typ_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="actv_ind"                        type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

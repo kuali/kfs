@@ -1,0 +1,95 @@
+rsp_id|obj_id|ver_nbr|rsp_tmpl_id|nmspc_cd|nm|desc_txt|actv_ind|
+1|KFS1|1.0|1|KFS-SYS|Review KFS OrganizationHierarchy||Y|
+10|KFS10|1.0|1|KFS-AR|Review CTRL ElectronicPayment||Y|
+100|KFS100|1.0|1|KFS-AR|Review ARM Management||Y|
+10000|KFS-TEM-RSP-000|1.0|1|KFS-TEM|Review TA SpecialRequestReviewer|Responsible for reviewing Travel Authorization Document on SpecialRequestReviewer|Y|
+10001|KFS-TEM-RSP-001|1.0|1|KFS-TEM|Review TA InternationalTravelReviewer|Responsible for reviewing Travel Authorization Document on InternationalTravelReviewer|Y|
+10002|KFS-TEM-RSP-002|1.0|1|KFS-TEM|Review TA RiskManagement|Responsible for reviewing Travel Authorization Document on RiskManagement|Y|
+10003|KFS-TEM-RSP-003|1.0|1|KFS-TEM|Review TA APTravel|Responsible for reviewing Travel Authorization Document on APTravel|Y|
+10004|KFS-TEM-RSP-004|1.0|1|KFS-TEM|Review TR AccountingReviewer|Responsible for reviewing Travel Reimbursement Document on AccountingReviewer|Y|
+10005|KFS-TEM-RSP-005|1.0|1|KFS-TEM|Review TA DivisionReviewer|Responsible for reviewing Travel Authorization Document on DivisionReviewer|Y|
+10006|KFS-TEM-RSP-006|1.0|1|KFS-TEM|Review TR TravelReview|Responsible for reviewing Travel Reimbursement Document on TravelReview|Y|
+10007|KFS-TEM-RSP-007|1.0|1|KFS-TEM|Review TTP Tax|Responsible for reviewing TEM Profile on Tax|Y|
+10008|KFS-TEM-RSP-008|1.0|1|KFS-TEM|Review ENT EntertainmentManager|Responsible for reviewing Entertainment Document on EntertainmentManager|Y|
+10009|KFS-TEM-RSP-009|1.0|1|KFS-TEM|Review ENT ENTSpecialRequestReviewer|Responsible for reviewing Entertainment Document on ENTSpecialRequestReviewer|Y|
+10010|KFS-TEM-RSP-010|1.0|1|KFS-TEM|Review ENT ENTTaxManager|Responsible for reviewing Entertainment Document on ENTTaxManager|Y|
+10011|KFS-TEM-RSP-011|1.0|1|KFS-TEM|Review RELO MovingAndRelocationManager|Responsible for reviewing Moving and Relocation Document on MovingAndRelocationManager|Y|
+10012|KFS-TEM-RSP-012|1.0|1|KFS-TEM|Review RELO ExecutiveApproval|Responsible for reviewing Moving and Relocation Document on ExecutiveApproval|Y|
+10013|KFS-TEM-RSP-013|1.0|1|KFS-TEM|Review RELO Tax|Responsible for reviewing Moving and Relocation Document on Tax|Y|
+10014|KFS-TEM-RSP-014|1.0|1|KFS-TEM|Review TA SeparationOfDutiesReviewer|Responsible for reviewing Travel Authorization Document on SeparationOfDutiesReviewer|Y|
+10015|KFS-TEM-RSP-015|1.0|1|KFS-TEM|Review TR SpecialRequestReviewer|Responsible for reviewing Travel Reimbursement Document on SpecialRequestReviewer|Y|
+10016|KFS-TEM-RSP-016|1.0|1|KFS-TEM|Review TR DivisionReviewer|Responsible for reviewing Travel Reimbursement Document on DivisionReviewer|Y|
+10017|KFS-TEM-RSP-017|1.0|1|KFS-TEM|Review TR Tax|Responsible for reviewing Travel Reimbursement Document on Tax|Y|
+10018|KFS-TEM-RSP-018|1.0|1|KFS-TEM|Review TR InternationalTravelReviewer|Responsible for reviewing Travel Reimbursement Document on InternationalTravelReviewer|Y|
+10019|KFS-TEM-RSP-019|1.0|1|KFS-TEM|Review TR APTravel|Responsible for reviewing Travel Reimbursement Document on APTravel|Y|
+10020|KFS-TEM-RSP-020|1.0|1|KFS-TEM|Review TR SeparationOfDutiesReviewer|Responsible for reviewing Travel Reimbursement Document on SeparationOfDutiesReviewer|Y|
+10021|KFS-TEM-RSP-021|1.0|1|KFS-TEM|Review TA TravelReview|Responsible for reviewing Travel Authorization Document on TravelReview|Y|
+10022|KFS-TEM-RSP-022|1.0|1|KFS-TEM|Review TAA TravelReview|Responsible for reviewing Travel Authorization Amendment Document on TravelReview|Y|
+10023|KFS-TEM-RSP-023|1.0|1|KFS-TEM|Review CTAP TravelManagerReview|Responsible for reviewing CTS Card Application Document on TravelManagerReview|Y|
+10024|KFS-TEM-RSP-024|1.0|1|KFS-TEM|Review CTAP Account|Responsible for reviewing CTS Card Application Document on Account|Y|
+10025|KFS-TEM-RSP-025|1.0|1|KFS-TEM|Review CCAP TravelManagerReview|Responsible for reviewing Corporate Card Application Document on TravelManagerReview|Y|
+10026|KFS-TEM-RSP-026|1.0|1|KFS-TEM|Review CCAP Account|Responsible for reviewing Corporate Card Application Document on Account|Y|
+10027|KFS-TEM-RSP-027|1.0|1|KFS-TEM|Review ENT TravelReview|Responsible for reviewing Entertainment Document on TravelReview|Y|
+10028|KFS-TEM-RSP-028|1.0|1|KFS-TEM|Review RELO TravelReview|Responsible for reviewing Moving and Relocation Document on TravelReview|Y|
+10029|KFS-TEM-RSP-029|1.0|1|KFS-TEM|Review ENT SeparationOfDutiesReviewer|Responsible for reviewing Entertainment Document on SeparationOfDutiesReviewer|Y|
+10030|KFS-TEM-RSP-030|1.0|1|KFS-TEM|Review RELO SeparationOfDutiesReviewer|Responsible for reviewing Moving and Relocation Document on SeparationOfDutiesReviewer|Y|
+10031|KFS-TEM-RSP-031|1.0|1|KFS-TEM|Review RELO SpecialRequestReviewer|Responsible for reviewing Moving and Relocation Document on SpecialRequestReviewer|Y|
+101|KFS101|1.0|1|KFS-AR|Review AR Management||Y|
+107|KFS107|1.0|1|KFS-PURAP|Review POA Account||Y|
+108|KFS108|1.0|1|KFS-PURAP|Review CM Account||Y|
+109|KFS109|1.0|1|KFS-PURAP|Review EIRT Management||Y|
+11|KFS11|1.0|1|KFS-AR|Review CTRL Lockbox||Y|
+111|KFS111|1.0|1|KFS-CG|Review CLOS Unprocessed||Y|
+112|KFS112|1.0|1|KFS-CG|Review CLOS Management||Y|
+113|KFS113|1.0|1|KFS-PURAP|Review REQS Initiator||Y|
+114|KFS114|1.0|1|KFS-AR|Review INVR RecurrenceCreator||Y|
+115|KFS115|1.0|1|KFS-CAM|Review BCIE Initiator||Y|
+116|KFS116|1.0|1|KFS-AR|Review APP Lockbox||Y|
+117|KFS117|1.0|1|KFS-SYS|Review IdentityManagementDocument GroupType||Y|
+118|KFS118|1.0|1|KFS-AR|Review INV Initiator||Y|
+119|KFS119|1.0|1|KFS-AR|Review INVR Recurrence||Y|
+12|KFS12|1.0|1|KFS-SYS|Review KFS Account||Y|
+120|KFS120|1.0|1|KFS-FP|Review PCDO Account||Y|
+123|KFS123|1.0|1|KFS-SYS|Review IdentityManagementDocument RoleType||Y|
+124|KFS124|1.0|1|KFS-COA|Review GDLG Account||Y|
+125|KFS125|1.0|1|KFS-ENDOW|Review ETB EndowmentApprovers||Y|
+126|KFSFP7037|1.0|1|KFS-FP|Review DV SeparationOfDuties||Y|
+16|KFS16|1.0|1|KFS-CAM|Review FR Management||Y|
+17|KFS17|1.0|1|KFS-CAM|Review ARG Purchasing||Y|
+18|KFS18|1.0|1|KFS-CAM|Review MPAY PlantFund||Y|
+19|KFS19|1.0|1|KFS-CAM|Review ARG ExternalTransfer||Y|
+22|KFS22|1.0|1|KFS-CAM|Review ELR Borrower||Y|
+26|KFS26|1.0|1|KFS-SYS|Review KFS Chart||Y|
+29|KFS29|1.0|1|KFS-SYS|Review ACCT Account||Y|
+3|KFS3|1.0|1|KFS-PURAP|Review REQS Organization||Y|
+31|KFS31|1.0|1|KFS-SYS|Review KFS Award||Y|
+4|KFS4|1.0|1|KFS-SYS|Review KFST AccountingOrganizationHierarchy||Y|
+41|KFS41|1.0|1|KFS-EC|Review ECD ProjectManagement||Y|
+44|KFS44|1.0|1|KFS-FP|Review CR CashManagement||Y|
+46|KFS46|1.0|1|KFS-FP|Review DV Campus||Y|
+48|KFS48|1.0|1|KFS-FP|Review DV Purchasing||Y|
+49|KFS49|1.0|1|KFS-FP|Review DV Tax||Y|
+5|KFS5|1.0|1|KFS-CG|Review KFS ResearchRisk||Y|
+50|KFS50|1.0|1|KFS-FP|Review DV Travel||Y|
+51|KFS51|1.0|1|KFS-FP|Review DV PaymentMethod||Y|
+6|KFS6|1.0|1|KFS-PURAP|Review PUR Commodity||Y|
+7|KFS7|1.0|1|KFS-SYS|Review KFS SubFund||Y|
+71|KFS71|1.0|1|KFS-PURAP|Review AP ImageAttachment||Y|
+73|KFS73|1.0|1|KFS-PURAP|Review PREQ Receiving||Y|
+74|KFS74|1.0|1|KFS-PURAP|Review PREQ Tax||Y|
+75|KFS75|1.0|1|KFS-PURAP|Review POA NewUnorderedItems||Y|
+76|KFS76|1.0|1|KFS-PURAP|Review PO Budget||Y|
+78|KFS78|1.0|1|KFS-PURAP|Review PO ContractManagement||Y|
+80|KFS80|1.0|1|KFS-PURAP|Review PO Tax||Y|
+81|KFS81|1.0|1|KFS-PURAP|Review PORH AccountsPayable||Y|
+83|KFS83|1.0|1|KFS-PURAP|Review KFST SubAccount||Y|
+85|KFS85|1.0|1|KFS-PURAP|Review REQS SeparationOfDuties||Y|
+87|KFS87|1.0|2|KFS-SYS|Resolve Exception||Y|
+91|KFS91|1.0|1|KFS-VND|Review PVEN Initiator||Y|
+92|KFS92|1.0|1|KFS-VND|Review PVEN Management||Y|
+94|KFS94|1.0|1|KFS-PURAP|Review RCVL OutstandingTransactions||Y|
+95|KFS95|1.0|1|KFS-EC|Review ECD Management||Y|
+97|KFS97|1.0|1|KFS-AR|Review INV Recurrence||Y|
+99|KFS99|1.0|1|KFS-FP|Review PCDO AccountFullEdit||Y|
+KFSCNTRB789-RSP1|KFSCNTRB789-RSP1|1.0|1|KFS-LD|Review ST Workstudy||Y|
+KFSCNTRB789-RSP2|KFSCNTRB789-RSP2|1.0|1|KFS-EC|Review ECD Workstudy||Y|

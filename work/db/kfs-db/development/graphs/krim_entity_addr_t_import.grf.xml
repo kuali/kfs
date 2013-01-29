@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph name="Export KRIM_ENTITY_ADDR_T" revision="1.0">
+  <Global>
+    <Property fileURL="workspace.prm" id="WorkspaceParameters" />
+    <Connection dbConfig="${DATABASE}" id="TargetDB" type="JDBC" />
+    <Metadata id="OutputFileFormat" fileURL="${FORMAT_DIR}/krim_entity_addr_t.fmt.xml" />
+  </Global>
+   <Phase number="0">
+     <Node id="DATABASE_RUN"
+           type="DB_EXECUTE"
+           dbConnection="TargetDB"
+           sqlQuery="TRUNCATE TABLE KRIM_ENTITY_ADDR_T" />
+   </Phase>
+   <Phase number="1">
+    <Node id="INPUT" type="DATA_READER" skipLeadingBlanks="false" fileURL="${DATA_DIR}/krim_entity_addr_t.txt" skipFirstLine="true" dataPolicy="strict" charset="UTF-8" quotedStrings="false" trim="false" treatMultipleDelimitersAsOne="false" />
+    <Edge fromNode="INPUT:0" toNode="FIX_DELIM:0" id="INPUT_TO_FIX_DELIM" metadata="OutputFileFormat" />
+    <Node id="FIX_DELIM" type="REFORMAT">
+      <attr name="transform"><![CDATA[
+//#TL
+    function transform() {
+        $0.entity_addr_id := replace(nvl($entity_addr_id, ""), "~!~", "|" );
+        $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
+        $0.ver_nbr := $ver_nbr;
+        $0.entity_id := replace(nvl($entity_id, ""), "~!~", "|" );
+        $0.ent_typ_cd := replace(nvl($ent_typ_cd, ""), "~!~", "|" );
+        $0.addr_typ_cd := replace(nvl($addr_typ_cd, ""), "~!~", "|" );
+        $0.addr_line_1 := replace(nvl($addr_line_1, ""), "~!~", "|" );
+        $0.addr_line_2 := replace(nvl($addr_line_2, ""), "~!~", "|" );
+        $0.addr_line_3 := replace(nvl($addr_line_3, ""), "~!~", "|" );
+        $0.city := replace(nvl($city, ""), "~!~", "|" );
+        $0.state_pvc_cd := replace(nvl($state_pvc_cd, ""), "~!~", "|" );
+        $0.postal_cd := replace(nvl($postal_cd, ""), "~!~", "|" );
+        $0.postal_cntry_cd := replace(nvl($postal_cntry_cd, ""), "~!~", "|" );
+        $0.dflt_ind := replace(nvl($dflt_ind, ""), "~!~", "|" );
+        $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
+        $0.last_updt_dt := $last_updt_dt;
+        $0.attn_line := replace(nvl($attn_line, ""), "~!~", "|" );
+        $0.addr_fmt := replace(nvl($addr_fmt, ""), "~!~", "|" );
+        $0.mod_dt := $mod_dt;
+        $0.valid_dt := $valid_dt;
+        $0.valid_ind := replace(nvl($valid_ind, ""), "~!~", "|" );
+        $0.note_msg := replace(nvl($note_msg, ""), "~!~", "|" );
+   }
+      ]]></attr>
+    </Node>
+    <Edge fromNode="FIX_DELIM:0" toNode="DB_OUTPUT:0" id="TO_OUTPUT"  metadata="OutputFileFormat" />
+    <Node id="DB_OUTPUT" type="KUL_DB_OUTPUT_TABLE" metadata="OutputFileFormat" dbConnection="TargetDB" dbTable="krim_entity_addr_t" batchMode="true" errorAction="ROLLBACK" />
+  </Phase>
+</Graph>
+  
+  

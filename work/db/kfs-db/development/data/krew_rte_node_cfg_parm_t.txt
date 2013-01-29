@@ -1,0 +1,2863 @@
+rte_node_cfg_parm_id|rte_node_id|key_cd|val|
+2012|2004|contentFragment|<start name="placeholder"><activationType>S</activationType></start>|
+2013|2004|activationType|S|
+2014|2004|ruleSelector|Template|
+2015|2006|contentFragment|<start name="placeholder"><activationType>S</activationType></start>|
+2016|2006|activationType|S|
+2017|2006|ruleSelector|Template|
+2118|2039|contentFragment|<start name="Adhoc Routing"><activationType>S</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>true</finalApproval></start>|
+2119|2039|activationType|S|
+2120|2039|mandatoryRoute|false|
+2121|2039|finalApproval|true|
+2122|2039|ruleSelector|Template|
+2123|2041|contentFragment|<start name="Initiated"><activationType>S</activationType></start>|
+2124|2041|activationType|S|
+2125|2041|ruleSelector|Template|
+2126|2042|contentFragment|<requests name="ReviewersNode"><ruleTemplate>ReviewersRouting</ruleTemplate></requests>|
+2127|2042|ruleTemplate|ReviewersRouting|
+2128|2042|ruleSelector|Template|
+2129|2043|contentFragment|<requests name="RequestsNode"><ruleTemplate>NotificationRouting</ruleTemplate></requests>|
+2130|2043|ruleTemplate|NotificationRouting|
+2131|2043|ruleSelector|Template|
+2170|2061|contentFragment|<start name="Initiated"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>|
+2171|2061|activationType|P|
+2172|2061|mandatoryRoute|false|
+2173|2061|finalApproval|false|
+2174|2061|ruleSelector|Template|
+2175|2063|contentFragment|<start name="Initiated"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>|
+2176|2063|activationType|P|
+2177|2063|mandatoryRoute|false|
+2178|2063|finalApproval|false|
+2179|2063|ruleSelector|Template|
+2180|2065|contentFragment|<start name="Initiated"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>|
+2181|2065|activationType|P|
+2182|2065|mandatoryRoute|false|
+2183|2065|finalApproval|false|
+2184|2065|ruleSelector|Template|
+2185|2067|contentFragment|<start name="Initiated"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>|
+2186|2067|activationType|P|
+2187|2067|mandatoryRoute|false|
+2188|2067|finalApproval|false|
+2189|2067|ruleSelector|Template|
+2380|2840|contentFragment|<start name="PreRoute"><activationType>S</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>|
+2381|2840|activationType|S|
+2382|2840|mandatoryRoute|false|
+2383|2840|finalApproval|false|
+2384|2840|ruleSelector|Template|
+2430|2898|contentFragment|<start name="AdHoc"/>|
+2431|2898|ruleSelector|Template|
+2432|2899|contentFragment|<role name="RoleType"><qualifierResolverClass>org.kuali.rice.kim.impl.type.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>|
+2433|2899|qualifierResolverClass|org.kuali.rice.kim.impl.type.KimTypeQualifierResolver|
+2434|2899|activationType|P|
+2435|2899|ruleSelector|Template|
+2436|2901|contentFragment|<start name="AdHoc"/>|
+2437|2901|ruleSelector|Template|
+2438|2902|contentFragment|<role name="GroupType"><qualifierResolverClass>org.kuali.rice.kim.impl.type.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>|
+2439|2902|qualifierResolverClass|org.kuali.rice.kim.impl.type.KimTypeQualifierResolver|
+2440|2902|activationType|P|
+2441|2902|ruleSelector|Template|
+2442|2904|contentFragment|<start name="AdHoc"/>|
+2443|2904|ruleSelector|Template|
+2444|2905|contentFragment|<role name="GroupType"><qualifierResolverClass>org.kuali.rice.kim.impl.type.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>|
+2445|2905|qualifierResolverClass|org.kuali.rice.kim.impl.type.KimTypeQualifierResolver|
+2446|2905|activationType|P|
+2447|2905|ruleSelector|Template|
+2448|2906|contentFragment|<role name="RoleType"><qualifierResolverClass>org.kuali.rice.kim.impl.type.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>|
+2449|2906|qualifierResolverClass|org.kuali.rice.kim.impl.type.KimTypeQualifierResolver|
+2450|2906|activationType|P|
+2451|2906|ruleSelector|Template|
+2452|2908|contentFragment|<start name="AdHoc"/>|
+2453|2908|ruleSelector|Template|
+2454|2910|contentFragment|<start name="AdHoc"/>|
+2455|2910|ruleSelector|Template|
+2470|2917|contentFragment|<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+|
+2471|2917|activationType|P|
+2472|2917|mandatoryRoute|false|
+2473|2917|finalApproval|false|
+2474|2917|ruleSelector|Template|
+2475|2919|contentFragment|<start name="AdHoc"/>
+|
+2476|2919|ruleSelector|Template|
+2477|2921|contentFragment|<start name="AdHoc"/>
+|
+2478|2921|ruleSelector|Template|
+2479|2922|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2480|2922|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2481|2922|ruleSelector|Template|
+2482|2925|contentFragment|<start name="AdHoc"/>
+|
+2483|2925|ruleSelector|Template|
+2484|2926|contentFragment|<role name="ProjectManagement">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2485|2926|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2486|2926|ruleSelector|Template|
+2487|2928|contentFragment|<start name="AdHoc"/>
+|
+2488|2928|ruleSelector|Template|
+2489|2929|contentFragment|<simple name="autoApproveForAsynchronousProcessing">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+2490|2929|type|org.kuali.rice.kew.engine.node.NoOpNode|
+2491|2929|ruleSelector|Template|
+2492|2931|contentFragment|<start name="AdHoc"/>
+|
+2493|2931|ruleSelector|Template|
+2494|2932|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2495|2932|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2496|2932|activationType|P|
+2497|2932|ruleSelector|Template|
+2498|2933|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2499|2933|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2500|2933|activationType|P|
+2501|2933|ruleSelector|Template|
+2502|2934|contentFragment|<role name="Chart">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2503|2934|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2504|2934|activationType|P|
+2505|2934|ruleSelector|Template|
+2506|2936|contentFragment|<start name="AdHoc"/>
+|
+2507|2936|ruleSelector|Template|
+2508|2937|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2509|2937|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2510|2937|activationType|P|
+2511|2937|ruleSelector|Template|
+2512|2938|contentFragment|<role name="Chart">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2513|2938|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2514|2938|activationType|P|
+2515|2938|ruleSelector|Template|
+2516|2939|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2517|2939|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2518|2939|activationType|P|
+2519|2939|ruleSelector|Template|
+2520|2941|contentFragment|<start name="AdHoc"/>
+|
+2521|2941|ruleSelector|Template|
+2522|2942|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2523|2942|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2524|2942|ruleSelector|Template|
+2525|2943|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2526|2943|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2527|2943|ruleSelector|Template|
+2528|2945|contentFragment|<start name="AdHoc"/>
+|
+2529|2945|ruleSelector|Template|
+2530|2946|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2531|2946|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2532|2946|ruleSelector|Template|
+2533|2947|contentFragment|<role name="Chart">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2534|2947|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2535|2947|ruleSelector|Template|
+2536|2949|contentFragment|<start name="AdHoc"/>
+|
+2537|2949|ruleSelector|Template|
+2538|2950|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2539|2950|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2540|2950|ruleSelector|Template|
+2541|2951|contentFragment|<role name="Chart">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2542|2951|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2543|2951|ruleSelector|Template|
+2544|2953|contentFragment|<start name="AdHoc"/>
+|
+2545|2953|ruleSelector|Template|
+2546|2954|contentFragment|<role name="Chart">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2547|2954|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2548|2954|ruleSelector|Template|
+2549|2956|contentFragment|<start name="AdHoc"/>
+|
+2550|2956|ruleSelector|Template|
+2551|2957|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2552|2957|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2553|2957|ruleSelector|Template|
+2554|2958|contentFragment|<role name="Chart">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2555|2958|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2556|2958|ruleSelector|Template|
+2557|2960|contentFragment|<start name="AdHoc"/>
+|
+2558|2960|ruleSelector|Template|
+2559|2961|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2560|2961|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2561|2961|ruleSelector|Template|
+2562|2962|contentFragment|<role name="Chart">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2563|2962|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2564|2962|ruleSelector|Template|
+2565|2964|contentFragment|<start name="AdHoc"/>
+|
+2566|2964|ruleSelector|Template|
+2567|2965|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2568|2965|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2569|2965|ruleSelector|Template|
+2570|2967|contentFragment|<start name="AdHoc"/>
+|
+2571|2967|ruleSelector|Template|
+2572|2968|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2573|2968|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2574|2968|ruleSelector|Template|
+2575|2969|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2576|2969|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2577|2969|ruleSelector|Template|
+2578|2971|contentFragment|<start name="AdHoc"/>
+|
+2579|2971|ruleSelector|Template|
+2580|2972|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2581|2972|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2582|2972|ruleSelector|Template|
+2583|2973|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2584|2973|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2585|2973|ruleSelector|Template|
+2586|2975|contentFragment|<start name="AdHoc"/>
+|
+2587|2975|ruleSelector|Template|
+2588|2976|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2589|2976|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2590|2976|activationType|P|
+2591|2976|ruleSelector|Template|
+2592|2977|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2593|2977|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2594|2977|activationType|P|
+2595|2977|ruleSelector|Template|
+2596|2978|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2597|2978|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2598|2978|activationType|P|
+2599|2978|ruleSelector|Template|
+2600|2979|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2601|2979|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2602|2979|activationType|P|
+2603|2979|ruleSelector|Template|
+2604|2980|contentFragment|<role name="Chart">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2605|2980|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2606|2980|activationType|P|
+2607|2980|ruleSelector|Template|
+2608|2982|contentFragment|<start name="AdHoc"/>
+|
+2609|2982|ruleSelector|Template|
+2610|2983|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2611|2983|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2612|2983|activationType|P|
+2613|2983|ruleSelector|Template|
+2614|2985|contentFragment|<start name="AdHoc"/>
+|
+2615|2985|ruleSelector|Template|
+2616|2986|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.kfs.coa.document.workflow.OrganizationGroupTypeQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2617|2986|qualifierResolverClass|org.kuali.kfs.coa.document.workflow.OrganizationGroupTypeQualifierResolver|
+2618|2986|activationType|P|
+2619|2986|ruleSelector|Template|
+2620|2988|contentFragment|<start name="AdHoc"/>
+|
+2621|2988|ruleSelector|Template|
+2622|2989|contentFragment|<split name="RequiresApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+2623|2989|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+2624|2989|ruleSelector|Template|
+2625|2991|contentFragment|<role name="Management">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2626|2991|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2627|2991|ruleSelector|Template|
+2628|2992|contentFragment|<role name="Initiator">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2629|2992|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2630|2992|ruleSelector|Template|
+2631|2993|contentFragment|<join name="Join"/>
+|
+2632|2993|ruleSelector|Template|
+2633|2995|contentFragment|<simple name="Do Nothing">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+2634|2995|type|org.kuali.rice.kew.engine.node.NoOpNode|
+2635|2995|ruleSelector|Template|
+2636|2997|contentFragment|<start name="AdHoc"/>
+|
+2637|2997|ruleSelector|Template|
+2638|2999|contentFragment|<start name="AdHoc"/>
+|
+2639|2999|ruleSelector|Template|
+2640|3001|contentFragment|<start name="AdHoc"/>
+|
+2641|3001|ruleSelector|Template|
+2642|3002|contentFragment|<role name="CashManagement">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<mandatoryRoute>true</mandatoryRoute>
+</role>
+|
+2643|3002|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2644|3002|mandatoryRoute|true|
+2645|3002|ruleSelector|Template|
+2646|3004|contentFragment|<start name="AdHoc"/>
+|
+2647|3004|ruleSelector|Template|
+2648|3006|contentFragment|<start name="AdHoc"/>
+|
+2649|3006|ruleSelector|Template|
+2650|3008|contentFragment|<start name="AdHoc"/>
+|
+2651|3008|ruleSelector|Template|
+2652|3010|contentFragment|<start name="AdHoc"/>
+|
+2653|3010|ruleSelector|Template|
+2654|3011|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2655|3011|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2656|3011|activationType|P|
+2657|3011|ruleSelector|Template|
+2658|3012|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2659|3012|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2660|3012|activationType|P|
+2661|3012|ruleSelector|Template|
+2662|3014|contentFragment|<start name="AdHoc"/>
+|
+2663|3014|ruleSelector|Template|
+2664|3015|contentFragment|<split name="RequiresFullApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+2665|3015|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+2666|3015|ruleSelector|Template|
+2667|3017|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2668|3017|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2669|3017|activationType|P|
+2670|3017|ruleSelector|Template|
+2671|3018|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2672|3018|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2673|3018|activationType|P|
+2674|3018|ruleSelector|Template|
+2675|3019|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2676|3019|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2677|3019|activationType|P|
+2678|3019|ruleSelector|Template|
+2679|3020|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2680|3020|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2681|3020|activationType|P|
+2682|3020|ruleSelector|Template|
+2683|3021|contentFragment|<join name="JoinRequiresFullApproval"/>
+|
+2684|3021|ruleSelector|Template|
+2685|3023|contentFragment|<simple name="Do Nothing">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+2686|3023|type|org.kuali.rice.kew.engine.node.NoOpNode|
+2687|3023|ruleSelector|Template|
+2688|3025|contentFragment|<start name="AdHoc"/>
+|
+2689|3025|ruleSelector|Template|
+2690|3026|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2691|3026|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2692|3026|activationType|P|
+2693|3026|ruleSelector|Template|
+2694|3027|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2695|3027|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2696|3027|activationType|P|
+2697|3027|ruleSelector|Template|
+2698|3028|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2699|3028|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2700|3028|activationType|P|
+2701|3028|ruleSelector|Template|
+2702|3029|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2703|3029|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2704|3029|activationType|P|
+2705|3029|ruleSelector|Template|
+2706|3031|contentFragment|<start name="AdHoc"/>
+|
+2707|3031|ruleSelector|Template|
+2708|3032|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2709|3032|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2710|3032|activationType|P|
+2711|3032|ruleSelector|Template|
+2712|3033|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2713|3033|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2714|3033|activationType|P|
+2715|3033|ruleSelector|Template|
+2716|3034|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2717|3034|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2718|3034|activationType|P|
+2719|3034|ruleSelector|Template|
+2720|3035|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2721|3035|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2722|3035|activationType|P|
+2723|3035|ruleSelector|Template|
+2724|3037|contentFragment|<start name="AdHoc"/>
+|
+2725|3037|ruleSelector|Template|
+2726|3038|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2727|3038|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2728|3038|activationType|P|
+2729|3038|ruleSelector|Template|
+2730|3039|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2731|3039|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2732|3039|activationType|P|
+2733|3039|ruleSelector|Template|
+2734|3040|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2735|3040|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2736|3040|activationType|P|
+2737|3040|ruleSelector|Template|
+2738|3041|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2739|3041|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2740|3041|activationType|P|
+2741|3041|ruleSelector|Template|
+2742|3043|contentFragment|<start name="AdHoc"/>
+|
+2743|3043|ruleSelector|Template|
+2744|3044|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2745|3044|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2746|3044|activationType|P|
+2747|3044|ruleSelector|Template|
+2748|3045|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2749|3045|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2750|3045|activationType|P|
+2751|3045|ruleSelector|Template|
+2752|3046|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2753|3046|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2754|3046|activationType|P|
+2755|3046|ruleSelector|Template|
+2756|3047|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2757|3047|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2758|3047|activationType|P|
+2759|3047|ruleSelector|Template|
+2760|3049|contentFragment|<start name="AdHoc"/>
+|
+2761|3049|ruleSelector|Template|
+2762|3050|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2763|3050|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2764|3050|activationType|P|
+2765|3050|ruleSelector|Template|
+2766|3051|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2767|3051|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2768|3051|activationType|P|
+2769|3051|ruleSelector|Template|
+2770|3052|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2771|3052|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2772|3052|activationType|P|
+2773|3052|ruleSelector|Template|
+2774|3054|contentFragment|<start name="AdHoc"/>
+|
+2775|3054|ruleSelector|Template|
+2776|3055|contentFragment|<role name="AccountFullEdit">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2777|3055|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2778|3055|ruleSelector|Template|
+2779|3056|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2780|3056|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2781|3056|activationType|P|
+2782|3056|ruleSelector|Template|
+2783|3057|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2784|3057|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2785|3057|activationType|P|
+2786|3057|ruleSelector|Template|
+2787|3058|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2788|3058|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2789|3058|activationType|P|
+2790|3058|ruleSelector|Template|
+2791|3060|contentFragment|<start name="AdHoc"/>
+|
+2792|3060|ruleSelector|Template|
+2793|3061|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2794|3061|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2795|3061|activationType|P|
+2796|3061|ruleSelector|Template|
+2797|3062|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2798|3062|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2799|3062|activationType|P|
+2800|3062|ruleSelector|Template|
+2801|3063|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2802|3063|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2803|3063|activationType|P|
+2804|3063|ruleSelector|Template|
+2805|3064|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2806|3064|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2807|3064|activationType|P|
+2808|3064|ruleSelector|Template|
+2809|3066|contentFragment|<start name="AdHoc"/>
+|
+2810|3066|ruleSelector|Template|
+2811|3067|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2812|3067|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2813|3067|activationType|P|
+2814|3067|ruleSelector|Template|
+2815|3068|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2816|3068|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2817|3068|activationType|P|
+2818|3068|ruleSelector|Template|
+2819|3069|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2820|3069|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2821|3069|activationType|P|
+2822|3069|ruleSelector|Template|
+2823|3071|contentFragment|<start name="AdHoc"/>
+|
+2824|3071|ruleSelector|Template|
+2825|3072|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2826|3072|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2827|3072|activationType|P|
+2828|3072|ruleSelector|Template|
+2829|3073|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2830|3073|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2831|3073|activationType|P|
+2832|3073|ruleSelector|Template|
+2833|3074|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2834|3074|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2835|3074|activationType|P|
+2836|3074|ruleSelector|Template|
+2837|3076|contentFragment|<start name="AdHoc"/>
+|
+2838|3076|ruleSelector|Template|
+2839|3077|contentFragment|<split name="PayeeIsPurchaseOrderVendor">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+2840|3077|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+2841|3077|ruleSelector|Template|
+2842|3079|contentFragment|<role name="Purchasing">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2843|3079|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2844|3079|activationType|P|
+2845|3079|ruleSelector|Template|
+2846|3080|contentFragment|<join name="JoinPayeeIsPurchaseOrderVendor"/>
+|
+2847|3080|ruleSelector|Template|
+2848|3082|contentFragment|<simple name="NoOpPayee">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+2849|3082|type|org.kuali.rice.kew.engine.node.NoOpNode|
+2850|3082|ruleSelector|Template|
+2851|3083|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2852|3083|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2853|3083|activationType|P|
+2854|3083|ruleSelector|Template|
+2855|3084|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2856|3084|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2857|3084|activationType|P|
+2858|3084|ruleSelector|Template|
+2859|3085|contentFragment|<split name="RequiresTaxReview">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+2860|3085|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+2861|3085|ruleSelector|Template|
+2862|3087|contentFragment|<role name="Tax">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2863|3087|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2864|3087|activationType|P|
+2865|3087|ruleSelector|Template|
+2866|3088|contentFragment|<join name="JoinRequiresTaxReview"/>
+|
+2867|3088|ruleSelector|Template|
+2868|3090|contentFragment|<simple name="NoOpTaxReview">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+2869|3090|type|org.kuali.rice.kew.engine.node.NoOpNode|
+2870|3090|ruleSelector|Template|
+2871|3091|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2872|3091|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2873|3091|activationType|P|
+2874|3091|ruleSelector|Template|
+2875|3092|contentFragment|<split name="RequiresTravelReview">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+2876|3092|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+2877|3092|ruleSelector|Template|
+2878|3094|contentFragment|<role name="Travel">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2879|3094|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2880|3094|activationType|P|
+2881|3094|ruleSelector|Template|
+2882|3095|contentFragment|<join name="JoinRequiresTravelReview"/>
+|
+2883|3095|ruleSelector|Template|
+2884|3097|contentFragment|<simple name="NoOpTravelReview">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+2885|3097|type|org.kuali.rice.kew.engine.node.NoOpNode|
+2886|3097|ruleSelector|Template|
+2887|3098|contentFragment|<role name="Campus">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2888|3098|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2889|3098|activationType|P|
+2890|3098|ruleSelector|Template|
+2891|3099|contentFragment|<role name="PaymentMethod">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2892|3099|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2893|3099|activationType|P|
+2894|3099|ruleSelector|Template|
+2895|3100|contentFragment|<split name="RequiresSeparationOfDutiesReview">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+2896|3100|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+2897|3100|ruleSelector|Template|
+2898|3102|contentFragment|<role name="SeparationOfDuties">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2899|3102|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2900|3102|ruleSelector|Template|
+2901|3103|contentFragment|<join name="Join"/>
+|
+2902|3103|ruleSelector|Template|
+2903|3105|contentFragment|<simple name="NoOp">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+2904|3105|type|org.kuali.rice.kew.engine.node.NoOpNode|
+2905|3105|ruleSelector|Template|
+2906|3120|contentFragment|<start name="AdHoc"/>
+|
+2907|3120|ruleSelector|Template|
+2908|3121|contentFragment|<role name="Lockbox">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<mandatoryRoute>true</mandatoryRoute>
+</role>
+|
+2909|3121|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2910|3121|mandatoryRoute|true|
+2911|3121|ruleSelector|Template|
+2912|3122|contentFragment|<split name="AssociatedWithElectronicPayment">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+2913|3122|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+2914|3122|ruleSelector|Template|
+2915|3124|contentFragment|<role name="ElectronicPayment">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+2916|3124|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2917|3124|ruleSelector|Template|
+2918|3125|contentFragment|<join name="Join"/>
+|
+2919|3125|ruleSelector|Template|
+2920|3127|contentFragment|<simple name="NoOp">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+2921|3127|type|org.kuali.rice.kew.engine.node.NoOpNode|
+2922|3127|ruleSelector|Template|
+2923|3129|contentFragment|<start name="AdHoc"/>
+|
+2924|3129|ruleSelector|Template|
+2925|3130|contentFragment|<split name="RequiresApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+2926|3130|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+2927|3130|ruleSelector|Template|
+2928|3132|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2929|3132|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2930|3132|activationType|P|
+2931|3132|ruleSelector|Template|
+2932|3133|contentFragment|<join name="Join"/>
+|
+2933|3133|ruleSelector|Template|
+2934|3135|contentFragment|<simple name="NoOp">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+2935|3135|type|org.kuali.rice.kew.engine.node.NoOpNode|
+2936|3135|ruleSelector|Template|
+2937|3137|contentFragment|<start name="AdHoc"/>
+|
+2938|3137|ruleSelector|Template|
+2939|3138|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2940|3138|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2941|3138|activationType|P|
+2942|3138|ruleSelector|Template|
+2943|3139|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2944|3139|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2945|3139|activationType|P|
+2946|3139|ruleSelector|Template|
+2947|3141|contentFragment|<start name="AdHoc"/>
+|
+2948|3141|ruleSelector|Template|
+2949|3142|contentFragment|<split name="HasReccurence">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+2950|3142|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+2951|3142|ruleSelector|Template|
+2952|3144|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2953|3144|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2954|3144|activationType|P|
+2955|3144|ruleSelector|Template|
+2956|3145|contentFragment|<role name="Recurrence">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2957|3145|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2958|3145|activationType|P|
+2959|3145|ruleSelector|Template|
+2960|3146|contentFragment|<join name="Join"/>
+|
+2961|3146|ruleSelector|Template|
+2962|3148|contentFragment|<simple name="NoOp">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+2963|3148|type|org.kuali.rice.kew.engine.node.NoOpNode|
+2964|3148|ruleSelector|Template|
+2965|3150|contentFragment|<start name="AdHoc"/>
+|
+2966|3150|ruleSelector|Template|
+2967|3151|contentFragment|<split name="InvoiceRecurrenceIsInactivating">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+2968|3151|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+2969|3151|ruleSelector|Template|
+2970|3153|contentFragment|<role name="RecurrenceCreator">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2971|3153|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2972|3153|activationType|P|
+2973|3153|ruleSelector|Template|
+2974|3154|contentFragment|<join name="JoinInvoiceRecurrenceIsInactivating"/>
+|
+2975|3154|ruleSelector|Template|
+2976|3156|contentFragment|<simple name="NoOpInvoiceRecurrenceIsInactivating">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+2977|3156|type|org.kuali.rice.kew.engine.node.NoOpNode|
+2978|3156|ruleSelector|Template|
+2979|3157|contentFragment|<split name="InitiatedBySystemUser">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+2980|3157|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+2981|3157|ruleSelector|Template|
+2982|3159|contentFragment|<simple name="NoOpInitiatedBySystemUser">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+2983|3159|type|org.kuali.rice.kew.engine.node.NoOpNode|
+2984|3159|ruleSelector|Template|
+2985|3160|contentFragment|<join name="JoinInitiatedBySystemUser"/>
+|
+2986|3160|ruleSelector|Template|
+2987|3162|contentFragment|<role name="Recurrence">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2988|3162|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2989|3162|activationType|P|
+2990|3162|ruleSelector|Template|
+2991|3163|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+2992|3163|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+2993|3163|activationType|P|
+2994|3163|ruleSelector|Template|
+2995|3165|contentFragment|<start name="AdHoc"/>
+|
+2996|3165|ruleSelector|Template|
+2997|3166|contentFragment|<split name="RequiresApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+2998|3166|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+2999|3166|ruleSelector|Template|
+3000|3168|contentFragment|<role name="Management">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3001|3168|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3002|3168|ruleSelector|Template|
+3003|3169|contentFragment|<join name="Join"/>
+|
+3004|3169|ruleSelector|Template|
+3005|3171|contentFragment|<simple name="NoOp">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3006|3171|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3007|3171|ruleSelector|Template|
+3008|3173|contentFragment|<start name="AdHoc"/>
+|
+3009|3173|ruleSelector|Template|
+3010|3174|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3011|3174|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3012|3174|ruleSelector|Template|
+3013|3176|contentFragment|<start name="AdHoc"/>
+|
+3014|3176|ruleSelector|Template|
+3015|3177|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3016|3177|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3017|3177|ruleSelector|Template|
+3018|3178|contentFragment|<role name="Management">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3019|3178|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3020|3178|ruleSelector|Template|
+3021|3181|contentFragment|<start name="AdHoc"/>
+|
+3022|3181|ruleSelector|Template|
+3023|3182|contentFragment|<role name="PlantFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3024|3182|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3025|3182|ruleSelector|Template|
+3026|3184|contentFragment|<start name="AdHoc"/>
+|
+3027|3184|ruleSelector|Template|
+3028|3185|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3029|3185|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3030|3185|ruleSelector|Template|
+3031|3186|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3032|3186|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3033|3186|ruleSelector|Template|
+3034|3188|contentFragment|<start name="AdHoc"/>
+|
+3035|3188|ruleSelector|Template|
+3036|3189|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3037|3189|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3038|3189|ruleSelector|Template|
+3039|3190|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3040|3190|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3041|3190|ruleSelector|Template|
+3042|3191|contentFragment|<role name="Borrower">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3043|3191|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3044|3191|ruleSelector|Template|
+3045|3193|contentFragment|<start name="AdHoc"/>
+|
+3046|3193|ruleSelector|Template|
+3047|3194|contentFragment|<role name="Initiator">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3048|3194|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3049|3194|activationType|P|
+3050|3194|ruleSelector|Template|
+3051|3196|contentFragment|<start name="AdHoc"/>
+|
+3052|3196|ruleSelector|Template|
+3053|3197|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3054|3197|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3055|3197|ruleSelector|Template|
+3056|3198|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3057|3198|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3058|3198|ruleSelector|Template|
+3059|3199|contentFragment|<role name="Management">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3060|3199|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3061|3199|ruleSelector|Template|
+3062|3201|contentFragment|<start name="AdHoc"/>
+|
+3063|3201|ruleSelector|Template|
+3064|3202|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3065|3202|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3066|3202|ruleSelector|Template|
+3067|3203|contentFragment|<split name="RetiredAssetTransferredExternally">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3068|3203|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3069|3203|ruleSelector|Template|
+3070|3205|contentFragment|<role name="ExternalTransfer">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3071|3205|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3072|3205|ruleSelector|Template|
+3073|3206|contentFragment|<join name="JoinRetiredAssetTransferredExternally"/>
+|
+3074|3206|ruleSelector|Template|
+3075|3208|contentFragment|<simple name="NoOpExternal">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3076|3208|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3077|3208|ruleSelector|Template|
+3078|3209|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3079|3209|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3080|3209|ruleSelector|Template|
+3081|3210|contentFragment|<split name="RetiredAssetSoldOrGifted">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3082|3210|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3083|3210|ruleSelector|Template|
+3084|3212|contentFragment|<role name="Purchasing">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3085|3212|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3086|3212|ruleSelector|Template|
+3087|3213|contentFragment|<join name="JoinRetiredAssetSoldOrGifted"/>
+|
+3088|3213|ruleSelector|Template|
+3089|3215|contentFragment|<simple name="NoOp">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3090|3215|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3091|3215|ruleSelector|Template|
+3092|3217|contentFragment|<start name="AdHoc"/>
+|
+3093|3217|ruleSelector|Template|
+3094|3218|contentFragment|<split name="RequiresReview">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3095|3218|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3096|3218|ruleSelector|Template|
+3097|3220|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3098|3220|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3099|3220|activationType|P|
+3100|3220|ruleSelector|Template|
+3101|3221|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3102|3221|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3103|3221|activationType|P|
+3104|3221|ruleSelector|Template|
+3105|3222|contentFragment|<join name="JoinRequiresReview"/>
+|
+3106|3222|ruleSelector|Template|
+3107|3224|contentFragment|<simple name="NoOpRequiresReview">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3108|3224|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3109|3224|ruleSelector|Template|
+3110|3226|contentFragment|<start name="AdHoc"/>
+|
+3111|3226|ruleSelector|Template|
+3112|3227|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3113|3227|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3114|3227|activationType|P|
+3115|3227|ruleSelector|Template|
+3116|3229|contentFragment|<start name="AdHoc"/>
+|
+3117|3229|ruleSelector|Template|
+3118|3230|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3119|3230|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3120|3230|ruleSelector|Template|
+3121|3231|contentFragment|<role name="ResearchRisk">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3122|3231|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3123|3231|ruleSelector|Template|
+3124|3233|contentFragment|<start name="AdHoc"/>
+|
+3125|3233|ruleSelector|Template|
+3126|3234|contentFragment|<role name="Unprocessed">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3127|3234|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3128|3234|ruleSelector|Template|
+3129|3235|contentFragment|<role name="Management">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+</role>
+|
+3130|3235|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3131|3235|ruleSelector|Template|
+3132|3237|contentFragment|<start name="AdHoc"/>
+|
+3133|3237|ruleSelector|Template|
+3134|3238|contentFragment|<role name="ProjectManagement">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3135|3238|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3136|3238|activationType|P|
+3137|3238|ruleSelector|Template|
+3138|3239|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3139|3239|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3140|3239|activationType|P|
+3141|3239|ruleSelector|Template|
+3142|3240|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3143|3240|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3144|3240|activationType|P|
+3145|3240|ruleSelector|Template|
+3146|3241|contentFragment|<split name="DoAwardSplit">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3147|3241|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3148|3241|ruleSelector|Template|
+3149|3243|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3150|3243|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3151|3243|activationType|P|
+3152|3243|ruleSelector|Template|
+3153|3244|contentFragment|<join name="AwardJoin"/>
+|
+3154|3244|ruleSelector|Template|
+3155|3246|contentFragment|<simple name="AwardDoNothing">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3156|3246|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3157|3246|ruleSelector|Template|
+3158|3247|contentFragment|<split name="RequiresWorkstudyReview">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3159|3247|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3160|3247|ruleSelector|Template|
+3161|3249|contentFragment|<role name="Workstudy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3162|3249|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3163|3249|activationType|P|
+3164|3249|ruleSelector|Template|
+3165|3250|contentFragment|<join name="JoinRequiresWorkstudyReview"/>
+|
+3166|3250|ruleSelector|Template|
+3167|3252|contentFragment|<simple name="RequiresWorkstudyNoOp">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3168|3252|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3169|3252|ruleSelector|Template|
+3170|3253|contentFragment|<split name="DoRecreateSplit">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3171|3253|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3172|3253|ruleSelector|Template|
+3173|3255|contentFragment|<role name="Management">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3174|3255|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3175|3255|activationType|P|
+3176|3255|ruleSelector|Template|
+3177|3256|contentFragment|<join name="RecreateJoin"/>
+|
+3178|3256|ruleSelector|Template|
+3179|3258|contentFragment|<simple name="RecreateDoNothing">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3180|3258|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3181|3258|ruleSelector|Template|
+3182|3260|contentFragment|<start name="AdHoc"/>
+|
+3183|3260|ruleSelector|Template|
+3184|3261|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3185|3261|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3186|3261|activationType|P|
+3187|3261|ruleSelector|Template|
+3188|3262|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3189|3262|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3190|3262|activationType|P|
+3191|3262|ruleSelector|Template|
+3192|3263|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3193|3263|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3194|3263|activationType|P|
+3195|3263|ruleSelector|Template|
+3196|3265|contentFragment|<start name="AdHoc"/>
+|
+3197|3265|ruleSelector|Template|
+3198|3266|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3199|3266|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3200|3266|activationType|P|
+3201|3266|ruleSelector|Template|
+3202|3267|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3203|3267|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3204|3267|activationType|P|
+3205|3267|ruleSelector|Template|
+3206|3268|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3207|3268|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3208|3268|activationType|P|
+3209|3268|ruleSelector|Template|
+3210|3269|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3211|3269|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3212|3269|activationType|P|
+3213|3269|ruleSelector|Template|
+3214|3270|contentFragment|<split name="RequiresWorkstudyReview">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3215|3270|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3216|3270|ruleSelector|Template|
+3217|3272|contentFragment|<role name="Workstudy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3218|3272|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3219|3272|activationType|P|
+3220|3272|ruleSelector|Template|
+3221|3273|contentFragment|<join name="JoinRequiresWorkstudyReview"/>
+|
+3222|3273|ruleSelector|Template|
+3223|3275|contentFragment|<simple name="RequiresWorkstudyNoOp">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3224|3275|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3225|3275|ruleSelector|Template|
+3226|3277|contentFragment|<start name="AdHoc"/>
+|
+3227|3277|ruleSelector|Template|
+3228|3279|contentFragment|<start name="AdHoc"/>
+|
+3229|3279|ruleSelector|Template|
+3230|3280|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3231|3280|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3232|3280|activationType|P|
+3233|3280|ruleSelector|Template|
+3234|3281|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3235|3281|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3236|3281|activationType|P|
+3237|3281|ruleSelector|Template|
+3238|3282|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3239|3282|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3240|3282|activationType|P|
+3241|3282|ruleSelector|Template|
+3242|3283|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3243|3283|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3244|3283|activationType|P|
+3245|3283|ruleSelector|Template|
+3246|3285|contentFragment|<start name="AdHoc"/>
+|
+3247|3285|ruleSelector|Template|
+3248|3286|contentFragment|<simple name="autoApproveForAsynchronousProcessing">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3249|3286|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3250|3286|ruleSelector|Template|
+3251|3288|contentFragment|<start name="AdHoc"/>
+|
+3252|3288|ruleSelector|Template|
+3253|3290|contentFragment|<start name="AdHoc"/>
+|
+3254|3290|ruleSelector|Template|
+3255|3291|contentFragment|<role name="Organization">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3256|3291|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3257|3291|activationType|P|
+3258|3291|ruleSelector|Template|
+3259|3292|contentFragment|<split name="HasAccountingLines">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3260|3292|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3261|3292|ruleSelector|Template|
+3262|3294|contentFragment|<simple name="NoOpHasAccountingLines">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3263|3294|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3264|3294|ruleSelector|Template|
+3265|3295|contentFragment|<join name="JoinHasAccountingLines"/>
+|
+3266|3295|ruleSelector|Template|
+3267|3297|contentFragment|<role name="Initiator">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3268|3297|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3269|3297|activationType|P|
+3270|3297|ruleSelector|Template|
+3271|3298|contentFragment|<role name="SubAccount">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3272|3298|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3273|3298|activationType|P|
+3274|3298|ruleSelector|Template|
+3275|3299|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+<mandatoryRoute>true</mandatoryRoute>
+</role>
+|
+3276|3299|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3277|3299|activationType|P|
+3278|3299|mandatoryRoute|true|
+3279|3299|ruleSelector|Template|
+3280|3300|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3281|3300|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3282|3300|activationType|P|
+3283|3300|ruleSelector|Template|
+3284|3301|contentFragment|<role name="Commodity">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3285|3301|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3286|3301|activationType|P|
+3287|3301|ruleSelector|Template|
+3288|3302|contentFragment|<split name="AmountRequiresSeparationOfDutiesReview">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3289|3302|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3290|3302|ruleSelector|Template|
+3291|3304|contentFragment|<role name="SeparationOfDuties">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3292|3304|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3293|3304|activationType|P|
+3294|3304|ruleSelector|Template|
+3295|3305|contentFragment|<join name="Join"/>
+|
+3296|3305|ruleSelector|Template|
+3297|3307|contentFragment|<simple name="NoOp">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3298|3307|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3299|3307|ruleSelector|Template|
+3300|3309|contentFragment|<start name="AdHoc"/>
+|
+3301|3309|ruleSelector|Template|
+3302|3310|contentFragment|<split name="RequiresContractManagementReview">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3303|3310|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3304|3310|ruleSelector|Template|
+3305|3312|contentFragment|<role name="ContractManagement">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3306|3312|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3307|3312|activationType|P|
+3308|3312|ruleSelector|Template|
+3309|3313|contentFragment|<join name="JoinRequiresContractManagementReview"/>
+|
+3310|3313|ruleSelector|Template|
+3311|3315|contentFragment|<simple name="NoOpRequiresContractManagementReview">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3312|3315|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3313|3315|ruleSelector|Template|
+3314|3316|contentFragment|<role name="Commodity">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3315|3316|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3316|3316|activationType|P|
+3317|3316|ruleSelector|Template|
+3318|3317|contentFragment|<split name="RequiresAwardReview">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3319|3317|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3320|3317|ruleSelector|Template|
+3321|3319|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3322|3319|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3323|3319|activationType|P|
+3324|3319|ruleSelector|Template|
+3325|3320|contentFragment|<join name="JoinRequiresAwardReview"/>
+|
+3326|3320|ruleSelector|Template|
+3327|3322|contentFragment|<simple name="NoOpRequiresAwardReview">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3328|3322|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3329|3322|ruleSelector|Template|
+3330|3323|contentFragment|<split name="RequiresBudgetReview">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3331|3323|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3332|3323|ruleSelector|Template|
+3333|3325|contentFragment|<role name="Budget">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3334|3325|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3335|3325|activationType|P|
+3336|3325|ruleSelector|Template|
+3337|3326|contentFragment|<join name="JoinRequiresBudgetReview"/>
+|
+3338|3326|ruleSelector|Template|
+3339|3328|contentFragment|<simple name="NoOpBudget">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3340|3328|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3341|3328|ruleSelector|Template|
+3342|3329|contentFragment|<split name="VendorIsEmployeeOrNonResidentAlien">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3343|3329|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3344|3329|ruleSelector|Template|
+3345|3331|contentFragment|<role name="Tax">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3346|3331|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3347|3331|activationType|P|
+3348|3331|ruleSelector|Template|
+3349|3332|contentFragment|<join name="JoinVendorIsEmployeeOrNonResidentAlien"/>
+|
+3350|3332|ruleSelector|Template|
+3351|3334|contentFragment|<simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3352|3334|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3353|3334|ruleSelector|Template|
+3354|3336|contentFragment|<start name="AdHoc"/>
+|
+3355|3336|ruleSelector|Template|
+3356|3337|contentFragment|<split name="HasNewUnorderedItems">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3357|3337|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3358|3337|ruleSelector|Template|
+3359|3339|contentFragment|<role name="NewUnorderedItems">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3360|3339|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3361|3339|activationType|P|
+3362|3339|ruleSelector|Template|
+3363|3340|contentFragment|<join name="Join"/>
+|
+3364|3340|ruleSelector|Template|
+3365|3342|contentFragment|<simple name="NoOp">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3366|3342|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3367|3342|ruleSelector|Template|
+3368|3344|contentFragment|<start name="AdHoc"/>
+|
+3369|3344|ruleSelector|Template|
+3370|3346|contentFragment|<start name="AdHoc"/>
+|
+3371|3346|ruleSelector|Template|
+3372|3348|contentFragment|<start name="AdHoc"/>
+|
+3373|3348|ruleSelector|Template|
+3374|3349|contentFragment|<role name="AccountsPayable">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3375|3349|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3376|3349|activationType|P|
+3377|3349|ruleSelector|Template|
+3378|3351|contentFragment|<start name="AdHoc"/>
+|
+3379|3351|ruleSelector|Template|
+3380|3353|contentFragment|<start name="AdHoc"/>
+|
+3381|3353|ruleSelector|Template|
+3382|3355|contentFragment|<start name="AdHoc"/>
+|
+3383|3355|ruleSelector|Template|
+3384|3357|contentFragment|<start name="AdHoc"/>
+|
+3385|3357|ruleSelector|Template|
+3386|3358|contentFragment|<role name="Management">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3387|3358|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3388|3358|activationType|P|
+3389|3358|ruleSelector|Template|
+3390|3360|contentFragment|<start name="AdHoc"/>
+|
+3391|3360|ruleSelector|Template|
+3392|3361|contentFragment|<split name="RequiresImageAttachment">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3393|3361|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3394|3361|ruleSelector|Template|
+3395|3363|contentFragment|<role name="ImageAttachment">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3396|3363|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3397|3363|activationType|P|
+3398|3363|ruleSelector|Template|
+3399|3364|contentFragment|<join name="JoinRequiresImageAttachment"/>
+|
+3400|3364|ruleSelector|Template|
+3401|3366|contentFragment|<simple name="NoOpRequiresImageAttachment">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3402|3366|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3403|3366|ruleSelector|Template|
+3404|3367|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3405|3367|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3406|3367|activationType|P|
+3407|3367|ruleSelector|Template|
+3408|3369|contentFragment|<start name="AdHoc"/>
+|
+3409|3369|ruleSelector|Template|
+3410|3370|contentFragment|<split name="RequiresImageAttachment">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3411|3370|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3412|3370|ruleSelector|Template|
+3413|3372|contentFragment|<role name="ImageAttachment">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3414|3372|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3415|3372|activationType|P|
+3416|3372|ruleSelector|Template|
+3417|3373|contentFragment|<join name="JoinRequiresImageAttachment"/>
+|
+3418|3373|ruleSelector|Template|
+3419|3375|contentFragment|<simple name="NoOpRequiresImageAttachment">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3420|3375|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3421|3375|ruleSelector|Template|
+3422|3376|contentFragment|<split name="PurchaseWasReceived">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3423|3376|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3424|3376|ruleSelector|Template|
+3425|3378|contentFragment|<role name="Receiving">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3426|3378|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3427|3378|activationType|P|
+3428|3378|ruleSelector|Template|
+3429|3379|contentFragment|<join name="JoinReceiving"/>
+|
+3430|3379|ruleSelector|Template|
+3431|3381|contentFragment|<simple name="NoOpReceiving">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3432|3381|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3433|3381|ruleSelector|Template|
+3434|3382|contentFragment|<role name="SubAccount">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3435|3382|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3436|3382|activationType|P|
+3437|3382|ruleSelector|Template|
+3438|3383|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+<mandatoryRoute>true</mandatoryRoute>
+</role>
+|
+3439|3383|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3440|3383|activationType|P|
+3441|3383|mandatoryRoute|true|
+3442|3383|ruleSelector|Template|
+3443|3384|contentFragment|<role name="AccountingOrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3444|3384|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3445|3384|activationType|P|
+3446|3384|ruleSelector|Template|
+3447|3385|contentFragment|<split name="VendorIsEmployeeOrNonResidentAlien">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3448|3385|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3449|3385|ruleSelector|Template|
+3450|3387|contentFragment|<role name="Tax">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3451|3387|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3452|3387|activationType|P|
+3453|3387|ruleSelector|Template|
+3454|3388|contentFragment|<join name="JoinVendorIsEmployeeOrNonResidentAlien"/>
+|
+3455|3388|ruleSelector|Template|
+3456|3390|contentFragment|<simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3457|3390|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3458|3390|ruleSelector|Template|
+3459|3392|contentFragment|<start name="AdHoc"/>
+|
+3460|3392|ruleSelector|Template|
+3461|3393|contentFragment|<split name="RelatesToOutstandingTransactions">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3462|3393|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3463|3393|ruleSelector|Template|
+3464|3395|contentFragment|<role name="OutstandingTransactions">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3465|3395|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3466|3395|activationType|P|
+3467|3395|ruleSelector|Template|
+3468|3396|contentFragment|<join name="Join"/>
+|
+3469|3396|ruleSelector|Template|
+3470|3398|contentFragment|<simple name="NoOp">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3471|3398|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3472|3398|ruleSelector|Template|
+3473|3400|contentFragment|<start name="AdHoc"/>
+|
+3474|3400|ruleSelector|Template|
+3475|3401|contentFragment|<split name="CheckIfNoRoute">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3476|3401|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3477|3401|ruleSelector|Template|
+3478|3403|contentFragment|<simple name="NoOp">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3479|3403|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3480|3403|ruleSelector|Template|
+3481|3404|contentFragment|<join name="JoinCheckIfRoute"/>
+|
+3482|3404|ruleSelector|Template|
+3483|3406|contentFragment|<role name="EndowmentApprovers">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3484|3406|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3485|3406|activationType|P|
+3486|3406|ruleSelector|Template|
+3487|3408|contentFragment|<start name="AdHoc"/>
+|
+3488|3408|ruleSelector|Template|
+3489|3409|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3490|3409|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3491|3409|activationType|P|
+3492|3409|ruleSelector|Template|
+3493|3410|contentFragment|<role name="TravelManagerReview">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3494|3410|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3495|3410|activationType|P|
+3496|3410|ruleSelector|Template|
+3497|3412|contentFragment|<start name="AdHoc"/>
+|
+3498|3412|ruleSelector|Template|
+3499|3413|contentFragment|<split name="TravelRequiresTravelerApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3500|3413|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3501|3413|ruleSelector|Template|
+3502|3415|contentFragment|<role name="TravelerReview">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3503|3415|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3504|3415|activationType|P|
+3505|3415|ruleSelector|Template|
+3506|3416|contentFragment|<join name="JoinTravelRequiresTravelerApproval"/>
+|
+3507|3416|ruleSelector|Template|
+3508|3418|contentFragment|<simple name="NoOpTravelerReview">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3509|3418|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3510|3418|ruleSelector|Template|
+3511|3419|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3512|3419|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3513|3419|activationType|P|
+3514|3419|ruleSelector|Template|
+3515|3420|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3516|3420|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3517|3420|activationType|P|
+3518|3420|ruleSelector|Template|
+3519|3421|contentFragment|<split name="TravelHasSpecialRequest">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3520|3421|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3521|3421|ruleSelector|Template|
+3522|3423|contentFragment|<role name="ENTSpecialRequestReviewer">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3523|3423|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3524|3423|activationType|P|
+3525|3423|ruleSelector|Template|
+3526|3424|contentFragment|<join name="JoinRequiresSpecialRequestReview"/>
+|
+3527|3424|ruleSelector|Template|
+3528|3426|contentFragment|<simple name="NoOpSpecialRequestReviewer">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3529|3426|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3530|3426|ruleSelector|Template|
+3531|3427|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3532|3427|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3533|3427|activationType|P|
+3534|3427|ruleSelector|Template|
+3535|3428|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3536|3428|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3537|3428|activationType|P|
+3538|3428|ruleSelector|Template|
+3539|3429|contentFragment|<split name="TaxManager">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3540|3429|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3541|3429|ruleSelector|Template|
+3542|3431|contentFragment|<role name="ENTTaxManager">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3543|3431|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3544|3431|activationType|P|
+3545|3431|ruleSelector|Template|
+3546|3432|contentFragment|<join name="JoinRequiresTaxManagerReview"/>
+|
+3547|3432|ruleSelector|Template|
+3548|3434|contentFragment|<simple name="NoTaxManagerReviewer">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3549|3434|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3550|3434|ruleSelector|Template|
+3551|3435|contentFragment|<split name="SeparationOfDuties">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3552|3435|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3553|3435|ruleSelector|Template|
+3554|3437|contentFragment|<role name="SeparationOfDutiesReviewer">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3555|3437|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3556|3437|activationType|P|
+3557|3437|ruleSelector|Template|
+3558|3438|contentFragment|<join name="JoinSeparationOfDutiesReviewer"/>
+|
+3559|3438|ruleSelector|Template|
+3560|3440|contentFragment|<simple name="NoOpSeparationOfDutiesReviewer">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3561|3440|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3562|3440|ruleSelector|Template|
+3563|3441|contentFragment|<role name="EntertainmentManager">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3564|3441|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3565|3441|activationType|P|
+3566|3441|ruleSelector|Template|
+3567|3443|contentFragment|<start name="AdHoc"/>
+|
+3568|3443|ruleSelector|Template|
+3569|3444|contentFragment|<split name="TravelRequiresTravelerApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3570|3444|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3571|3444|ruleSelector|Template|
+3572|3446|contentFragment|<role name="TravelerReview">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3573|3446|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3574|3446|activationType|P|
+3575|3446|ruleSelector|Template|
+3576|3447|contentFragment|<join name="JoinTravelRequiresTravelerApproval"/>
+|
+3577|3447|ruleSelector|Template|
+3578|3449|contentFragment|<simple name="NoOpTravelerReview">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3579|3449|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3580|3449|ruleSelector|Template|
+3581|3450|contentFragment|<split name="TravelRequiresAccountApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3582|3450|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3583|3450|ruleSelector|Template|
+3584|3452|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3585|3452|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3586|3452|activationType|P|
+3587|3452|ruleSelector|Template|
+3588|3453|contentFragment|<join name="JoinRequiresAccountApproval"/>
+|
+3589|3453|ruleSelector|Template|
+3590|3455|contentFragment|<simple name="NoOpAccountApproval">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3591|3455|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3592|3455|ruleSelector|Template|
+3593|3456|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3594|3456|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3595|3456|activationType|P|
+3596|3456|ruleSelector|Template|
+3597|3457|contentFragment|<split name="TravelRequiresDivisionApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3598|3457|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3599|3457|ruleSelector|Template|
+3600|3459|contentFragment|<role name="DivisionReviewer">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3601|3459|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3602|3459|activationType|P|
+3603|3459|ruleSelector|Template|
+3604|3460|contentFragment|<join name="JoinRequiresDivisionReview"/>
+|
+3605|3460|ruleSelector|Template|
+3606|3462|contentFragment|<simple name="NoOpDivisionReviewer">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3607|3462|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3608|3462|ruleSelector|Template|
+3609|3463|contentFragment|<split name="TravelHasSpecialRequest">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3610|3463|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3611|3463|ruleSelector|Template|
+3612|3465|contentFragment|<role name="SpecialRequestReviewer">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3613|3465|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3614|3465|activationType|P|
+3615|3465|ruleSelector|Template|
+3616|3466|contentFragment|<join name="JoinRequiresSpecialRequestReview"/>
+|
+3617|3466|ruleSelector|Template|
+3618|3468|contentFragment|<simple name="NoOpSpecialRequestReviewer">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3619|3468|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3620|3468|ruleSelector|Template|
+3621|3469|contentFragment|<split name="TravelIsInternationalTravel">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3622|3469|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3623|3469|ruleSelector|Template|
+3624|3471|contentFragment|<role name="InternationalTravelReviewer">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3625|3471|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3626|3471|activationType|P|
+3627|3471|ruleSelector|Template|
+3628|3472|contentFragment|<join name="JoinRequiresInternationalTravelReview"/>
+|
+3629|3472|ruleSelector|Template|
+3630|3474|contentFragment|<simple name="NoOpInternationalTravelReviewer">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3631|3474|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3632|3474|ruleSelector|Template|
+3633|3475|contentFragment|<split name="TravelNeedsRiskManagement">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3634|3475|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3635|3475|ruleSelector|Template|
+3636|3477|contentFragment|<role name="RiskManagement">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3637|3477|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3638|3477|activationType|P|
+3639|3477|ruleSelector|Template|
+3640|3478|contentFragment|<join name="JoinRequiresRiskManagement"/>
+|
+3641|3478|ruleSelector|Template|
+3642|3480|contentFragment|<simple name="NoOpRiskManagement">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3643|3480|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3644|3480|ruleSelector|Template|
+3645|3481|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3646|3481|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3647|3481|activationType|P|
+3648|3481|ruleSelector|Template|
+3649|3482|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3650|3482|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3651|3482|activationType|P|
+3652|3482|ruleSelector|Template|
+3653|3483|contentFragment|<split name="SeparationOfDuties">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3654|3483|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3655|3483|ruleSelector|Template|
+3656|3485|contentFragment|<role name="SeparationOfDutiesReviewer">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3657|3485|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3658|3485|activationType|P|
+3659|3485|ruleSelector|Template|
+3660|3486|contentFragment|<join name="JoinSeparationOfDutiesReviewer"/>
+|
+3661|3486|ruleSelector|Template|
+3662|3488|contentFragment|<simple name="NoOpSeparationOfDutiesReviewer">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3663|3488|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3664|3488|ruleSelector|Template|
+3665|3489|contentFragment|<split name="TravelAdvanceRequested">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3666|3489|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3667|3489|ruleSelector|Template|
+3668|3491|contentFragment|<role name="APTravel">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3669|3491|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3670|3491|activationType|P|
+3671|3491|ruleSelector|Template|
+3672|3492|contentFragment|<join name="JoinTravelAdvanceRequested"/>
+|
+3673|3492|ruleSelector|Template|
+3674|3494|contentFragment|<simple name="NoOpTravelAdvanceRequested">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3675|3494|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3676|3494|ruleSelector|Template|
+3677|3496|contentFragment|<start name="AdHoc"/>
+|
+3678|3496|ruleSelector|Template|
+3679|3497|contentFragment|<split name="ProfileIsTaxManagerRequired">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3680|3497|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3681|3497|ruleSelector|Template|
+3682|3499|contentFragment|<role name="Tax">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3683|3499|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3684|3499|activationType|P|
+3685|3499|ruleSelector|Template|
+3686|3500|contentFragment|<join name="JoinRequiresTaxManagerReview"/>
+|
+3687|3500|ruleSelector|Template|
+3688|3502|contentFragment|<simple name="NoOpTaxManager">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3689|3502|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3690|3502|ruleSelector|Template|
+3691|3504|contentFragment|<start name="AdHoc"/>
+|
+3692|3504|ruleSelector|Template|
+3693|3506|contentFragment|<start name="AdHoc"/>
+|
+3694|3506|ruleSelector|Template|
+3695|3507|contentFragment|<split name="TravelRequiresTravelerApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3696|3507|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3697|3507|ruleSelector|Template|
+3698|3509|contentFragment|<role name="TravelerReview">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3699|3509|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3700|3509|activationType|P|
+3701|3509|ruleSelector|Template|
+3702|3510|contentFragment|<join name="JoinTravelRequiresTravelerApproval"/>
+|
+3703|3510|ruleSelector|Template|
+3704|3512|contentFragment|<simple name="NoOpTravelerReview">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3705|3512|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3706|3512|ruleSelector|Template|
+3707|3513|contentFragment|<split name="TravelRequiresAccountApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3708|3513|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3709|3513|ruleSelector|Template|
+3710|3515|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3711|3515|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3712|3515|activationType|P|
+3713|3515|ruleSelector|Template|
+3714|3516|contentFragment|<join name="JoinRequiresAccountApproval"/>
+|
+3715|3516|ruleSelector|Template|
+3716|3518|contentFragment|<simple name="NoOpAccountApproval">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3717|3518|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3718|3518|ruleSelector|Template|
+3719|3519|contentFragment|<split name="TravelRequiresAccountingReviewer">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3720|3519|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3721|3519|ruleSelector|Template|
+3722|3521|contentFragment|<role name="AccountingReviewer">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3723|3521|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3724|3521|activationType|P|
+3725|3521|ruleSelector|Template|
+3726|3522|contentFragment|<join name="JoinRequiresAccountingReview"/>
+|
+3727|3522|ruleSelector|Template|
+3728|3524|contentFragment|<simple name="NoOpAccountingReviewer">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3729|3524|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3730|3524|ruleSelector|Template|
+3731|3525|contentFragment|<split name="TravelRequiresDivisionApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3732|3525|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3733|3525|ruleSelector|Template|
+3734|3527|contentFragment|<role name="DivisionReviewer">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3735|3527|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3736|3527|activationType|P|
+3737|3527|ruleSelector|Template|
+3738|3528|contentFragment|<join name="JoinRequiresDivisionApprover"/>
+|
+3739|3528|ruleSelector|Template|
+3740|3530|contentFragment|<simple name="NoOpDivisionApprover">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3741|3530|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3742|3530|ruleSelector|Template|
+3743|3531|contentFragment|<split name="TravelHasSpecialRequest">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3744|3531|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3745|3531|ruleSelector|Template|
+3746|3533|contentFragment|<role name="SpecialRequestReviewer">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3747|3533|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3748|3533|activationType|P|
+3749|3533|ruleSelector|Template|
+3750|3534|contentFragment|<join name="JoinRequiresSpecialRequestReviewer"/>
+|
+3751|3534|ruleSelector|Template|
+3752|3536|contentFragment|<simple name="NoOpSpecialRequestReviewer">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3753|3536|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3754|3536|ruleSelector|Template|
+3755|3537|contentFragment|<split name="TravelIsInternationalTravel">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3756|3537|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3757|3537|ruleSelector|Template|
+3758|3539|contentFragment|<role name="InternationalTravelReviewer">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3759|3539|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3760|3539|activationType|P|
+3761|3539|ruleSelector|Template|
+3762|3540|contentFragment|<join name="JoinRequiresInternationalTravelReview"/>
+|
+3763|3540|ruleSelector|Template|
+3764|3542|contentFragment|<simple name="NoOpInternationalTravelReviewer">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3765|3542|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3766|3542|ruleSelector|Template|
+3767|3543|contentFragment|<split name="RequiresSubFund">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3768|3543|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3769|3543|ruleSelector|Template|
+3770|3545|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3771|3545|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3772|3545|activationType|P|
+3773|3545|ruleSelector|Template|
+3774|3546|contentFragment|<join name="JoinRequiresSubFund"/>
+|
+3775|3546|ruleSelector|Template|
+3776|3548|contentFragment|<simple name="NoOpSubFund">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3777|3548|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3778|3548|ruleSelector|Template|
+3779|3549|contentFragment|<split name="RequiresAward">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3780|3549|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3781|3549|ruleSelector|Template|
+3782|3551|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3783|3551|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3784|3551|activationType|P|
+3785|3551|ruleSelector|Template|
+3786|3552|contentFragment|<join name="JoinRequiresAward"/>
+|
+3787|3552|ruleSelector|Template|
+3788|3554|contentFragment|<simple name="NoOpAward">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3789|3554|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3790|3554|ruleSelector|Template|
+3791|3555|contentFragment|<split name="TaxManagerApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3792|3555|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3793|3555|ruleSelector|Template|
+3794|3557|contentFragment|<role name="Tax">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3795|3557|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3796|3557|activationType|P|
+3797|3557|ruleSelector|Template|
+3798|3558|contentFragment|<join name="JoinTaxManager"/>
+|
+3799|3558|ruleSelector|Template|
+3800|3560|contentFragment|<simple name="NoOpTaxManager">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3801|3560|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3802|3560|ruleSelector|Template|
+3803|3561|contentFragment|<split name="SeparationOfDuties">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3804|3561|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3805|3561|ruleSelector|Template|
+3806|3563|contentFragment|<role name="SeparationOfDutiesReviewer">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3807|3563|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3808|3563|activationType|P|
+3809|3563|ruleSelector|Template|
+3810|3564|contentFragment|<join name="JoinSeparationOfDutiesReviewer"/>
+|
+3811|3564|ruleSelector|Template|
+3812|3566|contentFragment|<simple name="NoOpSeparationOfDutiesReviewer">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3813|3566|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3814|3566|ruleSelector|Template|
+3815|3567|contentFragment|<split name="RequiresAPTravel">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3816|3567|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3817|3567|ruleSelector|Template|
+3818|3569|contentFragment|<role name="APTravel">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3819|3569|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3820|3569|activationType|P|
+3821|3569|ruleSelector|Template|
+3822|3570|contentFragment|<join name="JoinRequiresAPTravel"/>
+|
+3823|3570|ruleSelector|Template|
+3824|3572|contentFragment|<simple name="NoOpAPTravel">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3825|3572|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3826|3572|ruleSelector|Template|
+3827|3574|contentFragment|<start name="AdHoc"/>
+|
+3828|3574|ruleSelector|Template|
+3829|3575|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3830|3575|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3831|3575|activationType|P|
+3832|3575|ruleSelector|Template|
+3833|3576|contentFragment|<role name="TravelManagerReview">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3834|3576|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3835|3576|activationType|P|
+3836|3576|ruleSelector|Template|
+3837|3578|contentFragment|<start name="AdHoc"/>
+|
+3838|3578|ruleSelector|Template|
+3839|3579|contentFragment|<split name="TravelRequiresTravelerApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3840|3579|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3841|3579|ruleSelector|Template|
+3842|3581|contentFragment|<role name="TravelerReview">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3843|3581|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3844|3581|activationType|P|
+3845|3581|ruleSelector|Template|
+3846|3582|contentFragment|<join name="JoinTravelRequiresTravelerApproval"/>
+|
+3847|3582|ruleSelector|Template|
+3848|3584|contentFragment|<simple name="NoOpTravelerReview">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3849|3584|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3850|3584|ruleSelector|Template|
+3851|3586|contentFragment|<start name="AdHoc"/>
+|
+3852|3586|ruleSelector|Template|
+3853|3588|contentFragment|<start name="AdHoc"/>
+|
+3854|3588|ruleSelector|Template|
+3855|3589|contentFragment|<split name="TravelRequiresTravelerApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3856|3589|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3857|3589|ruleSelector|Template|
+3858|3591|contentFragment|<role name="TravelerReview">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3859|3591|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3860|3591|activationType|P|
+3861|3591|ruleSelector|Template|
+3862|3592|contentFragment|<join name="JoinTravelRequiresTravelerApproval"/>
+|
+3863|3592|ruleSelector|Template|
+3864|3594|contentFragment|<simple name="NoOpTravelerReview">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3865|3594|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3866|3594|ruleSelector|Template|
+3867|3595|contentFragment|<split name="TravelRequiresAccountApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3868|3595|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3869|3595|ruleSelector|Template|
+3870|3597|contentFragment|<role name="Account">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3871|3597|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3872|3597|activationType|P|
+3873|3597|ruleSelector|Template|
+3874|3598|contentFragment|<join name="JoinRequiresAccountApproval"/>
+|
+3875|3598|ruleSelector|Template|
+3876|3600|contentFragment|<simple name="NoOpAccountApproval">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3877|3600|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3878|3600|ruleSelector|Template|
+3879|3601|contentFragment|<role name="OrganizationHierarchy">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3880|3601|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3881|3601|activationType|P|
+3882|3601|ruleSelector|Template|
+3883|3602|contentFragment|<split name="TravelHasSpecialRequest">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3884|3602|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3885|3602|ruleSelector|Template|
+3886|3604|contentFragment|<role name="SpecialRequestReviewer">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3887|3604|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3888|3604|activationType|P|
+3889|3604|ruleSelector|Template|
+3890|3605|contentFragment|<join name="JoinRequiresSpecialRequestReviewer"/>
+|
+3891|3605|ruleSelector|Template|
+3892|3607|contentFragment|<simple name="NoOpSpecialRequestReviewer">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3893|3607|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3894|3607|ruleSelector|Template|
+3895|3608|contentFragment|<role name="ExecutiveApproval">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3896|3608|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3897|3608|activationType|P|
+3898|3608|ruleSelector|Template|
+3899|3609|contentFragment|<role name="SubFund">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3900|3609|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3901|3609|activationType|P|
+3902|3609|ruleSelector|Template|
+3903|3610|contentFragment|<role name="Award">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3904|3610|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3905|3610|activationType|P|
+3906|3610|ruleSelector|Template|
+3907|3611|contentFragment|<split name="TaxManagerApproval">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3908|3611|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3909|3611|ruleSelector|Template|
+3910|3613|contentFragment|<role name="Tax">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3911|3613|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3912|3613|activationType|P|
+3913|3613|ruleSelector|Template|
+3914|3614|contentFragment|<join name="JoinRequiresTaxManagerReview"/>
+|
+3915|3614|ruleSelector|Template|
+3916|3616|contentFragment|<simple name="NoOpTaxManager">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3917|3616|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3918|3616|ruleSelector|Template|
+3919|3617|contentFragment|<split name="SeparationOfDuties">
+<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+</split>
+|
+3920|3617|type|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|
+3921|3617|ruleSelector|Template|
+3922|3619|contentFragment|<role name="SeparationOfDutiesReviewer">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3923|3619|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3924|3619|activationType|P|
+3925|3619|ruleSelector|Template|
+3926|3620|contentFragment|<join name="JoinSeparationOfDutiesReviewer"/>
+|
+3927|3620|ruleSelector|Template|
+3928|3622|contentFragment|<simple name="NoOpSeparationOfDutiesReviewer">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3929|3622|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3930|3622|ruleSelector|Template|
+3931|3623|contentFragment|<role name="MovingAndRelocationManager">
+<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+<activationType>P</activationType>
+</role>
+|
+3932|3623|qualifierResolverClass|org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver|
+3933|3623|activationType|P|
+3934|3623|ruleSelector|Template|
+3935|3625|contentFragment|<start name="AdHoc"/>
+|
+3936|3625|ruleSelector|Template|
+3937|3626|contentFragment|<simple name="DoNothing">
+<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+</simple>
+|
+3938|3626|type|org.kuali.rice.kew.engine.node.NoOpNode|
+3939|3626|ruleSelector|Template|

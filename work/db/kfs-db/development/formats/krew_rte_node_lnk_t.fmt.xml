@@ -1,0 +1,4 @@
+<Record name="krew_rte_node_lnk_t" type="delimited">
+  <Field name="from_rte_node_id"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="to_rte_node_id"                  type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

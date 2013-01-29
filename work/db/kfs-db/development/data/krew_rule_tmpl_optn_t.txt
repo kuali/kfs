@@ -1,0 +1,7 @@
+rule_tmpl_optn_id|rule_tmpl_id|key_cd|val|ver_nbr|
+2000|1016|D|K|1.0|
+2001|1016|A|true|1.0|
+2002|1016|K|true|1.0|
+2003|1016|F|true|1.0|
+2004|1016|C|true|1.0|
+2005|1016|I|some instructions|1.0|

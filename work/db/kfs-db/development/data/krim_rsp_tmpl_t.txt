@@ -1,0 +1,3 @@
+rsp_tmpl_id|obj_id|ver_nbr|nmspc_cd|nm|kim_typ_id|desc_txt|actv_ind|
+1|5ADFE172441D6320E0404F8189D85169|1.0|KR-WKFLW|Review|7||Y|
+2|60432A73A6A49F65E0404F8189D86AA4|1.0|KR-WKFLW|Resolve Exception|54||Y|

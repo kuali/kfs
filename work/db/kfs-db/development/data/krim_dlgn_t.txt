@@ -1,0 +1,5 @@
+dlgn_id|ver_nbr|obj_id|role_id|actv_ind|kim_typ_id|dlgn_typ_cd|
+1|1.0|KFS1|28|Y|30|P|
+2|1.0|KFS2|28|Y|30|S|
+3|1.0|KFS3|41|Y|1|P|
+4|1.0|KFS4|41|Y|1|S|

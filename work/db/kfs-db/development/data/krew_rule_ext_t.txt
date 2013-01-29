@@ -1,0 +1,2 @@
+rule_ext_id|rule_tmpl_attr_id|rule_id|ver_nbr|
+1045|1024|1044|1.0|

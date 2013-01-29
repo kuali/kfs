@@ -1,0 +1,9 @@
+<Record name="krim_typ_attr_t" type="delimited">
+  <Field name="kim_typ_attr_id"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sort_cd"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="kim_typ_id"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="kim_attr_defn_id"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="actv_ind"                        type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

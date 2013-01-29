@@ -1,0 +1,6 @@
+attr_defn_id|nm|nmspc_cd|lbl|actv|cmpnt_nm|ver_nbr|desc_txt|
+1000|peopleFlowId|KR-RULE|PeopleFlow|Y||0.0|An identifier for a PeopleFlow|
+1001|ruleTypeCode|KR-RULE|Invalid Rule|Y||1.0|If true, execute the action|
+1004|actionTypeCode|KR-RULE|Error Action|Y||1.0|Error|
+1005|actionMessage|KR-RULE|Action Message|Y||1.0|Message validation action returns|
+1006|peopleFlowName|KR_RULE|PeopleFlow Name|Y||1.0|PeopleFlow Name|

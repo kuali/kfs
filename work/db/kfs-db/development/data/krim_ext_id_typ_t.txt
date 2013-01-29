@@ -1,0 +1,2 @@
+ext_id_typ_cd|obj_id|ver_nbr|nm|encr_req_ind|actv_ind|display_sort_cd|last_updt_dt|
+TAX|5B97C50B038F6110E0404F8189D85213|1.0|Tax ID|Y|Y|03|20081113140635|

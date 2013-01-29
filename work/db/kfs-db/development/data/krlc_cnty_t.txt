@@ -1,0 +1,24 @@
+county_cd|state_cd|postal_cntry_cd|obj_id|ver_nbr|county_nm|actv_ind|
+11|AZ|US|11-AZ-US|1.0|Greenlee|Y|
+111|CA|US|111-CA-US|1.0|Ventura|Y|
+113|CA|US|113-CA-US|1.0|Yolo|Y|
+12|AZ|US|12-AZ-US|1.0|La Paz|Y|
+13|AZ|US|13-AZ-US|1.0|Maricopa|Y|
+15|AZ|US|15-AZ-US|1.0|Mohave|Y|
+17|AZ|US|17-AZ-US|1.0|Navajo|Y|
+19|AZ|US|19-AZ-US|1.0|Pima|Y|
+21|AZ|US|21-AZ-US|1.0|Pinal|Y|
+23|AZ|US|23-AZ-US|1.0|Santa Cruz|Y|
+25|AZ|US|25-AZ-US|1.0|Yavapi|Y|
+27|AZ|US|27-AZ-US|1.0|Yuma|Y|
+3|AZ|US|3-AZ-US|1.0|Cochise|Y|
+37|CA|US|37-CA-US|1.0|Los Angeles|Y|
+5|AZ|US|5-AZ-US|1.0|Coconino|Y|
+59|CA|US|59-CA-US|1.0|Orange|Y|
+65|CA|US|65-CA-US|1.0|Riverside|Y|
+67|CA|US|67-CA-US|1.0|Sacramento|Y|
+7|AZ|US|7-AZ-US|1.0|Gila|Y|
+71|CA|US|71-CA-US|1.0|San Bernadino|Y|
+83|CA|US|83-CA-US|1.0|Santa Barbara|Y|
+9|AZ|US|9-AZ-US|1.0|Graham|Y|
+95|CA|US|95-CA-US|1.0|Solano|Y|

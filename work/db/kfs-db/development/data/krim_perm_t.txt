@@ -1,0 +1,440 @@
+perm_id|obj_id|ver_nbr|perm_tmpl_id|nmspc_cd|nm|desc_txt|actv_ind|
+1|1|1.0|7|KFS-AR|Claim Electronic Payment CTRL|Allows access to the Electronic Fund Transfer interface for the claiming of electronic funds using the Cash Control Document (CTRL).|Y|
+10|10|1.0|26|KFS-AR|Modify Maintenance Document Field Customer customerTaxNbr|Allows modification of the Customer Tax Number field on the Customer document.|Y|
+100|100|1.0|16|KFS-PURAP|Edit Document REQS PreRoute|Edit permission for the Requisition document prior to the document being submitted.|Y|
+101|101|1.0|16|KFS-PURAP|Edit Document PO PreRoute|Edit permission for the Purchase Order document prior to the document being submitted.|Y|
+102|102|1.0|16|KFS-PURAP|Edit Document AP PreRoute|Edit permission for Accounts Payable Transactional documents prior to the document being submitted.|Y|
+103|103|1.0|16|KFS-PURAP|Edit Document RCV PreRoute|Edit permission for Receiving Transactional documents prior to the document being submitted.|Y|
+107|107|1.0|7|KFS-SYS|Claim Electronic Payment|Allows access to the Electronic Fund Transfer interface for the claiming of electronic funds.|Y|
+108|108|1.0|6|KFS-SYS|Error Correct Document KFST|Allows access to the Error Correction button on KFS Transactional documents.|Y|
+11|11|1.0|33|KFS-AR|Upload Batch Input File(s) customerLoadInputFileType|Allows access to the Customer Upload Batch Upload page.|Y|
+1100|1100|1.0|3|KFS-SYS|Administer Routing for Document KFST|Allows users to open Financial System Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).|Y|
+1101|1101|1.0|2|KFS-SYS|Copy Document KFS|Allows access to the Copy button on KFS Financial System Documents.|Y|
+1103|1103|1.0|51|KFS-SYS|Add Message to Route Log KFS|Allows user to enter a message on the route log|Y|
+1104|1104|1.0|10|KFS-ENDOW|Initiate Document ETB|Authorizes the initiation of the Endowment Batch created documents.|Y|
+1105|1105|1.0|33|KFS-LD|Upload Batch Input File(s) laborEnterpriseFeederFileSetType|Authorizes user to access the Labor Enterprise Feed Upload page.|Y|
+1106|1106|1.0|10|KFS-COA|Initiate Document ACCT|Authorizes the initiation of KFS Account Maintenance Documents.|Y|
+113|113|1.0|3|KFS-SYS|Administer Routing for Document KFS|Allows users to open KFS documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).|Y|
+114|114|1.0|4|KFS-SYS|Blanket Approve Document KFS|Allows access to the Blanket Approval button on KFS Financial System Documents.|Y|
+115|115|1.0|10|KFS-SYS|Initiate Document KFS|Authorizes the initiation of Financial System Documents.|Y|
+116|116|1.0|10|KFS-SYS|Initiate Document FSSM|Authorizes the initiation of Financial System Simple Maintenance documents.|Y|
+117|117|1.0|10|KFS-SYS|Initiate Document BANK|Authorizes the initiation of the Bank Maintenance Document.|Y|
+119|119|1.0|35|KFS-SYS|Assign Role KFS*|Authorizes users to modify the information on the Assignees Tab of the Role Document and the Roles section of the Membership Tab on the Person Document for roles with a Module Code beginning with KFS.|Y|
+12|12|1.0|29|KFS-AR|Use Screen KFS-AR|Allows users access to screens in the KFS-AR module that are not documents, lookups, inquiries, or batch uploads, i.e. this primarily provides access to AR reports|Y|
+120|120|1.0|36|KFS-SYS|Grant Permission KFS*|Authorizes users to modify the information on the Permissions tab of the Role Document for roles with a module code beginning with KFS.|Y|
+121|121|1.0|37|KFS-SYS|Grant Responsibility KFS*|Authorizes users to modify the information on the Responsibility tab of the Role Document for roles with a Module Code that begins with KFS.|Y|
+122|122|1.0|38|KFS-SYS|Populate Group KFS*|Authorizes users to modify the information on the Assignees Tab of the Group Document and the Group section of the Membership Tab on the Person Document for groups with namespaces beginning with KFS.|Y|
+128|128|1.0|27|KFS-SYS|Full Unmask Field Bank bankAccountNumber|Authorizes users to view the entire bank account number on the Bank document and Inquiry.|Y|
+129|129|1.0|24|KFS-SYS|Inquire Into Records KFS*|Allows users to access KFS inquiries.|Y|
+130|130|1.0|23|KFS-SYS|Look Up Records KFS*|Allow users to access KFS lookups.|Y|
+131|131|1.0|34|KFS-SYS|Maintain System Parameter KFS*|Authorizes users to initiate and edit the Parameter document for pameters with a module code beginning with KFS.|Y|
+132|132|1.0|32|KFS-SYS|Modify Batch Job KFS*|Allows users to access and run Batch Jobs associated with KFS modules via the Schedule link.|Y|
+133|133|1.0|40|KFS-SYS|Open Document KFS|Authorizes users to open KFS Financial System Documents.|Y|
+134|134|1.0|28|KFS-SYS|Partial Unmask Field Bank bankAccountNumber|Authorizes users to view the last four-digits of the bank account number on the Bank document and Inquiry.|Y|
+135|135|1.0|29|KFS-SYS|Use Screen KFS*|Allows users access to screens in the KFS that are not documents, lookups, inquiries, or batch uploads.|Y|
+136|136|1.0|10|KFS-VND|Initiate Document PVEN|Authorizes users to initiate the Vendor Maintenance Document.|Y|
+137|137|1.0|27|KFS-VND|Full Unmask Field VendorDetail vendorHeader.vendorTaxNumber|Authorizes users to view the entire Tax Number on the Vendor Maintenance Document and Inquiry.|Y|
+138|138|1.0|26|KFS-VND|Modify Maintenance Document Field VendorDetail vendorHeader.vendorTaxNumber|Authorizes users to modify the Tax Number on a Vendor Maintenance Document.|Y|
+139|139|1.0|44|KFS-VND|Modify Maintenance Document Section VendorDetail vendorContracts|Authorizes users to see and edit the Contracts Tab on the Vendor Maintenance Document.|Y|
+140|5B4F09744944EF33E0404F8189D84F24|1.0|29|KR-WKFLW|Use Document Operation Screen|Allows users to access the Document Operation screen.|Y|
+141|5B4F09744945EF33E0404F8189D84F24|1.0|29|KR-BUS|Use Java Security Management Screen|Allows users to access the Java Security Management screen.|Y|
+142|5B4F09744946EF33E0404F8189D84F24|1.0|29|KR-BUS|Use Message Queue Screen|Allows users to access the Message Queue screen.|Y|
+143|5B4F09744947EF33E0404F8189D84F24|1.0|29|KR-BUS|Use Service Registry Screen|Allows users to access the Service Registry screen.|Y|
+144|5B4F09744948EF33E0404F8189D84F24|1.0|29|KR-BUS|Use Thread Pool Screen|Allows users to access the Thread Pool screen.|Y|
+145|5B4F09744949EF33E0404F8189D84F24|1.0|29|KR-BUS|Use Quartz Queue Screen|Allows users to access the Quartz Queue screen.|Y|
+146|5B4F0974494AEF33E0404F8189D84F24|1.0|9|KR-SYS|Ad Hoc Review RICE Document|Allows a user to receive ad hoc requests for RICE Documents.|Y|
+147|5B4F0974494BEF33E0404F8189D84F24|1.0|3|KR-SYS|Administer Routing RICE Document|Allows users to open RICE Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).|Y|
+148|5B4F0974494CEF33E0404F8189D84F24|1.0|4|KR-SYS|Blanket Approve RICE Document|Allows access to the Blanket Approval button on RICE Documents.|Y|
+149|5B4F0974494DEF33E0404F8189D84F24|1.0|10|KR-SYS|Initiate RICE Document|Authorizes the initiation of RICE Documents.|Y|
+15|15|1.0|29|KFS-CAB|Use Screen KFS-CAB|Allows users to access the Capital Asset Builder screens (Purchasing/Accounts Payable Transactions and Other General Ledger Transactions).|Y|
+150|5B4F0974494EEF33E0404F8189D84F24|1.0|35|KR-SYS|Assign Role|Authorizes users to modify the information on the Assignees Tab of the Role Document and the Roles section of the Membership Tab on the Person Document for Roles with a Module Code beginning with KR.|Y|
+151|5B4F0974494FEF33E0404F8189D84F24|1.0|36|KR-SYS|Grant Permission|Authorizes users to modify the information on the Permissions tab of the Role Document for roles with a module code beginning with KR.|Y|
+152|5B4F09744950EF33E0404F8189D84F24|1.0|37|KR-SYS|Grant Responsibility|Authorizes users to modify the information on the Responsibility tab of the Role Document for roles with a Module Code that begins with KR.|Y|
+155|5B4F09744953EF33E0404F8189D84F24|1.0|38|KR-SYS|Populate Group|Authorizes users to modify the information on the Assignees Tab of the Group Document and the Group section of the Membership Tab on the Person Document for groups with namespaces beginning with KR.|Y|
+156|5B4F09744954EF33E0404F8189D84F24|1.0|2|KR-SYS|Copy RICE Document|Authorizes users to copy RICE Documents.|Y|
+16|16|1.0|10|KFS-CAM|Initiate Document MPAY|Authorizes the initiation of the Asset Payments Document.|Y|
+161|5B4F09744959EF33E0404F8189D84F24|1.0|24|KR-SYS|Inquire Into RICE Records|Allows users to access Kuali RICE inquiries.|Y|
+162|5B4F0974495AEF33E0404F8189D84F24|1.0|23|KR-SYS|Look Up RICE Records|Allow users to access Kuali RICE lookups.|Y|
+163|5B4F0974495BEF33E0404F8189D84F24|1.0|34|KR-SYS|Maintain System Parameter|Authorizes to initiate and edit the Parameter document for parameters with a module code beginning with KR.|Y|
+164|5B4F0974495CEF33E0404F8189D84F24|1.0|32|KR-SYS|Modify Batch Job|Allows users to access and run Batch Jobs associated with KR modules via the Schedule link.|Y|
+165|5B4F0974495DEF33E0404F8189D84F24|1.0|40|KR-SYS|Open RICE Document|Authorizes users to open RICE Documents.|Y|
+166|5B4F0974495EEF33E0404F8189D84F24|1.0|29|KR-SYS|Use all RICE Screen|Allows users to access all RICE screens.|Y|
+167|5B4F0974495FEF33E0404F8189D84F24|1.0|14|KUALI|Cancel Document|Authorizes users to cancel a document prior to it being submitted for routing.|Y|
+168|5B4F09744960EF33E0404F8189D84F24|1.0|5|KUALI|Route Document|Authorizes users to submit a document for routing.|Y|
+169|169|1.0|15|KFS-SYS|Save Document KFS|Authorizes user to save documents answering to the FinancialSystemDocument parent document Type.|Y|
+17|17|1.0|10|KFS-CAM|Initiate Document BCIE|Authorizes the initiation of the Barcode Inventory Error Document.|Y|
+170|5B4F09744962EF33E0404F8189D84F24|1.0|8|KUALI|Take Requested Approve Action|Authorizes users to take the Approve action on documents routed to them.|Y|
+172|5B4F09744964EF33E0404F8189D84F24|1.0|8|KUALI|Take Requested FYI Action|Authorizes users to take the FYI action on documents routed to them.|Y|
+173|5B4F09744965EF33E0404F8189D84F24|1.0|8|KUALI|Take Requested Acknowledge Action|Authorizes users to take the Acknowledge action on documents routed to them.|Y|
+174|5B4F09744966EF33E0404F8189D84F24|1.0|1|KUALI|Log In Kuali Portal|Authorizes users to login to the Kuali portal.|Y|
+18|18|1.0|10|KFS-CAM|Initiate Document CAM|Authorizes the initiation of the Capital Asset Management Transactional Documents.|Y|
+180|5B4F0974496CEF33E0404F8189D84F24|1.0|16|KUALI|Edit Kuali ENROUTE Document Node Name PreRoute|Allows users to edit Kuali documents that are in ENROUTE status.|Y|
+181|5B4F0974496DEF33E0404F8189D84F24|1.0|16|KUALI|Edit Kuali ENROUTE Document Route Status Code R|Allows users to edit Kuali documents that are in ENROUTE status.|Y|
+183|5B4F0974496FEF33E0404F8189D84F24|1.0|27|KR-SYS|Full Unmask Tax Identification Number Payee ACH Document|Authorizes users to view the entire Tax Identification Number on the Payee ACH document and Inquiry.|Y|
+184|184|1.0|44|KFS-VND|Modify Maintenance Document Section VendorDetail vendorCommodities|Allows users to modify the Vendor Commodity Codes tab on the Vendor document. |Y|
+185|185|1.0|16|KFS-FP|Edit Document CMD PreRoute|Authorizes users who can edit the Cash Management Document prior to it being submitted for routing.|Y|
+187|187|1.0|27|KFS-FP|Full Unmask Field DisbursementPayee taxNumber|Allows users to view the tax id in the Disbursement Voucher.|Y|
+188|188|1.0|41|KFS-AR|Modify Accounting Lines INV Account sourceAccountingLines|Allows users to modify the Source accounting lines on an Invoice document that has not yet been submitted for routing.|Y|
+189|189|1.0|41|KFS-FP|Modify Accounting Lines SB PreRoute sourceAccountingLines|Allows users to modify the Target accounting lines on a Procurement Card Document that is at the Account Full Entry Node of routing.|Y|
+19|19|1.0|10|KFS-CAM|Initiate Document CAMM|Authorizes the initiation of the Capital Asset Complex Maintenance Documents.|Y|
+190|190|1.0|41|KFS-FP|Modify Accounting Lines FP Account sourceAccountingLines|Allows users to modify the Source accounting lines on documents answering to the parent document Financial Processing Transactional Document when a document is at the Account Node of routing.|Y|
+191|191|1.0|41|KFS-FP|Modify Accounting Lines FP Account targetAccountingLines|Allows users to modify the Target accounting lines on documents answering to the parent document Financial Processing Transactional Document when a document is at the Account Node of routing.|Y|
+192|192|1.0|41|KFS-FP|Modify Accounting Lines DV Campus sourceAccountingLines.financialObjectCode|Allows users to modify the object code of Source accounting lines on a Disbursement Voucher document that is at the Campus Node of routing.|Y|
+193|193|1.0|41|KFS-FP|Modify Accounting Lines DV Tax sourceAccountingLines.amount|Allows users to modify the amount of Source accounting lines on a Disbursement Voucher document that is at the Tax Node of routing.|Y|
+194|194|1.0|41|KFS-FP|Modify Accounting Lines DV Travel sourceAccountingLines.amount|Allows users to modify the amount of Source accounting lines on a Disbursement Voucher document that is at the Travel Node of routing.|Y|
+195|195|1.0|41|KFS-FP|Modify Accounting Lines DV PaymentMethod sourceAccountingLines.amount|Allows users to modify the amount of Source accounting lines on a Disbursement Voucher document that is at the Payment Method Node of routing.|Y|
+196|196|1.0|41|KFS-LD|Modify Accounting Lines LD Account targetAccountingLines|Allows users to modify the Target accounting lines on documents answering to the parent document Labor Distribution Transactional Document when a document is at the Account Node of routing.|Y|
+197|197|1.0|41|KFS-LD|Modify Accounting Lines ST targetAccountingLines.financialObjectCode|Allows users to modify the object code on Target (To side) accounting lines of the Salary Expense Transfer document.|Y|
+198|198|1.0|41|KFS-PURAP|Modify Accounting Lines PUR Account items.sourceAccountingLines|Allows users to modify the Source accounting lines on documents answering to the parent document Purchasing Transactional Document when a document is at the Account Node of routing.|Y|
+199|199|1.0|41|KFS-PURAP|Modify Accounting Lines AP Account items.sourceAccountingLines|Allows users to modify the Source accounting lines on documents answering to the parent document Accounts PayableTransactional Document when a document is at the Account Node of routing.|Y|
+20|20|1.0|1|KFS-CAM|Add Negative Payments|Allow the creation of negative payments when processing an Asset document. |Y|
+200|200|1.0|41|KFS-CAM|Modify Accounting Lines MPAY Account sourceAccountingLines|Allows users to modify the Source accounting lines on Asset Payment document at the Account Node of routing.|Y|
+201|201|1.0|4|KFS-CG|Blanket Approve Document PRPL|Allows access to the Blanket Approval button on the Proposal Document.|Y|
+202|202|1.0|10|KFS-LD|Initiate Document ST|Authorizes the initiation of the Salary Expense Transfer Document.|Y|
+205|205|1.0|4|KFS-LD|Blanket Approve Document ST|Allows access to the Blanket Approval button on the Salary Expense Transfer Document.|Y|
+206|206|1.0|31|KFS-EC|Use Transactional Document ECD detailTabEntry|Users who can access the Effort Detail Tab on the Effort Certification Document.|Y|
+207|207|1.0|31|KFS-EC|Use Transactional Document ECD summaryTabEntry|Users who can access the Effort Summary Tab on the Effort Certification Document.|Y|
+209|209|1.0|31|KFS-FP|Use Transactional Document DV taxEntry|Users who can complete the Nonresident Alien Tax Tab on the Disbursement Voucher document.|Y|
+21|21|1.0|1|KFS-CAM|Merge|Users allowed to merge assets on the Asset Retirement document.|Y|
+210|210|1.0|31|KFS-FP|Use Transactional Document DV frnEntry|Users who can modify the Foreign Draft tab and disbursement amount on Disbursement Voucher documents.|Y|
+211|211|1.0|31|KFS-FP|Use Transactional Document DV wireEntry|Users who can modify Wire Transfer tab and disbursement amount on Disbursement Voucher documents.|Y|
+212|212|1.0|31|KFS-FP|Use Transactional Document DV travelEntry|Users who can modify Non-Employee Travel Expense tab, disbursement amount on Disbursement Voucher documents.|Y|
+217|217|1.0|31|KFS-PURAP|Use Transactional Document AP editPreExtract|Users who can edit specific data on a Payment Request or Credit Memo before the document is extracted to PDP.|Y|
+22|22|1.0|1|KFS-CAM|Override CAPITALIZATION_LIMIT_AMOUNT|Users allowed to capitalize assets with dollar amounts below the institution's Capitalization limit.|Y|
+220|220|1.0|48|KFS-SYS|Edit Bank Code KFST|Users who can edit the Bank Code field on documents answering to the parent document Financial System Transactional Document.|Y|
+225|225|1.0|40|KFS-BC|Open Document BC|Users who can open the Budget Construction document.|Y|
+228|228|1.0|1|KFS-BC|Import / Export Payrate|Allows users to access the Import/Export Payrate screen in Budget Construction. By default granted to processors for the top level organization in the org hierarchy.|Y|
+229|229|1.0|1|KFS-BC|Unlock|Allows users to access the Unlock screen in Budget Construction. By default granted to processors for the top level organization in the org hierarchy.|Y|
+23|23|1.0|1|KFS-CAM|Raze|Users who can choose the Raze Asset Retirement Reason.|Y|
+230|230|1.0|1|KFS-LD|Override Transfer Impacting Open Effort Certification|Users who receive an option to override the edit preventing the submission of Salary Expense Transfers involving an open Effort Certification Period.|Y|
+233|233|1.0|28|KFS-PDP|Partial Unmask Field PayeeACHAccount bankAccountNumber|Authorizes users to view the last four-digits of the bank account number on the Payee ACH document and Inquiry.|Y|
+234|234|1.0|27|KFS-PDP|Full Unmask Field ACHBank bankRoutingNumber|Authorizes users to view the entire bank routing number on the ACH Bank document and Inquiry.|Y|
+235|235|1.0|27|KFS-PDP|Full Unmask Field PayeeACHAccount bankAccountNumber|Authorizes users to view the entire bank account number on the Payee ACH document and Inquiry.|Y|
+236|236|1.0|27|KFS-PDP|Full Unmask Field PayeeACHAccount bankRoutingNumber|Authorizes users to view the entire bank routing number on the Payee ACH document and Inquiry.|Y|
+238|238|1.0|41|KFS-FP|Modify Accounting Lines FP PreRoute sourceAccountingLines|Allows users to modify the Source accounting lines on documents answering to the parent document Accounts Financial Processing Transactional Document when a document has not yet been submitted for routing.|Y|
+239|239|1.0|41|KFS-FP|Modify Accounting Lines FP PreRoute targetAccountingLines|Allows users to modify the Target accounting lines on documents answering to the parent document Financial Processing Transactional Document when a document has not yet been submitted for routing.|Y|
+24|24|1.0|1|KFS-CAM|Retire Multiple|Users allowed to retire more than one asset on an Asset Retirement document.|Y|
+240|240|1.0|41|KFS-LD|Modify Accounting Lines LD PreRoute targetAccountingLines|Allows users to modify the Target accounting lines on documents answering to the parent document Labor Distribution Transactional Document  when a document has not yet been submitted for routing.|Y|
+241|241|1.0|41|KFS-PURAP|Modify Accounting Lines PUR PreRoute items.sourceAccountingLines|Allows users to modify the Source accounting lines on documents answering to the parent document Purchasing Transactional Document when a document has not yet been submitted for routing.|Y|
+242|242|1.0|41|KFS-PURAP|Modify Accounting Lines AP PreRoute items.sourceAccountingLines|Allows users to modify the Source accounting lines on documents answering to the parent document Accounts PayableTransactional Document when a document has not yet been submitted for routing.|Y|
+243|243|1.0|41|KFS-AR|Modify Accounting Lines INV PreRoute sourceAccountingLines|Allows users to modify the Source accounting lines on an Invoice document that has not yet been submitted for routing.|Y|
+244|244|1.0|41|KFS-CAM|Modify Accounting Lines CAM PreRoute sourceAccountingLines|Allows users to modify the Source accounting lines on documents answering to the parent document Capital Asset ManagementTransactional Document  when a document has not yet been submitted for routing.|Y|
+245|245|1.0|10|KFS-AR|Initiate Document CUS|Authorizes the initiation of the Customer Document.|Y|
+246|246|1.0|10|KFS-AR|Initiate Document INV|Authorizes the initiation of the Invoice Document.|Y|
+247|247|1.0|10|KFS-BC|Initiate Document BC|Authorizes the initiation of the Budget Construction Document.|Y|
+248|248|1.0|42|KFS-AR|Create / Maintain Record(s) OOPT FALSE|Users allowed to create new and maintain existing records using the Organization Options document.|Y|
+249|249|1.0|42|KFS-AR|Create / Maintain Record(s) OOPT TRUE|Users allowed to maintain existing (but not create new) records using the Organization Options document.|Y|
+25|25|1.0|1|KFS-CAM|Retire Non-Movable Assets|Users authorized to retire non-movable assets.|Y|
+250|250|1.0|42|KFS-CAM|Create / Maintain Record(s) CASM FALSE|Users allowed to create new and maintain existing  records using the Asset document.|Y|
+251|251|1.0|29|KFS-BC|Use Screen KFS-BC|Allows users to access Budget Construction Selection.|Y|
+256|256|1.0|23|KFS-SYS|Look Up Records BatchJobStatus|Allow users to access the Batch File lookup.|Y|
+257|257|1.0|29|KFS-PURAP|Use Screen org.kuali.kfs.module.purap.web.struts.B2BAction|Authorizes users to take the Shop Catalogs (or B2B) action.|Y|
+258|258|1.0|45|KFS-PURAP|Add Note / Attachment PREQ Invoice Image|Users who can add notes and attachments to the Payment Request document when it is at the Invoice Attachment route node.|Y|
+259|606763510FC396D3E0404F8189D857A2|1.0|45|KUALI|Add Note / Attachment Kuali Document|Users who can add notes and attachments to any document answering to the Kuali Document parent document type.|Y|
+26|26|1.0|1|KFS-CAM|Separate|Users authorized to separate assets.|Y|
+260|260|1.0|46|KFS-PURAP|View Note / Attachment PREQ Invoice Image|Authorizes users to view attachments with a type of "Invoice Image" on Payment Request documents.|Y|
+261|606763510FC696D3E0404F8189D857A2|1.0|46|KUALI|View Note / Attachment Kuali Document|Authorizes users to view notes and attachments on documents answering to the KualiDocument parent document type.|Y|
+263|263|1.0|47|KFS-SYS|Delete Note / Attachment KFS FALSE|Authorizes users to delete notes and attachments created by any user on documents answering to the Financial System Document parent document type.|Y|
+264|606763510FCD96D3E0404F8189D857A2|1.0|47|KR-SYS|Delete Note / Attachment Kuali Document|Authorizes users to delete notes and attachments created by any user on documents answering to the RICE Document parent document type.|Y|
+265|606763510FF296D3E0404F8189D857A2|1.0|29|KR-WKFLW|Use Screen XML Ingester Screen|Allows users to access the XML Ingester screen.|Y|
+266|266|1.0|16|KFS-BC|Edit Document BC F|The budget construction document does not really use workflow, and all editing is done after the workflow status is final. This permission allows the derived, Budget Construction Document Editor role to allow access to edit the document based on other roles, e.g. Fiscal Officer for account, Organization Reveiwer for org.|Y|
+268|268|1.0|16|KFS-PURAP|Edit Document PREQ R|Authorizes users who can edit Payment Request Documents that are in ENROUTE status.|Y|
+269|269|1.0|40|KFS-PURAP|Open Document PRAP|Authorizes users to open Purchasing Accounts Payable Transactional documents.|Y|
+27|27|1.0|1|KFS-CAM|Transfer Non-Movable Assets|Authorizes users who can transfer non-movable assets.|Y|
+270|270|1.0|29|KFS-PURAP|Use Screen org.kuali.kfs.module.purap.document.web.struts.PrintAction|Authorizes users to take the Print action on a Purchase Order.|Y|
+271|271|1.0|29|KFS-SYS|Use Screen org.kuali.kfs.sys.web.struts.ElectronicFundTransferAction|Allows users to access the Electronic Funds Transfer screen.|Y|
+272|272|1.0|31|KFS-PURAP|Use Transactional Document PO printPurchaseOrder|Users who can print a Purchase Order document.|Y|
+273|273|1.0|31|KFS-PURAP|Use Transactional Document PO previewPrintPurchaseOrder|Users who can preview a Purchase Order document before printing it.|Y|
+274|274|1.0|31|KFS-PURAP|Use Transactional Document PO assignSensitiveData|Users who can assign sensitive data to a Purchase Order document which locks down who is allowed to view the PO and its related documents.|Y|
+275|275|1.0|31|KFS-PURAP|Use Transactional Document PO resendPurchaseOrder|Users who can resend Purchase Order cxml to the B2B integrator.|Y|
+276|276|1.0|31|KFS-PURAP|Use Transactional Document PREQ requestPaymentRequestCancel|Users authorized to take the Request Cancel action on Payment Request documents.|Y|
+277|277|1.0|31|KFS-PURAP|Use Transactional Document PREQ paymentRequestHoldCancelRemoval|Authorizes users to remove Holds or Cancels on Payment Request documents.|Y|
+279|279|1.0|41|KFS-LD|Modify Accounting Lines LD PreRoute sourceAccountingLines|Allows users to modify the Source accounting lines on documents answering to the parent document Labor Distribution Transactional Document  when a document has yet to be submitted for routing.|Y|
+28|28|1.0|1|KFS-CAM|Use Acquisition Type "New"|Authorizes users who can use the Acquisition Type of "New" on the Asset document.|Y|
+280|280|1.0|41|KFS-FP|Modify Accounting Lines PCDO AccountFullEdit sourceAccountingLines|Allows users to modify the Source accounting lines on a Procurement Card Document that is at the Account Full Entry Node of routing.|Y|
+281|281|1.0|41|KFS-FP|Modify Accounting Lines PCDO AccountFullEdit targetAccountingLines|Allows users to modify the Target accounting lines on a Procurement Card Document that is at the Account Full Entry Node of routing.|Y|
+282|282|1.0|31|KFS-PURAP|Use Transactional Document AP managerCancel|Users who can cancel Payment Request or Credit Memo documents at a manager level.|Y|
+283|283|1.0|31|KFS-PURAP|Use Transactional Document AP processorCancel|Users who can cancel Payment Request or Credit Memo documents at a processor level.|Y|
+284|284|1.0|40|KFS-PURAP|Open Document ACM|Authorizes users to open the Contract Manager Assignment Document.|Y|
+285|285|1.0|29|KFS-PDP|Use Screen KFS-PDP|Allows users to access all Pre-Disbursement Processor screens.|Y|
+286|286|1.0|31|KFS-PURAP|Use Transactional Document PREQ requestPaymentRequestHold|Authorizes users to put Payment Request documents on Hold.|Y|
+287|287|1.0|29|KFS-GL|Use Screen org.kuali.kfs.gl.web.struts.BalanceInquiryAction|Allows users to access Balance Inquiry screens. |Y|
+289|611BE30E404E5818E0404F8189D801C2|1.0|1|KR-NS|Administer Pessimistic Locking|Administer Pessimistic Locking|Y|
+29|29|1.0|1|KFS-CAM|Use Restricted Retirement Reason|Allows the use of restricted retirement reasons on the Asset or Asset Retirement Global documents.|Y|
+290|5B4F09744961EF33E0404F8189D84F24|1.0|15|KR-SYS|Save RICE Document|Users who can save RICE documents|Y|
+291|291|1.0|40|KFS-PURAP|Open Document EIRT|Authorizes users to open the Electronic Invoice Reject Document.|Y|
+292|292|1.0|33|KFS-PURAP|Upload Batch Input File(s) electronicInvoiceInputFileType|Authorizes users to upload eInvoice files.|Y|
+293|293|1.0|31|KFS-PURAP|Use Transactional Document CM requestVendorCreditMemoHold|Authorizes users to put Credit Memo documents on Hold.|Y|
+294|294|1.0|31|KFS-PURAP|Use Transactional Document CM vendorCreditMemoHoldRemoval|Authorizes users to remove a Hold from Credit Memo documents.|Y|
+295|295|1.0|1|KFS-BC|Use Organization Salary Setting|Allows users to access Organizaton Salary Setting within Budget Construction.|Y|
+296|296|1.0|1|KFS-BC|Edit Appointment Funding|Authorizes users to edit Appointment Funding Lines within Budget Construction Salary Setting.|Y|
+297|297|1.0|1|KFS-BC|View Appointment Funding Amounts|Authorizes users to view Appointment Funding Lines within Budget Construction Salary Setting.|Y|
+298|641E580969E31B49E0404F8189D86190|1.0|1|KR-WKFLW|View Other Action List|Authorizes users to access other users action lists via the Help Desk Action List Login.|Y|
+299|641E580969E51B49E0404F8189D86190|1.0|1|KR-WKFLW|Unrestricted Document Search|Users who can perform a document search with no criteria or result limits.|Y|
+3|3|1.0|10|KFS-AR|Initiate Document ARM|Authorizes the initiation of the Accounts Receivable Complex Maintenance Documents.|Y|
+301|301|1.0|29|KFS-GL|Use Screen org.kuali.kfs.sys.web.struts.KualiBalanceInquiryReportMenuAction|Allows users to see menu of balance inquiries after hitting "balance inquiry" button on an accounting line in an accounting document.|Y|
+302|302|1.0|10|KFS-CAM|Initiate Document DEPR|Authorizes the initiation of the Asset Depreciation Document.|Y|
+303|303|1.0|23|KFS-CAB|Look Up Records KFS-CAB|Allows users to access the CAB AP and GL Transactions screens.|Y|
+304|304|1.0|24|KFS-CAB|Inquire Into Records KFS-CAB|Allows users to access Capital Asset Builder inquiries.|Y|
+305|305|1.0|42|KFS-AR|Create / Maintain Record(s) IICO FALSE|Users allowed to create new and maintain existing  records using the Customer Invoice Item Code document.|Y|
+306|6314CC58CF58B7B5E0404F8189D84439|1.0|27|KR-SYS|Full Unmask Tax Identification Number Person Document|Authorizes users to view the entire Tax Identification Number on the Person document and inquiry.|Y|
+307|638DD46953F9BCD5E0404F8189D86240|1.0|1|KR-IDM|Modify Entity|Users who can modify entity records in Kuali Identity Management.|Y|
+308|308|1.0|41|KFS-PURAP|Modify Accounting Lines REQS Initiator items.sourceAccountingLines|Allows users to modify the Source accounting lines on a Requisition Document that is at the Initiator Node of routing.|Y|
+313|313|1.0|45|KFS-PURAP|Add Note / Attachment PO Contracts|Authorizes users to add notes and attachments with a type of "Contracts" to the Purchase Order document. |Y|
+314|314|1.0|46|KFS-PURAP|View Note / Attachment PO Contracts|Authorizes users to view attachments with a type of "Contract" on Purchase Order documents and documents answering to that document type.|Y|
+315|315|1.0|45|KFS-PURAP|Add Note / Attachment PO Contract Ammendments|Authorizes users to add notes and attachments with a type of "Contract" on Purchase Order documents and documents answering to that document type.|Y|
+316|316|1.0|46|KFS-PURAP|View Note / Attachment PO Contract Ammendments|Authorizes users to view attachments with a type of "Contract Amendments" on Purchase Order documents and documents answering to that document type.|Y|
+317|317|1.0|45|KFS-PURAP|Add Note / Attachment PO Quotes|Authorizes users to add notes and attachments with a type of "Quotes" on Purchase Order documents and documents answering to that document type.|Y|
+318|318|1.0|46|KFS-PURAP|View Note / Attachment PO Quotes|Authorizes users to view attachments with a type of "Quotes" on Purchase Order documents and documents answering to that document type.|Y|
+319|319|1.0|45|KFS-PURAP|Add Note / Attachment PO RFPs|Authorizes users to add notes and attachments with a type of "RFPs" on Purchase Order documents and documents answering to that document type.|Y|
+32|32|1.0|26|KFS-CAM|Modify Maintenance Document Field Asset organizationOwnerChartOfAccountsCode|Users who can modify the Owner Chart of Accounts Code field on the Asset document.|Y|
+320|320|1.0|46|KFS-PURAP|View Note / Attachment PO RFPs|Authorizes users to view attachments with a type of "RFPs" on Purchase Order documents and documents answering to that document type.|Y|
+321|321|1.0|45|KFS-PURAP|Add Note / Attachment PO RFP Responses|Authorizes users to add notes and attachments with a type of "RFP" on Purchase Order documents and documents answering to that document type.|Y|
+322|322|1.0|46|KFS-PURAP|View Note / Attachment PO RFP Responses|Authorizes users to view attachments with a type of "RFP" on Purchase Order documents and documents answering to that document type.|Y|
+323|323|1.0|45|KFS-PURAP|Add Note / Attachment PO Other - Restricted|Authorizes users to add notes or attachments with a type of "Other-Restricted" on Purchase Order documents and documents answering to that document type.|Y|
+324|324|1.0|46|KFS-PURAP|View Note / Attachment PO Other - Restricted|Authorizes users to view attachments with a type of "Other-Restricted" on Purchase Order documents and documents answering to that document type.|Y|
+325|325|1.0|45|KFS-PURAP|Add Note / Attachment CM Credit Memo Image|Authorizes users to add notes or attachments with a type of "Credit Memo Image" on Credit Memo documents.|Y|
+326|326|1.0|46|KFS-PURAP|View Note / Attachment CM Credit Memo Image|Authorizes users to view attachments with a type of "Credit Memo Image" on Credit Memo documents.|Y|
+327|327|1.0|1|KFS-CAM|Maintain Asset Location|Allows user to maintain the location of assets on the Asset document.|Y|
+328|328|1.0|41|KFS-PURAP|Modify Accounting Lines REQS Organization items.sourceAccountingLines|Allows users to modify the Source accounting lines on a Requisition Document that is at the Organization Node of routing.|Y|
+329|329|1.0|29|KFS-FP|Use Screen org.kuali.kfs.fp.document.web.struts.CashManagementStatusAction|Allows access to the Cash Management Document screen that a user sees when they try to initiate and a document is already open for their campus. The screen provides them a link to the existing document for their campus.|Y|
+33|33|1.0|26|KFS-CAM|Modify Maintenance Document Field Asset organizationOwnerAccountNumber|Users who can modify the Owner Account Number field on the Asset document.|Y|
+330|330|1.0|29|KFS-FP|Use Screen org.kuali.kfs.fp.document.web.struts.DepositWizardAction|Allows access to the Cash Management Document screen from which a user can create new deposits.|Y|
+331|331|1.0|29|KFS-FP|Use Screen org.kuali.kfs.fp.web.struts.CashDrawerCorrectionAction|Allows access to the Cash Management Document screen from which a user can correct amounts on a closed cash drawer.|Y|
+332|662384B381B967A1E0404F8189D868A6|1.0|49|KR-SYS|Send FYI Request Kuali Document|Authorizes users to send FYI ad hoc requests for Kuali Documents|Y|
+333|662384B381BD67A1E0404F8189D868A6|1.0|49|KR-SYS|Send Acknowledge Request Kuali Document|Authorizes users to send Acknowledge ad hoc requests for Kuali Documents|Y|
+334|662384B381C167A1E0404F8189D868A6|1.0|49|KR-SYS|Send Approve Request Kuali Document|Authorizes users to send Approve ad hoc requests for Kuali Documents|Y|
+335|335|1.0|26|KFS-VND|Modify Maintenance Document Field VendorDetail vendorHeader.vendorTaxTypeCode|Authorizes users to modify the Tax Type Code on a Vendor Maintenance Document.|Y|
+34|34|1.0|26|KFS-CAM|Modify Maintenance Document Field Asset capitalAssetInServiceDate|Users who can modify the Capital Asset In Service Date field on the Asset document.|Y|
+342|342|1.0|26|KFS-CAM|Modify Maintenance Document Field Asset capitalAssetTypeCode|Users who can modify the Capital Asset Type Code field on the Asset document.|Y|
+343|343|1.0|26|KFS-CAM|Modify Maintenance Document Field Asset capitalAssetDescription|Users who can modify the Capital Asset Description field on the Asset document.|Y|
+344|344|1.0|26|KFS-CAM|Modify Maintenance Document Field Asset campusTagNumber|Users who can modify the Campus Tag Number field on the Asset document.|Y|
+346|346|1.0|30|KFS-CAM|Perform Custom Maintenance Document Function calculateEqualSourceAmountsButton||Y|
+347|347|1.0|30|KFS-CAM|Perform Custom Maintenance Document Function calculateSeparateSourceRemainingAmountButton||Y|
+348|348|1.0|25|KFS-CAM|View Inquiry or Maintenance Document Field Asset oldTagNumber|Users who can view the Old Tag Number on the Asset document.|Y|
+349|349|1.0|10|KFS-AR|Initiate Document IICO|Authorizes the initiation of Customer Invoice Item Code Documents.|Y|
+35|35|1.0|26|KFS-CAM|Modify Maintenance Document Field Asset agencyNumber|Users who can modify the Agency Number field on the Asset document.|Y|
+350|350|1.0|10|KFS-FP|Initiate Document CR|Authorizes the initiation of the Cash Receipt Document.|Y|
+351|351|1.0|1|KFS-COA|Serve As Account Supervisor|Identifies users that can be Account Supervisors.|Y|
+352|352|1.0|1|KFS-COA|Serve As Fiscal Officer|Identifies users that can be Account Fiscal Officers.|Y|
+353|353|1.0|1|KFS-COA|Serve As Fiscal Officer Delegate|Identifies users that can be Account Fiscal Officer Delegates.|Y|
+354|354|1.0|29|KFS-FP|Use Screen org.kuali.kfs.fp.document.web.struts.DisbursementVoucherHelpAction|???|Y|
+355|355|1.0|41|KFS-PURAP|Modify Accounting Lines POA NewUnorderedItems items.sourceAccountingLines|Allows users to modify the Source accounting lines on a Purchase Order Amendment Document that is at the New Unordered Items Node of routing.|Y|
+356|356|1.0|10|KFS-PURAP|Initiate Document CM|Authorizes the initiation of the Credit Memo Document.|Y|
+357|357|1.0|4|KFS-AR|Blanket Approve Document APP|Allows access to the Blanket Approval button on the Application Document.|Y|
+358|358|1.0|41|KFS-FP|Modify Accounting Lines DV Travel sourceAccountingLines.financialObjectCode|Allows users to modify the object code of Source accounting lines on a Disbursement Voucher Document that is at the Travel Node of routing.|Y|
+36|36|1.0|26|KFS-CAM|Modify Maintenance Document Field Asset vendorName|Users who can modify the Vendor Name field on the Asset document.|Y|
+360|360|1.0|10|KFS-AR|Initiate Document INVR|Authorizes the initiation of Invoice Recurrence Documents.|Y|
+361|361|1.0|10|KFS-FP|Initiate Document CDS|Authorizes the initiation of the Cash Drawer Document.|Y|
+362|362|1.0|50|KFS-SYS|View Batch File(s) KFS*|Authorizes users to view batch files using the Batch File lookup screen.|Y|
+363|363|1.0|23|KFS-PDP|Look Up Records KFS-PDP PurchasingPaymentDetail|Allow users to access Pre Disbursement Processor lookups.|Y|
+364|364|1.0|27|KFS-VND|Full Unmask Field VendorDetail vendorHeader.vendorTaxTypeCode|Authorizes users to view the entire Tax Number on the Vendor Maintenance Document and Inquiry.|Y|
+365|365|1.0|16|KFS-PURAP|Edit Document PREQ P|Authorizes users who can edit Payment Request Documents that are in ENROUTE status.|Y|
+366|366|1.0|16|KFS-PURAP|Edit Document PREQ F|Authorizes users who can edit Payment Request Documents that are in ENROUTE status.|Y|
+367|367|1.0|16|KFS-PURAP|Edit Document CM P|Authorizes users who can edit Credit Memo Documents that are in PROCESSED status.|Y|
+368|368|1.0|16|KFS-PURAP|Edit Document CM F|Authorizes users who can edit Credit Memo Documents that are in FINAL status.|Y|
+369|369|1.0|42|KFS-AR|Create / Maintain Record(s) OADF FALSE|Users allowed to create new and maintain existing records using the Organization Accounting Default document.|Y|
+37|37|1.0|26|KFS-CAM|Modify Maintenance Document Field Asset oldTagNumber|Users who can modify the Old Tag Number field on the Asset document.|Y|
+371|371|1.0|41|KFS-AR|Modify Accounting Lines INV Recurrence sourceAccountingLines.invoiceItemDescription|Allows users to modify the Invoice Item Description of Source accounting lines on an Invoice document that is at the Recurrence Node of routing.|Y|
+372|372|1.0|48|KFS-FP|Edit Bank Code CMD|Users who can edit the Bank Code field on the Cash Management Document.|Y|
+373|373|1.0|48|KFS-PURAP|Edit Bank Code PREQ|Users who can edit the Bank Code field on the Payment Request Document.|Y|
+374|374|1.0|48|KFS-FP|Edit Bank Code DV|Users who can edit the Bank Code field on the Disbursement Voucher Document.|Y|
+375|375|1.0|23|KFS-CAB|Look Up Records Pretag|Allows users to access the Pre-Asset Tagging screens.|Y|
+376|376|1.0|42|KFS-CAB|Create / Maintain Record(s) PTAG|Users allowed to create new and maintain existing records using the Pre-Asset Tagging document.|Y|
+377|377|1.0|1|KFS-CAM|Edit When Tagged Prior Fiscal Year|Authorizes users to edit assets tagged in a prior fiscal year.|Y|
+378|5B4F09744953EF33E0404F8189D84F29|1.0|1|KR-IDM|Override Entity Privacy Preferences|Allows a user to override entity privacy preferences|Y|
+379|379|1.0|10|KFS-SYS|Initiate Document IdentityManagementGroupDocument|Authorizes the initiation of the KIM Group document.|Y|
+38|38|1.0|26|KFS-CAM|Modify Maintenance Document Field Asset governmentTagNumber|Users who can modify the Government Tag Number field on the Asset document.|Y|
+380|380|1.0|10|KFS-COA|Initiate Document GORV|Authorizes the initiation of the Organization Reversion Global Document.|Y|
+381|381|1.0|27|KFS-FP|Full Unmask Field DisbursementVoucherWireTransfer disbVchrPayeeAccountNumber|Authorizes users to view the entire bank account number on the Wire Transfer tab of the Disbursement Voucher document.|Y|
+382|382|1.0|16|KFS-SYS|Edit Document FSSM AdHoc R|Authorizes users to edit Simple Maintenance document at the AdHoc route node.|Y|
+383|383|1.0|16|KFS-SYS|Edit Document KFSM AdHoc R|Authorizes users to edit Complex Maintenance document at the AdHoc route node.|Y|
+385|385|1.0|33|KFS-GL|Upload Batch Input File(s) collectorFlatFileInputFileType|Authorizes user to access the Collector Flat File Upload page.|Y|
+386|386|1.0|27|KFS-PDP|Full Unmask Field PaymentGroup achBankRoutingNbr|Authorizes users to view the entire bank routing number on the Payment Detail Inquiry.|Y|
+387|387|1.0|27|KFS-PDP|Full Unmask Field AchAccountNumber achBankAccountNbr|Authorizes users to view the entire bank account number on the Payment Detail Inquiry.|Y|
+39|39|1.0|26|KFS-CAM|Modify Maintenance Document Field Asset nationalStockNumber|Users who can modify the National Stock Number field on the Asset document.|Y|
+390|390|1.0|9|KFS-SYS|Ad Hoc Review Document KFS A|Authorizes users to take the Approve action on KFS documents Ad Hoc routed to them.|Y|
+391|391|1.0|9|KFS-SYS|Ad Hoc Review Document KFS F|Authorizes users to take the FYI action on KFS documents Ad Hoc routed to them.|Y|
+392|392|1.0|9|KFS-SYS|Ad Hoc Review Document KFS K|Authorizes users to take the Acknowledge action on KFS documents Ad Hoc routed to them.|Y|
+40|40|1.0|26|KFS-CAM|Modify Maintenance Document Field Asset financialObjectSubTypeCode|Users who can modify the Financial Object Sub Type Code field on the Asset document.|Y|
+42|42|1.0|33|KFS-CAM|Upload Batch Input File(s) assetBarcodeInventoryInputFileType|Authorizes users to access the Barcode Inventory Process upload page.|Y|
+43|43|1.0|25|KFS-CAM|View Inquiry or Maintenance Document Field Asset replacementAmount|Users who can view the Replacement Amount field on the Asset document.|Y|
+44|44|1.0|25|KFS-CAM|View Inquiry or Maintenance Document Field Asset estimatedSellingPrice|Users who can view the Estimated Selling Price field on the Asset document.|Y|
+46|46|1.0|25|KFS-CAM|View Inquiry or Maintenance Document Field Asset conditionCode|Users who can view the Condition Code on the Asset document.|Y|
+47|47|1.0|25|KFS-CAM|View Inquiry or Maintenance Document Field Asset landCountyName|Users who can view the Land County Name on the Asset document.|Y|
+48|48|1.0|25|KFS-CAM|View Inquiry or Maintenance Document Field Asset landAcreageSize|Users who can view the Land Acreage Size on the Asset document.|Y|
+49|49|1.0|25|KFS-CAM|View Inquiry or Maintenance Document Field Asset landParcelNumber|Users who can view the Land Parcel Number on the Asset document.|Y|
+5|5|1.0|10|KFS-AR|Initiate Document APP|Authorizes the initiation of Application Documents.|Y|
+51|51|1.0|10|KFS-CG|Initiate Document CLOS|Authorizes the initiation of the CFDA Close Document.|Y|
+52|52|1.0|10|KFS-CG|Initiate Document PRPL|Authorizes the initiation of the Proposal Document.|Y|
+54|54|1.0|43|KFS-CG|View Inquiry or Maintenance Document Section Proposal proposalResearchRisks|Authorizes users to vew the Research Risk tab on the Proposal document.|Y|
+55|55|1.0|10|KFS-COA|Initiate Document GOBJ|Authorizes the initiation of the Global Object Code Document.|Y|
+56|56|1.0|10|KFS-COA|Initiate Document ORGR|Authorizes the initiation of the Organization Reversion Document.|Y|
+58|58|1.0|1|KFS-COA|Edit Inactive Account|Users who can edit Accounts that are inactive.|Y|
+59|59|1.0|1|KFS-COA|Serve As Account Manager|Identifies users that can be Account Managers|Y|
+6|6|1.0|10|KFS-AR|Initiate Document CTRL|Authorizes the initiation of the Cash Control Document.|Y|
+60|60|1.0|26|KFS-COA|Modify Maintenance Document Field SubAccount a21SubAccount|Authorizes users to edit the Sub-Account Type Code on the Sub-Account document.|Y|
+61|61|1.0|26|KFS-COA|Modify Maintenance Document Field Organization organizationPlantChartCode|Users who can edit the Organization Plant Chart Code on the Organization document.|Y|
+62|62|1.0|26|KFS-COA|Modify Maintenance Document Field Organization organizationPlantAccountNumber|Users who can edit the Organization Plant Account Number on the Organization document.|Y|
+63|63|1.0|26|KFS-COA|Modify Maintenance Document Field Organization campusPlantChartCode|Users who can edit the Campus Plant Chart Code on the Organization document.|Y|
+64|64|1.0|26|KFS-COA|Modify Maintenance Document Field Organization campusPlantAccountNumber|Users who can edit the Campus Plant Account Number on the Organization document.|Y|
+65|65|1.0|10|KFS-EC|Initiate Document ECD|Authorizes the initiation of the Effort Certification Document.|Y|
+66|66|1.0|7|KFS-FP|Claim Electronic Payment DI|Users who can use a Distribution of Income and Expense document to claim Electronic Payments.|Y|
+67|67|1.0|7|KFS-FP|Claim Electronic Payment YEDI|Users who can use a Year End Distribution of Income and Expense document to claim Electronic Payments.|Y|
+69|69|1.0|10|KFS-FP|Initiate Document CMD|Authorizes the initiation of the Cash Management Document.|Y|
+70|70|1.0|10|KFS-FP|Initiate Document SB|Authorizes the initiation of the Service Billing Document.|Y|
+701|04C7706012554535AF8DC48DC6CC331C|1.0|23|KR-WKFLW|Look Up Rule Template|Allow users to access the Rule Template lookup.|Y|
+702|471FF4B19A4648D4B84194530AE22158|1.0|23|KR-WKFLW|Look Up Stylesheet|Allow users to access the Stylesheet lookup.|Y|
+703|E6875070DC5B4FD59193F7445C33E7AB|1.0|23|KR-WKFLW|Look Up eDocLite|Allow users to access the eDocLite lookup.|Y|
+707|28CE0127B8A14AB4BFD39920C5398A69|1.0|23|KR-WKFLW|Look Up Rule Attribute|Allow users to access the Rule Attribute lookup.|Y|
+71|71|1.0|10|KFS-FP|Initiate Document JV|Authorizes the initiation of the Journal Voucher Document.|Y|
+719|45F0E8E1B9784756A3C0582980912991|1.0|23|KR-NS|Look Up Parameter Component|Allow users to access the Parameter Component lookup.|Y|
+72|72|1.0|10|KFS-FP|Initiate Document PCDO|Authorizes the initiation of the  Procurement Card Document.|Y|
+720|FFF2C6639C6041F1B148AA9901C8A1F7|1.0|23|KR-NS|Look Up Namespace|Allow users to access the Namespace lookup.|Y|
+721|B1BD57EE64274E62AC9425C7FF185A44|1.0|23|KR-NS|Look Up Parameter Type|Allow users to access the Parameter Type lookup.|Y|
+73|73|1.0|27|KFS-FP|Full Unmask Field ProcurementCardHolder transactionCreditCardNumber|Authorizes users to view the entire Credit Card number on the Procurement Card document and Inquiry.|Y|
+74|74|1.0|33|KFS-FP|Upload Batch Input File(s) procurementCardInputFileType|Authorizes users to access the Procurement Card Upload page.|Y|
+75|75|1.0|10|KFS-GL|Initiate Document GLCP|Authorizes the initiation of the  General Ledger Correction Process Document.|Y|
+76|76|1.0|33|KFS-GL|Upload Batch Input File(s) collectorXmlInputFileType|Authorizes user to access the Collector XML Upload page.|Y|
+77|77|1.0|33|KFS-GL|Upload Batch Input File(s) enterpriseFeederFileSetType|Authorizes user to access the Enterprise Feed Upload page.|Y|
+78|78|1.0|10|KFS-LD|Initiate Document LLJV|Authorizes the initiation of the Labor Journal Voucher Document.|Y|
+79|79|1.0|10|KFS-LD|Initiate Document LLCP|Authorizes the initiation of the  Labor Ledger Correction Process Document.|Y|
+8|8|1.0|10|KFS-AR|Initiate Document AR|Authorizes the initiation of Accounts Receivable Transactional Documents.|Y|
+80|80|1.0|1|KFS-PDP|Set as Immmediate Pay|Authorizes users to set and remove immediate status on payments in PDP.|Y|
+801|606763510FD196D3E0404F8189D857A2|1.0|24|KR-WKFLW|Inquire Into Rule Template|Allow users to access the Rule Template inquiry.|Y|
+802|606763510FD496D3E0404F8189D857A2|1.0|24|KR-WKFLW|Inquire Into Stylesheet|Allow users to access the Stylesheet inquiry.|Y|
+803|606763510FD796D3E0404F8189D857A2|1.0|24|KR-WKFLW|Inquire Into eDocLite|Allow users to access the eDocLite inquiry.|Y|
+807|606763510FDA96D3E0404F8189D857A2|1.0|24|KR-WKFLW|Inquire Into Rule Attribute|Allow users to access the Rule Attribute inquiry.|Y|
+81|81|1.0|10|KFS-PDP|Initiate Document PDSM|Authorizes the initiation of Pre-Disbursement Processor Simple Maintenance Documents.|Y|
+814|606763510FE196D3E0404F8189D857A2|1.0|24|KR-NS|Inquire Into Pessimistic|Allow users to access the Pessimistic Lock inquiry.|Y|
+819|606763510FE496D3E0404F8189D857A2|1.0|24|KR-NS|Inquire Into Parameter Component|Allow users to access the Parameter Component inquiry.|Y|
+82|82|1.0|1|KFS-PDP|Cancel Payment|Authorizes users to take the Cancel action on payments in PDP.|Y|
+820|606763510FE796D3E0404F8189D857A2|1.0|24|KR-NS|Inquire Into Namespace|Allow users to access the Namespace inquiry.|Y|
+821|606763510FEA96D3E0404F8189D857A2|1.0|24|KR-NS|Inquire Into Parameter Type|Allow users to access the Parameter Type inquiry.|Y|
+83|83|1.0|1|KFS-PDP|Format|Authorizes users to access and run the Format Checks /ACH screen in PDP|Y|
+833|5B4F09744953EF33E0404F8189D84F25|1.0|38|KR-SYS|Populate Group KUALI Namespace|Authorizes users to modify the information on the Assignees Tab of the Group Document and the Group section of the Membership Tab on the Person Document for groups with the KUALI namespace.|Y|
+834|5B4F09744953EF33E0404F8189D84F26|1.0|35|KR-SYS|Assign Role KUALI Namespace|Authorizes users to modify the information on the Assignees Tab of the Role Document and the Roles section of the Membership Tab on the Person Document for Roles with the KUALI namespace.|Y|
+835|5B4F09744953EF33E0404F8189D84F27|1.0|36|KR-SYS|Grant Permission KUALI Namespace|Authorizes users to modify the information on the Permissions tab of the Role Document for roles with the KUALI namespace.|Y|
+836|5B4F09744953EF33E0404F8189D84F28|1.0|37|KR-SYS|Grant Responsibility KUALI Namespace|Authorizes users to modify the information on the Responsibility tab of the Role Document for roles with the KUALI namespace.|Y|
+84|84|1.0|1|KFS-PDP|Hold Payment / Remove Non-Tax Payment Hold|Authorizes users to hold payments and remove non-tax related holds on payments in PDP.|Y|
+840|97469975-D110-9A65-5EE5-F21FD1BEB5B2|1.0|29|KR-BUS|Use Configuration Viewer Screen|Allows users to access the Configuration Viewer screen|Y|
+841|65677409-89e4-11df-98b1-1300c9ee50c1|1.0|51|KUALI|Add Message to Route Log||Y|
+842|B6FDEDA86F967F26E0402E0AA9D728AF|1.0|29|KR-SYS|Use Cache Adminstration Screen|Allows use of the cache administration screen|Y|
+843|B7DBFABEFD2B8CBFE0402E0AA9D757C9|1.0|52|KR-RULE-TEST|Maintain KRMS Agenda|Allows creation and modification of agendas via the agenda editor|Y|
+844|0dbce939-4f22-4e9b-a4bb-1615c0f411a2|1.0|42|KR-NS|Create Term Maintenance Document|Allows user to create a new Term maintainence document|Y|
+845|cefeed6d-b5e2-40aa-9034-137db317b532|1.0|42|KR-NS|Create Context Maintenance Document|Allows user to create a new Context maintainence document|Y|
+846|02bd9acd-48d9-4fec-acbd-6a441c5ea8c2|1.0|42|KR-NS|Create TermSpecification Maintenance Document|Allows user to create a new TermSpecification maintainence document|Y|
+847|BD74D7B702AB02CEE0402E0AA9D75B2D|1.0|68|KR-WKFLW|Recall Document||Y|
+848|BFCADCB34017249AE0402E0AA9D7065D|1.0|49|KR-SYS|Send Complete Request Kuali Document|Authorizes users to send Complete ad hoc requests for Kuali Documents|Y|
+86|86|1.0|1|KFS-PDP|Remove Format Lock|Users who can reset a format process in PDP.|Y|
+87|87|1.0|1|KFS-PDP|Remove Payment Tax Hold|Authorizes users to remove payments held for tax review in PDP.|Y|
+88|88|1.0|24|KFS-PDP|Inquire Into Records KFS-PDP|Allows users to access Pre Disbursement Processor inquiries.|Y|
+89|89|1.0|23|KFS-PDP|Look Up Records KFS-PDP|Allow users to access Pre Disbursement Processor lookups.|Y|
+9|9|1.0|27|KFS-AR|Full Unmask Field Customer customerTaxNbr|Authorizes users to view the entire Tax Number on the Customer document and Inquiry.|Y|
+90|90|1.0|33|KFS-PDP|Upload Batch Input File(s) paymentInputFileType|Allows access to the Manually Upload Payment File screen in PDP.|Y|
+91|91|1.0|4|KFS-PURAP|Blanket Approve Document PREQ|Allows access to the Blanket Approval button on the Payment Request Document.|Y|
+92|92|1.0|10|KFS-PURAP|Initiate Document REQS|Authorizes the initiation of the Requisition Document.|Y|
+93|93|1.0|10|KFS-PURAP|Initiate Document PUR|Authorizes the initiation of Purchasing Transactional Documents.|Y|
+94|94|1.0|10|KFS-PURAP|Initiate Document PO|Authorizes the initiation of the Purchase Order Document.|Y|
+95|95|1.0|10|KFS-PURAP|Initiate Document POC|Authorizes the initiation of the Purchase Order Close Document.|Y|
+96|96|1.0|10|KFS-PURAP|Initiate Document PORT|Authorizes the initiation of the Purchase Order Retransmit Document.|Y|
+97|97|1.0|10|KFS-PURAP|Initiate Document PREQ|Authorizes the initiation of the Payment Request Document.|Y|
+98|98|1.0|10|KFS-PURAP|Initiate Document RCV|Authorizes the initiation of Receiving Transactional Documents.|Y|
+99|99|1.0|10|KFS-PURAP|Initiate Document EIRT|Authorizes the initiation of the Electronic Invoice Reject Document.|Y|
+KFSAR5340P|KFSAR5340P|1.0|31|KFS-AR|Edit Invoice Processing Organization|Users who can edit the Processing Chart Code and the processing organization fields on the Customer Invoice Document.|Y|
+KFSAR6012|KFSAR6012|1.0|33|KFS-AR|Upload Customer CSV Files|Allows access to the Customer Upload Batch Upload page.|Y|
+KFSAR6732|KFSAR6732|1.0|16|KFS-AR|Edit APP Document-PreRoute|Edit permission for the Payment Application document prior to the document being submitted.|Y|
+KFSCNTRB162-PRM|KFSCNTRB162-PRM|1.0|33|KFS-VND|Use Vendor Exclude File Upload Screen|Authorizes users to access the Vendor Exclude File Upload page.|Y|
+KFSCNTRB199-P1|KFSCNTRB199-P1|1.0|33|KFS-SYS|Upload semaphoreInputFileTypeError|Authorizes users to access the Batch Semaphore File Upload page.|Y|
+KFSCNTRB199-P2|KFSCNTRB199-P2|1.0|50|KFS-SYS|Administer Batch File KFS-SYS batchContainer|Authorizes users to view the batch files using the Batch File lookup screen|Y|
+KFSCNTRB65-PRM1|KFSCNTRB65-PRM1|1.0|1|KR-SYS|Access Locked Module|Allow access to modules, even when locked.|Y|
+KFSENDOW6005|KFSENDOW6005|1.0|10|KFS-ENDOW|Initiate Document TicklerMaintenanceDocument|Authorizes the initiation of the Tickler document|Y|
+KFSENDOW6007|KFSENDOW6007|1.0|9|KFS-ENDOW|Ad Hoc Review Document TicklerMaintenanceDocument F|Authorizes Kuali Users to take the FYI action on Tickler Document Ad Hoc routed to them.|Y|
+KFSENDOW6008|KFSENDOW6008|1.0|29|KFS-ENDOW|Use Endowment Reporting Screens org.kuali.kfs.module.endow.web.struts.TrialBalanceAction|Authorizes the use of the Trial Balance reporting screen within the Endowment module.|Y|
+KFSENDOW6009|KFSENDOW6009|1.0|29|KFS-ENDOW|Use Endowment Reporting Screens org.kuali.kfs.module.endow.web.struts.TransactionStatementAction|Authorizes the use of the Transaction Statement reporting screen within the Endowment module.|Y|
+KFSENDOW6010|KFSENDOW6010|1.0|29|KFS-ENDOW|Use Endowment Reporting Screens org.kuali.kfs.module.endow.web.struts.TransactionSummaryAction|Authorizes the use of the Transaction Summary reporting screen within the Endowment module.|Y|
+KFSENDOW6011|KFSENDOW6011|1.0|29|KFS-ENDOW|Use Endowment Reporting Screens org.kuali.kfs.module.endow.web.struts.AssetStatementAction|Authorizes the use of the Asset Statement reporting screen within the Endowment module.|Y|
+KFSLD6987|KFSLD6987h|1.0|33|KFS-LD|Upload Labor Enterprise Feed Batch Files|Allows access to the Labor Enterprise Feed Upload Batch Upload page.|Y|
+KFSMI6886-PRM1|KFSMI6886-PRM1|1.0|42|KFS-PDP|Maintain ACH Accounts|Allows to view and update Payee ACH Accounts of a certain transaction type.|Y|
+KFSMI6886-PRM2|KFSMI6886-PRM2|1.0|23|KFS-PDP|Lookup ACH Accounts|Allows the lookup of Payee ACH Account records of certain transaction type(s).|Y|
+KFSMI6886-PRM3|KFSMI6886-PRM3|1.0|10|KFS-PDP|Initiate ACH Account Document|Allows initiation the PDP Payee ACH Account maintenance document.|Y|
+KFSMI7041-PRM|KFSMI7041-PRM|1.0|29|KFS-LD|View Fringe Benefit Inquiry|Permits access to screens controlled by org.kuali.kfs.module.ld.document.web.struts.FringeBenefitInquiryAction|Y|
+KFSMI8342-PRM|KFSMI8342-PRM|1.0|44|KFS-COA|Modify Maintenance Document Section SubAccount indirectCostRecoveryAccounts|Authorizes users to edit the IndirectCostRecoveryAccounts section on the Sub-Account document.|Y|
+KFSMI8893-PRM1|KFSMI8893-PRM1|1.0|68|KFS-FP|Recall Document FP|Enable Recall Document functionality for KFS FP documents.|Y|
+KFSMI8893-PRM2|KFSMI8893-PRM2|1.0|68|KFS-SYS|Recall Document KFS|Recall Document functionality for KFS documents.|Y|
+KFSMI8906-PRM|KFSMI8906-PRM|1.0|41|KFS-PURAP|Modify Acct Lines PO Pur Process itemssourceAccountingLines|Allows users to modify the accounting lines on a PO Document that is at Awaiting Purchasing Approval status.|Y|
+KFSMI8944-PRM|KFSMI8944-PRM|1.0|41|KFS-PURAP|Modify Accounting Lines PUR Tax itemsourceAccountingLines|Allows users to modify the Source accounting lines on documents answering to the parent document Purchasing Transactional Document when a document is at the Tax Node of routing.|Y|
+KFSMI9071-PRM1|KFSMI9071-PRM1|1.0|49|KFS-SYS|Send Complete Request KFS| "Authorizes users to send Complete ad hoc requests for KFS Documents|Y|
+KFSMI9598-PRM1|KFSMI9598-PRM1|1.0|KR1000|KFS-SYS|Super User Approve Single Action Request KFS|Allows users to super user approve single action requests on the super user tab for KFS Documents.|Y|
+KFSMI9598-PRM2|KFSMI9598-PRM2|1.0|KR1001|KFS-SYS|Super User Approve Document KFS|Allows users to super user approve documents on the super user tab for KFS Documents.|Y|
+KFSMI9598-PRM3|KFSMI9598-PRM3|1.0|KR1002|KFS-SYS|Super User Disapprove Document KFS|Allows users to super user disapprove documents on the super user tab for KFS Documents.|Y|
+KFSPURAP6940|KFSPURAP6940|1.0|27|KFS-PURAP|Unmask PO # On PO Document|Authorizes users to view the entire Purchase Order Number on the PO Document and Inquiry|Y|
+KFSSEC6001|KFSSEC6001|1.0|10|KFS-SEC|Initiate Document AccessSecuritySimpleMaintenanceDocument|Authorizes the initiation of Access Security Simple Maintenance Documents.|Y|
+KFSSEC6002|KFSSEC6002|1.0|23|KFS-SEC|Look Up Records KFS-SEC|Authorizes the lookup of Access Security records.|Y|
+KFSSEC6003|KFSSEC6003|1.0|24|KFS-SEC|Inquire Into Records KFS-SEC|Authorizes inquiry of Access Security records.|Y|
+KFSSEC6004|KFSSEC6004|1.0|16|KFS-SEC|Edit Document AccessSecuritySimpleMaintenanceDocument PreRoute|Authorizes edit of Access Security Simple Maintenance Documents.|Y|
+KFSSYS6007|KFSSYS6007|1.0|31|KFS-FP|Allow DV Immediate Disbursement|Allow Disbursement Voucher to be marked for immediate disbursement by the Pre-Disbursement Processor.|Y|
+KFSSYS7145a|KFSSYS7145a|1.0|1|KFS-SYS|View Accounting Period|Users who can view the accounting period field when enabled for year end processing.|Y|
+KFSSYS7145b|KFSSYS7145b|1.0|1|KFS-SYS|Edit Accounting Period|Users who can edit the accounting period field when enabled for year end processing.|Y|
+TEM-10000|KFS-TEM-PERM-000|1.0|TEM-10000|KFS-TEM|Amend TA|Allows access to Amend the TA doc|Y|
+TEM-10001|KFS-TEM-PERM-001|1.0|TEM-10001|KFS-TEM|Hold TA|Allows access to Hold the TA doc|Y|
+TEM-10002|KFS-TEM-PERM-002|1.0|TEM-10002|KFS-TEM|Remove Hold TA|Allows access to Remove the Hold the TA doc|Y|
+TEM-10003|KFS-TEM-PERM-003|1.0|TEM-10003|KFS-TEM|Cancel TA|Allows access to Cancel the TA doc|Y|
+TEM-10004|KFS-TEM-PERM-004|1.0|TEM-10004|KFS-TEM|Close TA|Allows access to Close the TA doc|Y|
+TEM-10005|KFS-TEM-PERM-005|1.0|TEM-10005|KFS-TEM|Return to Fiscal Officer|Allows access to return an enroute travel document to the Fiscal Officer for changes.|Y|
+TEM-10006|KFS-TEM-PERM-006|1.0|41|KFS-TEM|Modify Accounting Lines TT Account sourceAccountingLines|Allows access to Modify the Accounting Lines on a TT doc|Y|
+TEM-10007|KFS-TEM-PERM-007|1.0|27|KFS-TEM|Full Unmask Field TravelAuthorizationDocument citizenshipCountryCode|Allows users to unmask the citizenship country field in the Emergency Contacts tab in a Travel Authorization document.|Y|
+TEM-10008|KFS-TEM-PERM-008|1.0|27|KFS-TEM|Full Unmask Field TravelAuthorizationDocument cellPhoneNumber|Allows users to unmask the cell phone number field in the Emergency Contacts tab in a Travel Authorization document.|Y|
+TEM-10009|KFS-TEM-PERM-009|1.0|27|KFS-TEM|Full Unmask Field TravelerDetailEmergencyContact contactRelationTypeCode|Allows users to unmask the contact relation field in the Emergency Contacts tab in a Travel Authorization document.|Y|
+TEM-10010|KFS-TEM-PERM-010|1.0|27|KFS-TEM|Full Unmask Field TravelerDetailEmergencyContact contactName|Allows users to unmask the contact name field in the Emergency Contacts tab in a Travel Authorization document.|Y|
+TEM-10011|KFS-TEM-PERM-011|1.0|27|KFS-TEM|Full Unmask Field TravelerDetailEmergencyContact phoneNumber|Allows users to unmask the contact phone number field in the Emergency Contacts tab in a Travel Authorization document.|Y|
+TEM-10012|KFS-TEM-PERM-012|1.0|27|KFS-TEM|Full Unmask Field TravelerDetailEmergencyContact emailAddress|Allows users to unmask the contact email address field in the Emergency Contacts tab in a Travel Authorization document.|Y|
+TEM-10013|KFS-TEM-PERM-013|1.0|27|KFS-TEM|Full Unmask Field TemProfileEmergencyContact contactRelationTypeCode|Allows users to unmask the contact relation field in the Emergency Contacts tab in a TemProfile document.|Y|
+TEM-10014|KFS-TEM-PERM-014|1.0|27|KFS-TEM|Full Unmask Field TemProfileEmergencyContact contactName|Allows users to unmask the contact name field in the Emergency Contacts tab in a TemProfile document.|Y|
+TEM-10015|KFS-TEM-PERM-015|1.0|27|KFS-TEM|Full Unmask Field TemProfileEmergencyContact phoneNumber|Allows users to unmask the contact phone number field in the Emergency Contacts tab in a TemProfile document.|Y|
+TEM-10016|KFS-TEM-PERM-016|1.0|27|KFS-TEM|Full Unmask Field TemProfileEmergencyContact emailAddress|Allows users to unmask the contact email address field in the Emergency Contacts tab in a TemProfile document.|Y|
+TEM-10017|KFS-TEM-PERM-017|1.0|TEM-10006|KFS-TEM|Calculate TA|Allows TA doc calculation|Y|
+TEM-10018|KFS-TEM-PERM-018|1.0|1|KFS-TEM|Create TEM Profile|Authorizes users to create TEM Profile Document.|Y|
+TEM-10019|KFS-TEM-PERM-019|1.0|10|KFS-TEM|Initiate Own TEM Profile|Authorizes users to create their own TEM Profile Document.|Y|
+TEM-10020|KFS-TEM-PERM-020|1.0|1|KFS-TEM|Inactivate TEM Profile|Authorizes users to inactivate a TEM Profile.|Y|
+TEM-10021|KFS-TEM-PERM-021|1.0|1|KFS-TEM|Edit TEM Profile|Authorizes users to edit TEM Profile Documents.|Y|
+TEM-10022|KFS-TEM-PERM-022|1.0|1|KFS-TEM|Administration Only Tab|Allows users access to the Administration Only Tab.|Y|
+TEM-10023|KFS-TEM-PERM-023|1.0|1|KFS-TEM|Initiate TA or TR|Authorizes users to initiate a TA or TR from a TEM Profile.|Y|
+TEM-10024|KFS-TEM-PERM-024|1.0|1|KFS-TEM|Approve TA or TR|Authorizes users to approve a TA or TR from a TEM Profile.|Y|
+TEM-10025|KFS-TEM-PERM-025|1.0|27|KFS-TEM|Full Unmask Field TEMProfile dateOfBirth|Allows users to unmask the birth date in the TEM Profile maintenance document.|Y|
+TEM-10026|KFS-TEM-PERM-026|1.0|27|KFS-TEM|Full Unmask Field TEMProfile gender|Allows users to unmask the gender in the TEM Profile maintenance document.|Y|
+TEM-10027|KFS-TEM-PERM-027|1.0|27|KFS-TEM|Full Unmask Field TEMProfile driversLicenseNumber|Allows users to unmask the drivers license number in the TEM Profile maintenance document.|Y|
+TEM-10028|KFS-TEM-PERM-028|1.0|27|KFS-TEM|Full Unmask Field TEMProfile driversLicenseExpDate|Allows users to unmask the drivers license exp date in the TEM Profile maintenance document.|Y|
+TEM-10029|KFS-TEM-PERM-029|1.0|27|KFS-TEM|Full Unmask Field TEMProfile driversLicenseState|Allows users to unmask the drivers license state in the TEM Profile maintenance document.|Y|
+TEM-10030|KFS-TEM-PERM-030|1.0|27|KFS-TEM|Full Unmask Field TEMProfile accountNumber|Allows users to partially unmask the account number in the TEM Profile maintenance document.|Y|
+TEM-10031|KFS-TEM-PERM-031|1.0|33|KFS-TEM|Upload Batch Input File(s) perDiemTxtInputFileType|Authorizes user to access the Per Diem TXT Batch Upload page.|Y|
+TEM-10032|KFS-TEM-PERM-032|1.0|33|KFS-TEM|Upload Batch Input File(s) perDiemXmlInputFileType|Authorizes user to access the Per Diem XML Batch Upload page.|Y|
+TEM-10033|KFS-TEM-PERM-033|1.0|1|KFS-TEM|Edit Taxable Indicator|Authorizes users to edit Taxable indicator for other expenses.|Y|
+TEM-10034|KFS-TEM-PERM-034|1.0|33|KFS-TEM|Upload Batch Input File(s) agencyDataXmlInputFileType|Authorizes user to access the Travel Agency Data Upload page.|Y|
+TEM-10035|KFS-TEM-PERM-035|1.0|33|KFS-TEM|Upload Batch Input File(s) creditCardDataXmlInputFileType|Authorizes user to access the Credit Card Data Upload page.|Y|
+TEM-10036|KFS-TEM-PERM-036|1.0|41|KFS-TEM|Modify Accounting Lines TR Account sourceAccountingLines|Allows access to Modify the Accounting Lines on a TR doc|Y|
+TEM-10037|KFS-TEM-PERM-037|1.0|41|KFS-TEM|Modify Accounting Lines TR APTravel sourceAccountingLines|Allows access to Modify the Accounting Lines on a TR doc|Y|
+TEM-10038|KFS-TEM-PERM-038|1.0|41|KFS-TEM|Modify Accounting Lines TA APTravel sourceAccountingLines|Allows access to Modify the Accounting Lines on a TA doc|Y|
+TEM-10045|KFS-TEM-PERM-045|1.0|4|KFS-TEM|Blanket Approve Document|Allows access to the Blanket Approval button on Taxable Ramification Documents.|Y|
+TEM-10046|KFS-TEM-PERM-046|1.0|10|KFS-TEM|Initiate Document TXRF|Authorizes the initiation of Taxable Ramification Documents.|Y|
+TEM-10047|KFS-TEM-PERM-047|1.0|10|KFS-TEM|Initiate Document TAAR|Authorizes the initiation of Travel Agency Audit Report.|Y|
+TEM-10048|KFS-TEM-PERM-048|1.0|41|KFS-TEM|Modify Accounting Lines TAA Account sourceAccountingLines|Allows access to Modify the Accounting Lines on a TAA doc|Y|
+TEM-10049|KFS-TEM-PERM-049|1.0|41|KFS-TEM|Modify Accounting Lines ENT EntertainmentManager sourceAccountingLines|Allows access to Modify the Accounting Lines on a ENT doc|Y|
+TEM-10050|KFS-TEM-PERM-050|1.0|41|KFS-TEM|Modify Accounting Lines RELO MovingAndRelocationManager sourceAccountingLines|Allows access to Modify the Accounting Lines on a RELO doc|Y|
+TEM-10051|KFS-TEM-PERM-051|1.0|10|KFS-AR|Initiate Document CRM|Authorizes the initiation of the Customer Credit Memo Document.|Y|
+TEM-10052|KFS-TEM-PERM-052|1.0|40|KFS-TEM|Open Document TT|Authorizes users to open TT TEM Transactional Documents.|Y|
+TEM-10053|KFS-TEM-PERM-053|1.0|41|KFS-TEM|Modify Accounting Lines TT PreRoute sourceAccountingLines|Allows access to Modify the Accounting Lines on a TT doc that has not yet been submitted for routing.|Y|
+TEM-10054|KFS-TEM-PERM-054|1.0|16|KFS-TEM|Edit Document TT P|Edit permission for the TT document in PreRoute status.|Y|
+TEM-10055|KFS-TEM-PERM-055|1.0|41|KFS-TEM|Modify Accounting Lines TR PreRoute sourceAccountingLines|Allows access to Modify the Accounting Lines on a TR doc that has not yet been submitted for routing.|Y|
+TEM-10056|KFS-TEM-PERM-056|1.0|TEM-10007|KFS-TEM|Full Edit Agency Data|Allows full edit on Agency Data|Y|
+TEM-10057|KFS-TEM-PERM-057|1.0|44|KFS-TEM|Modify Maintenance Document Section AgencyStagingData airline|Authorizes users to see and edit the airline section on Agency Audit Maintenance Document.|Y|
+TEM-10058|KFS-TEM-PERM-058|1.0|44|KFS-TEM|Modify Maintenance Document Section AgencyStagingData lodging|Authorizes users to see and edit the lodging section on Agency Audit Maintenance Document.|Y|
+TEM-10059|KFS-TEM-PERM-059|1.0|44|KFS-TEM|Modify Maintenance Document Section AgencyStagingData rentalcar|Authorizes users to see and edit the car rental section on Agency Audit Maintenance Document.|Y|
+TEM-10060|KFS-TEM-PERM-060|1.0|23|KFS-TEM|Look Up Records TEM Profile Accounts|Authorizes specific roles to view the TEM Profile Accounts lookup.|Y|
+TEM-10061|KFS-TEM-PERM-061|1.0|40|KFS-TEM|Open Document ENT|Authorizes users to open ENT documents.|Y|
+TEM-10062|KFS-TEM-PERM-062|1.0|16|KFS-TEM|Edit Document ENT P|Edit permission for the ENT document in PreRoute status.|Y|
+TEM-10063|KFS-TEM-PERM-063|1.0|40|KFS-TEM|Open Document RELO|Authorizes users to open RELO documents.|Y|
+TEM-10064|KFS-TEM-PERM-064|1.0|16|KFS-TEM|Edit Document RELO P|Edit permission for the RELO document in PreRoute status.|Y|
+TEM-10065|KFS-TEM-PERM-065|1.0|10|KFS-TEM|Initiate CTS Card Application|Authorizes users to initiate a CTS Card Application.|Y|
+TEM-10066|KFS-TEM-PERM-066|1.0|10|KFS-TEM|Initiate Credit Card Imported Expense Clearing Document|Authorizes users to initiate a Credit Card Imported Expense Clearing Document.|Y|
+TEM-11001|KFS-TEM-PERM-101|1.0|1|KFS-FP|Pay AR Customers|Allows users to select AR customers for payment on the disbursement voucher document.|Y|

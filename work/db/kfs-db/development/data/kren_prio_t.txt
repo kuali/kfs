@@ -1,0 +1,4 @@
+prio_id|nm|desc_txt|prio_ord|ver_nbr|obj_id|
+1.0|Normal|Normal priority|2.0|1.0||
+2.0|Low|A low priority|3.0|1.0||
+3.0|High|A high priority|1.0|1.0||

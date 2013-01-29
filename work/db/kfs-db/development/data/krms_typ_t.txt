@@ -1,0 +1,5 @@
+typ_id|nm|nmspc_cd|srvc_nm|actv|ver_nbr|
+1000|Notify PeopleFlow|KR-RULE|notificationPeopleFlowActionTypeService|Y|1.0|
+1001|Route to PeopleFlow|KR-RULE|approvalPeopleFlowActionTypeService|Y|1.0|
+1002|Validation Rule|KR-RULE|validationRuleTypeService|Y|1.0|
+1003|Validation Action|KR-RULE|validationActionTypeService|Y|1.0|

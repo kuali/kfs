@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph name="Export KREW_DOC_TYP_T" revision="1.0">
+  <Global>
+    <Property fileURL="workspace.prm" id="WorkspaceParameters" />
+    <Connection dbConfig="${DATABASE}" id="TargetDB" type="JDBC" />
+    <Metadata id="OutputFileFormat" fileURL="${FORMAT_DIR}/krew_doc_typ_t.fmt.xml" />
+  </Global>
+   <Phase number="0">
+     <Node id="DATABASE_RUN"
+           type="DB_EXECUTE"
+           dbConnection="TargetDB"
+           sqlQuery="TRUNCATE TABLE KREW_DOC_TYP_T" />
+   </Phase>
+   <Phase number="1">
+    <Node id="INPUT" type="DATA_READER" skipLeadingBlanks="false" fileURL="${DATA_DIR}/krew_doc_typ_t.txt" skipFirstLine="true" dataPolicy="strict" charset="UTF-8" quotedStrings="false" trim="false" treatMultipleDelimitersAsOne="false" />
+    <Edge fromNode="INPUT:0" toNode="FIX_DELIM:0" id="INPUT_TO_FIX_DELIM" metadata="OutputFileFormat" />
+    <Node id="FIX_DELIM" type="REFORMAT">
+      <attr name="transform"><![CDATA[
+//#TL
+    function transform() {
+        $0.doc_typ_id := replace(nvl($doc_typ_id, ""), "~!~", "|" );
+        $0.parnt_id := replace(nvl($parnt_id, ""), "~!~", "|" );
+        $0.doc_typ_nm := replace(nvl($doc_typ_nm, ""), "~!~", "|" );
+        $0.doc_typ_ver_nbr := $doc_typ_ver_nbr;
+        $0.actv_ind := $actv_ind;
+        $0.cur_ind := $cur_ind;
+        $0.lbl := replace(nvl($lbl, ""), "~!~", "|" );
+        $0.prev_doc_typ_ver_nbr := replace(nvl($prev_doc_typ_ver_nbr, ""), "~!~", "|" );
+        $0.doc_typ_desc := replace(nvl($doc_typ_desc, ""), "~!~", "|" );
+        $0.doc_hdlr_url := replace(nvl($doc_hdlr_url, ""), "~!~", "|" );
+        $0.post_prcsr := replace(nvl($post_prcsr, ""), "~!~", "|" );
+        $0.jndi_url := replace(nvl($jndi_url, ""), "~!~", "|" );
+        $0.blnkt_appr_plcy := replace(nvl($blnkt_appr_plcy, ""), "~!~", "|" );
+        $0.adv_doc_srch_url := replace(nvl($adv_doc_srch_url, ""), "~!~", "|" );
+        $0.rte_ver_nbr := replace(nvl($rte_ver_nbr, ""), "~!~", "|" );
+        $0.notify_addr := replace(nvl($notify_addr, ""), "~!~", "|" );
+        $0.appl_id := replace(nvl($appl_id, ""), "~!~", "|" );
+        $0.email_xsl := replace(nvl($email_xsl, ""), "~!~", "|" );
+        $0.sec_xml := replace(nvl($sec_xml, ""), "~!~", "|" );
+        $0.ver_nbr := $ver_nbr;
+        $0.blnkt_appr_grp_id := replace(nvl($blnkt_appr_grp_id, ""), "~!~", "|" );
+        $0.rpt_grp_id := replace(nvl($rpt_grp_id, ""), "~!~", "|" );
+        $0.grp_id := replace(nvl($grp_id, ""), "~!~", "|" );
+        $0.help_def_url := replace(nvl($help_def_url, ""), "~!~", "|" );
+        $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
+        $0.doc_search_help_url := replace(nvl($doc_search_help_url, ""), "~!~", "|" );
+        $0.doc_hdr_id := replace(nvl($doc_hdr_id, ""), "~!~", "|" );
+   }
+      ]]></attr>
+    </Node>
+    <Edge fromNode="FIX_DELIM:0" toNode="DB_OUTPUT:0" id="TO_OUTPUT"  metadata="OutputFileFormat" />
+    <Node id="DB_OUTPUT" type="KUL_DB_OUTPUT_TABLE" metadata="OutputFileFormat" dbConnection="TargetDB" dbTable="krew_doc_typ_t" batchMode="true" errorAction="ROLLBACK" />
+  </Phase>
+</Graph>
+  
+  

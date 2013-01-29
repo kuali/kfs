@@ -1,0 +1,6 @@
+rule_tmpl_id|nm|rule_tmpl_desc|dlgn_rule_tmpl_id|ver_nbr|obj_id|
+1015|WorkflowDocumentDelegationTemplate|WorkflowDocumentDelegationTemplate||2.0|6166CBA1BA86644DE0404F8189D86C09|
+1016|WorkflowDocumentTemplate|Workflow Document Template|1015|4.0|6166CBA1BA87644DE0404F8189D86C09|
+1023|ReviewersRouting|Routes to channel reviewers||2.0|6166CBA1BA8C644DE0404F8189D86C09|
+1025|NotificationRouting|The standard rule template for sending notification messages.||2.0|6166CBA1BA8D644DE0404F8189D86C09|
+1320|RuleRoutingTemplate|RuleRoutingTemplate||2.0|6166CBA1BA96644DE0404F8189D86C09|

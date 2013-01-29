@@ -1,0 +1,505 @@
+rte_node_id|doc_typ_id|nm|typ|rte_mthd_nm|rte_mthd_cd|fnl_aprvr_ind|mndtry_rte_ind|actvn_typ|brch_proto_id|ver_nbr|content_fragment|grp_id|next_doc_stat|
+2004|2011|placeholder|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||2.0||1||
+2006|2012|placeholder|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||2.0||1||
+2039|2023|Adhoc Routing|org.kuali.rice.kew.engine.node.InitialNode|||1.0|0.0|S||1.0||1||
+2041|2024|Initiated|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||1||
+2042|2024|ReviewersNode|org.kuali.rice.kew.engine.node.RequestsNode|ReviewersRouting|FR|0.0|0.0|S||1.0||1||
+2043|2024|RequestsNode|org.kuali.rice.kew.engine.node.RequestsNode|NotificationRouting|FR|0.0|0.0|S||1.0||1||
+2061|2031|Initiated|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|P||1.0||1||
+2063|2032|Initiated|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|P||1.0||1||
+2065|2033|Initiated|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|P||1.0||1||
+2067|2034|Initiated|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|P||1.0||1||
+2840|2680|PreRoute|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||3.0||||
+2898|2995|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2899|2995|RoleType|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2901|2996|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2902|2996|GroupType|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2904|2997|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2905|2997|GroupType|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2906|2997|RoleType|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2908|2998|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2910|2999|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2917|3007|Initiated|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|P||1.0||1||
+2919|3009|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||27.0||||
+2921|3010|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||7.0||||
+2922|3010|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||5.0||||
+2925|3037|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||2.0||||
+2926|3037|ProjectManagement|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2928|3059|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2929|3059|autoApproveForAsynchronousProcessing|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S||1.0||||
+2931|3061|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2932|3061|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2933|3061|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2934|3061|Chart|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2936|3062|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2937|3062|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2938|3062|Chart|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2939|3062|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2941|3064|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2942|3064|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2943|3064|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2945|3065|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2946|3065|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2947|3065|Chart|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2949|3066|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2950|3066|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2951|3066|Chart|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2953|3067|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2954|3067|Chart|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2956|3068|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2957|3068|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2958|3068|Chart|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2960|3069|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2961|3069|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2962|3069|Chart|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2964|3070|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2965|3070|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2967|3071|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2968|3071|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2969|3071|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2971|3072|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2972|3072|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2973|3072|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+2975|3073|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2976|3073|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2977|3073|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2978|3073|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2979|3073|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2980|3073|Chart|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2982|3074|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2983|3074|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2985|3075|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2986|3075|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+2988|3076|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2989|3076|RequiresApproval|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+2991|3076|Management|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S|2990|2.0||||
+2992|3076|Initiator|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S|2990|2.0||||
+2993|3076|Join|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+2995|3076|Do Nothing|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|2994|2.0||||
+2997|3110|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+2999|3111|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3001|3112|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3002|3112|CashManagement|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|1.0|S||1.0||||
+3004|3113|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3006|3114|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3008|3115|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3010|3116|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3011|3116|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3012|3116|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3014|3117|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3015|3117|RequiresFullApproval|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3017|3117|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3016|2.0||||
+3018|3117|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3016|2.0||||
+3019|3117|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3016|2.0||||
+3020|3117|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3016|2.0||||
+3021|3117|JoinRequiresFullApproval|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3023|3117|Do Nothing|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3022|2.0||||
+3025|3118|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3026|3118|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3027|3118|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3028|3118|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3029|3118|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3031|3119|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3032|3119|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3033|3119|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3034|3119|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3035|3119|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3037|3120|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3038|3120|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3039|3120|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3040|3120|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3041|3120|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3043|3121|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3044|3121|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3045|3121|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3046|3121|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3047|3121|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3049|3122|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3050|3122|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3051|3122|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3052|3122|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3054|3123|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3055|3123|AccountFullEdit|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3056|3123|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3057|3123|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3058|3123|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3060|3124|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3061|3124|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3062|3124|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3063|3124|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3064|3124|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3066|3125|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||5.0||||
+3067|3125|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||5.0||||
+3068|3125|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||5.0||||
+3069|3125|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||5.0||||
+3071|3126|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3072|3126|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3073|3126|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3074|3126|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3076|3127|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3077|3127|PayeeIsPurchaseOrderVendor|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3079|3127|Purchasing|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3078|2.0||||
+3080|3127|JoinPayeeIsPurchaseOrderVendor|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3082|3127|NoOpPayee|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3081|2.0||||
+3083|3127|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||2.0||||
+3084|3127|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||2.0||||
+3085|3127|RequiresTaxReview|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||2.0||||
+3087|3127|Tax|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3086|4.0||||
+3088|3127|JoinRequiresTaxReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||4.0||||
+3090|3127|NoOpTaxReview|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3089|4.0||||
+3091|3127|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||4.0||||
+3092|3127|RequiresTravelReview|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||4.0||||
+3094|3127|Travel|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3093|8.0||||
+3095|3127|JoinRequiresTravelReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||8.0||||
+3097|3127|NoOpTravelReview|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3096|8.0||||
+3098|3127|Campus|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||8.0||||
+3099|3127|PaymentMethod|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||8.0||||
+3100|3127|RequiresSeparationOfDutiesReview|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||8.0||||
+3102|3127|SeparationOfDuties|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S|3101|16.0||||
+3103|3127|Join|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||16.0||||
+3105|3127|NoOp|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3104|16.0||||
+3120|3186|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3121|3186|Lockbox|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|1.0|S||1.0||||
+3122|3186|AssociatedWithElectronicPayment|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3124|3186|ElectronicPayment|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S|3123|2.0||||
+3125|3186|Join|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3127|3186|NoOp|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3126|2.0||||
+3129|3188|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3130|3188|RequiresApproval|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3132|3188|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3131|2.0||||
+3133|3188|Join|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3135|3188|NoOp|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3134|2.0||||
+3137|3189|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3138|3189|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3139|3189|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3141|3190|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3142|3190|HasReccurence|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3144|3190|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3143|2.0||||
+3145|3190|Recurrence|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3143|2.0||||
+3146|3190|Join|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3148|3190|NoOp|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3147|2.0||||
+3150|3191|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3151|3191|InvoiceRecurrenceIsInactivating|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3153|3191|RecurrenceCreator|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3152|2.0||||
+3154|3191|JoinInvoiceRecurrenceIsInactivating|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3156|3191|NoOpInvoiceRecurrenceIsInactivating|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3155|2.0||||
+3157|3191|InitiatedBySystemUser|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||2.0||||
+3159|3191|NoOpInitiatedBySystemUser|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3158|4.0||||
+3160|3191|JoinInitiatedBySystemUser|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||4.0||||
+3162|3191|Recurrence|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3161|4.0||||
+3163|3191|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3161|4.0||||
+3165|3192|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3166|3192|RequiresApproval|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3168|3192|Management|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S|3167|2.0||||
+3169|3192|Join|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3171|3192|NoOp|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3170|2.0||||
+3173|3193|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3174|3193|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3176|3194|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3177|3194|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3178|3194|Management|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3181|3211|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3182|3211|PlantFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3184|3212|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3185|3212|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3186|3212|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3188|3213|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3189|3213|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3190|3213|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3191|3213|Borrower|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3193|3214|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3194|3214|Initiator|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3196|3226|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3197|3226|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3198|3226|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3199|3226|Management|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3201|3229|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3202|3229|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3203|3229|RetiredAssetTransferredExternally|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3205|3229|ExternalTransfer|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S|3204|2.0||||
+3206|3229|JoinRetiredAssetTransferredExternally|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3208|3229|NoOpExternal|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3207|2.0||||
+3209|3229|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||2.0||||
+3210|3229|RetiredAssetSoldOrGifted|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||2.0||||
+3212|3229|Purchasing|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S|3211|4.0||||
+3213|3229|JoinRetiredAssetSoldOrGifted|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||4.0||||
+3215|3229|NoOp|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3214|4.0||||
+3217|3230|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3218|3230|RequiresReview|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3220|3230|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3219|2.0||||
+3221|3230|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3219|2.0||||
+3222|3230|JoinRequiresReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3224|3230|NoOpRequiresReview|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3223|2.0||||
+3226|3245|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3227|3245|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3229|3246|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3230|3246|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3231|3246|ResearchRisk|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3233|3247|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3234|3247|Unprocessed|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3235|3247|Management|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|S||1.0||||
+3237|3248|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3238|3248|ProjectManagement|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3239|3248|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3240|3248|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3241|3248|DoAwardSplit|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3243|3248|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3242|2.0||||
+3244|3248|AwardJoin|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3246|3248|AwardDoNothing|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3245|2.0||||
+3247|3248|RequiresWorkstudyReview|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||2.0||||
+3249|3248|Workstudy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3248|4.0||||
+3250|3248|JoinRequiresWorkstudyReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||4.0||||
+3252|3248|RequiresWorkstudyNoOp|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3251|4.0||||
+3253|3248|DoRecreateSplit|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||4.0||||
+3255|3248|Management|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3254|8.0||||
+3256|3248|RecreateJoin|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||8.0||||
+3258|3248|RecreateDoNothing|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3257|8.0||||
+3260|3266|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||3.0||||
+3261|3266|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||3.0||||
+3262|3266|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||3.0||||
+3263|3266|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||3.0||||
+3265|3267|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3266|3267|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3267|3267|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3268|3267|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3269|3267|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3270|3267|RequiresWorkstudyReview|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3272|3267|Workstudy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3271|2.0||||
+3273|3267|JoinRequiresWorkstudyReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3275|3267|RequiresWorkstudyNoOp|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3274|2.0||||
+3277|3268|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3279|3269|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3280|3269|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3281|3269|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3282|3269|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3283|3269|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3285|3270|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3286|3270|autoApproveForAsynchronousProcessing|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S||1.0||||
+3288|3314|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3290|3315|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0|||Awaiting Content Approval|
+3291|3315|Organization|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0|||Awaiting Accounting Lines|
+3292|3315|HasAccountingLines|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3294|3315|NoOpHasAccountingLines|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3293|2.0|||Awaiting Sub Account|
+3295|3315|JoinHasAccountingLines|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3297|3315|Initiator|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3296|2.0|||Awaiting Sub Account|
+3298|3315|SubAccount|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||2.0|||Awaiting Fiscal Officer|
+3299|3315|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|1.0|P||2.0|||Awaiting Base Org Review|
+3300|3315|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||2.0|||Awaiting Commodity Code|
+3301|3315|Commodity|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||2.0|||Awaiting Separation of Duties|
+3302|3315|AmountRequiresSeparationOfDutiesReview|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||2.0||||
+3304|3315|SeparationOfDuties|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3303|4.0||||
+3305|3315|Join|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||4.0||||
+3307|3315|NoOp|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3306|4.0||||
+3309|3316|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||9.0|||Awaiting Purchasing Approval|
+3310|3316|RequiresContractManagementReview|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||9.0||||
+3312|3316|ContractManagement|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3311|18.0|||Awaiting Commodity Code Approval|
+3313|3316|JoinRequiresContractManagementReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||18.0||||
+3315|3316|NoOpRequiresContractManagementReview|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3314|18.0||||
+3316|3316|Commodity|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||18.0|||Awaiting C and G Approval|
+3317|3316|RequiresAwardReview|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||18.0||||
+3319|3316|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3318|36.0|||Awaiting Budget Approval|
+3320|3316|JoinRequiresAwardReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||36.0||||
+3322|3316|NoOpRequiresAwardReview|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3321|36.0|||Awaiting Budget Approval|
+3323|3316|RequiresBudgetReview|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||36.0||||
+3325|3316|Budget|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3324|72.0|||Awaiting Tax Approval|
+3326|3316|JoinRequiresBudgetReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||72.0||||
+3328|3316|NoOpBudget|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3327|72.0|||Awaiting Tax Approval|
+3329|3316|VendorIsEmployeeOrNonResidentAlien|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||72.0||||
+3331|3316|Tax|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3330|144.0|||Awaiting Tax Approval|
+3332|3316|JoinVendorIsEmployeeOrNonResidentAlien|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||144.0||||
+3334|3316|NoOpVendorIsEmployeeOrNonResidentAlien|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3333|144.0||||
+3336|3317|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0|||Awaiting New Unordered Item Review|
+3337|3317|HasNewUnorderedItems|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3339|3317|NewUnorderedItems|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3338|2.0||||
+3340|3317|Join|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3342|3317|NoOp|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3341|2.0||||
+3344|3318|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3346|3319|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3348|3320|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3349|3320|AccountsPayable|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3351|3321|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3353|3322|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3355|3324|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3357|3325|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3358|3325|Management|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0||||
+3360|3326|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0|||Awaiting AP Review|
+3361|3326|RequiresImageAttachment|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3363|3326|ImageAttachment|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3362|2.0||||
+3364|3326|JoinRequiresImageAttachment|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3366|3326|NoOpRequiresImageAttachment|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3365|2.0||||
+3367|3326|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||2.0||||
+3369|3327|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0|||Awaiting AP Review|
+3370|3327|RequiresImageAttachment|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3372|3327|ImageAttachment|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3371|2.0|||Awaiting AP Review|
+3373|3327|JoinRequiresImageAttachment|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3375|3327|NoOpRequiresImageAttachment|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3374|2.0|||Awaiting Receiving|
+3376|3327|PurchaseWasReceived|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||2.0||||
+3378|3327|Receiving|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3377|4.0|||Awaiting Sub-Account Manager Approval|
+3379|3327|JoinReceiving|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||4.0||||
+3381|3327|NoOpReceiving|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3380|4.0||||
+3382|3327|SubAccount|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||4.0|||Awaiting Fiscal Officer Approval|
+3383|3327|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|1.0|P||4.0|||Awaiting Chart Approval|
+3384|3327|AccountingOrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||4.0|||Awaiting Tax Approval|
+3385|3327|VendorIsEmployeeOrNonResidentAlien|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||4.0||||
+3387|3327|Tax|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3386|8.0||||
+3388|3327|JoinVendorIsEmployeeOrNonResidentAlien|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||8.0||||
+3390|3327|NoOpVendorIsEmployeeOrNonResidentAlien|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3389|8.0||||
+3392|3330|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0|||Awaiting Purchase Order Open Status|
+3393|3330|RelatesToOutstandingTransactions|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3395|3330|OutstandingTransactions|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3394|2.0||||
+3396|3330|Join|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3398|3330|NoOp|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3397|2.0||||
+3400|3373|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||8.0||||
+3401|3373|CheckIfNoRoute|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||8.0||||
+3403|3373|NoOp|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3402|16.0||||
+3404|3373|JoinCheckIfRoute|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||16.0||||
+3406|3373|EndowmentApprovers|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3405|16.0||||
+3408|3383|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0|||Account Review|
+3409|3383|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0|||Travel Office Review|
+3410|3383|TravelManagerReview|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0|||Approved By Bank|
+3412|3385|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||2.0|||Awaiting Traveler Review|
+3413|3385|TravelRequiresTravelerApproval|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0|||Awaiting Traveler Review|
+3415|3385|TravelerReview|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3414|2.0|||Awaiting Fiscal Officer Review|
+3416|3385|JoinTravelRequiresTravelerApproval|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3418|3385|NoOpTravelerReview|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3417|2.0|||Awaiting Fiscal Officer Review|
+3419|3385|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||2.0|||Awaiting Fiscal Officer Review|
+3420|3385|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||2.0|||Awaiting Organization Review|
+3421|3385|TravelHasSpecialRequest|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||2.0|||Awaiting Special Request Review|
+3423|3385|ENTSpecialRequestReviewer|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3422|4.0||||
+3424|3385|JoinRequiresSpecialRequestReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||4.0||||
+3426|3385|NoOpSpecialRequestReviewer|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3425|4.0||||
+3427|3385|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||4.0|||Awaiting Sub-Fund Review|
+3428|3385|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||4.0|||Awaiting Award Review|
+3429|3385|TaxManager|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||4.0|||Awaiting Tax Manager Review|
+3431|3385|ENTTaxManager|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3430|8.0|||Awaiting Separation Of Duties Review|
+3432|3385|JoinRequiresTaxManagerReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||8.0||||
+3434|3385|NoTaxManagerReviewer|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3433|8.0|||Awaiting Separation Of Duties Review|
+3435|3385|SeparationOfDuties|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||8.0|||Awaiting Separation Of Duties Review|
+3437|3385|SeparationOfDutiesReviewer|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3436|16.0|||Awaiting Entertainment Manager Review|
+3438|3385|JoinSeparationOfDutiesReviewer|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||16.0||||
+3440|3385|NoOpSeparationOfDutiesReviewer|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3439|16.0|||Awaiting Entertainment Manager Review|
+3441|3385|EntertainmentManager|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||16.0|||Entertainment Manager Approved|
+3443|3391|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||4.0|||Awaiting Traveler Review|
+3444|3391|TravelRequiresTravelerApproval|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0|||Awaiting Traveler Review|
+3446|3391|TravelerReview|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3445|2.0|||Awaiting Fiscal Officer Review|
+3447|3391|JoinTravelRequiresTravelerApproval|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3449|3391|NoOpTravelerReview|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3448|2.0|||Awaiting Fiscal Officer Review|
+3450|3391|TravelRequiresAccountApproval|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||2.0|||Awaiting Fiscal Officer Review|
+3452|3391|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3451|4.0|||Awaiting Organization Review|
+3453|3391|JoinRequiresAccountApproval|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||4.0||||
+3455|3391|NoOpAccountApproval|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3454|4.0|||Awaiting Organization Review|
+3456|3391|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||4.0||||
+3457|3391|TravelRequiresDivisionApproval|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||4.0|||Awaiting Division Review|
+3459|3391|DivisionReviewer|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3458|8.0||||
+3460|3391|JoinRequiresDivisionReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||8.0||||
+3462|3391|NoOpDivisionReviewer|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3461|8.0||||
+3463|3391|TravelHasSpecialRequest|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||8.0|||Awaiting Special Request Review|
+3465|3391|SpecialRequestReviewer|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3464|16.0||||
+3466|3391|JoinRequiresSpecialRequestReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||16.0||||
+3468|3391|NoOpSpecialRequestReviewer|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3467|16.0||||
+3469|3391|TravelIsInternationalTravel|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||16.0|||Awaiting International Travel Review|
+3471|3391|InternationalTravelReviewer|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3470|32.0||||
+3472|3391|JoinRequiresInternationalTravelReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||32.0||||
+3474|3391|NoOpInternationalTravelReviewer|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3473|32.0||||
+3475|3391|TravelNeedsRiskManagement|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||32.0|||Awaiting Risk Management Review|
+3477|3391|RiskManagement|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3476|64.0|||Awaiting Sub-Fund Review|
+3478|3391|JoinRequiresRiskManagement|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||64.0||||
+3480|3391|NoOpRiskManagement|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3479|64.0|||Awaiting Sub-Fund Review|
+3481|3391|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||64.0|||Awaiting Award Review|
+3482|3391|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||64.0|||Awaiting Separation Of Duties Review|
+3483|3391|SeparationOfDuties|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||64.0|||Awaiting Separation Of Duties Review|
+3485|3391|SeparationOfDutiesReviewer|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3484|128.0|||Awaiting Travel Manager Review|
+3486|3391|JoinSeparationOfDutiesReviewer|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||128.0||||
+3488|3391|NoOpSeparationOfDutiesReviewer|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3487|128.0|||Awaiting Travel Manager Review|
+3489|3391|TravelAdvanceRequested|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||128.0|||Awaiting Travel Manager Review|
+3491|3391|APTravel|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3490|256.0|||Open For Reimbursement|
+3492|3391|JoinTravelAdvanceRequested|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||256.0||||
+3494|3391|NoOpTravelAdvanceRequested|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3493|256.0|||Open For Reimbursement|
+3496|3397|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0|||Awaiting Tax Manager Review|
+3497|3397|ProfileIsTaxManagerRequired|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0|||Awaiting Tax Manager Review|
+3499|3397|Tax|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3498|2.0|||Final|
+3500|3397|JoinRequiresTaxManagerReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3502|3397|NoOpTaxManager|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3501|2.0|||Final|
+3504|3398|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3506|3405|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0|||Awaiting Traveler Review|
+3507|3405|TravelRequiresTravelerApproval|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0|||Awaiting Traveler Review|
+3509|3405|TravelerReview|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3508|2.0|||Awaiting Fiscal Officer Review|
+3510|3405|JoinTravelRequiresTravelerApproval|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3512|3405|NoOpTravelerReview|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3511|2.0|||Awaiting Fiscal Officer Review|
+3513|3405|TravelRequiresAccountApproval|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||2.0|||Awaiting Fiscal Officer Review|
+3515|3405|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3514|4.0|||Awaiting Travel Accounting Review|
+3516|3405|JoinRequiresAccountApproval|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||4.0||||
+3518|3405|NoOpAccountApproval|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3517|4.0|||Awaiting Travel Accounting Review|
+3519|3405|TravelRequiresAccountingReviewer|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||4.0|||Awaiting Travel Accounting Review|
+3521|3405|AccountingReviewer|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3520|8.0|||Awaiting Division Review|
+3522|3405|JoinRequiresAccountingReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||8.0||||
+3524|3405|NoOpAccountingReviewer|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3523|8.0|||Awaiting Division Review|
+3525|3405|TravelRequiresDivisionApproval|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||8.0|||Awaiting Division Review|
+3527|3405|DivisionReviewer|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3526|16.0|||Awaiting Special Request Review|
+3528|3405|JoinRequiresDivisionApprover|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||16.0||||
+3530|3405|NoOpDivisionApprover|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3529|16.0|||Awaiting Special Request Review|
+3531|3405|TravelHasSpecialRequest|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||16.0|||Awaiting Special Request Review|
+3533|3405|SpecialRequestReviewer|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3532|32.0|||Awaiting International Travel Review|
+3534|3405|JoinRequiresSpecialRequestReviewer|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||32.0||||
+3536|3405|NoOpSpecialRequestReviewer|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3535|32.0|||Awaiting International Travel Review|
+3537|3405|TravelIsInternationalTravel|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||32.0|||Awaiting International Travel Review|
+3539|3405|InternationalTravelReviewer|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3538|64.0|||Awaiting Sub-Fund Review|
+3540|3405|JoinRequiresInternationalTravelReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||64.0||||
+3542|3405|NoOpInternationalTravelReviewer|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3541|64.0|||Awaiting Sub-Fund Review|
+3543|3405|RequiresSubFund|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||64.0|||Awaiting Sub-Fund Review|
+3545|3405|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3544|128.0|||Awaiting Award Review|
+3546|3405|JoinRequiresSubFund|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||128.0||||
+3548|3405|NoOpSubFund|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3547|128.0|||Awaiting Award Review|
+3549|3405|RequiresAward|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||128.0|||Awaiting Award Review|
+3551|3405|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3550|256.0|||Awaiting Tax Manager Review|
+3552|3405|JoinRequiresAward|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||256.0||||
+3554|3405|NoOpAward|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3553|256.0|||Awaiting Tax Manager Review|
+3555|3405|TaxManagerApproval|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||256.0|||Awaiting Tax Manager Review|
+3557|3405|Tax|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3556|512.0|||Awaiting Separation Of Duties Review|
+3558|3405|JoinTaxManager|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||512.0||||
+3560|3405|NoOpTaxManager|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3559|512.0|||Awaiting Separation Of Duties Review|
+3561|3405|SeparationOfDuties|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||512.0|||Awaiting Separation Of Duties Review|
+3563|3405|SeparationOfDutiesReviewer|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3562|1024.0|||Awaiting Travel Manager Review|
+3564|3405|JoinSeparationOfDutiesReviewer|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||1024.0||||
+3566|3405|NoOpSeparationOfDutiesReviewer|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3565|1024.0|||Awaiting Travel Manager Review|
+3567|3405|RequiresAPTravel|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1024.0|||Awaiting Travel Manager Review|
+3569|3405|APTravel|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3568|2048.0|||Department Approved|
+3570|3405|JoinRequiresAPTravel|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2048.0||||
+3572|3405|NoOpAPTravel|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3571|2048.0|||Department Approved|
+3574|3406|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0|||Fiscal Officer Review|
+3575|3406|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0|||Pending Bank Application|
+3576|3406|TravelManagerReview|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||1.0|||Approved|
+3578|3407|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3579|3407|TravelRequiresTravelerApproval|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0||||
+3581|3407|TravelerReview|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3580|2.0||||
+3582|3407|JoinTravelRequiresTravelerApproval|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3584|3407|NoOpTravelerReview|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3583|2.0||||
+3586|3410|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3588|3418|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0|||Awaiting Traveler Review|
+3589|3418|TravelRequiresTravelerApproval|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||1.0|||Awaiting Traveler Review|
+3591|3418|TravelerReview|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3590|2.0|||Awaiting Fiscal Officer Review|
+3592|3418|JoinTravelRequiresTravelerApproval|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||2.0||||
+3594|3418|NoOpTravelerReview|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3593|2.0|||Awaiting Fiscal Officer Review|
+3595|3418|TravelRequiresAccountApproval|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||2.0|||Awaiting Fiscal Officer Review|
+3597|3418|Account|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3596|4.0|||Awaiting Organization Review|
+3598|3418|JoinRequiresAccountApproval|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||4.0||||
+3600|3418|NoOpAccountApproval|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3599|4.0|||Awaiting Organization Review|
+3601|3418|OrganizationHierarchy|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||4.0|||Awaiting Organization Review|
+3602|3418|TravelHasSpecialRequest|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||4.0|||Awaiting Special Request Review|
+3604|3418|SpecialRequestReviewer|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3603|8.0|||Awaiting Executive Review|
+3605|3418|JoinRequiresSpecialRequestReviewer|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||8.0||||
+3607|3418|NoOpSpecialRequestReviewer|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3606|8.0|||Awaiting Executive Review|
+3608|3418|ExecutiveApproval|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||8.0|||Awaiting Sub-Fund Review|
+3609|3418|SubFund|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||8.0|||Awaiting Award Review|
+3610|3418|Award|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||8.0|||Awaiting Tax Manager Review|
+3611|3418|TaxManagerApproval|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||8.0|||Awaiting Tax Manager Review|
+3613|3418|Tax|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3612|16.0|||Awaiting Separation Of Duties Review|
+3614|3418|JoinRequiresTaxManagerReview|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||16.0||||
+3616|3418|NoOpTaxManager|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3615|16.0|||Awaiting Separation Of Duties Review|
+3617|3418|SeparationOfDuties|org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode|||0.0|0.0|S||16.0|||Awaiting Separation Of Duties Review|
+3619|3418|SeparationOfDutiesReviewer|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P|3618|32.0|||Awaiting Moving and Relocation Manager Review|
+3620|3418|JoinSeparationOfDutiesReviewer|org.kuali.rice.kew.engine.node.SimpleJoinNode|||0.0|0.0|S||32.0||||
+3622|3418|NoOpSeparationOfDutiesReviewer|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S|3621|32.0|||Awaiting Moving and Relocation Manager Review|
+3623|3418|MovingAndRelocationManager|org.kuali.rice.kew.engine.node.RoleNode|org.kuali.rice.kew.role.RoleRouteModule|RM|0.0|0.0|P||32.0|||Moving And Relocation Manager Approved|
+3625|3420|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
+3626|3420|DoNothing|org.kuali.rice.kew.engine.node.NoOpNode|||0.0|0.0|S||1.0||||

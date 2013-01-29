@@ -1,0 +1,447 @@
+doc_typ_id|parnt_id|doc_typ_nm|doc_typ_ver_nbr|actv_ind|cur_ind|lbl|prev_doc_typ_ver_nbr|doc_typ_desc|doc_hdlr_url|post_prcsr|jndi_url|blnkt_appr_plcy|adv_doc_srch_url|rte_ver_nbr|notify_addr|appl_id|email_xsl|sec_xml|ver_nbr|blnkt_appr_grp_id|rpt_grp_id|grp_id|help_def_url|obj_id|doc_search_help_url|doc_hdr_id|
+2011|2681|DocumentTypeDocument|0.0|1.0|1.0|Workflow Maintenance Document Type Document||Workflow Maintenance Document Type Document|${kr.url}/maintenance.do?methodToCall=docHandler|org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor||||2|||||0.0|1||1|default.htm?turl=WordDocuments%2Fdocumenttype.htm|6166CBA1BA5D644DE0404F8189D86C09|||
+2012|2681|RoutingRuleDocument|0.0|1.0|1.0|Rule Maintenance Document Type Document||Rule Maintenance Document Type Document|${kr.url}/maintenance.do?methodToCall=docHandler|org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor||||2|||||0.0|1||1||6166CBA1BA5E644DE0404F8189D86C09|||
+2023||KualiNotification|0.0|1.0|1.0|Notification||This is the re-usable notification document type that will be used for delivering all notifications with KEW.|${ken.url}/DetailView.form|org.kuali.rice.ken.postprocessor.kew.NotificationPostProcessor||||1|||||0.0|1||2000||6166CBA1BA69644DE0404F8189D86C09|||
+2024||SendNotificationRequest|0.0|1.0|1.0|Send Notification Request||Create a New Notification Request|${ken.url}/AdministerNotificationRequest.form|org.kuali.rice.ken.postprocessor.kew.NotificationSenderFormPostProcessor||||2|||||0.0|1||1||6166CBA1BA6A644DE0404F8189D86C09|||
+2031|2681|NamespaceMaintenanceDocument|0.0|1.0|1.0|Namespace||Create/edit parameter namespaces|${kr.url}/maintenance.do?methodToCall=docHandler|org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor||||2|||||0.0|1||1|default.htm?turl=WordDocuments%2Fnamespace.htm|6166CBA1BA71644DE0404F8189D86C09|||
+2032|2681|ParameterTypeMaintenanceDocument|0.0|1.0|1.0|Parameter Type Maintenance Document||Create/edit a parameter type|${kr.url}/maintenance.do?methodToCall=docHandler|org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor||||2|||||0.0|1||1|default.htm?turl=WordDocuments%2Fparametertype.htm|6166CBA1BA72644DE0404F8189D86C09|||
+2033|2681|ParameterDetailTypeMaintenanceDocument|0.0|1.0|1.0|Parameter Detail Type Maintenance Document||Create/edit a parameter detail type|${kr.url}/maintenance.do?methodToCall=docHandler|org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor||||2|||||0.0|1||1|default.htm?turl=WordDocuments%2Fparametercomponent.htm|6166CBA1BA73644DE0404F8189D86C09|||
+2034|2681|ParameterMaintenanceDocument|0.0|1.0|1.0|Parameter Maintenance Document||Create/edit a parameter|${kr.url}/maintenance.do?methodToCall=docHandler|org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor||||2|||||0.0|1||1|default.htm?turl=WordDocuments%2Fparameter.htm|6166CBA1BA74644DE0404F8189D86C09|||
+2680||KualiDocument|0.0|1.0|1.0|KualiDocument||KualiDocument||org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor||||2|||||1.0|||||6166CBA1BA81644DE0404F8189D86C09|||
+2681|2680|RiceDocument|0.0|1.0|1.0|Rice Document||Parent Document Type for all Rice Documents||||||2|||||0.0|||||6166CBA1BA82644DE0404F8189D86C09|||
+2699|2681|RoutingRuleDelegationMaintenanceDocument|0.0|1.0|1.0|Routing Rule Delegation||Routing Rule Delegation|${kr.url}/maintenance.do?methodToCall=docHandler|org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor||||2|||||0.0|||||A6DC8753-AF90-7A01-0EF7-E6D446529668|||
+2708|2681|CampusMaintenanceDocument|0.0|1.0|1.0|CampusMaintenanceDocument|||${kr.url}/maintenance.do?methodToCall=docHandler|||||2|||||0.0||||default.htm?turl=WordDocuments%2Fcampus.htm|616D94CA-D08D-D036-E77D-4B53DB34CD95|||
+2709|2681|CampusTypeMaintenanceDocument|0.0|1.0|1.0|CampusTypeMaintenanceDocument|||${kr.url}/maintenance.do?methodToCall=docHandler|||||2|||||0.0||||default.htm?turl=WordDocuments%2Fcampustype.htm|DE0B8588-E459-C07A-87B8-6ACD693AE70C|||
+2710|2681|CountryMaintenanceDocument|0.0|1.0|1.0|CountryMaintenanceDocument|||${kr.url}/maintenance.do?methodToCall=docHandler|||||2|||||0.0||||default.htm?turl=WordDocuments%2Fcountry.htm|82EDB593-97BA-428E-C6E7-A7F3031CFAEB|||
+2711|2681|CountyMaintenanceDocument|0.0|1.0|1.0|CountyMaintenanceDocument|||${kr.url}/maintenance.do?methodToCall=docHandler|||||2|||||0.0||||default.htm?turl=WordDocuments%2Fcounty.htm|C972E260-5552-BB63-72E6-A514301B0326|||
+2712|2681|PostalCodeMaintenanceDocument|0.0|1.0|1.0|PostalCodeMaintenanceDocument|||${kr.url}/maintenance.do?methodToCall=docHandler|||||2|||||0.0||||default.htm?turl=WordDocuments%2Fpostalcode.htm|B79D1104-BC48-1597-AFBE-773EED31A110|||
+2713|2681|StateMaintenanceDocument|0.0|1.0|1.0|StateMaintenanceDocument|||${kr.url}/maintenance.do?methodToCall=docHandler|||||2|||||0.0||||default.htm?turl=WordDocuments%2Fstate.htm|EF2378F6-E770-D7BF-B7F1-C18881E3AFF0|||
+2994|2681|IdentityManagementDocument|0.0|1.0|1.0|Undefined||||||||2|||||0.0|||||944596CD-A7FC-0DEE-EDE1-52A52BED85CC|||
+2995|2994|IdentityManagementRoleDocument|0.0|1.0|1.0|Role|||${kim.url}/identityManagementRoleDocument.do?methodToCall=docHandler|||||2|||||0.0||||default.htm?turl=WordDocuments%2Frole.htm|FEA8D9DD-0592-0525-B2BD-2F4BA811CF30|||
+2996|2994|IdentityManagementGroupDocument|0.0|1.0|1.0|Group|||${kim.url}/identityManagementGroupDocument.do?methodToCall=docHandler|||||2|||||0.0||||default.htm?turl=WordDocuments%2Fgroup.htm|D9636763-7749-8F3F-4570-21181E977AE3|||
+2997|2994|IdentityManagementPersonDocument|0.0|1.0|1.0|Person|||${kim.url}/identityManagementPersonDocument.do?methodToCall=docHandler|||||2|||||0.0||||default.htm?turl=WordDocuments%2Fperson.htm|14C95FE4-1497-82C6-CBBD-BF16AD81B845|||
+2998|2994|IdentityManagementReviewResponsibilityMaintenanceDocument|0.0|1.0|1.0|Review Responsibility|||${kr.url}/maintenance.do?methodToCall=docHandler|||||2|||||0.0||||default.htm?turl=WordDocuments%2Fresponsibility.htm|66413887-3C82-B12D-9563-0A893E8D1910|||
+2999|2994|IdentityManagementGenericPermissionMaintenanceDocument|0.0|1.0|1.0|Permission|||${kr.url}/maintenance.do?methodToCall=docHandler|||||2|||||0.0||||default.htm?turl=WordDocuments%2Fpermission.htm|A3AE4787-018E-1F17-6EB6-F2F0F366774F|||
+3000|2681|AgendaEditorMaintenanceDocument|0.0|1.0|1.0|KRMS Agenda Editor Maintenance Document||Create a KRMS Agenda|${kr.krad.url}/krmsAgendaEditor?methodToCall=docHandler|org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor||||2|||||0.0|1||1||ebd70731-4d33-4c0b-a958-2b9ca047ae07|||
+3001|2681|AgendaMaintenanceDocument|0.0|1.0|1.0|Agenda Maintenance Document||Create a New Agenda|${kr.krad.url}/maintenance?methodToCall=docHandler|org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor||||2|||||0.0|1||1||3198b708-6e29-4b19-bf35-51473cf8a3d1|||
+3002|2681|PeopleFlowMaintenanceDocument|0.0|1.0|1.0|PeopleFlowMaintenanceDocument|||${kr.krad.url}/peopleFlowMaintenance?methodToCall=docHandler|||||2|||||0.0|||||2c0a1333-f60b-47c4-a9b0-76f32f1ed97d|||
+3003|2681|ContextMaintenanceDocument|0.0|1.0|1.0|KRMS Context Maintenance Document||Create a KRMS Context|${kr.krad.url}/maintenance?methodToCall=docHandler|org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor||||2|||||0.0|1||1||87413487-8306-4130-b2df-a5d0e42243f9|||
+3004|2681|TermMaintenanceDocument|0.0|1.0|1.0|KRMS Term Maintenance Document||Create a KRMS Term|${kr.krad.url}/maintenance?methodToCall=docHandler|org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor||||2|||||0.0|1||1||bc83f80b-85c4-40fd-998c-ef53fdd97e3f|||
+3005|2681|TermSpecificationMaintenanceDocument|0.0|1.0|1.0|KRMS Term Specification Maintenance Document||Create a KRMS Term Specification|${kr.krad.url}/maintenance?methodToCall=docHandler|org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor||||2|||||0.0|1||1||57e7ee1d-e44a-4154-9ba4-ee562c434c98|||
+3007|2681|ComponentMaintenanceDocument|0.0|1.0|1.0|Component Maintenance Document||Create/edit a component|${kr.url}/maintenance.do?methodToCall=docHandler|org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor||||2|||||0.0|1||1|default.htm?turl=WordDocuments%2Fparametertype.htm|e9e0086b-30ce-4a9b-a2d6-564772076a1e|||
+3008|2680|KFS|0.0|1.0|1.0|FinancialSystemDocument|||${kfs.url}/kr/maintenance.do?methodToCall=docHandler|org.kuali.kfs.sys.document.workflow.PostProcessor||||2||KFS|||4.0|||||fa66198b-94cf-42b5-9b76-90124fff61c7|||
+3009|3008|FSSM|0.0|1.0|1.0|FinancialSystemSimpleMaintenanceDocument||||||||2|||||27.0|||||dd0fcbaa-0cf2-43f7-a43c-e21c90887984|||
+3010|3008|KFSM|0.0|1.0|1.0|FinancialSystemComplexMaintenanceDocument||||||||2|||||7.0|||||908004c3-44a1-4c51-99f8-16c0ebfc5178|||
+3011|3008|KFST|0.0|1.0|1.0|FinancialSystemTransactionalDocument||||||||2|||||19.0|||||fb20a2c9-e9d9-4627-8dc4-619f222a3fe5|${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Ffinancialtransactions.htm||
+3012||FSLO|0.0|1.0|1.0|Financial System - Ledger Only||||||||2|||||28.0|||||1c205826-89b4-4c85-a220-7d5952f07706|||
+3013|3009|COSM|0.0|1.0|1.0|ChartSimpleMaintenanceDocument||||||||2|||||32.0|||||9a54659b-ea8a-4b60-80b7-5b02bf9f7653|||
+3014|3009|FPSM|0.0|1.0|1.0|FinancialProcessingSimpleMaintenanceDocument||||||||2|||||18.0|||||d69ea0fc-8c1b-41bd-b3f6-a7713ea34a57|||
+3015|3009|PDSM|0.0|1.0|1.0|PreDisbursementProcessorSimpleMaintenanceDocument||||||||2|||||13.0|||||1b80ee03-d219-4add-8f38-fc7e6ea3bfbf|||
+3016|3009|VNSM|0.0|1.0|1.0|VendorSimpleMaintenanceDocument||||||||2|||||17.0|||||0b402852-8c4e-41e3-8386-9ad37b88b102|||
+3017|3010|COA|0.0|1.0|1.0|ChartComplexMaintenanceDocument||||||||2|||||15.0|||||31dd65ee-a644-464a-a054-2b30fa69e447|||
+3018|3010|VEND|0.0|1.0|1.0|VendorComplexMaintenanceDocument||||||||2|||||2.0|||||00c0564f-849e-4c9b-bf92-d30616f76fd9|||
+3019|3011|GL|0.0|1.0|1.0|GeneralLedgerTransactionalDocument||||||||2|||||2.0|||||2231bc49-b2f1-4eb9-b2a1-0dad75061d83|||
+3020|3011|FP|0.0|1.0|1.0|FinancialProcessingTransactionalDocument||||||||2|||||19.0|||||c343d054-1629-420e-b2b6-2df9ffd5bab0|||
+3021|3009|AccessSecuritySimpleMaintenanceDocument|0.0|1.0|1.0|Access Security Simple Maintenance Documents||||||||2|||||5.0|||||9f8835e8-9a4c-40a0-8f7a-2d80ae74817f|||
+3022|3009|ARSM|0.0|1.0|1.0|AccountsReceivableSimpleMaintenanceDocument||||||||2|||||6.0|||||f7573e44-cd83-4028-9270-fd67afc9088f|||
+3023|3009|BCSM|0.0|1.0|1.0|BudgetConstructionSimpleMaintenanceDocument||||||||2|||||8.0|||||c0a92a22-48ea-4024-9d99-cd86a5c05ff3|||
+3024|3009|CMSM|0.0|1.0|1.0|CapitalAssetManagementSimpleMaintenanceDocument||||||||2|||||12.0|||||c0f884bc-c121-45c2-a71e-04648c6d50a6|||
+3025|3009|CGSM|0.0|1.0|1.0|ContractsAndGrantsSimpleMaintenanceDocument||||||||2|||||15.0|||||8722bcaf-2beb-40ea-916c-e308d257cb08|||
+3026|3009|ECSM|0.0|1.0|1.0|EffortCertificationSimpleMaintenanceDocument||||||||2|||||5.0|||||b2393bca-e9b1-4ea3-b0ed-81fa9f83564c|||
+3027|3009|LDSM|0.0|1.0|1.0|LaborDistributionSimpleMaintenanceDocument||||||||2|||||7.0|||||f37e5099-7cd2-49cc-b040-dda131ffc4fc|||
+3028|3009|PRSM|0.0|1.0|1.0|PurchasingAccountsPayableSimpleMaintenanceDocument||||||||2|||||33.0|||||31433368-bd0d-4547-9531-d1f7c2f7b78a|||
+3029|3009|TTSM|0.0|1.0|1.0|TemSimpleMaintenanceDocument||||||||2|||||27.0|||||16666f7c-d203-47a9-a130-5fc77c755945|||
+3030|3010|ARM|0.0|1.0|1.0|AccountsReceivableComplexMaintenanceDocument||||||||2|||||5.0|||||35748a51-8425-4845-9729-e3626d6b95dd|||
+3031|3010|CAMM|0.0|1.0|1.0|CapitalAssetManagementComplexMaintenanceDocument||||||||2|||||6.0|||||cbcd0feb-60ab-4a26-9770-451c5506d0f2|${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fassetmaintenancecustomdocumentsearch.htm||
+3032|3010|CGM|0.0|1.0|1.0|ContractsAndGrantsComplexMaintenanceDocument||||||||2|||||3.0|||||d96e6621-f5cf-4cc2-b796-cdbdaf6217ac|||
+3033|3010|CAB|0.0|1.0|1.0|CapitalAssetBuilderComplexMaintenanceDocument||||||||2|||||2.0|||||89a6bb92-03da-48c4-a73b-1f0da1630f18|||
+3034|3011|AR|0.0|1.0|1.0|AccountsReceivableTransactionalDocument||||||||2|||||6.0|||||0c7343dc-cfe8-4677-8369-503405220008|||
+3035|3011|BCT|0.0|1.0|1.0|BudgetConstructionTransactionalDocument||||||||2|||||2.0|||||fc87c244-19c2-49e6-a66a-aa54c50e2d1c|||
+3036|3011|CAM|0.0|1.0|1.0|CapitalAssetManagementTransactionalDocument||||||||2|||||6.0|||||227b9e5d-7360-4550-98d8-834f0b7647d2|||
+3037|3011|CG|0.0|1.0|1.0|ContractsAndGrantsTransactionalDocument||||||||2|||||2.0|||||37113b26-c3ef-46a4-91f1-c8d6104b107f|||
+3038|3011|EC|0.0|1.0|1.0|EffortCertificationTransactionalDocument||||||||2|||||2.0|||||14ece067-8885-46ea-a481-a991dfa7b144|||
+3039|3011|LD|0.0|1.0|1.0|LaborDistributionTransactionalDocument||||||||2|||||6.0|||||2176f0a0-4e9a-466c-89e4-43bf14cde127|||
+3040|3011|PRAP|0.0|1.0|1.0|PurchasingAccountsPayableTransactionalDocument||||||||2|||||4.0|||||f185a96d-feb1-494d-92a7-f6575ac1e143|||
+3041|3011|ET|0.0|1.0|0.0|EndowmentTransactionalDocument||||||||2|||||2.0|||||d2b1aaa7-e37e-4e29-951c-9277970c6bc2|||
+3042|3011|TT|0.0|1.0|0.0|TravelTransactionalDocument||||||||1|||||4.0|||||5e0141f7-6a50-481c-8d7d-1f53e23c4400|||
+3043|3016|PMAT|0.0|1.0|1.0|Address Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Faddresstype.htm|a17fe494-3ed3-45f8-b550-9c3542def263|||
+3044|3016|PMCP|0.0|1.0|1.0|Campus Parameter||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcampusparameter.htm|76c3781e-8044-413c-8512-efeeb1cd4a4e|||
+3045|3016|PMCC|0.0|1.0|1.0|Commodity Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcommoditycode.htm|ed40d797-b49c-439f-bbd5-cbca339258c4|||
+3046|3016|PMCT|0.0|1.0|1.0|Contact Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcontacttype.htm|2c7e6d7b-4ac3-4ab2-8944-3b8ff68191e9|||
+3047|3016|PMCO|0.0|1.0|1.0|Contract Manager||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcontractmanager.htm|42297e55-9102-4bef-998f-14cb451e2d0a|||
+3048|3016|PMOC|0.0|1.0|1.0|Ownership Type Category||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fownershiptypecategory.htm|7bc6495f-992a-48a8-8155-0e4b36fc65d8|||
+3049|3016|PMOT|0.0|1.0|1.0|Ownership Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fownershiptype.htm|62c418cd-4c03-4712-ab08-760e8474eeb2|||
+3050|3016|PMPA|0.0|1.0|1.0|Payment Terms Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpaymenttermstype.htm|7a56b02a-38ba-4d05-99fb-e2f825b57825|||
+3051|3016|PMPT|0.0|1.0|1.0|Phone Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fphonetype.htm|ba1b5c0d-335a-4dc8-b7d5-ff9bdb8e9f35|||
+3052|3016|PMCS|0.0|1.0|1.0|Cost Source||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcostsource.htm|3a25a21b-92fc-4279-8322-5b4013638c24|||
+3053|3016|PMSP|0.0|1.0|1.0|Shipping Payment Terms||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fshippingpaymentterms.htm|fc7bb714-6c9b-4a6a-8efc-9daeef9944e7|||
+3054|3016|PMSS|0.0|1.0|1.0|Shipping Special Conditions||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fshippingspecialconditions.htm|f2d697a2-43c3-4f02-944f-86121a4e1502|||
+3055|3016|PMST|0.0|1.0|1.0|Shipping Title||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fshippingtitle.htm|18f71bd9-87b2-4242-84df-1adcf798910b|||
+3056|3016|PMSD|0.0|1.0|1.0|Supplier Diversity||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fsupplierdiversity.htm|8f9257be-87cf-4d49-9d11-e0dccc2f5e95|||
+3057|3016|PMIR|0.0|1.0|1.0|Vendor Inactive Reason||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fvendorinactivereason.htm|79ac3f8f-acdb-4938-9496-c5b44e17619a|||
+3058|3016|PMVT|0.0|1.0|1.0|Vendor Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fvendortype.htm|1e609187-c5c3-46c7-b866-82320a3ce78e|||
+3059|3019|GLCP|0.0|1.0|1.0|General Ledger Correction Process|||${kfs.url}/generalLedgerCorrection.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fgeneralledgercorrectionprocess.htm|6e5b56a1-3869-4943-a9f7-820396d92156|||
+3060|3017|GORV|0.0|1.0|1.0|Organization Reversion Global||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Forganizationreversionglobal.htm|642ffd27-d6e9-4cfe-8029-665809a0cb4f|||
+3061|3017|GSOB|0.0|1.0|1.0|Sub-Object Code Global||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fsubobjectcodeglobal.htm|cd62daf5-430b-4edf-b68e-d555389c43ab|||
+3062|3017|GDLG|0.0|1.0|1.0|Account Delegate Global||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Faccountdelegateglobal.htm|8ca6c213-568e-42bf-86ec-4c6781f3282f|||
+3063|3017|OR|0.0|1.0|1.0|Organization Review||||||||2|||||3.0|||||97081535-6bad-4de8-ad81-636747dc0c0d|||
+3064|3017|ADEL|0.0|1.0|1.0|Account Delegate||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Faccountdelegate.htm|128d13c9-7a82-4596-82e7-cac1e0cdb29a|||
+3065|3017|GDLM|0.0|1.0|1.0|Account Delegate Model||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Faccountdelegatemodel.htm|25b0b14d-b892-48d3-83b6-33f5ede415b3|||
+3066|3017|GACC|0.0|1.0|1.0|Account Global||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Faccountglobal.htm|049e777c-c961-49a3-bafd-a8052f348b95|||
+3067|3017|GOBJ|0.0|1.0|1.0|Object Code Global||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fobjectcodeglobal.htm|3934400c-ac95-4466-98fe-c4faa4c17e83|||
+3068|3017|OBJT|0.0|1.0|1.0|Object Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fobjectcode.htm|b6505077-daa5-4aea-bc04-94672e03c99a|||
+3069|3017|ORGN|0.0|1.0|1.0|Organization||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Forganization.htm|819c114f-5eac-4b6a-9976-203e93fe6acd|||
+3070|3017|PROJ|0.0|1.0|1.0|Project Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fprojectcode.htm|46ce2fd2-f9a4-428d-bb6d-55022529a5cb|||
+3071|3017|SACC|0.0|1.0|1.0|Sub-Account||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fsubaccount.htm|d7d1e519-1663-4aa6-a69b-ed7732f35a87|||
+3072|3017|SOBJ|0.0|1.0|1.0|Sub-Object Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fsubobjectcode.htm|3270ac20-2d88-4395-ae70-cb6ed7c45e29|||
+3073|3017|ACCT|0.0|1.0|1.0|Account||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Faccount.htm|bac4b14c-6627-4397-93ef-9f4c16b2ad5b|||
+3074|3063|ORR|0.0|1.0|1.0|Organization Review Role||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Forganizationreview.htm|7eac99a0-c431-4dec-8446-cbbfa992608e|||
+3075|3063|ORG|0.0|1.0|1.0|Organization Review Group||||||||2|||||1.0|||||cd650282-d79a-4781-8a52-019ec2789eaf|||
+3076|3018|PVEN|0.0|1.0|1.0|Vendor||||||||2|||||1.0||||${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fvendorpven.htm|30f69601-850f-4fba-84a6-f84b645b2217|||
+3077|3015|ACTC|0.0|1.0|1.0|Accounting Change Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Faccountingchangecode.htm|586e0f28-1cca-45ec-87ec-635b94464713|||
+3078|3015|ABNK|0.0|1.0|1.0|ACH Bank||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fachbank.htm|a93010d5-5511-4bed-a6c7-d4cdc91deae4|||
+3079|3015|ACTR|0.0|1.0|1.0|ACH Transaction Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fachtransactioncode.htm|d5d405a9-d074-45a1-80d5-e88a585359be|||
+3080|3015|ACHT|0.0|1.0|1.0|ACH Transaction Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fachtransactiontype.htm|09e04f00-69ad-49ab-bed7-58d1a116265a|||
+3081|3015|CSPR|0.0|1.0|1.0|Customer Profile||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcustomerprofile.htm|95dcc55f-8be5-449e-b1d1-2089faae6723|||
+3082|3015|DBRG|0.0|1.0|1.0|Disbursement Number Range||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fdisbursementnumberrange.htm|7c6f8720-84bf-4bbe-85f9-1cf3f19bf189|||
+3083|3015|DSTP|0.0|1.0|1.0|Disbursement Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fdisbursementtype.htm|a455f70d-0c9c-4943-9c61-b72b2755d073|||
+3084|3015|PYTP|0.0|1.0|1.0|Payee Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpayeetype.htm|49beda4f-9687-438d-b195-d9e6c001db36|||
+3085|3015|PMTC|0.0|1.0|1.0|Payment Change Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpaymentchange.htm|daef8b78-92a4-43c0-8dbe-2247c05c7d21|||
+3086|3015|PMTS|0.0|1.0|1.0|Payment Status||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpaymentstatus.htm|6609df1f-8853-4efd-b003-e28ad9bfb498|||
+3087|3015|PMTP|0.0|1.0|1.0|Payment Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpaymenttype.htm|e061efb1-5f53-43e3-bdd0-fe73f41489fa|||
+3088|3015|PAAT|0.0|1.0|1.0|Payee ACH Account||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpayeeachaccount.htm|801fd303-327c-407d-9db0-a8cb842c9406|||
+3089|3014|CDS|0.0|1.0|1.0|Cash Drawer||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcashdrawer.htm|d33823e8-b554-4d9f-b1eb-ca0aa0f4f09a|||
+3090|3014|CCTY|0.0|1.0|1.0|Credit Card Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcreditcardtype.htm|d1a10e0e-e68c-4eb2-8e3d-18f0a91bd9b5|||
+3091|3014|CCVN|0.0|1.0|1.0|Credit Card Vendor||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcreditcardvendor.htm|f95ab835-8bb3-4e40-b88b-b54f5e329d00|||
+3092|3014|DVDL|0.0|1.0|1.0|Disbursement Voucher Documentation Location||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fdisbursementvoucherdocumentationlocation.htm|038e4945-81b8-42aa-b8f4-1a8dc0eae95e|||
+3093|3014|BFYC|0.0|1.0|1.0|Fiscal Year Function Control||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Ffiscalyearfunctioncontrol.htm|efffc8a7-2392-4b20-b8dc-8f2ae0f66fbe|||
+3094|3014|BFNC|0.0|1.0|1.0|Function Control Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Ffunctioncontrolcode.htm|4e25d4ba-6249-4fc1-a516-4a58eb2ead22|||
+3095|3014|DVTX|0.0|1.0|1.0|Non-Resident Alien Tax Percent||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fnonresidentalientaxpercent.htm|5b418340-99bb-4348-a0c5-bfa7d00d0ad8|||
+3096|3014|DVOT|0.0|1.0|1.0|Disbursement Voucher Ownership Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fownershiptypemaintenancedocument.htm|0d823279-49e1-4814-8f57-eefbd935d04d|||
+3097|3014|DVPR|0.0|1.0|1.0|Disbursement Voucher Payment Reason||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fdisbursementvoucherpaymentreason.htm|152ed812-c617-45d5-9a06-1077051cd23d|||
+3098|3014|DVCC|0.0|1.0|1.0|Disbursement Voucher Tax Control||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Ftaxcontrolcodemaintenancedocument.htm|64982ffd-b323-4733-8d3a-35db80351869|||
+3099|3014|DVIC|0.0|1.0|1.0|Disbursement Voucher Tax Income Class||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fdisbursementvouchertaxincomeclass.htm|828eebd6-2f0e-4d66-a5ef-669364dfaea5|||
+3100|3014|DVTC|0.0|1.0|1.0|Disbursement Voucher Travel Company||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fdisbursementvouchertravelcompany.htm|8ca7a326-552d-4e35-b2ce-10dbd23c0751|||
+3101|3014|DVET|0.0|1.0|1.0|Disbursement Voucher Travel Expense Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fdisbursementvouchertravelexpensetype.htm|758fe008-5df4-49a7-aa6d-bc28baec6e86|||
+3102|3014|DVML|0.0|1.0|1.0|Disbursement Voucher Travel Mileage Rate||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fdisbursementvouchertravelmileagerate.htm|9ffea5e6-189d-4252-ac28-45a797c234ca|||
+3103|3014|DVPD|0.0|1.0|1.0|Disbursement Voucher Travel Per Diem||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fdisbursementvouchertravelperdiem.htm|d85872b5-bfb2-442e-a757-25d60815dc79|||
+3104|3014|DVWT|0.0|1.0|1.0|Disbursement Voucher Wire Charge||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fdisbursementvoucherwirecharge.htm|35ed499e-384a-44b0-bc75-5ab8776ccecb|||
+3105|3014|PCDM|0.0|1.0|1.0|Procurement Card Default||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcreditcardtype.htm|db1b5d23-9c94-496b-af27-2a87dfd1c49b|||
+3106|3021|SecurityAttributeMaintenanceDocument|0.0|1.0|1.0|Security Attribute||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fattribute.htm|13bf76ec-40fd-43e6-b263-59b11aa2ea20|||
+3107|3021|SecurityDefinitionMaintenanceDocument|0.0|1.0|1.0|Security Definition||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fdefinition.htm|29f36171-ae3c-4df4-89d4-0d178d561f21|||
+3108|3021|SecurityModelMaintenanceDocument|0.0|1.0|1.0|Security Model||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fmodel.htm|94ada8d0-ddd8-4836-92ef-c42f806f57bf|||
+3109|3021|SecurityPrincipalMaintenanceDocument|0.0|1.0|1.0|Security Principal||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fprincipal.htm|f2df9666-e7ac-44d1-b17b-05008059497f|||
+3110|3020|AD|0.0|1.0|1.0|Advance Deposit|||${kfs.url}/financialAdvanceDeposit.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fadvancedeposit.htm|72bf3854-f43c-4bd0-a738-f73a273851a5|||
+3111|3020|CMD|0.0|1.0|1.0|Cash Management|||${kfs.url}/financialCashManagement.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcashmanagement.htm|c5ecbbb2-5adf-4244-a6f9-747acafb64f1|||
+3112|3020|CR|0.0|1.0|1.0|Cash Receipt|||${kfs.url}/financialCashReceipt.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcashreceipt.htm|48d5de9c-12cf-420a-91f8-90e5d51ba8d6|||
+3113|3020|CCR|0.0|1.0|1.0|Credit Card Receipt|||${kfs.url}/financialCreditCardReceipt.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcreditcardreceipt.htm|1bb51a84-8b73-43b9-8bf8-5b43d3625e5f|||
+3114|3020|JV|0.0|1.0|1.0|Journal Voucher|||${kfs.url}/financialJournalVoucher.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fjournalvoucher.htm|f2ed370b-361a-40a9-b936-ddb374c1cbcc|||
+3115|3020|SB|0.0|1.0|1.0|Service Billing|||${kfs.url}/financialServiceBilling.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fservicebilling.htm|64872409-c816-41bd-930f-42a9148885e9|||
+3116|3020|AV|0.0|1.0|1.0|Auxiliary Voucher|||${kfs.url}/financialAuxiliaryVoucher.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fauxiliaryvoucher.htm|0f3b3d2b-0883-44d5-b80f-c863220db3e7|||
+3117|3020|BA|0.0|1.0|1.0|Budget Adjustment|||${kfs.url}/financialBudgetAdjustment.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fbudgetadjustment.htm|66ff45ba-b0c7-4131-ba82-015dac00269d|||
+3118|3020|DI|0.0|1.0|1.0|Distribution Of Income And Expense|||${kfs.url}/financialDistributionOfIncomeAndExpense.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fdistributionofincomeandexpense.htm|7e1ee40e-6734-40c2-a5c7-4b7bd7aef940|||
+3119|3020|GEC|0.0|1.0|1.0|General Error Correction|||${kfs.url}/financialGeneralErrorCorrection.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fgeneralerrorcorrection.htm|241e6a1d-766b-49ba-8c6d-0854d956b5d9|||
+3120|3020|ICA|0.0|1.0|1.0|Indirect Cost Adjustment|||${kfs.url}/financialIndirectCostAdjustment.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Findirectcostadjustment.htm|ff079948-1f2a-44ce-be42-ff3c96787a9c|||
+3121|3020|ND|0.0|1.0|1.0|Non-Check Disbursement|||${kfs.url}/financialNonCheckDisbursement.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fnoncheckdisbursement.htm|159dd890-06af-4bf3-84fc-364f443fe694|||
+3122|3020|PE|0.0|1.0|1.0|Pre-Encumbrance|||${kfs.url}/financialPreEncumbrance.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpreencumbrance.htm|6fdeb2dc-c5bd-4a15-9c8c-4804d9f5f9a4|||
+3123|3020|PCDO|0.0|1.0|1.0|Procurement Card|||${kfs.url}/financialProcurementCard.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fprocurementcard.htm|704707e9-ef9b-45f4-8ef1-6c9cf900055e|||
+3124|3020|TF|0.0|1.0|1.0|Transfer Of Funds|||${kfs.url}/financialTransferOfFunds.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Ftransferoffunds.htm|e33c8060-1842-44a6-ad5e-a56fbcee5d63|||
+3125|3020|FPYE|0.0|1.0|1.0|FinancialProcessingYearEndTransactionalDocument||||||||2|||||5.0|||||327b11ca-e68c-4970-bc09-fef8b243b3f1|||
+3126|3020|IB|0.0|1.0|1.0|Internal Billing|||${kfs.url}/financialInternalBilling.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Finternalbilling.htm|7b666446-ff6f-4f45-af99-6cef922a9c03|||
+3127|3020|DV|0.0|1.0|1.0|Disbursement Voucher|||${kfs.url}/financialDisbursementVoucher.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fdisbursementvoucher.htm|d5af8847-c6a5-4adc-8ac9-952c2b12813c|${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fdisbursementvouchers.htm||
+3128|3125|YEBA|0.0|1.0|1.0|Year End Budget Adjustment|||${kfs.url}/financialYearEndBudgetAdjustment.do?methodToCall=docHandler|||||2|||||1.0||||${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fyearendedocs1.htm|f2a4838d-099c-49ab-94ff-306b9788bf79|||
+3129|3125|YEDI|0.0|1.0|1.0|Year End Distribution Of Income And Expense|||${kfs.url}/financialYearEndDistributionOfIncomeAndExpense.do?methodToCall=docHandler|||||2|||||1.0||||${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fyearendedocs1.htm|8e23fe46-f8f4-4817-ab52-cdbd79fcf65a|||
+3130|3125|YEGE|0.0|1.0|1.0|Year End General Error Correction|||${kfs.url}/financialYearEndGeneralErrorCorrection.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fyearendedocs1.htm|82b6029e-9ea4-4ae1-8bd9-df5d1343eca2|||
+3131|3125|YETF|0.0|1.0|1.0|Year End Transfer Of Funds|||${kfs.url}/financialYearEndTransferOfFunds.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fyearendedocs1.htm|388b0d1b-9a17-4834-bf0e-7ce147899329|||
+3132|3013|APRD|0.0|1.0|1.0|Accounting Period||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Faccountingperiod.htm|a7ea134b-77a8-4941-8394-ad38aaf8683b|||
+3133|3013|ATYP|0.0|1.0|1.0|Account Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Faccounttype.htm|8b038d0e-7e9e-4dd3-94ae-27ba44b09ba7|||
+3134|3013|AFUN|0.0|1.0|1.0|AICPA Function||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Faicpafunction.htm|2e3d570f-ffbe-4995-9a42-622a619b289b|||
+3135|3013|BTYP|0.0|1.0|1.0|Balance Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fbalancetype.htm|142ec9f7-ac90-4344-a838-e30404e1c364|||
+3136|3013|ACTY|0.0|1.0|1.0|Basic Accounting Category||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fbasicaccountingcategory.htm|7e3a275e-f9fd-4c51-84ea-84c3c050268f|||
+3137|3013|BAMD|0.0|1.0|1.0|Budget Aggregation Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fbudgetaggregationcode.htm|853a7919-e023-4bf7-a13b-5d5c13e54411|||
+3138|3013|BRL|0.0|1.0|1.0|Budget Recording Level Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fbudgetrecordinglevel.htm|6e46e8f5-9c57-4b7e-84a7-92357f68413b|||
+3139|3013|COAT|0.0|1.0|1.0|Chart||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fchart.htm|be5f8784-1858-45e3-be39-31416fd049d8|||
+3140|3013|FFUN|0.0|1.0|1.0|Federal Function||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Ffederalfunction.htm|770f2db7-024a-4667-99c5-99c4ff2eeaf0|||
+3141|3013|FFC|0.0|1.0|1.0|Federal Funded Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Ffederalfundedcode.htm|26ebc0a8-9312-48b3-9d8d-50cd0edba28d|||
+3142|3013|FGRP|0.0|1.0|1.0|Fund Group||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Ffundgroup.htm|10c71a3f-da61-4f93-9cf1-5a39dca5e2a1|||
+3143|3013|HEFN|0.0|1.0|1.0|Higher Education Function||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fhighereducationfunction.htm|17d245ab-f96c-485b-982c-f70efd187d2f|||
+3144|3013|MTE|0.0|1.0|1.0|Mandatory Transfer Elimination||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fmandatorytransferelimination.htm|696a6b02-c94e-4be4-8f5c-aabdde1327a7|||
+3145|3013|OBJC|0.0|1.0|1.0|Object Consolidation||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fobjectconsolidation.htm|e76b99db-5d98-45ca-adc5-66fb7ff97237|||
+3146|3013|OBJL|0.0|1.0|1.0|Object Level||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fobjectlevel.htm|3b842dc8-a62d-49ae-95e7-fb19e954fb46|||
+3147|3013|OSTY|0.0|1.0|1.0|Object Sub-Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fobjectsubtype.htm|53222b1b-a112-4979-bd21-93bf3384e15c|||
+3148|3013|OTYP|0.0|1.0|1.0|Object Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fobjecttype.htm|f9895c0c-6340-4893-a564-c801ad60d778|||
+3149|3013|OFAC|0.0|1.0|1.0|Offset Account||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Foffsetaccount.htm|deb679c2-79ff-425f-b1d0-632fa6599ba1|||
+3150|3013|OFSD|0.0|1.0|1.0|Offset Definition||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Foffsetdefinition.htm|778a74b7-ad34-4fc6-8dba-559dd9ca6104|||
+3151|3013|ORGC|0.0|1.0|1.0|Organization Reversion Category||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Forganizationreversioncategory.htm|2a70826c-285c-4e8f-8e55-a6d24bdf80c7|||
+3152|3013|ORTY|0.0|1.0|1.0|Organization Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Forganizationtype.htm|d3b39ec3-046a-443f-992f-55b3ddb2cdbd|||
+3153|3013|ORIG|0.0|1.0|1.0|Origination Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Foriginationcode.htm|5962271a-f7cc-4966-9ab3-78ed3d283c3e|||
+3154|3013|RPTC|0.0|1.0|1.0|Financial Reporting Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Ffinancialreportingcode.htm|59d5f27d-6646-415a-baf8-ffefe55cbc6e|||
+3155|3013|RCEN|0.0|1.0|1.0|Responsibility Center||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fresponsibilitycenter.htm|d5c0ed98-4c27-4dbe-9cd4-17a9b905f58c|||
+3156|3013|RSTA|0.0|1.0|1.0|Restricted Status||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Frestrictedstatus.htm|3e007487-3345-45a2-bb27-5758ca59abd6|||
+3157|3013|SFGR|0.0|1.0|1.0|Sub-Fund Group||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fsubfundgroup.htm|6d65488c-77fb-4cda-8a50-cb2cd9aae1aa|||
+3158|3013|SFGT|0.0|1.0|1.0|Sub-Fund Group Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fsubfundgrouptype.htm|db3a2231-5004-4169-871e-87128d87e9cd|||
+3159|3013|SFC|0.0|1.0|1.0|Sufficient Funds Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fsufficientfundscode.htm|291da635-7249-4174-9edc-c1b97663ab7e|||
+3160|3013|UFUN|0.0|1.0|1.0|University Budget Office Function||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Funiversitybudgetofficefunction.htm|7e05747a-e502-452a-8e6c-caf83491606f|||
+3161|3013|ORGR|0.0|1.0|1.0|Organization Reversion||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Forganizationreversion.htm|74dbb57a-42c4-48db-a32d-613d9eb97bf8|||
+3162|3013|CFDM|0.0|1.0|1.0|Catalog of Federal Domestic Assistance||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcatalogoffederaldomesticassistance.htm|4bcb86ee-2589-43f5-9081-d713f2caf459|||
+3163|3012|ACHD|0.0|1.0|1.0|ACH Disbursement||||||||2|||||1.0|||||632a1dbd-4a29-4708-91ae-f2e0d06da1d2|||
+3164|3012|CHKD|0.0|1.0|1.0|Check Disbursement||||||||2|||||1.0|||||1da2d946-0bc9-4863-a424-39b4b222bd2d|||
+3165|3012|CHKR|0.0|1.0|1.0|Check Cancel & Re-Issue||||||||2|||||1.0|||||580cbc1a-ab78-430a-bfe3-6ce11ba66875|||
+3166|3012|CHKC|0.0|1.0|1.0|Check Cancellation||||||||2|||||1.0|||||dd143917-2bfc-457c-b6e5-0b66c61e22a6|||
+3167|3012|ACHR|0.0|1.0|1.0|ACH Cancel & Re-Issue||||||||2|||||1.0|||||6b7a30da-bf5e-4da7-b7a5-3410a846a17c|||
+3168|3012|ACHC|0.0|1.0|1.0|ACH Cancellation||||||||2|||||1.0|||||2a5ece2c-9bc0-4378-832e-4439bf007f9a|||
+3169|3012|PDP|0.0|1.0|1.0|Pre-Disbursement Processing||||||||2|||||1.0|||||1288fca5-0e3b-4350-ad55-a4c95c9aac7a|||
+3170|3012|AVAD|0.0|1.0|1.0|Auxiliary Voucher - Adjustment||||||||2|||||1.0|||||ee019ae3-04ec-4bb6-b947-34d3b9f7d873|||
+3171|3012|AVAE|0.0|1.0|1.0|Auxiliary Voucher - Accrual Entry||||||||2|||||1.0|||||99267aae-7626-4d85-ad0e-fd7e9d1ea402|||
+3172|3012|AVRC|0.0|1.0|1.0|Auxiliary Voucher - Re-code||||||||2|||||1.0|||||d04dd17f-6fb8-439a-ac54-6b569c37637e|||
+3173|3012|DVWF|0.0|1.0|1.0|Disbursement Voucher - WT/FD||||||||2|||||1.0|||||83a31edf-ba61-4e01-ba3c-c28bda877b35|||
+3174|3012|DVCA|0.0|1.0|1.0|Disbursement Voucher - Check/ACH||||||||2|||||1.0|||||f5f2f9f9-9134-4675-85bd-8bc1bea0cc3c|||
+3175|3012|ACLO|0.0|1.0|1.0|Annual Closing||||||||2|||||1.0|||||4399cb4a-4311-416b-a074-4f28a38e4d46|||
+3176|3009|BANK|0.0|1.0|1.0|Bank||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fbank.htm|11813ef2-33db-41fc-a6fb-3bb5e1e89b88|||
+3177|3009|BLDG|0.0|1.0|1.0|Building||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fbuilding.htm|74065b18-dd27-4217-be49-b452f2c19050|||
+3178|3009|FFD|0.0|1.0|1.0|Functional Field Description||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Ffunctionalfielddescription.htm|5e8454b5-f1c1-49a0-af5b-3fbc99b83137|||
+3179|3009|FSDT|0.0|1.0|1.0|Financial System Document Type Code|||${kfs.url}/kr/maintenance.do?methodToCall=docHandler|||||2|||||1.0|||||9adc80ac-36d5-4db9-af6c-a12042b9bc74|||
+3180|3009|MOTD|0.0|1.0|1.0|Message Of The Day||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fmessageoftheday.htm|abb0ceaa-1b09-4e6c-a9d1-429fbb8fab34|||
+3181|3009|ROOM|0.0|1.0|1.0|Room||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Froom.htm|4e0f85c7-f2cb-4ea9-b4ac-a304f61500fe|||
+3182|3009|SOPT|0.0|1.0|1.0|System Options||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fsystemoptions.htm|a5127dbd-9fff-4f70-8f15-1d9efbae9f72|||
+3183|3009|TAXR|0.0|1.0|1.0|Tax Region||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Ftaxregion.htm|3b718bc6-c77e-4c3c-bd2f-41b5609e5568|||
+3184|3009|TRTP|0.0|1.0|1.0|Tax Region Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Ftaxregiontype.htm|1c430914-eddc-4db2-bea6-746ad642d126|||
+3185|3009|UDAT|0.0|1.0|1.0|University Date||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Funiversitydate.htm|d7331a4f-80d6-4bd3-87fa-10915e9d34ba|||
+3186|3034|CTRL|0.0|1.0|1.0|Cash Control|||${kfs.url}/arCashControlDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcashcontrol.htm|02b714a4-4168-4b3f-af77-863fc4e2e7bb|${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcashcontrols.htm||
+3187|3034|APP|0.0|1.0|1.0|Application|||${kfs.url}/arPaymentApplicationDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpaymentapplication.htm|9ce5ee42-4441-4116-8c7b-cff14540c511|${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fpaymentapplications.htm||
+3188|3034|INVW|0.0|1.0|1.0|Customer Invoice Writeoff|||${kfs.url}/arCustomerInvoiceWriteoffDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcustomerinvoicewriteoff.htm|ef008051-2fea-4de0-8a42-0459d64c34dc|${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcustomerinvoicewriteoffscustomdocumentsearch.htm||
+3189|3034|CRM|0.0|1.0|1.0|Customer Credit Memo|||${kfs.url}/arCustomerCreditMemoDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcustomercreditmemo.htm|70d31a1e-cfff-46c6-a62c-af4df5671e65|${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcustomercreditmemos.htm||
+3190|3034|INV|0.0|1.0|1.0|Customer Invoice|||${kfs.url}/arCustomerInvoiceDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcustomerinvoice.htm|f7ae5801-cbf5-450f-8b4b-bbcf02e3c208|${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcustomerinvoices.htm||
+3191|3030|INVR|0.0|1.0|1.0|Invoice Recurrence||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Finvoicerecurrence.htm|437e2bdb-52ea-4415-b4c4-e125fb61c658|||
+3192|3030|CUS|0.0|1.0|1.0|Customer||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcustomer.htm|278ff0bd-508a-4fb1-ae25-12d531b27d2d|||
+3193|3030|OADF|0.0|1.0|1.0|Organization Accounting Default||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Forganizationaccountingdefault.htm|e32ed442-278b-474a-a16a-b6a5a502c10d|||
+3194|3030|OOPT|0.0|1.0|1.0|Organization Options||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Forganizationoptions.htm|e60281fe-b810-45d8-94a4-e59e67ecbc0e|||
+3195|3022|CATY|0.0|1.0|1.0|Customer Address Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcustomeraddresstype.htm|6a42b2ec-91d4-4fcf-be42-09ffb54f433a|||
+3196|3022|IICO|0.0|1.0|1.0|Customer Invoice Item Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcustomerinvoiceitemcode.htm|f8e6ca26-7026-4286-8b39-1ad537737133|||
+3197|3022|CTY|0.0|1.0|1.0|Customer Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcustomertype.htm|ac04e8d5-7360-4f86-ab10-90a743e631a5|||
+3198|3022|PMED|0.0|1.0|1.0|Payment Medium||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpaymentmedium.htm|0b256b36-7625-4f2f-b178-65f74bccac7a|||
+3199|3022|ARSI|0.0|1.0|1.0|System Information||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fsysteminformation.htm|fd171656-5ae2-4834-9570-579b7cef2934|||
+3200|3012|BCBB|0.0|1.0|1.0|Budget Construction Base Budget||||||||2|||||1.0|||||8e574708-6739-4d6e-9a6d-0e87223f3318|||
+3201|3035|BC|0.0|1.0|1.0|Budget Construction Document|||${kfs.url}/budgetBudgetConstruction.do?methodToCall=docHandler|none||||2|||||1.0||||default.htm?turl=WordDocuments%2Fbudgetdonstructionselection.htm|322cf50f-acfd-4c84-aef6-d7fec59e0bc3|||
+3202|3023|BCAR|0.0|1.0|1.0|Account Reports||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Faccountreports.htm|993191ac-c69d-4eb9-90a6-37c451b2e85d|||
+3203|3023|DURA|0.0|1.0|1.0|Appointment Funding Duration||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fappointmentfundingduration.htm|3c10627c-c556-4b2f-93ca-8f3f0675247a|||
+3204|3023|BCRC|0.0|1.0|1.0|Appointment Funding Reason Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fappointmentfundingreasoncode.htm|a29456b9-1415-4abc-afdd-dbfc710ef26a|||
+3205|3023|BCPS|0.0|1.0|1.0|Budget Construction Position||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fbudgetconstructionposition.htm|e45a74cf-7ac1-44d3-ad06-a41b96050b3f|||
+3206|3023|CSFO|0.0|1.0|1.0|Calculated Salary Foundation Tracker Override||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcalculatedsalaryfoundationtrackeroverride.htm|58f51cd4-8392-4f67-880f-0d5c2008c3fa|||
+3207|3023|IINC|0.0|1.0|1.0|Intended Incumbent||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fintendedincumbent.htm|e86f1d9c-d14b-40a7-9472-bcbd16b81b5f|||
+3208|3023|BCOR|0.0|1.0|1.0|Organization Reports||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Forganizationreports.htm|38d36749-b39b-4be7-aaca-d76ddcc000d9|||
+3209|3033|PTAG|0.0|1.0|1.0|Pre-Asset Tagging||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpreassettagging.htm|0eb684e6-4c16-4917-b07b-54340a05dc42|||
+3210|3036|DEPR|0.0|1.0|1.0|Asset Depreciation||||||||2|||||1.0|||||a8ae82df-31f7-446f-b998-806c9bfe2b93|||
+3211|3036|MPAY|0.0|1.0|1.0|Asset Manual Payment|||${kfs.url}/camsAssetPayment.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassetmanualpayment.htm|727d40e0-0c77-4164-af24-df93b7b9c21b|||
+3212|3036|AT|0.0|1.0|1.0|Asset Transfer|||${kfs.url}/camsAssetTransfer.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Ftransferasset.htm|52b2b1cb-fe7a-4b8d-b685-5153b6504f30|||
+3213|3036|ELR|0.0|1.0|1.0|Equipment Loan/Return|||${kfs.url}/camsEquipmentLoanOrReturn.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fequipmentloan.htm|e9f0d64a-8a7a-43e0-a5c9-3ac14e9580ad|||
+3214|3036|BCIE|0.0|1.0|1.0|Barcode Inventory Error|||${kfs.url}/camsBarcodeInventoryError.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fbarcodeinventoryprocess.htm|0f862775-400b-4ebd-8985-baeca7f12b5c|||
+3215|3024|ACQT|0.0|1.0|1.0|Asset Acquisition Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassetacquisitiontype.htm|17ab6c0a-7a07-4e49-aaa1-42ebe2349a87|||
+3216|3024|ACON|0.0|1.0|1.0|Asset Condition||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassetcondition.htm|703c15b4-e45f-4583-8458-ecaf3d2c5f93|||
+3217|3024|DPRC|0.0|1.0|1.0|Asset Depreciation Convention||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassetdepreciationconvention.htm|8a9e7196-a8fa-4e5d-a8cd-53534c7134f8|||
+3218|3024|DPRM|0.0|1.0|1.0|Asset Depreciation Method||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassetdepreciationmethod.htm|7c6e4f50-09c8-466f-a7b2-4d13909a81c6|||
+3219|3024|ASLT|0.0|1.0|1.0|Asset Location Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassetlocationtype.htm|45ea1393-d07f-4ec5-bd55-e1c4823010b8|||
+3220|3024|COBJ|0.0|1.0|1.0|Asset Object Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassetobjectcode.htm|c8ff415b-7932-403f-bfa2-5016347f9bd1|||
+3221|3024|RRSN|0.0|1.0|1.0|Asset Retirement Reason||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassetretirementreason.htm|d598241e-169b-472f-a547-f4352588b8a1|||
+3222|3024|ASTA|0.0|1.0|1.0|Asset Status||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassetstatus.htm|0c3ef024-fe63-4558-a0fc-85ea670dc253|||
+3223|3024|ASST|0.0|1.0|1.0|Asset Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassettype.htm|d68d4115-ffe2-48e6-bbdf-51c9bf2119c0|||
+3224|3024|YEARENDDEPR|0.0|1.0|1.0|Year End Depreciation Assets||||||||2|||||1.0|||||c5a21472-1eef-4aeb-a4bd-dd0ed278226c|||
+3225|3024|APDT|0.0|1.0|1.0|Asset Payment Document Type||||||||2|||||1.0|||||76b7be69-0dc5-42f5-8bd9-255b6ce7548d|||
+3226|3031|FR|0.0|1.0|1.0|AssetFabricationMaintenanceDocument||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassetfabrication.htm|d20f44e2-841c-481e-bfb4-2accff0b1af8|||
+3227|3031|ALOC|0.0|1.0|1.0|Asset Location Global||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassetlocationglobal.htm|55c20900-35ec-46e7-a0cc-5d679b16338f|||
+3228|3031|CASM|0.0|1.0|1.0|Asset||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Feditasset.htm|37be6798-9873-4beb-8cb1-19b12894a16d|||
+3229|3031|ARG|0.0|1.0|1.0|Asset Retirement Global||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassetretirementglobal.htm|159ae288-ce5c-4d44-be09-59162a56ab3e|||
+3230|3031|AA|0.0|1.0|1.0|Asset Global||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassetglobaladd.htm|a222c99a-014b-49eb-bf56-bdf479f7ba68|||
+3231|3025|AGCY|0.0|1.0|1.0|Agency||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fagency.htm|bb2a955d-c9bf-4c22-881a-bb70ae882777|||
+3232|3025|AGTY|0.0|1.0|1.0|Agency Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fagencytype.htm|20da53be-d877-48d5-8fd8-ad8addc1ce56|||
+3233|3025|AWDS|0.0|1.0|1.0|Award Status||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fawardstatus.htm|cff2a813-7272-47fa-a93f-79639b792532|||
+3234|3025|GDES|0.0|1.0|1.0|Grant Description||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fgrantdescription.htm|4497643f-dac6-4b0c-99d1-7262c58c12f6|||
+3235|3025|ICRA|0.0|1.0|1.0|Indirect Cost Recovery Exclusion By Account||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Findirectcostrecoveryexclusionbyaccount.htm|9d538802-2229-4318-ae41-e1f0aae796fa|||
+3236|3025|ICRE|0.0|1.0|1.0|Indirect Cost Recovery Rate||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Findirectcostrecoveryrate.htm|5e121785-5895-425f-bc68-682ed5554d42|||
+3237|3025|ITYP|0.0|1.0|1.0|Indirect Cost Recovery Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Findirectcostrecoverytype.htm|7a6dcf99-7122-4b40-8566-2e3053fbf30b|||
+3238|3025|LFGR|0.0|1.0|1.0|Letter Of Credit Fund Group||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fletterofcreditfundgroup.htm|a851a090-2091-4141-96ee-04df0806ff3f|||
+3239|3025|PATY|0.0|1.0|1.0|Proposal Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fproposaltype.htm|60809803-7d74-41c8-8a5d-76b9bbe01694|||
+3240|3025|PURP|0.0|1.0|1.0|Proposal Purpose||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fproposalpurpose.htm|bcac9167-a75b-4d05-aead-e065b2fb41d5|||
+3241|3025|PRST|0.0|1.0|1.0|Proposal Status||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fproposalstatus.htm|c18b5e7f-5554-4ce6-b84b-c9da601fe193|||
+3242|3025|RRT|0.0|1.0|1.0|Research Risk Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fresearchrisktype.htm|f5d08378-e59a-41c0-a57a-e8829a8c00ad|||
+3243|3025|RTCM|0.0|1.0|1.0|Research Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fresearchtypemaintenancedocument.htm|ce1b35c1-396a-43a1-b364-d23ecd057922|||
+3244|3025|SUBC|0.0|1.0|1.0|Sub-Contractor||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fsubcontractor.htm|caf929c9-fbf1-476f-9895-ae2119ee7e1e|||
+3245|3032|AWRD|0.0|1.0|1.0|Award||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Faward.htm|0ba0a43f-741f-48df-bc1d-4446510a1399|||
+3246|3032|PRPL|0.0|1.0|1.0|Proposal||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fproposal.htm|cfda47c1-73e7-4dd4-aa4e-6805c2670c8e|||
+3247|3037|CLOS|0.0|1.0|1.0|Proposal/Award Close|||${kfs.url}/cgClose.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fproposalawardclose.htm|89431b71-fad3-47d8-b168-2fdd38c03ab0|||
+3248|3038|ECD|0.0|1.0|1.0|Effort Certification|||${kfs.url}/effortEffortCertification.do?methodToCall=docHandler|||||2|||||1.0|||||cf172365-15ad-473c-bfb3-ee370075a667|${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Feffortcertificationsearch.htm||
+3249|3026|ECPS|0.0|1.0|1.0|Report Period Status Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Freportperiodstatuscode.htm|5db25d04-a1be-4be7-8f22-9d75471eee1e|||
+3250|3026|ECRD|0.0|1.0|1.0|Report Definition||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Freportdefinition.htm|a26bb8cd-92e4-4ee0-a37d-51d7c03d705f|||
+3251|3026|ECPG|0.0|1.0|1.0|Report Earn Paygroup||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Freportearnpaygroup.htm|7e815f7c-fd61-482e-a15e-acbfb2d2de23|||
+3252|3026|ECRT|0.0|1.0|1.0|Report Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Freporttype.htm|5341143c-ef21-4d85-b8f8-21fdb84f1046|||
+3253|3012|LJVA|0.0|1.0|1.0|Labor Journal Voucher - Accrual||||||||2|||||1.0|||||80018c70-3239-4e5d-8615-a799c7e208f9|||
+3254|3012|LJVC|0.0|1.0|1.0|Labor Journal Voucher - Cash||||||||2|||||1.0|||||976524f3-9e7e-45bd-96a8-f1f3f82cf646|||
+3255|3012|LJVE|0.0|1.0|1.0|Labor Journal Voucher - Encumbrance||||||||2|||||1.0|||||44f09167-011e-46c5-9979-85cccbd34d69|||
+3256|3012|PAY|0.0|1.0|1.0|Labor - Normal Payroll Activity||||||||2|||||1.0|||||1b9f9e9b-eb68-4f1f-8c51-055dfdd92c6b|||
+3257|3012|PAYN|0.0|1.0|1.0|Labor - Payroll Accrual Reversal||||||||2|||||1.0|||||d7109fcf-648f-47bd-8c50-ccb82ca229f9|||
+3258|3012|PAYA|0.0|1.0|1.0|Labor - Payroll Accrual||||||||2|||||1.0|||||5ae82430-27d4-4104-8337-634fb59cdeaa|||
+3259|3012|PAYC|0.0|1.0|1.0|Labor - Payroll Check Cancellation||||||||2|||||1.0|||||b03290fe-bb36-4c11-b8c0-63d7e22747a8|||
+3260|3012|PAYE|0.0|1.0|1.0|Labor - Payroll Encumbrances||||||||2|||||1.0|||||faf00575-b77f-4473-ae95-c81be403d4a8|||
+3261|3012|ET|1.0|1.0|0.0|Labor - Payroll Expense Transfer|3041|||||||2|||||2.0|||||15326778-5371-4c2d-8dde-e7e3eeaa8d13|||
+3262|3012|SACH|0.0|1.0|1.0|Labor - Payroll Expense Transfer||||||||2|||||1.0|||||648c4c68-cdcc-496d-85fa-284bb163008c|||
+3263|3012|HDRW|0.0|1.0|1.0|Labor - Payroll Hand Drawn Check Payment||||||||2|||||1.0|||||b0071acd-39e0-4c9e-9d53-19aae015b16c|||
+3264|3012|OPAY|0.0|1.0|1.0|Labor - Payroll Overpayment Collection||||||||2|||||1.0|||||d946d7a0-64b0-485b-86b7-375310bc1e33|||
+3265|3012|RETR|0.0|1.0|1.0|Labor - Payroll Retroactive Adjustment||||||||2|||||1.0|||||82146ab3-a1d5-42a9-ba69-aa136ad2c634|||
+3266|3039|LDYE|0.0|1.0|1.0|LaborDistributionYearEndTransactionalDocument||||||||2|||||3.0|||||a41dd7bb-a3a7-40f6-a304-324d2c5be494|||
+3267|3039|ST|0.0|1.0|1.0|Salary Expense Transfer|||${kfs.url}/laborSalaryExpenseTransfer.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fsalaryexpensetransfer.htm|b62d77e6-a7d1-4706-99a2-1fe77dca8ba9|||
+3268|3039|LLJV|0.0|1.0|1.0|Labor Journal Voucher|||${kfs.url}/laborJournalVoucher.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Flaborjournalvoucher.htm|8013e307-ac07-4644-bcc7-8b7f2479c3c4|||
+3269|3039|BT|0.0|1.0|1.0|Benefit Expense Transfer|||${kfs.url}/laborBenefitExpenseTransfer.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fbenefitexpensetransfer.htm|973f7269-0aab-4ce5-a67c-95e82f31e740|||
+3270|3039|LLCP|0.0|1.0|1.0|Labor Ledger Correction Process|||${kfs.url}/laborLedgerCorrection.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Flaborledgercorrectionprocess.htm|67d6dc4a-7202-42e5-8c78-ebf8af22b165|||
+3271|3266|YEBT|0.0|1.0|1.0|Year End Benefit Expense Transfer|||${kfs.url}/laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fyearendedocs.htm|6f9dbbcc-1c7b-4d93-8cdd-4f1ed3316e28|||
+3272|3266|YEST|0.0|1.0|1.0|Year End Salary Expense Transfer|||${kfs.url}/laborYearEndSalaryExpenseTransfer.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fyearendedocs.htm|731a05ee-41d9-4769-b86b-743aa2411537|||
+3273|3027|BCAL|0.0|1.0|1.0|Labor Benefits Calculation||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Flaborbenefitscalculation.htm|81fb4fc0-f0a8-4c2c-945a-731c61d27293|||
+3274|3027|BENT|0.0|1.0|1.0|Labor Benefits Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Flaborbenefitstype.htm|92c5e731-0c53-41fc-9aa6-a50c62b0cee8|||
+3275|3027|LOBJ|0.0|1.0|1.0|Labor Object Code||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Flaborobjectcode.htm|3c17a959-362e-42a2-a34a-ab43222185ef|||
+3276|3027|LOBN|0.0|1.0|1.0|Labor Object Code Benefits Maintenance Document||||||||2|||||1.0||||${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Flaborobjectcodebenefits.htm|9d281346-efdf-4a2f-b9ee-75e4b52718f4|||
+3277|3027|POGR|0.0|1.0|1.0|Labor Position Object Group Code Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Flaborpositionobjectgroupcode.htm|a8ce5f03-b7d5-4410-8b96-756e8dc082e6|||
+3278|3027|BNRC|0.0|1.0|1.0|Labor Benefit Rate Category||||||||2|||||1.0||||default.htm?turl=WordDocuments%2FlaborBenefitRateCategory.htm|b890ed9e-2820-4479-a051-da6e2bbd6a22|||
+3279|3028|PMTY|0.0|1.0|1.0|CapitalAssetSystemState||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcapitalassetsystemstate.htm|16fb3263-efae-4667-92f3-588eef0ca963|||
+3280|3028|PMAA|0.0|1.0|1.0|Payment Request Auto Approve Exclusions||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpaymentrequestautoapproveexclusions.htm|b51ef3cb-83da-4fbb-b782-8f1ea8e500d0|||
+3281|3028|PMBA|0.0|1.0|1.0|Billing Address||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fbillingaddress.htm|2837a055-2c58-4118-a0cf-a949c8516258|||
+3282|3028|PMSY|0.0|1.0|1.0|Capital Asset System Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcapitalassetsystemtype.htm|80e405a6-c242-4cca-a143-56c2d2e82f6e|||
+3283|3028|PMCA|0.0|1.0|1.0|Carrier||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcarrier.htm|b33ab773-2ed4-44ef-afec-33a72b6dfa45|||
+3284|3028|PMCM|0.0|1.0|1.0|Credit Memo Status||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcreditmemostatus.htm|603279c4-21a7-4db5-80e7-533111ea98d0|||
+3285|3028|PMDR|0.0|1.0|1.0|Delivery Required Date Reason||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fdeliveryrequireddatereason.htm|ef887ebd-3808-4e01-ad28-95d2e7f04b73|||
+3286|3028|PMFS|0.0|1.0|1.0|Funding Source||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Ffundingsource.htm|9052ea27-a32c-4ee6-bb41-8f6a43bf95cd|||
+3287|3028|IRAD|0.0|1.0|1.0|Item Reason Added||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fitemreasonadded.htm|c831a050-13ab-4997-8ffa-770cbcebc4cb|||
+3288|3028|PMIT|0.0|1.0|1.0|Item Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fitemtype.htm|04af956e-8586-4c63-87b5-2c3c2b70113c|||
+3289|3028|PMNP|0.0|1.0|1.0|Negative Payment Request Approval Limit||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fnegativepaymentrequestapprovallimit.htm|b4e998d6-d176-49f9-b7f1-957ec535cb9f|||
+3290|3028|PMOP|0.0|1.0|1.0|Organization Parameter||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Forganizationparameter.htm|f096f991-5e55-4b5e-898c-997cf98cb76b|||
+3291|3028|PMPR|0.0|1.0|1.0|Payment Request Status||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpaymentrequeststatus.htm|26e784a2-6a2f-4585-b11f-09983c1ffbb7|||
+3292|3028|PMCL|0.0|1.0|1.0|Purchase Order Contract Language||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpurchaseordercontractlanguage.htm|a947f9f6-09eb-46bb-9834-d023ebd65c98|||
+3293|3028|PMQL|0.0|1.0|1.0|Purchase Order Quote Language||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpurchaseorderquotelanguage.htm|33258c5f-b3d2-4f10-850c-d6d962dab754|||
+3294|3028|PMQT|0.0|1.0|1.0|Purchase Order Quote List||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpurchaseorderquotelist.htm|67c6b57e-d6e8-4d5b-9a95-c43dbffdb69d|||
+3295|3028|PMQS|0.0|1.0|1.0|Purchase Order Quote Status||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpurchaseorderquotestatus.htm|7f065ce5-151d-4a23-aa09-a74066ce2067|||
+3296|3028|PMPS|0.0|1.0|1.0|Purchase Order Status||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpurchaseorderstatus.htm|ea588ae1-89a9-49b2-bcf5-5ce3b99b1282|||
+3297|3028|PMTM|0.0|1.0|1.0|Method of PO Transmission||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fmethodofpotransmission.htm|000945dc-18b4-45d3-a4e7-d30df46ca3f6|||
+3298|3028|PMVC|0.0|1.0|1.0|Purchase Order Vendor Choice||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpurchaseordervendorchoice.htm|d5d015b4-62d1-43b8-8dcd-37b9eaa4a838|||
+3299|3028|PMRA|0.0|1.0|1.0|Receiving Address||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Freceivingaddress.htm|62eaaed5-6e77-434f-9bc6-580d18dd35d0|||
+3300|3028|THLD|0.0|1.0|1.0|Receiving Threshold||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Freceivingthreshold.htm|3248c6f4-7839-405c-89f8-365312584e84|||
+3301|3028|PMRF|0.0|1.0|1.0|Recurring Payment Frequency||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Frecurringpaymentfrequency.htm|c9eaa1da-ede7-43af-8cb4-4ac02e06f6e1|||
+3302|3028|PMRP|0.0|1.0|1.0|Recurring Payment Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Frecurringpaymenttype.htm|da1ec2ec-b9a2-458d-9b05-041cfdccda00|||
+3303|3028|PMSO|0.0|1.0|1.0|Requisition Source||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Frequisitionsource.htm|3e1c8b59-8142-4737-b8e2-4e8478005072|||
+3304|3028|PMRS|0.0|1.0|1.0|Requisition Status||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Frequisitionstatus.htm|c4db187d-e61b-4108-a5ee-438f07c333bb|||
+3305|3028|PMSN|0.0|1.0|1.0|Sensitive Data||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fsensitivedata.htm|341034fc-60d3-43f8-981c-ab74679afa1a|||
+3306|3028|PMUM|0.0|1.0|1.0|Unit Of Measure||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Funitofmeasure.htm|dc198fe5-f47f-4e7d-84e0-655b6da355a8|||
+3307|3028|PMSI|0.0|1.0|1.0|Vendor Stipulation||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fvendorstipulation.htm|a3ad3ec4-58e0-433b-b5ae-04a3951cdcc4|||
+3308|3028|PMTT|0.0|1.0|1.0|Asset Transaction Type||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassettransactiontype.htm|60953fdd-1f4e-42c8-884d-03a82a66bba5|||
+3309|3028|PMLI|0.0|1.0|1.0|Line Item Receiving Status||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Flineitemreceivingstatus.htm|b31d2fff-735c-4f51-bc5c-4077efc536cf|||
+3310|3028|EIIM|0.0|1.0|1.0|Electronic Invoice Item Mapping||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Felectronicinvoiceitemmapping.htm|eec62d89-b764-4cd8-acc9-e9c8a52c1f04|||
+3311|3040|AP|0.0|1.0|1.0|AccountsPayableTransactionalDocument||||||||2|||||4.0|||||1b4f8679-a49b-4e1c-b8c6-f99a7aadcf3a|||
+3312|3040|PUR|0.0|1.0|1.0|PurchasingTransactionalDocument||||||||2|||||4.0|||||b1b242ef-91e0-43ec-a94d-e52f0e814cd1|||
+3313|3040|RCV|0.0|1.0|1.0|ReceivingTransactionalDocument||||||||2|||||4.0|||||5289239e-95dd-417b-a781-ce27fe7eb55c|${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Freceiving.htm||
+3314|3312|ACM|0.0|1.0|1.0|Contract Manager Assignment|||${kfs.url}/purapContractManagerAssignment.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcontractmanagerassignment.htm|d473b0f7-28b8-499e-b197-5b24d2cfce7c|||
+3315|3312|REQS|0.0|1.0|1.0|Requisition|||${kfs.url}/purapRequisition.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Frequisition.htm|16ed1020-248b-4601-8d93-73d1e1c6b825|${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Frequisitions.htm||
+3316|3312|PO|0.0|1.0|1.0|Purchase Order|||${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler|||||2|||||9.0||||default.htm?turl=WordDocuments%2Fpurchaseorder.htm|5cf167ea-714e-4421-a061-54bda95620c8|${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fpurchaseorders.htm||
+3317|3316|POA|0.0|1.0|1.0|Purchase Order Amendment|||${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpurchaseorderamend.htm|a8b128cd-dfb0-4901-9423-791a8553a36e|||
+3318|3316|POC|0.0|1.0|1.0|Purchase Order Close|||${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpurchaseorderclose.htm|39e1daa2-2fdc-4548-ab5f-19bd7449fb9e|||
+3319|3316|POPH|0.0|1.0|1.0|Purchase Order Payment Hold|||${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpurchaseorderpaymenthold.htm|f2e51bb8-1485-4093-bba1-2aa566229ed4|||
+3320|3316|PORH|0.0|1.0|1.0|Purchase Order Remove Payment Hold|||${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpurchaseorderremovepaymenthold.htm|45cf9300-99d5-4de3-9e1a-8931b5598916|||
+3321|3316|POR|0.0|1.0|1.0|Purchase Order Reopen|||${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpurchaseorderreopen.htm|227a8eb3-ff71-46b6-8b0e-d3f41cb8585b|||
+3322|3316|PORT|0.0|1.0|1.0|Purchase Order Retransmit|||${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpurchaseorderretransmit.htm|dad61c09-6a75-4c2c-b634-43a73d2599e3|||
+3323|3316|POSP|0.0|1.0|1.0|Purchase Order Split|||${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpurchaseordersplit.htm|7b00d958-b487-4381-ad8f-8a11ee33d602|||
+3324|3316|POV|0.0|1.0|1.0|Purchase Order Void|||${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpurchaseordervoidlhtm|dea31e54-7cf9-4bd3-a136-618387e1f283|||
+3325|3311|EIRT|0.0|1.0|1.0|Electronic Invoice Reject Document|||${kfs.url}/purapElectronicInvoiceReject.do?methodToCall=docHandler|||||2|||||1.0|||||42ae3428-5b36-44f6-8970-073991bdfc83|${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Felectronicinvoicerejects.htm||
+3326|3311|CM|0.0|1.0|1.0|Vendor Credit Memo|||${kfs.url}/purapVendorCreditMemo.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fvendorcreditmemo.htm|fe676f9d-37e7-4113-9ffe-2141924b1903|${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcreditmemos.htm||
+3327|3311|PREQ|0.0|1.0|1.0|Payment Request|||${kfs.url}/purapPaymentRequest.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpaymentrequest.htm|a812afa0-181b-4f38-8665-eba8a3d9ea19|${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fpaymentrequests.htm||
+3328|3313|RCVB|0.0|1.0|1.0|Bulk Receiving|||${kfs.url}/purapBulkReceiving.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fbulkreceiving.htm|f80573de-17bd-411c-bb0f-83bd18ac4269|||
+3329|3313|RCVC|0.0|1.0|1.0|Correction Receiving|||${kfs.url}/purapCorrectionReceiving.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Freceivingcorrectiondocument.htm|9fe73920-4aff-42b8-a7c2-89a9dbe7c1db|||
+3330|3313|RCVL|0.0|1.0|1.0|Line Item Receiving|||${kfs.url}/purapLineItemReceiving.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Freceiving.htm|bc8eca76-210c-496e-bfa3-df9fb3f41941|||
+3331|3009|AACD|0.0|1.0|0.0|Default KC Account Creation||||||||2|||||2.0|||||63166497-03fc-43b9-9874-60824e4b3dca|||
+3332|3009|EndowmentSimpleMaintenanceDocument|0.0|1.0|1.0|Endowment Simple Maintenance Document||||||||2|||||32.0|||||dec5ddef-46c6-43fe-b0cb-b0c08f9a3047|||
+3333|3332|ACIModelMaintenanceDocument|0.0|1.0|1.0|ACI Model Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fautomatedcashinvestmentmodel.htm|903171aa-3565-479f-9e91-6e71fce8ff2b|||
+3334|3332|AgreementSpecialInstructionMaintenanceDocument|0.0|1.0|1.0|Agreement Special Instruction Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fagreementspecialinstructioncode.htm|66cb1da9-3327-4b39-8f44-5653612a9f67|||
+3335|3332|AgreementStatusMaintenanceDocument|0.0|1.0|1.0|Agreement Status Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fagreementstatuscode.htm|b235e258-d981-4a53-b0d7-3c6f88472941|||
+3336|3332|AgreementTypeMaintenanceDocument|0.0|1.0|1.0|Agreement Type Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fagreementtypecode.htm|80a6ad0a-3627-41a2-9a8c-ca255b7810e3|||
+3337|3332|CashSweepModelMaintenanceDocument|0.0|1.0|1.0|Cash Sweep Model Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcashsweepmodel.htm|69535081-0e2d-4c9e-aad5-3031a86f3e1e|||
+3338|3332|ClassCodeMaintenanceDocument|0.0|1.0|1.0|Class Code Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fclasscode.htm|05120b5c-1d42-43dd-8612-630c59210b73|||
+3339|3332|CloseCodeMaintenanceDocument|0.0|1.0|1.0|Close Code Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fclosecode.htm|4949df7a-8cca-46b2-a6f8-ca0c37d5656d|||
+3340|3332|CombineGroupCodeMaintenanceDocument|0.0|1.0|1.0|Combine Group Code Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcombinegroupcode.htm|95ed4d7f-b0f9-4f1c-9d35-4f27da9e1b13|||
+3341|3332|DonorMaintenanceDocument|0.0|1.0|1.0|Donor Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fdonorrecord.htm|8a3d7643-ef82-4beb-b681-09ea034e1a6e|||
+3342|3332|DonorStatementCodeMaintenanceDocument|0.0|1.0|1.0|Donor Statement Code Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fdonorstatementcode.htm|d2613995-908a-495d-aa7d-b4605efceb98|||
+3343|3332|EndowmentTransactionCodeMaintenanceDocument|0.0|1.0|1.0|Endowment Transaction Code Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fendowmenttransactioncode.htm|18847687-f8e7-4698-b6f1-1767bee68618|||
+3344|3332|FeeMethodMaintenanceDocument|0.0|1.0|1.0|Fee Method Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Ffeemethod.htm|5f3445de-d08c-46f1-8ff4-994bea57efec|||
+3345|3332|FundSourceCodeMaintenanceDocument|0.0|1.0|1.0|Fund Source Code Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fsourceoffundscode.htm|629068d2-5c94-4848-8180-2a9cfc2b3521|||
+3346|3332|HoldingTaxLotMaintenanceDocument|0.0|1.0|1.0|Holding Tax Lot Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fholdingtaxlotmaintenance.htm|fdb7f53d-8919-4f00-8aeb-35c61bbc1962|||
+3347|3332|KEMIDMaintenanceDocument|0.0|1.0|1.0|KEMID Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fkemid.htm|fb52f9c5-11b4-4797-9b0c-0a204b5e07d5|||
+3348|3332|PooledFundControlMaintenanceDocument|0.0|1.0|1.0|Pooled Fund Control Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpooledfundcontrol.htm|c0d81763-1671-4fad-a234-da809aa37093|||
+3349|3332|PooledFundValueMaintenanceDocument|0.0|1.0|1.0|Pooled Fund Value Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpooledfundvalue.htm|c36accdf-6a01-463c-95a6-57e1b106e56f|||
+3350|3332|PurposeCodeMaintenanceDocument|0.0|1.0|1.0|Purpose Code Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fpurposecode.htm|8f61540b-d34d-4ccb-a680-f30afaaf4da9|||
+3351|3332|RegistrationCodeMaintenanceDocument|0.0|1.0|1.0|Registration Code Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fregistrationcode.htm|85bdf360-512d-48be-989b-195c9d36c27e|||
+3352|3332|ResponsibleAdministrationCodeMaintenanceDocument|0.0|1.0|1.0|Responsible Administration Code Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fresponsibleadministrationcode.htm|f64043ed-851a-442c-9c06-2f5d8c10c5b0|||
+3353|3332|SecurityMaintenanceDocument|0.0|1.0|1.0|Security Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fsecurity.htm|b4e744a4-502e-47ef-ae28-6ef20542515c|||
+3354|3332|SecurityReportingGroupMaintenanceDocument|0.0|1.0|1.0|Security Reporting Group Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Freportinggroup.htm|309fdbc2-f58e-48bb-b0d6-3520da9c7ebf|||
+3355|3332|SubclassCodeMaintenanceDocument|0.0|1.0|1.0|Subclass Code Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fsubclasscode.htm|978472f8-338f-4de9-92dc-9e0589770215|||
+3356|3332|TicklerMaintenanceDocument|0.0|1.0|1.0|Tickler Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Ftickler.htm|32a56cdb-c119-492e-95b5-7fe07dea70a7|||
+3357|3332|TicklerTypeCodeMaintenanceDocument|0.0|1.0|1.0|Tickler Type Code Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fticklertypecode.htm|4b2ba684-04b0-47c5-b078-43f1bd60c71c|||
+3358|3332|TransactionRestrictionCodeMaintenanceDocument|0.0|1.0|1.0|Transaction Restriction Code Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Ftransactionrestrictioncode.htm|85ca0926-8adc-49b8-966d-92cc517119da|||
+3359|3332|TypeCodeMaintenanceDocument|0.0|1.0|1.0|Type Code Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Ftypecode.htm|27dcf06e-6580-4e21-9eba-1ffc34ced936|||
+3360|3332|TypeRestrictionCodeMaintenanceDocument|0.0|1.0|1.0|Type Restriction Code Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Ftyperestrictioncode.htm|0ce87986-453d-49f1-949f-f77479931e3d|||
+3361|3332|UseCriteriaCodeMaintenanceDocument|0.0|1.0|1.0|Use Criteria Code Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fusecriteriacode.htm|3eca18f3-9f0f-4a01-88a0-043129f8b0a5|||
+3362|3332|HoldingTaxLotRebalanceMaintenanceDocument|0.0|1.0|1.0|Holding Tax Lot Rebalance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Fholdingtaxlotrebalance.htm|2d3fc9fc-a705-45a0-8381-7820cefe0b1c|||
+3363|3332|RecurringCashTransferMaintenanceDocument|0.0|1.0|1.0|Recurring Cash Transfer Maintenance Document||||||||2|||||1.0||||default.htm?turl=WordDocuments%2Frecurringcashtransfer.htm|2ef7efc3-2278-4831-8b1b-fee0f94c44a1|||
+3364|3011|ET|2.0|1.0|1.0|Endowment Transactional Document|3261|||||||2|||||10.0|||||e62cd078-05da-4284-b282-d71e5ea29346|||
+3365|3364|ECA|0.0|1.0|1.0|Endowment Corpus Adjustment|||${kfs.url}/endowCorpusAdjustmentDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcorpusadjustment.htm|d60e2f5e-969d-4088-ae06-f56649a13200|||
+3366|3364|EUSA|0.0|1.0|1.0|Endowment Unit/Share Adjustment|||${kfs.url}/endowEndowmentUnitShareAdjustmentDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Funitshareadjustment.htm|1cd7230a-9c3a-4cb5-bc3a-d95d52cc18dc|||
+3367|3364|EHVA|0.0|1.0|1.0|Endowment Holding History Value Adjustment|||${kfs.url}/endowHoldingHistoryValueAdjustmentDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fholdinghistoryvalueadjustment.htm|16770cb4-21be-4a0f-9a97-f2ddd75bf889|||
+3368|3364|ELD|0.0|1.0|1.0|Endowment Liability Decrease|||${kfs.url}/endowLiabilityDecreaseDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fliabilitydecrease.htm|c82753cd-08f5-47ab-93ea-b3460ddfd9f9|||
+3369|3364|ELI|0.0|1.0|1.0|Endowment Liability Increase|||${kfs.url}/endowLiabilityIncreaseDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fliabilityincrease.htm|04f34d6a-2995-4af3-b9a6-ee6ae64b61c4|||
+3370|3364|EST|0.0|1.0|1.0|Endowment Security Transfer|||${kfs.url}/endowSecurityTransferDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fsecuritytransfer.htm|bf42ec64-7693-4c51-a5c6-c9f203f45e38|||
+3371|3364|GLET|0.0|1.0|1.0|GL To Endowment Transfer Of Funds|||${kfs.url}/endowGLToEndowmentTransferOfFundsDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fgltoendowmenttransferoffunds.htm|47064c1c-470d-4e01-a30e-db98f99c87b1|||
+3372|3364|ECR|0.0|1.0|1.0|Endowment Corporate Reorganization|||${kfs.url}/endowCorporateReorganizationDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcorporatereorganization.htm|37dfe32d-2a4e-4ce7-8deb-187ae9d37213|||
+3373|3364|ETB|0.0|1.0|1.0|Endowment Transactional Batch Document||||||||2|||||8.0|||||c848bfce-5b09-444e-8643-87984cee0873|||
+3374|3373|EGLT|0.0|1.0|1.0|Endowment To GL Transfer Of Funds|||${kfs.url}/endowEndowmentToGLTransferOfFundsDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fendowmenttogltransferoffunds.htm|0165c459-db85-4432-9331-0a9972171015|||
+3375|3373|EHA|0.0|1.0|1.0|Endowment Holding Adjustment|||${kfs.url}/endowHoldingAdjustmentDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fholdingadjustment.htm|95ad08d1-33cd-4c66-a2f4-4654247e87c7|||
+3376|3373|EAD|0.0|1.0|1.0|Endowment Asset Decrease|||${kfs.url}/endowAssetDecreaseDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassetdecrease.htm|4eb5e26d-1397-4d35-8a55-04c88d2f2147|||
+3377|3373|EAI|0.0|1.0|1.0|Endowment Asset Increase|||${kfs.url}/endowAssetIncreaseDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fassetincrease.htm|5850c336-15a3-4463-92dc-66d30ca121f5|||
+3378|3373|ECDD|0.0|1.0|1.0|Endowment Cash Decrease|||${kfs.url}/endowCashDecreaseDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcashdecrease.htm|4f5638b1-bd12-4ead-8ca7-656802c0e791|||
+3379|3373|ECI|0.0|1.0|1.0|Endowment Cash Increase|||${kfs.url}/endowCashIncreaseDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcashincrease.htm|0277a519-47f3-4321-b5bd-9b70c23a82d5|||
+3380|3373|ECT|0.0|1.0|1.0|Endowment Cash Transfer|||${kfs.url}/endowCashTransferDocument.do?methodToCall=docHandler|||||2|||||1.0||||default.htm?turl=WordDocuments%2Fcashtransfer.htm|35392f31-c799-4d20-a771-ea6b35a8e6a9|||
+3381|3009|KCSM|0.0|1.0|1.0|Kuali Coeus Integration Simple Maintenance Documents||||||||2|||||2.0|||||91ad9dc7-1079-4cec-bce7-cd6f06205ef9|||
+3382|3381|AACD|1.0|1.0|1.0|Account Auto-Creation Defaults|3331|||||||2|||||1.0|||||99569cdb-da42-46fb-9fc4-62155bc433d7|||
+3383|3011|CTAP|0.0|1.0|1.0|CTS Card Application|||${application.url}/temCTSCardApplication.do?methodToCall=docHandler|||||1|||||1.0|||||fdaf7cc4-087f-417e-9e35-c6fe3fea4ee3|||
+3384|3029|TMR|0.0|1.0|1.0|Mileage Rate||||||||2|||||1.0|||||c569e276-e8c9-4fb8-b222-57212bfb7b12|||
+3385|3401|ENT|0.0|1.0|1.0|Entertainment Document|||${application.url}/temTravelEntertainment.do?methodToCall=docHandler|||||2|||||2.0|||||2143c140-ae50-4686-9727-e7a29133f3da|||
+3386|3029|TTPA|0.0|1.0|1.0|TEM Profile Arranger||||||||2|||||1.0|||||3fec8718-cb2b-43ea-ba90-79c89d176d2a|||
+3387|3029|TMRC|0.0|1.0|1.0|Mileage Rate Object Code||||||||2|||||1.0|||||b820a90e-f5cd-46fd-84a9-1ec4fca52b9b|||
+3388|3029|TETOC|0.0|1.0|1.0|Travel Expense Type Object Code||||||||2|||||1.0|||||2002afb8-35bb-4d1c-a3af-1a774828d75e|||
+3389|3029|TAS|0.0|1.0|1.0|Airfare Source||||||||2|||||1.0|||||22033260-9461-4a90-88b9-cad0d3b5594b|||
+3390|3029|TASF|0.0|1.0|1.0|Agency Service Fee||||||||2|||||1.0|||||f53c6ff8-50fc-4a87-83fd-2289b011d831|||
+3391|3401|TA|0.0|1.0|1.0|Travel Authorization|||${application.url}/temTravelAuthorization.do?methodToCall=docHandler|||||2|||||4.0|||||7d8802e6-e6f8-4cda-b92a-d3dfe1fac012|||
+3392|3029|TCCA|0.0|1.0|1.0|Credit Card Agency||||||||2|||||1.0|||||27fdf908-fc18-4795-bf62-02bf87dd8fb2|||
+3393|3029|TPD|0.0|1.0|1.0|Per Diem||||||||2|||||1.0|||||0c315155-dbc5-43e8-b8a6-d702f947fe81|||
+3394|3029|TCT|0.0|1.0|1.0|Traveler Type||||||||2|||||1.0|||||b823c4df-2bca-4b1e-b756-3f084adcb205|||
+3395|3029|TPUR|0.0|1.0|1.0|Purpose||||||||2|||||1.0|||||df5ddc22-ebf7-4897-8094-7ff17eaac317|||
+3396|3029|TCRT|0.0|1.0|1.0|Contact Relationship Type||||||||2|||||1.0|||||05ad70fb-cb8a-4be4-ad56-97baa07aa771|||
+3397|3029|TTP|0.0|1.0|1.0|TEM Profile||||||||2|||||1.0|||||f4fc2a34-f1c1-4026-9f0b-e7b6c40e7f6f|||
+3398|3029|TAAR|0.0|1.0|1.0|Travel Agency Audit Report||||||||2|||||1.0|||||e79fd3c5-86de-4fae-8166-d1e0e1c4c35c|||
+3399|3029|TJC|0.0|1.0|1.0|Job Classification||||||||2|||||1.0|||||fe338e81-53c8-4253-919f-59ccaa9df215|||
+3400|3029|TAPR|0.0|1.0|1.0|Advance Payment Reason||||||||2|||||1.0|||||82defeab-ef34-4eff-9a18-8cf811622e63|||
+3401|3011|TT|1.0|1.0|1.0|TravelTransactionalDocument|3042|||||||1||||<security>
+<securityAttribute class="org.kuali.kfs.module.tem.document.workflow.TEMSecurityAttribute"/>
+</security>
+|3.0|||||3ce58df2-f13d-4f7e-b6d2-248bb0f7eeaa|||
+3402|3029|SPCM|0.0|1.0|1.0|Special Circumstances Question||||||||2|||||1.0|||||61089e23-49a7-42d9-b5f1-48b1c902ce62|||
+3403|3029|TAT|0.0|1.0|1.0|Accommodation Type||||||||2|||||1.0|||||5a907b2f-08a7-4fb4-8f59-c3268049ad4c|||
+3404|3029|TTT|0.0|1.0|1.0|Traveler Type||||||||2|||||1.0|||||0ec26b53-4dec-4b54-8415-b9a658d759de|||
+3405|3401|TR|0.0|1.0|1.0|Travel Reimbursement|||${application.url}/temTravelReimbursement.do?methodToCall=docHandler|||||2|||||1.0|||||d7f4620b-8af4-4eea-bce4-a79f94ddb5d4|||
+3406|3011|CCAP|0.0|1.0|1.0|Corporate Card Application|||${application.url}/temCorporateCardApplication.do?methodToCall=docHandler|||||1|||||1.0|||||211ef651-4545-45e4-94ef-f14385634b60|||
+3407|3011|TTA|0.0|1.0|1.0|Travel Arranger|||${application.url}/temTravelArranger.do?methodToCall=docHandler|||||2|||||1.0|||||febc8ce1-383f-42ef-a01e-79411d175f41|||
+3408|3029|CCIEC|0.0|1.0|1.0|Credit Card Imported Expense Clearing Document||||||||2|||||1.0|||||c07a6cf2-2215-4f71-8662-056b0d19092d|||
+3409|3011|TMCP|0.0|1.0|1.0|TEM Correction Process Document|||${application.url}/temCorrectionDocument.do?methodToCall=docHandler|||||2|||||1.0|||||41780f1a-dc49-4326-b14b-d3a053db3f6f|||
+3410|3391|TAC|0.0|1.0|1.0|Travel Authorization Close|||${application.url}/temTravelAuthorization.do?methodToCall=docHandler|||||2|||||1.0|||||a8f5988b-0ff4-4708-8010-e73425261082|||
+3411|3029|TGT|0.0|1.0|1.0|Group Traveler||||||||2|||||1.0|||||af844b70-a9a8-4096-b739-5a9cb8b1fbde|||
+3412|3029|TPRA|0.0|1.0|1.0|TEM Profile Account||||||||2|||||1.0|||||503985a2-dd93-48a1-ad3f-cce01e08b09b|||
+3413|3029|ADR|0.0|1.0|1.0|Accounting Document Relationship||||||||2|||||1.0|||||b37ea9a8-dc7a-4014-8ac8-ad4ea9ce0997|||
+3414|3029|TRR|0.0|1.0|1.0|Relocation Reason||||||||2|||||1.0|||||918c7d86-bcf1-4404-b7ae-85fdf9123d95|||
+3415|3391|TAA|0.0|1.0|1.0|Travel Authorization Amendment|||${application.url}/temTravelAuthorization.do?methodToCall=docHandler|||||2|||||1.0|||||63a7c38d-4725-4cb8-ba01-35d606380774|||
+3416|3029|TTM|0.0|1.0|1.0|Transportation Mode||||||||2|||||1.0|||||1bea56e2-cd24-41d5-8b3c-7f565f5fe740|||
+3417|3029|TCOS|0.0|1.0|1.0|Class Of Service||||||||2|||||1.0|||||0136a26a-c027-4d18-ac2f-228e91c4542d|||
+3418|3401|RELO|0.0|1.0|1.0|Moving and Relocation|||${application.url}/temTravelRelocation.do?methodToCall=docHandler|||||2|||||1.0|||||add46372-6a4c-4b3e-b712-6780dc6a44a4|||
+3419|3029|TTRT|0.0|1.0|1.0|Trip Type||||||||2|||||1.0|||||eee77674-74ac-4c66-bc2b-5d2762b71396|||
+3420|3011|TXRF|0.0|1.0|1.0|Taxable Ramification|||${application.url}/temTaxableRamification.do?methodToCall=docHandler|||||1|||||1.0|||||8dc1c8df-f238-4fc8-a453-7ffbfd6812ec|||

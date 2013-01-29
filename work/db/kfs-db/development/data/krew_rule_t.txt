@@ -1,0 +1,2 @@
+rule_id|nm|rule_tmpl_id|rule_expr_id|actv_ind|rule_base_val_desc|frc_actn|doc_typ_nm|doc_hdr_id|tmpl_rule_ind|frm_dt|to_dt|dactvn_dt|cur_ind|rule_ver_nbr|dlgn_ind|prev_ver_rule_id|actvn_dt|ver_nbr|obj_id|
+1044|SendNotificationRequest.Reviewers|1023||1.0|Notification Request Reviewers|1.0|SendNotificationRequest||0.0|20080801155902|21000101000000|21000101000000|1.0|0.0|0.0||20080801155902|0.0|6166CBA1BBE9644DE0404F8189D86C09|

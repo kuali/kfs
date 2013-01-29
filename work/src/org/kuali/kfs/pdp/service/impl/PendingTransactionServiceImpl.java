@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,6 +35,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.dataaccess.PendingTransactionDao;
+import org.kuali.kfs.pdp.service.PdpUtilService;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -69,6 +70,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     private ConfigurationService kualiConfigurationService;
     private BusinessObjectService businessObjectService;
     private BankService bankService;
+    private PdpUtilService pdpUtilService;
 
     public PendingTransactionServiceImpl() {
         super();
@@ -77,6 +79,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     /**
      * @see org.kuali.kfs.pdp.service.PendingTransactionService#generatePaymentGeneralLedgerPendingEntry(org.kuali.kfs.pdp.businessobject.PaymentGroup)
      */
+    @Override
     public void generatePaymentGeneralLedgerPendingEntry(PaymentGroup paymentGroup) {
         this.populatePaymentGeneralLedgerPendingEntry(paymentGroup, FDOC_TYP_CD_PROCESS_ACH, FDOC_TYP_CD_PROCESS_CHECK, false);
     }
@@ -84,6 +87,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     /**
      * @see org.kuali.kfs.pdp.service.PendingTransactionService#generateCancellationGeneralLedgerPendingEntry(org.kuali.kfs.pdp.businessobject.PaymentGroup)
      */
+    @Override
     public void generateCancellationGeneralLedgerPendingEntry(PaymentGroup paymentGroup) {
         this.populatePaymentGeneralLedgerPendingEntry(paymentGroup, FDOC_TYP_CD_CANCEL_ACH, FDOC_TYP_CD_CANCEL_CHECK, true);
     }
@@ -91,13 +95,14 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     /**
      * @see org.kuali.kfs.pdp.service.PendingTransactionService#generateReissueGeneralLedgerPendingEntry(org.kuali.kfs.pdp.businessobject.PaymentGroup)
      */
+    @Override
     public void generateReissueGeneralLedgerPendingEntry(PaymentGroup paymentGroup) {
         this.populatePaymentGeneralLedgerPendingEntry(paymentGroup, FDOC_TYP_CD_CANCEL_REISSUE_ACH, FDOC_TYP_CD_CANCEL_REISSUE_CHECK, true);
     }
 
     /**
      * Populates and stores a new GLPE for each account detail in the payment group.
-     * 
+     *
      * @param paymentGroup payment group to generate entries for
      * @param achFdocTypeCode doc type for ach disbursements
      * @param checkFdocTypeCod doc type for check disbursements
@@ -157,12 +162,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
             }
 
             glPendingTransaction.setProjectCd(paymentAccountDetail.getProjectCode());
-            if (paymentAccountDetail.getPaymentDetail().getNetPaymentAmount().bigDecimalValue().signum() >= 0) {
-                 glPendingTransaction.setDebitCrdtCd(reversal ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
-            }
-            else {
-                 glPendingTransaction.setDebitCrdtCd(reversal ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
-              }
+            glPendingTransaction.setDebitCrdtCd(pdpUtilService.isDebit(paymentAccountDetail, reversal) ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
             glPendingTransaction.setAmount(paymentAccountDetail.getAccountNetAmount().abs());
 
             String trnDesc = "";
@@ -206,10 +206,10 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
             }
         }
     }
-    
+
     /**
      * Generates the bank offset for an entry (when enabled in the system)
-     * 
+     *
      * @param paymentGroup PaymentGroup for which entries are being generated, contains the Bank
      * @param glPendingTransaction PDP entry created for payment detail
      * @param sequenceHelper holds current entry sequence value
@@ -254,7 +254,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
             bankPendingTransaction.setDebitCrdtCd(KFSConstants.GL_CREDIT_CODE);
         }
         bankPendingTransaction.setAmount(glPendingTransaction.getAmount());
-        
+
         String description = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET);
         bankPendingTransaction.setDescription(description);
         bankPendingTransaction.setOrgDocNbr(glPendingTransaction.getOrgDocNbr());
@@ -268,7 +268,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
 
     /**
      * Gets the bankService attribute.
-     * 
+     *
      * @return Returns the bankService.
      */
     protected BankService getBankService() {
@@ -277,7 +277,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
 
     /**
      * Sets the bankService attribute value.
-     * 
+     *
      * @param bankService The bankService to set.
      */
     public void setBankService(BankService bankService) {
@@ -286,7 +286,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
 
     /**
      * Sets the glPendingTransactionDao attribute value.
-     * 
+     *
      * @param glPendingTransactionDao The glPendingTransactionDao to set.
      */
     public void setGlPendingTransactionDao(PendingTransactionDao glPendingTransactionDao) {
@@ -295,7 +295,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
 
     /**
      * Sets the accountingPeriodService attribute value.
-     * 
+     *
      * @param accountingPeriodService The accountingPeriodService to set.
      */
     public void setAccountingPeriodService(AccountingPeriodService accountingPeriodService) {
@@ -304,7 +304,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -313,7 +313,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
 
     /**
      * Sets the kualiConfigurationService attribute value.
-     * 
+     *
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setConfigurationService(ConfigurationService kualiConfigurationService) {
@@ -323,6 +323,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     /**
      * @see org.kuali.kfs.pdp.service.PendingTransactionService#save(org.kuali.kfs.pdp.businessobject.GlPendingTransaction)
      */
+    @Override
     public void save(GlPendingTransaction tran) {
         LOG.debug("save() started");
 
@@ -332,6 +333,7 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     /**
      * @see org.kuali.kfs.pdp.service.PendingTransactionService#getUnextractedTransactions()
      */
+    @Override
     public Iterator<GlPendingTransaction> getUnextractedTransactions() {
         LOG.debug("getUnextractedTransactions() started");
 
@@ -341,17 +343,27 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     /**
      * @see org.kuali.kfs.pdp.service.PendingTransactionService#clearExtractedTransactions()
      */
+    @Override
     public void clearExtractedTransactions() {
         glPendingTransactionDao.clearExtractedTransactions();
     }
 
     /**
      * Sets the business object service
-     * 
+     *
      * @param businessObjectService
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Sets the pdp util service
+     *
+     * @param pdpUtilService
+     */
+    public void setPdpUtilService(PdpUtilService pdpUtilService) {
+        this.pdpUtilService = pdpUtilService;
     }
 
 }

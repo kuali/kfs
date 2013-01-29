@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,7 +30,7 @@ public class PurapKeyConstants {
     public static final String ERROR_INVALID_COA_ORG_CODE = "error.document.purap.invalidCoaOrgCode";
     public static final String ERROR_CANNOT_INACTIVATE_USED_IN_SYSTEM_PARAMETERS = "error.document.purap.cannot.inactivate.used.in.system.parameters";
     public static final String ERROR_CANNOT_INACTIVATE_USED_BY_ACTIVE_RECORDS = "error.document.purap.cannot.inactivate.used.by.active.records";
-    
+
     // Purchase Order & Requisition
     public static final String WARNING_REQUESTOR_NAME_TRUNCATED = "warning.requestor.name.truncated";
     public static final String WARNING_DELIVERY_TO_NAME_TRUNCATED = "warning.delivery.to.name.truncated";
@@ -75,7 +75,7 @@ public class PurapKeyConstants {
     public static final String ERROR_DELIVERY_CAMPUS_INVALID = "error.delivery.campus.invalid";
     public static final String PURCHASING_QUESTION_CONFIRM_CHANGE_SYSTEM = "purchasing.question.change.system";
     public static final String PURCHASING_MESSAGE_SYSTEM_CHANGED = "purchasing.message.system.changed";
-    
+
     public static final String ERROR_CAPITAL_ASSET_ASSET_NUMBERS_NOT_ALLOWED_TRANS_TYPE = "error.capitalAsset.asset.numbers.not.allowed.trans.type";
     public static final String ERROR_CAPITAL_ASSET_LOCATIONS_QUANTITY_MUST_EQUAL_ITEM_QUANTITY = "error.capitalAsset.locations.quantity.must.equal.item.quantity";
     public static final String ERROR_CAPITAL_ASSET_TRANS_TYPE_NOT_ALLOWING_NON_QUANTITY_ITEMS = "error.capitalAsset.trans.type.not.allowing.non.quantity.items";
@@ -85,7 +85,7 @@ public class PurapKeyConstants {
     public static final String ERROR_CAPITAL_ASSET_NO_VENDOR = "error.capitalAsset.no.vendor";
     public static final String ERROR_CAPITAL_ASSET_INCOMPLETE_ADDRESS = "error.capitalAsset.incomplete.address";
     public static final String ERROR_CAPITAL_ASSET_REQD_FOR_PUR_OBJ_SUB_TYPE = "error.capitalAsset.required.for.purchase.order.sub.type";
-    
+
     // Requisition APO Ineligibility reasons
     public static final String NON_APO_REQUISITION_TOTAL_GREATER_THAN_APO_LIMIT = "requisition.nonAPO.requisitionTotal.greaterThan.APOLimit";
     public static final String NON_APO_REQUISITION_TOTAL_NOT_GREATER_THAN_ZERO="requisition.nonAPO.requisitionTotal.notGreaterThan.zero";
@@ -140,7 +140,7 @@ public class PurapKeyConstants {
     public static final String ERROR_PURCHASE_ORDER_QUOTE_INACTIVE_VENDOR = "error.purchaseOrder.quote.inactive.vendor";
     public static final String ERROR_PURCHASE_ORDER_QUOTE_DEBARRED_VENDOR = "error.purchaseOrder.quote.debarred.vendor";
     public static final String ERROR_PURCHASE_ORDER_QUOTE_AWARD_NON_PO = "error.purchaseOrder.quote.award.nonPO";
-        
+
     public static final String ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_INACTIVE = "error.inactive";
     public static final String ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_DV_TYPE = "error.purchaseOrder.alternateVendor.dvType";
     public static final String ERROR_PURCHASE_ORDER_ALTERNATE_VENDOR_DEBARRED = "error.purchaseOrder.alternateVendor.debarred";
@@ -152,9 +152,9 @@ public class PurapKeyConstants {
     public static final String ERROR_ASSIGN_SENSITIVE_DATA_REASON_EMPTY = "error.assign.sensitiveData.reason.empty";
     public static final String ERROR_ASSIGN_SENSITIVE_DATA_INACTIVE = "error.assign.sensitiveData.inactive";
     public static final String ERROR_ASSIGN_SENSITIVE_DATA_REDUNDANT = "error.assign.sensitiveData.redundant";
-    
+
     public static final String ERROR_PURCHASING_REQUIRES_CALCULATE = "errors.purchasing.calculationRequired";
-    
+
     // Accounts Payable
     public static final String ERROR_SAVE_REQUIRES_CALCULATE = "errors.save.calculationRequired";
     public static final String ERROR_APPROVE_REQUIRES_CALCULATE = "errors.save.calculationRequired";
@@ -178,7 +178,7 @@ public class PurapKeyConstants {
     public static final String ERROR_PAYMENT_REQUEST_GRAND_TOTAL_NOT_POSITIVE = "error.paymentRequest.grandTotal.not.positive";
     public static final String ERROR_PAYMENT_REQUEST_INVOICE_REQUIRED = "error.paymentRequest.invoice.required";
     public static final String ERROR_PAYMENT_REQUEST_LINE_ITEM_QUANTITY_ZERO = "error.paymentRequest.lineItem.quantity.zero";
-    
+
     public static final String ERROR_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT_ORG_AND_ACCOUNT_EXCLUSIVE = "error.negativePaymentRequestApprovalLimit.organizationAndAccountMutuallyExclusive";
     public static final String ERROR_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT_ORG_AND_ACCOUNT_UNIQUE = "error.negativePaymentRequestApprovalLimit.organizationAndAccountUniqueEntry";
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT = "message.duplicate.invoice.date.amount";
@@ -235,7 +235,7 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_TOTAL_NEGATIVE = "errors.item.total.negative";
     public static final String ERROR_ITEM_QUANTITY = "errors.item.quantity";
     public static final String ERROR_ITEM_ACCOUNTING_NOT_ALLOWED = "errors.item.accounting.notallowed";
-    public static final String ERROR_ITEM_ACCOUNTING_INCOMPLETE = "errors.item.accounting.incomplete";    
+    public static final String ERROR_ITEM_ACCOUNTING_INCOMPLETE = "errors.item.accounting.incomplete";
     public static final String ERROR_ITEM_ACCOUNTING_AMOUNT_INVALID = "errors.item.accounting.amount.invalid";
     public static final String ERROR_ITEM_ACCOUNTING_TOTAL = "errors.item.accounting.total";
     public static final String ERROR_ITEM_ACCOUNTING_PERCENT_OR_AMOUNT_INVALID = "errors.item.accounting.percent.or.total.invalid";
@@ -271,7 +271,7 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_TRADE_IN_NEEDS_TO_BE_ASSIGNED = "errors.item.tradeIn.needs.to.be.assigned";
     public static final String ERROR_SUMMARY_ACCOUNTS_LIST_EMPTY = "errors.summary.accounts.list.empty";
     public static final String ERROR_ITEM_TYPE_QUANTITY_BASED_NOT_ALLOWED_WITH_ADDITIONAL_CHARGE = "errors.itemType.quantityBased.isNotAllowedWithAdditionalCharge";
-    
+
     // Credit Memo
     public static final String ERROR_CREDIT_MEMO_REQUIRED_FIELDS = "errors.creditMemo.required.fields";
     public static final String ERROR_CREDIT_MEMO_PURCHASE_ORDER_INVALID = "errors.creditMemo.purchaseOrder.invalid";
@@ -309,15 +309,15 @@ public class PurapKeyConstants {
     public static final String WARNING_RECEIVING_LINEITEM_ADD_UNORDERED = "warning.receiving.lineitem.add.unordered";
     public static final String ERROR_RECEIVING_LINE_QTYRETURNED_GT_QTYRECEIVED = "errors.receivingLine.quantityReturnedGreaterThanQuantityReceived";
     public static final String ERROR_RECEIVING_LINE_QTYDAMAGED_GT_QTYRECEIVED = "errors.receivingLine.quantityDamagedGreaterThanQuantityReceived";
-    
+
     //Threshold
     public static final String THRESHOLD_FIELD_INVALID = "errors.threshold.field.invalid";
     public static final String INVALID_THRESHOLD_CRITERIA = "errors.threshold.criteria.invalid";
-        
+
     // Receiving Correction
     public static final String ERROR_RECEIVING_CORRECTION_DOCUMENT_ACTIVE_FOR_RCV_LINE = "errors.receivingCorrection.documentActiveForRcvLine";
-    public static final String MESSAGE_RECEIVING_CORRECTION_NOTE = "message.receiving.correction.note"; 
-    
+    public static final String MESSAGE_RECEIVING_CORRECTION_NOTE = "message.receiving.correction.note";
+
     //Bulk Receiving
     public static final String ERROR_BULK_RECEIVING_DOCUMENT_ACTIVE_FOR_PO = "errors.bulkReceiving.documentActiveForPo";
     public static final String ERROR_BULK_RECEIVING_DOCUMENT_INVALID_PO = "errors.bulkReceiving.invalidPo";
@@ -325,7 +325,7 @@ public class PurapKeyConstants {
     public static final String MESSAGE_BULK_RECEIVING_GOODSDELIVEREDBY_LABEL = "message.bulkReceiving.goodsDeliveredBy.label";
     public static final String MESSAGE_BULK_RECEIVING_DUPLICATE_PREFIX = "message.bulkReceiving.duplicate.prefix";
     public static final String ERROR_BULK_RECEIVING_PDF = "error.bulkreceiving.pdf";
-    
+
     //Electronic Invoice
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_EINVOICE = "message.batchUpload.title.einvoice";
     public static final String ERROR_REJECT_INVALID_DUNS = "errors.reject.invalidDuns";
@@ -335,6 +335,7 @@ public class PurapKeyConstants {
     public static final String ERROR_REJECT_INVOICE_POID_EMPTY = "errors.reject.poid.empty";
     public static final String ERROR_REJECT_INVOICE_POID_INVALID = "errors.reject.poid.invalid";
     public static final String ERROR_REJECT_INVOICE__PO_NOT_EXISTS = "errors.reject.po.notexists";
+    public static final String ERROR_REJECT_INVOICE_PO_CLOSED = "errors.reject.po.closed";
     public static final String ERROR_REJECT_INVOICE__ITEM_NOMATCH = "errors.reject.invoice.item.nomatch";
     public static final String ERROR_REJECT_PO_ITEM_DUPLICATE = "errors.reject.po.item.dupliate";
     public static final String ERROR_REJECT_PO_ITEM_INACTIVE = "errors.reject.po.item.inactive";
@@ -352,24 +353,24 @@ public class PurapKeyConstants {
     public static final String ERROR_REJECT_INVOICE_DUPLICATE = "errors.reject.invoice.duplicate";
     public static final String ERROR_ELECTRONIC_INVOICE_GENERATION_PURCHASE_ORDER_NUMBER_EMPTY = "error.electronicInvoice.generate.purchase.order.number.empty";
     public static final String ERROR_ELECTRONIC_INVOICE_GENERATION_PURCHASE_ORDER_DOES_NOT_EXIST = "error.electronicInvoice.generate.purchase.order.nonexisting";
-    
+
     //B2B
     public static final String B2B_MULTIPLE_REQUISITIONS = "message.b2b.multiple.requisitions";
     public static final String B2B_PO_RETRANSMIT_SUCCESS = "message.b2b.po.retransmit.success";
     public static final String B2B_PO_RETRANSMIT_FAILED = "message.b2b.po.retransmit.failed";
-    
+
     public static final String ERROR_INACTIVE_BUILDING ="error.inactive.building";
     public static final String ERROR_INACTIVE_ROOM ="error.inactive.room";
-    
+
     public static final String ERROR_INACTIVE_ORG ="error.inactive.organization";
-    
+
     public static final String ERROR_ITEM_ACCOUNTING_ZERO = "errors.item.accounting.zero";
-    
+
     public static final String ERROR_ITEM_UOM_NOT_ALLOWED = "errors.item.uom.isNotAllowed";
     public static final String ERROR_ITEM_UOM_INACTIVE = "errors.item.uom.inactive";
-    
+
     public static final String ERROR_PAYMENT_REQUEST_CANNOT_BE_CANCELLED = "error.paymentRequest.cannot.be.cancelled";
-    
+
     public static final String ERROR_PURCHASE_ORDER_RETRANSMIT_SELECT = "error.purchaseOrder.retransmit.select";
     
 }

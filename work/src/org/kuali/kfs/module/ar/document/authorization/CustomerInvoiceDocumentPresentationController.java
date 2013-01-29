@@ -102,6 +102,12 @@ public class CustomerInvoiceDocumentPresentationController extends FinancialSyst
             return false;
         }
 
+        // error correction shouldn't be allowed for previous FY docs
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (!isApprovalDateWithinFiscalYear(workflowDocument)) {
+            return false;
+        }
+
         if(((CustomerInvoiceDocument)document).isInvoiceReversal()){
             return false;
         } else {

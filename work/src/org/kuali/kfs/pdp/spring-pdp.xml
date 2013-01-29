@@ -405,7 +405,12 @@
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="bankService" ref="bankService"/>
+		<property name="pdpUtilService" ref="pdpUtilService"/>
 	</bean>
+	<bean id="pdpUtilService" parent="pdpUtilService-parentBean"/>
+	
+	<bean id="pdpUtilService-parentBean" class="org.kuali.kfs.pdp.service.impl.PdpUtilServiceImpl"  abstract="true"/>
+	
     <bean id="pdpPaymentDetailService" parent="pdpPaymentDetailService-parentBean"/>
 
 	<bean id="pdpPaymentDetailService-parentBean" class="org.kuali.kfs.pdp.service.impl.PaymentDetailServiceImpl" abstract="true">

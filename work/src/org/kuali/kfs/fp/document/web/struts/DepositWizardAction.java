@@ -182,6 +182,7 @@ public class DepositWizardAction extends KualiAction {
         List<CashReceiptDocument> verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(dform.getCashDrawerCampusCode(), new String[] { CashReceipt.VERIFIED, CashReceipt.INTERIM });
         dform.setDepositableCashReceipts(new ArrayList());
         dform.setCheckFreeCashReceipts(new ArrayList<CashReceiptDocument>());
+        dform.resetCurrentCheckTotal();
 
         // prepopulate DepositWizardHelpers
         int index = 0;
@@ -440,7 +441,7 @@ public class DepositWizardAction extends KualiAction {
             Map keyMap = new HashMap();
             keyMap.put(KFSPropertyConstants.BANK_CODE, bankCode);
 
-            Bank bank = (Bank) boService.findByPrimaryKey(Bank.class, keyMap);
+            Bank bank = boService.findByPrimaryKey(Bank.class, keyMap);
             if (bank == null) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_UNKNOWN_BANK, bankCode);
             }

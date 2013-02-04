@@ -371,6 +371,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 papdMap.put(entry.getDocumentNumber(), cabPurapDoc);
 
                 List<PurApAccountingLineBase> matchedPurApAcctLines = group.getMatchedPurApAcctLines();
+                boolean hasMultipleDiscountItems = hasMultipleDiscountItems(matchedPurApAcctLines);
 
                 for (PurApAccountingLineBase purApAccountingLine : matchedPurApAcctLines) {
                     // KFSMI-7214,tracking down changes on CAB item.
@@ -406,7 +407,10 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                         GeneralLedgerEntry currentEntry = null;
                         // if amount is zero, means canceled doc, then create a copy and retain the account line
                         KualiDecimal purapAmount = purApAccountingLine.getAmount();
-                        if (CabConstants.CM.equals(entry.getFinancialDocumentTypeCode())) {
+
+                        // if this is a Credit Memo or a Discount (where there are multiple discounts, likely off-setting)
+                        // we want to negate the amount before adding/subtracting it from the transactionLedgerEntryAmount
+                        if (CabConstants.CM.equals(entry.getFinancialDocumentTypeCode()) || (PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(purapItem.getItemTypeCode()) && hasMultipleDiscountItems)) {
                             purapAmount = purapAmount.negated();
                         }
 
@@ -417,7 +421,17 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                             currentEntry = negativeEntry;
                         }
 
-                        currentEntry.setTransactionLedgerEntryAmount(currentEntry.getTransactionLedgerEntryAmount().add(purapAmount.abs()));
+                        // discounts need to be subtracted, not added
+                        if (PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(purapItem.getItemTypeCode())) {
+                            KualiDecimal transLedgerEntryAmount = currentEntry.getTransactionLedgerEntryAmount();
+                            if (KFSConstants.GL_CREDIT_CODE.equals(currentEntry.getTransactionDebitCreditCode())) {
+                                transLedgerEntryAmount = transLedgerEntryAmount.negated();
+                            }
+                            currentEntry.setTransactionLedgerEntryAmount(transLedgerEntryAmount.subtract(purapAmount).abs());
+                        } else {
+                            currentEntry.setTransactionLedgerEntryAmount(currentEntry.getTransactionLedgerEntryAmount().add(purapAmount.abs()));
+                        }
+
                         assetAccount = createPurchasingAccountsPayableLineAssetAccount(currentEntry, cabPurapDoc, purApAccountingLine, itemAsset);
                         itemAsset.getPurchasingAccountsPayableLineAssetAccounts().add(assetAccount);
                     }
@@ -439,11 +453,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
                 // update negative and positive GL entry once again
                 if (positiveEntry != null && negativeEntry != null) {
-
-                    fixCabGlEntryAmountWithGlEntryAmount(positiveEntry);
                     businessObjectService.save(positiveEntry);
-
-                    fixCabGlEntryAmountWithGlEntryAmount(negativeEntry);
                     businessObjectService.save(negativeEntry);
                 }
 
@@ -461,22 +471,24 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         return purApDocuments;
     }
 
+
     /**
-     * Helper method to find the GL Entry matching the current entry and get total gl's amount and
-     * set that amount as the transaction ledger entry amount on the current entry.
+     * Determine if the matched PurAp accounting lines have multiple discount items
+     * if so, they are likely off-setting and need to be processed differently
      *
-     * @param currentEntry
+     * @param matchedPurApAcctLines List of matched PurAp accounting lines to check for multiple discount items
+     * @return true if multiple discount items, false otherwise
      */
-    protected void fixCabGlEntryAmountWithGlEntryAmount(GeneralLedgerEntry currentEntry) {
-        Collection<Entry> matchingGlEntries = extractDao.findMatchingGLEntries(currentEntry);
+    private boolean hasMultipleDiscountItems(List<PurApAccountingLineBase> matchedPurApAcctLines) {
+        int discountItemCount = 0;
 
-        KualiDecimal glPendingEntryAmount = KualiDecimal.ZERO;
-
-        for (Entry glEntry : matchingGlEntries) {
-            glPendingEntryAmount = glPendingEntryAmount.add(glEntry.getTransactionLedgerEntryAmount());
+        for (PurApAccountingLineBase purApAccountingLine : matchedPurApAcctLines) {
+            PurApItem purapItem = purApAccountingLine.getPurapItem();
+            if (PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(purapItem.getItemTypeCode())) {
+                discountItemCount++;
+            }
         }
-
-        currentEntry.setTransactionLedgerEntryAmount(glPendingEntryAmount);
+        return (discountItemCount > 1);
     }
 
     /**

@@ -509,6 +509,21 @@ public class DepositWizardForm extends KualiForm {
     }
 
     /**
+     * Adds the cashiering check total to checks
+     * @param crDoc
+     */
+    public void addCashieringReceiptToChecks() {
+        if (currentCheckTotal == null) {
+            currentCheckTotal = KualiDecimal.ZERO;
+        }
+        KualiDecimal totalCashieringChecksAmount = KualiDecimal.ZERO;
+        for (Check cashieringCheck : depositableCashieringChecks) {
+            totalCashieringChecksAmount = totalCashieringChecksAmount.add(cashieringCheck.getAmount());
+        }
+        currentCheckTotal = currentCheckTotal.add(totalCashieringChecksAmount);
+    }
+
+    /**
      * Resets the current check total back to 0 for cases where the form is being refreshed after validation.
      */
     public void resetCurrentCheckTotal() {

@@ -250,6 +250,7 @@ public class DepositWizardAction extends KualiAction {
     private void loadUndepositedCashieringChecks(DepositWizardForm dform) {
         List<Check> cashieringChecks = SpringContext.getBean(CashManagementService.class).selectUndepositedCashieringChecks(dform.getCashManagementDocId());
         dform.setDepositableCashieringChecks(cashieringChecks);
+        dform.addCashieringReceiptToChecks();
     }
 
     private void loadEditModesAndDocumentActions(DepositWizardForm dform) {

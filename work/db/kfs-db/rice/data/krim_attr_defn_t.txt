@@ -32,3 +32,5 @@ kim_attr_defn_id|obj_id|ver_nbr|nm|lbl|actv_ind|nmspc_cd|cmpnt_nm|
 7|603B735FA6BAFE21E0404F8189D8083B|1.0|existingRecordsOnly||Y|KR-NS|org.kuali.rice.kim.bo.impl.KimAttributes|
 8|5ADF18B6D48F7954E0404F8189D85002|1.0|createdBySelfOnly||Y|KR-NS|org.kuali.rice.kim.bo.impl.KimAttributes|
 9|5ADF18B6D4907954E0404F8189D85002|1.0|attachmentTypeCode||Y|KR-NS|org.kuali.rice.kim.bo.impl.KimAttributes|
+KR1000|CEA27F2DB2DA3593E040F90A05B924DB|1.0|appCode|Application Code|Y|KR-SYS|org.kuali.rice.kim.bo.impl.KimAttributes|
+KR1001|CEA27F2DB2DD3593E040F90A05B924DB|1.0|kimTypeName|Kim Type Name|Y|KR-IDM|org.kuali.rice.kim.bo.impl.KimAttributes|

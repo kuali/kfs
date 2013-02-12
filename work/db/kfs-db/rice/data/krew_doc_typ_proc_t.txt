@@ -14,3 +14,5 @@ doc_typ_proc_id|doc_typ_id|init_rte_node_id|nm|init_ind|ver_nbr|
 2909|2998|2908|PRIMARY|1.0|1.0|
 2911|2999|2910|PRIMARY|1.0|1.0|
 2918|3007|2917|PRIMARY|1.0|1.0|
+2920|3008|2919|PRIMARY|1.0|1.0|
+2922|3009|2921|PRIMARY|1.0|1.0|

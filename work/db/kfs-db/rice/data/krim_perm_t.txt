@@ -71,3 +71,4 @@ perm_id|obj_id|ver_nbr|perm_tmpl_id|nmspc_cd|nm|desc_txt|actv_ind|
 846|02bd9acd-48d9-4fec-acbd-6a441c5ea8c2|1.0|42|KR-NS|Create TermSpecification Maintenance Document|Allows user to create a new TermSpecification maintainence document|Y|
 847|BD74D7B702AB02CEE0402E0AA9D75B2D|1.0|68|KR-WKFLW|Recall Document||Y|
 848|BFCADCB34017249AE0402E0AA9D7065D|1.0|49|KR-SYS|Send Complete Request Kuali Document|Authorizes users to send Complete ad hoc requests for Kuali Documents|Y|
+KR1000|D0C2892F47EB9142E0406E0AC31D23D6|1.0|8|KUALI|Take Requested Complete Action|Authorizes users to take the Complete action on documents routed to them.|Y|

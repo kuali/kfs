@@ -1,65 +1,10 @@
 -- This script should be run against the Rice schema before exporting it to the KFS master datasource.
 
-DROP TABLE ACCT_DD_ATTR_DOC
+DELETE FROM krcr_parm_t WHERE nmspc_cd = 'KR-SAP'
 /
-DROP TABLE BK_ADDRESS_T
+DELETE FROM krcr_nmspc_t WHERE nmspc_cd = 'KR-SAP'
 /
-DROP TABLE BK_ADDRESS_TYP_T
-/
-DROP TABLE BK_AUTHOR_ACCOUNT_T
-/
-DROP TABLE BK_AUTHOR_T
-/
-DROP TABLE BK_BOOK_AUTHOR_T
-/
-DROP TABLE BK_ORDER_DOC_T
-/
-DROP TABLE BK_ORDER_ENTRY_T
-/
-DROP TABLE BK_BOOK_T
-/
-DROP TABLE BK_BOOK_TYP_T
-/
-DROP SEQUENCE BK_ADDRESS_ID_S
-/
-DROP SEQUENCE BK_AUTHOR_ID_S
-/
-DROP SEQUENCE BK_BOOK_ID_S
-/
-DROP SEQUENCE BK_ORDER_ENTRY_S
-/
-DROP TABLE KREW_HLP_T
-/
-DROP SEQUENCE KREW_HLP_S
-/
-DROP SEQUENCE KRMS_CNTXT_TERM_SPEC_PREREQ_S
-/
-UPDATE krim_perm_t SET nm = REPLACE( nm, 'Apprive', 'Approve' ) WHERE nm LIKE '%Apprive%'
-/
-DELETE FROM krcr_nmspc_t WHERE nmspc_cd IN ( 'KR-RULE-TEST', 'KR-SAP' )
-/
-DELETE FROM krcr_cmpnt_set_t
-/
-DELETE FROM krcr_drvd_cmpnt_t
-/
-DELETE FROM krew_typ_attr_t
-/
-DELETE FROM krew_typ_t
-/
-DELETE FROM krns_maint_doc_t
-/
-DELETE FROM krns_doc_hdr_t
-/
-DELETE FROM krew_attr_defn_t
-/
-DELETE FROM KREW_RULE_RSP_T
-/
-DELETE FROM KREW_RULE_EXT_VAL_T
-/
-DELETE FROM KREW_RULE_EXT_T WHERE rule_id != '1044'
-/
-DELETE FROM KREW_RULE_EXPR_T
-/
+
 COMMIT
 /
 

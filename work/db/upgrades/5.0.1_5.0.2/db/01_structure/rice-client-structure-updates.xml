@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+
+	<changeSet author="KFS502_RICE213" id="2012-12-12_KFS_CLIENT_REQUIREMENT">
+		<comment>KULRICE-8573: Add session id to locks and delete these locks when session is destroyed.</comment>comment>
+		<addColumn tableName="KRNS_PESSIMISTIC_LOCK_T">
+			<column name="SESN_ID" type="VARCHAR2" />
+		</addColumn>
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+		</modifySql>
+	</changeSet>
+	
+</databaseChangeLog>

@@ -5,6 +5,7 @@
 
 
 	<include file="01_structure/purap-module-structure-updates.xml"/>
+	<include file="01_structure/rice-client-structure-updates.xml"/>
 
 </databaseChangeLog>
 	

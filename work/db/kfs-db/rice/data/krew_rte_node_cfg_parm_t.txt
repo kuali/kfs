@@ -80,23 +80,3 @@ rte_node_cfg_parm_id|rte_node_id|key_cd|val|
 2472|2917|mandatoryRoute|false|
 2473|2917|finalApproval|false|
 2474|2917|ruleSelector|Template|
-2475|2919|contentFragment|<start name="Initiated">
-<activationType>P</activationType>
-<mandatoryRoute>false</mandatoryRoute>
-<finalApproval>false</finalApproval>
-</start>
-|
-2476|2919|activationType|P|
-2477|2919|mandatoryRoute|false|
-2478|2919|finalApproval|false|
-2479|2919|ruleSelector|Template|
-2480|2921|contentFragment|<start name="Initiated">
-<activationType>P</activationType>
-<mandatoryRoute>false</mandatoryRoute>
-<finalApproval>false</finalApproval>
-</start>
-|
-2481|2921|activationType|P|
-2482|2921|mandatoryRoute|false|
-2483|2921|finalApproval|false|
-2484|2921|ruleSelector|Template|

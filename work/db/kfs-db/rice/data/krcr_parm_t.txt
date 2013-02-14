@@ -5,11 +5,9 @@ KR-IDM|PersonDocumentName|SUFFIXES|61645D045B0205D7E0404F8189D849B1|1.0|CONFG|Jr
 KR-NS|All|CHECK_ENCRYPTION_SERVICE_OVERRIDE_IND|53680C68F59AAD9BE0404F8189D80A6C|1.0|CONFG|Y|Flag for enabling/disabling (Y/N) the demonstration encryption check.|A|KUALI|
 KR-NS|All|DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE|664F8ABEC725DBCDE0404F8189D85427|1.0|CONFG|MM/dd/yyyy|A single date format string that the DateTimeService will use to format a date to be displayed on a web page. For a more technical description of how characters in the parameter value will be interpreted, please consult the javadocs for java.text.SimpleDateFormat. Any changes will be applied when the application is restarted.|A|KUALI|
 KR-NS|All|DEFAULT_COUNTRY|64B87B4C5E3B8F4CE0404F8189D8291A|1.0|CONFG|US|Used as the default country code when relating records that do not have a country code to records that do have a country code, e.g. validating a zip code where the country is not collected.|A|KUALI|
-KR-NS|All|DEFAULT_LOCALE_CODE|CAA025BC0FFDC4F9E040F90A05B912C4|1.0|CONFG|en-US|The locale code that should be used within the application when otherwise not specified.|A|KUALI|
 KR-NS|All|ENABLE_DIRECT_INQUIRIES_IND|53680C68F59BAD9BE0404F8189D80A6C|1.0|CONFG|Y|Flag for enabling/disabling direct inquiries on screens that are drawn by the nervous system (i.e. lookups and maintenance documents)|A|KUALI|
 KR-NS|All|ENABLE_FIELD_LEVEL_HELP_IND|53680C68F59CAD9BE0404F8189D80A6C|1.0|CONFG|N|Indicates whether field level help links are enabled on lookup pages and documents.|A|KUALI|
 KR-NS|All|MAX_FILE_SIZE_DEFAULT_UPLOAD|53680C68F59DAD9BE0404F8189D80A6C|1.0|CONFG|5M|Maximum file upload size for the application. Used by PojoFormBase. Must be an integer, optionally followed by "K", "M", or "G". Only used if no other upload limits are in effect.|A|KUALI|
-KR-NS|All|OLTP_LOCKOUT_DEFAULT_MESSAGE|CF90C87BE340C290E0406E0AC31D4F3F|1.0|CONFG|The module you are attempting to access has been locked for maintenance.|Default message to display when a module is locked|A|KUALI|
 KR-NS|All|SENSITIVE_DATA_PATTERNS|5a5fbe94-846f-102c-8db0-c405cae621f3|1.0|CONFG|[0-9]{9};[0-9]{3}-[0-9]{2}-[0-9]{4}|A semi-colon delimted list of regular expressions that identify 
 potentially sensitive data in strings.  These patterns will be matched 
 against notes, document explanations, and routing annotations.|A|KUALI|

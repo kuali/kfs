@@ -20,5 +20,3 @@ rte_node_id|doc_typ_id|nm|typ|rte_mthd_nm|rte_mthd_cd|fnl_aprvr_ind|mndtry_rte_i
 2908|2998|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
 2910|2999|AdHoc|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|S||1.0||||
 2917|3007|Initiated|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|P||1.0||1||
-2919|3008|Initiated|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|P||1.0||1||
-2921|3009|Initiated|org.kuali.rice.kew.engine.node.InitialNode|||0.0|0.0|P||1.0||1||

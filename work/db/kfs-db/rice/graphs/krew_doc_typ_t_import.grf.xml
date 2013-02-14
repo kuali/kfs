@@ -45,6 +45,7 @@
         $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
         $0.doc_search_help_url := replace(nvl($doc_search_help_url, ""), "~!~", "|" );
         $0.doc_hdr_id := replace(nvl($doc_hdr_id, ""), "~!~", "|" );
+        $0.authorizer := replace(nvl($authorizer, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

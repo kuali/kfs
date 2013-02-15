@@ -780,6 +780,7 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="DOC_SEARCH_HELP_URL" size="4000" type="VARCHAR"/>
         <column name="DOC_HDR_ID" size="40" type="VARCHAR"/>
+        <column name="AUTHORIZER" size="255" type="VARCHAR"/>
         <unique name="KREW_DOC_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -2517,6 +2518,12 @@
         <unique name="KRIM_TYP_ATTR_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
+        <unique name="KRIM_TYP_ATTR_TC1">
+            <unique-column name="SORT_CD"/>
+            <unique-column name="KIM_TYP_ID"/>
+            <unique-column name="KIM_ATTR_DEFN_ID"/>
+            <unique-column name="ACTV_IND"/>
+        </unique>
     </table>
     <table name="KRIM_TYP_T">
         <column name="KIM_TYP_ID" primaryKey="true" size="40" type="VARCHAR"/>
@@ -3305,6 +3312,7 @@
         <column name="DOC_HDR_ID" required="true" size="14" type="VARCHAR"/>
         <column name="GNRT_DT" required="true" type="DATE"/>
         <column name="PRNCPL_ID" required="true" size="40" type="VARCHAR"/>
+        <column name="SESN_ID" required="true" size="40" type="VARCHAR"/>
         <unique name="KRNS_PESSIMISTIC_LOCK_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

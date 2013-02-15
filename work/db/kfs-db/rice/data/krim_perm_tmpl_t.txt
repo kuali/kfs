@@ -55,3 +55,4 @@ perm_tmpl_id|obj_id|ver_nbr|nmspc_cd|nm|desc_txt|kim_typ_id|actv_ind|
 KR1000|CBA9C0DFF603E80EE040F90A05B97BE4|1.0|KR-WKFLW|Super User Approve Single Action Request||KR1000|Y|
 KR1001|CBA9C0DFF604E80EE040F90A05B97BE4|1.0|KR-WKFLW|Super User Approve Document||KR1000|Y|
 KR1002|CBA9C0DFF605E80EE040F90A05B97BE4|1.0|KR-WKFLW|Super User Disapprove Document||KR1000|Y|
+KR1003|CEA27C3715288653E040F90A05B924A3|1.0|KR-SYS|Backdoor Restriction|Backdoor Restriction|KR1001|Y|

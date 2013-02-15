@@ -14,3 +14,4 @@ role_id|obj_id|ver_nbr|role_nm|nmspc_cd|desc_txt|kim_typ_id|actv_ind|last_updt_d
 97|67F145466EB09160E0404F8189D86771|1.0|Non-Ad Hoc Approve Request Recipient|KR-WKFLW|This role derives its members from users with an Approval action request (that was not generated via the ad-hoc recipients tab) in the route log of a given document.|42|Y|20090821035258|
 98|B7DBFABEFD2D8CBFE0402E0AA9D757C9|1.0|Kuali Rules Management System Administrator|KR-RULE|This role maintains KRMS agendas and rules.|1|Y|20120131160404|
 99|BD82F716EFEFF706E0402E0AA9D70A27|1.0|Document Router|KR-WKFLW|This role derives its members from users with the Route Document permission for a given document type.|76|Y|20120412212324|
+KR1001|D0C288607977E015E0406E0AC31D23C6|1.0|Complete Request Recipient|KR-WKFLW|This role derives its members from users with an complete action request in the route log of a given document.|42|Y|20130213012835|

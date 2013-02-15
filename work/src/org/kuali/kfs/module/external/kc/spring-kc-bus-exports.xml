@@ -24,19 +24,19 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd"> 
                            
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="accountCreationService" p:localServiceName="accountCreationServiceSOAP" 
-		p:serviceInterface="org.kuali.kfs.module.external.kc.service.AccountCreationService" 
+ 	<bean id="accountCreationServiceSOAP" parent="kfsCallbackService"  
+    	p:callbackService-ref="accountCreationService" p:localServiceName="accountCreationServiceSOAP" 
+        p:serviceInterface="org.kuali.kfs.module.external.kc.service.AccountCreationService" 
 		p:busSecurity="false"/>
-
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="budgetAdjustmentService" p:localServiceName="budgetAdjustmentServiceSOAP" 
-		p:serviceInterface="org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService" 
+ 
+    <bean id="budgetAdjustmentServiceSOAP" parent="kfsCallbackService" 
+        p:callbackService-ref="budgetAdjustmentService" p:localServiceName="budgetAdjustmentServiceSOAP" 
+        p:serviceInterface="org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService"
 		p:busSecurity="false"/>
-
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="kcObjectCodeService" p:localServiceName="kcObjectCodeServiceSOAP" 
-		p:serviceInterface="org.kuali.kfs.module.external.kc.service.KcObjectCodeService" 
+ 
+    <bean id="kcObjectCodeServiceSOAP" parent="kfsCallbackService"  
+        p:callbackService-ref="kcObjectCodeService" p:localServiceName="kcObjectCodeServiceSOAP" 
+        p:serviceInterface="org.kuali.kfs.module.external.kc.service.KcObjectCodeService" 
 		p:busSecurity="false"/>
-
+ 
  </beans>

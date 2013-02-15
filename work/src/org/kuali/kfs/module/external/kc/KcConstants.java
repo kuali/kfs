@@ -22,7 +22,7 @@ import javax.xml.namespace.QName;
 
 public class KcConstants {
 
-    public static final String KC_NAMESPACE_URI = "KC";
+    public static final String KC_NAMESPACE_URI = "http://kc.kuali.org/core/v5_0";
     public static final String MAXIMUM_ACCOUNT_RESPONSIBILITY_ID = "MAXIMUM_ACCOUNT_RESPONSIBILITY_ID";
     public static final String FEDERAL_SPONSOR_TYPE_CODES= "FEDERAL_SPONSOR_TYPE_CODES";
     public static final String ACCOUNT_CREATE_DEFAULT_IDENTIFIER = "accountDefaultId";

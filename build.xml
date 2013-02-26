@@ -162,7 +162,7 @@
 		<property file="${properties.directory}/b2b.properties" />
 	</target>
 		
-	<target name="init-properties" depends="init-core-properties,init-property-files,init-base-properties,init-database-properties,init-spring-properties,init-rice-properties,init-b2b-properties,init-other-properties" />
+	<target name="init-properties" depends="init-core-properties,init-property-files,init-base-properties,init-database-properties,init-spring-properties,init-rice-properties,init-b2b-properties,init-other-properties,init-test-properties" />
 	
 	<target name="init-core-properties">
 		<pathconvert property="basedir.safe" dirsep="/" pathsep=";">
@@ -427,6 +427,12 @@
             </then>
         </if>
 		
+	</target>
+
+	<target name="init-test-properties" depends="init-property-files">
+		<condition property="test.excludes" value="${tests.excludes}" else="org/kuali/kfs/module/endow/**,${tests.excludes}">
+			<istrue value="${module.endowment.enabled}"/>
+		</condition>
 	</target>
 
 	<target name="init-make-references" depends="init-properties,check-rice-lib,filter-libraries">
@@ -886,13 +892,13 @@ Excludes: ${tests.compile.excludes}
 			<formatter type="xml" />
 			<batchtest todir="${test.xml.results.directory}">
 				<!-- use of the single "includes" attribute allows multiple comma-delimited patterns to be provided -->
-				<fileset dir="${test.unit.source.directory}" includes="${tests.includes}" excludes="${tests.excludes}" />
-				<fileset dir="${test.integration.source.directory}" includes="${tests.includes}" excludes="${tests.excludes}" />
+				<fileset dir="${test.unit.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
+				<fileset dir="${test.integration.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
 			</batchtest>
 			<!-- run institution tests if possible -->
 			<!--
 			<batchtest todir="${test.xml.results.directory}" if="institution.test.source.directory" haltonerror="false">
-				<fileset dir="${institution.test.source.directory}" includes="${tests.includes}" excludes="${tests.excludes}" />
+				<fileset dir="${institution.test.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
 			</batchtest>
 			-->
 			<test name="org.kuali.kfs.sys.context.${tests.shutdown.class}" todir="${test.xml.results.directory}" />

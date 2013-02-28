@@ -149,3 +149,14 @@ ALTER TABLE KREW_DOC_TYP_T ADD COLUMN AUTHORIZER VARCHAR(255) DEFAULT NULL;
 update KREW_DOC_TYP_T set LBL = 'Identity Management Document' where
   DOC_TYP_NM = 'IdentityManagementDocument' and LBL = 'Undefined'
 ;
+
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-- mysql-2013-02-19.sql
+--
+
+--
+-- KULRICE-8985: Add Index to prevent deadlocks during deletion of KSB entries
+--
+
+CREATE INDEX KRSB_SVC_DEF_TI4 ON KRSB_SVC_DEF_T(SVC_DSCRPTR_ID)
+;

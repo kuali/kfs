@@ -141,7 +141,18 @@ update KREW_DOC_TYP_T set LBL = 'Identity Management Document' where
 ;
 		]]></sql>
 	</changeSet>
-	
+
+	<changeSet author="RICE213" id="2013-02-19_oracle" dbms="oracle">
+		<sql><![CDATA[
+--
+-- KULRICE-8985: Add Index to prevent deadlocks during deletion of KSB entries
+--
+
+CREATE INDEX KRSB_SVC_DEF_TI4 ON KRSB_SVC_DEF_T(SVC_DSCRPTR_ID)
+/
+		]]></sql>
+	</changeSet>
+		
 	<changeSet author="RICE213" id="RICE_SERVER_UPDATES_mysql" dbms="mysql">
 		<sqlFile path="rice_213_final_mysql.sql" />
 	</changeSet>

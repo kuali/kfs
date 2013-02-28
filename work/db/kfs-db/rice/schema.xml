@@ -3569,6 +3569,9 @@
         <index name="KRSB_SVC_DEF_TI3">
             <index-column name="STAT_CD"/>
         </index>
+        <index name="KRSB_SVC_DEF_TI4">
+            <index-column name="SVC_DSCRPTR_ID"/>
+        </index>
     </table>
     <table name="KRSB_SVC_DSCRPTR_T">
         <column name="SVC_DSCRPTR_ID" primaryKey="true" size="40" type="VARCHAR"/>

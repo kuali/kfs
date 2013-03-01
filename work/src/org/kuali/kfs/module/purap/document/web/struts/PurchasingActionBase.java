@@ -86,6 +86,7 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -120,7 +121,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         document.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));
         document.setDeliveryToPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));
 
-        //names in KIM are longer than what we store these names at; truncate them to match our data dictionary maxlengths
+        // names in KIM are longer than what we store these names at; truncate them to match our data dictionary maxlengths
         if (StringUtils.equals(refreshCaller, "kimPersonLookupable")) {
             Integer deliveryToNameMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(document.getClass(), PurapPropertyConstants.DELIVERY_TO_NAME);
             if (StringUtils.isNotEmpty(document.getDeliveryToName()) && ObjectUtils.isNotNull(deliveryToNameMaxLength) && document.getDeliveryToName().length() > deliveryToNameMaxLength.intValue()) {
@@ -204,7 +205,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                 BillingAddress billingAddress = new BillingAddress();
                 billingAddress.setBillingCampusCode(document.getDeliveryCampusCode());
                 Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(billingAddress);
-                billingAddress = (BillingAddress)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
+                billingAddress = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
                 document.templateBillingAddress(billingAddress);
 
                 if (request.getParameter("document.deliveryBuildingName") == null) {
@@ -507,24 +508,24 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
 
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
-        
-        if(! purDocument.getPurchasingCapitalAssetItems().isEmpty()){            
+
+        if (!purDocument.getPurchasingCapitalAssetItems().isEmpty()) {
             purDocument.setPurchasingCapitalAssetItems(new PurApArrayList(purDocument.getPurchasingCapitalAssetItemClass()));
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(purDocument);
-        }        
+        }
         // End
-        
-        
+
+
         purDocument.deleteItem(getSelectedLine(request));
 
-        if (StringUtils.isNotBlank(purDocument.getCapitalAssetSystemTypeCode())){
+        if (StringUtils.isNotBlank(purDocument.getCapitalAssetSystemTypeCode())) {
             boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedUpdateCamsViewPurapEvent(purDocument));
             if (rulePassed) {
                 SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(purDocument);
             }
         }
         // End
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -701,7 +702,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             needToDistributeAccount = true;
         }
         if (needToDistributeAccount || needToDistributeCommodityCode) {
-            PurchasingAccountsPayableDocumentBase purApDocument = (PurchasingAccountsPayableDocumentBase)purchasingForm.getDocument();
+            PurchasingAccountsPayableDocumentBase purApDocument = (PurchasingAccountsPayableDocumentBase) purchasingForm.getDocument();
 
             boolean institutionNeedsDistributeAccountValidation = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.VALIDATE_ACCOUNT_DISTRIBUTION_IND);
             boolean foundAccountDistributionError = false;
@@ -709,7 +710,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             boolean performedAccountDistribution = false;
             boolean performedCommodityCodeDistribution = false;
 
-            //do check for account percents only if distribution method not equal to "P"
+            // do check for account percents only if distribution method not equal to "P"
             if (!PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE.equalsIgnoreCase(purApDocument.getAccountDistributionMethod())) {
                 // If the institution's validate account distribution indicator is true and
                 // the total percentage in the distribute account list does not equal 100 % then we should display error
@@ -745,8 +746,9 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                         else {
                             foundCommodityCodeDistributionError = true;
                         }
-                    }else if(item.getItemType().isLineItemIndicator() && !StringUtils.isBlank(((PurchasingItemBase) item).getPurchasingCommodityCode()) && itemIsActive){
-                        //could not apply to line, as it wasn't blank
+                    }
+                    else if (item.getItemType().isLineItemIndicator() && !StringUtils.isBlank(((PurchasingItemBase) item).getPurchasingCommodityCode()) && itemIsActive) {
+                        // could not apply to line, as it wasn't blank
                         foundCommodityCodeDistributionError = true;
                     }
                 }
@@ -757,7 +759,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     boolean unitCostNotZeroForBelowLineItems = item.getItemType().isLineItemIndicator() ? true : item.getItemUnitPrice() != null && zero.compareTo(item.getItemUnitPrice()) < 0;
                     Document document = ((PurchasingFormBase) form).getDocument();
                     Class clazz = document instanceof PurchaseOrderAmendmentDocument ? PurchaseOrderDocument.class : document.getClass();
-                    List<String> typesNotAllowingEdit = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(clazz, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT) );
+                    List<String> typesNotAllowingEdit = new ArrayList<String>(SpringContext.getBean(ParameterService.class).getParameterValuesAsString(clazz, PurapParameterConstants.PURAP_ITEM_TYPES_RESTRICTING_ACCOUNT_EDIT));
                     boolean itemOnExcludeList = (typesNotAllowingEdit == null) ? false : typesNotAllowingEdit.contains(item.getItemTypeCode());
                     if (item.getSourceAccountingLines().size() == 0 && unitCostNotZeroForBelowLineItems && !itemOnExcludeList && itemIsActive) {
                         for (PurApAccountingLine purApAccountingLine : distributionsourceAccountingLines) {
@@ -1104,6 +1106,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+
     /**
      * Sets the error map to a new, empty error map before calling saveDocumentNoValidation to save the document.
      *
@@ -1164,8 +1167,14 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             if (form instanceof RequisitionForm) {
                 ((RequisitionForm) form).resetNewPurchasingCapitalAssetLocationLine();
             }
+            // remove capital assets from db
+            if (document instanceof PurchaseOrderAmendmentDocument) {
+                for (PurchasingCapitalAssetItem assetItem : document.getPurchasingCapitalAssetItems()) {
+                    SpringContext.getBean(BusinessObjectService.class).delete((PersistableBusinessObject) assetItem);
+                }
+            }
             document.clearCapitalAssetFields();
-            //saveDocumentNoValidationUsingClearErrorMap(document);
+            // saveDocumentNoValidationUsingClearErrorMap(document);
 
 
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
@@ -1195,7 +1204,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         String vendorName = document.getVendorName();
         if (StringUtils.isEmpty(vendorName)) {
-            GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_NO_VENDOR, (String[])null);
+            GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_NO_VENDOR, (String[]) null);
         }
         else {
             CapitalAssetSystem system = document.getPurchasingCapitalAssetSystems().get(getSelectedLine(request));
@@ -1213,7 +1222,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
 
         String vendorName = document.getVendorName();
         if (StringUtils.isEmpty(vendorName)) {
-            GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_NO_VENDOR, (String[])null);
+            GlobalVariables.getMessageMap().putError(PurapConstants.CAPITAL_ASSET_TAB_ERRORS, PurapKeyConstants.ERROR_CAPITAL_ASSET_NO_VENDOR, (String[]) null);
         }
         else {
             PurchasingCapitalAssetItem assetItem = document.getPurchasingCapitalAssetItems().get(getSelectedLine(request));
@@ -1291,7 +1300,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         // call prorateDiscountTradeIn
         SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(purDoc);
 
-        //recalculate the amounts and percents on the accounting line.
+        // recalculate the amounts and percents on the accounting line.
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(purDoc);
 
         customCalculate(purDoc);
@@ -1396,7 +1405,8 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     }
 
     /**
-     * Checks if calculation is required. Currently it is required when it has not already been calculated and if the user can perform calculate
+     * Checks if calculation is required. Currently it is required when it has not already been calculated and if the user can
+     * perform calculate
      *
      * @return true if calculation is required, false otherwise
      */

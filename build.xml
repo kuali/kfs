@@ -621,7 +621,10 @@
 				<exclude name="WEB-INF/struts-config.xml"/>
 				<exclude name="WEB-INF/classes/**"/>
 				<exclude name="WEB-INF/lib/**"/>
-				<exclude name="**/rice-portal/**"/>
+				<exclude name="**/rice-portal/css/**"/>
+				<exclude name="**/rice-portal/images/**"/>
+				<exclude name="**/rice-portal/jsp/**"/>
+				<exclude name="**/tags/rice-portal/**"/>
 				<exclude name="*"/>
 				<!--
 				<exclude name="**/kew/**" if="rice.standalone.flag" />

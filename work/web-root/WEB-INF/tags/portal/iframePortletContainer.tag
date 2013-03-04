@@ -1,12 +1,12 @@
 <%--
  Copyright 2005-2009 The Kuali Foundation
- 
+
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
+
  http://www.opensource.org/licenses/ecl2.php
- 
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,78 +17,86 @@
 
 <%@ attribute name="channelTitle" required="true" %>
 <%@ attribute name="channelUrl" required="true" %>
-<%@ attribute name="frameHeight" required="false" %>
-
-<c:if test="${empty frameHeight || frameHeight == 0}">
-  <c:set var="frameHeight" value="500"/>
-</c:if>
-
-<iframe src="${channelUrl}"
-        onload='<c:if test="${ConfigProperties.test.mode ne 'true'}">setIframeAnchor("iframeportlet")</c:if>'
-        name="iframeportlet" id="iframeportlet" style="width: 100%;"
-        title="E-Doc" scrolling="auto" frameborder="0" height="${frameHeight}" width="100%"></iframe>
 
 <script type="text/javascript">
-  jQuery(function () {
-    var if_height = ${frameHeight};
-    var if_width;
-    var channelUrlEscaped = "${channelUrl}".replace(/'/g, "\\'");
-    var thisIframe = jQuery("iframe[src='" + channelUrlEscaped + "']");
-    var browserIsIE8 = jQuery.browser.msie && jQuery.browser.version == 8.0;
-
-    //find iframe source host
-    var iframeSrc = "${channelUrl}";
-    var regex = new RegExp('^(?:f|ht)tp(?:s)?\://([^/]+)', 'im');
-    var receivingMessages = false;
-    var intervalId;
-
-    if (iframeSrc.indexOf("http") == 0 || iframeSrc.indexOf("ftp") == 0) {
-      iframeSrc = iframeSrc.match(regex)[1].toString();
+/**
+ * Creates a link element from the given url.  This link element can be used to extract partial link information
+ * such as: host, hostname, pathname, port, protocol, and search.
+ *
+ * @param href - relative or absolute url for which the link element should be created
+ * @return {Element} - the link element
+ */
+function getLocation(href) {
+    var location = document.createElement("a");
+    location.href = href;
+    // IE doesn't populate all link properties when setting .href with a relative URL, however .href will return an
+    // absolute URL which then can be used on itself to populate these additional fields.
+    if (location.host == "") {
+      location.href = location.href;
     }
-    else {
-      //if it doesnt begin with http it must be local domain
-      iframeSrc = window.location.host;
-    }
+    return location;
+};
 
-
-    if (!jQuery.browser.msie) {
-      jQuery(thisIframe).height(if_height);
-    }
-
-    if (iframeSrc !== window.location.host) {
-      setupCrossDomainResize()
-    }
-
-    jQuery(thisIframe).load(function () {
-      if (iframeSrc === window.location.host) {
-        setSameDomainIframeHeight();
-        intervalId = setInterval(setSameDomainIframeHeight, 500);
-      }
-    });
-
-    function setupCrossDomainResize() {
-      if (!browserIsIE8) {
-        thisIframe.height(if_height);
-      }
-    }
-
-    //a function for iframes in the same domain
-    function setSameDomainIframeHeight() {
-      //check every iteration to see if the iframe is no longer in the same domain
-      var url = jQuery(thisIframe).attr('src');
-      if ((url.indexOf("http") != 0 && url.indexOf("ftp") != 0) || url.match(regex)[1].toString() === window.location.host) {
-        sameDomain = true;
-        if (!browserIsIE8 && thisIframe[0] && thisIframe[0].contentWindow.document.body) {
-          if_height = thisIframe[0].contentWindow.document.body.scrollHeight;
-          thisIframe.height(if_height);
-        }
-      }
-      else {
-        clearInterval(intervalId);
-        setupCrossDomainResize();
+/**
+ * easyXDM is used to enable portal resizing when the content is on a different server url.
+ *
+ * The portal needs to know where to find the resize_intermediate.html file on the remote server.  This means that the
+ * application contexts of the local and remote content need to be specified in the configuration parameters.  These
+ * parameters start with "context.names.". A specific suffix is not important.  For applications that use a standalone
+ * rice server "context.names.rice" would need to be specified.  By default context.names.app is set to app.context.name.
+ */
+  var channelLocation = getLocation("${channelUrl}");
+  var contextNames = new Array();
+  <c:forEach var="contextName" items="${ConfigProperties.context.names}">
+      <c:if test="${not empty contextName.value}">
+          contextNames.push("<c:out value="${contextName.value}" />");
+      </c:if>
+  </c:forEach>
+  var swf;
+  var remote = channelLocation.protocol + '//' + channelLocation.host + "/";
+  if (jQuery.browser.msie){
+    for (var i = 0; i < contextNames.length; i++) {
+      if (channelLocation.pathname.lastIndexOf(contextNames[i], 0) === 0) {
+        remote += contextNames[i] + "/";
+        break;
       }
     }
+    swf = remote + "rice-portal/scripts/easyXDM/easyxdm.swf";
+    remote += "rice-portal/scripts/easyXDM/resize_intermediate.html?url=/"
+            + encodeURIComponent(channelLocation.pathname + channelLocation.search);
+  } else {
+    for (var i = 0; i < contextNames.length; i++) {
+      if (channelLocation.pathname.lastIndexOf(contextNames[i], 1) === 1) {
+        remote += contextNames[i] + "/";
+        break;
+      }
+    }
+    swf = remote + "rice-portal/scripts/easyXDM/easyxdm.swf";
+    remote += "rice-portal/scripts/easyXDM/resize_intermediate.html?url="
+            + encodeURIComponent(channelLocation.pathname + channelLocation.search);
+  }
 
-  })
-  ;
+  new easyXDM.Socket(/** The configuration */{
+    remote: remote,
+    swf: swf,
+    container: "embedded",
+    props: {
+      style: {
+        width: "100%",
+        height: screen.height - 350 + "px"  // initial height set to a reasonable value in case messaging doesn't work
+      }
+    },
+    onMessage: function(message, origin) {
+      var availableHeight = jQuery(window).height() - 250;
+      if (availableHeight > message) {
+        this.container.getElementsByTagName("iframe")[0].style.height = availableHeight + "px";
+      } else {
+        this.container.getElementsByTagName("iframe")[0].style.height = message + "px";
+      }
+    }
+  });
+
 </script>
+
+<div id="embedded">
+</div>

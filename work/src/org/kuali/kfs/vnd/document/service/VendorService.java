@@ -18,6 +18,7 @@ package org.kuali.kfs.vnd.document.service;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -25,7 +26,6 @@ import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.businessobject.VendorRoutingComparable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.document.Document;
 
 public interface VendorService {
 
@@ -201,6 +201,6 @@ public interface VendorService {
      * @param vendorDetail
      * @return true if vendor contract expired end date is not expired else retur false.
      */
-    public boolean isVendorContractExpired(Document document, VendorDetail vendorDetail);
+    public boolean isVendorContractExpired(PurchasingDocument document, VendorDetail vendorDetail);
 
 }

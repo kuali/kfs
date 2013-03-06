@@ -123,7 +123,7 @@
 
           <c:catch var="sa">
               <c:set var="badSubAccount"
-                value="${!empty KualiForm.document.subAccount}"
+                value="${!empty KualiForm.document.subAccountName}"
                 scope="page" />
           </c:catch>
           <c:if test="${sa!=null}">

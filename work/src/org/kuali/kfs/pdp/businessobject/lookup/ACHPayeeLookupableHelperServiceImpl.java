@@ -191,17 +191,18 @@ public class ACHPayeeLookupableHelperServiceImpl extends AbstractPayeeLookupable
         }
     }
     /**
-        * Override to not filter rows based on payment reason
-        *
-         * @see org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl#filterReturnUrl(java.util.List,
-         *      java.util.List, java.lang.String)
-         *
-         * KRAD Conversion: Performs customization of the result list of rows.
-         *
-         * No use of data dictionary
-         */
-        @Override
+     * Override to not filter rows based on payment reason
+     *
+     * @see org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl#filterReturnUrl(java.util.List,
+     *      java.util.List, java.lang.String)
+     *
+     * KRAD Conversion: Performs customization of the result list of rows.
+     *
+     * No use of data dictionary
+     */
+    @Override
 
-        protected void filterReturnUrl(List<ResultRow> resultRowList, List<DisbursementPayee> payeeList, String paymentReasonCode) {
-        }
+    protected void filterReturnUrl(List<ResultRow> resultRowList, List<DisbursementPayee> payeeList, String paymentReasonCode) {
+    }
+
 }

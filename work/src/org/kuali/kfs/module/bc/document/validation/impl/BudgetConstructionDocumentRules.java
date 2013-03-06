@@ -36,10 +36,10 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
-import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
+import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
@@ -940,7 +940,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             if (ObjectUtils.isNotNull(a21SubAccount)) {
                 if (a21SubAccount.getSubAccountTypeCode().equalsIgnoreCase(KFSConstants.SubAccountType.COST_SHARE)) {
                     isAllowed = false;
-                    this.putError(errors, propertyName, BCKeyConstants.ERROR_SUB_ACCOUNT_TYPE_NOT_ALLOWED, isAdd, budgetConstructionDocument.getAccountNumber(), KFSConstants.SubAccountType.COST_SHARE);
+                    this.putError(errors, KFSPropertyConstants.SUB_ACCOUNT_NUMBER, BCKeyConstants.ERROR_SUB_ACCOUNT_TYPE_NOT_ALLOWED, isAdd, budgetConstructionDocument.getSubAccountNumber(), KFSConstants.SubAccountType.COST_SHARE);
                 }
             }
         }

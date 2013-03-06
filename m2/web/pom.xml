@@ -24,7 +24,7 @@
 		<monitoring.listener />
 		
 		<bootstrap.spring.file>classpath:kfs-startup.xml</bootstrap.spring.file>
-		<http.session.timeout.minutes>15</http.session.timeout.minutes>
+		<http.session.timeout.minutes>${http.session.timeout.minutes}</http.session.timeout.minutes>
 		
 		<distributable.tag><![CDATA[<distributable />]]></distributable.tag>
 		

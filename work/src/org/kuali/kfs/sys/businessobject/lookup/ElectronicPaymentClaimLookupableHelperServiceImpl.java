@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,9 +46,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicPaymentClaimLookupableHelperServiceImpl.class);
     private LookupDao lookupDao;
-    
+
     /**
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
@@ -65,28 +65,28 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
         String organizationReferenceId = fieldValues.remove("generatingAccountingLine.organizationReferenceId");
         List<PersistableBusinessObject> resultsList = (List)lookupDao.findCollectionBySearchHelper(ElectronicPaymentClaim.class, fieldValues, unbounded, false);
         if (!StringUtils.isBlank(organizationReferenceId)) {
-            
+
             List<PersistableBusinessObject> prunedResults = pruneResults(resultsList, organizationReferenceId);
             resultsList = new CollectionIncomplete<PersistableBusinessObject>(prunedResults, ((CollectionIncomplete)resultsList).getActualSizeIfTruncated());
-            
-        } 
+
+        }
         return resultsList;
     }
-    
+
     /**
      * If organization reference id was present in lookup fields, only returns electronic payment claims which associate with the given organization reference id
-     * @param paymentsToPrune the Collection of electronic payment claims, still unfiltered by organization reference id 
+     * @param paymentsToPrune the Collection of electronic payment claims, still unfiltered by organization reference id
      * @param organizationReferenceId the organization reference id to use as a filter
      * @return the filtered results
      */
     protected List<PersistableBusinessObject> pruneResults(List<PersistableBusinessObject> paymentsToPrune, String organizationReferenceId) {
         final String matchingAdvanceDepositDocumentNumbers = getAdvanceDepositsWithOrganizationReferenceId(organizationReferenceId);
-        final List<GeneratingLineHolder> generatingLineHolders = getGeneratingLinesForDocuments(matchingAdvanceDepositDocumentNumbers, organizationReferenceId); 
-        
+        final List<GeneratingLineHolder> generatingLineHolders = getGeneratingLinesForDocuments(matchingAdvanceDepositDocumentNumbers, organizationReferenceId);
+
         List<PersistableBusinessObject> prunedResults = new ArrayList<PersistableBusinessObject>();
         for (PersistableBusinessObject epcAsPBO : paymentsToPrune) {
             final ElectronicPaymentClaim epc = (ElectronicPaymentClaim)epcAsPBO;
-            
+
             int count = 0;
             boolean epcMatches = false;
             while (count < generatingLineHolders.size() && !epcMatches) {
@@ -95,14 +95,14 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
                     prunedResults.add(epc);
                     epcMatches = true;
                 }
-                
+
                 count += 1;
             }
         }
-        
+
         return prunedResults;
     }
-    
+
     /**
      * Finds the document ids for all AD documents which have an accounting line with the given organizationReferenceId
      * @param organizationReferenceId the organization reference id to find advance deposit documents for
@@ -110,7 +110,7 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
      */
     protected String getAdvanceDepositsWithOrganizationReferenceId(String organizationReferenceId) {
         StringBuilder documentNumbers = new StringBuilder();
-        
+
         Map fields = new HashMap();
         fields.put("sourceAccountingLines.organizationReferenceId", organizationReferenceId);
         Collection ads = getLookupService().findCollectionBySearchUnbounded(AdvanceDepositDocument.class, fields);
@@ -119,30 +119,30 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
             documentNumbers.append("|");
             documentNumbers.append(adDoc.getDocumentNumber());
         }
-        
+
         return documentNumbers.substring(1);
     }
-    
+
     /**
      * Looks up all of the generating lines and stores essential information about them on documents given by the matchingAdvanceDepositDocumentNumbers parameter
      * and matching the given organization reference id
-     * @param matchingAdvanceDepositDocumentNumbers the document numbers of matching advance deposit documents in lookup form 
+     * @param matchingAdvanceDepositDocumentNumbers the document numbers of matching advance deposit documents in lookup form
      * @param organizationReferenceId the organization reference id the accounting line must match
      * @return a List of essential information about each of the matching accounting lines
      */
     protected List<GeneratingLineHolder> getGeneratingLinesForDocuments(String matchingAdvanceDepositDocumentNumbers, String organizationReferenceId) {
         List<GeneratingLineHolder> holders = new ArrayList<GeneratingLineHolder>();
-        
+
         Map fields = new HashMap();
         fields.put("documentNumber", matchingAdvanceDepositDocumentNumbers);
         fields.put("organizationReferenceId", organizationReferenceId);
-        
+
         Collection als = getLookupService().findCollectionBySearchUnbounded(SourceAccountingLine.class, fields);
         for (Object alAsObject : als) {
             final SourceAccountingLine accountingLine = (SourceAccountingLine)alAsObject;
             holders.add(new GeneratingLineHolder(accountingLine.getDocumentNumber(), accountingLine.getSequenceNumber()));
         }
-        
+
         return holders;
     }
 
@@ -169,16 +169,16 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
         }
         return result;
     }
-    
+
     /**
      * Using default results, add columnAnchor link for reference financial document number to open document
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
      * @param bounded
      * @return
-     * 
+     *
      * KRAD Conversion: Lookupable performing customization of columns of the display list.
      */
     @Override
@@ -195,7 +195,7 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
             }
         }
         return displayList;
-    }    
+    }
 
     /**
      * Sets the lookupDao attribute value.
@@ -204,14 +204,14 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     public void setLookupDao(LookupDao lookupDao) {
         this.lookupDao = lookupDao;
     }
-    
+
     /**
      * Holds information about an accounting line which created an electronic payment claim
      */
-    class GeneratingLineHolder {
+    protected class GeneratingLineHolder {
         private String documentNumber;
         private Integer lineNumber;
-        
+
         /**
          * Constructs a GeneratingLineHolder
          * @param documentNumber the document the generating line is on
@@ -221,7 +221,7 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
             this.documentNumber = documentNumber;
             this.lineNumber = lineNumber;
         }
-        
+
         /**
          * Determines if the given electronic payment claim was generated by the accounting line that this GeneratingLineHolder has information for
          * @param epc the electronic payment claim to check

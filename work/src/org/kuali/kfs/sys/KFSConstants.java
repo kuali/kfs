@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Layout;
+import org.apache.log4j.PatternLayout;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.Config;
@@ -1040,6 +1042,7 @@ public class KFSConstants {
         public static final String VENDOR_CREDIT_MEMO = "CM";
         public static final String BULK_RECEIVING = "RCVB";
         public static final String ELECTRONIC_INVOICE_REJECT = "EIRT";
+        public static final String CONTRACT_MANAGER_ASSIGNMENT = "ACM";
     }
 
     // financial document type names
@@ -1320,13 +1323,15 @@ public class KFSConstants {
     public static final String YEAR_END_ACCOUNTING_PERIOD_EDIT_DOCUMENT_ACTION = "AccountingPeriodEditAction";
     public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION = "AccountingPeriodViewAction";
     // CSU 6702 END
-    
+
     public static final String ACCOUNTING_PERIOD_TAB_ID = "Accounting Period";
-    
+
     public static final String BUDGET_REALLOCATION_LABEL = "Budget Reallocation";
     public static final String YEAR_END_BUDGET_ADJUSTMENT_LABEL = "Year End Budget Adjustment";
-    
+
     public static final String OVERRIDE_ACCOUNT_FOR_EXPIRED_QUESTION_ID = "OverrideAccountForExpiredQuestion";
-    
+
+    public static final String BATCH_LOGGER_DEFAULT_CONVERSION_PATTERN = "%d [%t] u:%X{user}/d:%X{docId} %-5p %c :: %m%n";
+    public static final Layout BATCH_LOGGER_DEFAULT_PATTERN_LAYOUT = new PatternLayout(BATCH_LOGGER_DEFAULT_CONVERSION_PATTERN);
 }
 

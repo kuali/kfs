@@ -39,7 +39,7 @@
 <xsd:element name="Money" default="0">
 	<xsd:complexType>
 		<xsd:simpleContent>
-			<xsd:extension base="kfs:amountType">
+			<xsd:extension base="purap:amountType">
 				<xsd:attribute name="currency" type="purap:currencyType" use="required" />
 			</xsd:extension>
 		</xsd:simpleContent>

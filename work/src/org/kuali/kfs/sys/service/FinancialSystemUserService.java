@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,7 @@ import org.kuali.rice.kim.api.identity.Person;
 
 public interface FinancialSystemUserService {
     boolean isActiveFinancialSystemUser(String principalId);
-    boolean isActiveFinancialSystemUser(Person person);
+  //  boolean isActiveFinancialSystemUser(Person person);
 
     /**
      * If the specified person has the KFS-SYS User role for the specified namespace, this will return the organization associated with that assignment.
@@ -32,7 +32,18 @@ public interface FinancialSystemUserService {
      */
     ChartOrgHolder getPrimaryOrganization(Person person, String namespaceCode);
     ChartOrgHolder getPrimaryOrganization(String principalId, String namespaceCode);
-    
+
     Collection<String> getPrincipalIdsForFinancialSystemOrganizationUsers( String namespaceCode, ChartOrgHolder chartOrg );
     Collection<String> getPrincipalIdsForFinancialSystemOrganizationUsers( String namespaceCode, List<ChartOrgHolder> chartOrgs );
+
+    /**
+     * KFSCNTRB-1344
+     * Gets the name of the person with the specified EmployeeID.
+     * Note: This method is added here as a place-holder before Rice provides some method like IdentityService.getPersonNameByEmployeeId.
+     * It allows institutions to override the implementation to speed up Person name retrieval if needed.
+     * @param employeeId of the Person
+     * @return name of the person
+     */
+    //TODO This method can be replaced if Rice adds method IdentityService.getPersonNameByEmployeeId.
+    public String getPersonNameByEmployeeId(String employeeId);
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,8 +25,11 @@ import java.util.Map;
 
 import org.kuali.kfs.sys.batch.dataaccess.PreparedStatementCachingDao;
 import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class AbstractPreparedStatementCachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements PreparedStatementCachingDao {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractPreparedStatementCachingDaoJdbc.class);
+
     protected static final String RETRIEVE_PREFIX = "retrieve-";
     protected static final String INSERT_PREFIX = "insert-";
     protected static final String UPDATE_PREFIX = "update-";
@@ -65,12 +68,12 @@ public abstract class AbstractPreparedStatementCachingDaoJdbc extends PlatformAw
             catch (SQLException e) {
                 throw new RuntimeException("AbstractRetrievingPreparedStatementCachingDaoJdbc.RetrievingJdbcWrapper encountered exception during getObject method for type: " + type, e);
             }
-            return (T) value;
+            return value;
         }
     }
-    
+
     /**
-     * Retrieve list jdbc objects 
+     * Retrieve list jdbc objects
      */
     protected abstract class RetrievingListJdbcWrapper<T> extends JdbcWrapper {
         protected abstract T extractResult(ResultSet resultSet) throws SQLException;
@@ -123,6 +126,11 @@ public abstract class AbstractPreparedStatementCachingDaoJdbc extends PlatformAw
 
     public void destroy() {
         try {
+            // this should never happen, but it did; so just in case.
+            if (ObjectUtils.isNull(preparedStatementCache)) {
+                LOG.error("preparedStatementCache is null. This shouldn't have happened.");
+                return;
+            }
             for (PreparedStatement preparedStatement : preparedStatementCache.values()) {
                 preparedStatement.close();
             }

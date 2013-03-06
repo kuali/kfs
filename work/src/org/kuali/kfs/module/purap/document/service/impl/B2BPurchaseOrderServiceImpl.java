@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,6 +42,8 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -186,8 +188,8 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("        <Total>\n");
         cxml.append("          <Money currency=\"USD\">").append(purchaseOrder.getTotalDollarAmount()).append("</Money>\n");
         cxml.append("        </Total>\n");
-        
-        
+
+
         cxml.append("        <ShipTo>\n");
         cxml.append("          <Address addressID=\"").append(purchaseOrder.getDeliveryCampusCode()).append(purchaseOrder.getOrganizationCode()).append("\">\n");
         cxml.append("            <Name xml:lang=\"en\">Kuali</Name>\n");
@@ -240,7 +242,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("          </Address>\n");
         cxml.append("        </ShipTo>\n");
 
-        
+
         cxml.append("        <BillTo>\n");
         cxml.append("          <Address addressID=\"").append(purchaseOrder.getDeliveryCampusCode()).append("\">\n");
         cxml.append("            <Name xml:lang=\"en\"><![CDATA[").append(purchaseOrder.getBillingName().trim()).append("]]></Name>\n");
@@ -264,7 +266,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("        <Extrinsic name=\"BuyerPhone\">").append(contractManager.getContractManagerPhoneNumber()).append("</Extrinsic>\n");
         cxml.append("        <Extrinsic name=\"SupplierNumber\">").append(purchaseOrder.getVendorNumber()).append("</Extrinsic>\n");
         cxml.append("      </OrderRequestHeader>\n");
-        
+
         for (Object tmpPoi : purchaseOrder.getItems()) {
             PurchaseOrderItem poi = (PurchaseOrderItem) tmpPoi;
             cxml.append("      <ItemOut quantity=\"").append(poi.getItemQuantity()).append("\" lineNumber=\"").append(poi.getItemLineNumber()).append("\">\n");
@@ -447,7 +449,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         } // end item looping
 
         return errors.toString();
-    } 
+    }
 
     /**
      * Retrieve the Contract Manager's email
@@ -464,20 +466,20 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
      * Retrieve the Requisition Initiator Principal Name
      */
     protected String getRequisitionInitiatorPrincipal(String requisitionInitiatorPrincipalId) {
-
-        Person requisitionInitiator = getPersonService().getPerson(requisitionInitiatorPrincipalId);
+        Principal requisitionInitiator = KimApiServiceLocator.getIdentityService().getPrincipal(requisitionInitiatorPrincipalId);
         if (ObjectUtils.isNotNull(requisitionInitiator)) {
             return requisitionInitiator.getPrincipalName();
         }
         return "";
     }
-    
+
     /**
      * @return Returns the personService.
      */
     protected PersonService getPersonService() {
-        if(personService==null)
+        if(personService==null) {
             personService = SpringContext.getBean(PersonService.class);
+        }
         return personService;
     }
 
@@ -512,7 +514,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
     public void setB2bPurchaseOrderURL(String purchaseOrderURL) {
         b2bPurchaseOrderURL = purchaseOrderURL;
     }
-    
+
     public void setB2bPurchaseOrderIdentity(String b2bPurchaseOrderIdentity) {
         this.b2bPurchaseOrderIdentity = b2bPurchaseOrderIdentity;
     }

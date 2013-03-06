@@ -17,6 +17,9 @@ package org.kuali.kfs.module.ar.document.web.struts;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -179,13 +182,14 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
      * @return
      * @throws WorkflowException
      */
-    protected InvoicePaidApplied generateAndValidateNewPaidApplied(PaymentApplicationInvoiceDetailApply detailApplication, String fieldName, KualiDecimal totalFromControl) {
+    protected InvoicePaidApplied generateAndValidateNewPaidApplied(PaymentApplicationInvoiceDetailApply detailApplication, String fieldName, PaymentApplicationDocument document) {
 
         // generate the paidApplied
         InvoicePaidApplied paidApplied = detailApplication.generatePaidApplied();
 
         // validate the paidApplied, but ignore any failures (other than the error message)
-        PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(paidApplied, fieldName, totalFromControl);
+        LOG.debug("Validating the generated paidApplied " + paidApplied.getDocumentNumber());
+        PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(paidApplied, fieldName, document);
 
         // return the generated paidApplied
         return paidApplied;
@@ -316,14 +320,17 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 if (KualiDecimal.ZERO.equals(detailApplication.getAmountApplied())) {
                     continue;
                 }
-                
-                if (containsIdentical(detailApplication.getInvoiceDetail(), invoicePaidApplieds)) continue;
-                
+
+                if (containsIdentical(detailApplication.getInvoiceDetail(), invoicePaidApplieds)) {
+                    continue;
+                }
+
                 // generate and validate the paidApplied, and always add it to the list, even if
                 // it fails validation. Validation failures will stop routing.
-                InvoicePaidApplied invoicePaidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName, paymentApplicationDocument.getTotalFromControl());
+                LOG.debug("Generating paid applied for detail application " + detailApplication.getInvoiceDocumentNumber());
+                InvoicePaidApplied invoicePaidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName, paymentApplicationDocument);
                 GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
-                                  
+
                 GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
                 invoicePaidApplieds.add(invoicePaidApplied);
                 paidAppliedsGenerated++;
@@ -342,7 +349,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     protected List<InvoicePaidApplied> filterTempInvoicePaidApplieds(PaymentApplicationDocumentForm paymentApplicationDocumentForm) {
         PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
         List <InvoicePaidApplied> filteredInvoicePaidApplieds = new ArrayList <InvoicePaidApplied>();
-        
+
         List<InvoicePaidApplied> invoicePaidApplieds = paymentApplicationDocument.getInvoicePaidApplieds(); // jira fix
         // add only entries that do not have the loaded customer number
         String currentCustomerNumber = findCustomerNumber(paymentApplicationDocumentForm);
@@ -362,7 +369,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     protected String findCustomerNumber(PaymentApplicationDocumentForm paymentApplicationDocumentForm) {
         boolean validInvoice = this.isValidInvoice(paymentApplicationDocumentForm);
         String customerNumber = paymentApplicationDocumentForm.getSelectedCustomerNumber();
-        String currentInvoiceNumber = paymentApplicationDocumentForm.getEnteredInvoiceDocumentNumber(); 
+        String currentInvoiceNumber = paymentApplicationDocumentForm.getEnteredInvoiceDocumentNumber();
         // Invoice number entered, but no customer number entered
         if (StringUtils.isBlank(customerNumber) && StringUtils.isNotBlank(currentInvoiceNumber) && validInvoice) {
             Customer customer = customerInvoiceDocumentService.getCustomerByInvoiceDocumentNumber(currentInvoiceNumber);
@@ -370,7 +377,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         }
         return customerNumber;
     }
-    
+
     /**
      * checks if the invoice is valid
      * @param paymentApplicationDocumentForm
@@ -386,12 +393,12 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         }
         return validInvoice;
     }
-    
-    /* 
-     *  test if this is already been applied   
-     *     InvoicePaidApplied paidApplied = new InvoicePaidApplied(payAppDocNumber, invoiceDetail.getDocumentNumber(), 
+
+    /*
+     *  test if this is already been applied
+     *     InvoicePaidApplied paidApplied = new InvoicePaidApplied(payAppDocNumber, invoiceDetail.getDocumentNumber(),
                 invoiceDetail.getSequenceNumber(), amountApplied, DEFAULT_PAID_APPLIED_ITEM_NUMBER);
-                
+
                 String documentNumber, String refInvoiceDocNumber, Integer invoiceSequenceNumber, KualiDecimal appliedAmount, Integer paidAppliedItemNumber) {
     */
     protected boolean containsIdentical(CustomerInvoiceDetail customerInvoiceDetail,  List<InvoicePaidApplied> invoicePaidApplieds ) {
@@ -399,13 +406,13 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         String custRefInvoiceDocNumber = customerInvoiceDetail.getDocumentNumber();
         Integer custInvoiceSequenceNumber = customerInvoiceDetail.getInvoiceItemNumber();
         KualiDecimal custAppliedAmount = customerInvoiceDetail.getAmountApplied();
-        
+
         for (InvoicePaidApplied invoicePaidApplied : invoicePaidApplieds) {
             String payAppDocNumber = invoicePaidApplied.getDocumentNumber();
             String refInvoiceDocNumber = invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber();
             Integer invoiceSequenceNumber = invoicePaidApplied.getInvoiceItemNumber();
             KualiDecimal appliedAmount = invoicePaidApplied.getInvoiceItemAppliedAmount();
-            Integer paidAppliedItemNumber = invoicePaidApplied.getPaidAppliedItemNumber();        
+            Integer paidAppliedItemNumber = invoicePaidApplied.getPaidAppliedItemNumber();
             if (custRefInvoiceDocNumber.equals(refInvoiceDocNumber) && custInvoiceSequenceNumber.equals(invoiceSequenceNumber) && custAppliedAmount.equals(appliedAmount)) {
                 identicalFlag = true;
                 break;
@@ -413,7 +420,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         }
         return identicalFlag;
     }
-    
+
     protected List<InvoicePaidApplied> quickApplyToInvoices(PaymentApplicationDocumentForm paymentApplicationDocumentForm, List<InvoicePaidApplied> appliedToIndividualDetails) {
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) paymentApplicationDocumentForm.getDocument();
         List<InvoicePaidApplied> invoicePaidApplieds = new ArrayList<InvoicePaidApplied>();
@@ -465,7 +472,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             for (PaymentApplicationInvoiceDetailApply detailApplication : invoiceApplication.getDetailApplications()) {
                 detailApplication.setAmountApplied(detailApplication.getAmountOpen());
                 detailApplication.setFullApply(true);
-                InvoicePaidApplied paidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName, applicationDocument.getTotalFromControl());
+                InvoicePaidApplied paidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName, applicationDocument);
                 if (paidApplied != null) {
                     invoicePaidApplieds.add(paidApplied);
                 }
@@ -536,7 +543,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                 addFieldError(KFSConstants.PaymentApplicationTabErrorCodes.UNAPPLIED_TAB, ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_CUSTOMER_NUMBER, ArKeyConstants.PaymentApplicationDocumentErrors.ENTERED_INVOICE_CUSTOMER_NUMBER_INVALID);
                 return null;
             }
-            
+
             // force customer number to upper
             payAppForm.setNonAppliedHoldingCustomerNumber(payAppForm.getNonAppliedHoldingCustomerNumber().toUpperCase());
 
@@ -595,7 +602,9 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             }
         }
         boolean validInvoice = this.isValidInvoice(payAppForm);
-        if (!validInvoice)  addFieldError(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB, ArPropertyConstants.PaymentApplicationDocumentFields.ENTERED_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_NOT_FINAL);
+        if (!validInvoice) {
+            addFieldError(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB, ArPropertyConstants.PaymentApplicationDocumentFields.ENTERED_INVOICE_NUMBER, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_NOT_FINAL);
+        }
 
         // This handles the priority of the payapp selected customer number and the
         // ar doc header customer number. The ar doc header customer number should always
@@ -746,6 +755,65 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             payAppForm.setNonAppliedHoldingCustomerNumber(null);
             payAppForm.setNonAppliedHoldingAmount(null);
         }
+
+      //Presort this list to not reload in the jsp - https://jira.kuali.org/browse/KFSCNTRB-1377
+        payAppForm.setInvoiceApplications(sortInvoiceApplications(payAppForm.getInvoiceApplications()));
+    }
+
+    protected List<PaymentApplicationInvoiceApply> sortInvoiceApplications(List<PaymentApplicationInvoiceApply> invoiceApplications){
+        EntryHolderComparator entryHolderComparator = new EntryHolderComparator();
+        List <EntryHolder> entryHoldings = new ArrayList<EntryHolder>();
+       for (PaymentApplicationInvoiceApply paymentApplicationInvoiceApply : invoiceApplications){
+           entryHoldings.add(new EntryHolder(paymentApplicationInvoiceApply.getInvoice().getDocumentHeader().getWorkflowDocument().getDateCreated().toDate(), paymentApplicationInvoiceApply));
+       }
+       if (entryHoldings.size() > 0) {
+        Collections.sort(entryHoldings, entryHolderComparator);
+    }
+       List <PaymentApplicationInvoiceApply> results = new ArrayList<PaymentApplicationInvoiceApply>();
+       for (EntryHolder entryHolder : entryHoldings) {
+           results.add((PaymentApplicationInvoiceApply) entryHolder.getHolder());
+       }
+        return results;
+    }
+
+    /**
+     * An inner class to point to a specific entry in a group
+     */
+    protected class EntryHolder {
+        private Date date;
+        private Object holder;
+
+        /**
+         * Constructs a NonAppliedHolding.EntryHolder
+         * @param NonAppliedHolding the entry to point to
+         * @param Date of doc
+         */
+        public EntryHolder(Date date, Object holder) {
+            this.date = date;
+            this.holder = holder;
+        }
+
+         public Date getDate() {
+            return this.date;
+        }
+
+         public Object getHolder() {
+            return this.holder;
+        }
+    }
+
+    /**
+     * This comparator is used internally for sorting the list of invoices
+     */
+    protected static class EntryHolderComparator implements Comparator<EntryHolder> {
+
+        /**
+         * Compares two Objects based on their creation date
+         * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+         */
+        public int compare(EntryHolder rosencrantz, EntryHolder guildenstern) {
+             return rosencrantz.getDate().compareTo(guildenstern.getDate());
+      }
     }
 
     /**

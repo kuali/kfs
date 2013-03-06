@@ -185,15 +185,19 @@
 					lookupOrInquiryKeys="chartOfAccountsCode,accountNumber"
 					accountingLineValuesMap="${KualiForm.budgetConstructionHeader.valuesMap}"
 					anchor="budgetConstructionHeaderSubAccountAnchor" />
+                <c:set var="refreshTabIndex" value="${KualiForm.currentTabIndex}" />
+                <c:set var="dummyIncrementVar" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
+                <c:set var="loadTabIndex" value="${KualiForm.currentTabIndex}" />
+                <c:set var="dummyIncrementVar" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
 				<td class="grid" nowrap colspan="2">
 				<div align="center"><html:image
 					property="methodToCall.refresh.anchorbudgetConstructionHeaderAnchor"
 					src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif"
-					title="Refresh" alt="Refresh" styleClass="tinybutton" /> <html:image
+					title="Refresh" alt="Refresh" tabindex="${loadTabIndex}" styleClass="tinybutton" /> <html:image
 					property="methodToCall.performBCDocumentOpen.anchorbudgetConstructionHeaderAnchor"
 					src="${ConfigProperties.externalizable.images.url}tinybutton-loaddoc.gif"
-					title="Load Budget Construction Document"
-					alt="Load Budget Construction Document" styleClass="tinybutton" />
+					title="Load Budget Construction Document" alt="Load Budget Construction Document"
+					tabindex="${refreshTabIndex}" styleClass="tinybutton" />
 				</div>
 				</td>
 			</tr>

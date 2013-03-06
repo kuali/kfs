@@ -39,6 +39,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
@@ -117,20 +118,18 @@ public class PurApRelatedViews {
      * @param view
      */
     protected void maskPONumberIfUnapproved(AbstractRelatedView view) {
-        Document document = findDocument(view.getDocumentNumber());
-
         String poIDstr = "";
 
         if (ObjectUtils.isNotNull(view.getPurapDocumentIdentifier())) {
             poIDstr = view.getPurapDocumentIdentifier().toString();
         }
 
-        if (PurapConstants.PurapDocTypeCodes.PO_DOCUMENT.equals(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName())) {
-            if ((document != null) && (document.getDocumentHeader().getWorkflowDocument() != null)) {
-                if (!document.getDocumentHeader().getWorkflowDocument().getStatus().equals(DocumentStatus.FINAL)) {
+        if (PurapConstants.PurapDocTypeCodes.PO_DOCUMENT.equals(view.getDocumentTypeName())) {
+            DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(view.getDocumentNumber());
+            if (!(StringUtils.equals(documentStatus.getCode(), DocumentStatus.FINAL.getCode()))) {
 
                     String principalId =  GlobalVariables.getUserSession().getPrincipalId();
-                    
+
                     String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
                     String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
 
@@ -151,11 +150,15 @@ public class PurApRelatedViews {
                         }
                     }
                 }
-            }
         }
 
         view.setPoNumberMasked(poIDstr);
     }
+
+    public org.kuali.rice.kew.api.document.Document getWorkflowDocument(String documentId){
+        return KewApiServiceLocator.getWorkflowDocumentService().getDocument(documentId);
+    }
+
 
     /**
      * This method finds the document for the given document header id

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,10 +44,11 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
     /**
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         LOG.debug("validate start");
         boolean isValid = true;
-        
+
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) accountingDocumentForValidation;
         DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
         String documentationLocationCode = document.getDisbursementVoucherDocumentationLocationCode();
@@ -68,24 +69,24 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
             parameterEvaluator.evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
         }
 
-        Person initiator = getInitiator(document);
-        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(initiator, KFSConstants.ParameterNamespaces.FINANCIAL);
-        
+        String initiatorId = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+        ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(initiatorId, KFSConstants.ParameterNamespaces.FINANCIAL);
+
         String locationCode = (chartOrg == null || chartOrg.getOrganization() == null) ? document.getCampusCode() : chartOrg.getOrganization().getOrganizationPhysicalCampusCode();
 
         // initiator campus code restrictions
         ParameterEvaluator parameterEvaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_DOC_LOC_BY_CAMPUS_PARM, DisbursementVoucherConstants.INVALID_DOC_LOC_BY_CAMPUS_PARM, locationCode, documentationLocationCode);
         parameterEvaluator.evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
 
-        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);  
-        
-        isValid = initialErrorCount == errors.getErrorCount();        
+        errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
+
+        isValid = initialErrorCount == errors.getErrorCount();
         return isValid;
     }
 
     /**
      * Returns the initiator of the document as a KualiUser
-     * 
+     *
      * @param document submitted document
      * @return <code>KualiUser</code>
      */
@@ -100,7 +101,7 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
 
     /**
      * Sets the accountingDocumentForValidation attribute value.
-     * 
+     *
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
@@ -116,7 +117,7 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
     }
 
     /**
-     * Gets the accountingDocumentForValidation attribute. 
+     * Gets the accountingDocumentForValidation attribute.
      * @return Returns the accountingDocumentForValidation.
      */
     public AccountingDocument getAccountingDocumentForValidation() {

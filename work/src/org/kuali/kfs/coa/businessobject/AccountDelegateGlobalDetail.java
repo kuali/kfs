@@ -57,7 +57,10 @@ public class AccountDelegateGlobalDetail extends GlobalBusinessObjectDetailBase 
 
     public AccountDelegateGlobalDetail(AccountDelegateModelDetail model) {
         accountDelegatePrimaryRoutingIndicator = model.getAccountDelegatePrimaryRoutingIndicator();
-        accountDelegateStartDate = model.getAccountDelegateStartDate();
+        // KFSCNTRB-1403: don't populate the account delegate with the start date inherited from the model, just put today's date there
+        //accountDelegateStartDate = model.getAccountDelegateStartDate();
+        java.util.Date utilDate = new java.util.Date(); // default C'Tor for java.util.Date populates the date with the current date
+        accountDelegateStartDate = new java.sql.Date(utilDate.getTime()); // now populate accountDelegateStartDate
         accountDelegateUniversalId = model.getAccountDelegateUniversalId();
         approvalFromThisAmount = model.getApprovalFromThisAmount();
         approvalToThisAmount = model.getApprovalToThisAmount();
@@ -174,6 +177,7 @@ public class AccountDelegateGlobalDetail extends GlobalBusinessObjectDetailBase 
      * @param accountDelegatePrimaryRoutingIndicator The accountDelegatePrimaryRoutingIndicator to set.
      * @deprecated
      */
+    @Deprecated
     public void setAccountDelegatePrimaryRoutingIndicator(boolean accountDelegatePrimaryRoutingIndicator) {
         this.accountDelegatePrimaryRoutingIndicator = accountDelegatePrimaryRoutingIndicator;
     }
@@ -206,6 +210,7 @@ public class AccountDelegateGlobalDetail extends GlobalBusinessObjectDetailBase 
      * @param accountDelegate The accountDelegate to set.
      * @deprecated
      */
+    @Deprecated
     public void setAccountDelegate(Person accountDelegate) {
         this.accountDelegate = accountDelegate;
     }

@@ -305,6 +305,7 @@ public class FormatServiceImpl implements FormatService {
         // step 6 tell the extract batch job to start
         LOG.debug("performFormat() Start extract");
         extractChecks();
+        LOG.info("extracting done.."); //remove this
     }
 
     /**

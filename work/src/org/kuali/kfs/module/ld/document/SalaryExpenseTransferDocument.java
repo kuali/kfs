@@ -32,11 +32,10 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -167,9 +166,7 @@ public class SalaryExpenseTransferDocument extends LaborExpenseTransferDocumentB
         for (Iterator<LaborLedgerPendingEntry> iterator = this.getLaborLedgerPendingEntries().iterator(); iterator.hasNext();) {
             LaborLedgerPendingEntry laborLedgerPendingEntry = iterator.next();
 
-            // Prepare person's name
-            Person person = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(this.getEmplid());
-            String personName = person.getNameUnmasked();
+            String personName = SpringContext.getBean(FinancialSystemUserService.class).getPersonNameByEmployeeId(this.getEmplid());
 
             // Get the maxlength of the description field we are setting
             BusinessObjectEntry laborLedgerPendingEntryBusinessObjectEntry = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(LaborLedgerPendingEntry.class.getName());

@@ -122,7 +122,7 @@ import org.w3c.dom.Node;
  * provides helper methods to the reject document to match it with a PO and create PREQ.
  */
 
-@Transactional
+
 public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase implements ElectronicInvoiceHelperService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceHelperServiceImpl.class);
 
@@ -149,7 +149,6 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         //add a step to check for directory paths
         prepareDirectories(getRequiredDirectoryNames());
 
-        String baseDirName = getBaseDirName();
         String rejectDirName = getRejectDirName();
         String acceptDirName = getAcceptDirName();
         emailTextErrorList = new StringBuffer();
@@ -173,24 +172,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
             throw new RuntimeException("Accept directory name should not be empty");
         }
 
-        File baseDir = new File(baseDirName);
-        if (!baseDir.exists()){
-            throw new RuntimeException("Base dir [" + baseDirName + "] doesn't exists in the system");
-        }
-
-        File[] filesToBeProcessed = baseDir.listFiles(new FileFilter() {
-                                                            @Override
-                                                            public boolean accept(File file) {
-                                                                String fullPath = FilenameUtils.getFullPath(file.getAbsolutePath());
-                                                                String fileName = FilenameUtils.getBaseName(file.getAbsolutePath());
-                                                                File processedFile = new File(fullPath + File.separator + fileName + ".processed");
-                                                                return (!file.isDirectory() &&
-                                                                        file.getName().endsWith(".xml") &&
-                                                                        !processedFile.exists());
-                                                            }
-                                                        });
-
-
+        File[] filesToBeProcessed = getFilesToBeProcessed();
         ElectronicInvoiceLoad eInvoiceLoad = new ElectronicInvoiceLoad();
 
         if (filesToBeProcessed == null ||
@@ -343,6 +325,28 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
 
     }
 
+    protected File [] getFilesToBeProcessed() {
+        File [] filesToBeProcessed;
+        String baseDirName = getBaseDirName();
+        File baseDir = new File(baseDirName);
+        if (!baseDir.exists()){
+            throw new RuntimeException("Base dir [" + baseDirName + "] doesn't exists in the system");
+        }
+        filesToBeProcessed = baseDir.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                String fullPath = FilenameUtils.getFullPath(file.getAbsolutePath());
+                String fileName = FilenameUtils.getBaseName(file.getAbsolutePath());
+                File processedFile = new File(fullPath + File.separator + fileName + ".processed");
+                return (!file.isDirectory() &&
+                        file.getName().endsWith(electronicInvoiceInputFileType.getFileExtension()) &&
+                        !processedFile.exists());
+            }
+        });
+
+        return filesToBeProcessed;
+    }
+
     protected void logProcessElectronicInvoiceError(String msg) {
         File file = new File(electronicInvoiceInputFileType.getReportPath() + "/" +
                 electronicInvoiceInputFileType.getReportPrefix() + "_" +
@@ -472,6 +476,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
      * @param eInvoiceLoad the load summary to be modified
      * @return boolean where true means there has been some type of reject
      */
+    @Transactional
     protected boolean processElectronicInvoice(ElectronicInvoiceLoad eInvoiceLoad,
                                              File invoiceFile,
                                              byte[] xmlAsBytes) {
@@ -790,6 +795,9 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
             eInvoiceRejectDocument.setInvoiceRejectReasons(list);
             eInvoiceRejectDocument.getDocumentHeader().setDocumentDescription("Complete failure");
 
+            // KFSCNTRB-1369: Need to Save document
+            SpringContext.getBean(DocumentService.class).saveDocument(eInvoiceRejectDocument);
+
             String noteText = "Invoice file";
             attachInvoiceXMLWithRejectDoc(eInvoiceRejectDocument,invoiceFile,noteText);
 
@@ -811,6 +819,8 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         Note note = null;
         try {
             note = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eInvoiceRejectDocument, noteText);
+            // KFSCNTRB-1369: Can't add note without remoteObjectIdentifier
+            note.setRemoteObjectIdentifier(eInvoiceRejectDocument.getDocumentHeader().getObjectId());
         }catch (Exception e1) {
             throw new RuntimeException("Unable to create note from document: ", e1);
         }
@@ -900,6 +910,8 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
 
         try {
             Note note = SpringContext.getBean(DocumentService.class).createNoteFromDocument(eInvoiceRejectDocument, rejectReasons);
+            // KFSCNTRB-1369: Can't add note without remoteObjectIdentifier
+            note.setRemoteObjectIdentifier(eInvoiceRejectDocument.getDocumentHeader().getObjectId());
             PersistableBusinessObject noteParent = eInvoiceRejectDocument.getNoteTarget();
             SpringContext.getBean(NoteService.class).save(note);
         }catch (Exception e) {
@@ -1881,7 +1893,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
     }
 
     protected void deleteDoneFile(File invoiceFile) {
-        File doneFile = new File(invoiceFile.getAbsolutePath().replace(".xml", ".done"));
+        File doneFile = new File(invoiceFile.getAbsolutePath().replace(electronicInvoiceInputFileType.getFileExtension(), ".done"));
         if (doneFile.exists()) {
             doneFile.delete();
         }

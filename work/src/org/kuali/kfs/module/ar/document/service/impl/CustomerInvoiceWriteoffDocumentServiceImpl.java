@@ -172,7 +172,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             criteria.put("chartOfAccountsCode", customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getBillByChartOfAccountCode());
             criteria.put("organizationCode", customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getBilledByOrganizationCode());
 
-            OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault) businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
+            OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
             if (ObjectUtils.isNotNull(organizationAccountingDefault)) {
                 customerInvoiceWriteoffDocument.setChartOfAccountsCode(organizationAccountingDefault.getWriteoffChartOfAccountsCode());
                 customerInvoiceWriteoffDocument.setAccountNumber(organizationAccountingDefault.getWriteoffAccountNumber());
@@ -211,8 +211,9 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         if (StringUtils.isNotEmpty(customerInvoiceNumber)) {
             customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
             CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(customerInvoiceNumber);
-            if (ObjectUtils.isNotNull(customerInvoiceDocument) && customerInvoiceDocument.isOpenInvoiceIndicator())
+            if (ObjectUtils.isNotNull(customerInvoiceDocument) && customerInvoiceDocument.isOpenInvoiceIndicator()) {
                 customerInvoiceDocuments.add(customerInvoiceDocument);
+            }
         }
         else if (StringUtils.isNotEmpty(customerNumber)) {
             customerInvoiceDocuments = customerInvoiceDocumentService.getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
@@ -274,10 +275,12 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         for (CustomerInvoiceDocument invoice : customerInvoiceDocuments) {
             if (invoice.getDocumentHeader().getWorkflowDocument().isFinal()) {
                 hasNoDocumentsInRouteFlag = checkIfThereIsNoAnotherCRMInRouteForTheInvoice(invoice.getDocumentNumber());
-                if (hasNoDocumentsInRouteFlag)
+                if (hasNoDocumentsInRouteFlag) {
                     hasNoDocumentsInRouteFlag = checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(invoice.getDocumentNumber());
-                if (hasNoDocumentsInRouteFlag)
+                }
+                if (hasNoDocumentsInRouteFlag) {
                     filteredInvoices.add(invoice);
+                }
             }
         }
         return filteredInvoices;
@@ -302,8 +305,9 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         Collection<CustomerCreditMemoDocument> customerCreditMemoDocuments = businessObjectService.findMatching(CustomerCreditMemoDocument.class, fieldValues);
 
         // no CRMs associated with the invoice are found
-        if (customerCreditMemoDocuments.isEmpty())
+        if (customerCreditMemoDocuments.isEmpty()) {
             return success;
+        }
 
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         for(CustomerCreditMemoDocument customerCreditMemoDocument : customerCreditMemoDocuments) {
@@ -335,8 +339,9 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         Collection<CustomerInvoiceWriteoffDocument> customerInvoiceWriteoffDocuments = businessObjectService.findMatching(CustomerInvoiceWriteoffDocument.class, fieldValues);
 
         // no writeoffs associated with the invoice are found
-        if (customerInvoiceWriteoffDocuments.isEmpty())
+        if (customerInvoiceWriteoffDocuments.isEmpty()) {
             return success;
+        }
 
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         for(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument : customerInvoiceWriteoffDocuments) {
@@ -383,7 +388,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     }
 
     @Override
-    public String createCustomerInvoiceWriteoffDocument(Person initiator, String invoiceNumber, String note) throws WorkflowException {
+    public String createCustomerInvoiceWriteoffDocument(String invoiceNumber, String note) throws WorkflowException {
 
         //  force the initiating user into the header
         // JHK: removed!  This can not work in production!

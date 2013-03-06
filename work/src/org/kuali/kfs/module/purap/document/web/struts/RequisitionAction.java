@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,18 +27,26 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.DefaultPrincipalAddress;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
+import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -193,5 +203,55 @@ public class RequisitionAction extends PurchasingActionBase {
         RequisitionDocument document = (RequisitionDocument) ((PurchasingFormBase) form).getDocument();
         document.setBlanketApproveRequest(true);
         return super.blanketApprove(mapping, form, request, response);
+    }
+    
+    /**
+     * Add a new item to the document.
+     * 
+     * @param mapping An ActionMapping
+     * @param form An ActionForm
+     * @param request The HttpServletRequest
+     * @param response The HttpServletResponse
+     * @throws Exception
+     * @return An ActionForward
+     */
+    @Override
+    public ActionForward addItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurApItem item = purchasingForm.getNewPurchasingItemLine();
+        RequisitionItem requisitionItem = (RequisitionItem)item;
+        PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
+        
+        if (StringUtils.isBlank(requisitionItem.getPurchasingCommodityCode())) {
+            boolean commCodeParam = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(RequisitionDocument.class, PurapParameterConstants.ENABLE_DEFAULT_VENDOR_COMMODITY_CODE_IND);
+
+            if (commCodeParam) {
+                if (purchasingForm instanceof RequisitionForm) {
+                    RequisitionDocument reqs =(RequisitionDocument)purchasingForm.getDocument();
+                    VendorDetail dtl = reqs.getVendorDetail();
+                    if (ObjectUtils.isNotNull(dtl)) {
+                        List<VendorCommodityCode> vcc = dtl.getVendorCommodities();
+                        String defaultCommodityCode = "";
+                        Iterator<VendorCommodityCode> it = vcc.iterator();
+                        while (it.hasNext()) {
+                            VendorCommodityCode commodity = it.next();
+                            if (commodity.isCommodityDefaultIndicator()) {
+                                defaultCommodityCode = commodity.getPurchasingCommodityCode();
+                                requisitionItem.setPurchasingCommodityCode(defaultCommodityCode);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedAddPurchasingAccountsPayableItemEvent("", purDocument, item));
+
+        if (rulePassed) {
+            item = purchasingForm.getAndResetNewPurchasingItemLine();
+            purDocument.addItem(item);
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

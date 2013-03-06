@@ -272,8 +272,8 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         }
         return nonSelectedInvoiceApplications;
     }
-    
-    
+
+
     /**
      * An inner class to point to a specific entry in a group
      */
@@ -304,7 +304,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
      * This comparator is used internally for sorting the list of invoices
      */
     protected static class EntryHolderComparator implements Comparator<EntryHolder> {
-        
+
         /**
          * Compares two Objects based on their creation date
          * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
@@ -313,20 +313,16 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
              return rosencrantz.getDate().compareTo(guildenstern.getDate());
       }
     }
-    
-    
-    public List<PaymentApplicationInvoiceApply> getInvoiceApplications() {        
-        EntryHolderComparator entryHolderComparator = new EntryHolderComparator();
-        List <EntryHolder> entryHoldings = new ArrayList<EntryHolder>(); 
-       for (PaymentApplicationInvoiceApply paymentApplicationInvoiceApply : invoiceApplications){
-           entryHoldings.add(new EntryHolder(paymentApplicationInvoiceApply.getInvoice().getDocumentHeader().getWorkflowDocument().getDateCreated().toDate(), paymentApplicationInvoiceApply));
-       }
-       if (entryHoldings.size() > 0) Collections.sort(entryHoldings, entryHolderComparator);
-       List <PaymentApplicationInvoiceApply> results = new ArrayList<PaymentApplicationInvoiceApply>(); 
-       for (EntryHolder entryHolder : entryHoldings) {
-           results.add((PaymentApplicationInvoiceApply) entryHolder.getHolder());
-       }
-        return results;
+
+    //https://jira.kuali.org/browse/KFSCNTRB-1377
+    //Turn into a simple getter and setter to prevent refetching and presort collection
+    //on load
+    public List<PaymentApplicationInvoiceApply> getInvoiceApplications() {
+        return invoiceApplications;
+    }
+
+    public void setInvoiceApplications(List<PaymentApplicationInvoiceApply> invoiceApplications){
+        this.invoiceApplications = invoiceApplications;
     }
 
     public PaymentApplicationInvoiceApply getSelectedInvoiceApplication() {
@@ -416,7 +412,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
      * @return a CustomerInvoiceDocument
      */
     public PaymentApplicationInvoiceApply getInvoiceApplication(int index) {
-        return (PaymentApplicationInvoiceApply) invoiceApplications.get(index);
+        return invoiceApplications.get(index);
     }
 
     @SuppressWarnings("unchecked")
@@ -612,15 +608,17 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         return amount;
     }
 
-     
+
     public List<NonAppliedHolding> getNonAppliedControlHoldings() {
         EntryHolderComparator entryHolderComparator = new EntryHolderComparator();
-        List <EntryHolder> entryHoldings = new ArrayList<EntryHolder>(); 
+        List <EntryHolder> entryHoldings = new ArrayList<EntryHolder>();
         for (NonAppliedHolding nonAppliedControlHolding : nonAppliedControlHoldings){
             entryHoldings.add(new EntryHolder(nonAppliedControlHolding.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate(), nonAppliedControlHolding));
         }
-        if (entryHoldings.size() > 0) Collections.sort(entryHoldings, entryHolderComparator);
-        List <NonAppliedHolding> results = new ArrayList<NonAppliedHolding>(); 
+        if (entryHoldings.size() > 0) {
+            Collections.sort(entryHoldings, entryHolderComparator);
+        }
+        List <NonAppliedHolding> results = new ArrayList<NonAppliedHolding>();
         for (EntryHolder entryHolder : entryHoldings) {
             results.add((NonAppliedHolding) entryHolder.getHolder());
         }
@@ -676,7 +674,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
             final String[] checkboxesToReset = request.getParameterValues("checkboxToReset");
             if(checkboxesToReset != null && checkboxesToReset.length > 0) {
                 for (int i = 0; i < checkboxesToReset.length; i++) {
-                    String propertyName = (String) checkboxesToReset[i];
+                    String propertyName = checkboxesToReset[i];
                     if ( !StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) == null ) {
                         try {
                             populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);

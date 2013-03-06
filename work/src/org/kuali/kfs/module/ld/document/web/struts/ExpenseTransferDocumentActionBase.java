@@ -45,6 +45,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
@@ -448,6 +449,25 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
             for (Iterator i = accountingLines.iterator(); i.hasNext();) {
                 AccountingLine line = (AccountingLine) i.next();
+                LaborAccountingLineOverride.processForOutput(line);
+            }
+        }
+    }
+
+
+   /**
+    *
+    * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#processAccountingLineOverrides(org.kuali.kfs.sys.document.AccountingDocument, java.util.List)
+    */
+    @Override
+     protected void processAccountingLineOverrides(AccountingDocument financialDocument ,List accountingLines) {
+        if (!accountingLines.isEmpty()) {
+
+
+            for (Iterator i = accountingLines.iterator(); i.hasNext();) {
+                AccountingLine line = (AccountingLine) i.next();
+               // line.refreshReferenceObject("account");
+                SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, AccountingLineOverride.REFRESH_FIELDS);
                 LaborAccountingLineOverride.processForOutput(line);
             }
         }

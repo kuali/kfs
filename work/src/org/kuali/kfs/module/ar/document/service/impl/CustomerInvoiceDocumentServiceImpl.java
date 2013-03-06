@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -55,8 +55,8 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.dao.DocumentDao;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -69,7 +69,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocumentService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentServiceImpl.class);
 
-    protected PersonService personService;
     protected BusinessObjectService businessObjectService;
     protected DateTimeService dateTimeService;
     protected ReceivableAccountingLineService receivableAccountingLineService;
@@ -219,8 +218,9 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         // trim and force-caps the customer name
         customerName = StringUtils.replace(customerName, KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN);
         customerName = customerName.trim();
-        if (customerName.indexOf("%") < 0)
+        if (customerName.indexOf("%") < 0) {
             customerName += "%";
+        }
 
         // trim and force-caps
         customerTypeCode = customerTypeCode.trim().toUpperCase();
@@ -236,8 +236,9 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         // trim and force-caps the customer name
         customerName = StringUtils.replace(customerName, KFSConstants.WILDCARD_CHARACTER, KFSConstants.PERCENTAGE_SIGN);
         customerName = customerName.trim();
-        if (customerName.indexOf("%") < 0)
+        if (customerName.indexOf("%") < 0) {
             customerName += "%";
+        }
 
         invoices.addAll(customerInvoiceDocumentDao.getOpenByCustomerName(customerName));
         return invoices;
@@ -311,7 +312,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         HashMap criteria = new HashMap();
         criteria.put("documentNumber", customerInvoiceDocument.getDocumentHeader().getDocumentTemplateNumber());
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        FinancialSystemDocumentHeader financialSystemDocumentHeader = (FinancialSystemDocumentHeader) businessObjectService.findByPrimaryKey(FinancialSystemDocumentHeader.class, criteria);
+        FinancialSystemDocumentHeader financialSystemDocumentHeader = businessObjectService.findByPrimaryKey(FinancialSystemDocumentHeader.class, criteria);
         KualiDecimal originalTotalAmount = KualiDecimal.ZERO;
         originalTotalAmount = financialSystemDocumentHeader.getFinancialDocumentTotalAmount();
 
@@ -409,9 +410,9 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         // This isnt as performant a solution as the other getPrintableCustomerInvoiceBy...
         // methods, but its the best we can do in this release, and it should be manageable.
 
-        // 
+        //
         // attempt to retrieve the initiator person specified, and puke if not found
-        Person initiator = getPersonService().getPersonByPrincipalName(initiatorPrincipalName);
+        Principal initiator = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(initiatorPrincipalName);
         if (initiator == null) {
             throw new IllegalArgumentException("The parameter value for initiatorPrincipalName [" + initiatorPrincipalName + "] passed in doesnt map to a person.");
         }
@@ -512,7 +513,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
     /**
      * Refactor to have all the setters in here.
-     * 
+     *
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService#setupDefaultValuesForNewCustomerInvoiceDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
     @Override
@@ -535,7 +536,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", document.getBillByChartOfAccountCode());
         criteria.put("organizationCode", document.getBilledByOrganizationCode());
-        OrganizationOptions organizationOptions = (OrganizationOptions) businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
+        OrganizationOptions organizationOptions = businessObjectService.findByPrimaryKey(OrganizationOptions.class, criteria);
 
         if (ObjectUtils.isNotNull(organizationOptions)) {
             document.setPrintInvoiceIndicator(organizationOptions.getPrintInvoiceIndicator());
@@ -673,7 +674,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
     /**
      * This method sets due date equal to todays date +30 days by default
-     * 
+     *
      * @param dateTimeService
      */
     protected Date getDefaultInvoiceDueDate() {
@@ -704,7 +705,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
         //businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         HashMap<String, String> criteria = new HashMap<String, String>();
         criteria.put("documentNumber", docNumber);
-        CustomerInvoiceDocument customerInvoiceDocument = (CustomerInvoiceDocument)businessObjectService.findByPrimaryKey(CustomerInvoiceDocument.class, criteria);
+        CustomerInvoiceDocument customerInvoiceDocument = businessObjectService.findByPrimaryKey(CustomerInvoiceDocument.class, criteria);
         Date reportedDate = dateTimeService.getCurrentSqlDate();
         if (ObjectUtils.isNotNull(customerInvoiceDocument)) {
             customerInvoiceDocument.setReportedDate(reportedDate);
@@ -719,7 +720,7 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
     public void updateReportedInvoiceInfo(CustomerStatementResultHolder data) {
         HashMap<String, String> criteria = new HashMap<String, String>();
         criteria.put("customerNumber", data.getCustomerNumber());
-        CustomerBillingStatement customerBillingStatement = (CustomerBillingStatement)businessObjectService.findByPrimaryKey(CustomerBillingStatement.class, criteria);
+        CustomerBillingStatement customerBillingStatement = businessObjectService.findByPrimaryKey(CustomerBillingStatement.class, criteria);
         if (ObjectUtils.isNotNull(customerBillingStatement)) {
             customerBillingStatement.setPreviouslyBilledAmount(data.getCurrentBilledAmount());
             customerBillingStatement.setReportedDate(dateTimeService.getCurrentSqlDate());
@@ -806,15 +807,6 @@ public class CustomerInvoiceDocumentServiceImpl implements CustomerInvoiceDocume
 
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
-    }
-
-    /**
-     * @return Returns the personService.
-     */
-    protected PersonService getPersonService() {
-        if (personService == null)
-            personService = SpringContext.getBean(PersonService.class);
-        return personService;
     }
 
     /**

@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -45,7 +46,6 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.NoteService;
@@ -406,6 +406,7 @@ public class VendorServiceImpl implements VendorService {
         }
     }
 
+    @Override
     public List<Note> getVendorNotes(VendorDetail vendorDetail) {
         List<Note> notes = new ArrayList<Note>();
         if (ObjectUtils.isNotNull(vendorDetail)) {
@@ -464,15 +465,14 @@ public class VendorServiceImpl implements VendorService {
      * @see org.kuali.kfs.vnd.document.service.VendorService#isVendorContractExpired(org.kuali.kfs.vnd.businessobject.VendorDetail)
      */
     @Override
-    public boolean isVendorContractExpired(Document document, VendorDetail vendorDetail) {
+    public boolean isVendorContractExpired(PurchasingDocument document, VendorDetail vendorDetail) {
         boolean isExpired = false;
 
-        Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        if (ObjectUtils.isNotNull(document.getVendorContractGeneratedIdentifier())) {
+            VendorContract vendorContract = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(VendorContract.class, document.getVendorContractGeneratedIdentifier());
+            Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+            List<Note> notes = document.getNotes();
 
-        List<VendorContract> vendorContracts = vendorDetail.getVendorContracts();
-        List<Note> notes = document.getNotes();
-
-        for (VendorContract vendorContract : vendorContracts) {
             if ((currentDate.compareTo(vendorContract.getVendorContractEndDate()) > 0 && (vendorContract.getVendorContractExtensionDate() == null || currentDate.compareTo(vendorContract.getVendorContractExtensionDate()) > 0)) || !vendorContract.isActive()) {
                 Note newNote = new Note();
                 newNote.setNoteText("Vendor Contract: " + vendorContract.getVendorContractName() + " contract has expired contract end date.");
@@ -480,7 +480,7 @@ public class VendorServiceImpl implements VendorService {
                 newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
                 Note note = noteService.createNote(newNote, vendorDetail, GlobalVariables.getUserSession().getPrincipalId());
                 notes.add(note);
-                return true;
+                isExpired = true;
             }
         }
 

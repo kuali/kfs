@@ -67,9 +67,9 @@ import org.kuali.kfs.gl.service.impl.ScrubberStatus;
 import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants.GlParameterConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.KFSParameterKeyConstants.GlParameterConstants;
 import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -339,6 +339,27 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             }
 
             processGroup(reportOnlyMode, scrubberReport);
+
+            /* temp log for debugging output file delay issue
+            if (new File(validFile).canRead()) {
+                LOG.info("Valid file " + validFile + " is ready for read.");
+            }
+            else {
+                LOG.error("Valid file " + validFile + " is not readable.");
+            }
+            if (new File(errorFile).canRead()) {
+                LOG.info("Error file " + errorFile + " is ready for read.");
+            }
+            else {
+                LOG.error("Error file " + errorFile + " is not readable.");
+            }
+            if (new File(expiredFile).canRead()) {
+                LOG.info("Expired file " + expiredFile + " is ready for read.");
+            }
+            else {
+                LOG.error("Expired file " + expiredFile + " is not readable.");
+            }
+            */
 
             if (reportOnlyMode) {
                 generateScrubberTransactionListingReport(documentNumber, inputFile);
@@ -647,6 +668,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             OUTPUT_GLE_FILE_ps = new PrintStream(validFile);
             OUTPUT_ERR_FILE_ps = new PrintStream(errorFile);
             OUTPUT_EXP_FILE_ps = new PrintStream(expiredFile);
+            LOG.info("Successfully opened " + validFile + ", " + errorFile + ", " + expiredFile + " for writing.");
         }
         catch (IOException e) {
             throw new RuntimeException(e);
@@ -867,6 +889,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             OUTPUT_GLE_FILE_ps.close();
             OUTPUT_ERR_FILE_ps.close();
             OUTPUT_EXP_FILE_ps.close();
+            LOG.info("Successfully writen and closed " + validFile + ", " + errorFile + ", " + expiredFile + ".");
 
             handleEndOfScrubberReport(scrubberReport);
 
@@ -1489,7 +1512,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             criteriaMap.put("chartOfAccountsCode", originEntryFull.getChartOfAccountsCode());
             criteriaMap.put("financialObjectCode",  fundBalanceCode);
 
-            fundBalanceObjectCode = ((ObjectCode) businessObjectService.findByPrimaryKey(ObjectCode.class, criteriaMap));
+            fundBalanceObjectCode = (businessObjectService.findByPrimaryKey(ObjectCode.class, criteriaMap));
         }
 
         return fundBalanceObjectCode;

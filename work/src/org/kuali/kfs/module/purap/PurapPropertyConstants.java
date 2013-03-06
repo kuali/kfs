@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -48,10 +48,10 @@ public class PurapPropertyConstants {
     public static final String ITEM_TAX_AMOUNT = "itemTaxAmount";
     public static final String ITEM_SALES_TAX_AMOUNT = "itemSalesTaxAmount";
     public static final String TOTAL_AMOUNT = "totalAmount";
-    
+
     // ITEM TYPE
     public static final String ITEM_TYPE_QUANTITY_BASED = "quantityBasedGeneralLedgerIndicator";
-    
+
     // accounting line
     public static final String ACCOUNT_DISTRIBUTION_NEW_SRC_LINE = "accountDistributionnewSourceLine";
     public static final String ACCOUNT_IDENTIFIER = "accountIdentifier";
@@ -60,7 +60,7 @@ public class PurapPropertyConstants {
     public static final String SUB_FUND_GROUP_CODE = "subFundGroupCode";
     public static final String ACCOUNT_TYPE_CODE = "accountTypeCode";
     public static final String ORGANIZATION_CODE = "organizationCode";
-    public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";    
+    public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
     public static final String ACCOUNT_NUMBER = "accountNumber";
     public static final String DATA_OBJ_MAINT_CD_ACTIVE_IND = "dataObjectMaintenanceCodeActiveIndicator";
 
@@ -87,7 +87,7 @@ public class PurapPropertyConstants {
     public static final String REQUESTOR_PERSON_NAME = "requestorPersonName";
     public static final String DELIVERY_TO_NAME = "deliveryToName";
     public static final String BANK_CODE = "bankCode";
-    
+
     // PURCHASING DOCUMENT BASE
     public static final String RECURRING_PAYMENT_TYPE_CODE = "recurringPaymentTypeCode";
     public static final String PURCHASE_ORDER_BEGIN_DATE = "purchaseOrderBeginDate";
@@ -112,7 +112,7 @@ public class PurapPropertyConstants {
     public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
     public static final String VENDOR_CONTRACT = "vendorContract";
     public static final String ITEM_UNIT_OF_MEASURE = "itemUnitOfMeasure";
-        
+
     // Capital Asset Locations
     public static final String CAPITAL_ASSET_LOCATION_ADDRESS_LINE1 = "capitalAssetLine1Address";
     public static final String CAPITAL_ASSET_LOCATION_CITY = "capitalAssetCityName";
@@ -122,10 +122,10 @@ public class PurapPropertyConstants {
     public static final String CAPITAL_ASSET_LOCATION_CAMPUS = "campusCode";
     public static final String CAPITAL_ASSET_LOCATION_BUILDING = "buildingCode";
     public static final String CAPITAL_ASSET_LOCATION_ROOM = "buildingRoomNumber";
-    
+
     // Purchasing Capital Asset System Base
     public static final String CAPITAL_ASSET_TYPE_CODE = "capitalAssetTypeCode";
-    
+
     // Receiving Address
     public static final String RECEIVING_ADDRESS_DEFAULT_INDICATOR = "defaultIndicator";
     public static final String RECEIVING_ADDRESS_STATE = "receivingStateCode";
@@ -172,7 +172,7 @@ public class PurapPropertyConstants {
     public static final String NEW_PURCHASE_ORDER_VENDOR_QUOTE_TEXT = "newPurchaseOrderVendorQuote";
     public static final String NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_NAME = "newPurchaseOrderVendorQuote.vendorName";
     public static final String NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_LINE_1_ADDR = "newPurchaseOrderVendorQuote.vendorLine1Address";
-    public static final String NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_CITY_NAME = "newPurchaseOrderVendorQuote.vendorCityName";    
+    public static final String NEW_PURCHASE_ORDER_VENDOR_QUOTE_VENDOR_CITY_NAME = "newPurchaseOrderVendorQuote.vendorCityName";
 
     // Stipulations
     public static final String VENDOR_STIPULATION_DESCRIPTION = "vendorStipulationDescription";
@@ -180,7 +180,7 @@ public class PurapPropertyConstants {
     
     // Sensitive Data
     public static final String SENSITIVE_DATA_CODE = "sensitiveDataCode";
-    
+
     // PAYMENT REQUEST DOCUMENT
     public static final String INVOICE_DATE = "invoiceDate";
     public static final String INVOICE_NUMBER = "invoiceNumber";
@@ -189,6 +189,8 @@ public class PurapPropertyConstants {
     public static final String GRAND_TOTAL = "grandTotal";
     public static final String PAYMENT_REQUEST = "paymentRequest";
     public static final String RECURRING_PAYMENT_TYPE = "recurringPaymentType";
+    public static final String HOLD_INDICATOR_FOR_SEARCHING= "holdIndicatorForSearching";
+    public static final String PAYMENT_REQUEST_CANCEL_INDICATOR_FOR_SEARCHING = "paymentRequestedCancelIndicatorForSearching";
 
     // tax tab fields
     public static final String TAX_CLASSIFICATION_CODE = "taxClassificationCode";
@@ -216,19 +218,19 @@ public class PurapPropertyConstants {
     public static final String SHIPMENT_PACKING_SLIP_NUMBER = "shipmentPackingSlipNumber";
     public static final String SHIPMENT_BILL_OF_LADING_NUMBER = "shipmentBillOfLadingNumber";
     public static final String LINE_ITEM_RECEIVING_STATUS = "lineItemReceivingStatus";
-    
+
     //ASSIGN CONTRACT MANAGER DOCUMENT
     public static final String REQUISITION_IDENTIFIER = "requisitionIdentifier";
     public static final String VENDOR_NAME = "vendorName";
-    
+
     // ELECTRONIC INVOICE GENERATION
     public static final String PURCHASE_ORDER_DOCUMENT_NUMBER = "poDocNumber";
-    
+
     //BULK RECEIVING DOCUMENT
     public static final String VENDOR_DATE = "vendorName";
-    
+
     public static final String B2B_PUNCH_BACK_ACTION_FORWARDING_URL = "b2b.punch.back.action.forwarding.url";
-    
+
     public static final String ITEM_UNIT_OF_MEASURE_CODE = "itemUnitOfMeasureCode";
-    
+
 }

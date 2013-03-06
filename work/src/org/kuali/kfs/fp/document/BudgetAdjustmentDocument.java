@@ -932,7 +932,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
          // check remaining conditions
         // initiator should be fiscal officer or primary delegate for account
-        Person initiator = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        Person initiator = KimApiServiceLocator.getPersonService().getPerson(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         AccountService acctService = SpringContext.getBean(AccountService.class);
         for (Iterator iter1 = accountingLines.iterator(); iter1.hasNext();) {
 

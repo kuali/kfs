@@ -1562,8 +1562,7 @@
     <bean id="laborPositionFundingLookupableHelperService" scope="prototype"  parent="laborPositionFundingLookupableHelperService-parentBean" />
 
     <bean id="laborPositionFundingLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ld.businessobject.lookup.PositionFundingLookupableHelperServiceImpl"
-        scope="prototype"
-    >
+        scope="prototype">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -1588,8 +1587,7 @@
     </bean>
 
     <bean id="laborLedgerBalanceForEffortCertificationLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
-        scope="prototype"
-    >
+        scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="laborLedgerBalanceForEffortCertificationLookupableHelperService" />
         </property>
@@ -1597,9 +1595,13 @@
     
     <bean id="laborLedgerBalanceForEffortCertificationLookupableHelperService" scope="prototype"  parent="laborLedgerBalanceForEffortCertificationLookupableHelperService-parentBean" />
 
-    <bean id="laborLedgerBalanceForEffortCertificationLookupableHelperService-parentBean" abstract="true" 
+	<bean id="laborLedgerBalanceForEffortCertificationLookupableHelperService-parentBean" abstract="true" 
         class="org.kuali.kfs.module.ld.businessobject.lookup.LedgerBalanceForEffortCertificationLookupableHelperServiceImpl"
-        autowire="byName" scope="prototype" />
+        scope="prototype" >
+        <property name="effortLedgerBalanceLookupableHelperService">
+            <ref bean="effortLedgerBalanceLookupableHelperService" />
+        </property>
+    </bean>
 
     <bean id="benefitsCalculationFiscalYearMaker" parent="FiscalYearMaker">
         <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation" />

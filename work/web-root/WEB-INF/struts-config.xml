@@ -293,7 +293,7 @@
 
         <!-- VND Module Bean Definitions -->
 	    <form-bean name="VendorExclusionForm"
-			type="org.kuali.kfs.vnd.web.struts.VendorExclusionForm" />       			
+			type="org.kuali.kfs.vnd.web.struts.VendorExclusionForm" />     			
 	</form-beans>
 
 	<global-exceptions>
@@ -749,6 +749,11 @@
 			name="VendorExclusionForm"
 			scope="request" parameter="methodToCall" validate="false"
 			attribute="KualiForm" />
+			
+		<action path="/SessionInvalidateAction" name="KualiForm"
+			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+			<forward name="basic" path="/jsp/sys/SessionExpiration.jsp" />
+		</action>
 
 	</action-mappings>
 

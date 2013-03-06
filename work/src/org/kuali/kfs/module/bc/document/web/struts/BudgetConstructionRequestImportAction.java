@@ -103,7 +103,7 @@ public class BudgetConstructionRequestImportAction extends BudgetConstructionImp
             messageList.addAll(dataValidationErrorList);
         }
         
-        messageList.add("Validate data compete");
+        messageList.add("Validate data complete");
         messageList.add(" ");
         messageList.add("Update budget phase");
         

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -54,7 +54,7 @@ import org.kuali.rice.krad.util.UrlFactory;
  * This class provides actions for the format process
  */
 public class FormatAction extends KualiAction {
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatAction.class);
     private FormatService formatService;
 
     /**
@@ -70,7 +70,7 @@ public class FormatAction extends KualiAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PdpAuthorizationService authorizationService = SpringContext.getBean(PdpAuthorizationService.class);
-        
+
         Person kualiUser = GlobalVariables.getUserSession().getPerson();
         String methodToCall = findMethodToCall(form, request);
 
@@ -83,7 +83,7 @@ public class FormatAction extends KualiAction {
 
     /**
      * This method prepares the data for the format process
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -93,7 +93,7 @@ public class FormatAction extends KualiAction {
      */
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         FormatForm formatForm = (FormatForm) form;
-        
+
         Person kualiUser = GlobalVariables.getUserSession().getPerson();
         FormatSelection formatSelection = formatService.getDataForFormat(kualiUser);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
@@ -122,13 +122,13 @@ public class FormatAction extends KualiAction {
             formatForm.setCustomers(customers);
             formatForm.setRanges(formatSelection.getRangeList());
         }
-        
+
         return mapping.findForward(PdpConstants.MAPPING_SELECTION);
     }
 
     /**
      * This method marks the payments for format
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -170,7 +170,7 @@ public class FormatAction extends KualiAction {
 
     /**
      * This method performs the format process.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -184,6 +184,7 @@ public class FormatAction extends KualiAction {
 
         try {
             formatService.performFormat(processId.intValue());
+            LOG.info("Formatting done.."); //remove this
         }
         catch (FormatException e) {
             // errors added to global message map
@@ -191,12 +192,13 @@ public class FormatAction extends KualiAction {
         }
 
         String lookupUrl = buildUrl(String.valueOf(processId.intValue()));
+        LOG.info("Forwarding to lookup"); //remove this
         return new ActionForward(lookupUrl, true);
     }
 
     /**
      * This method clears all the customer checkboxes.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -212,14 +214,14 @@ public class FormatAction extends KualiAction {
             customerProfile.setSelectedForFormat(false);
         }
         formatForm.setCustomers(customers);
-        
+
         return mapping.findForward(PdpConstants.MAPPING_SELECTION);
 
     }
 
     /**
      * This method cancels the format process
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -229,7 +231,7 @@ public class FormatAction extends KualiAction {
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         FormatForm formatForm = (FormatForm) form;
-        
+
         KualiInteger processId = formatForm.getFormatProcessSummary().getProcessId();
 
         if (processId != null) {
@@ -241,7 +243,7 @@ public class FormatAction extends KualiAction {
 
     /**
      * This method clears the unfinished format process and is called from the FormatProcess lookup page.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -250,7 +252,7 @@ public class FormatAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward clearUnfinishedFormat(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         String processIdParam = request.getParameter(PdpParameterConstants.FormatProcess.PROCESS_ID_PARAM);
         Integer processId = Integer.parseInt(processIdParam);
 
@@ -264,7 +266,7 @@ public class FormatAction extends KualiAction {
 
     /**
      * This method builds the forward url for the format summary lookup page.
-     * 
+     *
      * @param processId the batch id
      * @return the built url
      */

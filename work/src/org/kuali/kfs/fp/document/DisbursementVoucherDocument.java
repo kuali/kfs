@@ -1007,7 +1007,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         } else {
             this.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(false);
         }
-        
+
         // I'm assuming that if a tax id type code other than 'TAX' is present, then the employee must be foreign
         for ( String externalIdentifierTypeCode : employee.getExternalIdentifiers().keySet() ) {
             if (KimConstants.PersonExternalIdentifierTypes.TAX.equals(externalIdentifierTypeCode)) {
@@ -1866,14 +1866,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         }
     }
 
-
-    protected PersonService getPersonService() {
-        if ( personService == null ) {
-            personService = SpringContext.getBean(PersonService.class);
-        }
-        return personService;
-    }
-
+    @Override
     protected ParameterService getParameterService() {
         if ( parameterService == null ) {
             parameterService = SpringContext.getBean(ParameterService.class);
@@ -1943,18 +1936,18 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     public void setDisbExcptAttachedIndicator(boolean disbExcptAttachedIndicator) {
         this.disbExcptAttachedIndicator = disbExcptAttachedIndicator;
     }
-    
-    
+
+
     /**
      * RQ_AP_0760: Ability to view disbursement information on the
      * Disbursement Voucher Document.
-     * 
+     *
      * This method returns the document type of payment detail of the
      * Disbursement Voucher Document. It is invoked when the user clicks
      * on the disbursement info button on the Pre-Disbursement Processor
      * Status tab on Disbursement Voucher Document.
-     * 
-     * 
+     *
+     *
      * @return
      */
     public String getPaymentDetailDocumentType() {

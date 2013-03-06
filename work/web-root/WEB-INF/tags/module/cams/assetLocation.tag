@@ -51,8 +51,8 @@
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusStateCode}" /></th>  
 				<td class="grid" width="25%">
 					<kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationStateCode" attributeEntry="${assetLocationAttributes.assetLocationStateCode}" readOnly="true" readOnlyBody="true">
-						<kul:inquiry boClassName="org.kuali.rice.location.framework.state.StateEbo" keyValues="stateCode=${assetValue.offCampusLocation.assetLocationState.stateCode}&amp;postalCountryCode=${assetValue.offCampusLocation.assetLocationCountryCode}" render="true">
-                			<html:hidden write="true" property="document.asset.offCampusLocation.assetLocationState.stateCode" />
+						<kul:inquiry boClassName="org.kuali.rice.location.framework.state.StateEbo" keyValues="stateCode=${assetValue.offCampusLocation.assetLocationState.code}&amp;postalCountryCode=${assetValue.offCampusLocation.assetLocationCountryCode}" render="true">
+                			<html:hidden write="true" property="document.asset.offCampusLocation.assetLocationState.code" />
                 		</kul:inquiry>&nbsp;
             		</kul:htmlControlAttribute>
 				</td>						
@@ -62,8 +62,8 @@
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusZipCode}" /></th>  
 				<td class="grid" width="25%">
 					<kul:htmlControlAttribute property="document.asset.offCampusLocation.assetLocationZipCode" attributeEntry="${assetLocationAttributes.assetLocationZipCode}" readOnly="true" readOnlyBody="true">
-						<kul:inquiry boClassName="org.kuali.rice.location.framework.postalcode.PostalCodeEbo" keyValues="postalCode=${assetValue.offCampusLocation.postalZipCode.postalCode}&amp;postalCountryCode=${assetValue.offCampusLocation.assetLocationCountryCode}" render="true">
-                			<html:hidden write="true" property="document.asset.offCampusLocation.postalZipCode.postalCode" />
+						<kul:inquiry boClassName="org.kuali.rice.location.framework.postalcode.PostalCodeEbo" keyValues="postalCode=${assetValue.offCampusLocation.postalZipCode.code}&amp;postalCountryCode=${assetValue.offCampusLocation.assetLocationCountryCode}" render="true">
+                			<html:hidden write="true" property="document.asset.offCampusLocation.postalZipCode.code" />
                 		</kul:inquiry>&nbsp;
             		</kul:htmlControlAttribute>
 				</td>

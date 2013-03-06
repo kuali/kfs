@@ -1,0 +1,49 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<changeSet author="KFS503" id="KFSCNTRB-1343">
+		<comment>KFSCNTRB-1343 Create permission to access Lockbox upload and grant to KFS-AR Manager and KFS-SYS Manager</comment>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSCNTRB1343-PRM1" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" valueNumeric="33" />
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="NM" value="Upload Batch Input File(s) lockboxInputFileType" />
+			<column name="DESC_TXT" value="Allow access to the AR Lockbox file Upload screen." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSCNTRB1343-RLPRM1-1" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1" />
+			<column name="ROLE_ID" valueNumeric="1,10174" />
+			<column name="PERM_ID" value="KFSCNTRB1343-PRM1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSCNTRB1343-RLPRM1-2" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1" />
+			<column name="ROLE_ID" valueNumeric="10171" />
+			<column name="PERM_ID" value="KFSCNTRB1343-PRM1"/>
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB1343-PRMATTR1" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="KFSCNTRB1343-PRM1" />
+			<column name="KIM_TYP_ID" value="15" />
+			<column name="KIM_ATTR_DEFN_ID" value="1" />
+			<column name="ATTR_VAL" value="lockboxInputFileType" />
+		</insert>
+		<modifySql dbms='mysql'>
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
+	</changeSet>
+	
+</databaseChangeLog>

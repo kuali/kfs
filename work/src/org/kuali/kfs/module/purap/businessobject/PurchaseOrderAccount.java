@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,6 +16,7 @@
 
 package org.kuali.kfs.module.purap.businessobject;
 
+import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -54,6 +55,7 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
     /**
      * @see org.kuali.kfs.module.purap.businessobject.PurApAccountingLine#getAlternateAmountForGLEntryCreation()
      */
+    @Override
     public KualiDecimal getAlternateAmountForGLEntryCreation() {
         if (ObjectUtils.isNull(super.getAlternateAmountForGLEntryCreation())) {
             return getItemAccountOutstandingEncumbranceAmount();
@@ -75,20 +77,47 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
 
     /**
      * Sets the purchaseOrderItem attribute value.
-     * 
+     *
      * @param purchaseOrderItem The purchaseOrderItem to set.
      * @deprecated
      */
+    @Deprecated
     public void setPurchaseOrderItem(PurchaseOrderItem purchaseOrderItem) {
         super.setPurapItem(purchaseOrderItem);
     }
 
     /**
-     * Caller of this method should take care of creating PurchaseOrderItems
-     * 
+     * @see org.kuali.kfs.sys.businessobject.AccountingLineBase#copyFrom(org.kuali.kfs.sys.businessobject.AccountingLine)
      */
-    public void copyFrom(PurchaseOrderAccount other) {
+    @Override
+    public void copyFrom(AccountingLine other) {
         super.copyFrom(other);
-        setItemAccountOutstandingEncumbranceAmount(other.getItemAccountOutstandingEncumbranceAmount());
+        if (other instanceof PurchaseOrderAccount) {
+            PurchaseOrderAccount poOther = (PurchaseOrderAccount)other;
+            setItemAccountOutstandingEncumbranceAmount(poOther.getItemAccountOutstandingEncumbranceAmount());
+        }
     }
+
+    /**
+     * Checks if the amount in this PurchaseOrderAccount has the same value as the specified one.
+     *
+     * @param poAccount
+     * @return
+     */
+    public boolean isAmountLike(PurchaseOrderAccount poAccount) {
+        if (poAccount == null) {
+            return false;
+        }
+        if (amount == null && poAccount.getAmount() == null) {
+            return true;
+        }
+        if (amount == null && poAccount.getAmount() != null) {
+            return false;
+        }
+        if (amount != null && poAccount.getAmount() == null) {
+            return false;
+        }
+        return amount.compareTo(poAccount.getAmount()) == 0;
+    }
+
 }

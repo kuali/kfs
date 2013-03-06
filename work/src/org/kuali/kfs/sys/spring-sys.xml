@@ -869,6 +869,7 @@
 	<bean id="financialSystemDocumentService-parentBean" abstract="true" class="org.kuali.kfs.sys.document.service.impl.FinancialSystemDocumentServiceImpl">
 		<property name="documentService" ref="documentService" />
 		<property name="documentAdHocService" ref="documentAdHocService" />
+		<property name="parameterService" ref="parameterService" />
 		<property name="financialSystemDocumentDao" ref="financialSystemDocumentDao" />
 		
 	</bean>
@@ -1076,6 +1077,10 @@
 	</bean>
 	
 	<bean id="stopBatchContainerStep" class="org.kuali.kfs.sys.batch.StopBatchContainerStep" parent="step"/>
+	
+	<bean id="initiateDirectoryBase" abstract="true" class="org.kuali.kfs.sys.batch.InitiateDirectoryBase" >
+		 <property name="skipDirectoryInitiation" value="${skip.batch.directory.initiation}" /> 
+	</bean>
 
 	
 	<bean id="semaphoreInputFileTypeError" class="org.kuali.kfs.sys.batch.SemaphoreInputFileType">

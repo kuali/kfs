@@ -34,9 +34,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
@@ -65,6 +62,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.util.KfsDateUtils;
@@ -201,12 +199,28 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
         criteria.setDocumentTypeName(KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD);
         criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.fromCode(statusCode)));
-        DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                GlobalVariables.getUserSession().getPrincipalId(), criteria.build());        
-        
-        for (DocumentSearchResult resultRow: results.getSearchResults()) {
-            documentIds.add(resultRow.getDocument().getDocumentId());
+
+        DocumentSearchCriteria crit = criteria.build();
+
+        int maxResults = SpringContext.getBean(FinancialSystemDocumentService.class).getMaxResultCap(crit);
+        int iterations = SpringContext.getBean(FinancialSystemDocumentService.class).getFetchMoreIterationLimit();
+
+        for (int i = 0; i < iterations; i++) {
+            LOG.debug("Fetch Iteration: "+ i);
+            criteria.setStartAtIndex(maxResults * i);
+            crit = criteria.build();
+            LOG.debug("Max Results: "+criteria.getStartAtIndex());
+            DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
+                    GlobalVariables.getUserSession().getPrincipalId(), crit);
+            if (results.getSearchResults().isEmpty()) {
+                break;
+            }
+            for (DocumentSearchResult resultRow: results.getSearchResults()) {
+                documentIds.add(resultRow.getDocument().getDocumentId());
+                LOG.debug(resultRow.getDocument().getDocumentId());
+            }
         }
+
 
         return documentIds;
     }
@@ -383,16 +397,12 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      */
     protected void createCardHolderRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction) {
         ProcurementCardHolder cardHolder = new ProcurementCardHolder();
-
         cardHolder.setDocumentNumber(pcardDocument.getDocumentNumber());
         cardHolder.setTransactionCreditCardNumber(transaction.getTransactionCreditCardNumber());
-        cardHolder.setChartOfAccountsCode(transaction.getChartOfAccountsCode());
-        cardHolder.setAccountNumber(transaction.getAccountNumber());
-        cardHolder.setSubAccountNumber(transaction.getSubAccountNumber());
 
-        if (getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_CARD_HOLDER_DEFAULT_PARAMETER_NAME)) {
-            final ProcurementCardDefault procurementCardDefault = retrieveProcurementCardDefault(transaction.getTransactionCreditCardNumber());
-            if (procurementCardDefault != null) {
+        final ProcurementCardDefault procurementCardDefault = retrieveProcurementCardDefault(transaction.getTransactionCreditCardNumber());
+        if (procurementCardDefault != null) {
+            if (getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_CARD_HOLDER_DEFAULT_PARAMETER_NAME)) {
                 cardHolder.setCardCycleAmountLimit(procurementCardDefault.getCardCycleAmountLimit());
                 cardHolder.setCardCycleVolumeLimit(procurementCardDefault.getCardCycleVolumeLimit());
                 cardHolder.setCardHolderAlternateName(procurementCardDefault.getCardHolderAlternateName());
@@ -406,14 +416,20 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 cardHolder.setCardLimit(procurementCardDefault.getCardLimit());
                 cardHolder.setCardNoteText(procurementCardDefault.getCardNoteText());
                 cardHolder.setCardStatusCode(procurementCardDefault.getCardStatusCode());
-
-                if (getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME)) {
-                    cardHolder.setChartOfAccountsCode(procurementCardDefault.getChartOfAccountsCode());
-                    cardHolder.setAccountNumber(procurementCardDefault.getAccountNumber());
-                    cardHolder.setSubAccountNumber(procurementCardDefault.getSubAccountNumber());
-                }
+            }
+            if (getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME)) {
+                cardHolder.setChartOfAccountsCode(procurementCardDefault.getChartOfAccountsCode());
+                cardHolder.setAccountNumber(procurementCardDefault.getAccountNumber());
+                cardHolder.setSubAccountNumber(procurementCardDefault.getSubAccountNumber());
             }
         }
+
+        if (StringUtils.isEmpty(cardHolder.getAccountNumber())) {
+            cardHolder.setChartOfAccountsCode(transaction.getChartOfAccountsCode());
+            cardHolder.setAccountNumber(transaction.getAccountNumber());
+            cardHolder.setSubAccountNumber(transaction.getSubAccountNumber());
+        }
+
         if (StringUtils.isEmpty(cardHolder.getCardHolderName())) {
             cardHolder.setCardCycleAmountLimit(transaction.getCardCycleAmountLimit());
             cardHolder.setCardCycleVolumeLimit(transaction.getCardCycleVolumeLimit());
@@ -612,9 +628,10 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         String errorText = "";
 
         targetLine.refresh();
+        final String lineNumber = targetLine.getSequenceNumber() == null ? "new" : targetLine.getSequenceNumber().toString();
 
         if (!accountingLineRuleUtil.isValidChart("", targetLine.getChart(), dataDictionaryService.getDataDictionary())) {
-            String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " is invalid; using error Chart Code.";
+            String tempErrorText = "Target Accounting Line "+lineNumber+" Chart " + targetLine.getChartOfAccountsCode() + " is invalid; using error Chart Code.";
             if ( LOG.isInfoEnabled() ) {
                 LOG.info(tempErrorText);
             }
@@ -625,7 +642,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         }
 
         if (!accountingLineRuleUtil.isValidAccount("", targetLine.getAccount(), dataDictionaryService.getDataDictionary()) || targetLine.getAccount().isExpired()) {
-            String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " is invalid; using error account.";
+            String tempErrorText = "Target Accounting Line "+lineNumber+" Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " is invalid; using error account.";
             if ( LOG.isInfoEnabled() ) {
                 LOG.info(tempErrorText);
             }
@@ -637,7 +654,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         }
 
         if (!accountingLineRuleUtil.isValidObjectCode("", targetLine.getObjectCode(), dataDictionaryService.getDataDictionary())) {
-            String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Object Code " + targetLine.getFinancialObjectCode() + " is invalid; using default Object Code.";
+            String tempErrorText = "Target Accounting Line "+lineNumber+" Chart " + targetLine.getChartOfAccountsCode() + " Object Code " + targetLine.getFinancialObjectCode() + " is invalid; using default Object Code.";
             if ( LOG.isInfoEnabled() ) {
                 LOG.info(tempErrorText);
             }
@@ -648,7 +665,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         }
 
         if (StringUtils.isNotBlank(targetLine.getSubAccountNumber()) && !accountingLineRuleUtil.isValidSubAccount("", targetLine.getSubAccount(), dataDictionaryService.getDataDictionary())) {
-            String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " Sub Account " + targetLine.getSubAccountNumber() + " is invalid; Setting Sub Account to blank.";
+            String tempErrorText = "Target Accounting Line "+lineNumber+" Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " Sub Account " + targetLine.getSubAccountNumber() + " is invalid; Setting Sub Account to blank.";
             if ( LOG.isInfoEnabled() ) {
                 LOG.info(tempErrorText);
             }
@@ -658,7 +675,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         }
 
         if (StringUtils.isNotBlank(targetLine.getFinancialSubObjectCode()) && !accountingLineRuleUtil.isValidSubObjectCode("", targetLine.getSubObjectCode(), dataDictionaryService.getDataDictionary())) {
-            String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " Object Code " + targetLine.getFinancialObjectCode() + " Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid; setting Sub Object to blank.";
+            String tempErrorText = "Target Accounting Line "+lineNumber+" Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " Object Code " + targetLine.getFinancialObjectCode() + " Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid; setting Sub Object to blank.";
             if ( LOG.isInfoEnabled() ) {
                 LOG.info(tempErrorText);
             }
@@ -669,9 +686,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         if (StringUtils.isNotBlank(targetLine.getProjectCode()) && !accountingLineRuleUtil.isValidProjectCode("", targetLine.getProject(), dataDictionaryService.getDataDictionary())) {
             if ( LOG.isInfoEnabled() ) {
-                LOG.info("Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.");
+                LOG.info("Target Accounting Line "+lineNumber+" Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.");
             }
-            errorText += " Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.";
+            errorText += " Target Accounting Line "+lineNumber+" Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.";
 
             targetLine.setProjectCode("");
         }
@@ -681,16 +698,17 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         return errorText;
     }
-    
+
     /**
-     * Validates the chart of account attributes for existence and active indicator. Will substitute for defined 
+     * Validates the chart of account attributes for existence and active indicator. Will substitute for defined
      * default parameters or set fields to empty that if they have errors.
-     * 
+     *
      * @param transaction The transaction to be validated.
      * @return String with error messages discovered during validation.  An empty string indicates no validation errors were found.
      */
     protected String validateTransaction(ProcurementCardTransaction transaction) {
         String errorText = "";
+        final String lineNumber = transaction.getTransactionSequenceRowNumber() == null ? "new" : transaction.getTransactionSequenceRowNumber().toString();
 
         if (getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME)) {
             final ProcurementCardDefault procurementCardDefault = retrieveProcurementCardDefault(transaction.getTransactionCreditCardNumber());
@@ -701,88 +719,88 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 }
                 errorText += " " + tempErrorText;
             }
-        } 
+        }
         else {
             transaction.refresh();
-            
+
             final ChartService chartService = SpringContext.getBean(ChartService.class);
             if (transaction.getChartOfAccountsCode() == null || ObjectUtils.isNull(chartService.getByPrimaryId(transaction.getChartOfAccountsCode()))) {
-                String tempErrorText = "Chart " + transaction.getChartOfAccountsCode() + " is invalid; using error Chart Code.";
-                if ( LOG.isInfoEnabled() ) {
-                    LOG.info(tempErrorText);
-                }
-                errorText += " " + tempErrorText;    
-                transaction.setChartOfAccountsCode(getErrorChartCode());
-                transaction.refresh();
-            }   
-            
-            final AccountService accountService = SpringContext.getBean(AccountService.class);
-            if (transaction.getAccountNumber() == null || ObjectUtils.isNull(accountService.getByPrimaryIdWithCaching(transaction.getChartOfAccountsCode(), transaction.getAccountNumber())) || accountService.getByPrimaryIdWithCaching(transaction.getChartOfAccountsCode(), transaction.getAccountNumber()).isExpired()) {
-                String tempErrorText = "Chart " + transaction.getChartOfAccountsCode() + " Account " + transaction.getAccountNumber() + " is invalid; using error account.";
-                if ( LOG.isInfoEnabled() ) {
-                    LOG.info(tempErrorText);
-                }
-                errorText += " " + tempErrorText;    
-                transaction.setChartOfAccountsCode(getErrorChartCode());
-                transaction.setAccountNumber(getErrorAccountNumber());
-                transaction.refresh();
-            }
-            
-            final UniversityDateService uds = SpringContext.getBean(UniversityDateService.class);
-            final ObjectCodeService ocs = SpringContext.getBean(ObjectCodeService.class);
-            if (transaction.getFinancialObjectCode() == null || ObjectUtils.isNull(ocs.getByPrimaryIdWithCaching(uds.getCurrentFiscalYear(), transaction.getChartOfAccountsCode(), transaction.getFinancialObjectCode()))) {
-                String tempErrorText = "Chart " + transaction.getChartOfAccountsCode() + " Object Code " + transaction.getFinancialObjectCode() + " is invalid; using default Object Code.";
+                String tempErrorText = "Transaction "+lineNumber+" Chart " + transaction.getChartOfAccountsCode() + " is invalid; using error Chart Code.";
                 if ( LOG.isInfoEnabled() ) {
                     LOG.info(tempErrorText);
                 }
                 errorText += " " + tempErrorText;
-    
+                transaction.setChartOfAccountsCode(getErrorChartCode());
+                transaction.refresh();
+            }
+
+            final AccountService accountService = SpringContext.getBean(AccountService.class);
+            if (transaction.getAccountNumber() == null || ObjectUtils.isNull(accountService.getByPrimaryIdWithCaching(transaction.getChartOfAccountsCode(), transaction.getAccountNumber())) || accountService.getByPrimaryIdWithCaching(transaction.getChartOfAccountsCode(), transaction.getAccountNumber()).isExpired()) {
+                String tempErrorText = "Transaction "+lineNumber+" Chart " + transaction.getChartOfAccountsCode() + " Account " + transaction.getAccountNumber() + " is invalid; using error account.";
+                if ( LOG.isInfoEnabled() ) {
+                    LOG.info(tempErrorText);
+                }
+                errorText += " " + tempErrorText;
+                transaction.setChartOfAccountsCode(getErrorChartCode());
+                transaction.setAccountNumber(getErrorAccountNumber());
+                transaction.refresh();
+            }
+
+            final UniversityDateService uds = SpringContext.getBean(UniversityDateService.class);
+            final ObjectCodeService ocs = SpringContext.getBean(ObjectCodeService.class);
+            if (transaction.getFinancialObjectCode() == null || ObjectUtils.isNull(ocs.getByPrimaryIdWithCaching(uds.getCurrentFiscalYear(), transaction.getChartOfAccountsCode(), transaction.getFinancialObjectCode()))) {
+                String tempErrorText = "Transaction "+lineNumber+" Chart " + transaction.getChartOfAccountsCode() + " Object Code " + transaction.getFinancialObjectCode() + " is invalid; using default Object Code.";
+                if ( LOG.isInfoEnabled() ) {
+                    LOG.info(tempErrorText);
+                }
+                errorText += " " + tempErrorText;
+
                 transaction.setFinancialObjectCode(getDefaultObjectCode());
                 transaction.refresh();
-            }    
-            
+            }
+
             if (StringUtils.isNotBlank(transaction.getSubAccountNumber())) {
                 SubAccountService sas = SpringContext.getBean(SubAccountService.class);
-                SubAccount subAccount = sas.getByPrimaryIdWithCaching(transaction.getChartOfAccountsCode(), transaction.getAccountNumber(), transaction.getSubAccountNumber());            
-            
+                SubAccount subAccount = sas.getByPrimaryIdWithCaching(transaction.getChartOfAccountsCode(), transaction.getAccountNumber(), transaction.getSubAccountNumber());
+
                 if (ObjectUtils.isNull(subAccount)) {
-                    String tempErrorText = "Chart " + transaction.getChartOfAccountsCode() + " Account " + transaction.getAccountNumber() + " Sub Account " + transaction.getSubAccountNumber() + " is invalid; Setting Sub Account to blank.";
+                    String tempErrorText = "Transaction "+lineNumber+" Chart " + transaction.getChartOfAccountsCode() + " Account " + transaction.getAccountNumber() + " Sub Account " + transaction.getSubAccountNumber() + " is invalid; Setting Sub Account to blank.";
                     if ( LOG.isInfoEnabled() ) {
                         LOG.info(tempErrorText);
                     }
                     errorText += " " + tempErrorText;
-    
+
                     transaction.setSubAccountNumber("");
                 }
             }
-                
+
             if (StringUtils.isNotBlank(transaction.getFinancialSubObjectCode())) {
-    
+
                 SubObjectCodeService socs = SpringContext.getBean(SubObjectCodeService.class);
                 SubObjectCode soc = socs.getByPrimaryIdForCurrentYear(transaction.getChartOfAccountsCode(), transaction.getAccountNumber(), transaction.getFinancialObjectCode(), transaction.getFinancialSubObjectCode());
-            
+
                 if (ObjectUtils.isNull(soc)) {
-                    String tempErrorText = "Chart " + transaction.getChartOfAccountsCode() + " Account " + transaction.getAccountNumber() + " Object Code " + transaction.getFinancialObjectCode() + " Sub Object Code " + transaction.getFinancialSubObjectCode() + " is invalid; setting Sub Object to blank.";
+                    String tempErrorText = "Transaction "+lineNumber+" Chart " + transaction.getChartOfAccountsCode() + " Account " + transaction.getAccountNumber() + " Object Code " + transaction.getFinancialObjectCode() + " Sub Object Code " + transaction.getFinancialSubObjectCode() + " is invalid; setting Sub Object to blank.";
                     if ( LOG.isInfoEnabled() ) {
                         LOG.info(tempErrorText);
                     }
                     errorText += " " + tempErrorText;
-    
+
                     transaction.setFinancialSubObjectCode("");
                 }
             }
-                        
+
             if (StringUtils.isNotBlank(transaction.getProjectCode())) {
-            
+
                 ProjectCodeService pcs = SpringContext.getBean(ProjectCodeService.class);
                 ProjectCode pc = pcs.getByPrimaryId(transaction.getProjectCode());
-            
+
                 if (ObjectUtils.isNull(pc)) {
                     if ( LOG.isInfoEnabled() ) {
-                        LOG.info("Project Code " + transaction.getProjectCode() + " is invalid; setting to blank.");
+                        LOG.info("Transaction "+lineNumber+" Project Code " + transaction.getProjectCode() + " is invalid; setting to blank.");
                     }
-                    errorText += " Project Code " + transaction.getProjectCode() + " is invalid; setting to blank.";
-    
+                    errorText += " Transaction "+lineNumber+" Project Code " + transaction.getProjectCode() + " is invalid; setting to blank.";
+
                     transaction.setProjectCode("");
                 }
             }

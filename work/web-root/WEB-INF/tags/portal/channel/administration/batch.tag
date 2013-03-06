@@ -22,6 +22,8 @@
 	    <ul class="chan">
 				<li><portal:portalLink displayTitle="true" title="Customer XML Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=customerLoadInputFileType" /></li>
 				<li><portal:portalLink displayTitle="true" title="Customer CSV Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=customerLoadCSVInputFileType" /></li>
+				<li><portal:portalLink displayTitle="true" title="Lockbox Upload" url="batchUpload.do?methodToCall=start&batchUpload.batchInputTypeName=lockboxInputFileType" /></li>
+						  
 		  </ul>
 	</c:if>
 	<strong>Financial Processing</strong><br/>

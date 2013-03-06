@@ -1872,21 +1872,6 @@
         <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingPeriodCode"/>
         <bean parent="FieldDefinition" p:attributeName="transferPaymentCode"/>
         <bean parent="FieldDefinition" p:attributeName="accountChargeAmount"/>
-        <bean parent="FieldDefinition" p:attributeName="accumulatedPrimaryDepreciationAmount"/>
-        <bean parent="FieldDefinition" p:attributeName="yearToDate"/>
-        <bean parent="FieldDefinition" p:attributeName="previousYearPrimaryDepreciationAmount"/>
-        <bean parent="FieldDefinition" p:attributeName="period1Depreciation1Amount"/>
-        <bean parent="FieldDefinition" p:attributeName="period2Depreciation1Amount"/>
-        <bean parent="FieldDefinition" p:attributeName="period3Depreciation1Amount"/>
-        <bean parent="FieldDefinition" p:attributeName="period4Depreciation1Amount"/>
-        <bean parent="FieldDefinition" p:attributeName="period5Depreciation1Amount"/>
-        <bean parent="FieldDefinition" p:attributeName="period6Depreciation1Amount"/>
-        <bean parent="FieldDefinition" p:attributeName="period7Depreciation1Amount"/>
-        <bean parent="FieldDefinition" p:attributeName="period8Depreciation1Amount"/>
-        <bean parent="FieldDefinition" p:attributeName="period9Depreciation1Amount"/>
-        <bean parent="FieldDefinition" p:attributeName="period10Depreciation1Amount"/>
-        <bean parent="FieldDefinition" p:attributeName="period11Depreciation1Amount"/>
-        <bean parent="FieldDefinition" p:attributeName="period12Depreciation1Amount"/>
       </list>
     </property>
     <property name="summaryFields">

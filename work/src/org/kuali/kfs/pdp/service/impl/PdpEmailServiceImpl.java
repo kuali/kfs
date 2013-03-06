@@ -420,15 +420,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         message.setFromAddress(returnAddress);
 
         StringBuilder body = new StringBuilder();
-
-        String productionEnvironmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
-        if (StringUtils.equals(productionEnvironmentCode, environmentCode)) {
-            message.setSubject(getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_SUBJECT));
-        }
-        else {
-            message.setSubject(getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_SUBJECT));
-        }
+        message.setSubject(getMessage(PdpKeyConstants.MESSAGE_PURAP_EXTRACT_MAX_NOTES_SUBJECT));
 
         // Get recipient email address
         String toAddresses = parameterService.getParameterValueAsString(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.PDP_ERROR_EXCEEDS_NOTE_LIMIT_EMAIL);
@@ -515,24 +507,22 @@ public class PdpEmailServiceImpl implements PdpEmailService {
         LOG.debug("sendAchAdviceEmail() starting");
 
         MailMessage message = new MailMessage();
-        //String productionEnvironmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        //String environmentCode = kualiConfigurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
         String fromAddresses = customer.getAdviceReturnEmailAddr();
         String toAddresses = paymentGroup.getAdviceEmailAddress();
         Collection<String> ccAddresses = parameterService.getParameterValuesAsString(SendAchAdviceNotificationsStep.class, PdpParameterConstants.ACH_SUMMARY_CC_EMAIL_ADDRESSES_PARMAETER_NAME);
         String batchAddresses = mailService.getBatchMailingList();
         String subject = customer.getAdviceSubjectLine();
- 
+
         message.addToAddress(toAddresses);
         message.getCcAddresses().addAll(ccAddresses);
         //message.addBccAddress(ccAddresses);
         message.setFromAddress(fromAddresses);
         message.setSubject(subject);
 
-        /* NOTE: The following code is unnecessary and counter-productive, because alterMessageWhenNonProductionInstance called below handles non-prd env 
+        /* NOTE: The following code is unnecessary and counter-productive, because alterMessageWhenNonProductionInstance called below handles non-prd env
          * email to/cc addresses and subject properly, while Rice MailService handles adding app and env code in front of the subject line.
          * There's no need to add another layer to replace these addresses and subject. Replacing the real address with batchAddress will only result
-         * in wiping out the original real addresses, which would have been added to the message body by MailService, for testing purpose.         
+         * in wiping out the original real addresses, which would have been added to the message body by MailService, for testing purpose.
         if (StringUtils.equals(productionEnvironmentCode, environmentCode)) {
             message.addToAddress(toAddresses);
             message.addCcAddress(ccAddresses);
@@ -545,10 +535,10 @@ public class PdpEmailServiceImpl implements PdpEmailService {
             message.addCcAddress(batchAddresses);
             message.addBccAddress(batchAddresses);
             message.setFromAddress(fromAddresses);
-            message.setSubject(environmentCode + ": " + subject + ":" + toAddresses);            
+            message.setSubject(environmentCode + ": " + subject + ":" + toAddresses);
         }
         */
-        
+
         if (LOG.isDebugEnabled()) {
             LOG.debug("sending email to " + toAddresses + " for disb # " + paymentGroup.getDisbursementNbr());
         }
@@ -821,7 +811,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
      * @param user the current extracting user
      */
     @Override
-    public void sendDisbursementVoucherImmediateExtractEmail(DisbursementVoucherDocument disbursementVoucher, Person user) {
+    public void sendDisbursementVoucherImmediateExtractEmail(DisbursementVoucherDocument disbursementVoucher) {
         MailMessage message = new MailMessage();
 
         final String fromAddress = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.IMMEDIATE_EXTRACT_FROM_ADDRESS_PARM_NM);
@@ -846,7 +836,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
     /**
      * Reads system parameter indicating whether to status emails should be sent
-     * 
+     *
      * @return true if email should be sent, false otherwise
      */
     @Override
@@ -866,9 +856,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
      * @return subject text
      */
     protected String getEmailSubject(String subjectParmaterName) {
-        String subject = parameterService.getParameterValueAsString(LoadPaymentsStep.class, subjectParmaterName);
-
-        return subject;
+        return parameterService.getParameterValueAsString(LoadPaymentsStep.class, subjectParmaterName);
     }
 
     /**

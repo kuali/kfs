@@ -421,7 +421,7 @@
 		<property name="shortLabel" value="Code" />
 		<property name="required" value="false" />
 		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" p:exactLength="3" />
+			<bean parent="AnyCharacterValidationPattern" p:maxLength="3" />
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="5" />
@@ -478,7 +478,7 @@
 		<property name="maxLength" value="5" />
 		<property name="required" value="false" />
 		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" p:exactLength="5" />
+			<bean parent="AnyCharacterValidationPattern" p:maxLength="5" />
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="7" />

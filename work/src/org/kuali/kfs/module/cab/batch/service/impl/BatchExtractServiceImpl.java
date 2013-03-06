@@ -77,7 +77,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This class provides default implementation of {@link BatchExtractService}
  */
-@Transactional
+
 public class BatchExtractServiceImpl implements BatchExtractService {
 
     protected static final Logger LOG = Logger.getLogger(BatchExtractServiceImpl.class);
@@ -88,6 +88,45 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     protected PurApLineService purApLineService;
     protected PurApInfoService purApInfoService;
     protected PurchasingAccountsPayableItemAssetDao purchasingAccountsPayableItemAssetDao;
+
+    @Override
+    @Transactional
+    public void performExtract(ExtractProcessLog processLog) {
+
+        Collection<Entry> elgibleGLEntries = findElgibleGLEntries(processLog);
+
+        if (elgibleGLEntries != null && !elgibleGLEntries.isEmpty()) {
+            List<Entry> fpLines = new ArrayList<Entry>();
+            List<Entry> purapLines = new ArrayList<Entry>();
+            // Separate PO lines
+            separatePOLines(fpLines, purapLines, elgibleGLEntries);
+            // Save the Non-PO lines
+            saveFPLines(fpLines, processLog);
+            // Save the PO lines
+            HashSet<PurchasingAccountsPayableDocument> purApDocuments = savePOLines(purapLines, processLog);
+
+            // call allocate additional charges( not including trade-in lines) during batch. if comment out this line, CAB users
+            // will see them on the screen and they will have to manually allocate the additional charge lines.
+            allocateAdditionalCharges(purApDocuments);
+
+            // Set the log values
+            processLog.setTotalGlCount(elgibleGLEntries.size());
+            processLog.setNonPurApGlCount(fpLines.size());
+            processLog.setPurApGlCount(purapLines.size());
+            // Update the last extract time stamp
+            updateLastExtractTime(processLog.getStartTime());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("CAB batch finished at " + dateTimeService.getCurrentTimestamp());
+            }
+            processLog.setFinishTime(dateTimeService.getCurrentTimestamp());
+            processLog.setSuccess(true);
+        }
+        else {
+            LOG.warn("****** No records processed during CAB Extract *******");
+            processLog.setSuccess(false);
+            processLog.setErrorMessage("No GL records were found for CAB processing.");
+        }
+    }
 
     @Override
     public void allocateAdditionalCharges(HashSet<PurchasingAccountsPayableDocument> purApDocuments) {
@@ -282,6 +321,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#saveFPLines(java.util.List)
      */
     @Override
+    @Transactional
     public void saveFPLines(List<Entry> fpLines, ExtractProcessLog processLog) {
         for (Entry fpLine : fpLines) {
             // If entry is not duplicate, non-null and non-zero, then insert into CAB
@@ -304,6 +344,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#savePOLines(java.util.List)
      */
+    @Transactional
     @Override
     public HashSet<PurchasingAccountsPayableDocument> savePOLines(List<Entry> poLines, ExtractProcessLog processLog) {
         HashSet<PurchasingAccountsPayableDocument> purApDocuments = new HashSet<PurchasingAccountsPayableDocument>();
@@ -815,6 +856,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#savePreTagLines(java.util.Collection)
      */
     @Override
+    @Transactional
     public void savePreTagLines(Collection<PurchaseOrderAccount> preTaggablePOAccounts) {
         HashSet<String> savedLines = new HashSet<String>();
         for (PurchaseOrderAccount purchaseOrderAccount : preTaggablePOAccounts) {

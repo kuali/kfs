@@ -233,7 +233,7 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
         // don't trim sequenceNumber because SpaceTransactionEntrySequenceNumber is "     "
         if (!GeneralLedgerConstants.getSpaceTransactionEntrySequenceNumber().equals(line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC))) && !GeneralLedgerConstants.getZeroTransactionEntrySequenceNumber().equals(getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC)))) {
             try {
-                setTransactionLedgerEntrySequenceNumber(new Integer(getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC))));
+                setTransactionLedgerEntrySequenceNumber(new Integer(StringUtils.trim(getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC)))));
             }
             catch (NumberFormatException e) {
                 returnList.add(new Message("Transaction Sequence Number '" + line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC)) + "' contains an invalid value." , Message.TYPE_FATAL));

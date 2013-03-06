@@ -65,8 +65,8 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
-import org.kuali.rice.coreservice.api.parameter.Parameter.Builder;
 import org.kuali.rice.coreservice.api.parameter.ParameterType;
+import org.kuali.rice.coreservice.api.parameter.Parameter.Builder;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -143,7 +143,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             LOG.error("extractPayments() Unable to find user " + KFSConstants.SYSTEM_USER);
             throw new IllegalArgumentException("Unable to find user " + KFSConstants.SYSTEM_USER);
         }
-
+        LOG.debug("fetched system user");
         List<String> campusesToProcess = getChartCodes(immediateOnly, processRunDate);
         for (String campus : campusesToProcess) {
             extractPaymentsForCampus(campus, uuser, processRunDate, immediateOnly);
@@ -248,7 +248,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
                 }
             }
             else {
-                if (vendorMemos.isEmpty()) {
+                if (!vendorMemos.isEmpty()) {
                     processPaymentBundle((List<PaymentRequestDocument>) vendorPreqs, (List<VendorCreditMemoDocument>) vendorMemos, totals, preqsWithOutstandingCreditMemos, puser, processRunDate, batch);
                 }
             }
@@ -298,7 +298,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         // if payment amount greater than credit, create bundle
         boolean bundleCreated = false;
-        if (paymentRequestAmount.compareTo(creditMemoAmount) >= 0) {
+        if (paymentRequestAmount.compareTo(creditMemoAmount) > 0) {
             PaymentGroup paymentGroup = buildPaymentGroup(paymentRequests, creditMemos, batch);
 
             if (validatePaymentGroup(paymentGroup)) {
@@ -604,6 +604,9 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @return populated PaymentDetail line
      */
     protected PaymentDetail populatePaymentDetail(PaymentRequestDocument paymentRequestDocument, Batch batch) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Populating details for payment request document #"+paymentRequestDocument.getDocumentNumber());
+        }
         PaymentDetail paymentDetail = new PaymentDetail();
 
         paymentDetail.setCustPaymentDocNbr(paymentRequestDocument.getDocumentNumber());
@@ -943,6 +946,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      */
 
     protected List<String> getChartCodes(boolean immediatesOnly, Date processRunDate) {
+        LOG.debug("Getting Chart Codes()");
         List<String> output = new ArrayList<String>();
 
         Iterator<PaymentRequestDocument> paymentRequests = null;

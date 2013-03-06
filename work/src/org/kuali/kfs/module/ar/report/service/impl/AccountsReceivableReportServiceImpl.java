@@ -78,8 +78,8 @@ import org.kuali.rice.core.web.format.PhoneNumberFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.entity.Entity;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -95,7 +95,6 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
     private DateTimeService dateTimeService;
     private DocumentService documentService;
-    private PersonService personService;
     private ParameterService parameterService;
 
     private PhoneNumberFormatter phoneNumberFormatter = new PhoneNumberFormatter();
@@ -154,19 +153,13 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         }
 
         String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-        Person user = null;
-        try {
-            user = getPersonService().getPerson(initiatorID);
-        }
-        catch (Exception e) {
-            LOG.error("Exception thrown from PersonService.getPerson('" + initiatorID + "').", e);
-            throw new RuntimeException("Exception thrown from PersonService.getPerson('" + initiatorID + "').", e);
-        }
+        Entity user = KimApiServiceLocator.getIdentityService().getEntityByPrincipalId(initiatorID);
+
         if (user == null) {
-            throw new RuntimeException("User '" + initiatorID + "' could not be retrieved from PersonService.");
+            throw new RuntimeException("User '" + initiatorID + "' could not be retrieved.");
         }
 
-        invoiceMap.put("invoicePreparer", user.getFirstName() + " " + user.getLastName());
+        invoiceMap.put("invoicePreparer", user.getDefaultName().getFirstName() + " " + user.getDefaultName().getLastName());
         invoiceMap.put("headerField", (ObjectUtils.isNull(invoice.getInvoiceHeaderText()) ? "" : invoice.getInvoiceHeaderText()));
         invoiceMap.put("billingOrgName", invoice.getBilledByOrganization().getOrganizationName());
         invoiceMap.put("pretaxAmount", invoice.getInvoiceItemPreTaxAmountTotal().toString());
@@ -190,7 +183,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", chart);
         criteria.put("organizationCode", org);
-        OrganizationOptions orgOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
+        OrganizationOptions orgOptions = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
 
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         String fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
@@ -201,7 +194,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         criteria.put("universityFiscalYear", fiscalYear);
         criteria.put("processingChartOfAccountCode", processingOrg.getChartOfAccountsCode());
         criteria.put("processingOrganizationCode", processingOrg.getOrganizationCode());
-        SystemInformation sysinfo = (SystemInformation) businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
+        SystemInformation sysinfo = businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
         sysinfoMap.put("univName", StringUtils.upperCase(finder.getValue()));
         String univAddr = processingOrg.getOrganizationCityName() + ", " + processingOrg.getOrganizationStateCode() + " " + processingOrg.getOrganizationZipCode();
@@ -290,19 +283,14 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         }
 
         String initiatorID = invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-        Person user = null;
-        try {
-            user = getPersonService().getPerson(initiatorID);
-        }
-        catch (Exception e) {
-            LOG.error("Exception thrown from PersonService.getPerson('" + initiatorID + "').", e);
-            throw new RuntimeException("Exception thrown from PersonService.getPerson('" + initiatorID + "').", e);
-        }
+        Entity user = KimApiServiceLocator.getIdentityService().getEntityByPrincipalId(initiatorID);
+
+
         if (user == null) {
-            throw new RuntimeException("User '" + initiatorID + "' could not be retrieved from PersonService.");
+            throw new RuntimeException("User '" + initiatorID + "' could not be retrieved.");
         }
 
-        invoiceMap.put("invoicePreparer", user.getFirstName() + " " + user.getLastName());
+        invoiceMap.put("invoicePreparer", user.getDefaultName().getFirstName() + " " + user.getDefaultName().getLastName());
         invoiceMap.put("headerField", invoice.getInvoiceHeaderText());
         invoiceMap.put("customerOrg", invoice.getBilledByOrganizationCode());
         invoiceMap.put("docNumber", invoice.getDocumentNumber());
@@ -324,13 +312,12 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.put("ocrLine", ocrLine);
         CustomerInvoiceDetailService invoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
         List<CustomerInvoiceDetail> detailsList = (List<CustomerInvoiceDetail>) invoiceDetailService.getCustomerInvoiceDetailsForInvoice(invoice);
-        CustomerInvoiceDetail firstDetail = (CustomerInvoiceDetail) detailsList.get(0);
+        CustomerInvoiceDetail firstDetail = detailsList.get(0);
         String firstChartCode = firstDetail.getChartOfAccountsCode();
         String firstAccount = firstDetail.getAccountNumber();
         invoiceMap.put("chartAndAccountOfFirstItem", firstChartCode + firstAccount);
 
         Map<String, String> sysinfoMap = new HashMap<String, String>();
-        InstitutionNameValueFinder finder = new InstitutionNameValueFinder();
 
         Organization billingOrg = invoice.getBilledByOrganization();
         String chart = billingOrg.getChartOfAccountsCode();
@@ -338,7 +325,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", chart);
         criteria.put("organizationCode", org);
-        OrganizationOptions orgOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
+        OrganizationOptions orgOptions = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
 
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         String fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();
@@ -349,9 +336,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         criteria.put("universityFiscalYear", fiscalYear);
         criteria.put("processingChartOfAccountCode", processingOrg.getChartOfAccountsCode());
         criteria.put("processingOrganizationCode", processingOrg.getOrganizationCode());
-        SystemInformation sysinfo = (SystemInformation) businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
+        SystemInformation sysinfo = businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
-        sysinfoMap.put("univName", StringUtils.upperCase(finder.getValue()));
+        sysinfoMap.put("univName", StringUtils.upperCase(sysinfo.getOrganizationCheckPayableToName()));
         sysinfoMap.put("univAddr", generateCityStateZipLine(processingOrg.getOrganizationCityName(), processingOrg.getOrganizationStateCode(), processingOrg.getOrganizationZipCode()));
         if (sysinfo != null) {
             sysinfoMap.put("FEIN", "FED ID #" + sysinfo.getUniversityFederalEmployerIdentificationNumber());
@@ -448,7 +435,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         }
 
         // This customer has a zero balance and so we do not need to generate the report if the include zero balance is "No."
-        if (amountDue.equals(KualiDecimal.ZERO) && zeroBalance.equals(ArConstants.INCLUDE_ZERO_BALANCE_NO)) return null;
+        if (amountDue.equals(KualiDecimal.ZERO) && zeroBalance.equals(ArConstants.INCLUDE_ZERO_BALANCE_NO)) {
+            return null;
+        }
 
         customerStatementResultHolder.setCurrentBilledAmount(amountDue);
 
@@ -459,11 +448,10 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.put("ocrLine", ocrLine);
 
         Map<String, String> sysinfoMap = new HashMap<String, String>();
-        InstitutionNameValueFinder finder = new InstitutionNameValueFinder();
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", billingChartCode);
         criteria.put("organizationCode", billingOrgCode);
-        OrganizationOptions orgOptions = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
+        OrganizationOptions orgOptions = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
 
         sysinfoMap.put("checkPayableTo", orgOptions.getOrganizationCheckPayableToName());
         sysinfoMap.put("remitToName", orgOptions.getOrganizationRemitToAddressName());
@@ -481,9 +469,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         criteria.put("universityFiscalYear", fiscalYear);
         criteria.put("processingChartOfAccountCode", processingOrg.getChartOfAccountsCode());
         criteria.put("processingOrganizationCode", processingOrg.getOrganizationCode());
-        SystemInformation sysinfo = (SystemInformation) businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
+        SystemInformation sysinfo = businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
 
-        sysinfoMap.put("univName", StringUtils.upperCase(finder.getValue()));
+        sysinfoMap.put("univName", StringUtils.upperCase(sysinfo.getOrganizationCheckPayableToName()));
         sysinfoMap.put("univAddr", generateCityStateZipLine(processingOrg.getOrganizationCityName(), processingOrg.getOrganizationStateCode(), processingOrg.getOrganizationZipCode()));
         if (sysinfo != null) {
             sysinfoMap.put("FEIN", "FED ID #" + sysinfo.getUniversityFederalEmployerIdentificationNumber());
@@ -655,7 +643,11 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      */
     @Override
     public List<CustomerStatementResultHolder> generateStatementByCustomer(String customerNumber, String statementFormat, String incldueZeroBalanceCustomers) {
-        return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByCustomerNumber(customerNumber), statementFormat, incldueZeroBalanceCustomers);
+        if(StringUtils.equals(statementFormat, ArConstants.STATEMENT_FORMAT_SUMMARY)){
+            return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getOpenInvoiceDocumentsByCustomerNumber(customerNumber), statementFormat, incldueZeroBalanceCustomers);
+        } else {
+            return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByCustomerNumber(customerNumber), statementFormat, incldueZeroBalanceCustomers);
+        }
     }
 
 
@@ -733,7 +725,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                 if (invoice.isOpenInvoiceIndicator()) {
 
                     // if it is detailed report, take only invoices that have not reported yet
-                    if (statementFormat.equalsIgnoreCase(ArConstants.STATEMENT_FORMAT_DETAIL) && ObjectUtils.isNotNull(invoice.getReportedDate())) continue;
+                    if (statementFormat.equalsIgnoreCase(ArConstants.STATEMENT_FORMAT_DETAIL) && ObjectUtils.isNotNull(invoice.getReportedDate())) {
+                        continue;
+                    }
 
                     // Break down list into a map based on processing org
                     Organization processingOrg = invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization();
@@ -814,7 +808,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                     Set<String> customerNumberKeys = customerNumbers.keySet();
                     for (String customerNumber : customerNumberKeys) {
                         List<CustomerStatementDetailReportDataHolder> transactions =  customerNumbers.get(customerNumber);
-                        if (ObjectUtils.isNotNull(transactions))  Collections.sort(transactions, new SortTransaction());
+                        if (ObjectUtils.isNotNull(transactions)) {
+                            Collections.sort(transactions, new SortTransaction());
+                        }
                     }
                 }
             }
@@ -901,7 +897,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("customerNumber", customerNumber);
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        return (CustomerBillingStatement) businessObjectService.findByPrimaryKey(CustomerBillingStatement.class, criteria);
+        return businessObjectService.findByPrimaryKey(CustomerBillingStatement.class, criteria);
     }
 
     protected String calculateDueDate() {
@@ -955,15 +951,6 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         this.dateTimeService = dateTimeService;
     }
 
-    /**
-     * @return Returns the personService.
-     */
-    protected PersonService getPersonService() {
-        if (personService == null)
-            personService = SpringContext.getBean(PersonService.class);
-        return personService;
-    }
-
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -972,8 +959,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @return the parameterService
      */
     public ParameterService getParameterService() {
-        if (parameterService == null)
+        if (parameterService == null) {
             parameterService = SpringContext.getBean(ParameterService.class);
+        }
         return parameterService;
     }
 

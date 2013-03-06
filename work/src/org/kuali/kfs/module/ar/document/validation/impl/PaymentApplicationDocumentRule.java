@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,26 +31,26 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
 
 public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocumentRuleBase {
-    
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocumentRule.class);
 
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
-        
+
         PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument)document;
-        
-        // Validate the applied payments
-        int appliedAmountIndex = 0;
-        for(InvoicePaidApplied invoicePaidApplied : paymentApplicationDocument.getInvoicePaidApplieds()) {
-            String fieldName = ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED_LINE_N;
-            fieldName = StringUtils.replace(fieldName, "{0}", new Integer(appliedAmountIndex).toString());
-            if(!PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(invoicePaidApplied, fieldName, paymentApplicationDocument.getTotalFromControl())) {
-                isValid = false;
-                LOG.info("One of the invoice paid applieds for the payment application document is not valid.");
+            // Validate the applied payments
+            int appliedAmountIndex = 0;
+            for(InvoicePaidApplied invoicePaidApplied : paymentApplicationDocument.getInvoicePaidApplieds()) {
+                String fieldName = ArPropertyConstants.PaymentApplicationDocumentFields.AMOUNT_TO_BE_APPLIED_LINE_N;
+                fieldName = StringUtils.replace(fieldName, "{0}", new Integer(appliedAmountIndex).toString());
+                if(!PaymentApplicationDocumentRuleUtil.validateInvoicePaidApplied(invoicePaidApplied, fieldName, paymentApplicationDocument)) {
+                    isValid = false;
+                    LOG.info("One of the invoice paid applieds for the payment application document is not valid.");
+                }
+                appliedAmountIndex++;
             }
-            appliedAmountIndex++;
-        }
-        
+
         // Validate the nonInvoiced payments
         for(NonInvoiced nonInvoiced : paymentApplicationDocument.getNonInvoiceds()) {
             try {
@@ -63,7 +63,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
                 LOG.error("Workflow exception encountered when trying to validate non invoiced line of payment application document.", workflowException);
             }
         }
-        
+
         // Validate non applied holdings
         try {
             if(!PaymentApplicationDocumentRuleUtil.validateNonAppliedHolding(paymentApplicationDocument, paymentApplicationDocument.getTotalFromControl())) {
@@ -74,7 +74,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
             isValid = false;
             LOG.error("Workflow exception encountered when trying to validate nonAppliedHolding attribute of payment application document.", workflowException);
         }
-        
+
         // Validate that the cumulative amount applied doesn't exceed the amount owed.
         try {
             if(!PaymentApplicationDocumentRuleUtil.validateCumulativeSumOfInvoicePaidAppliedDoesntExceedCashControlTotal(paymentApplicationDocument)) {
@@ -85,7 +85,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
             isValid = false;
             LOG.error("Workflow exception encountered when trying to get validate the total applied amount for payment application document.", workflowException);
         }
-        
+
         // Validate that the cumulative amount applied doesn't exceed the amount owed.
         try {
             if(!PaymentApplicationDocumentRuleUtil.validateCumulativeSumOfInvoicePaidAppliedsIsGreaterThanOrEqualToZero(paymentApplicationDocument)) {
@@ -96,7 +96,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
             isValid = false;
             LOG.error("Workflow exception encountered when trying to get validate the total applied amount for payment application document.", workflowException);
         }
-        
+
         // Validate that the unapplied total doesn't exceed the cash control total
         try {
             if(!PaymentApplicationDocumentRuleUtil.validateUnappliedAmountDoesntExceedCashControlTotal(paymentApplicationDocument)) {
@@ -107,7 +107,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
             isValid = false;
             LOG.error("Workflow exception encountered when trying to get validate the total applied amount for payment application document.", workflowException);
         }
-        
+
         // Validate that the unapplied total isn't less than zero
         try {
             if(!PaymentApplicationDocumentRuleUtil.validateUnappliedAmountIsGreaterThanOrEqualToZero(paymentApplicationDocument)) {
@@ -118,7 +118,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
             isValid = false;
             LOG.error("Workflow exception encountered when trying to get validate the total applied amount for payment application document.", workflowException);
         }
-        
+
         // Validate that the non-invoiced total doesn't exceed the cash control total
         try {
             if(!PaymentApplicationDocumentRuleUtil.validateNonInvoicedAmountDoesntExceedCashControlTotal(paymentApplicationDocument)) {
@@ -129,7 +129,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
             isValid = false;
             LOG.error("Workflow exception encountered when trying to get validate the total applied amount for payment application document.", workflowException);
         }
-        
+
         // Validate that the non-invoiced total isn't less than zero
         try {
             if(!PaymentApplicationDocumentRuleUtil.validateNonInvoicedAmountIsGreaterThanOrEqualToZero(paymentApplicationDocument)) {
@@ -140,19 +140,22 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
             isValid = false;
             LOG.error("Workflow exception encountered when trying to get validate the total applied amount for payment application document.", workflowException);
         }
-        
+
         return isValid;
     }
-    
+
     /**
      * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        
+
         //  if the super failed, don't even bother running these rules
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-        if (!isValid) return false;
-        
+        if (!isValid) {
+            return false;
+        }
+
         MessageMap errorMap = GlobalVariables.getMessageMap();
         PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) document;
 
@@ -168,10 +171,10 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
             }
         }
 
-    
+
         return isValid;
     }
-    
+
     /**
      * @param doc
      * @return true if the organization document number on the document header is not blank.
@@ -183,6 +186,7 @@ public class PaymentApplicationDocumentRule extends GeneralLedgerPostingDocument
     /**
      * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.krad.rule.event.ApproveDocumentEvent)
      */
+    @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
         boolean isValid = super.processCustomApproveDocumentBusinessRules(approveEvent);
         //PaymentApplicationDocument aDocument = (PaymentApplicationDocument)approveEvent.getDocument();

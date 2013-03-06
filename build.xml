@@ -1061,7 +1061,7 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 			</fileset>
 		</delete>
 
-		<unzip dest="${build.rice.lib.directory}" src="${build.appserver.directory}/${rice.server.war.file.name}">
+		<unzip dest="${build.rice.lib.directory}" src="${rice.server.war.directory}/${rice.server.war.file.name}">
 			<patternset includes="WEB-INF/lib/*.jar" excludes="${rice.lib.jars.to.exclude}" />
 		    <mapper type="flatten"/>
 		</unzip>

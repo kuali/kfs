@@ -563,11 +563,6 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         message.setFromAddress(returnAddress);
 
         String subject = parameterService.getParameterValueAsString(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_DEMERGER_EMAIL_SUBJECT_PARAMETER_NAME);
-        String productionEnvironmentCode = configurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = configurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
-        if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
-            subject = environmentCode + ": " + subject;
-        }
         message.setSubject(subject);
 
         message.setMessage(body);
@@ -603,11 +598,6 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         message.setFromAddress(returnAddress);
 
         String subject = configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_SUBJECT);
-        String productionEnvironmentCode = configurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = configurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
-        if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
-            subject = environmentCode + ": " + subject;
-        }
         message.setSubject(subject);
 
         boolean hasEmailSendErrors = false;

@@ -19,9 +19,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.PdpConstants.PayeeIdTypeCodes;
+import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
@@ -123,9 +124,11 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
     public String getPayeeName() {
         // for Employee, retrieves from Person table by employee ID
         if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.EMPLOYEE)) {
-            Person person = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
-            if (ObjectUtils.isNotNull(person)) {
-                return person.getName();
+            String name = SpringContext.getBean(FinancialSystemUserService.class).getPersonNameByEmployeeId(payeeIdNumber);
+
+            //Person person = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
+            if (ObjectUtils.isNotNull(name)) {
+                return name;
             }
         }
         // for Entity, retrieve from Entity table by entity ID

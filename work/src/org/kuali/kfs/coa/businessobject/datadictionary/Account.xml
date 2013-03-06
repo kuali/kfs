@@ -1087,6 +1087,8 @@
 				<bean parent="FieldDefinition" p:attributeName="accountTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="subFundGroupCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountFiscalOfficerUser.principalName" />
+				<bean parent="FieldDefinition" p:attributeName="accountManagerUser.principalName" />
+				<bean parent="FieldDefinition" p:attributeName="accountSupervisoryUser.principalName" />
 				<bean parent="FieldDefinition" p:attributeName="closed"
 					p:defaultValue="N" />
 			</list>
@@ -1101,9 +1103,11 @@
 				<bean parent="FieldDefinition" p:attributeName="subFundGroupCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountFiscalOfficerUser.name"
 					p:forceInquiry="true" />
-				<bean parent="FieldDefinition" p:attributeName="closed" />
 				<bean parent="FieldDefinition" p:attributeName="accountManagerUser.name"
 					p:forceInquiry="true" />
+				<bean parent="FieldDefinition" p:attributeName="accountSupervisoryUser.name"
+					p:forceInquiry="true" />
+				<bean parent="FieldDefinition" p:attributeName="closed" />
 				<bean parent="FieldDefinition" p:attributeName="accountCreateDate" />
 				<bean parent="FieldDefinition" p:attributeName="accountExpirationDate" />
 			</list>

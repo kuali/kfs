@@ -33,14 +33,14 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants.NRATaxParameters;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.businessobject.AutoApproveExclude;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.NegativePaymentRequestApprovalLimit;
@@ -73,6 +73,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.FinancialSystemWorkflowHelperService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -112,7 +113,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This class provides services of use to a payment request document
  */
-@Transactional
+
 public class PaymentRequestServiceImpl implements PaymentRequestService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestServiceImpl.class);
 
@@ -230,31 +231,25 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         boolean hadErrorAtLeastOneError = true;
         // should objects from existing user session be copied over
-        Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
 
-        List<String> docNumbers = paymentRequestDao.getEligibleForAutoApproval(todayAtMidnight);
-        docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE);
+       // List<String> docNumbers = paymentRequestDao.getEligibleForAutoApproval(todayAtMidnight);
+        List<String> docNumbers = getPaymentRequestDocNumberForAutoApprove();
         if ( LOG.isInfoEnabled() ) {
             LOG.info(" -- Initial filtering complete, returned " + new Integer(docNumbers.size()).toString() + " docs.");
         }
 
+        String samt = parameterService.getParameterValueAsString(PaymentRequestDocument.class, PurapParameterConstants.PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT);
+        KualiDecimal defaultMinimumLimit = new KualiDecimal(samt);
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info(" -- Using default limit value of " + defaultMinimumLimit.toString() + ".");
+        }
+
+        Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
+
         List<PaymentRequestDocument> docs = new ArrayList<PaymentRequestDocument>();
         for (String docNumber : docNumbers) {
-            PaymentRequestDocument preq = getPaymentRequestByDocumentNumber(docNumber);
-            if (ObjectUtils.isNotNull(preq)) {
-                docs.add(preq);
-            }
-        }
-        if ( LOG.isInfoEnabled() ) {
-            LOG.info(" -- Initial filtering complete, returned " + new Integer((docs == null ? 0 : docs.size())).toString() + " docs.");
-        }
-        if (docs != null) {
-            String samt = parameterService.getParameterValueAsString(PaymentRequestDocument.class, PurapParameterConstants.PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT);
-            KualiDecimal defaultMinimumLimit = new KualiDecimal(samt);
-            if ( LOG.isInfoEnabled() ) {
-                LOG.info(" -- Using default limit value of " + defaultMinimumLimit.toString() + ".");
-            }
-            for (PaymentRequestDocument paymentRequestDocument : docs) {
+            PaymentRequestDocument paymentRequestDocument = getPaymentRequestByDocumentNumber(docNumber);
+            if (ObjectUtils.isNotNull(paymentRequestDocument) && paymentRequestDocument.getPaymentRequestPayDate().before(todayAtMidnight)) {
                 hadErrorAtLeastOneError |= !autoApprovePaymentRequest(paymentRequestDocument, defaultMinimumLimit);
             }
         }
@@ -312,6 +307,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     @Override
+    @Transactional
     public boolean autoApprovePaymentRequest(PaymentRequestDocument doc, KualiDecimal defaultMinimumLimit) {
         if (isEligibleForAutoApproval(doc, defaultMinimumLimit)) {
             try {
@@ -336,11 +332,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 }
                 doc = (PaymentRequestDocument) ObjectUtils.deepCopy(doc);
 
-              //KFSCNTRB-1207 - UMD - Muddu -- start                
-                //set the auto approved indicator to true so that doRouteStatus method can use to 
+              //KFSCNTRB-1207 - UMD - Muddu -- start
+                //set the auto approved indicator to true so that doRouteStatus method can use to
                 //change the app doc status.
                 doc.setAutoApprovedIndicator(true);
               //KFSCNTRB-1207 - UMD - Muddu -- end
+                LOG.info("About to blanketApproveDocument, doc.getDocumentNumber()=" + doc.getDocumentNumber());
                 documentService.blanketApproveDocument(doc, "auto-approving: Total is below threshold.", null);
             }
             catch (WorkflowException we) {
@@ -401,7 +398,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             autoApproveMap.put("chartOfAccountsCode", line.getChartOfAccountsCode());
             autoApproveMap.put("accountNumber", line.getAccountNumber());
             autoApproveMap.put("active", true);
-            AutoApproveExclude autoApproveExclude = (AutoApproveExclude) businessObjectService.findByPrimaryKey(AutoApproveExclude.class, autoApproveMap);
+            AutoApproveExclude autoApproveExclude = businessObjectService.findByPrimaryKey(AutoApproveExclude.class, autoApproveMap);
             if (autoApproveExclude != null) {
                 if ( LOG.isInfoEnabled() ) {
                 LOG.info(" -- PayReq ["+document.getDocumentNumber()+"] skipped due to source accounting line " + line.getSequenceNumber() +
@@ -432,8 +429,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // The document is eligible for auto-approval if the document total is below the limit.
         if (document.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().isLessThan(minimumAmount)) {
             if ( LOG.isInfoEnabled() ) {
-                LOG.info(" -- PayReq ["+document.getDocumentNumber()+"] auto-approved due to document Total [" + 
-                        document.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount() + "] being less than " + 
+                LOG.info(" -- PayReq ["+document.getDocumentNumber()+"] auto-approved due to document Total [" +
+                        document.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount() + "] being less than " +
                         (minimumAmount == defaultMinimumLimit ? "Default Auto-Approval Limit " : "Configured Auto-Approval Limit ") +
                         "of " + (minimumAmount == null ? "null" : minimumAmount.toString()) + ".");
             }
@@ -441,8 +438,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
 
         if ( LOG.isInfoEnabled() ) {
-            LOG.info(" -- PayReq ["+document.getDocumentNumber()+"] skipped due to document Total [" + 
-                    document.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount() + "] being greater than " + 
+            LOG.info(" -- PayReq ["+document.getDocumentNumber()+"] skipped due to document Total [" +
+                    document.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount() + "] being greater than " +
                     (minimumAmount == defaultMinimumLimit ? "Default Auto-Approval Limit " : "Configured Auto-Approval Limit ") +
                     "of " + (minimumAmount == null ? "null" : minimumAmount.toString()) + ".");
         }
@@ -648,24 +645,24 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
         return preqs;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsByStatusAndPurchaseOrderId(java.lang.String, java.lang.Integer)
      */
     @Override
     public Map <String, String> getPaymentRequestsByStatusAndPurchaseOrderId(String applicationDocumentStatus, Integer purchaseOrderId) {
         List<String> paymentRequestDocNumbers = paymentRequestDao.getDocumentNumbersByPurchaseOrderId(purchaseOrderId);
-        
+
         Map <String, String> paymentRequestResults = new HashMap<String, String>();
         paymentRequestResults.put("hasInProcess", "N");
         paymentRequestResults.put("checkInProcess", "N");
-        
-        //if there are no payment request document numbers exist then there is no need to 
+
+        //if there are no payment request document numbers exist then there is no need to
         //check for application document status on the workflow documents....
         if (paymentRequestDocNumbers == null || paymentRequestDocNumbers.isEmpty()) {
             return paymentRequestResults;
         }
-        
+
         //helper method to filter the workflow documents that are created for Preq documents.
         //updates the map for hasInProcess value to Y if records found for app doc status
         //else sets the value of checkInProcess = Y.
@@ -673,7 +670,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         return paymentRequestResults;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(java.lang.Integer,
      *      org.kuali.rice.core.api.util.type.KualiDecimal, java.sql.Date)
@@ -847,7 +844,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             }
             KualiDecimal totalCost = paymentRequestDocument.getTotalPreTaxDollarAmountAboveLineItems().add(fullOrderAmount);
             PurApItem tradeInItem = paymentRequestDocument.getTradeInItem();
-            if (ObjectUtils.isNotNull(tradeInItem)) totalCost = totalCost.add(tradeInItem.getTotalAmount());
+            if (ObjectUtils.isNotNull(tradeInItem)) {
+                totalCost = totalCost.add(tradeInItem.getTotalAmount());
+            }
             BigDecimal discountAmount = pt.getVendorPaymentTermsPercent().multiply(totalCost.bigDecimalValue()).multiply(new BigDecimal(PurapConstants.PREQ_DISCOUNT_MULT));
 
             // do we really need to set both, not positive, but probably won't hurt
@@ -914,8 +913,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         removeTaxItems(preq);
 
         // don't need to calculate tax items if TaxClassificationCode is N (Non_Reportable)
-        if (StringUtils.equalsIgnoreCase(preq.getTaxClassificationCode(), "N"))
+        if (StringUtils.equalsIgnoreCase(preq.getTaxClassificationCode(), "N")) {
             return;
+        }
 
         // reserve the grand total excluding any tax amount, to be used as the base to compute all tax items
         // if we don't reserve this, the pre-tax total could be changed as new tax items are added
@@ -954,7 +954,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param preq The payment request from which all tax items are to be removed.
      */
     protected void removeTaxItems(PaymentRequestDocument preq) {
-        List<PurApItem> items = (List<PurApItem>) preq.getItems();
+        List<PurApItem> items = preq.getItems();
         for (int i = 0; i < items.size(); i++) {
             PurApItem item = items.get(i);
             String code = item.getItemTypeCode();
@@ -1180,10 +1180,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     // prorate item line accounts only
                     Set includedItemTypeCodes = new HashSet();
                     includedItemTypeCodes.add(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
-                    includedItemTypeCodes.add(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE);  
-                    
+                    includedItemTypeCodes.add(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE);
+
                     summaryAccounts = purapAccountingService.generateSummaryIncludeItemTypesAndNoZeroTotals(paymentRequestDocument.getItems(), includedItemTypeCodes);
-                    //if summaryAccount is empty then do not call generateAccountDistributionForProration as 
+                    //if summaryAccount is empty then do not call generateAccountDistributionForProration as
                     //there is a check in that method to throw NPE if accounts percents == 0..
                     //KFSMI-8487
                     if (summaryAccounts != null) {
@@ -1214,7 +1214,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                         totalAmount = paymentRequestDocument.getPurchaseOrderDocument().getTotalDollarAmountAboveLineItems();
                         purapAccountingService.updateAccountAmounts(paymentRequestDocument.getPurchaseOrderDocument());
                         summaryAccounts = purapAccountingService.generateSummary(PurApItemUtils.getAboveTheLineOnly(paymentRequestDocument.getPurchaseOrderDocument().getItems()));
-                        //if summaryAccount is empty then do not call generateAccountDistributionForProration as 
+                        //if summaryAccount is empty then do not call generateAccountDistributionForProration as
                         //there is a check in that method to throw NPE if accounts percents == 0..
                         //KFSMI-8487
                         if (summaryAccounts != null) {
@@ -1641,7 +1641,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
 
         // remove items marked for removal
-        for (PaymentRequestItem item : (List<PaymentRequestItem>) itemsToRemove) {
+        for (PaymentRequestItem item : itemsToRemove) {
             document.getItems().remove(item);
         }
     }
@@ -1763,23 +1763,25 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public boolean hasActivePaymentRequestsForPurchaseOrder(Integer purchaseOrderIdentifier) {
 
         boolean hasActivePreqs = false;
-        List<String> docNumbers = null;
+        List<PaymentRequestDocument> preqs = paymentRequestDao.getActivePaymentRequestDocumentNumbersForPurchaseOrder(purchaseOrderIdentifier);
         WorkflowDocument workflowDocument = null;
 
-        docNumbers = paymentRequestDao.getActivePaymentRequestDocumentNumbersForPurchaseOrder(purchaseOrderIdentifier);
-        docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE);
+       // docNumbers = paymentRequestDao.getActivePaymentRequestDocumentNumbersForPurchaseOrder(purchaseOrderIdentifier);
+        //docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE);
 
-        for (String docNumber : docNumbers) {
-            try {
-                workflowDocument = workflowDocumentService.loadWorkflowDocument(docNumber, GlobalVariables.getUserSession().getPerson());
-            }
-            catch (WorkflowException we) {
-                throw new RuntimeException(we);
-            }
-            // if the document is not in a non-active status then return true and stop evaluation
-            if (!(workflowDocument.isCanceled() || workflowDocument.isException())) {
-                hasActivePreqs = true;
-                break;
+        for (PaymentRequestDocument preq : preqs) {
+            if (preq.getApplicationDocumentStatus().equals(PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE)) {
+                try {
+                    workflowDocument = workflowDocumentService.loadWorkflowDocument(preq.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
+                }
+                catch (WorkflowException we) {
+                    throw new RuntimeException(we);
+                }
+                // if the document is not in a non-active status then return true and stop evaluation
+                if (!(workflowDocument.isCanceled() || workflowDocument.isException())) {
+                    hasActivePreqs = true;
+                    break;
+                }
             }
         }
         return hasActivePreqs;
@@ -1796,30 +1798,85 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param appDocStatus
      * @return
      */
-    protected List<String> filterPaymentRequestByAppDocStatus(List<String> lookupDocNumbers, String... appDocStatus) {
-        boolean valid = false;
+//    protected List<String> filterPaymentRequestByAppDocStatus(List<String> lookupDocNumbers, String... appDocStatus) {
+//        boolean valid = false;
+//
+//        final String DOC_NUM_DELIM = "|";
+//        StrBuilder routerHeaderIdBuilder = new StrBuilder().appendWithSeparators(lookupDocNumbers, DOC_NUM_DELIM);
+//
+//        List<String> paymentRequestDocNumbers = new ArrayList<String>();
+//
+//        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
+//        documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
+//        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
+//        documentSearchCriteriaDTO.setApplicationDocumentStatuses(Arrays.asList(appDocStatus));
+//
+//        DocumentSearchCriteria crit = documentSearchCriteriaDTO.build();
+//
+//        int maxResults = SpringContext.getBean(FinancialSystemDocumentService.class).getMaxResultCap(crit);
+//        int iterations = SpringContext.getBean(FinancialSystemDocumentService.class).getFetchMoreIterationLimit();
+//
+//        for (int i = 0; i < iterations; i++) {
+//            if (LOG.isDebugEnabled()) {
+//                LOG.debug("Fetch Iteration: "+ i);
+//            }
+//            documentSearchCriteriaDTO.setStartAtIndex(maxResults * i);
+//            if (LOG.isDebugEnabled()) {
+//                LOG.debug("Max Results: "+documentSearchCriteriaDTO.getStartAtIndex());
+//            }
+//            DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
+//                    GlobalVariables.getUserSession().getPrincipalId(), crit);
+//            if (results.getSearchResults().isEmpty()) {
+//                break;
+//            }
+//            for (DocumentSearchResult resultRow: results.getSearchResults()) {
+//                paymentRequestDocNumbers.add(resultRow.getDocument().getDocumentId());
+//            }
+//        }
+//
+//        return paymentRequestDocNumbers;
+//    }
 
-        final String DOC_NUM_DELIM = "|";
-        StrBuilder routerHeaderIdBuilder = new StrBuilder().appendWithSeparators(lookupDocNumbers, DOC_NUM_DELIM);
+    protected List<String> getPaymentRequestDocNumberForAutoApprove() {
+        boolean valid = false;
+        Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
 
         List<String> paymentRequestDocNumbers = new ArrayList<String>();
 
         DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
-        documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
         documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
-        documentSearchCriteriaDTO.setApplicationDocumentStatuses(Arrays.asList(appDocStatus));
-        
-        DocumentSearchResults reqDocumentsList = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                "", documentSearchCriteriaDTO.build());
+        documentSearchCriteriaDTO.setApplicationDocumentStatuses(Arrays.asList(PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE));
+        documentSearchCriteriaDTO.addDocumentAttributeValue(PurapPropertyConstants.HOLD_INDICATOR_FOR_SEARCHING, "N");
+        documentSearchCriteriaDTO.addDocumentAttributeValue(PurapPropertyConstants.PAYMENT_REQUEST_CANCEL_INDICATOR_FOR_SEARCHING, "N");
 
-        for (DocumentSearchResult reqDocument : reqDocumentsList.getSearchResults()) {
-            ///use the appDocStatus from the KeyValueDTO result to look up custom status
-            if (Arrays.asList(appDocStatus).contains(reqDocument.getDocument().getApplicationDocumentStatus())){
-                //found the matching status, retrieve the routeHeaderId and add to the list
-                paymentRequestDocNumbers.add(reqDocument.getDocument().getDocumentId());
+        DocumentSearchCriteria crit = documentSearchCriteriaDTO.build();
+
+        int maxResults = SpringContext.getBean(FinancialSystemDocumentService.class).getMaxResultCap(crit);
+        int iterations = SpringContext.getBean(FinancialSystemDocumentService.class).getFetchMoreIterationLimit();
+
+        for (int i = 0; i < iterations; i++) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Fetch Iteration: "+ i);
             }
 
+            documentSearchCriteriaDTO.setStartAtIndex(maxResults * i);
+            crit = documentSearchCriteriaDTO.build();
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Max Results: "+documentSearchCriteriaDTO.getStartAtIndex());
+            }
+
+            DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
+                    GlobalVariables.getUserSession().getPrincipalId(), crit);
+            if (results.getSearchResults().isEmpty()) {
+                break;
+            }
+            for (DocumentSearchResult resultRow: results.getSearchResults()) {
+                paymentRequestDocNumbers.add(resultRow.getDocument().getDocumentId());
+            }
         }
+
+
 
         return paymentRequestDocNumbers;
     }
@@ -1836,42 +1893,42 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param appDocStatus
      * @return a list of document numbers matching application document status based on
      */
-    protected List<String> filterPaymentRequestByAppDocStatus(boolean include, List<String> lookupDocNumbers, String... appDocStatus) {
-        boolean valid = false;
+//    protected List<String> filterPaymentRequestByAppDocStatus(boolean include, List<String> lookupDocNumbers, String... appDocStatus) {
+//        boolean valid = false;
+//
+//        final String DOC_NUM_DELIM = "|";
+//        StrBuilder routerHeaderIdBuilder = new StrBuilder().appendWithSeparators(lookupDocNumbers, DOC_NUM_DELIM);
+//
+//        List<String> paymentRequestDocNumbers = new ArrayList<String>();
+//
+//        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
+//        documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
+//        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
+//
+//        //we are passing blank value for principal id since we do not want to
+//        //save the search results.
+//        DocumentSearchResults reqDocumentsList = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
+//                "", documentSearchCriteriaDTO.build());
+//
+//        for (DocumentSearchResult reqDocument : reqDocumentsList.getSearchResults()) {
+//            ///use the appDocStatus from the KeyValueDTO result to look up custom status
+//            if (include) {
+//                if (Arrays.asList(appDocStatus).contains(reqDocument.getDocument().getApplicationDocumentStatus())){
+//                    //found the matching status, retrieve the routeHeaderId and add to the list
+//                    paymentRequestDocNumbers.add(reqDocument.getDocument().getDocumentId());
+//                }
+//            } else {
+//                if (!Arrays.asList(appDocStatus).contains(reqDocument.getDocument().getApplicationDocumentStatus())){
+//                    //found the matching status, retrieve the routeHeaderId and add to the list
+//                    paymentRequestDocNumbers.add(reqDocument.getDocument().getDocumentId());
+//                }
+//            }
+//        }
+//
+//        return paymentRequestDocNumbers;
+//    }
 
-        final String DOC_NUM_DELIM = "|";
-        StrBuilder routerHeaderIdBuilder = new StrBuilder().appendWithSeparators(lookupDocNumbers, DOC_NUM_DELIM);
 
-        List<String> paymentRequestDocNumbers = new ArrayList<String>();
-
-        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
-        documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
-        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
-
-        //we are passing blank value for principal id since we do not want to 
-        //save the search results.
-        DocumentSearchResults reqDocumentsList = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                "", documentSearchCriteriaDTO.build());
-
-        for (DocumentSearchResult reqDocument : reqDocumentsList.getSearchResults()) {
-            ///use the appDocStatus from the KeyValueDTO result to look up custom status
-            if (include) {
-                if (Arrays.asList(appDocStatus).contains(reqDocument.getDocument().getApplicationDocumentStatus())){
-                    //found the matching status, retrieve the routeHeaderId and add to the list
-                    paymentRequestDocNumbers.add(reqDocument.getDocument().getDocumentId());
-                }
-            } else {
-                if (!Arrays.asList(appDocStatus).contains(reqDocument.getDocument().getApplicationDocumentStatus())){
-                    //found the matching status, retrieve the routeHeaderId and add to the list
-                    paymentRequestDocNumbers.add(reqDocument.getDocument().getDocumentId());
-                }
-            }
-        }
-
-        return paymentRequestDocNumbers;
-    }
-    
-    
     /**
      *  Since PaymentRequest does not have the app doc status, perform an additional lookup
      *  through doc search by using list of PaymentRequest Doc numbers.  Query appDocStatus
@@ -1912,12 +1969,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         if (!paymentRequestDocNumbersInclude.isEmpty()) {
             paymentRequestResults.put("hasInProcess", "Y");
         }
-        
+
         if (!paymentRequestDocNumbersExclude.isEmpty()) {
             paymentRequestResults.put("checkInProcess", "Y");
         }
     }
-    
+
     /**
      * Wrapper class to the filterPaymentRequestByAppDocStatus
      *
@@ -1930,20 +1987,18 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @return
      */
     protected Collection<PaymentRequestDocument> filterPaymentRequestByAppDocStatus(Collection<PaymentRequestDocument> paymentRequestDocuments, String... appDocStatus) {
-        List<String> paymentRequestDocNumbers = new ArrayList<String>();
-        for (PaymentRequestDocument paymentRequest : paymentRequestDocuments){
-            paymentRequestDocNumbers.add(paymentRequest.getDocumentNumber());
-        }
-
-        List<String> filteredPaymentRequestDocNumbers = filterPaymentRequestByAppDocStatus(paymentRequestDocNumbers, appDocStatus);
-
         Collection<PaymentRequestDocument> filteredPaymentRequestDocuments = new ArrayList<PaymentRequestDocument>();
-        //add to filtered collection if it is in the filtered payment request doc number list
+        List status = Arrays.asList(appDocStatus);
         for (PaymentRequestDocument paymentRequest : paymentRequestDocuments){
-            if (filteredPaymentRequestDocNumbers.contains(paymentRequest.getDocumentNumber())){
+            long start = System.currentTimeMillis();
+            if (status.contains(paymentRequest.getApplicationDocumentStatus())) {
                 filteredPaymentRequestDocuments.add(paymentRequest);
             }
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(System.currentTimeMillis()-start +"ms to check app doc status");
+            }
         }
+
         return filteredPaymentRequestDocuments;
     }
 
@@ -1972,19 +2027,19 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     @Override
     public void processPaymentRequestInReceivingStatus() {
-        List<String> docNumbers = paymentRequestDao.getPaymentRequestInReceivingStatus();
-        docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW);
+        List<PaymentRequestDocument> preqs = paymentRequestDao.getPaymentRequestInReceivingStatus();
+       // docNumbers = filterPaymentRequestByAppDocStatus(docNumbers, PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW);
 
         List<PaymentRequestDocument> preqsAwaitingReceiving = new ArrayList<PaymentRequestDocument>();
-        for (String docNumber : docNumbers) {
-            PaymentRequestDocument preq = getPaymentRequestByDocumentNumber(docNumber);
+        for (PaymentRequestDocument preq : preqs) {
+            //PaymentRequestDocument preq = getPaymentRequestByDocumentNumber(docNumber);
             if (ObjectUtils.isNotNull(preq)) {
                 preqsAwaitingReceiving.add(preq);
             }
         }
-        if (ObjectUtils.isNotNull(preqsAwaitingReceiving)) {
+        //if (ObjectUtils.isNotNull(preqsAwaitingReceiving)) {
             for (PaymentRequestDocument preqDoc : preqsAwaitingReceiving) {
-                if (preqDoc.isReceivingRequirementMet()) {
+                if (preqDoc.isReceivingRequirementMet() && preqDoc.getApplicationDocumentStatus().equals(PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW)) {
                     try {
                         documentService.approveDocument(preqDoc, "Approved by Receiving Required PREQ job", null);
                     }
@@ -1994,7 +2049,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     }
                 }
             }
-        }
+       // }
     }
 
     /**
@@ -2165,24 +2220,25 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public void setKualiRuleService(KualiRuleService kualiRuleService) {
         this.kualiRuleService = kualiRuleService;
     }
-    
+
     /**
      * Gets the accountsPayableService attribute.
-     * 
+     *
      * @return Returns the accountsPayableService
      */
-    
+
     public AccountsPayableService getAccountsPayableService() {
         return SpringContext.getBean(AccountsPayableService.class);
     }
-    
+
     /**
      * @return Returns the personService.
      */
     protected PersonService getPersonService() {
-        if(personService==null)
+        if(personService==null) {
             personService = SpringContext.getBean(PersonService.class);
+        }
         return personService;
     }
-    
+
 }

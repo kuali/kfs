@@ -57,6 +57,7 @@
 				</bean>
 				
 				<bean parent="AccountingDocument-capitalAssetLineUniquenessValidation" scope="prototype" />
+				<bean parent="AccountingDocument-capitalAssetLineUniquenessValidation" scope="prototype" />
 				<bean parent="CapitalAccountingLines-capitalAccountingLinesValidations" scope="prototype" />
 				
 				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  

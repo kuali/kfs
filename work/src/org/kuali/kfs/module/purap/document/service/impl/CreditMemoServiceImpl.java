@@ -60,6 +60,7 @@ import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorUtils;
@@ -223,15 +224,28 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
         documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
         documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT);
+        documentSearchCriteriaDTO.setApplicationDocumentStatuses(Arrays.asList(appDocStatus));
 
-        DocumentSearchResults creditMemoDocumentsList = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                GlobalVariables.getUserSession().getPrincipalId(), documentSearchCriteriaDTO.build());
+        DocumentSearchCriteria crit = documentSearchCriteriaDTO.build();
 
-        for (DocumentSearchResult creditMemoDocument : creditMemoDocumentsList.getSearchResults()) {
-            ///use the appDocStatus from the KeyValueDTO result to look up custom status
-            if (Arrays.asList(appDocStatus).contains(creditMemoDocument.getDocument().getApplicationDocumentStatus())){
-                //found the matching status, retrieve the routeHeaderId and add to the list
-                creditMemoDocNumbers.add(creditMemoDocument.getDocument().getDocumentId());
+        int maxResults = SpringContext.getBean(FinancialSystemDocumentService.class).getMaxResultCap(crit);
+        int iterations = SpringContext.getBean(FinancialSystemDocumentService.class).getFetchMoreIterationLimit();
+
+        for (int i = 0; i < iterations; i++) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Fetch Iteration: "+ i);
+            }
+            documentSearchCriteriaDTO.setStartAtIndex(maxResults * i);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Max Results: "+documentSearchCriteriaDTO.getStartAtIndex());
+            }
+            DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
+                    GlobalVariables.getUserSession().getPrincipalId(), crit);
+            if (results.getSearchResults().isEmpty()) {
+                break;
+            }
+            for (DocumentSearchResult resultRow: results.getSearchResults()) {
+                creditMemoDocNumbers.add(resultRow.getDocument().getDocumentId());
             }
         }
 

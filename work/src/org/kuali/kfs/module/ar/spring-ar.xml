@@ -148,6 +148,9 @@
 		<property name="boService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="customerService">
+			<ref bean="customerService"/>	
+		</property>
 	</bean>
 	
 	<bean id="customerInvoiceDetailService" parent="customerInvoiceDetailService-parentBean"/> 
@@ -455,16 +458,115 @@
 		</property>
 	</bean>
 	
+	<bean id="lockboxLoadStep" class="org.kuali.kfs.module.ar.batch.LockboxLoadStep"
+		parent="step">
+		<property name="lockboxLoadService">
+			<ref bean="lockboxLoadService" />
+		</property>
+	</bean>
+
+	<bean id="lockboxLoadService"
+		class="org.kuali.kfs.module.ar.batch.service.impl.LockboxLoadServiceImpl">
+		<property name="batchInputFileService">
+			<ref bean="batchInputFileService" />
+		</property>
+		<property name="batchInputFileType">
+			<ref bean="lockboxInputFileType" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="reportsDirectory">
+			<value>${reports.directory}</value>
+		</property>
+		<property name="parameterService" ref="parameterService" />
+		<property name="mailService" ref="mailService" />
+	</bean>
+
+	<bean id="lockboxInputFileType" parent="FlatFileParser">
+		<property name="flatFileSpecification">
+			<bean parent="FixedWidthFlatFileSpecification">
+				<property name="objectSpecifications">
+					<list>
+						<bean parent="FlatFilePrefixObjectSpecification" p:linePrefix="BATCH-AR LOCKBOX"
+							p:businessObjectClass="org.kuali.kfs.module.ar.businessobject.Lockbox">
+							<property name="parseProperties">
+								<list>
+									<bean parent="FixedWidthFlatFilePropertySpecification"
+										p:propertyName="lockboxNumber" p:start="17" p:end="27" />
+									<bean parent="FixedWidthFlatFilePropertySpecification"
+										p:propertyName="scannedInvoiceDate" p:start="28" p:end="38"
+										p:formatterClass="org.kuali.rice.core.web.format.DateFormatter" />
+									<bean parent="FixedWidthFlatFilePropertySpecification"
+										p:propertyName="headerTransactionBatchTotal" p:start="48" p:end="63"
+										p:formatterClass="org.kuali.kfs.sys.businessobject.format.ExplicitKualiDecimalFormatter" />
+									<bean parent="FixedWidthFlatFilePropertySpecification"
+										p:propertyName="headerTransactionBatchCount" p:start="64" p:end="69"
+										p:formatterClass="org.kuali.rice.core.web.format.IntegerFormatter" />
+								</list>
+							</property>
+						</bean>
+						<bean parent="FlatFilePrefixObjectSpecification" 
+						    p:businessObjectClass="org.kuali.kfs.module.ar.businessobject.LockboxDetail"
+						    p:parentBusinessObjectClass="org.kuali.kfs.module.ar.businessobject.Lockbox"
+						    p:parentTargetProperty="lockboxDetails">
+							<property name="parseProperties">
+								<list>
+									<bean parent="FixedWidthFlatFilePropertySpecification"
+										p:propertyName="customerNumber" p:start="6" p:end="15"/>
+									<bean parent="FixedWidthFlatFilePropertySpecification"
+										p:propertyName="financialDocumentReferenceInvoiceNumber"
+										p:start="17" p:end="26" />
+									<bean parent="FixedWidthFlatFilePropertySpecification"
+										p:propertyName="billingDate" p:start="26" p:end="36"
+										p:formatterClass="org.kuali.rice.core.web.format.DateFormatter" />
+									<bean parent="FixedWidthFlatFilePropertySpecification"
+										p:propertyName="invoiceTotalAmount" p:start="36" p:end="51"
+										p:formatterClass="org.kuali.kfs.sys.businessobject.format.ExplicitKualiDecimalFormatter" />
+									<bean parent="FixedWidthFlatFilePropertySpecification"
+										p:propertyName="invoicePaidOrAppliedAmount" p:start="51" p:end="66"
+										p:formatterClass="org.kuali.kfs.sys.businessobject.format.ExplicitKualiDecimalFormatter" />
+									<bean parent="FixedWidthFlatFilePropertySpecification"
+										p:propertyName="customerPaymentMediumCode" p:start="66" p:end="67" />
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+				<property name="defaultBusinessObjectClass"
+					value="org.kuali.kfs.module.ar.businessobject.LockboxDetail" />
+			</bean>
+		</property>
+		<property name="directoryPath">
+			<value>${staging.directory}/ar/lockbox</value>
+		</property>
+		<property name="fileExtension">
+			<value>txt</value>
+		</property>
+		<property name="fileNamePrefix" value="arlockbox" />
+		<property name="fileTypeIdentifier" value="lockboxInputFileType" />
+		<property name="titleKey" value="message.batchUpload.title.lockboxLoad" />
+		<property name="processor" ref="lockboxLoadService" />
+	</bean>
+	
 	<bean id="lockboxJob" parent="scheduledJobDescriptor">
-		<property name="steps">
+        <property name="steps">
 			<list>
+				<ref bean="lockboxLoadStep" />
 				<ref bean="lockboxStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="nightlyOutJob" value="hardDependency"/>
+			</map>
+		</property>
 	</bean>
 	
-	<bean id="invoiceRecurrenceJobTrigger" parent="cronTrigger">
-		<property name="jobName" value="lockboxJob" />
+	<bean id="invoiceRecurrenceJobTrigger" parent="invoiceRecurrenceJobTrigger-parentBean"/>
+    <bean id="invoiceRecurrenceJobTrigger-parentBean" parent="cronTrigger">
+    	<property name="jobName" value="invoiceRecurrenceJob" />
 		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />
 	</bean>
 	
@@ -990,7 +1092,11 @@
 	
     <bean id="accountsReceivableOrganizationDerivedRoleTypeService"  parent="accountsReceivableOrganizationDerivedRoleTypeService-parentBean"/>
     <bean id="accountsReceivableOrganizationDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.ar.identity.AccountsReceivableOrganizationDerivedRoleTypeServiceImpl"
-      p:businessObjectService-ref="businessObjectService" abstract="true"/>
+      p:businessObjectService-ref="businessObjectService" abstract="true">
+      <property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+    </bean>
 
     <bean id="invoiceRecurrenceDerivedRoleTypeService"  parent="invoiceRecurrenceDerivedRoleTypeService-parentBean"/>
     <bean id="invoiceRecurrenceDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.ar.identity.InvoiceRecurrenceDerivedRoleTypeServiceImpl" abstract="true"/>  

@@ -2,7 +2,7 @@
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 	
-	<changeSet author="KFS52" id="KFSCNTRB-1343">
+	<changeSet author="KFS503" id="KFSCNTRB-1343">
 		<comment>KFSCNTRB-1343 Create new parameters for AR Lockbox Upload</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-AR" />
@@ -41,6 +41,37 @@
 			<column name="APPL_ID" value="KFS" />
 		</insert>
 
+		<modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
+	</changeSet>
+
+	<changeSet author="KFS503" id="KFSCNTRB-990">
+		<comment>KFSCNTRB-990 Create new parameters for defaulting Vendor commodity on REQS accting lines</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="CMPNT_CD" value="Requisition" />
+			<column name="PARM_NM" value="ENABLE_DEFAULT_VENDOR_COMMODITY_CODE_IND" />
+			<column name="VAL" value="Y" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Indicates whether vendor commodity code will be auto-populated. Will not override user-specified values." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="CMPNT_CD" value="Requisition" />
+			<column name="PARM_NM" value="B2B_CLASSIFICATION_FOR_COMMODITY_CODE" />
+			<column name="VAL" value="UNSPSC" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="The item classification that denotes the commodity code in the cxml returned from the B2B cart." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
 
 		<modifySql dbms="mysql">
 	      <replace replace="sys_guid()" with="uuid()" />

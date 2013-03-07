@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="ns:workflow resource:WorkflowData">
+<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		
+<!-- Need to re-ingest the top-level document to setup recall from routing policies -->
+    <documentType>
+      <name>
+        KFS
+      </name>
+      <parent>
+        KualiDocument
+      </parent>
+      <label>
+        FinancialSystemDocument
+      </label>
+      <serviceNamespace>
+        KFS
+      </serviceNamespace>
+      <docHandler>
+        ${kfs.url}/kr/maintenance.do?methodToCall=docHandler
+      </docHandler>
+      <postProcessorName>
+        org.kuali.kfs.sys.document.workflow.PostProcessor
+      </postProcessorName>
+      <active>
+        true
+      </active>
+      <attributes>
+        <attribute>
+          <name>FinancialSystemSearchableAttribute</name>
+        </attribute>
+        <attribute>
+          <name>KFSDocumentSearchCustomizer</name>
+        </attribute>
+      </attributes>
+      <routingVersion>
+        2
+      </routingVersion>
+      <policies>
+  		<policy>
+    	  <name>RECALL_VALID_ACTIONSTAKEN</name>
+    	  <stringValue>SAVED, COMPLETE</stringValue>
+  		</policy>
+	  </policies>
+    </documentType>
+
+</documentTypes>
+</data>

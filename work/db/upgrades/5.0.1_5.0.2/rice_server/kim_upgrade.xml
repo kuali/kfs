@@ -16,5 +16,16 @@
 	      <replace replace="sys_guid()" with="uuid()" />
 	    </modifySql>
 	</changeSet>
+
+	<changeSet author="KFS502" id="KFSMI9075_REMOVE_NO_LONGER_NECESSARY_RECALL_ROLE">
+		<comment>Remove Recall Documment Role that's no longer necessary after Rice data updated with 2.1.3.</comment>
+
+		<delete tableName="KRIM_PERM_T">
+			<where>perm_id = 'KFSMI8893-PRM2'</where>
+		</delete>
+		<delete tableName="KRIM_PERM_ATTR_DATA_T">
+			<where>perm_id = 'KFSMI8893-PRM2'</where>
+		</delete>
+	</changeSet>
 	
 </databaseChangeLog>

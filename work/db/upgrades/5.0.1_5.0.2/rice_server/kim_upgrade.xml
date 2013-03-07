@@ -2,4 +2,19 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
+	<changeSet author="KFS502" id="KFSMI9882_Grant_Recall_Document_FP_To_Initiator_Role">
+		<comment>Grant Recall Document for FP documents to KEW Initiator Role.</comment>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSMI8893-RLPRM1" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1" />
+			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KR-WKFLW' and role_nm = 'Initiator') " />
+			<column name="PERM_ID" value="KFSMI8893-PRM1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
+	</changeSet>
+	
 </databaseChangeLog>

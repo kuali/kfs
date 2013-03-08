@@ -19,7 +19,7 @@
 			<column name="ROLE_PERM_ID" value="KFSCNTRB1343-RLPRM1-1" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
-			<column name="ROLE_ID" valueNumeric="1,10174" />
+			<column name="ROLE_ID" valueNumeric="10174" />
 			<column name="PERM_ID" value="KFSCNTRB1343-PRM1" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>

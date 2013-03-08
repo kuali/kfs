@@ -742,7 +742,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         try {
             // Create the new Split PO document (throws WorkflowException)
-            PurchaseOrderSplitDocument newDocument = (PurchaseOrderSplitDocument) documentService.getNewDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT);
+            // Assign PO's initiator to Split PO.
+            Person person = SpringContext.getBean(PersonService.class).getPerson(currentDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+            PurchaseOrderSplitDocument newDocument = (PurchaseOrderSplitDocument) documentService.getNewDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT,person.getPrincipalName());
 
             if (ObjectUtils.isNotNull(newDocument)) {
 

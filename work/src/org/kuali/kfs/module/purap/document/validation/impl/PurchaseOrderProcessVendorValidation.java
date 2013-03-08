@@ -96,7 +96,7 @@ public class PurchaseOrderProcessVendorValidation extends PurchasingProcessVendo
 
         //make sure that the vendor contract expiration date and not marked inactive.
         if (StringUtils.isNotBlank(poDocument.getVendorContractName())) {
-            if (super.getVendorService().isVendorContractExpired(poDocument, vendorDetail)) {
+            if (super.getVendorService().isVendorContractExpired(poDocument, poDocument.getVendorContractGeneratedIdentifier(), vendorDetail)) {
                 errorMap.putError(VendorPropertyConstants.VENDOR_CONTRACT_END_DATE, PurapKeyConstants.ERROR_EXPIRED_CONTRACT_END_DATE);
                 valid &= false;
             }

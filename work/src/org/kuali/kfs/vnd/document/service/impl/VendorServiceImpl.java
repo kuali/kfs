@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -46,6 +45,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.NoteService;
@@ -462,14 +462,14 @@ public class VendorServiceImpl implements VendorService {
     }
 
     /**
-     * @see org.kuali.kfs.vnd.document.service.VendorService#isVendorContractExpired(org.kuali.kfs.vnd.businessobject.VendorDetail)
+     * @see org.kuali.kfs.vnd.document.service.VendorService#isVendorContractExpired(org.kuali.rice.krad.document.Document, java.lang.Integer, org.kuali.kfs.vnd.businessobject.VendorDetail)
      */
     @Override
-    public boolean isVendorContractExpired(PurchasingDocument document, VendorDetail vendorDetail) {
+    public boolean isVendorContractExpired(Document document, Integer vendorContractGeneratedIdentifier, VendorDetail vendorDetail) {
         boolean isExpired = false;
 
-        if (ObjectUtils.isNotNull(document.getVendorContractGeneratedIdentifier())) {
-            VendorContract vendorContract = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(VendorContract.class, document.getVendorContractGeneratedIdentifier());
+        if (ObjectUtils.isNotNull(vendorContractGeneratedIdentifier)) {
+            VendorContract vendorContract = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(VendorContract.class, vendorContractGeneratedIdentifier);
             Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
             List<Note> notes = document.getNotes();
 

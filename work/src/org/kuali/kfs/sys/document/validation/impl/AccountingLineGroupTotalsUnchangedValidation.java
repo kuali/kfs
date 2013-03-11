@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,17 +33,18 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class AccountingLineGroupTotalsUnchangedValidation extends GenericValidation {
     private AccountingDocument accountingDocumentForValidation;
-    
+
     /**
      * Checks that the source and total amounts on the current version of the accounting document
      * are equal to the persisted source and total totals.
      * <strong>Expects a document to be sent in as the first parameter</strong>
      * @see org.kuali.kfs.sys.document.validation.GenericValidation#validate(java.lang.Object[])
      */
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         AccountingDocument persistedDocument = null;
-        
-        if (event instanceof AttributedSaveDocumentEvent && !accountingDocumentForValidation.getDocumentHeader().getWorkflowDocument().isEnroute()) {
+
+        if (event instanceof AttributedSaveDocumentEvent && (!accountingDocumentForValidation.getDocumentHeader().getWorkflowDocument().isEnroute() || accountingDocumentForValidation.getDocumentHeader().getWorkflowDocument().isCompletionRequested())) {
             return true; // only check save document events if the document is enroute
         }
 
@@ -84,7 +85,7 @@ public class AccountingLineGroupTotalsUnchangedValidation extends GenericValidat
 
     /**
      * attempt to retrieve the document from the DB for comparison
-     * 
+     *
      * @param accountingDocument
      * @return AccountingDocument
      */
@@ -100,10 +101,10 @@ public class AccountingLineGroupTotalsUnchangedValidation extends GenericValidat
 
         return persistedDocument;
     }
-    
+
     /**
      * This method builds out the error message for when totals have changed.
-     * 
+     *
      * @param propertyName
      * @param persistedSourceLineTotal
      * @param currentSourceLineTotal
@@ -116,7 +117,7 @@ public class AccountingLineGroupTotalsUnchangedValidation extends GenericValidat
 
     /**
      * Handles the case when a non existent document is attempted to be retrieve and that if it's in an initiated state, it's ok.
-     * 
+     *
      * @param accountingDocument
      */
     protected final void handleNonExistentDocumentWhenApproving(AccountingDocument accountingDocument) {
@@ -127,7 +128,7 @@ public class AccountingLineGroupTotalsUnchangedValidation extends GenericValidat
     }
 
     /**
-     * Gets the accountingDocumentForValidation attribute. 
+     * Gets the accountingDocumentForValidation attribute.
      * @return Returns the accountingDocumentForValidation.
      */
     public AccountingDocument getAccountingDocumentForValidation() {

@@ -436,6 +436,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     public void testValidateOneSystemCapitalAssetSystemChartsRequiringParameters() {
         RequisitionDocument requisition = RequisitionDocumentWithCapitalAssetItemsFixture.REQ_VALID_ONE_NEW_CAPITAL_ASSET_ITEM.createRequisitionDocument();
         SpringContext.getBean(PurchasingService.class).setupCapitalAssetItems(requisition);
+        SpringContext.getBean(PurchasingService.class).setupCapitalAssetSystem(requisition);
 
         PurchasingCapitalAssetValidation validation = (PurchasingCapitalAssetValidation)validations.get("Purchasing-capitalAssetValidation-test");
         assertTrue( validation.validate(new AttributedDocumentEventBase("", "", requisition)) );

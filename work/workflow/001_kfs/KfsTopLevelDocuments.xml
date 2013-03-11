@@ -50,6 +50,16 @@
       <routingVersion>
         2
       </routingVersion>
+      <policies>
+  		<policy>
+    	  <name>RECALL_VALID_ACTIONSTAKEN</name>
+    	  <stringValue>SAVED, COMPLETE</stringValue>
+  		</policy>
+		<policy>
+    	  <name>NOTIFY_PENDING_ON_RETURN</name>
+    	  <value>false</value>
+		</policy>
+	  </policies>
     </documentType>
     <documentType>
       <name>

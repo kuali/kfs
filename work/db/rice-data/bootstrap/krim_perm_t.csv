@@ -298,7 +298,6 @@ KFSMI8342-PRM,KFSMI8342-PRM,"1","44","KFS-COA","Modify Maintenance Document Sect
 KFSMI8906-PRM,KFSMI8906-PRM,"1","41","KFS-PURAP","Modify Acct Lines PO Pur Process itemssourceAccountingLines","Allows users to modify the accounting lines on a PO Document that is at Awaiting Purchasing Approval status.",Y
 "KFSMI8944-PRM","KFSMI8944-PRM","1","41","KFS-PURAP","Modify Accounting Lines PUR Tax itemsourceAccountingLines","Allows users to modify the Source accounting lines on documents answering to the parent document Purchasing Transactional Document when a document is at the Tax Node of routing.","Y"
 "KFSMI8893-PRM1","KFSMI8893-PRM1",1,"68","KFS-FP","Recall Document FP","Enable Recall Document functionality for KFS FP documents.","Y"
-"KFSMI8893-PRM2","KFSMI8893-PRM2",1,"68","KFS-SYS","Recall Document KFS","Recall Document functionality for KFS documents.","Y"
 "KFSMI9071-PRM1","KFSMI9071-PRM1",1,"49","KFS-SYS","Send Complete Request KFS", "Authorizes users to send Complete ad hoc requests for KFS Documents","Y"
 "KFSCNTRB65-PRM1","KFSCNTRB65-PRM1",1,"1","KR-SYS","Access Locked Module","Allow access to modules, even when locked.","Y"
 "KFSMI9598-PRM1","KFSMI9598-PRM1",1,"KR1000","KFS-SYS","Super User Approve Single Action Request KFS","Allows users to super user approve single action requests on the super user tab for KFS Documents.","Y"

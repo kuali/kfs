@@ -40,3 +40,4 @@ kim_typ_id|obj_id|ver_nbr|nm|srvc_nm|actv_ind|nmspc_cd|
 8|5ADF18B6D4C67954E0404F8189D85002|1.0|Document Type & Routing Node or State|documentTypeAndNodeOrStatePermissionTypeService|Y|KR-SYS|
 9|5ADF18B6D4CD7954E0404F8189D85002|1.0|Document Type & Attachment Type|documentTypeAndAttachmentTypePermissionTypeService|Y|KR-NS|
 KR1000|CBA9C0DFF5FFE80EE040F90A05B97BE4|1.0|Document Type, Route Node, and Route Status|documentTypeAndNodeAndRouteStatusPermissionTypeService|Y|KR-SYS|
+KR1001|CEA27C3715258653E040F90A05B924A3|1.0|Backdoor Restriction|backdoorRestrictionPermissionTypeService|Y|KR-SYS|

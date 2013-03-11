@@ -5,6 +5,7 @@
 
 	<include file="01_structure/ap-module-structure-updates.xml"/>
 	<include file="01_structure/coa-module-structure-updates.xml"/>
+	<include file="01_structure/coa-module-structure-updates.xml"/>
 	<include file="01_structure/fp-module-structure-updates.xml"/>
 	<include file="01_structure/purap-module-structure-updates.xml"/>
 <!-- 

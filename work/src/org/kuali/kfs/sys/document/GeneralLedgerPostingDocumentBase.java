@@ -119,10 +119,11 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             changeGeneralLedgerPendingEntriesApprovedStatusCode(); // update all glpes for doc and set their status to approved
         }
-        else if (getDocumentHeader().getWorkflowDocument().isCanceled() || getDocumentHeader().getWorkflowDocument().isDisapproved()) {
+        // general ledger pending entries are getting removed on ReCall
+        else if (getDocumentHeader().getWorkflowDocument().isCanceled() || getDocumentHeader().getWorkflowDocument().isDisapproved() || getDocumentHeader().getWorkflowDocument().isRecalled()) {
             removeGeneralLedgerPendingEntries();
             if (this instanceof ElectronicPaymentClaiming) {
-                ((ElectronicPaymentClaiming)this).declaimElectronicPaymentClaims();
+                ((ElectronicPaymentClaiming) this).declaimElectronicPaymentClaims();
             }
         }
     }

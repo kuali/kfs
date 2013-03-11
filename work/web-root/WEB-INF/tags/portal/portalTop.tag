@@ -19,7 +19,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Kuali Portal Index</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>Kuali Portal Index</title>
 <c:forEach items="${fn:split(ConfigProperties.portal.css.files, ',')}" var="cssFile">
 	<link href="${cssFile}" rel="stylesheet" type="text/css" />
 </c:forEach>

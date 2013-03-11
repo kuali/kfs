@@ -352,10 +352,6 @@
         <column name="INV_RJT_RSRCH_IND" size="1" type="VARCHAR"/>
         <column name="AP_APRVL_DT" type="DATE"/>
         <column name="PREQ_ID" size="9" type="DECIMAL"/>
-        <foreign-key foreignTable="AP_ELCTRNC_INV_LOAD_SUM_T" name="AP_ELCTRNC_INV_RJT_DOC_TR2">
-            <reference foreign="INV_LOAD_SUM_ID" local="INV_LOAD_SUM_ID"/>
-            <reference foreign="VNDR_DUNS_NBR" local="VNDR_DUNS_NBR"/>
-        </foreign-key>
         <unique name="AP_ELCTRNC_INV_HDR_INFO_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -2125,17 +2121,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="CA_CFDA_REF_T">
-        <column name="CG_CFDA_NBR" primaryKey="true" size="6" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="CG_CFDA_PGM_TTL_NM" size="300" type="VARCHAR"/>
-        <column name="CG_CFDA_MAINT_TYP_ID" size="10" type="VARCHAR"/>
-        <column name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <unique name="CG_CFDA_REF_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="CA_CHART_T">
         <column name="FIN_COA_CD" primaryKey="true" size="2" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -3706,6 +3691,17 @@
             <index-column name="CGAWD_PURPOSE_CD"/>
         </index>
     </table>
+    <table name="CG_CFDA_REF_T">
+        <column name="CG_CFDA_NBR" primaryKey="true" size="6" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="CG_CFDA_PGM_TTL_NM" size="300" type="VARCHAR"/>
+        <column name="CG_CFDA_MAINT_TYP_ID" size="10" type="VARCHAR"/>
+        <column name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <unique name="CG_CFDA_REF_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
     <table name="CG_GRANT_DESC_T">
         <column name="CG_GRANT_DESC_CD" primaryKey="true" size="3" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -3895,7 +3891,7 @@
         <foreign-key foreignTable="CG_PRPSL_PURPOSE_T" name="CG_PRPSL_TR6">
             <reference foreign="CGPRPSL_PURPOSE_CD" local="CGPRPSL_PURPOSE_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="CA_CFDA_REF_T" name="CG_PRPSL_TR7">
+        <foreign-key foreignTable="CG_CFDA_REF_T" name="CG_PRPSL_TR7">
             <reference foreign="CG_CFDA_NBR" local="CG_CFDA_NBR"/>
         </foreign-key>
         <unique name="CG_PRPSL_TC0">
@@ -12373,6 +12369,7 @@
         <column name="DOC_HDR_ID" required="true" size="14" type="VARCHAR"/>
         <column name="GNRT_DT" required="true" type="DATE"/>
         <column name="PRNCPL_ID" required="true" size="40" type="VARCHAR"/>
+        <column name="SESN_ID" required="true" size="40" type="VARCHAR"/>
         <unique name="KNS_PESSIMISTIC_LOCK_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

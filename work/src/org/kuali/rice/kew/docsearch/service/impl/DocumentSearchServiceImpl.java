@@ -764,4 +764,14 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
         return kualiConfigurationService;
     }
 
+    @Override
+    public int getMaxResultCap(DocumentSearchCriteria criteria){
+        return docSearchDao.getMaxResultCap(criteria);
+    }
+
+    @Override
+    public int getFetchMoreIterationLimit(){
+        return docSearchDao.getFetchMoreIterationLimit();
+    }
+
 }

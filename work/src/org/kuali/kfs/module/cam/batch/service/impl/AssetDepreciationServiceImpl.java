@@ -148,7 +148,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 } else {
                     throw new IllegalStateException(kualiConfigurationService.getPropertyValueAsString(CamsKeyConstants.Depreciation.DEPRECIATION_DATE_PARAMETER_NOT_FOUND));
                 }
-                
+
                 // This validates the system parameter depreciation_date has a valid format of YYYY-MM-DD.
                 if ( !StringUtils.isBlank(depreciationDateParameter) ) {
                     try {
@@ -199,7 +199,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         }
         finally {
             if (!hasErrors && executeJob) {
-                int fiscalStartMonth = Integer.parseInt(optionsService.getCurrentYearOptions().getUniversityFiscalYearStartMo());                
+                int fiscalStartMonth = Integer.parseInt(optionsService.getCurrentYearOptions().getUniversityFiscalYearStartMo());
                 reportLog.addAll(depreciableAssetsDao.generateStatistics(false, documentNos, fiscalYear, fiscalMonth, depreciationDate,dateTimeService.toDateString(depreciationDate.getTime()), assetObjectCodes, fiscalStartMonth, errorMessage));
             }
             // the report will be generated only when there is an error or when the log has something.
@@ -213,6 +213,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         }
     }
 
+    @Override
     public Collection<AssetObjectCode> getAssetObjectCodes(Integer fiscalYear) {
         LOG.debug("DepreciableAssetsDAoOjb.getAssetObjectCodes() -  started");
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting asset object codes.");
@@ -221,7 +222,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         HashMap<String, Object> fields = new HashMap<String, Object>();
         fields.put(CamsPropertyConstants.AssetObject.UNIVERSITY_FISCAL_YEAR, fiscalYear);
         fields.put(CamsPropertyConstants.AssetObject.ACTIVE, Boolean.TRUE);
-        assetObjectCodesCollection = (Collection<AssetObjectCode>) businessObjectService.findMatching(AssetObjectCode.class, fields);
+        assetObjectCodesCollection = businessObjectService.findMatching(AssetObjectCode.class, fields);
 
         LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting asset object codes - which are:" + assetObjectCodesCollection.toString());
         LOG.debug("DepreciableAssetsDAoOjb.getAssetObjectCodes() -  ended");
@@ -238,7 +239,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         Integer fiscalMonth = -1;
         List<String> documentNos = new ArrayList<String>();
         String errorMsg = "";
-        
+
         List<String[]> reportLog = new ArrayList<String[]>();
         boolean hasErrors = false;
         boolean includeRetired = false;
@@ -278,7 +279,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 LOG.info("parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.YEARENDDEPR_INCLUDE_RETIRED) = " + parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.INCLUDE_RETIRED_ASSETS_IND));
             }
             includeRetired=parameterService.getParameterValueAsBoolean(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, PurapConstants.ParameterConstants.INCLUDE_RETIRED_ASSETS_IND);
-            
+
             UniversityDate universityDate = businessObjectService.findBySinglePrimaryKey(UniversityDate.class, new java.sql.Date(depreciationDate.getTimeInMillis()));
             if (universityDate == null) {
                 throw new IllegalStateException(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
@@ -395,7 +396,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             CronExpression cronExpression = new CronExpression(this.cronExpression);
             Date validTimeAfter = cronExpression.getNextValidTimeAfter(dateTimeService.getCurrentDate());
             String scheduleJobDate = dateTimeService.toString(validTimeAfter, CamsConstants.DateFormats.MONTH_DAY_YEAR);
-            if(scheduleJobDate.equals(currentDate)){
+            if(scheduleJobDate.equals(dateTimeService.toString(currentDate, CamsConstants.DateFormats.MONTH_DAY_YEAR))){
                 executeJob = true;
             }else {
                 LOG.info("Cron condition not met. executeJob not set to true");
@@ -862,7 +863,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
         }
     }
-    
+
     /**
      * Get the last month and day of the fiscal year.  Returned in the format '-mm-dd'
      * @return
@@ -904,8 +905,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         LOG.info("\n\n");
         //  LOG.info("populateYearEndDepreciationTransaction(AssetDepreciationTransaction depreciationTransaction, AssetPayment assetPayment, String transactionType, KualiDecimal transactionAmount, String plantCOA, String plantAccount, String accumulatedDepreciationFinancialObjectCode, String depreciationExpenseFinancialObjectCode, ObjectCode financialObject, SortedMap<String, AssetDepreciationTransaction> depreciationTransactionSummary) -  ended");
     }
-    
-    
+
+
     protected SortedMap<String, AssetDepreciationTransaction> calculateYearEndDepreciation(Collection<AssetPaymentInfo> depreciableAssetsCollection, Calendar depreciationDate, Integer fiscalYearToDepreciate, Integer fiscalYear, Integer fiscalMonth, Collection<AssetObjectCode> assetObjectCodes) {
         LOG.info("calculateDepreciation() - start");
 
@@ -944,7 +945,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 Long assetNumber = assetPaymentInfo.getCapitalAssetNumber();
                 pKeys.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetNumber);
 
-                Asset asset = (Asset) businessObjectService.findByPrimaryKey(Asset.class, pKeys);
+                Asset asset = businessObjectService.findByPrimaryKey(Asset.class, pKeys);
                 if (asset != null) {
                     asset_is_retired = assetService.isAssetRetired(asset);
                     if ( LOG.isInfoEnabled() ) {
@@ -1037,7 +1038,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
                 Map<String, String> primaryKeys = new HashMap<String, String>();
                 primaryKeys.put(CamsPropertyConstants.AssetDepreciationConvention.FINANCIAL_OBJECT_SUB_TYPE_CODE, asset.getFinancialObjectSubTypeCode());
-                AssetDepreciationConvention depreciationConvention = (AssetDepreciationConvention) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetDepreciationConvention.class, primaryKeys);
+                AssetDepreciationConvention depreciationConvention = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetDepreciationConvention.class, primaryKeys);
                 String conventionCode = depreciationConvention.getDepreciationConventionCode();
                 if (CamsConstants.DepreciationConvention.HALF_YEAR.equalsIgnoreCase(conventionCode)) {
                      if (asset_is_retired && asset_is_not_in_last_year_of_life) { // and not in last year of life mjmc
@@ -1118,7 +1119,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         Integer fiscalMonth = new Integer(13);
         processGeneralLedgerPendingEntry(fiscalYear, fiscalMonth, documentNos, trans);
     }
-    
+
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }

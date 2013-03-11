@@ -1029,4 +1029,5 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
          laborBenefitRateCategory = (LaborBenefitRateCategory) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(LaborBenefitRateCategory.class).retrieveExternalizableBusinessObjectsList(this, "LaborBenefitRateCategory", LaborBenefitRateCategory.class);
          return laborBenefitRateCategory;
     }
+
 }

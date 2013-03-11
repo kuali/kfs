@@ -7,12 +7,12 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-PURAP" />
 			<column name="CMPNT_CD" value="PurchaseOrder" />
-			<column name="PARM_NM" value="REQUIRE_SENSITIVE_DATA_NOTE_IND" />
+			<column name="PARM_NM" value="SENSITIVE_DATA_NOTE_IND" />
 			<column name="VAL" value="N" />
 			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="PARM_DESC_TXT" value="Indicates whether an additional note should be required when PO is marked sensitive." />
+			<column name="PARM_DESC_TXT" value="Indicates whether a note will be automatically added to the PO when marked Sensitive Data." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>

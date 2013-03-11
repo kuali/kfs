@@ -27,7 +27,6 @@ import org.kuali.kfs.sys.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.LedgerPostingDocumentPresentationControllerBase;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.action.ValidActions;
@@ -101,7 +100,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
     @Override
     public boolean canCancel(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
+        if (workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isCompletionRequested()) {
             CashManagementDocument cmDoc = (CashManagementDocument) document;
             if (!SpringContext.getBean(CashManagementService.class).allowDocumentCancellation(cmDoc)) {
                 return false;
@@ -135,7 +134,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
     @Override
     public boolean canRoute(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
+        if (workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isCompletionRequested()) {
             CashManagementDocument cmDoc = (CashManagementDocument) document;
             if (!cmDoc.hasFinalDeposit() || !SpringContext.getBean(CashManagementService.class).allVerifiedCashReceiptsAreDeposited(cmDoc)) {
                 return false;
@@ -155,7 +154,7 @@ public class CashManagementDocumentPresentationControllerBase extends LedgerPost
     @Override
     public boolean canSave(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
+        if (workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isCompletionRequested()) {
             CashManagementDocument cmDoc = (CashManagementDocument) document;
             if (cmDoc.getCashDrawerStatus() == null || cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_CLOSED)) {
                 return false;

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -55,7 +55,7 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
      */
     public void addAssignedAssetNumbers(Integer purchaseOrderNumber, String principalId, String noteText) {
         PurchaseOrderDocument document = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderNumber);
-        
+
         try {
             Note assetNote = SpringContext.getBean(DocumentService.class).createNoteFromDocument(document, noteText);
             // set the initiator user info to the new note
@@ -116,6 +116,8 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
      * @see org.kuali.kfs.integration.service.PurchasingAccountsPayableModuleService#handlePurchasingBatchCancels(java.lang.String)
      */
     public void handlePurchasingBatchCancels(String documentNumber, String documentTypeCode, boolean primaryCancel, boolean disbursedPayment) {
+        LOG.info("Begin handlePurchasingBatchCancels(documentNumber=" + documentNumber + ", documentTypeCode=" + documentTypeCode + ", primaryCancel=" + primaryCancel + ", disbursedPayment=" + disbursedPayment);
+
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         PaymentRequestService paymentRequestService = SpringContext.getBean(PaymentRequestService.class);
         CreditMemoService creditMemoService = SpringContext.getBean(CreditMemoService.class);
@@ -185,9 +187,9 @@ public class PurchasingAccountsPayableModuleServiceImpl implements PurchasingAcc
     }
 
     public String getB2BUrlString() {
-        return PurapConstants.B2B_URL_STRING;    
+        return PurapConstants.B2B_URL_STRING;
     }
-    
+
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
     }

@@ -1,0 +1,81 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+	
+	<changeSet author="KFS503" id="KFSCNTRB-1343">
+		<comment>KFSCNTRB-1343 Create new parameters for AR Lockbox Upload</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="LockboxLoadStep" />
+			<column name="PARM_NM" value="CONTACTS_TEXT" />
+			<column name="VAL" value="SEE END OF MESSAGE FOR TRANSMISSION STATUS REPORT. {INSERT AR CONTACT INFORMATION HERE} (Primary contact listed above can revise recipients or contents of this message.)" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="This parameter is to store the details for AR lockbox contacts." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="LockboxLoadStep" />
+			<column name="PARM_NM" value="SUMMARY_AND_ERROR_NOTIFICATION_EMAIL_SUBJECT" />
+			<column name="VAL" value="Account Receivable Lock Box Payments" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Email subject line for the lockbox load summary and error notification email." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-AR" />
+			<column name="CMPNT_CD" value="LockboxLoadStep" />
+			<column name="PARM_NM" value="SUMMARY_AND_ERROR_NOTIFICATION_TO_EMAIL_ADDRESSES" />
+			<column name="VAL" value="ar-lock-box-pmts-l@kuali.org" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Email address to receive lockbox load summary and error notification email." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+
+		<modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
+	</changeSet>
+
+	<changeSet author="KFS503" id="KFSCNTRB-990">
+		<comment>KFSCNTRB-990 Create new parameters for defaulting Vendor commodity on REQS accting lines</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="CMPNT_CD" value="Requisition" />
+			<column name="PARM_NM" value="ENABLE_DEFAULT_VENDOR_COMMODITY_CODE_IND" />
+			<column name="VAL" value="Y" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Indicates whether vendor commodity code will be auto-populated. Will not override user-specified values." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="CMPNT_CD" value="Requisition" />
+			<column name="PARM_NM" value="B2B_CLASSIFICATION_FOR_COMMODITY_CODE" />
+			<column name="VAL" value="UNSPSC" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="The item classification that denotes the commodity code in the cxml returned from the B2B cart." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+
+		<modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
+	</changeSet>
+	
+</databaseChangeLog>

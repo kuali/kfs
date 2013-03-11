@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -52,6 +52,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     /**
      * @see org.kuali.kfs.module.purap.service.ProcessPdpCancelPaidService#processPdpCancels()
      */
+    @Override
     public void processPdpCancels() {
         LOG.debug("processPdpCancels() started");
 
@@ -73,7 +74,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
             String documentNumber = paymentDetail.getCustPaymentDocNbr();
 
             boolean primaryCancel = paymentDetail.getPrimaryCancelledPayment();
-            boolean disbursedPayment = PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT.equals(paymentDetail.getPaymentGroup().getPaymentStatusCode());
+            boolean disbursedPayment = PdpConstants.PaymentStatusCodes.CANCEL_DISBURSEMENT.equals(paymentDetail.getPaymentGroup().getPaymentStatusCode());
 
             if(purchasingAccountsPayableModuleService.isPurchasingBatchDocument(documentTypeCode)) {
                 purchasingAccountsPayableModuleService.handlePurchasingBatchCancels(documentNumber, documentTypeCode, primaryCancel, disbursedPayment);
@@ -100,6 +101,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     /**
      * @see org.kuali.kfs.module.purap.service.ProcessPdpCancelPaidService#processPdpPaids()
      */
+    @Override
     public void processPdpPaids() {
         LOG.debug("processPdpPaids() started");
 
@@ -123,7 +125,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
             if(purchasingAccountsPayableModuleService.isPurchasingBatchDocument(documentTypeCode)) {
                 purchasingAccountsPayableModuleService.handlePurchasingBatchPaids(documentNumber, documentTypeCode, processDate);
             }
-            else if (documentTypeCode.equals(DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH)) {
+            else if (DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH.equals(documentTypeCode)) {
                 DisbursementVoucherDocument dv = dvExtractService.getDocumentById(documentNumber);
                 dvExtractService.markDisbursementVoucherAsPaid(dv, processDate);
             }
@@ -139,6 +141,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     /**
      * @see org.kuali.kfs.module.purap.service.ProcessPdpCancelPaidService#processPdpCancelsAndPaids()
      */
+    @Override
     public void processPdpCancelsAndPaids() {
         LOG.debug("processPdpCancelsAndPaids() started");
 
@@ -173,5 +176,5 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     public void setDvExtractService(DisbursementVoucherExtractService dvExtractService) {
         this.dvExtractService = dvExtractService;
     }
-    
+
 }

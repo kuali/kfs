@@ -72,12 +72,12 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
     public void processAfterRetrieve() {
         // set correctedByDocumentId manually, since OJB doesn't maintain that relationship
         try {
-            DocumentHeader correctingDocumentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(getDocumentHeader().getWorkflowDocument().getDocumentId());
+            DocumentHeader correctingDocumentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(getDocumentHeader().getDocumentNumber());
             if (correctingDocumentHeader != null) {
                 getFinancialSystemDocumentHeader().setCorrectedByDocumentId(correctingDocumentHeader.getDocumentNumber());
             }
         } catch (RuntimeException e) {
-            LOG.error("Received WorkflowException trying to get route header id from workflow document");
+            LOG.error("Received WorkflowException trying to get route header id from workflow document", e);
             throw new WorkflowRuntimeException(e);
         }
         // set the ad hoc route recipients too, since OJB doesn't maintain that relationship

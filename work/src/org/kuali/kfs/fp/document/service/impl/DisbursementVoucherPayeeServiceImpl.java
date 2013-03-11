@@ -30,7 +30,6 @@ import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
@@ -41,7 +40,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
@@ -214,8 +212,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
                     Set<Person> priorApprovers = dvDoc.getAllPriorApprovers();
 
                     String initiatorUserId = dvDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-                    Person finSysUser = SpringContext.getBean(PersonService.class).getPerson(initiatorUserId);
-                    setupFYIs(dvDoc, priorApprovers, finSysUser.getPrincipalName());
+                    setupFYIs(dvDoc, priorApprovers, initiatorUserId);
                 }
                 catch (WorkflowException we) {
                     LOG.error("Exception while attempting to retrieve all prior approvers from workflow: " + we);

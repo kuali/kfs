@@ -16,6 +16,7 @@
 package org.kuali.kfs.fp.identity;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +66,7 @@ public class CashReceiptInitiatorDerivedRoleTypeServiceImpl extends DerivedRoleT
      * @return true if the said shmoe is indeed a member of KFS-SYS User; false otherwise
      */
     protected boolean principalMemberOfSysUsers(String principalId) {
-        return hasRoleMembership(principalId, null, SYS_USER_ROLE_NAMESPACE, SYS_USER_ROLE_NAME);
+        return hasRoleMembership(principalId, new HashMap<String,String>(), SYS_USER_ROLE_NAMESPACE, SYS_USER_ROLE_NAME);
     }
 
     /**

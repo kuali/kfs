@@ -141,9 +141,6 @@ public class AssetTransferServiceImpl implements AssetTransferService {
         return postable;
     }
 
-    /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetTransferService#createGLPostables(org.kuali.kfs.module.cam.document.AssetTransferDocument)
-     */
     @Override
     public void createGLPostables(AssetTransferDocument document) {
         document.clearGlPostables();
@@ -155,13 +152,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             asset.refreshReferenceObject(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT);
             document.refreshReferenceObject(CamsPropertyConstants.AssetTransferDocument.ORGANIZATION_OWNER_ACCOUNT);
 
-            String finObjectSubTypeCode = asset.getFinancialObjectSubTypeCode();
-            if (finObjectSubTypeCode == null) {
-                AssetPayment firstAssetPayment = asset.getAssetPayments().get(0);
-                ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(firstAssetPayment.getChartOfAccountsCode(), firstAssetPayment.getFinancialObjectCode());
-                finObjectSubTypeCode = objectCode.getFinancialObjectSubTypeCode();
-            }
-            boolean movableAsset = getAssetService().isAssetMovableCheckByPayment(finObjectSubTypeCode);
+            boolean movableAsset = getAssetService().isAssetMovableCheckByPayment(asset);
             if (isGLPostable(document, asset, movableAsset)) {
                 asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
                 List<AssetPayment> assetPayments = asset.getAssetPayments();
@@ -170,7 +161,6 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             }
         }
     }
-
 
     /**
      * Creates new payment records for new organization account

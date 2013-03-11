@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -110,11 +110,49 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
 
         // update search results according to the selected pending entry option
         updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
-
+        searchResultsCollection = consolidateObjectTypeCode(searchResultsCollection);
         // get the actual size of all qualified search results
         Long actualSize = new Long(searchResultsCollection.size());
 
         return this.buildSearchResultList(searchResultsCollection, actualSize);
+    }
+
+    /**
+     * Filter search results to consolidate them if the only difference is object type code.
+     *
+     * @param searchResultsCollection
+     * @return
+     */
+    private Collection<EmployeeFunding> consolidateObjectTypeCode(Collection<EmployeeFunding> searchResultsCollection) {
+        Map map = new HashMap<String, EmployeeFunding>();
+        String hashString;
+        EmployeeFunding temp;
+        for(EmployeeFunding empFunding : searchResultsCollection) {
+            hashString = empFunding.getEmplid() + empFunding.getUniversityFiscalYear() + empFunding.getChartOfAccountsCode() + empFunding.getAccountNumber() +
+                    empFunding.getObjectCode() + empFunding.getPositionNumber();
+            if (map.containsKey(hashString)) {
+                temp = ((EmployeeFunding)map.get(hashString));
+                if (temp.getCsfFullTimeEmploymentQuantity() != null && empFunding.getCsfFullTimeEmploymentQuantity() != null) {
+                    temp.setCsfFullTimeEmploymentQuantity(temp.getCsfFullTimeEmploymentQuantity().add(empFunding.getCsfFullTimeEmploymentQuantity()));
+                }
+                if (temp.getCsfAmount() != null && empFunding.getCsfAmount() != null) {
+                    temp.setCsfAmount(temp.getCsfAmount().add(empFunding.getCsfAmount()));
+                }
+                if (temp.getCurrentAmount() != null && empFunding.getCurrentAmount() != null) {
+                    temp.setCurrentAmount(temp.getCurrentAmount().add(empFunding.getCurrentAmount()));
+                }
+                if (temp.getOutstandingEncumbrance() != null && empFunding.getOutstandingEncumbrance() != null) {
+                    temp.setOutstandingEncumbrance(temp.getOutstandingEncumbrance().add(empFunding.getOutstandingEncumbrance()));
+                }
+                if (temp.getTotalAmount() != null && empFunding.getTotalAmount() != null) {
+                    temp.setTotalAmount(temp.getTotalAmount().add(empFunding.getTotalAmount()));
+                }
+                map.put(hashString, temp);
+            } else {
+                map.put(hashString, empFunding);
+            }
+        }
+        return map.values();
     }
 
     private boolean showBlankLines(Map fieldValues) {
@@ -124,7 +162,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
 
     /**
      * build the serach result list from the given collection and the number of all qualified search results
-     * 
+     *
      * @param searchResultsCollection the given search results, which may be a subset of the qualified search results
      * @param actualSize the number of all qualified search results
      * @return the serach result list with the given results and actual size
@@ -133,7 +171,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
         CollectionIncomplete results = new CollectionIncomplete(searchResultsCollection, actualSize);
 
         // sort list if default sort column given
-        List searchResults = (List) results;
+        List searchResults = results;
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {
             Collections.sort(results, new BeanPropertyComparator(defaultSortColumns, true));
@@ -193,7 +231,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
 
     /**
      * update the amount of the given employee funding with the given pending entry
-     * 
+     *
      * @param employeeFunding the given employee funding
      * @param pendingEntry the given pending entry
      */
@@ -212,7 +250,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
 
     /**
      * determine whether the given pending entry is qualified to be processed as an employee funding
-     * 
+     *
      * @param pendingEntry the given pending entry
      * @return true if the given pending entry is qualified to be processed as an employee funding; otherwise, false
      */
@@ -235,7 +273,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
 
     /**
      * construct the primary key list of the business object
-     * 
+     *
      * @return the primary key list of the business object
      */
     private List<String> getKeyList() {
@@ -254,7 +292,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
 
     /**
      * Sets the laborLedgerBalanceService attribute value.
-     * 
+     *
      * @param laborLedgerBalanceService The laborLedgerBalanceService to set.
      */
     public void setLaborLedgerBalanceService(LaborLedgerBalanceService laborLedgerBalanceService) {
@@ -263,7 +301,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
 
     /**
      * Sets the laborInquiryOptionsService attribute value.
-     * 
+     *
      * @param laborInquiryOptionsService The laborInquiryOptionsService to set.
      */
     public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {
@@ -272,7 +310,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
 
     /**
      * Sets the laborLedgerPendingEntryService attribute value.
-     * 
+     *
      * @param laborLedgerPendingEntryService The laborLedgerPendingEntryService to set.
      */
     public void setLaborLedgerPendingEntryService(LaborLedgerPendingEntryService laborLedgerPendingEntryService) {

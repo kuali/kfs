@@ -198,9 +198,10 @@ public interface VendorService {
      * Notes tab should reflect that the vendor on REQ has an expired contract.
      *
      * @param poDocument
+     * @param vendorContractGeneratedIdentifier
      * @param vendorDetail
-     * @return true if vendor contract expired end date is not expired else retur false.
+     * @return true if vendor contract expired end date is not expired else return false.
      */
-    public boolean isVendorContractExpired(Document document, VendorDetail vendorDetail);
+    public boolean isVendorContractExpired(Document document, Integer vendorContractGeneratedIdentifier, VendorDetail vendorDetail);
 
 }

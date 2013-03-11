@@ -81,7 +81,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	 */
 	@Override
     public String getCustomerNumber() {
-		return customerNumber;
+		return StringUtils.upperCase(customerNumber);
 	}
 
 	/**

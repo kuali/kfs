@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,6 +44,7 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -133,7 +134,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * acquire position and funding locks for the given appointment funding
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      * @return true if the position and funding locks for the given appointment funding are acquired successfully, otherwise, false
      */
@@ -155,7 +156,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             if (!positionWasAlreadyLocked) {
                 BudgetConstructionLockStatus positionLockingStatus = lockService.lockPosition(position, this.getPerson());
                 if (!LockStatus.SUCCESS.equals(positionLockingStatus.getLockStatus())) {
-                    errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, position.toString());
+                    errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, "Position Number:"+position.getPositionNumber()+", Fiscal Year:"+position.getUniversityFiscalYear().toString()+", Desc:"+position.getPositionDescription()+", Locked By:"+position.getPositionLockUser().getPrincipalName());
 
                     // gwp - added if test, unlock all others only when initially loading the screen
                     // not during the add line action
@@ -173,7 +174,8 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             }
 
             if (!LockStatus.SUCCESS.equals(fundingLockingStatus.getLockStatus())) {
-                errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.getAppointmentFundingString());
+                String lockUserName = SpringContext.getBean(PersonService.class).getPerson(fundingLockingStatus.getAccountLockOwner()).getPrincipalName();
+                errorMap.putError(BCPropertyConstants.NEW_BCAF_LINE, BCKeyConstants.ERROR_FAIL_TO_LOCK_FUNDING, appointmentFunding.getAppointmentFundingString()+", Document Locked By:"+lockUserName);
 
                 // gwp - added if test, unlock all others only when initially loading the screen
                 // not during the add line action
@@ -218,7 +220,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * update the access mode of the given appointment funding
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      * @return true if the access mode of the given appointment funding are updated successfully, otherwise, false
      */
@@ -246,7 +248,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * acquire transaction locks for the savable appointment fundings
-     * 
+     *
      * @return true if the transaction locks for all savable appointment fundings are acquired successfully, otherwise, false
      */
     public boolean acquireTransactionLocks(MessageMap messageMap) {
@@ -363,7 +365,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * sets the default fields not setable by the user for added lines and any other required initialization
-     * 
+     *
      * @param appointmentFunding the given appointment funding line
      */
     public PendingBudgetConstructionAppointmentFunding createNewAppointmentFundingLine() {
@@ -485,7 +487,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Gets the newBCAFLine attribute.
-     * 
+     *
      * @return Returns the newBCAFLine.
      */
     public PendingBudgetConstructionAppointmentFunding getNewBCAFLine() {
@@ -494,7 +496,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Sets the newBCAFLine attribute value.
-     * 
+     *
      * @param newBCAFLine The newBCAFLine to set.
      */
     public void setNewBCAFLine(PendingBudgetConstructionAppointmentFunding newBCAFLine) {
@@ -503,7 +505,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Gets the emplid attribute.
-     * 
+     *
      * @return Returns the emplid.
      */
     public String getEmplid() {
@@ -512,7 +514,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Sets the emplid attribute value.
-     * 
+     *
      * @param emplid The emplid to set.
      */
     public void setEmplid(String emplid) {
@@ -521,7 +523,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Gets the addLine attribute.
-     * 
+     *
      * @return Returns the addLine.
      */
     public boolean isAddLine() {
@@ -530,7 +532,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Sets the addLine attribute value.
-     * 
+     *
      * @param addLine The addLine to set.
      */
     public void setAddLine(boolean addLine) {
@@ -539,7 +541,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Gets the positionNumber attribute.
-     * 
+     *
      * @return Returns the positionNumber.
      */
     public String getPositionNumber() {
@@ -548,7 +550,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Sets the positionNumber attribute value.
-     * 
+     *
      * @param positionNumber The positionNumber to set.
      */
     public void setPositionNumber(String positionNumber) {
@@ -557,7 +559,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Gets the name attribute.
-     * 
+     *
      * @return Returns the name.
      */
     public String name() {
@@ -566,7 +568,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Sets the name attribute value.
-     * 
+     *
      * @param name The name to set.
      */
     public void setName(String name) {
@@ -585,7 +587,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         }
         else {
             // make sure special disabled fields are allowed to be populated
-            if (requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_AMOUNT) || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_TIME_PERCENT) || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_FUNDING_REASON_AMOUNT) 
+            if (requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_AMOUNT) || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_TIME_PERCENT) || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_FUNDING_REASON_AMOUNT)
                     || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_CHART_OF_ACCOUNT)) {
                 return true;
             }

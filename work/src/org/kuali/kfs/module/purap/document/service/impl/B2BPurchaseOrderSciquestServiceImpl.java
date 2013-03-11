@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,6 +40,8 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,10 +49,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(B2BPurchaseOrderSciquestServiceImpl.class);
 
-    private B2BDao b2bDao;
-    private RequisitionService requisitionService;
-    private ParameterService parameterService;
-    private PersonService personService;
+    protected B2BDao b2bDao;
+    protected RequisitionService requisitionService;
+    protected ParameterService parameterService;
+    protected PersonService personService;
 
     // injected values
     private String b2bEnvironment;
@@ -144,7 +146,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
      *      java.lang.String, java.lang.String)
      */
     public String getCxml(PurchaseOrderDocument purchaseOrder, String requisitionInitiatorPrincipalId, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns) {
-        
+
         StringBuffer cxml = new StringBuffer();
 
         cxml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -249,7 +251,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         else {
             cxml.append("          <Contact label=\"Phone\" linenumber=\"4\"><![CDATA[").append(purchaseOrder.getRequestorPersonPhoneNumber()).append("]]></Contact>\n");
         }
-        
+
         //check indicator to decide if receiving or delivery address should be sent to the vendor
         if (purchaseOrder.getAddressToVendorIndicator()) {  //use receiving address
             cxml.append("          <AddressLine label=\"Street1\" linenumber=\"1\"><![CDATA[").append(purchaseOrder.getReceivingName().trim()).append("]]></AddressLine>\n");
@@ -266,9 +268,12 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
             cxml.append("          <Country isocountrycode=\"").append(purchaseOrder.getReceivingCountryCode()).append("\">").append(purchaseOrder.getReceivingCountryCode()).append("</Country>\n");
         }
         else { //use final delivery address
+            /* replaced this with getBuildingLine so institutions can customize what info they need on this line
             if (StringUtils.isNotEmpty(purchaseOrder.getDeliveryBuildingName())) {
                 cxml.append("          <Contact label=\"Building\" linenumber=\"5\"><![CDATA[").append(purchaseOrder.getDeliveryBuildingName()).append(" (").append(purchaseOrder.getDeliveryBuildingCode()).append(")]]></Contact>\n");
             }
+            */
+            cxml.append(getBuildingLine(purchaseOrder));
             cxml.append("          <AddressLine label=\"Street1\" linenumber=\"1\"><![CDATA[").append(purchaseOrder.getDeliveryBuildingLine1Address().trim()).append("]]></AddressLine>\n");
             cxml.append("          <AddressLine label=\"Street2\" linenumber=\"2\"><![CDATA[Room #").append(purchaseOrder.getDeliveryBuildingRoomNumber().trim()).append("]]></AddressLine>\n");
             cxml.append("          <AddressLine label=\"Company\" linenumber=\"4\"><![CDATA[").append(purchaseOrder.getBillingName().trim()).append("]]></AddressLine>\n");
@@ -479,7 +484,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         } // end item looping
 
         return errors.toString();
-    } 
+    }
 
     /**
      * Retrieve the Contract Manager's email
@@ -498,13 +503,13 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
      */
     protected String getRequisitionInitiatorPrincipal(String requisitionInitiatorPrincipalId) {
 
-        Person requisitionInitiator = getPersonService().getPerson(requisitionInitiatorPrincipalId);
+        Principal requisitionInitiator = KimApiServiceLocator.getIdentityService().getPrincipal(requisitionInitiatorPrincipalId);
         if (ObjectUtils.isNotNull(requisitionInitiator)) {
             return requisitionInitiator.getPrincipalName();
         }
         return "";
     }
-    
+
     public void setRequisitionService(RequisitionService requisitionService) {
         this.requisitionService = requisitionService;
     }
@@ -521,11 +526,12 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
      * @return Returns the personService.
      */
     protected PersonService getPersonService() {
-        if(personService==null)
+        if(personService==null) {
             personService = SpringContext.getBean(PersonService.class);
+        }
         return personService;
     }
-    
+
     public void setB2bEnvironment(String environment) {
         b2bEnvironment = environment;
     }
@@ -537,7 +543,7 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
     public void setB2bPurchaseOrderURL(String purchaseOrderURL) {
         b2bPurchaseOrderURL = purchaseOrderURL;
     }
-    
+
     public void setB2bPurchaseOrderIdentity(String b2bPurchaseOrderIdentity) {
         this.b2bPurchaseOrderIdentity = b2bPurchaseOrderIdentity;
     }
@@ -546,4 +552,34 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         b2bPurchaseOrderPassword = purchaseOrderPassword;
     }
 
+    public String getB2bEnvironment() {
+        return b2bEnvironment;
+    }
+
+    public String getB2bUserAgent() {
+        return b2bUserAgent;
+    }
+
+    public String getB2bPurchaseOrderURL() {
+        return b2bPurchaseOrderURL;
+    }
+
+    public String getB2bPurchaseOrderIdentity() {
+        return b2bPurchaseOrderIdentity;
+    }
+
+    public String getB2bPurchaseOrderPassword() {
+        return b2bPurchaseOrderPassword;
+    }
+
+    /* Returns the line for building. The default implementation includes both building name and building code in the line;
+     * institutions can override to customize according to what info they need on this line.
+     */
+    public String getBuildingLine(PurchaseOrderDocument purchaseOrder) {
+        StringBuffer line = new StringBuffer();
+        if (StringUtils.isNotEmpty(purchaseOrder.getDeliveryBuildingName())) {
+            line.append("          <Contact label=\"Building\" linenumber=\"5\"><![CDATA[").append(purchaseOrder.getDeliveryBuildingName()).append(" (").append(purchaseOrder.getDeliveryBuildingCode()).append(")]]></Contact>\n");
+        }
+        return line.toString();
+    }
 }

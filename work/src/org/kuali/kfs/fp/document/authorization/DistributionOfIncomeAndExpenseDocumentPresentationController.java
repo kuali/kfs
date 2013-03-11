@@ -18,13 +18,17 @@ package org.kuali.kfs.fp.document.authorization;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
+import org.kuali.kfs.sys.KFSConstants.RouteLevelNames;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class DistributionOfIncomeAndExpenseDocumentPresentationController extends AccountingDocumentPresentationControllerBase {
 
@@ -36,6 +40,7 @@ public class DistributionOfIncomeAndExpenseDocumentPresentationController extend
         Set<String> editModes = super.getEditModes(document);
 
         DistributionOfIncomeAndExpenseDocument distributionOfIncomeAndExpenseDocument = (DistributionOfIncomeAndExpenseDocument) document;
+        
         List<ElectronicPaymentClaim> electronicPaymentClaims = distributionOfIncomeAndExpenseDocument.getElectronicPaymentClaims();
 
         if (electronicPaymentClaims == null) {
@@ -48,5 +53,43 @@ public class DistributionOfIncomeAndExpenseDocumentPresentationController extend
         }
 
         return editModes;
+    }
+    
+    /**
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#getDocumentActions(org.kuali.rice.krad.document.Document)
+     */
+    @Override
+    public Set<String> getDocumentActions(Document document) {
+        Set<String> documentActions = super.getDocumentActions(document);
+
+        DistributionOfIncomeAndExpenseDocument distributionOfIncomeAndExpenseDocument = (DistributionOfIncomeAndExpenseDocument) document;
+        String docInError = distributionOfIncomeAndExpenseDocument.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber();
+        
+        if (StringUtils.isNotBlank(docInError)) {
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_EDIT);
+        }
+        return documentActions;
+    }
+    
+    /**
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canEdit(org.kuali.rice.krad.document.Document)
+     */
+    @Override
+    public boolean canEdit(Document document) {
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        FinancialSystemDocumentHeader documentheader = (FinancialSystemDocumentHeader) (document.getDocumentHeader());
+
+        if (workflowDocument.isCanceled()) {
+            return false;
+        }
+        else if (workflowDocument.isEnroute()) {
+            Set<String> currentRouteLevels = workflowDocument.getCurrentNodeNames();
+
+            if (currentRouteLevels.contains(RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY)) {
+                return false;
+            }
+        }
+
+        return super.canEdit(document);
     }
 }

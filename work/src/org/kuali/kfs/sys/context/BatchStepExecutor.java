@@ -53,8 +53,6 @@ public class BatchStepExecutor implements Runnable {
 	 * @param stepIndex the index of the step in the job
 	 */
 	public BatchStepExecutor(ParameterService parameterService, DateTimeService dateTimeService, BatchContainerDirectory batchContainerDirectory, BatchStepFileDescriptor batchStepFile, Step step, int stepIndex) {
-	    BatchLogger.addConsoleAppender(LOG);
-
 		this.parameterService = parameterService;
 		this.dateTimeService = dateTimeService;
 
@@ -125,7 +123,7 @@ public class BatchStepExecutor implements Runnable {
         ndcAppender = null;
         ndcSet = false;
         try {
-            ndcAppender = new FileAppender(BatchLogger.getLogFileAppenderLayout(), logFileName);
+            ndcAppender = new FileAppender(KFSConstants.BATCH_LOGGER_DEFAULT_PATTERN_LAYOUT, logFileName);
             ndcAppender.addFilter(new NDCFilter(nestedDiagnosticContext));
             Logger.getRootLogger().addAppender(ndcAppender);
             NDC.push(nestedDiagnosticContext);

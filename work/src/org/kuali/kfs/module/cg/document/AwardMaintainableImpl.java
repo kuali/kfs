@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,7 +43,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -66,7 +67,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Constructs a AwardMaintainableImpl.
-     * 
+     *
      * @param award
      */
     public AwardMaintainableImpl(Award award) {
@@ -119,7 +120,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
                     newSubcontractorRecords.add(awardSubcontractor);
                 }
             }
-            
+
             // now, loop over the new records
             for (AwardSubcontractor awardSubcontractor : newSubcontractorRecords) {
                 String awardSubcontractorNumber = "1";
@@ -127,7 +128,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
                 // get the other ones for the same subcontractor
                 List<AwardSubcontractor> oldSubcontractors = subcontractorAwardMap.get(awardSubcontractor.getSubcontractorNumber());
                 if ( oldSubcontractors != null ) {
-                    // we have a hit - find the first non-used number                    
+                    // we have a hit - find the first non-used number
                     // build an array from the unsorted list
                     boolean[][] nums = new boolean[100][100];
                     for ( AwardSubcontractor oldSub : oldSubcontractors ) {
@@ -143,15 +144,15 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
                     boolean foundNumbers = false;
                     for ( int i = 1; i <= 99; i++ ) {
                         for ( int j = 1; j <= 99; j++ ) {
-                            if ( !nums[j][i] ) { 
-                                // save the values 
-                                awardSubcontractorNumber = Integer.toString(j); 
-                                awardSubcontractorAmendmentNumber = Integer.toString(i); 
-                                // mark the cell as used before the next pass 
-                                nums[j][i] = true; 
-                                // just a flag to allow us to break out of both loops 
-                                foundNumbers = true; 
-                                break; 
+                            if ( !nums[j][i] ) {
+                                // save the values
+                                awardSubcontractorNumber = Integer.toString(j);
+                                awardSubcontractorAmendmentNumber = Integer.toString(i);
+                                // mark the cell as used before the next pass
+                                nums[j][i] = true;
+                                // just a flag to allow us to break out of both loops
+                                foundNumbers = true;
+                                break;
                             }
                         }
                         if ( foundNumbers ) {
@@ -164,11 +165,11 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
                 awardSubcontractor.setAwardSubcontractorNumber(awardSubcontractorNumber);
                 awardSubcontractor.setAwardSubcontractorAmendmentNumber(awardSubcontractorAmendmentNumber);
             }
-            
+
         }
-        
-        
-// The implementation below is **** - allows for easy key collisions         
+
+
+// The implementation below is **** - allows for easy key collisions
 //        List<AwardSubcontractor> awardSubcontractors = getAward().getAwardSubcontractors();
 //        int i = 0;
 //        if (awardSubcontractors != null && !awardSubcontractors.isEmpty()) {
@@ -188,7 +189,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * This method is called for refreshing the Agency after a lookup to display its full name without AJAX.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
      *      org.kuali.rice.kns.document.MaintenanceDocument)
      */
@@ -204,7 +205,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
                 GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_AWARDED, new String[] { getAward().getProposalNumber().toString() });
                 GlobalVariables.getMessageMap().removeFromErrorPath(pathToMaintainable);
             }
-            
+
             // SEE KULCG-315 for details on why this code is commented out.
             // if (AwardRuleUtil.isProposalInactive(getAward())) {
             // GlobalVariables.getMessageMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER,
@@ -228,7 +229,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Load related objects from the database as needed.
-     * 
+     *
      * @param refreshFromLookup
      */
     private void refreshAward(boolean refreshFromLookup) {
@@ -248,7 +249,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Refresh the collection of associated AwardProjectDirectors.
-     * 
+     *
      * @param refreshFromLookup a lookup returns only the primary key, so ignore the secondary key when true
      */
     private void refreshAwardProjectDirectors(boolean refreshFromLookup) {
@@ -287,7 +288,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
      * current reference as it is, because it may be a nonexistent instance which is holding the secondary key (the username, i.e.,
      * principalName) so we can redisplay it to the user for correction. If it only has a primary key then use that, because it may
      * be coming from the database, without any user input.
-     * 
+     *
      * @param director the ProjectDirector to refresh
      */
     private static void refreshWithSecondaryKey(CGProjectDirector director) {
@@ -295,12 +296,12 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
         if (ObjectUtils.isNotNull(cgdir)) {
             String secondaryKey = cgdir.getPrincipalName();
             if (StringUtils.isNotBlank(secondaryKey)) {
-                Person dir = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(secondaryKey);
+                Principal dir = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(secondaryKey);
                 director.setPrincipalId(dir == null ? null : dir.getPrincipalId());
             }
             if (StringUtils.isNotBlank(director.getPrincipalId())) {
-                Person person = SpringContext.getBean(PersonService.class).getPerson(director.getPrincipalId());
-                if (person != null) {
+                Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(director.getPrincipalId());
+                if (principal != null) {
                     ((PersistableBusinessObject) director).refreshNonUpdateableReferences();
                 }
             }
@@ -309,7 +310,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Gets the underlying Award.
-     * 
+     *
      * @return
      */
     public Award getAward() {
@@ -319,7 +320,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * Called for refreshing the {@link Subcontractor} on {@link ProposalSubcontractor} before adding to the proposalSubcontractors
      * collection on the proposal. this is to ensure that the summary fields are show correctly. i.e. {@link Subcontractor} name
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
      */
     @Override
@@ -331,7 +332,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * This method overrides the parent method to check the status of the award document and change the linked
      * {@link ProposalStatus} to A (Approved) if the {@link Award} is now in approved status.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
@@ -350,6 +351,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
     }
 
+    @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
         List<MaintenanceLock> locks = super.generateMaintenanceLocks();
         return locks;

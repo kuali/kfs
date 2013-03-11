@@ -50,6 +50,7 @@ public class PurapKeyConstants {
     public static final String WARNING_DEBARRED_VENDOR = "warning.debarred.vendor";
     public static final String ERROR_INACTIVE_VENDOR = "error.inactive.vendor";
     public static final String ERROR_NONEXIST_VENDOR = "error.nonexist.vendor";
+    public static final String ERROR_INACTIVE_OR_EXPIRED_VENDOR_CONTRACT = "error.inactive.or.expired.vendor.contract";
     public static final String ERROR_NONEXIST_ASSIGNED_USER = "error.nonexist.assignedUser";
     public static final String PO_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT = "warning.purchaseOrderTotalLimit";
     public static final String INVALID_CONTRACT_MANAGER_CODE = "error.invalidContractManagerCode";
@@ -372,5 +373,5 @@ public class PurapKeyConstants {
     public static final String ERROR_PAYMENT_REQUEST_CANNOT_BE_CANCELLED = "error.paymentRequest.cannot.be.cancelled";
 
     public static final String ERROR_PURCHASE_ORDER_RETRANSMIT_SELECT = "error.purchaseOrder.retransmit.select";
-    
+
 }

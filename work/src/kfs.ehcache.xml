@@ -20,21 +20,15 @@
          updateCheck="false" monitoring="autodetect"
          dynamicConfig="true" name="kfs.core.LocalCacheManager">
 
-  <defaultCache eternal="false"
-         overflowToDisk="false"
-         copyOnRead="false"
-         copyOnWrite="false"/>
 
-<!-- 
 	<defaultCache 
 			maxElementsInMemory="10000" 
-			eternal="false" maxEntriesLocalHeap="10000"
-			timeToIdleSeconds="120" 
-			timeToLiveSeconds="120"
+			maxEntriesLocalHeap="10000"
+			maxBytesLocalHeap="300M"
 			overflowToDisk="false" 
-			memoryStoreEvictionPolicy="LRU" 
-			statistics="false" />
- -->
+			copyOnRead="false"
+         copyOnWrite="false"/>
+
     <!-- Cache with copyOnRead (replacement for @Cached) -->
     <cache name="KFS/Account" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
     <cache name="KFS/AccountingPeriod" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />

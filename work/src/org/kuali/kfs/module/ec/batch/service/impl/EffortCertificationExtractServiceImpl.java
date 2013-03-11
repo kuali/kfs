@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -60,31 +60,31 @@ import org.springframework.transaction.annotation.Transactional;
  * This is an implemeation of Effort Certification Extract process, which extracts Labor Ledger records of the employees who were
  * paid on a grant or cost shared during the selected reporting period, and generates effort certification build/temporary document.
  * Its major tasks include:
- * 
+ *
  * <li>Identify employees who were paid on a grant or cost shared;</li>
  * <li>Select qualified Labor Ledger records for each identified employee;</li>
  * <li>Generate effort certification build document from the selected Labor Ledger records for each employee.</li>
  */
 @Transactional
 public class EffortCertificationExtractServiceImpl implements EffortCertificationExtractService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationExtractServiceImpl.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationExtractServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
-    private OptionsService optionsService;
-    private DateTimeService dateTimeService;
-    private UniversityDateService universityDateService;
+    protected BusinessObjectService businessObjectService;
+    protected OptionsService optionsService;
+    protected DateTimeService dateTimeService;
+    protected UniversityDateService universityDateService;
 
-    private LaborModuleService laborModuleService;
-    private KualiModuleService kualiModuleService;
-    
-    private EffortCertificationDocumentBuildService effortCertificationDocumentBuildService;
-    private EffortCertificationReportService effortCertificationReportService;
-    private EffortCertificationReportDefinitionService effortCertificationReportDefinitionService;
+    protected LaborModuleService laborModuleService;
+    protected KualiModuleService kualiModuleService;
+
+    protected EffortCertificationDocumentBuildService effortCertificationDocumentBuildService;
+    protected EffortCertificationReportService effortCertificationReportService;
+    protected EffortCertificationReportDefinitionService effortCertificationReportDefinitionService;
 
     /**
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#extract()
      */
-    
+
     public void extract() {
         Integer fiscalYear = EffortCertificationParameterFinder.getExtractReportFiscalYear();
         String reportNumber = EffortCertificationParameterFinder.getExtractReportNumber();
@@ -95,7 +95,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     /**
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#extract(java.lang.Integer, java.lang.String)
      */
-    
+
     public void extract(Integer fiscalYear, String reportNumber) {
         Map<String, String> fieldValues = EffortCertificationReportDefinition.buildKeyMap(fiscalYear, reportNumber);
 
@@ -126,7 +126,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#extract(java.lang.String,
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
-    
+
     public EffortCertificationDocumentBuild extract(String emplid, EffortCertificationReportDefinition reportDefinition) {
         Map<String, Collection<String>> parameters = this.getSystemParameters();
         parameters.put(ExtractProcess.EXPENSE_OBJECT_TYPE, getExpenseObjectTypeCodes(reportDefinition.getUniversityFiscalYear()));
@@ -142,7 +142,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#isEmployeesEligibleForEffortCertification(java.lang.String,
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
-    
+
     public boolean isEmployeeEligibleForEffortCertification(String emplid, EffortCertificationReportDefinition reportDefinition) {
         Map<String, Set<String>> earnCodePayGroups = effortCertificationReportDefinitionService.findReportEarnCodePayGroups(reportDefinition);
         List<String> balanceTypeList = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
@@ -154,7 +154,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     /**
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#findEmployeesEligibleForEffortCertification(org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
-    
+
     public List<String> findEmployeesEligibleForEffortCertification(EffortCertificationReportDefinition reportDefinition) {
         Map<String, Set<String>> earnCodePayGroups = effortCertificationReportDefinitionService.findReportEarnCodePayGroups(reportDefinition);
         List<String> balanceTypeList = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
@@ -165,7 +165,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     /**
      * check if a report has been defined. The combination of fiscal year and report number can determine a report definition.
-     * 
+     *
      * @param fiscalYear the the given fiscalYear
      * @param reportNumber the the given report number
      * @return a message if a report has not been defined or its documents have been gerenated; otherwise, return null
@@ -182,7 +182,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     /**
      * check if the docuemnts for the given report definition have not been generated. The combination of fiscal year and report
      * number can determine a report definition.
-     * 
+     *
      * @param fieldValues the map containing fiscalYear and report number
      * @return a message if the documents have been gerenated; otherwise, return null
      */
@@ -201,7 +201,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     /**
      * generate a document (build) as well as their detail lines for the given employees
-     * 
+     *
      * @param reportDefinition the given report definition
      * @param employees the given employees
      * @param reportDataHolder the holder of report data
@@ -230,7 +230,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     /**
      * extract the qualified labor ledger balance records of the given employee with the given report periods.
-     * 
+     *
      * @param emplid the given employee id
      * @param positionGroupCodes the specified position group codes
      * @param reportDefinition the specified report definition
@@ -264,7 +264,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     /**
      * remove the ledger balances without valid account, and nonzero total amount
-     * 
+     *
      * @param ledgerBalances the given ledger balances
      * @param reportDefinition the given report definition
      * @param reportDataHolder the given holder that contains any information to be written into the working report
@@ -297,7 +297,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     /**
      * check all ledger balances of the given employee and see if they can meet certain requiremnets. If not, the employee would be
      * unqualified for effort reporting
-     * 
+     *
      * @param emplid the given employee id
      * @param ledgerBalances the all pre-qualified ledger balances of the employee
      * @param reportDefinition the specified report definition
@@ -346,7 +346,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     /**
      * select the labor ledger balances for the specifed employee
-     * 
+     *
      * @param emplid the given empolyee id
      * @param positionObjectGroupCodes the specified position object group codes
      * @param reportDefinition the specified report definition
@@ -374,7 +374,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     /**
      * consolidate the given labor ledger balances and determine whether they are qualified for effort reporting
-     * 
+     *
      * @param ledgerBalances the given labor ledger balances
      * @param reportDefinition the specified report definition
      * @return a collection of ledger balances if they are qualified; otherwise, return null
@@ -416,7 +416,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     // add an error entry into error map
     protected void reportEmployeeWithoutValidBalances(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, Message message, String emplid) {
-        LaborLedgerBalance ledgerBalance = new LedgerBalance();   
+        LaborLedgerBalance ledgerBalance = new LedgerBalance();
         ledgerBalance.setEmplid(emplid);
         this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, ledgerBalance, message);
     }
@@ -479,7 +479,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -488,7 +488,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     /**
      * Sets the optionsService attribute value.
-     * 
+     *
      * @param optionsService The optionsService to set.
      */
     public void setOptionsService(OptionsService optionsService) {
@@ -497,7 +497,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -506,7 +506,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     /**
      * Sets the laborModuleService attribute value.
-     * 
+     *
      * @param laborModuleService The laborModuleService to set.
      */
     public void setLaborModuleService(LaborModuleService laborModuleService) {
@@ -515,7 +515,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     /**
      * Sets the effortCertificationDocumentBuildService attribute value.
-     * 
+     *
      * @param effortCertificationDocumentBuildService The effortCertificationDocumentBuildService to set.
      */
     public void setEffortCertificationDocumentBuildService(EffortCertificationDocumentBuildService effortCertificationDocumentBuildService) {
@@ -524,7 +524,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     /**
      * Sets the effortCertificationReportService attribute value.
-     * 
+     *
      * @param effortCertificationReportService The effortCertificationReportService to set.
      */
     public void setEffortCertificationReportService(EffortCertificationReportService effortCertificationReportService) {
@@ -533,7 +533,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     /**
      * Sets the universityDateService attribute value.
-     * 
+     *
      * @param universityDateService The universityDateService to set.
      */
     public void setUniversityDateService(UniversityDateService universityDateService) {
@@ -542,7 +542,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     /**
      * Sets the effortCertificationReportDefinitionService attribute value.
-     * 
+     *
      * @param effortCertificationReportDefinitionService The effortCertificationReportDefinitionService to set.
      */
     public void setEffortCertificationReportDefinitionService(EffortCertificationReportDefinitionService effortCertificationReportDefinitionService) {

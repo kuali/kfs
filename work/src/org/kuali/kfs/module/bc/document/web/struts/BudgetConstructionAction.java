@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,10 +33,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCKeyConstants;
-import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BCKeyLabelPair;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAuthorizationStatus;
@@ -64,11 +64,10 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.type.KimType;
-import org.kuali.rice.kim.api.type.KimTypeInfoService;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -100,7 +99,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * performAccountPushdown and creates global messages to describe the new editingMode state. Also handles document locking if
      * the editingMode is BudgetConstructionEditMode.FULL_ENTRY. (Re)Populates the pullup and pushdown selection controls based on
      * the current level of the document and the user's approval access for the levels above and below the current level.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -210,7 +209,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     HashMap primaryKey = new HashMap();
                     primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetConstructionForm.getDocument().getDocumentNumber());
 
-                    BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
+                    BudgetConstructionHeader budgetConstructionHeader = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
                     if (budgetConstructionHeader != null) {
                         // BudgetConstructionLockStatus bcLockStatus = lockService.lockAccount(budgetConstructionHeader,
                         // GlobalVariables.getUserSession().getPerson().getPrincipalId());
@@ -226,7 +225,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                         }
                         else {
                             if (bcLockStatus.getLockStatus() == LockStatus.BY_OTHER) {
-                                String lockerName = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPerson(bcLockStatus.getAccountLockOwner()).getName();
+                                Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(bcLockStatus.getAccountLockOwner());
+                                String lockerName = principal.getPrincipalName();
                                 this.cleanupForLockError(budgetConstructionForm);
                                 GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_BUDGET_DOCUMENT_LOCKED, lockerName);
                                 return forward;
@@ -286,11 +286,11 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         return forward;
     }
-    
+
     /**
      * Finds the role type service associated with the document viewer role, than calls method on role type service to set the no
      * access message
-     * 
+     *
      * @param budgetConstructionForm form containing budget document
      */
     protected void setBudgetDocumentNoAccessMessage(BudgetConstructionForm budgetConstructionForm) {
@@ -326,7 +326,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * here allows URL to be consistent with Document URLs gwp - i think we still want this method, just need to figure out if we
      * use command initiate or displayDocSearchView or something else. i expect we will get the account/subaccount or docnumber from
      * the previous form and assume the document will already exist regardless of creation by genesis or
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -351,7 +351,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     /**
      * Initially load the document from the DB Coded this to look like KualiDocumentActionBase.loadDocument()
-     * 
+     *
      * @param budgetConstructionForm
      * @throws WorkflowException
      */
@@ -365,7 +365,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetConstructionForm.getDocId());
 
             budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
-            
+
             // getting called from doc search?
             if (budgetConstructionForm.getMethodToCall().equalsIgnoreCase(KFSConstants.DOC_HANDLER_METHOD)){
 
@@ -409,7 +409,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     /**
      * Cleans up state info to handle no access lock errors
-     * 
+     *
      * @param budgetConstructionForm
      */
     protected void cleanupForLockError(BudgetConstructionForm budgetConstructionForm) {
@@ -421,7 +421,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     /**
      * Override to set authorization Maps from session
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
@@ -441,7 +441,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * Calls authorizer to determine if the user has edit permission and checks if budget construction is active is fiscal year
      * function table. Then updates the <code>BudgetConstructionEditStatus</code> in session. Finally updates authorization in the
      * form
-     * 
+     *
      * @param budgetConstructionForm current bc action form that will be updated
      */
     protected void initAuthorization(BudgetConstructionForm budgetConstructionForm) {
@@ -461,7 +461,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * difference back into a 2plg row, creating or updating as needed. Then, validation is performed. Sucessful validation removes
      * the 2plg row if the final, post benefits calc, adjusted amount is zero. This method assumes the set of expenditure rows in
      * memory currently matches the DB.
-     * 
+     *
      * @param bcForm
      */
     protected void adjustForSalarySettingChanges(BudgetConstructionForm bcForm) {
@@ -624,7 +624,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * Calls the single line benefits impact screen by setting up the required parameters and feeding them to the temporary list
      * lookup action for the expenditure line selected. This is called from the ShowBenefits button on the BC document screen when
      * an expenditure line is associated with benefits and benefits calculation is enabled.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -688,7 +688,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     /**
      * This method is similar to org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase.performBalanceInquiry()
-     * 
+     *
      * @param isRevenue
      * @param mapping
      * @param form
@@ -767,7 +767,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     /**
      * Calls performMonthlyBudget for the selected revenue line
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -781,7 +781,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     /**
      * Calls performMonthlyBudget for the selected expenditure line
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -796,7 +796,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     /**
      * Forwards the user to the monthly budget screen. Doing this in edit mode causes the document to be validated, saved and
      * benefits calculated (if needed).
-     * 
+     *
      * @param isRevenue
      * @param mapping
      * @param form
@@ -887,7 +887,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     /**
      * Forwards the user to the quick salary setting screen. Doing this in edit mode causes the document to be validated, saved and
      * benefits calculated (if needed).
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -966,7 +966,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     /**
      * This adds a revenue line to the BC document
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -997,7 +997,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     /**
      * This adds an expenditure line to the BC document
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1029,7 +1029,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     /**
      * This inserts a PBGL revenue or expenditure line
-     * 
+     *
      * @param isRevenue
      * @param budgetConstructionForm
      * @param line
@@ -1045,7 +1045,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         if (StringUtils.isBlank(line.getFinancialSubObjectCode())) {
             line.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
-        
+
         // check the DB for an existing persisted version of the line
         // and reinstate that with a message to the user indicating such
         boolean isReinstated = false;
@@ -1070,9 +1070,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         // add the line in the proper order - assumes already exists check is done in rules
         int insertPoint = bcDoc.addPBGLLine(line, isRevenue);
-        
+
         if (isReinstated){
-            String errorKey; 
+            String errorKey;
             if (isRevenue){
                 errorKey = KRADConstants.DOCUMENT_PROPERTY_NAME + "." + BCPropertyConstants.PENDING_BUDGET_CONSTRUCTION_GENERAL_LEDGER_REVENUE_LINES + "[" + insertPoint  + "]." + KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT;
             }
@@ -1104,7 +1104,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     /**
      * Deletes an existing PendingBudgetConstructionGeneralLedger revenue line if rules passed. Any associated monthly budget
      * (BudgetConstructionMonthly) is also deleted.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1143,7 +1143,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * (BudgetConstructionMonthly) is also deleted. Check for the special case where the line is a 2PLG line, in which case the
      * document is validated and RI checks are forced even if there are no current differences between persisted and request
      * amounts.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1186,7 +1186,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     /**
      * Deletes an existing PendingBudgetConstructionGeneralLedger revenue or expenditure line along with any associated monthly
      * budget (BudgetConstructionMonthly)
-     * 
+     *
      * @param isRevenue
      * @param budgetConstructionForm
      * @param deleteIndex
@@ -1312,7 +1312,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
             this.checkAndFixReturnedLookupValues(budgetConstructionForm.getNewRevenueLine(), budgetConstructionForm.getBudgetConstructionDocument());
             this.checkAndFixReturnedLookupValues(budgetConstructionForm.getNewExpenditureLine(), budgetConstructionForm.getBudgetConstructionDocument());
-            
+
             final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject" }));
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionForm.getNewRevenueLine(), REFRESH_FIELDS);
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionForm.getNewExpenditureLine(), REFRESH_FIELDS);
@@ -1328,8 +1328,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     /**
      * checks the passed in newLine for any data consistency problems compared to the currently loaded document
-     * this is typically called after return from a lookup since the user can potentially select from other fiscal years, etc. 
-     * 
+     * this is typically called after return from a lookup since the user can potentially select from other fiscal years, etc.
+     *
      * @param newLine
      * @param bcDoc
      */
@@ -1348,7 +1348,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     /**
      * This action changes the value of the hide field in the user interface so that when the page is rendered, the UI knows to show
      * all of the descriptions and labels for each of the pbgl line values.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1365,7 +1365,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     /**
      * This action toggles the value of the hide field in the user interface to "hide" so that when the page is rendered, the UI
      * displays values without all of the descriptions and labels for each of the pbgl lines.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1466,7 +1466,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     /**
      * Handles the document (account) pullup action, resetting the cached editingMode as appropriate for the new level.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1544,7 +1544,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                         doAllowPullup = true;
                         break;
                     case BY_OTHER:
-                        String lockerName = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPerson(bcLockStatus.getAccountLockOwner()).getName();
+                        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(bcLockStatus.getAccountLockOwner());
+                        String lockerName = principal.getPrincipalName();
                         GlobalVariables.getMessageMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Locked by " + lockerName);
                         break;
                     case FLOCK_FOUND:
@@ -1593,7 +1594,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     /**
      * Handles the document (account) pushdown action, resetting the cached editingMode as appropriate for the new level.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1704,7 +1705,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
     /**
      * Checks whether the current user would have access for the given budget document for the given organization level code
-     * 
+     *
      * @param document current bc document
      * @param orgLevelCode organization level code for access check
      * @param user user to check access for

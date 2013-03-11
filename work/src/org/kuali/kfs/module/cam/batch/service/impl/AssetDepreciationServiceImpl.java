@@ -144,15 +144,18 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                  * is going to be depreciated If blank then the system will take the system date to determine the fiscal period
                  */
                 if (parameterService.parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER)) {
-                    depreciationDateParameter = parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER).trim();
+                    depreciationDateParameter = parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.DEPRECIATION_RUN_DATE_PARAMETER);
                 } else {
                     throw new IllegalStateException(kualiConfigurationService.getPropertyValueAsString(CamsKeyConstants.Depreciation.DEPRECIATION_DATE_PARAMETER_NOT_FOUND));
                 }
 
+                if(StringUtils.isBlank(depreciationDateParameter)) {
+                    depreciationDateParameter = dateFormat.format(dateTimeService.getCurrentDate());
+                }
                 // This validates the system parameter depreciation_date has a valid format of YYYY-MM-DD.
                 if ( !StringUtils.isBlank(depreciationDateParameter) ) {
                     try {
-                        depreciationDate.setTime(dateFormat.parse(depreciationDateParameter));
+                        depreciationDate.setTime(dateFormat.parse(depreciationDateParameter.trim()));
                     } catch (ParseException e) {
                         throw new IllegalArgumentException(kualiConfigurationService.getPropertyValueAsString(CamsKeyConstants.Depreciation.INVALID_DEPRECIATION_DATE_FORMAT));
                     }

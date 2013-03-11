@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,8 +31,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -47,7 +47,7 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Constructs a new ProposalMaintainableImpl from an existing {@link Proposal}.
-     * 
+     *
      * @param proposal
      */
     public ProposalMaintainableImpl(Proposal proposal) {
@@ -106,7 +106,7 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * This method is called for refreshing the {@link Agency} and other related BOs after a lookup, to display their full name &
      * etc without AJAX.
-     * 
+     *
      * @param refreshCaller
      * @param fieldValues
      * @param document
@@ -120,7 +120,7 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * This is a hook for initializing the BO from the maintenance framework. It initializes the {@link ResearchRiskType}s
      * collection.
-     * 
+     *
      * @param generateDefaultValues true for initialization
      */
     @Override
@@ -132,7 +132,7 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
     }
 
     /**
-     * 
+     *
      */
     private void initResearchRiskTypes() {
         List<ProposalResearchRisk> risks = getProposal().getProposalResearchRisks();
@@ -164,7 +164,7 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Refreshes this maintainable's ProposalProjectDirectors.
-     * 
+     *
      * @param refreshFromLookup a lookup returns only the primary key, so ignore the secondary key when true
      */
     private void refreshProposalProjectDirectors(boolean refreshFromLookup) {
@@ -195,7 +195,7 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
      * current reference as it is, because it may be a nonexistent instance which is holding the secondary key (the username, i.e.,
      * principalName) so we can redisplay it to the user for correction. If it only has a primary key then use that, because it may
      * be coming from the database, without any user input.
-     * 
+     *
      * @param ppd the ProposalProjectDirector to refresh
      */
     private static void refreshWithSecondaryKey(ProposalProjectDirector ppd) {
@@ -204,11 +204,12 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
             secondaryKey = ppd.getProjectDirector().getPrincipalName();
         }
         if (StringUtils.isNotBlank(secondaryKey)) {
-            Person dir = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(secondaryKey);
+            Principal dir = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(secondaryKey);
             ppd.setPrincipalId(dir == null ? null : dir.getPrincipalId());
         }
         if (StringUtils.isNotBlank(ppd.getPrincipalId())) {
-            Person person = SpringContext.getBean(PersonService.class).getPerson(ppd.getPrincipalId());
+            Principal person = KimApiServiceLocator.getIdentityService().getPrincipal(ppd.getPrincipalId());
+
             if (person != null) {
                 ppd.refreshNonUpdateableReferences();
             }
@@ -217,7 +218,7 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Gets the {@link Proposal}
-     * 
+     *
      * @return
      */
     public Proposal getProposal() {
@@ -228,7 +229,7 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
      * called for refreshing the {@link Subcontractor} on {@link ProposalSubcontractor} before adding to the
      * {@link ProposalSubcontractor}s collection on the proposal. this is to ensure that the summary fields are shown correctly.
      * i.e. {@link Subcontractor} name
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
      */
     @Override

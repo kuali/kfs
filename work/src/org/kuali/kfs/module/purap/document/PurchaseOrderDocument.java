@@ -99,8 +99,8 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.dao.DocumentDao;
@@ -313,7 +313,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
             // extra caution in case ref obj didn't get refreshed
             //if (assignedUser == null)
             //    this.refreshReferenceObject("assignedUser");
-            Person assignedUser = SpringContext.getBean(PersonService.class).getPerson(assignedUserPrincipalId);
+            Principal assignedUser = KimApiServiceLocator.getIdentityService().getPrincipal(assignedUserPrincipalId);
             this.assignedUserPrincipalName = assignedUser.getPrincipalName();
         }
         // otherwise return its current value directly
@@ -324,9 +324,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         this.assignedUserPrincipalName = assignedUserPrincipalName;
         // each time this field changes we need to update the assigned user ID and ref obj to keep consistent
         // this code can be moved to where PO is saved and with validation too, which may be more appropriate
-        Person assignedUser = null;
+        Principal assignedUser = null;
         if (assignedUserPrincipalName != null) {
-            assignedUser = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(assignedUserPrincipalName);
+            assignedUser = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(assignedUserPrincipalName);
         }
         if (assignedUser != null) {
             assignedUserPrincipalId = assignedUser.getPrincipalId();

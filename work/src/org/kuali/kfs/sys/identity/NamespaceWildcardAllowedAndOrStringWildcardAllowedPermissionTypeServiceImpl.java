@@ -51,6 +51,7 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
  */
 public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeServiceImpl
 		extends NamespacePermissionTypeServiceImpl {
+    org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeServiceImpl.class);
 	protected static final String NAMESPACE_CODE = KimConstants.AttributeConstants.NAMESPACE_CODE;
 
 	protected String wildcardMatchStringAttributeName;
@@ -66,6 +67,10 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
      */
 	@Override
 	protected List<Permission> performPermissionMatches(Map<String, String> requestedDetails, List<Permission> permissionsList) {
+	    if (LOG.isDebugEnabled()) {
+	        LOG.debug("requested details = "+prettyPrintAttributeSet(requestedDetails));
+	        LOG.debug("number of permissions to check against: "+permissionsList.size());
+	    }
 		List<Permission> matchingPermissions = new ArrayList<Permission>();
 
 		List<Permission> exactNamespacePermissions = new ArrayList<Permission>();
@@ -94,6 +99,9 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
 
 	    	//found exact namespace match and exact, partial, or blank string attribute match
 		    if (!matchingPermissions.isEmpty()) {
+		        if (LOG.isDebugEnabled()) {
+		            LOG.info("found exact namespace match and exact, partial, or blank string attribute match");
+		        }
 		    	return matchingPermissions;
 		    }
 	    }
@@ -104,6 +112,9 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
 
 	    	//found partial namespace match and exact, partial, or blank string attribute match
 		    if (!matchingPermissions.isEmpty()) {
+		        if (LOG.isDebugEnabled()) {
+		            LOG.debug("found partial namespace match and exact, partial, or blank string attribute match");
+		        }
 		    	return matchingPermissions;
 		    }
 	    }
@@ -116,12 +127,28 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
 
 		    	//found blank namespace match and exact, partial, or blank string attribute match
 			    if (!matchingPermissions.isEmpty()) {
+			        if (LOG.isDebugEnabled()) {
+			            LOG.debug("found blank namespace match and exact, partial, or blank string attribute match");
+			        }
 			    	return matchingPermissions;
 			    }
 		    }
 	    }
-
+	    if (LOG.isDebugEnabled()) {
+	        LOG.debug("found no matching permissions");
+	    }
 	    return matchingPermissions; // empty list
+	}
+
+	protected String prettyPrintAttributeSet(Map<String, String> attributeSet) {
+	    StringBuilder sb = new StringBuilder();
+	    for (String key: attributeSet.keySet()) {
+	        sb.append(key);
+	        sb.append(" => ");
+	        sb.append(attributeSet.get(key));
+	        sb.append("; ");
+	    }
+	    return sb.toString();
 	}
 
     /**

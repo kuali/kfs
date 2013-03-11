@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,7 +39,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
         CashControlDocument cashControlDocument = (CashControlDocument) document;
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if ((workflowDocument.isInitiated() || workflowDocument.isSaved()) && !(cashControlDocument.getElectronicPaymentClaims().size() > 0)) {
+        if ((workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isCompletionRequested()) && !(cashControlDocument.getElectronicPaymentClaims().size() > 0)) {
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_DETAILS);
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_REF_DOC_NBR);
@@ -75,10 +75,10 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
                     editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_GENERATE_BUTTON);
                 }
                 Integer totalGLRecordsCreated = cashControlDocument.getGeneralLedgerEntriesPostedCount();
-                
+
                 if (totalGLRecordsCreated.intValue() > 0) {
                     editModes.remove(ArAuthorizationConstants.CashControlDocumentEditMode.SHOW_GENERATE_BUTTON);
-                    editModes.remove(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);                    
+                    editModes.remove(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);
                 }
             }
             if (workflowDocument.isApprovalRequested() && ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode())) {
@@ -123,7 +123,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
 
     /**
      * This method checks if the CashControlDocument has at least one application document that has been approved
-     * 
+     *
      * @param ccDoc the CashControlDocument
      * @return true if it has at least one application document approved, false otherwise
      */
@@ -144,7 +144,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
 
     /**
      * This method chech if all application document have been approved
-     * 
+     *
      * @param cashControlDocument the CashControlDocument
      * @return true if all application documents have been approved, false otherwise
      */

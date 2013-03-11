@@ -57,8 +57,7 @@
           </property>
           <property name="supportAttributes">
             <list>
-              <bean parent="SupportAttributeDefinition" p:sourceName="payeeIdentifierTypeCode" p:targetName="payeeTypeCode"/>
-              <bean parent="SupportAttributeDefinition" p:sourceName="payeeName" p:targetName="payeeName"/>                    
+              <bean parent="SupportAttributeDefinition" p:sourceName="payeeIdentifierTypeCode" p:targetName="payeeTypeCode"/>                
             </list>
           </property>      
         </bean>
@@ -248,7 +247,6 @@
         <bean parent="FieldDefinition" p:attributeName="bankRoutingNumber"/>
         <bean parent="FieldDefinition" p:attributeName="bankAccountNumber"/>
         <bean parent="FieldDefinition" p:attributeName="bankAccountTypeCode"/>
-        <bean parent="FieldDefinition" p:attributeName="payeeName"/>
         <bean parent="FieldDefinition" p:attributeName="achTransactionType"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>

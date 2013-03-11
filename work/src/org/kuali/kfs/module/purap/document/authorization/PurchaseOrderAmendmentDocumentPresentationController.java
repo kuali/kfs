@@ -42,7 +42,7 @@ public class PurchaseOrderAmendmentDocumentPresentationController extends Purcha
         if (PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS.equals(poDocument.getApplicationDocumentStatus())) {
             WorkflowDocument workflowDocument = poDocument.getFinancialSystemDocumentHeader().getWorkflowDocument();
 
-            if (!workflowDocument.isInitiated() && !workflowDocument.isSaved()) {
+            if (!workflowDocument.isInitiated() && !workflowDocument.isSaved()  && !workflowDocument.isCompletionRequested()) {
                 return false;
             }
         }
@@ -57,7 +57,7 @@ public class PurchaseOrderAmendmentDocumentPresentationController extends Purcha
         if (PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS.equals(poDocument.getApplicationDocumentStatus())) {
             WorkflowDocument workflowDocument = poDocument.getFinancialSystemDocumentHeader().getWorkflowDocument();
             //  amendment doc needs to lock its field for initiator while enroute
-            if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
+            if (workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isCompletionRequested()) {
                 editModes.add(PurchaseOrderEditMode.AMENDMENT_ENTRY);
             }
         }

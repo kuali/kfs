@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -196,10 +196,11 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 
     /**
      * Sets the itemType attribute.
-     * 
+     *
      * @param itemType The itemType to set.
      * @deprecated
      */
+    @Deprecated
     public void setItemType(ItemType itemType) {
         this.itemType = itemType;
     }
@@ -310,15 +311,32 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
      * inject values into the list, it will get an index out of bounds error if the instance at an index is being called and prior
      * instances at indices before that one are not being instantiated. So changing the code below will cause adding lines to break
      * if you add more than one item to the list.
-     * 
+     *
      * @see org.kuali.rice.krad.document.FinancialDocument#getTargetAccountingLine(int)
      */
     public PurApAccountingLine getSourceAccountingLine(int index) {
-        return (PurApAccountingLine) getSourceAccountingLines().get(index);
+        while (getSourceAccountingLines().size() <= index) {
+            PurApAccountingLine newAccount = getNewAccount();
+            getSourceAccountingLines().add(newAccount);
+        }
+        return getSourceAccountingLines().get(index);
     }
 
+    /**
+     * This implementation is coupled tightly with some underlying issues that the Struts PojoProcessor plugin has with how objects
+     * get instantiated within lists. The first three lines are required otherwise when the PojoProcessor tries to automatically
+     * inject values into the list, it will get an index out of bounds error if the instance at an index is being called and prior
+     * instances at indices before that one are not being instantiated. So changing the code below will cause adding lines to break
+     * if you add more than one item to the list.
+     *
+     * @see org.kuali.rice.krad.document.FinancialDocument#getTargetAccountingLine(int)
+     */
     public PurApAccountingLine getBaselineSourceAccountingLine(int index) {
-        return (PurApAccountingLine) getBaselineSourceAccountingLines().get(index);
+        while (getBaselineSourceAccountingLines().size() <= index) {
+            PurApAccountingLine newAccount = getNewAccount();
+            getBaselineSourceAccountingLines().add(newAccount);
+        }
+        return getBaselineSourceAccountingLines().get(index);
     }
 
     private PurApAccountingLine getNewAccount() throws RuntimeException {
@@ -356,7 +374,8 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     /**
      * @see org.kuali.rice.krad.document.DocumentBase#buildListOfDeletionAwareLists()
      */
-    
+
+    @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = new ArrayList();
 
@@ -437,7 +456,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 
     /**
      * fixes item references on accounts
-     * 
+     *
      * @see org.kuali.kfs.module.purap.businessobject.PurApItem#fixAccountReferences()
      */
     public void fixAccountReferences() {
@@ -474,9 +493,9 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 
     @Override
     public String toString() {
-        return "Line "+(itemLineNumber==null?"(null)":itemLineNumber.toString())+": ["+itemTypeCode+"] " + 
-                "Unit:"+(itemUnitPrice==null?"(null)":itemUnitPrice.toString())+" " + 
-                "Tax:"+(itemSalesTaxAmount==null?"(null)":itemSalesTaxAmount.toString())+" " + 
+        return "Line "+(itemLineNumber==null?"(null)":itemLineNumber.toString())+": ["+itemTypeCode+"] " +
+                "Unit:"+(itemUnitPrice==null?"(null)":itemUnitPrice.toString())+" " +
+                "Tax:"+(itemSalesTaxAmount==null?"(null)":itemSalesTaxAmount.toString())+" " +
                 "*"+itemDescription+"*";
     }
 

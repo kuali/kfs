@@ -16,8 +16,11 @@
 package org.kuali.kfs.module.ar.businessobject;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.kuali.kfs.sys.batch.FlatFileTransactionInformation;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -41,6 +44,11 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 	private String proxyInitiator;
 	private String bankCode; //a unique code used to identify the bank associated with this lockbox.
 
+	private KualiDecimal headerTransactionBatchTotal;
+    private Integer headerTransactionBatchCount;
+    private List<LockboxDetail> lockboxDetails;
+    private FlatFileTransactionInformation fileTransactionInformation;
+
     private PaymentMedium customerPaymentMedium;
     private Bank bank;
 
@@ -48,6 +56,7 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 	 * Default constructor.
 	 */
 	public Lockbox() {
+        lockboxDetails = new ArrayList<LockboxDetail>();
 
 	}
 
@@ -369,6 +378,38 @@ public class Lockbox extends PersistableBusinessObjectBase implements Comparable
 
     public void setBank(Bank bank) {
         this.bank = bank;
+    }
+
+    public List<LockboxDetail> getLockboxDetails() {
+        return lockboxDetails;
+    }
+
+    public void setLockboxDetails(List<LockboxDetail> lockboxDetails) {
+        this.lockboxDetails = lockboxDetails;
+    }
+
+    public KualiDecimal getHeaderTransactionBatchTotal() {
+        return headerTransactionBatchTotal;
+    }
+
+    public void setHeaderTransactionBatchTotal(KualiDecimal headerTransactionBatchTotal) {
+        this.headerTransactionBatchTotal = headerTransactionBatchTotal;
+    }
+
+    public Integer getHeaderTransactionBatchCount() {
+        return headerTransactionBatchCount;
+    }
+
+    public void setHeaderTransactionBatchCount(Integer headerTransactionBatchCount) {
+        this.headerTransactionBatchCount = headerTransactionBatchCount;
+    }
+
+
+    public FlatFileTransactionInformation getFlatFileTransactionInformation() {
+        if (fileTransactionInformation == null ) {
+          this.fileTransactionInformation = new FlatFileTransactionInformation(getLockboxNumber());
+        }
+        return fileTransactionInformation;
     }
 
 }

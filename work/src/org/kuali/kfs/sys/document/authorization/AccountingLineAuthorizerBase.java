@@ -107,7 +107,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      */
     @Override
     public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty) {
-        return (accountingDocument.getDocumentHeader().getWorkflowDocument().isInitiated() || accountingDocument.getDocumentHeader().getWorkflowDocument().isSaved());
+        return (accountingDocument.getDocumentHeader().getWorkflowDocument().isInitiated() || accountingDocument.getDocumentHeader().getWorkflowDocument().isSaved() || accountingDocument.getDocumentHeader().getWorkflowDocument().isCompletionRequested());
     }
 
     /**
@@ -117,7 +117,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     @Override
     public boolean isGroupEditable(AccountingDocument accountingDocument, List<? extends AccountingLineRenderingContext> accountingLineRenderingContexts, Person currentUser) {
         WorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
+        if (workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isCompletionRequested()) {
             return StringUtils.equalsIgnoreCase( workflowDocument.getInitiatorPrincipalId(), currentUser.getPrincipalId() );
         }
 
@@ -281,6 +281,9 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
 
         // check the initiation permission on the document if it is in the state of preroute
         WorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
+        if(workflowDocument.isCompletionRequested()){
+            return true;
+        }
         if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
             return currentUserIsDocumentInitiator;
         }

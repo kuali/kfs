@@ -633,7 +633,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.Lockbox" table="AR_LOCKBOX_T">
-	<field-descriptor name="invoiceSequenceNumber" column="AR_INV_SEQ_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="invoiceSequenceNumber" column="AR_INV_SEQ_NBR" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true" sequence-name="AR_LOCKBOX_T_SEQ"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="lockboxNumber" column="AR_LOCKBOX_NBR" jdbc-type="VARCHAR"/>

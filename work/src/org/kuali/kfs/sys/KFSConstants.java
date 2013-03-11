@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Layout;
+import org.apache.log4j.PatternLayout;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.Config;
@@ -1042,6 +1044,7 @@ public class KFSConstants {
         public static final String VENDOR_CREDIT_MEMO = "CM";
         public static final String BULK_RECEIVING = "RCVB";
         public static final String ELECTRONIC_INVOICE_REJECT = "EIRT";
+        public static final String CONTRACT_MANAGER_ASSIGNMENT = "ACM";
     }
 
     // financial document type names
@@ -1340,5 +1343,8 @@ public class KFSConstants {
         }
         return MAX_LENGTH_OF_DOCUMENT_DESCRIPTION;
     }
+
+    public static final String BATCH_LOGGER_DEFAULT_CONVERSION_PATTERN = "%d [%t] u:%X{user}/d:%X{docId} %-5p %c :: %m%n";
+    public static final Layout BATCH_LOGGER_DEFAULT_PATTERN_LAYOUT = new PatternLayout(BATCH_LOGGER_DEFAULT_CONVERSION_PATTERN);
 }
 

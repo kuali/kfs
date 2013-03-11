@@ -89,7 +89,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.NoteService;
-import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -1082,7 +1081,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             // call fax service
             GlobalVariables.getMessageMap().clearErrorMessages();
             FaxService faxService = SpringContext.getBean(FaxService.class);
-            faxService.faxPurchaseOrderPdf(po, false);
+            faxService.faxPurchaseOrderQuotePdf(po, vendorQuote);
             if (GlobalVariables.getMessageMap().getNumberOfPropertiesWithErrors() == 0) {
                 vendorQuote.setPurchaseOrderQuoteTransmitTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);

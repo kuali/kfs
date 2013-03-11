@@ -194,7 +194,7 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
 
         }
         if (doc != null) {
-            if (doc instanceof AmountTotaling) {
+            if (doc instanceof AmountTotaling && ((AmountTotaling)doc).getTotalDollarAmount() != null) {
                 DocumentAttributeDecimal.Builder searchableAttributeValue = DocumentAttributeDecimal.Builder.create(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
                 searchableAttributeValue.setValue(((AmountTotaling) doc).getTotalDollarAmount().bigDecimalValue());
                 searchAttrValues.add(searchableAttributeValue.build());
@@ -304,17 +304,26 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
      * @param accountingLine an AccountingLine to get values from
      */
     protected void addSearchableAttributesForAccountingLine(List<DocumentAttribute> searchAttrValues, AccountingLine accountingLine) {
-        DocumentAttributeString.Builder searchableAttributeValue = DocumentAttributeString.Builder.create(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        searchableAttributeValue.setValue(accountingLine.getChartOfAccountsCode());
-        searchAttrValues.add(searchableAttributeValue.build());
+        DocumentAttributeString.Builder searchableAttributeValue;
+        if (!ObjectUtils.isNull(accountingLine)) {
+            if (!StringUtils.isBlank(accountingLine.getChartOfAccountsCode())) {
+                searchableAttributeValue = DocumentAttributeString.Builder.create(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+                searchableAttributeValue.setValue(accountingLine.getChartOfAccountsCode());
+                searchAttrValues.add(searchableAttributeValue.build());
+            }
 
-        searchableAttributeValue = DocumentAttributeString.Builder.create(KFSPropertyConstants.ACCOUNT_NUMBER);
-        searchableAttributeValue.setValue(accountingLine.getAccountNumber());
-        searchAttrValues.add(searchableAttributeValue.build());
+            if (!StringUtils.isBlank(accountingLine.getAccountNumber())) {
+                searchableAttributeValue = DocumentAttributeString.Builder.create(KFSPropertyConstants.ACCOUNT_NUMBER);
+                searchableAttributeValue.setValue(accountingLine.getAccountNumber());
+                searchAttrValues.add(searchableAttributeValue.build());
+            }
 
-        searchableAttributeValue = DocumentAttributeString.Builder.create(KFSPropertyConstants.ORGANIZATION_CODE);
-        searchableAttributeValue.setValue(accountingLine.getAccount().getOrganizationCode());
-        searchAttrValues.add(searchableAttributeValue.build());
+            if (!ObjectUtils.isNull(accountingLine.getAccount()) && !StringUtils.isBlank(accountingLine.getAccount().getOrganizationCode())) {
+                searchableAttributeValue = DocumentAttributeString.Builder.create(KFSPropertyConstants.ORGANIZATION_CODE);
+                searchableAttributeValue.setValue(accountingLine.getAccount().getOrganizationCode());
+                searchAttrValues.add(searchableAttributeValue.build());
+            }
+        }
     }
 
     /**
@@ -324,9 +333,11 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
      * @param glpe a GeneralLedgerPendingEntry to get values from
      */
     protected void addSearchableAttributesForGLPE(List<DocumentAttribute> searchAttrValues, GeneralLedgerPendingEntry glpe) {
-        DocumentAttributeString.Builder searchableAttributeValue = DocumentAttributeString.Builder.create(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
-        searchableAttributeValue.setValue(glpe.getFinancialDocumentTypeCode());
-        searchAttrValues.add(searchableAttributeValue.build());
+        if (glpe != null && !StringUtils.isBlank(glpe.getFinancialDocumentTypeCode())) {
+            DocumentAttributeString.Builder searchableAttributeValue = DocumentAttributeString.Builder.create(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+            searchableAttributeValue.setValue(glpe.getFinancialDocumentTypeCode());
+            searchAttrValues.add(searchableAttributeValue.build());
+        }
 
     }
 
@@ -337,9 +348,11 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
      * @param llpe a LaborLedgerPendingEntry to get values from
      */
     protected void addSearchableAttributesForLLPE(List<DocumentAttribute> searchAttrValues, LaborLedgerPendingEntryForSearching llpe) {
-        DocumentAttributeString.Builder searchableAttributeValue = DocumentAttributeString.Builder.create(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
-        searchableAttributeValue.setValue(llpe.getFinancialDocumentTypeCode());
-        searchAttrValues.add(searchableAttributeValue.build());
+        if (llpe != null && !StringUtils.isBlank(llpe.getFinancialDocumentTypeCode())) {
+            DocumentAttributeString.Builder searchableAttributeValue = DocumentAttributeString.Builder.create(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+            searchableAttributeValue.setValue(llpe.getFinancialDocumentTypeCode());
+            searchAttrValues.add(searchableAttributeValue.build());
+        }
     }
 
     protected Row createSearchResultDisplayTypeRow() {

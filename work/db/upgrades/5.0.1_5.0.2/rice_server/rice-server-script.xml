@@ -149,7 +149,7 @@ update KREW_DOC_TYP_T set LBL = 'Identity Management Document' where
 --
 
 CREATE INDEX KRSB_SVC_DEF_TI4 ON KRSB_SVC_DEF_T(SVC_DSCRPTR_ID)
-/
+;
 		]]></sql>
 	</changeSet>
 		

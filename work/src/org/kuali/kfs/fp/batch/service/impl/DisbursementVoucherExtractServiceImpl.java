@@ -51,6 +51,7 @@ import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -68,8 +69,8 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -82,7 +83,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class DisbursementVoucherExtractServiceImpl implements DisbursementVoucherExtractService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherExtractServiceImpl.class);
 
-    private PersonService personService;
     private ParameterService parameterService;
     private DisbursementVoucherDao disbursementVoucherDao;
     private DateTimeService dateTimeService;
@@ -119,7 +119,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             throw new IllegalArgumentException("Invalid Max Notes Lines parameter");
         }
 
-        Person uuser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        Principal uuser = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
         if (uuser == null) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("extractPayments() Unable to find user " + KFSConstants.SYSTEM_USER);
@@ -133,7 +133,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         if (campusListMap != null && !campusListMap.isEmpty()) {
             // Process each campus one at a time
             for (String campusCode : campusListMap.keySet()) {
-                extractPaymentsForCampus(campusCode, uuser, processRunDate, campusListMap.get(campusCode));
+                extractPaymentsForCampus(campusCode, uuser.getPrincipalId(), processRunDate, campusListMap.get(campusCode));
             }
         }
 
@@ -188,7 +188,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             throw new IllegalArgumentException("Invalid Max Notes Lines parameter");
         }
 
-        Person uuser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        Principal uuser = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
         if (uuser == null) {
             LOG.debug("extractPayments() Unable to find user " + KFSConstants.SYSTEM_USER);
             throw new IllegalArgumentException("Unable to find user " + KFSConstants.SYSTEM_USER);
@@ -199,7 +199,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         // Process each campus one at a time
         for (String campusCode : campusList) {
-            extractImmediatePaymentsForCampus(campusCode, uuser, processRunDate);
+            extractImmediatePaymentsForCampus(campusCode, uuser.getPrincipalId(), processRunDate);
         }
     }
 
@@ -211,12 +211,12 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param user The user object used when creating the batch file to upload with outstanding payments.
      * @param processRunDate This is the date that the batch file is created, often this value will be today's date.
      */
-    protected void extractPaymentsForCampus(String campusCode, Person user, Date processRunDate, List<DisbursementVoucherDocument> dvd) {
+    protected void extractPaymentsForCampus(String campusCode, String principalId, Date processRunDate, List<DisbursementVoucherDocument> dvd) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
         }
 
-        Batch batch = createBatch(campusCode, user, processRunDate);
+        Batch batch = createBatch(campusCode, principalId, processRunDate);
         Integer count = 0;
         KualiDecimal totalAmount = KualiDecimal.ZERO;
 
@@ -240,10 +240,10 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param user the user responsible building the payment batch (typically the System User, kfs)
      * @param processRunDate the time that the job to build immediate payments is run
      */
-    protected void extractImmediatePaymentsForCampus(String campusCode, Person user, Date processRunDate) {
+    protected void extractImmediatePaymentsForCampus(String campusCode, String principalId, Date processRunDate) {
         LOG.debug("extractImmediatesPaymentsForCampus() started for campus: " + campusCode);
 
-        Batch batch = createBatch(campusCode, user, processRunDate);
+        Batch batch = createBatch(campusCode, principalId, processRunDate);
         Integer count = 0;
         KualiDecimal totalAmount = KualiDecimal.ZERO;
 
@@ -269,7 +269,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param processRunDate The date the batch file is to post.
      */
     protected void addPayment(DisbursementVoucherDocument document, Batch batch, Date processRunDate, boolean immediate) {
-        LOG.debug("addPayment() started");
+        LOG.info("addPayment() started for document number=" + document.getDocumentNumber());
 
         PaymentGroup pg = buildPaymentGroup(document, batch);
         if (immediate) {
@@ -312,6 +312,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         pg.setCombineGroups(Boolean.TRUE);
         pg.setCampusAddress(Boolean.FALSE);
 
+        document.refreshReferenceObject(KFSPropertyConstants.DV_PAYEE_DETAIL);
         DisbursementVoucherPayeeDetail pd = document.getDvPayeeDetail();
         String rc = pd.getDisbVchrPaymentReasonCode();
 
@@ -692,7 +693,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param processRunDate The date the batch was submitted and the date the customer profile was generated.
      * @return A fully populated batch instance.
      */
-    protected Batch createBatch(String campusCode, Person user, Date processRunDate) {
+    protected Batch createBatch(String campusCode, String principalId, Date processRunDate) {
         String orgCode = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DvPdpExtractGroup.DV_PDP_ORG_CODE);
         String subUnitCode = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
         CustomerProfile customer = customerProfileService.get(campusCode, orgCode, subUnitCode);
@@ -706,7 +707,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         batch.setCustomerFileCreateTimestamp(new Timestamp(processRunDate.getTime()));
         batch.setFileProcessTimestamp(new Timestamp(processRunDate.getTime()));
         batch.setPaymentFileName(KFSConstants.DISBURSEMENT_VOUCHER_PDP_EXTRACT_FILE_NAME);
-        batch.setSubmiterUserId(user.getPrincipalId());
+        batch.setSubmiterUserId(principalId);
 
         // Set these for now, we will update them later
         batch.setPaymentCount(KualiInteger.ZERO);
@@ -746,7 +747,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @return A collection of disbursement voucher objects that meet the search criteria given.
      */
     protected Collection<DisbursementVoucherDocument> getListByDocumentStatusCodeCampus(String statusCode, String campusCode, boolean immediatesOnly) {
-        LOG.debug("getListByDocumentStatusCodeCampus() started");
+        LOG.info("getListByDocumentStatusCodeCampus(statusCode=" + statusCode + ", campusCode=" + campusCode + ", immediatesOnly=" + immediatesOnly + ") started");
 
         Collection<DisbursementVoucherDocument> list = new ArrayList<DisbursementVoucherDocument>();
 
@@ -855,6 +856,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         try {
             // 1. reset the extracted date
             dv.setExtractDate(null);
+            // reset the status to APPROVED so DV will be extracted to PDP again
+            dv.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED);
             dv.setPaidDate(null);
             // 2. save the doc
             SpringContext.getBean(DocumentService.class).saveDocument(dv, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
@@ -923,13 +926,13 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         catch (NumberFormatException nfe) {
             throw new IllegalArgumentException("Invalid Max Notes Lines parameter");
         }
-        Person user = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
-        if (user == null) {
+        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
+        if (principal == null) {
             LOG.debug("extractPayments() Unable to find user " + KFSConstants.SYSTEM_USER);
             throw new IllegalArgumentException("Unable to find user " + KFSConstants.SYSTEM_USER);
         }
 
-        Batch batch = createBatch(disbursementVoucher.getCampusCode(), user, processRunDate);
+        Batch batch = createBatch(disbursementVoucher.getCampusCode(), principal.getPrincipalId(), processRunDate);
         KualiDecimal totalAmount = KualiDecimal.ZERO;
 
         addPayment(disbursementVoucher, batch, processRunDate, true);
@@ -939,7 +942,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         batch.setPaymentTotalAmount(totalAmount);
 
         businessObjectService.save(batch);
-        paymentFileEmailService.sendDisbursementVoucherImmediateExtractEmail(disbursementVoucher, user);
+        paymentFileEmailService.sendDisbursementVoucherImmediateExtractEmail(disbursementVoucher);
     }
 
     /**
@@ -1012,16 +1015,6 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      */
     public void setPaymentFileEmailService(PdpEmailService paymentFileEmailService) {
         this.paymentFileEmailService = paymentFileEmailService;
-    }
-
-    /**
-     * @return Returns the personService.
-     */
-    protected PersonService getPersonService() {
-        if(personService==null) {
-            personService = SpringContext.getBean(PersonService.class);
-        }
-        return personService;
     }
 
 }

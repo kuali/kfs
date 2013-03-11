@@ -21,6 +21,7 @@ import java.util.Set;
 import org.kuali.kfs.sys.service.FinancialSystemWorkflowHelperService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 
 public class FinancialSystemWorkflowHelperServiceImpl implements FinancialSystemWorkflowHelperService {
@@ -49,6 +50,15 @@ public class FinancialSystemWorkflowHelperServiceImpl implements FinancialSystem
 
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
+    }
+
+    @Override
+    public String getApplicationDocumentStatus(String documentNumber) {
+        Document workflowDocument = workflowDocumentService.getDocument(documentNumber);
+        if(workflowDocument!= null){
+            return workflowDocument.getApplicationDocumentStatus();
+        }
+        return "";
     }
 
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<changeSet author="KFS503" id="KFSCNTRB1343_AR_LOCKBOX_T_SEQmysql" dbms="mysql">
+	  	<createTable tableName=" AR_LOCKBOX_T_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true" >
+	  			<constraints primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<modifySql>
+	  		<append value=" ENGINE = MyISAM AUTO_INCREMENT = 20 "/>
+	  	</modifySql>
+	</changeSet>
+	
+	<changeSet author="KFS503" id="KFSCNTRB1343_AR_LOCKBOX_T_SEQ_oracle" dbms="oracle">
+		<createSequence sequenceName=" AR_LOCKBOX_T_SEQ" startValue="20" incrementBy="1" />
+	</changeSet>
+	
+</databaseChangeLog>
+	

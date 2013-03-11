@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -230,5 +230,15 @@ public class ArKeyConstants {
         public static final String CANNOT_QUICK_APPLY_ON_INVOICE_WITH_ZERO_OPEN_AMOUNT = "error.document.paymentApplication.cannotQuickApplyOnInvoiceWithZeroOpenAmount";
         public static final String ENTERED_INVOICE_CUSTOMER_NUMBER_INVALID = "error.document.paymentApplication.enteredInvoiceCustomerNumberInvalid";
         public static final String ENTERED_INVOICE_NUMBER_INVALID = "error.document.paymentApplication.enteredInvoiceNumberInvalid";
+    }
+
+    public static final class LockboxLoad {
+
+        public static final String ERROR_LOCKBOX_INVALID_FIRST_RECORD = "error.lockbox.invalid.first.record";
+        public static final String ERROR_LOCKBOX_INVALID_HDR_TRANS_BATCH_TOT = "error.lockbox.invalid.hdr.trans.batch.tot";
+        public static final String ERROR_LOCKBOX_INVALID_HDR_TRANS_BATCH_CNT = "error.lockbox.invalid.hdr.trans.batch.cnt";
+        public static final String ERROR_LOCKBOX_NON_NUMERIC_INVOICE_AMOUNT = "error.lockbox.non.numeric.invoice.amount";
+        public static final String ERROR_LOCKBOX_NON_NUMERIC_INVOICE_PAID_AMOUNT = "error.lockbox.non.numeric.invoice.paid.amount";
+        public static final String MESSAGE_BATCH_UPLOAD_TITLE_LOCKBOX = "message.batchUpload.title.lockboxLoad";
     }
 }

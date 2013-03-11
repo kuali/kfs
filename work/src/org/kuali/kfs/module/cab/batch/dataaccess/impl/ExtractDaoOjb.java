@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,37 +31,50 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao {
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractDaoOjb.class);
+
     /**
      * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findMatchingGLEntries(org.kuali.kfs.module.cab.businessobject.BatchParameters)
      */
+    @Override
     public Collection<Entry> findMatchingGLEntries(BatchParameters batchParameters) {
         Criteria criteria = new Criteria();
         criteria.addGreaterThan(CabPropertyConstants.Entry.TRANSACTION_DATE_TIME_STAMP, batchParameters.getLastRunTime());
 
-        if (!batchParameters.getExcludedChartCodes().isEmpty())
+        if (!batchParameters.getExcludedChartCodes().isEmpty()) {
             criteria.addNotIn(CabPropertyConstants.Entry.CHART_OF_ACCOUNTS_CODE, batchParameters.getExcludedChartCodes());
+        }
 
-        if (!batchParameters.getExcludedSubFundCodes().isEmpty())
+        if (!batchParameters.getExcludedSubFundCodes().isEmpty()) {
             criteria.addNotIn(CabPropertyConstants.Entry.ACCOUNT_SUB_FUND_GROUP_CODE, batchParameters.getExcludedSubFundCodes());
+        }
 
-        if (!batchParameters.getIncludedFinancialBalanceTypeCodes().isEmpty())
+        if (!batchParameters.getIncludedFinancialBalanceTypeCodes().isEmpty()) {
             criteria.addIn(CabPropertyConstants.Entry.FINANCIAL_BALANCE_TYPE_CODE, batchParameters.getIncludedFinancialBalanceTypeCodes());
+        }
 
-        if (!batchParameters.getIncludedFinancialObjectSubTypeCodes().isEmpty())
+        if (!batchParameters.getIncludedFinancialObjectSubTypeCodes().isEmpty()) {
             criteria.addIn(CabPropertyConstants.Entry.FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE, batchParameters.getIncludedFinancialObjectSubTypeCodes());
+        }
 
-        if (!batchParameters.getExcludedFiscalPeriods().isEmpty())
+        if (!batchParameters.getExcludedFiscalPeriods().isEmpty()) {
             criteria.addNotIn(CabPropertyConstants.Entry.UNIVERSITY_FISCAL_PERIOD_CODE, batchParameters.getExcludedFiscalPeriods());
+        }
 
-        if (!batchParameters.getExcludedDocTypeCodes().isEmpty())
+        if (!batchParameters.getExcludedDocTypeCodes().isEmpty()) {
             criteria.addNotIn(CabPropertyConstants.Entry.FINANCIAL_DOCUMENT_TYPE_CODE, batchParameters.getExcludedDocTypeCodes());
+        }
 
         QueryByCriteria query = new QueryByCriteria(Entry.class, criteria);
         query.addOrderByAscending(CabPropertyConstants.Entry.DOCUMENT_NUMBER);
@@ -72,6 +85,7 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
     /**
      * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findPreTaggablePOAccounts(org.kuali.kfs.module.cab.businessobject.BatchParameters)
      */
+    @Override
     public Collection<PurchaseOrderAccount> findPreTaggablePOAccounts(BatchParameters batchParameters) {
         Criteria statusCodeCond1 = new Criteria();
         statusCodeCond1.addEqualTo(CabPropertyConstants.PreTagExtract.PURAP_CAPITAL_ASSET_SYSTEM_STATE_CODE, CabConstants.CAPITAL_ASSET_SYSTEM_STATE_CODE_NEW);
@@ -86,18 +100,21 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
         criteria.addAndCriteria(statusCodeOrCond);
         criteria.addGreaterOrEqualThan(CabPropertyConstants.PreTagExtract.PURAP_ITEM_UNIT_PRICE, batchParameters.getCapitalizationLimitAmount());
 
-        if (!batchParameters.getExcludedChartCodes().isEmpty())
+        if (!batchParameters.getExcludedChartCodes().isEmpty()) {
             criteria.addNotIn(CabPropertyConstants.PreTagExtract.CHART_OF_ACCOUNTS_CODE, batchParameters.getExcludedChartCodes());
+        }
 
-        if (!batchParameters.getExcludedSubFundCodes().isEmpty())
+        if (!batchParameters.getExcludedSubFundCodes().isEmpty()) {
             criteria.addNotIn(CabPropertyConstants.PreTagExtract.ACCOUNT_SUB_FUND_GROUP_CODE, batchParameters.getExcludedSubFundCodes());
+        }
 
-        if (!batchParameters.getIncludedFinancialObjectSubTypeCodes().isEmpty())
+        if (!batchParameters.getIncludedFinancialObjectSubTypeCodes().isEmpty()) {
             criteria.addIn(CabPropertyConstants.PreTagExtract.FINANCIAL_OBJECT_SUB_TYPE_CODE, batchParameters.getIncludedFinancialObjectSubTypeCodes());
+        }
 
         QueryByCriteria query = new QueryByCriteria(PurchaseOrderAccount.class, criteria);
         Collection<PurchaseOrderAccount> purchaseOrderAccounts = getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        
+
         List<String> docNumbersAwaitingPurchaseOrderStatus = getDocumentsNumbersAwaitingPurchaseOrderOpenStatus();
         Collection<PurchaseOrderAccount> purchaseOrderAcctsAwaitingPOOpenStatus = new ArrayList<PurchaseOrderAccount>();
         for (PurchaseOrderAccount purchaseOrderAccount : purchaseOrderAccounts) {
@@ -108,39 +125,64 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
         return purchaseOrderAcctsAwaitingPOOpenStatus;
     }
 
+
+    //needs refactoring to move to service layer.
     protected List<String> getDocumentsNumbersAwaitingPurchaseOrderOpenStatus() {
         List<String> receivingDocumentNumbers = new ArrayList<String>();
-             
+
         DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
         documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
         documentSearchCriteriaDTO.setApplicationDocumentStatus(CabConstants.PO_STATUS_CODE_OPEN);
-        
-        DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(null, documentSearchCriteriaDTO.build());
 
-        String documentHeaderId = null;
+        DocumentSearchCriteria crit = documentSearchCriteriaDTO.build();
 
-        for (DocumentSearchResult result : results.getSearchResults()) {
-            receivingDocumentNumbers.add(result.getDocument().getDocumentId());            
+        int maxResults = SpringContext.getBean(FinancialSystemDocumentService.class).getMaxResultCap(crit);
+        int iterations = SpringContext.getBean(FinancialSystemDocumentService.class).getFetchMoreIterationLimit();
+
+        for (int i = 0; i < iterations; i++) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Fetch Iteration: "+ i);
+            }
+
+            documentSearchCriteriaDTO.setStartAtIndex(maxResults * i);
+            crit = documentSearchCriteriaDTO.build();
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Max Results: "+documentSearchCriteriaDTO.getStartAtIndex());
+            }
+
+            DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
+                    GlobalVariables.getUserSession().getPrincipalId(), crit);
+            if (results.getSearchResults().isEmpty()) {
+                break;
+            }
+            for (DocumentSearchResult resultRow: results.getSearchResults()) {
+                receivingDocumentNumbers.add(resultRow.getDocument().getDocumentId());
+            }
         }
-        
+
         return receivingDocumentNumbers;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findCreditMemoAccountHistory(org.kuali.kfs.module.cab.businessobject.BatchParameters)
      */
+    @Override
     public Collection<CreditMemoAccountRevision> findCreditMemoAccountRevisions(BatchParameters batchParameters) {
         Criteria criteria = new Criteria();
         criteria.addGreaterThan(CabPropertyConstants.CreditMemoAccountRevision.ACCOUNT_REVISION_TIMESTAMP, batchParameters.getLastRunTime());
 
-        if (!batchParameters.getExcludedChartCodes().isEmpty())
+        if (!batchParameters.getExcludedChartCodes().isEmpty()) {
             criteria.addNotIn(CabPropertyConstants.CreditMemoAccountRevision.CHART_OF_ACCOUNTS_CODE, batchParameters.getExcludedChartCodes());
+        }
 
-        if (!batchParameters.getExcludedSubFundCodes().isEmpty())
+        if (!batchParameters.getExcludedSubFundCodes().isEmpty()) {
             criteria.addNotIn(CabPropertyConstants.CreditMemoAccountRevision.ACCOUNT_SUB_FUND_GROUP_CODE, batchParameters.getExcludedSubFundCodes());
+        }
 
-        if (!batchParameters.getIncludedFinancialObjectSubTypeCodes().isEmpty())
+        if (!batchParameters.getIncludedFinancialObjectSubTypeCodes().isEmpty()) {
             criteria.addIn(CabPropertyConstants.CreditMemoAccountRevision.FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE, batchParameters.getIncludedFinancialObjectSubTypeCodes());
+        }
 
         QueryByCriteria query = new QueryByCriteria(CreditMemoAccountRevision.class, criteria);
         query.addOrderByAscending(CabPropertyConstants.CreditMemoAccountRevision.ACCOUNT_REVISION_TIMESTAMP);
@@ -151,18 +193,22 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
     /**
      * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findPaymentRequestAccountHistory(org.kuali.kfs.module.cab.businessobject.BatchParameters)
      */
+    @Override
     public Collection<PaymentRequestAccountRevision> findPaymentRequestAccountRevisions(BatchParameters batchParameters) {
         Criteria criteria = new Criteria();
         criteria.addGreaterThan(CabPropertyConstants.PaymentRequestAccountRevision.ACCOUNT_REVISION_TIMESTAMP, batchParameters.getLastRunTime());
 
-        if (!batchParameters.getExcludedChartCodes().isEmpty())
+        if (!batchParameters.getExcludedChartCodes().isEmpty()) {
             criteria.addNotIn(CabPropertyConstants.PaymentRequestAccountRevision.CHART_OF_ACCOUNTS_CODE, batchParameters.getExcludedChartCodes());
+        }
 
-        if (!batchParameters.getExcludedSubFundCodes().isEmpty())
+        if (!batchParameters.getExcludedSubFundCodes().isEmpty()) {
             criteria.addNotIn(CabPropertyConstants.PaymentRequestAccountRevision.ACCOUNT_SUB_FUND_GROUP_CODE, batchParameters.getExcludedSubFundCodes());
+        }
 
-        if (!batchParameters.getIncludedFinancialObjectSubTypeCodes().isEmpty())
+        if (!batchParameters.getIncludedFinancialObjectSubTypeCodes().isEmpty()) {
             criteria.addIn(CabPropertyConstants.PaymentRequestAccountRevision.FINANCIAL_OBJECT_FINANCIAL_OBJECT_SUB_TYPE_CODE, batchParameters.getIncludedFinancialObjectSubTypeCodes());
+        }
 
         QueryByCriteria query = new QueryByCriteria(PaymentRequestAccountRevision.class, criteria);
         query.addOrderByAscending(CabPropertyConstants.PaymentRequestAccountRevision.ACCOUNT_REVISION_TIMESTAMP);

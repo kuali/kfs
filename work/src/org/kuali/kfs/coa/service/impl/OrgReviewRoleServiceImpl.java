@@ -317,7 +317,11 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         // Save role member(s)
         for( RoleMemberContract roleMember : getRoleMembers(orr) ) {
             List<RoleResponsibilityAction.Builder> roleRspActionsToSave = getRoleResponsibilityActions(orr, roleMember);
-            RoleMemberQueryResults roleMembers = roleService.findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, roleMember.getId()))));
+            // KFSCNTRB-1391
+            RoleMemberQueryResults roleMembers = null;
+            if (orr.isEdit()) {
+                roleMembers = roleService.findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, roleMember.getId()))));
+            }
             if ( orr.isEdit() && roleMembers != null && roleMembers.getResults() != null && !roleMembers.getResults().isEmpty() ) {
                 RoleMember existingRoleMember = roleMembers.getResults().get(0);
                 RoleMember.Builder updatedRoleMember = RoleMember.Builder.create(roleMember);

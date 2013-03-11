@@ -69,7 +69,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
     protected void addPayeeEditEntryMode(Document document, Set<String> editModes) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if ((workflowDocument.isInitiated() || workflowDocument.isSaved())) {
+        if ((workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isCompletionRequested())) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYEE_ENTRY);
         }
         else if (workflowDocument.isEnroute()) {
@@ -83,7 +83,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
     protected void addFullEntryEntryMode(Document document, Set<String> editModes) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if ((workflowDocument.isInitiated() || workflowDocument.isSaved())) {
+        if ((workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isCompletionRequested())) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.FULL_ENTRY);
         }
     }
@@ -96,7 +96,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
     protected void addPaymentHandlingEntryMode(Document document, Set<String> editModes) {
         final WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if ((workflowDocument.isInitiated() || workflowDocument.isSaved())) {
+        if ((workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isCompletionRequested())) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYMENT_HANDLING_ENTRY);
         }
         final Set<String> currentRouteLevels = workflowDocument.getCurrentNodeNames();
@@ -113,7 +113,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
     protected void addVoucherDeadlineEntryMode(Document document, Set<String> editModes) {
         final WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if ((workflowDocument.isInitiated() || workflowDocument.isSaved())) {
+        if ((workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isCompletionRequested())) {
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.VOUCHER_DEADLINE_ENTRY);
         }
         final Set<String> currentRouteLevels = workflowDocument.getCurrentNodeNames();

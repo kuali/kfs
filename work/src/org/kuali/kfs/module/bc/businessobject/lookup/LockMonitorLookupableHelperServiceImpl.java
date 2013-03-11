@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,8 +32,8 @@ import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -50,8 +50,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  */
 public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private ConfigurationService kualiConfigurationService;
-    private PersonService personService;
-    
+
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
@@ -62,7 +61,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
         setReferencesToRefresh(fieldValues.get(KFSConstants.REFERENCES_TO_REFRESH));
 
         List<BudgetConstructionLockSummary> results = new ArrayList<BudgetConstructionLockSummary>();
-     
+
         // get universal identifier from network id
         String lockUserID = fieldValues.get(BCPropertyConstants.LOCK_USER_ID);
         String lockUnivId = getUniversalIdFromNetworkID(lockUserID);
@@ -78,7 +77,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Calls lock service to retrieve all current account locks and builds a lock summary object for each returned lock.
-     * 
+     *
      * @param results - result list to add lock summaries
      */
     protected void getAccountLocks(List<BudgetConstructionLockSummary> results, String lockUnivId) {
@@ -100,7 +99,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Calls lock service to retrieve all current transaction locks and builds a lock summary object for each returned lock.
-     * 
+     *
      * @param results - result list to add lock summaries
      */
     protected void getTransactionLocks(List<BudgetConstructionLockSummary> results, String lockUnivId) {
@@ -123,7 +122,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
     /**
      * Calls lock service to retrieve all funding locks that do not have a corresponding position locks and builds a lock summary
      * object for each returned lock.
-     * 
+     *
      * @param results - result list to add lock summaries
      */
     protected void getOrphanFundingLocks(List<BudgetConstructionLockSummary> results, String lockUnivId) {
@@ -144,7 +143,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Calls lock service to retrieve all current position/funding locks and builds a lock summary object for each returned lock.
-     * 
+     *
      * @param results - result list to add lock summaries
      */
     protected void getPositionFundingLocks(List<BudgetConstructionLockSummary> results, String lockUnivId) {
@@ -169,7 +168,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
     /**
      * Calls lock service to retrieve all current position locks without a corresponding funding lock and builds a lock summary
      * object for each returned lock.
-     * 
+     *
      * @param results - result list to add lock summaries
      */
     protected void getOrphanPositionLocks(List<BudgetConstructionLockSummary> results, String lockUnivId) {
@@ -189,7 +188,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Builds unlink action for each type of lock.
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
      */
     @Override
@@ -199,20 +198,20 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
         String imageDirectory = kualiConfigurationService.getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
         String lockFields = lockSummary.getUniversityFiscalYear() + BCConstants.LOCK_STRING_DELIMITER + lockSummary.getChartOfAccountsCode() + BCConstants.LOCK_STRING_DELIMITER + lockSummary.getAccountNumber() + BCConstants.LOCK_STRING_DELIMITER + lockSummary.getSubAccountNumber() + BCConstants.LOCK_STRING_DELIMITER + lockSummary.getPositionNumber() + BCConstants.LOCK_STRING_DELIMITER;
         lockFields = StringUtils.replace(lockFields, "null", "");
-        
+
         String name = KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + BCConstants.TEMP_LIST_UNLOCK_METHOD + ".";
-        name += 
-            KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL + StringUtils.replace(lockSummary.getLockType()," ","_") + 
+        name +=
+            KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL + StringUtils.replace(lockSummary.getLockType()," ","_") +
             KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL;
         name += KFSConstants.METHOD_TO_CALL_PARM9_LEFT_DEL + lockFields + KFSConstants.METHOD_TO_CALL_PARM9_RIGHT_DEL;
-        name += 
-            KFSConstants.METHOD_TO_CALL_PARM3_LEFT_DEL + lockSummary.getLockUserId() + 
+        name +=
+            KFSConstants.METHOD_TO_CALL_PARM3_LEFT_DEL + lockSummary.getLockUserId() +
             KFSConstants.METHOD_TO_CALL_PARM3_RIGHT_DEL;
         String src = imageDirectory + BCConstants.UNLOCK_BUTTON_NAME;
         String inputType = "image";
         String styleClass = "tinybutton";
         String border= "0";
-        
+
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         InputHtmlData inputHtmlData = new InputHtmlData(name, inputType, src);
         inputHtmlData.setStyleClass(styleClass);
@@ -220,25 +219,25 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
         htmlDataList.add(inputHtmlData);
         return htmlDataList;
     }
-    
+
     /**
-     * Uses org.kuali.rice.kim.api.identity.PersonService to retrieve user object associated with the given network id (if not blank) and then
+     * Uses org.kuali.rice.kim.api.identity.IdentityService to retrieve user object associated with the given network id (if not blank) and then
      * returns universal id. Add error to GlobalVariables if the user was not found.
-     * 
+     *
      * @param networkID - network id for the user to find
      * @return universal id for the user or null if not found or the network id was blank
      */
     protected String getUniversalIdFromNetworkID(String networkID) {
         String universalId = null;
         if (StringUtils.isNotBlank(networkID)) {
-            Person user = getPersonService().getPersonByPrincipalName(networkID);
+            Principal user = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(networkID);
             if (user != null) {
                 universalId = user.getPrincipalId();
             } else {
                 GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_LOCK_INVALID_USER, networkID);
             }
         }
-        
+
         return universalId;
     }
 
@@ -253,7 +252,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
     /**
      * Overridden to prevent a validation exception from thrown when the search method is called to refresh the
      * results after an error is encountered.
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
      */
     @Override
@@ -264,7 +263,7 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
      * Since this lookupable is called by the budget lookup action, the context will be KFS, not Rice. So the generated inquiries
      * will not have the Rice context (kr/) and be invalid. This override adds the Rice context to the inquiry Url to working
      * around the issue.
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject,
      *      java.lang.String)
      */
@@ -278,20 +277,10 @@ public class LockMonitorLookupableHelperServiceImpl extends KualiLookupableHelpe
 
     /**
      * Sets the kualiConfigurationService attribute value.
-     * 
+     *
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
-
-    /**
-     * @return Returns the personService.
-     */
-    protected PersonService getPersonService() {
-        if(personService==null)
-            personService = SpringContext.getBean(PersonService.class);
-        return personService;
-    }
-
 }

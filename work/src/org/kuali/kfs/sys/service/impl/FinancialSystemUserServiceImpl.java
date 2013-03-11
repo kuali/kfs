@@ -34,7 +34,10 @@ import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class FinancialSystemUserServiceImpl implements FinancialSystemUserService {
 
@@ -59,23 +62,13 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
         return userRoleIdList;
     }
 
-    /**
-     * @see org.kuali.kfs.sys.service.FinancialSystemUserService#isActiveFinancialSystemUser(org.kuali.rice.kim.api.identity.Person)
-     */
-    @Override
-    public boolean isActiveFinancialSystemUser(Person p) {
-        if ( p == null ) {
-            return false;
-        }
-        return isActiveFinancialSystemUser(p.getPrincipalId());
-    }
 
     /**
      * @see org.kuali.kfs.sys.service.FinancialSystemUserService#isActiveFinancialSystemUser(java.lang.String)
      */
     @Override
     public boolean isActiveFinancialSystemUser(String principalId) {
-        if ( StringUtils.isBlank(principalId)) {
+        if (StringUtils.isBlank(principalId)) {
             return false;
         }
         return roleService.principalHasRole(principalId, getUserRoleIdAsList(), new HashMap<String, String>());
@@ -87,7 +80,7 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
      */
     @Override
     public ChartOrgHolder getPrimaryOrganization(Person person, String namespaceCode) {
-        if ( person == null ) {
+        if (person == null) {
             return null;
         }
         ChartOrgHolder chartOrgHolder = getOrganizationForFinancialSystemUser(person.getPrincipalId(), namespaceCode);
@@ -103,7 +96,7 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
      */
     @Override
     public ChartOrgHolder getPrimaryOrganization(String principalId, String namespaceCode) {
-        if ( StringUtils.isBlank(principalId) ) {
+        if (StringUtils.isBlank(principalId)) {
             return new ChartOrgHolderImpl();
         }
         ChartOrgHolder chartOrgHolder = getOrganizationForFinancialSystemUser(principalId, namespaceCode);
@@ -114,15 +107,21 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
     }
 
     protected ChartOrgHolder getOrganizationForFinancialSystemUser(String principalId, String namespaceCode) {
-        if ( StringUtils.isBlank( principalId ) ) {
+        if (StringUtils.isBlank(principalId)) {
             return null;
         }
-        Map<String,String> qualification = new HashMap<String,String>(2);
+        Map<String, String> qualification = new HashMap<String, String>(2);
         qualification.put(FinancialSystemUserRoleTypeServiceImpl.PERFORM_QUALIFIER_MATCH, "true");
         qualification.put(KimConstants.AttributeConstants.NAMESPACE_CODE, namespaceCode);
-        List<Map<String,String>> roleQualifiers = roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(principalId, KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.KFS_USER_ROLE_NAME, qualification);
+        List<Map<String, String>> roleQualifiers = roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(principalId, KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.KFS_USER_ROLE_NAME, qualification);
         if ((roleQualifiers != null) && !roleQualifiers.isEmpty()) {
-            return new ChartOrgHolderImpl(roleQualifiers.get(0).get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), roleQualifiers.get(0).get(KfsKimAttributes.ORGANIZATION_CODE));
+            int count = 0;
+            while (count < roleQualifiers.size()) {
+                if (!StringUtils.isBlank(roleQualifiers.get(count).get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)) && !StringUtils.isBlank(roleQualifiers.get(count).get(KfsKimAttributes.ORGANIZATION_CODE))) {
+                    return new ChartOrgHolderImpl(roleQualifiers.get(count).get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), roleQualifiers.get(count).get(KfsKimAttributes.ORGANIZATION_CODE));
+                }
+                count += 1;
+            }
         }
         return null;
     }
@@ -132,15 +131,15 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
         // HACK ALERT!!!!! - This is to support the original universal user table setup where the home department
         // was encoded as CAMPUS-ORG (Where campus happened to match the chart) in the original FS_UNIVERSAL_USR_T table.
         // This **REALLY** needs a new implementation
-        if ( person != null && person.getPrimaryDepartmentCode().contains("-")) {
+        if (person != null && person.getPrimaryDepartmentCode().contains("-")) {
             return new ChartOrgHolderImpl(StringUtils.substringBefore(person.getPrimaryDepartmentCode(), "-"), StringUtils.substringAfter(person.getPrimaryDepartmentCode(), "-"));
         }
         return null;
     }
 
     @Override
-    public Collection<String> getPrincipalIdsForFinancialSystemOrganizationUsers( String namespaceCode, ChartOrgHolder chartOrg) {
-        Map<String,String> qualification = new HashMap<String,String>(4);
+    public Collection<String> getPrincipalIdsForFinancialSystemOrganizationUsers(String namespaceCode, ChartOrgHolder chartOrg) {
+        Map<String, String> qualification = new HashMap<String, String>(4);
         qualification.put(FinancialSystemUserRoleTypeServiceImpl.PERFORM_QUALIFIER_MATCH, "true");
         qualification.put(KimConstants.AttributeConstants.NAMESPACE_CODE, namespaceCode);
         qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOrg.getChartOfAccountsCode());
@@ -151,8 +150,8 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
     @Override
     public Collection<String> getPrincipalIdsForFinancialSystemOrganizationUsers(String namespaceCode, List<ChartOrgHolder> chartOrgs) {
         List<String> principalIds = new ArrayList<String>();
-        for ( ChartOrgHolder chartOrg : chartOrgs ) {
-            principalIds.addAll( getPrincipalIdsForFinancialSystemOrganizationUsers(namespaceCode, chartOrg));
+        for (ChartOrgHolder chartOrg : chartOrgs) {
+            principalIds.addAll(getPrincipalIdsForFinancialSystemOrganizationUsers(namespaceCode, chartOrg));
         }
         return principalIds;
     }
@@ -162,7 +161,8 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
         protected String organizationCode;
 
 
-        public ChartOrgHolderImpl() {}
+        public ChartOrgHolderImpl() {
+        }
 
         public ChartOrgHolderImpl(String chartOfAccountsCode, String organizationCode) {
             this.chartOfAccountsCode = chartOfAccountsCode;
@@ -196,19 +196,38 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
         public void setOrganizationCode(String organizationCode) {
             this.organizationCode = organizationCode;
         }
+
         @Override
         public boolean equals(Object obj) {
-            if ( !(obj instanceof ChartOrgHolder) ) {
+            if (!(obj instanceof ChartOrgHolder)) {
                 return false;
             }
-            return chartOfAccountsCode.equals(((ChartOrgHolder)obj).getChartOfAccountsCode())
-                    && organizationCode.equals(((ChartOrgHolder)obj).getOrganizationCode());
+            return chartOfAccountsCode.equals(((ChartOrgHolder) obj).getChartOfAccountsCode()) && organizationCode.equals(((ChartOrgHolder) obj).getOrganizationCode());
         }
 
         @Override
         public int hashCode() {
             return chartOfAccountsCode.hashCode() + organizationCode.hashCode();
         }
+    }
+
+    /**
+     * KFSCNTRB-1344 This implementation serves as a default place-holder. It uses IdentityService to retrieve Person name instead
+     * of using PersonService, which is usually very slow with large date sets. Institutions that need to further speed up Person
+     * name retrieval can override the implementation by using IdentityService.getDefaultNamesForPrincipalId (however that will only
+     * work if PrincipalId is always the same as EmployeeId); Or, if speed is not a concern, fall back to using PersonService, which
+     * is a lot slower than IdentityService.
+     *
+     * @see org.kuali.kfs.sys.service.FinancialSystemUserService#getPersonNameByEmployeeId(java.lang.String)
+     */
+    // TODO This method can be replaced if Rice adds method IdentityService.getPersonNameByEmployeeId.
+    @Override
+    public String getPersonNameByEmployeeId(String employeeId) {
+        Entity entity = KimApiServiceLocator.getIdentityService().getEntityByEmployeeId(employeeId);
+        if (ObjectUtils.isNotNull(entity) && ObjectUtils.isNotNull(entity.getDefaultName())) {
+            return entity.getDefaultName().getCompositeName();
+        }
+        return null;
     }
 
     public void setChartService(ChartService chartService) {

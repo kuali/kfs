@@ -174,7 +174,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 Map primaryKeys = new HashMap();
                 primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
 
-                PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
+                PaymentDetail pd = this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
                 if (pd != null) {
                     pd.setPrimaryCancelledPayment(Boolean.TRUE);
                 }
@@ -195,7 +195,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 Map primaryKeys = new HashMap();
                 primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
 
-                PaymentDetail pd = (PaymentDetail) this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
+                PaymentDetail pd = this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
                 if (pd != null) {
                     pd.setPrimaryCancelledPayment(Boolean.TRUE);
                     PaymentNoteText payNoteText = new PaymentNoteText();
@@ -390,13 +390,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
             return false;
         }
 
-        // get the target PaymentGroup info
-        PaymentDetail targetPd = getPaymentDetail(paymentDetailId);
-        KualiInteger targetGroupId = targetPd.getPaymentGroupId();
-        PaymentGroup targetPg = getPaymentGroup(targetGroupId);
-        String targetDvTypeCode = targetPg.getDisbursementTypeCode();
-        String targetDvBankCode = targetPg.getBankCode();
-
         String paymentStatus = paymentGroup.getPaymentStatus().getCode();
 
         if (!(PdpConstants.PaymentStatusCodes.CANCEL_DISBURSEMENT.equals(paymentStatus))) {
@@ -408,11 +401,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                 List<PaymentGroup> allDisbursementPaymentGroups = this.paymentGroupService.getByDisbursementNumber(paymentGroup.getDisbursementNbr().intValue());
 
                 for (PaymentGroup element : allDisbursementPaymentGroups) {
-
-                    // should be the same DV type and the same bank
-                    if (!(element.getDisbursementTypeCode().equalsIgnoreCase(targetDvTypeCode) && element.getBankCode().equalsIgnoreCase(targetDvBankCode))) {
-                        continue;
-                    }
 
                     PaymentGroupHistory pgh = new PaymentGroupHistory();
 
@@ -432,7 +420,7 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     // set primary cancel indicator for EPIC to use
                     // these payment details will be canceled when running processPdpCancelAndPaidJOb
                     Map<String, KualiInteger> primaryKeys = new HashMap<String, KualiInteger>();
-                    primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_DETAIL_PAYMENT_GROUP_ID, element.getId());
+                    primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, element.getId());
 
                     PaymentDetail pd = this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
                     if (pd != null) {
@@ -663,32 +651,6 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
             LOG.debug("cancelReissueDisbursement() Disbursement already cancelled and reissued; exit method.");
         }
         return true;
-    }
-
-    /**
-     * Gets DisbursementVoucher by the primary key
-     *
-     * @param paymentDetailId
-     * @return
-     */
-    protected PaymentDetail getPaymentDetail(Integer paymentDetailId) {
-        Map<String, Integer> primaryKeys = new HashMap<String, Integer>();
-        primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, paymentDetailId);
-
-        return this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
-    }
-
-    /**
-     * Gets PaymentGroup by the primary key
-     *
-     * @param paymentDetailId
-     * @return
-     */
-    protected PaymentGroup getPaymentGroup(KualiInteger paymentGroupId) {
-        Map<String, KualiInteger> primaryKeys = new HashMap<String, KualiInteger>();
-        primaryKeys.put(PdpPropertyConstants.PaymentGroup.PAYMENT_GROUP_ID, paymentGroupId);
-
-        return this.businessObjectService.findByPrimaryKey(PaymentGroup.class, primaryKeys);
     }
 
     /**

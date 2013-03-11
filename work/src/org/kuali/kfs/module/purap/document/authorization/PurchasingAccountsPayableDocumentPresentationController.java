@@ -31,7 +31,7 @@ public class PurchasingAccountsPayableDocumentPresentationController extends Fin
      */
     @Override
     public boolean canEdit(Document document) {
-        if (SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(document.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId())) {
+        if (!document.getDocumentHeader().getWorkflowDocument().isCompletionRequested() && SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(document.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId())) {
             return false;
         }
         return super.canEdit(document);

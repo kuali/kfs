@@ -14,7 +14,6 @@ import java.util.concurrent.Executors;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.BatchContainerDirectory;
-import org.kuali.kfs.sys.context.BatchLogger;
 import org.kuali.kfs.sys.context.BatchStepExecutor;
 import org.kuali.kfs.sys.context.BatchStepFileDescriptor;
 import org.kuali.kfs.sys.context.ContainerStepListener;
@@ -53,8 +52,6 @@ public class BatchContainerStep extends AbstractStep implements ContainerStepLis
      */
 	@Override
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
-	    BatchLogger.addConsoleAppender(LOG);
-
 		LOG.info("Starting the batch container in Job: "+ jobName +" on "+ jobRunDate);
 
 		if (batchContainerDirectory == null) {
@@ -69,7 +66,7 @@ public class BatchContainerStep extends AbstractStep implements ContainerStepLis
 		if (directory.isBatchContainerRunning()) {
 			//an instance of the batch container is already running - exit w/out trying to remove the batch container semaphore file
 			LOG.error("The BatchContainer is already running");
-			throw new RuntimeException("The BatchContainer is already running.");
+			return true;
 		}
 
 		initContainerResults();

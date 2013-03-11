@@ -60,7 +60,8 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.BlanketApproveDocumentEvent;
@@ -865,7 +866,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             else {
                 offsetDebitEntry.setSubAccountNumber(ipa.getInvoiceDetail().getSubAccountNumber());
             }
-            
+
             offsetDebitEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             if (StringUtils.isBlank(ipa.getInvoiceDetail().getProjectCode())) {
                 offsetDebitEntry.setProjectCode(KFSConstants.getDashProjectCode());
@@ -894,7 +895,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
             else {
                 offsetCreditEntry.setSubAccountNumber(ipa.getInvoiceDetail().getSubAccountNumber());
             }
-            
+
             offsetCreditEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             offsetCreditEntry.setProjectCode(KFSConstants.getDashProjectCode());
             offsetCreditEntry.refreshNonUpdateableReferences();
@@ -1337,7 +1338,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     // determines if the doc was launched by SYSTEM_USER, if so, then it was launched from batch
     protected boolean launchedFromBatch() {
         boolean result = false;
-        Person initiator = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        Principal initiator = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
         result = initiator.getPrincipalId().equalsIgnoreCase(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         return result;
     }

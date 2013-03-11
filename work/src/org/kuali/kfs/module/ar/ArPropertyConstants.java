@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -78,7 +78,7 @@ public class ArPropertyConstants {
         public static final String INVOICE_DOCUMENT_RECURRENCE = "customerInvoiceRecurrenceDetails";
         public static final String INVOICE_DOCUMENT_RECURRENCE_ACTIVE = "customerInvoiceRecurrenceDetails.active";
     }
-    
+
     // InvoiceRecurrence
     public static final class InvoiceRecurrenceFields {
         public static final String RECURRING_INVOICE_NUMBER = "invoiceNumber";
@@ -87,16 +87,16 @@ public class ArPropertyConstants {
         public static final String INVOICE_RECURRENCE_TOTAL_RECURRENCE_NUMBER = "documentTotalRecurrenceNumber";
         public static final String INVOICE_RECURRENCE_INITIATOR_USER_ID = "documentInitiatorUserIdentifier";
     }
-    
+
     // OrganizationAccountingDefaults
     public static class OrganizationAccountingDefaultFields {
-        
+
         public static final String LATE_CHARGE_OBJECT_CODE = "organizationLateChargeObjectCode";
         public static final String INVOICE_CHART_OF_ACCOUNTS_CODE = "defaultInvoiceChartOfAccountsCode";
         public static final String PAYMENT_CHART_OF_ACCOUNTS_CODE = "defaultPaymentChartOfAccountsCode";
         public static final String PAYMENT_ACCOUNT_NUMBER = "defaultPaymentAccountNumber";
         public static final String PAYMENT_FINANCIAL_OBJECT_CODE = "defaultPaymentFinancialObjectCode";
-        
+
         public static final String WRITEOFF_FINANCIAL_OBJECT_CODE = "writeoffFinancialObjectCode";
         public static final String WRITEOFF_CHART_OF_ACCOUNTS_CODE = "writeoffChartOfAccountsCode";
         public static final String WRITEOFF_ACCOUNT_NUMBER = "writeoffAccountNumber";
@@ -106,7 +106,7 @@ public class ArPropertyConstants {
     public static class CustomerTypeFields {
         public static final String CUSTOMER_TYPE_DESC = "customerTypeDescription";
     }
-    
+
     // Customer
     public static class CustomerFields {
         public static final String CUSTOMER_TAB_GENERAL_INFORMATION = "customerGeneralInformation";
@@ -148,13 +148,13 @@ public class ArPropertyConstants {
         public static final String CASH_CONTROL_DETAILS_TAB = "document.cashControlDetails";
         public static final String REFERENCE_FINANCIAL_DOC_NBR = "referenceFinancialDocumentNumber";
     }
-    
+
     // CustomerInvoiceWriteoffDocument
     public static class CustomerInvoiceWriteoffDocumentFields {
         public static final String CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF = "customerInvoiceDetailsForWriteoff";
         public static final String CUSTOMER_INVOICE_WRITEOFF_EXPLANATION ="documentHeader.explanation";
     }
-    
+
     // CustomerInvoiceWriteoffLookupResult
     public static class CustomerInvoiceWriteoffLookupResultFields {
         public static final String CUSTOMER_NUMBER = "customerNumber";
@@ -166,7 +166,7 @@ public class ArPropertyConstants {
     }
 
     // CustomerAgingReport
-    public static class CustomerAgingReportFields {        
+    public static class CustomerAgingReportFields {
         public static final String REPORT_RUN_DATE = "reportRunDate";
         public static final String REPORT_OPTION= "reportOption";
         public static final String PROCESSING_OR_BILLING_CHART_CODE = "processingOrBillingChartCode";
@@ -189,7 +189,7 @@ public class ArPropertyConstants {
         public static final String ORGANIZATION_REMIT_TO_ZIP_CODE = "organizationRemitToZipCode";
         public static final String ORGANIZATION_POSTAL_ZIP_CODE = "organizationPostalZipCode";
     }
-    
+
     //  SystemInformation (aka ProcessingOrg)
     public static class SystemInformationFields {
         public static final String PROCESSING_CHART_OF_ACCOUNTS_CODE = "processingChartOfAccountCode";
@@ -197,14 +197,16 @@ public class ArPropertyConstants {
         public static final String LOCKBOX_NUMBER = "lockboxNumber";
         public static final String ORGANIZATION_REMIT_TO_STATE_CODE = "organizationRemitToStateCode";
         public static final String ORGANIZATION_REMIT_TO_ZIP_CODE = "organizationRemitToZipCode";
+        public static final String ACTIVE = "active";
+        public static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
     }
-    
+
     // CustomerInvoiceItemCodes
     public static class CustomerInvoiceItemCodes {
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
         public static final String ORGANIZATION_CODE = "organizationCode";
     }
-    
+
     // PaymentApplicationDocument
     public static class PaymentApplicationDocumentFields {
         public static final String AMOUNT_TO_BE_APPLIED = "customerInvoiceDetail[0].amountToBeApplied";

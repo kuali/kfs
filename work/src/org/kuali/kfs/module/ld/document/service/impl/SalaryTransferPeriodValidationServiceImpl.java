@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,11 +31,10 @@ import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.NoteService;
@@ -52,11 +51,11 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
     private DocumentService documentService;
     private NoteService noteService;
     private ConfigurationService kualiConfigurationService;
-    private PersonService personService;
 
     /**
      * @see org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService#validateTransfers(org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument)
      */
+    @Override
     public boolean validateTransfers(SalaryExpenseTransferDocument document) {
         List<ExpenseTransferAccountingLine> transferLinesInOpenPeriod = new ArrayList<ExpenseTransferAccountingLine>();
 
@@ -124,22 +123,23 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
     /**
      * @see org.kuali.kfs.module.ld.document.service.SalaryTransferPeriodValidationService#disapproveSalaryExpenseDocument(org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument)
      */
+    @Override
     public void disapproveSalaryExpenseDocument(SalaryExpenseTransferDocument document) throws Exception {
         // create note explaining why the document was disapproved
         String message = kualiConfigurationService.getPropertyValueAsString(LaborKeyConstants.EFFORT_AUTO_DISAPPROVE_MESSAGE);
         Note cancelNote = documentService.createNoteFromDocument( document, message);
 
-        Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
-        cancelNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
+        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(KFSConstants.SYSTEM_USER);
+        cancelNote.setAuthorUniversalIdentifier(principal.getPrincipalId());
         noteService.save(cancelNote);
         document.addNote(cancelNote);
-        
+
         documentService.disapproveDocument(document, "disapproved - failed effort certification checks");
     }
 
     /**
      * Checks list of report definitions for a closed period.
-     * 
+     *
      * @param transferLine - transfer line to find report definition for
      * @return closed report or null if one is not found
      */
@@ -157,7 +157,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
 
     /**
      * Checks list of report definitions for a open period.
-     * 
+     *
      * @param transferLine - transfer line to find report definition for
      * @return open report or null if one is not found
      */
@@ -175,7 +175,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
 
     /**
      * Returns the open report periods from the given list of report definitions.
-     * 
+     *
      * @param effortReports - list of report definitions that are either open or closed
      * @return open effort report definitions
      */
@@ -193,7 +193,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
 
     /**
      * Checks the sub account type code against the values defined for cost share.
-     * 
+     *
      * @param transferLine - line with sub account to check
      * @return true if sub account is cost share, false otherwise
      */
@@ -216,7 +216,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
     /**
      * Finds all open effort reports for the given transfer line, then checks if the given emplid has a certification for one of
      * those open reports.
-     * 
+     *
      * @param transferLine - line to find open reports for
      * @param emplid - emplid to check for certification
      * @return report which emplid has certification, or null
@@ -230,7 +230,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
 
     /**
      * Adds the line amount to the given map that contains the total transfer amount for the account and period.
-     * 
+     *
      * @param accountPeriodTransfer - map holding the total transfers
      * @param effortReport - open report for transfer line
      * @param transferLine - line with amount to add
@@ -252,7 +252,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
 
     /**
      * Gets open or closed report definitions for line pay period and pay type.
-     * 
+     *
      * @param transferLine - line to pull pay period and type from
      * @return - open or closed effort reports for period and type
      */
@@ -266,11 +266,11 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
 
     /**
      * Verfies the given tranfer line contains the necessary data for performing the effort validations.
-     * 
+     *
      * @param transferLine - line to check
      */
     protected boolean containsNecessaryData(ExpenseTransferAccountingLine transferLine) {
-        //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
+        //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(),
         //Both ExpenseTransferSourceAccountingLine and ExpenseTransferTargetAccountingLine do not have any updatable references
         transferLine.refreshNonUpdateableReferences();
 
@@ -288,7 +288,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
     /**
      * Determines whether the error should be associated with the source or target lines, and builds up parameters for error
      * message.
-     * 
+     *
      * @param errorKey - key for the error message
      * @param transferLine - transfer line which had error
      * @param report - report which conflicted with line
@@ -309,7 +309,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
 
     /**
      * Sets the documentService attribute value.
-     * 
+     *
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {
@@ -318,7 +318,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
 
     /**
      * Sets the effortCertificationService attribute value.
-     * 
+     *
      * @param effortCertificationService The effortCertificationService to set.
      */
     public void setEffortCertificationService(EffortCertificationModuleService effortCertificationService) {
@@ -327,7 +327,7 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
 
     /**
      * Sets the noteService attribute value.
-     * 
+     *
      * @param noteService The noteService to set.
      */
     public void setNoteService(NoteService noteService) {
@@ -336,20 +336,11 @@ public class SalaryTransferPeriodValidationServiceImpl implements SalaryTransfer
 
     /**
      * Sets the kualiConfigurationService attribute value.
-     * 
+     *
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
-    }
-
-    /**
-     * @return Returns the personService.
-     */
-    protected PersonService getPersonService() {
-        if(personService==null)
-            personService = SpringContext.getBean(PersonService.class);
-        return personService;
     }
 
 }

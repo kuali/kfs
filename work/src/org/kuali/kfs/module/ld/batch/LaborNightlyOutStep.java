@@ -37,14 +37,7 @@ public class LaborNightlyOutStep extends AbstractStep {
      * @see org.kuali.kfs.sys.batch.Step#execute(String, Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
-        try {
-            laborNightlyOutService.copyApprovedPendingLedgerEntries();
-        }
-        catch (Exception e) {
-            LOG.fatal(e.getStackTrace());
-            e.printStackTrace();
-            return false;
-        }
+        laborNightlyOutService.copyApprovedPendingLedgerEntries();
         return true;
     }
 

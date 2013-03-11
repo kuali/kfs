@@ -50,8 +50,6 @@ import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.api.parameter.ParameterType;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -271,12 +269,11 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
 
     public void writeoffInvoice(String invoiceNumberToWriteOff) {
         CustomerInvoiceWriteoffDocumentService writeoffService = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
-        Person initiator = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(INITIATOR_PRINCIPAL_NAME);
 
         //  have the service create us a new writeoff doc
         String writeoffDocNumber;
         try {
-            writeoffDocNumber = writeoffService.createCustomerInvoiceWriteoffDocument(initiator, invoiceNumberToWriteOff,
+            writeoffDocNumber = writeoffService.createCustomerInvoiceWriteoffDocument(invoiceNumberToWriteOff,
                     "Created by CustomerInvoiceDocumentBatch process.");
         }
         catch (WorkflowException e) {

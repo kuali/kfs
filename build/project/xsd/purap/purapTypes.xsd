@@ -112,4 +112,10 @@
             <xsd:maxLength value="0"/>
         </xsd:restriction>
     </xsd:simpleType>
+    
+    <xsd:simpleType name="amountType">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:fractionDigits value="4"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 </xsd:schema>    

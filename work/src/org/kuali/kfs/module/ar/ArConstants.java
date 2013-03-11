@@ -129,6 +129,9 @@ public class ArConstants {
     public static final class Lockbox {
         public static final String LOCKBOX_REPORT_SUBFOLDER = "ar";
         public static final String BATCH_REPORT_BASENAME = "lockbox_batch";
+        public static final String SUMMARY_AND_ERROR_NOTIFICATION_EMAIL_SUBJECT = "SUMMARY_AND_ERROR_NOTIFICATION_EMAIL_SUBJECT";
+        public static final String SUMMARY_AND_ERROR_NOTIFICATION_TO_EMAIL_ADDRESSES = "SUMMARY_AND_ERROR_NOTIFICATION_TO_EMAIL_ADDRESSES";
+        public static final String CONTACTS_TEXT = "CONTACTS_TEXT";
     }
 
     public static final String ORGANIZATION_RECEIVABLE_ACCOUNT_DEFAULTS = "Organization Receivable Account Defaults";

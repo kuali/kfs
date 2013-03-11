@@ -57,6 +57,8 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.entity.Entity;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.service.DictionaryValidationService;
@@ -88,10 +90,10 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         // do not execute the further refreshing logic if a payee is not selected
         String payeeIdNumber = dvDoc.getDvPayeeDetail().getDisbVchrPayeeIdNumber();
 
-        Person person = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
+        Entity entity = KimApiServiceLocator.getIdentityService().getEntityByEmployeeId(payeeIdNumber);
 
         //KFSMI-8935: When an employee is inactive, the Payment Type field on DV documents should display the message "Is this payee an employee" = No
-        if (person != null && person.isActive()) {
+        if (entity != null && entity.isActive()) {
             dvDoc.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
         } else {
             dvDoc.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(false);

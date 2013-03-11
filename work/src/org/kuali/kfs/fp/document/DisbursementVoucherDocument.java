@@ -1904,14 +1904,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         }
     }
 
-
-    protected PersonService getPersonService() {
-        if ( personService == null ) {
-            personService = SpringContext.getBean(PersonService.class);
-        }
-        return personService;
-    }
-
     @Override
     protected ParameterService getParameterService() {
         if ( parameterService == null ) {

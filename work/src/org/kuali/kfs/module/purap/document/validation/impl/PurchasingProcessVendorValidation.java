@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +35,14 @@ import org.kuali.kfs.sys.service.PostalCodeValidationService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -106,6 +110,16 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INACTIVE_VENDOR);
         }
 
+        //make sure that the vendor contract is active and not expired.
+        if (ObjectUtils.isNotNull(purDocument.getVendorContractGeneratedIdentifier())) {
+            VendorContract vendorContract = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(VendorContract.class, purDocument.getVendorContractGeneratedIdentifier());
+            Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+
+            if (currentDate.compareTo(vendorContract.getVendorContractEndDate()) > 0 || !vendorContract.isActive()) {
+                valid &= false;
+                errorMap.putError(VendorPropertyConstants.VENDOR_CONTRACT_NAME, PurapKeyConstants.ERROR_INACTIVE_OR_EXPIRED_VENDOR_CONTRACT);
+            }
+        }
         // validate vendor address
         postalCodeValidationService.validateAddress(purDocument.getVendorCountryCode(), purDocument.getVendorStateCode(), purDocument.getVendorPostalCode(), PurapPropertyConstants.VENDOR_STATE_CODE, PurapPropertyConstants.VENDOR_POSTAL_CODE);
 

@@ -34,11 +34,11 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -56,11 +56,10 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLookupableHelperServiceImpl.class);
 
     protected AssetService assetService;
-    protected PersonService personService;
 
     /**
      * Custom action urls for Asset.
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
      *      List pkNames)
      */
@@ -111,8 +110,8 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
             parameters.put(KFSConstants.OVERRIDE_KEYS, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + CamsPropertyConstants.AssetRetirementGlobal.MERGED_TARGET_CAPITAL_ASSET_NUMBER);
             parameters.put(CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE, CamsConstants.AssetRetirementReasonCode.MERGED);
             parameters.put(KFSConstants.REFRESH_CALLER, CamsPropertyConstants.AssetRetirementGlobal.RETIREMENT_REASON_CODE + "::" + CamsConstants.AssetRetirementReasonCode.MERGED);
-            
-            
+
+
             String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
 
             return new AnchorHtmlData(href, CamsConstants.AssetActions.MERGE, CamsConstants.AssetActions.MERGE);
@@ -121,15 +120,15 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
             return new AnchorHtmlData("", "", "");
         }
     }
-    
+
     @Override
     protected String getReturnHref(Properties parameters, LookupForm lookupForm, List returnKeys) {
         String href = super.getReturnHref(parameters, lookupForm, returnKeys);
         href += "&referencesToRefresh=mergedTargetCapitalAsset";
         return href;
-        
+
     }
-    
+
 
     protected HtmlData getLoanUrl(Asset asset) {
         AnchorHtmlData anchorHtmlData = null;
@@ -162,7 +161,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         }
         else {
             anchorHtmlData = new AnchorHtmlData("", "", "");
-            // 
+            //
             AnchorHtmlData childURLData = new AnchorHtmlData("", "", "");
             if (asset.getCampusTagNumber() == null) {
                 childURLData = new AnchorHtmlData("", "", CamsConstants.AssetActions.LOAN);
@@ -216,7 +215,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         boolean isAuthorized = true;
         boolean assetMovable = false;
         try {
-           assetMovable = getAssetService().isAssetMovableCheckByPayment(asset);             
+           assetMovable = getAssetService().isAssetMovableCheckByPayment(asset);
         } catch (ValidationException ve) {
             isAuthorized = false;
         }
@@ -224,7 +223,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
             FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase)SpringContext.getBean(DocumentDictionaryService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.ASSET_TRANSFER);
             isAuthorized = documentAuthorizer.isAuthorized(asset, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.SEPARATE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         }
-        
+
         if (isAuthorized) {
             Properties parameters = new Properties();
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
@@ -252,9 +251,9 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
     /**
      * Overridden to fix a field conversion
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
-     * 
+     *
      * KRAD Conversion: Performs customization of the  Row objects to be used to generate the search query screen.
      */
     @Override
@@ -265,7 +264,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
     /**
      * Overridden to fix a field conversion
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#setRows()
      */
     @Override
@@ -276,7 +275,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
     /**
      * Goes through all the rows, making sure that problematic field conversions are fixed
-     * 
+     *
      * KRAD Conversion: Performs customization of the fields.
      */
     protected void convertOrganizationOwnerAccountField() {
@@ -301,13 +300,14 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     /**
      * Fixes the field conversions - replaces "organizationOwnerAccount.chartOfAccountsCode" with
      * "organizationOwnerChartOfAccountsCode"
-     * 
+     *
      * @param fieldConversions the original field conversions
      * @return the fixed field conversions
      */
     protected String fixProblematicField(String problemChildField) {
-        if (StringUtils.isBlank(problemChildField))
+        if (StringUtils.isBlank(problemChildField)) {
             return problemChildField;
+        }
         return problemChildField.replace(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNTS_COA_CODE, CamsPropertyConstants.Asset.ORGANIZATION_OWNER_CHART_OF_ACCOUNTS_CODE);
     }
 
@@ -316,26 +316,16 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         // perform the lookup on the asset representative first
         String principalName = fieldValues.get(CamsPropertyConstants.Asset.REP_USER_AUTH_ID);
         if (StringUtils.isNotBlank(principalName)) {
-            Person person = getPersonService().getPersonByPrincipalName(principalName);
+            Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
 
-            if (person == null) {
+            if (principal == null) {
                 return Collections.EMPTY_LIST;
             }
             // place the universal ID into the fieldValues map and remove the dummy attribute
-            fieldValues.put(CamsPropertyConstants.Asset.REPRESENTATIVE_UNIVERSAL_IDENTIFIER, person.getPrincipalId());
+            fieldValues.put(CamsPropertyConstants.Asset.REPRESENTATIVE_UNIVERSAL_IDENTIFIER, principal.getPrincipalId());
             fieldValues.remove(CamsPropertyConstants.Asset.REP_USER_AUTH_ID);
         }
 
         return super.getSearchResultsHelper(fieldValues, unbounded);
     }
-    
-    /**
-     * @return Returns the personService.
-     */
-    protected PersonService getPersonService() {
-        if(personService==null)
-            personService = SpringContext.getBean(PersonService.class);
-        return personService;
-    }
-
 }

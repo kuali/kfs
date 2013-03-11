@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,7 +37,7 @@ public class GlobalVariablesExtractHelper {
 
     /**
      * Extracts errors for error report writing.
-     * 
+     *
      * @return a list of error messages
      */
     public static void insertError(String message, String param) {
@@ -59,12 +59,13 @@ public class GlobalVariablesExtractHelper {
 
         for (String errorProperty : errorKeys) {
             // errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty); // deprecated
-            errorMessages = (List<ErrorMessage>) errorMap.getErrorMessagesForProperty(errorProperty);
-
+            errorMessages = errorMap.getErrorMessagesForProperty(errorProperty);
+            LOG.debug("error Messages :::: " + errorMessages.toString());
             for (ErrorMessage errorMessage : errorMessages) {
                 errorKeyString = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(errorMessage.getErrorKey());
                 messageParams = errorMessage.getMessageParameters();
-
+                LOG.debug("message parameters:::  " + messageParams);
+                LOG.debug("errorKeyString :::: " + errorKeyString);
                 // MessageFormat.format only seems to replace one
                 // per pass, so I just keep beating on it until all are gone.
                 if (StringUtils.isBlank(errorKeyString)) {
@@ -74,7 +75,7 @@ public class GlobalVariablesExtractHelper {
                     errorString = errorKeyString;
                 }
                 LOG.debug(errorString);
-                while (errorString.matches("^.*\\{\\d\\}.*$")) {
+                if (errorString.matches("^.*\\{\\d\\}.*$")) {
                     errorString = MessageFormat.format(errorString, messageParams);
                 }
                 result.add(errorString);

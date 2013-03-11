@@ -27,10 +27,11 @@ import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -69,9 +70,9 @@ public class InactivatePayeeAchAccountsServiceImpl implements InactivatePayeeAch
 
             // for Employee, retrieve from Person table by employee ID
             if (StringUtils.equalsIgnoreCase(idType, PayeeIdTypeCodes.EMPLOYEE)) {
-                Person person = personService.getPersonByEmployeeId(idNumber);
+                Entity entity = KimApiServiceLocator.getIdentityService().getEntityByEmployeeId(idNumber);
                 // inactivate the account if the person doesn't exist anymore or is inactive
-                if (ObjectUtils.isNull(person) || !person.isActive()) {
+                if (ObjectUtils.isNull(entity) || !entity.isActive()) {
                     LOG.info("Inactivating Payee ACH account for employee with ID # " + idNumber);
                     account.setActive(false);
                     businessObjectService.save(account);

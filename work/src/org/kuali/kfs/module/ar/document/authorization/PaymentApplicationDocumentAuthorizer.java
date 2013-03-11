@@ -40,7 +40,7 @@ public class PaymentApplicationDocumentAuthorizer extends FinancialSystemTransac
         if (businessObject != null && businessObject instanceof PaymentApplicationDocument) {
             final PaymentApplicationDocument document = (PaymentApplicationDocument)businessObject;
             final WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-            if (workflowDocument.isInitiated() || workflowDocument.isSaved()) { // only add processing chart and org if we're PreRoute
+            if (workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isCompletionRequested()) { // only add processing chart and org if we're PreRoute
                 final AccountsReceivableDocumentHeader arDocumentHeader = document.getAccountsReceivableDocumentHeader();
                 if (!ObjectUtils.isNull(arDocumentHeader)) {
                     if (!StringUtils.isBlank(arDocumentHeader.getProcessingChartOfAccCodeAndOrgCode())) {

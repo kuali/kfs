@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,14 +29,15 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ *
  */
 public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBase {
 
@@ -69,7 +70,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the principalId attribute.
-     * 
+     *
      * @return Returns the principalId
      */
     public String getPrincipalId() {
@@ -78,7 +79,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the principalId attribute.
-     * 
+     *
      * @param principalId The principalId to set.
      */
     public void setPrincipalId(String principalId) {
@@ -88,7 +89,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the universityFiscalYear attribute.
-     * 
+     *
      * @return Returns the universityFiscalYear
      */
     public Integer getUniversityFiscalYear() {
@@ -97,7 +98,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the universityFiscalYear attribute.
-     * 
+     *
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -107,7 +108,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode
      */
     public String getChartOfAccountsCode() {
@@ -116,7 +117,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -126,7 +127,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber
      */
     public String getAccountNumber() {
@@ -135,7 +136,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the accountNumber attribute.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -145,7 +146,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the subAccountNumber attribute.
-     * 
+     *
      * @return Returns the subAccountNumber
      */
     public String getSubAccountNumber() {
@@ -154,7 +155,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the subAccountNumber attribute.
-     * 
+     *
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -164,7 +165,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
     public String getDocumentNumber() {
@@ -173,7 +174,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -183,7 +184,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the organizationLevelCode attribute.
-     * 
+     *
      * @return Returns the organizationLevelCode
      */
     public Integer getOrganizationLevelCode() {
@@ -192,7 +193,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the organizationLevelCode attribute.
-     * 
+     *
      * @param organizationLevelCode The organizationLevelCode to set.
      */
     public void setOrganizationLevelCode(Integer organizationLevelCode) {
@@ -202,7 +203,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the organizationChartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the organizationChartOfAccountsCode
      */
     public String getOrganizationChartOfAccountsCode() {
@@ -211,7 +212,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the organizationChartOfAccountsCode attribute.
-     * 
+     *
      * @param organizationChartOfAccountsCode The organizationChartOfAccountsCode to set.
      */
     public void setOrganizationChartOfAccountsCode(String organizationChartOfAccountsCode) {
@@ -221,7 +222,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the organizationCode attribute.
-     * 
+     *
      * @return Returns the organizationCode
      */
     public String getOrganizationCode() {
@@ -230,7 +231,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the organizationCode attribute.
-     * 
+     *
      * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
@@ -240,7 +241,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the financialDocumentStatusCode attribute.
-     * 
+     *
      * @return Returns the financialDocumentStatusCode
      */
     public String getFinancialDocumentStatusCode() {
@@ -249,7 +250,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the financialDocumentStatusCode attribute.
-     * 
+     *
      * @param financialDocumentStatusCode The financialDocumentStatusCode to set.
      */
     public void setFinancialDocumentStatusCode(String financialDocumentStatusCode) {
@@ -259,7 +260,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the financialDocumentInitiatorIdentifier attribute.
-     * 
+     *
      * @return Returns the financialDocumentInitiatorIdentifier
      */
     public String getFinancialDocumentInitiatorIdentifier() {
@@ -267,10 +268,11 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
         if (this.financialDocumentInitiatorIdentifier == null) {
             try {
                 WorkflowDocumentService workflowDocumentService =  KewApiServiceLocator.getWorkflowDocumentService();
-                List<ActionTaken> actionsTaken = (List<ActionTaken>) workflowDocumentService.getAllActionsTaken(this.getDocumentNumber());
+                List<ActionTaken> actionsTaken = workflowDocumentService.getAllActionsTaken(this.getDocumentNumber());
                 SortedSet<ActionTaken> sortedActionsTaken = this.getSortedActionsTaken(actionsTaken);
                 if (sortedActionsTaken.size() > 0) {
-                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPerson(sortedActionsTaken.last().getPrincipalId()).getPrincipalName();
+                    Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(sortedActionsTaken.last().getPrincipalId());
+                    this.financialDocumentInitiatorIdentifier = principal.getPrincipalName();
                     this.financialDocumentCreateDate = new Date(sortedActionsTaken.last().getActionDate().toDate().getTime());
                 }
                 else {
@@ -288,7 +290,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the financialDocumentInitiatorIdentifier attribute.
-     * 
+     *
      * @param financialDocumentInitiatorIdentifier The financialDocumentInitiatorIdentifier to set.
      */
     public void setFinancialDocumentInitiatorIdentifier(String financialDocumentInitiatorIdentifier) {
@@ -298,7 +300,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the financialDocumentCreateDate attribute.
-     * 
+     *
      * @return Returns the financialDocumentCreateDate
      */
     public Date getFinancialDocumentCreateDate() {
@@ -306,10 +308,11 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
         if (this.financialDocumentCreateDate == null) {
             try {
                 WorkflowDocumentService workflowDocumentService =  KewApiServiceLocator.getWorkflowDocumentService();
-                List<ActionTaken> actionsTaken = (List<ActionTaken>) workflowDocumentService.getAllActionsTaken(this.getDocumentNumber());
+                List<ActionTaken> actionsTaken = workflowDocumentService.getAllActionsTaken(this.getDocumentNumber());
                 SortedSet<ActionTaken> sortedActionsTaken = this.getSortedActionsTaken(actionsTaken);
                 if (sortedActionsTaken.size() > 0) {
-                    this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPerson(sortedActionsTaken.last().getPrincipalId()).getPrincipalName();
+                    Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(sortedActionsTaken.last().getPrincipalId());
+                    this.financialDocumentInitiatorIdentifier = principal.getPrincipalName();
                     this.financialDocumentCreateDate = new Date(sortedActionsTaken.last().getActionDate().toDate().getTime());
                 }
 
@@ -323,7 +326,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the financialDocumentCreateDate attribute.
-     * 
+     *
      * @param financialDocumentCreateDate The financialDocumentCreateDate to set.
      */
     public void setFinancialDocumentCreateDate(Date financialDocumentCreateDate) {
@@ -333,7 +336,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the budgetConstructionHeader attribute.
-     * 
+     *
      * @return Returns the budgetConstructionHeader
      */
     public BudgetConstructionHeader getBudgetConstructionHeader() {
@@ -342,7 +345,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the budgetConstructionHeader attribute.
-     * 
+     *
      * @param budgetConstructionHeader The budgetConstructionHeader to set.
      * @deprecated
      */
@@ -352,7 +355,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the organization attribute.
-     * 
+     *
      * @return Returns the organization
      */
     public Organization getOrganization() {
@@ -361,7 +364,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the organization attribute.
-     * 
+     *
      * @param organization The organization to set.
      * @deprecated
      */
@@ -371,7 +374,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the account attribute.
-     * 
+     *
      * @return Returns the account
      */
     public Account getAccount() {
@@ -380,7 +383,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the account attribute.
-     * 
+     *
      * @param account The account to set.
      * @deprecated
      */
@@ -390,7 +393,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the chartOfAccounts attribute.
-     * 
+     *
      * @return Returns the chartOfAccounts
      */
     public Chart getChartOfAccounts() {
@@ -399,7 +402,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the chartOfAccounts attribute.
-     * 
+     *
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
@@ -409,7 +412,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the organizationChartOfAccounts attribute.
-     * 
+     *
      * @return Returns the organizationChartOfAccounts
      */
     public Chart getOrganizationChartOfAccounts() {
@@ -418,7 +421,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the organizationChartOfAccounts attribute.
-     * 
+     *
      * @param organizationChartOfAccounts The organizationChartOfAccounts to set.
      * @deprecated
      */
@@ -428,7 +431,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Gets the subAccount attribute.
-     * 
+     *
      * @return Returns the subAccount.
      */
     public SubAccount getSubAccount() {
@@ -437,17 +440,17 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
     /**
      * Sets the subAccount attribute value.
-     * 
+     *
      * @param subAccount The subAccount to set.
      * @deprecated
      */
     public void setSubAccount(SubAccount subAccount) {
         this.subAccount = subAccount;
     }
-    
+
     /**
      * Takes a list of ActionTaken and returns a sorted set ordered by action date
-     *  
+     *
      * @param actionsTaken
      * @return
      */
@@ -463,7 +466,7 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
         });
         sortedActionsTaken.addAll(actionsTaken);
         return sortedActionsTaken;
-        
+
     }
 
     /**

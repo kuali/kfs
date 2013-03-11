@@ -217,18 +217,32 @@ public class AssetServiceImpl implements AssetService {
             throw new ValidationException("Could not determine movable or non-movable for this object sub-type code " + financialObjectSubTypeCode);
         }
     }
+
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetService#isAssetMovableCheckByPayment(Asset)
      */
     public boolean isAssetMovableCheckByPayment(Asset asset) {
         String financialObjectSubTypeCode = asset.getFinancialObjectSubTypeCode();
+        
         if (ObjectUtils.isNotNull(asset.getAssetPayments()) && !asset.getAssetPayments().isEmpty()) {
-            AssetPayment firstAssetPayment = asset.getAssetPayments().get(0);
-            firstAssetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
+            // use the last payment, so it's more recent and less likely to hit an out-dated object code
+            int size = asset.getAssetPayments().size();
+            AssetPayment lastAssetPayment = asset.getAssetPayments().get(size-1);
+            lastAssetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
             ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
-            ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(firstAssetPayment.getChartOfAccountsCode(),firstAssetPayment.getFinancialObjectCode());
-            financialObjectSubTypeCode = objectCode.getFinancialObjectSubTypeCode();
+            String chartCode = lastAssetPayment.getChartOfAccountsCode();
+            String finObjectCode = lastAssetPayment.getFinancialObjectCode();
+            ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(chartCode, finObjectCode);
+            
+            // if objectCode is null, we likely have hit an out-dated object code from some old payment
+            if (ObjectUtils.isNotNull(objectCode)) {
+                financialObjectSubTypeCode = objectCode.getFinancialObjectSubTypeCode();
+            }
+            else {
+                LOG.warn("Possibly out-dated object code " + finObjectCode + " for chart " + chartCode + " for current fiscal year in payments for asset " + asset.getCapitalAssetNumber());
+            }
         }
+        
         return this.isAssetMovableCheckByPayment(financialObjectSubTypeCode);
     }
 

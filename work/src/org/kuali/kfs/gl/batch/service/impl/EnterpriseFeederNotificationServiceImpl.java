@@ -200,11 +200,6 @@ public class EnterpriseFeederNotificationServiceImpl implements EnterpriseFeeder
         if (subject == null) {
             return "ERROR in reconciling or loading GL origin entries from file.";
         }
-        String productionEnvironmentCode = configurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = configurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
-        if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
-            subject = environmentCode + ": " + subject;
-        }
         return subject;
     }
 

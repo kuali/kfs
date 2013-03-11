@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.joda.time.DateTime;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.FinancialSystemWorkflowHelperService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.doctype.DocumentType;
@@ -49,7 +49,7 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
 
     //create date from the workflow document header...
     private DateTime createDate;
-    
+
     public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
         return accountsPayablePurchasingDocumentLinkIdentifier;
     }
@@ -76,7 +76,7 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
 
     public List<Note> getNotes() {
         List<Note> notes = new ArrayList<Note>();
-        //reverse the order of notes only when anything exists in it..      
+        //reverse the order of notes only when anything exists in it..
         NoteService noteService = SpringContext.getBean(NoteService.class);
         List<Note> tmpNotes = noteService.getByRemoteObjectId(findDocument(this.documentNumber).getDocumentHeader().getObjectId());
         notes.clear();
@@ -95,7 +95,7 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
         int endSubString = docHandlerUrl.lastIndexOf("/");
         String serverName = docHandlerUrl.substring(0, endSubString);
         String handler = docHandlerUrl.substring(endSubString + 1, docHandlerUrl.lastIndexOf("?"));
-        return serverName + "/" + KRADConstants.PORTAL_ACTION + "?channelTitle=" + docType.getName() + "&channelUrl=" + handler + "?" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=" + KRADConstants.DOC_HANDLER_METHOD +"&" + KRADConstants.PARAMETER_DOC_ID + "=" + this.getDocumentNumber() + "&" + KRADConstants.PARAMETER_COMMAND + "=" + KewApiConstants.DOCSEARCH_COMMAND;
+        return serverName + "/" + handler + "?channelTitle=" + docType.getName() + "&" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=" + KRADConstants.DOC_HANDLER_METHOD +"&" + KRADConstants.PARAMETER_DOC_ID + "=" + this.getDocumentNumber() + "&" + KRADConstants.PARAMETER_COMMAND + "=" + KewApiConstants.DOCSEARCH_COMMAND;
     }
 
     public String getDocumentIdentifierString() {
@@ -105,17 +105,17 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
             return documentNumber;
         }
     }
-    
+
     /**
      * Returns the document label according to the label specified in the data dictionary.
-     * 
+     *
      * @return
      * @throws WorkflowException
      */
     public String getDocumentLabel() throws WorkflowException{
         return SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(getDocumentTypeName());
     }
-    
+
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
@@ -150,15 +150,21 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
     public void setPoNumberMasked(String poNumberMasked) {
         this.poNumberMasked = poNumberMasked;
     }
-    
+
+    /**
+     * This method calls the workflow helper to allow for customization method to quickly grab status
+     * without any fetching of extraneous information which causes problems for large numbers
+     * of related documents
+     * an api call will be added to core Rice to support this in the next release
+     */
     public String getApplicationDocumentStatus() {
-        Document document = findDocument(this.getDocumentNumber());
-        if (ObjectUtils.isNotNull(document)) {
-            return document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
-        }
-        return "";
+        return SpringContext.getBean(FinancialSystemWorkflowHelperService.class).getApplicationDocumentStatus(documentNumber);
     }
-    
+
+    public org.kuali.rice.kew.api.document.Document findWorkflowDocument(String documentId){
+        return KewApiServiceLocator.getWorkflowDocumentService().getDocument(documentId);
+    }
+
     /**
      * This method finds the document for the given document header id
      * @param documentHeaderId
@@ -166,7 +172,7 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
      */
     protected Document findDocument(String documentHeaderId) {
         Document document = null;
-        
+
         try {
             document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentHeaderId);
         }
@@ -176,10 +182,10 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
             // don't blow up just because a document type is not installed (but don't return it either)
             LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
         }
-        
+
         return document;
     }
-    
+
     public void setAppDocStatus(String appDocStatus){
         Document document = findDocument(this.getDocumentNumber());
         if (ObjectUtils.isNotNull(document)) {
@@ -188,12 +194,12 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
     }
     /**
      * Gets the createDate attribute.
-     * 
+     *
      * @return Returns the createDate
      */
     public DateTime getCreateDate() {
-        Document document = findDocument(this.getDocumentNumber());
-        
-        return document.getDocumentHeader().getWorkflowDocument().getDateCreated();
+        org.kuali.rice.kew.api.document.Document document = findWorkflowDocument(this.getDocumentNumber());
+        return document.getDateCreated();
+
     }
 }

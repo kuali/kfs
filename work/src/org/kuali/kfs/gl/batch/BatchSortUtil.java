@@ -60,13 +60,32 @@ public class BatchSortUtil {
             throw new RuntimeException( "Unable to create temporary sort directory", ex );
         }
 
+        //LOG.info("Sorting input file " + inputFileName + " into temp directory " + tempSortDir);
         int numFiles = sortToTempFiles( inputFileName, tempSortDir, comparator );
+        //LOG.info("Merging " + numFiles + " temp files from temp directory into output file " + outputFileName);
 
         // now that the sort is complete - merge the sorted files
         mergeFiles(tempSortDir, numFiles, outputFileName, comparator);
 
+        File sortedFile = new File(outputFileName);
+        /*
+        if (sortedFile.exists()) {
+            LOG.info("Successfully merged input file " + inputFileName + " to output file " + outputFileName);
+        }
+        */
+
         // remove the temporary sort directory
         FileUtils.deleteQuietly(tempSortDir);
+
+        /*
+        LOG.info("Successfully deleted temp directory " + tempSortDir);
+        if (sortedFile.canRead()) {
+            LOG.info("Sorted file " + outputFileName + " is readable upon completion of flat file sorting.");
+        }
+        else {
+            LOG.error("Sorted file " + outputFileName + " can't be read upon completion of flat file sorting.");
+        }
+        */
     }
 
     static int linesPerFile = 10000;
@@ -80,6 +99,7 @@ public class BatchSortUtil {
         BufferedReader inputFile;
          try {
              inputFile = new BufferedReader(new FileReader(inputFileName));
+             //LOG.info("Successfully opened input file " + inputFileName);
          } catch ( FileNotFoundException ex ) {
              LOG.fatal( "Unable to find input file: " + inputFileName, ex );
              throw new RuntimeException( "Unable to find input file: " + inputFileName, ex );
@@ -105,12 +125,15 @@ public class BatchSortUtil {
                  BufferedWriter bw = new BufferedWriter(new FileWriter( new File( tempSortDir,  "chunk_" + numFiles ) ));
                  for( int i = 0; i < batchLines.size(); i++) {
                      bw.append(batchLines.get(i)).append('\n');
+                     //LOG.info("Writing temp sort file chunk_" + numFiles + " to tempSortDir " + tempSortDir);
                  }
                  bw.close();
+                 //LOG.info("Closed temp sort file chunk_" + numFiles);
                  numFiles++;
                  batchLines.clear(); // empty the array for the next pass
              }
              inputFile.close();
+             //LOG.info("Successfully closed input file " + inputFileName);
              return numFiles;
          } catch (Exception ex) {
              LOG.fatal( "Exception processing sort to temp files.", ex );
@@ -126,6 +149,7 @@ public class BatchSortUtil {
             ArrayList<String> fileRows = new ArrayList<String>( numFiles );
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(outputFileName));
+            //LOG.info("Successfully opened output file " + outputFileName);
 
             boolean someFileStillHasRows = false;
 
@@ -219,6 +243,8 @@ public class BatchSortUtil {
 
             // close all the files
             bw.close();
+            //LOG.info("Successfully closed output file " + outputFileName);
+
             for(BufferedReader br : mergefbr ) {
                 br.close();
             }

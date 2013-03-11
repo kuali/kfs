@@ -12373,7 +12373,6 @@
         <column name="DOC_HDR_ID" required="true" size="14" type="VARCHAR"/>
         <column name="GNRT_DT" required="true" type="DATE"/>
         <column name="PRNCPL_ID" required="true" size="40" type="VARCHAR"/>
-        <column name="SESN_ID" required="true" size="40" type="VARCHAR"/>
         <unique name="KNS_PESSIMISTIC_LOCK_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

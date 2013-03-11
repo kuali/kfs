@@ -25,6 +25,5 @@
   <Field name="help_def_url"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="doc_search_help_url"             type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="doc_hdr_id"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="authorizer"                      type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+  <Field name="doc_hdr_id"                      type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
 </Record>

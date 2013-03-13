@@ -62,7 +62,6 @@ cat <<-EOF
 	url=$DATASOURCE
 	username=$DB_USER
 	password=$DB_PASSWORD	
-	liquibase.logLevel=$LIQUIBASE_LOG_LEVEL	
 EOF
 ) > $WORKSPACE/liquibase.properties
 

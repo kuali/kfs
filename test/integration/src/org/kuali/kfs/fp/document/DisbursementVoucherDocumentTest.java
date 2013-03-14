@@ -85,8 +85,10 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         dvParameter.setDocumentNumber(document.getDocumentNumber());
         dvParameter.setDisbVchrContactPhoneNumber("");
         dvParameter.setDisbVchrContactEmailId("");
-        dvParameter.getDvPayeeDetail().setDisbVchrPayeePersonName("");
+        dvParameter.getDvPayeeDetail().setDisbVchrPayeePersonName(null);
         dvParameter.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
+        dvParameter.getDvPayeeDetail().setDisbVchrPaymentReasonCode(null);
+
         dvParameter.setDvNonResidentAlienTax(new DisbursementVoucherNonResidentAlienTax());
         dvParameter.setDisbVchrPayeeTaxControlCode("");
         dvParameter.getDvPayeeDetail().setDisbVchrPayeeIdNumber("");
@@ -297,7 +299,13 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         String copiedDocumentNumber = document.getDocumentNumber();
 
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
+
+        // original document is dirty and can't be deleted until copied document is saved
+        document.prepareForSave();
+        saveDocument(document, documentService);
+
         SpringContext.getBean(BusinessObjectService.class).delete(documentService.getByDocumentHeaderId(originalDocumentNumber));
+        SpringContext.getBean(BusinessObjectService.class).delete(documentService.getByDocumentHeaderId(copiedDocumentNumber));
     }
 
     // test util methods

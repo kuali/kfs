@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,7 +30,6 @@ import org.kuali.kfs.fp.businessobject.Deposit;
 import org.kuali.kfs.fp.document.CashManagementDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.CashReceiptFamilyTestUtil;
-import org.kuali.kfs.fp.document.service.impl.CashManagementServiceImpl;
 import org.kuali.kfs.fp.exception.CashDrawerStateException;
 import org.kuali.kfs.fp.exception.InvalidCashReceiptState;
 import org.kuali.kfs.fp.service.CashDrawerService;
@@ -566,6 +565,8 @@ public class CashManagementServiceTest extends KualiTestBase {
                 //
                 // verify cancellation
                 CashManagementDocument postCanceledDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(testDocumentId);
+                // not exactly sure why, but we need to refresh here or we get an OJB OptimisticLockException later and test fails
+                postCanceledDoc.refresh();
 
                 // 0 deposits in document
                 List deposits = postCanceledDoc.getDeposits();
@@ -683,7 +684,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         deleteCriteria.put("campusCode", campusCode);
         SpringContext.getBean(BusinessObjectService.class).deleteMatching(CashDrawer.class, deleteCriteria);
     }
-    
+
     private void recreateCashDrawer(String campusCode) {
         CashDrawer cd = new CashDrawer();
         cd.setCampusCode(campusCode);
@@ -722,7 +723,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         return persistedDoc;
     }
 
-    
+
     private void saveDocument(Document doc) throws WorkflowException {
         try {
             SpringContext.getBean(DocumentService.class).saveDocument(doc);
@@ -737,7 +738,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         Map<String, String> keyMap = new HashMap<String, String>();
         keyMap.put("bankCode", "TEST");
 
-        Bank bank = (Bank) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Bank.class, keyMap);
+        Bank bank = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Bank.class, keyMap);
 
         assertNotNull("invalid bank for test", bank);
         return bank;
@@ -746,7 +747,6 @@ public class CashManagementServiceTest extends KualiTestBase {
     private void cleanupCancel(String documentId) throws Exception {
         if (documentId != null) {
             Document testDoc = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentId);
-
             if (testDoc != null && !testDoc.getDocumentHeader().getWorkflowDocument().isCanceled()) {
                 final String initiatorNetworkId = SpringContext.getBean(PersonService.class).getPerson(testDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId()).getPrincipalName();
                 final String previousNetworkId = GlobalVariables.getUserSession().getPerson().getPrincipalName();

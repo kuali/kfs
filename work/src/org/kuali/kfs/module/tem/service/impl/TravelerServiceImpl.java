@@ -544,15 +544,15 @@ public class TravelerServiceImpl implements TravelerService {
 
         profileAddress.setProfileId(profile.getProfileId());
 
-        profileAddress.setStreetAddressLine1(principal.getAddressLine1Unmasked().toUpperCase());
-        profileAddress.setStreetAddressLine2(principal.getAddressLine2Unmasked().toUpperCase());
-        profileAddress.setCityName(principal.getAddressCity().toUpperCase());
-        profileAddress.setStateCode(principal.getAddressStateProvinceCodeUnmasked().toUpperCase());
+        profileAddress.setStreetAddressLine1(StringUtils.upperCase(principal.getAddressLine1Unmasked()));
+        profileAddress.setStreetAddressLine2(StringUtils.upperCase(principal.getAddressLine2Unmasked()));
+        profileAddress.setCityName(StringUtils.upperCase(principal.getAddressCity()));
+        profileAddress.setStateCode(StringUtils.upperCase(principal.getAddressStateProvinceCodeUnmasked()));
         profileAddress.setZipCode(principal.getAddressPostalCodeUnmasked());
-        profileAddress.setCountryCode(principal.getAddressCountryCodeUnmasked().toUpperCase());
+        profileAddress.setCountryCode(StringUtils.upperCase(principal.getAddressCountryCodeUnmasked()));
 
         profile.setTemProfileAddress(profileAddress);
-        profile.setEmailAddress(principal.getEmailAddressUnmasked().toUpperCase());
+        profile.setEmailAddress(StringUtils.upperCase(principal.getEmailAddressUnmasked()));
         profile.setPhoneNumber(principal.getPhoneNumberUnmasked());
 
         String primaryDeptCode[] = principal.getPrimaryDepartmentCode().split("-");

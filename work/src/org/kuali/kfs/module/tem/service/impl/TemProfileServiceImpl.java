@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.cxf.common.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
@@ -94,12 +94,12 @@ public class TemProfileServiceImpl implements TemProfileService {
     @Override
     public TemProfileAddress createTemProfileAddressFromPerson(Person person, Integer profileId, TemProfileAddress defaultAddress) {
         defaultAddress.setProfileId(profileId);
-        defaultAddress.setStreetAddressLine1(person.getAddressLine1().toUpperCase());
-        defaultAddress.setStreetAddressLine2(person.getAddressLine2().toUpperCase());
-        defaultAddress.setCityName(person.getAddressCity().toUpperCase());
-        defaultAddress.setStateCode(person.getAddressStateProvinceCode().toUpperCase());
+        defaultAddress.setStreetAddressLine1(StringUtils.upperCase(person.getAddressLine1()));
+        defaultAddress.setStreetAddressLine2(StringUtils.upperCase(person.getAddressLine2()));
+        defaultAddress.setCityName(StringUtils.upperCase(person.getAddressCity()));
+        defaultAddress.setStateCode(StringUtils.upperCase(person.getAddressStateProvinceCode()));
         defaultAddress.setZipCode(person.getAddressPostalCode());
-        defaultAddress.setCountryCode(person.getAddressCountryCode().toUpperCase());
+        defaultAddress.setCountryCode(StringUtils.upperCase(person.getAddressCountryCode()));
         return defaultAddress;
     }
 
@@ -108,7 +108,7 @@ public class TemProfileServiceImpl implements TemProfileService {
 	 */
 	@Override
 	public List<TEMProfile> getAllActiveTemProfile() {
-		Map<String,Object> criteria = new HashMap<String,Object>(1);
+		Map<String,Object> criteria = new HashMap<String,Object>(3);
         criteria.put(KFSPropertyConstants.ACTIVE, true);
 		List<TEMProfile> profiles = (List<TEMProfile>) getBusinessObjectService().findMatching(TEMProfile.class, criteria);
 		return profiles;

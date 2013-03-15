@@ -182,12 +182,12 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
      *
      * @param profile
      */
-    private void populateInfo(TEMProfile profile) {
+    protected void populateInfo(TEMProfile profile) {
         SpringContext.getBean(TravelerService.class).populateTEMProfile(profile);
         SpringContext.getBean(TemProfileService.class).updateACHAccountInfo(profile);
     }
 
-    private void maskAccountNumbers(TEMProfile profile) {
+    protected void maskAccountNumbers(TEMProfile profile) {
         for (TEMProfileAccount account : profile.getAccounts()){
             String accountSubStr = account.getAccountNumber().substring(account.getAccountNumber().length()-4);
             account.setAccountNumber("************"+accountSubStr);
@@ -300,7 +300,7 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
      * 3. The citizenship property has changed<br/>
      * @return
      */
-    private boolean taxManagerRequiredRouting() {
+    protected boolean taxManagerRequiredRouting() {
         TEMProfile newTemProfile = (TEMProfile) getParentMaintDoc().getNewMaintainableObject().getBusinessObject();
         TEMProfile oldTemProfile = (TEMProfile) getParentMaintDoc().getOldMaintainableObject().getBusinessObject();
 
@@ -325,7 +325,7 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
         return false;
     }
 
-    private FinancialSystemMaintenanceDocument getParentMaintDoc() {
+    protected FinancialSystemMaintenanceDocument getParentMaintDoc() {
         FinancialSystemMaintenanceDocument maintDoc = null;
         try {
             maintDoc = (FinancialSystemMaintenanceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(getDocumentNumber());
@@ -374,7 +374,7 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
     /**
      * Add send FYI after post
      */
-    private void addAdHocFYIRecipient(MaintenanceDocument document) {
+    protected void addAdHocFYIRecipient(MaintenanceDocument document) {
         TEMProfile profile = (TEMProfile) super.getBusinessObject();
         String initiatorUserId = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         if(!initiatorUserId.equals(profile.getPrincipalId())){

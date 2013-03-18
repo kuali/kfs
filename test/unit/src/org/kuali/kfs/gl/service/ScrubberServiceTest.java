@@ -1175,26 +1175,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     }
 
     /**
-     * Tests that the scrubber considers blank encumbrance update codes to be errors
-     *
-     * @throws Exception thrown if any exception is encountered for any reason
-     */
-    public void testBlankEncumbranceUpdateCodeOnEncumbranceRecord() throws Exception {
-
-        String[] inputTransactions = { testingYear + "BL1031400-----4100---PEEX07TF  01BLANKENCC     00000Rite Quality Office Supplies Inc.                       94.35D" + testingYear + "-01-05          ----------                                                                               ",
-                testingYear + "BL1031400-----9891---PEFB07TF  01BLANKENCC     00000Rite Quality Office Supplies Inc.                       94.35C" + testingYear + "-01-05          ----------                                                                               " };
-
-        EntryHolder[] outputTransactions = { new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, testingYear + "BL1031400-----9891---PEFB07TF  01BLANKENCC     00000GENERATED OFFSET                        +00000000000000094.35C" + testingYear + "-01-05          ----------                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE, inputTransactions[0]),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE, testingYear + "BL1031400-----9891---PEFB07TF  01BLANKENCC     00000Rite Quality Office Supplies Inc.       +00000000000000094.35C" + testingYear + "-01-05          ----------                                       "), new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE, inputTransactions[0]),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE, testingYear + "BL1031400-----9891---PEFB07TF  01BLANKENCC     00000GENERATED OFFSET                        +00000000000000094.35C" + testingYear + "-01-05          ----------                                       "),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BL1031400-----9891---PEFB07TF  01BLANKENCC     00000Rite Quality Office Supplies Inc.       +00000000000000094.35C" + testingYear + "-01-05          ----------                                       ") };
-
-        scrub(inputTransactions);
-        assertOriginEntries(7, outputTransactions);
-    }
-
-    /**
      * Tests that the scrubber considers entries with blank reference numbers but an encumbrance update code that requires a
      * reference document to be errors
      *

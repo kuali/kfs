@@ -1100,7 +1100,7 @@ END;
 	    </taskdef>
 	    -->
 	    <!-- Ensure that all will be run by default to preserve existing behavior -->
-	    <property name="post.import.liquibase.contexts" value="demo" />
+		<property name="post.import.liquibase.contexts" value="demo" />
     	<for param="file.name" keepgoing="false" parallel="false">
     	    <path>
     	    	  <!-- ensure that the files are run in name order -->
@@ -1131,7 +1131,7 @@ END;
 					<arg value="--password=${import.torque.database.password}"/>
     				<arg value="--defaultSchemaName=${import.torque.database.schema}" />
     				<arg value="--changeLogFile=@{file.name}" />
-    				<arg value="--logLevel=info" />
+    				<arg value="--logLevel=${liquibase.logLevel}" />
     				<arg value="--contexts=${post.import.liquibase.contexts}" />
     				<arg value="update" />
     			</java>

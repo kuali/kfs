@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.batch.service;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ import org.kuali.kfs.sys.batch.SimpleTriggerDescriptor;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -39,6 +41,38 @@ import org.quartz.Trigger;
 
 @ConfigureContext(session = UserNameFixture.kfs, initializeBatchSchedule = true)
 public class SchedulerServiceImplTest extends KualiTestBase {
+
+    private String batchDirectory;
+
+    /**
+     * Creates the directory for the batch files to go in
+     * @see junit.framework.TestCase#setUp()
+     */
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        batchDirectory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory/originEntry";
+        File batchDirectoryFile = new File(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory");
+        batchDirectoryFile.mkdir();
+        batchDirectoryFile = new File(batchDirectory);
+        batchDirectoryFile.mkdir();
+    }
+
+    /**
+     * Removes the directory for the batch files to go in
+     * @see junit.framework.TestCase#tearDown()
+     */
+    @Override
+    public void tearDown() throws Exception {
+        File batchDirectoryFile = new File(batchDirectory);
+        for (File f : batchDirectoryFile.listFiles()) {
+            f.delete();
+        }
+        batchDirectoryFile.delete();
+        batchDirectoryFile = new File(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory");
+        batchDirectoryFile.delete();
+    }
 
     // tests added to make sure that the scheduler was available during the tests
     public void testGetJobs_unscheduled() {
@@ -161,6 +195,8 @@ public class SchedulerServiceImplTest extends KualiTestBase {
                 qTrigger.getJobDataMap().putAll(additionalJobData);
             }
             scheduler.scheduleJob(qTrigger);
+            // not sure why we have to do this, but it seems to be necessary for the interrupt tests to work
+            scheduler.start();
         }
         catch (SchedulerException e) {
             throw new RuntimeException("Caught exception while scheduling job: " + jobName, e);

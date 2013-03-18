@@ -33,6 +33,7 @@ DB_SCHEMA=${DB_SCHEMA:-$DB_USER}
 DB_ADMIN_USER=${DB_ADMIN_USER:-root}
 DB_PASSWORD=${DB_PASSWORD:-$DB_USER}
 DB_ADMIN_PASSWORD=${DB_ADMIN_PASSWORD:-}
+LIQUIBASE_LOG_LEVEL=${LIQUIBASE_LOG_LEVEL:-info}
 
 # Set some properties based on the database type
 if [[ "$DB_TYPE" == "MYSQL" ]]; then
@@ -60,7 +61,7 @@ cat <<-EOF
 	driver=$DRIVER
 	url=$DATASOURCE
 	username=$DB_USER
-	password=$DB_PASSWORD		
+	password=$DB_PASSWORD	
 EOF
 ) > $WORKSPACE/liquibase.properties
 
@@ -84,6 +85,8 @@ cat <<-EOF
 	import.admin.url=$ADMIN_DATASOURCE
 
 	oracle.usermaint.user=kulusermaint
+	
+	liquibase.logLevel=$LIQUIBASE_LOG_LEVEL
 	
 	post.import.liquibase.project=kfs
 	post.import.liquibase.xml.directory=$WORKSPACE/old_kfs/work/db/rice-data
@@ -304,6 +307,8 @@ if [[ "$IMPORT_NEW_PROJECT" == "true" ]]; then
 		import.admin.url=$ADMIN_DATASOURCE
 
 		oracle.usermaint.user=kulusermaint
+		
+		liquibase.logLevel=$LIQUIBASE_LOG_LEVEL
 		
 		post.import.liquibase.project=kfs
 		post.import.liquibase.xml.directory=$WORKSPACE/kfs/work/db/rice-data

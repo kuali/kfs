@@ -47,4 +47,27 @@
 		</modifySql>
 	</changeSet>
 
+	<changeSet id="KFSMI-9302" author="KFS502">
+		<comment>Re-Enable adhoc routing completion</comment>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSMI9302-RLPRM1" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="VER_NBR" value="1" />
+			<column name="ROLE_ID" value="66" />
+			<column name="PERM_ID" value="848" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSMI9302-RLPRM2" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="VER_NBR" value="1" />
+			<column name="ROLE_ID" value="66" />
+			<column name="PERM_ID" value="KR1000" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<modifySql dbms='mysql'>
+			<replace replace="sys_guid()" with="uuid()" />
+		</modifySql>
+	</changeSet>
+
 </databaseChangeLog>

@@ -1227,7 +1227,7 @@ Admin Password = $${rice.server.impex.admin.password} (not shown)
 		<property name="impex.properties" location="${all.temp.directory}/impex-build.properties"/>
 	    <property name="impex.log.level" value="info" />
 		<property name="rice.impex.import.targets" value="drop-schema create-schema import" />
-	
+
 		<!-- build temp impex-build.properties -->
 		<echo append="false" file="${impex.properties}">
 			torque.project=kfs
@@ -1243,6 +1243,8 @@ Admin Password = $${rice.server.impex.admin.password} (not shown)
 			import.torque.database.password=${rice.server.datasource.password}
 		    import.torque.log=${impex.log.level}
 
+			liquibase.logLevel=${liquibase.logLevel}
+			
 			post.import.liquibase.project=kfs
 			post.import.liquibase.xml.directory=${basedir.safe}/work/db/rice-data
 			post.import.liquibase.contexts=bootstrap,demo
@@ -1331,6 +1333,8 @@ Admin Password = $${impex.admin.password} (not shown)
 			import.torque.database.password=${datasource.password}
 		    import.torque.log=${impex.log.level}
 		    
+			liquibase.logLevel=${liquibase.logLevel}
+
 			import.admin.url=${adminUrl}
 			import.admin.user=${impex.admin.username}
 			import.admin.password=${impex.admin.password}
@@ -1376,7 +1380,7 @@ Admin Password = $${impex.admin.password} (not shown)
     	<attribute name="fileName" />
 		<attribute name="command" default="update" />
 	    <sequential>
-		    <path id="driver.classpath.for.liquibase" >
+	    	<path id="driver.classpath.for.liquibase" >
 				<path refid="database.drivers.classpath" />
 		    </path>
 		    <!-- need to keep back-slashes out of the path -->
@@ -1393,7 +1397,7 @@ Admin Password = $${impex.admin.password} (not shown)
 				<arg value="--password=${database.password}"/>
 			    <!--<arg value="- -defaultSchemaName=${import.torque.database.schema}"/>-->
 			    <arg value="--changeLogFile=@{fileName}"/>
-			    <arg value="--logLevel=debug"/>
+			    <arg value="--logLevel=${liquibase.logLevel}" />
 			    <!--<arg value="- -contexts=${post.import.liquibase.contexts}"/>-->
 			    <arg value="@{command}"/>
 		    </java>

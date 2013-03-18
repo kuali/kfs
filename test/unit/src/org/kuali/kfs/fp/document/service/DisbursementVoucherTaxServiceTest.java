@@ -169,7 +169,7 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
         dvDocument.getDvNonResidentAlienTax().setIncomeClassCode("F");
         dvDocument.getDvNonResidentAlienTax().setForeignSourceIncomeCode(false);
         dvDocument.getDvNonResidentAlienTax().setIncomeTaxTreatyExemptCode(false);
-        dvDocument.getDvNonResidentAlienTax().setReferenceFinancialDocumentNumber("");
+        dvDocument.getDvNonResidentAlienTax().setReferenceFinancialDocumentNumber(null);
         dvDocument.getDvNonResidentAlienTax().setPostalCountryCode("USA");
         dvDocument.getDvNonResidentAlienTax().setIncomeTaxGrossUpCode(true);
 

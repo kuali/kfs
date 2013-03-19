@@ -862,7 +862,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
             Parameter.Builder updatedParameter = Parameter.Builder.create(parameter);
             updatedParameter.setValue(format.format(dt));
-            parameterService.updateParameter(parameter);
+            parameterService.updateParameter(updatedParameter.build());
         }
     }
 

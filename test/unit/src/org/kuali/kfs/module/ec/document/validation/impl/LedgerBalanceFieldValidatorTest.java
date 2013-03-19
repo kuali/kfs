@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,7 @@ import org.kuali.kfs.integration.ld.LaborLedgerBalance;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.testdata.EffortTestDataPropertyConstants;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalanceForEffortCertification;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.ObjectUtil;
@@ -70,7 +71,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
         laborModuleService = SpringContext.getBean(LaborModuleService.class);
 
         KualiModuleService kualiModuleService = SpringContext.getBean(KualiModuleService.class);
-        ledgerBalanceClass = LaborLedgerBalance.class;
+        ledgerBalanceClass = LedgerBalanceForEffortCertification.class;
 
         TestDataPreparator.doCleanUpWithoutReference(ledgerBalanceClass, properties, EffortTestDataPropertyConstants.DATA_CLEANUP, balanceFieldNames, deliminator);
     }
@@ -275,7 +276,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
 
     /**
      * construct a ledger balance and persist it
-     * 
+     *
      * @param testTarget the given test target that specifies the test data being used
      * @return a ledger balance
      */
@@ -283,13 +284,14 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
         LaborLedgerBalance ledgerBalance = TestDataPreparator.buildTestDataObject(ledgerBalanceClass, properties, testTarget + EffortTestDataPropertyConstants.INPUT_BALANCE, balanceFieldNames, deliminator);
         businessObjectService.save(ledgerBalance);
         persistenceService.retrieveNonKeyFields(ledgerBalance);
+        ledgerBalance.refreshNonUpdateableReferences();
 
         return ledgerBalance;
     }
 
     /**
      * construct a list of ledger balances and persist them
-     * 
+     *
      * @param testTarget the given test target that specifies the test data being used
      * @return a list of ledger balances
      */
@@ -300,6 +302,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
         businessObjectService.save(ledgerBalances);
         for (LaborLedgerBalance balance : ledgerBalances) {
             persistenceService.retrieveNonKeyFields(balance);
+            balance.refreshNonUpdateableReferences();
         }
 
         return ledgerBalances;
@@ -307,7 +310,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
 
     /**
      * build a report defintion object from the given test target
-     * 
+     *
      * @param testTarget the given test target that specifies the test data being used
      * @return a report defintion object
      */

@@ -1,3 +1,0 @@
-attr_data_id|obj_id|ver_nbr|grp_id|kim_typ_id|kim_attr_defn_id|attr_val|
-KFS10105|KFS10105|1.0|KFS10000|KFS68|22|BL|
-KFS10106|KFS10106|1.0|KFS10000|KFS68|24|PSY|

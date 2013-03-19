@@ -1,6 +1,0 @@
-<Record name="krew_doc_typ_attr_t" type="delimited">
-  <Field name="doc_typ_attrib_id"               type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="doc_typ_id"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="rule_attr_id"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="ord_indx"                        type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
-</Record>

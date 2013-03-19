@@ -1,5 +1,0 @@
-dlgn_mbr_id|ver_nbr|obj_id|dlgn_id|mbr_id|mbr_typ_cd|actv_frm_dt|actv_to_dt|last_updt_dt|role_mbr_id|
-KFS1|1.0|KFS1|1|2100108872|P|||20121207233028|KFS1292|
-KFS2|1.0|KFS2|2|2477306322|P|||20121207233028|KFS1292|
-KFS3|1.0|KFS3|3|42|R|||20121207232901|*|
-KFS4|1.0|KFS4|4|43|R|||20121207232901|*|

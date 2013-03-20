@@ -121,7 +121,7 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
 
         String environment = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
 
-        poQuotePdf.generatePOQuotePDF(po, poqv, "East Lansing", "EL", getLogoImageName(), bao, environment);
+        poQuotePdf.generatePOQuotePDF(po, poqv, "Bloomington", "BL", getLogoImageName(), bao, environment);
         bao.writeTo(fo);
 
     }

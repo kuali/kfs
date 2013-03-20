@@ -313,7 +313,7 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
         }
 
         List<VendorCommodityCode> vcc = vendorDetail.getVendorCommodities();
-        String defaultCommodityCode = "";
+        String defaultCommodityCode = null;
         Iterator<VendorCommodityCode> it = vcc.iterator();
         while (it.hasNext()) {
             VendorCommodityCode commodity = it.next();

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.authorization;
 
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -48,7 +49,7 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
         Set <String> currentRouteNodeName = workflowDocument.getCurrentNodeNames();
 
         //  if its in the NEW_UNORDERED_ITEMS node, then allow the new line to be drawn
-        if (PurchaseOrderAccountingLineAuthorizer.NEW_UNORDERED_ITEMS_NODE.equals(currentRouteNodeName.toString())) {
+        if (CollectionUtils.isNotEmpty(currentRouteNodeName) && PurchaseOrderAccountingLineAuthorizer.NEW_UNORDERED_ITEMS_NODE.equals(currentRouteNodeName.toString())) {
             return true;
         }
 

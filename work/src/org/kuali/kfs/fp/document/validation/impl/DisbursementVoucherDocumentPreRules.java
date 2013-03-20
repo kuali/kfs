@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherWireTransfer;
@@ -92,7 +93,7 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      */
     protected boolean allowTurningOnOfSpecialHandling(DisbursementVoucherDocument dvDocument) {
         Set<String> currentNodes = dvDocument.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
-        return !(currentNodes.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS));
+        return CollectionUtils.isNotEmpty(currentNodes) && !(currentNodes.contains(DisbursementVoucherConstants.RouteLevelNames.CAMPUS));
     }
 
     /**

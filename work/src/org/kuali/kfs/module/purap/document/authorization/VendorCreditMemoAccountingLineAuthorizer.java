@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.authorization;
 
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -38,11 +39,14 @@ public class VendorCreditMemoAccountingLineAuthorizer extends PurapAccountingLin
     @Override
     public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty) {
         WorkflowDocument workflowDocument = ((PurchasingAccountsPayableDocument)accountingDocument).getFinancialSystemDocumentHeader().getWorkflowDocument();
-        
-        if (workflowDocument.getCurrentNodeNames().equals(VendorCreditMemoAccountingLineAuthorizer.INITIATOR_NODE) || workflowDocument.getCurrentNodeNames().equals(VendorCreditMemoAccountingLineAuthorizer.CONTENT_REVIEW_NODE)) return true;
+
+        Set<String> currentNodeNames = workflowDocument.getCurrentNodeNames();
+        if (CollectionUtils.isNotEmpty(currentNodeNames) && (currentNodeNames.equals(VendorCreditMemoAccountingLineAuthorizer.INITIATOR_NODE) || currentNodeNames.equals(VendorCreditMemoAccountingLineAuthorizer.CONTENT_REVIEW_NODE))) {
+            return true;
+        }
         return super.renderNewLine(accountingDocument, accountingGroupProperty);
     }
-    
+
     /**
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getUnviewableBlocks(org.kuali.kfs.sys.document.AccountingDocument, org.kuali.kfs.sys.businessobject.AccountingLine, boolean, org.kuali.rice.kim.bo.Person)
      */
@@ -54,5 +58,5 @@ public class VendorCreditMemoAccountingLineAuthorizer extends PurapAccountingLin
 
         return unviewableBlocks;
     }
-    
+
 }

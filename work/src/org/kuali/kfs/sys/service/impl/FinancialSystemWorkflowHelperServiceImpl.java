@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.service.impl;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.sys.service.FinancialSystemWorkflowHelperService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequest;
@@ -31,7 +32,7 @@ public class FinancialSystemWorkflowHelperServiceImpl implements FinancialSystem
     public boolean isAdhocApprovalRequestedForPrincipal(WorkflowDocument workflowDocument, String principalId ) {
         if (workflowDocument.isApprovalRequested() ) {
             Set<String> currentNodes = workflowDocument.getCurrentNodeNames();
-            if ( currentNodes != null ) {
+            if ( CollectionUtils.isNotEmpty(currentNodes) ) {
                 for ( String currentNode : currentNodes ) {
                     List<ActionRequest> requests = workflowDocumentService.getActionRequestsForPrincipalAtNode(workflowDocument.getDocumentId(), currentNode, principalId );
                     if ( requests != null ) {

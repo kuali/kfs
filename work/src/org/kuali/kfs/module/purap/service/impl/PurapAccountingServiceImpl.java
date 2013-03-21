@@ -1097,6 +1097,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             if (item.getTotalAmount() != null && item.getTotalAmount().isNonZero()) {
                 int numOfAccounts = item.getSourceAccountingLines().size();
                 BigDecimal percentTotal = BigDecimal.ZERO;
+                BigDecimal percentTotalRoundUp = BigDecimal.ZERO;
                 KualiDecimal accountTotal = KualiDecimal.ZERO;
                 int accountIdentifier = 0;
 
@@ -1139,10 +1140,15 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                         LOG.debug("convertMoneyToPercent() updating percent to " + tmpPercent);
                     }
                     account.setAccountLinePercent(tmpPercent.multiply(new BigDecimal(100)));
+                    // handle 33.33% issue
+                    if (accountIdentifier == numOfAccounts) {
+                        account.setAccountLinePercent(new BigDecimal(100).subtract(percentTotalRoundUp));
+                    }
 
                     // check total based on adjusted amount
                     accountTotal = accountTotal.add(calcAmount);
                     percentTotal = percentTotal.add(tmpPercent);
+                    percentTotalRoundUp = percentTotalRoundUp.add(account.getAccountLinePercent());
                 }
             }
         }

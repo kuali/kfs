@@ -893,7 +893,8 @@ public class AssetGlobalRule extends MaintenanceDocumentRuleBase {
 
         // System shall only generate GL entries if we have an incomeAssetObjectCode for this acquisitionTypeCode and the statusCode
         // is for capital assets
-        if ((success && super.processCustomSaveDocumentBusinessRules(document)) && getAssetAcquisitionTypeService().hasIncomeAssetObjectCode(acquisitionTypeCode) && this.isCapitalStatus(assetGlobal)) {
+        //  GLs should not be generated while separating assets too
+        if ((success && !getAssetGlobalService().isAssetSeparate(assetGlobal) && super.processCustomSaveDocumentBusinessRules(document)) && getAssetAcquisitionTypeService().hasIncomeAssetObjectCode(acquisitionTypeCode) && this.isCapitalStatus(assetGlobal)) {
             if (success &= validateAcquisitionIncomeObjectCode(assetGlobal)) {
                 // create poster
                 AssetGlobalGeneralLedgerPendingEntrySource assetGlobalGlPoster = new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) document.getDocumentHeader());

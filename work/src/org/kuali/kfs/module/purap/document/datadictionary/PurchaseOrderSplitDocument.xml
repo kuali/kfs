@@ -183,6 +183,15 @@
     <bean id="PurchaseOrderSplitDocument-workflowAttributes" parent="PurchaseOrderSplitDocument-workflowAttributes-parentBean"/>
   
     <bean id="PurchaseOrderSplitDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
+    		<property name="routingTypeDefinitions">
+    		<map>
+    		    <entry key="Commodity" value-ref="RoutingType-PurchasingDocument-Commodity"/>
+    			<entry key="Award" value-ref="RoutingType-PurchasingDocument-Award"/>
+                <entry key="Budget" value-ref="RoutingType-PurchaseOrderDocument-Budget"/>
+                <!-- no qualifiers for VendorIsEmployeeOrNonResidentAlien -->
+                <!-- no qualifiers for TransmissionMethodIsPrint -->
+    		</map>
+    	</property>
     	<property name="searchingTypeDefinitions">
     		<ref bean="SearchingTypeDefinitions-PurchaseOrderDocumentFamily"/>
     	</property>

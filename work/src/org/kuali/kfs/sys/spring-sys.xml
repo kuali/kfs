@@ -791,6 +791,10 @@
 
 	<import resource="document/validation/configuration/FinancialSystemValidators.xml" />
 	
+	<bean id="defaultRoleTypeService" parent="defaultRoleTypeService-parentBean"/>	
+
+    <bean id="defaultRoleTypeService-parentBean" class="org.kuali.kfs.sys.identity.DefaultRoleTypeServiceImpl" abstract="true" />
+	
 	<bean id="employeeDerivedRoleTypeService" parent="employeeDerivedRoleTypeService-parentBean"/>
 	
     <bean id="employeeDerivedRoleTypeService-parentBean" class="org.kuali.kfs.sys.identity.EmployeeDerivedRoleTypeServiceImpl" abstract="true" />

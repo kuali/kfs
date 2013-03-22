@@ -50,13 +50,20 @@ import org.springframework.util.AutoPopulatingList;
 @ConfigureContext(session = appleton)
 public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
 
+    private DocumentService documentService;
+
     private Map<String, GenericValidation> validations;
     PaymentRequestDocument preq;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        preq = new PaymentRequestDocument();
+        if (null == documentService) {
+            documentService = SpringContext.getBean(DocumentService.class);
+        }
+
+        preq = (PaymentRequestDocument) documentService.getNewDocument(PaymentRequestDocument.class);
+
         validations = SpringContext.getBeansOfType(GenericValidation.class);
     }
 
@@ -156,7 +163,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         // some date in the past
         Date yesterday = getDateFromOffsetFromToday(-1);
 
-        assertTrue("Something is wrong with the test.  Error map was not empty before document saving called", GlobalVariables.getMessageMap().hasErrors());
+        assertFalse("Something is wrong with the test.  Error map was not empty before document saving called", GlobalVariables.getMessageMap().hasErrors());
 
         // rule 1: past pay dates are NOT allowed if the document has not been successfully saved or submitted yet
         PaymentRequestDocument document1 = (PaymentRequestDocument) documentService.getNewDocument(PaymentRequestDocument.class);
@@ -244,7 +251,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
             @Override
             public void returnToPreviousNode(String nodeName, ReturnPoint returnPoint) {
                 // TODO Auto-generated method stub
-                
+
             }
 
             @Override
@@ -255,7 +262,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
             @Override
             public void recall(String arg0, boolean arg1) {
                 // TODO Auto-generated method stub
-                
+
             }
 
 
@@ -265,16 +272,16 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         document2.getDocumentHeader().setWorkflowDocument(workflowDocument);
         document2.setPaymentRequestPayDate(yesterday);
         assertTrue("Didn't change past pay date, so doucment should validate successfully.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertTrue("Error map should be empty: " + GlobalVariables.getMessageMap().getErrorMessages(), GlobalVariables.getMessageMap().hasErrors());
+        assertFalse("Error map should be empty: " + GlobalVariables.getMessageMap().getErrorMessages(), GlobalVariables.getMessageMap().hasErrors());
 
         document2.setPaymentRequestPayDate(getDateFromOffsetFromToday(-2));
         assertFalse("changed past pay date to another past pay date, so document should fail.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertFalse("Error map should not be empty", GlobalVariables.getMessageMap().hasErrors());
+        assertTrue("Error map should not be empty", GlobalVariables.getMessageMap().hasErrors());
         GlobalVariables.getMessageMap().clearErrorMessages();
 
         document2.setPaymentRequestPayDate(getDateFromOffsetFromToday(3));
         assertTrue("Changed past pay date to future, so doucment should validate successfully.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertTrue("Error map should be empty: " + GlobalVariables.getMessageMap().getErrorMessages(), GlobalVariables.getMessageMap().hasErrors());
+        assertFalse("Error map should be empty: " + GlobalVariables.getMessageMap().getErrorMessages(), GlobalVariables.getMessageMap().hasErrors());
 
     }
 
@@ -348,7 +355,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
             @Override
             public void returnToPreviousNode(String nodeName, ReturnPoint returnPoint) {
                 // TODO Auto-generated method stub
-                
+
             }
 
             @Override
@@ -359,7 +366,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
             @Override
             public void recall(String arg0, boolean arg1) {
                 // TODO Auto-generated method stub
-                
+
             }
         };
 
@@ -367,16 +374,16 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         document2.getDocumentHeader().setWorkflowDocument(workflowDocument);
         document2.setPaymentRequestPayDate(tomorrow);
         assertTrue("Didn't change future pay date, so doucment should validate successfully.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertTrue("Error map should be empty: " + GlobalVariables.getMessageMap().getErrorMessages(), GlobalVariables.getMessageMap().hasErrors());
+        assertFalse("Error map should be empty: " + GlobalVariables.getMessageMap().getErrorMessages(), GlobalVariables.getMessageMap().hasErrors());
 
         document2.setPaymentRequestPayDate(getDateFromOffsetFromToday(-2));
         assertFalse("changed future pay date to  past pay date, so document should fail.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertFalse("Error map should not be empty", GlobalVariables.getMessageMap().hasErrors());
+        assertTrue("Error map should not be empty", GlobalVariables.getMessageMap().hasErrors());
         GlobalVariables.getMessageMap().clearErrorMessages();
 
         document2.setPaymentRequestPayDate(getDateFromOffsetFromToday(3));
         assertTrue("Changed future pay date to another future date, so doucment should validate successfully.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertTrue("Error map should be empty: " + GlobalVariables.getMessageMap().getErrorMessages(), GlobalVariables.getMessageMap().hasErrors());
+        assertFalse("Error map should be empty: " + GlobalVariables.getMessageMap().getErrorMessages(), GlobalVariables.getMessageMap().hasErrors());
     }
 
     public void testValidatePaymentRequestDates_Today() {
@@ -432,11 +439,13 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         PaymentRequestTaxTabFixture.INCOME_N_OTHERS_NOTEMPTY.populate(preq);
         assertFalse(validation.validate(new AttributedDocumentEventBase("","", preq)));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
+        assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_STATE_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_COUNTRY_CODE, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_NQI_ID, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
         assertTrue(errMap.fieldHasMessage(pre+PurapPropertyConstants.TAX_EXEMPT_TREATY_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF));
-        assertTrue(errMap.getErrorCount() == 5);
+        assertTrue(errMap.getErrorCount() == 7);
 
         errMap.clearErrorMessages();
         PaymentRequestTaxTabFixture.INCOME_NOTN_TAX_COUNTRY_EMPTY.populate(preq);

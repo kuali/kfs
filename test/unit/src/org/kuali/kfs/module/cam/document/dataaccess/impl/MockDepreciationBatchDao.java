@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.dataaccess.impl;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -138,5 +139,17 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
     @Override
     public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfoYearEnd(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, boolean includeRetired) {
         return impl.getListOfDepreciableAssetPaymentInfoYearEnd(fiscalYear, fiscalMonth, depreciationDate, includeRetired);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAssetsByDepreciationConvention(Date lastFiscalYearDate, List<String> movableEquipmentObjectSubTypes, String depreciationConventionCd) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void updateAssetInServiceAndDepreciationDate(List<String> selectedAssets, Date inServiceDate, Date depreciationDate) {
+        // TODO Auto-generated method stub
+
     }
 }

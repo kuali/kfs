@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
+import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -37,6 +39,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants.CAPITAL_ASSETS_BATCH;
@@ -565,6 +568,34 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         return sql;
     }
     // CSU 6702 END
+
+    /**
+     * Depreciation (end of year) – Period 13 assets incorrect depreciation start date.
+     *
+     * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao#getAssetsByDepreciationConvention(org.kuali.kfs.sys.businessobject.UniversityDate, java.util.List, java.lang.String)
+     */
+    @Override
+    public List<Map<String, Object>> getAssetsByDepreciationConvention(Date lastFiscalYearDate, List<String> movableEquipmentObjectSubTypes, String depreciationConventionCd) {
+        String sql = "SELECT A0.CPTLAST_NBR FROM CM_CPTLAST_T A0, CM_AST_DEPR_CNVNTN_T A1, CM_ASSET_TYPE_T A2 WHERE A0.CPTLAST_CRT_DT > ? AND A0.FIN_OBJ_SUB_TYP_CD IN (" + buildINValues(movableEquipmentObjectSubTypes) + ")" + " AND A0.FIN_OBJ_SUB_TYP_CD = A1.FIN_OBJ_SUB_TYPE_CD AND A1.CPTL_AST_DEPR_CNVNTN_CD = ? AND A2.CPTLAST_TYP_CD=A0.CPTLAST_TYP_CD AND A0.CPTLAST_TYP_CD IS NOT NULL AND A2.CPTLAST_DEPRLF_LMT IS NOT NULL AND A2.CPTLAST_DEPRLF_LMT != 0";
+        return getJdbcTemplate().queryForList(sql, new Object[] {lastFiscalYearDate, depreciationConventionCd});
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao#updateAssetInServiceAndDepreciationDate(java.util.List, org.kuali.kfs.sys.businessobject.UniversityDate, java.sql.Date)
+     */
+    @Override
+    public void updateAssetInServiceAndDepreciationDate(List<String>selectedAssets, final Date inServiceDate, final Date depreciationDate) {
+        final AccountingPeriod acctPeriod = SpringContext.getBean(AccountingPeriodService.class).getByDate(inServiceDate);
+        getJdbcTemplate().update("UPDATE CM_CPTLAST_T SET CPTL_AST_IN_SRVC_DT=?, CPTL_AST_DEPR_DT=?, FDOC_POST_PRD_CD=? , FDOC_POST_YR=? WHERE CPTLAST_NBR IN (" + buildINValues(selectedAssets) + ")", new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setDate(1, inServiceDate);
+                ps.setDate(2, depreciationDate);
+                ps.setString(3, acctPeriod.getUniversityFiscalPeriodCode());
+                ps.setInt(4, acctPeriod.getUniversityFiscalYear());
+            }
+        });
+    }
 
     public void setUniversityDateDao(UniversityDateDao universityDateDao) {
         this.universityDateDao = universityDateDao;

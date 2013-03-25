@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cam.batch.service.impl;
 
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_ACTUAL;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -51,6 +52,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetObjectCode;
 import org.kuali.kfs.module.cam.businessobject.AssetYearEndDepreciation;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciableAssetsDao;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao;
+import org.kuali.kfs.module.cam.document.service.AssetDateService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.KFSConstants;
@@ -112,6 +114,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     protected String cronExpression;
     protected MailService mailService;
     protected volatile WorkflowDocumentService workflowDocumentService;
+    private AssetDateService assetDateService;
 
     /**
      * @see org.kuali.kfs.module.cam.batch.service.AssetDepreciationService#runDepreciation()
@@ -179,7 +182,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 int fiscalStartMonth = Integer.parseInt(optionsService.getCurrentYearOptions().getUniversityFiscalYearStartMo());
                 reportLog.addAll(depreciableAssetsDao.generateStatistics(true, null, fiscalYear, fiscalMonth, depreciationDate,dateTimeService.toDateString(depreciationDate.getTime()), assetObjectCodes,fiscalStartMonth, errorMessage));
                 // update if fiscal period is 12
-                depreciationBatchDao.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear);
+                // depreciationBatchDao.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear);
+                updateAssetsDatesForLastFiscalPeriod(fiscalMonth, fiscalYear);
                 // Retrieving eligible asset payment details
                 LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting list of asset payments eligible for depreciation.");
                 Collection<AssetPaymentInfo> depreciableAssetsCollection = depreciationBatchDao.getListOfDepreciableAssetPaymentInfo(fiscalYear, fiscalMonth, depreciationDate);
@@ -1123,6 +1127,62 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         processGeneralLedgerPendingEntry(fiscalYear, fiscalMonth, documentNos, trans);
     }
 
+    /**
+     * Depreciation (end of year) – Period 13 assets incorrect depreciation start date Update asset created in period 13 with in
+     * service date and depreciate date if batch runs in the last fiscal period
+     *
+     * @param fiscalMonth2
+     * @param fiscalYear2
+     */
+    protected void updateAssetsDatesForLastFiscalPeriod(Integer fiscalMonth, Integer fiscalYear) {
+        if (fiscalMonth == 12) {
+            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Starting updateAssetsCreatedInLastFiscalPeriod()");
+            // Getting last date of fiscal year
+            Date lastDateOfFiscalYear = universityDateService.getLastDateOfFiscalYear(fiscalYear);
+            if (lastDateOfFiscalYear == null) {
+                throw new IllegalStateException(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
+            }
+            final java.sql.Date lastFiscalYearDate = new java.sql.Date(lastDateOfFiscalYear.getTime());
+
+            List<String> movableEquipmentObjectSubTypes = new ArrayList<String>();
+            if (parameterService.parameterExists(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES)) {
+                movableEquipmentObjectSubTypes.addAll(parameterService.getParameterValuesAsString(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES));
+            }
+
+            // Only update assets with a object sub type code equals to any MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES.
+            if (!movableEquipmentObjectSubTypes.isEmpty()) {
+                updateAssetDatesPerConvention(lastFiscalYearDate, movableEquipmentObjectSubTypes, CamsConstants.DepreciationConvention.CREATE_DATE);
+                updateAssetDatesPerConvention(lastFiscalYearDate, movableEquipmentObjectSubTypes, CamsConstants.DepreciationConvention.FULL_YEAR);
+                updateAssetDatesPerConvention(lastFiscalYearDate, movableEquipmentObjectSubTypes, CamsConstants.DepreciationConvention.HALF_YEAR);
+            }
+            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished updateAssetsCreatedInLastFiscalPeriod()");
+        }
+    }
+
+    /**
+     * Depreciation (end of year) – Period 13 assets incorrect depreciation start date
+     * <P>
+     * Update assets created in period 13 with its in-service date and depreciation date per depreciation convention.
+     *
+     * @param lastFiscalYearDate
+     * @param movableEquipmentObjectSubTypes
+     * @param depreciationConventionCd
+     */
+    protected void updateAssetDatesPerConvention(final java.sql.Date lastFiscalYearDate, List<String> movableEquipmentObjectSubTypes, String depreciationConventionCd) {
+        List<Map<String, Object>> selectedAssets = getDepreciationBatchDao().getAssetsByDepreciationConvention(lastFiscalYearDate, movableEquipmentObjectSubTypes, depreciationConventionCd);
+
+        if (selectedAssets != null && !selectedAssets.isEmpty()) {
+            List<String> assetNumbers = new ArrayList<String>();
+            for (Map<String, Object> assetMap : selectedAssets) {
+                assetNumbers.add(((BigDecimal) assetMap.get("CPTLAST_NBR")).toString());
+            }
+            // calculate asset deprecation date per depreciation convention
+            java.sql.Date depreciationDate = getAssetDateService().computeDepreciationDateForPeriod13(depreciationConventionCd, lastFiscalYearDate);
+            getDepreciationBatchDao().updateAssetInServiceAndDepreciationDate(assetNumbers, lastFiscalYearDate, depreciationDate);
+            LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished updateAssetInServiceAndDepreciationDate() for Depreciation convention " + depreciationConventionCd + " for " + assetNumbers.size() + " assets : " + assetNumbers.toString());
+        }
+    }
+
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -1197,5 +1257,17 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
+    }
+
+    public AssetDateService getAssetDateService() {
+        return assetDateService;
+    }
+
+    public void setAssetDateService(AssetDateService assetDateService) {
+        this.assetDateService = assetDateService;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
     }
 }

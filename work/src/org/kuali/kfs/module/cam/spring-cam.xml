@@ -143,6 +143,12 @@
 		</property>	
 	    <property name="optionsService">
 			<ref bean="optionsService" />
+		</property>
+		<property name="assetDateService">
+			<ref bean="assetDateService" />
+		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
 		</property>		
     </bean>
 

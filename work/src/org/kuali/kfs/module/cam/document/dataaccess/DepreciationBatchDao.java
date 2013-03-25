@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cam.document.dataaccess;
 
+import java.sql.Date;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
@@ -49,7 +50,7 @@ public interface DepreciationBatchDao {
 
     /**
      * Updates depreciation and service date for all the assets created after last fiscal period date
-     * 
+     *
      * @param fiscalMonth fiscal month
      * @param fiscalYear fiscal year
      */
@@ -64,14 +65,14 @@ public interface DepreciationBatchDao {
 
     /**
      * Gets the list of depreciable asset payment list and corresponding details
-     * 
+     *
      * @param fiscalYear Fiscal year
      * @param fiscalMonth Fiscal period
      * @param depreciationDate Depreciation Date
      * @return List found matching depreciation criteria
      */
     public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfo(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate);
-    
+
     /**
      * Counts the number of assets which has (SUM(Primary Depreciation Amount - Accumulated Depreciation) - Salvage Amount) is zero
      *
@@ -88,7 +89,7 @@ public interface DepreciationBatchDao {
 
     /**
      * Retrieves asset and asset payment count eligible for depreciation
-     * 
+     *
      * @param fiscalYear
      * @param fiscalMonth
      * @param depreciationDate
@@ -96,17 +97,17 @@ public interface DepreciationBatchDao {
      * @return
      */
     Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, final Calendar depreciationDate, boolean includePending);
-    
+
     /**
      * This method...
-     * 
+     *
      * @param fiscalYear
      * @param fiscalMonth
      * @param depreciationDate
      * @return
      */
     Object[] getFederallyOwnedAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, final Calendar depreciationDate);
-    
+
     /**
      * Transfer document locked count
      *
@@ -139,4 +140,29 @@ public interface DepreciationBatchDao {
      */
     public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfoYearEnd(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, boolean includeRetired);
     // CSU 6702 END
+
+    /**
+     * Depreciation (end of year) – Period 13 assets incorrect depreciation start date
+     * <P> Get assets in accordance with,
+     * <ul>
+     * <li>Asset type has valid depreciation life time limit;
+     * <li>Asset is created in period 13 of current fiscal year;
+     * <li>Asset has depreciation convention restricted by parameter
+     * <li>Asset are movable assets. Movable assets are defined by system parameter MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES
+     * </ul>
+     * @param lastFiscalYearDate
+     * @param movableEquipmentObjectSubTypes
+     * @param depreciationConventionCd
+     * @return
+     */
+    public List<Map<String, Object>> getAssetsByDepreciationConvention(Date lastFiscalYearDate, List<String> movableEquipmentObjectSubTypes, String depreciationConventionCd);
+
+    /**
+     * Depreciation (end of year) – Period 13 assets incorrect depreciation start date
+     * <P> Update asset in service date and depreciation date
+     * @param selectedAssets
+     * @param inServiceDate
+     * @param depreciationDate
+     */
+    public void updateAssetInServiceAndDepreciationDate(List<String>selectedAssets, Date inServiceDate, Date depreciationDate);
 }

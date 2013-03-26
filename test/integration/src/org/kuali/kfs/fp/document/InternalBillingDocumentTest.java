@@ -46,6 +46,7 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.DocumentAuthorizationException;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -299,6 +300,10 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         updateSourceAccountingLine(retrieved, 1, "3.14");
         updateTargetAccountingLine(retrieved, 0, "3.14");
 
+        // clear the OJB cache, otherwise when the original is retrieved later, it matches the updated doc and the
+        // system doesn't think an update occurred.
+        SpringContext.getBean(PersistenceService.class, "persistenceServiceOjb").clearCache();
+
         // approve document, wait for failure
         boolean failedAsExpected = false;
         try {
@@ -330,6 +335,10 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         retrieved = (AccountingDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         updateTargetAccountingLine(retrieved, 1, "2.81");
         updateSourceAccountingLine(retrieved, 0, "2.81");
+
+        // clear the OJB cache, otherwise when the original is retrieved later, it matches the updated doc and the
+        // system doesn't think an update occurred.
+        SpringContext.getBean(PersistenceService.class, "persistenceServiceOjb").clearCache();
 
         // approve document, wait for failure
         boolean failedAsExpected = false;

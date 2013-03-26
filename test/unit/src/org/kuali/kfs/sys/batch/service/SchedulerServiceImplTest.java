@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.BatchJobStatus;
 import org.kuali.kfs.sys.batch.Job;
@@ -44,6 +46,22 @@ public class SchedulerServiceImplTest extends KualiTestBase {
 
     private String batchDirectory;
 
+    @BeforeClass
+    public void setUpBeforeClass() throws Exception {
+        Scheduler scheduler = (Scheduler)SpringContext.getService("scheduler");
+        if (!scheduler.isStarted()) {
+            scheduler.start();
+        }
+    }
+
+    @AfterClass
+    public void tearDownAfterClass() throws Exception {
+        Scheduler scheduler = (Scheduler)SpringContext.getService("scheduler");
+        if (scheduler.isStarted()) {
+            scheduler.shutdown();
+        }
+    }
+
     /**
      * Creates the directory for the batch files to go in
      * @see junit.framework.TestCase#setUp()
@@ -53,7 +71,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
         super.setUp();
 
         batchDirectory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory/originEntry";
-        File batchDirectoryFile = new File(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory");
+        File batchDirectoryFile = new File(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory/");
         batchDirectoryFile.mkdir();
         batchDirectoryFile = new File(batchDirectory);
         batchDirectoryFile.mkdir();
@@ -109,21 +127,9 @@ public class SchedulerServiceImplTest extends KualiTestBase {
         assertNotNull("job must not be null", job);
         System.out.println(job);
         job.runJob(null);
-        System.out.println(s.getRunningJobs());
-        System.out.println(s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob"));
-        Thread.sleep(1000);
-        System.out.println(s.getRunningJobs());
-        System.out.println(s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob"));
-        Thread.sleep(1000);
-        System.out.println(s.getRunningJobs());
-        System.out.println(s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob"));
-        Thread.sleep(1000);
-        System.out.println(s.getRunningJobs());
-        System.out.println(s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob"));
-        Thread.sleep(1000);
-        System.out.println(s.getRunningJobs());
-        System.out.println(s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob"));
-        Thread.sleep(1000);
+        while (job.isRunning()) {
+            Thread.sleep(1000);
+        }
         System.out.println(s.getRunningJobs());
         System.out.println(s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob"));
     }

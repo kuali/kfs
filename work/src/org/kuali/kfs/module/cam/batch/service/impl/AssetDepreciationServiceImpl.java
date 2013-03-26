@@ -1128,7 +1128,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     }
 
     /**
-     * Depreciation (end of year) – Period 13 assets incorrect depreciation start date Update asset created in period 13 with in
+     * Depreciation (end of year) Period 13 assets incorrect depreciation start date Update asset created in period 13 with in
      * service date and depreciate date if batch runs in the last fiscal period
      *
      * @param fiscalMonth2
@@ -1160,7 +1160,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     }
 
     /**
-     * Depreciation (end of year) – Period 13 assets incorrect depreciation start date
+     * Depreciation (end of year) Period 13 assets incorrect depreciation start date
      * <P>
      * Update assets created in period 13 with its in-service date and depreciation date per depreciation convention.
      *

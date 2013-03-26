@@ -570,7 +570,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
     // CSU 6702 END
 
     /**
-     * Depreciation (end of year) – Period 13 assets incorrect depreciation start date.
+     * Depreciation (end of year) Period 13 assets incorrect depreciation start date.
      *
      * @see org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao#getAssetsByDepreciationConvention(org.kuali.kfs.sys.businessobject.UniversityDate, java.util.List, java.lang.String)
      */

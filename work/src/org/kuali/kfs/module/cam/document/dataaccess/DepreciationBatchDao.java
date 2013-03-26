@@ -142,7 +142,7 @@ public interface DepreciationBatchDao {
     // CSU 6702 END
 
     /**
-     * Depreciation (end of year) – Period 13 assets incorrect depreciation start date
+     * Depreciation (end of year) Period 13 assets incorrect depreciation start date
      * <P> Get assets in accordance with,
      * <ul>
      * <li>Asset type has valid depreciation life time limit;
@@ -158,7 +158,7 @@ public interface DepreciationBatchDao {
     public List<Map<String, Object>> getAssetsByDepreciationConvention(Date lastFiscalYearDate, List<String> movableEquipmentObjectSubTypes, String depreciationConventionCd);
 
     /**
-     * Depreciation (end of year) – Period 13 assets incorrect depreciation start date
+     * Depreciation (end of year) Period 13 assets incorrect depreciation start date
      * <P> Update asset in service date and depreciation date
      * @param selectedAssets
      * @param inServiceDate

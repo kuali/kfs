@@ -17,6 +17,8 @@ package org.kuali.kfs.coa.service.impl;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
+import java.util.Collections;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
@@ -25,6 +27,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.delegation.DelegationType;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionRequestType;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
@@ -42,9 +45,8 @@ public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
     }
 
     public void testSaveOrgReviewRoleToKim_OrgReview_New() throws Exception {
-        // don't run this test if there are any documents that may be at the organization hierarchy
-        // route node since the test may fail in that case
-        if (!documentsAtNode(KFSConstants.RouteLevelNames.ORGANIZATION_HIERARCHY)) {
+        // don't run this test if there are any enroute documents since the test may fail in that case
+        if (!enrouteDocumentsExist()) {
             OrgReviewRole orr = buildOrgHierData();
 
             orr.setEdit(false);
@@ -58,9 +60,8 @@ public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
     }
 
     public void testSaveOrgReviewRoleToKim_AcctReview_New() throws Exception {
-        // don't run this test if there are any documents that may be at the accounting organization hierarchy
-        // route node since the test may fail in that case
-        if (!documentsAtNode(KFSConstants.RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY)) {
+        // don't run this test if there are any enroute documents since the test may fail in that case
+        if (!enrouteDocumentsExist()) {
             OrgReviewRole orr = buildAcctOrgHierData();
 
             orr.setEdit(false);
@@ -74,9 +75,8 @@ public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
     }
 
     public void testSaveOrgReviewRoleToKim_OrgReview_Edit() throws Exception {
-        // don't run this test if there are any documents that may be at the organization hierarchy
-        // route node since the test may fail in that case
-        if (!documentsAtNode(KFSConstants.RouteLevelNames.ORGANIZATION_HIERARCHY)) {
+        // don't run this test if there are any enroute documents since the test may fail in that case
+        if (!enrouteDocumentsExist()) {
             System.err.println( "Creating Role Entry to edit");
             OrgReviewRole orr = buildOrgHierData();
             orr.setEdit(false);
@@ -103,9 +103,8 @@ public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
     }
 
     public void testSaveOrgReviewRoleToKim_AcctReview_Edit() throws Exception {
-        // don't run this test if there are any documents that may be at the accounting organization hierarchy
-        // route node since the test may fail in that case
-        if (!documentsAtNode(KFSConstants.RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY)) {
+        // don't run this test if there are any enroute documents since the test may fail in that case
+        if (!enrouteDocumentsExist()) {
             System.err.println( "Creating Role Entry to edit");
             OrgReviewRole orr = buildAcctOrgHierData();
             orr.setEdit(false);
@@ -132,9 +131,8 @@ public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
     }
 
     public void testSaveOrgReviewRoleToKim_OrgReview_Delegate_New() throws Exception {
-        // don't run this test if there are any documents that may be at the organization hierarchy
-        // route node since the test may fail in that case
-        if (!documentsAtNode(KFSConstants.RouteLevelNames.ORGANIZATION_HIERARCHY)) {
+        // don't run this test if there are any enroute documents since the test may fail in that case
+        if (!enrouteDocumentsExist()) {
             // FIRST - create a known role member
             OrgReviewRole orr = buildOrgHierData();
 
@@ -165,9 +163,8 @@ public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
     }
 
     public void testSaveOrgReviewRoleToKim_AcctReview_Delegate_New() throws Exception {
-        // don't run this test if there are any documents that may be at the accounting organization hierarchy
-        // route node since the test may fail in that case
-        if (!documentsAtNode(KFSConstants.RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY)) {
+        // don't run this test if there are any enroute documents since the test may fail in that case
+        if (!enrouteDocumentsExist()) {
             // FIRST - create a known role member
             OrgReviewRole orr = buildAcctOrgHierData();
 
@@ -198,9 +195,8 @@ public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
     }
 
     public void testSaveOrgReviewRoleToKim_OrgReview_Delegate_Edit() throws Exception {
-        // don't run this test if there are any documents that may be at the organization hierarchy
-        // route node since the test may fail in that case
-        if (!documentsAtNode(KFSConstants.RouteLevelNames.ORGANIZATION_HIERARCHY)) {
+        // don't run this test if there are any enroute documents since the test may fail in that case
+        if (!enrouteDocumentsExist()) {
             // Create a org role and delegation
             OrgReviewRole orr = buildOrgHierData();
             orr.setEdit(false);
@@ -240,9 +236,8 @@ public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
     }
 
     public void testSaveOrgReviewRoleToKim_AcctReview_Delegate_Edit() throws Exception {
-        // don't run this test if there are any documents that may be at the accounting organization hierarchy
-        // route node since the test may fail in that case
-        if (!documentsAtNode(KFSConstants.RouteLevelNames.ACCOUNTING_ORGANIZATION_HIERARCHY)) {
+        // don't run this test if there are any enroute documents since the test may fail in that case
+        if (!enrouteDocumentsExist()) {
             // Create a org role and delegation
             OrgReviewRole orr = buildAcctOrgHierData();
             orr.setEdit(false);
@@ -332,13 +327,12 @@ public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
     /**
      *  Look for any documents (created by optional unit tests) that may be at the accounting organization hierarchy or
      *  organization hierarchy route nodes so we can bypass running tests that may fail
-     * @param routeNodeName name of route node to check
-     * @return whether there are nay documents at that node or not
+     * @return whether there are any enroute documents or not
      */
-    protected boolean documentsAtNode(String routeNodeName) {
+    protected boolean enrouteDocumentsExist() {
         DocumentSearchCriteria.Builder docSearch = DocumentSearchCriteria.Builder.create();
-        docSearch.setRouteNodeName(routeNodeName);
-        docSearch.setDocumentTypeName("KFST");
+        docSearch.setDocumentStatuses(Collections.singletonList(DocumentStatus.ENROUTE));
+        docSearch.setDocumentTypeName(KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT);
         final DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
                 GlobalVariables.getUserSession().getPrincipalId(), docSearch.build());
         return !results.getSearchResults().isEmpty();

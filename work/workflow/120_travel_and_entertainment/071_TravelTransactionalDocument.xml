@@ -11,9 +11,10 @@
       <active>
         true
       </active>
-      <security>
+      <!-- DOES THIS STILL WORK IN RICE 2.0? -->
+      <!-- security>
         <securityAttribute class="org.kuali.kfs.module.tem.document.workflow.TEMSecurityAttribute"/>
-      </security>
+      </security -->
       <routingVersion>
         1
       </routingVersion>

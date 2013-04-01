@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +48,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
 import org.kuali.kfs.module.bc.document.service.BudgetRequestImportService;
 import org.kuali.kfs.module.bc.document.service.LockService;
+import org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionRuleUtil;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.module.bc.util.ImportRequestFileParsingHelper;
 import org.kuali.kfs.sys.KFSConstants;
@@ -93,7 +95,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     protected DocumentService documentService;
     protected ParameterService parameterService;
     protected PersistenceService persistenceServiceOjb;
-    
+
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetRequestImportServiceImpl.class);
 
     /**
@@ -119,7 +121,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     @Transactional
     public List processImportFile(InputStream fileImportStream, String principalId, String fieldSeperator, String textDelimiter, String fileType, Integer budgetYear) throws IOException {
         List fileErrorList = new ArrayList();
-        
+
         deleteBudgetConstructionMoveRecords(principalId);
 
         BudgetConstructionRequestMove budgetConstructionRequestMove = new BudgetConstructionRequestMove();
@@ -175,7 +177,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                         //budgetConstructionRequestMove.setFinancialObjectTypeCode(optionsService.getOptions(budgetYear).getFinObjectTypeIncomecashCode());
                     }
                 }
-                
+
                 //check for duplicate key exception, since it requires a different error message
                 Map searchCriteria = new HashMap();
                 searchCriteria.put("principalId", principalId);
@@ -189,7 +191,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                     fileErrorList.add("Duplicate Key for " + budgetConstructionRequestMove.getErrorLinePrefixForLogFile());
                     fileErrorList.add("Move table store error, import aborted");
                     deleteBudgetConstructionMoveRecords(principalId);
-                    
+
                     return fileErrorList;
                 }
                 try {
@@ -212,7 +214,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
 
     /**
      * Sets the business object service
-     * 
+     *
      * @param businessObjectService
      */
     @NonTransactional
@@ -231,11 +233,11 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         List<String> errorMessages = new ArrayList<String>();
 
         Map<String, BudgetConstructionHeader> retrievedHeaders = new HashMap<String, BudgetConstructionHeader>();
-        
+
         for (BudgetConstructionRequestMove record : dataToValidateList) {
             boolean validLine = true;
-            //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(), 
-            //BudgetConstructionRequestMove does not have any updatable references            
+            //KFSMI-798 - refreshNonUpdatableReferences() used instead of refresh(),
+            //BudgetConstructionRequestMove does not have any updatable references
             record.refreshNonUpdateableReferences();
 
             String accountKey = record.getChartOfAccountsCode() + record.getAccountNumber();
@@ -247,23 +249,24 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 budgetConstructionHeader = importRequestDao.getHeaderRecord(record, budgetYear);
                 retrievedHeaders.put(accountKey, budgetConstructionHeader);
             }
-            
+
             SubObjectCode subObjectCode = getSubObjectCode(record, budgetYear);
             String code = record.getFinancialObjectTypeCode();
             LaborLedgerObject laborObject = this.laborModuleService.retrieveLaborLedgerObject(budgetYear, record.getChartOfAccountsCode(), record.getFinancialObjectCode());
             ObjectCode objectCode = getObjectCode(record, budgetYear);
-            
+            Calendar expDate = BudgetConstructionRuleUtil.getNoBudgetAllowedExpireDate(budgetYear);
+
             if (budgetConstructionHeader == null) {
                 record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_NO_BUDGETED_ACCOUNT_SUB_ACCOUNT_ERROR_CODE.getErrorCode());
                 errorMessages.add(record.getErrorLinePrefixForLogFile() + " " + BCConstants.RequestImportErrorCode.DATA_VALIDATION_NO_BUDGETED_ACCOUNT_SUB_ACCOUNT_ERROR_CODE.getMessage());
             }
-            
+
             else if (!record.getAccount().isActive()) {
                 record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_ACCOUNT_CLOSED_ERROR_CODE.getErrorCode());
                 errorMessages.add(record.getErrorLinePrefixForLogFile() + " " + BCConstants.RequestImportErrorCode.DATA_VALIDATION_ACCOUNT_CLOSED_ERROR_CODE.getMessage());
             }
 
-            else if (record.getAccount().isExpired()) {
+            else if (record.getAccount().isExpired(expDate)) {
                 record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_ACCOUNT_EXPIRED_ERROR_CODE.getErrorCode());
                 errorMessages.add(record.getErrorLinePrefixForLogFile() + " " + BCConstants.RequestImportErrorCode.DATA_VALIDATION_ACCOUNT_EXPIRED_ERROR_CODE.getMessage());
             }
@@ -273,7 +276,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_ACCOUNT_INVALID_ERROR_CODE.getErrorCode());
                 errorMessages.add(record.getErrorLinePrefixForLogFile() + " " + BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_ACCOUNT_INVALID_ERROR_CODE.getMessage());
             }
-            
+
             else if (!record.getSubAccountNumber().equalsIgnoreCase(KFSConstants.getDashSubAccountNumber()) && !record.getSubAccount().isActive()) {
                 record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_ACCOUNT_INACTIVE_ERROR_CODE.getErrorCode());
                 errorMessages.add(record.getErrorLinePrefixForLogFile() + " " + BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_ACCOUNT_INACTIVE_ERROR_CODE.getMessage());
@@ -308,7 +311,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_OBJECT_INVALID_ERROR_CODE.getErrorCode());
                 errorMessages.add(record.getErrorLinePrefixForLogFile() + " " + BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_OBJECT_INVALID_ERROR_CODE.getMessage());
             }
-            
+
             // inactive sub-object code
             else if (!record.getFinancialSubObjectCode().equalsIgnoreCase(KFSConstants.getDashFinancialSubObjectCode()) && !subObjectCode.isActive()) {
                 record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_OBJECT_INACTIVE_ERROR_CODE.getErrorCode());
@@ -329,7 +332,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         List<BudgetConstructionRequestMove> recordsToLoad = importRequestDao.findAllNonErrorCodeRecords(user.getPrincipalId());
         List<String> errorMessages = new ArrayList<String>();
         Map<String, BudgetConstructionRequestMove> recordMap = new HashMap<String, BudgetConstructionRequestMove>();
-        
+
         // month delete warning error is a soft error
         String deleteMonthlyWarningErrorMessage = BCConstants.RequestImportErrorCode.UPDATE_ERROR_CODE_MONTHLY_BUDGET_DELETED.getErrorCode();
 
@@ -378,12 +381,13 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
 
                 recordMap.put(recordToLoad.getSubAccountingString(), recordToLoad);
             }
-            
-            if (recordToLoad.getHasAccess() && recordToLoad.getHasLock() && 
+
+            if (recordToLoad.getHasAccess() && recordToLoad.getHasLock() &&
                     ( StringUtils.isBlank(recordToLoad.getRequestUpdateErrorCode()) || recordToLoad.getRequestUpdateErrorCode().endsWith(deleteMonthlyWarningErrorMessage)) ) {
                 String updateBudgetAmountErrorMessage = updateBudgetAmounts(fileType, recordToLoad, header, budgetYear);
-                if (!StringUtils.isEmpty(updateBudgetAmountErrorMessage))
+                if (!StringUtils.isEmpty(updateBudgetAmountErrorMessage)) {
                     errorMessages.add(recordToLoad.getErrorLinePrefixForLogFile() + " " + updateBudgetAmountErrorMessage);
+                }
             }
 
             importRequestDao.save(recordToLoad, true);
@@ -428,14 +432,14 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
 
     /**
      * updates budget amounts
-     * 
+     *
      * @param fileType
      * @param importLine
      * @return error message
      */
     protected String updateBudgetAmounts(String fileType, BudgetConstructionRequestMove importLine, BudgetConstructionHeader header, Integer budgetYear) {
         String errorMessage = "";
-        
+
         //set primary key values
         PendingBudgetConstructionGeneralLedger pendingEntry = new PendingBudgetConstructionGeneralLedger();
         pendingEntry.setDocumentNumber(header.getDocumentNumber());
@@ -447,12 +451,16 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         pendingEntry.setFinancialSubObjectCode(importLine.getFinancialSubObjectCode());
         pendingEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
         pendingEntry.setFinancialObjectTypeCode(importLine.getFinancialObjectTypeCode());
-        
+
         //if entry already exists, use existing entry
         PendingBudgetConstructionGeneralLedger retrievedPendingEntry = (PendingBudgetConstructionGeneralLedger) businessObjectService.retrieve(pendingEntry);
-        if (retrievedPendingEntry != null) pendingEntry = retrievedPendingEntry;
-        else pendingEntry.setFinancialBeginningBalanceLineAmount(new KualiInteger(0));
-            
+        if (retrievedPendingEntry != null) {
+            pendingEntry = retrievedPendingEntry;
+        }
+        else {
+            pendingEntry.setFinancialBeginningBalanceLineAmount(new KualiInteger(0));
+        }
+
         if (fileType.equalsIgnoreCase(BCConstants.RequestImportFileType.ANNUAL.toString())) {
             List<BudgetConstructionMonthly> monthlyRecords = pendingEntry.getBudgetConstructionMonthly();
 
@@ -462,7 +470,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 for (BudgetConstructionMonthly monthlyRecord : monthlyRecords) {
                     businessObjectService.delete(monthlyRecord);
                 }
-                
+
                 importRequestDao.save(importLine, true);
             }
 
@@ -470,7 +478,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             this.businessObjectService.save(pendingEntry);
         }
         else if (fileType.equalsIgnoreCase(BCConstants.RequestImportFileType.MONTHLY.toString())) {
-            
+
             //calculate account line annual balance amount
             KualiInteger annualAmount = new KualiInteger(0);
             annualAmount = annualAmount.add(importLine.getFinancialDocumentMonth1LineAmount());
@@ -486,8 +494,8 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             annualAmount = annualAmount.add(importLine.getFinancialDocumentMonth11LineAmount());
             annualAmount = annualAmount.add(importLine.getFinancialDocumentMonth12LineAmount());
             pendingEntry.setAccountLineAnnualBalanceAmount(annualAmount);
-            
-            
+
+
             //set primary key values
             BudgetConstructionMonthly monthlyEntry = new BudgetConstructionMonthly();
             monthlyEntry.setDocumentNumber(header.getDocumentNumber());
@@ -499,7 +507,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             monthlyEntry.setFinancialSubObjectCode(importLine.getFinancialSubObjectCode());
             monthlyEntry.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
             monthlyEntry.setFinancialObjectTypeCode(importLine.getFinancialObjectTypeCode());
-            
+
             //if entry already exists, use existing entry
             BudgetConstructionMonthly retrievedMonthlyEntry = (BudgetConstructionMonthly) businessObjectService.retrieve(monthlyEntry);
             if (retrievedMonthlyEntry != null) {
@@ -510,7 +518,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 pendingEntry.setAccountLineAnnualBalanceAmount(annualAmount);
                 monthlyEntry.setPendingBudgetConstructionGeneralLedger(pendingEntry);
             }*/
-            
+
             monthlyEntry.setFinancialDocumentMonth1LineAmount(importLine.getFinancialDocumentMonth1LineAmount());
             monthlyEntry.setFinancialDocumentMonth2LineAmount(importLine.getFinancialDocumentMonth2LineAmount());
             monthlyEntry.setFinancialDocumentMonth3LineAmount(importLine.getFinancialDocumentMonth3LineAmount());
@@ -523,10 +531,10 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
             monthlyEntry.setFinancialDocumentMonth10LineAmount(importLine.getFinancialDocumentMonth10LineAmount());
             monthlyEntry.setFinancialDocumentMonth11LineAmount(importLine.getFinancialDocumentMonth11LineAmount());
             monthlyEntry.setFinancialDocumentMonth12LineAmount(importLine.getFinancialDocumentMonth12LineAmount());
-            
+
             this.businessObjectService.save(pendingEntry);
             this.businessObjectService.save(monthlyEntry);
-            
+
         }
 
         return errorMessage;
@@ -534,7 +542,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
 
     /**
      * Updates benefits
-     * 
+     *
      * @param fileType
      * @param importLine
      */
@@ -547,9 +555,9 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, header.getAccountNumber());
         fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, header.getSubAccountNumber());
         int monthlyCnt = businessObjectService.countMatching(BudgetConstructionMonthly.class, fieldValues);
-        
+
         String sysParam = parameterService.getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSParameterKeyConstants.LdParameterConstants.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND);
-        
+
         // if sysParam == Y then Labor Benefit Rate Category Code must be used
         if (sysParam.equalsIgnoreCase("Y")) {
             benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(header.getDocumentNumber(), header.getUniversityFiscalYear(), header.getChartOfAccountsCode(), header.getAccountNumber(), header.getSubAccountNumber(), header.getAccount().getLaborBenefitRateCategoryCode());
@@ -571,7 +579,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
 
     /**
      * Checks line validations and returns error messages for line
-     * 
+     *
      * @param budgetConstructionRequestMove
      * @param lineNumber
      * @param isAnnual
@@ -579,7 +587,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
      */
 
     protected String validateLine(BudgetConstructionRequestMove budgetConstructionRequestMove, int lineNumber, boolean isAnnual) {
-        
+
         if ( !this.dictionaryValidationService.isBusinessObjectValid(budgetConstructionRequestMove)) {
             return BCConstants.REQUEST_IMPORT_FILE_PROCESSING_ERROR_MESSAGE_GENERIC + " " + lineNumber + ".";
         }
@@ -632,7 +640,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
 
         return "";
     }
-    
+
     protected ObjectCode getObjectCode(BudgetConstructionRequestMove record, Integer budgetYear) {
         Map searchCriteria = new HashMap();
 
@@ -642,8 +650,9 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
 
         List<ObjectCode> objectList = new ArrayList<ObjectCode>(businessObjectService.findMatching(ObjectCode.class, searchCriteria));
 
-        if (objectList.size() == 1)
+        if (objectList.size() == 1) {
             return objectList.get(0);
+        }
 
         return null;
     }
@@ -659,8 +668,9 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
 
         List<SubObjectCode> objectList = new ArrayList<SubObjectCode> (this.businessObjectService.findMatching(SubObjectCode.class, searchCriteria));
 
-        if (objectList.size() == 1)
+        if (objectList.size() == 1) {
             return objectList.get(0);
+        }
 
         return null;
     }
@@ -696,7 +706,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
 
     /**
      * Clears BudgetConstructionRequestMove
-     * 
+     *
      * @param principalId
      */
     protected void deleteBudgetConstructionMoveRecords(String principalId) {
@@ -704,61 +714,61 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         fieldValues.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalId);
         businessObjectService.deleteMatching(BudgetConstructionRequestMove.class, fieldValues);
     }
-    
+
     /**
-     * 
+     *
      * @see org.kuali.kfs.module.bc.document.service.BudgetRequestImportService#setDictionaryValidationService(org.kuali.rice.kns.service.DictionaryValidationService)
      */
     @NonTransactional
     public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
         this.dictionaryValidationService = dictionaryValidationService;
-        
+
     }
-    
+
     /**
-     * 
+     *
      * @see org.kuali.kfs.module.bc.document.service.BudgetRequestImportService#setLockService(org.kuali.kfs.module.bc.document.service.LockService)
      */
     @NonTransactional
     public void setLockService(LockService lockService) {
        this.lockService = lockService;
     }
-    
+
     /**
      * Sets BudgetDocumentService
-     * 
+     *
      * @param budgetDocumentService
      */
     @NonTransactional
     public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
         this.budgetDocumentService = budgetDocumentService;
     }
-    
+
     @NonTransactional
     public void setLaborModuleService(LaborModuleService laborModuleService) {
         this.laborModuleService = laborModuleService;
     }
-    
+
     @NonTransactional
     public LaborModuleService getLaborModuleService() {
         return this.laborModuleService;
     }
-    
+
     @NonTransactional
     public BudgetParameterService getBudgetParameterService() {
         return budgetParameterService;
     }
-    
+
     @NonTransactional
     public void setBudgetParameterService(BudgetParameterService budgetParameterService) {
         this.budgetParameterService = budgetParameterService;
     }
-    
+
     @NonTransactional
     public OptionsService getOptionsService() {
         return optionsService;
     }
-    
+
     @NonTransactional
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
@@ -786,7 +796,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
 
     /**
      * Gets the parameterService attribute.
-     * 
+     *
      * @return Returns the parameterService
      */
     @NonTransactional
@@ -794,9 +804,9 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         return parameterService;
     }
 
-    /**	
+    /**
      * Sets the parameterService attribute.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     @NonTransactional
@@ -806,7 +816,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
 
     /**
      * Gets the persistenceServiceOjb attribute.
-     * 
+     *
      * @return Returns the persistenceServiceOjb
      */
     @NonTransactional
@@ -814,15 +824,15 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         return persistenceServiceOjb;
     }
 
-    /**	
+    /**
      * Sets the persistenceServiceOjb attribute.
-     * 
+     *
      * @param persistenceServiceOjb The persistenceServiceOjb to set.
      */
     @NonTransactional
     public void setPersistenceServiceOjb(PersistenceService persistenceServiceOjb) {
         this.persistenceServiceOjb = persistenceServiceOjb;
     }
-    
+
 }
 

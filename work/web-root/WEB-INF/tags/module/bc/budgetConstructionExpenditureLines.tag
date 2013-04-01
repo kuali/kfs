@@ -118,8 +118,10 @@
               <td class="infoline" nowrap><div align="right"><span>
                   &nbsp;
               </span></div></td>
+              <c:set var="addTabIndex" value="${KualiForm.currentTabIndex}" />
+              <c:set var="dummyIncrementVar" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
               <td class="infoline" nowrap><div align="center">
-                  <html:image property="methodToCall.insertExpenditureLine.anchorexpenditurenewLineLineAnchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add an Expenditure Line" alt="Add an Expenditure Line" styleClass="tinybutton"/>
+                  <html:image property="methodToCall.insertExpenditureLine.anchorexpenditurenewLineLineAnchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add an Expenditure Line" alt="Add an Expenditure Line" tabindex="${addTabIndex}" styleClass="tinybutton"/>
               </div></td>
 			</tr>
             </c:if>

@@ -86,4 +86,12 @@
 		</update>
 	</changeSet>
 		
+	<changeSet id="KFSMI9541_RENAME_ROLE_KFS-VND_EXCLUDE_SINGLE_ACTOR_REVIEWER" author="KFS502">
+		<comment>Rename role "KFS-VND Exclude Single Actor Reviewer" to be "KFS-VND Reviewer Omit Initiator".</comment>
+		<update tableName="KRIM_ROLE_T">
+			<column name="ROLE_NM" value="Reviewer Omit Initiator" />
+			<where>ROLE_ID = 'KFSMI4553-2'</where>
+		</update>
+	</changeSet>
+	
 </databaseChangeLog>

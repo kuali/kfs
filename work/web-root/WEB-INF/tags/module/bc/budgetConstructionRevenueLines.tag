@@ -36,7 +36,7 @@
             <bc:subheadingWithDetailToggleRow
               columnCount="7"
               subheading="Revenue"
-              usePercentAdj="true"
+              usePercentAdj="${KualiForm.budgetableDocument}"
               readOnly="${readOnly}"/>
 			<tr>
 				<th>
@@ -52,7 +52,7 @@
 				</th>
 			</tr>
 
-            <c:if test="${!readOnly}">
+            <c:if test="${!readOnly && KualiForm.budgetableDocument}">
               <c:set var="valuesMap" value="${KualiForm.newRevenueLine.valuesMap}"/>
                 
 			<tr>

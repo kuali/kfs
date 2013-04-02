@@ -18,7 +18,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>TMCP</name>
-      <parent>KFST</parent>
+      <parent>TT</parent>
       <docHandler>${application.url}/temCorrectionDocument.do?methodToCall=docHandler</docHandler>
       <label>TEM Correction Process Document</label>
     </documentType>

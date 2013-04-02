@@ -2,7 +2,7 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>CTAP</name>
-			<parent>KFST</parent>
+			<parent>TT</parent>
 			<label>CTS Card Application</label>
 			<docHandler>${application.url}/temCTSCardApplication.do?methodToCall=docHandler</docHandler>
 			<active>true</active>

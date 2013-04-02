@@ -19,7 +19,7 @@
     <documentType>
       <name>TTP</name>
       <label>TEM Profile</label>
-      <parent>TTSM</parent>
+      <parent>TTCM</parent>
     
 		<routePaths>
 			<routePath>

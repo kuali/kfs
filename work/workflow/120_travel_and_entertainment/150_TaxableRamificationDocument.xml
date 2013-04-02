@@ -5,7 +5,7 @@
         TXRF
       </name>
       <parent>
-        KFST
+        TT
       </parent>
       <label>Taxable Ramification</label>
       <docHandler>
@@ -19,17 +19,11 @@
       </routingVersion>
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="DoNothing"/>
-          <simple name="DoNothing"/>
+          <start name="AdHoc" />
         </routePath>
       </routePaths>
       <routeNodes>
         <start name="AdHoc"/>
-        <simple name="DoNothing">
-          <type>
-            org.kuali.rice.kew.engine.node.NoOpNode
-          </type>
-        </simple>
       </routeNodes>
     </documentType>
   </documentTypes>

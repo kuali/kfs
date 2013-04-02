@@ -18,7 +18,7 @@
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
       <name>TTA</name>
-      <parent>KFST</parent>
+      <parent>TT</parent>
       <docHandler>${application.url}/temTravelArranger.do?methodToCall=docHandler</docHandler>
       <label>Travel Arranger</label>
       <routePaths>

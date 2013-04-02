@@ -15,10 +15,8 @@
  */
 package org.kuali.kfs.module.tem.report.service.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.Report.TRAVEL_REPORT_INSTITUTION_NAME;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.LODGING_TYPE_CODES;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TEM_FAX_NUMBER;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TRANSPORTATION_TYPE_CODES;
 
@@ -37,6 +35,7 @@ import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
+import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.report.EntertainmentHostCertificationReport;
 import org.kuali.kfs.module.tem.report.NonEmployeeCertificationReport;
@@ -93,8 +92,8 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
 
         report.setTripId(document.getTravelDocumentIdentifier().toString());
         report.setPurpose(ObjectUtils.isNull(document.getPurpose())?KFSConstants.EMPTY_STRING:document.getPurpose().getPurposeDescription());
-        report.setInstitution(getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_REPORT_INSTITUTION_NAME));
-        report.setTemFaxNumber(getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TEM_FAX_NUMBER));
+        report.setInstitution(getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TRAVEL_REPORT_INSTITUTION_NAME));
+        report.setTemFaxNumber(getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TEM_FAX_NUMBER));
         report.setDocumentId(document.getDocumentNumber());
         report.setBeginDate(document.getTripBegin());
         report.setEndDate(document.getTripEnd());
@@ -172,7 +171,7 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
     }
 
     protected boolean expenseTypeCodeMatchesParameter(final String expenseTypeCode, final String parameter) {
-        return getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, parameter).indexOf(expenseTypeCode) != -1;
+        return getParameterService().getParameterValuesAsString(TravelReimbursementDocument.class, parameter).contains(expenseTypeCode);
     }
 
     /**

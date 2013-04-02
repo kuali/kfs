@@ -29,6 +29,18 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <property name="attributes">
       <list merge="true">
         <ref bean="TemKimAttributes-profilePrincipalId" />
+        <ref bean="TemKimAttributes-travelerTypeCode"/>
+        <ref bean="TemKimAttributes-jobClassificationCode"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list merge="true">
+        <dd:relationship objectAttribute="travelerType">
+            <dd:primitiveAttribute source="travelerTypeCode" target="code" />
+        </dd:relationship>
+        <dd:relationship objectAttribute="jobClassification">
+            <dd:primitiveAttribute source="jobClassificationCode" target="jobClsCode" />
+        </dd:relationship>
       </list>
     </property>
   </bean>
@@ -41,5 +53,11 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 			<bean parent="TextControlDefinition" p:size="20" />
 		</property>
 	</bean>
+	
+	<bean id="TemKimAttributes-travelerTypeCode" parent="TemKimAttributes-travelerTypeCode-parentBean"/>
+	<bean id="TemKimAttributes-travelerTypeCode-parentBean" parent="TravelerType-code" abstract="true"/>
+	
+	<bean id="TemKimAttributes-jobClassificationCode" parent="TemKimAttributes-jobClassificationCode-parentBean"/>
+	<bean id="TemKimAttributes-jobClassificationCode-parentBean" parent="JobClassification-jobClassCode" abstract="true"/>
 
 </beans>

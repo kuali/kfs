@@ -5,7 +5,7 @@ TEM-10002,KFS-TEM-ROLE-002,1,Risk Management,KFS-TEM,,1,Y
 TEM-10003,KFS-TEM-ROLE-003,1,Accounting Reviewer,KFS-TEM,,1,Y
 TEM-10004,KFS-TEM-ROLE-004,1,Division Reviewer,KFS-TEM,,1,Y
 TEM-10005,KFS-TEM-ROLE-005,1,Traveler,KFS-TEM, ,10000,Y
-TEM-10006,KFS-TEM-ROLE-006,1,TemProfile,KFS-TEM,Derived as the person who creates their own profile in a document,10001,Y
+TEM-10006,KFS-TEM-ROLE-006,1,TEM Profile,KFS-TEM,Derived as the person who creates their own profile in a document,10001,Y
 TEM-10007,KFS-TEM-ROLE-007,1,Contact Reviewer,KFS-TEM,,1,Y
 TEM-10008,KFS-TEM-ROLE-008,1,TEM Profile Administrator,KFS-TEM,This role authorizes TEM Profile Administrators using a descending organization hierarchy.,10002,Y
 TEM-10009,KFS-TEM-ROLE-009,1,TEM Organization Profile Arranger,KFS-TEM,This role authorizes TEM Profile Arrangers using a descending organization hierarchy.,10003,Y

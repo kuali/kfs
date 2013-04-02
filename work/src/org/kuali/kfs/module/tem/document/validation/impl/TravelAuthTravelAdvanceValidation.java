@@ -19,6 +19,7 @@ import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_TA_TRVL_REQ_GRTR_THAN_ZERO;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -144,8 +145,7 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
 
         boolean testCards = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_CC_CASH_ADVANCE_WARNING_IND);
         if (testCards){
-            String cardTypesValue = SpringContext.getBean(ParameterService.class).getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.CASH_ADVANCE_CREDIT_CARD_TYPES);
-            String[] cardTypes = cardTypesValue.split(",");
+            Collection<String> cardTypes = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.CASH_ADVANCE_CREDIT_CARD_TYPES);
             Map<String,String> cardTypeMap = new HashMap<String, String>();
             for (String cardType : cardTypes){
                 cardTypeMap.put(cardType.toUpperCase(), cardType.toUpperCase());

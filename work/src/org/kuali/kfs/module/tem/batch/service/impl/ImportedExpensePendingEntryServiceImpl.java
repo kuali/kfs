@@ -174,12 +174,12 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         List<GeneralLedgerPendingEntry> entryList = new ArrayList<GeneralLedgerPendingEntry>();
 
         //get chart code from parameter
-        String chartCode = parameterService.getParameterValueAsString(TemParameterConstants.TEM_AGENCY_MATCH.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_CHART);
+        String chartCode = parameterService.getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_CHART);
 
         GeneralLedgerPendingEntry pendingEntry = buildGeneralLedgerPendingEntry(agencyData, info, sequenceHelper, chartCode, objectCode, amount, KFSConstants.GL_CREDIT_CODE);
-        pendingEntry.setAccountNumber(parameterService.getParameterValueAsString(TemParameterConstants.TEM_AGENCY_MATCH.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_ACCOUNT));
+        pendingEntry.setAccountNumber(parameterService.getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_ACCOUNT));
 
-        final String AGENCY_SUBACCOUNT_NUM = parameterService.getParameterValueAsString(TemParameterConstants.TEM_AGENCY_MATCH.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_SUB_ACCOUNT);
+        final String AGENCY_SUBACCOUNT_NUM = parameterService.getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_SUB_ACCOUNT);
         pendingEntry.setSubAccountNumber(StringUtils.defaultIfEmpty(AGENCY_SUBACCOUNT_NUM, GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber()));
 
         LOG.info("Created CREDIT GLPE: " + pendingEntry.getDocumentNumber() + " for AGENCY Import Expense: " + agencyData.getId() + " TripId: " + agencyData.getTripId()

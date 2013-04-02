@@ -30,6 +30,7 @@ import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
@@ -311,7 +312,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
         KualiDecimal numAccounts = new KualiDecimal(accountingInfo.size());
         KualiDecimal currentAmount = agencyData.getTripExpenseAmount().divide(numAccounts);
 
-        final String creditObjectCode = getParameter(AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_OBJECT_CODE, AgencyMatchProcessParameter.AGENCY_MATCH_DTL_TYPE);
+        final String creditObjectCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_OBJECT_CODE);
 
         boolean allGlpesCreated = true;
 

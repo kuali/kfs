@@ -1,4 +1,4 @@
 KIM_ATTR_DEFN_ID,OBJ_ID,VER_NBR,NM,LBL,ACTV_IND,NMSPC_CD,CMPNT_NM
 TEM-10000,KFS-TEM-ATTR-DEFN-001,1,profilePrincipalId,,Y,KFS-TEM,org.kuali.kfs.module.tem.identity.TemKimAttributes
-TEM-10001,KFS-TEM-ATTR-DEFN-002,1,travelerTypeCode,,Y,KFS-TEM,org.kuali.kfs.module.tem.businessobject.TEMProfile
-TEM-10002,KFS-TEM-ATTR-DEFN-003,1,jobClsCode,,Y,KFS-TEM,org.kuali.kfs.module.tem.businessobject.JobClassification
+TEM-10001,KFS-TEM-ATTR-DEFN-002,1,travelerTypeCode,,Y,KFS-TEM,org.kuali.kfs.module.tem.identity.TemKimAttributes
+TEM-10002,KFS-TEM-ATTR-DEFN-003,1,jobClsCode,,Y,KFS-TEM,org.kuali.kfs.module.tem.identity.TemKimAttributes

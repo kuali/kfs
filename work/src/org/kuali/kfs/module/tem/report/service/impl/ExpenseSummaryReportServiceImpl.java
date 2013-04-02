@@ -15,10 +15,8 @@
  */
 package org.kuali.kfs.module.tem.report.service.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.Report.TRAVEL_REPORT_INSTITUTION_NAME;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.LODGING_TYPE_CODES;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.SHOW_TA_ESTIMATE_IN_SUMMARY_REPORT_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TRANSPORTATION_TYPE_CODES;
 
@@ -29,12 +27,12 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.report.ExpenseSummaryReport;
@@ -97,7 +95,7 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
         retval.setLocations(travelDocument.getPrimaryDestinationName());
         retval.setPurpose(travelDocument.getReportPurpose() == null ? "" : travelDocument.getReportPurpose());
         retval.setTripId(travelDocument.getTravelDocumentIdentifier() + "");
-        retval.setInstitution(getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_REPORT_INSTITUTION_NAME));
+        retval.setInstitution(getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TRAVEL_REPORT_INSTITUTION_NAME));
 
         final Collection<ExpenseSummaryReport.Detail> expenses = new ArrayList<ExpenseSummaryReport.Detail>();
         final Collection<ExpenseSummaryReport.Detail> summary = new ArrayList<ExpenseSummaryReport.Detail>();
@@ -184,7 +182,7 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
         summary.add(new ExpenseSummaryReport.Detail(totalExpenseName, "SUMMARY", owed, travelDocument.getTripBegin()));
 
         if (isTR) {
-            final boolean showTAEstimate = getParameterService().getParameterValueAsBoolean(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE, SHOW_TA_ESTIMATE_IN_SUMMARY_REPORT_IND);
+            final boolean showTAEstimate = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, SHOW_TA_ESTIMATE_IN_SUMMARY_REPORT_IND);
 
             if (showTAEstimate) {
                 try {
@@ -232,7 +230,7 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
     }
 
     protected boolean expenseTypeCodeMatchesParameter(final String expenseTypeCode, final String parameter) {
-        return getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, parameter).indexOf(expenseTypeCode) != -1;
+        return getParameterService().getParameterValuesAsString(TravelReimbursementDocument.class, parameter).contains(expenseTypeCode);
     }
 
     /**

@@ -1219,9 +1219,9 @@
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 	</bean>
 
-	<bean id="temInternationalTravelManagerService" class="org.kuali.kfs.module.tem.identity.TemInternationalTravelManagerServiceImpl" />
+	<bean id="internationalTravelManagerRoleTypeService" class="org.kuali.kfs.module.tem.identity.InternationalTravelManagerRoleTypeServiceImpl" />
     
-    <bean id="temExecutiveManagerService" class="org.kuali.kfs.module.tem.identity.ExecutiveManagerServiceImpl" />
+    <bean id="temExecutiveManagerRoleTypeService" class="org.kuali.kfs.module.tem.identity.ExecutiveManagerRoleTypeServiceImpl" />
     
     <bean id="historicalTravelExpenseDao" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.HistoricalTravelExpenseDaoOjb"/>
  

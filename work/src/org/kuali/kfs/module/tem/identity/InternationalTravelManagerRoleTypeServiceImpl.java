@@ -17,7 +17,6 @@ package org.kuali.kfs.module.tem.identity;
 
 import java.util.Map;
 
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -26,7 +25,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 @SuppressWarnings("deprecation")
-public class TemInternationalTravelManagerServiceImpl extends RoleTypeServiceBase {
+public class InternationalTravelManagerRoleTypeServiceImpl extends RoleTypeServiceBase {
 
     /**
      * @see org.kuali.rice.kns.kim.type.DataDictionaryTypeServiceBase#performMatch(java.util.Map, java.util.Map)
@@ -35,7 +34,7 @@ public class TemInternationalTravelManagerServiceImpl extends RoleTypeServiceBas
     protected boolean performMatch(Map<String, String> inputAttributes, Map<String, String> storedAttributes) {
         try {
             TravelDocument document = (TravelDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(inputAttributes.get(KRADPropertyConstants.DOCUMENT_NUMBER).toString());
-            String travelerType = storedAttributes.get(TemPropertyConstants.TRVL_DOC_TRAVELER_TYP_CD);
+            String travelerType = storedAttributes.get(TemKimAttributes.TRAVELER_TYPE_CODE);
             if (travelerType.equals(document.getTraveler().getTravelerTypeCode())){
                 return true;
             }

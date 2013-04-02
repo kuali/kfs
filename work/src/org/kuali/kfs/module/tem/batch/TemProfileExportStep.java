@@ -63,7 +63,7 @@ public class TemProfileExportStep extends AbstractStep {
 
 		//Accessing EXPORT_FILE_FORMAT sys param for export file extension
         LOG.info("Accessing EXPORT_FILE_FORMAT system parameter for file extension");
-        String extension = getParameterService().getParameterValueAsString(PARAM_NAMESPACE, "ProfileExport", TemConstants.TemProfileParameters.EXPORT_FILE_FORMAT);
+        String extension = getParameterService().getParameterValueAsString(TemProfileExportStep.class, TemConstants.TemProfileParameters.EXPORT_FILE_FORMAT);
 
         //Creating export file name
         String exportFile = fileDirectoryName + File.separator + fileName + "." + extension;

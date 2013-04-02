@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.batch.service;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-
 import java.util.ArrayList;
 
 import org.apache.commons.lang.StringUtils;
@@ -25,6 +23,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
@@ -74,7 +73,7 @@ public class ExpenseImportByTravelerServiceTest extends KualiTestBase {
         TEMProfile profile = createTemProfile();
         // parameter is defaulted to 6000, but there are no valid combos that
         // will work with 6000. Set it to 5000 for testing purposes.
-        Parameter param = parameterService.getParameter(PARAM_NAMESPACE, AgencyMatchProcessParameter.AGENCY_MATCH_DTL_TYPE, AgencyMatchProcessParameter.CTS_AIR_OBJECT_CODE);
+        Parameter param = parameterService.getParameter(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.CTS_AIR_OBJECT_CODE);
         Parameter.Builder builder = Parameter.Builder.create(param);
         builder.setValue("5000");
         parameterService.updateParameter(builder.build());

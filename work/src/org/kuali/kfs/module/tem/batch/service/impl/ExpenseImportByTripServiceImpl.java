@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.batch.service.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,7 +30,9 @@ import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.batch.AgencyDataImportStep;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AgencyServiceFee;
@@ -241,7 +241,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
     public AgencyStagingData validateAccountingInfo(TEMProfile profile, AgencyStagingData agencyData, TravelAuthorizationDocument ta) {
 
         // Get VALIDATION_ACCOUNTING_LINE parameter to determine which fields to validate
-        Collection<String> validationParams = getParameterService().getParameterValuesAsString(PARAM_NAMESPACE, AgencyStagingDataValidation.AGENCY_DATA_VALIDATION_DTL, TravelParameters.VALIDATION_ACCOUNTING_LINE);
+        Collection<String> validationParams = getParameterService().getParameterValuesAsString(AgencyDataImportStep.class, TravelParameters.VALIDATION_ACCOUNTING_LINE);
         if (ObjectUtils.isNull(validationParams)) {
             return agencyData;
         }
@@ -416,7 +416,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                 currentFeeAmount = serviceFee.getServiceFee().divide(numAccounts);
             }
 
-            String creditObjectCode = getParameter(AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_OBJECT_CODE, AgencyMatchProcessParameter.AGENCY_MATCH_DTL_TYPE);
+            String creditObjectCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_OBJECT_CODE);
 
             boolean allGlpesCreated = true;
 
@@ -491,7 +491,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      */
     protected TemTravelExpenseTypeCode getTravelExpenseType(String expenseTypeParamCode, String travelDocumentIdentifier) {
         // get the expense type parameter
-        String expenseTypeCode = getParameter(expenseTypeParamCode, TravelParameters.DOCUMENT_DTL_TYPE);
+        String expenseTypeCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, expenseTypeParamCode);
         if (StringUtils.isNotEmpty(expenseTypeCode)) {
 
             // Need to get the Doc Type, Traveler Type and Trip Type from the TA

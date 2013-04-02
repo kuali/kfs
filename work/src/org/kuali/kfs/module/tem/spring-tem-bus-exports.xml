@@ -34,7 +34,7 @@
 		p:callbackService-ref="temProfileArrangerOrganizationHierarchyRoleTypeService" p:localServiceName="temProfileArrangerOrganizationHierarchyRoleTypeService" />
 
 	<bean parent="roleTypeServiceCallback" 
-		p:callbackService-ref="temInternationalTravelManagerService" p:localServiceName="temInternationalTravelManagerService" />
+		p:callbackService-ref="internationalTravelManagerRoleTypeService" p:localServiceName="internationalTravelManagerRoleTypeService" />
 
 	<bean parent="roleTypeServiceCallback" 
 		p:callbackService-ref="temProfileDerivedRoleTypeService" p:localServiceName="temProfileDerivedRoleTypeService" />
@@ -43,7 +43,7 @@
         p:callbackService-ref="arrangerDerivedRoleTypeService" p:localServiceName="arrangerDerivedRoleTypeService" />
 
     <bean parent="roleTypeServiceCallback" 
-        p:callbackService-ref="temExecutiveManagerService" p:localServiceName="temExecutiveManagerService" />
+        p:callbackService-ref="temExecutiveManagerRoleTypeService" p:localServiceName="temExecutiveManagerRoleTypeService" />
        	 
  	<bean parent="documentSearchCustomizerCallback" 
 		p:callbackService-ref="TravelDocumentSearchCustomizer" p:localServiceName="TravelDocumentSearchCustomizer" />

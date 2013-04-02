@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.batch.service.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -31,6 +29,7 @@ import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
@@ -172,7 +171,7 @@ public class ExpenseImportServiceBase {
             return null;
         }
 
-        return getParameter(objectCodeParam, AgencyMatchProcessParameter.AGENCY_MATCH_DTL_TYPE);
+        return getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, objectCodeParam);
     }
 
     /**
@@ -184,23 +183,6 @@ public class ExpenseImportServiceBase {
      */
     public ObjectCode getObjectCode(String chartCode, String objectCode) {
         return getObjectCodeService().getByPrimaryIdForCurrentYear(chartCode, objectCode);
-    }
-
-    /**
-     *
-     * This method returns the db value of the parameter. Throws a RuntimeException of an error occurs.
-     * @param parameter
-     * @return
-     */
-    public String getParameter(String parameter, String detailType) {
-        try {
-            String objectCode = getParameterService().getParameterValueAsString(PARAM_NAMESPACE, detailType, parameter);
-            return objectCode;
-        }
-        catch (IllegalArgumentException e) {
-            LOG.error("IllegalArgumentException trying to get: " + parameter, e);
-            throw new RuntimeException("Unable to get parameter " + e.getMessage());
-        }
     }
 
     /**

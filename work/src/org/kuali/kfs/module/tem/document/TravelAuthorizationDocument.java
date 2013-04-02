@@ -53,6 +53,7 @@ import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.service.TEMExpenseService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -154,7 +155,8 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         BeanUtils.copyProperties(this, copyToDocument, new String[]{KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME});
 
         FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
-        BeanUtils.copyProperties(copyToDocument.getDocumentHeader(), documentHeader);
+        documentHeader.setDocumentNumber(documentID);
+        BeanUtils.copyProperties(copyToDocument.getDocumentHeader(), documentHeader, new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});
         documentHeader.setOrganizationDocumentNumber(this.getDocumentHeader().getOrganizationDocumentNumber());
         copyToDocument.setDocumentHeader(documentHeader);
 
@@ -271,6 +273,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
      */
     @Transient
     public Country getCitizenshipCountry() {
+        if (StringUtils.isBlank(citizenshipCountryCode)) {
+            return null;
+        }
         if (citizenshipCountry != null){
             if (StringUtils.equals(citizenshipCountryCode, citizenshipCountry.getCode())) {
                 return citizenshipCountry;

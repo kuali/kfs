@@ -39,7 +39,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
             <dd:primitiveAttribute source="travelerTypeCode" target="code" />
         </dd:relationship>
         <dd:relationship objectAttribute="jobClassification">
-            <dd:primitiveAttribute source="jobClassificationCode" target="jobClsCode" />
+            <dd:primitiveAttribute source="jobClsCode" target="jobClsCode" />
         </dd:relationship>
       </list>
     </property>
@@ -55,7 +55,9 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 	</bean>
 	
 	<bean id="TemKimAttributes-travelerTypeCode" parent="TemKimAttributes-travelerTypeCode-parentBean"/>
-	<bean id="TemKimAttributes-travelerTypeCode-parentBean" parent="TravelerType-code" abstract="true"/>
+	<bean id="TemKimAttributes-travelerTypeCode-parentBean" parent="TravelerType-code" abstract="true">
+		<property name="name" value="travelerTypeCode"/>
+	</bean>
 	
 	<bean id="TemKimAttributes-jobClassificationCode" parent="TemKimAttributes-jobClassificationCode-parentBean"/>
 	<bean id="TemKimAttributes-jobClassificationCode-parentBean" parent="JobClassification-jobClassCode" abstract="true"/>

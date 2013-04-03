@@ -27,7 +27,7 @@ public class TemKimAttributes extends KfsKimAttributes {
 
     protected Integer profilePrincipalId;
     protected String travelerTypeCode;
-    protected String jobClassificationCode;
+    protected String jobClsCode;
 
     protected TravelerType travelerType;
     protected JobClassification jobClassification;
@@ -66,16 +66,16 @@ public class TemKimAttributes extends KfsKimAttributes {
     /**
      * @return the job classification code
      */
-    public String getJobClassificationCode() {
-        return jobClassificationCode;
+    public String getJobClsCode() {
+        return jobClsCode;
     }
 
     /**
      * Sets the the job classification code
      * @param jobClassificationCode the job classification code
      */
-    public void setJobClassificationCode(String jobClassificationCode) {
-        this.jobClassificationCode = jobClassificationCode;
+    public void setJobClsCode(String jobClassificationCode) {
+        this.jobClsCode = jobClassificationCode;
     }
 
     /**

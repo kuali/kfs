@@ -17,7 +17,7 @@
 
     <bean id="TemTravelExpenseTypeCodeMaintenanceDocument" parent="TravelExpenseTypeCodeMaintenanceDocument-parentBean">
         <property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode" />
-        <property name="documentTypeName" value="TETOC" />
+        <property name="documentTypeName" value="TTOC" />
         <property name="maintainableSections">
             <list merge="false">
                 <ref bean="TemTravelExpenseTypeCodeMaintenanceDocument-EditTravelExpenseType" />

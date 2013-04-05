@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.module.tem.batch;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.Report.TRAVEL_REPORT_INSTITUTION_NAME;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,6 +37,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.rice.kim.api.identity.Person;
@@ -86,7 +85,7 @@ public class TemProfileExportStep extends AbstractStep {
 	            throw new RuntimeException(ex.toString(), ex);
 			}
 		} else {
-			OUTPUT_GLE_FILE_ps.printf("%s\n", getDateTimeService().toDateTimeString(getDateTimeService().getCurrentDate()) + "," + getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_REPORT_INSTITUTION_NAME));
+			OUTPUT_GLE_FILE_ps.printf("%s\n", getDateTimeService().toDateTimeString(getDateTimeService().getCurrentDate()) + "," + getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TRAVEL_REPORT_INSTITUTION_NAME));
 			for(TEMProfile profile : profiles) {
 				try {
 					OUTPUT_GLE_FILE_ps.printf("%s\n", generateCSVEntry(profile));
@@ -111,7 +110,7 @@ public class TemProfileExportStep extends AbstractStep {
         //Create the Profile Header
         Element profileHeader = doc.createElement("profileHeader");
         profileHeader.appendChild(createElement(doc, "dateOfExport", getDateTimeService().toDateTimeString(getDateTimeService().getCurrentDate())));
-        profileHeader.appendChild(createElement(doc, "universityName", getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_REPORT_INSTITUTION_NAME)));
+        profileHeader.appendChild(createElement(doc, "universityName", getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TRAVEL_REPORT_INSTITUTION_NAME)));
 
         //Create the Profile Detail section
 		Element profileDetailList = doc.createElement("profiles");

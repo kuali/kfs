@@ -97,7 +97,7 @@ public class DefaultMealBreakDownStrategy implements MealBreakDownStrategy {
      * get the parameter name that is used for break down
      */
     protected String getParameterName(){
-        return PerDiemParameter.DEFAULT_CONUS_MIE_BREAKDOWN_PARAM_NAME;
+        return PerDiemParameter.CONUS_MEAL_BREAKDOWN;
     }
 
     /**

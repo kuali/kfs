@@ -25,6 +25,7 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.service.TEMRoleService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
@@ -52,7 +53,7 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
         Set<String> editModes = super.getEditModes(document);
         ParameterService paramService = SpringContext.getBean(ParameterService.class);
 
-        if (paramService.getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_CONTACT_INFORMATION_IND)) {
+        if (paramService.getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DISPLAY_EMERGENCY_CONTACT_IND)) {
             editModes.add(TemConstants.DISPLAY_EMERGENCY_CONTACT_TAB);
         }
         return editModes;
@@ -181,7 +182,7 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
      */
     public boolean enableForDocumentManager(Person currentUser, boolean checkParameters){
         boolean isTravelManager = getTemRoleService().isTravelManager(currentUser);
-        boolean allowUpdate = checkParameters? getParamService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.ALLOW_TRAVEL_OFFICE_TO_MODIFY_ALL_IND) : true;
+        boolean allowUpdate = checkParameters? getParamService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.TRAVEL_OFFICE_MODIFY_ALL_FIELDS_IND) : true;
 
         //specifically enabled on AP node on full edit
         boolean isEnabled = isTravelManager && allowUpdate;

@@ -70,7 +70,7 @@ public class TemCTSCardApplicationDocument extends CardApplicationDocumentBase i
             TEMProfileAccount profileAccount = new TEMProfileAccount();
             Date now = new Date();
             profileAccount.setEffectiveDate(new java.sql.Date(now.getTime()));
-            String code = getParameterService().getParameterValueAsString(TemConstants.PARAM_NAMESPACE, TemConstants.CTS_CARD_APPLICATION, TemConstants.CTS_CARD_CODE);
+            String code = getParameterService().getParameterValueAsString(TemCTSCardApplicationDocument.class, TemConstants.CENTRAL_TRAVEL_SYSTEM_CARD_CODE);
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE, code);
             List<CreditCardAgency> creditCardAgencyList = (List<CreditCardAgency>) getBusinessObjectService().findMatching(CreditCardAgency.class, fieldValues);

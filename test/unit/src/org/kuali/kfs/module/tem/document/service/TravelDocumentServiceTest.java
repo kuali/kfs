@@ -79,8 +79,8 @@ public class TravelDocumentServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        mileageType.setCode(TravelParameters.EXPENSE_TYPE_FOR_MILEAGE);
-        airfareType.setCode(TravelParameters.EXPENSE_TYPE_FOR_AIRFARE);
+        mileageType.setCode(TravelParameters.MILEAGE_EXPENSE_TYPE);
+        airfareType.setCode(TravelParameters.AIRFARE_EXPENSE_TYPE);
 
         final TravelDocumentService travelDocumentServiceTemp = SpringContext.getBean(TravelDocumentServiceImpl.class);
         parameterService = SpringContext.getBean(ParameterService.class);

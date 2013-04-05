@@ -240,8 +240,8 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
     @Override
     public AgencyStagingData validateAccountingInfo(TEMProfile profile, AgencyStagingData agencyData, TravelAuthorizationDocument ta) {
 
-        // Get VALIDATION_ACCOUNTING_LINE parameter to determine which fields to validate
-        Collection<String> validationParams = getParameterService().getParameterValuesAsString(AgencyDataImportStep.class, TravelParameters.VALIDATION_ACCOUNTING_LINE);
+        // Get ACCOUNTING_LINE_VALIDATION parameter to determine which fields to validate
+        Collection<String> validationParams = getParameterService().getParameterValuesAsString(AgencyDataImportStep.class, TravelParameters.ACCOUNTING_LINE_VALIDATION);
         if (ObjectUtils.isNull(validationParams)) {
             return agencyData;
         }
@@ -383,17 +383,17 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.AIRFARE)) {
             // see if there's a CC that matches ticket number, service fee number, amount
             ccData = travelExpenseService.findImportedCreditCardExpense(agencyData.getTripExpenseAmount(), agencyData.getAirTicketNumber(), agencyData.getAirServiceFeeNumber());
-            expenseTypeParamCode = TravelParameters.EXPENSE_TYPE_FOR_AIRFARE;
+            expenseTypeParamCode = TravelParameters.AIRFARE_EXPENSE_TYPE;
         }
         else if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.LODGING)) {
             // see if there's a CC that matches lodging itinerary number and amount
             ccData = travelExpenseService.findImportedCreditCardExpense(agencyData.getTripExpenseAmount(), agencyData.getLodgingItineraryNumber());
-            expenseTypeParamCode = TravelParameters.EXPENSE_TYPE_FOR_LODGING;
+            expenseTypeParamCode = TravelParameters.LODGING_EXPENSE_TYPE;
         }
         else if (StringUtils.equalsIgnoreCase(expenseType, ExpenseTypes.RENTAL_CAR)) {
             // see if there's a CC that matches rental car itinerary number and amount
             ccData = travelExpenseService.findImportedCreditCardExpense(agencyData.getTripExpenseAmount(), agencyData.getRentalCarItineraryNumber());
-            expenseTypeParamCode = TravelParameters.EXPENSE_TYPE_FOR_RENTAL_CAR;
+            expenseTypeParamCode = TravelParameters.RENTAL_CAR_EXPENSE_TYPE;
         }
 
         if (ObjectUtils.isNotNull(ccData)) {

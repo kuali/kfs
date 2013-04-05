@@ -16,9 +16,7 @@
 package org.kuali.kfs.module.tem.document.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelEntertainmentParameters.ENTERTAINMENT_DOCUMENT_LOCATION;
-import static org.kuali.kfs.module.tem.TemConstants.TravelEntertainmentParameters.PARAM_DTL_TYPE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
+import static org.kuali.kfs.module.tem.TemConstants.TravelEntertainmentParameters.DOCUMENT_LOCATION_CODE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.TRAVEL_COVERSHEET_INSTRUCTIONS;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
 import static org.kuali.kfs.sys.KFSConstants.EXTERNALIZABLE_HELP_URL_KEY;
@@ -33,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
@@ -93,8 +92,8 @@ public class TravelEntertainmentDocumentServiceImpl implements TravelEntertainme
     public Coversheet generateCoversheetFor(TravelEntertainmentDocument document) throws Exception {
         final String docNumber = document.getDocumentNumber();
         final String initiatorId = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-        final String instructions = getParameterService().getParameterValueAsString(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TRAVEL_COVERSHEET_INSTRUCTIONS);
-        final String mailTo = travelDocumentService.retrieveAddressFromLocationCode(getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, ENTERTAINMENT_DOCUMENT_LOCATION));
+        final String instructions = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TRAVEL_COVERSHEET_INSTRUCTIONS);
+        final String mailTo = travelDocumentService.retrieveAddressFromLocationCode(getParameterService().getParameterValueAsString(TravelEntertainmentDocument.class, DOCUMENT_LOCATION_CODE));
         final String destination = document.getEventTitle();
 
         final String directory = getConfigurationService().getPropertyValueAsString(EXTERNALIZABLE_HELP_URL_KEY);

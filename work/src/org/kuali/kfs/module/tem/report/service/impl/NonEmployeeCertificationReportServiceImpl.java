@@ -15,10 +15,8 @@
  */
 package org.kuali.kfs.module.tem.report.service.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.Report.TRAVEL_REPORT_INSTITUTION_NAME;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TEM_FAX_NUMBER;
+import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.FAX_NUMBER;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
 
 import java.io.File;
@@ -33,8 +31,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.OrganizationService;
-import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -75,7 +71,7 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
 
         report.setTripId(travelDocument.getTravelDocumentIdentifier().toString());
         report.setPurpose(travelDocument.getReportPurpose() == null ? "" : travelDocument.getReportPurpose());
-        report.setInstitution(getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_REPORT_INSTITUTION_NAME));
+        report.setInstitution(getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TRAVEL_REPORT_INSTITUTION_NAME));
         report.setCertificationDescription(getTravelDocumentService().getMessageFrom(TemKeyConstants.TEM_NON_EMPLOYEE_CERTIFICATION,report.getInstitution() ));
 
         report.setDocumentId(travelDocument.getTravelDocumentIdentifier().toString());
@@ -88,10 +84,10 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
 
         if (travelDocument instanceof TravelReimbursementDocument) {
             report.setDestination(travelDocument.getPrimaryDestination().getPrimaryDestinationName());
-            report.setEventType(TravelReimbursementParameters.PARAM_DTL_TYPE);
+            report.setEventType("TravelReimbursement");
         }else if (travelDocument instanceof TravelRelocationDocument) {
             report.setDestination(getDestination((TravelRelocationDocument) travelDocument));
-            report.setEventType(TravelRelocationParameters.PARAM_DTL_TYPE);
+            report.setEventType("TravelRelocation");
         }else if (travelDocument instanceof TravelEntertainmentDocument) {
             report.setEventType(((TravelEntertainmentDocument)travelDocument).getPurpose().getPurposeName());
             report.setEventName(((TravelEntertainmentDocument)travelDocument).getEventTitle());
@@ -180,7 +176,7 @@ public class NonEmployeeCertificationReportServiceImpl implements NonEmployeeCer
 
         Map<String, Object> reportData = new HashMap<String, Object>();
         reportData.put("report", report);
-        reportData.put("temFaxNumber", getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TEM_FAX_NUMBER));
+        reportData.put("temFaxNumber", getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, FAX_NUMBER));
 
         String template = reportTemplateClassPath + reportTemplateName;
         String fullReportFileName = getReportGenerationService().buildFullFileName(new Date(), reportDirectory, reportFileName, "");

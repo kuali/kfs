@@ -198,7 +198,7 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
             }
         }
         getBusinessObjectService().save(historicalTravelExpenses);
-        boolean spawnDV = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.ENABLE_CORP_CARD_PAYMENT_DV_IND);
+        boolean spawnDV = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CORPORATE_CARD_PAYMENT_BY_DV_IND);
         if (spawnDV){
             createVendorDisbursementVouchers(travelDocument);
         }

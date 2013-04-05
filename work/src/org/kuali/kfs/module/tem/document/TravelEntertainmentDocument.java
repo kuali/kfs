@@ -38,7 +38,6 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelEntertainmentParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
-import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
@@ -299,10 +298,10 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         //change to use payment method from the document
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(getPaymentMethod());
 
-        final String paymentReasonCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelEntertainmentParameters.ENT_REIMBURSEMENT_DV_REASON_CODE);
+        final String paymentReasonCode = getParameterService().getParameterValueAsString(TravelEntertainmentDocument.class, TravelEntertainmentParameters.PAYMENT_REASON_CODE);
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
 
-        final String paymentLocationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelEntertainmentParameters.ENTERTAINMENT_DOCUMENT_LOCATION);
+        final String paymentLocationCode = getParameterService().getParameterValueAsString(TravelEntertainmentDocument.class, TravelEntertainmentParameters.DOCUMENT_LOCATION_CODE);
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(paymentLocationCode);
     }
 
@@ -342,7 +341,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
             // is after the current fiscal year end date then mark all the gl pending entries
             // as 'H' (Hold) otherwise mark all the gl pending entries as 'A' (approved)
             if (getGeneralLedgerPendingEntries() != null && !getGeneralLedgerPendingEntries().isEmpty()) {
-                if (getParameterService().getParameterValueAsBoolean(TemConstants.PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.HOLD_NEW_FY_ENCUMBRANCES_IND)) {
+                if (getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND)) {
                     UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
                     java.util.Date endDate = universityDateService.getLastDateOfFiscalYear(universityDateService.getCurrentFiscalYear());
                     if (ObjectUtils.isNotNull(getTripEnd()) && getTripEnd().after(endDate)) {
@@ -487,7 +486,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateVendorPayment(disbursementVoucherDocument);
 
-        String locationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE);
+        String locationCode = getParameterService().getParameterValueAsString(TravelEntertainmentDocument.class, TravelRelocationParameters.DOCUMENTATION_LOCATION_CODE);
         String checkStubText = this.getTravelDocumentIdentifier() + ", " + this.getEventTitle();
 
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);

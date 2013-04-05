@@ -15,14 +15,13 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.ENABLE_PER_DIEM_CATEGORIES;
+import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.PER_DIEM_CATEGORIES;
 
 import java.util.Collection;
 
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -40,9 +39,9 @@ public class TravelAuthTripDetailMileageRateValidation extends GenericValidation
         boolean showMileage = false;
 
         TravelDocumentBase document = (TravelDocumentBase) event.getDocument();
-        //check to see if mileage=Y in ENABLE_PER_DIEM_CATEGORIES param
+        //check to see if mileage=Y in PER_DIEM_CATEGORIES param
         ParameterService paramService = SpringContext.getBean(ParameterService.class);
-        Collection<String> perDiemCats = paramService.getParameterValuesAsString(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, ENABLE_PER_DIEM_CATEGORIES);
+        Collection<String> perDiemCats = paramService.getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, PER_DIEM_CATEGORIES);
         for (String category : perDiemCats) {
             String[] pair = category.split("=");
             if (pair[0].equalsIgnoreCase(TemConstants.MILEAGE) && pair[1].equalsIgnoreCase(TemConstants.YES)) {

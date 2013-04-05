@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
-import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.AbstractStep;
@@ -52,7 +52,7 @@ public class TemEncumbranceForwardStep extends AbstractStep {
         stopWatch.start("TemEncumbranceForwardStep");
 
         //If the hold new fiscal year encumbrance indicator is false then change all the help gl pending entries from 'H' (Hold) to 'A' (Approved)
-        if(!parameterService.getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.HOLD_NEW_FY_ENCUMBRANCES_IND)) {
+        if(!parameterService.getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND)) {
             Map fieldValues = new HashMap();
             fieldValues.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_APPROVED_CODE, KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.HOLD);
             Collection glpes = generalLedgerPendingEntryService.findPendingEntries(fieldValues, false);

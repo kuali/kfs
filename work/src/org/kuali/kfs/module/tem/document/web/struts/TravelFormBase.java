@@ -43,6 +43,7 @@ import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TransportationMode;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingLineDistributionKey;
@@ -133,9 +134,9 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     @Override
     public void populate(final HttpServletRequest request) {
         super.populate(request);
-        final boolean enablePrimaryDestination = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ALLOW_FREE_FORMAT_PRIMARY_DESTINATION_IND);
+        final boolean enablePrimaryDestination = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.OVERRIDE_PRIMARY_DESTINATION_IND);
         request.setAttribute(ENABLE_PRIMARY_DESTINATION_ATTRIBUTE, enablePrimaryDestination);
-        final boolean enablePerDiemLookupLinks = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_PER_DIEM_LOOKUP_LINKS_IND);
+        final boolean enablePerDiemLookupLinks = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DISPLAY_PER_DIEM_URL_IND);
         request.setAttribute(ENABLE_PER_DIEM_LOOKUP_LINKS_ATTRIBUTE, enablePerDiemLookupLinks);
     }
 
@@ -433,7 +434,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * @return Returns the canImportExpenses.
      */
     public boolean getCanShowImportExpenseDetails() {
-        return !getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.DISABLE_IMPORTED_EXPENSE_DETAIL_IND);
+        return getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.IMPORTED_EXPENSE_DETAIL_IND);
     }
 
     /**

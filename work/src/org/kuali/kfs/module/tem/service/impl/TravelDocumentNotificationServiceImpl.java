@@ -24,7 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.NotificationPreference;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
@@ -42,7 +42,6 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -185,7 +184,7 @@ public class TravelDocumentNotificationServiceImpl implements TravelDocumentNoti
     protected String buildNotificationBody(TravelDocument travelDocument, DocumentRouteStatusChange statusChange, NotificationPreference preference) {
         Map<String, Object> notificationInformationHolder = new HashMap<String, Object>();
 
-        notificationInformationHolder.put(TemConstants.NOTIFICATION_PREFERENCE, preference.code);
+        notificationInformationHolder.put(TemConstants.NOTIFICATION_PREFERENCE, preference.getLabel());
         notificationInformationHolder.put(KFSPropertyConstants.DOCUMENT, travelDocument);
         notificationInformationHolder.put(TemConstants.STATUS_CHANGE_DTO, statusChange);
 
@@ -207,47 +206,47 @@ public class TravelDocumentNotificationServiceImpl implements TravelDocumentNoti
      * get the eligible travel expense document type codes for notification from an application parameter
      */
     protected Collection<String> getEligibleTravelExpenseDocumentTypeCodes() {
-        return this.getParameterService().getParameterValuesAsString(TemConstants.PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TemConstants.TravelParameters.TRAVEL_EXPENSE_DOC_TYPES_FOR_ON_CHANGE_NOTIFICATION);
+        return this.getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.SEND_NOTIFICATION_DOCUMENT_TYPES);
     }
 
     /**
      * get the eligible TA document type codes for notification from an application parameter
      */
     protected Collection<String> getEligibleTravelAuthorizationDocumentTypeCodes() {
-        return this.getParameterService().getParameterValuesAsString(TemConstants.PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TemConstants.TravelParameters.TRAVEL_AUTHORIZATION_DOC_TYPES_FOR_ON_CHANGE_NOTIFICATION);
+        return this.getParameterService().getParameterValuesAsString(TravelAuthorizationDocument.class, TemConstants.TravelParameters.SEND_NOTIFICATION_DOCUMENT_TYPES);
     }
 
     /**
      * get the email notification sender from an application parameter
      */
     protected String getNotificationSender() {
-        return this.getParameterService().getParameterValueAsString(TemConstants.PARAM_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, TemConstants.TravelParameters.TEM_EMAIL_SENDER_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, TemConstants.TravelParameters.FROM_EMAIL_ADDRESS_PARAM_NAME);
     }
 
     /**
      * get the notification subject from an application parameter
      */
     protected String getNotificationSubject(NotificationPreference preference) {
-        String preferenceCode = preference.code;
+        final String preferenceCode = preference.getParameterEventCode();
 
-        String subjectParameterName = TemConstants.TravelParameters.TRAVEL_DOCUMENT_NOTIFICATION_SUBJECT;
-        subjectParameterName = StringUtils.isBlank(preferenceCode) ? subjectParameterName : subjectParameterName + "_" + preferenceCode;
+        final String subjectParameterName = StringUtils.isBlank(preferenceCode) ? TemConstants.TravelParameters.CHANGE_NOTIFICATION_SUBJECT : preferenceCode + "_NOTIFICATION_SUBJECT";
+        final Class<?> subjectParameterComponent = preference.getParameterComponentClass() == null ? TemParameterConstants.TEM_DOCUMENT.class : preference.getParameterComponentClass();
 
-        return this.getParameterService().getParameterValueAsString(TemConstants.PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, subjectParameterName);
+        return this.getParameterService().getParameterValueAsString(subjectParameterComponent, subjectParameterName);
     }
 
     /**
      * get the Campus Travel Email Address from an application parameter
      */
     protected String getCampusTravelEmailAddress() {
-        return this.getParameterService().getParameterValueAsString(TemConstants.PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TemConstants.TravelParameters.CAMPUS_TRAVEL_EMAIL_ADDRESS);
+        return this.getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.CAMPUS_TRAVEL_EMAIL_ADDRESS);
     }
 
     /**
      * determine whether the notification is enable or not
      */
     protected boolean isNotificationEnabled() {
-        return this.getParameterService().getParameterValueAsBoolean(TemConstants.PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TemConstants.TravelParameters.ON_CHANGE_NOTIFICATION_ENABLED_IND);
+        return this.getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.SEND_NOTIFICATION_ON_WORKFLOW_STATUS_CHANGE_IND);
     }
 
     /**

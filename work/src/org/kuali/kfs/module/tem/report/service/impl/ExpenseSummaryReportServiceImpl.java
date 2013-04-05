@@ -17,7 +17,7 @@ package org.kuali.kfs.module.tem.report.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.Report.TRAVEL_REPORT_INSTITUTION_NAME;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.LODGING_TYPE_CODES;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.SHOW_TA_ESTIMATE_IN_SUMMARY_REPORT_IND;
+import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_TRAVEL_AUTHORIZATION_ESTIMATE_IN_SUMMARY_REPORT_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TRANSPORTATION_TYPE_CODES;
 
 import java.util.ArrayList;
@@ -182,7 +182,7 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
         summary.add(new ExpenseSummaryReport.Detail(totalExpenseName, "SUMMARY", owed, travelDocument.getTripBegin()));
 
         if (isTR) {
-            final boolean showTAEstimate = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, SHOW_TA_ESTIMATE_IN_SUMMARY_REPORT_IND);
+            final boolean showTAEstimate = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, DISPLAY_TRAVEL_AUTHORIZATION_ESTIMATE_IN_SUMMARY_REPORT_IND);
 
             if (showTAEstimate) {
                 try {

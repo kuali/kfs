@@ -267,14 +267,14 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
      * get the notification text from an application parameter
      */
     protected String getNotificationText() {
-        return this.getParameterService().getParameterValueAsString(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.TAX_RAMIFICATION_NOTIFICATION_TEXT_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsString(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.NOTIFICATION_TEXT_PARAM_NAME);
     }
 
     /**
      * get the indicator from an application parameter, which instructs whether to send notification to Fiscal Officer
      */
     protected boolean willSendNotificationToFiscalOfficer() {
-        return this.getParameterService().getParameterValueAsBoolean(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.SEND_TAX_NOTIFICATION_TO_FISCAL_OFFICER_IND_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsBoolean(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.SEND_FYI_TO_FISCAL_OFFICER_IND);
     }
 
     /**
@@ -288,14 +288,14 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
      * get the notification text from an application parameter
      */
     protected List<String> getTravelerCustomerTypes() {
-        return new ArrayList<String>(getParameterService().getParameterValuesAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVELER_AR_CUSTOMER_TYPE));
+        return new ArrayList<String>(getParameterService().getParameterValuesAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.CUSTOMER_TYPE_CODE));
     }
 
     /**
      * get the timing of when the aging email notification should be sent
      */
     protected Integer getNotificationOnDays() {
-        String daysAsString = this.getParameterService().getParameterValueAsString(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.TAX_RAMIFICATION_NOTIFICATION_DAYS_PARAM_NAME);
+        String daysAsString = this.getParameterService().getParameterValueAsString(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.NOTIFICATION_DAYS_PARAM_NAME);
         if (!StringUtils.isNumeric(daysAsString)) {
             return TemConstants.DEFAULT_NOTIFICATION_DAYS;
         }

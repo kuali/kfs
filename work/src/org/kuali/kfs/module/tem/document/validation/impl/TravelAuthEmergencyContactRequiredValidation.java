@@ -15,13 +15,11 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
@@ -50,12 +48,12 @@ public class TravelAuthEmergencyContactRequiredValidation extends GenericValidat
         taDocument.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
         TripType tripType = taDocument.getTripType();
 
-        if (paramService.getParameterValueAsBoolean(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_CONTACT_INFORMATION_IND) && ObjectUtils.isNotNull(tripType)) {
+        if (paramService.getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DISPLAY_EMERGENCY_CONTACT_IND) && ObjectUtils.isNotNull(tripType)) {
             if (tripType.isContactInfoRequired()  && (taDocument.getDocumentHeader().getWorkflowDocument().isInitiated() || taDocument.getDocumentHeader().getWorkflowDocument().isSaved())) {
                 rulePassed = validEmergencyContact(taDocument);
             }
 
-            if (paramService.getParameterValuesAsString(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.INTERNATIONAL_TRIP_TYPE_CODES).contains(tripType.getCode())) {
+            if (paramService.getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INTERNATIONAL_TRIP_TYPES).contains(tripType.getCode())) {
                 if (StringUtils.isBlank(taDocument.getCellPhoneNumber())) {
                     rulePassed = false;
                     GlobalVariables.getMessageMap().addToErrorPath(KRADPropertyConstants.DOCUMENT);

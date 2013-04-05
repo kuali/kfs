@@ -19,7 +19,6 @@ import static org.kuali.kfs.module.tem.TemConstants.CERTIFICATION_STATEMENT_ATTR
 import static org.kuali.kfs.module.tem.TemConstants.DELINQUENT_TEST_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.EMPLOYEE_TEST_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.FISCAL_OFFICER_TEST_ATTRIBUTE;
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.PRIMARY_DESTINATION_LOOKUPABLE;
 import static org.kuali.kfs.module.tem.TemConstants.RETURN_TO_FO_QUESTION;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ACCOUNT_DISTRIBUTION_ATTRIBUTE;
@@ -27,11 +26,10 @@ import static org.kuali.kfs.module.tem.TemConstants.SHOW_ADVANCES_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_REPORTS_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.TRAVEL_ARRANGER_TEST_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.TRAVEL_MANAGER_TEST_ATTRIBUTE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.EMPLOYEE_CERTIFICATION_STATEMENT;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_CERTIFICATION_STATEMENT;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND;
+import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRIP_INFO_UPDATE_TRIP_DTL;
 
 import java.io.ByteArrayOutputStream;
@@ -61,11 +59,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelEntertainmentParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
@@ -85,9 +80,7 @@ import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
-import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
-import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.document.authorization.ReturnToFiscalOfficerAuthorizer;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -523,7 +516,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     }
 
     protected String getCertificationStatementFrom(final String parameter) {
-        return getParameterService().getParameterValueAsString(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, parameter);
+        return getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, parameter);
     }
 
     /**
@@ -947,7 +940,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         showAccountDistribution(request, travelReqForm.getDocument());
 
         if (travelReqForm.getDocument() instanceof TravelReimbursementDocument) {
-            final boolean showAdvances = getParameterService().getParameterValueAsBoolean(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE, DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND);
+            final boolean showAdvances = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND);
             request.setAttribute(SHOW_ADVANCES_ATTRIBUTE, showAdvances);
         }
 
@@ -962,19 +955,8 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
     }
 
     protected void showAccountDistribution(HttpServletRequest request, Document document) {
-        String paramDetailType = null;
-        if (document instanceof TravelReimbursementDocument) {
-            paramDetailType = TravelReimbursementParameters.PARAM_DTL_TYPE;
-        } else if (document instanceof TravelEntertainmentDocument) {
-            paramDetailType = TravelEntertainmentParameters.PARAM_DTL_TYPE;
-        } else if (document instanceof TravelRelocationDocument) {
-            paramDetailType = TravelRelocationParameters.PARAM_DTL_TYPE;
-        } else if (document instanceof TravelAuthorizationDocument) {
-            paramDetailType = TravelAuthorizationParameters.PARAM_DTL_TYPE;
-        }
-
-        if (paramDetailType != null) {
-            final boolean showAccountDistribution = getParameterService().getParameterValueAsBoolean(PARAM_NAMESPACE, paramDetailType, ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND);
+        if (document instanceof TravelDocumentBase) {
+            final boolean showAccountDistribution = getParameterService().getParameterValueAsBoolean(document.getClass(), DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND);
             request.setAttribute(SHOW_ACCOUNT_DISTRIBUTION_ATTRIBUTE, showAccountDistribution);
         }
     }

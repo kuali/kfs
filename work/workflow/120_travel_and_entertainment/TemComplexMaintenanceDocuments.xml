@@ -23,13 +23,13 @@
     
 		<routePaths>
 			<routePath>
-				<start name="AdHoc" nextNode="ProfileIsTaxManagerRequired" nextAppDocStatus="Awaiting Tax Manager Review" />
-	     		<split name="ProfileIsTaxManagerRequired" nextAppDocStatus="Awaiting Tax Manager Review">
+				<start name="AdHoc" nextNode="ProfileIsTaxManagerRequired"/>
+	     		<split name="ProfileIsTaxManagerRequired">
 		         	<branch name="True">
-		            	<role name="Tax" nextNode="JoinRequiresTaxManagerReview" nextAppDocStatus="Final" />
+		            	<role name="Tax" nextNode="JoinRequiresTaxManagerReview"/>
 		         	</branch>
 		         	<branch name="False">
-		            	<simple name="NoOpTaxManager" nextNode="JoinRequiresTaxManagerReview" nextAppDocStatus="Final" />
+		            	<simple name="NoOpTaxManager" nextNode="JoinRequiresTaxManagerReview"/>
 		         	</branch>
 		         	<join name="JoinRequiresTaxManagerReview"/>
 	     		</split>

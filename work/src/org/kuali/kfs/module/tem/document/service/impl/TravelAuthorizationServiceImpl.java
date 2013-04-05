@@ -45,7 +45,6 @@ import org.kuali.kfs.module.purap.util.PurApObjectUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
@@ -118,7 +117,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     @Override
     public void createCustomerInvoice(TravelAuthorizationDocument travelAuthorizationDocument) {
 
-        boolean enableInvoice = parameterService.getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_AR_INV_FOR_TRAVL_ADVANCE_IND);
+        boolean enableInvoice = parameterService.getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.GENERATE_INVOICE_FOR_TRAVEL_ADVANCE_IND);
         if (enableInvoice) {
             KualiDecimal amount = KualiDecimal.ZERO;
             List<TravelAdvance> advances = new ArrayList<TravelAdvance>();
@@ -143,10 +142,10 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
      */
     private void createCustomerInvoiceFromAdvances(TravelAuthorizationDocument travelAuthorizationDocument, List<TravelAdvance> advances, KualiDecimal amount) {
 
-        int numDaysDue = Integer.parseInt(parameterService.getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.NUMBER_OF_DAYS_DUE));
-        String invoiceItemCode = parameterService.getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_INVOICE_ITEM_CODE);
-        String processingOrgCode = parameterService.getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_ORG_CODE);
-        String processingChartCode = parameterService.getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_CHART_CODE);
+        int numDaysDue = Integer.parseInt(parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DUE_DATE_DAYS));
+        String invoiceItemCode = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_INVOICE_ITEM_CODE);
+        String processingOrgCode = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_ORGANIZATION);
+        String processingChartCode = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_CHART);
 
         // store this so we can reset after we're finished
         UserSession originalUser = GlobalVariables.getUserSession();
@@ -469,7 +468,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
      */
     @Override
     public void createTravelAdvanceDVDocument(TravelAuthorizationDocument travelAuthorizationDocument) {
-        boolean enableDVAR = parameterService.getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_DV_FOR_TRAVEL_ADVANCE_IND);
+        boolean enableDVAR = parameterService.getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.GENERATE_DV_FOR_TRAVEL_ADVANCE_IND);
         if (enableDVAR) {
             KualiDecimal amount = KualiDecimal.ZERO;
             for (TravelAdvance adv : travelAuthorizationDocument.getTravelAdvances()) {

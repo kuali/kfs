@@ -28,8 +28,6 @@ import org.junit.Test;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.util.TemObjectUtils;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
@@ -43,6 +41,9 @@ public class ParametersTest extends KualiTestBase {
     private ParameterService parameterService = null;
     private static final String DTL_POSTFIX = "_DTL_TYPE";
     private static final boolean strictMode = true;
+
+    protected static final String TRAVEL_AUTHORIZATION_COMPONENT = "TravelAuthorization";
+    protected static final String TRAVEL_REIMBURSEMENT_COMPONENT = "TravelReimbursement";
 
     @Override
     public void setUp() throws Exception {
@@ -58,8 +59,8 @@ public class ParametersTest extends KualiTestBase {
         //setup parameters for testing
         Map<Class, Parameter> criteria = new HashMap<Class, Parameter>();
         criteria.put(TemConstants.TravelParameters.class, setupParameter(PARAM_NAMESPACE, TemConstants.TravelParameters.DOCUMENT_DTL_TYPE));
-        criteria.put(TemConstants.TravelAuthorizationParameters.class, setupParameter(PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE));
-        criteria.put(TemConstants.TravelReimbursementParameters.class, setupParameter(PARAM_NAMESPACE, TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE));
+        criteria.put(TemConstants.TravelAuthorizationParameters.class, setupParameter(PARAM_NAMESPACE, TRAVEL_AUTHORIZATION_COMPONENT));
+        criteria.put(TemConstants.TravelReimbursementParameters.class, setupParameter(PARAM_NAMESPACE, TRAVEL_REIMBURSEMENT_COMPONENT));
 
         List<String> badParameters = testCriteria(criteria);
 

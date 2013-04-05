@@ -37,11 +37,6 @@
       <parent>TTSM</parent>
     </documentType>
     <documentType>
-      <name>TGT</name>
-      <label>Group Traveler</label>
-      <parent>TTSM</parent>
-    </documentType>
-    <documentType>
       <name>TMR</name>
       <label>Mileage Rate</label>
       <parent>TTSM</parent>
@@ -57,7 +52,7 @@
       <parent>TTSM</parent>
     </documentType>
     <documentType>
-      <name>SPCM</name>
+      <name>TSCQ</name>
       <label>Special Circumstances Question</label>
       <parent>TTSM</parent>
     </documentType>
@@ -67,23 +62,8 @@
       <parent>TTSM</parent>
     </documentType>
     <documentType>
-      <name>TTT</name>
-      <label>Traveler Type</label>
-      <parent>TTSM</parent>
-    </documentType>
-    <documentType>
       <name>TTRT</name>
       <label>Trip Type</label>
-      <parent>TTSM</parent>
-    </documentType>
-    <documentType>
-      <name>TTPA</name>
-      <label>TEM Profile Arranger</label>
-      <parent>TTSM</parent>
-    </documentType>
-    <documentType>
-      <name>ADR</name>
-      <label>Accounting Document Relationship</label>
       <parent>TTSM</parent>
     </documentType>
     <documentType>
@@ -102,7 +82,7 @@
       <parent>TTSM</parent>
     </documentType>
     <documentType>
-      <name>TETOC</name>
+      <name>TTOC</name>
       <label>Travel Expense Type Object Code</label>
       <parent>TTSM</parent>
     </documentType>
@@ -127,7 +107,7 @@
       <parent>TTSM</parent>
     </documentType>
     <documentType>
-      <name>TCT</name>
+      <name>TTYT</name>
       <label>Traveler Type</label>
       <parent>TTSM</parent>
     </documentType>
@@ -137,7 +117,7 @@
       <parent>TTSM</parent>
     </documentType>
     <documentType>
-      <name>CCIEC</name>
+      <name>CCIE</name>
       <label>Credit Card Imported Expense Clearing Document</label>
       <parent>TTSM</parent>
     </documentType>

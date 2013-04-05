@@ -15,10 +15,8 @@
  */
 package org.kuali.kfs.module.tem.businessobject.lookup;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.EMPLOYEE_TRAVELER_TYPE_CODES;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_TRAVELER_TYPE_CODES;
+import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_TRAVELER_TYPES;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_TRAVELER_TYPES_NOT_CONFIGURED;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ERROR_TRAVELER_TYPES_NOT_SELECTED;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_DOC_TRAVELER_TYP_CD;
@@ -35,6 +33,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.dataaccess.TravelerDao;
@@ -184,7 +183,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
      */
     protected boolean isEmployeeSearch(final Map<String, String> fieldValues) {
         LOG.debug("Checking traveler type code " + fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD));
-        final String employeeTypes = getParameterService().getParameterValueAsString(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, EMPLOYEE_TRAVELER_TYPE_CODES);
+        final String employeeTypes = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, EMPLOYEE_TRAVELER_TYPE_CODES);
         return employeeTypes.indexOf(fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD)) != -1;
     }
 
@@ -197,7 +196,7 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
      */
     protected boolean isNonEmployeeSearch(final Map<String, String> fieldValues) {
         LOG.debug("Checking traveler type code " + fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD));
-        final String nonEmployeeTypes = getParameterService().getParameterValueAsString(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, NON_EMPLOYEE_TRAVELER_TYPE_CODES);
+        final String nonEmployeeTypes = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, NON_EMPLOYEE_TRAVELER_TYPES);
         return nonEmployeeTypes.indexOf(fieldValues.get(TRVL_DOC_TRAVELER_TYP_CD)) != -1;
     }
 

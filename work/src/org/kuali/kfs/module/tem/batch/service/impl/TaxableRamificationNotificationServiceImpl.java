@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.batch.TaxableRamificationNotificationStep;
 import org.kuali.kfs.module.tem.batch.service.TaxableRamificationNotificationService;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
@@ -35,7 +35,6 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -147,28 +146,28 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
      * get the email notification sender from an application parameter
      */
     protected String getNotificationSender() {
-        return this.getParameterService().getParameterValueAsString(TemConstants.PARAM_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, TemConstants.TravelParameters.TEM_EMAIL_SENDER_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsString(TaxableRamificationNotificationStep.class, TemConstants.TravelParameters.FROM_EMAIL_ADDRESS_PARAM_NAME);
     }
 
     /**
      * get the notification text from an application parameter
      */
     protected String getNotificationText() {
-        return this.getParameterService().getParameterValueAsString(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.TAX_RAMIFICATION_NOTIFICATION_TEXT_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsString(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.NOTIFICATION_TEXT_PARAM_NAME);
     }
 
     /**
      * get the notification subject from an application parameter
      */
     protected String getNotificationSubject() {
-        return this.getParameterService().getParameterValueAsString(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.TAX_RAMIFICATION_NOTIFICATION_SUBJECT_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsString(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.NOTIFICATION_SUBJECT_PARAM_NAME);
     }
 
     /**
      * get the Campus Travel Email Address from an application parameter
      */
     protected String getCampusTravelEmailAddress() {
-        return this.getParameterService().getParameterValueAsString(TemConstants.PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TemConstants.TravelParameters.CAMPUS_TRAVEL_EMAIL_ADDRESS);
+        return this.getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.CAMPUS_TRAVEL_EMAIL_ADDRESS);
     }
 
     /**

@@ -17,8 +17,8 @@ package org.kuali.kfs.module.tem.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.EMP_TRAVELER_TYP_CD;
 import static org.kuali.kfs.module.tem.TemConstants.NONEMP_TRAVELER_TYP_CD;
-import static org.kuali.kfs.module.tem.TemConstants.TemProfileParameters.AR_CUSTOMER_TYPE_TO_TRAVELER_TYPE_CROSSWALK;
-import static org.kuali.kfs.module.tem.TemConstants.TemProfileParameters.KIM_AFFILIATION_TYPE_TO_TRAVELER_TYPE_CROSSWALK;
+import static org.kuali.kfs.module.tem.TemConstants.TemProfileParameters.VALID_TRAVELER_TYPE_BY_CUSTOMER_TYPE;
+import static org.kuali.kfs.module.tem.TemConstants.TemProfileParameters.VALID_KIM_TYPE_AFFILIATION_BY_TRAVER_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.EMPLOYEE_TRAVELER_TYPE_CODES;
 
 import java.sql.Date;
@@ -591,7 +591,7 @@ public class TravelerServiceImpl implements TravelerService {
      */
     @Override
     public boolean isCustomerEmployee(AccountsReceivableCustomer person) {
-        List<String> empParams = new ArrayList<String>(getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_PROFILE.class, AR_CUSTOMER_TYPE_TO_TRAVELER_TYPE_CROSSWALK));
+        List<String> empParams = new ArrayList<String>(getParameterService().getParameterValuesAsString(TEMProfile.class, VALID_TRAVELER_TYPE_BY_CUSTOMER_TYPE));
         List<String> empCodes = new ArrayList<String>();
         List<String> nonEmpCodes = new ArrayList<String>();
         splitCodes(empCodes, nonEmpCodes, empParams);
@@ -609,7 +609,7 @@ public class TravelerServiceImpl implements TravelerService {
      */
     @Override
     public boolean isKimPersonEmployee(Person person) {
-        List<String> empParams = new ArrayList<String>(getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_PROFILE.class, KIM_AFFILIATION_TYPE_TO_TRAVELER_TYPE_CROSSWALK));
+        List<String> empParams = new ArrayList<String>(getParameterService().getParameterValuesAsString(TEMProfile.class, VALID_KIM_TYPE_AFFILIATION_BY_TRAVER_TYPE));
         List<String> empCodes = new ArrayList<String>();
         List<String> nonEmpCodes = new ArrayList<String>();
         splitCodes(empCodes, nonEmpCodes, empParams);

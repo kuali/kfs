@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.batch.TravelImportedExpenseNotificationStep;
 import org.kuali.kfs.module.tem.batch.service.TravelImportedExpenseNotificationService;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
@@ -34,7 +35,6 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -157,21 +157,21 @@ public class TravelImportedExpenseNotificationServiceImpl implements TravelImpor
      * get the email notification sender from an application parameter
      */
     protected String getNotificationSender() {
-        return this.getParameterService().getParameterValueAsString(TemConstants.PARAM_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, TemConstants.TravelParameters.TEM_EMAIL_SENDER_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, TemConstants.TravelParameters.FROM_EMAIL_ADDRESS_PARAM_NAME);
     }
 
     /**
      * get the notification subject from an application parameter
      */
     protected String getNotificationSubject() {
-        return this.getParameterService().getParameterValueAsString(TravelImportedExpenseNotificationStep.class, TemConstants.ImportedExpenseParameter.IMPORTED_EXPENSE_NOTIFICATION_SUBJECT_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsString(TravelImportedExpenseNotificationStep.class, TemConstants.ImportedExpenseParameter.NOTIFICATION_SUBJECT_PARAM_NAME);
     }
 
     /**
      * get the notification text from an application parameter
      */
     protected String getNotificationText() {
-        return this.getParameterService().getParameterValueAsString(TravelImportedExpenseNotificationStep.class, TemConstants.ImportedExpenseParameter.IMPORTED_EXPENSE_NOTIFICATION_TEXT_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsString(TravelImportedExpenseNotificationStep.class, TemConstants.ImportedExpenseParameter.NOTIFICATION_TEXT_PARAM_NAME);
     }
 
     /**

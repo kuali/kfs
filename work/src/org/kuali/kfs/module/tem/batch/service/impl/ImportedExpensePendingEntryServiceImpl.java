@@ -174,7 +174,7 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         List<GeneralLedgerPendingEntry> entryList = new ArrayList<GeneralLedgerPendingEntry>();
 
         //get chart code from parameter
-        String chartCode = parameterService.getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_CHART);
+        String chartCode = parameterService.getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.CLEARING_ACCOUNT);
 
         GeneralLedgerPendingEntry pendingEntry = buildGeneralLedgerPendingEntry(agencyData, info, sequenceHelper, chartCode, objectCode, amount, KFSConstants.GL_CREDIT_CODE);
         pendingEntry.setAccountNumber(parameterService.getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_ACCOUNT));

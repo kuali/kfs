@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document;
 
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.ALLOW_TR_WITHOUT_TA_IND;
+import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TRAVEL_AUTHORIZATION_REQUIRED_IND;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -261,8 +261,8 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         super.toCopy();
 
         //TODO?? super class already performed the cleanTravelDocument, this part seems to do nothing (unless it is moved to the base)
-        final boolean isTaFree = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_REIMBURSEMENT.class, ALLOW_TR_WITHOUT_TA_IND);
-        if (isTaFree) {
+        final boolean isTaRequired = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TRAVEL_AUTHORIZATION_REQUIRED_IND);
+        if (!isTaRequired) {
             cleanTravelDocument();
         }
         getNotes().clear();
@@ -338,7 +338,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
      * @return
      */
     private boolean isNotAutomaticReimbursement() {
-        boolean enabled = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_REIMBURSEMENT.class, TemConstants.TravelReimbursementParameters.ENABLE_AUTOMATIC_TR_IND);
+        boolean enabled = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.AUTOMATIC_APPROVALS_IND);
         if (!enabled) {
             return true;
         }
@@ -391,7 +391,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     protected boolean requiresDivisionApprovalRouting() {
         boolean reqDivApproval = false;
         KualiDecimal trTotal = getTravelDocumentService().getTotalCumulativeReimbursements(this);
-        KualiDecimal divApprovalMax = new KualiDecimal(getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CUMULATIVE_REIMBURSABLE_AMT_WITHOUT_DIV_APPROVAL));
+        KualiDecimal divApprovalMax = new KualiDecimal(getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CUMULATIVE_REIMBURSABLE_AMOUNT_WITHOUT_DIVISION_APPROVAL));
         return (trTotal.isGreaterThan(divApprovalMax)) && requiresAccountingReviewRouting();
     }
 
@@ -401,7 +401,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
      */
     private boolean requiresAccountingReviewRouting() {
         // start with getting the TA encumbrance amount
-        String percent = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_REIMBURSEMENT.class, TravelReimbursementParameters.REIMBURSEMENT_PERCENT_OVER_ENCUMBRANCE_AMT);
+        String percent = getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TravelReimbursementParameters.REIMBURSEMENT_PERCENT_OVER_ENCUMBRANCE_AMOUNT);
 
         KualiDecimal taTotal = getTravelDocumentService().getTotalAuthorizedEncumbrance(this);
         if (taTotal.isLessEqual(KualiDecimal.ZERO)) {
@@ -443,9 +443,9 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateDisbursementVoucherFields(disbursementVoucherDocument);
 
-        final String paymentReasonCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_REIMBURSEMENT.class,TravelReimbursementParameters.TR_REIMBURSEMENT_DV_REASON_CODE);
+        final String paymentReasonCode = getParameterService().getParameterValueAsString(TravelReimbursementDocument.class,TravelReimbursementParameters.PAYMENT_REASON_CODE);
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
-        final String paymentLocationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
+        final String paymentLocationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE);
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(paymentLocationCode);
 
         //check if the reimbursable total and the reimbursable amount (reduced by CRM) is different, which means we need to adjust the DV's accounting line amounts
@@ -532,7 +532,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     @Override
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateVendorPayment(disbursementVoucherDocument);
-        String locationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
+        String locationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE);
         String startDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripBegin());
         String endDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripEnd());
         String checkStubText = this.getTravelDocumentIdentifier() + ", " + this.getPrimaryDestinationName() + ", " + startDate + " - " + endDate;

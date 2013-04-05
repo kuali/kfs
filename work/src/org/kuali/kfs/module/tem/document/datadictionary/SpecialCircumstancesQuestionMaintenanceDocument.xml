@@ -19,7 +19,7 @@
 		<value>id</value>
 	</list>
 	</property>
-	<property name="documentTypeName"        value="SPCM" />
+	<property name="documentTypeName"        value="TSCQ" />
 	<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
 
 </bean>

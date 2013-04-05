@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,14 +19,13 @@ import static com.lowagie.text.Element.ALIGN_RIGHT;
 import static com.lowagie.text.PageSize.LETTER;
 import static com.lowagie.text.Rectangle.NO_BORDER;
 import static java.awt.Color.BLACK;
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.TEM_FAX_NUMBER;
+import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.FAX_NUMBER;
 
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Map;
 
+import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.report.util.BarcodeHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -48,7 +47,7 @@ import com.lowagie.text.pdf.PdfWriter;
  * Class representing a PDF Coversheet of the {@link TravelReimbursementDocument}.
  *
  * @author Leo Przybylski (leo [at] rsmart.com)
- */ 
+ */
 public class Coversheet implements PdfStream {
     private static final int ALIGNMENT_MARK_HEIGHT = 8;
     private static final int ALIGNMENT_MARK_WIDTH  = 10;
@@ -69,14 +68,14 @@ public class Coversheet implements PdfStream {
     private String tripId;
     private String destination;
     private String documentNumber;
-   
+
 
     private Collection<Map<String, String>> expenses;
 
     /**
      * Sets the initiatorName attribute
      *
-     * @param initiatorName is the String initiatorName value 
+     * @param initiatorName is the String initiatorName value
      */
     public void setInitiatorName(final String initiatorName) {
         this.initiatorName = initiatorName;
@@ -97,7 +96,7 @@ public class Coversheet implements PdfStream {
     /**
      * Sets the initiatorPrincipalName attribute
      *
-     * @param initiatorPrincipalName is the String initiatorPrincipalName value 
+     * @param initiatorPrincipalName is the String initiatorPrincipalName value
      */
     public void setInitiatorPrincipalName(final String initiatorPrincipalName) {
         this.initiatorPrincipalName = initiatorPrincipalName;
@@ -118,7 +117,7 @@ public class Coversheet implements PdfStream {
     /**
      * Sets the initiatorPhone attribute
      *
-     * @param initiatorPhone is the String initiatorPhone value 
+     * @param initiatorPhone is the String initiatorPhone value
      */
     public void setInitiatorPhone(final String initiatorPhone) {
         this.initiatorPhone = initiatorPhone;
@@ -139,7 +138,7 @@ public class Coversheet implements PdfStream {
     /**
      * Sets the initiatorEmail attribute
      *
-     * @param initiatorEmail is the String initiatorEmail value 
+     * @param initiatorEmail is the String initiatorEmail value
      */
     public void setInitiatorEmail(final String initiatorEmail) {
         this.initiatorEmail = initiatorEmail;
@@ -160,7 +159,7 @@ public class Coversheet implements PdfStream {
     /**
      * Sets the travelerName attribute
      *
-     * @param travelerName is the String travelerName value 
+     * @param travelerName is the String travelerName value
      */
     public void setTravelerName(final String travelerName) {
         this.travelerName = travelerName;
@@ -175,14 +174,14 @@ public class Coversheet implements PdfStream {
         if (travelerName == null) {
             return "";
         }
-                
+
         return this.travelerName;
     }
 
     /**
      * Sets the travelerPrincipalName attribute
      *
-     * @param travelerPrincipalName is the String travelerPrincipalName value 
+     * @param travelerPrincipalName is the String travelerPrincipalName value
      */
     public void setTravelerPrincipalName(final String travelerPrincipalName) {
         this.travelerPrincipalName = travelerPrincipalName;
@@ -203,7 +202,7 @@ public class Coversheet implements PdfStream {
     /**
      * Sets the travelerPhone attribute
      *
-     * @param travelerPhone is the String travelerPhone value 
+     * @param travelerPhone is the String travelerPhone value
      */
     public void setTravelerPhone(final String travelerPhone) {
         this.travelerPhone = travelerPhone;
@@ -224,7 +223,7 @@ public class Coversheet implements PdfStream {
     /**
      * Sets the travelerEmail attribute
      *
-     * @param travelerEmail is the String travelerEmail value 
+     * @param travelerEmail is the String travelerEmail value
      */
     public void setTravelerEmail(final String travelerEmail) {
         this.travelerEmail = travelerEmail;
@@ -245,7 +244,7 @@ public class Coversheet implements PdfStream {
     /**
      * Sets the instructions attribute
      *
-     * @param instructions is the String instructions value 
+     * @param instructions is the String instructions value
      */
     public void setInstructions(final String instructions) {
         this.instructions = instructions;
@@ -266,7 +265,7 @@ public class Coversheet implements PdfStream {
     /**
      * Sets the date attribute
      *
-     * @param date is the String date value 
+     * @param date is the String date value
      */
     public void setDate(final String date) {
         this.date = date;
@@ -287,7 +286,7 @@ public class Coversheet implements PdfStream {
     /**
      * Sets the mailTo attribute
      *
-     * @param mailTo is the String mailTo value 
+     * @param mailTo is the String mailTo value
      */
     public void setMailTo(final String mailTo) {
         this.mailTo = mailTo;
@@ -308,7 +307,7 @@ public class Coversheet implements PdfStream {
     /**
      * Sets the destination attribute
      *
-     * @param destination is the String destination value 
+     * @param destination is the String destination value
      */
     public void setDestination(final String destination) {
         this.destination = destination;
@@ -330,7 +329,7 @@ public class Coversheet implements PdfStream {
     /**
      * Sets the tripId attribute
      *
-     * @param tripId is the String tripId value 
+     * @param tripId is the String tripId value
      */
     public void setTripId(final String tripId) {
         this.tripId = tripId;
@@ -351,7 +350,7 @@ public class Coversheet implements PdfStream {
     /**
      * Sets the documentNumber attribute
      *
-     * @param documentNumber is the String documentNumber value 
+     * @param documentNumber is the String documentNumber value
      */
     public void setDocumentNumber(final String documentNumber) {
         this.documentNumber = documentNumber;
@@ -411,7 +410,7 @@ public class Coversheet implements PdfStream {
 
     /**
      * Information about the traveler described in the trip for the {@link TravelReimbursementDocument}
-     * 
+     *
      */
     protected Cell getTravelerInfo() throws BadElementException {
         final StringBuilder strBuilder = new StringBuilder();
@@ -425,7 +424,7 @@ public class Coversheet implements PdfStream {
 
     /**
      * Get the PDF Table containing trip information like trip id, date, and destination
-     * 
+     *
      * @returns {@link Table} used for a PDF
      */
     protected Table getTripInfo() throws BadElementException {
@@ -433,14 +432,14 @@ public class Coversheet implements PdfStream {
         retval.setWidth(100f);
         retval.setBorder(NO_BORDER);
         retval.addCell(getHeaderCell("Trip/Event ID"));
-        
+
         final Cell dateHeaderCell = getHeaderCell("Date");
 
         retval.addCell(dateHeaderCell);
         retval.addCell(getHeaderCell("Destination/Event Name"));
         retval.endHeaders();
         retval.addCell(getBorderlessCell(getTripId()));
-        
+
         final Cell dateCell = getBorderlessCell(getDate());
 
         retval.addCell(dateCell);
@@ -458,7 +457,7 @@ public class Coversheet implements PdfStream {
         retval.setWidth(100f);
         retval.setBorder(NO_BORDER);
         retval.addCell(getHeaderCell("Traveler"));
-        
+
         final Cell initiatorHeaderCell = getHeaderCell("Request Submitted By");
 
         retval.addCell(initiatorHeaderCell);
@@ -474,7 +473,7 @@ public class Coversheet implements PdfStream {
     public void setExpenses(final Collection<Map<String, String>> expenses) {
         this.expenses = expenses;
     }
-            
+
     public Table getExpenses() throws BadElementException {
         final Table retval = new Table(3);
         retval.setWidth(100f);
@@ -483,7 +482,7 @@ public class Coversheet implements PdfStream {
         retval.addCell(getHeaderCell("Amount"));
         retval.addCell(getHeaderCell("Receipt Required?"));
         retval.endHeaders();
-        
+
         for (final Map<String, String> expense : expenses) {
             retval.addCell(getBorderlessCell(expense.get("expenseType")));
             retval.addCell(getBorderlessCell(expense.get("amount")));
@@ -519,9 +518,9 @@ public class Coversheet implements PdfStream {
 
     protected void upperLeftAlignmentMark(final PdfContentByte cb) {
         cb.saveState();
-        cb.rectangle(ALIGNMENT_MARGIN, 
+        cb.rectangle(ALIGNMENT_MARGIN,
                      (LETTER.height() + TOP_MARGIN) - ALIGNMENT_MARK_HEIGHT - ALIGNMENT_MARGIN,
-                     ALIGNMENT_MARK_WIDTH, 
+                     ALIGNMENT_MARK_WIDTH,
                      ALIGNMENT_MARK_HEIGHT);
         cb.setColorFill(BLACK);
         cb.fill();
@@ -530,13 +529,13 @@ public class Coversheet implements PdfStream {
 
     protected void lowerLeftAlignmentMark(final PdfContentByte cb) {
         cb.saveState();
-        cb.rectangle(ALIGNMENT_MARGIN, 
-                     ALIGNMENT_MARGIN, 
+        cb.rectangle(ALIGNMENT_MARGIN,
+                     ALIGNMENT_MARGIN,
                      ALIGNMENT_MARK_WIDTH,
                      ALIGNMENT_MARK_HEIGHT);
         cb.setColorFill(BLACK);
         cb.fill();
-        cb.restoreState();        
+        cb.restoreState();
     }
 
     protected void lowerRightAlignmentMark(final PdfContentByte cb) {
@@ -585,11 +584,11 @@ public class Coversheet implements PdfStream {
             Image image=Image.getInstance(new BarcodeHelper().generateBarcodeImage(getDocumentNumber()),null);
             doc.add(image);
         }
-        
+
         final Paragraph title = new Paragraph("TEM Coversheet", titleFont);
         doc.add(title);
-        
-        final Paragraph faxNumber = new Paragraph("Fax this page to " + SpringContext.getBean(ParameterService.class).getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, TEM_FAX_NUMBER), normalFont);
+
+        final Paragraph faxNumber = new Paragraph("Fax this page to " + SpringContext.getBean(ParameterService.class).getParameterValueAsString(TravelReimbursementDocument.class, FAX_NUMBER), normalFont);
         doc.add(faxNumber);
 
         final Paragraph header = new Paragraph("", headerFont);
@@ -607,9 +606,9 @@ public class Coversheet implements PdfStream {
 
         drawAlignmentMarks(writer.getDirectContent());
 
-        doc.close();        
+        doc.close();
         writer.close();
     }
 
-    
+
 }

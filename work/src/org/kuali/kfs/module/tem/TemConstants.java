@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants.TransactionalEditMode;
 
@@ -145,131 +146,124 @@ public class TemConstants {
     }
 
     public static class TravelParameters {
-        public static final String ALLOW_TRAVELER_ADDRESS_CHANGE_IND = "ALLOW_TRAVELER_ADDRESS_CHANGE_IND";
+        public static final String TRAVELER_ADDRESS_CHANGE_IND = "TRAVELER_ADDRESS_CHANGE_IND";
         //CLEANUP update all the parameter usage
         public static final String DOCUMENT_DTL_TYPE = "Document";
-        public static final String NON_EMPLOYEE_TRAVELER_TYPE_CODES = "NON_EMPLOYEE_TRAVELER_TYPE_CODES";
+        public static final String NON_EMPLOYEE_TRAVELER_TYPES = "NON_EMPLOYEE_TRAVELER_TYPES";
         public static final String EMPLOYEE_TRAVELER_TYPE_CODES = "EMPLOYEE_TRAVELER_TYPE_CODES";
-        public static final String ENABLE_PER_DIEM_CATEGORIES = "ENABLE_PER_DIEM_CATEGORIES";
-        public static final String ENABLE_DAILY_PER_DIEM_AND_INCIDENTALS_IND = "ENABLE_DAILY_PER_DIEM_AND_INCIDENTALS_IND";
-        public static final String TRAVEL_DOCUMENTATION_LOCATION_CODE = "TRAVEL_DOCUMENTATION_LOCATION_CODE";
+        public static final String PER_DIEM_CATEGORIES = "PER_DIEM_CATEGORIES";
+        public static final String VALIDATE_DAILY_PER_DIEM_AND_INCIDENTALS_IND = "VALIDATE_DAILY_PER_DIEM_AND_INCIDENTALS_IND";
+        public static final String DOCUMENTATION_LOCATION_CODE = "DOCUMENTATION_LOCATION_CODE";
         public static final String TRAVEL_COVERSHEET_INSTRUCTIONS = "TRAVEL_COVERSHEET_INSTRUCTIONS";
         public static final String EMPLOYEE_CERTIFICATION_STATEMENT = "EMPLOYEE_CERTIFICATION_STATEMENT";
         public static final String NON_EMPLOYEE_CERTIFICATION_STATEMENT = "NON_EMPLOYEE_CERTIFICATION_STATEMENT";
-        public static final String CUMULATIVE_REIMBURSABLE_AMT_WITHOUT_DIV_APPROVAL = "CUMULATIVE_REIMBURSABLE_AMT_WITHOUT_DIV_APPROVAL";
-        public static final String INCIDENTALS_WITH_MEALS_ONLY_IND = "INCIDENTALS_WITH_MEALS_ONLY_IND";
+        public static final String CUMULATIVE_REIMBURSABLE_AMOUNT_WITHOUT_DIVISION_APPROVAL = "CUMULATIVE_REIMBURSABLE_AMOUNT_WITHOUT_DIVISION_APPROVAL";
+        public static final String INCIDENTALS_WITH_MEALS_IND = "INCIDENTALS_WITH_MEALS_IND";
         public static final String QUARTER_DAY_TIME_TABLE = "QUARTER_DAY_TIME_TABLE";
-        public static final String NUMBER_OF_TR_DELINQUENT_DAYS = "NUMBER_OF_TR_DELINQUENT_DAYS";
+        public static final String NUMBER_OF_DAYS_DELINQUENT = "NUMBER_OF_DAYS_DELINQUENT";
 
-        public static final String EXPENSE_TYPES_FOR_HOSTED_MEAL = "EXPENSE_TYPES_FOR_HOSTED_MEAL";
-        public static final String EXPENSE_TYPES_FOR_INCIDENTAL = "EXPENSE_TYPES_FOR_INCIDENTAL";
-        public static final String EXPENSE_TYPE_FOR_AIRFARE = "EXPENSE_TYPE_FOR_AIRFARE";
-        public static final String EXPENSE_TYPE_FOR_MILEAGE = "EXPENSE_TYPE_FOR_MILEAGE";
-        public static final String EXPENSE_TYPE_FOR_RENTAL_CAR = "EXPENSE_TYPE_FOR_RENTAL_CAR";
-        public static final String EXPENSE_TYPE_FOR_LODGING = "EXPENSE_TYPE_FOR_LODGING";
-        public static final String EXPENSE_TYPE_FOR_LODGING_ALLOWANCE = "EXPENSE_TYPE_FOR_LODGING_ALLOWANCE";
+        public static final String HOSTED_MEAL_EXPENSE_TYPES = "HOSTED_MEAL_EXPENSE_TYPES";
+        public static final String INCIDENTAL_EXPENSE_TYPES = "INCIDENTAL_EXPENSE_TYPES";
+        public static final String AIRFARE_EXPENSE_TYPE = "AIRFARE_EXPENSE_TYPE";
+        public static final String MILEAGE_EXPENSE_TYPE = "MILEAGE_EXPENSE_TYPE";
+        public static final String RENTAL_CAR_EXPENSE_TYPE = "RENTAL_CAR_EXPENSE_TYPE";
+        public static final String LODGING_EXPENSE_TYPE = "LODGING_EXPENSE_TYPE";
+        public static final String LODGING_ALLOWANCE_EXPENSE_TYPE = "LODGING_ALLOWANCE_EXPENSE_TYPE";
         public static final String ALWAYS_REIMBURSABLE_CARD_TYPE = "ALWAYS_REIMBURSABLE_CARD_TYPE";
-        public static final String ENABLE_AMOUNT_DUE_CORP_CARD_TOTAL_LINE_IND = "ENABLE_AMOUNT_DUE_CORP_CARD_TOTAL_LINE_IND";
-        public static final String ENABLE_CORP_CARD_PAYMENT_DV_IND = "ENABLE_CORP_CARD_PAYMENT_DV_IND";
-        public static final String SEPARATION_OF_DUTIES_ROUTING_OPTION = "SEPARATION_OF_DUTIES_ROUTING_OPTION";
-        public static final String DISABLE_IMPORTED_EXPENSE_DETAIL_IND = "DISABLE_IMPORTED_EXPENSE_DETAIL_IND";
-        public static final String VALIDATION_ACCOUNTING_LINE = "VALIDATION_ACCOUNTING_LINE";
-        public static final String CORP_CARD_BANK_PAYMENT_REASON_CODE = "CORP_CARD_BANK_PAYMENT_REASON_CODE";
+        public static final String AMOUNT_DUE_CORPORATE_CARD_TOTAL_LINE_IND = "AMOUNT_DUE_CORPORATE_CARD_TOTAL_LINE_IND";
+        public static final String CORPORATE_CARD_PAYMENT_BY_DV_IND = "CORPORATE_CARD_PAYMENT_BY_DV_IND";
+        public static final String SEPARATION_OF_DUTIES_ROUTING_CHOICE = "SEPARATION_OF_DUTIES_ROUTING_CHOICE";
+        public static final String IMPORTED_EXPENSE_DETAIL_IND = "IMPORTED_EXPENSE_DETAIL_IND";
+        public static final String ACCOUNTING_LINE_VALIDATION = "ACCOUNTING_LINE_VALIDATION";
+        public static final String CORPORATE_CARD_BANK_PAYMENT_REASON_CODE = "CORPORATE_CARD_BANK_PAYMENT_REASON_CODE";
 
-        public static final String ALLOW_TRAVEL_OFFICE_TO_MODIFY_ALL_IND = "ALLOW_TRAVEL_OFFICE_TO_MODIFY_ALL_IND";
-        public static final String ALLOW_ENTERTAINMENT_MANAGER_TO_MODIFY_ALL_IND = "ALLOW_ENTERTAINMENT_MANAGER_TO_MODIFY_ALL_IND";
-        public static final String ALLOW_MOVING_RELOCATION_MANAGER_TO_MODIFY_ALL_IND = "ALLOW_MOVING_RELOCATION_MANAGER_TO_MODIFY_ALL_IND";
-        public static final String INTERNATIONAL_TRIP_TYPE_CODES = "INTERNATIONAL_TRIP_TYPE_CODES";
+        public static final String TRAVEL_OFFICE_MODIFY_ALL_FIELDS_IND = "TRAVEL_OFFICE_MODIFY_ALL_FIELDS_IND";
+        public static final String ENTERTAINMENT_MANAGER_TO_EDIT_ALL_IND = "ENTERTAINMENT_MANAGER_TO_EDIT_ALL_IND";
+        public static final String MOVING_RELOCATION_MANAGER_TO_EDIT_ALL_IND = "MOVING_RELOCATION_MANAGER_TO_EDIT_ALL_IND";
+        public static final String INTERNATIONAL_TRIP_TYPES = "INTERNATIONAL_TRIP_TYPES";
 
-        public static final String TEM_BARCODE_STYLE = "TEM_BARCODE_STYLE";
         public static final String UPLOAD_PARSER_INSTRUCTIONS_URL = "UPLOAD_PARSER_INSTRUCTIONS_URL";
 
-        public static final String TRAVEL_AUTHORIZATION_DOC_TYPES_FOR_ON_CHANGE_NOTIFICATION = "TRAVEL_AUTHORIZATION_DOC_TYPES_FOR_ON_CHANGE_NOTIFICATION";
-        public static final String TRAVEL_EXPENSE_DOC_TYPES_FOR_ON_CHANGE_NOTIFICATION = "TRAVEL_EXPENSE_DOC_TYPES_FOR_ON_CHANGE_NOTIFICATION";
+        public static final String SEND_NOTIFICATION_DOCUMENT_TYPES = "SEND_NOTIFICATION_DOCUMENT_TYPES";
 
         public static final String CAMPUS_TRAVEL_EMAIL_ADDRESS = "CAMPUS_TRAVEL_EMAIL_ADDRESS";
-        public static final String ON_CHANGE_NOTIFICATION_ENABLED_IND = "ON_CHANGE_NOTIFICATION_ENABLED_IND";
-        public static final String TRAVEL_DOCUMENT_NOTIFICATION_SUBJECT = "TRAVEL_DOCUMENT_NOTIFICATION_SUBJECT";
-        public static final String TEM_EMAIL_SENDER_PARAM_NAME = "TEM_EMAIL_SENDER";
+        public static final String SEND_NOTIFICATION_ON_WORKFLOW_STATUS_CHANGE_IND = "SEND_NOTIFICATION_ON_WORKFLOW_STATUS_CHANGE_IND";
+        public static final String CHANGE_NOTIFICATION_SUBJECT = "CHANGE_NOTIFICATION_SUBJECT";
+        public static final String FROM_EMAIL_ADDRESS_PARAM_NAME = "FROM_EMAIL_ADDRESS";
 
-        public static final String VENDOR_PAYMENT_DV_REASON_CODE = "VENDOR_PAYMENT_DV_REASON_CODE";
+        public static final String VENDOR_PAYMENT_REASON_CODE = "VENDOR_PAYMENT_REASON_CODE";
         public static final String INCLUDE_ARRANGER_EXPENSE_IN_IMPORTED_EXPENSE_IND = "INCLUDE_ARRANGER_EXPENSE_IN_IMPORTED_EXPENSE_IND";
     }
 
     public static class TravelAuthorizationParameters {
-        public static final String PARAM_DTL_TYPE = "TravelAuthorization";
-        public static final String TRAVEL_ADVANCE_PAYMENT_OBJECT_CODE = "TRAVEL_ADVANCE_PAYMENT_OBJECT_CODE";
-        public static final String TRAVEL_ADVANCE_PAYMENT_CHART_CODE = "TRAVEL_ADVANCE_PAYMENT_CHART_CODE";
-        public static final String TRAVEL_ADVANCE_PAYMENT_ACCOUNT_NBR = "TRAVEL_ADVANCE_PAYMENT_ACCOUNT_NBR";
-        public static final String TRAVEL_ADVANCE_DV_PAYMENT_REASON_CODE = "TRAVEL_ADVANCE_DV_PAYMENT_REASON_CODE";
-        // public static final String VALID_OBJECT_CODES = "VALID_OBJECT_CODES";
-        public static final String ENABLE_DV_FOR_TRAVEL_ADVANCE_IND = "ENABLE_DV_FOR_TRAVEL_ADVANCE_IND";
-        public static final String ENABLE_CONTACT_INFORMATION_IND = "ENABLE_CONTACT_INFORMATION_IND";
-        public static final String TRAVELER_AR_CUSTOMER_TYPE = "TRAVELER_AR_CUSTOMER_TYPE";
+        public static final String TRAVEL_ADVANCE_OBJECT_CODE = "TRAVEL_ADVANCE_OBJECT_CODE";
+        public static final String TRAVEL_ADVANCE_CHART = "TRAVEL_ADVANCE_CHART";
+        public static final String TRAVEL_ADVANCE_ACCOUNT = "TRAVEL_ADVANCE_ACCOUNT";
+        public static final String TRAVEL_ADVANCE_PAYMENT_REASON_CODE = "TRAVEL_ADVANCE_PAYMENT_REASON_CODE";
+        public static final String GENERATE_DV_FOR_TRAVEL_ADVANCE_IND = "GENERATE_DV_FOR_TRAVEL_ADVANCE_IND";
+        public static final String DISPLAY_EMERGENCY_CONTACT_IND = "DISPLAY_EMERGENCY_CONTACT_IND";
+        public static final String CUSTOMER_TYPE_CODE = "CUSTOMER_TYPE_CODE";
 
-        public static final String ENABLE_AR_INV_FOR_TRAVL_ADVANCE_IND = "ENABLE_AR_INV_FOR_TRAVL_ADVANCE_IND";
+        public static final String GENERATE_INVOICE_FOR_TRAVEL_ADVANCE_IND = "GENERATE_INVOICE_FOR_TRAVEL_ADVANCE_IND";
         public static final String FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE = "FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE";
-        public static final String NUMBER_OF_DAYS_DUE = "NUMBER_OF_DAYS_DUE";
+        public static final String DUE_DATE_DAYS = "DUE_DATE_DAYS";
         public static final String TRAVEL_ADVANCE_INVOICE_ITEM_CODE = "TRAVEL_ADVANCE_INVOICE_ITEM_CODE";
-        public static final String TRAVEL_ADVANCE_BILLING_ORG_CODE = "TRAVEL_ADVANCE_BILLING_ORG_CODE";
-        public static final String TRAVEL_ADVANCE_BILLING_CHART_CODE = "TRAVEL_ADVANCE_BILLING_CHART_CODE";
-        public static final String ENABLE_PER_DIEM_LOOKUP_LINKS_IND = "ENABLE_PER_DIEM_LOOKUP_LINKS_IND";
-        public static final String ALLOW_FREE_FORMAT_PRIMARY_DESTINATION_IND = "ALLOW_FREE_FORMAT_PRIMARY_DESTINATION_IND";
-        public static final String ENABLE_TA_PER_DIEM_AMOUNT_EDIT_IND = "ENABLE_TA_PER_DIEM_AMOUNT_EDIT_IND";
+        public static final String TRAVEL_ADVANCE_BILLING_ORGANIZATION = "TRAVEL_ADVANCE_BILLING_ORGANIZATION";
+        public static final String TRAVEL_ADVANCE_BILLING_CHART = "TRAVEL_ADVANCE_BILLING_CHART";
+        public static final String DISPLAY_PER_DIEM_URL_IND = "DISPLAY_PER_DIEM_URL_IND";
+        public static final String OVERRIDE_PRIMARY_DESTINATION_IND = "OVERRIDE_PRIMARY_DESTINATION_IND";
+        public static final String PER_DIEM_AMOUNT_EDITABLE_IND = "PER_DIEM_AMOUNT_EDITABLE_IND";
         public static final String TRAVEL_ADVANCES_POLICY_URL = "TRAVEL_ADVANCES_POLICY_URL";
         public static final String CASH_ADVANCE_CREDIT_CARD_TYPES = "CASH_ADVANCE_CREDIT_CARD_TYPES";
-        public static final String ENABLE_CC_CASH_ADVANCE_WARNING_IND = "ENABLE_CC_CASH_ADVANCE_WARNING_IND";
-        public static final String ENABLE_TRAVEL_ADVANCES_PAYMENT_METHOD_IND = "ENABLE_TRAVEL_ADVANCES_PAYMENT_METHOD_IND";
+        public static final String CASH_ADVANCE_WARNING_IND = "CASH_ADVANCE_WARNING_IND";
+        public static final String DISPLAY_PAYMENT_METHOD_DROPDOWN_IND = "DISPLAY_PAYMENT_METHOD_DROPDOWN_IND";
         public static final String MULTIPLE_CASH_ADVANCES_ALLOWED_IND = "MULTIPLE_CASH_ADVANCES_ALLOWED_IND";
 
-        public static final String ENABLE_VENDOR_PAYMENT_BEFORE_TA_FINAL_APPROVAL_IND = "ENABLE_VENDOR_PAYMENT_BEFORE_TA_FINAL_APPROVAL_IND";
-        public static final String HOLD_NEW_FY_ENCUMBRANCES_IND = "HOLD_NEW_FY_ENCUMBRANCES_IND";
-        public static final String ALLOW_IMPORTED_EXPENSE_IND = "ALLOW_IMPORTED_EXPENSE_IND";
+        public static final String VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND = "VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND";
+        public static final String HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND = "HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND";
+        public static final String DISPLAY_IMPORTED_EXPENSE_IND = "DISPLAY_IMPORTED_EXPENSE_IND";
     }
 
     public static class TravelReimbursementParameters {
-        public static final String PARAM_DTL_TYPE = "TravelReimbursement";
         public static final String FOREIGN_CURRENCY_URL = "FOREIGN_CURRENCY_CONVERSION_URL";
         public static final String DISPLAY_ENCUMBRANCE_IND = "DISPLAY_ENCUMBRANCE_IND";
         public static final String DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND = "DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND";
         public static final String TRAVEL_PAYMENT_MEDIUM = "TRAVEL_PAYMENT_MEDIUM_TYPE_CODE";
-        public static final String ALLOW_TR_WITHOUT_TA_IND = "ALLOW_TR_WITHOUT_TA_IND";
-        public static final String TRAVEL_DV_CLEARING_CHART_CODE = "TRAVEL_DV_CLEARING_CHART_CODE";
-        public static final String TRAVEL_DV_CLEARING_ACCOUNT_NBR = "TRAVEL_DV_CLEARING_ACCOUNT_NBR";
-        public static final String TRAVEL_DV_CLEARING_OBJECT_CODE = "TRAVEL_DV_CLEARING_OBJECT_CODE";
+        public static final String TRAVEL_AUTHORIZATION_REQUIRED_IND = "TRAVEL_AUTHORIZATION_REQUIRED_IND";
+        public static final String TRAVEL_REIMBURSEMENTS_CLEARING_CHART = "TRAVEL_REIMBURSEMENTS_CLEARING_CHART";
+        public static final String TRAVEL_REIMBURSEMENTS_CLEARING_ACCOUNT = "TRAVEL_REIMBURSEMENTS_CLEARING_ACCOUNT";
+        public static final String TRAVEL_REIMBURSEMENTS_CLEARING_OBJECT_CODE = "TRAVEL_REIMBURSEMENTS_CLEARING_OBJECT_CODE";
         public static final String PER_DIEM_OBJECT_CODE = "PER_DIEM_OBJECT_CODE";
         public static final String LODGING_OBJECT_CODE = "LODGING_OBJECT_CODE";
-        public static final String DEFAULT_CHART_CODE = "DEFAULT_CHART_CODE";
+        public static final String DEFAULT_CHART = "DEFAULT_CHART";
         public static final String LODGING_TYPE_CODES = "LODGING_TYPE_CODES";
         public static final String TRANSPORTATION_TYPE_CODES = "TRANSPORTATION_TYPE_CODES";
         public static final String APPLY_REIMBURSEMENT_AGAINST_MULTIPLE_INVOICES_IND = "APPLY_REIMBURSEMENT_AGAINST_MULTIPLE_INVOICES_IND";
-        public static final String ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND = "ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND";
-        public static final String REIMBURSEMENT_PERCENT_OVER_ENCUMBRANCE_AMT = "REIMBURSEMENT_PERCENT_OVER_ENCUMBRANCE_AMT";
-        public static final String VALID_OBJECT_LEVELS = "VALID_OBJECT_LEVELS";
-        public static final String VALID_OBJECT_CODES = "VALID_OBJECT_CODES";
-        public static final String ENABLE_TR_PER_DIEM_AMOUNT_EDIT_IND = "ENABLE_TR_PER_DIEM_AMOUNT_EDIT_IND";
-        public static final String ENABLE_AUTOMATIC_TR_IND = "ENABLE_AUTOMATIC_TR_IND";
-        public static final String SHOW_TA_ESTIMATE_IN_SUMMARY_REPORT_IND = "SHOW_TA_ESTIMATE_IN_SUMMARY_REPORT_IND";
-        public static final String TEM_FAX_NUMBER = "TEM_FAX_NUMBER";
-        public static final String ENABLE_VENDOR_PAYMENT_BEFORE_FINAL_TR_APPROVAL_IND = "ENABLE_VENDOR_PAYMENT_BEFORE_FINAL_TR_APPROVAL_IND";
-        public static final String TR_REIMBURSEMENT_DV_REASON_CODE = "TR_REIMBURSEMENT_DV_REASON_CODE";
-        public static final String ALLOW_PRETRIP_REIMBURSEMENT_IND = "ALLOW_PRETRIP_REIMBURSEMENT_IND";
+        public static final String DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND = "DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND";
+        public static final String REIMBURSEMENT_PERCENT_OVER_ENCUMBRANCE_AMOUNT = "REIMBURSEMENT_PERCENT_OVER_ENCUMBRANCE_AMOUNT";
+        public static final String OBJECT_LEVELS = "OBJECT_LEVELS";
+        public static final String PER_DIEM_AMOUNT_EDITABLE_IND = "PER_DIEM_AMOUNT_EDITABLE_IND";
+        public static final String AUTOMATIC_APPROVALS_IND = "AUTOMATIC_APPROVALS_IND";
+        public static final String DISPLAY_TRAVEL_AUTHORIZATION_ESTIMATE_IN_SUMMARY_REPORT_IND = "DISPLAY_TRAVEL_AUTHORIZATION_ESTIMATE_IN_SUMMARY_REPORT_IND";
+        public static final String FAX_NUMBER = "FAX_NUMBER";
+        public static final String VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND = "VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND";
+        public static final String PAYMENT_REASON_CODE = "PAYMENT_REASON_CODE";
+        public static final String PRETRIP_REIMBURSEMENT_IND = "PRETRIP_REIMBURSEMENT_IND";
+        public static final String BARCODE_STYLE = "BARCODE_STYLE";
     }
 
     public static class TravelRelocationParameters {
-        public static final String PARAM_DTL_TYPE = "TravelRelocation";
-        public static final String ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND = "ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND";
-        public static final String DEFAULT_CHART_CODE = "DEFAULT_CHART_CODE";
-        public static final String RELOCATION_DOCUMENTATION_LOCATION_CODE = "RELOCATION_DOCUMENTATION_LOCATION_CODE";
-        public static final String RELO_REIMBURSEMENT_DV_REASON_CODE = "RELO_REIMBURSEMENT_DV_REASON_CODE";
+        public static final String DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND = "DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND";
+        public static final String DEFAULT_CHART = "DEFAULT_CHART";
+        public static final String DOCUMENTATION_LOCATION_CODE = "DOCUMENTATION_LOCATION_CODE";
+        public static final String PAYMENT_REASON_CODE = "PAYMENT_REASON_CODE";
     }
 
     public static class TravelEntertainmentParameters {
-        public static final String PARAM_DTL_TYPE = "TravelEntertainment";
         public static final String HOST_CERTIFICATION_REQUIRED_IND = "HOST_CERTIFICATION_REQUIRED_IND";
-        public static final String ENT_REIMBURSEMENT_DV_REASON_CODE = "ENT_REIMBURSEMENT_DV_REASON_CODE";
-        public static final String ENTERTAINMENT_DOCUMENT_LOCATION = "ENTERTAINMENT_DOCUMENT_LOCATION";
-        public static final String ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND = "ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND";
+        public static final String PAYMENT_REASON_CODE = "PAYMENT_REASON_CODE";
+        public static final String DOCUMENT_LOCATION_CODE = "DOCUMENT_LOCATION_CODE";
+        public static final String DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND = "DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND";
     }
 
     public static class TravelEntertainment {
@@ -278,8 +272,8 @@ public class TemConstants {
 
     public static class TemProfileParameters {
         public static final String PARAM_DTL_TYPE = "TemProfile";
-        public static final String AR_CUSTOMER_TYPE_TO_TRAVELER_TYPE_CROSSWALK = "AR_CUSTOMER_TYPE_TO_TRAVELER_TYPE_CROSSWALK";
-        public static final String KIM_AFFILIATION_TYPE_TO_TRAVELER_TYPE_CROSSWALK = "KIM_AFFILIATION_TYPE_TO_TRAVELER_TYPE_CROSSWALK";
+        public static final String VALID_TRAVELER_TYPE_BY_CUSTOMER_TYPE = "VALID_TRAVELER_TYPE_BY_CUSTOMER_TYPE";
+        public static final String VALID_KIM_TYPE_AFFILIATION_BY_TRAVER_TYPE = "VALID_KIM_TYPE_AFFILIATION_BY_TRAVER_TYPE";
         public static final String EXPORT_FILE_FORMAT = "EXPORT_FILE_FORMAT";
     }
 
@@ -517,9 +511,9 @@ public class TemConstants {
         public static final String INTERNATIONAL_TRIP_TYPE_CODE_PARAM_NAME = "INTERNATIONAL_TRIP_TYPE_CODE";
         public static final String INSTITUTION_STATE_PARAM_NAME = "INSTITUTION_STATE";
         public static final String OCONUS_MEAL_BREAKDOWN_PARAM_NAME = "OCONUS_MEAL_BREAKDOWN";
-        public static final String DEFAULT_CONUS_MIE_BREAKDOWN_PARAM_NAME = "DEFAULT_CONUS_MIE_BREAKDOWN";
-        public static final String REJECT_FILE_WHEN_ERROR_IND_PARAM_NAME = "REJECT_FILE_WHEN_ERROR_IND";
-        public static final String PREVIOUS_PER_DIEM_DEACTIVATION_IND_PARAM_NAME = "PREVIOUS_PER_DIEM_DEACTIVATION_IND";
+        public static final String CONUS_MEAL_BREAKDOWN = "CONUS_MEAL_BREAKDOWN";
+        public static final String REJECT_FILE_IND = "REJECT_FILE_IND";
+        public static final String INACTIVATE_PREVIOUS_PER_DIEM_IND = "INACTIVATE_PREVIOUS_PER_DIEM_IND";
     }
 
     public static final class HostedMeals {
@@ -571,10 +565,10 @@ public class TemConstants {
     public static final Integer DEFAULT_NOTIFICATION_DAYS = 120;
 
     public class TaxRamificationParameter{
-        public static final String TAX_RAMIFICATION_NOTIFICATION_DAYS_PARAM_NAME = "TAX_RAMIFICATION_NOTIFICATION_DAYS";
-        public static final String TAX_RAMIFICATION_NOTIFICATION_TEXT_PARAM_NAME = "TAX_RAMIFICATION_NOTIFICATION_TEXT";
-        public static final String TAX_RAMIFICATION_NOTIFICATION_SUBJECT_PARAM_NAME = "TAX_RAMIFICATION_NOTIFICATION_SUBJECT";
-        public static final String SEND_TAX_NOTIFICATION_TO_FISCAL_OFFICER_IND_PARAM_NAME = "SEND_TAX_NOTIFICATION_TO_FISCAL_OFFICER_IND";
+        public static final String NOTIFICATION_DAYS_PARAM_NAME = "NOTIFICATION_DAYS";
+        public static final String NOTIFICATION_TEXT_PARAM_NAME = "NOTIFICATION_TEXT";
+        public static final String NOTIFICATION_SUBJECT_PARAM_NAME = "NOTIFICATION_SUBJECT";
+        public static final String SEND_FYI_TO_FISCAL_OFFICER_IND = "SEND_FYI_TO_FISCAL_OFFICER_IND";
     }
 
 
@@ -621,7 +615,7 @@ public class TemConstants {
         public static final String CTS_AIR_OBJECT_CODE = "CTS_AIR_OBJECT_CODE";
         public static final String CTS_RENTAL_CAR_OBJECT_CODE = "CTS_RENTAL_CAR_OBJECT_CODE";
         public static final String CTS_LODGING_OBJECT_CODE = "CTS_LODGING_OBJECT_CODE";
-        public static final String AP_CLEARING_CTS_PAYMENT_CHART = "AP_CLEARING_CTS_PAYMENT_CHART";
+        public static final String CLEARING_ACCOUNT = "CLEARING_ACCOUNT";
         public static final String AP_CLEARING_CTS_PAYMENT_ACCOUNT = "AP_CLEARING_CTS_PAYMENT_ACCOUNT";
         public static final String AP_CLEARING_CTS_PAYMENT_SUB_ACCOUNT = "AP_CLEARING_CTS_PAYMENT_SUB_ACCOUNT";
         public static final String AP_CLEARING_CTS_PAYMENT_OBJECT_CODE = "AP_CLEARING_CTS_PAYMENT_OBJECT_CODE";
@@ -817,16 +811,32 @@ public class TemConstants {
     public static final String PRIMARY_DESTINATION_CLASS_NAME = "PrimaryDestination";
 
     public enum NotificationPreference {
-        TA_ON_FINAL("TA_ON_FINAL"),
-        TA_ON_CHANGE("TA_ON_CHANGE"),
-        TER_ON_FINAL("TER_ON_FINAL"),
-        TER_ON_CHANGE("TER_ON_CHANGE"),
-        NONE("");
+        TA_ON_FINAL(TravelAuthorizationDocument.class, "FINAL", "TA_ON_FINAL"),
+        TA_ON_CHANGE(TravelAuthorizationDocument.class, "CHANGE", "TA_ON_CHANGE"),
+        TER_ON_FINAL(TemParameterConstants.TEM_DOCUMENT.class, "FINAL", "TER_ON_FINAL"),
+        TER_ON_CHANGE(TemParameterConstants.TEM_DOCUMENT.class, "CHANGE", "TER_ON_CHANGE"),
+        NONE(TemParameterConstants.TEM_DOCUMENT.class, "", "");
 
-        public String code;
+        protected String parameterEventCode;
+        protected Class<?> parameterComponentClass;
+        protected String label;
 
-        private NotificationPreference(String code) {
-            this.code = code;
+        private NotificationPreference(Class<?> parameterComponentClass, String parameterEventCode, String label) {
+            this.parameterEventCode = parameterEventCode;
+            this.parameterComponentClass = parameterComponentClass;
+            this.label = label;
+        }
+
+        public String getParameterEventCode() {
+            return this.parameterEventCode;
+        }
+
+        public Class<?> getParameterComponentClass() {
+            return parameterComponentClass;
+        }
+
+        public String getLabel() {
+            return label;
         }
     }
 
@@ -835,8 +845,8 @@ public class TemConstants {
     public static final String NOTIFICATION_PREFERENCE = "notificationPreference";
 
     public class ImportedExpenseParameter{
-        public static final String IMPORTED_EXPENSE_NOTIFICATION_SUBJECT_PARAM_NAME = "IMPORTED_EXPENSE_NOTIFICATION_SUBJECT";
-        public static final String IMPORTED_EXPENSE_NOTIFICATION_TEXT_PARAM_NAME = "IMPORTED_EXPENSE_NOTIFICATION_TEXT";
+        public static final String NOTIFICATION_SUBJECT_PARAM_NAME = "NOTIFICATION_SUBJECT";
+        public static final String NOTIFICATION_TEXT_PARAM_NAME = "NOTIFICATION_TEXT";
     }
 
     public static final String TRAVEL_EXPENSES_KEY = "travelExpenses";
@@ -858,9 +868,9 @@ public class TemConstants {
         public static final String FULL_ENTRY = "fullEntry";
     }
 
-    public static final String GENERATE_CC_NUMBER_IND = "GENERATE_CC_NUMBER_IND";
-    public static final String CORP_CARD_CODE = "CORP_CARD_CODE";
-    public static final String CTS_CARD_CODE = "CTS_CARD_CODE";
+    public static final String GENERATE_CREDIT_CARD_NUMBER_IND = "GENERATE_CREDIT_CARD_NUMBER_IND";
+    public static final String CORPORATE_CARD_CODE = "CORPORATE_CARD_CODE";
+    public static final String CENTRAL_TRAVEL_SYSTEM_CARD_CODE = "CENTRAL_TRAVEL_SYSTEM_CARD_CODE";
 
 
     public static final String CTS_CARD_APPLICATION = "TemCTSCardApplicaton";

@@ -22,7 +22,7 @@
 				<value>documentNumber</value>
 			</list>
 		</property>
-		<property name="documentTypeName" value="CCIEC" />
+		<property name="documentTypeName" value="CCIE" />
 	</bean>
 	
 	<bean id="CreditCardImportedExpenseClearingObjectMaintenanceDocument-ExpensesToClear" parent="CreditCardImportedExpenseClearingObjectMaintenanceDocument-ExpensesToClear-parentBean" />

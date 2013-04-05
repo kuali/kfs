@@ -773,7 +773,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         if (perDiemExpense.isProrated()) {
             if (perDiemCalcMethod != null && perDiemCalcMethod.equals(TemConstants.PERCENTAGE)) {
                 try {
-                    perDiemPercentage = parameterService.getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE);
+                    perDiemPercentage = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE);
                     perDiemPercent = Integer.parseInt(perDiemPercentage);
                 }
                 catch (Exception e1) {
@@ -966,7 +966,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 
     /**
      * Determines if an object with an expense type is that of a "hosted" meal. In TEM a hosted meal is a meal that has been
-     * provided by a hosting institution and cannot be taken as a reimbursement. Uses the EXPENSE_TYPES_FOR_HOSTED_MEAL system parameter
+     * provided by a hosting institution and cannot be taken as a reimbursement. Uses the HOSTED_MEAL_EXPENSE_TYPES system parameter
      * to check the expense type against
      *
      * @param havingExpenseType has an expense type to check for meal hosting
@@ -979,7 +979,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
 
         final String code = havingExpenseType.getTravelExpenseTypeCode().getCode();
-        final String hostedCodes = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.EXPENSE_TYPES_FOR_HOSTED_MEAL);
+        final String hostedCodes = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.HOSTED_MEAL_EXPENSE_TYPES);
 
         for (final String hostedSet : hostedCodes.split(";")) {
             final String[] codesForMeal = (hostedSet.contains("=") ? StringUtils.substringAfter(hostedSet, "=") : hostedSet).split(",");
@@ -1322,7 +1322,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     public boolean checkNonEmployeeTravelerTypeCode(String travelerTypeCode) {
         boolean foundCode = false;
-        if (getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.NON_EMPLOYEE_TRAVELER_TYPE_CODES).contains(travelerTypeCode)) {
+        if (getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.NON_EMPLOYEE_TRAVELER_TYPES).contains(travelerTypeCode)) {
             foundCode = true;
         }
         return foundCode;
@@ -1997,7 +1997,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
 	@Override
 	public boolean checkHoldGLPEs(TravelDocument document) {
-		if(getParameterService().getParameterValueAsBoolean(TemConstants.PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.HOLD_NEW_FY_ENCUMBRANCES_IND)) {
+		if(getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND)) {
 
             java.util.Date endDate = getUniversityDateService().getLastDateOfFiscalYear(getUniversityDateService().getCurrentFiscalYear());
             if (ObjectUtils.isNotNull(document.getTripBegin()) && document.getTripBegin().after(endDate)) {

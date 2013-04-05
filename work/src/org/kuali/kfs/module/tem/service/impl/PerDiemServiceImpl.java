@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.module.tem.service.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.LODGING_OBJECT_CODE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PER_DIEM_OBJECT_CODE;
 
 import java.sql.Date;
@@ -564,7 +562,7 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
 
 	public String getObjectCodeFrom(final TravelDocument travelDocument, String paramName) {
 	    if (travelDocument instanceof TravelReimbursementDocument){
-	        final String parameterValue = getParameterService().getParameterValueAsString(PARAM_NAMESPACE, PARAM_DTL_TYPE, paramName);
+	        final String parameterValue = getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, paramName);
 	        String paramSearchStr = "";
 	        TravelerDetail traveler = travelDocument.getTraveler();
 	        if(traveler != null){
@@ -853,13 +851,13 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
      */
     @Override
     public void setPerDiemCategoriesAndBreakdown(TravelFormBase form) {
-        Collection<String> perDiemCats = getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.ENABLE_PER_DIEM_CATEGORIES);
+        Collection<String> perDiemCats = getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.PER_DIEM_CATEGORIES);
         form.parsePerDiemCategories(perDiemCats);
 
         //default to TA
-        Boolean showPerDiemBreakdown = parameterService.getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_TA_PER_DIEM_AMOUNT_EDIT_IND);
+        Boolean showPerDiemBreakdown = parameterService.getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.PER_DIEM_AMOUNT_EDITABLE_IND);
         if (TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT.equals(form.getDocTypeName())){
-            showPerDiemBreakdown = parameterService.getParameterValueAsBoolean(TemParameterConstants.TEM_REIMBURSEMENT.class, TravelReimbursementParameters.ENABLE_TR_PER_DIEM_AMOUNT_EDIT_IND);
+            showPerDiemBreakdown = parameterService.getParameterValueAsBoolean(TravelReimbursementDocument.class, TravelReimbursementParameters.PER_DIEM_AMOUNT_EDITABLE_IND);
         }
         form.setShowPerDiemBreakdown(showPerDiemBreakdown);
     }

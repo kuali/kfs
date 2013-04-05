@@ -50,7 +50,7 @@ public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericVa
                 if (estimate.getPerDiem() != null && perDiemPercent != null) {
                     
                     //determine if per diem rule should be daily or per meal
-                    boolean checkDailyPerDiem = parameterService.getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.ENABLE_DAILY_PER_DIEM_AND_INCIDENTALS_IND);
+                    boolean checkDailyPerDiem = parameterService.getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.VALIDATE_DAILY_PER_DIEM_AND_INCIDENTALS_IND);
                     
                     //check daily per diem instead of validation in each meal
                     if (!checkDailyPerDiem){

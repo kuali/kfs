@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
-
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
@@ -32,6 +29,7 @@ import javax.persistence.Table;
 
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -623,7 +621,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
 
     public Boolean getIncidentalsWithMealsOnly() {
         if (incidentalsWithMealsOnly == null) {
-            String incidentalsWithMealsOnlyParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TravelParameters.INCIDENTALS_WITH_MEALS_ONLY_IND);
+            String incidentalsWithMealsOnlyParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INCIDENTALS_WITH_MEALS_IND);
 
             //incidentalsWithMealsOnly = incidentalsWithMealsOnlyParam != null && incidentalsWithMealsOnlyParam.equals(KFSConstants.DocumentTypeAttributes.INDICATOR_ATTRIBUTE_TRUE_VALUE);
             incidentalsWithMealsOnly = incidentalsWithMealsOnlyParam != null && incidentalsWithMealsOnlyParam.equals(KFSConstants.ParameterValues.YES);
@@ -637,7 +635,7 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
     }
 
     /**
-     * This method returns incidentalsValue affected by INCIDENTALS_WITH_MEALS_ONLY_IND parameter
+     * This method returns incidentalsValue affected by INCIDENTALS_WITH_MEALS_IND parameter
      *
      * @return
      */

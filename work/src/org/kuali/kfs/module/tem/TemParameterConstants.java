@@ -24,13 +24,6 @@ public class TemParameterConstants extends KfsParameterConstants {
 
     public static final String TEM_NAMESPACE = TemConstants.PARAM_NAMESPACE;
 
-    public static final String AUTHORIZATION_PARAM_DTL_TYPE = "TravelAuthorization";
-    public static final String REIMBURSEMENT_PARAM_DTL_TYPE = "TravelReimbursement";
-    public static final String RELOCATION_PARAM_DTL_TYPE = "TravelRelocation";
-    public static final String ENTERTAINMENT_PARAM_DTL_TYPE = "TravelEntertainment";
-    public static final String PROFILE_PARAM_DTL_TYPE = "TemProfile";
-    public static final String AGENCY_MATCH_PARAM_DTL_TYPE = "AgencyMatchProcess";
-
     @NAMESPACE(namespace = TEM_NAMESPACE)
     @COMPONENT(component = ALL_COMPONENT)
     public final class TEM_ALL {
@@ -51,33 +44,4 @@ public class TemParameterConstants extends KfsParameterConstants {
     public final class TEM_BATCH {
     }
 
-    @NAMESPACE(namespace = TEM_NAMESPACE)
-    @COMPONENT(component = AUTHORIZATION_PARAM_DTL_TYPE)
-    public final class TEM_AUTHORIZATION {
     }
-
-    @NAMESPACE(namespace = TEM_NAMESPACE)
-    @COMPONENT(component = REIMBURSEMENT_PARAM_DTL_TYPE)
-    public final class TEM_REIMBURSEMENT{
-    }
-
-    @NAMESPACE(namespace = TEM_NAMESPACE)
-    @COMPONENT(component = RELOCATION_PARAM_DTL_TYPE)
-    public final class TEM_RELOCATION {
-    }
-
-    @NAMESPACE(namespace = TEM_NAMESPACE)
-    @COMPONENT(component = ENTERTAINMENT_PARAM_DTL_TYPE)
-    public final class TEM_ENTERTAINMENT{
-    }
-
-    @NAMESPACE(namespace = TEM_NAMESPACE)
-    @COMPONENT(component = PROFILE_PARAM_DTL_TYPE)
-    public final class TEM_PROFILE{
-    }
-
-    @NAMESPACE(namespace = TEM_NAMESPACE)
-    @COMPONENT(component = AGENCY_MATCH_PARAM_DTL_TYPE)
-    public final class TEM_AGENCY_MATCH{
-    }
-}

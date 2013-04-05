@@ -17,7 +17,7 @@ package org.kuali.kfs.module.tem.document.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.DATE_CHANGED_MESSAGE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.TRAVEL_COVERSHEET_INSTRUCTIONS;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE;
+import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENTATION_LOCATION_CODE;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_TR_LODGING_ALREADY_CLAIMED;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_TR_MEAL_ALREADY_CLAIMED;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.AIRFARE_EXPENSE_DISABLED;
@@ -150,7 +150,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         final String docNumber = document.getDocumentNumber();
         final String initiatorId = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         final String instructions = parameterService.getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TRAVEL_COVERSHEET_INSTRUCTIONS);
-        final String mailTo = travelDocumentService.retrieveAddressFromLocationCode(parameterService.getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TRAVEL_DOCUMENTATION_LOCATION_CODE));
+        final String mailTo = travelDocumentService.retrieveAddressFromLocationCode(parameterService.getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, DOCUMENTATION_LOCATION_CODE));
         final String destination  = document.getPrimaryDestination().getPrimaryDestinationName();
 
         final String directory = ConfigurationService.getPropertyValueAsString(EXTERNALIZABLE_HELP_URL_KEY);
@@ -204,12 +204,12 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
             final Map<String, String> lodgingMap = new HashMap<String, String>();
             lodgingMap.put("expenseType", "Lodging");
             lodgingMap.put("amount", document.getLodgingGrandTotal().toString());
-            lodgingMap.put("receipt", getReceiptRequired(TravelParameters.EXPENSE_TYPE_FOR_LODGING, document));
+            lodgingMap.put("receipt", getReceiptRequired(TravelParameters.LODGING_EXPENSE_TYPE, document));
             expenses.add(lodgingMap);
             final Map<String, String> mileageMap = new HashMap<String, String>();
             mileageMap.put("expenseType", "Mileage");
             mileageMap.put("amount", document.getMilesGrandTotal().toString());
-            mileageMap.put("receipt", getReceiptRequired(TravelParameters.EXPENSE_TYPE_FOR_MILEAGE, document));
+            mileageMap.put("receipt", getReceiptRequired(TravelParameters.MILEAGE_EXPENSE_TYPE, document));
             expenses.add(mileageMap);
         }
 
@@ -345,8 +345,8 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      */
     protected AccountsReceivableOrganizationOptions getOrgOptions() {
         final Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("chartOfAccountsCode", parameterService.getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_CHART_CODE));
-        criteria.put("organizationCode", parameterService.getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_ORG_CODE));
+        criteria.put("chartOfAccountsCode", parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_CHART));
+        criteria.put("organizationCode", parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_ORGANIZATION));
 
         return accountsReceivableModuleService.getOrganizationOptionsByPrimaryKey(criteria);
     }

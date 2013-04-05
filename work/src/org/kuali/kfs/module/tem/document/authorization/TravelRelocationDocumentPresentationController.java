@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,7 @@ import org.kuali.rice.krad.document.Document;
 
 /**
  * Travel Reimbursement Document Presentation Controller
- * 
+ *
  */
 public class TravelRelocationDocumentPresentationController extends TravelDocumentPresentationController {
 
@@ -40,7 +40,7 @@ public class TravelRelocationDocumentPresentationController extends TravelDocume
         addFullEntryEditMode(document, editModes);
         return editModes;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.authorization.TravelDocumentPresentationController#getDocumentManagerApprovalNode()
      */
@@ -55,10 +55,10 @@ public class TravelRelocationDocumentPresentationController extends TravelDocume
     @Override
     public boolean enableForDocumentManager(Person currentUser, boolean checkParameters){
         boolean isRelocationManager = getTemRoleService().checkUserTEMRole(currentUser, TEMRoleNames.MOVING_AND_RELOCATION_MANAGER);
-        boolean allowUpdate = checkParameters? getParamService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.ALLOW_TRAVEL_OFFICE_TO_MODIFY_ALL_IND) : true;
-        
+        boolean allowUpdate = checkParameters? getParamService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.TRAVEL_OFFICE_MODIFY_ALL_FIELDS_IND) : true;
+
         boolean isEnabled = isRelocationManager && allowUpdate;
         return isEnabled;
     }
-    
+
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,15 +43,15 @@ public class TravelEntertainmentDocumentPresentationController extends TravelDoc
     public String getDocumentManagerApprovalNode(){
         return TemWorkflowConstants.RouteNodeNames.ENTERTAINMENT_MANAGER;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.tem.document.authorization.TravelDocumentPresentationController#enableForDocumentManager(org.kuali.rice.kim.bo.Person, boolean)
      */
     @Override
     public boolean enableForDocumentManager(Person currentUser, boolean checkParameters){
         boolean isEntertainmentManager = getTemRoleService().checkUserTEMRole(currentUser, TEMRoleNames.ENTERTAINMENT_MANAGER);
-        boolean allowUpdate = checkParameters? getParamService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.ALLOW_TRAVEL_OFFICE_TO_MODIFY_ALL_IND) : true;
-        
+        boolean allowUpdate = checkParameters? getParamService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.TRAVEL_OFFICE_MODIFY_ALL_FIELDS_IND) : true;
+
         boolean isEnabled = isEntertainmentManager && allowUpdate;
         return isEnabled;
     }

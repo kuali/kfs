@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
-import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
@@ -74,7 +74,7 @@ public class TravelAuthorizationDocumentCustomActionBuilder extends DocumentActi
      */
     private boolean otherPaymentMethodsAllowed(DocumentSearchResult documentSearchResult) {
         final DocumentStatus status = documentSearchResult.getDocument().getStatus();
-        return getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TemConstants.TravelAuthorizationParameters.ENABLE_VENDOR_PAYMENT_BEFORE_TA_FINAL_APPROVAL_IND)
+        return getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND)
                 || status.equals(DocumentStatus.FINAL)
                 || status.equals(DocumentStatus.PROCESSED);
     }

@@ -21,16 +21,15 @@ import static org.kuali.kfs.module.tem.TemConstants.CERTIFICATION_STATEMENT_ATTR
 import static org.kuali.kfs.module.tem.TemConstants.COVERSHEET_FILENAME_FORMAT;
 import static org.kuali.kfs.module.tem.TemConstants.EMPLOYEE_TEST_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.FOREIGN_CURRENCY_URL_ATTRIBUTE;
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.REMAINING_DISTRIBUTION_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ACCOUNT_DISTRIBUTION_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ADVANCES_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_ENCUMBRANCE_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_REPORTS_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.TEM_PROFILE_LOOKUPABLE;
+import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ENCUMBRANCE_IND;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.FOREIGN_CURRENCY_URL;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
@@ -55,7 +54,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
@@ -583,7 +581,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             }
         }
 
-        final String currencyUrl = getParameterService().getParameterValueAsString(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE, FOREIGN_CURRENCY_URL);
+        final String currencyUrl = getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, FOREIGN_CURRENCY_URL);
         request.setAttribute(FOREIGN_CURRENCY_URL_ATTRIBUTE, currencyUrl);
 
         showAccountDistribution(request, document);
@@ -595,10 +593,10 @@ public class TravelReimbursementAction extends TravelActionBase {
         request.setAttribute(TemConstants.DELINQUENT_TEST_ATTRIBUTE, document.getDelinquentAction());
         LOG.debug("Found "+ document.getActualExpenses().size()+ " other expenses");
 
-        final boolean showAdvances = getParameterService().getParameterValueAsBoolean(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE, DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND);
+        final boolean showAdvances = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND);
         request.setAttribute(SHOW_ADVANCES_ATTRIBUTE, showAdvances);
 
-        final boolean showEncumbrance = getParameterService().getParameterValueAsBoolean(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE, DISPLAY_ENCUMBRANCE_IND);
+        final boolean showEncumbrance = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, DISPLAY_ENCUMBRANCE_IND);
         request.setAttribute(SHOW_ENCUMBRANCE_ATTRIBUTE, showEncumbrance);
 
         if(!getCalculateIgnoreList().contains(reimbForm.getMethodToCall())){
@@ -728,7 +726,7 @@ public class TravelReimbursementAction extends TravelActionBase {
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         getTravelDocumentService().showNoTravelAuthorizationError(((TravelReimbursementForm) form).getTravelReimbursementDocument());
 
-        final boolean showAccountDistribution = getParameterService().getParameterValueAsBoolean(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE, ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND);
+        final boolean showAccountDistribution = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND);
         request.setAttribute(SHOW_ACCOUNT_DISTRIBUTION_ATTRIBUTE, showAccountDistribution);
 
         ActionForward forward = super.route(mapping, form, request, response);
@@ -741,7 +739,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             TravelReimbursementForm travelReimbursementForm = (TravelReimbursementForm) form;
             TravelReimbursementDocument travelReimbursementDocument = travelReimbursementForm.getTravelReimbursementDocument();
 
-            String value = getParameterService().getParameterValueAsString(TemConstants.NAMESPACE, TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE, TemConstants.TravelReimbursementParameters.ALLOW_PRETRIP_REIMBURSEMENT_IND);
+            String value = getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND);
 
             if (value.equalsIgnoreCase("Y")){
                 String description = travelReimbursementDocument.getDocumentHeader().getDocumentDescription();
@@ -771,7 +769,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             TravelReimbursementForm travelReimbursementForm = (TravelReimbursementForm) form;
             TravelReimbursementDocument travelReimbursementDocument = travelReimbursementForm.getTravelReimbursementDocument();
 
-            String value = getParameterService().getParameterValueAsString(TemConstants.NAMESPACE, TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE, TemConstants.TravelReimbursementParameters.ALLOW_PRETRIP_REIMBURSEMENT_IND);
+            String value = getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND);
 
             if (value.equalsIgnoreCase("Y")){
                 String description = travelReimbursementDocument.getDocumentHeader().getDocumentDescription();

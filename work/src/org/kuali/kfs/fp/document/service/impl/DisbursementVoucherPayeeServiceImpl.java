@@ -84,7 +84,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
             payeeTypeDescription = this.getVendorTypeDescription(VendorConstants.VendorTypes.SUBJECT_PAYMENT);
         }
         else if (DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER.equals(payeeTypeCode)) {
-            payeeTypeDescription = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.CUSTOMER_PAYEE_TYPE_PARM_NM);
+            payeeTypeDescription = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.PAYEE_TYPE_NAME);
         }
 
         return payeeTypeDescription;

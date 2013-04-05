@@ -72,7 +72,7 @@ public interface ExpenseImportByTripService {
     /**
      *
      * This method validates the Account Number Sub-account Number, Project Code, Object Code and Sub-object Code
-     * for each of the {@link TripAccountingInformation} objects. It uses the VALIDATION_ACCOUNTING_LINE parameter
+     * for each of the {@link TripAccountingInformation} objects. It uses the ACCOUNTING_LINE_VALIDATION parameter
      * to determine which fields are to be validated.
      * @param profile
      * @param agencyData

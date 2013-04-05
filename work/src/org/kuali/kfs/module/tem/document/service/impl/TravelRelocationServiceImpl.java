@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.tem.document.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.TRAVEL_COVERSHEET_INSTRUCTIONS;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE;
+import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.DOCUMENTATION_LOCATION_CODE;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
 import static org.kuali.kfs.sys.KFSConstants.EXTERNALIZABLE_HELP_URL_KEY;
 
@@ -98,7 +98,7 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
         final String docNumber = document.getDocumentNumber();
         final String initiatorId = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         final String instructions = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TRAVEL_COVERSHEET_INSTRUCTIONS);
-        final String mailTo = travelDocumentService.retrieveAddressFromLocationCode(getParameterService().getParameterValueAsString(TemParameterConstants.TEM_RELOCATION.class, RELOCATION_DOCUMENTATION_LOCATION_CODE));
+        final String mailTo = travelDocumentService.retrieveAddressFromLocationCode(getParameterService().getParameterValueAsString(TravelRelocationDocument.class, DOCUMENTATION_LOCATION_CODE));
         final String destination = document.getToCity();
 
         final String directory = getConfigurationService().getPropertyValueAsString(EXTERNALIZABLE_HELP_URL_KEY);

@@ -36,6 +36,7 @@ import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -175,9 +176,9 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
 
         SourceAccountingLine sourceDetail = new SourceAccountingLine();
 
-        final String dvClearingChart = parameterService.getParameterValueAsString(TemParameterConstants.TEM_REIMBURSEMENT.class, TravelReimbursementParameters.TRAVEL_DV_CLEARING_CHART_CODE);
-        final String dvClearingAccount = parameterService.getParameterValueAsString(TemParameterConstants.TEM_REIMBURSEMENT.class, TravelReimbursementParameters.TRAVEL_DV_CLEARING_ACCOUNT_NBR);
-        final String dvClearingObject = parameterService.getParameterValueAsString(TemParameterConstants.TEM_REIMBURSEMENT.class, TravelReimbursementParameters.TRAVEL_DV_CLEARING_OBJECT_CODE);
+        final String dvClearingChart = parameterService.getParameterValueAsString(TravelReimbursementDocument.class, TravelReimbursementParameters.TRAVEL_REIMBURSEMENTS_CLEARING_CHART);
+        final String dvClearingAccount = parameterService.getParameterValueAsString(TravelReimbursementDocument.class, TravelReimbursementParameters.TRAVEL_REIMBURSEMENTS_CLEARING_ACCOUNT);
+        final String dvClearingObject = parameterService.getParameterValueAsString(TravelReimbursementDocument.class, TravelReimbursementParameters.TRAVEL_REIMBURSEMENTS_CLEARING_OBJECT_CODE);
 
         sourceDetail.setChartOfAccountsCode(dvClearingChart);
         sourceDetail.setAccountNumber(dvClearingAccount);
@@ -255,11 +256,11 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
         //change the DV's total to the total of accounting lines
         disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);
 
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(parameterService.getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CORP_CARD_BANK_PAYMENT_REASON_CODE));
+        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(parameterService.getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CORPORATE_CARD_BANK_PAYMENT_REASON_CODE));
         disbursementVoucherDocument.setDisbVchrContactPersonName(principal.getPrincipalName());
         disbursementVoucherDocument.setDisbVchrContactPhoneNumber(principal.getPhoneNumber());
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
-        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(parameterService.getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE));
+        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(parameterService.getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.DOCUMENTATION_LOCATION_CODE));
 
     }
 

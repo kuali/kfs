@@ -202,14 +202,14 @@ public class CustomerNotificationServiceImpl implements CustomerNotificationServ
      * get the email notification sender from an application parameter
      */
     protected String getNotificationSender() {
-        return this.getParameterService().getParameterValueAsString(CustomerAgingReportNotificationStep.class, ArParameterKeyConstants.AR_EMAIL_SENDER_PARAM_NM);
+        return this.getParameterService().getParameterValueAsString(CustomerAgingReportNotificationStep.class, ArParameterKeyConstants.FROM_EMAIL_ADDRESS_PARAM_NM);
     }
 
     /**
      * get the timing of when the aging email notification should be sent
      */
     protected Integer getCustomerAgingNotificationOnDays() {
-        String daysAsString = this.getParameterService().getParameterValueAsString(CustomerAgingReportNotificationStep.class, ArParameterKeyConstants.CUSTOMER_AR_AGING_EMAIL_NOTIFICATION_DAYS_PARAM_NM);
+        String daysAsString = this.getParameterService().getParameterValueAsString(CustomerAgingReportNotificationStep.class, ArParameterKeyConstants.NOTIFICATION_DAYS_PARAM_NM);
         if (!StringUtils.isNumeric(daysAsString)) {
             daysAsString = this.getParameterService().getParameterValueAsString(CustomerAgingReportDetail.class, ArConstants.CUSTOMER_INVOICE_AGE);
         }
@@ -249,21 +249,21 @@ public class CustomerNotificationServiceImpl implements CustomerNotificationServ
      * get the values from notification selection criteria by search option
      */
     protected List<String> getNotificationSelection(String fieldName) {
-        return new ArrayList<String>(this.getParameterService().getSubParameterValuesAsString(CustomerAgingReportNotificationStep.class, ArParameterKeyConstants.AR_EMAIL_NOTIFICATION_SELECTION_PARAM_NM, fieldName));
+        return new ArrayList<String>(this.getParameterService().getSubParameterValuesAsString(CustomerAgingReportNotificationStep.class, ArParameterKeyConstants.NOTIFICATION_SELECTION_PARAM_NM, fieldName));
     }
 
     /**
      * get the notification text from an application parameter
      */
     protected String getNotificationText() {
-        return this.getParameterService().getParameterValueAsString(CustomerAgingReportNotificationStep.class, ArParameterKeyConstants.AR_EMAIL_NOTIFICATION_TEXT_PARAM_NM);
+        return this.getParameterService().getParameterValueAsString(CustomerAgingReportNotificationStep.class, ArParameterKeyConstants.NOTIFICATION_TEXT_PARAM_NM);
     }
 
     /**
      * get the notification subject from an application parameter
      */
     protected String getNotificationSubject() {
-        return this.getParameterService().getParameterValueAsString(CustomerAgingReportNotificationStep.class, ArParameterKeyConstants.AR_EMAIL_NOTIFICATION_SUBJECT_PARAM_NM);
+        return this.getParameterService().getParameterValueAsString(CustomerAgingReportNotificationStep.class, ArParameterKeyConstants.NOTIFICATION_SUBJECT_PARAM_NM);
     }
 
     /**

@@ -15,15 +15,13 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
-
 import java.util.LinkedHashMap;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
@@ -98,7 +96,7 @@ public class ImportedExpense extends AbstractExpense implements TEMExpense, Expe
      * @return Returns the enableNonReimburable.
      */
     public Boolean getEnableNonReimbursable() {
-        String cardTypes  = SpringContext.getBean(ParameterService.class).getParameterValueAsString(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TemConstants.TravelParameters.ALWAYS_REIMBURSABLE_CARD_TYPE);
+        String cardTypes  = SpringContext.getBean(ParameterService.class).getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.ALWAYS_REIMBURSABLE_CARD_TYPE);
         if (cardTypes != null) {
             String[] cards = cardTypes.split(",");
             for (String cardStr : cards){

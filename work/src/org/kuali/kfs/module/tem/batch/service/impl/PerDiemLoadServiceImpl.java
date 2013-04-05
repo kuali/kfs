@@ -145,14 +145,14 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
     }
 
     protected boolean isDeactivatePerDiem() {
-        return this.getParameterService().getParameterValueAsBoolean(PerDiemLoadStep.class, PerDiemParameter.PREVIOUS_PER_DIEM_DEACTIVATION_IND_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsBoolean(PerDiemLoadStep.class, PerDiemParameter.INACTIVATE_PREVIOUS_PER_DIEM_IND);
     }
 
     /**
      * determine whether the whole per diem file has to be rejected whenever an error occurs
      */
     protected boolean isRejectAllWhenError() {
-        return this.getParameterService().getParameterValueAsBoolean(PerDiemLoadStep.class, PerDiemParameter.REJECT_FILE_WHEN_ERROR_IND_PARAM_NAME);
+        return this.getParameterService().getParameterValueAsBoolean(PerDiemLoadStep.class, PerDiemParameter.REJECT_FILE_IND);
     }
 
     /**

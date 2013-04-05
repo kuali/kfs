@@ -15,12 +15,10 @@
  */
 package org.kuali.kfs.module.tem.document.validation.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
-
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
+import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
@@ -47,9 +45,9 @@ public class ReimbursementAccountingObjectLevelValidation extends GenericValidat
         GlobalVariables.getMessageMap().addToErrorPath(TemPropertyConstants.NEW_SOURCE_ACCTG_LINE);
 
         // If the Accounting Distribution tab is disabled, use object level validation
-        final boolean showAccountDistribution = parameterService.getParameterValueAsBoolean(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelReimbursementParameters.ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND);
+        final boolean showAccountDistribution = parameterService.getParameterValueAsBoolean(TravelReimbursementDocument.class, TravelReimbursementParameters.DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND);
         if (!showAccountDistribution) {
-            ParameterEvaluator parameterEvaluator = parameterEvaluatorService.getParameterEvaluator(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelReimbursementParameters.VALID_OBJECT_LEVELS);
+            ParameterEvaluator parameterEvaluator = parameterEvaluatorService.getParameterEvaluator(TravelReimbursementDocument.class, TravelReimbursementParameters.OBJECT_LEVELS);
             rulePassed = parameterEvaluator.evaluateAndAddError(SourceAccountingLine.class, "objectCode.financialObjectLevelCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         }
 

@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document.web.struts;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -65,12 +62,12 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     private boolean travelArranger;
 
     private boolean allowIncidentals = true;
-    private String policyURL = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCES_POLICY_URL);
-    private boolean multipleAdvances =getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.MULTIPLE_CASH_ADVANCES_ALLOWED_IND);
-    private boolean showPaymentMethods = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_TRAVEL_ADVANCES_PAYMENT_METHOD_IND);
+    private String policyURL = getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCES_POLICY_URL);
+    private boolean multipleAdvances =getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.MULTIPLE_CASH_ADVANCES_ALLOWED_IND);
+    private boolean showPaymentMethods = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DISPLAY_PAYMENT_METHOD_DROPDOWN_IND);
     private boolean showPolicy;
     private boolean waitingOnTraveler;
-    private boolean showCorporateCardTotal = getParameterService().getParameterValueAsBoolean(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TravelParameters.ENABLE_AMOUNT_DUE_CORP_CARD_TOTAL_LINE_IND);
+    private boolean showCorporateCardTotal = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.AMOUNT_DUE_CORPORATE_CARD_TOTAL_LINE_IND);
 
     // parameters that affect the UI
     private List<String> tempSelectedTransportationModes = new ArrayList<String>();
@@ -123,7 +120,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * @return
      */
     public boolean isDisplayImportedExpenseRelatedTab(){
-        boolean display = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ALLOW_IMPORTED_EXPENSE_IND);
+        boolean display = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DISPLAY_IMPORTED_EXPENSE_IND);
         return display;
     }
 
@@ -326,7 +323,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
             extraButtons.add(buttonsMap.get("methodToCall.cancelTa"));
         }
 
-        boolean enablePayments = getParameterService().getParameterValueAsBoolean(TemConstants.PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.ENABLE_VENDOR_PAYMENT_BEFORE_TA_FINAL_APPROVAL_IND);
+        boolean enablePayments = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND);
         if (enablePayments && !SpringContext.getBean(TravelDocumentService.class).isUnsuccessful(this.getTravelDocument())){
             if (getTravelAuthorizationDocument().canPayDVToVendor()) {
                 extraButtons.add(buttonsMap.get("methodToCall.payDVToVendor"));

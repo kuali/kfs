@@ -52,7 +52,7 @@ public class PurchaseOrderAmendmentAccountingLineAccessibleValidation extends Pu
 
         } else if (SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(event.getDocument().getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId())) {
             return true;
-        } else if (onlyAmountChanged(((UpdateAccountingLineEvent) event).getAccountingLine(), ((UpdateAccountingLineEvent) event).getUpdatedAccountingLine())) {
+        } else if (event instanceof UpdateAccountingLineEvent && onlyAmountChanged(((UpdateAccountingLineEvent) event).getAccountingLine(), ((UpdateAccountingLineEvent) event).getUpdatedAccountingLine())) {
             //  if only amount is changed, return true...
             //  This condition is added later which will return true only if amount is changed, it won't affect any other functionality of amending the PO document.
             return true;

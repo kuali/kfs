@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,7 +33,7 @@ public interface BudgetConstructionRuleHelperService {
 
     /**
      * test if the given appointment funding is associated with a labor detail allowed object
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
      * @return true if the given appointment funding is associated with a labor detail allowed object; otherwise, false
@@ -42,7 +42,7 @@ public interface BudgetConstructionRuleHelperService {
 
     /**
      * test if the given appointment funding is associated with a valid account
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
      * @return true if the given appointment funding is associated with a valid account; otherwise, false
@@ -51,7 +51,7 @@ public interface BudgetConstructionRuleHelperService {
 
     /**
      * test if the given appointment funding is associated with a valid chart of accounts
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
      * @return true if the given appointment funding is associated with a valid chart of accounts; otherwise, false
@@ -60,7 +60,7 @@ public interface BudgetConstructionRuleHelperService {
 
     /**
      * test if the given appointment funding is associated with a valid incumbent
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
      * @return true if the given appointment funding is associated with a valid incumbent; otherwise, false
@@ -68,8 +68,17 @@ public interface BudgetConstructionRuleHelperService {
     public boolean hasValidIncumbent(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
 
     /**
+     * separate quick salary setting test if the given appointment funding is associated with a valid incumbent
+     *
+     * @param appointmentFunding
+     * @param errorMap
+     * @return
+     */
+    public boolean hasValidIncumbentQuickSalarySetting(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap);
+
+    /**
      * test if the given appointment funding is associated with a valid financial object
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
      * @return true if the given appointment funding is associated with a valid financial object; otherwise, false
@@ -78,7 +87,7 @@ public interface BudgetConstructionRuleHelperService {
 
     /**
      * test if the given appointment funding is associated with a valid budget position
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
      * @return true if the given appointment funding is associated with a valid budget position; otherwise, false
@@ -87,7 +96,7 @@ public interface BudgetConstructionRuleHelperService {
 
     /**
      * test if the given appointment funding is associated with a valid sub account
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
      * @return true if the given appointment funding is associated with a valid sub account; otherwise, false
@@ -96,7 +105,7 @@ public interface BudgetConstructionRuleHelperService {
 
     /**
      * test if the given appointment funding is associated with a valid sub object
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      * @param errorMap the error map that contains errors if any
      * @return true if the given appointment funding is associated with a valid sub object; otherwise, false
@@ -105,7 +114,7 @@ public interface BudgetConstructionRuleHelperService {
 
     /**
      * determine whether the given appointment funding can be associated with a valid budget construction document
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      * @param errorMap the given error map that can hold the error message if any
      * @param errorPropertyName the specified property name that is tested
@@ -115,7 +124,7 @@ public interface BudgetConstructionRuleHelperService {
 
     /**
      * determine wether the given budget document is allowed to be budgeted
-     * 
+     *
      * @param budgetConstructionDocument the given budget document
      * @param errorMap the given error map that can hold the error message if any
      * @param errorPropertyName the specified property name that is tested
@@ -125,7 +134,7 @@ public interface BudgetConstructionRuleHelperService {
 
     /**
      * determine whether the given object requires a detail position
-     * 
+     *
      * @param financialObject the given financial object
      * @param currentValue the given current value
      * @param errorMap the given error map that can hold the error message if any
@@ -136,7 +145,7 @@ public interface BudgetConstructionRuleHelperService {
 
     /**
      * determine if the fields in the given appointment funding line are in the correct formats defined in the data dictionary
-     * 
+     *
      * @param appointmentFunding the given appointment funding
      * @param errorMap the given error map that can hold the error message if any
      * @return true if the fields in the given appointment funding line are in the correct formats defined in the data dictionary;
@@ -146,7 +155,7 @@ public interface BudgetConstructionRuleHelperService {
 
     /**
      * determine whether the given account is valid
-     * 
+     *
      * @param account the given account
      * @param currentValue the given current value
      * @param errorMap the given error map that can hold the error message if any
@@ -157,7 +166,7 @@ public interface BudgetConstructionRuleHelperService {
 
     /**
      * determine whether the given chart is valid
-     * 
+     *
      * @param chart the given chart
      * @param invalidValue the given current value
      * @param errorMap the given error map that can hold the error message if any
@@ -168,7 +177,7 @@ public interface BudgetConstructionRuleHelperService {
 
     /**
      * determine whether the given budget construction intended incumbent is valid
-     * 
+     *
      * @param intendedIncumbent the given budget construction intended incumbent
      * @param currentValue the given current value
      * @param errorMap the given error map that can hold the error message if any
@@ -181,7 +190,7 @@ public interface BudgetConstructionRuleHelperService {
      * Runs existence and active tests on the ObjectCode reference This method is different than the one in
      * AccountingLineRuleHelper in that it adds the bad value to the errormessage This method signature should probably be added to
      * AccountingLineRuleHelper
-     * 
+     *
      * @param objectCode the given object code
      * @param currentValue the given current value
      * @param errorMap the given error map that can hold the error message if any
@@ -192,7 +201,7 @@ public interface BudgetConstructionRuleHelperService {
 
     /**
      * determine whether the given budget construction position is valid
-     * 
+     *
      * @param position the given budget construction position
      * @param currentValue the given current value
      * @param errorMap the given error map that can hold the error message if any
@@ -203,7 +212,7 @@ public interface BudgetConstructionRuleHelperService {
 
     /**
      * determine whether the given sub account is valid
-     * 
+     *
      * @param subAccount the given sub account
      * @param currentValue the given current value
      * @param errorMap the given error map that can hold the error message if any
@@ -216,7 +225,7 @@ public interface BudgetConstructionRuleHelperService {
      * Runs existence and active tests on the SubObjectCode reference This method is different than the one in
      * AccountingLineRuleHelper in that it adds the bad value to the errormessage This method signature should probably be added to
      * AccountingLineRuleHelper
-     * 
+     *
      * @param subObjectCode the given sub object
      * @param currentValue the given current value
      * @param errorMap the given error map that can hold the error message if any

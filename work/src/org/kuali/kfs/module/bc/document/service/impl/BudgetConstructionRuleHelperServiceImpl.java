@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -99,6 +99,15 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
     }
 
     /**
+     * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#hasValidIncumbentQuicSalarySetting(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.rice.krad.util.MessageMap)
+     */
+    @Override
+    public boolean hasValidIncumbentQuickSalarySetting(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
+
+        return this.hasValidIncumbent(appointmentFunding, errorMap);
+    }
+
+    /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#hasValidObjectCode(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
      *      org.kuali.core.util.MessageMap)
      */
@@ -126,7 +135,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
      */
     public boolean hasValidSubAccount(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         String subAccountNumber = appointmentFunding.getSubAccountNumber();
-        
+
         // ok when dashes, no lookup
         if (KFSConstants.getDashSubAccountNumber().equals(subAccountNumber)) {
             return true;
@@ -148,7 +157,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
         if (KFSConstants.getDashFinancialSubObjectCode().equals(subObjectCode)) {
             return true;
         }
-        
+
         SubObjectCode subObject = appointmentFunding.getFinancialSubObject();
 
         return this.isValidSubObjectCode(subObject, subObjectCode, errorMap, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
@@ -362,7 +371,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
 
     /**
      * Sets the budgetDocumentService attribute value.
-     * 
+     *
      * @param budgetDocumentService The budgetDocumentService to set.
      */
     public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
@@ -371,7 +380,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
 
     /**
      * Sets the dictionaryValidationService attribute value.
-     * 
+     *
      * @param dictionaryValidationService The dictionaryValidationService to set.
      */
     public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
@@ -380,7 +389,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
 
     /**
      * Sets the laborModuleService attribute value.
-     * 
+     *
      * @param laborModuleService The laborModuleService to set.
      */
     public void setLaborModuleService(LaborModuleService laborModuleService) {

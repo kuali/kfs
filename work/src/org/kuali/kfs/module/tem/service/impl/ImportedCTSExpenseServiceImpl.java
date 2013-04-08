@@ -62,13 +62,13 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
                 String financialObjectCode= "";
                 expense.getTravelExpenseTypeCode();
                 if (expense.getTravelExpenseTypeCode().getCode().equals(TemConstants.ExpenseTypes.AIRFARE)){
-                    financialObjectCode= getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, TemConstants.AgencyMatchProcessParameter.CTS_AIR_OBJECT_CODE);
+                    financialObjectCode= getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, TemConstants.AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_AIR_OBJECT_CODE);
                 }
                 else if (expense.getTravelExpenseTypeCode().getCode().equals(TemConstants.ExpenseTypes.LODGING)){
-                    financialObjectCode= getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, TemConstants.AgencyMatchProcessParameter.CTS_LODGING_OBJECT_CODE);
+                    financialObjectCode= getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, TemConstants.AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_LODGING_OBJECT_CODE);
                 }
                 else if (expense.getTravelExpenseTypeCode().getCode().equals(TemConstants.ExpenseTypes.RENTAL_CAR)){
-                    financialObjectCode= getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, TemConstants.AgencyMatchProcessParameter.CTS_RENTAL_CAR_OBJECT_CODE);
+                    financialObjectCode= getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, TemConstants.AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_RENTAL_CAR_OBJECT_CODE);
                 }
 
                 LOG.debug("Refreshed importedExpense with expense type code " + expense.getTravelExpenseTypeCode() + " and financialObjectCode " + financialObjectCode);

@@ -158,13 +158,13 @@ public class ExpenseImportServiceBase {
 
         String objectCodeParam = null;
         if (StringUtils.isNotEmpty(agencyData.getAirTicketNumber())) {
-            objectCodeParam = AgencyMatchProcessParameter.CTS_AIR_OBJECT_CODE;
+            objectCodeParam = AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_AIR_OBJECT_CODE;
         }
         else if (StringUtils.isNotEmpty(agencyData.getLodgingItineraryNumber())) {
-            objectCodeParam = AgencyMatchProcessParameter.CTS_LODGING_OBJECT_CODE;
+            objectCodeParam = AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_LODGING_OBJECT_CODE;
         }
         else if (StringUtils.isNotEmpty(agencyData.getRentalCarItineraryNumber())) {
-            objectCodeParam = AgencyMatchProcessParameter.CTS_RENTAL_CAR_OBJECT_CODE;
+            objectCodeParam = AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_RENTAL_CAR_OBJECT_CODE;
         }
         else {
             LOG.warn("No valid expenses.");

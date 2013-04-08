@@ -416,7 +416,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                 currentFeeAmount = serviceFee.getServiceFee().divide(numAccounts);
             }
 
-            String creditObjectCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_OBJECT_CODE);
+            String creditObjectCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_CLEARING_OBJECT_CODE);
 
             boolean allGlpesCreated = true;
 

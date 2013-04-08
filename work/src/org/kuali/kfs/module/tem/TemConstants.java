@@ -612,13 +612,13 @@ public class TemConstants {
 
     public static final class AgencyMatchProcessParameter {
         public static final String AGENCY_MATCH_DTL_TYPE = "AgencyMatchProcess";
-        public static final String CTS_AIR_OBJECT_CODE = "CTS_AIR_OBJECT_CODE";
-        public static final String CTS_RENTAL_CAR_OBJECT_CODE = "CTS_RENTAL_CAR_OBJECT_CODE";
-        public static final String CTS_LODGING_OBJECT_CODE = "CTS_LODGING_OBJECT_CODE";
-        public static final String CLEARING_ACCOUNT = "CLEARING_ACCOUNT";
-        public static final String AP_CLEARING_CTS_PAYMENT_ACCOUNT = "AP_CLEARING_CTS_PAYMENT_ACCOUNT";
-        public static final String AP_CLEARING_CTS_PAYMENT_SUB_ACCOUNT = "AP_CLEARING_CTS_PAYMENT_SUB_ACCOUNT";
-        public static final String AP_CLEARING_CTS_PAYMENT_OBJECT_CODE = "AP_CLEARING_CTS_PAYMENT_OBJECT_CODE";
+        public static final String TRAVEL_CREDIT_CARD_AIR_OBJECT_CODE = "TRAVEL_CREDIT_CARD_AIR_OBJECT_CODE";
+        public static final String TRAVEL_CREDIT_CARD_RENTAL_CAR_OBJECT_CODE = "TRAVEL_CREDIT_CARD_RENTAL_CAR_OBJECT_CODE";
+        public static final String TRAVEL_CREDIT_CARD_LODGING_OBJECT_CODE = "TRAVEL_CREDIT_CARD_LODGING_OBJECT_CODE";
+        public static final String TRAVEL_CREDIT_CARD_CLEARING_CHART = "TRAVEL_CREDIT_CARD_CLEARING_CHART";
+        public static final String TRAVEL_CREDIT_CARD_CLEARING_ACCOUNT = "TRAVEL_CREDIT_CARD_CLEARING_CHART";
+        public static final String TRAVEL_CREDIT_CARD_CLEARING_SUB_ACCOUNT = "TRAVEL_CREDIT_CARD_CLEARING_SUB_ACCOUNT";
+        public static final String TRAVEL_CREDIT_CARD_CLEARING_OBJECT_CODE = "TRAVEL_CREDIT_CARD_CLEARING_OBJECT_CODE";
     }
 
     public static final class TEMRoleNames {

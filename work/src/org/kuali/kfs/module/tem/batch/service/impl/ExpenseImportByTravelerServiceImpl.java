@@ -312,7 +312,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
         KualiDecimal numAccounts = new KualiDecimal(accountingInfo.size());
         KualiDecimal currentAmount = agencyData.getTripExpenseAmount().divide(numAccounts);
 
-        final String creditObjectCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_OBJECT_CODE);
+        final String creditObjectCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_CLEARING_OBJECT_CODE);
 
         boolean allGlpesCreated = true;
 

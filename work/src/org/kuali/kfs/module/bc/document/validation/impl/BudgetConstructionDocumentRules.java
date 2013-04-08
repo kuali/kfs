@@ -494,7 +494,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
                 // not 2PLG line and not salary fringe line)
                 // This allows the user to use quick salary setting, monthly edit, global month delete to do cleanup work and
                 // to print out values or push/pull before cleanup.
-                if (isRequestAmountChanged || (!budgetConstructionDocument.isBudgetableDocument() && isCleanupModeActionForceCheck && !is2PLG && !isSalaryFringeLine)) {
+                if (isRequestAmountChanged || (doMonthRICheck && !is2PLG && !isSalaryFringeLine) || (!budgetConstructionDocument.isBudgetableDocument() && isCleanupModeActionForceCheck && !is2PLG && !isSalaryFringeLine)) {
                     isValid &= this.checkPendingBudgetConstructionGeneralLedgerLine(budgetConstructionDocument, element, errors, isRevenue, false);
                 }
             }

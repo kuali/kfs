@@ -67,7 +67,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
     public boolean hasValidAccount(PendingBudgetConstructionAppointmentFunding appointmentFunding, MessageMap errorMap) {
         String accountNumber = appointmentFunding.getAccountNumber();
         Account account = appointmentFunding.getAccount();
-        return this.isValidAccount(account, accountNumber, errorMap, KFSPropertyConstants.ACCOUNT_NAME);
+        return this.isValidAccount(account, accountNumber, errorMap, KFSPropertyConstants.ACCOUNT_NUMBER);
     }
 
     /**
@@ -115,7 +115,7 @@ public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructi
         String objectCode = appointmentFunding.getFinancialObjectCode();
         ObjectCode financialObject = appointmentFunding.getFinancialObject();
 
-        return this.isValidObjectCode(financialObject, objectCode, errorMap, KFSPropertyConstants.FINANCIAL_OBJECT);
+        return this.isValidObjectCode(financialObject, objectCode, errorMap, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
     }
 
     /**

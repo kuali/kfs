@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -62,7 +62,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
 
         boolean applyAThreshold = budgetConstructionReportThresholdSettings.isUseThreshold();
         boolean selectOnlyGreaterThanOrEqualToThreshold = budgetConstructionReportThresholdSettings.isUseGreaterThanOperator();
-        
+
         KualiDecimal thresholdPercent = budgetConstructionReportThresholdSettings.getThresholdPercent();
         if (applyAThreshold) {
             budgetConstructionSalarySummaryReportDao.updateSalaryAndReasonSummaryReportsWithThreshold(principalName, universityFiscalYear-1, selectOnlyGreaterThanOrEqualToThreshold, thresholdPercent);
@@ -98,7 +98,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         String objectCodes = budgetConstructionReportsServiceHelper.getSelectedObjectCodes(principalName);
         for (BudgetConstructionSalarySocialSecurityNumber ssnEntry : bcSalarySsnList) {
             Collection<BudgetConstructionSalaryFunding> salaryFundingList = (Collection) salaryFundingMap.get(ssnEntry);
-            
+
             for (BudgetConstructionSalaryFunding salaryFundingEntry : salaryFundingList) {
                 orgSalarySummaryReportEntry = new BudgetConstructionOrgSalarySummaryReport();
                 buildReportsHeader(universityFiscalYear, objectCodes, orgSalarySummaryReportEntry, salaryFundingEntry, ssnEntry, budgetConstructionReportThresholdSettings);
@@ -107,7 +107,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
                 reportSet.add(orgSalarySummaryReportEntry);
             }
         }
-        
+
         return reportSet;
     }
 
@@ -263,7 +263,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
     }
 
     /**
-     * build the total sections for the report 
+     * build the total sections for the report
      */
     public void buildReportsTotal(BudgetConstructionOrgSalarySummaryReport orgSalarySummaryReportEntry, BudgetConstructionSalarySocialSecurityNumber ssnEntry, Collection<BudgetConstructionOrgSalarySummaryReportTotal> salarySummaryTotalPerson, Collection<BudgetConstructionOrgSalarySummaryReportTotal> salarySummaryTotalOrg) {
 
@@ -352,13 +352,13 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         else {
             BigDecimal salaryMonthPercent = new BigDecimal(totalsHolder.salaryNormalMonths * 1.0 / totalsHolder.salaryPayMonth);
             BigDecimal salaryFteQuantity = totalsHolder.salaryPercent.multiply(salaryMonthPercent);
-            
+
             BigDecimal csfMonthpercent = new BigDecimal(totalsHolder.csfNormalMonths * 1.0 / totalsHolder.csfPayMonths);
             BigDecimal csfFteQuantity = totalsHolder.csfPercent.multiply(csfMonthpercent);
 
-            BigDecimal restatementCsfPercent = salaryFteQuantity.divide(csfFteQuantity);
+            BigDecimal restatementCsfPercent = salaryFteQuantity.divide(csfFteQuantity, 6, BigDecimal.ROUND_HALF_UP);
             BigDecimal csfAmount = new BigDecimal(totalsHolder.csfAmount);
-            restatementCsfAmount = csfAmount.multiply(restatementCsfPercent).intValue();
+            restatementCsfAmount = csfAmount.multiply(restatementCsfPercent).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
         }
 
         if (totalsHolder.salaryPayMonth == 0) {
@@ -378,7 +378,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
                 restatementCsfAmount = BudgetConstructionReportHelper.setDecimalDigit(amount, 0, false).intValue();
             }
         }
-        
+
         totalsHolder.csfAmount = restatementCsfAmount;
         totalsHolder.amountChange = totalsHolder.salaryAmount - totalsHolder.csfAmount;
 
@@ -405,20 +405,21 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         for (BudgetConstructionSalaryFunding salaryFunding : salaryFundings) {
             PendingBudgetConstructionAppointmentFunding appointmentFunding = salaryFunding.getPendingAppointmentFunding();
             BudgetConstructionPosition budgetConstructionPosition = budgetConstructionReportsServiceHelper.getBudgetConstructionPosition(universityFiscalYear, appointmentFunding);
-            
+
             int salaryAmount = 0;
+            Integer salaryMonths = 0;
             BigDecimal salaryPercent = BigDecimal.ZERO;
             String durationCode = appointmentFunding.getAppointmentFundingDurationCode();
-            
+
             if (StringUtils.equals(durationCode, BCConstants.Report.NONE)) {
                 salaryAmount = appointmentFunding.getAppointmentRequestedAmount().intValue();
-                totalsHolder.salaryNormalMonths = appointmentFunding.getAppointmentFundingMonth();
+                salaryMonths = appointmentFunding.getAppointmentFundingMonth();
                 salaryPercent = appointmentFunding.getAppointmentRequestedTimePercent();
             }
             else {
                 salaryAmount = appointmentFunding.getAppointmentRequestedCsfAmount().intValue();
-                totalsHolder.salaryNormalMonths = budgetConstructionPosition.getIuNormalWorkMonths();
-                
+                salaryMonths = budgetConstructionPosition.getIuNormalWorkMonths();
+
                 boolean hasRequestedCsfTimePercent = appointmentFunding.getAppointmentRequestedCsfTimePercent() != null;
                 salaryPercent = hasRequestedCsfTimePercent ? appointmentFunding.getAppointmentRequestedCsfTimePercent() : BigDecimal.ZERO;
             }
@@ -426,9 +427,9 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             if (salaryAmount > maxSalaryAmount) {
                 maxSalaryAmount = totalsHolder.salaryAmount;
                 totalsHolder.salaryPayMonth = budgetConstructionPosition.getIuPayMonths();
-                totalsHolder.salaryNormalMonths = appointmentFunding.getAppointmentFundingMonth();
+                totalsHolder.salaryNormalMonths = salaryMonths;
             }
-            
+
             totalsHolder.salaryAmount += salaryAmount;
             totalsHolder.salaryPercent = totalsHolder.salaryPercent.add(salaryPercent);
 
@@ -452,10 +453,10 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
             // data for previous year, position table has two data, one is for current year and another is for previous year.
             Integer previousFiscalYear = universityFiscalYear - 1;
             BudgetConstructionPosition previousYearBudgetConstructionPosition = budgetConstructionReportsServiceHelper.getBudgetConstructionPosition(previousFiscalYear, appointmentFunding);
-            
+
             totalsHolder.csfPayMonths = previousYearBudgetConstructionPosition.getIuPayMonths();
             totalsHolder.csfNormalMonths = previousYearBudgetConstructionPosition.getIuNormalWorkMonths();
-            
+
             totalsHolder.positionNumber = budgetConstructionPosition.getPositionNumber();
             totalsHolder.fiscalYearTag = previousFiscalYear.toString() + ":";
 
@@ -578,7 +579,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
 
     /**
      * builds orderByList for sort order.
-     * 
+     *
      * @return returnList
      */
     public List<String> buildOrderByListForSalaryFunding() {
@@ -596,7 +597,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
 
     /**
      * builds orderByList for sort order.
-     * 
+     *
      * @return returnList
      */
     public List<String> buildOrderByList() {
@@ -610,7 +611,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
 
     /**
      * Deletes duplicated entry from list
-     * 
+     *
      * @param List list
      * @return a list that all duplicated entries were deleted
      */
@@ -653,21 +654,23 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
         if (firstSsn.getOrganizationChartOfAccountsCode().equals(secondSsn.getOrganizationChartOfAccountsCode()) && firstSsn.getOrganizationCode().equals(secondSsn.getOrganizationCode()) && firstSsn.getEmplid().equals(secondSsn.getEmplid())) {
             return true;
         }
-        else
+        else {
             return false;
+        }
     }
 
     protected boolean isSameSsnEntryForTotalOrg(BudgetConstructionSalarySocialSecurityNumber firstSsn, BudgetConstructionSalarySocialSecurityNumber secondSsn) {
         if (firstSsn.getOrganizationChartOfAccountsCode().equals(secondSsn.getOrganizationChartOfAccountsCode()) && firstSsn.getOrganizationCode().equals(secondSsn.getOrganizationCode())) {
             return true;
         }
-        else
+        else {
             return false;
+        }
     }
 
     /**
      * set the attribute budgetConstructionSalarySummaryReportDao
-     * 
+     *
      * @param budgetConstructionSalarySummaryReportDao
      */
     public void setBudgetConstructionSalarySummaryReportDao(BudgetConstructionSalarySummaryReportDao budgetConstructionSalarySummaryReportDao) {
@@ -676,7 +679,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
 
     /**
      * set the attribute kualiConfigurationService
-     * 
+     *
      * @param kualiConfigurationService
      */
     public void setConfigurationService(ConfigurationService kualiConfigurationService) {
@@ -685,7 +688,7 @@ public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetC
 
     /**
      * set the attribute budgetConstructionReportsServiceHelper
-     * 
+     *
      * @param budgetConstructionReportsServiceHelper
      */
     public void setBudgetConstructionReportsServiceHelper(BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper) {

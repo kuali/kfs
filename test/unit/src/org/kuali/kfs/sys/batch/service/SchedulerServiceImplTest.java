@@ -22,8 +22,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.batch.BatchJobStatus;
 import org.kuali.kfs.sys.batch.Job;
@@ -46,22 +45,6 @@ public class SchedulerServiceImplTest extends KualiTestBase {
 
     private String batchDirectory;
 
-    @BeforeClass
-    public void setUpBeforeClass() throws Exception {
-        Scheduler scheduler = (Scheduler)SpringContext.getService("scheduler");
-        if (!scheduler.isStarted()) {
-            scheduler.start();
-        }
-    }
-
-    @AfterClass
-    public void tearDownAfterClass() throws Exception {
-        Scheduler scheduler = (Scheduler)SpringContext.getService("scheduler");
-        if (scheduler.isStarted()) {
-            scheduler.shutdown();
-        }
-    }
-
     /**
      * Creates the directory for the batch files to go in
      * @see junit.framework.TestCase#setUp()
@@ -70,11 +53,23 @@ public class SchedulerServiceImplTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
 
+        // not sure why we have to do this, but it seems to be necessary for the some of the tests to work (and jobs to actually be run)
+        Scheduler scheduler = (Scheduler) SpringContext.getService("scheduler");
+        if (!scheduler.isStarted()) {
+            scheduler.start();
+        }
+
         batchDirectory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory/originEntry";
         File batchDirectoryFile = new File(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory/");
         batchDirectoryFile.mkdir();
         batchDirectoryFile = new File(batchDirectory);
         batchDirectoryFile.mkdir();
+
+        String batchFileDirectoryName = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/originEntry";
+        File nightlyOutFile = new File(batchFileDirectoryName + File.separator + GeneralLedgerConstants.BatchFileSystem.NIGHTLY_OUT_FILE);
+        if (!nightlyOutFile.exists()) {
+            nightlyOutFile.createNewFile();
+        }
     }
 
     /**
@@ -127,8 +122,24 @@ public class SchedulerServiceImplTest extends KualiTestBase {
         assertNotNull("job must not be null", job);
         System.out.println(job);
         job.runJob(null);
-        while (job.isRunning()) {
-            Thread.sleep(1000);
+
+        System.err.println( "testRunJob: Waiting for it to enter running status" );
+        // provide an "out" in case things fail badly
+        int waitCount = 0;
+        while (!job.isRunning() && waitCount < 500) {
+            Thread.sleep(100);
+            waitCount++;
+        }
+
+        System.out.println(s.getRunningJobs());
+        System.out.println(s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob"));
+
+        System.err.println( "testRunJob: Waiting for it to leave running status" );
+
+        waitCount = 0;
+        while (job.isRunning() && waitCount < 500) {
+            Thread.sleep(100);
+            waitCount++;
         }
         System.out.println(s.getRunningJobs());
         System.out.println(s.getJob(SchedulerService.UNSCHEDULED_GROUP, "scrubberJob"));
@@ -201,8 +212,6 @@ public class SchedulerServiceImplTest extends KualiTestBase {
                 qTrigger.getJobDataMap().putAll(additionalJobData);
             }
             scheduler.scheduleJob(qTrigger);
-            // not sure why we have to do this, but it seems to be necessary for the interrupt tests to work
-            scheduler.start();
         }
         catch (SchedulerException e) {
             throw new RuntimeException("Caught exception while scheduling job: " + jobName, e);

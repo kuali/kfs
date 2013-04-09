@@ -36,7 +36,7 @@
             <bc:subheadingWithDetailToggleRow
               columnCount="7"
               subheading="Revenue"
-              usePercentAdj="true"
+              usePercentAdj="${KualiForm.budgetableDocument}"
               readOnly="${readOnly}"/>
 			<tr>
 				<th>
@@ -52,7 +52,7 @@
 				</th>
 			</tr>
 
-            <c:if test="${!readOnly}">
+            <c:if test="${!readOnly && KualiForm.budgetableDocument}">
               <c:set var="valuesMap" value="${KualiForm.newRevenueLine.valuesMap}"/>
                 
 			<tr>
@@ -114,8 +114,10 @@
               <td class="infoline" nowrap><div align="right"><span>
                   &nbsp;
               </span></div></td>
+              <c:set var="addTabIndex" value="${KualiForm.currentTabIndex}" />
+              <c:set var="dummyIncrementVar" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
               <td class="infoline" nowrap><div align="center">
-                  <html:image property="methodToCall.insertRevenueLine.anchorrevenuenewLineLineAnchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add an Revenue Line" alt="Add an Revenue Line" styleClass="tinybutton"/>
+                  <html:image property="methodToCall.insertRevenueLine.anchorrevenuenewLineLineAnchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add a Revenue Line" alt="Add a Revenue Line" tabindex="${addTabIndex}" styleClass="tinybutton"/>
               </div></td>
 			</tr>
             </c:if>

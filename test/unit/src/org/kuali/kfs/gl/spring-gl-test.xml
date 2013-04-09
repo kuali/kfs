@@ -190,6 +190,19 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
+	<bean id="originEntryGroupService" parent="originEntryGroupService-parentBean"/>
+	<bean id="originEntryGroupService-parentBean" abstract="true"  class="org.kuali.kfs.gl.service.impl.OriginEntryGroupServiceImpl">
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="kualiModuleService">
+            <ref bean="kualiModuleService" />
+        </property>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
+		<property name="nightlyOutFileName" value="gl_glentry_kfs" />
+		<property name="backupFileName" value="gl_glbackup" />
+	</bean>
+	
 	<bean id="glNightlyOutService" class="org.kuali.kfs.gl.batch.service.impl.NightlyOutServiceImpl">
 		<property name="generalLedgerPendingEntryService">
 			<ref bean="generalLedgerPendingEntryService" />
@@ -304,8 +317,6 @@
         <property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
 	</bean>
 	
-	
-	
 	<bean id="glMockPosterService" parent="glPosterService">
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
 		<property name="reportWriterService">
@@ -323,6 +334,43 @@
 	</bean>
 	            
     <bean id="mockMailService" class="org.kuali.kfs.gl.batch.service.impl.MockMailServiceImpl"/>     
+
+    <bean id="preScrubberStep" class="org.kuali.kfs.gl.batch.PreScrubberStep" parent="wrappedStep">
+    	<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
+    	<property name="preScrubberService" ref="preScrubberService"/>
+    	<property name="preScrubberReportWriterService" ref="preScrubberReportWriterService"/>
+    	<property name="wrappingBatchServices">
+			<list>
+				<ref bean="preScrubberReportWriterService" />
+			</list>
+		</property>
+    </bean> 
+
+	<bean id="scrubberSortStep" parent="flatFileSortStep">
+		<property name="inputFileName" value="${staging.directory}/gl/test_directory/originEntry/gl_prescrub.data"/>
+		<property name="outputFileName" value="${staging.directory}/gl/test_directory/originEntry/gl_sortscrb.data"/>
+		<property name="lineComparatorClass" value="org.kuali.kfs.gl.batch.ScrubberSortComparator"/>
+	</bean>
+
+	<bean id="demergerSortStep" parent="flatFileSortStep">
+		<property name="inputFileName" value="${staging.directory}/gl/test_directory/originEntry/gl_scrberr1.data"/>
+		<property name="outputFileName" value="${staging.directory}/gl/test_directory/originEntry/gl_sorterr1.data"/>
+		<property name="lineComparatorClass" value="org.kuali.kfs.gl.batch.DemergerSortComparator"/>
+	</bean>
+
+	<bean id="posterSortStep" parent="flatFileSortStep">
+		<property name="inputFileName" value="${staging.directory}/gl/test_directory/originEntry/gl_scrbout2.data"/>
+		<property name="outputFileName" value="${staging.directory}/gl/test_directory/originEntry/gl_sortpost.data"/>
+		<property name="lineComparatorClass" value="org.kuali.kfs.gl.batch.PosterSortComparator"/>
+	</bean>
+	
+	<bean id="icrSortStep" class="org.kuali.kfs.gl.batch.IcrSortStep" parent="step">
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
+	</bean>
+	
+	<bean id="fileRenameStep" class="org.kuali.kfs.gl.batch.FileRenameStep" parent="step">
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/test_directory/originEntry"/>
+	</bean>
 
 	<bean id="testDateTimeService" class="org.kuali.kfs.sys.service.impl.ConfigurableDateTimeServiceImpl">
 		<!-- just need to make sure this property is not null -->

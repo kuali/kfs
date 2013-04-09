@@ -26,8 +26,8 @@ import org.kuali.kfs.module.bc.document.web.struts.MonthlyBudgetAction;
 import org.kuali.kfs.module.bc.document.web.struts.OrganizationSelectionTreeAction;
 import org.kuali.kfs.module.bc.document.web.struts.QuickSalarySettingAction;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.ParameterValues;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.ParameterValues;
 
 public class BCConstants {
     public static final String BUDGET_CONSTRUCTION_NAMESPACE = "KFS-BC";
@@ -575,7 +575,7 @@ public class BCConstants {
 
     public class ErrorKey {
         public static final String DETAIL_SALARY_SETTING_TAB_ERRORS = "newBCAFLine*,budgetConstructionIntendedIncumbent.pendingBudgetConstructionAppointmentFunding*,budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding*";
-        public static final String QUICK_SALARY_SETTING_TAB_ERRORS = "salarySettingExpansion.pendingBudgetConstructionAppointmentFunding*,adjustment*,newBCAFLine*";
+        public static final String QUICK_SALARY_SETTING_TAB_ERRORS = "salarySettingExpansion*,salarySettingExpansion.pendingBudgetConstructionAppointmentFunding*,adjustment*,newBCAFLine*";
         public static final String RETURNED_DETAIL_SALARY_SETTING_TAB_ERRORS = "newBCAFLine*";
         public static final String ORGANIZATION_REPORTS_SELECTION_ERRORS = "budgetConstructionReportThresholdSettings*";
     }

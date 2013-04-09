@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,18 +16,17 @@
 package org.kuali.kfs.module.purap.document.authorization;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
-import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants.RequisitionEditMode;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -65,19 +64,19 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
         if (enableCommodityCode) {
             editModes.add(RequisitionEditMode.ENABLE_COMMODITY_CODE);
         }
-        
+
         // if vendor has been selected from DB, certain vendor fields are not allowed to be edited
         if (ObjectUtils.isNotNull(reqDocument.getVendorHeaderGeneratedIdentifier())) {
             editModes.add(RequisitionEditMode.LOCK_VENDOR_ENTRY);
         }
-        
+
         // if B2B requisition, certain fields are not allowed to be edited
         if (RequisitionSources.B2B.equals(reqDocument.getRequisitionSourceCode())) {
             editModes.add(RequisitionEditMode.LOCK_B2B_ENTRY);
         }
 
         // if not B2B requisition, the posting year cannot be edited if within a given amount of time set in a parameter
-        if (!RequisitionSources.B2B.equals(reqDocument.getRequisitionSourceCode()) && 
+        if (!RequisitionSources.B2B.equals(reqDocument.getRequisitionSourceCode()) &&
                 SpringContext.getBean(PurapService.class).allowEncumberNextFiscalYear()) {
             editModes.add(RequisitionEditMode.ALLOW_POSTING_YEAR_ENTRY);
         }
@@ -95,22 +94,22 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
         }
 
         // set display mode for Receiving Address section according to parameter value
-        boolean displayReceivingAddress = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_RECEIVING_ADDRESS_IND);                
+        boolean displayReceivingAddress = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_RECEIVING_ADDRESS_IND);
         if (displayReceivingAddress) {
             editModes.add(RequisitionEditMode.DISPLAY_RECEIVING_ADDRESS);
         }
-            
-        // set display mode for Address to Vendor section according to parameter value 
-        boolean lockAddressToVendor = !SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(PurapConstants.PURAP_NAMESPACE, "Requisition", PurapParameterConstants.ENABLE_ADDRESS_TO_VENDOR_SELECTION_IND);                
+
+        // set display mode for Address to Vendor section according to parameter value
+        boolean lockAddressToVendor = !SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(PurapConstants.PURAP_NAMESPACE, "Requisition", PurapParameterConstants.ENABLE_ADDRESS_TO_VENDOR_SELECTION_IND);
         if (lockAddressToVendor) {
             editModes.add(RequisitionEditMode.LOCK_ADDRESS_TO_VENDOR);
         }
 
         // CONTENT ROUTE LEVEL - Approvers can edit full detail on Requisition except they cannot change the CHART/ORG.
         //to be removed
-        //for app doc status 
-        if (reqDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_CONTENT_REVIEW) || 
-            reqDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_HAS_ACCOUNTING_LINES)) 
+        //for app doc status
+        if (reqDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_CONTENT_REVIEW) ||
+            reqDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_HAS_ACCOUNTING_LINES))
         {
             editModes.add(RequisitionEditMode.LOCK_CONTENT_ENTRY);
         }
@@ -128,7 +127,7 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
                 RequisitionItem item = (RequisitionItem) iter.next();
                 lineList.addAll(item.getSourceAccountingLines());
                 // If FO has deleted the last accounting line for an item, set entry mode to full so they can add another one
-                
+
                 if (item.getSourceAccountingLines().size() == 0) {
                     editModes.add(RequisitionEditMode.RESTRICT_FISCAL_ENTRY);
                     //FIXME hjs-this is a problem because we can't put the id in the map anymore
@@ -137,7 +136,7 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
             }
 
         }
-        
+
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.isEnroute()) {
              Set<String> nodeNames = workflowDocument.getNodeNames();
@@ -154,8 +153,8 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
                         }
                     }
              }
-        } 
-      
+        }
+
         return editModes;
     }
 
@@ -165,7 +164,7 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
      //   WorkflowDocument workflowDocument = ((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument();
 
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        
+
         if (workflowDocument.isInitiated() && !workflowDocument.isSaved()) {
             return false;
         }
@@ -175,7 +174,7 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
     @Override
     public boolean canReload(Document document) {
         RequisitionDocument reqDocument = (RequisitionDocument) document;
-        
+
         //  this is a global rule, if the doc is in your queue for ACK, then you lose the reload button
         WorkflowDocument workflowDocument = ((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument();
 
@@ -185,13 +184,13 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
         if (reqDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_SUBACCOUNT)) {
             return false;
         }
-        //  but the non-approvers do 
-        
+        //  but the non-approvers do
+
         else if (isDocInRouteNodeNotForCurrentUser(reqDocument, RequisitionStatuses.NODE_SUBACCOUNT)) {
             return true;
         }
-        
-        //  while in AccountingHierarchyOrgReview ... org reviewers do NOT get reload button 
+
+        //  while in AccountingHierarchyOrgReview ... org reviewers do NOT get reload button
         else if (reqDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_ORG_REVIEW)) {
             return false;
         }
@@ -200,7 +199,7 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
             return true;
         }
 
-        //  while in SeparationOfDuties ... approvers do NOT get reload button 
+        //  while in SeparationOfDuties ... approvers do NOT get reload button
         else if (reqDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_SEPARATION_OF_DUTIES)) {
             return false;
         }
@@ -223,7 +222,7 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
     }
 
     /**
-     * 
+     *
      * @param document
      * @param nodeDetails
      * @return
@@ -233,11 +232,13 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
 
         WorkflowDocument workflowDocument = ((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument();
         Set<String> names = workflowDocument.getCurrentNodeNames();
-        
-        currentRouteLevels = new ArrayList<String>(names);
-        
-        if (currentRouteLevels.contains(nodeName) && !workflowDocument.isApprovalRequested()) {
-            return true;
+
+        if (CollectionUtils.isNotEmpty(names)) {
+            currentRouteLevels = new ArrayList<String>(names);
+
+            if (currentRouteLevels.contains(nodeName) && !workflowDocument.isApprovalRequested()) {
+                return true;
+            }
         }
         return false;
     }

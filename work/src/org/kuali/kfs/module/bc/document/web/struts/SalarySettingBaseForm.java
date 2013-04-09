@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -81,14 +81,14 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * get the refresh caller name of the current form
-     * 
+     *
      * @return the refresh caller name of the current form
      */
     public abstract String getRefreshCallerName();
 
     /**
      * get the key map for the salary setting item: salary expension, position, or incumbent
-     * 
+     *
      * @return the key map for the salary setting item
      */
     public abstract Map<String, Object> getKeyMapOfSalarySettingItem();
@@ -140,12 +140,13 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
         appointmentFunding.refreshReferenceObject(KFSPropertyConstants.SUB_ACCOUNT);
         appointmentFunding.refreshReferenceObject(BCPropertyConstants.BUDGET_CONSTRUCTION_CALCULATED_SALARY_FOUNDATION_TRACKER);
         this.applyDefaultReasonAmountIfEmpty(appointmentFunding);
+        this.applyDefaultTotalIntendedAmountIfEmpty(appointmentFunding);
     }
 
     /**
      * apply default reason amount of zero if the reason code is set and the amount is null
      * adds a blank row place holder if no reason rows, to be optionally filled in by the user
-     * 
+     *
      * @param appointmentFunding
      */
     public void applyDefaultReasonAmountIfEmpty (PendingBudgetConstructionAppointmentFunding appointmentFunding){
@@ -164,9 +165,24 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
             appointmentFunding.getBudgetConstructionAppointmentFundingReason().add(new BudgetConstructionAppointmentFundingReason());
         }
     }
+
+    /**
+     * apply total intended amount and fte of zero when field is blank
+     *
+     * @param appointmentFunding
+     */
+    public void applyDefaultTotalIntendedAmountIfEmpty (PendingBudgetConstructionAppointmentFunding appointmentFunding){
+        if (appointmentFunding.getAppointmentTotalIntendedAmount() == null){
+            appointmentFunding.setAppointmentTotalIntendedAmount(KualiInteger.ZERO);
+        }
+        if (appointmentFunding.getAppointmentTotalIntendedFteQuantity() == null){
+            appointmentFunding.setAppointmentTotalIntendedFteQuantity(BigDecimal.ZERO);
+        }
+    }
+
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -175,7 +191,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Sets the documentNumber attribute value.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -184,7 +200,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -193,7 +209,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Sets the chartOfAccountsCode attribute value.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -202,7 +218,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -211,7 +227,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Sets the accountNumber attribute value.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -220,7 +236,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the subAccountNumber attribute.
-     * 
+     *
      * @return Returns the subAccountNumber.
      */
     public String getSubAccountNumber() {
@@ -229,7 +245,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Sets the subAccountNumber attribute value.
-     * 
+     *
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -238,7 +254,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the financialObjectCode attribute.
-     * 
+     *
      * @return Returns the financialObjectCode.
      */
     public String getFinancialObjectCode() {
@@ -247,7 +263,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Sets the financialObjectCode attribute value.
-     * 
+     *
      * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -256,7 +272,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the financialSubObjectCode attribute.
-     * 
+     *
      * @return Returns the financialSubObjectCode.
      */
     public String getFinancialSubObjectCode() {
@@ -265,7 +281,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Sets the financialSubObjectCode attribute value.
-     * 
+     *
      * @param financialSubObjectCode The financialSubObjectCode to set.
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -274,7 +290,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the financialBalanceTypeCode attribute.
-     * 
+     *
      * @return Returns the financialBalanceTypeCode.
      */
     public String getFinancialBalanceTypeCode() {
@@ -283,7 +299,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Sets the financialBalanceTypeCode attribute value.
-     * 
+     *
      * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
@@ -292,7 +308,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the financialObjectTypeCode attribute.
-     * 
+     *
      * @return Returns the financialObjectTypeCode.
      */
     public String getFinancialObjectTypeCode() {
@@ -301,7 +317,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Sets the financialObjectTypeCode attribute value.
-     * 
+     *
      * @param financialObjectTypeCode The financialObjectTypeCode to set.
      */
     public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
@@ -310,7 +326,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the hideAdjustmentMeasurement attribute.
-     * 
+     *
      * @return Returns the hideAdjustmentMeasurement.
      */
     public boolean isHideAdjustmentMeasurement() {
@@ -319,7 +335,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Sets the hideAdjustmentMeasurement attribute value.
-     * 
+     *
      * @param hideAdjustmentMeasurement The hideAdjustmentMeasurement to set.
      */
     public void setHideAdjustmentMeasurement(boolean hideAdjustmentMeasurement) {
@@ -328,7 +344,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the adjustmentMeasurement attribute.
-     * 
+     *
      * @return Returns the adjustmentMeasurement.
      */
     public String getAdjustmentMeasurement() {
@@ -337,7 +353,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Sets the adjustmentMeasurement attribute value.
-     * 
+     *
      * @param adjustmentMeasurement The adjustmentMeasurement to set.
      */
     public void setAdjustmentMeasurement(String adjustmentMeasurement) {
@@ -346,7 +362,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the adjustmentAmount attribute.
-     * 
+     *
      * @return Returns the adjustmentAmount.
      */
     public KualiDecimal getAdjustmentAmount() {
@@ -355,7 +371,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Sets the adjustmentAmount attribute value.
-     * 
+     *
      * @param adjustmentAmount The adjustmentAmount to set.
      */
     public void setAdjustmentAmount(KualiDecimal adjustmentAmount) {
@@ -364,7 +380,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the hideDetails attribute.
-     * 
+     *
      * @return Returns the hideDetails.
      */
     public boolean isHideDetails() {
@@ -373,7 +389,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Sets the hideDetails attribute value.
-     * 
+     *
      * @param hideDetails The hideDetails to set.
      */
     public void setHideDetails(boolean hideDetails) {
@@ -382,7 +398,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the budgetByAccountMode attribute.
-     * 
+     *
      * @return Returns the budgetByAccountMode.
      */
     public boolean isBudgetByAccountMode() {
@@ -391,7 +407,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Sets the budgetByAccountMode attribute value.
-     * 
+     *
      * @param budgetByAccountMode The budgetByAccountMode to set.
      */
     public void setBudgetByAccountMode(boolean budgetByAccountMode) {
@@ -400,7 +416,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the singleAccountMode attribute.
-     * 
+     *
      * @return Returns the singleAccountMode.
      */
     public boolean isSingleAccountMode() {
@@ -409,7 +425,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Sets the singleAccountMode attribute value.
-     * 
+     *
      * @param singleAccountMode The singleAccountMode to set.
      */
     public void setSingleAccountMode(boolean singleAccountMode) {
@@ -418,14 +434,14 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the appointmentFundings attribute.
-     * 
+     *
      * @return Returns the appointmentFundings.
      */
     public abstract List<PendingBudgetConstructionAppointmentFunding> getAppointmentFundings();
 
     /**
      * Gets the appointmentRequestedCsfAmountTotal.
-     * 
+     *
      * @return Returns the appointmentRequestedCsfAmountTotal.
      */
     public KualiInteger getAppointmentRequestedCsfAmountTotal() {
@@ -434,7 +450,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the appointmentRequestedCsfTimePercentTotal.
-     * 
+     *
      * @return Returns the appointmentRequestedCsfTimePercentTotal.
      */
     public BigDecimal getAppointmentRequestedCsfTimePercentTotal() {
@@ -443,7 +459,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the appointmentRequestedCsfStandardHoursTotal.
-     * 
+     *
      * @return Returns the appointmentRequestedCsfStandardHoursTotal.
      */
     public BigDecimal getAppointmentRequestedCsfStandardHoursTotal() {
@@ -452,7 +468,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the appointmentRequestedCsfFteQuantityTotal.
-     * 
+     *
      * @return Returns the appointmentRequestedCsfFteQuantityTotal.
      */
     public BigDecimal getAppointmentRequestedCsfFteQuantityTotal() {
@@ -461,7 +477,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the appointmentRequestedAmountTotal.
-     * 
+     *
      * @return Returns the appointmentRequestedAmountTotal.
      */
     public KualiInteger getAppointmentRequestedAmountTotal() {
@@ -470,7 +486,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the appointmentRequestedTimePercentTotal.
-     * 
+     *
      * @return Returns the appointmentRequestedTimePercentTotal.
      */
     public BigDecimal getAppointmentRequestedTimePercentTotal() {
@@ -479,7 +495,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the appointmentRequestedStandardHoursTotal.
-     * 
+     *
      * @return Returns the appointmentRequestedStandardHoursTotal.
      */
     public BigDecimal getAppointmentRequestedStandardHoursTotal() {
@@ -488,7 +504,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the appointmentRequestedFteQuantityTotal.
-     * 
+     *
      * @return Returns the appointmentRequestedFteQuantityTotal.
      */
     public BigDecimal getAppointmentRequestedFteQuantityTotal() {
@@ -497,7 +513,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the csfAmountTotal.
-     * 
+     *
      * @return Returns the csfAmountTotal.
      */
     public KualiInteger getCsfAmountTotal() {
@@ -506,7 +522,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the csfTimePercentTotal.
-     * 
+     *
      * @return Returns the csfTimePercentTotal.
      */
     public BigDecimal getCsfTimePercentTotal() {
@@ -515,7 +531,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the csfStandardHoursTotal.
-     * 
+     *
      * @return Returns the csfStandardHoursTotal.
      */
     public BigDecimal getCsfStandardHoursTotal() {
@@ -524,7 +540,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the csfFullTimeEmploymentQuantityTotal.
-     * 
+     *
      * @return Returns the csfFullTimeEmploymentQuantityTotal.
      */
     public BigDecimal getCsfFullTimeEmploymentQuantityTotal() {
@@ -533,7 +549,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the percentChangeTotal attribute.
-     * 
+     *
      * @return Returns the percentChangeTotal.
      */
     public KualiDecimal getPercentChangeTotal() {
@@ -545,7 +561,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the EffectivePendingBudgetConstructionAppointmentFunding.
-     * 
+     *
      * @return Returns the EffectivePendingBudgetConstructionAppointmentFunding.
      */
     public List<PendingBudgetConstructionAppointmentFunding> getEffectivePendingBudgetConstructionAppointmentFunding() {
@@ -554,7 +570,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the salarySettingFieldsHolder attribute.
-     * 
+     *
      * @return Returns the salarySettingFieldsHolder.
      */
     public SalarySettingFieldsHolder getSalarySettingFieldsHolder() {
@@ -568,7 +584,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the person attribute.
-     * 
+     *
      * @return Returns the person.
      */
     public Person getPerson() {
@@ -577,7 +593,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the salarySettingClosed attribute.
-     * 
+     *
      * @return Returns the salarySettingClosed.
      */
     public boolean isSalarySettingClosed() {
@@ -586,7 +602,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Sets the salarySettingClosed attribute value.
-     * 
+     *
      * @param salarySettingClosed The salarySettingClosed to set.
      */
     public void setSalarySettingClosed(boolean salarySettingClosed) {
@@ -596,7 +612,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     /**
      * Gets the viewOnlyEntry attribute. System view only trumps all, overriding methods should call this first and check the
      * results for !viewOnly before continuing.
-     * 
+     *
      * @return Returns the viewOnlyEntry.
      */
     public boolean isViewOnlyEntry() {
@@ -605,7 +621,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the payrollIncumbentFeedIndictor attribute.
-     * 
+     *
      * @return Returns the payrollIncumbentFeedIndictor.
      */
     public boolean isPayrollIncumbentFeedIndictor() {
@@ -614,7 +630,7 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the payrollPositionFeedIndicator attribute.
-     * 
+     *
      * @return Returns the payrollPositionFeedIndicator.
      */
     public boolean isPayrollPositionFeedIndicator() {
@@ -623,17 +639,17 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the dashSubAccountNumber attribute.
-     * 
+     *
      * @return Returns the dashSubAccountNumber
      */
-    
+
     public String getDashSubAccountNumber() {
         return dashSubAccountNumber;
     }
 
-    /**	
+    /**
      * Sets the dashSubAccountNumber attribute.
-     * 
+     *
      * @param dashSubAccountNumber The dashSubAccountNumber to set.
      */
     public void setDashSubAccountNumber(String dashSubAccountNumber) {
@@ -642,17 +658,17 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
 
     /**
      * Gets the dashFinancialSubObjectCode attribute.
-     * 
+     *
      * @return Returns the dashFinancialSubObjectCode
      */
-    
+
     public String getDashFinancialSubObjectCode() {
         return dashFinancialSubObjectCode;
     }
 
-    /**	
+    /**
      * Sets the dashFinancialSubObjectCode attribute.
-     * 
+     *
      * @param dashFinancialSubObjectCode The dashFinancialSubObjectCode to set.
      */
     public void setDashFinancialSubObjectCode(String dashFinancialSubObjectCode) {

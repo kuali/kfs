@@ -795,13 +795,17 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             return;
         }
 
-        //No recalculate if the account distribution method code is equal to "S" sequential ON REQ or POs..
+        // Recalculate if the account distribution method code is equal to "S" sequential ON REQ or POs..
         if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             for (PurApItem item : document.getItems()) {
                 boolean rulePassed = true;
                 // check any business rules
                 rulePassed &= kualiRuleService.applyRules(new PurchasingAccountsPayableItemPreCalculateEvent(document, item));
 
+                //  Calculate the amount on account line.
+                if (rulePassed) {
+                    updatePreqProportionalItemAccountAmounts(item);
+                }
                 return;
             }
         }
@@ -1097,6 +1101,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             if (item.getTotalAmount() != null && item.getTotalAmount().isNonZero()) {
                 int numOfAccounts = item.getSourceAccountingLines().size();
                 BigDecimal percentTotal = BigDecimal.ZERO;
+                BigDecimal percentTotalRoundUp = BigDecimal.ZERO;
                 KualiDecimal accountTotal = KualiDecimal.ZERO;
                 int accountIdentifier = 0;
 
@@ -1139,10 +1144,15 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                         LOG.debug("convertMoneyToPercent() updating percent to " + tmpPercent);
                     }
                     account.setAccountLinePercent(tmpPercent.multiply(new BigDecimal(100)));
+                    // handle 33.33% issue
+                    if (accountIdentifier == numOfAccounts) {
+                        account.setAccountLinePercent(new BigDecimal(100).subtract(percentTotalRoundUp));
+                    }
 
                     // check total based on adjusted amount
                     accountTotal = accountTotal.add(calcAmount);
                     percentTotal = percentTotal.add(tmpPercent);
+                    percentTotalRoundUp = percentTotalRoundUp.add(account.getAccountLinePercent());
                 }
             }
         }

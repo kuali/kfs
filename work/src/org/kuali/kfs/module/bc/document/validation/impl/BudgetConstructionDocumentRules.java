@@ -363,7 +363,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     public boolean processSaveMonthlyBudgetRules(BudgetConstructionDocument budgetConstructionDocument, BudgetConstructionMonthly budgetConstructionMonthly) {
         LOG.debug("processSaveMonthlyBudgetRules() start");
 
-        budgetConstructionMonthly.refreshReferenceObject("pendingBudgetConstructionGeneralLedger");
+        budgetConstructionMonthly.refreshNonUpdateableReferences();
         PendingBudgetConstructionGeneralLedger pbgl = budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger();
         MessageMap errors = GlobalVariables.getMessageMap();
         boolean isValid = true;
@@ -382,6 +382,18 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         if (!budgetConstructionDocument.isBudgetableDocument()) {
             isValid &= Boolean.FALSE;
             errors.putError(BCPropertyConstants.FINANCIAL_DOCUMENT_MONTH1_LINE_AMOUNT, BCKeyConstants.ERROR_BUDGET_DOCUMENT_NOT_BUDGETABLE, budgetConstructionDocument.getAccountNumber() + ";" + budgetConstructionDocument.getSubAccountNumber());
+        }
+
+        DataDictionary dd = dataDictionaryService.getDataDictionary();
+        if (isValid) {
+
+            ObjectCode objectCode = budgetConstructionMonthly.getFinancialObject();
+            isValid &= isValidObjectCode(objectCode, budgetConstructionMonthly.getFinancialObjectCode(), dd, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+
+            if (StringUtils.isNotBlank(budgetConstructionMonthly.getFinancialSubObjectCode()) && !budgetConstructionMonthly.getFinancialSubObjectCode().equalsIgnoreCase(KFSConstants.getDashFinancialSubObjectCode())){
+                SubObjectCode subObjectCode = budgetConstructionMonthly.getFinancialSubObject();
+                isValid &= isValidSubObjectCode(subObjectCode, budgetConstructionMonthly.getFinancialSubObjectCode(), dd, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+            }
         }
 
         if (isValid) {
@@ -494,7 +506,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
                 // not 2PLG line and not salary fringe line)
                 // This allows the user to use quick salary setting, monthly edit, global month delete to do cleanup work and
                 // to print out values or push/pull before cleanup.
-                if (isRequestAmountChanged || (!budgetConstructionDocument.isBudgetableDocument() && isCleanupModeActionForceCheck && !is2PLG && !isSalaryFringeLine)) {
+                if (isRequestAmountChanged || (doMonthRICheck && !is2PLG && !isSalaryFringeLine) || (!budgetConstructionDocument.isBudgetableDocument() && isCleanupModeActionForceCheck && !is2PLG && !isSalaryFringeLine)) {
                     isValid &= this.checkPendingBudgetConstructionGeneralLedgerLine(budgetConstructionDocument, element, errors, isRevenue, false);
                 }
             }

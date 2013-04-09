@@ -127,14 +127,15 @@ public abstract class AccountsPayableItemBase extends PurApItemBase implements A
      * @see org.kuali.kfs.module.purap.businessobject.PurApItemBase#getSummaryItem()
      */
     @Override
-    public PurApSummaryItem getSummaryItem() {
-        if (extendedPrice == null || extendedPrice.intValue() == 0) {
+        public PurApSummaryItem getSummaryItem() {
+        if (extendedPrice == null || extendedPrice.isZero()) {
             return null;
         }
         else {
             return super.getSummaryItem();
         }
     }
+
 
     public String getCapitalAssetTransactionTypeCode() {
         return capitalAssetTransactionTypeCode;

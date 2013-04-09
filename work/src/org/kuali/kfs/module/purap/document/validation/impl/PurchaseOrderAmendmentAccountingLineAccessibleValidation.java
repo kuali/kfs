@@ -103,7 +103,7 @@ public class PurchaseOrderAmendmentAccountingLineAccessibleValidation extends Pu
         updatedLine.copyFrom(updatedAccountingLine);
         updatedLine.setAmount(accountingLine.getAmount());
 
-        // if they're the same, the only change was the object code
+        // if they're the same, the only change was the amount
         return (accountingLine.isLike(updatedLine));
     }
 

@@ -132,7 +132,7 @@ public class PurapServiceTest extends KualiTestBase {
         assertEquals(1, reqDoc.getItem(0).getUseTaxItems().size());
 
         PurApItemUseTax itemUseTax = reqDoc.getItem(0).getUseTaxItems().get(0);
-        assertEquals(itemUseTax.getAccountNumber(), " 6044900");
+        assertEquals(itemUseTax.getAccountNumber(), "6044900");
         assertEquals(itemUseTax.getChartOfAccountsCode(), "BA");
         assertEquals(itemUseTax.getFinancialObjectCode(), "1500");
         assertEquals(itemUseTax.getRateCode(), "USETAX");

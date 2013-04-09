@@ -296,23 +296,22 @@
     <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelEntertainmentDocument" />
 	<property name="searchingTypeDefinitions">
 		<list>
-		    <bean parent="TravelMoudle-SearchingTypeDefinition-applicationDocumentStatus" />
-            <bean parent="TravelMoudle-SearchingTypeDefinition-tripBegin" />
-            <bean parent="TravelMoudle-SearchingTypeDefinition-temProfileId" />
-			<bean parent="TravelMoudle-SearchingTypeDefinition-eventTitle" />
-            <bean parent="TravelMoudle-SearchingTypeDefinition-spouseIncludedForSearching" />
-            <bean parent="TravelMoudle-SearchingTypeDefinition-traveler.cityName" />
-            <bean parent="TravelMoudle-SearchingTypeDefinition-traveler.stateCode" />
-            <bean parent="TravelMoudle-SearchingTypeDefinition-traveler.countryCode" />
-            <bean parent="TravelMoudle-SearchingTypeDefinition-traveler.zipCode" />
+		    <bean parent="TravelModule-SearchingTypeDefinition-applicationDocumentStatus" />
+            <bean parent="TravelModule-SearchingTypeDefinition-tripBegin" />
+            <bean parent="TravelModule-SearchingTypeDefinition-temProfileId" />
+			<bean parent="TravelModule-SearchingTypeDefinition-eventTitle" />
+            <bean parent="TravelModule-SearchingTypeDefinition-spouseIncludedForSearching" />
+            <bean parent="TravelModule-SearchingTypeDefinition-traveler.cityName" />
+            <bean parent="TravelModule-SearchingTypeDefinition-traveler.stateCode" />
+            <bean parent="TravelModule-SearchingTypeDefinition-traveler.countryCode" />
+            <bean parent="TravelModule-SearchingTypeDefinition-traveler.zipCode" />
 		</list>
 	</property>
 	
 	<property name="routingTypeDefinitions">
 		<map>
 			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly" />
-			<entry key="OrganizationHierarchy" value-ref="RoutingType-TravelAuthorizationDocument-OrganizationHierarchy" />
-			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly" />
+			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-TravelAuthorizationDocument-AccountingOrganizationHierarchy" />
 			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
 			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
 		</map>

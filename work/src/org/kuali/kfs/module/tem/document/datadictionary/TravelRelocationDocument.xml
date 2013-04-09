@@ -467,27 +467,26 @@
         <property name="businessObjectClassName" value="org.kuali.kfs.module.tem.document.TravelRelocationDocument" />
         <property name="searchingTypeDefinitions">
             <list>
-                <bean parent="TravelMoudle-SearchingTypeDefinition-applicationDocumentStatus" />
-                <bean parent="TravelMoudle-SearchingTypeDefinition-travelDocumentIdentifier" />
-                <bean parent="TravelMoudle-SearchingTypeDefinition-temProfileId" />
-                <bean parent="TravelMoudle-SearchingTypeDefinition-reasonCode" />
-                <bean parent="TravelMoudle-SearchingTypeDefinition-tripBegin" />
-                <bean parent="TravelMoudle-SearchingTypeDefinition-tripEnd" />
-                <bean parent="TravelMoudle-SearchingTypeDefinition-titleCode" />
+                <bean parent="TravelModule-SearchingTypeDefinition-applicationDocumentStatus" />
+                <bean parent="TravelModule-SearchingTypeDefinition-travelDocumentIdentifier" />
+                <bean parent="TravelModule-SearchingTypeDefinition-temProfileId" />
+                <bean parent="TravelModule-SearchingTypeDefinition-reasonCode" />
+                <bean parent="TravelModule-SearchingTypeDefinition-tripBegin" />
+                <bean parent="TravelModule-SearchingTypeDefinition-tripEnd" />
+                <bean parent="TravelModule-SearchingTypeDefinition-titleCode" />
             </list>
         </property>
         <property name="routingTypeDefinitions">
             <map>
                 <entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly" />
-                <entry key="OrganizationHierarchy" value-ref="RoutingType-TravelRelocationDocument-OrganizationHierarchy" />
-                <entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly" />
+                <entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-TravelRelocationDocument-AccountingOrganizationHierarchy" />
                 <entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund" />
                 <entry key="Award" value-ref="RoutingType-AccountingDocument-Award" />
             </map>
         </property>
     </bean>
 
-    <bean id="RoutingType-TravelRelocationDocument-OrganizationHierarchy" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+    <bean id="RoutingType-TravelRelocationDocument-AccountingOrganizationHierarchy" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
         <property name="routingAttributes">
             <list>
                 <ref bean="RoutingAttribute-financialDocumentTotalAmount" />
@@ -499,11 +498,11 @@
         <property name="documentValuePathGroups">
             <list>
                 <ref
-                    bean="DocumentValuePathGroup-TravelRelocationDocument-OrganizationHierarchy-accountingLines" />
+                    bean="DocumentValuePathGroup-TravelRelocationDocument-AccountingOrganizationHierarchy-accountingLines" />
             </list>
         </property>
     </bean>
-    <bean id="DocumentValuePathGroup-TravelRelocationDocument-OrganizationHierarchy-accountingLines"
+    <bean id="DocumentValuePathGroup-TravelRelocationDocument-AccountingOrganizationHierarchy-accountingLines"
         parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
         <property name="documentCollectionPath">
             <bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath">

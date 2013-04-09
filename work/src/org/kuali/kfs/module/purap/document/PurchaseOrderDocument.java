@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.service.SufficientFundsService;
@@ -247,7 +248,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         Set<String> nodeNames = this.getFinancialSystemDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
 
         String routeLevel = "";
-        if (nodeNames.size() >= 1) {
+        if (CollectionUtils.isNotEmpty(nodeNames) && nodeNames.size() >= 1) {
             routeLevel = nodeNames.iterator().next();
         }
 

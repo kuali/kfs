@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.doctype.DocumentType;
@@ -132,6 +133,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setInitiatorWorkflowId(principalId("khuntley"));
             obj.setRoutedByUserWorkflowId(principalId("khuntley"));
             obj.setObjectId("JHBGJHGJKHJS5456677675");
+            obj.setAppDocStatus(CabConstants.PO_STATUS_CODE_OPEN);
             return obj;
         }
     },
@@ -158,6 +160,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setInitiatorWorkflowId(principalId("khuntley"));
             obj.setRoutedByUserWorkflowId(principalId("khuntley"));
             obj.setObjectId("JHBGJHGJKHJS5456677674");
+            obj.setAppDocStatus(CabConstants.PO_STATUS_CODE_OPEN);
             return obj;
         }
     },
@@ -184,6 +187,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setInitiatorWorkflowId(principalId("khuntley"));
             obj.setRoutedByUserWorkflowId(principalId("khuntley"));
             obj.setObjectId("JHBGJHGJKHJS5456677673");
+            obj.setAppDocStatus(CabConstants.PO_STATUS_CODE_OPEN);
             return obj;
         }
     },

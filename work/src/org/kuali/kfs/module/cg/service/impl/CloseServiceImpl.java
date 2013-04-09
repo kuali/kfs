@@ -79,7 +79,7 @@ public class CloseServiceImpl implements CloseService {
 
         boolean result = true;
         String noteText = null;
-        if (max.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeInstances().contains( CGConstants.CGKimApiConstants.UNPROCESSED_ROUTING_NODE_NAME) ) {
+        if (max.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains( CGConstants.CGKimApiConstants.UNPROCESSED_ROUTING_NODE_NAME) ) {
 
             ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
 

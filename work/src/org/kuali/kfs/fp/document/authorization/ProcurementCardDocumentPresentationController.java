@@ -15,6 +15,9 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
+import java.util.Set;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
@@ -56,10 +59,13 @@ public class ProcurementCardDocumentPresentationController extends AccountingDoc
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         //DocumentType
         boolean canRouteReviewFullEdit = false;
-        for (String routeNode : workflowDocument.getCurrentNodeNames() ) {
-            if ( StringUtils.equalsIgnoreCase(routeNode, KFSConstants.RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT ) ) {
-                canRouteReviewFullEdit = true;
-                break;
+        Set<String> currentNodeNames = workflowDocument.getCurrentNodeNames();
+        if (CollectionUtils.isNotEmpty(currentNodeNames)) {
+            for (String routeNode : currentNodeNames ) {
+                if ( StringUtils.equalsIgnoreCase(routeNode, KFSConstants.RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT ) ) {
+                    canRouteReviewFullEdit = true;
+                    break;
+                }
             }
         }
 

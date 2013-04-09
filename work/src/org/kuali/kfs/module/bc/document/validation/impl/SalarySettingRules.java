@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,12 +17,15 @@ package org.kuali.kfs.module.bc.document.validation.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.SynchronizationCheckType;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
+import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -34,9 +37,10 @@ import org.kuali.rice.krad.util.MessageMap;
 public class SalarySettingRules implements SalarySettingRule {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingRules.class);
 
-    private BudgetConstructionRuleHelperService budgetConstructionRuleHelperService = SpringContext.getBean(BudgetConstructionRuleHelperService.class);
-    private SalarySettingRuleHelperService salarySettingRuleHelperService = SpringContext.getBean(SalarySettingRuleHelperService.class);
-    private MessageMap errorMap = GlobalVariables.getMessageMap();
+    protected BudgetConstructionRuleHelperService budgetConstructionRuleHelperService = SpringContext.getBean(BudgetConstructionRuleHelperService.class);
+    protected SalarySettingRuleHelperService salarySettingRuleHelperService = SpringContext.getBean(SalarySettingRuleHelperService.class);
+    protected HumanResourcesPayrollService humanResourcesPayrollService = SpringContext.getBean(HumanResourcesPayrollService.class);
+    protected MessageMap errorMap = GlobalVariables.getMessageMap();
 
     /**
      * @see org.kuali.kfs.module.bc.document.validation.SalarySettingRule#processQuickSaveAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding)
@@ -47,6 +51,47 @@ public class SalarySettingRules implements SalarySettingRule {
         boolean hasValidFormat = budgetConstructionRuleHelperService.isFieldFormatValid(appointmentFunding, errorMap);
         if (!hasValidFormat) {
             return hasValidFormat;
+        }
+
+        // get a temp message map to allow marking salarySettingExpansion then merge this to errorMap
+        MessageMap tempErrorMap = new MessageMap();
+        tempErrorMap.addToErrorPath(BCPropertyConstants.SALARY_SETTING_EXPANSION);
+
+        // check object, subobject, incumbent, position
+        boolean hasValidReference = true;
+        hasValidReference &= budgetConstructionRuleHelperService.hasValidObjectCode(appointmentFunding, tempErrorMap);
+        hasValidReference &= budgetConstructionRuleHelperService.hasValidSubObjectCode(appointmentFunding, tempErrorMap);
+        hasValidReference &= budgetConstructionRuleHelperService.hasValidIncumbentQuickSalarySetting(appointmentFunding, errorMap);
+        hasValidReference &= budgetConstructionRuleHelperService.hasValidPosition(appointmentFunding, errorMap);
+        if (!hasValidReference) {
+            errorMap.merge(tempErrorMap);
+            return hasValidReference;
+        }
+
+        // check position default object code
+        String defaultObjectCode = appointmentFunding.getBudgetConstructionPosition().getIuDefaultObjectCode();
+        String objectCode = appointmentFunding.getFinancialObjectCode();
+        if (!StringUtils.equals(objectCode, defaultObjectCode)) {
+            errorMap.putError(KFSPropertyConstants.POSITION_NUMBER, BCKeyConstants.ERROR_NOT_DEFAULT_OBJECT_CODE, defaultObjectCode);
+            return false;
+        }
+
+        // check for active job
+        if (!appointmentFunding.getEmplid().equalsIgnoreCase("VACANT")){
+            Integer fiscalYear = appointmentFunding.getUniversityFiscalYear();
+            String emplid = appointmentFunding.getEmplid();
+            String positionNumber = appointmentFunding.getPositionNumber();
+            boolean hasActiveJob = humanResourcesPayrollService.isActiveJob(emplid, positionNumber, fiscalYear, SynchronizationCheckType.NONE);
+            if (!hasActiveJob) {
+                errorMap.putError(KFSPropertyConstants.POSITION_NUMBER, BCKeyConstants.ERROR_NO_ACTIVE_JOB_FOUND, appointmentFunding.getEmplid(), appointmentFunding.getPositionNumber());
+                return hasActiveJob;
+            }
+        }
+
+        // using request amount as property to light up on error
+        boolean isAssociatedWithBudgetableDocument = budgetConstructionRuleHelperService.isAssociatedWithValidDocument(appointmentFunding, errorMap, BCPropertyConstants.APPOINTMENT_REQUESTED_AMOUNT);
+        if (!isAssociatedWithBudgetableDocument) {
+            return isAssociatedWithBudgetableDocument;
         }
 
         boolean hasValidAmounts = this.hasValidAmountsQuickSalarySetting(appointmentFunding, errorMap);

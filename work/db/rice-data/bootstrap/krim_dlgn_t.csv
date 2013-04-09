@@ -1,5 +1,5 @@
 "DLGN_ID","VER_NBR","OBJ_ID","ROLE_ID","ACTV_IND","KIM_TYP_ID","DLGN_TYP_CD"
 "1","1","KFS1","28","Y","30","P"
 "2","1","KFS2","28","Y","30","S"
-"3","1","KFS3","41","Y","1","P"
-"4","1","KFS4","41","Y","1","S"
+"3","1","KFS3","41","Y","KFSMI9562-TYP","P"
+"4","1","KFS4","41","Y","KFSMI9562-TYP","S"

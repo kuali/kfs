@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
@@ -664,7 +665,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         Set<String> nodeNames = this.getFinancialSystemDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
 
         // if this doc is final or will be final
-        if (nodeNames.size() == 0 || this.getFinancialSystemDocumentHeader().getWorkflowDocument().isFinal()) {
+        if (CollectionUtils.isEmpty(nodeNames) || this.getFinancialSystemDocumentHeader().getWorkflowDocument().isFinal()) {
             documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).toString();
         }
         else {
@@ -803,9 +804,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         super.doActionTaken(event);
         WorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
         String currentNode = null;
-        Object[] names = workflowDocument.getCurrentNodeNames().toArray();
-        if (names.length > 0) {
-            currentNode = (String)names[0];
+        Set<String> currentNodes = workflowDocument.getCurrentNodeNames();
+        if (CollectionUtils.isNotEmpty(currentNodes)) {
+            Object[] names = currentNodes.toArray();
+            if (names.length > 0) {
+                currentNode = (String)names[0];
+            }
         }
 
         // everything in the below list requires correcting entries to be written to the GL
@@ -1043,7 +1047,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     protected List<String> getCurrentRouteLevels(WorkflowDocument workflowDocument) {
         Set<String> names = workflowDocument.getCurrentNodeNames();
-        return new ArrayList<String>(names);
+        if (CollectionUtils.isNotEmpty(names)) {
+            return new ArrayList<String>(names);
+        }
+        return null;
     }
 
     public RecurringPaymentType getRecurringPaymentType() {

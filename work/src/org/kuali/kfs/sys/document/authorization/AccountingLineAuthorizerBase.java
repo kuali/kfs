@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -338,9 +339,12 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         }
 
         if ( workflowDocument.isEnroute() && !workflowDocument.isApproved() ) {
-            String routeNode = workflowDocument.getCurrentNodeNames().iterator().next();
-            if (StringUtils.isNotBlank(routeNode)) {
-                permissionDetails.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME, routeNode);
+            Set<String> currentNodes = workflowDocument.getCurrentNodeNames();
+            if (CollectionUtils.isNotEmpty(currentNodes)) {
+                String routeNode = currentNodes.iterator().next();
+                if (StringUtils.isNotBlank(routeNode)) {
+                    permissionDetails.put(KimConstants.AttributeConstants.ROUTE_NODE_NAME, routeNode);
+                }
             }
         } else {
             // document has not been routed yet - use the "PreRoute" note

@@ -108,7 +108,7 @@ public class NightlyOutServiceTest extends KualiTestBase {
     public void testCopyPendingLedgerEntry() throws Exception {
         // Empty out the origin entry group & origin entry tables
         assertTrue("batch directory does not exist", new File(batchDirectory).isDirectory());
-        for (File file : new File(batchDirectory).listFiles(new BatchFilenameFilter())) {
+        for (File file : new File(batchDirectory).listFiles()) {
             file.delete();
         }
 

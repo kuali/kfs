@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
@@ -269,9 +270,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         WorkflowDocument workflowDocument = this.getFinancialSystemDocumentHeader().getWorkflowDocument();
 
         Set<String> names = workflowDocument.getCurrentNodeNames();
-        List<String> currentRouteLevels = new ArrayList<String>(names);
+        if (CollectionUtils.isNotEmpty(names)) {
+            List<String> currentRouteLevels = new ArrayList<String>(names);
             if (currentRouteLevels.contains(nodeName) && workflowDocument.isApprovalRequested()) {
-            return true;
+                return true;
+            }
         }
         return false;
     }

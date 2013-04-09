@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,7 +22,7 @@ public class BCPropertyConstants {
     public static final String PULL_FLAG = "pullFlag";
     public static final String PENDING_BUDGET_CONSTRUCTION_APPOINTMENT_FUNDING = "pendingBudgetConstructionAppointmentFunding";
     public static final String BUDGET_CONSTRUCTION_REPORT_THRESHOLD_SETTINGS = "budgetConstructionReportThresholdSettings";
- 
+
     public static final String ACCOUNT_REPORTS_EXIST = "accountReportsExist";
     public static final String ORGANIZATION_LEVEL_CODE = "organizationLevelCode";
     public static final String ORGANIZATION_CHART_OF_ACCOUNTS_CODE = "organizationChartOfAccountsCode";
@@ -44,7 +44,7 @@ public class BCPropertyConstants {
     public static final String BUDGET_CONSTRUCTION_FUNDING_LOCKS = "budgetConstructionFundingLocks";
 
     public static final String APPOINTMENT_FUNDING_DELETE_INDICATOR = "appointmentFundingDeleteIndicator";
-    
+
     public static final String APPOINTMENT_REQUESTED_AMOUNT = "appointmentRequestedAmount";
     public static final String APPOINTMENT_REQUESTED_TIME_PERCENT = "appointmentRequestedTimePercent";
     public static final String APPOINTMENT_REQUESTED_PAY_RATE = "appointmentRequestedPayRate";
@@ -62,7 +62,7 @@ public class BCPropertyConstants {
     public static final String APPOINTMENT_FUNDING_REASON = "appointmentFundingReason";
     public static final String APPOINTMENT_FUNDING_REASON_CODE = "appointmentFundingReasonCode";
     public static final String APPOINTMENT_FUNDING_REASON_AMOUNT = "appointmentFundingReasonAmount";
-    
+
     public static final String POSITION_DEPARTMENT_IDENTIFIER = "positionDepartmentIdentifier";
     public static final String IU_POSITION_TYPE = "iuPositionType";
     public static final String POSITION_SALARY_PLAN_DEFAULT = "positionSalaryPlanDefault";
@@ -84,10 +84,10 @@ public class BCPropertyConstants {
     public static final String ADJUSTMENT_MEASUREMENT = "adjustmentMeasurement";
     public static final String REFRESH_POSITION_BEFORE_SALARY_SETTING = "refreshPositionBeforeSalarySetting";
     public static final String REFRESH_INCUMBENT_BEFORE_SALARY_SETTING = "refreshIncumbentBeforeSalarySetting";
-    
+
     public static final String CALL_BACK_MESSAGES = "callBackMessages";
     public static final String CALL_BACK_ERRORS = "callBackErrors";
-    
+
     public static final String FINANCIAL_DOCUMENT_MONTH1_LINE_AMOUNT = "financialDocumentMonth1LineAmount";
     public static final String FINANCIAL_DOCUMENT_MONTH2_LINE_AMOUNT = "financialDocumentMonth2LineAmount";
     public static final String FINANCIAL_DOCUMENT_MONTH3_LINE_AMOUNT = "financialDocumentMonth3LineAmount";
@@ -103,4 +103,5 @@ public class BCPropertyConstants {
 
     public static final String THRESHOLD_PERCENT = "thresholdPercent";
 
+    public static final String OBJECT_CODE_PICK_LIST = "objectCodePickList";
 }

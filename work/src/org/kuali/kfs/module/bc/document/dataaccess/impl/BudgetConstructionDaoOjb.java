@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,10 +27,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountReports;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionFundingLock;
@@ -41,7 +40,6 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.util.TransactionalServiceUtils;
 import org.kuali.rice.core.api.util.type.KualiInteger;
@@ -55,7 +53,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
 
     /**
      * This gets a BudgetConstructionHeader using the candidate key chart, account, subaccount, fiscalyear
-     * 
+     *
      * @param chartOfAccountsCode
      * @param accountNumber
      * @param subAccountNumber
@@ -74,7 +72,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
 
     /**
      * This deletes a BudgetConstructionFundingLock from the database
-     * 
+     *
      * @param budgetConstructionFundingLock
      */
     public void deleteBudgetConstructionFundingLock(BudgetConstructionFundingLock budgetConstructionFundingLock) {
@@ -85,7 +83,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
      * This gets the set of BudgetConstructionFundingLocks asssociated with a BC EDoc (account). Each BudgetConstructionFundingLock
      * has the positionNumber dummy attribute set to the associated Position that is locked. A positionNumber value of "NotFnd"
      * indicates the BudgetConstructionFundingLock is an orphan.
-     * 
+     *
      * @param chartOfAccountsCode
      * @param accountNumber
      * @param subAccountNumber
@@ -101,7 +99,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         criteria.addEqualTo("subAccountNumber", subAccountNumber);
         criteria.addEqualTo("universityFiscalYear", fiscalYear);
 
-        fundingLocks = (Collection<BudgetConstructionFundingLock>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionFundingLock.class, criteria));
+        fundingLocks = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionFundingLock.class, criteria));
         BudgetConstructionFundingLock fundingLock;
         Iterator<BudgetConstructionFundingLock> iter = fundingLocks.iterator();
         while (iter.hasNext()) {
@@ -133,7 +131,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         Iterator<Object[]> iter = pb.getReportQueryIteratorByQuery(q);
 
         if (iter.hasNext()) {
-            Object[] objs = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iter);
+            Object[] objs = TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iter);
             if (objs[0] != null) {
                 positionNumber = (String) objs[0];
             }
@@ -163,7 +161,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         criteria.addGreaterThan("pullFlag", OrgSelControlOption.NO.getKey());
         orgs = (List<BudgetConstructionPullup>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionPullup.class, criteria));
         if (orgs.isEmpty() || orgs.size() == 0) {
-            return (List<BudgetConstructionPullup>)Collections.EMPTY_LIST;
+            return Collections.EMPTY_LIST;
         }
         return orgs;
     }
@@ -193,7 +191,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         orgs = (List<BudgetConstructionPullup>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (orgs.isEmpty() || orgs.size() == 0) {
-            return (List<BudgetConstructionPullup>) Collections.EMPTY_LIST;
+            return Collections.EMPTY_LIST;
         }
         return orgs;
     }
@@ -219,7 +217,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         Iterator<Object[]> iter = pb.getReportQueryIteratorByQuery(q);
 
         if (iter.hasNext()) {
-            Object[] objs = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iter);
+            Object[] objs = TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iter);
             if (objs[2] != null) {
                 salarySum = new KualiInteger((BigDecimal) objs[2]);
             }
@@ -246,33 +244,6 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         documentPBGLfringeLines = (List) getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         return documentPBGLfringeLines;
-    }
-
-    /**
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDao#isDelegate(java.lang.String, java.lang.String,
-     *      java.lang.String)
-     */
-    public boolean isDelegate(String chartOfAccountsCode, String accountNumber, String principalId) {
-
-        boolean retval = false;
-
-        // active BC account delegates are marked with the BC document type or the special "ALL" document type
-        List docTypes = new ArrayList();
-        docTypes.add(BCConstants.DOCUMENT_TYPE_CODE_ALL);
-        docTypes.add(KFSConstants.FinancialDocumentTypeCodes.BUDGET_CONSTRUCTION);
-
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-        criteria.addEqualTo("accountNumber", accountNumber);
-        criteria.addEqualTo("accountDelegateSystemId", principalId);
-        criteria.addEqualTo("active", "Y");
-        criteria.addIn("financialDocumentTypeCode", docTypes);
-        QueryByCriteria query = QueryFactory.newQuery(AccountDelegate.class, criteria);
-        if (getPersistenceBrokerTemplate().getCount(query) > 0) {
-            retval = true;
-        }
-
-        return retval;
     }
 
     /**

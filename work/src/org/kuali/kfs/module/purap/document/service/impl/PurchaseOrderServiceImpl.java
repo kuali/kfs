@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrBuilder;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -890,7 +891,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 userToRouteFyi = req.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
             }
 
-            po.getDocumentHeader().getWorkflowDocument().adHocToPrincipal(ActionRequestType.FYI, po.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().iterator().next(), "This PO is ready for printing and distribution.", userToRouteFyi, "", true, "PRINT");
+            Set<String> currentNodes = po.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
+            if (CollectionUtils.isNotEmpty(currentNodes)) {
+                po.getDocumentHeader().getWorkflowDocument().adHocToPrincipal(ActionRequestType.FYI, currentNodes.iterator().next(), "This PO is ready for printing and distribution.", userToRouteFyi, "", true, "PRINT");
+
+            }
         }
 
     }

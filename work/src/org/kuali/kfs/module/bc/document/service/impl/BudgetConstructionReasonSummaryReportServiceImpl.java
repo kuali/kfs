@@ -364,9 +364,9 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
             BigDecimal csfMonthpercent = new BigDecimal(totalsHolder.csfNormalMonths * 1.0 / totalsHolder.csfPayMonths);
             BigDecimal csfFteQuantity = totalsHolder.csfPercent.multiply(csfMonthpercent);
 
-            BigDecimal restatementCsfPercent = salaryFteQuantity.divide(csfFteQuantity);
+            BigDecimal restatementCsfPercent = salaryFteQuantity.divide(csfFteQuantity, 6, BigDecimal.ROUND_HALF_UP);
             BigDecimal csfAmount = new BigDecimal(totalsHolder.csfAmount);
-            restatementCsfAmount = csfAmount.multiply(restatementCsfPercent).intValue();
+            restatementCsfAmount = csfAmount.multiply(restatementCsfPercent).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
         }
 
         if (totalsHolder.salaryPayMonth == 0) {
@@ -415,17 +415,18 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
             BudgetConstructionPosition budgetConstructionPosition = budgetConstructionReportsServiceHelper.getBudgetConstructionPosition(universityFiscalYear, appointmentFunding);
 
             int salaryAmount = 0;
+            Integer salaryMonths = 0;
             BigDecimal salaryPercent = BigDecimal.ZERO;
             String durationCode = appointmentFunding.getAppointmentFundingDurationCode();
 
             if (StringUtils.equals(durationCode, BCConstants.Report.NONE)) {
                 salaryAmount = appointmentFunding.getAppointmentRequestedAmount().intValue();
-                totalsHolder.salaryNormalMonths = appointmentFunding.getAppointmentFundingMonth();
+                salaryMonths = appointmentFunding.getAppointmentFundingMonth();
                 salaryPercent = appointmentFunding.getAppointmentRequestedTimePercent();
             }
             else {
                 salaryAmount = appointmentFunding.getAppointmentRequestedCsfAmount().intValue();
-                totalsHolder.salaryNormalMonths = budgetConstructionPosition.getIuNormalWorkMonths();
+                salaryMonths = budgetConstructionPosition.getIuNormalWorkMonths();
 
                 boolean hasRequestedCsfTimePercent = appointmentFunding.getAppointmentRequestedCsfTimePercent() != null;
                 salaryPercent = hasRequestedCsfTimePercent ? appointmentFunding.getAppointmentRequestedCsfTimePercent() : BigDecimal.ZERO;
@@ -434,7 +435,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
             if (salaryAmount > maxSalaryAmount) {
                 maxSalaryAmount = totalsHolder.salaryAmount;
                 totalsHolder.salaryPayMonth = budgetConstructionPosition.getIuPayMonths();
-                totalsHolder.salaryNormalMonths = appointmentFunding.getAppointmentFundingMonth();
+                totalsHolder.salaryNormalMonths = salaryMonths;
             }
 
             totalsHolder.salaryAmount += salaryAmount;

@@ -33,6 +33,8 @@ public class KfsAuthorizationConstants  {
         public static final String VOUCHER_DEADLINE_ENTRY = "voucherDeadlineEntry";
         public static final String SPECIAL_HANDLING_CHANGING_ENTRY = "specialHandlingChangingEntry";
         public static final String IMMEDIATE_DISBURSEMENT_ENTRY = "immediateDisbursementEntryMode";
+        public static final String PAYMENT_REASON_EDIT_MODE = "paymentReasonEditMode";
+
     }
 
     public static class DistributionOfIncomeAndExpenseEditMode {

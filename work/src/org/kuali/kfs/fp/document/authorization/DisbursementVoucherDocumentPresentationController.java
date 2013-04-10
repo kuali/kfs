@@ -26,6 +26,8 @@ import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationCo
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 
+
+
 public class DisbursementVoucherDocumentPresentationController extends AccountingDocumentPresentationControllerBase {
     /**
      * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.krad.document.Document)
@@ -63,9 +65,23 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
         addPaymentHandlingEntryMode(document, editModes);
         addVoucherDeadlineEntryMode(document, editModes);
         addSpecialHandlingChagingEntryMode(document, editModes);
+        addPaymentReasonEditMode(document, editModes);
 
         return editModes;
     }
+
+    protected void addPaymentReasonEditMode(Document document, Set<String> editModes) {
+        if (isAtNode(document, DisbursementVoucherConstants.RouteLevelNames.CAMPUS) && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
+            editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.PAYMENT_REASON_EDIT_MODE);
+        }
+    }
+
+    protected boolean isAtNode(Document document, String nodeName) {
+        Set<String> currentNodes = document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
+        return currentNodes.contains(nodeName) ;
+    }
+
+
 
     protected void addPayeeEditEntryMode(Document document, Set<String> editModes) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();

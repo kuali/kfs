@@ -1,0 +1,26 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+
+	<changeSet id="KFSCNTRB-705 KIM" author="KFS52">
+		<comment>Add the necessary KIM data for the Rice permission and system parameter which are used for research participant upload.</comment>
+
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PDP" />
+			<column name="CMPNT_CD" value="PaymentDetail" />
+			<column name="PARM_NM" value="RESEARCH_PARTICIPANT_UPLOAD_CUSTOMER_PROFILE" />
+			<column name="VAL" value="" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="The Customer Profile for Research Participant Accounting Office PDP Upload" />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>	
+		
+		<modifySql dbms="mysql">
+	        <replace replace="SYS_GUID()" with="UUID()" />
+	    </modifySql>
+	</changeSet>			
+</databaseChangeLog>

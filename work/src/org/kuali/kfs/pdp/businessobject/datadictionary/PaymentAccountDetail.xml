@@ -61,11 +61,13 @@
 
   <bean id="PaymentAccountDetail-accountNbr-parentBean" abstract="true" parent="AccountAttribute">
   <property name="name" value="accountNbr"/>
+  <property name="required" value="true" />
   </bean>
   <bean id="PaymentAccountDetail-account.accountNumber" parent="PaymentAccountDetail-account.accountNumber-parentBean"/>
 
   <bean id="PaymentAccountDetail-account.accountNumber-parentBean" abstract="true" parent="AccountAttribute">
   <property name="name" value="account.accountNumber"/>
+  <property name="required" value="true" />
   </bean>
   <bean id="PaymentAccountDetail-subAccountNbr" parent="PaymentAccountDetail-subAccountNbr-parentBean"/>
 

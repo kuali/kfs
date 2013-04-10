@@ -1102,6 +1102,29 @@
     <bean id="excludeSingleActorSeparationOfDutiesRoleTypeService" parent="excludeSingleActorSeparationOfDutiesRoleTypeService-parentBean" />
     <bean id="excludeSingleActorSeparationOfDutiesRoleTypeService-parentBean" abstract="true" class="org.kuali.kfs.sys.identity.ExcludeSingleActorSeparationOfDutiesRoleTypeService" />
     
-    
+
+    <bean id="customEditorConfigurer" 
+          class="org.kuali.kfs.sys.businessobject.CustomEditorConfigurer">
+        <property name="customEditors">
+            <map>
+                <entry key="java.sql.Timestamp">
+                    <bean class="org.kuali.kfs.sys.businessobject.TimestampPropertyEditor"/>
+                </entry>
+                <entry key="java.sql.Date">
+                    <bean class="org.kuali.kfs.sys.businessobject.DatePropertyEditor"/>
+                </entry>
+                <entry key="java.lang.Boolean">
+                    <bean class="org.kuali.kfs.sys.businessobject.BooleanPropertyEditor"/>
+                </entry>
+                <entry key="org.kuali.rice.core.api.util.type.KualiDecimal">
+                    <bean class="org.kuali.kfs.sys.businessobject.KualiDecimalPropertyEditor"/>
+                </entry>
+                <entry key="org.kuali.rice.core.api.util.type.KualiInteger">
+                    <bean class="org.kuali.kfs.sys.businessobject.KualiIntegerPropertyEditor"/>
+                </entry>                                          
+            </map>
+        </property>
+    </bean>
+       
     <import resource="spring-sys-bus-exports.xml"/>
 </beans>

@@ -30,6 +30,7 @@ import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.GlPendingTransaction;
 import org.kuali.kfs.pdp.businessobject.PaymentAccountDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
@@ -37,6 +38,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.pdp.dataaccess.PendingTransactionDao;
 import org.kuali.kfs.pdp.service.PdpUtilService;
 import org.kuali.kfs.pdp.service.PendingTransactionService;
+import org.kuali.kfs.pdp.service.ResearchParticipantPaymentValidationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -47,7 +49,13 @@ import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.AttributeSecurity;
+import org.kuali.rice.krad.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.krad.datadictionary.mask.MaskFormatterLiteral;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DataDictionaryService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -70,6 +78,9 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     private ConfigurationService kualiConfigurationService;
     private BusinessObjectService businessObjectService;
     private BankService bankService;
+    protected DataDictionaryService dataDictionaryService;
+    protected ParameterService parameterService;
+    protected ResearchParticipantPaymentValidationService researchParticipantPaymentValidationService;
     private PdpUtilService pdpUtilService;
 
     public PendingTransactionServiceImpl() {
@@ -113,6 +124,11 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
         for (PaymentDetail paymentDetail : paymentGroup.getPaymentDetails()) {
             accountListings.addAll(paymentDetail.getAccountDetail());
         }
+
+        BusinessObjectEntry businessObjectEntry = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(PaymentDetail.class.getName());
+        AttributeDefinition attributeDefinition = businessObjectEntry.getAttributeDefinition("paymentGroup.payeeName");
+        AttributeSecurity originalPayeeNameAttributeSecurity = attributeDefinition.getAttributeSecurity();
+        String maskLiteral = ((MaskFormatterLiteral) originalPayeeNameAttributeSecurity.getMaskFormatter()).getLiteral();
 
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
         for (PaymentAccountDetail paymentAccountDetail : accountListings) {
@@ -165,29 +181,36 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
             glPendingTransaction.setDebitCrdtCd(pdpUtilService.isDebit(paymentAccountDetail, reversal) ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
             glPendingTransaction.setAmount(paymentAccountDetail.getAccountNetAmount().abs());
 
-            String trnDesc = "";
+            //Changes for Research Participant Upload
+            String trnDesc = StringUtils.EMPTY;
+            CustomerProfile customerProfile = paymentGroup.getBatch().getCustomerProfile();
 
-            String payeeName = paymentGroup.getPayeeName();
-            if (StringUtils.isNotBlank(payeeName)) {
-                trnDesc = payeeName.length() > 40 ? payeeName.substring(0, 40) : StringUtils.rightPad(payeeName, 40);
+
+            if (researchParticipantPaymentValidationService.isResearchParticipantPayment(customerProfile)) {
+                trnDesc = maskLiteral;
             }
-
-            if (reversal) {
-                String poNbr = paymentAccountDetail.getPaymentDetail().getPurchaseOrderNbr();
-                if (StringUtils.isNotBlank(poNbr)) {
-                    trnDesc += " " + (poNbr.length() > 9 ? poNbr.substring(0, 9) : StringUtils.rightPad(poNbr, 9));
+            else {
+                String payeeName = paymentGroup.getPayeeName();
+                if (StringUtils.isNotBlank(payeeName)) {
+                    trnDesc = payeeName.length() > 40 ? payeeName.substring(0, 40) : StringUtils.rightPad(payeeName, 40);
                 }
 
-                String invoiceNbr = paymentAccountDetail.getPaymentDetail().getInvoiceNbr();
-                if (StringUtils.isNotBlank(invoiceNbr)) {
-                    trnDesc += " " + (invoiceNbr.length() > 14 ? invoiceNbr.substring(0, 14) : StringUtils.rightPad(invoiceNbr, 14));
-                }
+                if (reversal) {
+                    String poNbr = paymentAccountDetail.getPaymentDetail().getPurchaseOrderNbr();
+                    if (StringUtils.isNotBlank(poNbr)) {
+                        trnDesc += " " + (poNbr.length() > 9 ? poNbr.substring(0, 9) : StringUtils.rightPad(poNbr, 9));
+                    }
 
-                if (trnDesc.length() > 40) {
-                    trnDesc = trnDesc.substring(0, 40);
+                    String invoiceNbr = paymentAccountDetail.getPaymentDetail().getInvoiceNbr();
+                    if (StringUtils.isNotBlank(invoiceNbr)) {
+                        trnDesc += " " + (invoiceNbr.length() > 14 ? invoiceNbr.substring(0, 14) : StringUtils.rightPad(invoiceNbr, 14));
+                    }
+
+                    if (trnDesc.length() > 40) {
+                        trnDesc = trnDesc.substring(0, 40);
+                    }
                 }
             }
-
             glPendingTransaction.setDescription(trnDesc);
 
             glPendingTransaction.setOrgDocNbr(paymentAccountDetail.getPaymentDetail().getOrganizationDocNbr());
@@ -356,6 +379,27 @@ public class PendingTransactionServiceImpl implements PendingTransactionService 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
+    public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public ResearchParticipantPaymentValidationService getResearchParticipantPaymentValidationService() {
+        return researchParticipantPaymentValidationService;
+    }
+
+    public void setResearchParticipantPaymentValidationService(ResearchParticipantPaymentValidationService researchParticipantPaymentValidationService) {
+        this.researchParticipantPaymentValidationService = researchParticipantPaymentValidationService;
+    }
+
 
     /**
      * Sets the pdp util service

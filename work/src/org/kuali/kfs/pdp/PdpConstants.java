@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,7 +34,7 @@ public class PdpConstants {
     public static final String ACH_BANK_INSTITUTION_CODE_DEFAULT = "1";
     public static final String PDP_CUST_ID_SEQUENCE_NAME = "PDP_CUST_ID_SEQ";
     public static final String SECURE_SOCKET_PROTOCOL = "SSL";
-    
+
     public static final int CHECK_NUMBER_PLACEHOLDER_VALUE = -1;
 
     public static class PayeeIdTypeCodes {
@@ -80,13 +80,13 @@ public class PdpConstants {
         public static final String HELD_TAX_NRA_CD = "HTXN";
         public static final String HELD_TAX_NRA_EMPL_CD = "HTXB";
     }
-    
+
     public static class Actions{
         public static final String BATCH_SEARCH_DETAIL_ACTION = "batchDetail.do";
         public static final String PAYMENT_DETAIL_ACTION = "pdp/paymentdetail.do";
         public static final String FORMAT_PROCESS_ACTION = "pdp/format.do";
     }
-    
+
     public static class ActionMethods{
         public static final String CONFIRM_CANCEL_ACTION = "confirmAndCancel";
         public static final String CONFIRM_REMOVE_HOLD_ACTION = "confirmAndRemoveHold";
@@ -98,7 +98,7 @@ public class PdpConstants {
         public static final String CONFIRM_REISSUE_CANCEL_ACTION = "confirmAndReIssueCancel";
         public static final String CLEAR_FORMAT_PROCESS_ACTION = "clearUnfinishedFormat";
     }
-    
+
     public static class AccountChangeCodes {
         public static final String INVALID_ACCOUNT = "ACCT";
         public static final String INVALID_SUB_ACCOUNT = "SA";
@@ -106,7 +106,7 @@ public class PdpConstants {
         public static final String INVALID_SUB_OBJECT = "SO";
         public static final String INVALID_PROJECT = "PROJ";
     }
-    
+
     public static class PaymentTypes {
         public static final String ALL = "all";
         public static final String DISBURSEMENTS_WITH_ATTACHMENTS = "pymtAttachment";
@@ -115,26 +115,26 @@ public class PdpConstants {
         public static final String DISBURSEMENTS_NO_SPECIAL_HANDLING = "pymtSpecialHandlingFalse";
         public static final String PROCESS_IMMEDIATE = "immediate";
     }
-    
+
     public static final String MAPPING_SELECTION = "selection";
     public static final String MAPPING_CONTINUE = "continue";
     public static final String MAPPING_FINISHED = "finished";
-    
+
     public static class PDPEditMode {
         public static final String ENTRY = "entry";
     }
-    
+
     public static class AchBankOfficeCodes {
         public static final String AchBankOfficeCode_O = "O";
         public static final String AchBankOfficeCode_B = "B";
     }
-    
+
     public static class AchBankTypeCodes {
         public static final String AchBankTypeCode_0 = "0";
         public static final String AchBankTypeCode_1 = "1";
         public static final String AchBankTypeCode_2 = "2";
     }
-    
+
     public static class PermissionNames{
         public static final String CANCEL_PAYMENT = "Cancel Payment";
         public static final String FORMAT = "Format";
@@ -143,9 +143,53 @@ public class PdpConstants {
         public static final String REMOVE_PAYMENT_TAX_HOLD = "Remove Payment Tax Hold";
         public static final String SET_AS_IMMEDIATE_PAY = "Set as Immmediate Pay";
     }
-    
+
     public static class MethodToCallNames {
         public static final String START = "start";
-        
+
+    }
+
+    // Changes for the Research Participant Upload
+    public static final String RESEARCH_PARTICIPANT_INPUT_FILE_TYPE_INDENTIFIER = "researchParticipantInputFileType";
+    public static final String RESEARCH_PARTICIPANT_CUSTOMER_PROFILE = "RESEARCH_PARTICIPANT_UPLOAD_CUSTOMER_PROFILE";
+    public static final String RESEARCH_PARTICIPANT_FILE_PREFIX = "RP-Upload";
+    public static final String MULTIPLE_ACCOUNTS = "There are more than one accounting lines.";
+    public static final String MULTIPLE_PAYMENT_HEADERS = "There are more than one payment headers.";
+    public static final String FILE_NAME_PART_DELIMITER = "_";
+
+    public static class SequenceNames {
+        public static final String PDP_PMT_FIL_ID = "PDP_PMT_FIL_ID_SEQ";
+    }
+
+    public static class PaymentHeader {
+        public static final String CHART = "chartOfAccountsCode";
+        public static final String UNIT = "unit";
+        public static final String SUBUNIT = "subUnit";
+        public static final String CREATION_DATE = "creationDate";
+        public static final String VENDOR_OR_EMPLOYEE = "vendorOrEmployee";
+        public static final String SOURCE_DOC_NUMBER = "sourceDocNumber";
+        public static final String PAYMENT_DATE = "paymentDate";
+    }
+
+    public static class PaymentAccountDetail {
+        public static final String CHART = "finChartCode";
+        public static final String ACCOUNT_NBR = "accountNbr";
+        public static final String SUB_ACCOUNT_NBR = "subAccountNbr";
+        public static final String OBJECT_CODE = "finObjectCode";
+        public static final String SUB_OBJECT_CODE = "finSubObjectCode";
+        public static final String PROJECT_CODE = "projectCode";
+        public static final String ORG_REF_ID = "orgReferenceId";
+    }
+
+    public static class PaymentDetail {
+        public static final String PAYEE_NAME = "payeeName";
+        public static final String ADDRESS_LINE_1 = "addressLine1";
+        public static final String ADDRESS_LINE_2 = "addressLine2";
+        public static final String ADDRESS_LINE_3 = "addressLine3";
+        public static final String CITY = "city";
+        public static final String STATE = "state";
+        public static final String ZIP = "zip";
+        public static final String CHECK_STUB_TEXT = "checkStubText";
+        public static final String AMOUNT = "amount";
     }
 }

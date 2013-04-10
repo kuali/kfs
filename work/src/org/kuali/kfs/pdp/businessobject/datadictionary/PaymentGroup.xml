@@ -101,7 +101,7 @@
 		<property name="label" value="Payee Name"/>
 		<property name="shortLabel" value="Payee Name"/>
 		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
+			<bean parent="AnyCharacterValidation" p:allowWhitespace="true"/>
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="32"/>
@@ -149,6 +149,7 @@
 
 	<bean id="PaymentGroup-disbursementTypeCode-parentBean" abstract="true" parent="DisbursementType-code">
 		<property name="name" value="disbursementTypeCode"/>
+		<property name="required" value="false"/>
 	</bean>
 	<bean id="PaymentGroup-processImmediate" parent="PaymentGroup-processImmediate-parentBean"/>
 

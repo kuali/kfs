@@ -20,6 +20,8 @@ Technical Release Notes / Upgrade Documentation:
 
 ****** What's Here:
 
+
+
 release-details.txt - What revisions of the code you're working with.
 
 kfs/                          - The main Kuali Financial System project. 

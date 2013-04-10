@@ -472,6 +472,7 @@
           </property>
           <property name="maintainableFields">
             <list>
+              <bean parent="MaintainableFieldDefinition" p:name="vendorContractGeneratedIdentifier" p:unconditionallyReadOnly="true"/>            
               <bean parent="MaintainableFieldDefinition" p:name="vendorContractName" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="vendorContractDescription" p:required="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="vendorCampusCode" p:required="true"/>
@@ -486,7 +487,6 @@
               <bean parent="MaintainableFieldDefinition" p:name="vendorContractExtensionDate"/>
               <bean parent="MaintainableFieldDefinition" p:name="organizationAutomaticPurchaseOrderLimit"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
-              <bean parent="MaintainableFieldDefinition" p:name="vendorContractGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="vendorHeaderGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="vendorDetailAssignedIdentifier" p:unconditionallyReadOnly="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>

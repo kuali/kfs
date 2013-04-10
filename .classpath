@@ -93,6 +93,7 @@
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/jrobin-1.5.9.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/jsearch.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/kfs-lib/opencsv-2.3.jar" /><!-- KFS lib -->
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/velocity-1.5.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/aspectjrt-1.6.8.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/aspectjweaver-1.6.8.jar" /><!-- KFS lib -->
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/btm-2.1.2.jar" /><!-- KFS lib -->

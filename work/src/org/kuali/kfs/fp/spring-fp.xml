@@ -209,11 +209,17 @@
 		<property name="parameterService" ref="parameterService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="documentService" ref="documentService" />
-    <property name="workflowDocumentService" ref="workflowDocumentService" />
+    	<property name="workflowDocumentService" ref="workflowDocumentService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="accountingLineRuleUtil" ref="accountingLineRuleHelperService" />
 		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+		<property name="procurementCardCreateEmailService" ref="procurementCardCreateEmailService" />
+	</bean>
+
+	<bean id="procurementCardCreateEmailService"  parent="procurementCardCreateEmailService-parentBean"/>
+	<bean id="procurementCardCreateEmailService-parentBean" parent="velocityEmailServiceBase" class="org.kuali.kfs.fp.batch.service.impl.ProcurementCardCreateEmailServiceImpl" abstract="true">
+		<property name="templateUrl" value="org/kuali/kfs/fp/batch/template/pcard-create-doc-summary-email.vm"/>	
 	</bean>
 
 	<bean id="procurementCardLoadTransactionsService"  parent="procurementCardLoadTransactionsService-parentBean"/>

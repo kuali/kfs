@@ -1081,7 +1081,7 @@
 	</bean>
 	
 	<bean id="stopBatchContainerStep" class="org.kuali.kfs.sys.batch.StopBatchContainerStep" parent="step"/>
-	
+
 	<bean id="initiateDirectoryBase" abstract="true" class="org.kuali.kfs.sys.batch.InitiateDirectoryBase" >
 		 <property name="skipDirectoryInitiation" value="${skip.batch.directory.initiation}" /> 
 	</bean>
@@ -1102,7 +1102,21 @@
     <bean id="excludeSingleActorSeparationOfDutiesRoleTypeService" parent="excludeSingleActorSeparationOfDutiesRoleTypeService-parentBean" />
     <bean id="excludeSingleActorSeparationOfDutiesRoleTypeService-parentBean" abstract="true" class="org.kuali.kfs.sys.identity.ExcludeSingleActorSeparationOfDutiesRoleTypeService" />
     
-
+	<bean id="velocityEngine" parent="velocityEngine-parentBean" />
+	<bean id="velocityEngine-parentBean" abstract="true" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityProperties">
+			<map>
+				<entry key="resource.loader" value="class"/>
+				<entry key="class.resource.loader.class" value="org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader"/>
+			</map>
+		</property>
+   </bean>
+   <bean id="velocityEmailServiceBase" abstract="true" parent="velocityEmailServiceBase-parentBean" />
+   <bean id="velocityEmailServiceBase-parentBean" abstract="true" class="org.kuali.kfs.sys.service.impl.VelocityEmailServiceBase">
+   		<property name="mailService" ref="mailService" />
+   		<property name="velocityEngine" ref="velocityEngine"/>
+   </bean>
+    
     <bean id="customEditorConfigurer" 
           class="org.kuali.kfs.sys.businessobject.CustomEditorConfigurer">
         <property name="customEditors">

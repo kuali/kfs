@@ -1,0 +1,23 @@
+<HTML>
+<HEAD><TITLE>Processed Pcard for the batch run on $docCreateDate</TITLE></HEAD>
+<BODY style="background-color:#FF0000;color:#FFFFFF;font-family:Tahoma;font-size:10px;">
+<CENTER>
+      <h3>$transactionCounter transactions Processed for Pcard for the batch run on $docCreateDate</h3>
+		<BR/>
+		<TABLE border="1" style="color:#000000;background-color:#C0C0C0;border-collapse:collapse;font-family:Tahoma;font-size:12px;">
+			<th style="padding: 2;text-align:center">Posting Date</th>
+			<th style="padding: 2;text-align:center"># of Transactions</th>
+			<th style="padding: 2;text-align:center"># of e-Docs created</th>
+			<th style="padding: 2;text-align:center">Total Dollar Spend</th>
+			#foreach( $transactionSummary in $transactionSummaryList )
+			<tr style="background-color:#CCCC99;text-align:center">
+				<td style="padding: 2;text-align:center">$transactionSummary.formattedPostingDate</td>
+				<td style="padding: 2;text-align:center">$transactionSummary.totalTranNumber</td>
+				<td style="padding: 2;text-align:center">$transactionSummary.totalDocNumber</td>
+				<td style="padding: 2;text-align:center">$transactionSummary.totalAmount</td>
+			</tr>
+			#end
+		</TABLE>      
+</CENTER>
+</BODY>
+</HTML>

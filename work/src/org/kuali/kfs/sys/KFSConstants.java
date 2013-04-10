@@ -1331,6 +1331,21 @@ public class KFSConstants {
 
     public static final String OVERRIDE_ACCOUNT_FOR_EXPIRED_QUESTION_ID = "OverrideAccountForExpiredQuestion";
 
+    // Pcard Email Notification
+    public static final String ProcurementCardEmailTimeFormat = "EEE, MMM d, yyyy HH:mm:ss z";
+    public static final String ProcurementCardTransactionTimeFormat = "EEE, MMM d, yyyy";
+
+    public static class ProcurementCardEmailVariableTemplate {
+        public static final String DOC_CREATE_DATE = "docCreateDate";
+        public static final String TRANSACTION_COUNTER = "transactionCounter";
+        public static final String TRANSACTION_SUMMARY_LIST = "transactionSummaryList";
+    }
+
+    public static class ProcurementCardParameters {
+        public static final String PCARD_BATCH_SUMMARY_TO_EMAIL_ADDRESSES = "PCARD_BATCH_SUMMARY_TO_EMAIL_ADDRESSES";
+        public static final String PCARD_BATCH_LOAD_STEP = "ProcurementCardLoadStep";
+        public static final String PCARD_BATCH_CREATE_DOC_STEP="ProcurementCardCreateDocumentsStep";
+    }
     public static final String BATCH_LOGGER_DEFAULT_CONVERSION_PATTERN = "%d [%t] u:%X{user}/d:%X{docId} %-5p %c :: %m%n";
     public static final Layout BATCH_LOGGER_DEFAULT_PATTERN_LAYOUT = new PatternLayout(BATCH_LOGGER_DEFAULT_CONVERSION_PATTERN);
 }

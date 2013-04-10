@@ -22,5 +22,24 @@
 		<modifySql dbms="mysql">
 	        <replace replace="SYS_GUID()" with="UUID()" />
 	    </modifySql>
+	</changeSet>
+	
+	<changeSet author="KFS52" id="KFSCNTRB717_PCARD_BATCH_SUMMARY_TO_EMAIL_ADDRESSES">
+		<comment>KFSCNTRB-717 Pcard Email Notification In KFS</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP" />
+			<column name="CMPNT_CD" value="ProcurementCardCreateDocumentsStep" />
+			<column name="PARM_NM" value="PCARD_BATCH_SUMMARY_TO_EMAIL_ADDRESSES" />
+			<column name="VAL" value="knoreceipt-l@indiana.edu" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="A central administrative email address to send summary information when Procurement Card Load batch job completes of creating PCDO documents." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID()" with="UUID()" />
+		</modifySql>		
 	</changeSet>			
 </databaseChangeLog>

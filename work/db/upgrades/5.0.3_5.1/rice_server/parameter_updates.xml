@@ -60,5 +60,52 @@
 		<modifySql dbms="mysql">
 			<replace replace="SYS_GUID()" with="UUID()" />
 		</modifySql>
-	</changeSet>			
+	</changeSet>
+	
+	<changeSet author="KFS52" id="KFSCNTRB-735">
+		<comment>KFSCNTRB-735:PRE ENCUMBERANCE FORM - ALLOW REVENUE ON PRE ENCUMBRANCES</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP"/>
+			<column name="CMPNT_CD" value="PreEncumbrance"/>
+			<column name="PARM_NM" value="OBJECT_CONSOLIDATIONS"/>
+			<column name="VAL" value=""/>
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() "/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="PARM_TYP_CD" value="VALID"/>
+			<column name="PARM_DESC_TXT" value="Object Consolidation(s) restricted from use on the Pre Encumbrance document."/>
+			<column name="EVAL_OPRTR_CD" value="D"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP"/>
+			<column name="CMPNT_CD" value="PreEncumbrance"/>
+			<column name="PARM_NM" value="OBJECT_SUB_TYPES"/>
+			<column name="VAL" value=""/>
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() "/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="PARM_TYP_CD" value="VALID"/>
+			<column name="PARM_DESC_TXT" value="Object Sub-Type(s) restricted from use on the Pre Encumbrance document."/>
+			<column name="EVAL_OPRTR_CD" value="D"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-FP"/>
+			<column name="CMPNT_CD" value="PreEncumbrance"/>
+			<column name="PARM_NM" value="INVALID_SUBFUND_GROUPS_BY_OBJ_TYPE"/>
+			<column name="VAL" value=""/>
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() "/>
+			<column name="VER_NBR" valueNumeric="1"/>
+			<column name="PARM_TYP_CD" value="VALID"/>
+			<column name="PARM_DESC_TXT" value="Restrict the use of selected object types by selected sub-funds. Format of the list is: object code type 1=subfund1,subfund2."/>
+			<column name="EVAL_OPRTR_CD" value="D"/>
+			<column name="APPL_ID" value="KFS"/>
+		</insert>
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL"
+				value="EX"/>
+			<where>NMSPC_CD='KFS-FP' AND PARM_NM='OBJECT_TYPES' AND CMPNT_CD = 'PreEncumbrance' AND APPL_ID = 'KFS'</where>
+		</update>
+        <modifySql dbms="mysql"><replace with="UUID()" replace="SYS_GUID()"/></modifySql>			
+	</changeSet>
+						
 </databaseChangeLog>

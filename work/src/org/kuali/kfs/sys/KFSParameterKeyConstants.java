@@ -52,5 +52,9 @@ public class KFSParameterKeyConstants {
     public static class CamParameterConstants {
         public static final String OBJECT_SUB_TYPE_GROUPS = "OBJECT_SUB_TYPE_GROUPS";
     }
+    
+    public static class InvalidSubFundsByObjCdParameterConstant {
+        public static final String INVALID_SUBFUND_GROUP_BY_OBJ_TYPE = "INVALID_SUBFUND_GROUP_BY_OBJ_TYPE";
+    }
  
 }

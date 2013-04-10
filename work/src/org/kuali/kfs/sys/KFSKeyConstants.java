@@ -1033,4 +1033,6 @@ public class KFSKeyConstants {
     public static final String ERROR_ASSET_LINE_AMOUNT_NOT_EQUAL_TO_DISTRIBUTED_ACCOUNTING_LINES = "error.asset.amount.not.equalDistributedAccountingLines";
     
     public static final String QUESTION_NEED_OVERRIDE_ACCOUNT_FOR_EXPIRED = "question.need.override.account.for.expired";
+    
+    public static final String ERROR_INVALID_INCOME_OBJCODE_SUB_FUND = "error.invalid.income.objCode.subFund";
 }

@@ -542,6 +542,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
             pcardDocument.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(documentTotalAmount);
             // PCDO Default Description
+            //pcardDocument.getDocumentHeader().setDocumentDescription("SYSTEM Generated");
             setupDocumentDescription(pcardDocument);
 
             // Remove duplicate messages from errorText

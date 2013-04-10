@@ -28,7 +28,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectTypeService;
@@ -40,15 +39,16 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherWireTransfer;
+import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.kfs.fp.businessobject.WireCharge;
 import org.kuali.kfs.fp.businessobject.options.DisbursementVoucherDocumentationLocationValuesFinder;
 import org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
@@ -73,10 +73,9 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -99,7 +98,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.apache.commons.lang.StringUtils;
 /**
  * This is the business object that represents the DisbursementVoucher document in Kuali.
  */
@@ -1666,14 +1667,39 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             return title;
         }
 
-        Object[] indicators = new String[2];
+
+        DisbursementVoucherPaymentReasonService paymentReasonService = SpringContext.getBean(DisbursementVoucherPaymentReasonService.class);
+        if (title != null && title.contains(DisbursementVoucherConstants.DV_DOC_NAME)) {
+            String paymentCodeAndDescription = StringUtils.EMPTY;
+
+            if(StringUtils.isNotBlank(payee.getDisbVchrPaymentReasonCode())){
+                PaymentReasonCode paymentReasonCode = paymentReasonService.getPaymentReasonByPrimaryId(payee.getDisbVchrPaymentReasonCode());
+
+                paymentCodeAndDescription = ObjectUtils.isNotNull(paymentReasonCode) ? paymentReasonCode.getCodeAndDescription() : paymentCodeAndDescription;
+            }
+
+            String replaceTitle = DisbursementVoucherConstants.DV_DOC_NAME + " " + paymentCodeAndDescription;
+            title = title.replace(DisbursementVoucherConstants.DV_DOC_NAME, replaceTitle);
+        }
+
+        Object[] indicators = new String[4];
         indicators[0] = payee.isEmployee() ? AdHocPaymentIndicator.EMPLOYEE_PAYEE : AdHocPaymentIndicator.OTHER;
         indicators[1] = payee.isDisbVchrAlienPaymentCode() ? AdHocPaymentIndicator.ALIEN_PAYEE : AdHocPaymentIndicator.OTHER;
 
+        String taxControlCode = this.getDisbVchrPayeeTaxControlCode();
+        if (StringUtils.equals(taxControlCode, DisbursementVoucherDocument.TAX_CONTROL_BACKUP_HOLDING) || StringUtils.equals(taxControlCode,DisbursementVoucherDocument.TAX_CONTROL_HOLD_PAYMENTS)) {
+            indicators[2] =  AdHocPaymentIndicator.TAX_CONTROL_REQUIRING_TAX_REVIEW ;
+        }else{
+            indicators[2] =  AdHocPaymentIndicator.OTHER;
+        }
+
+        boolean isTaxReviewRequired = paymentReasonService.isTaxReviewRequired(payee.getDisbVchrPaymentReasonCode());
+        indicators[3] = isTaxReviewRequired ? AdHocPaymentIndicator.PAYMENT_REASON_REQUIRING_TAX_REVIEW : AdHocPaymentIndicator.OTHER;
+
         for(Object indicator : indicators) {
             if(!AdHocPaymentIndicator.OTHER.equals(indicator)) {
-                String titlePattern = title + " [{0}:{1}]";
-                return MessageFormat.format(titlePattern, indicators);
+                String adHocPaymentIndicator = MessageFormat.format(" [{0}:{1}:{2}:{3}]", indicators);
+                return title + adHocPaymentIndicator;
             }
         }
 

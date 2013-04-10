@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,13 +19,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.KimConstants;
+import org.apache.commons.beanutils.PropertyUtils;
+ 
 
 /**
  * Holds constants for disbursement voucher and payee documents.
@@ -36,7 +37,7 @@ public interface DisbursementVoucherConstants {
 
     // Text limits
     public static final int MAX_NOTE_LINE_SIZE = 90;
-    
+
     // payment methods
     public static String PAYMENT_METHOD_CHECK = "P";
     public static String PAYMENT_METHOD_WIRE = "W";
@@ -47,7 +48,7 @@ public interface DisbursementVoucherConstants {
     public static final String DV_PAYEE_TYPE_VENDOR = "V";
     public static final String DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR = "VSP";
     public static final String DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR = "VRF";
-    
+
     public static final List<String> VENDOR_PAYEE_TYPE_CODES = Arrays.asList(DV_PAYEE_TYPE_VENDOR, DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR, DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR);
 
     // document location
@@ -62,23 +63,23 @@ public interface DisbursementVoucherConstants {
         public static final String EXTRACTED = "E";
     }
 
-  
+
      public static class DvPdpExtractGroup {
         public static final String DV_PDP_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
         public static final String DV_PDP_SBUNT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
     }
-    
+
     public static class TabKey {
         public static final String NON_EMPLOYEE_TRAVEL_EXPENSE = "NonEmployeeTravelExpense";
         public static final String PRE_PAID_TRAVEL_EXPENSES = "PrePaidTravelExpenses";
     }
-    
+
     public enum TabByReasonCode{
-        NON_EMPLOYEE_TRAVEL_TAB(NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, TabKey.NON_EMPLOYEE_TRAVEL_EXPENSE, KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL, 
+        NON_EMPLOYEE_TRAVEL_TAB(NONEMPLOYEE_TRAVEL_PAY_REASONS_PARM_NM, TabKey.NON_EMPLOYEE_TRAVEL_EXPENSE, KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL,
                 KFSPropertyConstants.DISB_VCHR_NON_EMP_TRAVELER_NAME,KFSKeyConstants.WARNING_DV_NON_EMPLOYEE_TRAVEL_TAB),
-        PREPAID_TRAVEL_TAB(PREPAID_TRAVEL_PAYMENT_REASONS_PARM_NM, TabKey.PRE_PAID_TRAVEL_EXPENSES, KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL, 
+        PREPAID_TRAVEL_TAB(PREPAID_TRAVEL_PAYMENT_REASONS_PARM_NM, TabKey.PRE_PAID_TRAVEL_EXPENSES, KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL,
                 KFSPropertyConstants.DV_CONFERENCE_DESTINATION_NAME,KFSKeyConstants.WARNING_DV_PREPAID_TRAVEL_TAB);
-        
+
         public String paymentReasonParameterName;
         public String tabKey;
         public String propertyName;
@@ -92,7 +93,7 @@ public interface DisbursementVoucherConstants {
             this.reprentingFieldName = reprentingFieldName;
             this.messageKey = messageKey;
         }
-        
+
         private static ParameterService parameterService;
         private static ParameterService getParameterService() {
             if (parameterService == null) {
@@ -100,35 +101,35 @@ public interface DisbursementVoucherConstants {
             }
             return parameterService;
         }
-        
+
         public static TabByReasonCode getTabByReasonCode(String paymentReasonCode) {
             for(TabByReasonCode tab : TabByReasonCode.values()) {
                 if(/*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DisbursementVoucherDocument.class, tab.paymentReasonParameterName, paymentReasonCode).evaluationSucceeds()){
                     return tab;
                 }
-            }            
+            }
             return null;
         }
-        
+
         public static List<String> getAllTabKeys() {
             List<String> tabKeys = new ArrayList<String>();
             for(TabByReasonCode tab : TabByReasonCode.values()) {
                 tabKeys.add(tab.tabKey);
             }
             return tabKeys;
-        } 
-        
+        }
+
         public static List<String> getAllDocumentPropertyKeys(){
             List<String> documentPropertyKeys = new ArrayList<String>();
-            
+
             for(TabByReasonCode tab : TabByReasonCode.values()) {
                 String propertyKey = tab.getDocumentPropertyKey();
                 documentPropertyKeys.add(propertyKey);
             }
-            
+
             return documentPropertyKeys;
         }
-        
+
         public String getDocumentPropertyKey() {
             return KFSPropertyConstants.DOCUMENT + PropertyUtils.NESTED_DELIM + this.propertyName + PropertyUtils.NESTED_DELIM + this.reprentingFieldName;
         }
@@ -179,19 +180,19 @@ public interface DisbursementVoucherConstants {
     public static final String CHECK_EMPLOYEE_PAID_OUTSIDE_PAYROLL_PARM_NM = "CHECK_EMPLOYEE_PAID_OUTSIDE_PAYROLL_IND";
     public static final String MOVING_PAYMENT_REASONS_PARM_NM = "MOVING_PAYMENT_REASONS";
     public static final String DECEDENT_COMPENSATION_PAYMENT_REASONS_PARM_NM = "DECEDENT_COMPENSATION_PAYMENT_REASONS";
-    
+
     public static final String NON_VENDOR_EMPLOYEE_PAYEE_TYPE_LABEL_PARM_NM = "NON_VENDOR_EMPLOYEE_PAYEE_TYPE_LABEL";
     public static final String PO_AND_DV_PAYEE_TYPE_LABEL_PARM_NM = "PO_AND_DV_PAYEE_TYPE_LABEL";
     public static final String INDIVIDUAL_OWNERSHIP_TYPES_PARM_NM = "INDIVIDUAL_OWNERSHIP_TYPES";
     public static final String PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARM_NM = "PAYMENT_REASONS_REQUIRING_TAX_REVIEW";
     public static final String CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS_PARM_NM = "CAMPUSES_TAXED_FOR_MOVING_REIMBURSEMENTS";
-    
+
     public static final String IMMEDIATE_EXTRACT_FROM_ADDRESS_PARM_NM = "IMMEDIATE_EXTRACT_NOTIFICATION_FROM_EMAIL_ADDRESS";
     public static final String IMMEDIATE_EXTRACT_TO_ADDRESSES_PARM_NM = "IMMEDIATE_EXTRACT_NOTIFICATION_TO_EMAIL_ADDRESSES";
 
     public static final String TAX_TYPE_SSN = "1";
     public static final String TAX_TYPE_FEIN = "0";
-    
+
     public static final String TAX_ID_TYPE_SSN = KimConstants.PersonExternalIdentifierTypes.TAX;
     //public static final String TAX_ID_TYPE_FEIN = "F";
 
@@ -205,7 +206,7 @@ public interface DisbursementVoucherConstants {
 
     public static final String DOCUMENT_TYPE_CHECKACH = "DVCA";
     public static final String DOCUMENT_TYPE_WTFD = "DVWF";
-    
+
     public static final String DV_COVER_SHEET_TEMPLATE_LINES_PARM_NM = "COVER_SHEET_TEMPLATE_LINES";
     public static final String DV_COVER_SHEET_TEMPLATE_RLINES_PARM_NM = "COVER_SHEET_TEMPLATE_RLINES";
     public static final String DV_COVER_SHEET_TEMPLATE_ALIEN_PARM_NM = "COVER_SHEET_TEMPLATE_NON_RESIDENT_ALIEN";
@@ -213,12 +214,12 @@ public interface DisbursementVoucherConstants {
     public static final String DV_COVER_SHEET_TEMPLATE_HANDLING_PARM_NM = "COVER_SHEET_TEMPLATE_HANDLING";
     public static final String DV_COVER_SHEET_TEMPLATE_BAR_PARM_NM = "COVER_SHEET_TEMPLATE_BAR";
     public static final String DV_COVER_SHEET_TEMPLATE_NM = "disbursementVoucherCoverSheetTemplate.pdf";
-    
+
     public static final String PAYMENT_REASON_CODE_ROYALTIES_PARM_NM = "PAYMENT_REASON_CODE_ROYALTIES";
     public static final String PAYMENT_REASON_CODE_RENTAL_PAYMENT_PARM_NM = "PAYMENT_REASON_CODE_RENTAL_PAYMENT";
     public static final String PAYMENT_REASON_CODE_TRAVEL_HONORARIUM_PARM_NM = "PAYMENT_REASON_CODE_TRAVEL_HONORARIUM";
-   
-    
+
+
     public static class RouteLevelNames {
         public static final String PURCHASING = "Purchasing";
         public static final String ACCOUNT = "Account";
@@ -229,4 +230,7 @@ public interface DisbursementVoucherConstants {
         public static final String CAMPUS = "Campus";
         public static final String PAYMENT_METHOD = "PaymentMethod";
     }
+
+    public static final String DV_DOC_NAME = "Disbursement Voucher";
+
 }

@@ -374,4 +374,6 @@ public class PurapKeyConstants {
 
     public static final String ERROR_PURCHASE_ORDER_RETRANSMIT_SELECT = "error.purchaseOrder.retransmit.select";
 
+    public static final String KEY_ACCT_EXPIRED_NOTE = "note.acct.expired.using.continuation.acct";
+
 }

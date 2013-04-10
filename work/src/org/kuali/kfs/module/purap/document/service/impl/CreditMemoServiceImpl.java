@@ -343,11 +343,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
             poItem.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
 
-            // only items of type above the line can be considered for being invoiced
-            if (poItem.getItemType().isAdditionalChargeIndicator()) {
-                continue;
-            }
-
             if (poItem.getItemType().isQuantityBasedGeneralLedgerIndicator() && poItem.getItemInvoicedTotalQuantity().isGreaterThan(KualiDecimal.ZERO)) {
                 invoicedItems.add(poItem);
             }

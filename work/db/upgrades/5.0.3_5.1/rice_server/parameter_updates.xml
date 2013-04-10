@@ -108,4 +108,23 @@
         <modifySql dbms="mysql"><replace with="UUID()" replace="SYS_GUID()"/></modifySql>			
 	</changeSet>
 						
+	<changeSet author="KFS52" id="KFSCNTRB-764">
+		<comment>KFSCNTRB-764 Offset entry to have the same transaction date as the original transaction for Payroll Posting when uploaded as Enterprise Feed</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-GL" />
+			<column name="CMPNT_CD" value="ScrubberStep" />
+			<column name="PARM_NM" value="TRANSACTION_DATE_BYPASS_ORIGINATIONS" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="VAL" value="02;" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Origination codes that will allow offset entry to have the same transaction date as the original." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID()" with="UUID()" />
+		</modifySql>
+	</changeSet>
+			
 </databaseChangeLog>

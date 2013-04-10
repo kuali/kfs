@@ -231,6 +231,10 @@
 		<property name="parameterService" ref="parameterService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
+	
+	<bean id="responsibilityCenterService" class="org.kuali.kfs.coa.service.impl.ResponsibilityCenterServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+	</bean>
 
 	<bean id="accountDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.AccountDaoOjb"/>

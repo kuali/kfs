@@ -87,12 +87,19 @@
 	    	<include method="getByPrimaryId" />
 	    </create>
 	   	<convert converter="bean" match="org.kuali.kfs.coa.businessobject.Organization">
-	   		<param name="include" value="organizationCode,organizationName,organizationStateCode,organizationZipCode,organizationCityName" />
+	   		<param name="include" value="organizationCode,chartOfAccountsCode,responsibilityCenterCode,organizationName,organizationStateCode,organizationZipCode,organizationCityName" />
 	   	</convert>
 	    <create creator="spring" javascript="OrganizationService">
 	    	<param name="beanName" value="organizationService" />
 	    	<include method="getByPrimaryIdWithCaching" />
 	    	<include method="getByPrimaryId"/>
+	    </create>
+	    <convert converter="bean" match="org.kuali.kfs.coa.businessobject.ResponsibilityCenter">
+			<param name="include" value="responsibilityCenterCode,responsibilityCenterName" />
+		</convert>
+	    <create creator="spring" javascript="ResponsibilityCenterService">
+	    	<param name="beanName" value="responsibilityCenterService" />
+	    	<include method="getByPrimaryId" />
 	    </create>
       <convert converter="bean" match="org.kuali.kfs.coa.businessobject.A21SubAccount">
           <param name="include" value="chartOfAccountsCode,accountNumber,indirectCostRecoveryTypeCode,financialIcrSeriesIdentifier,offCampusCode,a21ActiveIndirectCostRecoveryAccounts" />

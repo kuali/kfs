@@ -98,6 +98,10 @@
         <ref bean="Account-accountDescription.buildingCode"/>
         <ref bean="Account-contractsAndGrantsAccountResponsibilityId"/>
 		<ref bean="Account-laborBenefitRateCategoryCode" />
+		<ref bean="Account-responsibilityCenterCode" />
+		<ref bean="Account-reportsToOrganizationCode" />
+		<ref bean="Account-reportsToCOACode" />
+		<ref bean="Account-responsibilityCenterName" />
       </list>
     </property>
     <property name="accessRestrictedAttributes">
@@ -281,6 +285,34 @@
 	<bean id="Account-organizationCode" parent="Account-organizationCode-parentBean" />
 	<bean id="Account-organizationCode-parentBean" abstract="true"
 		parent="Organization-organizationCode" />
+		
+	<bean id="Account-responsibilityCenterCode" parent="Account-responsibilityCenterCode-parentBean"/>
+    <bean id="Account-responsibilityCenterCode-parentBean" abstract="true" parent="Organization-responsibilityCenterCode">
+		<property name="name" value="organization.responsibilityCenterCode" />
+		<property name="label" value="RC Code"/>
+	</bean>
+	
+	
+    <bean id="Account-reportsToOrganizationCode" parent="Account-reportsToOrganizationCode-parentBean"/>
+    <bean id="Account-reportsToOrganizationCode-parentBean" abstract="true" parent="Organization-reportsToOrganizationCode">
+		<property name="name" value="organization.reportsToOrganizationCode" />
+		<property name="label" value="Reports To Organization Code"/>
+		<property name="shortLabel" value="Rpts to Org"/>
+	</bean>
+	
+	<bean id="Account-reportsToCOACode" parent="Account-reportsToCOACode-parentBean"/>
+    <bean id="Account-reportsToCOACode-parentBean" abstract="true" parent="Organization-reportsToChartOfAccountsCode">
+		<property name="name" value="organization.reportsToChartOfAccountsCode" />
+		<property name="label" value="Reports To Chart Of Accounts Code"/>
+		<property name="shortLabel" value="Rpts to COA Code"/>
+	</bean>
+	
+	<bean id="Account-responsibilityCenterName" parent="Account-responsibilityCenterName-parentBean"/>
+    <bean id="Account-responsibilityCenterName-parentBean" abstract="true" parent="ResponsibilityCenter-responsibilityCenterName">
+		<property name="name" value="organization.responsibilityCenter.responsibilityCenterName" />
+		<property name="label" value="RC Name"/>
+		<property name="shortLabel" value="RC Name"/>
+	</bean>	
 
 	<bean id="Account-organization.codeAndDescription" parent="Account-organization.codeAndDescription-parentBean" />
 	<bean id="Account-organization.codeAndDescription-parentBean"
@@ -1084,6 +1116,9 @@
 					p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="accountName" />
 				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
+				<bean parent="FieldDefinition" p:attributeName="organization.responsibilityCenterCode" />
+				<bean parent="FieldDefinition" p:attributeName="organization.reportsToOrganizationCode" />
+				<bean parent="FieldDefinition" p:attributeName="organization.reportsToChartOfAccountsCode" p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="accountTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="subFundGroupCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountFiscalOfficerUser.principalName" />
@@ -1099,6 +1134,8 @@
 				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
 				<bean parent="FieldDefinition" p:attributeName="accountName" />
 				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
+				<bean parent="FieldDefinition" p:attributeName="organization.responsibilityCenterCode" />
+				<bean parent="FieldDefinition" p:attributeName="organization.reportsToOrganizationCode" />	
 				<bean parent="FieldDefinition" p:attributeName="accountTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="subFundGroupCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountFiscalOfficerUser.name"

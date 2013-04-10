@@ -276,7 +276,39 @@
 		</insert>
 		
 		<modifySql dbms="mysql">
-	        <replace replace="SYS_GUID()" with="UUID()" />
+	        <replace replace="SYS_GUID()" with="UUID() " />
 	    </modifySql>
+	</changeSet>
+	<changeSet author="KFS52" id="KFSCNTRB-762">
+		<comment>KFSCNTRB-762 Create Trial Balance in KFS</comment>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSCNTRB-762-PRM1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="PERM_TMPL_ID" value="29" />
+			<column name="NMSPC_CD" value="KFS-GL" />
+			<column name="NM" value="Use Trial Balance Screen" />
+			<column name="DESC_TXT" value="Allows users to access Trial Balance Report screen." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB-762-PRM1-ATTR1" />		
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="PERM_ID" value="KFSCNTRB-762-PRM1" />
+			<column name="KIM_TYP_ID" value="12" />
+			<column name="KIM_ATTR_DEFN_ID" value="2" />
+			<column name="ATTR_VAL" value="org.kuali.kfs.gl.web.struts.TrialBalanceReportAction" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSCNTRB-762-RLPRM1" />		
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="ROLE_ID" value="54" />
+			<column name="PERM_ID" value="KFSCNTRB-762-PRM1" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID()" with="UUID() " />
+		</modifySql>
 	</changeSet>			
 </databaseChangeLog>

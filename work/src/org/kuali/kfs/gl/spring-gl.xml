@@ -2833,4 +2833,38 @@
 		
     </bean>
     
+        <bean id="trialBalanceDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.TrialBalanceDaoJdbc">
+	</bean>
+	
+    <bean id="trialBalanceService" class="org.kuali.kfs.gl.service.impl.TrialBalanceServiceImpl">
+		<property name="trialBalanceDao" ref="trialBalanceDao" />
+		<property name="glTrialBalanceReportInfo" ref="glTrialBalanceReportInfo" />
+		<property name="reportGenerationService" ref="reportGenerationService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+    <bean id="glTrialBalanceLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.TrialBalanceLookupableHelperServiceImpl" scope="prototype">
+    	<property name="trialBalanceService" ref="trialBalanceService" />
+	</bean>
+
+	<bean id="glTrialBalanceReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="glTrialBalanceLookupableHelperService" />
+		</property>
+	</bean>
+    
+	<bean id="glTrialBalanceReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
+		<property name="reportTitle" value="Trial Balance Report" />
+		<property name="reportFileName" value="gl_trial_balance_report" />
+		<property name="reportsDirectory" value="${reports.directory}/gl/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/gl/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/gl/report/" />
+		<property name="reportTemplateName" value="TrialBalanceReport" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ec/report/" />
+		<property name="subReports">
+			<map>
+			</map>
+		</property>
+	</bean>
+    
 </beans>

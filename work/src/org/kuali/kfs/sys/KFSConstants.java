@@ -1331,6 +1331,11 @@ public class KFSConstants {
 
     public static final String OVERRIDE_ACCOUNT_FOR_EXPIRED_QUESTION_ID = "OverrideAccountForExpiredQuestion";
 
+
+    static final public String TRIAL_BAL_LOOKUPABLE_ID = "glTrialBalanceReportLookupable";
+    static final public String TRIAL_BAL_SELECT_SUB_SECTION = "selectionConditions";
+    static final public String TRIAL_BAL_DISPLAY_SUB_SECTION = "displayFields";
+    static final public String TRIAL_BAL_REPORT_YEAR = "reportYear";
     // Pcard Email Notification
     public static final String ProcurementCardEmailTimeFormat = "EEE, MMM d, yyyy HH:mm:ss z";
     public static final String ProcurementCardTransactionTimeFormat = "EEE, MMM d, yyyy";

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<!-- ASR-1212: Trial balance report -->
+  <bean id="TrialBalanceReport" parent="TrialBalanceReport-parentBean"/>
+
+  <bean id="TrialBalanceReport-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<property name="businessObjectClass" value="org.kuali.kfs.gl.businessobject.TrialBalanceReport"/>
+    <property name="objectLabel" value="Trial Balance Report"/>
+    <property name="lookupDefinition">
+      <ref bean="TrialBalanceReport-lookupDefinition"/>
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="TrialBalanceReport-creditAmount"/>
+        <ref bean="TrialBalanceReport-debitAmount"/>
+        <!-- Properties inherited from Balance -->
+        <ref bean="TrialBalanceReport-universityFiscalYear"/>
+        <ref bean="TrialBalanceReport-chartOfAccountsCode"/>
+        <ref bean="TrialBalanceReport-accountNumber"/>
+        <ref bean="TrialBalanceReport-subAccountNumber"/>
+        <ref bean="TrialBalanceReport-objectCode"/>
+        <ref bean="TrialBalanceReport-subObjectCode"/>
+        <ref bean="TrialBalanceReport-objectTypeCode"/>
+        <ref bean="TrialBalanceReport-balanceTypeCode"/>
+        <ref bean="TrialBalanceReport-accountLineAnnualBalanceAmount"/>
+        <ref bean="TrialBalanceReport-beginningBalanceLineAmount"/>
+        <ref bean="TrialBalanceReport-contractsGrantsBeginningBalanceAmount"/>
+        <ref bean="TrialBalanceReport-month1Amount"/>
+        <ref bean="TrialBalanceReport-month2Amount"/>
+        <ref bean="TrialBalanceReport-month3Amount"/>
+        <ref bean="TrialBalanceReport-month4Amount"/>
+        <ref bean="TrialBalanceReport-month5Amount"/>
+        <ref bean="TrialBalanceReport-month6Amount"/>
+        <ref bean="TrialBalanceReport-month7Amount"/>
+        <ref bean="TrialBalanceReport-month8Amount"/>
+        <ref bean="TrialBalanceReport-month9Amount"/>
+        <ref bean="TrialBalanceReport-month10Amount"/>
+        <ref bean="TrialBalanceReport-month11Amount"/>
+        <ref bean="TrialBalanceReport-month12Amount"/>
+        <ref bean="TrialBalanceReport-month13Amount"/>
+        <ref bean="TrialBalanceReport-timestamp"/>
+        <ref bean="TrialBalanceReport-finChartOfAccountDescription"/>
+        <ref bean="TrialBalanceReport-financialObjectCodeName"/>
+        <ref bean="TrialBalanceReport-index"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="TrialBalanceReport-creditAmount" parent="TrialBalanceReport-creditAmount-parentBean"/>
+  <bean id="TrialBalanceReport-creditAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="creditAmount" />
+  	<property name="label" value="Credit Balance" />
+  	<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  
+  <bean id="TrialBalanceReport-debitAmount" parent="TrialBalanceReport-debitAmount-parentBean"/>
+  <bean id="TrialBalanceReport-debitAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+  	<property name="name" value="debitAmount" />
+  	<property name="label" value="Debit Balance" />
+  	<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  
+  <bean id="TrialBalanceReport-universityFiscalYear" parent="TrialBalanceReport-universityFiscalYear-parentBean"/>
+  <bean id="TrialBalanceReport-universityFiscalYear-parentBean" abstract="true" parent="Balance-universityFiscalYear">
+  	<property name="label" value="Fiscal Year" />
+  </bean>
+  
+  <bean id="TrialBalanceReport-chartOfAccountsCode" parent="TrialBalanceReport-chartOfAccountsCode-parentBean"/>
+  <bean id="TrialBalanceReport-chartOfAccountsCode-parentBean" abstract="true" parent="Balance-chartOfAccountsCode">
+  </bean>
+  
+  <bean id="TrialBalanceReport-accountNumber" parent="TrialBalanceReport-accountNumber-parentBean"/>
+  <bean id="TrialBalanceReport-accountNumber-parentBean" abstract="true" parent="Balance-accountNumber">
+  </bean>
+  
+  <bean id="TrialBalanceReport-subAccountNumber" parent="TrialBalanceReport-subAccountNumber-parentBean"/>
+  <bean id="TrialBalanceReport-subAccountNumber-parentBean" abstract="true" parent="Balance-subAccountNumber">
+  </bean>
+  
+  <bean id="TrialBalanceReport-objectCode" parent="TrialBalanceReport-objectCode-parentBean"/>
+  <bean id="TrialBalanceReport-objectCode-parentBean" abstract="true" parent="Balance-objectCode">
+  </bean>
+  
+  <bean id="TrialBalanceReport-subObjectCode" parent="TrialBalanceReport-subObjectCode-parentBean"/>
+  <bean id="TrialBalanceReport-subObjectCode-parentBean" abstract="true" parent="Balance-subObjectCode">
+  </bean>
+  
+  <bean id="TrialBalanceReport-objectTypeCode" parent="TrialBalanceReport-objectTypeCode-parentBean"/>
+  <bean id="TrialBalanceReport-objectTypeCode-parentBean" abstract="true" parent="Balance-objectTypeCode">
+  </bean>
+  
+  <bean id="TrialBalanceReport-balanceTypeCode" parent="TrialBalanceReport-balanceTypeCode-parentBean"/>
+  <bean id="TrialBalanceReport-balanceTypeCode-parentBean" abstract="true" parent="Balance-balanceTypeCode">
+  </bean>
+  
+  <bean id="TrialBalanceReport-accountLineAnnualBalanceAmount" parent="TrialBalanceReport-accountLineAnnualBalanceAmount-parentBean"/>
+  <bean id="TrialBalanceReport-accountLineAnnualBalanceAmount-parentBean" abstract="true" parent="Balance-accountLineAnnualBalanceAmount">
+  </bean>
+  
+  <bean id="TrialBalanceReport-beginningBalanceLineAmount" parent="TrialBalanceReport-beginningBalanceLineAmount-parentBean"/>
+  <bean id="TrialBalanceReport-beginningBalanceLineAmount-parentBean" abstract="true" parent="Balance-beginningBalanceLineAmount">
+  </bean>
+  
+  <bean id="TrialBalanceReport-contractsGrantsBeginningBalanceAmount" parent="TrialBalanceReport-contractsGrantsBeginningBalanceAmount-parentBean"/>
+  <bean id="TrialBalanceReport-contractsGrantsBeginningBalanceAmount-parentBean" abstract="true" parent="Balance-contractsGrantsBeginningBalanceAmount">
+  </bean>
+  
+  <bean id="TrialBalanceReport-month1Amount" parent="TrialBalanceReport-month1Amount-parentBean"/>
+  <bean id="TrialBalanceReport-month1Amount-parentBean" abstract="true" parent="Balance-month1Amount">
+  </bean>
+  
+  <bean id="TrialBalanceReport-month2Amount" parent="TrialBalanceReport-month2Amount-parentBean"/>
+  <bean id="TrialBalanceReport-month2Amount-parentBean" abstract="true" parent="Balance-month2Amount">
+  </bean>
+  
+  <bean id="TrialBalanceReport-month3Amount" parent="TrialBalanceReport-month3Amount-parentBean"/>
+  <bean id="TrialBalanceReport-month3Amount-parentBean" abstract="true" parent="Balance-month3Amount">
+  </bean>
+  
+  <bean id="TrialBalanceReport-month4Amount" parent="TrialBalanceReport-month4Amount-parentBean"/>
+  <bean id="TrialBalanceReport-month4Amount-parentBean" abstract="true" parent="Balance-month4Amount">
+  </bean>
+  
+  <bean id="TrialBalanceReport-month5Amount" parent="TrialBalanceReport-month5Amount-parentBean"/>
+  <bean id="TrialBalanceReport-month5Amount-parentBean" abstract="true" parent="Balance-month5Amount">
+  </bean>
+  
+  <bean id="TrialBalanceReport-month6Amount" parent="TrialBalanceReport-month6Amount-parentBean"/>
+  <bean id="TrialBalanceReport-month6Amount-parentBean" abstract="true" parent="Balance-month6Amount">
+  </bean>
+  
+  <bean id="TrialBalanceReport-month7Amount" parent="TrialBalanceReport-month7Amount-parentBean"/>
+  <bean id="TrialBalanceReport-month7Amount-parentBean" abstract="true" parent="Balance-month7Amount">
+  </bean>
+  
+  <bean id="TrialBalanceReport-month8Amount" parent="TrialBalanceReport-month8Amount-parentBean"/>
+  <bean id="TrialBalanceReport-month8Amount-parentBean" abstract="true" parent="Balance-month8Amount">
+  </bean>
+  
+  <bean id="TrialBalanceReport-month9Amount" parent="TrialBalanceReport-month9Amount-parentBean"/>
+  <bean id="TrialBalanceReport-month9Amount-parentBean" abstract="true" parent="Balance-month9Amount">
+  </bean>
+  
+  <bean id="TrialBalanceReport-month10Amount" parent="TrialBalanceReport-month10Amount-parentBean"/>
+  <bean id="TrialBalanceReport-month10Amount-parentBean" abstract="true" parent="Balance-month10Amount">
+  </bean>
+  
+  <bean id="TrialBalanceReport-month11Amount" parent="TrialBalanceReport-month11Amount-parentBean"/>
+  <bean id="TrialBalanceReport-month11Amount-parentBean" abstract="true" parent="Balance-month11Amount">
+  </bean>
+  
+  <bean id="TrialBalanceReport-month12Amount" parent="TrialBalanceReport-month12Amount-parentBean"/>
+  <bean id="TrialBalanceReport-month12Amount-parentBean" abstract="true" parent="Balance-month12Amount">
+  </bean>
+  
+  <bean id="TrialBalanceReport-month13Amount" parent="TrialBalanceReport-month13Amount-parentBean"/>
+  <bean id="TrialBalanceReport-month13Amount-parentBean" abstract="true" parent="Balance-month13Amount">
+  </bean>
+  
+  <bean id="TrialBalanceReport-timestamp" parent="TrialBalanceReport-timestamp-parentBean"/>
+  <bean id="TrialBalanceReport-timestamp-parentBean" abstract="true" parent="Balance-timestamp">
+  </bean>
+  
+  <bean id="TrialBalanceReport-finChartOfAccountDescription" parent="TrialBalanceReport-finChartOfAccountDescription-parentBean"/>
+  <bean id="TrialBalanceReport-finChartOfAccountDescription-parentBean" abstract="true" parent="Chart-finChartOfAccountDescription">
+  	<property name="name" value="finChartOfAccountDescription" />
+  </bean>
+  
+  <bean id="TrialBalanceReport-financialObjectCodeName" parent="TrialBalanceReport-financialObjectCodeName-parentBean"/>
+  <bean id="TrialBalanceReport-financialObjectCodeName-parentBean" abstract="true" parent="ObjectCode-financialObjectCodeName">
+  	<property name="name" value="financialObjectCodeName" />
+  </bean>
+  
+  <bean id="TrialBalanceReport-index" parent="TrialBalanceReport-index-parentBean"/>
+  	<bean id="TrialBalanceReport-index-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
+  	<property name="name" value="index" />
+  	 <property name="label" value="SN"/>
+    <property name="shortLabel" value="SN"/>
+  </bean>
+  
+  <!-- Business Object Lookup Definition -->
+
+
+  <bean id="TrialBalanceReport-lookupDefinition" parent="TrialBalanceReport-lookupDefinition-parentBean"/>
+
+  <bean id="TrialBalanceReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Trial Balance Report Lookup"/>
+    <property name="lookupableID" value="glTrialBalanceReportLookupable"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>index</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:required="true" p:attributeName="universityFiscalYear" p:treatWildcardsAndOperatorsAsLiteral="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+        <bean parent="FieldDefinition" p:required="false" p:attributeName="chartOfAccountsCode" p:treatWildcardsAndOperatorsAsLiteral="true" />
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+      	<bean parent="FieldDefinition" p:attributeName="index" />
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="objectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCodeName" p:noInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="debitAmount" p:noInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="creditAmount" p:noInquiry="true"/>
+      </list>
+    </property>
+  </bean>
+</beans>

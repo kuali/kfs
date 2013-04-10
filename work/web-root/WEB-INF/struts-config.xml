@@ -173,6 +173,8 @@
 			type="org.kuali.kfs.gl.web.struts.BalanceInquiryForm" />
 		<form-bean name="BalanceInquiryLookupForm"
 			type="org.kuali.kfs.gl.web.struts.BalanceInquiryLookupForm" />
+		<form-bean name="TrialBalanceReportForm"
+			type="org.kuali.kfs.gl.web.struts.TrialBalanceReportForm" />
 
 		<!-- PURAP Module Bean Definitions -->
  
@@ -741,6 +743,15 @@
 			<forward name="selection" path="/jsp/pdp/format/formatSelection.jsp" />
 			<forward name="continue" path="/jsp/pdp/format/formatContinue.jsp" />
 		</action>
+		
+		<action path="/glTrialBalance"
+		    name="TrialBalanceReportForm"
+		    type="org.kuali.kfs.gl.web.struts.TrialBalanceReportAction"
+			scope="request" parameter="methodToCall" validate="false"
+            attribute="KualiForm" >
+            <forward name="basic"
+				path="/jsp/gl/TrialBalanceReportLookup.jsp" />
+         </action>
 
 		<!-- These are VND items -->
 		

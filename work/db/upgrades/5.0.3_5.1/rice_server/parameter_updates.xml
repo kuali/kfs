@@ -41,5 +41,24 @@
 		<modifySql dbms="mysql">
 			<replace replace="SYS_GUID()" with="UUID()" />
 		</modifySql>		
+	</changeSet>
+	
+	<changeSet author="KFS52" id="KFSCNTRB-1246">
+		<comment>KFSCNTRB-1246 Ability to enter PREQs for the total invoice, if it matches PO exactly</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="CMPNT_CD" value="PaymentRequest" />
+			<column name="PARM_NM" value="SHOW_CLEAR_AND_LOAD_QUANTITY_BUTTONS_IND" />
+			<column name="VAL" value="Y" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Allows the display of the clear and load quantity buttons on the payment request document to facilitate creating PREQs for the total invoice, if it matches the PO exactly." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID()" with="UUID()" />
+		</modifySql>
 	</changeSet>			
 </databaseChangeLog>

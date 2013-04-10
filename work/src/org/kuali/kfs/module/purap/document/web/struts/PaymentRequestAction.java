@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.purap.document.web.struts;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,7 @@ import org.kuali.kfs.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -48,6 +50,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -66,7 +69,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
     /**
      * Do initialization for a new payment request.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
@@ -90,7 +93,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     /**
      * Executes the continue action on a payment request. Populates and initializes the rest of the payment request besides what was
      * shown on the init screen.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -104,15 +107,15 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
 
         boolean poNotNull = true;
-       
+
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedContinuePurapEvent(paymentRequestDocument));
         if (!rulePassed){
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+
         GlobalVariables.getMessageMap().clearErrorPath();
         GlobalVariables.getMessageMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
-        
+
       //check for a po id
         if (ObjectUtils.isNull(paymentRequestDocument.getPurchaseOrderIdentifier())) {
             GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.PURCHASE_ORDER_ID);
@@ -134,13 +137,13 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             GlobalVariables.getMessageMap().putError(PurapPropertyConstants.VENDOR_INVOICE_AMOUNT, KFSKeyConstants.ERROR_REQUIRED, PREQDocumentsStrings.VENDOR_INVOICE_AMOUNT);
             poNotNull = false;
         }
-        
+
         //exit early as the po is null, no need to proceed further until this is taken care of
         if(poNotNull == false){
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
-        
+
+
         PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
         if (ObjectUtils.isNotNull(po)) {
             // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
@@ -150,13 +153,13 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(paymentRequestDocument).isAuthorizedByTemplate(paymentRequestDocument, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
                 throw buildAuthorizationException("initiate document", paymentRequestDocument);
             }
-        } 
-        
+        }
+
         if(!SpringContext.getBean(PaymentRequestService.class).isPurchaseOrderValidForPaymentRequestDocumentCreation(paymentRequestDocument,po))
         {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+
         // perform duplicate check which will forward to a question prompt if one is found
         ActionForward forward = performDuplicatePaymentRequestAndEncumberFiscalYearCheck(mapping, form, request, response, paymentRequestDocument);
         if (forward != null) {
@@ -173,7 +176,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         //TODO if better, move this to the action just before preq goes into ATAX status
         // force calculation for tax
         preqForm.setCalculatedTax(false);
-        
+
         // sort below the line
         SpringContext.getBean(PurapService.class).sortBelowTheLine(paymentRequestDocument);
 
@@ -186,7 +189,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
     /**
      * Clears the initial fields on the <code>PaymentRequestDocument</code> which should be accessible from the given form.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm, which must be a PaymentRequestForm
      * @param request The HttpServletRequest
@@ -210,7 +213,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      * check. If one is found, a question is setup and control is forwarded to the question action method. Coming back from the
      * question prompt the button that was clicked is checked and if 'no' was selected they are forward back to the page still in
      * init mode.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -247,7 +250,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
                 }
             }
             // If the user replies 'No' to either of the questions, redirect to the PREQ initiate page.
-            else if ((PurapConstants.PREQDocumentsStrings.ENCUMBER_NEXT_FISCAL_YEAR_QUESTION.equals(question) || PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {			                    
+            else if ((PurapConstants.PREQDocumentsStrings.ENCUMBER_NEXT_FISCAL_YEAR_QUESTION.equals(question) || PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 paymentRequestDocument.updateAndSaveAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
                 forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
@@ -258,7 +261,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
     /**
      * Check if the current PREQ encumber next fiscal year from PO document.
-     * 
+     *
      * @param paymentRequestDocument
      * @return
      */
@@ -269,10 +272,10 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         }
         return false;
     }
-    
+
     /**
      * Puts a payment on hold, prompting for a reason beforehand. This stops further approvals or routing.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -284,6 +287,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         String operation = "Hold ";
 
         PurQuestionCallback callback = new PurQuestionCallback() {
+            @Override
             public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 document = SpringContext.getBean(PaymentRequestService.class).addHoldOnPaymentRequest((PaymentRequestDocument) document, noteText);
                 return document;
@@ -295,7 +299,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
     /**
      * Removes a hold on the payment request.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -307,6 +311,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         String operation = "Remove ";
 
         PurQuestionCallback callback = new PurQuestionCallback() {
+            @Override
             public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 document = SpringContext.getBean(PaymentRequestService.class).removeHoldOnPaymentRequest((PaymentRequestDocument) document, noteText);
                 return document;
@@ -318,7 +323,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
     /**
      * This action requests a cancel on a preq, prompting for a reason before hand. This stops further approvals or routing.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -330,6 +335,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         String operation = "Cancel ";
 
         PurQuestionCallback callback = new PurQuestionCallback() {
+            @Override
             public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 SpringContext.getBean(PaymentRequestService.class).requestCancelOnPaymentRequest((PaymentRequestDocument) document, noteText);
                 return document;
@@ -356,7 +362,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
     /**
      * Removes a request for cancel on a payment request.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -368,6 +374,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         String operation = "Cancel ";
 
         PurQuestionCallback callback = new PurQuestionCallback() {
+            @Override
             public AccountsPayableDocument doPostQuestion(AccountsPayableDocument document, String noteText) throws Exception {
                 SpringContext.getBean(PaymentRequestService.class).removeRequestCancelOnPaymentRequest((PaymentRequestDocument) document, noteText);
                 return document;
@@ -379,7 +386,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
     /**
      * Calls a service method to calculate for a payment request document.
-     * 
+     *
      * @param apDoc The AccountsPayableDocument
      */
     @Override
@@ -395,7 +402,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             SpringContext.getBean(PaymentRequestService.class).calculateTaxArea(preqDoc);
             return;
         }
-        
+
         // notice we're ignoring whether the boolean, because these are just warnings they shouldn't halt anything
         //Calculate Payment request before rules since the rule check totalAmount.
         SpringContext.getBean(PaymentRequestService.class).calculatePaymentRequest(preqDoc, true);
@@ -409,14 +416,14 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     public String getActionName() {
         return PurapConstants.PAYMENT_REQUEST_ACTION_NAME;
     }
-    
+
     public ActionForward useAlternateVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
-                        
+
         SpringContext.getBean(PaymentRequestService.class).changeVendor(
                 document, document.getAlternateVendorHeaderGeneratedIdentifier(), document.getAlternateVendorDetailAssignedIdentifier());
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -426,10 +433,11 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         SpringContext.getBean(PaymentRequestService.class).changeVendor(
                 document, document.getOriginalVendorHeaderGeneratedIdentifier(), document.getOriginalVendorDetailAssignedIdentifier());
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
+    @Override
     public ActionForward route (ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentRequestDocument preq = ((PaymentRequestForm)form).getPaymentRequestDocument();
         SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(preq);
@@ -449,13 +457,14 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     }
 
     /**
-     * Overrides to invoke the updateAccountAmounts so that the account percentage will be 
+     * Overrides to invoke the updateAccountAmounts so that the account percentage will be
      * correctly updated before validation for account percent is called.
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentRequestDocument preq = ((PaymentRequestForm)form).getPaymentRequestDocument();
-        
+
         SpringContext.getBean(PurapService.class).prorateForTradeInAndFullOrderDiscount(preq);
         // if tax is required but not yet calculated, return and prompt user to calculate
         if (requiresCalculateTax((PaymentRequestForm)form)) {
@@ -472,37 +481,37 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(preq);
             return super.approve(mapping, form, request, response);
         }
-        else { 
-            // pre-calculation rules fail, go back to same page with error messages            
+        else {
+            // pre-calculation rules fail, go back to same page with error messages
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
-        }        
+        }
     }
-    
+
     /**
-     * Checks if tax calculation is required. 
-     * Currently it is required when preq is awaiting for tax approval and tax has not already been calculated. 
-     * 
+     * Checks if tax calculation is required.
+     * Currently it is required when preq is awaiting for tax approval and tax has not already been calculated.
+     *
      * @param apForm A Form, which must inherit from <code>AccountsPayableFormBase</code>
      * @return true if calculation is required, false otherwise
      */
     protected boolean requiresCalculateTax(PaymentRequestForm preqForm) {
         PaymentRequestDocument preq = (PaymentRequestDocument) preqForm.getDocument();
-        boolean requiresCalculateTax = StringUtils.equals(preq.getApplicationDocumentStatus(), PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW) && !preqForm.isCalculatedTax(); 
+        boolean requiresCalculateTax = StringUtils.equals(preq.getApplicationDocumentStatus(), PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW) && !preqForm.isCalculatedTax();
         return requiresCalculateTax;
     }
 
     public ActionForward changeUseTaxIndicator(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) ((PurchasingAccountsPayableFormBase) form).getDocument();
-        
-        //clear/recalculate tax and recreate GL entries        
+
+        //clear/recalculate tax and recreate GL entries
         SpringContext.getBean(PurapService.class).updateUseTaxIndicator(document, !document.isUseTaxIndicator());
         SpringContext.getBean(PurapService.class).calculateTax(document);
-        
+
         //TODO: add recalculate GL entries hook here
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * Calls service to clear tax info.
      */
@@ -517,17 +526,17 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
 
         PaymentRequestDocument preqDocument = (PaymentRequestDocument) preqForm.getDocument();
-        
+
         ActionForward forward = mapping.findForward(RiceConstants.MAPPING_BASIC);
         if(preqDocument.getPurchaseOrderDocument().isPendingActionIndicator()) {
             GlobalVariables.getMessageMap().putError(
-                    KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DOCUMENT_NUMBER, 
+                    KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DOCUMENT_NUMBER,
                     PurapKeyConstants.ERROR_PAYMENT_REQUEST_CANNOT_BE_CANCELLED);
         }
         else {
@@ -536,4 +545,54 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         return forward;
     }
+
+    /**
+     * For each quantity based item, set item quantity to ZERO.
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward clearQty(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentRequestForm preqForm = (PaymentRequestForm) form;
+
+        PaymentRequestDocument preqDocument = (PaymentRequestDocument) preqForm.getDocument();
+
+        for (PaymentRequestItem item : (List<PaymentRequestItem>) preqDocument.getItems()) {
+            if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                item.setItemQuantity(null);
+            }
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * For each quantity based item, loads total outstanding quantity into item quantity.
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward loadQty(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentRequestForm preqForm = (PaymentRequestForm) form;
+
+        PaymentRequestDocument preqDocument = (PaymentRequestDocument) preqForm.getDocument();
+
+        for (PaymentRequestItem item : (List<PaymentRequestItem>) preqDocument.getItems()) {
+
+            if (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && (item.getPoOutstandingQuantity() != null) && (item.getPoOutstandingQuantity().isGreaterThan(KualiDecimal.ZERO))) {
+                item.setItemQuantity(item.getPoOutstandingQuantity());
+            }
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
 }

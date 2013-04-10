@@ -98,6 +98,7 @@
         <ref bean="Account-accountDescription.buildingCode"/>
         <ref bean="Account-contractsAndGrantsAccountResponsibilityId"/>
 		<ref bean="Account-laborBenefitRateCategoryCode" />
+		<ref bean="Account-subFundGroup.fundGroupCode" />
 		<ref bean="Account-responsibilityCenterCode" />
 		<ref bean="Account-reportsToOrganizationCode" />
 		<ref bean="Account-reportsToCOACode" />
@@ -973,6 +974,12 @@
 	 	p:sourceAttributeName="laborBenefitRateCategoryCode">	
 	 	<property name="name" value="laborBenefitRateCategoryCode"></property>	
 	</bean>
+	
+	<bean id="Account-subFundGroup.fundGroupCode" parent="Account-subFundGroup.fundGroupCode-parentBean" />
+	
+	<bean id="Account-subFundGroup.fundGroupCode-parentBean" abstract="true" parent="SubFundGroup-fundGroupCode">
+		<property name="name" value="subFundGroup.fundGroupCode" />
+	</bean>
 
 	<!-- Business Object Inquiry Definition -->
 
@@ -1126,6 +1133,7 @@
 				<bean parent="FieldDefinition" p:attributeName="accountSupervisoryUser.principalName" />
 				<bean parent="FieldDefinition" p:attributeName="closed"
 					p:defaultValue="N" />
+				<bean parent="FieldDefinition" p:attributeName="subFundGroup.fundGroupCode" />	
 			</list>
 		</property>
 		<property name="resultFields">
@@ -1147,6 +1155,7 @@
 				<bean parent="FieldDefinition" p:attributeName="closed" />
 				<bean parent="FieldDefinition" p:attributeName="accountCreateDate" />
 				<bean parent="FieldDefinition" p:attributeName="accountExpirationDate" />
+				<bean parent="FieldDefinition" p:attributeName="subFundGroup.fundGroupCode" />
 			</list>
 		</property>
 		<property name="multipleValuesResultSetLimit" value="-1"/>

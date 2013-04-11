@@ -435,4 +435,12 @@ public interface PurchaseOrderService extends PurchasingDocumentSpecificService 
      * @param po
      */
     public void sendFyiForGLEntries(PurchaseOrderDocument po);
+
+    /**
+    *
+    * This method is to  send an FYI to fiscal officers and Requisition Initiator
+    * @param po
+    */
+
+    public void sendAdhocFyi(PurchaseOrderDocument po);
 }

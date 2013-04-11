@@ -105,6 +105,8 @@ public class PurapParameterConstants {
 
     public static final String PO_SENSITIVE_DATA_NOTE_IND="SENSITIVE_DATA_NOTE_IND";
 
+    public static final String PO_NOTIFY_EXCLUSIONS = "NOTIFY_REQUISITION_SOURCES";
+
 
     public static class CapitalAsset {
         // used in CAB module service

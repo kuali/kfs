@@ -129,41 +129,41 @@
 	
   <changeSet author="KFS52" id="KFSCNTRB-739">
     <comment>KFSCNTRB-739:Create an Intra Account Adjustment eDoc</comment> 
-		<insert tableName="KRCR_PARM_T">
-		  <column name="NMSPC_CD" value="KFS-FP"/> 
-		  <column name="CMPNT_CD" value="IntraAccountAdjustment"/> 
-		  <column name="PARM_NM" value="OBJECT_TYPES"/> 
-		  <column name="VAL" value="IN;EX" />   
-		  <column name="OBJ_ID" valueNumeric="SYS_GUID() "/>
-		  <column name="VER_NBR" valueNumeric="1"/> 
-		  <column name="PARM_TYP_CD" value="VALID"/> 
-		  <column name="PARM_DESC_TXT" value="Object Code Types permitted in IAA document."/> 
-		  <column name="EVAL_OPRTR_CD" value="A"/> 
-		  <column name="APPL_ID" value="KFS" /> 
+	<insert tableName="KRCR_PARM_T">
+	  <column name="NMSPC_CD" value="KFS-FP"/> 
+	  <column name="CMPNT_CD" value="IntraAccountAdjustment"/> 
+	  <column name="PARM_NM" value="OBJECT_TYPES"/> 
+	  <column name="VAL" value="IN;EX" />   
+	  <column name="OBJ_ID" valueNumeric="SYS_GUID() "/>
+	  <column name="VER_NBR" valueNumeric="1"/> 
+	  <column name="PARM_TYP_CD" value="VALID"/> 
+	  <column name="PARM_DESC_TXT" value="Object Code Types permitted in IAA document."/> 
+	  <column name="EVAL_OPRTR_CD" value="A"/> 
+	  <column name="APPL_ID" value="KFS" /> 
 	  </insert>
 	 <insert tableName="KRCR_PARM_T">
-		  <column name="NMSPC_CD" value="KFS-FP"/> 
-		  <column name="CMPNT_CD" value="IntraAccountAdjustment"/> 
-		  <column name="PARM_NM" value="OBJECT_SUB_TYPES"/> 
-		  <column name="VAL" value="FR;HW;SA"/> 
-		   <column name="OBJ_ID" valueNumeric="SYS_GUID() "/>
-		  <column name="VER_NBR" valueNumeric="1" /> 
-		  <column name="PARM_TYP_CD" value="VALID" /> 
-		  <column name="PARM_DESC_TXT" value="Object Sub-Type(s) restricted from use on the Pre Encumbrance document." /> 
-		  <column name="EVAL_OPRTR_CD" value="D" /> 
-		  <column name="APPL_ID" value="KFS" /> 
+	  <column name="NMSPC_CD" value="KFS-FP"/> 
+	  <column name="CMPNT_CD" value="IntraAccountAdjustment"/> 
+	  <column name="PARM_NM" value="OBJECT_SUB_TYPES"/> 
+	  <column name="VAL" value="FR;HW;SA"/> 
+	   <column name="OBJ_ID" valueNumeric="SYS_GUID() "/>
+	  <column name="VER_NBR" valueNumeric="1" /> 
+	  <column name="PARM_TYP_CD" value="VALID" /> 
+	  <column name="PARM_DESC_TXT" value="Object Sub-Type(s) restricted from use on the Pre Encumbrance document." /> 
+	  <column name="EVAL_OPRTR_CD" value="D" /> 
+	  <column name="APPL_ID" value="KFS" /> 
 	  </insert>
 	 <insert tableName="KRCR_PARM_T">
-		   <column name="NMSPC_CD" value="KFS-FP"/> 
-		    <column name="CMPNT_CD" value="IntraAccountAdjustment"/> 
-		    <column name="PARM_NM" value="SUB_ACCT_SUB_OBJ_NOCHANGE_WARNING_IND"/> 
-		    <column name="VAL" value="You have either made no corrections to either the sub-account or sub-object code OR only one accounting line reflects a change.  Is this correct ? " /> 
-		    <column name="OBJ_ID" valueNumeric="SYS_GUID() "/>
-		    <column name="VER_NBR" valueNumeric="1"/> 
-		    <column name="PARM_TYP_CD" value="CONFG"/> 
-		    <column name="PARM_DESC_TXT" value="IAA document warning message when the system does not recognize changes made to the sub-account and/or sub-object code.." /> 
-		    <column name="EVAL_OPRTR_CD" value="A"/> 
-		    <column name="APPL_ID" value="KFS"/> 
+	  <column name="NMSPC_CD" value="KFS-FP"/> 
+	    <column name="CMPNT_CD" value="IntraAccountAdjustment"/> 
+	    <column name="PARM_NM" value="SUB_ACCT_SUB_OBJ_NOCHANGE_WARNING_IND"/> 
+	    <column name="VAL" value="You have either made no corrections to either the sub-account or sub-object code OR only one accounting line reflects a change.  Is this correct ? " /> 
+	    <column name="OBJ_ID" valueNumeric="SYS_GUID() "/>
+	    <column name="VER_NBR" valueNumeric="1"/> 
+	    <column name="PARM_TYP_CD" value="CONFG"/> 
+	    <column name="PARM_DESC_TXT" value="IAA document warning message when the system does not recognize changes made to the sub-account and/or sub-object code.." /> 
+	    <column name="EVAL_OPRTR_CD" value="A"/> 
+	    <column name="APPL_ID" value="KFS"/> 
 	  </insert>
   
 	 <update tableName="KRCR_PARM_T">
@@ -182,5 +182,22 @@
 	</insert>
 	<modifySql dbms="mysql"><replace with="UUID()" replace="SYS_GUID()"/></modifySql>
 	</changeSet>
+	
+	<changeSet author="KFS52" id="KFSCNTRB-715">
+       <comment>KFSCNTRB-715:Purchase Order Notifications to Department</comment> 
+		<insert tableName="KRCR_PARM_T">
+		  <column name="NMSPC_CD" value="KFS-PURAP"/> 
+		  <column name="CMPNT_CD" value="PurchaseOrder"/> 
+		  <column name="PARM_NM" value="NOTIFY_REQUISITION_SOURCES"/> 
+		  <column name="VAL" value="" />   
+		  <column name="OBJ_ID" valueNumeric="SYS_GUID() "/>
+		  <column name="VER_NBR" valueNumeric="1"/> 
+		  <column name="PARM_TYP_CD" value="CONFG"/> 
+		  <column name="PARM_DESC_TXT" value="Requisition source codes listed here will be excluded from FYI notifications sent to Requisition Initiator &amp; FO (Primary Delegate) when PO status becomes FINAL (open, amend, close, reopen, split, void) and when PO operations are Cancelled and Disapproved.  If blank or null, the FYI notifications are sent to all active requisition source codes." /> 
+		  <column name="EVAL_OPRTR_CD" value="D"/> 
+		  <column name="APPL_ID" value="KFS"/> 
+		</insert>
+     <modifySql dbms="mysql"><replace with="UUID()" replace="SYS_GUID()"/></modifySql>
+</changeSet>
 			
 </databaseChangeLog>

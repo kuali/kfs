@@ -126,5 +126,61 @@
 			<replace replace="SYS_GUID()" with="UUID()" />
 		</modifySql>
 	</changeSet>
+	
+  <changeSet author="KFS52" id="KFSCNTRB-739">
+    <comment>KFSCNTRB-739:Create an Intra Account Adjustment eDoc</comment> 
+		<insert tableName="KRCR_PARM_T">
+		  <column name="NMSPC_CD" value="KFS-FP"/> 
+		  <column name="CMPNT_CD" value="IntraAccountAdjustment"/> 
+		  <column name="PARM_NM" value="OBJECT_TYPES"/> 
+		  <column name="VAL" value="IN;EX" />   
+		  <column name="OBJ_ID" valueNumeric="SYS_GUID() "/>
+		  <column name="VER_NBR" valueNumeric="1"/> 
+		  <column name="PARM_TYP_CD" value="VALID"/> 
+		  <column name="PARM_DESC_TXT" value="Object Code Types permitted in IAA document."/> 
+		  <column name="EVAL_OPRTR_CD" value="A"/> 
+		  <column name="APPL_ID" value="KFS" /> 
+	  </insert>
+	 <insert tableName="KRCR_PARM_T">
+		  <column name="NMSPC_CD" value="KFS-FP"/> 
+		  <column name="CMPNT_CD" value="IntraAccountAdjustment"/> 
+		  <column name="PARM_NM" value="OBJECT_SUB_TYPES"/> 
+		  <column name="VAL" value="FR;HW;SA"/> 
+		   <column name="OBJ_ID" valueNumeric="SYS_GUID() "/>
+		  <column name="VER_NBR" valueNumeric="1" /> 
+		  <column name="PARM_TYP_CD" value="VALID" /> 
+		  <column name="PARM_DESC_TXT" value="Object Sub-Type(s) restricted from use on the Pre Encumbrance document." /> 
+		  <column name="EVAL_OPRTR_CD" value="D" /> 
+		  <column name="APPL_ID" value="KFS" /> 
+	  </insert>
+	 <insert tableName="KRCR_PARM_T">
+		   <column name="NMSPC_CD" value="KFS-FP"/> 
+		    <column name="CMPNT_CD" value="IntraAccountAdjustment"/> 
+		    <column name="PARM_NM" value="SUB_ACCT_SUB_OBJ_NOCHANGE_WARNING_IND"/> 
+		    <column name="VAL" value="You have either made no corrections to either the sub-account or sub-object code OR only one accounting line reflects a change.  Is this correct ? " /> 
+		    <column name="OBJ_ID" valueNumeric="SYS_GUID() "/>
+		    <column name="VER_NBR" valueNumeric="1"/> 
+		    <column name="PARM_TYP_CD" value="CONFG"/> 
+		    <column name="PARM_DESC_TXT" value="IAA document warning message when the system does not recognize changes made to the sub-account and/or sub-object code.." /> 
+		    <column name="EVAL_OPRTR_CD" value="A"/> 
+		    <column name="APPL_ID" value="KFS"/> 
+	  </insert>
+  
+	 <update tableName="KRCR_PARM_T">
+	    <column name="VAL" value="JV;AA;IAA"/> 
+	    <where>NMSPC_CD='KFS-GL' AND PARM_NM='COST_SHARE_DOCUMENT_TYPES' AND CMPNT_CD = 'ScrubberStep' AND APPL_ID = 'KFS'</where> 
+	 </update>
+	 <update tableName="KRCR_PARM_T">
+	      <column name="VAL" value="ACLO;TF;YETF;AV;AVAC;AVAE;AVRC;IAA" /> 
+	      <where>NMSPC_CD='KFS-GL' AND PARM_NM='LIABILITY_DOCUMENT_TYPES' AND CMPNT_CD = 'ScrubberStep' AND APPL_ID = 'KFS'</where> 
+	  </update>
+	<insert tableName="KRCR_DRVD_CMPNT_T">
+	    <column name="NMSPC_CD" value="KFS-FP"/> 
+	    <column name="CMPNT_CD" value="IntraAccountAdjustment"/> 
+	    <column name="NM" value="Intra Account Adjustment"/> 
+	    <column name="CMPNT_SET_ID" value="DD:KFS" /> 
+	</insert>
+	<modifySql dbms="mysql"><replace with="UUID()" replace="SYS_GUID()"/></modifySql>
+	</changeSet>
 			
 </databaseChangeLog>

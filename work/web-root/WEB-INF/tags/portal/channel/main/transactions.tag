@@ -50,6 +50,7 @@
 		<li><portal:portalLink displayTitle="true" title="Internal Billing" url="financialInternalBilling.do?methodToCall=docHandler&command=initiate&docTypeName=IB" /></li>
 		<li><portal:portalLink displayTitle="true" title="Pre-Encumbrance" url="financialPreEncumbrance.do?methodToCall=docHandler&command=initiate&docTypeName=PE" /></li>
 		<li><portal:portalLink displayTitle="true" title="Transfer of Funds" url="financialTransferOfFunds.do?methodToCall=docHandler&command=initiate&docTypeName=TF" /></li>
+		<li><portal:portalLink displayTitle="true" title="Intra Account Adjustment" url="financialIntraAccountAdjustment.do?methodToCall=docHandler&command=initiate&docTypeName=IAA" /></li>
     </ul>
     
     <c:if test="${ConfigProperties.module.labor.distribution.enabled == 'true'}">

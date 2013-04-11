@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -62,6 +62,7 @@ public class AssetLockServiceImpl implements AssetLockService {
         FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE, KFSConstants.FinancialDocumentTypeCodes.YEAR_END_DISTRIBUTION_OF_INCOME_AND_EXPENSE);
         FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.YEAR_END_GENERAL_ERROR_CORRECTION, KFSConstants.FinancialDocumentTypeCodes.YEAR_END_GENERAL_ERROR_CORRECTION);
         FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD, KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD);
+        FINANCIAL_DOC_TYPE_MAP.put(KFSConstants.FinancialDocumentTypeCodes.INTRA_ACCOUNT_ADJUSTMENT, KFSConstants.FinancialDocumentTypeCodes.INTRA_ACCOUNT_ADJUSTMENT);
     }
 
     // CAMS document types for maintain asset: AssetMaintenance, AssetFabrication, Asset Global, Asset Location Global,
@@ -90,7 +91,7 @@ public class AssetLockServiceImpl implements AssetLockService {
 
     /**
      * Gets the capitalAssetLockDao attribute.
-     * 
+     *
      * @return Returns the capitalAssetLockDao.
      */
     public CapitalAssetLockDao getCapitalAssetLockDao() {
@@ -100,7 +101,7 @@ public class AssetLockServiceImpl implements AssetLockService {
 
     /**
      * Sets the capitalAssetLockDao attribute value.
-     * 
+     *
      * @param capitalAssetLockDao The capitalAssetLockDao to set.
      */
     public void setCapitalAssetLockDao(CapitalAssetLockDao capitalAssetLockDao) {
@@ -113,15 +114,16 @@ public class AssetLockServiceImpl implements AssetLockService {
      * @return Return false without any of the asset being locked. Return true when all assets can be locked.
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#checkAndLockForDocument(java.util.Collection)
      */
+ 
     public synchronized boolean checkAndSetAssetLocks(List<AssetLock> assetLocks) {
         if (assetLocks == null || assetLocks.isEmpty() || !assetLocks.iterator().hasNext()) {
             return true;
         }
 
-        AssetLock lock = assetLocks.iterator().next();  
+        AssetLock lock = assetLocks.iterator().next();
         String documentTypeName = lock.getDocumentTypeName();
         String documentNumber = lock.getDocumentNumber();
-        
+
         // build asset number collection for lock checking.
         List assetNumbers = new ArrayList<Long>();
         for (AssetLock assetLock : assetLocks) {
@@ -133,13 +135,13 @@ public class AssetLockServiceImpl implements AssetLockService {
         if (isAssetLocked(assetNumbers, documentTypeName, documentNumber)) {
             return false;
         }
-        
+
         for (AssetLock assetLock : assetLocks) {
             deleteAssetLocks(documentNumber, assetLock.getLockingInformation());
         }
-        
-        getBusinessObjectService().save(assetLocks);        
-        
+
+        getBusinessObjectService().save(assetLocks);
+
         return true;
     }
 
@@ -147,7 +149,7 @@ public class AssetLockServiceImpl implements AssetLockService {
      * To get blocking document types for given document type. If given document type is FP, blocking documents will be CAMS payment
      * change documents. If given document type is CAMs maintain related, the blocking documents are all CAMs doc excluding FP and
      * PURAP. For other cases, returning null which will block all other documents.
-     * 
+     *
      * @param documentTypeName
      * @return
      */
@@ -183,6 +185,7 @@ public class AssetLockServiceImpl implements AssetLockService {
     /**
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#deleteLocks(java.lang.String, java.lang.String)
      */
+
     public void deleteAssetLocks(String documentNumber, String lockingInformation) {
         if (StringUtils.isBlank(documentNumber)) {
             return;
@@ -199,6 +202,7 @@ public class AssetLockServiceImpl implements AssetLockService {
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#generateAssetLocks(java.util.Collection,
      *      java.lang.String, java.lang.String, java.lang.String)
      */
+
     public List<AssetLock> buildAssetLockHelper(List<Long> assetNumbers, String documentNumber, String documentType, String lockingInformation) {
         List<AssetLock> assetLocks = new ArrayList<AssetLock>();
 
@@ -250,6 +254,7 @@ public class AssetLockServiceImpl implements AssetLockService {
     /**
      * @see org.kuali.kfs.module.cam.service.AssetLockService#isAssetLockedByDocument(java.lang.String, java.lang.String)
      */
+  
     public boolean isAssetLockedByCurrentDocument(String documentNumber, String lockingInformation) {
         if (StringUtils.isBlank(documentNumber)) {
             return false;
@@ -265,9 +270,10 @@ public class AssetLockServiceImpl implements AssetLockService {
 
     /**
      * Based on the given documentTypeName, it decides what document types could block it.
-     * 
+     *
      * @see org.kuali.kfs.module.cam.service.AssetLockService#isAssetLocked(java.util.List, java.lang.String, java.lang.String)
      */
+
     public boolean isAssetLocked(List<Long> assetNumbers, String documentTypeName, String excludingDocumentNumber) {
         if (assetNumbers == null || assetNumbers.isEmpty()) {
             return false;
@@ -286,6 +292,7 @@ public class AssetLockServiceImpl implements AssetLockService {
      * @see org.kuali.kfs.module.cam.service.AssetLockService#getAssetLockingDocuments(java.util.List, java.lang.String,
      *      java.lang.String)
      */
+  
     public List<String> getAssetLockingDocuments(List<Long> assetNumbers, String documentTypeName, String excludingDocumentNumber) {
         Collection blockingDocumentTypes = getBlockingDocumentTypes(documentTypeName);
         List<String> lockingDocumentNumbers = getCapitalAssetLockDao().getLockingDocumentNumbers(assetNumbers, blockingDocumentTypes, excludingDocumentNumber);

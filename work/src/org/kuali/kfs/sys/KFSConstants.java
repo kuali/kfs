@@ -1042,6 +1042,8 @@ public class KFSConstants {
         public static final String VENDOR_CREDIT_MEMO = "CM";
         public static final String BULK_RECEIVING = "RCVB";
         public static final String ELECTRONIC_INVOICE_REJECT = "EIRT";
+
+        public static final String INTRA_ACCOUNT_ADJUSTMENT = "IAA";
         public static final String CONTRACT_MANAGER_ASSIGNMENT = "ACM";
     }
 
@@ -1330,6 +1332,7 @@ public class KFSConstants {
     public static final String YEAR_END_BUDGET_ADJUSTMENT_LABEL = "Year End Budget Adjustment";
 
     public static final String OVERRIDE_ACCOUNT_FOR_EXPIRED_QUESTION_ID = "OverrideAccountForExpiredQuestion";
+
 
 
     static final public String TRIAL_BAL_LOOKUPABLE_ID = "glTrialBalanceReportLookupable";

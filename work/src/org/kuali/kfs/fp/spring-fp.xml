@@ -521,5 +521,6 @@
 	<import resource="document/validation/configuration/PreEncumbranceValidation.xml" />
 	<import resource="document/validation/configuration/ProcurementCardValidation.xml" />
 	<import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
+	<import resource="document/validation/configuration/IntraAccountAdjustmentValidation.xml" />
 	<import resource="spring-fp-bus-exports.xml"/>
 </beans>

@@ -39,6 +39,9 @@
 			type="org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm" />
 
 		<!--  Financial Module Bean Definitions -->
+		
+		<form-bean name="IntraAccountAdjustmentForm" 
+			type="org.kuali.kfs.fp.document.web.struts.IntraAccountAdjustmentForm" />	
 		<form-bean name="DepositWizardForm"
 			type="org.kuali.kfs.fp.document.web.struts.DepositWizardForm" />
 		<form-bean name="CashReceiptForm"
@@ -473,7 +476,10 @@
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/fp/{1}.jsp" />
 		</action>
-
+		
+		
+		
+		
 		<action path="/financialCashManagement" name="CashManagementForm"
 			input="/jsp/fp/CashManagement.jsp" type="org.kuali.kfs.fp.document.web.struts.CashManagementAction"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">

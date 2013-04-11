@@ -1177,5 +1177,33 @@
         2
       </routingVersion>
     </documentType>
+     <documentType>
+      <name>IAA</name>
+      <label>Intra Account Adjustment</label>
+      <parent>FP</parent>
+      <!-- <helpDefinitionURL>default.htm?turl=WordDocuments%2Fiaadocument.htm</helpDefinitionURL> -->
+      <docHandler>${kfs.url}/financialIntraAccountAdjustment.do?methodToCall=docHandler</docHandler>      
+      <active>
+        true
+      </active>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="Central Review" />
+          <role name="Central Review"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Central Review">
+        	<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+        	<activationType>P</activationType>
+        </role>          
+      </routeNodes>
+    </documentType>
   </documentTypes>
 </data>

@@ -43,6 +43,7 @@ import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument;
 import org.kuali.kfs.fp.document.InternalBillingDocument;
+import org.kuali.kfs.fp.document.IntraAccountAdjustmentDocument;
 import org.kuali.kfs.fp.document.ProcurementCardDocument;
 import org.kuali.kfs.fp.document.ServiceBillingDocument;
 import org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument;
@@ -2494,6 +2495,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         else if (accountingDocument instanceof ProcurementCardDocument) {
             documentTypeName = KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD;
+        }
+        else if (accountingDocument instanceof IntraAccountAdjustmentDocument) {
+            documentTypeName = KFSConstants.FinancialDocumentTypeCodes.INTRA_ACCOUNT_ADJUSTMENT;
         }
         else {
             throw new RuntimeException("Invalid FP document type.");

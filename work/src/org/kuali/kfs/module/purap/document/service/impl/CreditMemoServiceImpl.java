@@ -904,7 +904,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
         // populate cm vendor address with the default remit address type for the vendor if found
         String userCampus = GlobalVariables.getUserSession().getPerson().getCampusCode();
-        VendorAddress vendorAddress = vendorService.getVendorDefaultAddress(purchaseOrderDocument.getVendorHeaderGeneratedIdentifier(), purchaseOrderDocument.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.REMIT, userCampus);
+        VendorAddress vendorAddress = vendorService.getVendorDefaultAddress(purchaseOrderDocument.getVendorHeaderGeneratedIdentifier(), purchaseOrderDocument.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.REMIT, userCampus,false);
         if (vendorAddress != null) {
             cmDocument.templateVendorAddress(vendorAddress);
             cmDocument.setVendorAddressGeneratedIdentifier(vendorAddress.getVendorAddressGeneratedIdentifier());
@@ -978,10 +978,10 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
         // credit memo type vendor uses the default remit type address for the vendor if found
         String userCampus = GlobalVariables.getUserSession().getPerson().getCampusCode();
-        VendorAddress vendorAddress = vendorService.getVendorDefaultAddress(vendorHeaderId, vendorDetailId, VendorConstants.AddressTypes.REMIT, userCampus);
+        VendorAddress vendorAddress = vendorService.getVendorDefaultAddress(vendorHeaderId, vendorDetailId, VendorConstants.AddressTypes.REMIT, userCampus,false);
         if (vendorAddress == null) {
             // pick up the default vendor po address type
-            vendorAddress = vendorService.getVendorDefaultAddress(vendorHeaderId, vendorDetailId, VendorConstants.AddressTypes.PURCHASE_ORDER, userCampus);
+            vendorAddress = vendorService.getVendorDefaultAddress(vendorHeaderId, vendorDetailId, VendorConstants.AddressTypes.PURCHASE_ORDER, userCampus,false);
         }
 
         cmDocument.setVendorAddressGeneratedIdentifier(vendorAddress.getVendorAddressGeneratedIdentifier());

@@ -66,12 +66,18 @@ public class PurchasingUnitOfMeasureValidation extends GenericValidation {
                 if (businessObjectService.countMatching(UnitOfMeasure.class, fieldValues) != 1) {
                     //This is the case where the unit of measure code on the item does not exist in the database.
                     valid = false;
-                  GlobalVariables.getMessageMap().putError(errorPrefix, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID,  " in " + purItem.getItemIdentifierString());
+                    GlobalVariables.getMessageMap().putError(errorPrefix, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID,  " in " + purItem.getItemIdentifierString());
+                }
+                //Validate UOM for active check.
+                if(ObjectUtils.isNotNull(purItem.getItemUnitOfMeasure())){
+                    if(!purItem.getItemUnitOfMeasure().isActive()){
+                        valid = false;
+                        GlobalVariables.getMessageMap().putError(errorPrefix, PurapKeyConstants.ERROR_ITEM_UOM_INACTIVE,  " in " + purItem.getItemIdentifierString());
+                    }
                 }
             }            
         }
-
-        
+               
        if (purItem.getItemType().isAmountBasedGeneralLedgerIndicator() && StringUtils.isNotBlank(purItem.getItemUnitOfMeasureCode())) {
             valid = false;
             String errorPrefix = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + (itemForValidation.getItemLineNumber() - 1) + "]." + PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE;

@@ -95,6 +95,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.kfs.vnd.VendorPropertyConstants; 
 
 /**
  * Struts Action for Purchase Order document.
@@ -1709,6 +1710,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 // use PO type address to fill in vendor address
                 String campusCode = GlobalVariables.getUserSession().getPerson().getCampusCode();
                 VendorAddress pova = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(headID, detailID, AddressTypes.PURCHASE_ORDER, campusCode);
+                if(pova!=null){
                 document.setVendorLine1Address(pova.getVendorLine1Address());
                 document.setVendorLine2Address(pova.getVendorLine2Address());
                 document.setVendorCityName(pova.getVendorCityName());
@@ -1716,14 +1718,29 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.setVendorPostalCode(pova.getVendorZipCode());
                 document.setVendorCountryCode(pova.getVendorCountryCode());
                 document.setVendorFaxNumber(pova.getVendorFaxNumber());
+                }
 
                 document.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
 
                 document.setStatusChange(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
+                
+                if(pova==null){
+                    document.setVendorLine1Address("");
+                    document.setVendorLine2Address("");
+                    document.setVendorCityName("");
+                    document.setVendorStateCode("");
+                    document.setVendorPostalCode("");
+                    document.setVendorCountryCode("");
+                    document.setVendorFaxNumber("");
+                    
+                    document.setStatusChange(PurchaseOrderStatuses.APPDOC_IN_PROCESS);
+                    GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_DOC_ADDRESS, PurapKeyConstants.ERROR_INACTIVE_VENDORADDRESS);
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }
             }
         }
-
+       // document.setStatusChange(PurchaseOrderStatuses.APPDOC_IN_PROCESS);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

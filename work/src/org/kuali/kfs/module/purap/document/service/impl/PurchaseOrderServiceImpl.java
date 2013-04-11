@@ -301,8 +301,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * checks for print option and if chosen then sets the app doc status to
-     * Pending To Print.
+     * checks for print option and if chosen then sets the app doc status to Pending To Print.
      *
      * @param po
      */
@@ -394,8 +393,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public KualiDecimal getInternalPurchasingDollarLimit(PurchaseOrderDocument document) {
         if ((document.getVendorContract() != null) && (document.getContractManager() != null)) {
             KualiDecimal contractDollarLimit = vendorService.getApoLimitFromContract(document.getVendorContract().getVendorContractGeneratedIdentifier(), document.getChartOfAccountsCode(), document.getOrganizationCode());
-            //FIXME somehow data fields such as contractManagerDelegationDollarLimit in reference object contractManager didn't get retrieved
-            // (are null) as supposed to be (this happens whether or not proxy is set to true), even though contractManager is not null;
+            // FIXME somehow data fields such as contractManagerDelegationDollarLimit in reference object contractManager didn't get
+            // retrieved
+            // (are null) as supposed to be (this happens whether or not proxy is set to true), even though contractManager is not
+            // null;
             // so here we have to manually refresh the contractManager to retrieve the fields
             if (document.getContractManager().getContractManagerDelegationDollarLimit() == null) {
                 document.refreshReferenceObject(PurapPropertyConstants.CONTRACT_MANAGER);
@@ -464,7 +465,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if (generatePDFErrors.size() > 0) {
             addStringErrorMessagesToMessageMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
             return false;
-        } else {
+        }
+        else {
             return true;
         }
     }
@@ -593,7 +595,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     /**
      * This method creates a new Purchase Order Document using the given document type based off the given source document. This
      * method will return null if the source document given is null.<br>
-     * <br> ** THIS METHOD DOES NOT SAVE EITHER THE GIVEN SOURCE DOCUMENT OR THE NEW DOCUMENT CREATED
+     * <br>
+     * ** THIS METHOD DOES NOT SAVE EITHER THE GIVEN SOURCE DOCUMENT OR THE NEW DOCUMENT CREATED
      *
      * @param sourceDocument - document the new Purchase Order Document should be based off of in terms of data
      * @param docType - document type of the potential new Purchase Order Document
@@ -720,7 +723,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
             if (ObjectUtils.isNotNull(newDocument)) {
                 try {
-                    // set the pending indictor before routing, so that when routing is done in synch mode, the pending indicator won't be set again after route finishes and cause inconsistency
+                    // set the pending indictor before routing, so that when routing is done in synch mode, the pending indicator
+                    // won't be set again after route finishes and cause inconsistency
                     currentDocument.setPendingActionIndicator(true);
                     documentService.routeDocument(newDocument, annotation, adhocRoutingRecipients);
                 }
@@ -748,7 +752,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#createAndSavePurchaseOrderSplitDocument(java.util.List, java.lang.String, boolean)
+     * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#createAndSavePurchaseOrderSplitDocument(java.util.List,
+     *      java.lang.String, boolean)
      */
     @Override
     public PurchaseOrderSplitDocument createAndSavePurchaseOrderSplitDocument(List<PurchaseOrderItem> newPOItems, PurchaseOrderDocument currentDocument, boolean copyNotes, String splitNoteText) {
@@ -841,8 +846,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * Gets a set of classes to exclude from those whose fields will be copied during a copy operation from one Document to
-     * another.
+     * Gets a set of classes to exclude from those whose fields will be copied during a copy operation from one Document to another.
      *
      * @return A Set<Class>
      */
@@ -978,8 +982,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         setCurrentAndPendingIndicatorsForApprovedPODocuments(poa);
 
         // check thresholds to see if receiving is required for purchase order amendment
-        if (!poa.isReceivingDocumentRequiredIndicator() &&
-                !SpringContext.getBean(PaymentRequestService.class).hasActivePaymentRequestsForPurchaseOrder(poa.getPurapDocumentIdentifier())) {
+        if (!poa.isReceivingDocumentRequiredIndicator() && !SpringContext.getBean(PaymentRequestService.class).hasActivePaymentRequestsForPurchaseOrder(poa.getPurapDocumentIdentifier())) {
             setReceivingRequiredIndicatorForPurchaseOrder(poa);
         }
 
@@ -991,11 +994,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * If there are commodity codes on the items on the PurchaseOrderDocument that
-     * haven't existed yet on the vendor that the PurchaseOrderDocument is using,
-     * then we will spawn a new VendorDetailMaintenanceDocument automatically to
-     * update the vendor with the commodity codes that aren't already existing on
-     * the vendor.
+     * If there are commodity codes on the items on the PurchaseOrderDocument that haven't existed yet on the vendor that the
+     * PurchaseOrderDocument is using, then we will spawn a new VendorDetailMaintenanceDocument automatically to update the vendor
+     * with the commodity codes that aren't already existing on the vendor.
      *
      * @param po The PurchaseOrderDocument containing the vendor that we want to update.
      */
@@ -1017,7 +1018,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     vendorMaintDoc.getNewMaintainableObject().setDocumentNumber(vendorMaintDoc.getDocumentNumber());
                     boolean isVendorLocked = checkForLockingDocument(vendorMaintDoc);
                     if (!isVendorLocked) {
-                        //validating vendor doc to capture exception before trying to route which if exception happens in docService, then PO will fail too
+                        // validating vendor doc to capture exception before trying to route which if exception happens in
+                        // docService, then PO will fail too
                         vendorMaintDoc.validateBusinessRules(new RouteDocumentEvent(vendorMaintDoc));
                         addNoteForCommodityCodeToVendor(vendorMaintDoc.getNewMaintainableObject(), vendorMaintDoc.getDocumentNumber(), po.getPurapDocumentIdentifier());
                         documentService.routeDocument(vendorMaintDoc, null, null);
@@ -1051,8 +1053,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * Creates a note to be added to the Vendor Maintenance Document which is spawned
-     * from the PurchaseOrderDocument.
+     * Creates a note to be added to the Vendor Maintenance Document which is spawned from the PurchaseOrderDocument.
      *
      * @param maintainable
      * @param documentNumber
@@ -1447,22 +1448,28 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
             if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART) {
                 notetxt += " Chart " + receivingThreshold.getChartOfAccountsCode();
-            } else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_ACCOUNTTYPE){
+            }
+            else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_ACCOUNTTYPE) {
                 notetxt += " Chart " + receivingThreshold.getChartOfAccountsCode();
                 notetxt += " - Account Type " + receivingThreshold.getAccountTypeCode();
-            } else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_SUBFUND){
+            }
+            else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_SUBFUND) {
                 notetxt += " Chart " + receivingThreshold.getChartOfAccountsCode();
                 notetxt += " - Sub-Fund " + receivingThreshold.getSubFundGroupCode();
-            } else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_COMMODITYCODE){
+            }
+            else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_COMMODITYCODE) {
                 notetxt += " Chart " + receivingThreshold.getChartOfAccountsCode();
                 notetxt += " - Commodity Code " + receivingThreshold.getPurchasingCommodityCode();
-            } else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_OBJECTCODE){
+            }
+            else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_OBJECTCODE) {
                 notetxt += " Chart " + receivingThreshold.getChartOfAccountsCode();
                 notetxt += " - Object code " + receivingThreshold.getFinancialObjectCode();
-            } else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_ORGANIZATIONCODE){
+            }
+            else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_ORGANIZATIONCODE) {
                 notetxt += " Chart " + receivingThreshold.getChartOfAccountsCode();
                 notetxt += " - Organization " + receivingThreshold.getOrganizationCode();
-            } else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_VENDOR){
+            }
+            else if (thresholdSummary.getThresholdCriteria() == ThresholdHelper.CHART_AND_VENDOR) {
                 notetxt += " Chart " + receivingThreshold.getChartOfAccountsCode();
                 notetxt += " - Vendor " + receivingThreshold.getVendorNumber();
             }
@@ -1552,12 +1559,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         for (AdHocRoutePerson adHocPerson : fyiList) {
             try {
-                po.appSpecificRouteDocumentToUser(
-                        po.getDocumentHeader().getWorkflowDocument(),
-                        adHocPerson.getPerson().getPrincipalId(),
-                        annotation,
-                        responsibilityNote);
-            } catch (WorkflowException e) {
+                po.appSpecificRouteDocumentToUser(po.getDocumentHeader().getWorkflowDocument(), adHocPerson.getPerson().getPrincipalId(), annotation, responsibilityNote);
+            }
+            catch (WorkflowException e) {
                 throw new RuntimeException("Error routing fyi for document with id " + po.getDocumentNumber(), e);
             }
 
@@ -1616,18 +1620,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public void sendFyiForGLEntries(PurchaseOrderDocument po) {
 
         List<AdHocRoutePerson> fyiList = createFyiFiscalOfficerListForAmendGlEntries(po);
-        String annotation = "Amendment to Purchase Order " + po.getPurapDocumentIdentifier() + "( Document id " + po.getDocumentNumber() + ")" +
-                              " resulted in the generation of Pending General Ledger Entries.";
+        String annotation = "Amendment to Purchase Order " + po.getPurapDocumentIdentifier() + "( Document id " + po.getDocumentNumber() + ")" + " resulted in the generation of Pending General Ledger Entries.";
         String responsibilityNote = "Purchase Order Amendment Routed By User";
 
         for (AdHocRoutePerson adHocPerson : fyiList) {
             try {
-                po.appSpecificRouteDocumentToUser(
-                        po.getDocumentHeader().getWorkflowDocument(),
-                        adHocPerson.getPerson().getPrincipalId(),
-                        annotation,
-                        responsibilityNote);
-            }catch (WorkflowException e) {
+                po.appSpecificRouteDocumentToUser(po.getDocumentHeader().getWorkflowDocument(), adHocPerson.getPerson().getPrincipalId(), annotation, responsibilityNote);
+            }
+            catch (WorkflowException e) {
                 throw new RuntimeException("Error routing fyi for document with id " + po.getDocumentNumber(), e);
             }
 
@@ -1769,7 +1769,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * @see org.kuali.module.purap.service.PurchaseOrderService#populateQuoteWithVendor(java.lang.Integer, java.lang.Integer, java.lang.String)
+     * @see org.kuali.module.purap.service.PurchaseOrderService#populateQuoteWithVendor(java.lang.Integer, java.lang.Integer,
+     *      java.lang.String)
      */
     @Override
     public PurchaseOrderVendorQuote populateQuoteWithVendor(Integer headerId, Integer detailId, String documentNumber) {
@@ -1830,13 +1831,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * Obtains the defaultAddress of the vendor and setting the default address fields on
-     * the vendor.
+     * Obtains the defaultAddress of the vendor and setting the default address fields on the vendor.
      *
      * @param vendor The VendorDetail object whose default address we'll obtain and set the fields.
      */
     protected void updateDefaultVendorAddress(VendorDetail vendor) {
-        VendorAddress defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+       
+        VendorAddress defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorHeaderGeneratedIdentifier(),vendor.getVendorDetailAssignedIdentifier(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "",false);
         if (defaultAddress != null) {
             if (defaultAddress.getVendorState() != null) {
                 vendor.setVendorStateForLookup(defaultAddress.getVendorState().getName());
@@ -1853,7 +1854,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     *
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#processACMReq(org.kuali.kfs.module.purap.document.ContractManagerAssignmentDocument)
      */
     @Override
@@ -1884,7 +1884,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     *
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#autoCloseFullyDisencumberedOrders()
      */
     @Override
@@ -2043,9 +2042,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * Filter out the auto close purchase order view documents for the appDocStatus with status open
-     * For each document in the list, check if there is workflowdocument whose appdocstatus is open
-     * add add to the return list.
+     * Filter out the auto close purchase order view documents for the appDocStatus with status open For each document in the list,
+     * check if there is workflowdocument whose appdocstatus is open add add to the return list.
+     *
      * @param List<AutoClosePurchaseOrderView>
      * @param appDocStatus
      * @return filteredAutoClosePOView filtered auto close po view documents where appdocstatus is open
@@ -2057,8 +2056,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             Document document = findDocument(autoClosePurchaseOrderView.getDocumentNumber());
 
             if (document != null) {
-                if (PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN.equalsIgnoreCase(
-                        document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())){
+                if (PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN.equalsIgnoreCase(document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())) {
                     // found the matched Awaiting Contract Manager Assignment status, retrieve the routeHeaderId and add to the list
                     filteredAutoClosePOView.add(autoClosePurchaseOrderView);
                 }
@@ -2070,6 +2068,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     /**
      * This method finds the document for the given document header id
+     *
      * @param documentHeaderId
      * @return document The document in the workflow that matches the document header id.
      */
@@ -2081,7 +2080,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         catch (WorkflowException ex) {
             LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex);
-        } catch ( UnknownDocumentTypeException ex ) {
+        }
+        catch (UnknownDocumentTypeException ex) {
             // don't blow up just because a document type is not installed (but don't return it either)
             LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex);
         }
@@ -2110,10 +2110,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * Sets the to addresses, from address and the subject of the email.
      *
      * @param message The MailMessage object of the email to be sent.
-     * @param parameterEmail  The String of email addresses with delimiters of ";"
-     *                        obtained from the system parameter.
-     * @return                The MailMessage object after the to addresses, from
-     *                        address and the subject have been set.
+     * @param parameterEmail The String of email addresses with delimiters of ";" obtained from the system parameter.
+     * @return The MailMessage object after the to addresses, from address and the subject have been set.
      */
     protected MailMessage setMessageAddressesAndSubject(MailMessage message, String parameterEmail) {
         String toAddressList[] = parameterEmail.split(";");
@@ -2132,8 +2130,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * Sends the email by calling the sendMessage method in mailService and log error if exception occurs
-     * during the attempt to send the message.
+     * Sends the email by calling the sendMessage method in mailService and log error if exception occurs during the attempt to send
+     * the message.
      *
      * @param message The MailMessage object containing information to be sent.
      * @param emailBody The String containing the body of the email to be sent.
@@ -2151,7 +2149,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     /**
      * Resets the AUTO_CLOSE_RECURRING_ORDER_DT system parameter to "mm/dd/yyyy".
-     *
      */
     protected void resetAutoCloseRecurringOrderDateParameter() {
         Parameter autoCloseRecurringPODate = parameterService.getParameter(AutoCloseRecurringOrdersStep.class, PurapParameterConstants.AUTO_CLOSE_RECURRING_PO_DATE);
@@ -2177,10 +2174,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * Creates and add a note to the purchase order document using the annotation String
-     * in the input parameter. This method is used by the autoCloseRecurringOrders() and
-     * autoCloseFullyDisencumberedOrders to add a note to the purchase order to
-     * indicate that the purchase order was closed by the batch job.
+     * Creates and add a note to the purchase order document using the annotation String in the input parameter. This method is used
+     * by the autoCloseRecurringOrders() and autoCloseFullyDisencumberedOrders to add a note to the purchase order to indicate that
+     * the purchase order was closed by the batch job.
      *
      * @param purchaseOrderDocument The purchase order document that is being closed by the batch job.
      * @param annotation The string to appear on the note to be attached to the purchase order.
@@ -2252,16 +2248,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     @Override
     public List getPendingPurchaseOrderFaxes() {
         List<PurchaseOrderDocument> purchaseOrderList = purchaseOrderDao.getPendingPurchaseOrdersForFaxing();
-        return filterPurchaseOrderDocumentByAppDocStatus(purchaseOrderList,
-                PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_FAX);
+        return filterPurchaseOrderDocumentByAppDocStatus(purchaseOrderList, PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_FAX);
     }
 
     /**
-     * Wrapper class to the filterPaymentRequestByAppDocStatus
-     *
-     * This class first extract the payment request document numbers from the Payment Request Collections,
-     * then perform the filterPaymentRequestByAppDocStatus function.  Base on the filtered payment request
-     * doc number, reconstruct the filtered Payment Request Collection
+     * Wrapper class to the filterPaymentRequestByAppDocStatus This class first extract the payment request document numbers from
+     * the Payment Request Collections, then perform the filterPaymentRequestByAppDocStatus function. Base on the filtered payment
+     * request doc number, reconstruct the filtered Payment Request Collection
      *
      * @param paymentRequestDocuments
      * @param appDocStatus
@@ -2286,11 +2279,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     *  Since PaymentRequest does not have the app doc status, perform an additional lookup
-     *  through doc search by using list of PaymentRequest Doc numbers.  Query appDocStatus
-     *  from workflow document and filter against the provided status
-     *
-     *  DocumentSearch allows for multiple docNumber lookup by docId|docId|docId conversion
+     * Since PaymentRequest does not have the app doc status, perform an additional lookup through doc search by using list of
+     * PaymentRequest Doc numbers. Query appDocStatus from workflow document and filter against the provided status DocumentSearch
+     * allows for multiple docNumber lookup by docId|docId|docId conversion
      *
      * @param lookupDocNumbers
      * @param appDocStatus
@@ -2308,8 +2299,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
         documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PO_DOCUMENT);
 
-        DocumentSearchResults poDocumentsList = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-             GlobalVariables.getUserSession().getPrincipalId(), documentSearchCriteriaDTO.build());
+        DocumentSearchResults poDocumentsList = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(GlobalVariables.getUserSession().getPrincipalId(), documentSearchCriteriaDTO.build());
 
         for (DocumentSearchResult poDocument : poDocumentsList.getSearchResults()) {
             // /use the appDocStatus from the KeyValueDTO result to look up custom status
@@ -2334,9 +2324,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     /**
-     * helper method to take the po and save it using businessObjectService so that
-     * only the po related data is saved since most often we are only updating the flags on
-     * the document. It will then reindex the document.
+     * helper method to take the po and save it using businessObjectService so that only the po related data is saved since most
+     * often we are only updating the flags on the document. It will then reindex the document.
      *
      * @param po
      */

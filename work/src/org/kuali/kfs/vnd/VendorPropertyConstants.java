@@ -114,4 +114,5 @@ public class VendorPropertyConstants {
     public static final String PURCHASING_DEPARTMENT_STATE = "purchasingDepartmentStateCode";
     public static final String PURCHASING_DEPARTMENT_POSTAL_CODE = "purchasingDepartmentZipCode";
 
+    public static final String VENDOR_DOC_ADDRESS    = "document.vendorAddress";
 }

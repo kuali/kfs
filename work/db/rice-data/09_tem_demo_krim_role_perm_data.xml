@@ -28,9 +28,6 @@
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_PERM_ATTR_DATA_T">
         <loadData tableName="KRIM_PERM_ATTR_DATA_T" file="tem/krim_perm_attr_data_t.csv" />
     </changeSet>
-    <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_PERM_TMPL_T">
-        <loadData tableName="KRIM_PERM_TMPL_T" file="tem/krim_perm_tmpl_t.csv" />
-    </changeSet>
     
     <changeSet context="demo" author="kfs" id="KFS_TEM_DEMO_LOAD_KRIM_RSP_T">
         <loadData tableName="KRIM_RSP_T" file="tem/krim_rsp_t.csv" />

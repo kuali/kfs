@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,6 @@ package org.kuali.kfs.module.tem.document.authorization;
 import java.util.Set;
 
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.PermissionTemplate;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
@@ -34,7 +33,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class TravelAgencyAuditPresentationController extends MaintenanceDocumentPresentationControllerBase {
 
     DocumentHelperService documentHelperService;
-   
+
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canInitiate(java.lang.String)
      */
@@ -44,23 +43,23 @@ public class TravelAgencyAuditPresentationController extends MaintenanceDocument
         if (!SpringContext.getBean(TravelDocumentService.class).isTravelManager(user)) {
             throw new DocumentInitiationException(TemKeyConstants.ERROR_TRAVEL_AGENCY_AUDIT_INITIATION, new String[] {}, true);
         }
-                
+
         return true;
     }
-    
+
     /**
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
-        
+
         Person user = GlobalVariables.getUserSession().getPerson();
         DocumentAuthorizer authorizer = getDocumentHelperService().getDocumentAuthorizer(document);
-        
+
         Set<String> readOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
 
         //if not authorized for full edit permission, set the following fields as read only
-        if (!authorizer.isAuthorizedByTemplate(document, TemConstants.NAMESPACE, PermissionTemplate.FULL_EDIT_AGENCY_DATA, user.getPrincipalId())){
+        if (!authorizer.isAuthorized(document, TemConstants.NAMESPACE, TemConstants.Permission.FULL_EDIT_AGENCY_DATA, user.getPrincipalId())){
             readOnlyPropertyNames.add(TemPropertyConstants.IMPORT_BY);
             readOnlyPropertyNames.add(TemPropertyConstants.AGENCY_DATA_ID);
             readOnlyPropertyNames.add(TemPropertyConstants.OTHER_COMPANY_NAME);

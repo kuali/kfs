@@ -24,14 +24,13 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.PermissionTemplate;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -96,10 +95,10 @@ public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupabl
         boolean allows = super.allowsMaintenanceNewOrCopyAction();
 
         Person user = GlobalVariables.getUserSession().getPerson();
-        IdentityManagementService idm = SpringContext.getBean(IdentityManagementService.class);
+        PermissionService permissionService = SpringContext.getBean(PermissionService.class);
 
         //if user does not have the permission, do not allow the to creating new
-        allows &= idm.isAuthorizedByTemplateName(user.getPrincipalId(), TemConstants.NAMESPACE, PermissionTemplate.FULL_EDIT_AGENCY_DATA, new HashMap<String, String>(), null);
+        allows &= permissionService.isAuthorized(user.getPrincipalId(), TemConstants.NAMESPACE, TemConstants.Permission.FULL_EDIT_AGENCY_DATA, new HashMap<String, String>());
         return allows;
     }
 

@@ -432,13 +432,10 @@ public class TemConstants {
         public static final String RETURN_TO_FO = "Return to Fiscal Officer";
         public static final String EDIT_TAXABLE_IND = "Edit Taxable Indicator";
         public static final String CREATE_PROFILE = "Create TEM Profile";
+        public static final String FULL_EDIT_AGENCY_DATA = "Full Edit Agency Data";
 
         //Non-existing Permission
         public static final String HIDE_BUTTONS = "Hide Buttons TA";
-    }
-
-    public class PermissionTemplate {
-        public static final String FULL_EDIT_AGENCY_DATA = "Full Edit Agency Data";
     }
 
     public static final String DATE_CHANGED_MESSAGE = "The trip begin/end dates have been changed from %s - %s to %s - %s";

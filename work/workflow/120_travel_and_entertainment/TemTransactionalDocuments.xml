@@ -46,9 +46,9 @@
 			<active>
 				true
             </active>
-            <security>
+            <!-- security>
                 <securityAttribute class="org.kuali.kfs.module.tem.document.workflow.TravelAuthorizationDocumentSecurityAttribute"/>
-            </security>
+            </security-->
 			<routingVersion>
 				2
             </routingVersion>
@@ -354,9 +354,9 @@
             <active>
                 true
             </active>
-            <security>
+            <!-- security>
                 <securityAttribute class="org.kuali.kfs.module.tem.document.workflow.TEMSecurityAttribute"/>
-            </security>
+            </security-->
             <routingVersion>
                 2
             </routingVersion>
@@ -409,7 +409,7 @@
                         </branch>
                         <join name="JoinTravelRequiresTravelerApproval"/>
                     </split>
-                    <split name="TravelRequiresAccountApproval" nextNode="TravelRequiresAccountingReviewer" nextAppDocStatus="Awaiting Fiscal Officer Review">
+                    <split name="TravelRequiresAccountApproval" nextNode="TravelRequiresAccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Fiscal Officer Review">
 						<branch name="True">
 							<role name="Account" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Travel Accounting Review" />
 						</branch>
@@ -481,7 +481,7 @@
 			         	</branch>	
 			         	<join name="JoinTaxManager" />	         		
 	     			</split>
-	     			<split name="RequiresSeparationOfDuties" nextNode="RequiresAPTravel" nextAppDocStatus="Awaiting Separation Of Duties Review">
+	     			<split name="RequiresSeparationOfDuties" nextNode="RequiresTravel" nextAppDocStatus="Awaiting Separation Of Duties Review">
 			         	<branch name="True">
 			            	<role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDuties" nextAppDocStatus="Awaiting Travel Manager Review" />
 			         	</branch>
@@ -663,14 +663,14 @@
 	            <routeNodes>
 	                <start name="AdHoc" />
 	                <join name="JoinTravelRequiresTravelerApproval" />
-	                <simple name="NoOpTravelerReview">
+	                <simple name="NoOpTravelRequiresTravelerApproval">
 	                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 	                </simple>
 	                <split name="TravelRequiresTravelerApproval">
 	                    <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
 	                    </type>
 	                </split>
-	                <role name="TravelerReview">
+	                <role name="Traveler">
 	                    <qualifierResolverClass>
 	                        org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
 	                    </qualifierResolverClass>
@@ -697,9 +697,9 @@
             <active>
                 true
             </active>
-            <security>
+            <!-- security>
                 <securityAttribute class="org.kuali.kfs.module.tem.document.workflow.TEMSecurityAttribute"/>
-            </security>
+            </security-->
             <routingVersion>
                 2
             </routingVersion>
@@ -756,7 +756,7 @@
                             <role name="Account" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Organization Review" />
                         </branch>
                         <branch name="False">
-                            <simple name="NoOpAccountApproval" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Organization Review" />
+                            <simple name="NoOpTravelRequiresAccountApproval" nextNode="JoinRequiresAccountApproval" nextAppDocStatus="Awaiting Organization Review" />
                         </branch>
                         <join name="JoinRequiresAccountApproval"/>
                     </split>
@@ -799,7 +799,7 @@
             <routeNodes>
             	<start name="AdHoc" />
                 <join name="JoinTravelRequiresTravelerApproval" />
-                <simple name="NoOpTravelerReview">
+                <simple name="NoOpTravelRequiresTravelerApproval">
                     <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
                 </simple>
                 <split name="TravelRequiresTravelerApproval">
@@ -810,7 +810,7 @@
                     <activationType>P</activationType>
                 </role>
 				<join name="JoinRequiresAccountApproval" />
-                <simple name="NoOpTravelRequiresTravelerApproval">
+                <simple name="NoOpTravelRequiresAccountApproval">
                     <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
                 </simple>
                 <split name="TravelRequiresAccountApproval">
@@ -948,9 +948,9 @@
             <active>
                 true
             </active>
-            <security>
+            <!-- security>
                 <securityAttribute class="org.kuali.kfs.module.tem.document.workflow.TEMSecurityAttribute"/>
-            </security>
+            </security-->
             <routingVersion>
                 2
             </routingVersion>
@@ -1018,7 +1018,7 @@
 					      <role name="Tax" nextNode="JoinTaxManager" nextAppDocStatus="Awaiting Separation Of Duties Review"/>
 					   </branch>
 					   <branch name="False">
-						  <simple name="NoTaxManager" nextNode="JoinTaxManager"  nextAppDocStatus="Awaiting Separation Of Duties Review" />
+						  <simple name="NoOpTaxManager" nextNode="JoinTaxManager"  nextAppDocStatus="Awaiting Separation Of Duties Review" />
 					   </branch>
 					   <join name="JoinTaxManager"/>
 					</split>
@@ -1088,7 +1088,7 @@
 				</role>
 				
 				<join name="JoinTaxManager" />
-                <simple name="NoTaxManager">
+                <simple name="NoOpTaxManager">
                     <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
                 </simple>
                 <split name="TaxManager">

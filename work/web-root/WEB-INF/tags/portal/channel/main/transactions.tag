@@ -16,7 +16,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ tag import="org.kuali.kfs.sys.context.SpringContext,org.kuali.rice.coreservice.framework.parameter.ParameterService"%>
 <%
-    final boolean showTRLink = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean("KFS-TEM", "TravelReimbursement", "ALLOW_TR_WITHOUT_TA_IND");
+    final boolean showTRLink = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean("KFS-TEM", "TravelReimbursement", "TRAVEL_AUTHORIZATION_REQUIRED_IND");
     request.setAttribute("showTRLink", showTRLink);
 %>
 

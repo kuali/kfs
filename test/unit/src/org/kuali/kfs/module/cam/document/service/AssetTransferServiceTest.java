@@ -297,6 +297,13 @@ public class AssetTransferServiceTest extends KualiTestBase {
         document.setOffCampusCityName("E LANSING");
         document.setOffCampusStateCode("MI");
         document.setOffCampusZipCode("48823");
+
+        // clear fields that conflict with off-campus data
+        document.setCampusCode(null);
+        document.setBuildingCode(null);
+        document.setBuildingRoomNumber(null);
+        document.setBuildingSubRoomNumber(null);
+
         this.assetTransferService.saveApprovedChanges(document);
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         Asset asset = document.getAsset();

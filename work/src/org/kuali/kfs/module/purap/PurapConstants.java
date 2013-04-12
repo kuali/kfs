@@ -1431,5 +1431,23 @@ public class PurapConstants {
    public static final String PO_DISAPPROVAL_ANNOTATION_TEXT= "message.document.purap.disapprove.annotation";
    public static final String PO_CANCEL_ANNOTATION_TEXT= "message.document.purap.cancel.annotation";
 
+   public static final class EditedTabs {
+       public static final String PURAP_VENDOR_TAB = "PURAP_VENDOR_TAB";
+       public static final String PURAP_ADDITIONAL_TAB = "PURAP_ADDITIONAL_TAB";
+       public static final String PURAP_CAMS_TAB = "PURAP_CAMS_TAB";
+       public static final String PURAP_DELIVERY_TAB = "PURAP_DELIVERY_TAB";
+       public static final String PURAP_PAYMENT_TAB = "PURAP_PAYMENT_TAB";
+       public static final String PURAP_QUOTES_TAB = "PURAP_QUOTES_TAB";
+       public static final String PURAP_STIPULATION_TAB = "PURAP_STIPULATION_TAB";
+       public static final String PURAP_ITEMS_TAB = "PURAP_ITEMS_TAB";
+   }
+
+   public static class PurchaseOrderTabConstants{
+       public static final String CAMS_TAB_PUR_CAPITAL_ASSET_SYSTEM = "purchasingCapitalAssetSystem";
+       public static final String CAMS_TAB_PUR_ITEM_CAPITAL_ASSETS = "itemCapitalAssets";
+       public static final String CAMS_TAB_PUR_CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
+       public static final String ITEMS_TAB_PUR_SOURCE_ACC_LINES = "sourceAccountingLines";
+   }
+
 
 }

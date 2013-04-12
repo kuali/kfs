@@ -31,8 +31,9 @@
 <c:set var="quoteOpen" value="${poOutForQuote || poOpen || isPurchaseOrderAwarded}" />
 <c:set var="quoteEditable" value="${poOutForQuote && !isPurchaseOrderAwarded && fullEntryMode}" />
 <c:set var="quoteInitable" value="${poInProcess && fullEntryMode && !isPurchaseOrderAwarded}" />
+<c:set var="tabEdited" value="${(not empty KualiForm.editingMode['quoteTabEdited'])}" />
 
-<kul:tab tabTitle="Quote" defaultOpen="false" tabErrorKey="${PurapConstants.QUOTE_TAB_ERRORS}">
+<kul:tab tabTitle="Quote" defaultOpen="false" highlightTab="${tabEdited}"  tabErrorKey="${PurapConstants.QUOTE_TAB_ERRORS}">
 	<div class="tab-container" align=center>
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Quotes Section">			
 	 	

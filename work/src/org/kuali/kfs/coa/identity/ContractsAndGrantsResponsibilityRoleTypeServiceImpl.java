@@ -28,6 +28,7 @@ import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
 public class ContractsAndGrantsResponsibilityRoleTypeServiceImpl extends RoleTypeServiceBase {
     public static final String AWARD_ROUTE_NODE_NAME = "Award";
+    public static final String AWARD_FYI_REQUIRED = "RequiresAwardNonItem";
 
     @Override
     public List<RoleMembership> getMatchingRoleMemberships(Map<String,String> qualification, List<RoleMembership> roleMemberList) {
@@ -37,7 +38,8 @@ public class ContractsAndGrantsResponsibilityRoleTypeServiceImpl extends RoleTyp
             // this logic is here for Account docs, not ST docs where it interferes with the ability of C&G Processors
             // to edit object codes on target accounting lines
             if ( !StringUtils.equals( qualification.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME), KFSConstants.FinancialDocumentTypeCodes.SALARY_EXPENSE_TRANSFER) ) {
-                if ( StringUtils.equals( qualification.get(KimConstants.AttributeConstants.ROUTE_NODE_NAME), AWARD_ROUTE_NODE_NAME) ) {
+                if ( StringUtils.equals( qualification.get(KimConstants.AttributeConstants.ROUTE_NODE_NAME), AWARD_ROUTE_NODE_NAME) ||
+                        StringUtils.equals( qualification.get(KimConstants.AttributeConstants.ROUTE_NODE_NAME), AWARD_FYI_REQUIRED)) {
                     if ( StringUtils.isBlank(qualification.get(KfsKimAttributes.CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID)) ) {
                         return new ArrayList<RoleMembership>(0);
                     }
@@ -47,4 +49,10 @@ public class ContractsAndGrantsResponsibilityRoleTypeServiceImpl extends RoleTyp
         // otherwise, default to the normal behavior
         return super.getMatchingRoleMemberships(qualification, roleMemberList);
     }
+
+
+
+
+
+
 }

@@ -26,9 +26,10 @@
 <c:set var="internalPurchasingReadOnly" value="${not empty KualiForm.editingMode['lockInternalPurchasingEntry']}" />
 <c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 <c:set var="lockB2BEntry" value="${(not empty KualiForm.editingMode['lockB2BEntry'])}" />
+<c:set var="tabEdited" value="${(not empty KualiForm.editingMode['additionalTabEdited'])}" />
 <c:set var="tabindexOverrideBase" value="80" />
 
-<kul:tab tabTitle="Additional Institutional Info" defaultOpen="true" tabErrorKey="${PurapConstants.ADDITIONAL_TAB_ERRORS}">
+<kul:tab tabTitle="Additional Institutional Info" defaultOpen="true" highlightTab="${tabEdited}" tabErrorKey="${PurapConstants.ADDITIONAL_TAB_ERRORS}">
 
     <div class="tab-container" align=center>
             <h3>Additional</h3>

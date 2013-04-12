@@ -310,5 +310,447 @@
 		<modifySql dbms="mysql">
 			<replace replace="SYS_GUID()" with="UUID() " />
 		</modifySql>
-	</changeSet>			
+	</changeSet>	
+	<changeSet id="KFSCNTRB-720 KIM" author="KFS52">
+		<comment>Add the necessary KIM data for the Rice Responsibility , Attributes and Actions which are used for PurchaseOrder Amendment Routing.</comment>
+
+		<insert tableName="KRIM_RSP_T">
+			<column name="RSP_ID" value="KFSCNTRB720-RSP1" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_TMPL_ID" value="1" />
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="NM" value="Review POA Budget" />
+			<column name="DESC_TXT" value="null" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT1" />
+			<column name="OBJ_ID" value="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP1" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="POA" />
+		</insert>
+		
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT2" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP1" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="16" />
+			<column name="ATTR_VAL" value="BudgetNonItem" />
+		</insert>
+		
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT3" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP1" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="40" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
+
+          <insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT4" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP1" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="41" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
+		
+		<insert tableName="KRIM_ROLE_RSP_T">
+			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP1" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="79" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP1" />			
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		
+		<insert tableName="KRIM_ROLE_RSP_ACTN_T"> 
+			<column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB720-RLRSPACT1" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ACTN_TYP_CD" value="F" />
+			<column name="PRIORITY_NBR" value="null" />			
+			<column name="ACTN_PLCY_CD" value="F" />		
+			<column name="ROLE_MBR_ID" value="*" />		
+			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP1" />		
+			<column name="FRC_ACTN" value="Y" />
+		</insert>
+		
+		
+		<insert tableName="KRIM_RSP_T">
+			<column name="RSP_ID" value="KFSCNTRB720-RSP2" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_TMPL_ID" value="1" />
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="NM" value="Review POA ContractManagement" />
+			<column name="DESC_TXT" value="null" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT5" />
+			<column name="OBJ_ID" value="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP2" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="POA" />
+		</insert>
+
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT6" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP2" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="16" />
+			<column name="ATTR_VAL" value="ContractManagementNonItem" />
+		</insert>
+
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT7" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP2" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="40" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
+
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT8" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP2" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="41" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_RSP_T">
+			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP2" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="25" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP2" />			
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_RSP_ACTN_T"> 
+			<column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB720-RLRSPACT2" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ACTN_TYP_CD" value="F" />
+			<column name="PRIORITY_NBR" value="null" />			
+			<column name="ACTN_PLCY_CD" value="F" />		
+			<column name="ROLE_MBR_ID" value="*" />		
+			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP2" />		
+			<column name="FRC_ACTN" value="Y" />
+	       </insert>
+	       
+	       
+	       <insert tableName="KRIM_RSP_T">
+			<column name="RSP_ID" value="KFSCNTRB720-RSP3" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_TMPL_ID" value="1" />
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="NM" value="Review POA Tax" />
+			<column name="DESC_TXT" value="null" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT9" />
+			<column name="OBJ_ID" value="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP3" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="POA" />
+		</insert>
+
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT10" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP3" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="16" />
+			<column name="ATTR_VAL" value="TaxNonItem" />
+		</insert>
+
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT11" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP3" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="40" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
+
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT12" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP3" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="41" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_RSP_T">
+			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP3" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="50" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP3" />			
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_RSP_ACTN_T"> 
+			<column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB720-RLRSPACT3" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ACTN_TYP_CD" value="F" />
+			<column name="PRIORITY_NBR" value="null" />			
+			<column name="ACTN_PLCY_CD" value="F" />		
+			<column name="ROLE_MBR_ID" value="*" />		
+			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP3" />		
+			<column name="FRC_ACTN" value="Y" />
+	       </insert>
+	       
+               <insert tableName="KRIM_RSP_T">
+			<column name="RSP_ID" value="KFSCNTRB720-RSP4" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_TMPL_ID" value="1" />
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="NM" value="Review POA Award" />
+			<column name="DESC_TXT" value="null" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT13" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP4" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="POA" />
+		</insert>
+
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT14" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP4" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="16" />
+			<column name="ATTR_VAL" value="AwardNonItem" />
+		</insert>
+
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT15" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP4" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="40" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
+
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT16" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP4" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="41" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_RSP_T">
+			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP4" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="39" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP4" />			
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_RSP_ACTN_T"> 
+			<column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB720-RLRSPACT4" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ACTN_TYP_CD" value="F" />
+			<column name="PRIORITY_NBR" value="null" />			
+			<column name="ACTN_PLCY_CD" value="F" />		
+			<column name="ROLE_MBR_ID" value="*" />		
+			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP4" />		
+			<column name="FRC_ACTN" value="Y" />
+                </insert>
+                
+                  <insert tableName="KRIM_RSP_T">
+			<column name="RSP_ID" value="KFSCNTRB720-RSP5" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_TMPL_ID" value="1" />
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="NM" value="Review POA Commodity" />
+			<column name="DESC_TXT" value="null" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT17" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP5" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="POA" />
+		</insert>
+
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT18" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP5" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="16" />
+			<column name="ATTR_VAL" value="CommodityNonItem" />
+		</insert>
+
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT19" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP5" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="40" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
+
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT20" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP5" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="41" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_RSP_T">
+			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP5" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="39" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP5" />			
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_RSP_ACTN_T"> 
+			<column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB720-RLRSPACT5" />
+			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ACTN_TYP_CD" value="F" />
+			<column name="PRIORITY_NBR" value="null" />			
+			<column name="ACTN_PLCY_CD" value="F" />		
+			<column name="ROLE_MBR_ID" value="*" />		
+			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP5" />		
+			<column name="FRC_ACTN" value="Y" />
+		</insert>
+		
+		
+		  <insert tableName="KRIM_RSP_T">
+		<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
+		<column name="OBJ_ID" value="SYS_GUID() " />
+		<column name="VER_NBR" valueNumeric="1" />
+		<column name="RSP_TMPL_ID" value="1" />
+		<column name="NMSPC_CD" value="KFS-PURAP" />
+		<column name="NM" value="Review POA Account Approval" />
+		<column name="DESC_TXT" value="null" />
+		<column name="ACTV_IND" value="Y" />
+	</insert>
+
+	<insert tableName="KRIM_RSP_ATTR_DATA_T">
+		<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT21" />
+		<column name="OBJ_ID" value="SYS_GUID() " />
+		<column name="VER_NBR" valueNumeric="1" />
+		<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
+		<column name="KIM_TYP_ID" value="7" />
+		<column name="KIM_ATTR_DEFN_ID" value="13" />
+		<column name="ATTR_VAL" value="POA" />
+	</insert>
+
+	<insert tableName="KRIM_RSP_ATTR_DATA_T">
+		<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT22" />
+		<column name="OBJ_ID" value="SYS_GUID() " />
+		<column name="VER_NBR" valueNumeric="1" />
+		<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
+		<column name="KIM_TYP_ID" value="7" />
+		<column name="KIM_ATTR_DEFN_ID" value="16" />
+		<column name="ATTR_VAL" value="AccountReview" />
+	</insert>
+
+	<insert tableName="KRIM_RSP_ATTR_DATA_T">
+		<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT23" />
+		<column name="OBJ_ID" value="SYS_GUID() " />
+		<column name="VER_NBR" valueNumeric="1" />
+		<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
+		<column name="KIM_TYP_ID" value="7" />
+		<column name="KIM_ATTR_DEFN_ID" value="40" />
+		<column name="ATTR_VAL" value="false" />
+	</insert>
+
+	<insert tableName="KRIM_RSP_ATTR_DATA_T">
+		<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT24" />
+		<column name="OBJ_ID" value="SYS_GUID() " />
+		<column name="VER_NBR" valueNumeric="1" />
+		<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
+		<column name="KIM_TYP_ID" value="7" />
+		<column name="KIM_ATTR_DEFN_ID" value="41" />
+		<column name="ATTR_VAL" value="false" />
+	</insert>
+
+	<insert tableName="KRIM_ROLE_RSP_T">
+		<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP6" />
+		<column name="OBJ_ID" value="SYS_GUID() " />
+		<column name="VER_NBR" valueNumeric="1" />
+		<column name="ROLE_ID" value="39" />
+		<column name="RSP_ID" value="KFSCNTRB720-RSP6" />			
+		<column name="ACTV_IND" value="Y" />
+	</insert>
+
+	<insert tableName="KRIM_ROLE_RSP_ACTN_T"> 
+		<column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB720-RLRSPACT6" />
+		<column name="OBJ_ID" value="SYS_GUID() " />
+		<column name="VER_NBR" valueNumeric="1" />
+		<column name="ACTN_TYP_CD" value="A" />
+		<column name="PRIORITY_NBR" value="null" />			
+		<column name="ACTN_PLCY_CD" value="A" />		
+		<column name="ROLE_MBR_ID" value="*" />		
+		<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP6" />		
+		<column name="FRC_ACTN" value="Y" />
+	</insert>
+
+		<modifySql dbms='mysql'>
+	      <replace replace="SYS_GUID()" with="UUID()" />
+	    </modifySql>
+	</changeSet>					
 </databaseChangeLog>

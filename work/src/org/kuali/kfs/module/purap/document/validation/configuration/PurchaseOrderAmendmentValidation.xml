@@ -25,7 +25,8 @@
   
   	<bean id="PurchaseOrderAmendment-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
   		<property name="validations">
-  			<list>  				
+  			<list>  
+  			    <bean parent="PurchaseOrderAmendment-docEdit-validation" scope="prototype"/>				
   				<bean parent="PurchaseOrderAmendment-newProcessItemValidation-parentBean" scope="prototype">								
 					<property name="quitOnFail" value="false" />
 				</bean>  	
@@ -124,6 +125,11 @@
   			</list>
   		</property>
   	</bean>
+  	
+  	<bean id="PurchaseOrderAmendment-docEdit-validation" class="org.kuali.kfs.module.purap.document.validation.PurchaseOrderAmendmentEditValidation"
+										scope="prototype" >
+		<property name="quitOnFail" value="true" />
+	</bean>
   
     <!-- Add Accounting Line Event -->
 	<bean id="PurchaseOrderAmendment-addAccountingLineValidation" parent="PurchaseOrderAmendment-addAccountingLineValidation-parentBean" scope="prototype" />

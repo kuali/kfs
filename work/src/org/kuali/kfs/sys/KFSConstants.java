@@ -38,8 +38,6 @@ public class KFSConstants {
 
     public static final String KFS_CORE_SERVICE_NAMESPACE = "http://kfs.kuali.org/core/v5_0";
 
-    public static final String KFS_CORE_DISTRIBUTED_CACHE_MANAGER = "kfs.core.DistributedCacheManager";
-
     @Deprecated // Please switch all references to KFSConstants.CoreModuleNamespaces
     public static class ParameterNamespaces {
         public static final String KFS = "KFS-SYS";
@@ -1320,13 +1318,13 @@ public class KFSConstants {
     public static final String YEAR_END_ACCOUNTING_PERIOD_EDIT_DOCUMENT_ACTION = "AccountingPeriodEditAction";
     public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION = "AccountingPeriodViewAction";
     // CSU 6702 END
-    
+
     public static final String ACCOUNTING_PERIOD_TAB_ID = "Accounting Period";
-    
+
     public static final String BUDGET_REALLOCATION_LABEL = "Budget Reallocation";
     public static final String YEAR_END_BUDGET_ADJUSTMENT_LABEL = "Year End Budget Adjustment";
-    
+
     public static final String OVERRIDE_ACCOUNT_FOR_EXPIRED_QUESTION_ID = "OverrideAccountForExpiredQuestion";
-    
+
 }
 

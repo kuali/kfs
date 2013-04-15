@@ -167,7 +167,7 @@ public class TaxableRamificationNotificationServiceImpl implements TaxableRamifi
      * get the Campus Travel Email Address from an application parameter
      */
     protected String getCampusTravelEmailAddress() {
-        return this.getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.CAMPUS_TRAVEL_EMAIL_ADDRESS);
+        return this.getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.TRAVEL_EMAIL_ADDRESS);
     }
 
     /**

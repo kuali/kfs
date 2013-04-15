@@ -186,7 +186,7 @@ public class TemConstants {
 
         public static final String SEND_NOTIFICATION_DOCUMENT_TYPES = "SEND_NOTIFICATION_DOCUMENT_TYPES";
 
-        public static final String CAMPUS_TRAVEL_EMAIL_ADDRESS = "CAMPUS_TRAVEL_EMAIL_ADDRESS";
+        public static final String TRAVEL_EMAIL_ADDRESS = "TRAVEL_EMAIL_ADDRESS";
         public static final String SEND_NOTIFICATION_ON_WORKFLOW_STATUS_CHANGE_IND = "SEND_NOTIFICATION_ON_WORKFLOW_STATUS_CHANGE_IND";
         public static final String CHANGE_NOTIFICATION_SUBJECT = "CHANGE_NOTIFICATION_SUBJECT";
         public static final String FROM_EMAIL_ADDRESS_PARAM_NAME = "FROM_EMAIL_ADDRESS";

@@ -26,6 +26,22 @@
             <type>SearchableAttribute</type>
             <applicationId>KFS</applicationId>
         </ruleAttribute>
+        <ruleAttribute>
+        	<name>TemSecurityAttribute</name>
+        	<className>org.kuali.kfs.module.tem.document.workflow.TEMSecurityAttribute</className>
+        	<label>Travel &amp; Entertainment Security Attribute</label>
+        	<description>Hides from document search unless user is allowed to open document according to KIM</description>
+        	<type>DocumentSecurityAttribute</type>
+        	<applicationId>KFS</applicationId>
+        </ruleAttribute>
+        <ruleAttribute>
+        	<name>TravelAuthorizationDocumentSecurityAttribute</name>
+        	<className>org.kuali.kfs.module.tem.document.workflow.TravelAuthorizationDocumentSecurityAttribute</className>
+        	<label>Travel Authorization Security Attribute</label>
+        	<description>Hides travel authorization documents unless user is an arranger.</description>
+        	<type>DocumentSecurityAttribute</type>
+        	<applicationId>KFS</applicationId>
+        </ruleAttribute>
     </ruleAttributes>
 	<documentTypes xmlns="ns:workflow/DocumentType"
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
@@ -46,9 +62,9 @@
 			<active>
 				true
             </active>
-            <!-- security>
-                <securityAttribute class="org.kuali.kfs.module.tem.document.workflow.TravelAuthorizationDocumentSecurityAttribute"/>
-            </security-->
+            <security>
+                <securityAttribute name="TravelAuthorizationDocumentSecurityAttribute"/>
+            </security>
 			<routingVersion>
 				2
             </routingVersion>
@@ -354,9 +370,9 @@
             <active>
                 true
             </active>
-            <!-- security>
-                <securityAttribute class="org.kuali.kfs.module.tem.document.workflow.TEMSecurityAttribute"/>
-            </security-->
+            <security>
+                <securityAttribute name="TemSecurityAttribute"/>
+            </security>
             <routingVersion>
                 2
             </routingVersion>
@@ -697,9 +713,9 @@
             <active>
                 true
             </active>
-            <!-- security>
-                <securityAttribute class="org.kuali.kfs.module.tem.document.workflow.TEMSecurityAttribute"/>
-            </security-->
+            <security>
+                <securityAttribute name="TemSecurityAttribute"/>
+            </security>
             <routingVersion>
                 2
             </routingVersion>
@@ -948,9 +964,9 @@
             <active>
                 true
             </active>
-            <!-- security>
-                <securityAttribute class="org.kuali.kfs.module.tem.document.workflow.TEMSecurityAttribute"/>
-            </security-->
+            <security>
+                <securityAttribute name="TemSecurityAttribute"/>
+            </security>
             <routingVersion>
                 2
             </routingVersion>

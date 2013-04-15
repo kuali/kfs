@@ -1,9 +1,5 @@
 dv_pmt_reas_cd|obj_id|ver_nbr|dv_pmt_reas_nm|dv_pmt_reas_desc|dv_pmt_reas_actv_ind|
-1|BD96AA2416685898E040540A5EFD3A74|1.0|Travel Advances|Used for Travel Advances|Y|
-2|BD96AA2416655898E040540A5EFD3A74|1.0|Default Refund Payment|Used for Travel Reimbursements.|Y|
 3|BD96AA2416645898E040540A5EFD3A74|1.0|Travel Vendor Payments|Used to make payments to the vendor|Y|
-4|BD96AA2416635898E040540A5EFD3A74|1.0|Entertainment Reimbursments|used by Travel Managers|Y|
-5|BD96AA2416665898E040540A5EFD3A74|1.0|Moving And Relocation Reimbursements|Used for Moving and Relocation Reimbursements|Y|
 6|BD96AA2416675898E040540A5EFD3A74|1.0|Corporate Card Bank Payment|Used to make payments to corporate card bank|Y|
 A|190BB72869E20028E043814FD8810028|1.0|Prize and/or Award|Payments made for Prizes and Awards must be made to Non-employees only.  Awards may not include personal services, contest winnings, and scholarship or fellowship payments.  These payments are generally for punitive damages and/or settlements.  You must enter the fair market value of merchandise that has been won.  For payments of Prizes and Awards to University Employees, please contact University Payroll.|Y|
 B|190BB72869E30028E043814FD8810028|1.0|Reimbursement for Out of Pocket Expense|Reimbursement for Out of Pocket Expenses may be made to University employees.  These reimbursements are paid to an individual who incurs out-of-pocket expenses on behalf of their departmental business operations due to an emergency.  This payment reason may not be used in lieu of the procurement process.  A reimbursement should not exceed a total of $500.00.  No travel, meals, or personal service payments may be made using this payment reason.|Y|

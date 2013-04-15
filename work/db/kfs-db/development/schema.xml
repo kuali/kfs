@@ -15107,6 +15107,7 @@
         <column name="NUMBER_ATTENDEES" size="22" type="DECIMAL"/>
         <column name="FDOC_NXT_EXP_NBR" size="7" type="DECIMAL"/>
         <column default="0" name="EXP_LMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>        
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_ENT_DOC_T_TR1">
@@ -15121,6 +15122,9 @@
         <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_ENT_DOC_T_TR4">
             <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
+        <foreign-key foreignTable="FP_BANK_T" name="TEM_ENT_DOC_TR5">
+		    <reference foreign="BNK_CD" local="FDOC_BNK_CD"/>
+		</foreign-key>
         <unique name="TEM_ENT_DOC_T_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -15539,6 +15543,7 @@
         <column name="TITLE_CD" size="255" type="VARCHAR"/>
         <column name="COMMENTS" size="255" type="VARCHAR"/>
         <column name="FDOC_NXT_EXP_NBR" size="7" type="DECIMAL"/>
+        <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_RELO_DOC_T_TR1">
@@ -15556,6 +15561,9 @@
         <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_RELO_DOC_T_TR5">
             <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
+        <foreign-key foreignTable="FP_BANK_T" name="TEM_RELO_DOC_TR6">
+		    <reference foreign="BNK_CD" local="FDOC_BNK_CD"/>
+		</foreign-key>
         <unique name="TEM_RELO_DOC_T_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -15894,6 +15902,7 @@
         <column name="RGN_FAMIL" size="255" type="VARCHAR"/>
         <column name="CTZN_CNTRY_CD" size="255" type="VARCHAR"/>
         <column name="FDOC_NXT_EXP_NBR" size="7" type="DECIMAL"/>
+        <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_DOC_T_TR1">
@@ -15905,6 +15914,9 @@
         <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_TRVL_AUTH_DOC_T_TR3">
             <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
+        <foreign-key foreignTable="FP_BANK_T" name="TEM_TRVL_AUTH_DOC_TR4">
+		    <reference foreign="BNK_CD" local="FDOC_BNK_CD"/>
+		</foreign-key>
         <unique name="TEM_TRVL_AUTH_DOC_T_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -15984,6 +15996,7 @@
         <column name="DELINQUENT_TR_EXCEPTION" size="1" type="VARCHAR"/>
         <column name="FDOC_NXT_EXP_NBR" size="7" type="DECIMAL"/>
         <column default="0" name="TVL_ADV_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_REIMB_DOC_T_TR1">
@@ -15995,6 +16008,9 @@
         <foreign-key foreignTable="TEM_PER_DIEM_T" name="TEM_TRVL_REIMB_DOC_T_TR3">
             <reference foreign="ID" local="PRIMARY_DEST_ID"/>
         </foreign-key>
+        <foreign-key foreignTable="FP_BANK_T" name="TEM_TRVL_REIMB_DOC_T_TR4">
+		    <reference foreign="BNK_CD" local="FDOC_BNK_CD"/>
+		</foreign-key>
         <unique name="TEM_TRVL_REIMB_DOC_T_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

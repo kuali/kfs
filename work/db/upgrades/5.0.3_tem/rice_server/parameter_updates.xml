@@ -1,0 +1,17 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+	
+	<changeSet author="KFSTEM" id="KFSMI-8897">
+		<comment>Update parameters to allow the Travel and Entertainment Module payment documents to have banks associated.</comment>
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL" value="DV;PREQ;CM;CTRL;TA;TR;RELO;ENT" />
+			<where>NMSPC_CD='KFS-SYS' AND CMPNT_CD = 'Bank' AND PARM_NM='BANK_CODE_DOCUMENT_TYPES' AND APPL_ID = 'KFS'</where>
+		</update>
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL" value="DV=TEST;ND=TEST;AD=TEST;CMD=TEST;PREQ=TEST;CM=TEST;CTRL=TEST;CCR=TEST;TA=TEST;TR=TEST;RELO=TEST;ENT=TEST" />
+			<where>NMSPC_CD='KFS-SYS' AND CMPNT_CD = 'Bank' AND PARM_NM='DEFAULT_BANK_BY_DOCUMENT_TYPE' AND APPL_ID = 'KFS'</where>
+		</update>
+	</changeSet>
+	
+</databaseChangeLog>

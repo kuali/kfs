@@ -82,6 +82,7 @@ import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.GroupTravelerComparator;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -131,12 +132,14 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     private KualiDecimal expenseLimit;
     private String mealWithoutLodgingReason;
     private String dummyAppDocStatus;
+    private String financialDocumentBankCode;
 
     // Traveler section
     private Integer temProfileId;
     private TEMProfile temProfile;
     private Integer travelerDetailId;
     private TravelerDetail traveler;
+    private Bank bank;
 
     protected List<SpecialCircumstances> specialCircumstances = new ArrayList<SpecialCircumstances>();
     protected List<GroupTraveler> groupTravelers = new ArrayList<GroupTraveler>();
@@ -1732,6 +1735,36 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         }
 
         return false;
+    }
+
+    /**
+     * @return the bank code which payments made to reimburse this document will be drawn from
+     */
+    public String getFinancialDocumentBankCode() {
+        return financialDocumentBankCode;
+    }
+
+    /**
+     * Sets the bank code which payments made to reimburse this document will be drawn from
+     * @param financialDocumentBankCode the bank code which payments made to reimburse this document will be drawn from
+     */
+    public void setFinancialDocumentBankCode(String financialDocumentBankCode) {
+        this.financialDocumentBankCode = financialDocumentBankCode;
+    }
+
+    /**
+     * @return the full bank business object for the bank from which payments made to reimburse this document will be drawn
+     */
+    public Bank getBank() {
+        return bank;
+    }
+
+    /**
+     * Sets the full bank business object for the bank from which payments made to reimburse this document will be drawn
+     * @param bank the full bank business object for the bank from which payments made to reimburse this document will be drawn
+     */
+    public void setBank(Bank bank) {
+        this.bank = bank;
     }
 
     /**

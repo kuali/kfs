@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,8 +30,8 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
-import org.kuali.kfs.module.purap.util.PurApObjectUtils;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.util.ObjectPopulationUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -54,7 +54,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
     /**
      * preq item constructor - Delegate
-     * 
+     *
      * @param poi - purchase order item
      * @param preq - payment request document
      */
@@ -64,7 +64,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
     /**
      * Constructs a new payment request item, but also merges expired accounts.
-     * 
+     *
      * @param poi - purchase order item
      * @param preq - payment request document
      * @param expiredOrClosedAccountList - list of expired or closed accounts to merge
@@ -72,12 +72,12 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     public PaymentRequestItem(PurchaseOrderItem poi, PaymentRequestDocument preq, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
 
         // copy base attributes w/ extra array of fields not to be copied
-        PurApObjectUtils.populateFromBaseClass(PurApItemBase.class, poi, this, PurapConstants.PREQ_ITEM_UNCOPYABLE_FIELDS);
-        
+        ObjectPopulationUtils.populateFromBaseClass(PurApItemBase.class, poi, this, PurapConstants.PREQ_ITEM_UNCOPYABLE_FIELDS);
+
         setItemDescription(poi.getItemDescription());
-        
-        //New Source Line should be set for PaymentRequestItem 
-        resetAccount();                
+
+        //New Source Line should be set for PaymentRequestItem
+        resetAccount();
 
         // set up accounts
         List accounts = new ArrayList();
@@ -86,20 +86,20 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
             // check if this account is expired/closed and replace as needed
             SpringContext.getBean(AccountsPayableService.class).processExpiredOrClosedAccount(poa, expiredOrClosedAccountList);
-            
+
             //KFSMI-4522 copy an accounting line with zero dollar amount if system parameter allows
             if (poa.getAmount().isZero()) {
                 if (SpringContext.getBean(AccountsPayableService.class).canCopyAccountingLinesWithZeroAmount()) {
-                    accounts.add(new PaymentRequestAccount(this, poa));    
+                    accounts.add(new PaymentRequestAccount(this, poa));
                 }
             } else {
                 accounts.add(new PaymentRequestAccount(this, poa));
             }
         }
-        
+
         this.setSourceAccountingLines(accounts);
         this.getUseTaxItems().clear();
-        //List<PurApItemUseTax> newUseTaxItems = new ArrayList<PurApItemUseTax>(); 
+        //List<PurApItemUseTax> newUseTaxItems = new ArrayList<PurApItemUseTax>();
        /// this.setUseTaxItems(newUseTaxItems);
         //copy use tax items over, and blank out keys (useTaxId and itemIdentifier)
         /*
@@ -110,7 +110,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
         }
         */
-        
+
         // clear amount and desc on below the line - we probably don't need that null
         // itemType check but it's there just in case remove if it causes problems
         // also do this if of type service
@@ -118,11 +118,11 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             // setting unit price to be null to be more consistent with other below the line
             this.setItemUnitPrice(null);
         }
-        
+
         // copy custom
         this.purchaseOrderItemUnitPrice = poi.getItemUnitPrice();
 //        this.purchaseOrderCommodityCode = poi.getPurchaseOrderCommodityCd();
-        
+
         // set doc fields
         this.setPurapDocumentIdentifier(preq.getPurapDocumentIdentifier());
         this.setPurapDocument(preq);
@@ -131,9 +131,10 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     /**
      * Retrieves a purchase order item by inspecting the item type to see if its above the line or below the line and returns the
      * appropriate type.
-     * 
+     *
      * @return - purchase order item
      */
+    @Override
     public PurchaseOrderItem getPurchaseOrderItem() {
         if (ObjectUtils.isNotNull(this.getPurapDocumentIdentifier())) {
             if (ObjectUtils.isNull(this.getPaymentRequest())) {
@@ -176,7 +177,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             throw new PurError("Payment Request Object in Purchase Order item line number " + getItemLineNumber() + "or itemType " + getItemTypeCode() + " is null");
         }
     }
-       
+
     public KualiDecimal getPoOutstandingAmount() {
         PurchaseOrderItem poi = getPurchaseOrderItem();
         if(ObjectUtils.isNull(this.getPurchaseOrderItemUnitPrice()) || KualiDecimal.ZERO.equals(this.getPurchaseOrderItemUnitPrice())){
@@ -210,6 +211,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
      * @deprecated
      * @param amount - po outstanding amount
      */
+    @Deprecated
     public void setPoOutstandingAmount(KualiDecimal amount) {
         // do nothing
     }
@@ -234,6 +236,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
      * @deprecated
      * @param amount - po outstanding quantity
      */
+    @Deprecated
     public void setPoOutstandingQuantity(KualiDecimal qty) {
         // do nothing
     }
@@ -241,11 +244,11 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     public BigDecimal getPurchaseOrderItemUnitPrice() {
         return purchaseOrderItemUnitPrice;
     }
-    
+
     public BigDecimal getOriginalAmountfromPO() {
         return purchaseOrderItemUnitPrice;
     }
-    
+
     public void setOriginalAmountfromPO(BigDecimal purchaseOrderItemUnitPrice) {
         // Do nothing
     }
@@ -295,6 +298,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     /**
      * @see org.kuali.kfs.module.purap.businessobject.PurApItem#getAccountingLineClass()
      */
+    @Override
     public Class getAccountingLineClass() {
         return PaymentRequestAccount.class;
     }
@@ -344,7 +348,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
     /**
      * sets account line percentage to zero.
-     * 
+     *
      * @see org.kuali.kfs.module.purap.businessobject.PurApItem#resetAccount()
      */
     @Override
@@ -377,6 +381,6 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     public Class getUseTaxClass() {
         return PaymentRequestItemUseTax.class;
     }
-    
-    
+
+
 }

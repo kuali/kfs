@@ -29,6 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -41,7 +42,6 @@ import org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
-import org.kuali.kfs.module.purap.util.PurApObjectUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
@@ -71,6 +71,7 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.util.ObjectPopulationUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -140,169 +141,165 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
      * @param advances
      * @param amount
      */
-    private void createCustomerInvoiceFromAdvances(TravelAuthorizationDocument travelAuthorizationDocument, List<TravelAdvance> advances, KualiDecimal amount) {
+    private void createCustomerInvoiceFromAdvances(final TravelAuthorizationDocument travelAuthorizationDocument, final List<TravelAdvance> advances, final KualiDecimal amount) {
 
-        int numDaysDue = Integer.parseInt(parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DUE_DATE_DAYS));
-        String invoiceItemCode = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_INVOICE_ITEM_CODE);
-        String processingOrgCode = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_ORGANIZATION);
-        String processingChartCode = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_CHART);
-
-        // store this so we can reset after we're finished
-        UserSession originalUser = GlobalVariables.getUserSession();
-
-        UserSession tempUser = new UserSession(KFSConstants.SYSTEM_USER);
-
-        // setting to initiator
-        GlobalVariables.setUserSession(tempUser);
-
-        // need to refactor this so the customer id is stored on the doc, not in travel advances
-        Calendar cal = Calendar.getInstance();
-        String customerNumber = travelAuthorizationDocument.getTraveler().getCustomerNumber();
-        String orgInvoiceNumber = travelAuthorizationDocument.getTravelDocumentIdentifier();
-        java.util.Date billingDate = dateTimeService.getCurrentDate();
-        cal.setTime(travelAuthorizationDocument.getTripEnd());
-        cal.add(Calendar.DATE, numDaysDue);
-        java.util.Date dueDate = cal.getTime();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-
-        AccountsReceivableCustomerInvoice customerInvoiceDocument = accountsReceivableModuleService.createCustomerInvoiceDocument();
-        LOG.info("Created customer invoice document " + customerInvoiceDocument.getDocumentNumber());
-
-        setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument, processingChartCode, processingOrgCode);
-
-        customerInvoiceDocument.getDocumentHeader().setOrganizationDocumentNumber(travelAuthorizationDocument.getTravelDocumentIdentifier() + "");
-        customerInvoiceDocument.getDocumentHeader().setDocumentDescription("Travel Advance - " + travelAuthorizationDocument.getTravelDocumentIdentifier() + " - " + travelAuthorizationDocument.getTraveler().getFirstName() + " " + travelAuthorizationDocument.getTraveler().getLastName());
-        // KUALITEM-490 fix. I would have thought that perhaps the CustomerInvoiceDocument would have provided a max length for the
-        // CustomerInvoiceDocument-invoiceHeaderText
-        if (customerInvoiceDocument.getDocumentHeader().getDocumentDescription().length() >= 40) {
-            String truncatedDocumentDescription = customerInvoiceDocument.getDocumentHeader().getDocumentDescription().substring(0, 39);
-            customerInvoiceDocument.getDocumentHeader().setDocumentDescription(truncatedDocumentDescription);
-        }
-        customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
-        customerInvoiceDocument.setBillingDate(new java.sql.Date(billingDate.getTime()));
-        customerInvoiceDocument.setInvoiceDueDate(new java.sql.Date(dueDate.getTime()));
-        customerInvoiceDocument.setOrganizationInvoiceNumber(orgInvoiceNumber.toString());
-        customerInvoiceDocument.setPaymentChartOfAccountsCode(processingChartCode);
-        customerInvoiceDocument.setPaymentOrganizationReferenceIdentifier(processingOrgCode);
-
-        //Make sure the address from the TA is a customer address for the Invoice that is getting created
-        AccountsReceivableCustomerAddress customerBillToAddress = null;
-        TravelerDetail traveler = travelAuthorizationDocument.getTraveler();
-        TEMProfile profile = travelAuthorizationDocument.getTemProfile();
-        if (profile == null){
-        	//Get the TEM Profile associated with this TA
-        	profile = temProfileService.findTemProfileById(travelAuthorizationDocument.getTemProfileId());
-        }
-        AccountsReceivableCustomer customer = profile.getCustomer();
-
-        //Compare the address from the TA to the addresses for this customer to see if it already exists
-        for(AccountsReceivableCustomerAddress address: customer.getAccountsReceivableCustomerAddresses()) {
-    		if (!compareAddress(address, traveler)) {
-    			//Address found
-            	customerBillToAddress = address;
-            	break;
-            }
-    	}
-
-        if (customerBillToAddress == null){
-        	//This address from the TA was not found as a customer address so create a new one for this customer
-        	customerBillToAddress = accountsReceivableModuleService.createCustomerAddress();
-        	customerBillToAddress.setCustomerAddressTypeCodeAsAlternate();
-
-        	//Customer's name as the customer address name
-        	String tempName = profile.getFirstName() + " " + (StringUtils.isEmpty(profile.getMiddleName()) ? "" : profile.getMiddleName() + " ") + profile.getLastName();
-            if (tempName.length() > 40){
-                tempName = profile.getFirstName() + " " + profile.getLastName();
-                while (tempName.length() > 40){
-                    tempName = tempName.substring(0, tempName.length()-1);
-                }
-            }
-
-            //Set all the fields for the new address
-        	customerBillToAddress.setCustomerAddressName(tempName);
-        	customer.setCustomerAddressChangeDate(dateTimeService.getCurrentSqlDate());
-            customerBillToAddress.setCustomerLine1StreetAddress(StringUtils.isNotEmpty(traveler.getStreetAddressLine1()) ? traveler.getStreetAddressLine1().toUpperCase() : "");
-            customerBillToAddress.setCustomerLine2StreetAddress(StringUtils.isNotEmpty(traveler.getStreetAddressLine2()) ? traveler.getStreetAddressLine2().toUpperCase() : "");
-            customerBillToAddress.setCustomerCityName(StringUtils.isNotEmpty(traveler.getCityName()) ? traveler.getCityName().toUpperCase() : "");
-            customerBillToAddress.setCustomerStateCode(StringUtils.isNotEmpty(traveler.getStateCode()) ? traveler.getStateCode().toUpperCase() : "");
-            customerBillToAddress.setCustomerZipCode(traveler.getZipCode());
-            customerBillToAddress.setCustomerCountryCode(StringUtils.isNotEmpty(traveler.getCountryCode()) ? traveler.getCountryCode().toUpperCase() : "");
-            customerBillToAddress.setCustomerEmailAddress(StringUtils.isNotEmpty(traveler.getEmailAddress()) ? traveler.getEmailAddress().toUpperCase() : "");
-
-            //Add the new address to the customer and save
-            List<AccountsReceivableCustomerAddress> customerAddresses = customer.getAccountsReceivableCustomerAddresses();
-            customerAddresses.add(customerBillToAddress);
-            customer.setAccountsReceivableCustomerAddresses(customerAddresses);
-            accountsReceivableModuleService.saveCustomer(customer);
-        }
-
-        customerBillToAddress.refresh();
-
-        customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
-        customerInvoiceDocument.setCustomerBillToAddressIdentifier(customerBillToAddress.getCustomerAddressIdentifier());
-        customerInvoiceDocument.setBillingAddressTypeCodeAsPrimary();
-        customerInvoiceDocument.setBillingAddressName(customerBillToAddress.getAccountsReceivableCustomer().getCustomerName());
-        customerInvoiceDocument.setBillingLine1StreetAddress(customerBillToAddress.getCustomerLine1StreetAddress());
-        customerInvoiceDocument.setBillingLine2StreetAddress(customerBillToAddress.getCustomerLine2StreetAddress());
-        customerInvoiceDocument.setBillingCityName(customerBillToAddress.getCustomerCityName());
-        customerInvoiceDocument.setBillingStateCode(customerBillToAddress.getCustomerStateCode());
-        customerInvoiceDocument.setBillingZipCode(customerBillToAddress.getCustomerZipCode());
-        customerInvoiceDocument.setBillingCountryCode(customerBillToAddress.getCustomerCountryCode());
-        customerInvoiceDocument.setBillingAddressInternationalProvinceName(customerBillToAddress.getCustomerAddressInternationalProvinceName());
-        customerInvoiceDocument.setBillingInternationalMailCode(customerBillToAddress.getCustomerInternationalMailCode());
-        customerInvoiceDocument.setBillingEmailAddress(customerBillToAddress.getCustomerEmailAddress());
+        final int numDaysDue = Integer.parseInt(parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DUE_DATE_DAYS));
+        final String invoiceItemCode = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_INVOICE_ITEM_CODE);
+        final String processingOrgCode = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_ORGANIZATION);
+        final String processingChartCode = parameterService.getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_CHART);
 
         try {
-            LOG.info("Saving customer invoice document " + customerInvoiceDocument.getDocumentNumber());
-            // getDocumentService().saveDocument(customerInvoiceDocument);
-            for (TravelAdvance adv : advances) {
-                if (StringUtils.isEmpty(adv.getArInvoiceDocNumber())) {
-                    AccountsReceivableCustomerInvoiceDetail detail = createInvoiceDetailFromAdvance(adv, customerInvoiceDocument.getDocumentNumber(), invoiceItemCode, processingOrgCode, processingChartCode);
-                    addInvoiceDetailToDocument(detail, customerInvoiceDocument);
+            GlobalVariables.doInNewGlobalVariables(new UserSession(KFSConstants.SYSTEM_USER), new Callable<Object>() {
+
+                @Override
+                public Object call() {
+                    // need to refactor this so the customer id is stored on the doc, not in travel advances
+                    Calendar cal = Calendar.getInstance();
+                    String customerNumber = travelAuthorizationDocument.getTraveler().getCustomerNumber();
+                    String orgInvoiceNumber = travelAuthorizationDocument.getTravelDocumentIdentifier();
+                    java.util.Date billingDate = dateTimeService.getCurrentDate();
+                    cal.setTime(travelAuthorizationDocument.getTripEnd());
+                    cal.add(Calendar.DATE, numDaysDue);
+                    java.util.Date dueDate = cal.getTime();
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+
+                    AccountsReceivableCustomerInvoice customerInvoiceDocument = accountsReceivableModuleService.createCustomerInvoiceDocument();
+                    LOG.info("Created customer invoice document " + customerInvoiceDocument.getDocumentNumber());
+
+                    setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument, processingChartCode, processingOrgCode);
+
+                    customerInvoiceDocument.getDocumentHeader().setOrganizationDocumentNumber(travelAuthorizationDocument.getTravelDocumentIdentifier() + "");
+                    customerInvoiceDocument.getDocumentHeader().setDocumentDescription("Travel Advance - " + travelAuthorizationDocument.getTravelDocumentIdentifier() + " - " + travelAuthorizationDocument.getTraveler().getFirstName() + " " + travelAuthorizationDocument.getTraveler().getLastName());
+                    // KUALITEM-490 fix. I would have thought that perhaps the CustomerInvoiceDocument would have provided a max length for the
+                    // CustomerInvoiceDocument-invoiceHeaderText
+                    if (customerInvoiceDocument.getDocumentHeader().getDocumentDescription().length() >= 40) {
+                        String truncatedDocumentDescription = customerInvoiceDocument.getDocumentHeader().getDocumentDescription().substring(0, 39);
+                        customerInvoiceDocument.getDocumentHeader().setDocumentDescription(truncatedDocumentDescription);
+                    }
+                    customerInvoiceDocument.getAccountsReceivableDocumentHeader().setCustomerNumber(customerNumber);
+                    customerInvoiceDocument.setBillingDate(new java.sql.Date(billingDate.getTime()));
+                    customerInvoiceDocument.setInvoiceDueDate(new java.sql.Date(dueDate.getTime()));
+                    customerInvoiceDocument.setOrganizationInvoiceNumber(orgInvoiceNumber.toString());
+                    customerInvoiceDocument.setPaymentChartOfAccountsCode(processingChartCode);
+                    customerInvoiceDocument.setPaymentOrganizationReferenceIdentifier(processingOrgCode);
+
+                    //Make sure the address from the TA is a customer address for the Invoice that is getting created
+                    AccountsReceivableCustomerAddress customerBillToAddress = null;
+                    TravelerDetail traveler = travelAuthorizationDocument.getTraveler();
+                    TEMProfile profile = travelAuthorizationDocument.getTemProfile();
+                    if (profile == null){
+                        //Get the TEM Profile associated with this TA
+                        profile = temProfileService.findTemProfileById(travelAuthorizationDocument.getTemProfileId());
+                    }
+                    AccountsReceivableCustomer customer = profile.getCustomer();
+
+                    //Compare the address from the TA to the addresses for this customer to see if it already exists
+                    for(AccountsReceivableCustomerAddress address: customer.getAccountsReceivableCustomerAddresses()) {
+                        if (!compareAddress(address, traveler)) {
+                            //Address found
+                            customerBillToAddress = address;
+                            break;
+                        }
+                    }
+
+                    if (customerBillToAddress == null){
+                        //This address from the TA was not found as a customer address so create a new one for this customer
+                        customerBillToAddress = accountsReceivableModuleService.createCustomerAddress();
+                        customerBillToAddress.setCustomerAddressTypeCodeAsAlternate();
+
+                        //Customer's name as the customer address name
+                        String tempName = profile.getFirstName() + " " + (StringUtils.isEmpty(profile.getMiddleName()) ? "" : profile.getMiddleName() + " ") + profile.getLastName();
+                        if (tempName.length() > 40){
+                            tempName = profile.getFirstName() + " " + profile.getLastName();
+                            while (tempName.length() > 40){
+                                tempName = tempName.substring(0, tempName.length()-1);
+                            }
+                        }
+
+                        //Set all the fields for the new address
+                        customerBillToAddress.setCustomerAddressName(tempName);
+                        customer.setCustomerAddressChangeDate(dateTimeService.getCurrentSqlDate());
+                        customerBillToAddress.setCustomerLine1StreetAddress(StringUtils.isNotEmpty(traveler.getStreetAddressLine1()) ? traveler.getStreetAddressLine1().toUpperCase() : "");
+                        customerBillToAddress.setCustomerLine2StreetAddress(StringUtils.isNotEmpty(traveler.getStreetAddressLine2()) ? traveler.getStreetAddressLine2().toUpperCase() : "");
+                        customerBillToAddress.setCustomerCityName(StringUtils.isNotEmpty(traveler.getCityName()) ? traveler.getCityName().toUpperCase() : "");
+                        customerBillToAddress.setCustomerStateCode(StringUtils.isNotEmpty(traveler.getStateCode()) ? traveler.getStateCode().toUpperCase() : "");
+                        customerBillToAddress.setCustomerZipCode(traveler.getZipCode());
+                        customerBillToAddress.setCustomerCountryCode(StringUtils.isNotEmpty(traveler.getCountryCode()) ? traveler.getCountryCode().toUpperCase() : "");
+                        customerBillToAddress.setCustomerEmailAddress(StringUtils.isNotEmpty(traveler.getEmailAddress()) ? traveler.getEmailAddress().toUpperCase() : "");
+
+                        //Add the new address to the customer and save
+                        List<AccountsReceivableCustomerAddress> customerAddresses = customer.getAccountsReceivableCustomerAddresses();
+                        customerAddresses.add(customerBillToAddress);
+                        customer.setAccountsReceivableCustomerAddresses(customerAddresses);
+                        accountsReceivableModuleService.saveCustomer(customer);
+                    }
+
+                    customerBillToAddress.refresh();
+
+                    customerInvoiceDocument.setCustomerBillToAddress(customerBillToAddress);
+                    customerInvoiceDocument.setCustomerBillToAddressIdentifier(customerBillToAddress.getCustomerAddressIdentifier());
+                    customerInvoiceDocument.setBillingAddressTypeCodeAsPrimary();
+                    customerInvoiceDocument.setBillingAddressName(customerBillToAddress.getAccountsReceivableCustomer().getCustomerName());
+                    customerInvoiceDocument.setBillingLine1StreetAddress(customerBillToAddress.getCustomerLine1StreetAddress());
+                    customerInvoiceDocument.setBillingLine2StreetAddress(customerBillToAddress.getCustomerLine2StreetAddress());
+                    customerInvoiceDocument.setBillingCityName(customerBillToAddress.getCustomerCityName());
+                    customerInvoiceDocument.setBillingStateCode(customerBillToAddress.getCustomerStateCode());
+                    customerInvoiceDocument.setBillingZipCode(customerBillToAddress.getCustomerZipCode());
+                    customerInvoiceDocument.setBillingCountryCode(customerBillToAddress.getCustomerCountryCode());
+                    customerInvoiceDocument.setBillingAddressInternationalProvinceName(customerBillToAddress.getCustomerAddressInternationalProvinceName());
+                    customerInvoiceDocument.setBillingInternationalMailCode(customerBillToAddress.getCustomerInternationalMailCode());
+                    customerInvoiceDocument.setBillingEmailAddress(customerBillToAddress.getCustomerEmailAddress());
+
+                    try {
+                        LOG.info("Saving customer invoice document " + customerInvoiceDocument.getDocumentNumber());
+                        // getDocumentService().saveDocument(customerInvoiceDocument);
+                        for (TravelAdvance adv : advances) {
+                            if (StringUtils.isEmpty(adv.getArInvoiceDocNumber())) {
+                                AccountsReceivableCustomerInvoiceDetail detail = createInvoiceDetailFromAdvance(adv, customerInvoiceDocument.getDocumentNumber(), invoiceItemCode, processingOrgCode, processingChartCode);
+                                addInvoiceDetailToDocument(detail, customerInvoiceDocument);
+                            }
+                        }
+                        LOG.info("Saving customer invoice document after adding acctg lines " + customerInvoiceDocument.getDocumentNumber());
+                        accountsReceivableModuleService.saveCustomerInvoiceDocument(customerInvoiceDocument);
+
+                        // add relationship
+                        String relationDescription = "TA - Customer Invoice";
+                        accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(travelAuthorizationDocument.getDocumentNumber(), customerInvoiceDocument.getDocumentNumber(), relationDescription));
+
+                        //update AR Invoice Doc number to the travel advances
+                        for (TravelAdvance adv : advances) {
+                            if (StringUtils.isEmpty(adv.getArInvoiceDocNumber())) {
+                                adv.setArInvoiceDocNumber(customerInvoiceDocument.getDocumentNumber());
+                                adv.setArCustomerId(customerNumber);
+                            }
+                        }
+
+                        // route
+                        WorkflowDocument originalWorkflowDocument = customerInvoiceDocument.getDocumentHeader().getWorkflowDocument();
+                        try {
+                            WorkflowDocument newWorkflowDocument = workflowDocumentService.loadWorkflowDocument(customerInvoiceDocument.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
+                            newWorkflowDocument.setTitle(originalWorkflowDocument.getTitle());
+
+                            customerInvoiceDocument.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
+
+                            accountsReceivableModuleService.blanketApproveCustomerInvoiceDocument(customerInvoiceDocument);
+                        }
+                        finally {
+                            customerInvoiceDocument.getDocumentHeader().setWorkflowDocument(originalWorkflowDocument);
+                        }
+                        LOG.info("Submitted customer invoice document "+ customerInvoiceDocument.getDocumentNumber() + " for " + customerNumber + " - " + sdf.format(billingDate) + "\n\n");
+
+                    }
+                    catch (WorkflowException e) {
+                        throw new RuntimeException("Customer Invoice Document routing failed.");
+                    }
+                    return null;
                 }
-            }
-            LOG.info("Saving customer invoice document after adding acctg lines " + customerInvoiceDocument.getDocumentNumber());
-            accountsReceivableModuleService.saveCustomerInvoiceDocument(customerInvoiceDocument);
 
-            // add relationship
-            String relationDescription = "TA - Customer Invoice";
-            accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(travelAuthorizationDocument.getDocumentNumber(), customerInvoiceDocument.getDocumentNumber(), relationDescription));
-
-            //update AR Invoice Doc number to the travel advances
-            for (TravelAdvance adv : advances) {
-                if (StringUtils.isEmpty(adv.getArInvoiceDocNumber())) {
-                    adv.setArInvoiceDocNumber(customerInvoiceDocument.getDocumentNumber());
-                    adv.setArCustomerId(customerNumber);
-                }
-            }
-
-            // route
-        	WorkflowDocument originalWorkflowDocument = customerInvoiceDocument.getDocumentHeader().getWorkflowDocument();
-            try {
-                // original initiator may not have permission to blanket approve the INV
-                GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
-
-                WorkflowDocument newWorkflowDocument = workflowDocumentService.loadWorkflowDocument(customerInvoiceDocument.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
-                newWorkflowDocument.setTitle(originalWorkflowDocument.getTitle());
-
-                customerInvoiceDocument.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
-
-                accountsReceivableModuleService.blanketApproveCustomerInvoiceDocument(customerInvoiceDocument);
-        	}
-            finally {
-                GlobalVariables.setUserSession(originalUser);
-                customerInvoiceDocument.getDocumentHeader().setWorkflowDocument(originalWorkflowDocument);
-            }
-            LOG.info("Submitted customer invoice document "+ customerInvoiceDocument.getDocumentNumber() + " for " + customerNumber + " - " + sdf.format(billingDate) + "\n\n");
-
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException("Customer Invoice Document routing failed.");
-        }
-        finally {
-            // reset user session
-            GlobalVariables.setUserSession(originalUser);
+            });
+        } catch (Exception e) {
+            LOG.error(e.toString());
         }
 
     }
@@ -507,7 +504,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             sourceObjectClass = sourceObjectClass.getSuperclass();
             classesToExclude.add(sourceObjectClass);
         }
-        PurApObjectUtils.populateFromBaseWithSuper(sourceDocument, newTravelAuthChangeDocument, TemConstants.uncopyableFieldsForTravelAuthorization(), classesToExclude);
+        ObjectPopulationUtils.populateFromBaseWithSuper(sourceDocument, newTravelAuthChangeDocument, TemConstants.uncopyableFieldsForTravelAuthorization(), classesToExclude);
         newTravelAuthChangeDocument.getDocumentHeader().setDocumentDescription(sourceDocument.getDocumentHeader().getDocumentDescription());
         newTravelAuthChangeDocument.getDocumentHeader().setOrganizationDocumentNumber(sourceDocument.getDocumentHeader().getOrganizationDocumentNumber());
         newTravelAuthChangeDocument.getDocumentHeader().setExplanation(sourceDocument.getDocumentHeader().getExplanation());

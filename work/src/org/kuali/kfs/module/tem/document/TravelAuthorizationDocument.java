@@ -87,22 +87,11 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     private Country citizenshipCountry;
     private List<TransportationModeDetail> transportationModes = new ArrayList<TransportationModeDetail>();
 
-    private String ojbConcreteClass;
-
     /**
      * Creates a new instance of the Travel Request Document. Initializes the empty arrays as well as the line tracking numbers
      */
     public TravelAuthorizationDocument() {
         super();
-        setOjbConcreteClass(getClass().getName());
-    }
-
-    public String getOjbConcreteClass() {
-        return ojbConcreteClass;
-    }
-
-    public void setOjbConcreteClass(final String ojbConcreteClass) {
-        this.ojbConcreteClass = ojbConcreteClass;
     }
 
     public TravelAuthorizationAmendmentDocument toCopyTAA() throws WorkflowException {
@@ -410,7 +399,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
      * @param line
      */
     public void addEmergencyContactLine(TravelerDetailEmergencyContact line) {
-        if (getTraveler() != null) {
+        if (!ObjectUtils.isNull(getTraveler())) {
             line.setFinancialDocumentLineNumber(getTraveler().getEmergencyContacts().size() + 1);
             line.setDocumentNumber(this.documentNumber);
             line.setTravelerDetailId(getTraveler().getId());

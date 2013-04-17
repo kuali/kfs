@@ -2,8 +2,7 @@
 
 	 <bean id="IntraAccountAdjustmentDocument" parent="IntraAccountAdjustmentDocument-parentBean"/>
 	
-	 <bean id="IntraAccountAdjustmentDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
-	   <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.IntraAccountAdjustmentDocumentPreRule" />
+	 <bean id="IntraAccountAdjustmentDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">	   
 	   <property name="allowsErrorCorrection" value="true"/>
 	   <property name="documentTypeName" value="IAA"/>
 	   <property name="documentClass" value="org.kuali.kfs.fp.document.IntraAccountAdjustmentDocument"/>	   

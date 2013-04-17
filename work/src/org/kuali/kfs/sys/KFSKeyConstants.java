@@ -1037,8 +1037,6 @@ public class KFSKeyConstants {
     public static final class IntraAccountAdjustment {
         public static final String ERROR_NOT_BALANCED_PER_ACC_OBJECT = "error.iaa.al.not.balanced.per.acc.per.object";
         public static final String ERROR_CS_ICR_SUBACCOUNTS_NOT_ALLOWED = "error.iaa.cs.icr.subaccounts.not.allowed";
-        public static final String WARNING_NO_SUB_ACCT_SUB_OBJ_FRM_PARAM = "SUB_ACCT_SUB_OBJ_NOCHANGE_WARNING_IND";
-
     }
 
     public static final String ERROR_INVALID_INCOME_OBJCODE_SUB_FUND = "error.invalid.income.objCode.subFund";

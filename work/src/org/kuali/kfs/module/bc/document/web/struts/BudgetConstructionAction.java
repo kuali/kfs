@@ -33,10 +33,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCConstants.LockStatus;
-import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants.LockStatus;
+import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
 import org.kuali.kfs.module.bc.businessobject.BCKeyLabelPair;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAuthorizationStatus;
@@ -106,25 +106,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
-
-        // we lost the session now recover back to the selection screen
-        if (budgetConstructionForm.getMethodToCall() != null && budgetConstructionForm.getMethodToCall().equals("performLost")) {
-            Properties parameters = new Properties();
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT);
-
-            String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
-
-            return new ActionForward(lookupUrl, true);
-        }
-
-        // check for lost session and display an alert message and recovery control
-        Boolean isBCHeartBeating = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG);
-        if (isBCHeartBeating == null) {
-                budgetConstructionForm.setPickListClose(true);
-                KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
-                return mapping.findForward(KFSConstants.MAPPING_BASIC);
-
-            }
 
         // this is only used to indicate to the rules the user has clicked save or close save-yes
         // which forces tighter checks (nonZeroRequest amount) when access is cleanup mode
@@ -364,7 +345,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             Map<String, Object> primaryKey = new HashMap<String, Object>();
             primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, budgetConstructionForm.getDocId());
 
-            budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
+            budgetConstructionHeader = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
 
             // getting called from doc search?
             if (budgetConstructionForm.getMethodToCall().equalsIgnoreCase(KFSConstants.DOC_HANDLER_METHOD)){
@@ -386,7 +367,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             String subAccountNumber = budgetConstructionForm.getSubAccountNumber();
             Integer universityFiscalYear = budgetConstructionForm.getUniversityFiscalYear();
 
-            budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
+            budgetConstructionHeader = SpringContext.getBean(BudgetDocumentService.class).getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         }
 
         kualiDocumentFormBase.setDocId(budgetConstructionHeader.getDocumentNumber());
@@ -538,7 +519,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             HashMap primaryKey = new HashMap();
             primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, docForm.getDocument().getDocumentNumber());
 
-            BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
+            BudgetConstructionHeader budgetConstructionHeader = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
             if (budgetConstructionHeader != null) {
                 LockStatus lockStatus = lockService.unlockAccount(budgetConstructionHeader);
             }
@@ -1061,7 +1042,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         primaryKey.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, line.getFinancialObjectCode());
         primaryKey.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, line.getFinancialSubObjectCode());
 
-        PendingBudgetConstructionGeneralLedger dbLine = (PendingBudgetConstructionGeneralLedger) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PendingBudgetConstructionGeneralLedger.class, primaryKey);
+        PendingBudgetConstructionGeneralLedger dbLine = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PendingBudgetConstructionGeneralLedger.class, primaryKey);
         if (dbLine != null){
             line = dbLine;
             SpringContext.getBean(BudgetDocumentService.class).populatePBGLLine(line);
@@ -1526,7 +1507,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             // get a fresh header to use for lock and/or pullup
             HashMap primaryKey = new HashMap();
             primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, tForm.getDocument().getDocumentNumber());
-            BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
+            BudgetConstructionHeader budgetConstructionHeader = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
             if (budgetConstructionHeader == null) {
                 GlobalVariables.getMessageMap().putError(BCConstants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS, BCKeyConstants.ERROR_BUDGET_PULLUP_DOCUMENT, "Fatal, Document not found.");
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -1654,7 +1635,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             HashMap primaryKey = new HashMap();
             primaryKey.put(KFSPropertyConstants.DOCUMENT_NUMBER, tForm.getDocument().getDocumentNumber());
 
-            BudgetConstructionHeader budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
+            BudgetConstructionHeader budgetConstructionHeader = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
             if (budgetConstructionHeader != null) {
                 budgetConstructionHeader.setOrganizationLevelCode(Integer.parseInt(tForm.getPushdownKeyCode()));
                 if (Integer.parseInt(tForm.getPushdownKeyCode()) == 0) {
@@ -1717,7 +1698,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         Map<String,String> roleQualifiers = new HashMap<String,String>();
         roleQualifiers.put(BCPropertyConstants.ORGANIZATION_LEVEL_CODE, orgLevelCode);
 
-        List<BudgetConstructionAccountOrganizationHierarchy> accountOrganizationHierarchy = (List<BudgetConstructionAccountOrganizationHierarchy>) SpringContext.getBean(BudgetDocumentService.class).retrieveOrBuildAccountOrganizationHierarchy(document.getUniversityFiscalYear(), document.getChartOfAccountsCode(), document.getAccountNumber());
+        List<BudgetConstructionAccountOrganizationHierarchy> accountOrganizationHierarchy = SpringContext.getBean(BudgetDocumentService.class).retrieveOrBuildAccountOrganizationHierarchy(document.getUniversityFiscalYear(), document.getChartOfAccountsCode(), document.getAccountNumber());
         for (BudgetConstructionAccountOrganizationHierarchy accountOrganization : accountOrganizationHierarchy) {
             if (accountOrganization.getOrganizationLevelCode().intValue() == Integer.parseInt(orgLevelCode)) {
                 roleQualifiers.put(BCPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, accountOrganization.getOrganizationChartOfAccountsCode());

@@ -169,7 +169,6 @@ public class BCConstants {
     public static final String INCUMBENT_SALARY_SETTING_TITLE = "Salary Setting by Incumbent";
 
     public static final String LOAD_EXPANSION_SCREEN_METHOD = "loadExpansionScreen";
-    public static final String LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT = "loadExpansionScreenSessionTimeOut";
 
     public static final String REPORT_RUNNER_ACTION = "budgetReportRunner.do";
 

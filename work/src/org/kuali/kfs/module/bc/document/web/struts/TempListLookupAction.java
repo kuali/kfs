@@ -83,26 +83,6 @@ public class TempListLookupAction extends KualiLookupAction {
 
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
 
-        // we lost the session now recover back to the selection screen
-        if (tempListLookupForm.getMethodToCall() != null && tempListLookupForm.getMethodToCall().equals("performLost")) {
-            Properties parameters = new Properties();
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT);
-
-                    String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
-
-            return new ActionForward(lookupUrl, true);
-        }
-
-        // check for lost session and display an alert message and recovery control
-        // this also dumps the special incumbent and position lookups back into BC selection
-        if (tempListLookupForm.getMethodToCall() == null || tempListLookupForm.getTempListLookupMode() != BCConstants.TempListLookupMode.DEFAULT_LOOKUP_MODE) {
-            Boolean isBCHeartBeating = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG);
-            if (isBCHeartBeating == null) {
-                KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
-                return mapping.findForward(BCConstants.MAPPING_LOST_SESSION_RETURNING);
-            }
-        }
-
         return super.execute(mapping, form, request, response);
     }
 

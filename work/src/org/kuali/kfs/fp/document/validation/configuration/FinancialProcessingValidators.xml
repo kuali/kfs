@@ -396,9 +396,7 @@
 	</bean>
 	
 	<bean id="DisbursementVoucher-employeeInformationValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherEmployeeInformationValidation" abstract="true" />
-	
-	<bean id="DisbursementVoucher-foreignDraftValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherForeignDraftValidation" abstract="true" />
-	
+		
 	<bean id="DisbursementVoucher-nonEmployeeTravelCompanyValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherNonEmployeeTravelCompanyValidation" abstract="true" />
 	
 	<bean id="DisbursementVoucher-nonEmployeeTravelValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherNonEmployeeTravelValidation" abstract="true">
@@ -426,8 +424,6 @@
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 	
-	<bean id="DisbursementVoucher-wireTransferValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherWireTransferValidation" abstract="true" />
-
     <bean id="DisbursementVoucher-payeeAddressValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherPayeeAddressValidation" abstract="true" />
     
     <bean id="DisbursementVoucher-payeeStateCodeValidation" class="org.kuali.kfs.fp.document.validation.impl.DisbursementVoucherPayeeStateCodeValidation" abstract="true" />

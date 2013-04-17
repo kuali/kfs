@@ -363,10 +363,10 @@ public class KFSKeyConstants {
     public static final String ERROR_DV_SPECIAL_HANDLING_NOTE_MISSING = "error.document.specialHandlingNoteMissing";
     public static final String ERROR_DV_EXCEPTION_ATTACHED_NOTE_MISSING = "error.document.exceptionAttachedNoteMissing";
     public static final String ERROR_DV_PAYEE_SELECTION_EMPTY = "error.document.payeeSelectionEmpty";
-    public static final String ERROR_DV_CURRENCY_TYPE_CODE = "error.dv.currencyTypeCode";
-    public static final String ERROR_DV_CURRENCY_TYPE_NAME = "error.dv.currencyTypeName";
-    public static final String ERROR_DV_BANK_ROUTING_NUMBER = "error.dv.bankRoutingNumber";
-    public static final String ERROR_DV_WIRE_ATTACHMENT = "error.dv.attachmentWire";
+    public static final String ERROR_PAYMENT_SOURCE_CURRENCY_TYPE_CODE = "error.paymentSource.currencyTypeCode";
+    public static final String ERROR_PAYMENT_SOURCE_CURRENCY_TYPE_NAME = "error.paymentSource.currencyTypeName";
+    public static final String ERROR_PAYMENT_SOURCE_BANK_ROUTING_NUMBER = "error.paymentSource.bankRoutingNumber";
+    public static final String ERROR_PAYMENT_SOURCE_WIRE_ATTACHMENT = "error.paymentSource.attachmentWire";
     public static final String ERROR_DV_FEDERAL_TAX_NOT_ZERO = "error.dv.federalTaxNotZero";
     public static final String ERROR_DV_STATE_TAX_NOT_ZERO = "error.dv.stateTaxNotZero";
     public static final String ERROR_DV_GROSS_UP_INDICATOR = "error.dv.grossUpIndicator";
@@ -1031,6 +1031,6 @@ public class KFSKeyConstants {
     //capital asset information specific errors...
     public static final String ERROR_ASSET_ACCOUNT_NUMBER_LINE_NOT_IN_SOURCE_OR_TARGET_ACCOUNTING_LINES = "error.asset.accounting.lines.not.in.source.or.target.accountLines";
     public static final String ERROR_ASSET_LINE_AMOUNT_NOT_EQUAL_TO_DISTRIBUTED_ACCOUNTING_LINES = "error.asset.amount.not.equalDistributedAccountingLines";
-    
+
     public static final String QUESTION_NEED_OVERRIDE_ACCOUNT_FOR_EXPIRED = "question.need.override.account.for.expired";
 }

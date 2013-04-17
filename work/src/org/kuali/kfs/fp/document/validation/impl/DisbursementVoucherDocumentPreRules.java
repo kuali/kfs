@@ -23,7 +23,6 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
-import org.kuali.kfs.fp.businessobject.DisbursementVoucherWireTransfer;
 import org.kuali.kfs.fp.businessobject.options.PaymentReasonValuesFinder;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
@@ -32,6 +31,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.service.BankService;
@@ -210,13 +210,13 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
     protected boolean checkForeignDraftTabState(DisbursementVoucherDocument dvDocument) {
         boolean tabStatesOK = true;
 
-        DisbursementVoucherWireTransfer dvForeignDraft = dvDocument.getDvWireTransfer();
+        PaymentSourceWireTransfer dvForeignDraft = dvDocument.getWireTransfer();
 
         // if payment method is CHECK and wire tab contains data, ask user to clear tab
-        if ((StringUtils.equals(DisbursementVoucherConstants.PAYMENT_METHOD_CHECK, dvDocument.getDisbVchrPaymentMethodCode()) || StringUtils.equals(DisbursementVoucherConstants.PAYMENT_METHOD_WIRE, dvDocument.getDisbVchrPaymentMethodCode())) && hasForeignDraftValues(dvForeignDraft)) {
+        if ((StringUtils.equals(KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK, dvDocument.getDisbVchrPaymentMethodCode()) || StringUtils.equals(KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE, dvDocument.getDisbVchrPaymentMethodCode())) && hasForeignDraftValues(dvForeignDraft)) {
             String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
 
-            Object[] args = { "payment method", dvDocument.getDisbVchrPaymentMethodCode(), "Foreign Draft", DisbursementVoucherConstants.PAYMENT_METHOD_DRAFT };
+            Object[] args = { "payment method", dvDocument.getDisbVchrPaymentMethodCode(), "Foreign Draft", KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_DRAFT };
             questionText = MessageFormat.format(questionText, args);
 
             boolean clearTab = super.askOrAnalyzeYesNoQuestion(KFSConstants.DisbursementVoucherDocumentConstants.CLEAR_FOREIGN_DRAFT_TAB_QUESTION_ID, questionText);
@@ -241,12 +241,12 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      * @param dvForeignDraft disbursement foreign draft object
      * @return True if foreign draft tab contains any data in any fields.
      */
-    protected boolean hasForeignDraftValues(DisbursementVoucherWireTransfer dvForeignDraft) {
+    protected boolean hasForeignDraftValues(PaymentSourceWireTransfer dvForeignDraft) {
         boolean hasValues = false;
 
         // Checks each explicit field in the tab for user entered values
-        hasValues |= StringUtils.isNotBlank(dvForeignDraft.getDisbursementVoucherForeignCurrencyTypeCode());
-        hasValues |= StringUtils.isNotBlank(dvForeignDraft.getDisbursementVoucherForeignCurrencyTypeName());
+        hasValues |= StringUtils.isNotBlank(dvForeignDraft.getForeignCurrencyTypeCode());
+        hasValues |= StringUtils.isNotBlank(dvForeignDraft.getForeignCurrencyTypeName());
 
         return hasValues;
     }
@@ -256,9 +256,9 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
      *
      * @param dvForeignDraft disbursement foreign draft object
      */
-    protected void clearForeignDraftValues(DisbursementVoucherWireTransfer dvForeignDraft) {
-        dvForeignDraft.setDisbursementVoucherForeignCurrencyTypeCode(null);
-        dvForeignDraft.setDisbursementVoucherForeignCurrencyTypeName(null);
+    protected void clearForeignDraftValues(PaymentSourceWireTransfer dvForeignDraft) {
+        dvForeignDraft.setForeignCurrencyTypeCode(null);
+        dvForeignDraft.setForeignCurrencyTypeName(null);
     }
 
     /**
@@ -270,13 +270,13 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
     protected boolean checkWireTransferTabState(DisbursementVoucherDocument dvDocument) {
         boolean tabStatesOK = true;
 
-        DisbursementVoucherWireTransfer dvWireTransfer = dvDocument.getDvWireTransfer();
+        PaymentSourceWireTransfer dvWireTransfer = dvDocument.getWireTransfer();
 
         // if payment method is CHECK and wire tab contains data, ask user to clear tab
-        if ((StringUtils.equals(DisbursementVoucherConstants.PAYMENT_METHOD_CHECK, dvDocument.getDisbVchrPaymentMethodCode()) || StringUtils.equals(DisbursementVoucherConstants.PAYMENT_METHOD_DRAFT, dvDocument.getDisbVchrPaymentMethodCode())) && hasWireTransferValues(dvWireTransfer)) {
+        if ((StringUtils.equals(KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK, dvDocument.getDisbVchrPaymentMethodCode()) || StringUtils.equals(KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_DRAFT, dvDocument.getDisbVchrPaymentMethodCode())) && hasWireTransferValues(dvWireTransfer)) {
             String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.QUESTION_CLEAR_UNNEEDED_TAB);
 
-            Object[] args = { "payment method", dvDocument.getDisbVchrPaymentMethodCode(), "Wire Transfer", DisbursementVoucherConstants.PAYMENT_METHOD_WIRE };
+            Object[] args = { "payment method", dvDocument.getDisbVchrPaymentMethodCode(), "Wire Transfer", KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE };
             questionText = MessageFormat.format(questionText, args);
 
             boolean clearTab = super.askOrAnalyzeYesNoQuestion(KFSConstants.DisbursementVoucherDocumentConstants.CLEAR_WIRE_TRANSFER_TAB_QUESTION_ID, questionText);
@@ -329,24 +329,24 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
     /**
      * Returns true if wire transfer tab contains any data in any fields.
      *
-     * @param dvWireTransfer disbursement voucher wire transfer
+     * @param wireTransfer disbursement voucher wire transfer
      * @return true if wire transfer tab contains any data in any fields.
      */
-    protected boolean hasWireTransferValues(DisbursementVoucherWireTransfer dvWireTransfer) {
+    protected boolean hasWireTransferValues(PaymentSourceWireTransfer dvWireTransfer) {
         boolean hasValues = false;
 
         // Checks each explicit field in the tab for user entered values
-        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbursementVoucherAutomatedClearingHouseProfileNumber());
-        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbursementVoucherBankName());
-        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbVchrBankRoutingNumber());
-        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbVchrBankCityName());
-        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbVchrBankStateCode());
-        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbVchrBankCountryCode());
-        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbVchrPayeeAccountNumber());
-        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbVchrAttentionLineText());
-        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbVchrCurrencyTypeName());
-        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbVchrAdditionalWireText());
-        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getDisbursementVoucherPayeeAccountName());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getAutomatedClearingHouseProfileNumber());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getBankName());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getBankRoutingNumber());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getBankCityName());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getBankStateCode());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getBankCountryCode());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getPayeeAccountNumber());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getAttentionLineText());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getCurrencyTypeName());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getAdditionalWireText());
+        hasValues |= StringUtils.isNotBlank(dvWireTransfer.getPayeeAccountName());
 
         return hasValues;
     }
@@ -354,20 +354,20 @@ public class DisbursementVoucherDocumentPreRules extends PromptBeforeValidationB
     /**
      * This method sets all values in the passed in disbursement wire transfer object to null
      *
-     * @param dvWireTransfer
+     * @param wireTransfer
      */
-    protected void clearWireTransferValues(DisbursementVoucherWireTransfer dvWireTransfer) {
-        dvWireTransfer.setDisbursementVoucherAutomatedClearingHouseProfileNumber(null);
-        dvWireTransfer.setDisbursementVoucherBankName(null);
-        dvWireTransfer.setDisbVchrBankRoutingNumber(null);
-        dvWireTransfer.setDisbVchrBankCityName(null);
-        dvWireTransfer.setDisbVchrBankStateCode(null);
-        dvWireTransfer.setDisbVchrBankCountryCode(null);
-        dvWireTransfer.setDisbVchrPayeeAccountNumber(null);
-        dvWireTransfer.setDisbVchrAttentionLineText(null);
-        dvWireTransfer.setDisbVchrCurrencyTypeName(null);
-        dvWireTransfer.setDisbVchrAdditionalWireText(null);
-        dvWireTransfer.setDisbursementVoucherPayeeAccountName(null);
+    protected void clearWireTransferValues(PaymentSourceWireTransfer dvWireTransfer) {
+        dvWireTransfer.setAutomatedClearingHouseProfileNumber(null);
+        dvWireTransfer.setBankName(null);
+        dvWireTransfer.setBankRoutingNumber(null);
+        dvWireTransfer.setBankCityName(null);
+        dvWireTransfer.setBankStateCode(null);
+        dvWireTransfer.setBankCountryCode(null);
+        dvWireTransfer.setPayeeAccountNumber(null);
+        dvWireTransfer.setAttentionLineText(null);
+        dvWireTransfer.setCurrencyTypeName(null);
+        dvWireTransfer.setAdditionalWireText(null);
+        dvWireTransfer.setPayeeAccountName(null);
     }
 
     /**

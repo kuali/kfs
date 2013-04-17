@@ -756,7 +756,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             for (DisbursementVoucherDocument element : docs) {
                 String dvdCampusCode = element.getCampusCode();
 
-                if (dvdCampusCode.equals(campusCode) && DisbursementVoucherConstants.PAYMENT_METHOD_CHECK.equals(element.getDisbVchrPaymentMethodCode())) {
+                if (dvdCampusCode.equals(campusCode) && KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK.equals(element.getDisbVchrPaymentMethodCode())) {
                     if ((immediatesOnly && element.isImmediatePaymentIndicator()) || !immediatesOnly) {
                         list.add(element);
                     }

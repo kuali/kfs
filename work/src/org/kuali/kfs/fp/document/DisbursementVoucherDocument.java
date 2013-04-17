@@ -39,7 +39,6 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
-import org.kuali.kfs.fp.businessobject.DisbursementVoucherWireTransfer;
 import org.kuali.kfs.fp.businessobject.WireCharge;
 import org.kuali.kfs.fp.businessobject.options.DisbursementVoucherDocumentationLocationValuesFinder;
 import org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder;
@@ -57,9 +56,11 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
+import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
@@ -105,7 +106,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * This is the business object that represents the DisbursementVoucher document in Kuali.
  */
-public class DisbursementVoucherDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
+public class DisbursementVoucherDocument extends AccountingDocumentBase implements Copyable, AmountTotaling, PaymentSource {
     protected static Logger LOG = Logger.getLogger(DisbursementVoucherDocument.class);
 
     protected static final String PAYEE_IS_PURCHASE_ORDER_VENDOR_SPLIT = "PayeeIsPurchaseOrderVendor";
@@ -169,7 +170,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected DisbursementVoucherNonResidentAlienTax dvNonResidentAlienTax;
     protected DisbursementVoucherPayeeDetail dvPayeeDetail;
     protected DisbursementVoucherPreConferenceDetail dvPreConferenceDetail;
-    protected DisbursementVoucherWireTransfer dvWireTransfer;
+    protected PaymentSourceWireTransfer wireTransfer;
 
     protected Bank bank;
 
@@ -184,7 +185,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         dvNonResidentAlienTax = new DisbursementVoucherNonResidentAlienTax();
         dvPayeeDetail = new DisbursementVoucherPayeeDetail();
         dvPreConferenceDetail = new DisbursementVoucherPreConferenceDetail();
-        dvWireTransfer = new DisbursementVoucherWireTransfer();
+        wireTransfer = new PaymentSourceWireTransfer();
         disbVchrCheckTotalAmount = KualiDecimal.ZERO;
         bank = new Bank();
     }
@@ -694,17 +695,17 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * @return Returns the dvWireTransfer.
+     * @return Returns the wireTransfer.
      */
-    public DisbursementVoucherWireTransfer getDvWireTransfer() {
-        return dvWireTransfer;
+    public PaymentSourceWireTransfer getWireTransfer() {
+        return wireTransfer;
     }
 
     /**
-     * @param dvWireTransfer The dvWireTransfer to set.
+     * @param wireTransfer The wireTransfer to set.
      */
-    public void setDvWireTransfer(DisbursementVoucherWireTransfer dvWireTransfer) {
-        this.dvWireTransfer = dvWireTransfer;
+    public void setWireTransfer(PaymentSourceWireTransfer dvWireTransfer) {
+        this.wireTransfer = dvWireTransfer;
     }
 
     /**
@@ -1149,8 +1150,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             }
         }
 
-        if (dvWireTransfer != null) {
-            dvWireTransfer.setDocumentNumber(this.documentNumber);
+        if (wireTransfer != null) {
+            wireTransfer.setDocumentNumber(this.documentNumber);
         }
 
         if (dvNonResidentAlienTax != null) {
@@ -1270,7 +1271,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         setDvNonResidentAlienTax(new DisbursementVoucherNonResidentAlienTax());
 
         // clear waive wire
-        getDvWireTransfer().setDisbursementVoucherWireTransferFeeWaiverIndicator(false);
+        getWireTransfer().setWireTransferFeeWaiverIndicator(false);
 
         // check vendor id number to see if still valid, if not, clear dvPayeeDetail; otherwise, use the current dvPayeeDetail as is
         if (!StringUtils.isBlank(getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {
@@ -1401,7 +1402,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry) {
 
         /* change document type based on payment method to pick up different offsets */
-        if (DisbursementVoucherConstants.PAYMENT_METHOD_CHECK.equals(getDisbVchrPaymentMethodCode())) {
+        if (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK.equals(getDisbVchrPaymentMethodCode())) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("changing doc type on pending entry " + explicitEntry.getTransactionLedgerEntrySequenceNumber() + " to " + DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH);
             }
@@ -1433,7 +1434,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         /*
          * only generate additional charge entries for payment method wire charge, and if the fee has not been waived
          */
-        if (DisbursementVoucherConstants.PAYMENT_METHOD_WIRE.equals(getDisbVchrPaymentMethodCode()) && !getDvWireTransfer().isDisbursementVoucherWireTransferFeeWaiverIndicator()) {
+        if (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE.equals(getDisbVchrPaymentMethodCode()) && !getWireTransfer().isWireTransferFeeWaiverIndicator()) {
             LOG.debug("generating wire charge gl pending entries.");
 
             // retrieve wire charge
@@ -1447,7 +1448,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         }
 
         // for wire or drafts generate bank offset entry (if enabled), for ACH and checks offset will be generated by PDP
-        if (DisbursementVoucherConstants.PAYMENT_METHOD_WIRE.equals(getDisbVchrPaymentMethodCode()) || DisbursementVoucherConstants.PAYMENT_METHOD_DRAFT.equals(getDisbVchrPaymentMethodCode())) {
+        if (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE.equals(getDisbVchrPaymentMethodCode()) || KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_DRAFT.equals(getDisbVchrPaymentMethodCode())) {
             generateDocumentBankOffsetEntries(sequenceHelper);
         }
 
@@ -1479,7 +1480,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         String originationCode = SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode();
         explicitEntry.setFinancialSystemOriginationCode(originationCode);
 
-        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(getDvWireTransfer().getDisbVchrBankCountryCode())) {
+        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(getWireTransfer().getBankCountryCode())) {
             explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getDomesticChargeAmt());
         }
         else {

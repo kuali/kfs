@@ -677,6 +677,28 @@
         </reference-descriptor>		    
 	</class-descriptor>
 	
+	<class-descriptor class="org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer" table="FS_PMT_SRC_WIRE_TRNFR_T">
+	    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	    <field-descriptor name="bankName" column="DV_BNK_NM" jdbc-type="VARCHAR" />
+	    <field-descriptor name="bankRoutingNumber" column="DV_BNK_RTNG_NBR" jdbc-type="VARCHAR" />
+	    <field-descriptor name="bankCityName" column="DV_BNK_CTY_NM" jdbc-type="VARCHAR" />
+	    <field-descriptor name="bankStateCode" column="DV_BNK_ST_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="bankCountryCode" column="DV_BNK_CNTRY_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="attentionLineText" column="DV_ATTN_LN_TXT" jdbc-type="VARCHAR" />
+	    <field-descriptor name="additionalWireText" column="DV_ADDL_WIRE_TXT" jdbc-type="VARCHAR" />
+	    <field-descriptor name="payeeAccountNumber" column="DV_PAYEE_ACCT_NBR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiEncryptDecryptFieldConversion"/>
+	    <field-descriptor name="currencyTypeName" column="DV_CRNCY_TYP_NM" jdbc-type="VARCHAR" />
+	    <field-descriptor name="currencyTypeCode" column="DV_CRNCY_TYP_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="wireTransferFeeWaiverIndicator" column="DV_WIRE_TRNFR_FEE_WVR_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	    <field-descriptor name="payeeAccountName" column="DV_PAYEE_ACCT_NM" jdbc-type="VARCHAR" />
+	    <field-descriptor name="payeeAccountTypeCode" column="DV_PAYEE_ACCT_TYP_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="automatedClearingHouseProfileNumber" column="DV_ACH_PRFL_NBR" jdbc-type="VARCHAR" />
+	    <field-descriptor name="foreignCurrencyTypeName" column="DV_FCRNCY_TYP_NM" jdbc-type="VARCHAR" />
+	    <field-descriptor name="foreignCurrencyTypeCode" column="DV_FCRNCY_TYP_CD" jdbc-type="VARCHAR" />
+	</class-descriptor>
+	
 	<class-descriptor class="org.kuali.kfs.sys.businessobject.UniversityDate" table="SH_UNIV_DATE_T">
     <field-descriptor name="universityDate" column="UNIV_DT" jdbc-type="DATE" primarykey="true" />
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" />

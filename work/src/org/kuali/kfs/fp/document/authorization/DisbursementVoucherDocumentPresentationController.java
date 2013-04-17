@@ -138,7 +138,7 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
                 if (((DisbursementVoucherDocument)document).isTravelReviewRequired()) {
                    editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY);
                 }
-            } else if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.PAYMENT_METHOD) && ((DisbursementVoucherDocument)document).getDisbVchrPaymentMethodCode().equals(DisbursementVoucherConstants.PAYMENT_METHOD_DRAFT)) {
+            } else if (currentRouteLevels.contains(DisbursementVoucherConstants.RouteLevelNames.PAYMENT_METHOD) && ((DisbursementVoucherDocument)document).getDisbVchrPaymentMethodCode().equals(KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_DRAFT)) {
                 editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY);
             } else {
                 editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.TRAVEL_ENTRY); // we're not FO? Then always add it, as KIM permissions will take it out if we shouldn't have it

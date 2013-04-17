@@ -375,4 +375,8 @@
 	
     <bean id="AccountingDocument-newAccountingLineBranchingValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineBranchingValidation" abstract="true" />
 
+	<bean id="PaymentSource-foreignDraftValidation" class="org.kuali.kfs.sys.document.validation.impl.PaymentSourceForeignDraftValidation" abstract="true" />
+	
+	<bean id="PaymentSource-wireTransferValidation" class="org.kuali.kfs.sys.document.validation.impl.PaymentSourceWireTransferValidation" abstract="true" />
+	
 </beans>

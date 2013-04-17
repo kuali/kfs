@@ -15,27 +15,27 @@
  limitations under the License.
 -->
 
-  <bean id="DisbursementVoucherWireTransfer" parent="DisbursementVoucherWireTransfer-parentBean"/>
+  <bean id="PaymentSourceWireTransfer" parent="PaymentSourceWireTransfer-parentBean"/>
 
-  <bean id="DisbursementVoucherWireTransfer-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.DisbursementVoucherWireTransfer"/>
+  <bean id="PaymentSourceWireTransfer-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer"/>
     <property name="objectLabel" value="Disbursement Voucher Wire Transfer"/>
     <property name="attributes">
       <list>
-        <ref bean="DisbursementVoucherWireTransfer-disbursementVoucherBankName"/>
-        <ref bean="DisbursementVoucherWireTransfer-disbVchrBankRoutingNumber"/>
-        <ref bean="DisbursementVoucherWireTransfer-disbVchrBankCityName"/>
-        <ref bean="DisbursementVoucherWireTransfer-disbVchrBankStateCode"/>
-        <ref bean="DisbursementVoucherWireTransfer-disbVchrBankCountryCode"/>
-        <ref bean="DisbursementVoucherWireTransfer-disbVchrAttentionLineText"/>
-        <ref bean="DisbursementVoucherWireTransfer-disbVchrAdditionalWireText"/>
-        <ref bean="DisbursementVoucherWireTransfer-disbVchrPayeeAccountNumber"/>
-        <ref bean="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeCode"/>
-        <ref bean="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeName"/>
-        <ref bean="DisbursementVoucherWireTransfer-disbursementVoucherWireTransferFeeWaiverIndicator"/>
-        <ref bean="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountName"/>
-        <ref bean="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountTypeCode"/>
-        <ref bean="DisbursementVoucherWireTransfer-disbursementVoucherAutomatedClearingHouseProfileNumber"/>
+        <ref bean="PaymentSourceWireTransfer-bankName"/>
+        <ref bean="PaymentSourceWireTransfer-bankRoutingNumber"/>
+        <ref bean="PaymentSourceWireTransfer-bankCityName"/>
+        <ref bean="PaymentSourceWireTransfer-bankStateCode"/>
+        <ref bean="PaymentSourceWireTransfer-bankCountryCode"/>
+        <ref bean="PaymentSourceWireTransfer-attentionLineText"/>
+        <ref bean="PaymentSourceWireTransfer-additionalWireText"/>
+        <ref bean="PaymentSourceWireTransfer-payeeAccountNumber"/>
+        <ref bean="PaymentSourceWireTransfer-currencyTypeCode"/>
+        <ref bean="PaymentSourceWireTransfer-currencyTypeName"/>
+        <ref bean="PaymentSourceWireTransfer-wireTransferFeeWaiverIndicator"/>
+        <ref bean="PaymentSourceWireTransfer-payeeAccountName"/>
+        <ref bean="PaymentSourceWireTransfer-payeeAccountTypeCode"/>
+        <ref bean="PaymentSourceWireTransfer-automatedClearingHouseProfileNumber"/>
       </list>
     </property>
   </bean>
@@ -43,10 +43,10 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherBankName" parent="DisbursementVoucherWireTransfer-disbursementVoucherBankName-parentBean"/>
+  <bean id="PaymentSourceWireTransfer-bankName" parent="PaymentSourceWireTransfer-bankName-parentBean"/>
 
-  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherBankName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbursementVoucherBankName"/>
+  <bean id="PaymentSourceWireTransfer-bankName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="bankName"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Bank Name"/>
     <property name="shortLabel" value="Bnk Nm"/>
@@ -56,10 +56,10 @@
       <ref bean="StandardNameTextControl" />
     </property>
   </bean>
-  <bean id="DisbursementVoucherWireTransfer-disbVchrBankRoutingNumber" parent="DisbursementVoucherWireTransfer-disbVchrBankRoutingNumber-parentBean"/>
+  <bean id="PaymentSourceWireTransfer-bankRoutingNumber" parent="PaymentSourceWireTransfer-bankRoutingNumber-parentBean"/>
 
-  <bean id="DisbursementVoucherWireTransfer-disbVchrBankRoutingNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbVchrBankRoutingNumber"/>
+  <bean id="PaymentSourceWireTransfer-bankRoutingNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="bankRoutingNumber"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Bank ABA Routing #"/>
     <property name="shortLabel" value="Bnk Rout"/>
@@ -69,10 +69,10 @@
       <bean parent="TextControlDefinition" p:size="9"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherWireTransfer-disbVchrBankCityName" parent="DisbursementVoucherWireTransfer-disbVchrBankCityName-parentBean"/>
+  <bean id="PaymentSourceWireTransfer-bankCityName" parent="PaymentSourceWireTransfer-bankCityName-parentBean"/>
 
-  <bean id="DisbursementVoucherWireTransfer-disbVchrBankCityName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbVchrBankCityName"/>
+  <bean id="PaymentSourceWireTransfer-bankCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="bankCityName"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Bank City"/>
     <property name="shortLabel" value="Bnk Cty"/>
@@ -82,10 +82,10 @@
       <bean parent="TextControlDefinition" p:size="37"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherWireTransfer-disbVchrBankStateCode" parent="DisbursementVoucherWireTransfer-disbVchrBankStateCode-parentBean"/>
+  <bean id="PaymentSourceWireTransfer-bankStateCode" parent="PaymentSourceWireTransfer-bankStateCode-parentBean"/>
 
-  <bean id="DisbursementVoucherWireTransfer-disbVchrBankStateCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbVchrBankStateCode"/>
+  <bean id="PaymentSourceWireTransfer-bankStateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="bankStateCode"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Bank State"/>
     <property name="shortLabel" value="Bnk St"/>
@@ -95,10 +95,10 @@
       <ref bean="TwoCharacterTextControl" />
     </property>
   </bean>
-  <bean id="DisbursementVoucherWireTransfer-disbVchrBankCountryCode" parent="DisbursementVoucherWireTransfer-disbVchrBankCountryCode-parentBean"/>
+  <bean id="PaymentSourceWireTransfer-bankCountryCode" parent="PaymentSourceWireTransfer-bankCountryCode-parentBean"/>
 
-  <bean id="DisbursementVoucherWireTransfer-disbVchrBankCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbVchrBankCountryCode"/>
+  <bean id="PaymentSourceWireTransfer-bankCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="bankCountryCode"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Bank Country"/>
     <property name="shortLabel" value="Bnk Cntry"/>
@@ -108,10 +108,10 @@
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherWireTransfer-disbVchrAttentionLineText" parent="DisbursementVoucherWireTransfer-disbVchrAttentionLineText-parentBean"/>
+  <bean id="PaymentSourceWireTransfer-attentionLineText" parent="PaymentSourceWireTransfer-attentionLineText-parentBean"/>
 
-  <bean id="DisbursementVoucherWireTransfer-disbVchrAttentionLineText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbVchrAttentionLineText"/>
+  <bean id="PaymentSourceWireTransfer-attentionLineText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="attentionLineText"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Addenda"/>
     <property name="shortLabel" value="Addenda"/>
@@ -121,10 +121,10 @@
       <bean parent="TextControlDefinition" p:size="60"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherWireTransfer-disbVchrAdditionalWireText" parent="DisbursementVoucherWireTransfer-disbVchrAdditionalWireText-parentBean"/>
+  <bean id="PaymentSourceWireTransfer-additionalWireText" parent="PaymentSourceWireTransfer-additionalWireText-parentBean"/>
 
-  <bean id="DisbursementVoucherWireTransfer-disbVchrAdditionalWireText-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbVchrAdditionalWireText"/>
+  <bean id="PaymentSourceWireTransfer-additionalWireText-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="additionalWireText"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Additional Wire Information"/>
     <property name="shortLabel" value="Wire Info"/>
@@ -134,10 +134,10 @@
       <bean parent="TextControlDefinition" p:size="60"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherWireTransfer-disbVchrPayeeAccountNumber" parent="DisbursementVoucherWireTransfer-disbVchrPayeeAccountNumber-parentBean"/>
+  <bean id="PaymentSourceWireTransfer-payeeAccountNumber" parent="PaymentSourceWireTransfer-payeeAccountNumber-parentBean"/>
 
-  <bean id="DisbursementVoucherWireTransfer-disbVchrPayeeAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbVchrPayeeAccountNumber"/>
+  <bean id="PaymentSourceWireTransfer-payeeAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payeeAccountNumber"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Bank Account #"/>
     <property name="shortLabel" value="Bank Account"/>
@@ -155,10 +155,10 @@
   		</bean>
   	</property>    
   </bean>
-  <bean id="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeCode" parent="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeCode-parentBean"/>
+  <bean id="PaymentSourceWireTransfer-currencyTypeCode" parent="PaymentSourceWireTransfer-currencyTypeCode-parentBean"/>
 
-  <bean id="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbVchrCurrencyTypeCode"/>
+  <bean id="PaymentSourceWireTransfer-currencyTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="currencyTypeCode"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="DV Amount Stated in"/>
     <property name="shortLabel" value="DV State"/>
@@ -168,10 +168,10 @@
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.CurrencyTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeName" parent="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeName-parentBean"/>
+  <bean id="PaymentSourceWireTransfer-currencyTypeName" parent="PaymentSourceWireTransfer-currencyTypeName-parentBean"/>
 
-  <bean id="DisbursementVoucherWireTransfer-disbVchrCurrencyTypeName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbVchrCurrencyTypeName"/>
+  <bean id="PaymentSourceWireTransfer-currencyTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="currencyTypeName"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Currency Type"/>
     <property name="shortLabel" value="Curr Typ"/>
@@ -181,10 +181,10 @@
       <bean parent="TextControlDefinition" p:size="20"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherWireTransferFeeWaiverIndicator" parent="DisbursementVoucherWireTransfer-disbursementVoucherWireTransferFeeWaiverIndicator-parentBean"/>
+  <bean id="PaymentSourceWireTransfer-wireTransferFeeWaiverIndicator" parent="PaymentSourceWireTransfer-wireTransferFeeWaiverIndicator-parentBean"/>
 
-  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherWireTransferFeeWaiverIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbursementVoucherWireTransferFeeWaiverIndicator"/>
+  <bean id="PaymentSourceWireTransfer-wireTransferFeeWaiverIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="wireTransferFeeWaiverIndicator"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Waive wire transfer fee?"/>
     <property name="shortLabel" value="Waive Fee"/>
@@ -194,10 +194,10 @@
       <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountName" parent="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountName-parentBean"/>
+  <bean id="PaymentSourceWireTransfer-payeeAccountName" parent="PaymentSourceWireTransfer-payeeAccountName-parentBean"/>
 
-  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountName-parentBean" abstract="true" parent="PersonImpl-name">
-    <property name="name" value="disbursementVoucherPayeeAccountName"/>
+  <bean id="PaymentSourceWireTransfer-payeeAccountName-parentBean" abstract="true" parent="PersonImpl-name">
+    <property name="name" value="payeeAccountName"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Bank Acct in the Name of"/>
     <property name="shortLabel" value="Acct Nm"/>
@@ -206,10 +206,10 @@
       <ref bean="StandardNameTextControl" />
     </property>
   </bean>
-  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountTypeCode" parent="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountTypeCode-parentBean"/>
+  <bean id="PaymentSourceWireTransfer-payeeAccountTypeCode" parent="PaymentSourceWireTransfer-payeeAccountTypeCode-parentBean"/>
 
-  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherPayeeAccountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbursementVoucherPayeeAccountTypeCode"/>
+  <bean id="PaymentSourceWireTransfer-payeeAccountTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payeeAccountTypeCode"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Bank Acct Type"/>
     <property name="shortLabel" value="Acct Type"/>
@@ -219,10 +219,10 @@
       <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.BankAccountTypeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherAutomatedClearingHouseProfileNumber" parent="DisbursementVoucherWireTransfer-disbursementVoucherAutomatedClearingHouseProfileNumber-parentBean"/>
+  <bean id="PaymentSourceWireTransfer-automatedClearingHouseProfileNumber" parent="PaymentSourceWireTransfer-automatedClearingHouseProfileNumber-parentBean"/>
 
-  <bean id="DisbursementVoucherWireTransfer-disbursementVoucherAutomatedClearingHouseProfileNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="disbursementVoucherAutomatedClearingHouseProfileNumber"/>
+  <bean id="PaymentSourceWireTransfer-automatedClearingHouseProfileNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="automatedClearingHouseProfileNumber"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Recurring Profile No."/>
     <property name="shortLabel" value="Prof. No"/>

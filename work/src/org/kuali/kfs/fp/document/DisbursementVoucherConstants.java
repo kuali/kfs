@@ -37,11 +37,6 @@ public interface DisbursementVoucherConstants {
     // Text limits
     public static final int MAX_NOTE_LINE_SIZE = 90;
 
-    // payment methods
-    public static String PAYMENT_METHOD_CHECK = "P";
-    public static String PAYMENT_METHOD_WIRE = "W";
-    public static String PAYMENT_METHOD_DRAFT = "F";
-
     // payee types
     public static final String DV_PAYEE_TYPE_EMPLOYEE = "E";
     public static final String DV_PAYEE_TYPE_VENDOR = "V";

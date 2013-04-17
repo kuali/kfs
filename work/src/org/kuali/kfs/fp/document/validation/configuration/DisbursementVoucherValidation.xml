@@ -81,14 +81,14 @@
 						</list>
 					</property>
 				</bean>				
-				<bean parent="DisbursementVoucher-wireTransferValidation" scope="prototype">
+				<bean parent="PaymentSource-wireTransferValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="accountingDocumentFieldConversion" />
 						</list>
 					</property>
 				</bean>
-				<bean parent="DisbursementVoucher-foreignDraftValidation" scope="prototype">
+				<bean parent="PaymentSource-foreignDraftValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="accountingDocumentFieldConversion" />

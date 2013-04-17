@@ -1280,7 +1280,7 @@
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="dvWireTransfer" class-ref="org.kuali.kfs.fp.businessobject.DisbursementVoucherWireTransfer" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
+    <reference-descriptor name="wireTransfer" class-ref="org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
     
@@ -1533,28 +1533,6 @@
     <field-descriptor name="dvConferenceRegistrantName" column="DV_CONF_RGSTRNT_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="dvPreConferenceRequestNumber" column="DV_PRECONF_RQST_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="disbVchrExpenseAmount" column="DV_EXP_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-</class-descriptor>
-
-<class-descriptor class="org.kuali.kfs.fp.businessobject.DisbursementVoucherWireTransfer" table="FP_DV_WIRE_TRNFR_T">
-    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="disbursementVoucherBankName" column="DV_BNK_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="disbVchrBankRoutingNumber" column="DV_BNK_RTNG_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="disbVchrBankCityName" column="DV_BNK_CTY_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="disbVchrBankStateCode" column="DV_BNK_ST_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="disbVchrBankCountryCode" column="DV_BNK_CNTRY_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="disbVchrAttentionLineText" column="DV_ATTN_LN_TXT" jdbc-type="VARCHAR" />
-    <field-descriptor name="disbVchrAdditionalWireText" column="DV_ADDL_WIRE_TXT" jdbc-type="VARCHAR" />
-    <field-descriptor name="disbVchrPayeeAccountNumber" column="DV_PAYEE_ACCT_NBR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiEncryptDecryptFieldConversion"/>
-    <field-descriptor name="disbVchrCurrencyTypeName" column="DV_CRNCY_TYP_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="disbVchrCurrencyTypeCode" column="DV_CRNCY_TYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="disbursementVoucherWireTransferFeeWaiverIndicator" column="DV_WIRE_TRNFR_FEE_WVR_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <field-descriptor name="disbursementVoucherPayeeAccountName" column="DV_PAYEE_ACCT_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="disbursementVoucherPayeeAccountTypeCode" column="DV_PAYEE_ACCT_TYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="disbursementVoucherAutomatedClearingHouseProfileNumber" column="DV_ACH_PRFL_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="disbursementVoucherForeignCurrencyTypeName" column="DV_FCRNCY_TYP_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="disbursementVoucherForeignCurrencyTypeCode" column="DV_FCRNCY_TYP_CD" jdbc-type="VARCHAR" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.fp.document.ProcurementCardDocument" table="FP_PRCRMNT_DOC_T">

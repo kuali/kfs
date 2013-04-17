@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -311,10 +311,10 @@ public class KFSPropertyConstants {
     public static final String CODE = "code";
     public static final String CODE_RETRIEVED = "codeRetrieved";
     public static final String COLLECTOR_DETAIL_SEQUENCE_NUMBER = "collectorDetailSequenceNumber";
-    public static final String COLLECTOR_DETAIL_GL_CREDIT_CODE = "glCreditCode";    
+    public static final String COLLECTOR_DETAIL_GL_CREDIT_CODE = "glCreditCode";
     public static final String COLLECTOR_DETAIL_AMOUNT = "collectorDetailItemAmount";
     public static final String COLLECTOR_DETAIL_NOTE_TEXT = "collectorDetailNoteText";
-    public static final String COLLECTOR_BATCH_PERSON_USER_ID = "personUserID";    
+    public static final String COLLECTOR_BATCH_PERSON_USER_ID = "personUserID";
     public static final String COMPLETE = "complete";
     public static final String COMPONENT_CLASS = "componentClass";
     public static final String COMPONENT_LABEL = "componentLabel";
@@ -380,20 +380,19 @@ public class KFSPropertyConstants {
     public static final String DETAIL_POSITION_REQUIRED_INDICATOR = "detailPositionRequiredIndicator";
     public static final String DETAIL_TEXT = "detailText";
     public static final String DICTIONARY_BUSINESS_OBJECT_NAME = KRADPropertyConstants.DICTIONARY_BUSINESS_OBJECT_NAME;
-    public static final String DISB_VCHR_ADDITIONAL_WIRE_TEXT = "disbVchrAdditionalWireText";
+    public static final String ADDITIONAL_WIRE_TEXT = "additionalWireText";
     public static final String DISB_VCHR_ALIEN_PAYMENT_CODE = "disbVchrAlienPaymentCode";
     public static final String DISB_VCHR_ATTACHMENT_CODE = "disbVchrAttachmentCode";
-    public static final String DISB_VCHR_ATTENTION_LINE_TEXT = "disbVchrAttentionLineText";
+    public static final String ATTENTION_LINE_TEXT = "attentionLineText";
     public static final String DISB_VCHR_AUTO_FROM_CITY_NAME = "disbVchrAutoFromCityName";
     public static final String DISB_VCHR_AUTO_FROM_STATE_CODE = "disbVchrAutoFromStateCode";
     public static final String DISB_VCHR_AUTO_ROUND_TRIP_CODE = "disbVchrAutoRoundTripCode";
     public static final String DISB_VCHR_AUTO_TO_CITY_NAME = "disbVchrAutoToCityName";
     public static final String DISB_VCHR_AUTO_TO_STATE_CODE = "disbVchrAutoToStateCode";
-    public static final String DISB_VCHR_BANK_CITY_NAME = "disbVchrBankCityName";
     public static final String DISB_VCHR_BANK_CODE = "disbVchrBankCode";
-    public static final String DISB_VCHR_BANK_COUNTRY_NAME = "disbVchrBankCountryName";
-    public static final String DISB_VCHR_BANK_ROUTING_NUMBER = "disbVchrBankRoutingNumber";
-    public static final String DISB_VCHR_BANK_STATE_CODE = "disbVchrBankStateCode";
+    public static final String BANK_CITY_NAME = "bankCityName";
+    public static final String BANK_COUNTRY_NAME = "bankCountryName";
+    public static final String BANK_STATE_CODE = "bankStateCode";
     public static final String DISB_VCHR_CHECK_STUB_TEXT = "disbVchrCheckStubText";
     public static final String DISB_VCHR_CHECK_TOTAL_AMOUNT = "disbVchrCheckTotalAmount";
     public static final String DISB_VCHR_CONFERENCE_END_DATE = "disbVchrConferenceEndDate";
@@ -402,21 +401,21 @@ public class KFSPropertyConstants {
     public static final String DISB_VCHR_CONTACT_EMAIL_ID = "disbVchrContactEmailId";
     public static final String DISB_VCHR_CONTACT_PERSON_NAME = "disbVchrContactPersonName";
     public static final String DISB_VCHR_CONTACT_PHONE_NUMBER = "disbVchrContactPhoneNumber";
-    public static final String DISB_VCHR_CURRENCY_TYPE_CODE = "disbVchrCurrencyTypeCode";
-    public static final String DISB_VCHR_CURRENCY_TYPE_NAME = "disbVchrCurrencyTypeName";
+    public static final String CURRENCY_TYPE_CODE = "currencyTypeCode";
+    public static final String CURRENCY_TYPE_NAME = "currencyTypeName";
     public static final String DISB_VCHR_EXCEPTION_CODE = "disbVchrExceptionCode";
     public static final String DISB_VCHR_EXPENSE = "disbVchrExpense";
     public static final String DISB_VCHR_EXPENSE_AMOUNT = "disbVchrExpenseAmount";
     public static final String DISB_VCHR_EXPENSE_CODE = "disbVchrExpenseCode";
     public static final String DISB_VCHR_EXPENSE_COMPANY = "disbVchrExpenseCompany";
     public static final String DISB_VCHR_EXPENSE_COMPANY_NAME = "disbVchrExpenseCompanyName";
-    public static final String DISB_VCHR_FD_CURRENCY_TYPE_CODE = "disbursementVoucherForeignCurrencyTypeCode";
-    public static final String DISB_VCHR_FD_CURRENCY_TYPE_NAME = "disbursementVoucherForeignCurrencyTypeName";
+    public static final String FD_CURRENCY_TYPE_CODE = "foreignCurrencyTypeCode";
+    public static final String FD_CURRENCY_TYPE_NAME = "foreignCurrencyTypeName";
     public static final String DISB_VCHR_FOREIGN_CURRENCY_IND = "disbVchrForeignCurrencyInd";
     public static final String DISB_VCHR_MILEAGE_CALCULATED_AMT = "disbVchrMileageCalculatedAmt";
     public static final String DISB_VCHR_NON_EMP_TRAVELER_NAME = "disbVchrNonEmpTravelerName";
     public static final String DISB_VCHR_PAYEE_ACCOUNT = "disbVchrPayeeAccount";
-    public static final String DISB_VCHR_PAYEE_ACCOUNT_NUMBER = "disbVchrPayeeAccountNumber";
+    public static final String PAYEE_ACCOUNT_NUMBER = "payeeAccountNumber";
     public static final String DISB_VCHR_PAYEE_CHANGED_IND = "disbVchrPayeeChangedInd";
     public static final String DISB_VCHR_PAYEE_CITY_NAME = "disbVchrPayeeCityName";
     public static final String DISB_VCHR_PAYEE_COUNTRY_CODE = "disbVchrPayeeCountryCode";
@@ -456,7 +455,7 @@ public class KFSPropertyConstants {
     public static final String DISB_VCHR_TRAVEL_TO_CITY_NAME = "disbVchrTravelToCityName";
     public static final String DISB_VCHR_TRAVEL_TO_COUNTRY_CODE = "disbVchrTravelToCountryCode";
     public static final String DISB_VCHR_TRAVEL_TO_STATE_CODE = "disbVchrTravelToStateCode";
-    public static final String DISBURSEMENT_VOUCHER_AUTOMATED_CLEARING_HOUSE_PROFILE_NUMBER = "disbursementVoucherAutomatedClearingHouseProfileNumber";
+    public static final String AUTOMATED_CLEARING_HOUSE_PROFILE_NUMBER = "automatedClearingHouseProfileNumber";
     public static final String DISBURSEMENT_VOUCHER_BANK_NAME = "disbursementVoucherBankName";
     public static final String DISBURSEMENT_VOUCHER_CHECK_DATE = "disbursementVoucherCheckDate";
     public static final String DISBURSEMENT_VOUCHER_CHECK_NBR = "disbursementVoucherCheckNbr";
@@ -466,7 +465,7 @@ public class KFSPropertyConstants {
     public static final String DISBURSEMENT_VOUCHER_DUE_DATE = "disbursementVoucherDueDate";
     public static final String DISBURSEMENT_VOUCHER_PAYEE_ACCOUNT_NAME = "disbursementVoucherPayeeAccountName";
     public static final String DISBURSEMENT_VOUCHER_PAYEE_ACCOUNT_TYPE_CODE = "disbursementVoucherPayeeAccountTypeCode";
-    public static final String DISBURSEMENT_VOUCHER_WIRE_TRANSFER_FEE_WAIVER_INDICATOR = "disbursementVoucherWireTransferFeeWaiverIndicator";
+    public static final String WIRE_TRANSFER_FEE_WAIVER_INDICATOR = "wireTransferFeeWaiverIndicator";
     public static final String DISPLAY_NAME = "displayName";
     public static final String DOCUMENT = KRADPropertyConstants.DOCUMENT;
     public static final String DOCUMENT_CONTENTS = "documentContents";
@@ -510,7 +509,7 @@ public class KFSPropertyConstants {
     public static final String DV_TAX_PAYER_TYPE_CODE = "dvTaxPayerTypeCode";
     public static final String DV_TRAVEL_FROM_COUNTRY_CODE = "dvTravelFromCountryCode";
     public static final String DV_WIRE_ADMINISTRATOR_USER = "DVWireAdministratorUser";
-    public static final String DV_WIRE_TRANSFER = "dvWireTransfer";
+    public static final String PAYMENT_SOURCE_WIRE_TRANSFER = "wireTransfer";
     public static final String EARN_CODE = "earnCode";
     public static final String EDIT = "edit";
     public static final String ELECTRONIC_RESEARCH_ADMINISTRATION_GRANT_NUMBER = "electronicResearchAdministrationGrantNumber";
@@ -752,7 +751,7 @@ public class KFSPropertyConstants {
     public static final String INDIRECT_COST_RECOVERY_RATE_DETAILS = "indirectCostRecoveryRateDetails";
     public static final String INDIRECT_COST_RECOVERY_TYPE = "indirectCostRecoveryType";
     public static final String INDIRECT_COST_RECOVERY_TYPE_CODE = "indirectCostRecoveryTypeCode";
-    
+
     public static final String INDIRECT_COST_RECOVERY_ACCOUNTS = "indirectCostRecoveryAccounts";
     public static final String A21INDIRECT_COST_RECOVERY_ACCOUNTS = "a21SubAccount.a21IndirectCostRecoveryAccounts";
     public static final String ICR_ACCOUNT = "indirectCostRecoveryAccount";
@@ -760,7 +759,7 @@ public class KFSPropertyConstants {
     public static final String ICR_CHART_OF_ACCOUNTS = "indirectCostRecoveryChartOfAccounts";
     public static final String ICR_CHART_OF_ACCOUNTS_CODE = "indirectCostRecoveryFinCoaCode";
     public static final String ICR_ACCOUNT_LINE_PERCENT = "accountLinePercent";
-    
+
     public static final String INITIATOR_NETWORK_ID = KRADPropertyConstants.INITIATOR_NETWORK_ID;
     public static final String INQUIRE_ONLY_USER = "inquireOnlyUser";
     public static final String INTER_DEPARTMENTAL_BILLING_SEQUENCE_NUMBER = "interDepartmentalBillingSequenceNumber";
@@ -1023,7 +1022,7 @@ public class KFSPropertyConstants {
     public static final String PROCUREMENT_CARD_HOLDER_ZIP_CODE = "cardHolderZipCode";
     public static final String PROCUREMENT_CARD_HOLDER_WORK_PHONE_NUMBER = "cardHolderWorkPhoneNumber";
     public static final String PROCUREMENT_CARD_LIMIT = "cardLimit";
-    public static final String PROCUREMENT_CARD_CYCLE_AMOUNT_LIMIT = "cardCycleAmountLimit";    
+    public static final String PROCUREMENT_CARD_CYCLE_AMOUNT_LIMIT = "cardCycleAmountLimit";
     public static final String PROCUREMENT_CARD_CYCLE_VOLUME_LIMIT = "cardCycleVolumeLimit";
     public static final String PROCUREMENT_CARD_STATUS_CODE = "cardStatusCode";
     public static final String PROCUREMENT_CARD_NOTE_TEXT = "cardNoteText";
@@ -1238,7 +1237,7 @@ public class KFSPropertyConstants {
     public static final String POSTAL_COUNTRY_RESTRICTED_INDICATOR = "postalCountryRestrictedIndicator";
     public static final String CAPITAL_ASSET_INFORMATION = "capitalAssetInformation";
     public static final String CAPITAL_ASSET_MODIFY_INFORMATION = "capitalAssetModify";
-    
+
     public static final String CAPITAL_ACCOUNTING_LINES = "capitalAccountingLines";
     public static final String CAPITAL_ASSET_INFORMATION_DETAILS = "capitalAssetInformationDetails";
     public static final String CLOSED = "closed";

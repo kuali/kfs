@@ -18,12 +18,10 @@ package org.kuali.kfs.fp.document.authorization;
 import java.util.Set;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
-import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
+import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
 import org.kuali.rice.krad.document.Document;
 
-public class AuxiliaryVoucherDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase{
+public class AuxiliaryVoucherDocumentPresentationController extends AccountingDocumentPresentationControllerBase{
 
     @Override
     public Set<String> getDocumentActions(Document document) {
@@ -33,7 +31,7 @@ public class AuxiliaryVoucherDocumentPresentationController extends FinancialSys
         //need to remove the action because we already have accounting period on
         //details tab
         documentActions.remove(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION);
-        
+
         return documentActions;
     }
 }

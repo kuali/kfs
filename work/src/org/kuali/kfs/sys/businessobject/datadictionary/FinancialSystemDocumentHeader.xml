@@ -33,6 +33,7 @@
         <ref bean="FinancialSystemDocumentHeader-financialDocumentInErrorNumber"/>
         <ref bean="FinancialSystemDocumentHeader-correctedByDocumentId"/>
         <ref bean="FinancialSystemDocumentHeader-financialDocumentTotalAmount"/>
+        <ref bean="FinancialSystemDocumentHeader-securedField"/>
       </list>
     </property>
   </bean>
@@ -93,6 +94,30 @@
     <property name="label" value="Total Amount"/>
     <property name="shortLabel" value="Total Amount"/>
     <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/> 
+  </bean>
+ 
+   <bean id="FinancialSystemDocumentHeader-securedField" parent="FinancialSystemDocumentHeader-securedField-parentBean" />
+
+   <bean id="FinancialSystemDocumentHeader-securedField-parentBean" abstract="true" parent="AttributeDefinition">
+     <property name="name" value="securedField" />
+     <property name="forceUppercase" value="true" />
+     <property name="label" value="Secured Field" />
+     <property name="shortLabel" value="Secured Field" />
+     <property name="maxLength" value="40" />
+     <property name="control" >
+       <bean parent="TextControlDefinition" p:size="40"/>
+     </property>
+     <property name="attributeSecurity">
+		<bean parent="AttributeSecurity">
+  			<property name="mask" value="false" /> 
+			<property name="maskFormatter">
+  			<bean parent="MaskFormatterLiteral" p:literal="*********" /> 
+  			</property>
+  		</bean>
+  	</property>
+  	<property name="validationPattern">
+			<bean parent="SecureFieldDataValidationPattern"/>
+	</property>
   </bean>
 
 </beans>

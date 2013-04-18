@@ -268,7 +268,7 @@ public class KFSConstants {
      * this may lead to undesired results.
      */
     public static final String CHECKBOX_PRESENT_ON_FORM_ANNOTATION = "{CheckboxPresentOnFormAnnotation}";
-
+    public static final String SECURE_FIELD_DATA_WARNING_IND = "SECURE_FIELD_DATA_WARNING_IND";
     public static class OrgReversion {
         public static final String VALID_PREFIX = "EXTENDED_DEFINITIONS_INCLUDE_";
         public static final String INVALID_PREFIX = "EXTENDED_DEFINITIONS_EXCLUDE_";
@@ -1228,11 +1228,14 @@ public class KFSConstants {
 
     public static final String KFS_ACTION_CAN_ERROR_CORRECT = "canErrorCorrect";
     public static final String KFS_ACTION_CAN_EDIT_BANK = "canEditBank";
+    public static final String KFS_ACTION_CAN_VIEW_SECURED_FIELD = "canViewSecuredField";
+    public static final String SECURED_FIELD_MASK = "********";
 
 
     public static final String AMOUNT_TOTALING_EDITING_MODE = "amountTotaling";
     public static final String BANK_ENTRY_VIEWABLE_EDITING_MODE = "bankEntryViewable";
     public static final String BANK_ENTRY_EDITABLE_EDITING_MODE = "bankEntry";
+
 
     public class RouteLevelNames {
         public static final String ACCOUNT = "Account";
@@ -1332,6 +1335,7 @@ public class KFSConstants {
     public static final String YEAR_END_BUDGET_ADJUSTMENT_LABEL = "Year End Budget Adjustment";
 
     public static final String OVERRIDE_ACCOUNT_FOR_EXPIRED_QUESTION_ID = "OverrideAccountForExpiredQuestion";
+
 
 
 

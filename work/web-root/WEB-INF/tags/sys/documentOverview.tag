@@ -31,8 +31,34 @@
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="financialDocHeaderAttributes" value="${DataDictionary.FinancialSystemDocumentHeader.attributes}" />
 <c:set var="includeTotalAmount" value="${not empty editingMode[KFSConstants.AMOUNT_TOTALING_EDITING_MODE]}" />
+<c:set var="canViewSecuredField" value="${KualiForm.documentActions[KFSConstants.KFS_ACTION_CAN_VIEW_SECURED_FIELD]}" />
+
 
 <kul:documentOverview editingMode="${editingMode}">	
+    <table cellpadding="0" cellspacing="0" class="datatable" summary="KFS Detail Section">
+	   <!-- secured field -->
+	   <tr>
+	       <kul:htmlAttributeHeaderCell
+	           labelFor="document.documentHeader.securedField"
+	           attributeEntry="${financialDocHeaderAttributes.securedField}"
+	           horizontal="true"/>
+	      
+	        <c:choose>
+   	           <c:when test="${canViewSecuredField}">
+	               <td class="datacell-nowrap">
+ 	                   <kul:htmlControlAttribute 
+ 	                       attributeEntry="${financialDocHeaderAttributes.securedField}" 
+ 	                       property="document.documentHeader.securedField" 
+ 	                       readOnly="${readOnly}"/>
+ 	               </td>	   	
+	           </c:when>
+	           <c:otherwise>
+	               <td class="datacell-nowrap"> ${KFSConstants.SECURED_FIELD_MASK} </td>
+	           </c:otherwise>
+	       </c:choose>      	
+	          
+	   </tr>
+	</table>   
 	<c:if test="${includePostingYear or includeTotalAmount or includeBankCode or viewYearEndAccountPeriod}">
 	  <h3><c:out value="Financial Document Detail"/></h3>
 	  

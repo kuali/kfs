@@ -50,7 +50,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
 /**
- * This is the default implementation of the DisbursementVoucherExtractService interface.
+ * This is the default implementation of the PaymentSourceExtractionService interface.
  * This class handles queries and validation on tax id numbers.
  */
 public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTaxService, DisbursementVoucherConstants {

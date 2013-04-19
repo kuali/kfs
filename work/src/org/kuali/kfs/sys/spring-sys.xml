@@ -1110,6 +1110,17 @@
 		<property name="configurationService" ref="kualiConfigurationService"/>
 		<property name="mailService" ref="mailService" />	
 	</bean>
+	
+	<bean id="paymentSourceExtractService"  parent="paymentSourceExtractService-parentBean"/>
+	<bean id="paymentSourceExtractService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.PaymentSourceExtractionServiceImpl" abstract="true">
+		<property name="parameterService" ref="parameterService"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
+		<property name="paymentFileService" ref="paymentFileService"/>
+		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="paymentFileEmailService" ref="pdpEmailService"/>
+	</bean>
 
 	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
 		<property name="velocityProperties">

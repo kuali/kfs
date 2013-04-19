@@ -13,29 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.fp.batch.service.impl;
+package org.kuali.kfs.sys.batch.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.kuali.kfs.fp.batch.DvToPdpExtractStep;
-import org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
-import org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.pdp.PdpConstants;
@@ -52,10 +47,13 @@ import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
+import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -77,20 +75,20 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This is the default implementation of the DisbursementVoucherExtractService interface.
+ * This is the default implementation of the PaymentSourceExtractionService interface.
  */
 @Transactional
-public class DisbursementVoucherExtractServiceImpl implements DisbursementVoucherExtractService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherExtractServiceImpl.class);
+public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtractionService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentSourceExtractionServiceImpl.class);
 
     private ParameterService parameterService;
-    private DisbursementVoucherDao disbursementVoucherDao;
     private DateTimeService dateTimeService;
     private CustomerProfileService customerProfileService;
     private PaymentFileService paymentFileService;
     private PaymentGroupService paymentGroupService;
     private BusinessObjectService businessObjectService;
     private PdpEmailService paymentFileEmailService;
+    private PaymentSourceToExtractService paymentSourceToExtractService;
     private int maxNoteLines;
 
     // This should only be set to true when testing this system. Setting this to true will run the code but
@@ -128,45 +126,16 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
 
         // Get a list of campuses that have documents with an 'A' (approved) status.
-        Map<String, List>  campusListMap= getCampusMapByDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED);
+        Map<String, List<? extends PaymentSource>>  campusListMap = paymentSourceToExtractService.retrievePaymentSourcesByCampus(false);
 
         if (campusListMap != null && !campusListMap.isEmpty()) {
             // Process each campus one at a time
             for (String campusCode : campusListMap.keySet()) {
-                extractPaymentsForCampus(campusCode, uuser.getPrincipalId(), processRunDate, campusListMap.get(campusCode));
+                extractPaymentsForCampus(campusCode, uuser.getPrincipalId(), processRunDate, (List<DisbursementVoucherDocument>)campusListMap.get(campusCode));
             }
         }
 
         return true;
-    }
-
-    /**
-     * This method retrieves a collection of campus instances representing all the campuses which currently have disbursement
-     * vouchers with the status code provided.
-     *
-     * @param statusCode The status code to retrieve disbursement vouchers by.
-     * @return A collection of campus codes of all the campuses with disbursement vouchers in the status given.
-     */
-    protected Map<String, List> getCampusMapByDocumentStatusCode(String statusCode) {
-        LOG.debug("getCampusListByDocumentStatusCode() started");
-        Map<String, List> documentsByCampus = new HashMap<String, List>();
-
-        Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode, false);
-        for (DisbursementVoucherDocument element : docs) {
-            String dvdCampusCode = element.getCampusCode();
-            if (StringUtils.isNotBlank(dvdCampusCode)) {
-                if (documentsByCampus.containsKey(dvdCampusCode)) {
-                    documentsByCampus.get(dvdCampusCode).add(element);
-                }
-                else {
-                    List documents = new ArrayList<DisbursementVoucherDocument>();
-                    documents.add(element);
-                    documentsByCampus.put(dvdCampusCode, documents);
-                }
-            }
-        }
-
-        return documentsByCampus;
     }
 
     /**
@@ -195,11 +164,11 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
 
         // Get a list of campuses that have documents with an 'A' (approved) status.
-        Set<String> campusList = getImmediatesCampusListByDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED);
+        Map<String, List<? extends PaymentSource>> documentsByCampus = paymentSourceToExtractService.retrievePaymentSourcesByCampus(true);
 
         // Process each campus one at a time
-        for (String campusCode : campusList) {
-            extractImmediatePaymentsForCampus(campusCode, uuser.getPrincipalId(), processRunDate);
+        for (String campusCode : documentsByCampus.keySet()) {
+            extractImmediatePaymentsForCampus(campusCode, uuser.getPrincipalId(), processRunDate, (List<DisbursementVoucherDocument>)documentsByCampus.get(campusCode));
         }
     }
 
@@ -211,7 +180,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param user The user object used when creating the batch file to upload with outstanding payments.
      * @param processRunDate This is the date that the batch file is created, often this value will be today's date.
      */
-    protected void extractPaymentsForCampus(String campusCode, String principalId, Date processRunDate, List<DisbursementVoucherDocument> dvd) {
+    protected void extractPaymentsForCampus(String campusCode, String principalId, Date processRunDate, List<DisbursementVoucherDocument> documents) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
         }
@@ -220,8 +189,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         Integer count = 0;
         KualiDecimal totalAmount = KualiDecimal.ZERO;
 
-//        Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, campusCode, false);
-        for (DisbursementVoucherDocument document : dvd) {
+        for (DisbursementVoucherDocument document : documents) {
             addPayment(document, batch, processRunDate, false);
             count++;
             totalAmount = totalAmount.add(document.getDisbVchrCheckTotalAmount());
@@ -240,15 +208,14 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @param user the user responsible building the payment batch (typically the System User, kfs)
      * @param processRunDate the time that the job to build immediate payments is run
      */
-    protected void extractImmediatePaymentsForCampus(String campusCode, String principalId, Date processRunDate) {
+    protected void extractImmediatePaymentsForCampus(String campusCode, String principalId, Date processRunDate, List<DisbursementVoucherDocument> documents) {
         LOG.debug("extractImmediatesPaymentsForCampus() started for campus: " + campusCode);
 
         Batch batch = createBatch(campusCode, principalId, processRunDate);
         Integer count = 0;
         KualiDecimal totalAmount = KualiDecimal.ZERO;
 
-        Collection<DisbursementVoucherDocument> dvd = getListByDocumentStatusCodeCampus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, campusCode, true);
-        for (DisbursementVoucherDocument document : dvd) {
+        for (DisbursementVoucherDocument document : documents) {
             addPayment(document, batch, processRunDate, false);
             count++;
             totalAmount = totalAmount.add(document.getDisbVchrCheckTotalAmount());
@@ -719,26 +686,6 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     }
 
     /**
-     * Retrieves a list of campuses which have Disbursement Vouchers ready to be process which are marked for immediate processing
-     * @param statusCode the status code of the documents to retrieve
-     * @return the Set of campuses which have DV which are up for immediate disbursement
-     */
-    protected Set<String> getImmediatesCampusListByDocumentStatusCode(String statusCode) {
-        LOG.debug("getCampusListByDocumentStatusCode() started");
-
-        Set<String> campusSet = new HashSet<String>();
-
-        Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode, true);
-        for (DisbursementVoucherDocument element : docs) {
-
-            final String dvdCampusCode = element.getCampusCode();
-            campusSet.add(dvdCampusCode);
-        }
-
-        return campusSet;
-    }
-
-    /**
      * This method retrieves a list of disbursement voucher documents that are in the status provided for the campus code given.
      *
      * @param statusCode The status of the disbursement vouchers to be retrieved.
@@ -779,7 +726,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#cancelExtractedDisbursementVoucher(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
     @Override
-    public void cancelExtractedDisbursementVoucher(DisbursementVoucherDocument dv, java.sql.Date processDate) {
+    public void cancelExtractedPaymentSource(DisbursementVoucherDocument dv, java.sql.Date processDate) {
         if (dv.getCancelDate() == null) {
             try {
                 BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
@@ -852,40 +799,15 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#resetExtractedDisbursementVoucher(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
     @Override
-    public void resetExtractedDisbursementVoucher(DisbursementVoucherDocument dv, java.sql.Date processDate) {
+    public void resetExtractedPaymentSource(PaymentSource paymentSource, java.sql.Date processDate) {
         try {
-            // 1. reset the extracted date
-            dv.setExtractDate(null);
-            // reset the status to APPROVED so DV will be extracted to PDP again
-            dv.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED);
-            dv.setPaidDate(null);
-            // 2. save the doc
-            SpringContext.getBean(DocumentService.class).saveDocument(dv, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+            paymentSource.resetFromExtraction();
+            SpringContext.getBean(DocumentService.class).saveDocument(paymentSource, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
         }
         catch (WorkflowException we) {
-            LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + dv.getDocumentNumber() + " " + we);
+            LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + paymentSource.getDocumentNumber() + " " + we);
             throw new RuntimeException(we);
         }
-    }
-
-    /**
-     * Looks up the document using document service, and deals with any nasty WorkflowException or ClassCastExceptions that pop up
-     *
-     * @param documentNumber the number of the document to look up
-     * @return the dv doc if found, or null otherwise
-     * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#getDocumentById(java.lang.String)
-     */
-    @Override
-    public DisbursementVoucherDocument getDocumentById(String documentNumber) {
-        DisbursementVoucherDocument dv = null;
-        try {
-            dv = (DisbursementVoucherDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
-        }
-        catch (WorkflowException we) {
-            LOG.error("encountered workflow exception while attempting to retrieve Disbursement Voucher: " + dv.getDocumentNumber() + " " + we);
-            throw new RuntimeException(we);
-        }
-        return dv;
     }
 
     /**
@@ -896,13 +818,13 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#markDisbursementVoucherAsPaid(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
     @Override
-    public void markDisbursementVoucherAsPaid(DisbursementVoucherDocument dv, java.sql.Date processDate) {
+    public void markPaymentSourceAsPaid(PaymentSource paymentSource, java.sql.Date processDate) {
         try {
-            dv.setPaidDate(processDate);
-            SpringContext.getBean(DocumentService.class).saveDocument(dv, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+            paymentSource.markAsPaid(processDate);
+            SpringContext.getBean(DocumentService.class).saveDocument(paymentSource, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
         }
         catch (WorkflowException we) {
-            LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + dv.getDocumentNumber() + " " + we);
+            LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + paymentSource.getDocumentNumber() + " " + we);
             throw new RuntimeException(we);
         }
     }
@@ -914,7 +836,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
      * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#extractImmediatePayment(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
     @Override
-    public void extractImmediatePayment(DisbursementVoucherDocument disbursementVoucher) {
+    public void extractSingleImmediatePayment(DisbursementVoucherDocument disbursementVoucher) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("extractImmediatePayment(DisbursementVoucherDocument) started");
         }
@@ -943,15 +865,6 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         businessObjectService.save(batch);
         paymentFileEmailService.sendDisbursementVoucherImmediateExtractEmail(disbursementVoucher);
-    }
-
-    /**
-     * This method sets the disbursementVoucherDao instance.
-     *
-     * @param disbursementVoucherDao The DisbursementVoucherDao to be set.
-     */
-    public void setDisbursementVoucherDao(DisbursementVoucherDao disbursementVoucherDao) {
-        this.disbursementVoucherDao = disbursementVoucherDao;
     }
 
     /**
@@ -1017,4 +930,12 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         this.paymentFileEmailService = paymentFileEmailService;
     }
 
+    /**
+     * Sets the paymentSourceToExtractService so that PaymentSources can be run through the extraction process
+     *
+     * @param paymentSourceToExtractService the paymentSourceToExtractService implementation to use
+     */
+    public void setPaymentSourceToExtractService(PaymentSourceToExtractService paymentSourceToExtractService) {
+        this.paymentSourceToExtractService = paymentSourceToExtractService;
+    }
 }

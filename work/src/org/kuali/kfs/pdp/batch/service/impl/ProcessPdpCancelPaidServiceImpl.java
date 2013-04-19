@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
@@ -30,9 +29,12 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
+import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -47,7 +49,8 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     protected ParameterService parameterService;
     protected DateTimeService dateTimeService;
     protected PurchasingAccountsPayableModuleService purchasingAccountsPayableModuleService;
-    protected DisbursementVoucherExtractService dvExtractService;
+    protected PaymentSourceExtractionService dvExtractService;
+    protected DocumentService documentService;
 
     /**
      * @see org.kuali.kfs.module.purap.service.ProcessPdpCancelPaidService#processPdpCancels()
@@ -80,13 +83,17 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
                 purchasingAccountsPayableModuleService.handlePurchasingBatchCancels(documentNumber, documentTypeCode, primaryCancel, disbursedPayment);
             }
             else if (DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH.equals(documentTypeCode)) {
-                DisbursementVoucherDocument dv = dvExtractService.getDocumentById(documentNumber);
-                if (dv != null) {
-                    if (disbursedPayment || primaryCancel) {
-                        dvExtractService.cancelExtractedDisbursementVoucher(dv, processDate);
-                    } else {
-                        dvExtractService.resetExtractedDisbursementVoucher(dv, processDate);
+                try {
+                    DisbursementVoucherDocument dv = (DisbursementVoucherDocument)getDocumentService().getByDocumentHeaderId(documentNumber);
+                    if (dv != null) {
+                        if (disbursedPayment || primaryCancel) {
+                            dvExtractService.cancelExtractedPaymentSource(dv, processDate);
+                        } else {
+                            dvExtractService.resetExtractedPaymentSource(dv, processDate);
+                        }
                     }
+                } catch (WorkflowException we) {
+                    throw new RuntimeException("Could not retrieve document #"+documentNumber, we);
                 }
             }
             else {
@@ -126,8 +133,12 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
                 purchasingAccountsPayableModuleService.handlePurchasingBatchPaids(documentNumber, documentTypeCode, processDate);
             }
             else if (DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH.equals(documentTypeCode)) {
-                DisbursementVoucherDocument dv = dvExtractService.getDocumentById(documentNumber);
-                dvExtractService.markDisbursementVoucherAsPaid(dv, processDate);
+                try {
+                    DisbursementVoucherDocument dv = (DisbursementVoucherDocument)getDocumentService().getByDocumentHeaderId(documentNumber);
+                    dvExtractService.markPaymentSourceAsPaid(dv, processDate);
+                } catch (WorkflowException we) {
+                    throw new RuntimeException("Could not retrieve document #"+documentNumber, we);
+                }
             }
             else {
                 LOG.warn("processPdpPaids() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
@@ -173,8 +184,23 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
      * Sets the dvExtractService attribute value.
      * @param dvExtractService The dvExtractService to set.
      */
-    public void setDvExtractService(DisbursementVoucherExtractService dvExtractService) {
+    public void setDvExtractService(PaymentSourceExtractionService dvExtractService) {
         this.dvExtractService = dvExtractService;
+    }
+
+    /**
+     * @return the implementation of the DocumentService to use
+     */
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    /**
+     * Sets the implementation of the DocumentService to use
+     * @param documentService the implementation of the DocumentService to use
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 
 }

@@ -32,7 +32,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectTypeService;
-import org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
@@ -50,6 +49,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
@@ -131,7 +131,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected static transient DateTimeService dateTimeService;
     protected static transient DisbursementVoucherPaymentReasonService dvPymentReasonService;
     protected static transient IdentityManagementService identityManagementService;
-    protected static transient DisbursementVoucherExtractService disbursementVoucherExtractService;
+    protected static transient PaymentSourceExtractionService paymentSourceExtractionService;
 
     protected Integer finDocNextRegistrantLineNbr;
     protected String disbVchrContactPersonName;
@@ -332,6 +332,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      *
      * @return Returns the disbVchrAttachmentCode
      */
+    @Override
     public boolean isDisbVchrAttachmentCode() {
         return disbVchrAttachmentCode;
     }
@@ -581,6 +582,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      *
      * @return Returns the disbVchrPaymentMethodCode
      */
+    @Override
     public String getDisbVchrPaymentMethodCode() {
         return disbVchrPaymentMethodCode;
     }
@@ -669,6 +671,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     /**
      * @return Returns the dvPayeeDetail.
      */
+    @Override
     public DisbursementVoucherPayeeDetail getDvPayeeDetail() {
         return dvPayeeDetail;
     }
@@ -697,6 +700,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     /**
      * @return Returns the wireTransfer.
      */
+    @Override
     public PaymentSourceWireTransfer getWireTransfer() {
         return wireTransfer;
     }
@@ -774,6 +778,28 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     public void setPaidDate(Date paidDate) {
         this.paidDate = paidDate;
+    }
+
+    /**
+     * Calls setPaidDate to set when this DisbursementVoucher was paid
+     * @see org.kuali.kfs.sys.document.PaymentSource#markAsPaid(java.sql.Date)
+     */
+    @Override
+    public void markAsPaid(Date processDate) {
+        setPaidDate(processDate);
+    }
+
+    /**
+     * Resets the DisbursementVoucher so that it it no longer marked as extracted; to do that, it sets its financial system document status back to approved,
+     * and sets the paid date and extract date to null
+     * @see org.kuali.kfs.sys.document.PaymentSource#resetFromExtraction()
+     */
+    @Override
+    public void resetFromExtraction() {
+        setExtractDate(null);
+        // reset the status to APPROVED so DV will be extracted to PDP again
+        getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED);
+        setPaidDate(null);
     }
 
     /**
@@ -1900,7 +1926,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         super.doRouteStatusChange(statusChangeEvent);
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             if (isImmediatePaymentIndicator()) {
-                getDisbursementVoucherExtractService().extractImmediatePayment(this);
+                getDisbursementVoucherExtractService().extractSingleImmediatePayment(this);
             }
         }
     }
@@ -1953,13 +1979,13 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * @return the default implementation of the DisbursementVoucherExtractService
+     * @return the default implementation of the PaymentSourceExtractionService
      */
-    public static DisbursementVoucherExtractService getDisbursementVoucherExtractService() {
-        if (disbursementVoucherExtractService == null) {
-            disbursementVoucherExtractService = SpringContext.getBean(DisbursementVoucherExtractService.class);
+    public static PaymentSourceExtractionService getDisbursementVoucherExtractService() {
+        if (paymentSourceExtractionService == null) {
+            paymentSourceExtractionService = SpringContext.getBean(PaymentSourceExtractionService.class);
         }
-        return disbursementVoucherExtractService;
+        return paymentSourceExtractionService;
     }
 
     /**

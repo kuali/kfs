@@ -21,11 +21,27 @@ import org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer;
 /**
  * Information needed by PDP to pay out from a given document
  */
-public interface PaymentSource {
+public interface PaymentSource extends GeneralLedgerPostingDocument {
     /**
      * @return the wire transfer associated with this payment source
      */
     public abstract PaymentSourceWireTransfer getWireTransfer();
+
+    /**
+     * Marks the payment source as paid upon the processing date
+     * @param processDate the date when this payment source was paid
+     */
+    public abstract void markAsPaid(java.sql.Date processDate);
+
+    /**
+     * Resets the given PaymentSource so that it seems as if it was not extracted according to values on the document
+     */
+    public abstract void resetFromExtraction();
+
+    /**
+     * @return the date when the PaymentSource was canceled, nor null if it is not canceled at all.
+     */
+    public abstract java.sql.Date getCancelDate();
 
     public abstract boolean isDisbVchrAttachmentCode();
 

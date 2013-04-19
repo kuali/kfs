@@ -266,9 +266,17 @@
 	</bean>
 
 	<bean id="disbursementVoucherPreDisbursementProcessorExtractStep" class="org.kuali.kfs.fp.batch.DvToPdpExtractStep" parent="step">
-		<property name="disbursementVoucherExtractService">
-			<ref bean="disbursementVoucherExtractService" />
-		</property>
+		<property name="disbursementVoucherExtractService" ref="disbursementVoucherExtractService" />
+	</bean>
+	
+	<bean id="disbursementVoucherExtractService"  parent="disbursementVoucherExtractService-parentBean"/>
+	<bean id="disbursementVoucherExtractService-parentBean" parent="paymentSourceExtractService-parentBean" abstract="true">
+		<property name="paymentSourceToExtractService" ref="disbursementVouchersToExtractService"/>
+	</bean>
+	
+	<bean id="disbursementVouchersToExtractService" parent="disbursementVouchersToExtractService-parentBean"/>
+	<bean id="disbursementVouchersToExtractService-parentBean" class="org.kuali.kfs.fp.batch.service.impl.DisbursementVoucherToExtractServiceImpl" abstract="true">
+		<property name="disbursementVoucherDao" ref="disbursementVoucherDao"/>
 	</bean>
 
 	<bean id="procurementCardLoadStep" parent="procurementCardLoadStep-parentBean"/>
@@ -309,34 +317,6 @@
     <property name="fileNamePrefix" value="procurement_card_load_"/>
     <property name="title" value="Procurement Card Load File"/>
   </bean>
-
-	<bean id="disbursementVoucherExtractService"  parent="disbursementVoucherExtractService-parentBean"/>
-	<bean id="disbursementVoucherExtractService-parentBean" class="org.kuali.kfs.fp.batch.service.impl.DisbursementVoucherExtractServiceImpl" abstract="true">
-		<property name="parameterService">
-			<ref bean="parameterService"/>
-		</property>
-		<property name="disbursementVoucherDao">
-			<ref bean="disbursementVoucherDao"/>
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService"/>
-		</property>
-		<property name="customerProfileService">
-			<ref bean="pdpCustomerProfileService"/>
-		</property>
-		<property name="paymentFileService">
-			<ref bean="paymentFileService"/>
-		</property>
-		<property name="paymentGroupService">
-			<ref bean="pdpPaymentGroupService"/>
-		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService"/>
-		</property>
-		<property name="paymentFileEmailService">
-			<ref bean="pdpEmailService"/>
-		</property>
-	</bean>
 
 	<bean id="cashReceiptCoverSheetService"  parent="cashReceiptCoverSheetService-parentBean"/>
 	<bean id="cashReceiptCoverSheetService-parentBean" class="org.kuali.kfs.fp.document.service.impl.CashReceiptCoverSheetServiceImpl" abstract="true">

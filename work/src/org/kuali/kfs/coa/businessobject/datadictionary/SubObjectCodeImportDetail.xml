@@ -1,0 +1,124 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	<bean id="SubObjectCodeImportDetail" parent="SubObjectCodeImportDetail-parentBean" />
+	<bean id="SubObjectCodeImportDetail-parentBean" abstract="true" parent="BusinessObjectEntry"> 
+		<property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubObjectCodeImportDetail" />
+
+		<property name="inquiryDefinition">
+			<ref bean="SubObjectCodeImportDetail-inquiryDefinition" />
+		</property>
+
+		<property name="lookupDefinition">
+			<ref bean="SubObjectCodeImportDetail-lookupDefinition" />
+		</property>
+
+		<property name="objectLabel" value="Sub-Object Code Import Detail" />
+		<property name="attributes">
+			<list>
+				<ref bean="SubObjectCodeImportDetail-documentNumber" />
+				<ref bean="SubObjectCodeImportDetail-universityFiscalYear" />
+				<ref bean="SubObjectCodeImportDetail-chartOfAccountsCode" />
+				<ref bean="SubObjectCodeImportDetail-accountNumber" />
+				<ref bean="SubObjectCodeImportDetail-financialObjectCode" />
+				<ref bean="SubObjectCodeImportDetail-financialSubObjectCode" />
+				<ref bean="SubObjectCodeImportDetail-financialSubObjectCodeName" />
+				<ref bean="SubObjectCodeImportDetail-financialSubObjectCdshortNm" />
+				<ref bean="SubObjectCodeImportDetail-sequenceNumber" />
+				<ref bean="SubObjectCodeImportDetail-active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	<bean id="SubObjectCodeImportDetail-documentNumber" parent="SubObjectCodeImportDetail-documentNumber-parentBean" />
+	<bean id="SubObjectCodeImportDetail-documentNumber-parentBean"	abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
+	</bean>
+
+	<bean id="SubObjectCodeImportDetail-chartOfAccountsCode" parent="SubObjectCodeImportDetail-chartOfAccountsCode-parentBean" />
+	<bean id="SubObjectCodeImportDetail-chartOfAccountsCode-parentBean" abstract="true" parent="ObjectCode-chartOfAccountsCode">
+	</bean>
+
+	<bean id="SubObjectCodeImportDetail-accountNumber" parent="SubObjectCodeImportDetail-accountNumber-parentBean" />
+	<bean id="SubObjectCodeImportDetail-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="SubObjectCodeImportDetail-universityFiscalYear" parent="SubObjectCodeImportDetail-universityFiscalYear-parentBean" />
+	<bean id="SubObjectCodeImportDetail-universityFiscalYear-parentBean" abstract="true" parent="ObjectCode-universityFiscalYear">
+	</bean>
+
+	<bean id="SubObjectCodeImportDetail-financialObjectCode" parent="SubObjectCodeImportDetail-financialObjectCode-parentBean" />
+	<bean id="SubObjectCodeImportDetail-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+	</bean>
+
+	<bean id="SubObjectCodeImportDetail-financialSubObjectCode" parent="SubObjectCodeImportDetail-financialSubObjectCode-parentBean" />
+	<bean id="SubObjectCodeImportDetail-financialSubObjectCode-parentBean"	abstract="true" parent="SubObjectCode-financialSubObjectCode">
+	</bean>
+
+	<bean id="SubObjectCodeImportDetail-financialSubObjectCodeName" parent="SubObjectCodeImportDetail-financialSubObjectCodeName-parentBean" />
+	<bean id="SubObjectCodeImportDetail-financialSubObjectCodeName-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCodeName">
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="SubObjectCodeImportDetail-financialSubObjectCdshortNm" parent="SubObjectCodeImportDetail-financialSubObjectCdshortNm-parentBean" />
+	<bean id="SubObjectCodeImportDetail-financialSubObjectCdshortNm-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCdshortNm">
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="SubObjectCodeImportDetail-active" parent="SubObjectCodeImportDetail-active-parentBean" />
+	<bean id="SubObjectCodeImportDetail-active-parentBean" abstract="true"	parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+		<property name="shortLabel" value="Active" />
+	</bean>
+
+	<bean id="SubObjectCodeImportDetail-sequenceNumber" parent="SubObjectCodeImportDetail-sequenceNumber-parentBean" />
+	<bean id="SubObjectCodeImportDetail-sequenceNumber-parentBean"	abstract="true" parent="GenericAttributes-itemSequenceNumber">
+		<property name="name" value="sequenceNumber" />
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="Line #"/>
+		<property name="forceUppercase" value="true" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="SubObjectCodeImportDetail-inquiryDefinition" parent="SubObjectCodeImportDetail-inquiryDefinition-parentBean" />
+	<bean id="SubObjectCodeImportDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Sub-Object Code Import Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="SubObjectCodeImportDetail-lookupDefinition" parent="SubObjectCodeImportDetail-lookupDefinition-parentBean" />
+
+	<bean id="SubObjectCodeImportDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Sub-Object Code Import Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -616,6 +616,22 @@
 
 	<bean id="orgReviewRoleService" parent="orgReviewRoleService-parentBean" />
 	<bean id="orgReviewRoleService-parentBean" class="org.kuali.kfs.coa.service.impl.OrgReviewRoleServiceImpl" abstract="true" />
+	
+	<!-- mass upload sub-account,sub-object,project -->	
+	<bean id="subAccountImportService" class="org.kuali.kfs.coa.document.service.impl.SubAccountImportServiceImpl" >
+		<property name="businessObjectService"	ref="businessObjectService" />
+	</bean>
+	<bean id="subObjectCodeImportService" class="org.kuali.kfs.coa.document.service.impl.SubObjectCodeImportServiceImpl" >
+		<property name="businessObjectService"	ref="businessObjectService" />
+	</bean>
+	<bean id="projectCodeImportService" class="org.kuali.kfs.coa.document.service.impl.ProjectCodeImportServiceImpl" >
+		<property name="businessObjectService"	ref="businessObjectService" />
+	</bean>
+    <import	resource="document/validation/configuration/ChartOfAccountsValidators.xml" />		
+    <import	resource="document/validation/configuration/SubAccountImportValidation.xml" />		
+    <import	resource="document/validation/configuration/SubObjectCodeImportValidation.xml" />		
+    <import	resource="document/validation/configuration/ProjectCodeImportValidation.xml" />	
+    
 
     <import resource="spring-coa-bus-exports.xml"/>
 </beans>

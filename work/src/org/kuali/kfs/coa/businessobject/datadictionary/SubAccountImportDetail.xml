@@ -1,0 +1,130 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	<bean id="SubAccountImportDetail" parent="SubAccountImportDetail-parentBean" />
+	<bean id="SubAccountImportDetail-parentBean" abstract="true" parent="BusinessObjectEntry"> 
+		<property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.SubAccountImportDetail" />
+
+		<property name="inquiryDefinition">
+			<ref bean="SubAccountImportDetail-inquiryDefinition" />
+		</property>
+
+		<property name="lookupDefinition">
+			<ref bean="SubAccountImportDetail-lookupDefinition" />
+		</property>
+
+		<property name="objectLabel" value="Sub-Account Import Detail" />
+		<property name="attributes">
+			<list>
+				<ref bean="SubAccountImportDetail-documentNumber" />
+				<ref bean="SubAccountImportDetail-chartOfAccountsCode" />
+				<ref bean="SubAccountImportDetail-accountNumber" />
+				<ref bean="SubAccountImportDetail-subAccountNumber" />
+				<ref bean="SubAccountImportDetail-subAccountName" />
+				<ref bean="SubAccountImportDetail-subAccountTypeCode" />
+				<ref bean="SubAccountImportDetail-financialReportChartCode" />
+				<ref bean="SubAccountImportDetail-finReportOrganizationCode" />
+				<ref bean="SubAccountImportDetail-financialReportingCode" />
+				<ref bean="SubAccountImportDetail-sequenceNumber" />
+				<ref bean="SubAccountImportDetail-active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	<bean id="SubAccountImportDetail-documentNumber" parent="SubAccountImportDetail-documentNumber-parentBean" />
+	<bean id="SubAccountImportDetail-documentNumber-parentBean"	abstract="true" parent="FinancialSystemDocumentHeader-documentNumber">
+	</bean>
+
+	<bean id="SubAccountImportDetail-chartOfAccountsCode" parent="SubAccountImportDetail-chartOfAccountsCode-parentBean" />
+	<bean id="SubAccountImportDetail-chartOfAccountsCode-parentBean" abstract="true" parent="SubAccount-chartOfAccountsCode">
+	</bean>
+
+	<bean id="SubAccountImportDetail-accountNumber" parent="SubAccountImportDetail-accountNumber-parentBean" />
+	<bean id="SubAccountImportDetail-accountNumber-parentBean" abstract="true" parent="SubAccount-accountNumber">
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="SubAccountImportDetail-subAccountNumber" parent="SubAccountImportDetail-subAccountNumber-parentBean" />
+	<bean id="SubAccountImportDetail-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+	</bean>
+
+	<bean id="SubAccountImportDetail-subAccountName" parent="SubAccountImportDetail-subAccountName-parentBean" />
+	<bean id="SubAccountImportDetail-subAccountName-parentBean" abstract="true" parent="SubAccount-subAccountName">
+	</bean>
+
+	<bean id="SubAccountImportDetail-subAccountTypeCode" parent="SubAccountImportDetail-subAccountTypeCode-parentBean" />
+	<bean id="SubAccountImportDetail-subAccountTypeCode-parentBean"	abstract="true" parent="A21SubAccount-subAccountTypeCode">
+	</bean>
+
+	<bean id="SubAccountImportDetail-financialReportChartCode" parent="SubAccountImportDetail-financialReportChartCode-parentBean" />
+	<bean id="SubAccountImportDetail-financialReportChartCode-parentBean" abstract="true" parent="SubAccount-financialReportChartCode">
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SubAccountImportDetail-finReportOrganizationCode"	parent="SubAccountImportDetail-finReportOrganizationCode-parentBean" />
+	<bean id="SubAccountImportDetail-finReportOrganizationCode-parentBean" abstract="true" parent="SubAccount-finReportOrganizationCode">
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SubAccountImportDetail-financialReportingCode" parent="SubAccountImportDetail-financialReportingCode-parentBean" />
+	<bean id="SubAccountImportDetail-financialReportingCode-parentBean" abstract="true" parent="SubAccount-financialReportingCode">
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SubAccountImportDetail-active" parent="SubAccountImportDetail-active-parentBean" />
+	<bean id="SubAccountImportDetail-active-parentBean" abstract="true"	parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+		<property name="shortLabel" value="Active" />
+	</bean>
+
+	<bean id="SubAccountImportDetail-sequenceNumber" parent="SubAccountImportDetail-sequenceNumber-parentBean" />
+	<bean id="SubAccountImportDetail-sequenceNumber-parentBean"	abstract="true" parent="GenericAttributes-itemSequenceNumber">
+		<property name="name" value="sequenceNumber" />
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="Line #"/>
+		<property name="forceUppercase" value="true" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="SubAccountImportDetail-inquiryDefinition" parent="SubAccountImportDetail-inquiryDefinition-parentBean" />
+	<bean id="SubAccountImportDetail-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Sub-Account Import Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="SubAccountImportDetail-lookupDefinition" parent="SubAccountImportDetail-lookupDefinition-parentBean" />
+
+	<bean id="SubAccountImportDetail-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Sub-Account Import Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+			</list>
+		</property>
+	</bean>
+</beans>

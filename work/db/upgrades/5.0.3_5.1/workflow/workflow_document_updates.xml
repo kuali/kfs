@@ -378,5 +378,29 @@
 				<join name="JoinRequiresContractManagementNonItem" />
 			</routeNodes>
 		</documentType>
+		<documentType>
+			<name>SAIP</name>
+			<parent>COA</parent>
+			<label>Sub-Account Import</label>
+			<docHandler>${kfs.url}/coaSubAccountImport.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+			<routingVersion>2</routingVersion>
+		</documentType>
+	    <documentType>
+	      <name>SOIP</name>
+	      <parent>COA</parent>
+	      <label>Sub-Object Code Import</label>
+	      <docHandler>${kfs.url}/coaSubObjectCodeImport.do?methodToCall=docHandler</docHandler>
+	      <active>true</active>
+	      <routingVersion>2</routingVersion>
+	    </documentType>
+	    <documentType>
+	      <name>PCIP</name>
+	      <parent>COA</parent>
+	      <label>Project Code Import</label>
+	      <docHandler>${kfs.url}/coaProjectCodeImport.do?methodToCall=docHandler</docHandler>
+	      <active>true</active>
+	      <routingVersion>2</routingVersion>
+	    </documentType>
 	</documentTypes>
 </data>

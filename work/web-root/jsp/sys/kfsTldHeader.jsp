@@ -54,3 +54,5 @@
 <%@ taglib uri="/WEB-INF/tlds/kfsfunc.tld" prefix="kfsfunc" %>
 
 <%@ taglib uri="/WEB-INF/tlds/kfssys.tld" prefix="sys-java" %>
+
+<%@ taglib tagdir="/WEB-INF/tags/coa" prefix="coa"%>

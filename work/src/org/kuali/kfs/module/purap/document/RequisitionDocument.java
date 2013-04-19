@@ -100,6 +100,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     // non-persistent property used for controlling validation for accounting lines when doc is request for blanket approve.
     protected boolean isBlanketApproveRequest = false;
+    private static final int ALLOW_REQS_UNLIMITED_COPY_DAYS=9999;
+
 
     /**
      * Default constructor.
@@ -305,21 +307,25 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     @Override
     public boolean getAllowsCopy() {
         boolean allowsCopy = super.getAllowsCopy();
-        if (PurapConstants.RequisitionSources.B2B.equals(getRequisitionSourceCode())) {
+        Integer allowedCopyDays=getRequisitionSource().getAllowCopyDays();
+
+         if(allowedCopyDays.intValue()==0){
+            return false;
+         }else if(allowedCopyDays.intValue() >= ALLOW_REQS_UNLIMITED_COPY_DAYS){
+            return true;
+         }else if(allowedCopyDays.intValue() > 0){
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
             Calendar c = Calendar.getInstance();
-
             // The allowed copy date is the document creation date plus a set number of days.
             DateTime createDate = this.getFinancialSystemDocumentHeader().getWorkflowDocument().getDateCreated();
             c.setTime(createDate.toDate());
-            String allowedCopyDays = SpringContext.getBean(ParameterService.class).getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.B2B_ALLOW_COPY_DAYS);
-            c.add(Calendar.DATE, Integer.parseInt(allowedCopyDays));
+            c.add(Calendar.DATE,(allowedCopyDays.intValue()));
             Date allowedCopyDate = c.getTime();
             Date currentDate = dateTimeService.getCurrentDate();
-
             // Return true if the current time is before the allowed copy date.
             allowsCopy = (dateTimeService.dateDiff(currentDate, allowedCopyDate, false) > 0);
         }
+
         return allowsCopy;
     }
 
@@ -432,7 +438,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         LOG.debug("doRouteStatusChange() started");
         super.doRouteStatusChange(statusChangeEvent);
-        
+
         try {
             // DOCUMENT PROCESSED
             if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed()) {

@@ -203,5 +203,16 @@
 		</insert>
 <modifySql dbms="mysql"><replace with="UUID()" replace="SYS_GUID()"/></modifySql>
 </changeSet>
+
+ <changeSet author="KFS52" id="KFSCNTRB-1276">
+		<comment>KFSCNTRB-1276 Need this column to hold number of days after the creation of a requisition in which it can be copied.The value 9999 would indicate that a copy would be allowed for an infinite number of days and the value 0 would indicate that copy is not allowed</comment>		
+		<delete tableName="KRCR_PARM_T">
+    		<where>NMSPC_CD='KFS-PURAP' AND CMPNT_CD='Requisition' AND PARM_NM='B2B_ALLOW_COPY_DAYS'</where>
+		</delete>
+		<modifySql dbms="mysql">
+			<replace replace="NUMBER" with="DECIMAL" />
+		</modifySql>
+	</changeSet>
+
 			
 </databaseChangeLog>

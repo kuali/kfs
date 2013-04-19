@@ -84,6 +84,15 @@
     
     <bean id="AccountingLineView-columns" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewColumnsDefinition" />
     
+	<bean id="AccountingLineView-lineDescription" parent="AccountingLineView-line">
+		<property name="elementName" value="lineDescription" />
+		<property name="fields">
+			<list>
+				<bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="2" />
+			</list>
+		</property>
+	</bean>
+	    
     
     
     

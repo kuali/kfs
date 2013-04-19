@@ -205,6 +205,9 @@
 	                </list>
 	              </property>
 	            </bean>
+	            
+	            <ref bean="AccountingLineView-lineDescription"/>
+	            
 	            <bean parent="AccountingLineView-showHideLines" p:label="Monthly Lines" p:name="monthlyLinesHideShow">
 	            	<property name="lines">
 	            		<list>

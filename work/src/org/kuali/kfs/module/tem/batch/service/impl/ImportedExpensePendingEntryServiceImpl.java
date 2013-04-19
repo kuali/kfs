@@ -178,9 +178,7 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
 
         GeneralLedgerPendingEntry pendingEntry = buildGeneralLedgerPendingEntry(agencyData, info, sequenceHelper, chartCode, objectCode, amount, KFSConstants.GL_CREDIT_CODE);
         pendingEntry.setAccountNumber(parameterService.getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_CLEARING_ACCOUNT));
-
-        final String AGENCY_SUBACCOUNT_NUM = parameterService.getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_CLEARING_SUB_ACCOUNT);
-        pendingEntry.setSubAccountNumber(StringUtils.defaultIfEmpty(AGENCY_SUBACCOUNT_NUM, GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber()));
+        pendingEntry.setSubAccountNumber(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber());
 
         LOG.info("Created CREDIT GLPE: " + pendingEntry.getDocumentNumber() + " for AGENCY Import Expense: " + agencyData.getId() + " TripId: " + agencyData.getTripId()
                 + "\n\n" + ReflectionToStringBuilder.reflectionToString(pendingEntry, ToStringStyle.MULTI_LINE_STYLE));

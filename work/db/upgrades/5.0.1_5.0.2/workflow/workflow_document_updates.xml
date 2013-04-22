@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="ns:workflow resource:WorkflowData">
+
+<ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>SensitiveDataSecurityAttribute</name>
+	  <className>{http://kfs.kuali.org/kfs/v5_0}SensitiveDataSecurityAttribute</className>
+	  <label>Sensitive Data Security Attribute</label>
+	  <description>Sensitive Data Security Attribute</description>
+	  <type>DocumentSecurityAttribute</type>
+	  <applicationId>KFS</applicationId>
+	</ruleAttribute>
+</ruleAttributes>
+
 <documentTypes xmlns="ns:workflow/DocumentType"
-		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">	
 		
 <!-- Need to re-ingest the top-level document to setup recall from routing policies -->
     <documentType>
@@ -48,6 +60,29 @@
     	  <value>false</value>
 		</policy>
 	  </policies>
+    </documentType>
+    <documentType>
+      <name>
+        KFST
+      </name>
+      <parent>
+        KFS
+      </parent>
+      <label>
+        FinancialSystemTransactionalDocument
+      </label>
+      <docSearchHelpURL>
+        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Ffinancialtransactions.htm
+      </docSearchHelpURL>
+      <active>
+        true
+      </active>
+      <security>
+        <securityAttribute name="SensitiveDataSecurityAttribute" />
+      </security>
+      <routingVersion>
+        2
+      </routingVersion>
     </documentType>
 
 </documentTypes>

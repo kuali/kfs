@@ -40,8 +40,6 @@ public class KFSConstants {
 
     public static final String KFS_CORE_SERVICE_NAMESPACE = "http://kfs.kuali.org/core/v5_0";
 
-    public static final String KFS_CORE_DISTRIBUTED_CACHE_MANAGER = "kfs.core.DistributedCacheManager";
-
     @Deprecated // Please switch all references to KFSConstants.CoreModuleNamespaces
     public static class ParameterNamespaces {
         public static final String KFS = "KFS-SYS";

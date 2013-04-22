@@ -15,6 +15,14 @@
       <type>SearchableAttribute</type>
       <applicationId>KFS</applicationId>
     </ruleAttribute>
+    <ruleAttribute>
+	  <name>SensitiveDataSecurityAttribute</name>
+	  <className>{http://kfs.kuali.org/kfs/v5_0}SensitiveDataSecurityAttribute</className>
+	  <label>Sensitive Data Security Attribute</label>
+	  <description>Sensitive Data Security Attribute</description>
+	  <type>DocumentSecurityAttribute</type>
+	  <applicationId>KFS</applicationId>
+	</ruleAttribute>
   </ruleAttributes>
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
@@ -133,11 +141,9 @@
       <active>
         true
       </active>
-      <!-- RICE20 Removing as this is making all transactional documents fail to authorize
       <security>
-        <securityAttribute class="org.kuali.kfs.sys.document.workflow.SensitiveDataSecurityAttribute"/>
+        <securityAttribute name="SensitiveDataSecurityAttribute" />
       </security>
-      -->
       <routingVersion>
         2
       </routingVersion>

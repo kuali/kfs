@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,6 +19,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Fixture class for Purchase Order Accounting Line.
@@ -44,7 +45,7 @@ public enum PurchaseOrderAccountingLineFixture {
 
     /**
      * Creates a PurAp Accounting Line using the specified PurAp Accounting Line Fixture and Accounting Line Fixture.
-     * 
+     *
      * @param clazz the Purchase Order Account class.
      * @param puralFixture the specified PurAp Accounting Line Fixture.
      * @param alFixture the specified Accounting Line Fixture.
@@ -52,18 +53,20 @@ public enum PurchaseOrderAccountingLineFixture {
      */
     public PurApAccountingLine createPurApAccountingLine(Class clazz, PurApAccountingLineFixture puralFixture, AccountingLineFixture alFixture) {
         PurApAccountingLine line = null;
-        line = (PurApAccountingLine) puralFixture.createPurApAccountingLine(PurchaseOrderAccount.class, alFixture);
+        line = puralFixture.createPurApAccountingLine(PurchaseOrderAccount.class, alFixture);
         return line;
     }
 
     /**
      * Creates a PurAp Accounting Line from this fixture and adds it to the specified item.
-     * 
+     *
      * @param item the specified item.
      */
     public void addTo(PurchaseOrderItem item) {
         PurApAccountingLine purApAccountingLine = createPurApAccountingLine(item.getAccountingLineClass(), purApAccountingLineFixture, accountingLineFixture);
         purApAccountingLine.setPurapItem(item);
+        // fix amount
+        purApAccountingLine.setAmount(item.calculateExtendedPrice().multiply(new KualiDecimal(purApAccountingLine.getAccountLinePercent())).divide(new KualiDecimal(100)));
         item.getSourceAccountingLines().add(purApAccountingLine);
     }
 }

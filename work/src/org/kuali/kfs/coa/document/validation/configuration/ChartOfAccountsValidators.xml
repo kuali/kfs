@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="SubAccountImportDocument-subAccountImportLineObjectExistenceValidation" class="org.kuali.kfs.coa.document.validation.impl.SubAccountImportLineObjectExistenceValidation" abstract="true" scope="prototype">
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>
+	
+	<bean id="SubAccountImportDocument-duplicateSubAccountValidation" class="org.kuali.kfs.coa.document.validation.impl.SubAccountImportEntryDuplicateValidation" abstract="true" scope="prototype">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	
+	<bean id="SubObjectCodeImportDocument-subObjectCodeImportLineObjectExistenceValidation" class="org.kuali.kfs.coa.document.validation.impl.SubObjectCodeImportLineObjectExistenceValidation" abstract="true" scope="prototype">
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>
+	
+	<bean id="SubObjectCodeImportDocument-duplicateSubObjectCodeValidation" class="org.kuali.kfs.coa.document.validation.impl.SubObjectCodeImportEntryDuplicateValidation" abstract="true" scope="prototype">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	
+	<bean id="ProjectCodeImportDocument-projectCodeImportLineObjectExistenceValidation" class="org.kuali.kfs.coa.document.validation.impl.ProjectCodeImportLineObjectExistenceValidation" abstract="true" scope="prototype">
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>
+	
+	<bean id="ProjectCodeImportDocument-duplicateProjectCodeValidation" class="org.kuali.kfs.coa.document.validation.impl.ProjectCodeImportEntryDuplicateValidation" abstract="true" scope="prototype">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	
+	<bean id="ProjectCodeImportDocument-projectManagerValidation" class="org.kuali.kfs.coa.document.validation.impl.ProjectCodeImportProjectManagerValidation" abstract="true" scope="prototype">
+	</bean>
+	
+</beans>

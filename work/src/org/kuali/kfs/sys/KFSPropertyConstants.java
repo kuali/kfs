@@ -1259,5 +1259,43 @@ public class KFSPropertyConstants {
     public static final String PURCHASE_ORDER_DOCUMENT_SIMPLE_NAME = "PurchaseOrderDocument";
     public static final String CAPITAL_ASSET_LINE_AMOUNT = "capitalAssetLineAmount";
     public static final String APPLICATION_DOCUMENT_STATUS = "applicationDocumentStatus";
-}
 
+    public static class SubAccountImport {
+        public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
+        public static final String ACCOUNT_NUMBER = "accountNumber";
+        public static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
+        public static final String SUB_ACCOUNT_NAME = "subAccountName";
+        public static final String ACTIVE = "active";
+        public static final String FINANCIAL_REPORT_CHART_CODE = "financialReportChartCode";
+        public static final String FIN_REPORT_ORGANIZATION_CODE = "finReportOrganizationCode";
+        public static final String FINANCIAL_REPORTING_CODE = "financialReportingCode";
+        public static final String SUB_ACCOUNT_IMPORT_DETAILS = "subAccountImportDetails";
+
+    }
+
+    public static class SubObjectCodeImport {
+        public static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
+        public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
+        public static final String ACCOUNT_NUMBER = "accountNumber";
+        public static final String FIN_OBJECT_CODE = "financialObjectCode";
+        public static final String ACTIVE = "active";
+        public static final String FIN_SUB_OBJECT_CODE = "financialSubObjectCode";
+        public static final String FIN_SUB_OBJECT_CODE_NAME = "financialSubObjectCodeName";
+        public static final String FIN_SUB_OBJECT_CODE_SHORT_NAME = "financialSubObjectCdshortNm";
+        public static final String SUB_OBJECT_CODE_IMPORT_DETAILS = "subObjectCodeImportDetails";
+
+    }
+
+    // ASR 2590 mass upload project code
+    public static class ProjectCodeImport {
+        public static final String PROJECT_CODE = "projectCode";
+        public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
+        public static final String PROJECT_NAME = "projectName";
+        public static final String PROJECT_DESCRIPTION = "projectDescription";
+        public static final String ACTIVE = "active";
+        public static final String ORGANIZATION_CODE = "organizationCode";
+        public static final String PROJECT_MANAGER_UNIVERSAL_ID = "projectManagerUniversalId";
+        public static final String PROJECT_MANAGER_PRINCIPAL_NAME = "projectManagerPrincipalName";
+        public static final String PROJECT_CODE_IMPORT_DETAILS = "projectCodeImportDetails";
+    }
+}

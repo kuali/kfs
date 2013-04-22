@@ -567,39 +567,276 @@
         </policy>
       </policies>	  
       <routePaths>
-        <routePath>
-          <start name="AdHoc" nextNode="HasNewUnorderedItems" nextAppDocStatus="Awaiting New Unordered Item Review"/>
-          <split name="HasNewUnorderedItems">
-            <branch name="True">
-              <role name="NewUnorderedItems" nextNode="Join"/>
-            </branch>
-            <branch name="False">
-              <simple name="NoOp" nextNode="Join"/>
-            </branch>
-            <join name="Join"/>
-          </split>
-        </routePath>
-      </routePaths>
-      <routeNodes>
-        <start name="AdHoc"/>
-        <split name="HasNewUnorderedItems">
-          <type>
-            org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
-          </type>
-        </split>
-        <role name="NewUnorderedItems">
-          <qualifierResolverClass>
-            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-          </qualifierResolverClass>
-          <activationType>P</activationType>
-        </role>
-        <join name="Join"/>
-        <simple name="NoOp">
-          <type>
-            org.kuali.rice.kew.engine.node.NoOpNode
-          </type>
-        </simple>
-      </routeNodes>
+				<routePath>
+					<start name="AdHoc" nextNode="RequiresItemsApproval" />
+					<split name="HasNewUnorderedItems" nextNode="Account">
+						<branch name="True">
+							<requests name="NewUnorderedItems" nextNode="JoinOrderedItems" />
+						</branch>
+						<branch name="False">
+							<simple name="NoOp" nextNode="JoinOrderedItems" />
+						</branch>
+						<join name="JoinOrderedItems" />
+					</split>
+					<split name="RequiresItemsApproval">
+						<branch name="True">					
+						<requests name="AccountReview" nextNode="RequiresContractManagementReview" />
+							<split name="RequiresContractManagementReview" nextNode="Commodity">
+								<branch name="True">
+									<requests name="ContractManagement" nextNode="JoinRequiresContractManagementReview" />
+								</branch>
+								<branch name="False">
+									<requests name="NoOpRequiresContractManagementReview"
+										nextNode="JoinRequiresContractManagementReview" />
+								</branch>
+								<join name="JoinRequiresContractManagementReview" />
+							</split>
+							<requests name="Commodity" nextNode="RequiresAwardReview" />
+							<split name="RequiresAwardReview" nextNode="RequiresBudgetReview">
+								<branch name="True">
+									<requests name="Award" nextNode="JoinRequiresAwardReview" />
+								</branch>
+								<branch name="False">
+									<requests name="NoOpRequiresAwardReview" nextNode="JoinRequiresAwardReview" />
+								</branch>
+								<join name="JoinRequiresAwardReview" />
+							</split>
+							<split name="RequiresBudgetReview" nextNode="VendorIsEmployeeOrNonResidentAlien">
+								<branch name="True">
+									<requests name="Budget" nextNode="JoinRequiresBudgetReview" />
+								</branch>
+								<branch name="False">
+									<simple name="NoOpBudget" nextNode="JoinRequiresBudgetReview" />
+								</branch>
+								<join name="JoinRequiresBudgetReview" />
+							</split>
+							<split name="VendorIsEmployeeOrNonResidentAlien">
+								<branch name="True">
+									<requests name="Tax" nextNode="Join" />
+								</branch>
+								<branch name="False">
+									<simple name="NoOpVendorIsEmployeeOrNonResidentAlien"
+										nextNode="Join" />
+								</branch>
+							</split>
+						</branch>
+						<branch name="False">
+							<split name="RequiresItemsNonItem">
+								<branch name="True">
+							<requests name="Account" nextNode="RequiresContractManagementNonItem" />
+							<split name="RequiresContractManagementNonItem" nextNode="CommodityNonItem">
+								<branch name="True">
+									<requests name="ContractManagementNonItem" nextNode="JoinRequiresContractManagementNonItem" />
+								</branch>
+								<branch name="False">
+									<requests name="NoOpRequiresContractManagementNonItem"
+										nextNode="JoinRequiresContractManagementNonItem" />
+								</branch>
+								<join name="JoinRequiresContractManagementNonItem" />
+							</split>
+							<requests name="CommodityNonItem" nextNode="RequiresAwardNonItem" />
+							<split name="RequiresAwardNonItem" nextNode="RequiresBudgetNonItem">
+								<branch name="True">
+									<requests name="AwardNonItem" nextNode="JoinRequiresAwardNonItem" />
+								</branch>
+								<branch name="False">
+									<requests name="NoOpRequiresAwardNonItem" nextNode="JoinRequiresAwardNonItem" />
+								</branch>
+								<join name="JoinRequiresAwardNonItem" />
+							</split>
+							<split name="RequiresBudgetNonItem" nextNode="VendorIsEmployeeOrNonResidentAlienNonItem">
+								<branch name="True">
+									<requests name="BudgetNonItem" nextNode="JoinRequiresBudgetNonItem" />
+								</branch>
+								<branch name="False">
+									<simple name="NoOpBudgetNonItem" nextNode="JoinRequiresBudgetNonItem" />
+								</branch>
+								<join name="JoinRequiresBudgetNonItem" />
+							</split>
+							<split name="VendorIsEmployeeOrNonResidentAlienNonItem">
+								<branch name="True">
+									<requests name="TaxNonItem" nextNode="Join" />
+								</branch>
+								<branch name="False">
+									<simple name="NoOpVendorIsEmployeeOrNonResidentAlienNonItem"
+										nextNode="Join" />
+								</branch>
+							</split>
+						</branch>
+								<branch name="False">
+									<simple name="NoOpItemsNonItem" nextNode="Join" />
+								</branch>
+							</split>
+						</branch>
+						<join name="Join" />
+					</split>
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<join name="Join" />
+				<role name="ContractManagement">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>P</activationType>
+				</role>
+				<role name="Commodity">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>P</activationType>
+				</role>
+				<role name="Award">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>P</activationType>
+				</role>
+				<role name="Budget">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>P</activationType>
+				</role>
+				<role name="Tax">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>P</activationType>
+				</role>
+				<role name="ContractManagementNonItem">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>P</activationType>
+				</role>
+				<role name="CommodityNonItem">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>P</activationType>
+				</role>
+				<role name="AwardNonItem">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>P</activationType>
+				</role>
+		        <role name="NewUnorderedItems">
+		          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+		          <activationType>P</activationType>
+		        </role>
+		        <role name="Account">
+		          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+		          <activationType>P</activationType>
+		        </role>
+		        <role name="AccountReview">
+		          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+		          <activationType>P</activationType>
+		        </role>
+				<role name="BudgetNonItem">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>P</activationType>
+				</role>
+				<role name="TaxNonItem">
+					<qualifierResolverClass>
+						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>P</activationType>
+				</role>
+		        <split name="HasNewUnorderedItems">
+		          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+		        </split>				
+				<split name="RequiresContractManagementReview">
+					<type> org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<split name="RequiresContractManagementNonItem">
+					<type> org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<split name="RequiresItemsApproval">
+					<type> org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<split name="RequiresItemsNonItem">
+					<type> org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<split name="RequiresAwardReview">
+					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<split name="RequiresAwardNonItem">
+					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<split name="RequiresBudgetReview">
+					<type> org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<split name="RequiresBudgetNonItem">
+					<type> org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<split name="VendorIsEmployeeOrNonResidentAlien">
+					<type> org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<split name="VendorIsEmployeeOrNonResidentAlienNonItem">
+					<type> org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+					</type>
+				</split>
+				<simple name="NoOpRequiresAwardReview">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<simple name="NoOpRequiresAwardNonItem">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>				
+				<simple name="NoOpRequiresContractManagementReview">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<simple name="NoOpRequiresContractManagementNonItem">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<simple name="NoOpVendorIsEmployeeOrNonResidentAlienNonItem">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+		        <simple name="NoOp">
+		          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+		        </simple>
+				<simple name="NoOpBudget">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<simple name="NoOpBudgetNonItem">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<simple name="NoOpItemsNonItem">
+					<type>org.kuali.rice.kew.engine.node.NoOpNode
+					</type>
+				</simple>
+				<join name="JoinRequiresAwardReview" />
+				<join name="JoinRequiresAwardNonItem" />
+				<join name="JoinOrderedItems" />
+				<join name="JoinRequiresBudgetReview" />
+				<join name="JoinRequiresBudgetNonItem" />       
+				<join name="JoinRequiresContractManagementReview" />
+				<join name="JoinRequiresContractManagementNonItem" />
+			</routeNodes>
     </documentType>
 	
 	 <documentType>

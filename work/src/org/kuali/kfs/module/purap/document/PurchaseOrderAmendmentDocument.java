@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,10 +18,10 @@ package org.kuali.kfs.module.purap.document;
 
 import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
 import static org.kuali.rice.core.api.util.type.KualiDecimal.ZERO;
-import static org.kuali.rice.core.api.util.type.KualiDecimal.ZERO;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -29,11 +29,13 @@ import java.util.List;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
+import org.kuali.kfs.module.purap.document.service.PurchaseOrderTabIdentifierService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
 import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
@@ -45,10 +47,12 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
-import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
@@ -64,7 +68,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
     /**
      * When Purchase Order Amendment document has been Processed through Workflow, the general ledger entries are created and the PO
      * status remains "OPEN".
-     * 
+     *
      * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#doRouteStatusChange()
      */
    @Override
@@ -76,7 +80,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
             if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed()) {
                 // generate GL entries
                 SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesApproveAmendPurchaseOrder(this);
-            
+
             // if gl entries created(means there is amount change) for amend purchase order send an FYI to all fiscal officers
             if ((getGlOnlySourceAccountingLines() != null && !getGlOnlySourceAccountingLines().isEmpty())) {
                 SpringContext.getBean(PurchaseOrderService.class).sendFyiForGLEntries(this);
@@ -87,7 +91,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
 
                 // update vendor commodity code by automatically spawning vendor maintenance document
                 SpringContext.getBean(PurchaseOrderService.class).updateVendorCommodityCode(this);
-                
+
                 // for app doc status
                 updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             }
@@ -95,17 +99,13 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
             else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isDisapproved()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(this);
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
-                
+
                 // for app doc status
                 try {
                     String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(this.getFinancialSystemDocumentHeader().getWorkflowDocument());
                     String reqStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
                     updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(reqStatus));
-                    
-                    RequisitionDocument req = getPurApSourceDocumentIfPossible();
-                    appSpecificRouteDocumentToUser(this.getFinancialSystemDocumentHeader().getWorkflowDocument(), req.getFinancialSystemDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
-                    return;
-                    
+
                 } catch (WorkflowException e) {
                     logAndThrowRuntimeException("Error saving routing data while saving App Doc Status " + getDocumentNumber(), e);
                 }
@@ -115,7 +115,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
 
                 // for app doc status
-                updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED);                
+                updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED);
             }
         }
         catch (WorkflowException e) {
@@ -151,7 +151,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
        return accountingLines;
    }
 
-   
+
    @Override
    public void populateDocumentForRouting() {
        newUnorderedItem = SpringContext.getBean(PurchaseOrderService.class).hasNewUnorderedItem(this);
@@ -162,7 +162,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
     public boolean isNewUnorderedItem() {
         return newUnorderedItem;
     }
-    
+
     public void setNewUnorderedItem(boolean newUnorderedItem) {
         this.newUnorderedItem = newUnorderedItem;
     }
@@ -174,18 +174,14 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
     public void setReceivingDeliveryCampusCode(String receivingDeliveryCampusCode) {
         this.receivingDeliveryCampusCode = receivingDeliveryCampusCode;
     }
-    
-    @Override
-    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(PurapWorkflowConstants.HAS_NEW_UNORDERED_ITEMS)) return isNewUnorderedItem();
-        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
-    }
+
+
 
     @Override
     public Class<? extends AccountingDocument> getDocumentClassForAccountingLineValueAllowedValidation() {
         return PurchaseOrderDocument.class;
     }
-    
+
 
     @Override
     public void customPrepareForSave(KualiDocumentEvent event) {
@@ -245,4 +241,72 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
             }
         }
     }
+
+    @Override
+    protected boolean shouldAdhocFyi() {
+        Collection<String> excludeList = new ArrayList<String>();
+        if (SpringContext.getBean(ParameterService.class).parameterExists(PurchaseOrderDocument.class, PurapParameterConstants.PO_NOTIFY_EXCLUSIONS)) {
+            excludeList = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(PurchaseOrderDocument.class, PurapParameterConstants.PO_NOTIFY_EXCLUSIONS);
+        }
+
+        if (getDocumentHeader().getWorkflowDocument().isDisapproved() ) {
+            return true;
+        }
+        if (getDocumentHeader().getWorkflowDocument().isFinal() && !excludeList.contains(getRequisitionSourceCode()) ) {
+            return true;
+        }
+        return false;
+    }
+
+       /*public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(PurapWorkflowConstants.HAS_NEW_UNORDERED_ITEMS)) {
+            return isNewUnorderedItem();
+        }
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+    }*/
+
+
+    @Override
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(PurapWorkflowConstants.HAS_NEW_UNORDERED_ITEMS)) {
+            return isNewUnorderedItem();
+        }
+        else if (nodeName.equals(PurapWorkflowConstants.ITEMS_TAB_EDITED)) {
+            return getPurchaseOrderTabIdentifierService().isItemsTabModified(this);
+        }
+        else if (nodeName.equals(PurapWorkflowConstants.OTHER_TABS_EDITED)) {
+            return getPurchaseOrderTabIdentifierService().isAnyTabsModified(this);
+        }
+        else if (nodeName.equals(PurapWorkflowConstants.CONTRACT_MANAGEMENT_REVIEW_REQUIRED)
+                || nodeName.equals(PurapWorkflowConstants.CONTRACT_MANAGEMENT_FYI_REQUIRED)) {
+            return isContractManagementReviewRequired();
+        }
+        else if (nodeName.equals(PurapWorkflowConstants.AWARD_REVIEW_REQUIRED) ||
+                nodeName.equals(PurapWorkflowConstants.AWARD_FYI_REQUIRED)) {
+            return isAwardReviewRequired();
+        }
+        else if (nodeName.equals(PurapWorkflowConstants.BUDGET_REVIEW_REQUIRED) ||
+                nodeName.equals(PurapWorkflowConstants.BUDGET_FYI_REQUIRED)) {
+            return isBudgetReviewRequired();
+        }
+        else if (nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_OR_NON_RESIDENT_ALIEN) ||
+                nodeName.equals(PurapWorkflowConstants.VENDOR_IS_EMPLOYEE_ALIEN_FYI_REQUIRED)) {
+            return isVendorEmployeeOrNonResidentAlien();
+        }
+        else {
+            return super.answerSplitNodeQuestion(nodeName);
+        }
+    }
+
+
+
+
+    private PurchaseOrderTabIdentifierService getPurchaseOrderTabIdentifierService(){
+        return SpringContext.getBean(PurchaseOrderTabIdentifierService.class);
+    }
+
+
+
+
+
 }

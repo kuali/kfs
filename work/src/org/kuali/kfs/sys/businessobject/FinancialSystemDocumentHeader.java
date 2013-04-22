@@ -36,6 +36,7 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
     protected String correctedByDocumentId;
     protected String financialDocumentInErrorNumber;
     protected String financialDocumentStatusCode;
+    protected String securedField;
 
     /**
      * Constructor - creates empty instances of dependent objects
@@ -183,12 +184,15 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
      */
     public void updateAndSaveAppDocStatus(String applicationDocumentStatus) throws WorkflowException {
        setApplicationDocumentStatus(applicationDocumentStatus);
-       // if the document is Initiated, then it has not been saved yet
-       // So, we don't need to save the routing data since the document
-       // has not been submitted to the workflow engine yet
-       if ( !getWorkflowDocument().isInitiated() ) {
-           SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getWorkflowDocument());
-       }
+       SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getWorkflowDocument());
+    }
+
+    public String getSecuredField() {
+        return securedField;
+    }
+
+    public void setSecuredField(String securedField) {
+        this.securedField = securedField;
     }
 
 }

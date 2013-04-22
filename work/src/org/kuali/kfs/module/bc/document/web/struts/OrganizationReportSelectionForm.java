@@ -60,9 +60,7 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
     @Override
     public void populate(HttpServletRequest request) {
 
-        if (!this.isLostSessionDetected(request)){
-            super.populate(request);
-        }
+        super.populate(request);
     }
 
     /**

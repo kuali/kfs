@@ -40,6 +40,20 @@
 	</td>
 </tr>
 
+<c:if test="${fullEntryMode}">
+		<tr>
+			<td colspan="${mainColumnCount}" class="datacell" align="right" nowrap="nowrap">
+				<div align="right">
+					<c:if test="${KualiForm.ableToShowClearAndLoadQtyButtons}">
+						<html:image property="methodToCall.loadQty" src="${ConfigProperties.externalizable.images.url}tinybutton-loadqtyinvoiced.gif" alt="load qty invoiced" title="load qty invoiced" styleClass="tinybutton" />
+						<html:image property="methodToCall.clearQty" src="${ConfigProperties.externalizable.images.url}tinybutton-clearqtyinvoiced.gif" alt="clear qty invoiced" title="clear qty invoiced" styleClass="tinybutton" />
+					</c:if>
+				</div>
+			</td>
+		</tr>
+</c:if>
+		
+		
 <%-- temporary workaround due to removing discount item --%>
 <c:if test="${KualiForm.countOfAboveTheLine>=1}">
 	<tr>

@@ -64,15 +64,20 @@ import org.kuali.kfs.module.purap.document.validation.event.AttributedAssignSens
 import org.kuali.kfs.module.purap.document.validation.event.AttributedSplitPurchaseOrderEvent;
 import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.UnitOfMeasure;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants.AddressTypes;
+import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
@@ -90,8 +95,10 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.kfs.vnd.VendorPropertyConstants; 
 
 /**
  * Struts Action for Purchase Order document.
@@ -172,12 +179,123 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      */
     public ActionForward inactivateItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
-
         PurchaseOrderDocument purDocument = (PurchaseOrderDocument) purchasingForm.getDocument();
-        List items = purDocument.getItems();
-        PurchaseOrderItem item = (PurchaseOrderItem) items.get(getSelectedLine(request));
-        item.setItemActiveIndicator(false);
+        PurchaseOrderItem item = (PurchaseOrderItem) purDocument.getItem(getSelectedLine(request));
 
+        boolean valid = true;
+        String errorPrefixQty = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + (item.getItemLineNumber() - 1) + "]." + PurapPropertyConstants.ITEM_QUANTITY;
+        String errorPrefixUom = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + (item.getItemLineNumber() - 1) + "]." + PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE;
+        String errorPrefixCommCode = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + (item.getItemLineNumber() - 1) + "]." + PurapPropertyConstants.ITEM_COMMODITY_CODE;
+        String errorPrefixUPrice = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + (item.getItemLineNumber() - 1) + "]." + PurapPropertyConstants.ITEM_UNIT_PRICE;
+        String errorPrefixDesc = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + (item.getItemLineNumber() - 1) + "]." + PurapPropertyConstants.ITEM_DESCRIPTION;
+        String attributeLabelQty = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).getAttributeDefinition(PurapPropertyConstants.ITEM_QUANTITY).getLabel();
+        String attributeLabelUom = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE).getLabel();
+
+        //Validate ItemQuantity
+        if (item.getItemType().isAmountBasedGeneralLedgerIndicator() && ObjectUtils.isNotNull(item.getItemQuantity())) {
+            valid = false;
+            GlobalVariables.getMessageMap().putError(errorPrefixQty, PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ALLOWED, attributeLabelQty + " in " + item.getItemIdentifierString());
+        }
+
+        //Validate UnitOfMeasureCode
+         if (item.getItemType().isQuantityBasedGeneralLedgerIndicator() && StringUtils.isNotBlank(item.getItemUnitOfMeasureCode())) {
+            String uomCode = item.getItemUnitOfMeasureCode();
+                //Find out whether the unit of measure code has existed in the database
+                Map<String,String> fieldValues = new HashMap<String, String>();
+                fieldValues.put(PurapPropertyConstants.ITEM_UNIT_OF_MEASURE_CODE, item.getItemUnitOfMeasureCode());
+                 if (SpringContext.getBean(BusinessObjectService.class).countMatching(UnitOfMeasure.class, fieldValues) != 1) {
+                     valid = false;
+                     GlobalVariables.getMessageMap().putError(errorPrefixUom, PurapKeyConstants.PUR_ITEM_UNIT_OF_MEASURE_CODE_INVALID,  " in " + item.getItemIdentifierString());
+                }else if(!item.getItemUnitOfMeasure().isActive()){
+                     valid = false;
+                     GlobalVariables.getMessageMap().putError(errorPrefixUom, PurapKeyConstants.ERROR_ITEM_UOM_INACTIVE,  " in " + item.getItemIdentifierString());
+                }
+         }
+        if (item.getItemType().isAmountBasedGeneralLedgerIndicator() && StringUtils.isNotBlank(item.getItemUnitOfMeasureCode())) {
+            valid = false;
+            GlobalVariables.getMessageMap().putError(errorPrefixUom, PurapKeyConstants.ERROR_ITEM_UOM_NOT_ALLOWED, attributeLabelUom + " in " + item.getItemIdentifierString());
+        }
+
+        //Validate Commodity Code
+        if(StringUtils.isNotEmpty(item.getPurchasingCommodityCode())){
+            Map<String,String> fieldValues = new HashMap<String, String>();
+            fieldValues.put(PurapPropertyConstants.ITEM_COMMODITY_CODE, item.getPurchasingCommodityCode());
+            if (SpringContext.getBean(BusinessObjectService.class).countMatching(CommodityCode.class, fieldValues) != 1) {
+                valid = false;
+                GlobalVariables.getMessageMap().putError(errorPrefixCommCode, PurapKeyConstants.PUR_COMMODITY_CODE_INVALID,  " in " + item.getItemIdentifierString());
+             }
+        }
+
+        //if validation errors are present,display error messages.
+        if(GlobalVariables.getMessageMap().hasErrors() && !valid){
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+         }
+
+        //If the line item contains null values,populate them with the previous value from DB,if the DB value is also null then display error mesage.
+        Map<String, Object> primaryKeys = new HashMap<String, Object>();
+        primaryKeys.put("documentNumber", item.getDocumentNumber());
+        primaryKeys.put("itemIdentifier", item.getItemIdentifier());
+        PurchaseOrderItem purItem= SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(item.getClass(), primaryKeys);
+
+        //If the item is amount based (not quantity based)
+        if(!item.getItemType().isAmountBasedGeneralLedgerIndicator()){   //If the item is Quantity based
+            if(ObjectUtils.isNull(item.getItemQuantity())){
+               if(purItem.getItemQuantity()!=null){
+                    item.setItemQuantity(purItem.getItemQuantity());
+                }else{
+                  valid = false;
+                  GlobalVariables.getMessageMap().putError(errorPrefixQty, KFSKeyConstants.ERROR_REQUIRED, attributeLabelQty + " in " + purItem.getItemIdentifierString());
+                   }
+            }
+            if(StringUtils.isEmpty(item.getItemUnitOfMeasureCode())){
+                if(StringUtils.isNotEmpty(purItem.getItemUnitOfMeasureCode())){
+                    item.setItemUnitOfMeasureCode(purItem.getItemUnitOfMeasureCode());
+                }else{
+                  valid = false;
+                  GlobalVariables.getMessageMap().putError(errorPrefixUom, KFSKeyConstants.ERROR_REQUIRED, attributeLabelUom + " in " + purItem.getItemIdentifierString());
+                }
+            }
+         }
+
+         if(StringUtils.isEmpty(item.getPurchasingCommodityCode())){
+             if(StringUtils.isNotEmpty(purItem.getPurchasingCommodityCode())){
+                 item.setPurchasingCommodityCode(purItem.getPurchasingCommodityCode());
+              }else{
+                  valid = false;
+                  String attributeLabelCommCode = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CommodityCode.class.getName()).
+                  getAttributeDefinition(PurapPropertyConstants.ITEM_COMMODITY_CODE).getLabel();
+                  GlobalVariables.getMessageMap().putError(errorPrefixCommCode, KFSKeyConstants.ERROR_REQUIRED, attributeLabelCommCode + " in " + item.getItemIdentifierString());
+              }
+         }
+         if(StringUtils.isEmpty((item.getItemDescription()))){
+             if(StringUtils.isNotEmpty(purItem.getItemDescription())){
+                 item.setItemDescription(purItem.getItemDescription());
+             }else{
+                 valid = false;
+                 String attributeLabelDesc = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+                 getAttributeDefinition(PurapPropertyConstants.ITEM_DESCRIPTION).getLabel();
+                 GlobalVariables.getMessageMap().putError(errorPrefixDesc, KFSKeyConstants.ERROR_REQUIRED, attributeLabelDesc + " in " + item.getItemIdentifierString());
+             }
+         }
+         if(ObjectUtils.isNull(item.getItemUnitPrice())){
+             if(ObjectUtils.isNotNull(purItem.getItemUnitPrice())){
+                 item.setItemUnitPrice(purItem.getItemUnitPrice());
+             }else{
+                 valid = false;
+                 String attributeLabelUPrice = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(item.getClass().getName()).
+                 getAttributeDefinition(PurapPropertyConstants.ITEM_UNIT_PRICE).getLabel();
+                 GlobalVariables.getMessageMap().putError(errorPrefixUPrice, KFSKeyConstants.ERROR_REQUIRED, attributeLabelUPrice + " in " + item.getItemIdentifierString());
+             }
+        }
+
+       //if validation errors are present,display error messages.
+        if(GlobalVariables.getMessageMap().hasErrors() && !valid){
+             return mapping.findForward(KFSConstants.MAPPING_BASIC);
+         }
+
+
+        item.setItemActiveIndicator(false);
+        item.setCanInactivateItem(false);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -1706,6 +1824,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 // use PO type address to fill in vendor address
                 String campusCode = GlobalVariables.getUserSession().getPerson().getCampusCode();
                 VendorAddress pova = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(headID, detailID, AddressTypes.PURCHASE_ORDER, campusCode);
+                 if(pova!=null){
                 document.setVendorLine1Address(pova.getVendorLine1Address());
                 document.setVendorLine2Address(pova.getVendorLine2Address());
                 document.setVendorCityName(pova.getVendorCityName());
@@ -1713,14 +1832,29 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.setVendorPostalCode(pova.getVendorZipCode());
                 document.setVendorCountryCode(pova.getVendorCountryCode());
                 document.setVendorFaxNumber(pova.getVendorFaxNumber());
+                 }
 
                 document.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
 
                 document.setStatusChange(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
+ 
+               if(pova==null){
+                    document.setVendorLine1Address("");
+                    document.setVendorLine2Address("");
+                    document.setVendorCityName("");
+                    document.setVendorStateCode("");
+                    document.setVendorPostalCode("");
+                    document.setVendorCountryCode("");
+                    document.setVendorFaxNumber("");
+                    
+                    document.setStatusChange(PurchaseOrderStatuses.APPDOC_IN_PROCESS);
+                    GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_DOC_ADDRESS, PurapKeyConstants.ERROR_INACTIVE_VENDORADDRESS);
+                    return mapping.findForward(KFSConstants.MAPPING_BASIC);
+                }  
             }
         }
-
+          // document.setStatusChange(PurchaseOrderStatuses.APPDOC_IN_PROCESS);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -1793,13 +1927,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         // this should probably be moved into a protected instance variable
+        String operation =KewApiConstants.ACTION_REQUEST_CANCEL_REQ_LABEL;
         ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
+        String questionText = kualiConfiguration.getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT);
+        questionText = StringUtils.replace(questionText, "{0}", operation);
+        String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
 
         // logic for cancel question
         if (question == null) {
 
             // ask question if not already asked
-            return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_CANCEL_QUESTION, kualiConfiguration.getPropertyValueAsString("document.question.cancel.text"), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CANCEL, "");
+            return this.performQuestionWithInput(mapping, form, request, response, KFSConstants.DOCUMENT_CANCEL_QUESTION, kualiConfiguration.getPropertyValueAsString("document.question.cancel.text"), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CANCEL, "");
         }
         else {
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
@@ -1807,6 +1945,21 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
                 // if no button clicked just reload the doc
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }else{
+                reason =(reason ==null)? new String():reason;
+                int cancelNoteTextLength = reason.length();
+
+                // get note text max length from DD
+                int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, KRADConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
+                if (StringUtils.isBlank(reason) || (cancelNoteTextLength > noteTextMaxLength)) {
+                    // figure out exact number of characters that the user can enter
+                    int reasonLimit = noteTextMaxLength - cancelNoteTextLength;
+
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, KRADConstants.DOCUMENT_CANCEL_QUESTION, questionText, KRADConstants.CONFIRMATION_QUESTION, KRADConstants.MAPPING_CANCEL, "", reason, RiceKeyConstants.ERROR_DOCUMENT_DISAPPROVE_REASON_REQUIRED, KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
+                }
+
+
+
             }
             // else go to cancel logic below
         }

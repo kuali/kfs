@@ -37,7 +37,13 @@ public class PurapWorkflowConstants {
     public static final String RELATES_TO_OUTSTANDING_TRANSACTIONS = "RelatesToOutstandingTransactions";
     public static final String REQUIRES_IMAGE_ATTACHMENT = "RequiresImageAttachment";
     public static final String PURCHASE_WAS_RECEIVED = "PurchaseWasReceived";
-    
+    public static final String ITEMS_TAB_EDITED = "RequiresItemsApproval";
+    public static final String OTHER_TABS_EDITED = "RequiresItemsNonItem";
+    public static final String CONTRACT_MANAGEMENT_FYI_REQUIRED ="RequiresContractManagementNonItem";
+    public static final String AWARD_FYI_REQUIRED = "RequiresAwardNonItem";
+    public static final String BUDGET_FYI_REQUIRED = "RequiresBudgetNonItem";
+    public static final String VENDOR_IS_EMPLOYEE_ALIEN_FYI_REQUIRED = "VendorIsEmployeeOrNonResidentAlienNonItem";
+ 
     public static final String DOC_ADHOC_NODE_NAME = "AdHoc";
 
     public static class ContractManagerAssignmentDocument {

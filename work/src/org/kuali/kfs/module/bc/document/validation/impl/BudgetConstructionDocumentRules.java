@@ -773,10 +773,10 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
                 }
 
                 if (isRevenue) {
-                    this.putError(errors, targetErrorProperty, KFSKeyConstants.ERROR_DOCUMENT_EXPENSE_ON_INCOME_SIDE, isAdd, accountingLine.getFinancialObjectCode());
+                    this.putError(errors, targetErrorProperty, BCKeyConstants.ERROR_BUDGET_OBJECT_TYPE_INVALID_REVENUE, isAdd, accountingLine.getFinancialObjectCode(),accountingLine.getFinancialObject().getFinancialObjectTypeCode());
                 }
                 else {
-                    this.putError(errors, targetErrorProperty, KFSKeyConstants.ERROR_DOCUMENT_INCOME_ON_EXPENSE_SIDE, isAdd, accountingLine.getFinancialObjectCode());
+                    this.putError(errors, targetErrorProperty, BCKeyConstants.ERROR_BUDGET_OBJECT_TYPE_INVALID_EXPENSE, isAdd, accountingLine.getFinancialObjectCode(),accountingLine.getFinancialObject().getFinancialObjectTypeCode());
                 }
             }
         }

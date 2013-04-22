@@ -374,6 +374,15 @@
 	</bean>
 	
     <bean id="AccountingDocument-newAccountingLineBranchingValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineBranchingValidation" abstract="true" />
+    
+	<bean id="MassImportDocument-massImportLineObjectDataDictionaryValidation" class="org.kuali.kfs.sys.document.validation.impl.MassImportLineObjectDataDictionaryValidation" abstract="true" scope="prototype">
+		<property name="dictionaryValidationService">
+			<ref bean="dictionaryValidationService" />
+		</property>
+	</bean>
+	
+	<bean id="MassImportDocument-massImportLineRequiredValidation" class="org.kuali.kfs.sys.document.validation.impl.MassImportLineRequiredValidation" abstract="true" scope="prototype">
+	</bean>
 
 	<bean id="PaymentSource-foreignDraftValidation" class="org.kuali.kfs.sys.document.validation.impl.PaymentSourceForeignDraftValidation" abstract="true" />
 	

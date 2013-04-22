@@ -16,7 +16,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <kul:documentPage showDocumentInfo="true"
-    documentTypeName="PurchaseOrderDocument"
+    documentTypeName="${KualiForm.document.class.simpleName}"
     htmlFormAction="purapPurchaseOrder" renderMultipart="true"
     showTabButtons="true">
 
@@ -41,6 +41,78 @@
     <c:if test="${!empty KualiForm.editingMode['splittingItemSelection']}">
     	<c:set var="splittingItemSelectionMode" value="true" scope="request"/>
     </c:if>
+    
+    <c:choose>
+		<c:when test="${!empty KualiForm.editingMode['itemsTabEdited']}">
+			<c:set var="itemsTabEdited" value="true" scope="request"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="itemsTabEdited" value="false" scope="request"/>
+		</c:otherwise>
+	</c:choose>
+
+	<c:choose>
+		<c:when test="${!empty KualiForm.editingMode['camsTabEdited']}">
+			<c:set var="camsTabEdited" value="true" scope="request"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="camsTabEdited" value="false" scope="request"/>
+		</c:otherwise>
+	</c:choose>
+
+	<c:choose>
+		<c:when test="${!empty KualiForm.editingMode['stipulationTabEdited']}">
+			<c:set var="stipulationTabEdited" value="true" scope="request"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="stipulationTabEdited" value="false" scope="request"/>
+		</c:otherwise>
+	</c:choose>
+
+	<c:choose>
+		<c:when test="${!empty KualiForm.editingMode['additionalTabEdited']}">
+			<c:set var="additionalTabEdited" value="true" scope="request"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="additionalTabEdited" value="false" scope="request"/>
+		</c:otherwise>
+	</c:choose>
+
+	<c:choose>
+		<c:when test="${!empty KualiForm.editingMode['deliveryTabEdited']}">
+			<c:set var="deliveryTabEdited" value="true" scope="request"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="deliveryTabEdited" value="false" scope="request"/>
+		</c:otherwise>
+	</c:choose>
+
+	<c:choose>
+		<c:when test="${!empty KualiForm.editingMode['vendorTabEdited']}">
+			<c:set var="vendorTabEdited" value="true" scope="request"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="vendorTabEdited" value="false" scope="request"/>
+		</c:otherwise>
+	</c:choose>
+
+	<c:choose>
+		<c:when test="${!empty KualiForm.editingMode['paymentTabEdited']}">
+			<c:set var="paymentTabEdited" value="true" scope="request"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="paymentTabEdited" value="false" scope="request"/>
+		</c:otherwise>
+	</c:choose>
+
+	<c:choose>
+		<c:when test="${!empty KualiForm.editingMode['quoteTabEdited']}">
+			<c:set var="quoteTabEdited" value="true" scope="request"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="quoteTabEdited" value="false" scope="request"/>
+		</c:otherwise>
+	</c:choose>
          
     <c:if test="${KualiForm.document.needWarning}">
     	<font color="black"><bean:message key="${PurapConstants.WARNING_PURCHASEORDER_NUMBER_DONT_DISCLOSE}" /></font>

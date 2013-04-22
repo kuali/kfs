@@ -25,6 +25,7 @@ import java.sql.Date;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
@@ -67,6 +68,7 @@ import org.kuali.kfs.gl.service.impl.ScrubberStatus;
 import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.KFSParameterKeyConstants.GlParameterConstants;
@@ -1512,7 +1514,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             criteriaMap.put("chartOfAccountsCode", originEntryFull.getChartOfAccountsCode());
             criteriaMap.put("financialObjectCode",  fundBalanceCode);
 
-            fundBalanceObjectCode = (businessObjectService.findByPrimaryKey(ObjectCode.class, criteriaMap));
+            fundBalanceObjectCode = businessObjectService.findByPrimaryKey(ObjectCode.class, criteriaMap);            
         }
 
         return fundBalanceObjectCode;
@@ -1843,7 +1845,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             offsetEntry.setReferenceFinancialDocumentNumber(null);
             offsetEntry.setTransactionEncumbranceUpdateCode(null);
             offsetEntry.setProjectCode(KFSConstants.getDashProjectCode());
-            offsetEntry.setTransactionDate(runDate);
+            offsetEntry.setTransactionDate(getTransactionDateForOffsetEntry(scrubbedEntry));
 
             try {
                 flexibleOffsetAccountService.updateOffset(offsetEntry);
@@ -2469,6 +2471,20 @@ public class ScrubberProcessImpl implements ScrubberProcess {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+
+    // Offset entry to have the same transaction date as the original transaction for Payroll Posting
+    protected Date getTransactionDateForOffsetEntry(OriginEntryInformation scrubbedEntry) {
+        if (getParameterService().parameterExists(ScrubberStep.class, KFSParameterKeyConstants.GeneralLedgerSysParmeterKeys.TRANSACTION_DATE_BYPASS_ORIGINATIONS)) {
+            Collection<String> transactionDateAutoAssignmentBypassOriginCodes = getParameterService().getParameterValuesAsString(ScrubberStep.class, KFSParameterKeyConstants.GeneralLedgerSysParmeterKeys.TRANSACTION_DATE_BYPASS_ORIGINATIONS);
+            String originationCode = scrubbedEntry.getFinancialSystemOriginationCode();
+            if (transactionDateAutoAssignmentBypassOriginCodes.contains(originationCode)) {
+                return scrubbedEntry.getTransactionDate();
+            }
+        }
+
+        return this.runDate;
     }
 
 }

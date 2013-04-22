@@ -433,4 +433,10 @@
     </bean>
 		
 	<bean id="CapitalAccountingLines-objectCodeSubTypeValidation" class="org.kuali.kfs.fp.document.validation.impl.CapitalAccountingLinesObjectSubtypeValidations" abstract="true" />		
+	
+	<bean id="PreEncumbrance-accountingLineObjectCodeRestrictionValidation" class="org.kuali.kfs.fp.document.validation.impl.AccountingLineObjectCodeRestrictionValidation" abstract="true">
+        <property name="parameterService" ref="parameterService" />
+        <property name="parameterEvaluatorService" ref="parameterEvaluatorService" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>			
 </beans>

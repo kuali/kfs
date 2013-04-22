@@ -97,7 +97,7 @@ public class PurapConstants {
     public static final String CONFIRM_CHANGE_DFLT_RVNG_ADDR = "confirm.change.dflt.rcvng.addr";
     public static final String CONFIRM_CHANGE_DFLT_RVNG_ADDR_TXT = "Setting this receiving address to be default will unset the current default address. Do you want to proceed?";
 
-    public static final String REQ_REASON_NOT_APO = "Requisition did not become an APO because: ";
+    public static final String REQ_REASON_NOT_APO = "ORDER ROUTED TO PURCHASING FOR PROCESSING: ";
     public static final String REQ_UNABLE_TO_CREATE_NOTE = "Unable to create a note on this document.";
 
     public static final String TRADE_IN_OBJECT_CODE_FOR_CAPITAL_ASSET_OBJECT_SUB_TYPE = "7070";
@@ -357,7 +357,7 @@ public class PurapConstants {
         public static final HashMap<String, String> getPurchaseOrderAppDocDisapproveStatuses(){
 
             HashMap<String, String> poAppDocStatusMap = new HashMap<String, String>();
-            
+
             poAppDocStatusMap.put(NODE_ADHOC_REVIEW, PurchaseOrderStatuses.APPDOC_CANCELLED);
             poAppDocStatusMap.put(NODE_AWAIT_NEW_UNORDERED_ITEM_REVIEW,PurchaseOrderStatuses.APPDOC_DAPRVD_UNORDERED_ITEM);
             poAppDocStatusMap.put(NODE_INTERNAL_PURCHASING_REVIEW, PurchaseOrderStatuses.APPDOC_DAPRVD_PURCHASING);
@@ -535,7 +535,7 @@ public class PurapConstants {
         public static final String MANUAL_STATUS_CHANGE_QUESTION = "manualStatusChangeQuestion";
         public static final String WAITING_FOR_VENDOR = "WVEN";
         public static final String WAITING_FOR_DEPARTMENT = "WDPT";
-        
+
         public static final String OPEN_STATUS = "Open";
 
         public static final String POSTAL_CODE = "Postal Code";
@@ -737,7 +737,7 @@ public class PurapConstants {
         public static final HashMap<String, String> getPaymentRequestAppDocDisapproveStatuses(){
 
             HashMap<String, String> appDocStatusMap = new HashMap<String, String>();
-            
+
             appDocStatusMap.put(NODE_ADHOC_REVIEW, PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS);
             appDocStatusMap.put(AccountsPayableStatuses.NODE_ACCOUNT_PAYABLE_REVIEW, PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS);
             appDocStatusMap.put(NODE_AWAITING_RECEIVING_REVIEW, PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE);
@@ -1409,7 +1409,7 @@ public class PurapConstants {
         public static String INCLUDE_RETIRED_ASSETS_IND = "INCLUDE_RETIRED_ASSETS_IND";
     }
     // CSU 6702 BEGIN
-    
+
 
     public static final String PURAP_APPLICATION_DOCUMENT_ID_NOT_AVAILABLE = "Not Available";
     public static final String PURAP_APPLICATION_DOCUMENT_STATUS_NOT_AVAILABLE = "Not Available";
@@ -1418,11 +1418,36 @@ public class PurapConstants {
     public static final String DELIVERY_ROOM_NUMBER_INACTIVE_ERROR   = "document.deliveryBuildingRoomNumber";
 
     public static final String PURAP_REQS_ORG_CD   = "document.organizationCode";
-    
+
     public static final String PO_RETRANSMIT_SELECT_TAB_ERRORS = "document.items";
-    
+
     public static final String ITEM_PURCHASING_COMMODITY_CODE = "distributePurchasingCommodityCode";
-    
+
     public static final String ITEM_TYPE_QTY = "Qty";
     public static final String ITEM_TYPE_NO_QTY = "No Qty";
+
+
+   public static final String PO_FINAL_ANNOTATION_TEXT= "message.document.purap.final.annotation";
+   public static final String PO_DISAPPROVAL_ANNOTATION_TEXT= "message.document.purap.disapprove.annotation";
+   public static final String PO_CANCEL_ANNOTATION_TEXT= "message.document.purap.cancel.annotation";
+
+   public static final class EditedTabs {
+       public static final String PURAP_VENDOR_TAB = "PURAP_VENDOR_TAB";
+       public static final String PURAP_ADDITIONAL_TAB = "PURAP_ADDITIONAL_TAB";
+       public static final String PURAP_CAMS_TAB = "PURAP_CAMS_TAB";
+       public static final String PURAP_DELIVERY_TAB = "PURAP_DELIVERY_TAB";
+       public static final String PURAP_PAYMENT_TAB = "PURAP_PAYMENT_TAB";
+       public static final String PURAP_QUOTES_TAB = "PURAP_QUOTES_TAB";
+       public static final String PURAP_STIPULATION_TAB = "PURAP_STIPULATION_TAB";
+       public static final String PURAP_ITEMS_TAB = "PURAP_ITEMS_TAB";
+   }
+
+   public static class PurchaseOrderTabConstants{
+       public static final String CAMS_TAB_PUR_CAPITAL_ASSET_SYSTEM = "purchasingCapitalAssetSystem";
+       public static final String CAMS_TAB_PUR_ITEM_CAPITAL_ASSETS = "itemCapitalAssets";
+       public static final String CAMS_TAB_PUR_CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
+       public static final String ITEMS_TAB_PUR_SOURCE_ACC_LINES = "sourceAccountingLines";
+   }
+
+
 }

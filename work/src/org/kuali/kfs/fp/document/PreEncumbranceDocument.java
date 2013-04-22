@@ -113,17 +113,28 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
      *      org.kuali.rice.krad.bo.AccountingLine)
      */
     @Override
-    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
+     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AccountingLine accountingLine = (AccountingLine)postable;
         // if not expense, or positive amount on an error-correction, or negative amount on a non-error-correction, throw exception
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
-        if (!isDebitUtils.isExpense(accountingLine) || (isDebitUtils.isErrorCorrection(this) == accountingLine.getAmount().isPositive())) {
+        
+       
+        if (isDebitUtils.isErrorCorrection(this) == accountingLine.getAmount().isPositive()) {
             throw new IllegalStateException(isDebitUtils.getDebitCalculationIllegalStateExceptionMessage());
         }
-
-        return !isDebitUtils.isDebitConsideringSection(this, accountingLine);
+        
+        boolean isDebit = false;
+        
+        if(isDebitUtils.isIncome(postable))
+        {
+            isDebit = isDebitUtils.isDebitConsideringSection(this, accountingLine);
+        }
+        else
+        {
+            isDebit = !isDebitUtils.isDebitConsideringSection(this, accountingLine);
+        }
+        return isDebit;
     }
-
     /**
      * This method contains PreEncumbrance document specific general ledger pending entry explicit entry
      * attribute assignments.  These attributes include financial balance type code, reversal date and

@@ -110,6 +110,14 @@
 
   <bean id="PaymentDetail-paymentGroup.payeeName-parentBean" abstract="true" parent="PaymentGroup-payeeName">
     <property name="name" value="paymentGroup.payeeName"/>
+    <property name="attributeSecurity">
+	    <bean parent="AttributeSecurity">
+ 	        <property name="mask" value="true" /> 
+			<property name="maskFormatter">
+  		        <bean parent="MaskFormatterLiteral" p:literal="Accounting Upload" /> 
+  		    </property>
+  	    </bean>
+ 	</property>    
   </bean>
   
   <bean id="PaymentDetail-paymentGroup.paymentStatusCodeWithHistory" parent="PaymentDetail-paymentGroup.paymentStatusCodeWithHistory-parentBean"/>
@@ -405,7 +413,16 @@
 
   <bean id="PaymentDetail-paymentGroup.street-parentBean" abstract="true" parent="PaymentGroup-street">
     <property name="name" value="paymentGroup.street"/>
-  </bean>    
+    <property name="attributeSecurity">
+	    <bean parent="AttributeSecurity">
+  		    <property name="mask" value="true" /> 
+		    <property name="maskFormatter">
+	            <bean parent="MaskFormatterLiteral" p:literal="*****" /> 
+  	        </property>
+  		</bean>
+  	</property>    
+  </bean>   
+   
   <bean id="PaymentDetail-paymentGroup.alternatePayeeId" parent="PaymentDetail-paymentGroup.alternatePayeeId-parentBean"/>
 
   <bean id="PaymentDetail-paymentGroup.alternatePayeeId-parentBean" abstract="true" parent="PaymentGroup-alternatePayeeId">
@@ -415,7 +432,16 @@
 
   <bean id="PaymentDetail-paymentGroup.city-parentBean" abstract="true" parent="PaymentGroup-city">
     <property name="name" value="paymentGroup.city"/>
+    <property name="attributeSecurity">
+	    <bean parent="AttributeSecurity">
+  			<property name="mask" value="true" /> 
+	        <property name="maskFormatter">
+  			    <bean parent="MaskFormatterLiteral" p:literal="*****" /> 
+  			</property>
+  		</bean>
+  	</property>    
   </bean>
+  
   <bean id="PaymentDetail-paymentGroup.payeeOwnerCd" parent="PaymentDetail-paymentGroup.payeeOwnerCd-parentBean"/>
 
   <bean id="PaymentDetail-paymentGroup.payeeOwnerCd-parentBean" abstract="true" parent="PaymentGroup-payeeOwnerCd">
@@ -425,7 +451,16 @@
 
   <bean id="PaymentDetail-paymentGroup.state-parentBean" abstract="true" parent="PaymentGroup-state">
     <property name="name" value="paymentGroup.state"/>
+    <property name="attributeSecurity">
+	    <bean parent="AttributeSecurity">
+  		    <property name="mask" value="true" /> 
+		    <property name="maskFormatter">
+  			    <bean parent="MaskFormatterLiteral" p:literal="*****" /> 
+  			</property>
+  		</bean>
+  	</property>    
   </bean>
+  
   <bean id="PaymentDetail-paymentGroup.employeeIndicator" parent="PaymentDetail-paymentGroup.employeeIndicator-parentBean"/>
 
   <bean id="PaymentDetail-paymentGroup.employeeIndicator-parentBean" abstract="true" parent="PaymentGroup-employeeIndicator">
@@ -445,7 +480,16 @@
 
   <bean id="PaymentDetail-paymentGroup.zipCd-parentBean" abstract="true" parent="PaymentGroup-zipCd">
     <property name="name" value="paymentGroup.zipCd"/>
+    <property name="attributeSecurity">
+	    <bean parent="AttributeSecurity">
+  			<property name="mask" value="true" /> 
+		    <property name="maskFormatter">
+  		        <bean parent="MaskFormatterLiteral" p:literal="*****" /> 
+  		    </property>
+  		</bean>
+  	</property>    
   </bean>
+  
   <bean id="PaymentDetail-paymentGroup.adviceEmailAddress" parent="PaymentDetail-paymentGroup.adviceEmailAddress-parentBean"/>
 
   <bean id="PaymentDetail-paymentGroup.adviceEmailAddress-parentBean" abstract="true" parent="PaymentGroup-adviceEmailAddress">

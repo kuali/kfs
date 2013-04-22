@@ -26,6 +26,7 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.YearEndBudgetAdjustmentDocumentPresentationController"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentPreRules"/>
+    <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLineParser" />
     <property name="sessionDocument" value="true"/>
     <property name="allowsCopy" value="true"/>
 

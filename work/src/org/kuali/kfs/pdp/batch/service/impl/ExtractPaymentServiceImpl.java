@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -40,11 +41,13 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.kfs.pdp.businessobject.PaymentStatus;
+import org.kuali.kfs.pdp.businessobject.ProcessSummary;
 import org.kuali.kfs.pdp.dataaccess.PaymentGroupHistoryDao;
 import org.kuali.kfs.pdp.dataaccess.ProcessDao;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -188,7 +191,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
         Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        PaymentStatus extractedStatus = (PaymentStatus) this.businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
+        PaymentStatus extractedStatus = this.businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
 
         String achFilePrefix = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.ExtractPayment.ACH_FILENAME);
         achFilePrefix = MessageFormat.format(achFilePrefix, new Object[] { null });
@@ -215,7 +218,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
         Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        PaymentStatus extractedStatus = (PaymentStatus) this.businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
+        PaymentStatus extractedStatus = this.businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
 
         String checkFilePrefix = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
         checkFilePrefix = MessageFormat.format(checkFilePrefix, new Object[] { null });
@@ -233,10 +236,38 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         }
     }
 
+    protected boolean isResearchParticipantExtractFile(Integer processId) {
+        boolean result = false;
+        if (parameterService.parameterExists(PaymentDetail.class, PdpConstants.RESEARCH_PARTICIPANT_CUSTOMER_PROFILE)) {
+            Map fieldValues = new HashMap<String, Integer>();
+            fieldValues.put("processId", processId);
+            Collection<ProcessSummary> processSummaryList = this.businessObjectService.findMatching(ProcessSummary.class, fieldValues);
+            ProcessSummary processSummary = processSummaryList.iterator().next();
+            Collection<String> researchParticipantCustomers = parameterService.getParameterValuesAsString(PaymentDetail.class, PdpConstants.RESEARCH_PARTICIPANT_CUSTOMER_PROFILE);
+            for (String researchParticipantCustomer : researchParticipantCustomers) {
+                String[] customerArray = researchParticipantCustomer.split(KFSConstants.DASH);
+                CustomerProfile customer = processSummary.getCustomer();
+                if (customer.getChartCode().equals(customerArray[0]) && customer.getUnitCode().equals(customerArray[1]) && customer.getSubUnitCode().equals(customerArray[2])) {
+                    return true;
+                }
+            }
+        }
+        return result;
+    }
+
     protected void writeExtractCheckFile(PaymentStatus extractedStatus, PaymentProcess p, String filename, Integer processId) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date processDate = dateTimeService.getCurrentDate();
         BufferedWriter os = null;
+
+        //Check whether this is for research participant upload. If the customer profile matches research participant's
+        //customer profile, then change the filename to append the RP-Upload prefix.
+        if (isResearchParticipantExtractFile(processId)) {
+            String checkFilePrefix = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
+            checkFilePrefix = MessageFormat.format(checkFilePrefix, new Object[] { null });
+            checkFilePrefix = PdpConstants.RESEARCH_PARTICIPANT_FILE_PREFIX + KFSConstants.DASH + checkFilePrefix;
+            filename = getOutputFile(checkFilePrefix, processDate);
+        }
 
         try {
             os = new BufferedWriter(new FileWriter(filename));
@@ -699,5 +730,6 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
     public List<String> getRequiredDirectoryNames() {
         return new ArrayList<String>() {{add(directoryName); }};
     }
+
 
 }

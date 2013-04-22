@@ -63,6 +63,9 @@ public class PurapParameterConstants {
     public static final String VALIDATE_ACCOUNT_DISTRIBUTION_IND = "VALIDATE_ACCOUNT_DISTRIBUTION_IND";
 
     public static final String SHOW_CLEAR_AND_LOAD_QTY_BUTTONS = "SHOW_CLEAR_AND_LOAD_QTY_BUTTONS";
+
+    public static final String SHOW_CLEAR_AND_LOAD_QTY_BUTTONS_IND = "SHOW_CLEAR_AND_LOAD_QUANTITY_BUTTONS_IND";
+
     public static final String UNORDERED_ITEM_WARNING_IND = "UNORDERED_ITEM_WARNING_IND";
 
     public static final String ENABLE_DEFAULT_CONTRACT_MANAGER_IND = "ENABLE_DEFAULT_CONTRACT_MANAGER_IND";
@@ -101,6 +104,8 @@ public class PurapParameterConstants {
     public static final String PAYMENT_REQUEST_POSITIVE_APPROVAL_IND = "PAYMENT_REQUEST_POSITIVE_APPROVAL_IND";
 
     public static final String PO_SENSITIVE_DATA_NOTE_IND="SENSITIVE_DATA_NOTE_IND";
+
+    public static final String PO_NOTIFY_EXCLUSIONS = "NOTIFY_REQUISITION_SOURCES";
 
 
     public static class CapitalAsset {

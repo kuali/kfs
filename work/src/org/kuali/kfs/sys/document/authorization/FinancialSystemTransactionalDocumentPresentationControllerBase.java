@@ -35,6 +35,7 @@ import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentati
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.datadictionary.DocumentEntry;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.ObjectUtils;
 
 /**
@@ -115,6 +116,12 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
             if (canHaveBankEntry(document)) {
                 documentActions.add(KFSConstants.KFS_ACTION_CAN_EDIT_BANK);
             }
+
+            if (canViewSecuredField(document)) {
+                 documentActions.add(KFSConstants.KFS_ACTION_CAN_VIEW_SECURED_FIELD);
+            }
+
+
         }
 
         // CSU 6702 BEGIN
@@ -156,6 +163,32 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
 
         return editModes;
     }
+
+
+    /**
+         * Determines whether the current user can view the secured field in
+         * the document overview tab. If the current user is the initiator of
+         * the document, then the current user can view the secured field
+         * without any masking.
+         *
+         * @param  document The document that the user is viewing.
+         * @return true if the current user can view the secured field and false otherwise.
+         */
+        public boolean canViewSecuredField(Document document) {
+            String currentUser = GlobalVariables.getUserSession().getPrincipalId();
+
+            if (document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId().equals(currentUser)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+
+        }
+
+
+
+
 
     // check if bank entry should be viewable for the given document
     protected boolean canHaveBankEntry(Document document) {

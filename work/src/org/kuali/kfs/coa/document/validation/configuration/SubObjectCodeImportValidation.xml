@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="SubObjectCodeImportDocument-importLinesValidation" parent="SubObjectCodeImportDocument-importLinesValidation-parentBean" scope="prototype" />
+  
+  	<bean id="SubObjectCodeImportDocument-importLinesValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="MassImportDocument-massImportLineObjectDataDictionaryValidation">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="importedLines" />
+							<property name="targetValidationProperty" value="importedLines" />
+						</bean>
+					</property>
+				</bean>
+  			</list>
+  		</property>
+  	</bean>
+  	  	
+	<bean id="SubObjectCodeImportDocument-routeDocument-itemsCollectionValidation" parent="SubObjectCodeImportDocument-routeDocument-itemsCollectionValidation-parentBean" />
+  	<bean id="SubObjectCodeImportDocument-routeDocument-itemsCollectionValidation-parentBean" abstract="true" parent="CollectionValidation" scope="prototype">
+  		<property name="collectionProperty" value="document.subObjectCodeImportDetails" />
+  		<property name="validations">
+  			<list>  					  						
+				<bean parent="MassImportDocument-massImportLineObjectDataDictionaryValidation">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="iterationSubject" />
+							<property name="targetValidationProperty" value="importedLineForValidation" />
+						</bean>
+					</property>
+				</bean>
+				<bean parent="SubObjectCodeImportDocument-subObjectCodeImportLineObjectExistenceValidation">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="iterationSubject" />
+							<property name="targetValidationProperty" value="importedLineForValidation" />
+						</bean>
+					</property>
+				</bean>
+				<bean parent="SubObjectCodeImportDocument-duplicateSubObjectCodeValidation">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="iterationSubject" />
+							<property name="targetValidationProperty" value="importedLineForValidation" />
+						</bean>
+					</property>
+				</bean>
+			</list>
+		</property>
+  	</bean>
+  	
+  	
+	<bean id="SubObjectCodeImportDocument-routeDocumentValidation" parent="SubObjectCodeImportDocument-routeDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="SubObjectCodeImportDocument-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="MassImportDocument-massImportLineRequiredValidation" scope="prototype" />
+  				<bean parent="SubObjectCodeImportDocument-routeDocument-itemsCollectionValidation" scope="prototype" />
+  			</list>
+  		</property>
+  	</bean>
+  	
+  	<bean id="SubObjectCodeImportDocument-saveDocumentValidation" parent="SubObjectCodeImportDocument-saveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="SubObjectCodeImportDocument-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+			<list>
+				<bean parent="SubObjectCodeImportDocument-routeDocument-itemsCollectionValidation" scope="prototype" />
+			</list>
+		</property>
+  	</bean>
+  
+  	<bean id="SubObjectCodeImportDocument-approveDocumentValidation" parent="SubObjectCodeImportDocument-approveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="SubObjectCodeImportDocument-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  			</list>
+  		</property>
+  	</bean>
+  
+	<bean id="SubObjectCodeImportDocument-blanketApproveDocumentValidation" parent="SubObjectCodeImportDocument-blanketApproveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="SubObjectCodeImportDocument-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  			</list>
+  		</property>
+	</bean>
+		
+</beans>

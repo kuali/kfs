@@ -37,8 +37,17 @@
 			type="org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetForm" />
 		<form-bean name="ElectronicFundTransferForm"
 			type="org.kuali.kfs.sys.web.struts.ElectronicFundTransferForm" />
+		<form-bean name="SubAccountImportForm" 
+			type="org.kuali.kfs.coa.document.web.struts.SubAccountImportForm" />
+		<form-bean name="SubObjectCodeImportForm" 
+			type="org.kuali.kfs.coa.document.web.struts.SubObjectCodeImportForm" />
+		<form-bean name="ProjectCodeImportForm" 
+			type="org.kuali.kfs.coa.document.web.struts.ProjectCodeImportForm" />
 
 		<!--  Financial Module Bean Definitions -->
+		
+		<form-bean name="IntraAccountAdjustmentForm" 
+			type="org.kuali.kfs.fp.document.web.struts.IntraAccountAdjustmentForm" />	
 		<form-bean name="DepositWizardForm"
 			type="org.kuali.kfs.fp.document.web.struts.DepositWizardForm" />
 		<form-bean name="CashReceiptForm"
@@ -173,6 +182,8 @@
 			type="org.kuali.kfs.gl.web.struts.BalanceInquiryForm" />
 		<form-bean name="BalanceInquiryLookupForm"
 			type="org.kuali.kfs.gl.web.struts.BalanceInquiryLookupForm" />
+		<form-bean name="TrialBalanceReportForm"
+			type="org.kuali.kfs.gl.web.struts.TrialBalanceReportForm" />
 
 		<!-- PURAP Module Bean Definitions -->
  
@@ -320,7 +331,7 @@
 
         <!-- VND Module Bean Definitions -->
 	    <form-bean name="VendorExclusionForm"
-			type="org.kuali.kfs.vnd.web.struts.VendorExclusionForm" />     			
+			type="org.kuali.kfs.vnd.web.struts.VendorExclusionForm" />       			
 	</form-beans>
 
 	<global-exceptions>
@@ -600,7 +611,6 @@
 			<forward name="basic" path="/jsp/module/bc/{1}.jsp" />
 			<forward name="organizationSalarySettingReturning"
 				path="/jsp/module/bc/OrganizationSalarySettingReturning.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 			<forward name="import_export"
 				path="/jsp/module/bc/BudgetConstructionImportExport.jsp" />
 		</action>
@@ -611,7 +621,6 @@
 			scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/bc/OrganizationSelectionTree.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
         <action path="/budgetOrganizationReportSelection" name="OrganizationReportSelectionForm"
@@ -620,7 +629,6 @@
             scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/module/bc/OrganizationReportSelection.jsp" />
-            <forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
         </action>
 
 		<action path="/budgetMonthlyBudget" name="MonthlyBudgetForm"
@@ -629,7 +637,6 @@
 			scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/bc/MonthlyBudget.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/budgetQuickSalarySetting" name="QuickSalarySettingForm"
@@ -638,7 +645,6 @@
 			scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/bc/QuickSalarySetting.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/budgetPositionSalarySetting" name="PositionSalarySettingForm"
@@ -649,7 +655,6 @@
 			<forward name="basic" path="/jsp/module/bc/PositionSalarySetting.jsp" />
 			<forward name="organizationSalarySettingReturning"
 				path="/jsp/module/bc/OrganizationSalarySettingReturning.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/budgetIncumbentSalarySetting" name="IncumbentSalarySettingForm"
@@ -660,7 +665,6 @@
 			<forward name="basic" path="/jsp/module/bc/IncumbentSalarySetting.jsp" />
 			<forward name="organizationSalarySettingReturning"
 				path="/jsp/module/bc/OrganizationSalarySettingReturning.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/cashManagementStatus" name="CashManagementStatusForm"
@@ -769,6 +773,15 @@
 			<forward name="continue" path="/jsp/pdp/format/formatContinue.jsp" />
 		</action>
 
+		<action path="/glTrialBalance"
+		    name="TrialBalanceReportForm"
+		    type="org.kuali.kfs.gl.web.struts.TrialBalanceReportAction"
+			scope="request" parameter="methodToCall" validate="false"
+            attribute="KualiForm" >
+            <forward name="basic"
+				path="/jsp/gl/TrialBalanceReportLookup.jsp" />
+         </action>
+
 		<!-- These are TEM items -->
 		<action path="/tem*" name="{1}Form"
 			input="/jsp/module/tem/{1}.jsp"
@@ -828,6 +841,13 @@
 			scope="request" parameter="methodToCall" validate="false"
 			attribute="KualiForm" />
 			
+		<action path="/coa*" name="{1}Form" input="/jsp/coa/{1}.jsp" 
+        		type="org.kuali.kfs.coa.document.web.struts.{1}Action" 
+        		scope="request" parameter="methodToCall" attribute="KualiForm">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/coa/{1}.jsp" />
+        </action>
+
 		<action path="/SessionInvalidateAction" name="KualiForm"
 			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
 			<forward name="basic" path="/jsp/sys/SessionExpiration.jsp" />

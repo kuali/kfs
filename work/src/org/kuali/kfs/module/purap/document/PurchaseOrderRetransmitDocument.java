@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,7 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderRetransmitDocument.class);
 
     protected boolean shouldDisplayRetransmitTab;
-    
+
     /**
      * Default constructor.
      */
@@ -48,7 +48,7 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
 
     /**
      * General Ledger pending entries are not created for this document. Overriding this method so that entries are not created.
-     * 
+     *
      * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#customPrepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     @Override
@@ -58,7 +58,7 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
 
     /**
      * Adds up the total amount of the items selected by the user for retransmit, then return the amount.
-     * 
+     *
      * @return KualiDecimal the total amount of the items selected by the user for retransmit.
      */
     public KualiDecimal getTotalDollarAmountForRetransmit() {
@@ -74,7 +74,7 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
 
         return total;
     }
-   
+
     public KualiDecimal getTotalPreTaxDollarAmountForRetransmit() {
         // We should only add up the amount of the items that were selected for retransmit.
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
@@ -88,7 +88,7 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
 
         return total;
     }
-    
+
     public KualiDecimal getTotalTaxDollarAmountForRetransmit() {
         // We should only add up the amount of the items that were selected for retransmit.
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
@@ -102,11 +102,11 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
 
         return total;
     }
-    
+
     /**
      * When Purchase Order Retransmit document has been Processed through Workflow, the PO status remains to "OPEN" and the last
      * transmit date is updated.
-     * 
+     *
      * @see org.kuali.kfs.module.purap.document.PurchaseOrderDocument#doRouteStatusChange()
      */
     @Override
@@ -118,17 +118,17 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
             if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
                 setPurchaseOrderLastTransmitTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
-                updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);                
+                updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             }
             // DOCUMENT DISAPPROVED
             else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isDisapproved()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(this);
-             
+
                 // for app doc status
                 try {
                     String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(this.getFinancialSystemDocumentHeader().getWorkflowDocument());
                     String reqStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
-                    updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(reqStatus));   
+                    updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(reqStatus));
                 } catch (WorkflowException e) {
                     logAndThrowRuntimeException("Error saving routing data while saving App Doc Status " + getDocumentNumber(), e);
                 }
@@ -137,7 +137,7 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
             else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isCanceled()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
                 // for app doc status
-                updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED);                
+                updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED);
             }
         }
         catch (WorkflowException e) {
@@ -151,5 +151,10 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
 
     public void setShouldDisplayRetransmitTab(boolean shouldDisplayRetransmitTab) {
         this.shouldDisplayRetransmitTab = shouldDisplayRetransmitTab;
+    }
+
+    @Override
+    protected boolean shouldAdhocFyi() {
+        return false;
     }
 }

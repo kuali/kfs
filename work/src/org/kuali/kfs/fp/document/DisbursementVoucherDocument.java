@@ -38,6 +38,7 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
+import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.kfs.fp.businessobject.WireCharge;
 import org.kuali.kfs.fp.businessobject.options.DisbursementVoucherDocumentationLocationValuesFinder;
 import org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder;
@@ -731,6 +732,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      *
      * @return Returns the cancelDate.
      */
+    @Override
     public Date getCancelDate() {
         return cancelDate;
     }
@@ -1731,14 +1733,38 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             return title;
         }
 
-        Object[] indicators = new String[2];
+        DisbursementVoucherPaymentReasonService paymentReasonService = SpringContext.getBean(DisbursementVoucherPaymentReasonService.class);
+        if (title != null && title.contains(DisbursementVoucherConstants.DV_DOC_NAME)) {
+            String paymentCodeAndDescription = StringUtils.EMPTY;
+
+            if(StringUtils.isNotBlank(payee.getDisbVchrPaymentReasonCode())){
+                PaymentReasonCode paymentReasonCode = paymentReasonService.getPaymentReasonByPrimaryId(payee.getDisbVchrPaymentReasonCode());
+
+                paymentCodeAndDescription = ObjectUtils.isNotNull(paymentReasonCode) ? paymentReasonCode.getCodeAndDescription() : paymentCodeAndDescription;
+            }
+
+            String replaceTitle = DisbursementVoucherConstants.DV_DOC_NAME + " " + paymentCodeAndDescription;
+            title = title.replace(DisbursementVoucherConstants.DV_DOC_NAME, replaceTitle);
+        }
+
+        Object[] indicators = new String[4];
         indicators[0] = payee.isEmployee() ? AdHocPaymentIndicator.EMPLOYEE_PAYEE : AdHocPaymentIndicator.OTHER;
         indicators[1] = payee.isDisbVchrAlienPaymentCode() ? AdHocPaymentIndicator.ALIEN_PAYEE : AdHocPaymentIndicator.OTHER;
 
+        String taxControlCode = this.getDisbVchrPayeeTaxControlCode();
+        if (StringUtils.equals(taxControlCode, DisbursementVoucherDocument.TAX_CONTROL_BACKUP_HOLDING) || StringUtils.equals(taxControlCode,DisbursementVoucherDocument.TAX_CONTROL_HOLD_PAYMENTS)) {
+            indicators[2] =  AdHocPaymentIndicator.TAX_CONTROL_REQUIRING_TAX_REVIEW ;
+        }else{
+            indicators[2] =  AdHocPaymentIndicator.OTHER;
+        }
+
+        boolean isTaxReviewRequired = paymentReasonService.isTaxReviewRequired(payee.getDisbVchrPaymentReasonCode());
+        indicators[3] = isTaxReviewRequired ? AdHocPaymentIndicator.PAYMENT_REASON_REQUIRING_TAX_REVIEW : AdHocPaymentIndicator.OTHER;
+
         for(Object indicator : indicators) {
             if(!AdHocPaymentIndicator.OTHER.equals(indicator)) {
-                String titlePattern = title + " [{0}:{1}]";
-                return MessageFormat.format(titlePattern, indicators);
+                String adHocPaymentIndicator = MessageFormat.format(" [{0}:{1}:{2}:{3}]", indicators);
+                return title + adHocPaymentIndicator;
             }
         }
 

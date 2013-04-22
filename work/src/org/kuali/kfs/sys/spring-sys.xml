@@ -104,6 +104,7 @@
 
 	<bean id="KFSDocumentSearchCustomizer" class="org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer" />
 	<bean id="FinancialSystemSearchableAttribute" class="org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer" />
+	<bean id="SensitiveDataSecurityAttribute" class="org.kuali.kfs.sys.document.workflow.SensitiveDataSecurityAttribute" />
 
     <!-- begin batch framework -->
 	<bean id="scheduler" parent="scheduler-parentBean"/>	    
@@ -162,6 +163,10 @@
 	<bean id="searchableAttributeCallback" parent="kfsCallbackService" abstract="true" 
 		  p:busSecurity="${kew.callback.service.bus.security.enabled}"
 		  p:serviceInterface="org.kuali.rice.kew.framework.document.attribute.SearchableAttribute" />
+
+	<bean id="sensitiveDataSecurityAttributeCallback" parent="kfsCallbackService" abstract="true" 
+		  p:busSecurity="${kew.callback.service.bus.security.enabled}"
+		  p:serviceInterface="org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute" />
 
 	<bean id="customActionListAttributeCallback" parent="kfsCallbackService" abstract="true" 
 		  p:busSecurity="${kew.callback.service.bus.security.enabled}"
@@ -1081,7 +1086,7 @@
 	</bean>
 	
 	<bean id="stopBatchContainerStep" class="org.kuali.kfs.sys.batch.StopBatchContainerStep" parent="step"/>
-	
+
 	<bean id="initiateDirectoryBase" abstract="true" class="org.kuali.kfs.sys.batch.InitiateDirectoryBase" >
 		 <property name="skipDirectoryInitiation" value="${skip.batch.directory.initiation}" /> 
 	</bean>
@@ -1101,17 +1106,14 @@
     
     <bean id="excludeSingleActorSeparationOfDutiesRoleTypeService" parent="excludeSingleActorSeparationOfDutiesRoleTypeService-parentBean" />
     <bean id="excludeSingleActorSeparationOfDutiesRoleTypeService-parentBean" abstract="true" class="org.kuali.kfs.sys.identity.ExcludeSingleActorSeparationOfDutiesRoleTypeService" />
-    
-    
-    <import resource="spring-sys-bus-exports.xml"/>
 
 	<bean id="kfsNotificationService" class="org.kuali.kfs.sys.service.impl.KfsNotificationServiceImpl">
 		<property name="velocityEngine" ref="velocityEngine"/>
 		<property name="configurationService" ref="kualiConfigurationService"/>
 		<property name="mailService" ref="mailService" />	
 	</bean>
-	
-	<bean id="paymentSourceExtractService"  parent="paymentSourceExtractService-parentBean"/>
+    
+    <bean id="paymentSourceExtractService"  parent="paymentSourceExtractService-parentBean"/>
 	<bean id="paymentSourceExtractService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.PaymentSourceExtractionServiceImpl" abstract="true">
 		<property name="parameterService" ref="parameterService"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
@@ -1121,14 +1123,44 @@
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="paymentFileEmailService" ref="pdpEmailService"/>
 	</bean>
-
-	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+    
+	<bean id="velocityEngine" parent="velocityEngine-parentBean" />
+	<bean id="velocityEngine-parentBean" abstract="true" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
 		<property name="velocityProperties">
-			<value>
-				resource.loader=class
-				class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-			</value>
+			<map>
+				<entry key="resource.loader" value="class"/>
+				<entry key="class.resource.loader.class" value="org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader"/>
+			</map>
 		</property>
-	</bean>
-
+   </bean>
+   <bean id="velocityEmailServiceBase" abstract="true" parent="velocityEmailServiceBase-parentBean" />
+   <bean id="velocityEmailServiceBase-parentBean" abstract="true" class="org.kuali.kfs.sys.service.impl.VelocityEmailServiceBase">
+   		<property name="mailService" ref="mailService" />
+   		<property name="velocityEngine" ref="velocityEngine"/>
+   </bean>
+    
+    <bean id="customEditorConfigurer" 
+          class="org.kuali.kfs.sys.businessobject.CustomEditorConfigurer">
+        <property name="customEditors">
+            <map>
+                <entry key="java.sql.Timestamp">
+                    <bean class="org.kuali.kfs.sys.businessobject.TimestampPropertyEditor"/>
+                </entry>
+                <entry key="java.sql.Date">
+                    <bean class="org.kuali.kfs.sys.businessobject.DatePropertyEditor"/>
+                </entry>
+                <entry key="java.lang.Boolean">
+                    <bean class="org.kuali.kfs.sys.businessobject.BooleanPropertyEditor"/>
+                </entry>
+                <entry key="org.kuali.rice.core.api.util.type.KualiDecimal">
+                    <bean class="org.kuali.kfs.sys.businessobject.KualiDecimalPropertyEditor"/>
+                </entry>
+                <entry key="org.kuali.rice.core.api.util.type.KualiInteger">
+                    <bean class="org.kuali.kfs.sys.businessobject.KualiIntegerPropertyEditor"/>
+                </entry>                                          
+            </map>
+        </property>
+    </bean>
+       
+    <import resource="spring-sys-bus-exports.xml"/>
 </beans>

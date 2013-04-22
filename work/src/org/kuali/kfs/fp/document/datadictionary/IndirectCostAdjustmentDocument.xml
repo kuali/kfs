@@ -123,6 +123,7 @@
 					<property name="lines">
 						<list>
 							<ref bean="IndirectCostAdjustmentDocument-accountingInformation"/>
+							<ref bean="AccountingLineView-lineDescription" />
 						</list>
 					</property>
 				</bean>
@@ -160,7 +161,7 @@
 			</list>
 		</property>
 	</bean>
-	
+		
 	<!-- workflow attributes for routing -->
 	<bean id="IndirectCostAdjustmentDocument-workflowAttributes" parent="IndirectCostAdjustmentDocument-workflowAttributes-parentBean"/>
 	

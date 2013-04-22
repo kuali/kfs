@@ -84,6 +84,18 @@
     
     <bean id="AccountingLineView-columns" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewColumnsDefinition" />
     
+	<bean id="AccountingLineView-lineDescription" parent="AccountingLineView-line">
+		<property name="elementName" value="lineDescription" />
+		<property name="fields">
+			<list>
+				<bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="2" />
+			</list>
+		</property>
+	</bean>
+	    
+    
+    
+    
     <bean id="accountingInformation" parent="accountingInformation-parent" />
 
 	<bean id="accountingInformation-parent" parent="AccountingLineView-line" abstract="true">
@@ -465,4 +477,50 @@
 	   		</list>
    		</property>
    	</bean>
+   	
+   	<bean id="SecureFieldDataValidationPattern"
+		class="org.kuali.rice.krad.datadictionary.validation.fieldlevel.SecureFieldDataValidationPattern"
+               abstract="true" />
+   	
+   	<bean id="RoutingAttribute-financialObjectCode" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+		<property name="qualificationAttributeName" value="financialObjectCode" />
+	</bean>
+   	
+   	<bean id="RoutingType-AccountingDocument-CentralReview" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+		<property name="routingAttributes">
+			<list>
+				<ref bean="RoutingAttribute-financialDocumentTotalAmount" />
+				<ref bean="RoutingAttribute-financialObjectCode" />
+				<ref bean="RoutingAttribute-subFundGroupCode" />
+			</list>
+		</property>
+		<property name="documentValuePathGroups">
+			<list>
+				<ref bean="DocumentValuePathGroup-AccountingDocument-ObjectCodeSubFund-sourceAccountingLines" />
+    			<ref bean="DocumentValuePathGroup-AccountingDocument-ObjectCodeSubFund-targetAccountingLines" />
+			</list>
+		</property>
+	</bean>
+	<bean id="DocumentCollectionPath-AccountingLine-objectCode-subFundGroupCode" class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath" abstract="true">
+   		<property name="documentValues">
+	   		<list>
+	   			<value>financialObjectCode</value>
+	   			<value>account.subFundGroupCode</value>
+	   		</list>
+   		</property>
+   	</bean>    
+    <bean id="DocumentValuePathGroup-AccountingDocument-ObjectCodeSubFund-sourceAccountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
+    	<property name="documentCollectionPath">
+    		<bean parent="DocumentCollectionPath-AccountingLine-objectCode-subFundGroupCode">
+    			<property name="collectionPath" value="sourceAccountingLines" />
+    		</bean>
+    	</property>
+    </bean>
+    <bean id="DocumentValuePathGroup-AccountingDocument-ObjectCodeSubFund-targetAccountingLines" parent="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount">
+    	<property name="documentCollectionPath">
+    		<bean parent="DocumentCollectionPath-AccountingLine-objectCode-subFundGroupCode">
+    			<property name="collectionPath" value="targetAccountingLines" />
+    		</bean>
+    	</property>
+    </bean>
 </beans>

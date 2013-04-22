@@ -24,8 +24,10 @@ import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.document.service.impl.PaymentSummaryServiceImpl;
 import org.kuali.kfs.module.cam.fixture.PaymentSummaryFixture;
+import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.UniversityDateServiceImpl;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -37,6 +39,7 @@ public class PaymentSummaryServiceTest extends KualiTestBase {
     private PaymentSummaryServiceImpl paymentSummaryService;
 
     @Override
+    @ConfigureContext(session = UserNameFixture.khuntley, shouldCommitTransactions = false)
     protected void setUp() throws Exception {
         asset = PaymentSummaryFixture.ASSET.newAsset();
         List<AssetPayment> assetPayments = new ArrayList<AssetPayment>();

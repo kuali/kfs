@@ -82,6 +82,21 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="PreEncumbrance-accountingLineObjectCodeRestrictionValidation" scope="prototype">
+					<property name="quitOnFail" value="true" />
+						<property name="parameterProperties">
+							<list>
+								<bean parent="validationFieldConversion">
+									<property name="sourceEventProperty" value="document" />
+									<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+								</bean>
+								<bean parent="validationFieldConversion">
+									<property name="sourceEventProperty" value="accountingLine" />
+									<property name="targetValidationProperty" value="accountingLineForValidation" />
+								</bean>
+							</list>
+						</property>
+				</bean>	
 			</list>
   		</property>
 	</bean>
@@ -107,6 +122,21 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="PreEncumbrance-accountingLineObjectCodeRestrictionValidation" scope="prototype">
+					<property name="quitOnFail" value="true" />
+						<property name="parameterProperties">
+							<list>
+								<bean parent="validationFieldConversion">
+									<property name="sourceEventProperty" value="document" />
+									<property name="targetValidationProperty" value="accountingDocumentForValidation" />
+								</bean>
+								<bean parent="validationFieldConversion">
+									<property name="sourceEventProperty" value="updatedAccountingLine" />
+									<property name="targetValidationProperty" value="accountingLineForValidation" />
+								</bean>
+							</list>
+						</property>
+				</bean>	
 			</list>
   		</property>
 	</bean>

@@ -278,6 +278,60 @@ function loadChartCode( accountNumber, coaCodeFieldName ) {
 		AccountService.getUniqueAccountForAccountNumber( accountNumber, dwrReply );	    
 	}
 }
+function onblur_responsibilityCenterCode( chartOfAccountsCode, organizationCode, responsibilityCenterCode ) {  
+	
+	if(document.getElementById("document.newMaintainableObject.chartOfAccountsCode") != null){
+		var coaCode = dwr.util.getValue( "document.newMaintainableObject.chartOfAccountsCode" ).toUpperCase();
+	}else{
+		var coaCode = document.getElementById("document.newMaintainableObject.chartOfAccountsCode.div").innerHTML.replace(/^[\s(&nbsp;)]+/g,'').replace(/[\s(&nbsp;)]+$/g,'');
+	}
+	
+	var orgCode = dwr.util.getValue( "document.newMaintainableObject.organizationCode" );
+	var responsibilityCenterCode = document.getElementById("document.newMaintainableObject.organization.responsibilityCenterCode.div");
+	var responsibilityCenterName = document.getElementById("document.newMaintainableObject.organization.responsibilityCenter.responsibilityCenterName.div");
+	
+	if(orgCode == ''){
+		dwr.util.setValue(responsibilityCenterCode, "", true);
+		dwr.util.setValue(responsibilityCenterName, "", true);
+	} else if(coaCode == ''){
+		dwr.util.setValue( responsibilityCenterCode, wrapError( "chart code is empty" ), { escapeHtml:false } );
+		dwr.util.setValue(responsibilityCenterName, "", { escapeHtml:false });
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null && typeof data == 'object' ) {
+					responsibilityCenterCode.innerHTML = data.responsibilityCenterCode;
+					updateResponsibilityCenterName(data.responsibilityCenterCode);
+				}else{
+					dwr.util.setValue( responsibilityCenterCode, wrapError( "RC Code not found" ), { escapeHtml:false } );
+					dwr.util.setValue( responsibilityCenterName, "", { escapeHtml:false } );
+				}
+			},
+			errorHandler:function( errorMessage ) { 
+				responsibilityCenterCode.innerHTML = "Unable to get RC Code."; 
+			}
+		};
+		OrganizationService.getByPrimaryId( coaCode,orgCode,dwrReply );
+	}
+	
+}
+
+
+function updateResponsibilityCenterName(responsibilityCenterCode){
+	var dwrReply = {
+		callback:function(data){
+		if ( data != null && typeof data == 'object' ) {
+				var responsibilityCenterName = document.getElementById("document.newMaintainableObject.organization.responsibilityCenter.responsibilityCenterName.div");
+				responsibilityCenterName.innerHTML = data.responsibilityCenterName;
+				
+		}
+		},
+		errorHandler:function (errorMessage){
+			responsibilityCenterName.innerHTML = "Unable to get RC Name";
+		}
+	};
+	ResponsibilityCenterService.getByPrimaryId( responsibilityCenterCode,dwrReply );
+}
 
 /*
 function findCoaFieldName( accountNumberFieldName ) {

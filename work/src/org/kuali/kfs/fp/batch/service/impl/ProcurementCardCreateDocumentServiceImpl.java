@@ -25,9 +25,14 @@ import static org.kuali.kfs.fp.document.validation.impl.ProcurementCardDocumentR
 import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.kfs.sys.KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -46,6 +51,7 @@ import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.fp.batch.ProcurementCardAutoApproveDocumentsStep;
 import org.kuali.kfs.fp.batch.ProcurementCardCreateDocumentsStep;
 import org.kuali.kfs.fp.batch.ProcurementCardLoadStep;
+import org.kuali.kfs.fp.batch.ProcurementCardReportType;
 import org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.ProcurementCardDefault;
@@ -65,9 +71,12 @@ import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.VelocityEmailService;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -76,15 +85,16 @@ import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
+
 
 
 /**
@@ -106,7 +116,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     protected DateTimeService dateTimeService;
     protected AccountingLineRuleHelperService accountingLineRuleUtil;
     protected CapitalAssetBuilderModuleService capitalAssetBuilderModuleService;
+    private VelocityEmailService procurementCardCreateEmailService;
 
+    public static final String DOCUMENT_DESCRIPTION_PATTERN = "{0}-{1}-{2}-{3}";
 
     /**
      * This method retrieves a collection of credit card transactions and traverses through this list, creating
@@ -144,7 +156,171 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             }
         }
 
+        // send email notification
+        sentEmailNotification(documents);
+
         return true;
+    }
+
+    /**
+     * Sending email notification with initializing template variable details in report.
+     *
+     * @param documents
+     */
+    protected void sentEmailNotification(List<ProcurementCardDocument> documents) {
+        List<ProcurementCardReportType> summaryList = getSortedReportSummaryList(documents);
+        int totalBatchTransactions = getBatchTotalTransactionCnt(summaryList);
+        DateFormat dateFormat = new SimpleDateFormat(KFSConstants.ProcurementCardEmailTimeFormat);
+        dateFormat.setLenient(false);
+
+        // Create formatter for payment amounts and batch run time
+        String batchRunTime = dateFormat.format(dateTimeService.getCurrentDate());
+
+        final Map<String, Object> templateVariables = new HashMap<String, Object>();
+
+        templateVariables.put(KFSConstants.ProcurementCardEmailVariableTemplate.DOC_CREATE_DATE, batchRunTime);
+        templateVariables.put(KFSConstants.ProcurementCardEmailVariableTemplate.TRANSACTION_COUNTER, totalBatchTransactions);
+        templateVariables.put(KFSConstants.ProcurementCardEmailVariableTemplate.TRANSACTION_SUMMARY_LIST, summaryList);
+
+        // Handle for email sending exception
+        procurementCardCreateEmailService.sendEmailNotification(templateVariables);
+    }
+
+    /**
+     * Get the total number of transactions processed by this batch run
+     *
+     * @param summaryList
+     * @return
+     */
+    protected int getBatchTotalTransactionCnt(List<ProcurementCardReportType> summaryList) {
+        int totalBatchTransactionCnt = 0;
+
+        for (ProcurementCardReportType procurementCardReportType : summaryList) {
+            totalBatchTransactionCnt += procurementCardReportType.getTotalTranNumber();
+        }
+        return totalBatchTransactionCnt;
+    }
+
+    /**
+     * Build the sorted batch report summary list
+     *
+     * @param documents
+     * @return
+     */
+    protected List<ProcurementCardReportType> getSortedReportSummaryList(List<ProcurementCardDocument> documents) {
+        KualiDecimal totalAmount;
+        int totalTransactionCounter;
+
+        HashMap<String, String> totalDocMap;
+
+        HashMap<Date, HashMap<String, String>> docMapByPstDt = new HashMap<Date, HashMap<String, String>>();
+        HashMap<Date, Integer> transctionMapByPstDt = new HashMap<Date, Integer>();
+        HashMap<Date, KualiDecimal> totalAmountMapByPstDt = new HashMap<Date, KualiDecimal>();
+        Iterator iter = null;
+        Date keyDate = null;
+
+        // walk through each doc and calculate the total amount per bank transaction posting date.
+        for (ProcurementCardDocument pDoc : documents) {
+            iter = pDoc.getTransactionEntries().iterator();
+            while (iter.hasNext()) {
+                // totalBatchTransactions++;
+                ProcurementCardTransactionDetail pCardDetail = (ProcurementCardTransactionDetail) iter.next();
+
+                keyDate = pCardDetail.getTransactionPostingDate();
+
+                if (docMapByPstDt.containsKey(keyDate)) {
+                    totalDocMap = docMapByPstDt.get(keyDate);
+                    totalTransactionCounter = transctionMapByPstDt.get(keyDate).intValue();
+                    totalAmount = totalAmountMapByPstDt.get(keyDate);
+                }
+                else {
+                    totalDocMap = new HashMap<String, String>();
+                    totalTransactionCounter = 0;
+                    totalAmount = KualiDecimal.ZERO;
+                }
+                // update number of transactions
+                totalTransactionCounter++;
+                // update number of eDocs
+                if (!totalDocMap.containsKey(pDoc.getDocumentNumber())) {
+                    totalDocMap.put(pDoc.getDocumentNumber(), pDoc.getDocumentNumber());
+                }
+                // update transaction total
+                totalAmount = totalAmount.add(pCardDetail.getTransactionTotalAmount());
+
+                docMapByPstDt.put(keyDate, totalDocMap);
+                transctionMapByPstDt.put(keyDate, totalTransactionCounter);
+                totalAmountMapByPstDt.put(keyDate, totalAmount);
+            }
+        }
+
+        List<ProcurementCardReportType> summaryList = buildBatchReportSummary(docMapByPstDt, transctionMapByPstDt, totalAmountMapByPstDt);
+
+        sortingSummaryList(summaryList);
+
+        return summaryList;
+    }
+
+    /**
+     * Build Procurement Card report object.
+     *
+     * @param docMapByPstDt
+     * @param transctionMapByPstDt
+     * @param totalAmountMapByPstDt
+     * @return
+     */
+    protected List<ProcurementCardReportType> buildBatchReportSummary(HashMap<Date, HashMap<String, String>> docMapByPstDt, HashMap<Date, Integer> transctionMapByPstDt, HashMap<Date, KualiDecimal> totalAmountMapByPstDt) {
+        List<ProcurementCardReportType> summaryList = new ArrayList<ProcurementCardReportType>();
+        Date keyDate;
+        ProcurementCardReportType reportEntry;
+
+        Formatter currencyFormatter = new CurrencyFormatter();
+        DateFormat dateFormatter = new SimpleDateFormat(KFSConstants.ProcurementCardTransactionTimeFormat);
+        dateFormatter.setLenient(false);
+
+        if (docMapByPstDt.keySet() != null) {
+            Iterator iter = docMapByPstDt.keySet().iterator();
+
+            while (iter.hasNext()) {
+                keyDate = (Date) iter.next();
+                reportEntry = new ProcurementCardReportType();
+                reportEntry.setTransactionPostingDate(keyDate);
+
+                reportEntry.setFormattedPostingDate(dateFormatter.format(keyDate));
+                reportEntry.setTotalDocNumber(docMapByPstDt.get(keyDate).keySet().isEmpty() ? 0 : docMapByPstDt.get(keyDate).keySet().size());
+                reportEntry.setTotalTranNumber(transctionMapByPstDt.get(keyDate));
+                reportEntry.setTotalAmount(currencyFormatter.formatForPresentation(totalAmountMapByPstDt.get(keyDate)).toString());
+                summaryList.add(reportEntry);
+            }
+        }
+        return summaryList;
+    }
+
+    /**
+     * Sorting the report summary list by transaction posting date
+     *
+     * @param summaryList
+     */
+    protected void sortingSummaryList(List<ProcurementCardReportType> summaryList) {
+        Comparator<ProcurementCardReportType> comparator = new Comparator<ProcurementCardReportType>() {
+
+            @Override
+            public int compare(ProcurementCardReportType o1, ProcurementCardReportType o2) {
+
+                if (o1 == null && o1 == null) {
+                    return 0;
+                }
+
+                if (o1 == null || o2 == null) {
+                    return o1 == null ? -1 : 1;
+                }
+
+                return o1.getTransactionPostingDate().compareTo(o2.getTransactionPostingDate());
+            }
+
+        };
+
+        // sort by posting date
+        Collections.sort(summaryList, comparator);
     }
 
     /**
@@ -210,15 +386,15 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             criteria.setStartAtIndex(maxResults * i);
             crit = criteria.build();
             LOG.debug("Max Results: "+criteria.getStartAtIndex());
-            DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
+        DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
                     GlobalVariables.getUserSession().getPrincipalId(), crit);
             if (results.getSearchResults().isEmpty()) {
                 break;
             }
-            for (DocumentSearchResult resultRow: results.getSearchResults()) {
-                documentIds.add(resultRow.getDocument().getDocumentId());
+        for (DocumentSearchResult resultRow: results.getSearchResults()) {
+            documentIds.add(resultRow.getDocument().getDocumentId());
                 LOG.debug(resultRow.getDocument().getDocumentId());
-            }
+        }
         }
 
 
@@ -365,7 +541,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             }
 
             pcardDocument.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(documentTotalAmount);
-            pcardDocument.getDocumentHeader().setDocumentDescription("SYSTEM Generated");
+            // PCDO Default Description
+            //pcardDocument.getDocumentHeader().setDocumentDescription("SYSTEM Generated");
+            setupDocumentDescription(pcardDocument);
 
             // Remove duplicate messages from errorText
             String messages[] = StringUtils.split(errorText, ".");
@@ -390,6 +568,25 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     }
 
     /**
+     * Set up PCDO document description as "cardholder name-card number (which is 4 digits)-chartOfAccountsCode-default account"
+     *
+     * @param pcardDocument
+     */
+    protected void setupDocumentDescription(ProcurementCardDocument pcardDocument) {
+        ProcurementCardHolder cardHolder = pcardDocument.getProcurementCardHolder();
+
+        if (ObjectUtils.isNotNull(cardHolder)) {
+            String cardHolderName = StringUtils.left(cardHolder.getCardHolderName(), 23);
+            String lastFourDigits = StringUtils.right(cardHolder.getTransactionCreditCardNumber(), 4);
+            String chartOfAccountsCode = cardHolder.getChartOfAccountsCode();
+            String accountNumber = cardHolder.getAccountNumber();
+
+            String description = MessageFormat.format(DOCUMENT_DESCRIPTION_PATTERN, cardHolderName, lastFourDigits, chartOfAccountsCode, accountNumber);
+            pcardDocument.getDocumentHeader().setDocumentDescription(description);
+        }
+    }
+
+    /**
      * Creates card holder record and sets that record to the document given.
      *
      * @param pcardDocument Procurement card document to place the record in.
@@ -397,11 +594,12 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      */
     protected void createCardHolderRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction) {
         ProcurementCardHolder cardHolder = new ProcurementCardHolder();
+
         cardHolder.setDocumentNumber(pcardDocument.getDocumentNumber());
         cardHolder.setTransactionCreditCardNumber(transaction.getTransactionCreditCardNumber());
 
-        final ProcurementCardDefault procurementCardDefault = retrieveProcurementCardDefault(transaction.getTransactionCreditCardNumber());
-        if (procurementCardDefault != null) {
+            final ProcurementCardDefault procurementCardDefault = retrieveProcurementCardDefault(transaction.getTransactionCreditCardNumber());
+            if (procurementCardDefault != null) {
             if (getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_CARD_HOLDER_DEFAULT_PARAMETER_NAME)) {
                 cardHolder.setCardCycleAmountLimit(procurementCardDefault.getCardCycleAmountLimit());
                 cardHolder.setCardCycleVolumeLimit(procurementCardDefault.getCardCycleVolumeLimit());
@@ -417,19 +615,18 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 cardHolder.setCardNoteText(procurementCardDefault.getCardNoteText());
                 cardHolder.setCardStatusCode(procurementCardDefault.getCardStatusCode());
             }
-            if (getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME)) {
-                cardHolder.setChartOfAccountsCode(procurementCardDefault.getChartOfAccountsCode());
-                cardHolder.setAccountNumber(procurementCardDefault.getAccountNumber());
-                cardHolder.setSubAccountNumber(procurementCardDefault.getSubAccountNumber());
+                if (getParameterService().getParameterValueAsBoolean(ProcurementCardCreateDocumentsStep.class, ProcurementCardCreateDocumentsStep.USE_ACCOUNTING_DEFAULT_PARAMETER_NAME)) {
+                    cardHolder.setChartOfAccountsCode(procurementCardDefault.getChartOfAccountsCode());
+                    cardHolder.setAccountNumber(procurementCardDefault.getAccountNumber());
+                    cardHolder.setSubAccountNumber(procurementCardDefault.getSubAccountNumber());
+                }
             }
-        }
 
         if (StringUtils.isEmpty(cardHolder.getAccountNumber())) {
             cardHolder.setChartOfAccountsCode(transaction.getChartOfAccountsCode());
             cardHolder.setAccountNumber(transaction.getAccountNumber());
             cardHolder.setSubAccountNumber(transaction.getSubAccountNumber());
         }
-
         if (StringUtils.isEmpty(cardHolder.getCardHolderName())) {
             cardHolder.setCardCycleAmountLimit(transaction.getCardCycleAmountLimit());
             cardHolder.setCardCycleVolumeLimit(transaction.getCardCycleVolumeLimit());
@@ -984,4 +1181,12 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         this.capitalAssetBuilderModuleService = capitalAssetBuilderModuleService;
     }
 
+    /**
+     * Sets the procurementCardCreateEmailService attribute.
+     *
+     * @param procurementCardCreateEmailService The procurementCardCreateEmailService to set.
+     */
+    public void setProcurementCardCreateEmailService(VelocityEmailService procurementCardCreateEmailService) {
+        this.procurementCardCreateEmailService = procurementCardCreateEmailService;
+    }
 }

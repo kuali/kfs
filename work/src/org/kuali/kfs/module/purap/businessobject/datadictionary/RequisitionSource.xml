@@ -31,6 +31,7 @@
       <list>
         <ref bean="RequisitionSource-requisitionSourceCode"/>
         <ref bean="RequisitionSource-requisitionSourceDescription"/>
+        <ref bean="RequisitionSource-allowCopyDays"/>
         <ref bean="RequisitionSource-active"/>
       </list>
     </property>
@@ -68,6 +69,22 @@
       <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
+  
+   <bean id="RequisitionSource-allowCopyDays" parent="RequisitionSource-allowCopyDays-parentBean"/>
+   <bean id="RequisitionSource-allowCopyDays-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="allowCopyDays"/>
+    <property name="label" value="Allow Copy Days"/>
+    <property name="shortLabel" value="Allow Copy Days"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="4"/>
+    </property>
+   </bean>
+  
+  
   <bean id="RequisitionSource-active" parent="RequisitionSource-active-parentBean"/>
 
   <bean id="RequisitionSource-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
@@ -96,6 +113,7 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="requisitionSourceCode"/>
         <bean parent="FieldDefinition" p:attributeName="requisitionSourceDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="allowCopyDays"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
@@ -117,6 +135,7 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="requisitionSourceCode"/>
         <bean parent="FieldDefinition" p:attributeName="requisitionSourceDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="allowCopyDays"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
@@ -124,6 +143,7 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="requisitionSourceCode"/>
         <bean parent="FieldDefinition" p:attributeName="requisitionSourceDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="allowCopyDays"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>

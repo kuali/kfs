@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.math.BigDecimal;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -83,7 +84,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
      * @see org.kuali.rice.kns.lookup.Lookupable#gfetSearchResults(java.util.Map)
      */
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    public List getSearchResults(Map fieldValues) {
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
@@ -101,7 +102,10 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
         if (!showBlankLine) {
             Collection<EmployeeFunding> tempSearchResultsCollection = new ArrayList<EmployeeFunding>();
             for (EmployeeFunding employeeFunding : searchResultsCollection) {
-                if (employeeFunding.getCurrentAmount().isNonZero() || employeeFunding.getOutstandingEncumbrance().isNonZero()) {
+				boolean add = employeeFunding.getCurrentAmount().isNonZero() ||
+						employeeFunding.getOutstandingEncumbrance().isNonZero() ||
+						(employeeFunding.getCsfAmount() != null && employeeFunding.getCsfAmount().isNonZero());
+				if (add){
                     tempSearchResultsCollection.add(employeeFunding);
                 }
             }
@@ -110,7 +114,9 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
 
         // update search results according to the selected pending entry option
         updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated);
+
         searchResultsCollection = consolidateObjectTypeCode(searchResultsCollection);
+
         // get the actual size of all qualified search results
         Long actualSize = new Long(searchResultsCollection.size());
 
@@ -124,36 +130,135 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
      * @return
      */
     private Collection<EmployeeFunding> consolidateObjectTypeCode(Collection<EmployeeFunding> searchResultsCollection) {
-        Map map = new HashMap<String, EmployeeFunding>();
-        String hashString;
-        EmployeeFunding temp;
+		Collection<EmployeeFunding> ret = new ArrayList<EmployeeFunding>(searchResultsCollection.size());
+
         for(EmployeeFunding empFunding : searchResultsCollection) {
-            hashString = empFunding.getEmplid() + empFunding.getUniversityFiscalYear() + empFunding.getChartOfAccountsCode() + empFunding.getAccountNumber() +
-                    empFunding.getFinancialObjectCode() + empFunding.getPositionNumber();
-            if (map.containsKey(hashString)) {
-                temp = ((EmployeeFunding)map.get(hashString));
-                if (temp.getCsfFullTimeEmploymentQuantity() != null && empFunding.getCsfFullTimeEmploymentQuantity() != null) {
-                    temp.setCsfFullTimeEmploymentQuantity(temp.getCsfFullTimeEmploymentQuantity().add(empFunding.getCsfFullTimeEmploymentQuantity()));
-                }
-                if (temp.getCsfAmount() != null && empFunding.getCsfAmount() != null) {
-                    temp.setCsfAmount(temp.getCsfAmount().add(empFunding.getCsfAmount()));
-                }
-                if (temp.getCurrentAmount() != null && empFunding.getCurrentAmount() != null) {
-                    temp.setCurrentAmount(temp.getCurrentAmount().add(empFunding.getCurrentAmount()));
-                }
-                if (temp.getOutstandingEncumbrance() != null && empFunding.getOutstandingEncumbrance() != null) {
-                    temp.setOutstandingEncumbrance(temp.getOutstandingEncumbrance().add(empFunding.getOutstandingEncumbrance()));
-                }
-                if (temp.getTotalAmount() != null && empFunding.getTotalAmount() != null) {
-                    temp.setTotalAmount(temp.getTotalAmount().add(empFunding.getTotalAmount()));
-                }
-                map.put(hashString, temp);
-            } else {
-                map.put(hashString, empFunding);
-            }
-        }
-        return map.values();
+			EmployeeFunding temp = findEmployeeFunding(ret, empFunding);
+			if (temp == null){
+				ret.add(empFunding);
+			} else {
+				/*we need to act on `temp' because that's the one from the collection.*/
+				temp.setCsfFullTimeEmploymentQuantity(add(temp.getCsfFullTimeEmploymentQuantity(), empFunding.getCsfFullTimeEmploymentQuantity()));
+				temp.setCsfAmount(add(temp.getCsfAmount(), empFunding.getCsfAmount()));
+				temp.setCurrentAmount(add(temp.getCurrentAmount(), empFunding.getCurrentAmount()));
+				temp.setOutstandingEncumbrance(add(temp.getOutstandingEncumbrance(), empFunding.getOutstandingEncumbrance()));
+				temp.setTotalAmount(add(temp.getTotalAmount(), empFunding.getTotalAmount()));
+			}
+		}
+        return ret;
     }
+
+	/** 
+	 * Searches the given collection for an element that is equal to the given exhibit for purposes of consolidation.
+	 *
+	 * @param coll The collection to search for a like element.
+	 * @param exhibit The search criteria.
+	 *
+	 * @return The element from the collection that matches the exhibit or null if 1) no items match or 
+	 *   the 2) exhibit is null.
+	 *
+	 */
+	private static EmployeeFunding findEmployeeFunding(Collection<EmployeeFunding> coll, EmployeeFunding exhibit){
+		if (exhibit == null){
+			return null;
+		}
+
+		for (EmployeeFunding temp : coll){
+			if (temp == null){
+				continue;
+			}
+
+			if (!customEquals(temp.getEmplid(), exhibit.getEmplid())){
+				continue;
+			}
+			if (!customEquals(temp.getUniversityFiscalYear(), exhibit.getUniversityFiscalYear())){
+				continue;
+			}
+			if (!customEquals(temp.getChartOfAccountsCode(), exhibit.getChartOfAccountsCode())){
+				continue;
+			}
+			if (!customEquals(temp.getAccountNumber(), exhibit.getAccountNumber())){
+				continue;
+			}
+			if (!customEquals(temp.getSubAccountNumber(), exhibit.getSubAccountNumber())){
+				continue;
+			}
+			if (!customEquals(temp.getFinancialObjectCode(), exhibit.getFinancialObjectCode())){
+				continue;
+			}
+			if (!customEquals(temp.getFinancialSubObjectCode(), exhibit.getFinancialSubObjectCode())){
+				continue;
+			}
+			if (!customEquals(temp.getPositionNumber(), exhibit.getPositionNumber())){
+				continue;
+			}
+			if (!customEquals(temp.getCsfDeleteCode(), exhibit.getCsfDeleteCode())){
+				continue;
+			}
+			if (!customEquals(temp.getCsfFundingStatusCode(), exhibit.getCsfFundingStatusCode())){
+				continue;
+			}
+			return temp;
+		}
+		/*no items in the collection match the exhibit.*/
+		return null;
+	}
+
+	/**
+	 * Compares two Objects for equality in a null-safe way.
+	 *
+	 * @param one The first Object for comparison.
+	 * @param two The second Object for comparison.
+	 *
+	 * @return True if the two Objects match or are both null.
+	 */
+	private static boolean customEquals(Object one, Object two){
+		if (one == null){
+			return two == null;
+		}
+		if(two == null){
+			return false;
+		}
+		return one.equals(two);
+	}
+
+	/**
+	 * Adds two KualiDecimal objects in a null-safe way. If one of them is null, the other is returned, otherwise,
+	 * a new KualiDecimal containing their sum is returned.
+	 *
+	 * @param one The first KualiDecimal to add.
+	 * @param two The second KualiDecimal to add.
+	 * @return The sum of the two KualiDecimals.
+	 *
+	 */
+	private static KualiDecimal add(KualiDecimal one, KualiDecimal two) {
+		if (one == null){
+			return two;
+		}
+		if (two == null){
+			return one;
+		}
+		return one.add(two);
+	}
+
+	/**
+	 * Adds two BigDecimal objects. If one of them is null, the other is returned, otherwise,
+	 * a new BigDecimal containing their sum is returned.
+	 *
+	 * @param one The first BigDecimal to add.
+	 * @param two The second BigDecimal to add.
+	 * @return The sum of the two BigDecimals.
+	 *
+	 */
+	private static BigDecimal add(BigDecimal one, BigDecimal two) {
+		if (one == null){
+			return two;
+		}
+		if (two == null){
+			return one;
+		}
+		return one.add(two);
+	}
 
     private boolean showBlankLines(Map fieldValues) {
         String pendingEntryOption = (String) fieldValues.get(Constant.BLANK_LINE_OPTION);
@@ -317,3 +422,4 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
         this.laborLedgerPendingEntryService = laborLedgerPendingEntryService;
     }
 }
+

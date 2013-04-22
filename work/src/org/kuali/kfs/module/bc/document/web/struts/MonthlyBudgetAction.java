@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,7 +51,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
 
     /**
      * added for testing - remove if not needed
-     * 
+     *
      * @see org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -60,22 +60,20 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         ActionForward forward = super.execute(mapping, form, request, response);
 
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
-        if (!monthlyBudgetForm.isLostSession()) {
-            populateAuthorizationFields(monthlyBudgetForm);
+        populateAuthorizationFields(monthlyBudgetForm);
 
-            // set the readOnly status on initial load of the form
-            if (monthlyBudgetForm.getMethodToCall().equals(BCConstants.MONTHLY_BUDGET_METHOD)) {
-                BudgetConstructionMonthly bcMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();
-                PendingBudgetConstructionGeneralLedger pbgl = bcMonthly.getPendingBudgetConstructionGeneralLedger();
+        // set the readOnly status on initial load of the form
+        if (monthlyBudgetForm.getMethodToCall().equals(BCConstants.MONTHLY_BUDGET_METHOD)) {
+            BudgetConstructionMonthly bcMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();
+            PendingBudgetConstructionGeneralLedger pbgl = bcMonthly.getPendingBudgetConstructionGeneralLedger();
 
-                boolean tmpReadOnly = monthlyBudgetForm.isSystemViewOnly() || !monthlyBudgetForm.isEditAllowed();
-                tmpReadOnly |= bcMonthly.getFinancialObjectCode().equalsIgnoreCase(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG);
-                tmpReadOnly |= (!monthlyBudgetForm.isBenefitsCalculationDisabled() && ((pbgl.getLaborObject() != null) && pbgl.getLaborObject().getFinancialObjectFringeOrSalaryCode().equalsIgnoreCase(BCConstants.LABOR_OBJECT_FRINGE_CODE)));
+            boolean tmpReadOnly = monthlyBudgetForm.isSystemViewOnly() || !monthlyBudgetForm.isEditAllowed();
+            tmpReadOnly |= bcMonthly.getFinancialObjectCode().equalsIgnoreCase(KFSConstants.BudgetConstructionConstants.OBJECT_CODE_2PLG);
+            tmpReadOnly |= (!monthlyBudgetForm.isBenefitsCalculationDisabled() && ((pbgl.getLaborObject() != null) && pbgl.getLaborObject().getFinancialObjectFringeOrSalaryCode().equalsIgnoreCase(BCConstants.LABOR_OBJECT_FRINGE_CODE)));
 
-                monthlyBudgetForm.setBudgetableDocument(SpringContext.getBean(BudgetDocumentService.class).isBudgetableDocumentNoWagesCheck(pbgl.getBudgetConstructionHeader()));
-                monthlyBudgetForm.setMonthlyReadOnly(tmpReadOnly);
+            monthlyBudgetForm.setBudgetableDocument(SpringContext.getBean(BudgetDocumentService.class).isBudgetableDocumentNoWagesCheck(pbgl.getBudgetConstructionHeader()));
+            monthlyBudgetForm.setMonthlyReadOnly(tmpReadOnly);
 
-            }
         }
 
         return forward;
@@ -109,7 +107,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         fieldValues.put("financialSubObjectCode", monthlyBudgetForm.getFinancialSubObjectCode());
         fieldValues.put("financialBalanceTypeCode", monthlyBudgetForm.getFinancialBalanceTypeCode());
         fieldValues.put("financialObjectTypeCode", monthlyBudgetForm.getFinancialObjectTypeCode());
-        BudgetConstructionMonthly budgetConstructionMonthly = (BudgetConstructionMonthly) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionMonthly.class, fieldValues);
+        BudgetConstructionMonthly budgetConstructionMonthly = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionMonthly.class, fieldValues);
         if (budgetConstructionMonthly == null) {
             budgetConstructionMonthly = new BudgetConstructionMonthly();
             budgetConstructionMonthly.setDocumentNumber(monthlyBudgetForm.getDocumentNumber());
@@ -135,7 +133,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
 
     /**
      * This saves the data and redisplays
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -157,7 +155,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         if (rulePassed) {
 
             // getting here means salary detail line monthly totals equal annual
-            // or this is a non-salary detail line and overriding any difference needs to be confirmed 
+            // or this is a non-salary detail line and overriding any difference needs to be confirmed
             KualiInteger monthTotalAmount = budgetConstructionMonthly.getFinancialDocumentMonthTotalLineAmount();
             KualiInteger pbglRequestAmount = budgetConstructionMonthly.getPendingBudgetConstructionGeneralLedger().getAccountLineAnnualBalanceAmount();
             if (!monthTotalAmount.equals(pbglRequestAmount)){
@@ -195,6 +193,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
@@ -314,7 +313,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
 
     /**
      * checks monthly object for nulls in the amounts and replaces with zeros
-     * 
+     *
      * @param bcMth
      */
     public void replaceMonthlyNullWithZero(BudgetConstructionMonthly bcMth) {
@@ -360,7 +359,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
     /**
      * This action changes the value of the hide field in the user interface so that when the page is rendered, the UI knows to show
      * all of the descriptions and labels for each of the pbgl line values.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -377,7 +376,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
     /**
      * This action toggles the value of the hide field in the user interface to "hide" so that when the page is rendered, the UI
      * displays values without all of the descriptions and labels for each of the pbgl lines.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request

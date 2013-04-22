@@ -94,24 +94,26 @@ public class PositionSalarySettingAction extends DetailSalarySettingAction {
             }
         }
 
-        // Lock the position even if there are no current funding lines attached
-        Integer universityFiscalYear = budgetConstructionPosition.getUniversityFiscalYear();
-        String positionNumber = budgetConstructionPosition.getPositionNumber();
-        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+        if (!positionSalarySettingForm.isViewOnlyEntry()) {
 
-        // attempt to lock position
-        BudgetConstructionLockStatus bcLockStatus = SpringContext.getBean(LockService.class).lockPosition(positionNumber, universityFiscalYear, principalId);
-        if (!bcLockStatus.getLockStatus().equals(BCConstants.LockStatus.SUCCESS)) {
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, "Position Number:"+budgetConstructionPosition.getPositionNumber()+", Fiscal Year:"+budgetConstructionPosition.getUniversityFiscalYear().toString()+", Desc:"+budgetConstructionPosition.getPositionDescription()+", Locked By:"+budgetConstructionPosition.getPositionLockUser().getPrincipalName());
-            if (positionSalarySettingForm.isBudgetByAccountMode()) {
-                return this.returnToCaller(mapping, form, request, response);
-            }
-            else {
-                this.cleanupAnySessionForm(mapping, request);
-                return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
+            // Lock the position even if there are no current funding lines attached
+            Integer universityFiscalYear = budgetConstructionPosition.getUniversityFiscalYear();
+            String positionNumber = budgetConstructionPosition.getPositionNumber();
+            String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+
+            // attempt to lock position
+            BudgetConstructionLockStatus bcLockStatus = SpringContext.getBean(LockService.class).lockPosition(positionNumber, universityFiscalYear, principalId);
+            if (!bcLockStatus.getLockStatus().equals(BCConstants.LockStatus.SUCCESS)) {
+                errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_FAIL_TO_LOCK_POSITION, "Position Number:"+budgetConstructionPosition.getPositionNumber()+", Fiscal Year:"+budgetConstructionPosition.getUniversityFiscalYear().toString()+", Desc:"+budgetConstructionPosition.getPositionDescription()+", Locked By:"+budgetConstructionPosition.getPositionLockUser().getPrincipalName());
+                if (positionSalarySettingForm.isBudgetByAccountMode()) {
+                    return this.returnToCaller(mapping, form, request, response);
+                }
+                else {
+                    this.cleanupAnySessionForm(mapping, request);
+                    return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
+                }
             }
         }
-
 
         positionSalarySettingForm.setBudgetConstructionPosition(budgetConstructionPosition);
         if (positionSalarySettingForm.isSingleAccountMode()) {

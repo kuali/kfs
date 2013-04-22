@@ -86,13 +86,11 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
     @Override
     public void populate(HttpServletRequest request) {
 
-        if (!this.isLostSessionDetected(request)){
-            super.populate(request);
+        super.populate(request);
 
-            this.setSingleAccountMode(this.resetSingleAccountModeFlag());
+        this.setSingleAccountMode(this.resetSingleAccountModeFlag());
 
-            this.populateBCAFLines();
-        }
+        this.populateBCAFLines();
     }
 
     /**

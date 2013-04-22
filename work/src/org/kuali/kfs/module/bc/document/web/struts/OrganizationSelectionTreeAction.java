@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,10 +31,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
-import org.kuali.kfs.module.bc.BCConstants.OrgSelOpMode;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BudgetConstructionReportMode;
+import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
+import org.kuali.kfs.module.bc.BCConstants.OrgSelOpMode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountSelect;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbentSelect;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
@@ -72,59 +72,56 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         ActionForward actionForward = super.execute(mapping, form, request, response);
 
         OrganizationSelectionTreeForm orgSelTreeForm = (OrganizationSelectionTreeForm) form;
-        
-        if (!orgSelTreeForm.isLostSession()){
 
-            // re-init the session form if session scoped
-            if (orgSelTreeForm.getMethodToCall().equals("refresh")) {
-                if (BCConstants.MAPPING_SCOPE_SESSION.equals(mapping.getScope())) {
-                    HttpSession sess = request.getSession(Boolean.FALSE);
-                    String formName = mapping.getAttribute();
-                    sess.setAttribute(formName, orgSelTreeForm);
-                }
+        // re-init the session form if session scoped
+        if (orgSelTreeForm.getMethodToCall().equals("refresh")) {
+            if (BCConstants.MAPPING_SCOPE_SESSION.equals(mapping.getScope())) {
+                HttpSession sess = request.getSession(Boolean.FALSE);
+                String formName = mapping.getAttribute();
+                sess.setAttribute(formName, orgSelTreeForm);
             }
+        }
 
-            if (orgSelTreeForm.getPullFlagKeyLabels().isEmpty() && orgSelTreeForm.getOperatingMode() != null) {
-                OrgSelOpMode opMode = OrgSelOpMode.valueOf(orgSelTreeForm.getOperatingMode());
-                switch (opMode) {
-                    case SALSET:
-                        orgSelTreeForm.setOperatingModeTitle("Budget Salary Setting Organization Selection");
-                        orgSelTreeForm.setOperatingModePullFlagLabel("Selected");
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NO.getKey().toString(), OrgSelControlOption.NO.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.YES.getKey().toString(), OrgSelControlOption.YES.getLabel()));
-                        break;
-                    case REPORTS:
-                        orgSelTreeForm.setOperatingModeTitle("BC Reports Organization Selection");
-                        orgSelTreeForm.setOperatingModePullFlagLabel("Selected");
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NO.getKey().toString(), OrgSelControlOption.NO.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.YES.getKey().toString(), OrgSelControlOption.YES.getLabel()));
-                        break;
-                    case PULLUP:
-                        orgSelTreeForm.setOperatingModeTitle("BC Pull Up Organization Selection");
-                        orgSelTreeForm.setOperatingModePullFlagLabel("Pull Up Type");
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NOTSEL.getKey().toString(), OrgSelControlOption.NOTSEL.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.BOTH.getKey().toString(), OrgSelControlOption.BOTH.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.ORG.getKey().toString(), OrgSelControlOption.ORG.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.SUBORG.getKey().toString(), OrgSelControlOption.SUBORG.getLabel()));
-                        break;
-                    case PUSHDOWN:
-                        orgSelTreeForm.setOperatingModeTitle("BC Push Down Organization Selection");
-                        orgSelTreeForm.setOperatingModePullFlagLabel("Push Down Type");
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NOTSEL.getKey().toString(), OrgSelControlOption.NOTSEL.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.ORGLEV.getKey().toString(), OrgSelControlOption.ORGLEV.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.MGRLEV.getKey().toString(), OrgSelControlOption.MGRLEV.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.ORGMGRLEV.getKey().toString(), OrgSelControlOption.ORGMGRLEV.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.LEVONE.getKey().toString(), OrgSelControlOption.LEVONE.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.LEVZERO.getKey().toString(), OrgSelControlOption.LEVZERO.getLabel()));
-                        break;
-                    default:
-                        // default to ACCOUNT operating mode
-                        orgSelTreeForm.setOperatingModeTitle("Budgeted Account List Search Organization Selection");
-                        orgSelTreeForm.setOperatingModePullFlagLabel("Selected");
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NO.getKey().toString(), OrgSelControlOption.NO.getLabel()));
-                        orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.YES.getKey().toString(), OrgSelControlOption.YES.getLabel()));
-                        break;
-                }
+        if (orgSelTreeForm.getPullFlagKeyLabels().isEmpty() && orgSelTreeForm.getOperatingMode() != null) {
+            OrgSelOpMode opMode = OrgSelOpMode.valueOf(orgSelTreeForm.getOperatingMode());
+            switch (opMode) {
+                case SALSET:
+                    orgSelTreeForm.setOperatingModeTitle("Budget Salary Setting Organization Selection");
+                    orgSelTreeForm.setOperatingModePullFlagLabel("Selected");
+                    orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NO.getKey().toString(), OrgSelControlOption.NO.getLabel()));
+                    orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.YES.getKey().toString(), OrgSelControlOption.YES.getLabel()));
+                    break;
+                case REPORTS:
+                    orgSelTreeForm.setOperatingModeTitle("BC Reports Organization Selection");
+                    orgSelTreeForm.setOperatingModePullFlagLabel("Selected");
+                    orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NO.getKey().toString(), OrgSelControlOption.NO.getLabel()));
+                    orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.YES.getKey().toString(), OrgSelControlOption.YES.getLabel()));
+                    break;
+                case PULLUP:
+                    orgSelTreeForm.setOperatingModeTitle("BC Pull Up Organization Selection");
+                    orgSelTreeForm.setOperatingModePullFlagLabel("Pull Up Type");
+                    orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NOTSEL.getKey().toString(), OrgSelControlOption.NOTSEL.getLabel()));
+                    orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.BOTH.getKey().toString(), OrgSelControlOption.BOTH.getLabel()));
+                    orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.ORG.getKey().toString(), OrgSelControlOption.ORG.getLabel()));
+                    orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.SUBORG.getKey().toString(), OrgSelControlOption.SUBORG.getLabel()));
+                    break;
+                case PUSHDOWN:
+                    orgSelTreeForm.setOperatingModeTitle("BC Push Down Organization Selection");
+                    orgSelTreeForm.setOperatingModePullFlagLabel("Push Down Type");
+                    orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NOTSEL.getKey().toString(), OrgSelControlOption.NOTSEL.getLabel()));
+                    orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.ORGLEV.getKey().toString(), OrgSelControlOption.ORGLEV.getLabel()));
+                    orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.MGRLEV.getKey().toString(), OrgSelControlOption.MGRLEV.getLabel()));
+                    orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.ORGMGRLEV.getKey().toString(), OrgSelControlOption.ORGMGRLEV.getLabel()));
+                    orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.LEVONE.getKey().toString(), OrgSelControlOption.LEVONE.getLabel()));
+                    orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.LEVZERO.getKey().toString(), OrgSelControlOption.LEVZERO.getLabel()));
+                    break;
+                default:
+                    // default to ACCOUNT operating mode
+                    orgSelTreeForm.setOperatingModeTitle("Budgeted Account List Search Organization Selection");
+                    orgSelTreeForm.setOperatingModePullFlagLabel("Selected");
+                    orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.NO.getKey().toString(), OrgSelControlOption.NO.getLabel()));
+                    orgSelTreeForm.getPullFlagKeyLabels().add(new ConcreteKeyValue(OrgSelControlOption.YES.getKey().toString(), OrgSelControlOption.YES.getLabel()));
+                    break;
             }
         }
 
@@ -135,7 +132,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
      * Sets up the initial mode of the drill down screen based on a passed in calling mode attribute This can be one of five modes -
      * pullup, pushdown, reports, salset, account. Each mode causes a slightly different rendition of the controls presented to the
      * user, but the basic point of view selection and organization drill down functionality is the same in all five modes.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -160,10 +157,11 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Called by the close button. It removes the user's BudgetConstructionPullup table rows and returns the user to the seleection
      * screen action.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // depopulate any selection subtrees for the user
         String principalName = GlobalVariables.getUserSession().getPerson().getPrincipalId();
@@ -175,7 +173,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Implements functionality behind the refresh button on the Organization Selection Tree screen. This is also called when the
      * value of the point of view select control changed and javascript is enabled on the user's browser
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -191,7 +189,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
                 HashMap<String, Object> map = new HashMap<String, Object>();
                 map.put("chartOfAccountsCode", flds[0]);
                 map.put("organizationCode", flds[1]);
-                organizationSelectionTreeForm.setPointOfViewOrg((BudgetConstructionOrganizationReports) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionOrganizationReports.class, map));
+                organizationSelectionTreeForm.setPointOfViewOrg(SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionOrganizationReports.class, map));
 
                 // build a new selection subtree
                 String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
@@ -217,7 +215,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Handles saving the BudgetConstructionPullup current row to the previous branches stack and displaying the associated
      * children.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -235,7 +233,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
         // get the children
         String chartOfAccountsCode = organizationSelectionTreeForm.getSelectionSubTreeOrgs().get(this.getSelectedLine(request)).getChartOfAccountsCode();
         String organizationCode = organizationSelectionTreeForm.getSelectionSubTreeOrgs().get(this.getSelectedLine(request)).getOrganizationCode();
-        organizationSelectionTreeForm.setSelectionSubTreeOrgs((List<BudgetConstructionPullup>) SpringContext.getBean(BudgetOrganizationTreeService.class).getPullupChildOrgs(principalId, chartOfAccountsCode, organizationCode));
+        organizationSelectionTreeForm.setSelectionSubTreeOrgs(SpringContext.getBean(BudgetOrganizationTreeService.class).getPullupChildOrgs(principalId, chartOfAccountsCode, organizationCode));
         organizationSelectionTreeForm.populateSelectionSubTreeOrgs();
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -243,7 +241,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Handles navigation back to a previous branch BudgetConstructionPullup row displaying the associated parent and it's siblings
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -275,7 +273,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
             // get the parent and parent siblings
             String chartOfAccountsCode = previousBranchOrg.getReportsToChartOfAccountsCode();
             String organizationCode = previousBranchOrg.getReportsToOrganizationCode();
-            organizationSelectionTreeForm.setSelectionSubTreeOrgs((List<BudgetConstructionPullup>) SpringContext.getBean(BudgetOrganizationTreeService.class).getPullupChildOrgs(principalId, chartOfAccountsCode, organizationCode));
+            organizationSelectionTreeForm.setSelectionSubTreeOrgs(SpringContext.getBean(BudgetOrganizationTreeService.class).getPullupChildOrgs(principalId, chartOfAccountsCode, organizationCode));
             organizationSelectionTreeForm.populateSelectionSubTreeOrgs();
         }
 
@@ -284,7 +282,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Sets the pullFlag for all displayed subtree organizations
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -297,7 +295,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Clears the pullFlag for all displayed subtree organizations
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -310,7 +308,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -323,7 +321,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -336,7 +334,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -349,7 +347,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -362,7 +360,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -375,7 +373,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -388,7 +386,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -401,7 +399,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Sets the pullFlag for all displayed subtree organizations to the setting implied by the method name.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -414,7 +412,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Sets the pullFlags for each of the objects in the list to the pullFlagValue.
-     * 
+     *
      * @param selOrgs
      * @param pullFlagValue
      */
@@ -427,7 +425,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Checks that at least one organization is selected and stores the selection settings. If no organization is selected, an error
      * message is displayed to the user.
-     * 
+     *
      * @param selectionSubTreeOrgs
      * @return boolean - true if there was a selection and the list was saved, otherwise false
      */
@@ -456,7 +454,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Checks the selection and calls the Position Pick list screen action.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -476,7 +474,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Checks the selection and calls the Budgeted Incumbents Pick list screen action.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -496,7 +494,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Checks the selection and calls the Budget Documents pick list screen action.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -523,7 +521,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Checks the selection and performs the Pull up screen action.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -561,7 +559,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Checks at least one org was selected then calls organization push/pull service to built the account list for budgeted
      * documents below the user's point of view and forwards to the temp list action to display the results.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -596,7 +594,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Checks the selection and performs the Push down screen action.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -634,7 +632,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
     /**
      * Checks at least one org was selected then calls organization push/pull service to built the account list for budgeted
      * documents at the user's point of view and forwards to the temp list action to display the results.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -714,7 +712,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Removes unselected SubTreeOrgs since selectionSubTreeOrgs contains all SubTreeOrgs.
-     * 
+     *
      * @param selectionSubTreeOrgs
      * @return
      */
@@ -731,7 +729,7 @@ public class OrganizationSelectionTreeAction extends BudgetExpansionAction {
 
     /**
      * Parses the report name from the methodToCall request parameter and retrieves the associated ReportMode.
-     * 
+     *
      * @param request - HttpServletRequest containing the methodToCall parameter
      * @param organizationSelectionTreeForm - OrganizationSelectionTreeForm to set report mode on
      * @return BudgetConstructionReportMode - mode associated with parsed report name

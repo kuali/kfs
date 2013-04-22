@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,7 +26,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -50,43 +49,12 @@ public class BudgetExpansionAction extends KualiAction {
 
         BudgetExpansionForm budgetExpansionForm = (BudgetExpansionForm) form;
 
-        // we lost the session now recover back to the selection screen
-        if (budgetExpansionForm.getMethodToCall() != null && budgetExpansionForm.getMethodToCall().equals("performLost")) {
-            Properties parameters = new Properties();
-            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT);
-
-            String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
-
-            return new ActionForward(lookupUrl, true);
-        }
-
-        // check for session timeout if not initial (re)load of BC selection
-        if (budgetExpansionForm.getMethodToCall() == null || !(mapping.getType().endsWith("BudgetConstructionSelectionAction") && (budgetExpansionForm.getMethodToCall().equals(BCConstants.LOAD_EXPANSION_SCREEN_METHOD) || budgetExpansionForm.getMethodToCall().equals(BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT)))) {
-
-            Boolean isBCHeartBeating = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG);
-            if (isBCHeartBeating == null) {
-                budgetExpansionForm.setLostSession(Boolean.TRUE);
-                
-                if (form instanceof SalarySettingBaseForm){
-                    SalarySettingBaseForm salarySettingBaseForm = (SalarySettingBaseForm) form;
-                    if (!salarySettingBaseForm.isBudgetByAccountMode()){
-                        KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
-                        return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
-                    }
-                }
-
-                // do generic case session lost
-                KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
-                return mapping.findForward(BCConstants.MAPPING_LOST_SESSION_RETURNING);
-            }
-        }
-
         return super.execute(mapping, form, request, response);
     }
 
     /**
      * Handling for screen close. Default action is return to caller.
-     * 
+     *
      * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
      *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -109,14 +77,14 @@ public class BudgetExpansionAction extends KualiAction {
     /**
      * Return to form's back location (usually previous screen). Returns back the form key that was passed in for the previous form
      * and any previous anchor position. Default refresh method is executed.
-     * 
+     *
      * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
      *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetExpansionForm budgetExpansionForm = (BudgetExpansionForm) form;
 
-        // if this form is session scoped remove it 
+        // if this form is session scoped remove it
         this.cleanupAnySessionForm(mapping, request);
 
         Properties parameters = new Properties();
@@ -172,7 +140,7 @@ public class BudgetExpansionAction extends KualiAction {
 
     /**
      * remove any session form attribute
-     * 
+     *
      * @param mapping
      * @param request
      */

@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,16 +46,14 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
      */
     @Override
     public void populate(HttpServletRequest request) {
-        
-        if (!this.isLostSessionDetected(request)){
-            super.populate(request);
-            this.populateBCAFLines();
-        }
+
+        super.populate(request);
+        this.populateBCAFLines();
     }
 
     /**
      * get the key map for the salary setting expension
-     * 
+     *
      * @return the key map for the salary setting expension
      */
     @Override
@@ -81,7 +79,7 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Gets the salarySettingExpansion attribute.
-     * 
+     *
      * @return Returns the salarySettingExpansion.
      */
     public SalarySettingExpansion getSalarySettingExpansion() {
@@ -90,7 +88,7 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Sets the salarySettingExpansion attribute value.
-     * 
+     *
      * @param salarySettingExpansion The salarySettingExpansion to set.
      */
     public void setSalarySettingExpansion(SalarySettingExpansion salarySettingExpansion) {
@@ -99,7 +97,7 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Gets the refreshPositionBeforeSalarySetting attribute.
-     * 
+     *
      * @return Returns the refreshPositionBeforeSalarySetting.
      */
     public boolean isRefreshPositionBeforeSalarySetting() {
@@ -108,7 +106,7 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Sets the refreshPositionBeforeSalarySetting attribute value.
-     * 
+     *
      * @param refreshPositionBeforeSalarySetting The refreshPositionBeforeSalarySetting to set.
      */
     public void setRefreshPositionBeforeSalarySetting(boolean refreshPositionBeforeSalarySetting) {
@@ -117,7 +115,7 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Gets the refreshIncumbentBeforeSalarySetting attribute.
-     * 
+     *
      * @return Returns the refreshIncumbentBeforeSalarySetting.
      */
     public boolean isRefreshIncumbentBeforeSalarySetting() {
@@ -126,7 +124,7 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
 
     /**
      * Sets the refreshIncumbentBeforeSalarySetting attribute value.
-     * 
+     *
      * @param refreshIncumbentBeforeSalarySetting The refreshIncumbentBeforeSalarySetting to set.
      */
     public void setRefreshIncumbentBeforeSalarySetting(boolean refreshIncumbentBeforeSalarySetting) {
@@ -145,7 +143,7 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
      * Gets the viewOnlyEntry attribute. In the quick salary setting context viewOnlyEntry checks the system view only and account
      * access. Both system view only and full entry can both exist (be true), it just means that the user would have edit access if
      * the system was not in view only mode. These facts are used to determine the effective viewOnlyEntry value
-     * 
+     *
      * @return Returns the viewOnlyEntry.
      */
     @Override

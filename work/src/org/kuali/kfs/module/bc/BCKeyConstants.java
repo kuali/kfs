@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -72,7 +72,9 @@ public class BCKeyConstants {
     public static final String ERROR_MONTHLY_TOTAL_ZERO = "error.budget.monthlyTotalZero";
     public static final String ERROR_BUDGET_ACCOUNT_ORGANIZATION_HIERARCHY = "error.budget.AccountOrganizationHierarchy";
     public static final String ERROR_BUDGET_REASONMAINT_INACTIVATE_REASONEXIST = "error.budget.reasonMaintenance.inactivate.reasonExist";
-    
+    public static final String ERROR_BUDGET_OBJECT_TYPE_INVALID_REVENUE = "error.budget.object.type.invalid.revenue";
+    public static final String ERROR_BUDGET_OBJECT_TYPE_INVALID_EXPENSE = "error.budget.object.type.invalid.expense";
+
     public static final String ERROR_REPORT_GETTING_CHART_DESCRIPTION = "error.budget.report.gettingChartDescription";
     public static final String ERROR_REPORT_GETTING_OBJECT_CODE = "error.budget.report.gettingObjectCode";
     public static final String ERROR_REPORT_GETTING_OBJECT_NAME = "error.budget.report.gettingObjectName";
@@ -84,7 +86,7 @@ public class BCKeyConstants {
     public static final String ERROR_REPORT_GETTING_FUNDGROUP_CODE = "error.budget.report.gettingFundGroupCode";
     public static final String ERROR_REPORT_GETTING_SUBFUNDGROUP_DESCRIPTION = "error.budget.report.gettingSubFundGroupDescription";
     public static final String MSG_REPORT_HEADER_ACCOUNT_SUB = "message.budget.report.header.accountSub";
-    public static final String MSG_REPORT_HEADER_ACCOUNT_SUB_NAME = "message.budget.report.header.accountSubName"; 
+    public static final String MSG_REPORT_HEADER_ACCOUNT_SUB_NAME = "message.budget.report.header.accountSubName";
     public static final String MSG_REPORT_HEADER_BASE_AMOUNT = "message.budget.report.header.baseAmount";
     public static final String MSG_REPORT_HEADER_REQ_AMOUNT = "message.budget.report.header.reqAmount";
     public static final String MSG_REPORT_HEADER_CHANGE = "message.budget.report.header.change";
@@ -95,10 +97,10 @@ public class BCKeyConstants {
     public static final String MSG_REPORT_INCOME_EXP_DESC_EXP_NET_TRNFR = "message.budget.report.incomeExpDescExpNetTrnfr";
     public static final String MSG_REPORT_INCOME_EXP_DESC_EXPENDITURE_NET_TRNFR = "message.budget.report.incomeExpDescExpenditureNetTrnfr";
     public static final String MSG_REPORT_INCOME_EXP_DESC_EXPENDITURE = "message.budget.report.incomeExpDescExpenditure";
-    
+
     public static final String MSG_REPORT_HEADER_SUBFUND = "message.budget.report.header.subFund";
     public static final String MSG_REPORT_HEADER_SUBFUND_DESCRIPTION = "message.budget.report.header.subFundDescription";
-    
+
     public static final String ERROR_FILE_IS_REQUIRED = "error.budget.requestImport.missingFile";
     public static final String ERROR_FILE_EMPTY = "error.budget.requestImport.emptyFile";
     public static final String ERROR_FILE_TYPE_IS_REQUIRED = "error.budget.requestImport.missingFileType";
@@ -119,13 +121,13 @@ public class BCKeyConstants {
     public static final String ERROR_NO_RECORDS_MY_ACCOUNTS = "error.budget.noRecordsMyAccounts";
     public static final String ERROR_NO_ACCOUNTS_PUSH_DOWN = "error.budget.noAccountsPushDown";
     public static final String ERROR_NO_ACCOUNTS_PULL_UP = "error.budget.noAccountsPullUp";
-    
+
     public static final String MSG_ACCOUNT_PULLUP_LIST = "message.budget.accountPullupList";
     public static final String MSG_ACCOUNT_PUSHDOWN_LIST = "message.budget.accountPushdownList";
     public static final String MSG_ACCOUNT_MANAGER_DELEGATE_LIST = "message.budget.accountManagerDelegateList";
     public static final String MSG_ORG_PULL_UP_SUCCESSFUL = "message.budget.orgPullUpSuccessful";
     public static final String MSG_ORG_PUSH_DOWN_SUCCESSFUL = "message.budget.orgPushDownSuccessful";
-    
+
     public static final String ERROR_PAYRATE_IMPORT_ABORTED = "error.budget.payrate.importAborted";
     public static final String ERROR_PAYRATE_UPDATE_ABORTED = "error.budget.payrate.updateAborted";
     public static final String ERROR_PAYRATE_IMPORT_NO_PAYROLL_MATCH = "error.budget.payrate.noPayrollMatch";
@@ -136,31 +138,31 @@ public class BCKeyConstants {
     public static final String ERROR_PAYRATE_FUNDING_LOCK_EXISTS = "error.budget.payrate.fundingLockExists";
     public static final String ERROR_PAYRATE_BATCH_ACCOUNT_LOCK_FAILED = "error.budget.payrate.batchAccountLockFailed";
     public static final String ERROR_PAYRATE_NO_UPDATE_FTE_ZERO_OR_BLANK = "error.budget.payrate.noUpdateFteZero";
-    
+
     public static final String MSG_PAYRATE_IMPORT_LOG_FILE_HEADER_LINE = "message.budget.payrate.headerLine";
     public static final String MSG_PAYRATE_IMPORT_NO_IMPORT_RECORDS = "message.budget.payrate.noImportRecords";
     public static final String MSG_PAYRATE_IMPORT_COUNT = "message.budget.payrate.importCount";
     public static final String MSG_PAYRATE_IMPORT_COMPLETE = "message.budget.payrate.importComplete";
     public static final String MSG_PAYRATE_IMPORT_UPDATE_COMPLETE = "message.budget.payrate.updateComplete";
     public static final String MSG_PAYRATE_IMPORT_LOG_FILE_FOOTER = "message.budget.payrate.footerLine";
-    
+
     public static final String ERROR_REQUIRED_FOR_GET_NEW_POSITION = "error.budget.requiredGetNewPosition";
     public static final String ERROR_EXTERNAL_POSITION_NOT_FOUND = "error.budget.externalPositionNotFound";
     public static final String ERROR_BUDGET_POSITION_ALREADY_EXISTS = "error.budget.positionAlreadyExists";
     public static final String ERROR_REQUIRED_FOR_GET_NEW_INCUMBENT = "error.budget.requiredGetNewIncumbent";
     public static final String ERROR_BUDGET_INCUMBENT_ALREADY_EXISTS = "error.budget.incumbentAlreadyExists";
     public static final String ERROR_EXTERNAL_INCUMBENT_NOT_FOUND = "error.budget.externalIncumbentNotFound";
-    public static final String ERROR_POSITION_LOCK_NOT_OBTAINED = "error.budget.positionLockNotObtained";   
-    
+    public static final String ERROR_POSITION_LOCK_NOT_OBTAINED = "error.budget.positionLockNotObtained";
+
     public static final String ERROR_PAYRATE_EXPORT_INVALID_POSITION_UNION_CODE = "error.budget.payrate.export.invalidPositionUnionCode";
     public static final String ERROR_PAYRATE_EXPORT_POSITION_UNION_CODE_REQUIRED = "error.budget.payrate.export.positionUnionCodeRequired";
     public static final String ERROR_PAYRATE_EXPORT_CSF_FREEZE_DATE_REQUIRED = "error.budget.payrate.export.CsfFreezeDateRequired";
     public static final String ERROR_PAYRATE_EXPORT_CSF_FREEZE_DATE_INCORRECT_FORMAT = "error.budget.payrate.export.CsfFreezeDateIncorrectFormat";
-    
+
     public static final String ERROR_FAIL_TO_LOCK_POSITION = "error.budget.failToLockPosition";
     public static final String ERROR_FAIL_TO_LOCK_FUNDING = "error.budget.failToLockFunding";
     public static final String ERROR_FAIL_TO_UPDATE_FUNDING_ACCESS = "error.budget.failToUpdateFundingAccess";
-    
+
     public static final String ERROR_INCUMBENT_NOT_FOUND = "error.budget.incumbentNotFound";
     public static final String ERROR_POSITION_NOT_FOUND = "error.budget.positionNotFound";
     public static final String ERROR_FAIL_TO_ACQUIRE_TRANSACTION_LOCK = "error.budget.failToAcquireTransactionLock";
@@ -172,12 +174,12 @@ public class BCKeyConstants {
     public static final String ERROR_FTE_GREATER_THAN_ZERO_REQUIRED = "error.budget.fteAmountGreaterThanZero";
     public static final String ERROR_BUDGET_DOCUMENT_NOT_FOUND = "error.budget.budgetDocumentNotFound";
     public static final String ERROR_EMPTY_PAY_RATE_ANNUAL_AMOUNT = "error.budget.emptyPayRateAnnualAmount";
-    
+
     public static final String WARNING_FTE_NOT_EQUAL = "warning.budget.fteNotEqual";
     public static final String WARNING_FTE_NOT_ONE = "warning.budget.fteNotOne";
     public static final String WARNING_WORKING_HOUR_NOT_EQUAL = "warning.budget.workingHourNotEqual";
     public static final String WARNING_RECALCULATE_NEEDED = "warning.budget.recalculateNeeded";
-    
+
     public static final String ERROR_NO_ACTIVE_JOB_FOUND = "error.budget.noActiveJobFound";
     public static final String ERROR_TIME_PERCENT_GREATER_THAN_ZERO_REQUIRED = "error.budget.timePercentGreaterThanZero";
     public static final String ERROR_NOT_EQUAL_NORMAL_WORK_MONTHS = "error.budget.notEqualNormalWorkMonths";

@@ -41,8 +41,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
@@ -147,7 +147,10 @@ public class RequisitionDocumentTest extends KualiTestBase {
         RequisitionAccount account = (RequisitionAccount)item.getSourceAccountingLine(0);
         account.setAccountLinePercent(new BigDecimal(100.00));
         accounts.remove(0);
-        accounts.get(0).setAccountLinePercent(new BigDecimal(100.00));
+        account = (RequisitionAccount)item.getSourceAccountingLine(0);
+        account.setAccountLinePercent(new BigDecimal(100.00));
+        // for the sequential method, we need to set the amount in addition to the percent
+        account.setAmount(item.calculateExtendedPrice().multiply(new KualiDecimal(account.getAccountLinePercent())).divide(new KualiDecimal(100)));
 
         AccountingDocumentTestUtils.testRouteDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
     }
@@ -240,7 +243,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
     public void testRouteBrokenDocument_ItemQuantityBased_NoQuantity() {
         requisitionDocument = RequisitionDocumentFixture.REQ_INVALID_ITEM_QUANTITY_BASED_NO_QUANTITY.createRequisitionDocument();
         SpringContext.getBean(KualiRuleService.class).applyRules(new RouteDocumentEvent(requisitionDocument));
-        assertFalse(GlobalVariables.getMessageMap().hasErrors());
+        assertTrue(GlobalVariables.getMessageMap().hasErrors());
     }
 
     private UserNameFixture getInitialUserName() {

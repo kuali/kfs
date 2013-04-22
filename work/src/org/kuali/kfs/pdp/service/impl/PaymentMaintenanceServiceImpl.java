@@ -422,12 +422,15 @@ public class PaymentMaintenanceServiceImpl implements PaymentMaintenanceService 
                     Map<String, KualiInteger> primaryKeys = new HashMap<String, KualiInteger>();
                     primaryKeys.put(PdpPropertyConstants.PaymentDetail.PAYMENT_ID, element.getId());
 
-                    PaymentDetail pd = this.businessObjectService.findByPrimaryKey(PaymentDetail.class, primaryKeys);
-                    if (pd != null) {
-                        pd.setPrimaryCancelledPayment(Boolean.TRUE);
+                    // cancel all  payment details for payment group
+                    List<PaymentDetail> pds = (List<PaymentDetail>) this.businessObjectService.findMatching(PaymentDetail.class, primaryKeys);
+                    if (pds != null && !pds.isEmpty()) {
+                        for(PaymentDetail pd : pds) {
+                            pd.setPrimaryCancelledPayment(Boolean.TRUE);
+                            this.businessObjectService.save(pd);
+                        }
                     }
 
-                    this.businessObjectService.save(pd);
                 }
 
                 LOG.debug("cancelDisbursement() Disbursement cancelled; exit method.");

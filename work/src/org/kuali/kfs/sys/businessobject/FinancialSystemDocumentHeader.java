@@ -184,12 +184,7 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
      */
     public void updateAndSaveAppDocStatus(String applicationDocumentStatus) throws WorkflowException {
        setApplicationDocumentStatus(applicationDocumentStatus);
-       // if the document is Initiated, then it has not been saved yet
-       // So, we don't need to save the routing data since the document
-       // has not been submitted to the workflow engine yet
-       if ( !getWorkflowDocument().isInitiated() ) {
-           SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getWorkflowDocument());
-       }
+       SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getWorkflowDocument());
     }
 
     public String getSecuredField() {

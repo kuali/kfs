@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.identity;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,12 +55,13 @@ public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
 
 
     public void testRegionalBudgetManagerQualifications() {
+        Map<String,String> qualification = new HashMap<String,String>();
         List<Map<String,String>> roleQualifiers =
                 roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(
                         regionalBudgetManager.getPrincipalId(),
                         BCConstants.BUDGET_CONSTRUCTION_NAMESPACE,
                         BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME,
-                        null);
+                        qualification);
         assertNotNull( "roleQualifiers should not have returned null", roleQualifiers );
         assertFalse( "roleQualifiers should not be empty", roleQualifiers.isEmpty() );
         System.out.println( roleQualifiers );
@@ -68,12 +70,13 @@ public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
     }
 
     public void testUABudgetManagerQualifications() {
+        Map<String,String> qualification = new HashMap<String,String>();
         List<Map<String,String>> roleQualifiers =
                 roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(
                         universityAdministrationBudgetManager.getPrincipalId(),
                         BCConstants.BUDGET_CONSTRUCTION_NAMESPACE,
                         BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME,
-                        null);
+                        qualification);
         assertNotNull( "roleQualifiers should not have returned null", roleQualifiers );
         assertFalse( "roleQualifiers should not be empty", roleQualifiers.isEmpty() );
         System.out.println( roleQualifiers );
@@ -82,12 +85,13 @@ public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
     }
 
     public void testBothBudgetManagerQualifications() {
+        Map<String,String> qualification = new HashMap<String,String>();
         List<Map<String,String>> roleQualifiers =
                 roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(
                         bothManager.getPrincipalId(),
                         BCConstants.BUDGET_CONSTRUCTION_NAMESPACE,
                         BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME,
-                        null);
+                        qualification);
         assertNotNull( "roleQualifiers should not have returned null", roleQualifiers );
         assertFalse( "roleQualifiers should not be empty", roleQualifiers.isEmpty() );
         System.out.println( roleQualifiers );
@@ -96,12 +100,13 @@ public class BudgetConstructionRoleServiceImplTest extends KualiTestBase {
     }
 
     public void testNonProcessorQualifications() {
+        Map<String,String> qualification = new HashMap<String,String>();
         List<Map<String,String>> roleQualifiers =
                 roleService.getRoleQualifersForPrincipalByNamespaceAndRolename(
                         nonProcessor.getPrincipalId(),
                         BCConstants.BUDGET_CONSTRUCTION_NAMESPACE,
                         BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME,
-                        null);
+                        qualification);
         assertNotNull( "roleQualifiers should not have returned null", roleQualifiers );
         System.out.println( roleQualifiers );
         assertTrue( "roleQualifiers should have been empty", roleQualifiers.isEmpty() );

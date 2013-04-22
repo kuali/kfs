@@ -40,8 +40,6 @@ public class KFSConstants {
 
     public static final String KFS_CORE_SERVICE_NAMESPACE = "http://kfs.kuali.org/core/v5_0";
 
-    public static final String KFS_CORE_DISTRIBUTED_CACHE_MANAGER = "kfs.core.DistributedCacheManager";
-
     @Deprecated // Please switch all references to KFSConstants.CoreModuleNamespaces
     public static class ParameterNamespaces {
         public static final String KFS = "KFS-SYS";
@@ -1353,7 +1351,7 @@ public class KFSConstants {
         public static final String IMPORT_LINE_ERROR_PREFIX = "document.subObjectCodeImportDetail[";
         public static final String SUB_OBJECT_CODE = "Sub-Object Code";
 	}
-	
+
     public static class ProjectCodeImportConstants {
         public static final String IMPORT_DETAILS_TAB_ERRORS = "document.projectCodeImportDetail*";
         public static final String IMPORT_LINE_ERROR_PREFIX = "document.projectCodeImportDetail[";

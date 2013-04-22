@@ -584,7 +584,6 @@
 			<forward name="basic" path="/jsp/module/bc/{1}.jsp" />
 			<forward name="organizationSalarySettingReturning"
 				path="/jsp/module/bc/OrganizationSalarySettingReturning.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 			<forward name="import_export"
 				path="/jsp/module/bc/BudgetConstructionImportExport.jsp" />
 		</action>
@@ -595,7 +594,6 @@
 			scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/bc/OrganizationSelectionTree.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
         <action path="/budgetOrganizationReportSelection" name="OrganizationReportSelectionForm"
@@ -604,7 +602,6 @@
             scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/module/bc/OrganizationReportSelection.jsp" />
-            <forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
         </action>
 
 		<action path="/budgetMonthlyBudget" name="MonthlyBudgetForm"
@@ -613,7 +610,6 @@
 			scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/bc/MonthlyBudget.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/budgetQuickSalarySetting" name="QuickSalarySettingForm"
@@ -622,7 +618,6 @@
 			scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/bc/QuickSalarySetting.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/budgetPositionSalarySetting" name="PositionSalarySettingForm"
@@ -633,7 +628,6 @@
 			<forward name="basic" path="/jsp/module/bc/PositionSalarySetting.jsp" />
 			<forward name="organizationSalarySettingReturning"
 				path="/jsp/module/bc/OrganizationSalarySettingReturning.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/budgetIncumbentSalarySetting" name="IncumbentSalarySettingForm"
@@ -644,7 +638,6 @@
 			<forward name="basic" path="/jsp/module/bc/IncumbentSalarySetting.jsp" />
 			<forward name="organizationSalarySettingReturning"
 				path="/jsp/module/bc/OrganizationSalarySettingReturning.jsp" />
-			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
 		<action path="/cashManagementStatus" name="CashManagementStatusForm"

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,12 +37,12 @@ import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public enum PurapAccountingServiceFixture {
-    
+
     PREQ_PRORATION_ONE_ACCOUNT(
-            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class, 
+            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class,
             PurApAccountingLineFixture.BASIC_ACCOUNT_1),
     PREQ_PRORATION_TWO_ACCOUNTS(
-            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class, 
+            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class,
             PurApAccountingLineFixture.ACCOUNT_50_PERCENT,
             PurApAccountingLineFixture.ACCOUNT_50_PERCENT),
     PREQ_PRORATION_THIRDS(
@@ -51,10 +51,10 @@ public enum PurapAccountingServiceFixture {
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD_PLUS_ONE_HUNDREDTH),
     PREQ_PRORATION_ONE_ACCOUNT_ZERO_TOTAL(
-            PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class, 
+            PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class,
             PurApAccountingLineFixture.BASIC_ACCOUNT_1),
     PREQ_PRORATION_TWO_ACCOUNTS_ZERO_TOTAL(
-            PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class, 
+            PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,PaymentRequestAccount.class,
             PurApAccountingLineFixture.ACCOUNT_50_PERCENT,
             PurApAccountingLineFixture.ACCOUNT_50_PERCENT),
     PREQ_PRORATION_THIRDS_ZERO_TOTAL(
@@ -63,10 +63,10 @@ public enum PurapAccountingServiceFixture {
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD_PLUS_ONE_HUNDREDTH),
     REQ_PRORATION_ONE_ACCOUNT(
-            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,RequisitionAccount.class, 
+            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,RequisitionAccount.class,
             PurApAccountingLineFixture.BASIC_ACCOUNT_1),
     REQ_PRORATION_TWO_ACCOUNTS(
-            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,RequisitionAccount.class, 
+            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,RequisitionAccount.class,
             PurApAccountingLineFixture.ACCOUNT_50_PERCENT,
             PurApAccountingLineFixture.ACCOUNT_50_PERCENT),
     REQ_PRORATION_THIRDS(
@@ -75,10 +75,10 @@ public enum PurapAccountingServiceFixture {
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD_PLUS_ONE_HUNDREDTH),
     REQ_PRORATION_ONE_ACCOUNT_ZERO_TOTAL(
-            PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,RequisitionAccount.class, 
+            PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,RequisitionAccount.class,
             PurApAccountingLineFixture.BASIC_ACCOUNT_1),
     REQ_PRORATION_TWO_ACCOUNTS_ZERO_TOTAL(
-            PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,RequisitionAccount.class, 
+            PurapTestConstants.AmountsLimits.ZERO,PurapConstants.PRORATION_SCALE,RequisitionAccount.class,
             PurApAccountingLineFixture.ACCOUNT_50_PERCENT,
             PurApAccountingLineFixture.ACCOUNT_50_PERCENT),
     REQ_PRORATION_THIRDS_ZERO_TOTAL(
@@ -87,8 +87,8 @@ public enum PurapAccountingServiceFixture {
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD,
             PurApAccountingLineFixture.ACCOUNT_ONE_THIRD_PLUS_ONE_HUNDREDTH),
     CREDIT_MEMO_ONE_ACCOUNT(
-            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,CreditMemoAccount.class, 
-            PurApAccountingLineFixture.BASIC_ACCOUNT_1),   
+            PurapTestConstants.AmountsLimits.SMALL_POSITIVE_AMOUNT,PurapConstants.PRORATION_SCALE,CreditMemoAccount.class,
+            PurApAccountingLineFixture.BASIC_ACCOUNT_1),
     REQ_SUMMARY_ONE_ITEM_ONE_ACCOUNT( new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1 },
             new AccountingLineFixture[] { AccountingLineFixture.PURAP_LINE1 },
             new Integer[] {0} ),
@@ -101,7 +101,7 @@ public enum PurapAccountingServiceFixture {
             new AccountingLineFixture[] { AccountingLineFixture.PURAP_LINE1 },
             new Integer[] {0,1} ),
             ;
-    
+
     KualiDecimal totalAmount;
     Integer percentScale;
     Class accountClass;
@@ -115,22 +115,22 @@ public enum PurapAccountingServiceFixture {
 
     /**
      * Constructs a PurapAccountingServiceFixture.java.
-     * 
+     *
      * @param totalAmount
      * @param percentScale
      * @param accountClass
      * @param purApAcctLineFixtures
      */
     private PurapAccountingServiceFixture(
-            KualiDecimal totalAmount, 
-            Integer percentScale, 
-            Class accountClass, 
+            KualiDecimal totalAmount,
+            Integer percentScale,
+            Class accountClass,
             PurApAccountingLineFixture ... purApAcctLineFixtures) {
-        
+
         this.totalAmount = totalAmount;
         this.percentScale = percentScale;
         this.accountClass = accountClass;
-        
+
         for( int i = 0; i < purApAcctLineFixtures.length; i++ ) {
             PurApAccountingLineFixture purApAcctLineFixture = purApAcctLineFixtures[i];
             PurApAccountingLine purApAcctLine = purApAcctLineFixture.createPurApAccountingLine(accountClass, accountingLineFixture[i]);
@@ -141,10 +141,10 @@ public enum PurapAccountingServiceFixture {
             sourceAccountingLineList.add(purApAcctLine.generateSourceAccountingLine());
         }
     }
-    
+
     /**
      * Constructs a PurapAccountingServiceFixture.java.
-     * 
+     *
      * @param itemFixtures
      */
     private PurapAccountingServiceFixture(RequisitionItemFixture[] itemFixtures, AccountingLineFixture[] acctLineFixtures, Integer[] positions) {
@@ -168,10 +168,10 @@ public enum PurapAccountingServiceFixture {
             }
         }
     }
-    
+
     /**
      * Adds an identical total and a list of source accounting lines to each item of a given RequisitionDocument.
-     *  
+     *
      * @param   req     A RequisitionDocument
      * @return          The same document, with the totals and source accounting line lists added to its items
      */
@@ -179,38 +179,44 @@ public enum PurapAccountingServiceFixture {
         List<RequisitionItem> augmentedItems = new ArrayList<RequisitionItem>();
         for(RequisitionItem item : (List<RequisitionItem>)req.getItems()) {
             item.setTotalAmount(this.totalAmount);
-            item.setSourceAccountingLines(purApAccountingLineList);        
+
+            // fix amounts
+            for (PurApAccountingLine purApAccountingLine: purApAccountingLineList) {
+                purApAccountingLine.setAmount(item.calculateExtendedPrice().multiply(new KualiDecimal(purApAccountingLine.getAccountLinePercent())).divide(new KualiDecimal(100)));
+            }
+
+            item.setSourceAccountingLines(purApAccountingLineList);
             augmentedItems.add(item);
         }
         req.setItems(augmentedItems);
         return req;
     }
-    
+
     /**
      * Creates a minimal RequisitionDocument populated with one item with the current total amount and set of
      * source accounting lines.
-     * 
+     *
      * @return  A RequisitionDocument with one, populated item
      */
     public RequisitionDocument generateRequisitionDocument_OneItem() {
         RequisitionDocument req = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
         return augmentRequisitionDocument(req);
     }
-    
+
     /**
-     * Creates a minimal RequisitionDocument populated with two items, each with the current total amount and 
+     * Creates a minimal RequisitionDocument populated with two items, each with the current total amount and
      * set of source accounting lines.
-     * 
+     *
      * @return  A RequisitionDocument with two, populated items
      */
     public RequisitionDocument generateRequisitionDocument_TwoItems() {
         RequisitionDocument req = RequisitionDocumentFixture.REQ_TWO_ITEMS.createRequisitionDocument();
         return augmentRequisitionDocument(req);
     }
-    
+
     /**
      * Adds an identical total and a list of source accounting lines to each item of a given PaymentRequestDocument.
-     * 
+     *
      * @param preq      A PaymentRequestDocument
      * @return          The same document, with the totals and source accounting line lists add to its items
      */
@@ -218,47 +224,47 @@ public enum PurapAccountingServiceFixture {
         List<PaymentRequestItem> augmentedItems = new ArrayList<PaymentRequestItem>();
         for(PaymentRequestItem item : (List<PaymentRequestItem>)preq.getItems()) {
             item.setTotalAmount(this.totalAmount);
-            item.setSourceAccountingLines(purApAccountingLineList);        
+            item.setSourceAccountingLines(purApAccountingLineList);
             augmentedItems.add(item);
         }
         preq.setItems(augmentedItems);
         return preq;
     }
-    
+
     /**
      * Creates a minimal PaymentRequestDocument populated with one item with the current total amount and set of
      * source accounting lines.
-     *  
+     *
      * @return  A PaymentRequestDocument with one, populated item
      */
     public PaymentRequestDocument generatePaymentRequestDocument_OneItem() {
         PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_ONLY_REQUIRED_FIELDS.createPaymentRequestDocument();
         return augmentPaymentRequestDocument(preq);
     }
-    
+
     /**
-     * Creates a minimal PaymentRequestDocument populated with two items, each with the current total amount and 
+     * Creates a minimal PaymentRequestDocument populated with two items, each with the current total amount and
      * set of source accounting lines.
-     * 
+     *
      * @return  A PaymentRequestDocument with two, populated items
      */
     public PaymentRequestDocument generatePaymentRequestDocument_TwoItems() {
         PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_TWO_ITEM.createPaymentRequestDocument();
         return augmentPaymentRequestDocument(preq);
     }
-    
-    
+
+
     private VendorCreditMemoDocument augmentVendorCreditMemoDocument(VendorCreditMemoDocument vcm) {
         List<CreditMemoItem> augmentedItems = new ArrayList<CreditMemoItem>();
         for(CreditMemoItem item : (List<CreditMemoItem>)vcm.getItems()) {
             item.setTotalAmount(this.totalAmount);
-            item.setSourceAccountingLines(purApAccountingLineList);        
+            item.setSourceAccountingLines(purApAccountingLineList);
             augmentedItems.add(item);
         }
         vcm.setItems(augmentedItems);
         return vcm;
     }
-    
+
     public VendorCreditMemoDocument generateVendorCreditMemoDocument_OneItem() {
         VendorCreditMemoDocument vcm = CreditMemoDocumentFixture.CM_ONLY_REQUIRED_FIELDS.createCreditMemoDocument();
         return augmentVendorCreditMemoDocument(vcm);
@@ -311,5 +317,5 @@ public enum PurapAccountingServiceFixture {
     public void setItems(List<PurApItem> items) {
         this.items = items;
     }
-    
+
 }

@@ -28,18 +28,18 @@
     	p:callbackService-ref="accountCreationService" p:localServiceName="accountCreationServiceSOAP" 
         p:serviceNameSpaceURI="${kc-kfs.kfs.service.namespace.uri}"
         p:serviceInterface="org.kuali.kfs.module.external.kc.service.AccountCreationService" 
-		p:busSecurity="false"/>
+		p:busSecurity="${kuali.coeus.integration.bus.security.enabled}"/>
  
     <bean id="budgetAdjustmentServiceSOAP" parent="kfsCallbackService" 
         p:callbackService-ref="budgetAdjustmentService" p:localServiceName="budgetAdjustmentServiceSOAP" 
         p:serviceNameSpaceURI="${kc-kfs.kfs.service.namespace.uri}"
         p:serviceInterface="org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService"
-		p:busSecurity="false"/>
+		p:busSecurity="${kuali.coeus.integration.bus.security.enabled}"/>
  
     <bean id="kcObjectCodeServiceSOAP" parent="kfsCallbackService"  
         p:callbackService-ref="kcObjectCodeService" p:localServiceName="kcObjectCodeServiceSOAP" 
         p:serviceNameSpaceURI="${kc-kfs.kfs.service.namespace.uri}"
         p:serviceInterface="org.kuali.kfs.module.external.kc.service.KcObjectCodeService" 
-		p:busSecurity="false"/>
+		p:busSecurity="${kuali.coeus.integration.bus.security.enabled}"/>
  
  </beans>

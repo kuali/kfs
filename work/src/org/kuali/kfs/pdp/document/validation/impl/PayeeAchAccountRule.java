@@ -1,10 +1,10 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
  * 
  * Unless required by applicable law or agreed to in writing, software
@@ -18,6 +18,9 @@ package org.kuali.kfs.pdp.document.validation.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpConstants.PayeeIdTypeCodes;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -27,6 +30,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Performs business rules for the Payee ACH Account maintenance document
@@ -70,9 +74,30 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
         LOG.info("processCustomRouteDocumentBusinessRules called");
         setupConvenienceObjects();
 
+        String payeeIdTypeCode = newPayeeAchAccount.getPayeeIdentifierTypeCode();
+        boolean valid = true;
+        if (ObjectUtils.isNull(payeeIdTypeCode) || (!StringUtils.equalsIgnoreCase(payeeIdTypeCode, PayeeIdTypeCodes.EMPLOYEE) && !StringUtils.equalsIgnoreCase(payeeIdTypeCode, PayeeIdTypeCodes.ENTITY) && !StringUtils.equalsIgnoreCase(payeeIdTypeCode, PayeeIdTypeCodes.VENDOR_ID))) {
+            if (ObjectUtils.isNull(newPayeeAchAccount.getPayeeName())) {
+                putFieldError(PdpPropertyConstants.PAYEE_NAME, KFSKeyConstants.ERROR_REQUIRED, PdpConstants.PayeeACHAccountDocumentStrings.PAYEE_NAME + " ( " + PdpConstants.PayeeACHAccountDocumentStrings.PAYEE_NAME + " )");
+                valid &= false;
+            }
+        }
+        if (ObjectUtils.isNull(payeeIdTypeCode) || (!StringUtils.equalsIgnoreCase(payeeIdTypeCode, PayeeIdTypeCodes.EMPLOYEE) && !StringUtils.equalsIgnoreCase(payeeIdTypeCode, PayeeIdTypeCodes.ENTITY))) {
+            if (ObjectUtils.isNull(newPayeeAchAccount.getPayeeEmailAddress())) {
+                putFieldError(PdpPropertyConstants.PAYEE_EMAIL_ADDRESS, KFSKeyConstants.ERROR_REQUIRED, PdpConstants.PayeeACHAccountDocumentStrings.PAYEE_EMAIL_ADDRESS + " ( " + PdpConstants.PayeeACHAccountDocumentStrings.PAYEE_EMAIL_ADDRESS + " )");
+                valid &= false;
+            }
+        }
+
+        if (!valid) {
+            return true;
+        }
+
         // no need to do further checking if user is not even allowed to submit new BO
-        if (!checkTransactionTypeAllowed()) return false;
-        
+        if (!checkTransactionTypeAllowed()) {
+            return false;
+        }
+
         return checkForDuplicateRecord();
     }
 
@@ -80,7 +105,7 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
      * Checks to verify record is not a duplicate for payee id. Do not check for a duplicate record if the following conditions are
      * true 1. editing an existing record (old primary key = new primary key) 2. new PSD code = old PSD code 3. new payee type code
      * = old payee type code 4. depending of the value of payee type code, new correspoding PayeeId = old corresponding PayeeId
-     * 
+     *
      * @return true if record is not duplicate, false otherwise
      */
     protected boolean checkForDuplicateRecord() {
@@ -115,11 +140,11 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Checks if the user is allowed to submit the new created/edited PayeeAchAccount based on its current transactionType.  
-     * This checking is needed to prevent the following scenarios which bypass the document level authorization checking:
-     * #1 A Bursar user creates a blank PayeeAchAccount, sets the transactionType to TR and submits;
-     * #2 A Bursar user copies a PayeeAchAccount with transactionType BZ, changes the transactionType to TR and submits;
-     * #3 A Bursar user edits a PayeeAchAccount with transactionType BZ, changes the transactionType to TR and submits.
+     * Checks if the user is allowed to submit the new created/edited PayeeAchAccount based on its current transactionType. This
+     * checking is needed to prevent the following scenarios which bypass the document level authorization checking: #1 A Bursar
+     * user creates a blank PayeeAchAccount, sets the transactionType to TR and submits; #2 A Bursar user copies a PayeeAchAccount
+     * with transactionType BZ, changes the transactionType to TR and submits; #3 A Bursar user edits a PayeeAchAccount with
+     * transactionType BZ, changes the transactionType to TR and submits.
      */
     protected boolean checkTransactionTypeAllowed() {
         String docTypeName = maintDocDictionaryService.getDocumentTypeName(PayeeACHAccount.class);
@@ -132,5 +157,5 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
         }
         return allowed;
     }
-    
+
 }

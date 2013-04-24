@@ -19,7 +19,7 @@
 
   <bean id="PayeeACHAccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PayeeACHAccount"/>
-    <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
+    <property name="maintainableClass" value="org.kuali.kfs.pdp.document.PayeeACHAccountMaintainableImpl"/>
     <property name="documentTypeName" value="PAAT"/>
     <property name="businessRulesClass" value="org.kuali.kfs.pdp.document.validation.impl.PayeeAchAccountRule"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.pdp.document.authorization.PayeeACHAccountMaintenanceDocumentPresentationController"/>        
@@ -77,8 +77,8 @@
           <property name="required" value="true"/>
         </bean>
         <bean parent="MaintainableFieldDefinition" p:name="bankAccountTypeCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="payeeName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="payeeEmailAddress" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="payeeName" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="payeeEmailAddress" p:required="false" />
         <bean parent="MaintainableFieldDefinition" p:name="achTransactionType" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"/>
       </list>

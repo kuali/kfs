@@ -1,0 +1,753 @@
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
+	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
+
+	<changeSet author="KFSTEM" id="KFSMI-10508">
+		<addUniqueConstraint tableName="TEM_ACCOMM_TYP_T"
+			constraintName="TEM_ACCOMM_TYP_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_ACCOMM_TYP_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_ACCOMM_TYP_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_ACCOMM_TYP_T"
+			columnName="NM" />
+		<addNotNullConstraint tableName="TEM_ACCOMM_TYP_T"
+			columnName="ACTV_IND" />
+		<addUniqueConstraint tableName="TEM_ACCT_DOC_REL_T"
+			constraintName="TEM_ACCT_DOC_REL_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_ACCT_DOC_REL_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_ACCT_DOC_REL_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_ACCT_DOC_REL_T"
+			columnName="DOC_NBR" />
+		<addNotNullConstraint tableName="TEM_ACCT_DOC_REL_T"
+			columnName="REL_DOC_NBR" />
+		<addNotNullConstraint tableName="TEM_ACCT_DOC_REL_T"
+			columnName="ACTV_IND" />
+		<addForeignKeyConstraint constraintName="TEM_ACCT_LINES_TR1"
+			baseTableName="TEM_ACCT_LINES_T" baseColumnNames="FIN_COA_CD"
+			referencedTableName="CA_CHART_T" referencedColumnNames="FIN_COA_CD" />
+		<addForeignKeyConstraint constraintName="TEM_ACCT_LINES_TR2"
+			baseTableName="TEM_ACCT_LINES_T" baseColumnNames="FIN_COA_CD,ACCOUNT_NBR"
+			referencedTableName="CA_ACCOUNT_T" referencedColumnNames="FIN_COA_CD,ACCOUNT_NBR" />
+		<addForeignKeyConstraint constraintName="TEM_ACCT_LINES_TR3"
+			baseTableName="TEM_ACCT_LINES_T" baseColumnNames="FDOC_POST_YR,FIN_COA_CD,FIN_OBJECT_CD"
+			referencedTableName="CA_OBJECT_CODE_T" referencedColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,FIN_OBJECT_CD" />
+		<addForeignKeyConstraint constraintName="TEM_ACCT_LINES_TR4"
+			baseTableName="TEM_ACCT_LINES_T" baseColumnNames="FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR"
+			referencedTableName="CA_SUB_ACCT_T" referencedColumnNames="FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR" />
+		<addForeignKeyConstraint constraintName="TEM_ACCT_LINES_TR5"
+			baseTableName="TEM_ACCT_LINES_T"
+			baseColumnNames="FDOC_POST_YR,FIN_COA_CD,ACCOUNT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD"
+			referencedTableName="CA_SUB_OBJECT_CD_T"
+			referencedColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD" />
+		<addForeignKeyConstraint constraintName="TEM_ACCT_LINES_TR6"
+			baseTableName="TEM_ACCT_LINES_T" baseColumnNames="PROJECT_CD"
+			referencedTableName="CA_PROJECT_T" referencedColumnNames="PROJECT_CD" />
+		<addForeignKeyConstraint constraintName="TEM_ACCT_LINES_TR7"
+			baseTableName="TEM_ACCT_LINES_T" baseColumnNames="FIN_BALANCE_TYP_CD"
+			referencedTableName="CA_BALANCE_TYPE_T" referencedColumnNames="FIN_BALANCE_TYP_CD" />
+		<addForeignKeyConstraint constraintName="TEM_ACCT_LINES_TR9"
+			baseTableName="TEM_ACCT_LINES_T" baseColumnNames="FS_REF_ORIGIN_CD"
+			referencedTableName="FS_ORIGIN_CODE_T" referencedColumnNames="FS_ORIGIN_CD" />
+		<addUniqueConstraint tableName="TEM_ACCT_LINES_T"
+			constraintName="TEM_ACCT_LINES_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_ACCT_LINES_T"
+			columnName="VER_NBR" />
+		<addUniqueConstraint tableName="TEM_ADV_PMNT_RSN_T"
+			constraintName="TEM_ADV_PMNT_RSN_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_ADV_PMNT_RSN_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_ADV_PMNT_RSN_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_ADV_PMNT_RSN_T"
+			columnName="ACTV_IND" />
+		<addNotNullConstraint tableName="TEM_ACCT_LINES_T"
+			columnName="OBJ_ID" />
+		<addUniqueConstraint tableName="TEM_AGENCY_SRVC_FEE_T"
+			constraintName="TEM_AGENCY_SRVC_FEE_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_AGENCY_SRVC_FEE_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_AGENCY_SRVC_FEE_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_AGENCY_SRVC_FEE_T"
+			columnName="DI_CD" />
+		<addNotNullConstraint tableName="TEM_AGENCY_SRVC_FEE_T"
+			columnName="CHART_CD" />
+		<addNotNullConstraint tableName="TEM_AGENCY_SRVC_FEE_T"
+			columnName="ACCT_NBR" />
+		<addNotNullConstraint tableName="TEM_AGENCY_SRVC_FEE_T"
+			columnName="OBJ_CD" />
+		<addNotNullConstraint tableName="TEM_AGENCY_SRVC_FEE_T"
+			columnName="ACTV_IND" />
+		<addUniqueConstraint tableName="TEM_AGENCY_STAGING_T"
+			constraintName="TEM_AGENCY_STAGING_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_AGENCY_STAGING_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_AGENCY_STAGING_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_AGENCY_STAGING_T"
+			columnName="TRAVELER_NM" />
+		<addUniqueConstraint tableName="TEM_AIRFARE_SRC_T"
+			constraintName="TEM_AIRFARE_SRC_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_AIRFARE_SRC_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_AIRFARE_SRC_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_AIRFARE_SRC_T"
+			columnName="NAME" />
+		<addNotNullConstraint tableName="TEM_AIRFARE_SRC_T"
+			columnName="ACTV_IND" />
+		<addUniqueConstraint tableName="TEM_ATTENDEE_T"
+			constraintName="TEM_ATTENDEE_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_ATTENDEE_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_ATTENDEE_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_ATTENDEE_T"
+			columnName="FDOC_NBR" />
+		<addForeignKeyConstraint constraintName="TEM_CLASS_SVC_TR1"
+			baseTableName="TEM_CLASS_SVC_T" baseColumnNames="DV_EXP_CD"
+			referencedTableName="FP_DV_EXP_TYP_T" referencedColumnNames="DV_EXP_CD" />
+		<addUniqueConstraint tableName="TEM_CLASS_SVC_T"
+			constraintName="TEM_CLASS_SVC_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"
+			columnName="DV_EXP_CD" />
+		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"
+			columnName="CLASS_SVC_NAME" />
+		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_CLASS_SVC_T"
+			columnName="ACTV_IND" />
+		<addUniqueConstraint tableName="TEM_CONT_REL_TYP_T"
+			constraintName="TEM_CONT_REL_TYP_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_CONT_REL_TYP_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_CONT_REL_TYP_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_CONT_REL_TYP_T"
+			columnName="NM" />
+		<addNotNullConstraint tableName="TEM_CONT_REL_TYP_T"
+			columnName="ACTV_IND" />
+		<addUniqueConstraint tableName="TEM_CORP_CARD_APP_DOC_T"
+			constraintName="TEM_CORP_CARD_APP_DOC_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_CORP_CARD_APP_DOC_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_CORP_CARD_APP_DOC_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_CORP_CARD_APP_DOC_T"
+			columnName="TEM_PROFILE_ID" />
+		<addUniqueConstraint tableName="TEM_CORP_CARD_PSEUDO_NUM_T"
+			constraintName="TEM_CORP_CARD_PSEUDO_NUM_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_CORP_CARD_PSEUDO_NUM_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_CORP_CARD_PSEUDO_NUM_T"
+			columnName="OBJ_ID" />
+		<addForeignKeyConstraint constraintName="TEM_CREDIT_CARD_AGENCY_TR1"
+			baseTableName="TEM_CREDIT_CARD_AGENCY_T" baseColumnNames="TRAVEL_CARD_TYPE_CD"
+			referencedTableName="TEM_TRVL_CARD_TYP_T" referencedColumnNames="CODE" />
+		<addUniqueConstraint tableName="TEM_CREDIT_CARD_AGENCY_T"
+			constraintName="TEM_CREDIT_CARD_AGENCY_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_CREDIT_CARD_AGENCY_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_CREDIT_CARD_AGENCY_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_CREDIT_CARD_AGENCY_T"
+			columnName="CREDIT_CARD_AGENCY_CODE" />
+		<addNotNullConstraint tableName="TEM_CREDIT_CARD_AGENCY_T"
+			columnName="TRAVEL_CARD_TYPE_CD" />
+		<addNotNullConstraint tableName="TEM_CREDIT_CARD_AGENCY_T"
+			columnName="PAYMENT_IND" />
+		<addNotNullConstraint tableName="TEM_CREDIT_CARD_AGENCY_T"
+			columnName="CREDIT_CARD_AGENCY_NAME" />
+		<addNotNullConstraint tableName="TEM_CREDIT_CARD_AGENCY_T"
+			columnName="FOREIGN_COMPANY" />
+		<addNotNullConstraint tableName="TEM_CREDIT_CARD_AGENCY_T"
+			columnName="ACTV_IND" />
+		<addUniqueConstraint tableName="TEM_CREDIT_CARD_STAGING_T"
+			constraintName="TEM_CREDIT_CARD_STAGING_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_CREDIT_CARD_STAGING_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_CREDIT_CARD_STAGING_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_CREDIT_CARD_STAGING_T"
+			columnName="TRANSACTION_DT" />
+		<addUniqueConstraint tableName="TEM_CTS_CARD_APP_DOC_T"
+			constraintName="TEM_CTS_CARD_APP_DOC_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_CTS_CARD_APP_DOC_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_CTS_CARD_APP_DOC_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_CTS_CARD_APP_DOC_T"
+			columnName="TEM_PROFILE_ID" />
+		<addForeignKeyConstraint constraintName="TEM_EM_CONT_TR1"
+			baseTableName="TEM_EM_CONT_T" baseColumnNames="CONT_REL_TYP_CD"
+			referencedTableName="TEM_CONT_REL_TYP_T" referencedColumnNames="CODE" />
+		<addForeignKeyConstraint constraintName="TEM_EM_CONT_TR2"
+			baseTableName="TEM_EM_CONT_T" baseColumnNames="TRAVELER_DTL_ID"
+			referencedTableName="TEM_TRAVELER_DTL_T" referencedColumnNames="ID" />
+		<addUniqueConstraint tableName="TEM_EM_CONT_T"
+			constraintName="TEM_EM_CONT_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_EM_CONT_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_EM_CONT_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_EM_CONT_T"
+			columnName="CONT_REL_TYP_CD" />
+		<addForeignKeyConstraint constraintName="TEM_ENT_DOC_TR1"
+			baseTableName="TEM_ENT_DOC_T" baseColumnNames="TRAVELER_DTL_ID"
+			referencedTableName="TEM_TRAVELER_DTL_T" referencedColumnNames="ID" />
+		<addForeignKeyConstraint constraintName="TEM_ENT_DOC_TR2"
+			baseTableName="TEM_ENT_DOC_T" baseColumnNames="TRIP_TYP_CD"
+			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
+		<addForeignKeyConstraint constraintName="TEM_ENT_DOC_TR3"
+			baseTableName="TEM_ENT_DOC_T" baseColumnNames="PURPOSE_CODE"
+			referencedTableName="TEM_PURPOSE_T" referencedColumnNames="PURPOSE_CODE" />
+		<addForeignKeyConstraint constraintName="TEM_ENT_DOC_TR4"
+			baseTableName="TEM_ENT_DOC_T" baseColumnNames="PRIMARY_DEST_ID"
+			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
+		<addForeignKeyConstraint constraintName="TEM_ENT_DOC_TR5"
+			baseTableName="TEM_ENT_DOC_T" baseColumnNames="FDOC_BNK_CD"
+			referencedTableName="FP_BANK_T" referencedColumnNames="BNK_CD" />
+		<addUniqueConstraint tableName="TEM_ENT_DOC_T"
+			constraintName="TEM_ENT_DOC_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_ENT_DOC_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_ENT_DOC_T"
+			columnName="OBJ_ID" />
+		<addForeignKeyConstraint constraintName="TEM_EXP_TYP_TR1"
+			baseTableName="TEM_EXP_TYP_T" baseColumnNames="TRIP_TYP_CD"
+			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
+		<addForeignKeyConstraint constraintName="TEM_EXP_TYP_TR2"
+			baseTableName="TEM_EXP_TYP_T" baseColumnNames="TRAVELER_TYP_CD"
+			referencedTableName="TEM_TRAVELER_TYP_T" referencedColumnNames="CODE" />
+		<addUniqueConstraint tableName="TEM_EXP_TYP_T"
+			constraintName="TEM_EXP_TYP_TC0" columnNames="OBJ_ID" />
+		<addUniqueConstraint tableName="TEM_EXP_TYP_T"
+			constraintName="TEM_EXP_TYP_TC1" columnNames="TEM_EXP_TYP_ID" />
+		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
+			columnName="TEM_EXP_TYP_ID" />
+		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
+			columnName="TRAVEL_EXP_NM" />
+		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
+			columnName="TRAVEL_EXP_PRPY_IND" />
+		<addNotNullConstraint tableName="TEM_EXP_TYP_T"
+			columnName="ACTV_IND" />
+		<addForeignKeyConstraint constraintName="TEM_GRP_TRVLR_TR1"
+			baseTableName="TEM_GRP_TRVLR_T" baseColumnNames="TRAVELER_TYP_CD"
+			referencedTableName="TEM_TRAVELER_TYP_T" referencedColumnNames="CODE" />
+		<addUniqueConstraint tableName="TEM_GRP_TRVLR_T"
+			constraintName="TEM_GRP_TRVLR_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_GRP_TRVLR_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_GRP_TRVLR_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_GRP_TRVLR_T"
+			columnName="TRAVELER_TYP_CD" />
+		<addForeignKeyConstraint constraintName="TEM_HIST_EXP_TR2"
+			baseTableName="TEM_HIST_EXP_T" baseColumnNames="DV_EXP_CD"
+			referencedTableName="FP_DV_EXP_TYP_T" referencedColumnNames="DV_EXP_CD" />
+		<addUniqueConstraint tableName="TEM_HIST_EXP_T"
+			constraintName="TEM_HIST_EXP_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_HIST_EXP_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_HIST_EXP_T"
+			columnName="OBJ_ID" />
+		<addUniqueConstraint tableName="TEM_JOB_CLASS_T"
+			constraintName="TEM_JOB_CLASS_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_JOB_CLASS_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_JOB_CLASS_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_JOB_CLASS_T"
+			columnName="JOB_CLS_NM" />
+		<addNotNullConstraint tableName="TEM_JOB_CLASS_T"
+			columnName="ROW_ACTV_IND" />
+		<addForeignKeyConstraint constraintName="TEM_MILEAGE_RATE_OBJ_CD_TR1"
+			baseTableName="TEM_MILEAGE_RATE_OBJ_CD_T" baseColumnNames="TRAVELER_TYP_CD"
+			referencedTableName="TEM_TRAVELER_TYP_T" referencedColumnNames="CODE" />
+		<addForeignKeyConstraint constraintName="TEM_MILEAGE_RATE_OBJ_CD_TR2"
+			baseTableName="TEM_MILEAGE_RATE_OBJ_CD_T" baseColumnNames="TRIP_TYP_CD"
+			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
+		<addForeignKeyConstraint constraintName="TEM_MILEAGE_RATE_OBJ_CD_TR3"
+			baseTableName="TEM_MILEAGE_RATE_OBJ_CD_T" baseColumnNames="MILEAGE_RT_ID"
+			referencedTableName="TEM_MILEAGE_RATE_T" referencedColumnNames="ID" />
+		<addUniqueConstraint tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
+			constraintName="TEM_MILEAGE_RATE_OBJ_CD_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
+			columnName="TRAVELER_TYP_CD" />
+		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
+			columnName="TRIP_TYP_CD" />
+		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
+			columnName="MILEAGE_RT_ID" />
+		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
+			columnName="FIN_OBJECT_CD" />
+		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_OBJ_CD_T"
+			columnName="ACTV_IND" />
+		<addUniqueConstraint tableName="TEM_MILEAGE_RATE_T"
+			constraintName="TEM_MILEAGE_RATE_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_T"
+			columnName="NM" />
+		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_T"
+			columnName="ACTV_FROM_DT" />
+		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_T"
+			columnName="ACTV_TO_DT" />
+		<addNotNullConstraint tableName="TEM_MILEAGE_RATE_T"
+			columnName="ACTV_IND" />
+		<addForeignKeyConstraint constraintName="TEM_PER_DIEM_EXP_TR1"
+			baseTableName="TEM_PER_DIEM_EXP_T" baseColumnNames="MILEAGE_RT_ID"
+			referencedTableName="TEM_MILEAGE_RATE_T" referencedColumnNames="ID" />
+		<addForeignKeyConstraint constraintName="TEM_PER_DIEM_EXP_TR2"
+			baseTableName="TEM_PER_DIEM_EXP_T" baseColumnNames="PER_DIEM_ID"
+			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
+		<addForeignKeyConstraint constraintName="TEM_PER_DIEM_EXP_TR3"
+			baseTableName="TEM_PER_DIEM_EXP_T" baseColumnNames="ACCOM_TYP_CD"
+			referencedTableName="TEM_ACCOMM_TYP_T" referencedColumnNames="CODE" />
+		<addUniqueConstraint tableName="TEM_PER_DIEM_EXP_T"
+			constraintName="TEM_PER_DIEM_EXP_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PER_DIEM_EXP_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_PER_DIEM_EXP_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PER_DIEM_EXP_T"
+			columnName="FDOC_NBR" />
+		<addNotNullConstraint tableName="TEM_PER_DIEM_EXP_T"
+			columnName="MILEAGE_RT_ID" />
+		<addUniqueConstraint tableName="TEM_PER_DIEM_MIE_BRK_DWN_T"
+			constraintName="TEM_PER_DIEM_MIE_BRK_DWN_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PER_DIEM_MIE_BREAK_DOWN_T"
+			columnName="ACTV_IND" />
+		<addForeignKeyConstraint constraintName="TEM_PER_DIEM_TR1"
+			baseTableName="TEM_PER_DIEM_T" baseColumnNames="TRIP_TYP_CD"
+			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
+		<addUniqueConstraint tableName="TEM_PER_DIEM_T"
+			constraintName="TEM_PER_DIEM_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PER_DIEM_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_PER_DIEM_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PER_DIEM_T"
+			columnName="TRIP_TYP_CD" />
+		<addNotNullConstraint tableName="TEM_PER_DIEM_T"
+			columnName="ACTV_IND" />
+		<addForeignKeyConstraint constraintName="TEM_PROFILE_ACCOUNT_TR1"
+			baseTableName="TEM_PROFILE_ACCOUNT_T" baseColumnNames="PROFILE_ID"
+			referencedTableName="TEM_PROFILE_T" referencedColumnNames="PROFILE_ID" />
+		<addUniqueConstraint tableName="TEM_PROFILE_ACCOUNT_T"
+			constraintName="TEM_PROFILE_ACCOUNT_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PROFILE_ACCOUNT_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_PROFILE_ACCOUNT_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PROFILE_ACCOUNT_T"
+			columnName="PROFILE_ID" />
+		<addNotNullConstraint tableName="TEM_PROFILE_ACCOUNT_T"
+			columnName="CARD_ID" />
+		<addNotNullConstraint tableName="TEM_PROFILE_ACCOUNT_T"
+			columnName="NAME" />
+		<addNotNullConstraint tableName="TEM_PROFILE_ACCOUNT_T"
+			columnName="ACCOUNT_NBR" />
+		<addNotNullConstraint tableName="TEM_PROFILE_ACCOUNT_T"
+			columnName="ACTV_IND" />
+		<addUniqueConstraint tableName="TEM_PROFILE_ADDR_T"
+			constraintName="TEM_PROFILE_ADDR_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PROFILE_ADDR_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_PROFILE_ADDR_T"
+			columnName="OBJ_ID" />
+		<addForeignKeyConstraint constraintName="TEM_PROFILE_ARRANGER_TR1"
+			baseTableName="TEM_PROFILE_ARRANGER_T" baseColumnNames="PROFILE_ID"
+			referencedTableName="TEM_PROFILE_T" referencedColumnNames="PROFILE_ID" />
+		<addUniqueConstraint tableName="TEM_PROFILE_ARRANGER_T"
+			constraintName="TEM_PROFILE_ARRANGER_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PROFILE_ARRANGER_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_PROFILE_ARRANGER_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PROFILE_ARRANGER_T"
+			columnName="PROFILE_ID" />
+		<addNotNullConstraint tableName="TEM_PROFILE_ARRANGER_T"
+			columnName="TA_IND" />
+		<addNotNullConstraint tableName="TEM_PROFILE_ARRANGER_T"
+			columnName="TR_IND" />
+		<addNotNullConstraint tableName="TEM_PROFILE_ARRANGER_T"
+			columnName="ACTV_IND" />
+		<addNotNullConstraint tableName="TEM_PROFILE_ARRANGER_T"
+			columnName="PRIMARY_IND" />
+		<addForeignKeyConstraint constraintName="TEM_PROFILE_CUST_TR1"
+			baseTableName="TEM_PROFILE_CUST_T" baseColumnNames="CUSTOMER_TYP_CD"
+			referencedTableName="AR_CUST_TYP_T" referencedColumnNames="CUST_TYP_CD" />
+		<addUniqueConstraint tableName="TEM_PROFILE_CUST_T"
+			constraintName="TEM_PROFILE_CUST_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PROFILE_CUST_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_PROFILE_CUST_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PROFILE_CUST_T"
+			columnName="ACTV_IND" />
+		<addForeignKeyConstraint constraintName="TEM_PROFILE_EM_CONT_TR1"
+			baseTableName="TEM_PROFILE_EM_CONT_T" baseColumnNames="CONT_REL_TYP_CD"
+			referencedTableName="TEM_CONT_REL_TYP_T" referencedColumnNames="CODE" />
+		<addUniqueConstraint tableName="TEM_PROFILE_EM_CONT_T"
+			constraintName="TEM_PROFILE_EM_CONT_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PROFILE_EM_CONT_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_PROFILE_EM_CONT_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PROFILE_EM_CONT_T"
+			columnName="CONT_REL_TYP_CD" />
+		<addNotNullConstraint tableName="TEM_PROFILE_KIM_PERSON_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_PROFILE_KIM_PERSON_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PROFILE_KIM_PERSON_T"
+			columnName="ACTV_IND" />
+		<addForeignKeyConstraint constraintName="TEM_PROFILE_TR1"
+			baseTableName="TEM_PROFILE_T" baseColumnNames="TRAVELER_TYP_CD"
+			referencedTableName="TEM_TRAVELER_TYP_T" referencedColumnNames="CODE" />
+		<addUniqueConstraint tableName="TEM_PROFILE_T"
+			constraintName="TEM_PROFILE_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PROFILE_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_PROFILE_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PROFILE_T"
+			columnName="TRAVELER_TYP_CD" />
+		<addNotNullConstraint tableName="TEM_PROFILE_T"
+			columnName="DATE_OF_BIRTH" />
+		<addNotNullConstraint tableName="TEM_PROFILE_T"
+			columnName="GENDER" />
+		<addNotNullConstraint tableName="TEM_PROFILE_T"
+			columnName="HOME_DEPT_ORG_CD" />
+		<addNotNullConstraint tableName="TEM_PROFILE_T"
+			columnName="HOME_DEPT_COA_CD" />
+		<addNotNullConstraint tableName="TEM_PROFILE_T"
+			columnName="ACTV_IND" />
+		<addUniqueConstraint tableName="TEM_PURPOSE_T"
+			constraintName="TEM_PURPOSE_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PURPOSE_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_PURPOSE_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_PURPOSE_T"
+			columnName="DOCUMENT_TYPE" />
+		<addNotNullConstraint tableName="TEM_PURPOSE_T"
+			columnName="ROW_ACTV_IND" />
+		<addForeignKeyConstraint constraintName="TEM_RELO_DOC_TR1"
+			baseTableName="TEM_RELO_DOC_T" baseColumnNames="TRAVELER_DTL_ID"
+			referencedTableName="TEM_TRAVELER_DTL_T" referencedColumnNames="ID" />
+		<addForeignKeyConstraint constraintName="TEM_RELO_DOC_TR2"
+			baseTableName="TEM_RELO_DOC_T" baseColumnNames="TRIP_TYP_CD"
+			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
+		<addForeignKeyConstraint constraintName="TEM_RELO_DOC_TR3"
+			baseTableName="TEM_RELO_DOC_T" baseColumnNames="REASON_CD"
+			referencedTableName="TEM_RELO_REASON_T" referencedColumnNames="RELO_REASON_CD" />
+		<addForeignKeyConstraint constraintName="TEM_RELO_DOC_TR4"
+			baseTableName="TEM_RELO_DOC_T" baseColumnNames="JOB_CLS_CD"
+			referencedTableName="TEM_JOB_CLASS_T" referencedColumnNames="JOB_CLS_CD" />
+		<addForeignKeyConstraint constraintName="TEM_RELO_DOC_TR5"
+			baseTableName="TEM_RELO_DOC_T" baseColumnNames="PRIMARY_DEST_ID"
+			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
+		<addForeignKeyConstraint constraintName="TEM_RELO_DOC_TR6"
+			baseTableName="TEM_RELO_DOC_T" baseColumnNames="FDOC_BNK_CD"
+			referencedTableName="FP_BANK_T" referencedColumnNames="BNK_CD" />
+		<addUniqueConstraint tableName="TEM_RELO_DOC_T"
+			constraintName="TEM_RELO_DOC_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_RELO_DOC_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_RELO_DOC_T"
+			columnName="OBJ_ID" />
+		<addUniqueConstraint tableName="TEM_RELO_REASON_T"
+			constraintName="TEM_RELO_REASON_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_RELO_REASON_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_RELO_REASON_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_RELO_REASON_T"
+			columnName="RELO_REASON_NM" />
+		<addNotNullConstraint tableName="TEM_RELO_REASON_T"
+			columnName="ROW_ACTV_IND" />
+		<addUniqueConstraint tableName="TEM_SPCL_CRCMSNCS_Q_T"
+			constraintName="TEM_SPCL_CRCMSNCS_Q_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_SPCL_CRCMSNCS_Q_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_SPCL_CRCMSNCS_Q_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_SPCL_CRCMSNCS_Q_T"
+			columnName="DOCUMENT_TYPE" />
+		<addNotNullConstraint tableName="TEM_SPCL_CRCMSNCS_Q_T"
+			columnName="ACTV_IND" />
+		<addForeignKeyConstraint constraintName="TEM_SPCL_CRCMSNCS_TR1"
+			baseTableName="TEM_SPCL_CRCMSNCS_T" baseColumnNames="QID"
+			referencedTableName="TEM_SPCL_CRCMSNCS_Q_T" referencedColumnNames="ID" />
+		<addUniqueConstraint tableName="TEM_SPCL_CRCMSNCS_T"
+			constraintName="TEM_SPCL_CRCMSNCS_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_SPCL_CRCMSNCS_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_SPCL_CRCMSNCS_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_SPCL_CRCMSNCS_T"
+			columnName="QID" />
+		<addNotNullConstraint tableName="TEM_SPCL_CRCMSNCS_T"
+			columnName="FDOC_NBR" />
+		<addNotNullConstraint tableName="TEM_TAX_RAM_DOC_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TAX_RAM_DOC_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TAX_RAM_DOC_T"
+			columnName="TRVL_DTL_ID" />
+		<addNotNullConstraint tableName="TEM_TAX_RAM_DOC_T"
+			columnName="TRVL_ADV_ID" />
+		<addNotNullConstraint tableName="TEM_TAX_RAM_DOC_T"
+			columnName="AR_INV_DOC_NBR" />
+		<addNotNullConstraint tableName="TEM_TAX_RAM_DOC_T"
+			columnName="INV_AMT" />
+		<addNotNullConstraint tableName="TEM_TAX_RAM_DOC_T"
+			columnName="OPN_AMT" />
+		<addForeignKeyConstraint constraintName="TEM_TRANS_MD_DTL_TR1"
+			baseTableName="TEM_TRANS_MD_DTL_T" baseColumnNames="TRANS_MODE_CD"
+			referencedTableName="TEM_TRANS_MD_T" referencedColumnNames="CODE" />
+		<addNotNullConstraint tableName="TEM_TRANS_MD_DTL_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TRANS_MD_DTL_T"
+			columnName="OBJ_ID" />
+		<addUniqueConstraint tableName="TEM_TRANS_MD_T"
+			constraintName="TEM_TRANS_MD_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRANS_MD_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TRANS_MD_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRANS_MD_T"
+			columnName="NAME" />
+		<addNotNullConstraint tableName="TEM_TRANS_MD_T"
+			columnName="ACTV_IND" />
+		<addForeignKeyConstraint constraintName="TEM_TRAVELER_DTL_TR1"
+			baseTableName="TEM_TRAVELER_DTL_T" baseColumnNames="TRAVELER_TYP_CD"
+			referencedTableName="TEM_TRAVELER_TYP_T" referencedColumnNames="CODE" />
+		<addForeignKeyConstraint constraintName="TEM_TRAVELER_DTL_TR2"
+			baseTableName="TEM_TRAVELER_DTL_T" baseColumnNames="CUST_NBR"
+			referencedTableName="AR_CUST_T" referencedColumnNames="CUST_NBR" />
+		<addUniqueConstraint tableName="TEM_TRAVELER_DTL_T"
+			constraintName="TEM_TRAVELER_DTL_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRAVELER_DTL_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TRAVELER_DTL_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRAVELER_DTL_T"
+			columnName="LIABILITY_INSURANCE" />
+		<addNotNullConstraint tableName="TEM_TRAVELER_DTL_T"
+			columnName="TRAVELER_TYP_CD" />
+		<addNotNullConstraint tableName="TEM_TRAVELER_DTL_T"
+			columnName="ACTV_IND" />
+		<addForeignKeyConstraint constraintName="TEM_TRAVELER_PROF_TR1"
+			baseTableName="TEM_TRAVELER_PROF_T" baseColumnNames="TRAVELER_TYP_CD"
+			referencedTableName="TEM_TRAVELER_TYP_T" referencedColumnNames="CODE" />
+		<addUniqueConstraint tableName="TEM_TRAVELER_PROF_T"
+			constraintName="TEM_TRAVELER_PROF_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRAVELER_PROF_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TRAVELER_PROF_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRAVELER_PROF_T"
+			columnName="TRAVELER_TYP_CD" />
+		<addUniqueConstraint tableName="TEM_TRAVELER_TYP_T"
+			constraintName="TEM_TRAVELER_TYP_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRAVELER_TYP_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TRAVELER_TYP_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRAVELER_TYP_T"
+			columnName="NM" />
+		<addNotNullConstraint tableName="TEM_TRAVELER_TYP_T"
+			columnName="ADVANCES_IND" />
+		<addNotNullConstraint tableName="TEM_TRAVELER_TYP_T"
+			columnName="ACTV_IND" />
+		<addForeignKeyConstraint constraintName="TEM_TRIP_DTL_EST_TR1"
+			baseTableName="TEM_TRIP_DTL_EST_T" baseColumnNames="MILEAGE_RT_ID"
+			referencedTableName="TEM_MILEAGE_RATE_T" referencedColumnNames="ID" />
+		<addForeignKeyConstraint constraintName="TEM_TRIP_DTL_EST_TR2"
+			baseTableName="TEM_TRIP_DTL_EST_T" baseColumnNames="ACCOM_TYP_CD"
+			referencedTableName="TEM_ACCOMM_TYP_T" referencedColumnNames="CODE" />
+		<addForeignKeyConstraint constraintName="TEM_TRIP_DTL_EST_TR3"
+			baseTableName="TEM_TRIP_DTL_EST_T" baseColumnNames="PER_DIEM_ID"
+			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
+		<addUniqueConstraint tableName="TEM_TRIP_DTL_EST_T"
+			constraintName="TEM_TRIP_DTL_EST_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRIP_DTL_EST_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TRIP_DTL_EST_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRIP_DTL_EST_T"
+			columnName="PER_DIEM_ID" />
+		<addUniqueConstraint tableName="TEM_TRIP_TYP_T"
+			constraintName="TEM_TRIP_TYP_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"
+			columnName="NM" />
+		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"
+			columnName="GEN_ENC_IND" />
+		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"
+			columnName="CONT_INFO_REQ_IND" />
+		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"
+			columnName="BLANKET_IND" />
+		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"
+			columnName="AUTO_TR_LIMIT" />
+		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"
+			columnName="USE_PER_DIEM" />
+		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"
+			columnName="TA_REQUIRED" />
+		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"
+			columnName="PER_DIEM_CALC_METHOD" />
+		<addNotNullConstraint tableName="TEM_TRIP_TYP_T"
+			columnName="ACTV_IND" />
+		<addUniqueConstraint tableName="TEM_TRP_ACCT_INFO_T"
+			constraintName="TEM_TRP_ACCT_INFO_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRP_ACCT_INFO_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TRP_ACCT_INFO_T"
+			columnName="OBJ_ID" />
+		<addUniqueConstraint tableName="TEM_TRVL_ADV_T"
+			constraintName="TEM_TRVL_ADV_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRVL_ADV_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TRVL_ADV_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRVL_ADV_T"
+			columnName="TRVL_ADV_PLCY" />
+		<addUniqueConstraint tableName="TEM_TRVL_ARRANGER_DOC_T"
+			constraintName="TEM_TRVL_ARRANGER_DOC_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRVL_ARRANGER_DOC_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TRVL_ARRANGER_DOC_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRVL_ARRANGER_DOC_T"
+			columnName="ARRANGER_ID" />
+		<addNotNullConstraint tableName="TEM_TRVL_ARRANGER_DOC_T"
+			columnName="PROFILE_ID" />
+		<addNotNullConstraint tableName="TEM_TRVL_ARRANGER_DOC_T"
+			columnName="TA_IND" />
+		<addNotNullConstraint tableName="TEM_TRVL_ARRANGER_DOC_T"
+			columnName="TR_IND" />
+		<addNotNullConstraint tableName="TEM_TRVL_ARRANGER_DOC_T"
+			columnName="RESIGN_IND" />
+		<addNotNullConstraint tableName="TEM_TRVL_ARRANGER_DOC_T"
+			columnName="PRIMARY_IND" />
+		<addForeignKeyConstraint constraintName="TEM_TRVL_AUTH_AMEND_DOC_TR1"
+			baseTableName="TEM_TRVL_AUTH_AMEND_DOC_T" baseColumnNames="TRAVELER_DTL_ID"
+			referencedTableName="TEM_TRAVELER_DTL_T" referencedColumnNames="ID" />
+		<addForeignKeyConstraint constraintName="TEM_TRVL_AUTH_AMEND_DOC_TR2"
+			baseTableName="TEM_TRVL_AUTH_AMEND_DOC_T" baseColumnNames="TRIP_TYP_CD"
+			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
+		<addForeignKeyConstraint constraintName="TEM_TRVL_AUTH_AMEND_DOC_TR3"
+			baseTableName="TEM_TRVL_AUTH_AMEND_DOC_T" baseColumnNames="PRIMARY_DEST_ID"
+			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
+		<addUniqueConstraint tableName="TEM_TRVL_AUTH_AMEND_DOC_T"
+			constraintName="TEM_TRVL_AUTH_AMEND_DOC_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRVL_AUTH_AMEND_DOC_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TRVL_AUTH_AMEND_DOC_T"
+			columnName="OBJ_ID" />
+		<addForeignKeyConstraint constraintName="TEM_TRVL_AUTH_CLOSE_DOC_TR1"
+			baseTableName="TEM_TRVL_AUTH_CLOSE_DOC_T" baseColumnNames="TRAVELER_DTL_ID"
+			referencedTableName="TEM_TRAVELER_DTL_T" referencedColumnNames="ID" />
+		<addForeignKeyConstraint constraintName="TEM_TRVL_AUTH_CLOSE_DOC_TR2"
+			baseTableName="TEM_TRVL_AUTH_CLOSE_DOC_T" baseColumnNames="TRIP_TYP_CD"
+			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
+		<addForeignKeyConstraint constraintName="TEM_TRVL_AUTH_CLOSE_DOC_TR3"
+			baseTableName="TEM_TRVL_AUTH_CLOSE_DOC_T" baseColumnNames="PRIMARY_DEST_ID"
+			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
+		<addUniqueConstraint tableName="TEM_TRVL_AUTH_CLOSE_DOC_T"
+			constraintName="TEM_TRVL_AUTH_CLOSE_DOC_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRVL_AUTH_CLOSE_DOC_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TRVL_AUTH_CLOSE_DOC_T"
+			columnName="OBJ_ID" />
+		<addForeignKeyConstraint constraintName="TEM_TRVL_AUTH_DOC_TR1"
+			baseTableName="TEM_TRVL_AUTH_DOC_T" baseColumnNames="TRAVELER_DTL_ID"
+			referencedTableName="TEM_TRAVELER_DTL_T" referencedColumnNames="ID" />
+		<addForeignKeyConstraint constraintName="TEM_TRVL_AUTH_DOC_TR2"
+			baseTableName="TEM_TRVL_AUTH_DOC_T" baseColumnNames="TRIP_TYP_CD"
+			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
+		<addForeignKeyConstraint constraintName="TEM_TRVL_AUTH_DOC_TR3"
+			baseTableName="TEM_TRVL_AUTH_DOC_T" baseColumnNames="PRIMARY_DEST_ID"
+			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
+		<addForeignKeyConstraint constraintName="TEM_TRVL_AUTH_DOC_TR4"
+			baseTableName="TEM_TRVL_AUTH_DOC_T" baseColumnNames="FDOC_BNK_CD"
+			referencedTableName="FP_BANK_T" referencedColumnNames="BNK_CD" />
+		<addUniqueConstraint tableName="TEM_TRVL_AUTH_DOC_T"
+			constraintName="TEM_TRVL_AUTH_DOC_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRVL_AUTH_DOC_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TRVL_AUTH_DOC_T"
+			columnName="OBJ_ID" />
+		<addUniqueConstraint tableName="TEM_TRVL_CARD_TYP_T"
+			constraintName="TEM_TRVL_CARD_TYP_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRVL_CARD_TYP_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TRVL_CARD_TYP_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRVL_CARD_TYP_T"
+			columnName="NM" />
+		<addNotNullConstraint tableName="TEM_TRVL_CARD_TYP_T"
+			columnName="ACTV_IND" />
+		<addForeignKeyConstraint constraintName="TEM_TRVL_EXP_TR1"
+			baseTableName="TEM_TRVL_EXP_T" baseColumnNames="AIRFARE_SRC_CD"
+			referencedTableName="TEM_AIRFARE_SRC_T" referencedColumnNames="CODE" />
+		<addForeignKeyConstraint constraintName="TEM_TRVL_EXP_TR4"
+			baseTableName="TEM_TRVL_EXP_T" baseColumnNames="CLASS_SVC_CODE"
+			referencedTableName="TEM_CLASS_SVC_T" referencedColumnNames="CODE" />
+		<addUniqueConstraint tableName="TEM_TRVL_EXP_T"
+			constraintName="TEM_TRVL_EXP_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRVL_EXP_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TRVL_EXP_T"
+			columnName="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRVL_EXP_T"
+			columnName="FDOC_NBR" />
+		<addNotNullConstraint tableName="TEM_TRVL_EXP_T"
+			columnName="TEM_EXP_TYP_ID" />
+		<addPrimaryKey tableName="TEM_TRVL_REIMB_DOC_T"
+			constraintName="TEM_TRVL_REIMB_DOC_TP1" columnNames="FDOC_NBR" />
+		<addForeignKeyConstraint constraintName="TEM_TRVL_REIMB_DOC_TR1"
+			baseTableName="TEM_TRVL_REIMB_DOC_T" baseColumnNames="TRAVELER_DTL_ID"
+			referencedTableName="TEM_TRAVELER_DTL_T" referencedColumnNames="ID" />
+		<addForeignKeyConstraint constraintName="TEM_TRVL_REIMB_DOC_TR2"
+			baseTableName="TEM_TRVL_REIMB_DOC_T" baseColumnNames="TRIP_TYP_CD"
+			referencedTableName="TEM_TRIP_TYP_T" referencedColumnNames="CODE" />
+		<addForeignKeyConstraint constraintName="TEM_TRVL_REIMB_DOC_TR3"
+			baseTableName="TEM_TRVL_REIMB_DOC_T" baseColumnNames="PRIMARY_DEST_ID"
+			referencedTableName="TEM_PER_DIEM_T" referencedColumnNames="ID" />
+		<addForeignKeyConstraint constraintName="TEM_TRVL_REIMB_DOC_TR4"
+			baseTableName="TEM_TRVL_REIMB_DOC_T" baseColumnNames="FDOC_BNK_CD"
+			referencedTableName="FP_BANK_T" referencedColumnNames="BNK_CD" />
+		<addUniqueConstraint tableName="TEM_TRVL_REIMB_DOC_T"
+			constraintName="TEM_TRVL_REIMB_DOC_TC0" columnNames="OBJ_ID" />
+		<addNotNullConstraint tableName="TEM_TRVL_REIMB_DOC_T"
+			columnName="VER_NBR" />
+		<addNotNullConstraint tableName="TEM_TRVL_REIMB_DOC_T"
+			columnName="OBJ_ID" />
+	</changeSet>
+
+</databaseChangeLog>

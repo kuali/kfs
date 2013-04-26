@@ -28,6 +28,7 @@
 		</delete>
 	</changeSet>
 
+	<!--  Removing the adhoc routing completion permission from the roles
 	<changeSet id="KFSMI-8967" author="KFS502">
 		<comment>Fix adhoc router completion permission</comment>
 		<update tableName="KRIM_PERM_T">
@@ -47,7 +48,6 @@
 		</modifySql>
 	</changeSet>
 
-	<!--  Removing the adhoc routing completion permission from the roles
 	<changeSet id="KFSMI-9302" author="KFS502">
 		<comment>Re-Enable adhoc routing completion</comment>
 		<insert tableName="KRIM_ROLE_PERM_T">

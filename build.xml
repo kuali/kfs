@@ -497,18 +497,20 @@
 		<echo message="Cleaning Rice web content from KFS ${webroot.directory}" />
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${basedir.safe}">
-				<include name="${webroot.directory}/ksb/**" />
-				<include name="${webroot.directory}/kew/**" />
-				<include name="${webroot.directory}/kr/**" />
-				<include name="${webroot.directory}/kr-krad/**" />
-				<include name="${webroot.directory}/ken/**" />
+				<include name="${webroot.directory}/core/**" />
 				<include name="${webroot.directory}/kcb/**" />
+				<include name="${webroot.directory}/ken/**" />
+				<include name="${webroot.directory}/kew/**" />
 				<include name="${webroot.directory}/kim/**" />
+				<include name="${webroot.directory}/kr/**" />
+				<include name="${webroot.directory}/krad/**" />
+				<include name="${webroot.directory}/krms/**" />
+				<include name="${webroot.directory}/ksb/**" />
 				<include name="${webroot.directory}/rice-portal/**" />
+				<include name="${tags.directory}/kew/**" />
+				<include name="${tags.directory}/kim/**" />
 				<include name="${tags.directory}/kr/**" />
 				<include name="${tags.directory}/krad/**" />
-				<include name="${tags.directory}/kim/**" />
-				<include name="${tags.directory}/kew/**" />
 				<include name="${tags.directory}/rice-portal/**" />
 			</fileset>
 		</delete>

@@ -329,7 +329,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      *
      * @throws Exception
      */
-    public void testCreateAndRoutePotentialChangeDocument() throws Exception {
+    public void DISABLED_502_testCreateAndRoutePotentialChangeDocument() throws Exception {
         //Need to create a requisition first to be used to create an APO
         RequisitionDocument req = RequisitionDocumentFixture.REQ_ALTERNATE_APO.createRequisitionDocument();
         routeRequisition(req);
@@ -591,7 +591,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
 //        assertTrue(KNSGlobalVariables.getMessageList().contains(PurapKeyConstants.B2B_PO_RETRANSMIT_SUCCESS));
 //    }
 
-    public void testIsPurchaseOrderOpenForProcessing_HappyPath() throws Exception {
+    public void DISABLED_502_testIsPurchaseOrderOpenForProcessing_HappyPath() throws Exception {
         //Create and route a basic PO to Open status.
         PurchaseOrderDocument poDocument = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
         poDocument.prepareForSave();
@@ -604,7 +604,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     }
 
     @ConfigureContext(session = appleton, shouldCommitTransactions=true)
-    public void testIsPurchaseOrderOpenForProcessing_With_PREQ() throws Exception {
+    public void DISABLED_502_testIsPurchaseOrderOpenForProcessing_With_PREQ() throws Exception {
         PaymentRequestDocumentTest preqDocTest = new PaymentRequestDocumentTest();
         PurchaseOrderDocument purchaseOrderDocument = preqDocTest.createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
         purchaseOrderDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(new Integer(SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("AP_PUR_DOC_LNK_ID").toString()));

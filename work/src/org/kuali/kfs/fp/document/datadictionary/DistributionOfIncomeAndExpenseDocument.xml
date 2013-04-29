@@ -45,7 +45,7 @@
 	    	</entry>
     	</map>
     </property>
-    <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>
+    <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser" />
   </bean>
   
     <!-- Validations -->

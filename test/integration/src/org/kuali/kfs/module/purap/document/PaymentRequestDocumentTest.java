@@ -49,7 +49,6 @@ import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
@@ -116,7 +115,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
     }
 
     @ConfigureContext(session = appleton, shouldCommitTransactions = false)
-    public final void testRouteDocument() throws Exception {
+    public final void DISABLED_502_testRouteDocument() throws Exception {
         purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
         purchaseOrderDocument.setAccountDistributionMethod("S");
         paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED, purchaseOrderDocument, true, new KualiDecimal[] { new KualiDecimal(100) });
@@ -125,7 +124,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
     }
 
     @ConfigureContext(session = appleton, shouldCommitTransactions = false)
-    public final void testRouteDocumentToFinal() throws Exception {
+    public final void DISABLED_502_testRouteDocumentToFinal() throws Exception {
         purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
         paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED, purchaseOrderDocument, true, new KualiDecimal[] { new KualiDecimal(100) });
 
@@ -275,7 +274,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
      * @throws Exception
      */
     @ConfigureContext(session = appleton, shouldCommitTransactions = false)
-    public final void testUseTax() throws Exception {
+    public final void DISABLED_502_testUseTax() throws Exception {
         purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
         purchaseOrderDocument.setDeliveryBuildingCode("BL");
         purchaseOrderDocument.setDeliveryBuildingLine1Address("2332 Correa Rd");

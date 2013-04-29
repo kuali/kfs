@@ -38,7 +38,7 @@ public class PdpConstants {
     public static final int CHECK_NUMBER_PLACEHOLDER_VALUE = -1;
 
     public static class PayeeIdTypeCodes {
-        public static String CUSTOMER = "C";
+		public static String CUSTOMER = "C";
         public static String SSN = "S";
         public static String EMPLOYEE = "E";
         public static String ENTITY = "T";
@@ -192,5 +192,11 @@ public class PdpConstants {
         public static final String ZIP = "zip";
         public static final String CHECK_STUB_TEXT = "checkStubText";
         public static final String AMOUNT = "amount";
+    }
+    
+    public static class PayeeACHAccountDocumentStrings{
+        public static final String PAYEE_NAME = "Payee Name";
+        public static final String PAYEE_EMAIL_ADDRESS = "Email Address";
+        public static final String EDIT_PAYEE_ACH_ACCOUNT ="Edit Payee ACH Account";
     }
 }

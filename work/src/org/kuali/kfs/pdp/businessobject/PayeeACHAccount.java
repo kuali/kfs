@@ -116,24 +116,26 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
     }
 
     /**
-     * Gets the payee's name from KIM or Vendor data, if the payee type is Employee, Entity or Vendor;
-     * otherwise returns the stored field value.
+     * Gets the payee's name from KIM or Vendor data, if the payee type is Employee, Entity or Vendor; otherwise returns the stored
+     * field value.
      *
      * @return Returns the payee name
      */
     public String getPayeeName() {
         // for Employee, retrieves from Person table by employee ID
         if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.EMPLOYEE)) {
-            String name = SpringContext.getBean(FinancialSystemUserService.class).getPersonNameByEmployeeId(payeeIdNumber);
+            if (ObjectUtils.isNotNull(payeeIdNumber)) {
+                String name = SpringContext.getBean(FinancialSystemUserService.class).getPersonNameByEmployeeId(payeeIdNumber);
 
-            //Person person = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
-            if (ObjectUtils.isNotNull(name)) {
-                return name;
+                // Person person = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
+                if (ObjectUtils.isNotNull(name)) {
+                    return name;
+                }
             }
         }
         // for Entity, retrieve from Entity table by entity ID
         else if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.ENTITY)) {
-            if(ObjectUtils.isNotNull(payeeIdNumber)) {
+            if (ObjectUtils.isNotNull(payeeIdNumber)) {
                 EntityDefault entity = KimApiServiceLocator.getIdentityService().getEntityDefault(payeeIdNumber);
                 if (ObjectUtils.isNotNull(entity) && ObjectUtils.isNotNull(entity.getName())) {
                     return entity.getName().getCompositeName();
@@ -162,8 +164,8 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
     }
 
     /**
-     * Gets the payee's email address from KIM data if the payee type is Employee or Entity;
-     * otherwise, returns the stored field value.
+     * Gets the payee's email address from KIM data if the payee type is Employee or Entity; otherwise, returns the stored field
+     * value.
      *
      * @return Returns the payeeEmailAddress
      */
@@ -177,7 +179,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
         }
         // for Entity, retrieve from Entity table by entity ID then from Person table
         else if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.ENTITY)) {
-            if(ObjectUtils.isNotNull(payeeIdNumber)) {
+            if (ObjectUtils.isNotNull(payeeIdNumber)) {
                 EntityDefault entity = KimApiServiceLocator.getIdentityService().getEntityDefault(payeeIdNumber);
                 if (ObjectUtils.isNotNull(entity)) {
                     List<Principal> principals = entity.getPrincipals();

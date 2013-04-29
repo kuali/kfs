@@ -29,7 +29,6 @@ import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.document.service.GlLineService;
-import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
@@ -43,9 +42,7 @@ import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public class GlLineServiceTest extends KualiTestBase {
     private GlLineService glLineService;
@@ -161,15 +158,23 @@ public class GlLineServiceTest extends KualiTestBase {
     }
 
     public void testCreateAssetGlobalDocument_noFPData() throws Exception {
-        boolean validationFailed = false;
-        MaintenanceDocument assetGlobalDocument = null;
-        try {
-            assetGlobalDocument = (MaintenanceDocument) glLineService.createAssetGlobalDocument(primary, 1);
-        } catch (ValidationException e) {
-            validationFailed = true;
-        }
-        assertTrue("should fail validation without an asset type", validationFailed);
-        assertTrue(GlobalVariables.getMessageMap().containsMessageKey(CamsKeyConstants.AssetGlobal.ERROR_ASSET_TYPE_REQUIRED));
+        MaintenanceDocument assetGlobalDocument = (MaintenanceDocument) glLineService.createAssetGlobalDocument(primary, 1);
+        assertNotNull(assetGlobalDocument);
+        AssetGlobal assetGlobal = (AssetGlobal) assetGlobalDocument.getNewMaintainableObject().getBusinessObject();
+        // assert here
+        assertEquals("BL", assetGlobal.getOrganizationOwnerChartOfAccountsCode());
+        assertEquals("1031400", assetGlobal.getOrganizationOwnerAccountNumber());
+        assertEquals(assetGlobalService.getNewAcquisitionTypeCode(), assetGlobal.getAcquisitionTypeCode());
+        assertEquals(null, assetGlobal.getInventoryStatusCode());
+        assertEquals(null, assetGlobal.getCapitalAssetTypeCode());
+        assertEquals(null, assetGlobal.getManufacturerName());
+        assertEquals(null, assetGlobal.getManufacturerModelNumber());
+        assertEquals(null, assetGlobal.getVendorName());
+        assertEquals(null, assetGlobal.getCapitalAssetDescription());
+        List<AssetGlobalDetail> assetGlobalDetails = assetGlobal.getAssetSharedDetails();
+        assertTrue(assetGlobalDetails.isEmpty());
+        List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
+        assertEquals(0, assetPaymentDetails.size());
     }
 
     public void testCreateAssetGlobalDocument_FPData() throws Exception {

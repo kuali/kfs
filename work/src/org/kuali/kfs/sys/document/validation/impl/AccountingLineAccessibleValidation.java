@@ -93,10 +93,6 @@ public class AccountingLineAccessibleValidation extends GenericValidation {
                 if (isObjectCodeAccessible && onlyObjectCodeChanged) {
                     return true;
                 }
-            } else {
-                if (!lineIsAccessible) {
-                    return true;
-                }
             }
 
             // report errors

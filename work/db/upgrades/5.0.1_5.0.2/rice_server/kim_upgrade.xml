@@ -28,6 +28,7 @@
 		</delete>
 	</changeSet>
 
+	<!--  Removing the adhoc routing completion permission from the roles
 	<changeSet id="KFSMI-8967" author="KFS502">
 		<comment>Fix adhoc router completion permission</comment>
 		<update tableName="KRIM_PERM_T">
@@ -69,6 +70,7 @@
 			<replace replace="sys_guid()" with="uuid()" />
 		</modifySql>
 	</changeSet>
+	-->
 
 	<changeSet author="KFS502" id="KFSMI9562_ADD_NEW_DEFAULT_ROLE_TYPE_FOR_FO_DELEGATION">
 		<insert tableName="KRIM_TYP_T">

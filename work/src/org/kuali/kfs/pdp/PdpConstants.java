@@ -192,4 +192,10 @@ public class PdpConstants {
         public static final String CHECK_STUB_TEXT = "checkStubText";
         public static final String AMOUNT = "amount";
     }
+    
+    public static class PayeeACHAccountDocumentStrings{
+        public static final String PAYEE_NAME = "Payee Name";
+        public static final String PAYEE_EMAIL_ADDRESS = "Email Address";
+        public static final String EDIT_PAYEE_ACH_ACCOUNT ="Edit Payee ACH Account";
+    }
 }

@@ -27,6 +27,7 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -73,17 +74,20 @@ public class CustomerProfileMaintenanceDocumentMaintainableImpl extends Financia
             return sections;
         }
 
-        for (Section section : sections) {
-            for (Row row : section.getRows()) {
-                for (Field field : row.getFields()) {
-                    if (PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE.equals(field.getPropertyName())) {
-                        field.setReadOnly(true);
-                     }
-                    if (PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_UNIT_CODE.equals(field.getPropertyName())) {
-                         field.setReadOnly(true);
-                    }
-                    if (PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_SUB_UNIT_CODE.equals(field.getPropertyName())) {
-                        field.setReadOnly(true);
+        //  If the document is new, don't make these fields editable
+        if (!KRADConstants.MAINTENANCE_NEW_ACTION.equals(getMaintenanceAction())) {
+            for (Section section : sections) {
+                for (Row row : section.getRows()) {
+                    for (Field field : row.getFields()) {
+                        if (PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_CHART_CODE.equals(field.getPropertyName())) {
+                            field.setReadOnly(true);
+                         }
+                        if (PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_UNIT_CODE.equals(field.getPropertyName())) {
+                             field.setReadOnly(true);
+                        }
+                        if (PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_SUB_UNIT_CODE.equals(field.getPropertyName())) {
+                            field.setReadOnly(true);
+                        }
                     }
                 }
             }

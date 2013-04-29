@@ -32,7 +32,6 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -85,7 +84,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * @throws Exception
      */
     @ConfigureContext(session = parke, shouldCommitTransactions=false)
-    public final void testValidForPrintingRetransmitNonAPO() throws Exception {
+    public final void DISABLED_502_testValidForPrintingRetransmitNonAPO() throws Exception {
         Map editMode = new HashMap();
         Map documentActions = new HashMap();
 
@@ -121,7 +120,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
      * @throws Exception
      */
     @ConfigureContext(session = parke, shouldCommitTransactions=false)
-    public final void testValidForPrintingRetransmitAPO() throws Exception {
+    public final void DISABLED_502_testValidForPrintingRetransmitAPO() throws Exception {
         Map editMode = new HashMap();
         Map documentActions = new HashMap();
         editMode.put(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB, true);

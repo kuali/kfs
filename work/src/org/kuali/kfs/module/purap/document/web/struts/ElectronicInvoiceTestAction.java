@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,6 +28,7 @@ import org.apache.commons.lang.math.RandomUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
@@ -46,16 +47,17 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Struts Action for printing Purap documents outside of a document action
  */
 public class ElectronicInvoiceTestAction extends KualiAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceTestAction.class);
-    
+
     private static final String AREA_C0DE = "areaCode";
     private static final String PHONE_NUMBER = "phoneNumber";
-    
+
     protected static volatile DocumentService documentService;
 
     /**
@@ -64,18 +66,18 @@ public class ElectronicInvoiceTestAction extends KualiAction {
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO Uncomment the following code. This method doesn't need override. 
-        // It's here as a temp get-around for a bug complaining method "generate" cannot be found 
+        // TODO Uncomment the following code. This method doesn't need override.
+        // It's here as a temp get-around for a bug complaining method "generate" cannot be found
         String methodToCall = findMethodToCall(form, request);
         if (StringUtils.equals(methodToCall, "generate")) {
             return generate(mapping, form, request, response);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
-     * 
+     *
      * Only allow users to test eInvoicing in the test environment
      */
     @Override
@@ -85,9 +87,9 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), methodToCall, this.getClass().getSimpleName());
         }
     }
-    
+
     /**
-     * Generates Electronic Invoice xml file from a Purchase Order, for testing purpose only.     
+     * Generates Electronic Invoice xml file from a Purchase Order, for testing purpose only.
      */
     public ActionForward generate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         checkAuthorization(form, "");
@@ -97,7 +99,7 @@ public class ElectronicInvoiceTestAction extends KualiAction {
         LOG.info("Generating Electronic Invoice XML file for Purchase Order Document " + poDocNumber);
         PurchaseOrderService poService = SpringContext.getBean(PurchaseOrderService.class);
         PurchaseOrderDocument po = null;
-        
+
         if (StringUtils.isBlank(poDocNumber)) {
             GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_DOCUMENT_NUMBER, PurapKeyConstants.ERROR_ELECTRONIC_INVOICE_GENERATION_PURCHASE_ORDER_NUMBER_EMPTY, new String[] { poDocNumber} );
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
@@ -106,7 +108,7 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_DOCUMENT_NUMBER, PurapKeyConstants.ERROR_ELECTRONIC_INVOICE_GENERATION_PURCHASE_ORDER_DOES_NOT_EXIST, poDocNumber);
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
-        
+
         try {
             po = poService.getPurchaseOrderByDocumentNumber(poDocNumber);
         }
@@ -142,11 +144,11 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
             String currDate = ElectronicInvoiceUtils.getDateDisplayText(dateTimeService.getCurrentDate()); // getting date in kfs format
             String vendorNumber = po.getVendorDetail().getVendorNumber();
-            
+
             String eInvoiceFile =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "\n<!-- ******Testing tool generated XML****** Version 1.2." +
-                "\n\n  Generated On " + currDate + " for PO " + po.getPurapDocumentIdentifier() + " (Doc# " + poDocNumber + ") -->\n\n" +   
+                "\n\n  Generated On " + currDate + " for PO " + po.getPurapDocumentIdentifier() + " (Doc# " + poDocNumber + ") -->\n\n" +
                 "<!-- All the cXML attributes are junk values -->\n" +
                 "<cXML payloadID=\"200807260401062080.964@eai002\"\n" +
                 "    timestamp=\"2008-07-26T04:01:06-08:00\"\n" +
@@ -181,7 +183,7 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                                getContactXMLChunk("billTo", po) +
                 "              </InvoicePartner>\n" +
                 "              <InvoicePartner>\n" +
-                "                  <Contact addressID=\"" + RandomUtils.nextInt() + "\" role=\"remitTo\"> <!-- Vendor address -->\n" + 
+                "                  <Contact addressID=\"" + RandomUtils.nextInt() + "\" role=\"remitTo\"> <!-- Vendor address -->\n" +
                 "                      <Name xml:lang=\"en\">\n" +
                 "                          " + po.getVendorName() + "\n" +
                 "                      </Name>\n" +
@@ -208,7 +210,7 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                 "                  </OrderReference>\n" +
                 "              </InvoiceDetailOrderInfo>\n" +
                 "              <!-- No junk values in Items-->\n";
-                
+
                                for (int i = 0; i < po.getItems().size(); i++) {
                                    List items = po.getItems();
                                    PurchaseOrderItem item = (PurchaseOrderItem) items.get(i);
@@ -216,30 +218,57 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                                        eInvoiceFile = eInvoiceFile + getPOItemXMLChunk(item);
                                    }
                                }
-                
+
                 KualiDecimal totalDollarAmt = po.getTotalDollarAmount() == null ? KualiDecimal.ZERO : po.getTotalDollarAmount();
+                KualiDecimal netAmt = KualiDecimal.ZERO;
+
+                //  Get all the other amounts
+                List<PurchaseOrderItem> items = po.getItems();
+                KualiDecimal shippingHandlingAmt = KualiDecimal.ZERO;
+                KualiDecimal freightAmt = KualiDecimal.ZERO;
+                KualiDecimal fullOrderDscnt = KualiDecimal.ZERO;
+                KualiDecimal tradeInAmt = KualiDecimal.ZERO;
+                for (PurchaseOrderItem item : items) {
+                    if (ObjectUtils.isNotNull(item.getItemUnitPrice())) {
+                        if (PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE.equals(item.getItemTypeCode())) {
+                            shippingHandlingAmt = new KualiDecimal(item.getItemUnitPrice());
+                        }
+                        else if (PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE.equals(item.getItemTypeCode())) {
+                            freightAmt = new KualiDecimal(item.getItemUnitPrice());
+                        }
+                        else if (PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE.equals(item.getItemTypeCode())) {
+                            tradeInAmt = new KualiDecimal(item.getItemUnitPrice());
+                        }
+                        else if (PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE.equals(item.getItemTypeCode())) {
+                            fullOrderDscnt = new KualiDecimal(item.getItemUnitPrice());
+                        } else if (PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE.equals(item.getItemTypeCode())) {
+                            netAmt = new KualiDecimal(item.getItemUnitPrice());
+                        }
+                    }
+                }
+
                 eInvoiceFile = eInvoiceFile +
-                
+
                 "          </InvoiceDetailOrder>\n" +
                 "          <InvoiceDetailSummary>\n" +
                 "              <SubtotalAmount>\n" +
-                "                  <Money currency=\"USD\">" + po.getTotalPreTaxDollarAmount() + "</Money>\n" +
+                "                  <Money currency=\"USD\">" + netAmt + "</Money>\n" +
                 "              </SubtotalAmount>\n" +
                 "              <Tax>\n" +
                 "                  <Money currency=\"USD\">" + po.getTotalTaxAmount() + "</Money>\n" +
                 "                  <Description xml:lang=\"en\">Total Tax</Description>\n" +
                 "              </Tax>\n" +
                 "              <SpecialHandlingAmount>\n" +
-                "                  <Money currency=\"USD\">0.00</Money>\n" +
+                "                  <Money currency=\"USD\">" + shippingHandlingAmt + "</Money>\n" +
                 "              </SpecialHandlingAmount>\n" +
                 "              <ShippingAmount>\n" +
-                "                  <Money currency=\"USD\">0.00</Money>\n" +
+                "                  <Money currency=\"USD\">" + freightAmt + "</Money>\n" +
                 "              </ShippingAmount>\n" +
                 "              <GrossAmount>\n" +
                 "                  <Money currency=\"USD\">" + totalDollarAmt + "</Money>\n" +
                 "              </GrossAmount>\n" +
                 "              <InvoiceDetailDiscount>\n" +
-                "                  <Money currency=\"USD\">0.00</Money>\n" +
+                "                  <Money currency=\"USD\">" + fullOrderDscnt + "</Money>\n" +
                 "                  </InvoiceDetailDiscount>\n" +
                 "              <NetAmount>\n" +
                 "                  <Money currency=\"USD\">" + totalDollarAmt + "</Money>\n" +
@@ -259,7 +288,7 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             sos = response.getOutputStream();
             ByteArrayOutputStream baOutStream = new ByteArrayOutputStream();
             StringBufferInputStream inStream = new StringBufferInputStream(eInvoiceFile);
-            convert(baOutStream, inStream);         
+            convert(baOutStream, inStream);
             response.setContentLength(baOutStream.size());
             baOutStream.writeTo(sos);
             sos.flush();
@@ -270,39 +299,39 @@ public class ElectronicInvoiceTestAction extends KualiAction {
 
     private String getPaymentTermXML(PurchaseOrderDocument po){
         String returnXML = "";
-        
+
         PaymentTermType paymentTerm = null;
         if (po.getVendorDetail() != null){
             paymentTerm = po.getVendorDetail().getVendorPaymentTerms();
         }
-        
+
         if (paymentTerm != null){
             if (paymentTerm.getVendorNetDueNumber() != null){
-                returnXML = 
-                "              <InvoiceDetailPaymentTerm payInNumberOfDays=\"" + paymentTerm.getVendorNetDueNumber().toString() + "\" percentageRate=\"0\" />\n";     
+                returnXML =
+                "              <InvoiceDetailPaymentTerm payInNumberOfDays=\"" + paymentTerm.getVendorNetDueNumber().toString() + "\" percentageRate=\"0\" />\n";
             }else if (paymentTerm.getVendorPaymentTermsPercent() != null){
-                returnXML = 
+                returnXML =
                 "              <InvoiceDetailPaymentTerm payInNumberOfDays=\"0\" percentageRate=\"" + paymentTerm.getVendorPaymentTermsPercent() + "\" />\n";
             }
-            
+
         }
-        
+
         return returnXML;
     }
-    
+
     private String getPOItemXMLChunk(PurchaseOrderItem item){
-        
+
         String itemUnitPrice = item.getItemUnitPrice() == null ?
                                StringUtils.EMPTY :
                                item.getItemUnitPrice().toString();
-        
+
         String subTotal = StringUtils.EMPTY;
         if (item.getItemUnitPrice() != null && item.getItemQuantity() != null){
-            subTotal = (item.getItemUnitPrice().multiply(item.getItemQuantity().bigDecimalValue())).toString();    
+            subTotal = (item.getItemUnitPrice().multiply(item.getItemQuantity().bigDecimalValue())).toString();
         }
-        
-        return 
-        
+
+        return
+
         "              <InvoiceDetailItem invoiceLineNumber=\"" + item.getItemLineNumber() + "\"\n" +
         "                  quantity=\"" + item.getItemQuantity() + "\">\n" +
         "                  <UnitOfMeasure>" + item.getItemUnitOfMeasureCode() + "</UnitOfMeasure>\n" +
@@ -318,36 +347,40 @@ public class ElectronicInvoiceTestAction extends KualiAction {
         "                  <SubtotalAmount>\n" +
         "                      <Money currency=\"USD\" >" + subTotal + "</Money>\n" +
         "                  </SubtotalAmount>\n" +
+        "                   <Tax>\n" +
+        "                      <Money currency=\"USD\" >" + item.getItemTaxAmount() + "</Money>\n" +
+        "                  <Description xml:lang=\"en\">Total Tax</Description>\n" +
+        "                  </Tax>\n" +
         "              </InvoiceDetailItem>\n";
-        
+
     }
-    
+
     private String getDeliveryAddressXMLChunk(String addressType,
                                               PurchaseOrderDocument po){
-        
+
         String deliveryDate = "";
         if (po.getDeliveryRequiredDate() != null){
             deliveryDate = ElectronicInvoiceUtils.getDateDisplayText(po.getDeliveryRequiredDate());
         }
-        
+
         String returnXML = "";
-        
+
         if (StringUtils.isNotEmpty(deliveryDate)){
             returnXML += "              <InvoiceDetailShipping shippingDate=\"" +  deliveryDate + "\"> <!--Delivery reqd date -->\n";
         }else{
             returnXML += "              <InvoiceDetailShipping> <!-- shipTo address same as billTo-->\n";
         }
-        returnXML += getContactXMLChunk("shipTo",po) + "              </InvoiceDetailShipping>\n";        
-        
+        returnXML += getContactXMLChunk("shipTo",po) + "              </InvoiceDetailShipping>\n";
+
         return returnXML;
-        
+
     }
-    
+
     private String getContactXMLChunk(String addressType,
                                       PurchaseOrderDocument po){
-        
-        String returnXML =          
-        
+
+        String returnXML =
+
         "                  <Contact addressID=\"" + RandomUtils.nextInt() + "\" role=\"" + addressType + "\"> <!-- addressId=Random Unique Id -->\n" +
         "                      <Name xml:lang=\"en\">" + po.getDeliveryCampusCode() + " - " + po.getDeliveryBuildingName() + "</Name> <!-- Format:CampusCode - Bldg Nm -->\n" +
         "                      <PostalAddress>\n" +
@@ -360,13 +393,13 @@ public class ElectronicInvoiceTestAction extends KualiAction {
         "                              " + StringUtils.defaultString(po.getDeliveryCountryName()) + "\n" +
         "                          </Country>\n" +
         "                      </PostalAddress>\n";
-        
+
         if (StringUtils.isNotEmpty(po.getDeliveryToEmailAddress())){
             returnXML += "                      <Email name=\"" + po.getDeliveryToEmailAddress() + "\">" + po.getDeliveryToEmailAddress() + "</Email>\n";
         }
-        
+
         if (StringUtils.isNotEmpty(po.getDeliveryToPhoneNumber())){
-            returnXML +=  
+            returnXML +=
             "                      <Phone name=\"" + po.getDeliveryToPhoneNumber() + "\">\n" +
             "                          <TelephoneNumber>\n" +
             "                              <CountryCode isoCountryCode=\"US\">1</CountryCode>\n" +
@@ -374,27 +407,27 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             "                              <Number>" + getPhoneNumber(PHONE_NUMBER, po.getDeliveryToPhoneNumber()) + "</Number>\n" +
             "                          </TelephoneNumber>\n" +
             "                      </Phone>\n";
-        }    
-        
-        returnXML += "                  </Contact>\n";                
-        return returnXML;        
+        }
+
+        returnXML += "                  </Contact>\n";
+        return returnXML;
     }
-    
+
     private String getPhoneNumber(String whichPart,String phNo){
 
         if (StringUtils.isEmpty(phNo)){
             return StringUtils.EMPTY;
         }
-        
+
         if (StringUtils.equals(whichPart,AREA_C0DE)){
             return phNo.substring(0,3);
         }else if (StringUtils.equals(whichPart,PHONE_NUMBER)){
             return phNo.substring(3,phNo.length());
         }
-        
+
         return StringUtils.EMPTY;
     }
-    
+
     private boolean convert(java.io.OutputStream out, java.io.InputStream in) {
         try {
             int r;
@@ -406,7 +439,7 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             return false;
         }
     }
- 
+
     /**
      * @return the default implementation of the KRAD DocumentService
      */

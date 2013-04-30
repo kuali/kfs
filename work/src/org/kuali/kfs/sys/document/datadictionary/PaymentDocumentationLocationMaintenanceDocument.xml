@@ -15,52 +15,47 @@
  limitations under the License.
 -->
 
-  <bean id="DisbursementVoucherDocumentationLocationMaintenanceDocument" parent="DisbursementVoucherDocumentationLocationMaintenanceDocument-parentBean"/>
+  <bean id="PaymentDocumentationLocationMaintenanceDocument" parent="PaymentDocumentationLocationMaintenanceDocument-parentBean"/>
 
-  <bean id="DisbursementVoucherDocumentationLocationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation"/>
+  <bean id="PaymentDocumentationLocationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation"/>
     <property name="maintainableClass" value="org.kuali.kfs.sys.document.FinancialSystemMaintainable"/>
     <property name="maintainableSections">
       <list>
-        <ref bean="DisbursementVoucherDocumentationLocationMaintenanceDocument-EditDocumentationLocation"/>
+        <ref bean="PaymentDocumentationLocationMaintenanceDocument-EditDocumentationLocation"/>
       </list>
     </property>
     <property name="lockingKeys">
       <list>
-        <value>disbursementVoucherDocumentationLocationCode</value>
+        <value>paymentDocumentationLocationCode</value>
       </list>
     </property>
-    
-    
-    
-    
-    
     <property name="documentTypeName" value="DVDL"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
-    	<ref bean="DisbursementVoucherDocumentationLocationMaintenanceDocument-workflowAttributes"/>
+    	<ref bean="PaymentDocumentationLocationMaintenanceDocument-workflowAttributes"/>
     </property>
   </bean>
 
 <!-- Maintenance Section Definitions -->
 
-  <bean id="DisbursementVoucherDocumentationLocationMaintenanceDocument-EditDocumentationLocation" parent="DisbursementVoucherDocumentationLocationMaintenanceDocument-EditDocumentationLocation-parentBean"/>
+  <bean id="PaymentDocumentationLocationMaintenanceDocument-EditDocumentationLocation" parent="PaymentDocumentationLocationMaintenanceDocument-EditDocumentationLocation-parentBean"/>
 
-  <bean id="DisbursementVoucherDocumentationLocationMaintenanceDocument-EditDocumentationLocation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="PaymentDocumentationLocationMaintenanceDocument-EditDocumentationLocation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="id" value="Edit Documentation Location"/>
     <property name="title" value="Edit Documentation Location"/>
     <property name="maintainableItems">
       <list>
-        <bean parent="MaintainableFieldDefinition" p:name="disbursementVoucherDocumentationLocationCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="disbursementVoucherDocumentationLocationName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="disbursementVoucherDocumentationLocationAddress" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="paymentDocumentationLocationCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="paymentDocumentationLocationName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="paymentDocumentationLocationAddress" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active"/>
       </list>
     </property>
   </bean>
   
   <!-- workflow attributes -->
-  <bean id="DisbursementVoucherDocumentationLocationMaintenanceDocument-workflowAttributes" parent="DisbursementVoucherDocumentationLocationMaintenanceDocument-workflowAttributes-parentBean"/>
+  <bean id="PaymentDocumentationLocationMaintenanceDocument-workflowAttributes" parent="PaymentDocumentationLocationMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="DisbursementVoucherDocumentationLocationMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="PaymentDocumentationLocationMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

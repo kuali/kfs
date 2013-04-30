@@ -32,7 +32,7 @@
         <property name="summary" value="Payment Method" />
         <property name="description" value="Payment Method" />
         <property name="control">
-            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder" p:includeKeyInLabel="false"/>
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.PaymentMethodValuesFinder" p:includeKeyInLabel="false"/>
         </property>
     </bean>
     

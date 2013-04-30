@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2006-2008 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="PaymentDocumentationLocation" parent="PaymentDocumentationLocation-parentBean" />
+
+	<bean id="PaymentDocumentationLocation-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation" />
+		<property name="inquiryDefinition">
+			<ref bean="PaymentDocumentationLocation-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="PaymentDocumentationLocation-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="PaymentDocumentationLocationCode" />
+		<property name="objectLabel" value="Disbursement Voucher Documentation Location" />
+		<property name="attributes">
+			<list>
+				<ref bean="PaymentDocumentationLocation-paymentDocumentationLocationCode" />
+				<ref bean="PaymentDocumentationLocation-paymentDocumentationLocationName" />
+				<ref bean="PaymentDocumentationLocation-paymentDocumentationLocationAddress" />
+				<ref bean="PaymentDocumentationLocation-active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+	<bean id="PaymentDocumentationLocation-paymentDocumentationLocationCode" parent="PaymentDocumentationLocation-paymentDocumentationLocationCode-parentBean" />
+	<bean id="PaymentDocumentationLocation-paymentDocumentationLocationCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="paymentDocumentationLocationCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Documentation Location Code" />
+		<property name="shortLabel" value="Location Code" />
+		<property name="maxLength" value="2" />
+		<property name="validationPattern">
+			<ref bean="AlphaNumericValidation" />
+		</property>
+		<property name="control">
+			<ref bean="TwoCharacterTextControl" />
+		</property>
+	</bean>
+	<bean id="PaymentDocumentationLocation-paymentDocumentationLocationName" parent="PaymentDocumentationLocation-paymentDocumentationLocationName-parentBean" />
+	<bean id="PaymentDocumentationLocation-paymentDocumentationLocationName-parentBean"	abstract="true" parent="AttributeDefinition">
+		<property name="name" value="paymentDocumentationLocationName" />
+		<property name="label" value="Documentation Location Name" />
+		<property name="shortLabel" value="Name" />
+		<property name="maxLength" value="25" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="25" />
+		</property>
+	</bean>
+	
+	<bean id="PaymentDocumentationLocation-paymentDocumentationLocationAddress"	parent="PaymentDocumentationLocation-paymentDocumentationLocationAddress-parentBean" />
+	<bean id="PaymentDocumentationLocation-paymentDocumentationLocationAddress-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="paymentDocumentationLocationAddress" />
+		<property name="label" value="Documentation Location Address" />
+		<property name="shortLabel" value="Address" />
+		<property name="maxLength" value="255" />
+		<property name="control">
+			<bean parent="TextareaControlDefinition" p:rows="4" p:cols="60" />
+		</property>
+	</bean>
+	<bean id="PaymentDocumentationLocation-active" parent="PaymentDocumentationLocation-active-parentBean" />
+	<bean id="PaymentDocumentationLocation-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+
+	<!-- Business Object Inquiry Definition -->
+
+
+	<bean id="PaymentDocumentationLocation-inquiryDefinition" parent="PaymentDocumentationLocation-inquiryDefinition-parentBean" />
+
+	<bean id="PaymentDocumentationLocation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Disbursement Voucher Documentation Location Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="PaymentDocumentationLocation-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PaymentDocumentationLocation-inquirySectionDefinition" parent="PaymentDocumentationLocation-inquirySectionDefinition-parentBean" />
+	<bean id="PaymentDocumentationLocation-inquirySectionDefinition-parentBean"	parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="paymentDocumentationLocationCode" />
+				<bean parent="FieldDefinition" p:attributeName="paymentDocumentationLocationName" />
+				<bean parent="FieldDefinition" p:attributeName="paymentDocumentationLocationAddress" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="PaymentDocumentationLocation-lookupDefinition" parent="PaymentDocumentationLocation-lookupDefinition-parentBean" />
+	<bean id="PaymentDocumentationLocation-lookupDefinition-parentBean"	abstract="true" parent="LookupDefinition">
+		<property name="title" value="Disbursement Voucher Documentation Location Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+						<value>paymentDocumentationLocationCode</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="paymentDocumentationLocationCode" />
+				<bean parent="FieldDefinition" p:attributeName="paymentDocumentationLocationName" />
+				<bean parent="FieldDefinition" p:attributeName="paymentDocumentationLocationAddress" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="paymentDocumentationLocationCode" />
+				<bean parent="FieldDefinition" p:attributeName="paymentDocumentationLocationName" />
+				<bean parent="FieldDefinition" p:attributeName="paymentDocumentationLocationAddress" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+</beans>

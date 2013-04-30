@@ -223,8 +223,8 @@
               <td  class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${dvAttributes.disbursementVoucherDocumentationLocationCode}" property="document.disbursementVoucherDocumentationLocationCode" extraReadOnlyProperty="document.disbursementVoucherDocumentationLocationName" onchange="documentationMessage(this.value);" readOnly="${!fullEntryMode}"/>
                 <c:if test="${fullEntryMode}">
-              		<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation" fieldConversions="disbursementVoucherDocumentationLocationCode:document.disbursementVoucherDocumentationLocationCode" 
-              		lookupParameters="document.disbursementVoucherDocumentationLocationCode:disbursementVoucherDocumentationLocationCode" />
+              		<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation" fieldConversions="paymentDocumentationLocationCode:document.disbursementVoucherDocumentationLocationCode" 
+              		lookupParameters="document.disbursementVoucherDocumentationLocationCode:paymentDocumentationLocationCode" />
               	</c:if>
               </td>
             </tr>

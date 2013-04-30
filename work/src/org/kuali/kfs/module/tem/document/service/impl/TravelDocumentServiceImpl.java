@@ -47,7 +47,6 @@ import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -96,6 +95,7 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
@@ -1878,8 +1878,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public String retrieveAddressFromLocationCode(String locationCode) {
-        DisbursementVoucherDocumentationLocation dvDocumentLocation = businessObjectService.findBySinglePrimaryKey(DisbursementVoucherDocumentationLocation.class, locationCode);
-        String address = ObjectUtils.isNotNull(dvDocumentLocation)? dvDocumentLocation.getDisbursementVoucherDocumentationLocationAddress() : "";
+        PaymentDocumentationLocation dvDocumentLocation = businessObjectService.findBySinglePrimaryKey(PaymentDocumentationLocation.class, locationCode);
+        String address = ObjectUtils.isNotNull(dvDocumentLocation)? dvDocumentLocation.getPaymentDocumentationLocationAddress() : "";
         return address;
     }
 

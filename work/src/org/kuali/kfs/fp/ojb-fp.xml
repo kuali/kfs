@@ -710,16 +710,6 @@
     </reference-descriptor>
 </class-descriptor>
 
-<!--  DISBURSEMENT VOUCHER  DOCUMENT MAPPINGS -->
-<class-descriptor class="org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation" table="FP_DV_DOC_LOC_T">
-    <field-descriptor name="disbursementVoucherDocumentationLocationCode" column="DV_DOC_LOC_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="disbursementVoucherDocumentationLocationName" column="DV_DOC_LOC_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="disbursementVoucherDocumentationLocationAddress" column="DV_DOC_LOC_ADDR" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.kfs.fp.businessobject.TravelExpenseTypeCode" table="FP_DV_EXP_TYP_T">
     <field-descriptor name="code" column="DV_EXP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -1260,7 +1250,7 @@
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="disbVchrDocumentationLoc" class-ref="org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+    <reference-descriptor name="disbVchrDocumentationLoc" class-ref="org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="disbursementVoucherDocumentationLocationCode" />
     </reference-descriptor>
 

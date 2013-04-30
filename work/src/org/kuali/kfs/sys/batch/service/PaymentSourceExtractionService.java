@@ -41,7 +41,7 @@ public interface PaymentSourceExtractionService {
      * Cancels a disbursement voucher completely, because its payment has been canceled
      * @param dv the disbursement voucher to cancel
      */
-    public abstract void cancelExtractedPaymentSource(DisbursementVoucherDocument dv, java.sql.Date processDate);
+    public abstract void cancelExtractedPaymentSource(PaymentSource paymentSource, java.sql.Date processDate);
 
     /**
      * Resets the disbursement voucher so that it can be reextracted

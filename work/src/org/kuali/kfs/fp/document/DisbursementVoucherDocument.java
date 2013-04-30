@@ -32,7 +32,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectTypeService;
-import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
@@ -40,9 +39,8 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.kfs.fp.businessobject.WireCharge;
-import org.kuali.kfs.fp.businessobject.options.DisbursementVoucherDocumentationLocationValuesFinder;
-import org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
@@ -57,7 +55,10 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation;
 import org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer;
+import org.kuali.kfs.sys.businessobject.options.PaymentDocumentationLocationValuesFinder;
+import org.kuali.kfs.sys.businessobject.options.PaymentMethodValuesFinder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
@@ -133,6 +134,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected static transient DisbursementVoucherPaymentReasonService dvPymentReasonService;
     protected static transient IdentityManagementService identityManagementService;
     protected static transient PaymentSourceExtractionService paymentSourceExtractionService;
+    protected static volatile transient DisbursementVoucherPaymentService disbursementVoucherPaymentService;
 
     protected Integer finDocNextRegistrantLineNbr;
     protected String disbVchrContactPersonName;
@@ -166,7 +168,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected boolean immediatePaymentIndicator = false;
 
     protected DocumentHeader financialDocument;
-    protected DisbursementVoucherDocumentationLocation disbVchrDocumentationLoc;
+    protected PaymentDocumentationLocation disbVchrDocumentationLoc;
     protected DisbursementVoucherNonEmployeeTravel dvNonEmployeeTravel;
     protected DisbursementVoucherNonResidentAlienTax dvNonResidentAlienTax;
     protected DisbursementVoucherPayeeDetail dvPayeeDetail;
@@ -624,7 +626,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      *
      * @return Returns the disbVchrDocumentationLoc
      */
-    public DisbursementVoucherDocumentationLocation getDisbVchrDocumentationLoc() {
+    public PaymentDocumentationLocation getDisbVchrDocumentationLoc() {
         return disbVchrDocumentationLoc;
     }
 
@@ -636,7 +638,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @deprecated
      */
     @Deprecated
-    public void setDisbVchrDocumentationLoc(DisbursementVoucherDocumentationLocation disbVchrDocumentationLoc) {
+    public void setDisbVchrDocumentationLoc(PaymentDocumentationLocation disbVchrDocumentationLoc) {
         this.disbVchrDocumentationLoc = disbVchrDocumentationLoc;
     }
 
@@ -870,7 +872,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @return String
      */
     public String getDisbursementVoucherDocumentationLocationName() {
-        return new DisbursementVoucherDocumentationLocationValuesFinder().getKeyLabel(disbursementVoucherDocumentationLocationCode);
+        return new PaymentDocumentationLocationValuesFinder().getKeyLabel(disbursementVoucherDocumentationLocationCode);
     }
 
     /**
@@ -1922,6 +1924,15 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         return (vendor.getVendorHeader().getVendorFederalWithholdingTaxBeginningDate()!= null || vendor.getVendorHeader().getVendorFederalWithholdingTaxEndDate()!= null);
     }
 
+    /**
+     * Rolls the disbursement voucher back to a cancelled state
+     * @see org.kuali.kfs.sys.document.PaymentSource#cancelPayment(java.sql.Date)
+     */
+    @Override
+    public void cancelPayment(Date cancelDate) {
+        getDisbursementVoucherPaymentService().cancelDisbursementVoucher(this, cancelDate);
+    }
+
 
     /**
      * Determines if the campus this DV is related to is taxed (and should get tax review routing) for moving reimbursements
@@ -2012,6 +2023,13 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             paymentSourceExtractionService = SpringContext.getBean(PaymentSourceExtractionService.class);
         }
         return paymentSourceExtractionService;
+    }
+
+    public static DisbursementVoucherPaymentService getDisbursementVoucherPaymentService() {
+        if (disbursementVoucherPaymentService == null) {
+            disbursementVoucherPaymentService = SpringContext.getBean(DisbursementVoucherPaymentService.class);
+        }
+        return disbursementVoucherPaymentService;
     }
 
     /**

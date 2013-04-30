@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.fp.businessobject.options;
+package org.kuali.kfs.sys.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -29,17 +29,17 @@ import org.kuali.rice.krad.service.KeyValuesService;
 /**
  * This class returns list of documentation location value pairs.
  */
-public class DisbursementVoucherDocumentationLocationValuesFinder extends KeyValuesBase {
+public class PaymentDocumentationLocationValuesFinder extends KeyValuesBase {
 
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List<DisbursementVoucherDocumentationLocation> boList = (List<DisbursementVoucherDocumentationLocation>) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(DisbursementVoucherDocumentationLocation.class, KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_NAME, true);
+        List<PaymentDocumentationLocation> boList = (List<PaymentDocumentationLocation>) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(PaymentDocumentationLocation.class, KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_NAME, true);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        for (DisbursementVoucherDocumentationLocation element : boList) {
+        for (PaymentDocumentationLocation element : boList) {
             if(element.isActive()) {
-                keyValues.add(new ConcreteKeyValue(element.getDisbursementVoucherDocumentationLocationCode(), element.getDisbursementVoucherDocumentationLocationCode() + " - " + element.getDisbursementVoucherDocumentationLocationName()));
+                keyValues.add(new ConcreteKeyValue(element.getPaymentDocumentationLocationCode(), element.getPaymentDocumentationLocationCode() + " - " + element.getPaymentDocumentationLocationName()));
             }
         }
 

@@ -49,14 +49,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
-import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
@@ -71,7 +68,6 @@ import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -726,69 +722,8 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
      * @see org.kuali.kfs.fp.batch.service.DisbursementVoucherExtractService#cancelExtractedDisbursementVoucher(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
     @Override
-    public void cancelExtractedPaymentSource(DisbursementVoucherDocument dv, java.sql.Date processDate) {
-        if (dv.getCancelDate() == null) {
-            try {
-                BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-                // set the canceled date
-                dv.setCancelDate(processDate);
-                dv.refreshReferenceObject("generalLedgerPendingEntries");
-                if (ObjectUtils.isNull(dv.getGeneralLedgerPendingEntries()) || dv.getGeneralLedgerPendingEntries().size() == 0) {
-                    // generate all the pending entries for the document
-                    SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(dv);
-                    // for each pending entry, opposite-ify it and reattach it to the document
-                    GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper();
-                    for (GeneralLedgerPendingEntry glpe : dv.getGeneralLedgerPendingEntries()) {
-                        oppositifyEntry(glpe, boService, glpeSeqHelper);
-                    }
-                }
-                else {
-                    List<GeneralLedgerPendingEntry> newGLPEs = new ArrayList<GeneralLedgerPendingEntry>();
-                    GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper(dv.getGeneralLedgerPendingEntries().size() + 1);
-                    for (GeneralLedgerPendingEntry glpe : dv.getGeneralLedgerPendingEntries()) {
-                        glpe.refresh();
-                        if (glpe.getFinancialDocumentApprovedCode().equals(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED)) {
-                            // damn! it got processed! well, make a copy, oppositify, and save
-                            GeneralLedgerPendingEntry undoer = new GeneralLedgerPendingEntry(glpe);
-                            oppositifyEntry(undoer, boService, glpeSeqHelper);
-                            newGLPEs.add(undoer);
-                        }
-                        else {
-                            // just delete the GLPE before anything happens to it
-                            boService.delete(glpe);
-                        }
-                    }
-                    dv.setGeneralLedgerPendingEntries(newGLPEs);
-                }
-                // set the financial document status to canceled
-                dv.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
-                // save the document
-                SpringContext.getBean(DocumentService.class).saveDocument(dv, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
-            }
-            catch (WorkflowException we) {
-                LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + dv.getDocumentNumber() + " " + we);
-                throw new RuntimeException(we);
-            }
-        }
-    }
-
-    /**
-     * Updates the given general ledger pending entry so that it will have the opposite effect of what it was created to do; this,
-     * in effect, undoes the entries that were already posted for this document
-     *
-     * @param glpe the general ledger pending entry to undo
-     */
-    protected void oppositifyEntry(GeneralLedgerPendingEntry glpe, BusinessObjectService boService, GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper) {
-        if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_CREDIT_CODE)) {
-            glpe.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-        }
-        else if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
-            glpe.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-        }
-        glpe.setTransactionLedgerEntrySequenceNumber(glpeSeqHelper.getSequenceCounter());
-        glpeSeqHelper.increment();
-        glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
-        boService.save(glpe);
+    public void cancelExtractedPaymentSource(PaymentSource paymentSource, java.sql.Date processDate) {
+        paymentSource.cancelPayment(processDate);
     }
 
     /**

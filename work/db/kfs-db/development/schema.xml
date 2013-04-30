@@ -7115,17 +7115,6 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="FP_DV_DOC_LOC_T">
-        <column name="DV_DOC_LOC_CD" primaryKey="true" size="2" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="DV_DOC_LOC_NM" size="25" type="VARCHAR"/>
-        <column name="DV_DOC_LOC_ADDR" size="255" type="VARCHAR"/>
-        <column default="Y" name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <unique name="FP_DV_DOC_LOC_TC0">
-            <unique-column name="OBJ_ID"/>
-        </unique>
-    </table>
     <table name="FP_DV_DOC_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -7149,8 +7138,8 @@
         <column name="DV_PAYEE_TXCTRL_CD" size="1" type="VARCHAR"/>
         <column name="DV_PAYEE_CHG_IND" size="1" type="CHAR"/>
         <column name="DV_CHK_NBR" size="6" type="VARCHAR"/>
-        <column name="DV_CHK_DT" type="DATE"/>
         <column name="DV_W9_CMPLT_IND" size="1" type="CHAR"/>
+        <column name="DV_CHK_DT" type="DATE"/>
         <column name="DV_PMT_MTHD_CD" size="1" type="VARCHAR"/>
         <column name="DV_PAYEE_TYP_CD" size="1" type="VARCHAR"/>
         <column name="DV_EXTRT_DT" type="DATE"/>
@@ -7160,8 +7149,8 @@
         <column name="DV_PDP_BNK_CD" size="4" type="VARCHAR"/>
         <column default="N" name="DV_EXCPT_IND" required="true" size="1" type="VARCHAR"/>
         <column default="N" name="IMD_PMT_IND" size="1" type="VARCHAR"/>
-        <foreign-key foreignTable="FP_DV_DOC_LOC_T" name="FP_DV_DOC_TR2">
-            <reference foreign="DV_DOC_LOC_CD" local="DV_DOC_LOC_CD"/>
+        <foreign-key foreignTable="FS_PMT_DOC_LOC_T" name="FP_DV_DOC_TR2">
+            <reference foreign="PMT_DOC_LOC_CD" local="DV_DOC_LOC_CD"/>
         </foreign-key>
         <unique name="FP_DV_DOC_TC0">
             <unique-column name="OBJ_ID"/>
@@ -8223,6 +8212,17 @@
         <column name="FDOC_NEXT_ITEM_ID" size="12" type="DECIMAL"/>
         <column default="Y" name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <unique name="FS_ORIGIN_CODE_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
+	<table name="FS_PMT_DOC_LOC_T">
+        <column name="PMT_DOC_LOC_CD" primaryKey="true" size="2" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="PMT_DOC_LOC_NM" size="25" type="VARCHAR"/>
+        <column name="PMT_DOC_LOC_ADDR" size="255" type="VARCHAR"/>
+        <column default="Y" name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <unique name="FS_PMT_DOC_LOC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -16016,6 +16016,46 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
+	<table name="TEM_TRVL_PMT_T">
+		<column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
+		<column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+		<column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+		<column name="CHK_TOT_AMT" scale="2" size="19" type="DECIMAL"/>
+		<column name="CNTCT_PRSN_NM" size="123" type="VARCHAR"/>
+		<column name="CNTCT_PHN_NBR" size="20" type="VARCHAR"/>
+		<column name="DUE_DT" type="DATE"/>
+		<column name="ATTCH_IND" size="1" type="CHAR"/>
+		<column name="SPCL_HANDLG_IND" size="1" type="CHAR"/>
+		<column name="CHK_STUB_TXT" size="1400" type="VARCHAR"/>
+		<column default="N" name="IMD_PMT_IND" size="1" type="VARCHAR"/>
+		<column name="EXTRT_DT" type="DATE"/>
+		<column name="PAID_DT" type="DATE"/>
+		<column name="CNCL_DT" type="DATE"/>
+		<column name="DOC_LOC_CD" size="2" type="VARCHAR"/>
+		<column name="PMT_MTHD_CD" size="1" type="VARCHAR"/>
+		<column name="ALIEN_PMT_IND" size="1" type="CHAR"/>
+		<column name="PAYEE_PRSN_NM" size="123" type="VARCHAR"/>
+		<column name="PAYEE_LN1_ADDR" size="45" type="VARCHAR"/>
+		<column name="PAYEE_LN2_ADDR" size="45" type="VARCHAR"/>
+		<column name="PAYEE_CTY_NM" size="37" type="VARCHAR"/>
+		<column name="PAYEE_ST_CD" size="2" type="VARCHAR"/>
+		<column name="PAYEE_ZIP_CD" size="20" type="VARCHAR"/>
+		<column name="RMT_PRSN_NM" size="123" type="VARCHAR"/>
+		<column name="RMT_LN1_ADDR" size="45" type="VARCHAR"/>
+		<column name="RMT_LN2_ADDR" size="45" type="VARCHAR"/>
+		<column name="RMT_CTY_NM" size="37" type="VARCHAR"/>
+		<column name="RMT_ST_CD" size="2" type="VARCHAR"/>
+		<column name="RMT_ZIP_CD" size="20" type="VARCHAR"/>
+		<column name="W9_CMPLT_IND" size="1" type="CHAR"/>
+		<column name="PAYEE_TYP_CD" size="1" type="VARCHAR"/>
+		<column default="N" name="EXCPT_IND" required="true" size="1" type="VARCHAR"/>
+		<foreign-key foreignTable="FS_PMT_DOC_LOC_T" name="TEM_TRVL_PMT_TR1">
+			<reference foreign="PMT_DOC_LOC_CD" local="DOC_LOC_CD"/>
+		</foreign-key>
+		<unique name="TEM_TRVL_PMT_TC0">
+			<unique-column name="OBJ_ID"/>
+		</unique>
+	</table>
     <view name="CA_OBJECT_CODE_V" viewdefinition="( SELECT         C.UNIV_FISCAL_YR,         FIN_COA_CD,         FIN_OBJECT_CD,         FIN_OBJ_CD_NM,         FIN_OBJ_CD_SHRT_NM,         FIN_OBJ_LEVEL_CD,         RPTS_TO_FIN_COA_CD,         RPTS_TO_FIN_OBJ_CD ,         FIN_OBJ_TYP_CD,         FIN_OBJ_SUB_TYP_CD,         HIST_FIN_OBJECT_CD,         FIN_OBJ_ACTIVE_CD,         FOBJ_BDGT_AGGR_CD,         FOBJ_MNXFR_ELIM_CD,         FIN_FED_FUNDED_CD,         NXT_YR_FIN_OBJ_CD,         RSCH_BDGT_CTGRY_CD,         RSCH_OBJ_CD_DESC,         RSCH_ON_CMP_IND          FROM CA_OBJECT_CODE_T C, SH_UNIV_DATE_T S WHERE C.UNIV_FISCAL_YR = S.UNIV_FISCAL_YR AND UNIV_DT = TRUNC(SYSDATE) )    &#xa;"/>
     <view name="CA_SUB_OBJECT_CD_V" viewdefinition="( SELECT         C.UNIV_FISCAL_YR,         FIN_COA_CD,         ACCOUNT_NBR,         FIN_OBJECT_CD,         FIN_SUB_OBJ_CD,         FIN_SUB_OBJ_CD_NM,         FIN_SUBOBJ_SHRT_NM,         FIN_SUBOBJ_ACTV_CD FROM CA_SUB_OBJECT_CD_T C, SH_UNIV_DATE_T S WHERE C.UNIV_FISCAL_YR = S.UNIV_FISCAL_YR AND UNIV_DT = TRUNC(SYSDATE) )     &#xa;"/>
     <view name="END_KEMID_CRNT_BAL_DET_V" viewdefinition="SELECT       B.KEMID     , B.HLDG_IP_IND     , CASE WHEN R.SEC_RPT_GRP != 'CSHEQ' THEN         SUM(B.HLDG_MVAL)       ELSE         CASE WHEN B.HLDG_IP_IND = 'I' THEN             A.CRNT_INC_CSH + SUM(B.HLDG_MVAL)         ELSE             A.CRNT_PRIN_CSH + SUM(B.HLDG_MVAL)         END       END AS VAL_AT_MARKET     , R.SEC_RPT_GRP AS SEC_RPT_GRP     , SUM(B.HLDG_ANNL_INC_EST) AS ANN_INC_EST     , SUM(B.HLDG_FY_REM_EST_INC) AS FY_REM_EST_INC     , SUM(B.HLDG_NEXT_FY_EST_INC) AS NEXT_FY_EST_INC FROM       END_CRNT_TAX_LOT_BAL_T B     , END_SEC_T S     , END_CLS_CD_T CL     , END_SEC_RPT_GRP_T R     , END_CRNT_CSH_T A WHERE         S.SEC_ID = B.SEC_ID     AND S.SEC_CLS_CD = CL.SEC_CLS_CD     AND CL.SEC_RPT_GRP = R.SEC_RPT_GRP     AND A.KEMID = B.KEMID GROUP BY       B.KEMID     , R.SEC_RPT_GRP     , B.HLDG_IP_IND     , A.CRNT_INC_CSH     , A.CRNT_PRIN_CSH    &#xa;"/>

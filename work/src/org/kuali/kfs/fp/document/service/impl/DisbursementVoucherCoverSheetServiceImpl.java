@@ -18,12 +18,12 @@ package org.kuali.kfs.fp.document.service.impl;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
-import org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService;
+import org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation;
+import org.kuali.kfs.sys.businessobject.options.PaymentMethodValuesFinder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
@@ -163,7 +163,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
     protected String retrieveAddress(String docLocCd) {
         String address = "";
         try {
-            address = ((DisbursementVoucherDocumentationLocation) businessObjectService.findBySinglePrimaryKey(DisbursementVoucherDocumentationLocation.class, docLocCd)).getDisbursementVoucherDocumentationLocationAddress();
+            address = ((PaymentDocumentationLocation) businessObjectService.findBySinglePrimaryKey(PaymentDocumentationLocation.class, docLocCd)).getPaymentDocumentationLocationAddress();
         }
         catch (NullPointerException e) {
             // ignored

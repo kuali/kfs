@@ -188,10 +188,11 @@
   </bean>
   <bean id="DisbursementVoucherDocument-disbursementVoucherDocumentationLocationCode" parent="DisbursementVoucherDocument-disbursementVoucherDocumentationLocationCode-parentBean"/>
 
-  <bean id="DisbursementVoucherDocument-disbursementVoucherDocumentationLocationCode-parentBean" abstract="true" parent="DisbursementVoucherDocumentationLocation-disbursementVoucherDocumentationLocationCode">
+  <bean id="DisbursementVoucherDocument-disbursementVoucherDocumentationLocationCode-parentBean" abstract="true" parent="PaymentDocumentationLocation-paymentDocumentationLocationCode">
+    <property name="name" value="disbursementVoucherDocumentationLocationCode"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.DisbursementVoucherDocumentationLocationValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.PaymentDocumentationLocationValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     
   </bean>
@@ -293,7 +294,7 @@
     <property name="maxLength" value="1"/>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.fp.businessobject.options.PaymentMethodValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.PaymentMethodValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     
     

@@ -144,6 +144,13 @@
 		</property>		
 	</bean>
 	
+	<bean id="disbursementVoucherExtractionHelperService" parent="disbursementVoucherExtractionHelperService-parentBean"/>
+	<bean id="disbursementVoucherExtractionHelperService-parentBean" class="org.kuali.kfs.fp.document.service.impl.DisbursementVoucherExtractionHelperServiceImpl" abstract="true">
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService"/>
+		<property name="disbursementVoucherDao" ref="disbursementVoucherDao"/>
+	</bean>
+	
 	<bean id="cashDrawerService"  parent="cashDrawerService-parentBean"/>
 	<bean id="cashDrawerService-parentBean" class="org.kuali.kfs.fp.service.impl.CashDrawerServiceImpl" abstract="true">
 		<property name="businessObjectService">
@@ -277,12 +284,7 @@
 	
 	<bean id="disbursementVoucherExtractService"  parent="disbursementVoucherExtractService-parentBean"/>
 	<bean id="disbursementVoucherExtractService-parentBean" parent="paymentSourceExtractService-parentBean" abstract="true">
-		<property name="paymentSourceToExtractService" ref="disbursementVouchersToExtractService"/>
-	</bean>
-	
-	<bean id="disbursementVouchersToExtractService" parent="disbursementVouchersToExtractService-parentBean"/>
-	<bean id="disbursementVouchersToExtractService-parentBean" class="org.kuali.kfs.fp.batch.service.impl.DisbursementVoucherToExtractServiceImpl" abstract="true">
-		<property name="disbursementVoucherDao" ref="disbursementVoucherDao"/>
+		<property name="paymentSourceToExtractService" ref="disbursementVoucherExtractionHelperService"/>
 	</bean>
 
 	<bean id="procurementCardLoadStep" parent="procurementCardLoadStep-parentBean"/>

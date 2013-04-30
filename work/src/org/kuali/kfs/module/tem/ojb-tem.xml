@@ -1598,4 +1598,44 @@
             <foreignkey field-ref="creditCardStagingDataId"/>
         </reference-descriptor>
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.TravelPayment" table="TEM_TRVL_PMT_T">
+		<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    	<field-descriptor name="checkTotalAmount" column="CHK_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+    	<field-descriptor name="contactPersonName" column="CNTCT_PRSN_NM" jdbc-type="VARCHAR" />
+	    <field-descriptor name="contactPhoneNumber" column="CNTCT_PHN_NBR" jdbc-type="VARCHAR" />
+	    <field-descriptor name="attachmentCode" column="ATTCH_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	    <field-descriptor name="specialHandlingCode" column="SPCL_HANDLG_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	    <field-descriptor name="checkStubText" column="CHK_STUB_TXT" jdbc-type="VARCHAR" />
+	    <field-descriptor name="dDueDate" column="DUE_DT" jdbc-type="DATE" />
+	    <field-descriptor name="documentationLocationCode" column="DOC_LOC_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="paymentMethodCode" column="PMT_MTHD_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="immediatePaymentIndicator" column="IMD_PMT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+	    <field-descriptor name="extractDate" column="EXTRT_DT" jdbc-type="DATE" />
+	    <field-descriptor name="paidDate" column="PAID_DT" jdbc-type="DATE" />
+	    <field-descriptor name="cancelDate" column="CNCL_DT" jdbc-type="DATE" />
+	    <field-descriptor name="alienPaymentCode" column="ALIEN_PMT_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	    <field-descriptor name="payeeLine1Addr" column="PAYEE_LN1_ADDR" jdbc-type="VARCHAR" />
+	    <field-descriptor name="payeeLine2Addr" column="PAYEE_LN2_ADDR" jdbc-type="VARCHAR" />
+	    <field-descriptor name="payeeCityName" column="PAYEE_CTY_NM" jdbc-type="VARCHAR" />
+	    <field-descriptor name="payeeStateCode" column="PAYEE_ST_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="payeeZipCode" column="PAYEE_ZIP_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="payeeCountryCode" column="PAYEE_CNTRY_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="specialHandlingPersonName" column="RMT_PRSN_NM" jdbc-type="VARCHAR" />
+	    <field-descriptor name="specialHandlingLine1Addr" column="RMT_LN1_ADDR" jdbc-type="VARCHAR" />
+	    <field-descriptor name="specialHandlingLine2Addr" column="RMT_LN2_ADDR" jdbc-type="VARCHAR" />
+	    <field-descriptor name="specialHandlingCityName" column="RMT_CTY_NM" jdbc-type="VARCHAR" />
+	    <field-descriptor name="specialHandlingStateCode" column="RMT_ST_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="specialHandlingZipCode" column="RMT_ZIP_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="specialHandlingCountryCode" column="RMT_CNTRY_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="payeeW9CompleteCode" column="W9_CMPLT_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	    <field-descriptor name="exceptionAttachedIndicator" column="EXCPT_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	    <field-descriptor name="payeeTypeCode" column="PAYEE_TYP_CD" jdbc-type="VARCHAR" />
+	    
+	    <reference-descriptor name="paymentDocumentationLocation" class-ref="org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	        <foreignkey field-ref="documentationLocationCode" />
+	    </reference-descriptor>
+	</class-descriptor>
 </descriptor-repository>

@@ -62,26 +62,6 @@
     </documentType>
     <documentType>
       <name>
-        DVDL
-      </name>
-      <parent>
-        FPSM
-      </parent>
-      <label>
-        Disbursement Voucher Documentation Location
-      </label>
-      <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Fdisbursementvoucherdocumentationlocation.htm
-      </helpDefinitionURL>
-      <active>
-        true
-      </active>
-      <routingVersion>
-        2
-      </routingVersion>
-    </documentType>
-    <documentType>
-      <name>
         BFYC
       </name>
       <parent>

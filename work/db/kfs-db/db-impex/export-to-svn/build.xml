@@ -16,9 +16,12 @@
 	<property file="ant-local.properties" />
 	<property file="ant.properties" />
     <property name="drivers.dir" location="../drivers" />
-    <property name="checkout.dir" location="checkout" />
 	
-    <pathconvert property="temp.dir" targetos="unix">
+	<pathconvert property="checkout.dir" dirsep="/" pathsep=";">
+		<path location="${checkout}" />
+	</pathconvert>
+
+   	<pathconvert property="temp.dir" dirsep="/" pathsep=";">
         <path location="temp" />
     </pathconvert>
 	
@@ -41,8 +44,10 @@
 
 	<target name="export-db">
 		<!-- create impex-build.properties file -->
-		<property name="daily.export.dir" location="${checkout.dir}/new_export"/>
-        <mkdir dir="${daily.export.dir}"/>
+	   	<pathconvert property="daily.export.dir" dirsep="/" pathsep=";">
+	        <path location="${checkout.dir}/new_export" />
+	    </pathconvert>
+		<mkdir dir="${daily.export.dir}"/>
 		<loadfile property="impex.properties" srcfile="db-impex-build.properties">
 			<filterchain>
 				<expandproperties />

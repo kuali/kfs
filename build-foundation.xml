@@ -148,6 +148,12 @@ are intended for use only by Kuali Foundation developers.
 	 	</classpath>
 	 </typedef>
 
+	 <svnSetting
+	          svnkit="false"
+	          javahl="true"
+	          id="svn.settings"
+	      />
+	
 	<target name="prep-temp-dir" depends="init-properties">
 		<echo>Deleting contents of temp directory: ${all.temp.directory}</echo>
     	<delete>
@@ -159,7 +165,7 @@ are intended for use only by Kuali Foundation developers.
 	
 	<target name="export-to-temp" depends="clean-all,prep-temp-dir">
 		<echo>Exporting project to temp directory for packaging.</echo>
-		<svn>
+		<svn refid="svn.settings">
 			<export srcPath="${basedir.safe}" destPath="${all.temp.directory}/kfs" />
 		</svn>
 	</target>
@@ -181,7 +187,7 @@ are intended for use only by Kuali Foundation developers.
 			<not><available file="${database.directory}/kfs-db/demo" type="dir" /></not>
 			<then>
 				<echo>Building copy of development repository for demo dataset.</echo>
-				<svn>
+				<svn refid="svn.settings">
 					<copy srcPath="${database.directory}/kfs-db/development"
 						 destPath="${database.directory}/kfs-db/demo"/>
 				</svn>
@@ -191,7 +197,7 @@ are intended for use only by Kuali Foundation developers.
 			<not><available file="${database.directory}/kfs-db/bootstrap" type="dir" /></not>
 			<then>
 				<echo>Building copy of development repository for bootstrap dataset.</echo>
-				<svn>
+				<svn refid="svn.settings">
 					<copy srcPath="${database.directory}/kfs-db/development"
 						 destPath="${database.directory}/kfs-db/bootstrap"/>
 				</svn>
@@ -264,7 +270,7 @@ are intended for use only by Kuali Foundation developers.
 	<target name="create-and-export-bootstrap-dataset" depends="create-bootstrap-dataset,export-bootstrap-dataset" />
 	
 	<target name="export-bootstrap-dataset" depends="set-temp-export-db-properties,init-additional-properties,init-make-references">
-		<svn>
+		<svn refid="svn.settings">
 			<info target="${basedir.safe}" />
 		</svn>
 		<echo>${svn.info.url}</echo>
@@ -292,7 +298,7 @@ are intended for use only by Kuali Foundation developers.
 		<if>
 			<available file="${database.directory}/kfs-db/demo" type="dir" />
 			<then>
-				<svn>
+				<svn refid="svn.settings">
 					<delete dir="${database.directory}/kfs-db/demo" force="true" />
 				</svn>
 			</then>
@@ -300,18 +306,18 @@ are intended for use only by Kuali Foundation developers.
 		<if>
 			<available file="${database.directory}/kfs-db/bootstrap" type="dir" />
 			<then>
-				<svn>
+				<svn refid="svn.settings">
 					<delete dir="${database.directory}/kfs-db/bootstrap" force="true" />
 				</svn>
 			</then>
 		</if>
-		<svn username="${svn.username}" password="${svn.password}" failonerror="false">
+		<svn refid="svn.settings" username="${svn.username}" password="${svn.password}" failonerror="false">
 			<commit dir="${database.directory}/kfs-db" message="Removing distribution datasource directories." />
 		</svn>
 	</target>
 
 	<target name="commit-distribution-dataset-dirs" depends="init-additional-properties">
-		<svn username="${svn.username}" password="${svn.password}">
+		<svn refid="svn.settings" username="${svn.username}" password="${svn.password}">
 			<commit dir="${database.directory}/kfs-db" message="Adding distribution datasource directories."/>
 		</svn>
 	</target>
@@ -403,7 +409,7 @@ are intended for use only by Kuali Foundation developers.
 
 	<target name="add-doc-files" depends="init-additional-properties">
 		<!-- get the current revision numbers for each SVN path we are including in the export -->
-		<svn>
+		<svn refid="svn.settings">
 			<info target="${basedir.safe}"
 				  propPrefix="svn.info.kfs" verbose="true" />			
 		</svn>

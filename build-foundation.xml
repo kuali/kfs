@@ -197,7 +197,7 @@ are intended for use only by Kuali Foundation developers.
 				</svn>
 			</then>
 		</if>
-		<svn username="${svn.username}" password="${svn.password}">
+		<svn svnkit="false" javahl="true" username="${svn.username}" password="${svn.password}">
 			<commit dir="${database.directory}/kfs-db" message="Copying development datasource in preparation for release dataset creation."/>
 		</svn>
 	</target>

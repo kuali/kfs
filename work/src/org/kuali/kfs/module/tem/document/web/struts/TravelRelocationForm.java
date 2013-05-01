@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,6 +24,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
@@ -32,8 +33,8 @@ import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.web.bean.TravelRelocationMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 /**
@@ -42,7 +43,7 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 public class TravelRelocationForm extends TravelFormBase implements TravelRelocationMvcWrapperBean {
 
     public static Logger LOG = Logger.getLogger(TravelRelocationForm.class);
-    
+
     private List<Serializable> history;
     private List<AccountingDistribution> distribution;
 
@@ -84,7 +85,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
 
     /**
      * Creates a MAP for all the buttons to appear on the Travel Relocation Form, and sets the attributes of these buttons.
-     * 
+     *
      * @return the button map created.
      */
     protected Map<String, ExtraButton> createButtonsMap() {
@@ -102,10 +103,10 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
 
         if (!SpringContext.getBean(TravelDocumentService.class).isUnsuccessful(this.getTravelDocument())) {
             if (getTravelRelocationDocument().canPayDVToVendor()) {
-                extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.payDVToVendor"));
+                extraButtons.add(buttonsMap.get("methodToCall.payDVToVendor"));
             }
             if (getTravelRelocationDocument().canCreateREQSForVendor()) {
-                extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.createREQSForVendor"));
+                extraButtons.add(buttonsMap.get("methodToCall.createREQSForVendor"));
             }
         }
 
@@ -129,7 +130,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
 
     /**
      * disable calculate on ENT doc
-     * 
+     *
      * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#canCalculate()
      */
     @Override
@@ -139,7 +140,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
 
     /**
      * Get Travel Relocation Document
-     * 
+     *
      * @return TravelRelocationForm
      */
     @Override
@@ -149,7 +150,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
 
     /**
      * Retrieve the name of the document identifier field for datadictionary queries
-     * 
+     *
      * @return String with the field name of the document identifier
      */
     @Override
@@ -174,7 +175,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
 
     /**
      * Gets the startDate attribute.
-     * 
+     *
      * @return Returns the startDate.
      */
     @Override
@@ -184,7 +185,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
 
     /**
      * Sets the startDate attribute value.
-     * 
+     *
      * @param startDate The startDate to set.
      */
     @Override
@@ -194,7 +195,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
 
     /**
      * Gets the endDate attribute.
-     * 
+     *
      * @return Returns the endDate.
      */
     @Override
@@ -204,7 +205,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
 
     /**
      * Sets the endDate attribute value.
-     * 
+     *
      * @param endDate The endDate to set.
      */
     @Override
@@ -240,4 +241,13 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
     public void setCanUnmask(boolean canUnmask) {
         this.canUnmask = canUnmask;
     }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getTravelPaymentFormAction()
+     */
+    @Override
+    public String getTravelPaymentFormAction() {
+        return TemConstants.TRAVEL_RELOCATION_ACTION_NAME;
+    }
+
 }

@@ -87,6 +87,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     private boolean enableImportedTaxable = true;
     private int perDiemPercentage;
     private boolean displayNonEmployeeForm = false;
+    private boolean openPaymentInformationWindow = false;
     private Observable observable;
     private AccountingDocumentRelationship newAccountingDocumentRelationship;
 
@@ -1042,4 +1043,24 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     public void setDisplayNonEmployeeForm(boolean displayNonEmployeeForm) {
         this.displayNonEmployeeForm = displayNonEmployeeForm;
     }
+
+    /**
+     * @return true if the payment information window should be opened on the next refresh; false otherwise
+     */
+    public boolean isOpenPaymentInformationWindow() {
+        return openPaymentInformationWindow;
+    }
+
+    /**
+     * Sets whether the payment information window should be opened on the next refresh
+     * @param openPaymentInformationWindow set to true if the payment information should be opened, false otherwise
+     */
+    public void setOpenPaymentInformationWindow(boolean openPaymentInformationWindow) {
+        this.openPaymentInformationWindow = openPaymentInformationWindow;
+    }
+
+    /**
+     * @return the name of the action which the current form should return to
+     */
+    public abstract String getTravelPaymentFormAction();
 }

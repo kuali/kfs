@@ -34,10 +34,12 @@ import org.kuali.kfs.module.tem.TemConstants.DisbursementVoucherPaymentMethods;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
+import org.kuali.kfs.module.tem.businessobject.TravelPayment;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -49,6 +51,8 @@ import org.springframework.beans.BeanUtils;
 public abstract class TEMReimbursementDocument extends TravelDocumentBase {
 
     private String paymentMethod = DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE;
+    private TravelPayment travelPayment;
+    private PaymentSourceWireTransfer wireTransfer;
 
     @Column(name = "PAYMENT_METHOD", nullable = true, length = 15)
     public String getPaymentMethod() {
@@ -59,6 +63,35 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
         this.paymentMethod = paymentMethod;
     }
 
+    /**
+     * @return the travel payment associated with this document
+     */
+    public TravelPayment getTravelPayment() {
+        return travelPayment;
+    }
+
+    /**
+     * Sets the travel payment to be associated with this document
+     * @param travelPayment a travel payment for this document
+     */
+    public void setTravelPayment(TravelPayment travelPayment) {
+        this.travelPayment = travelPayment;
+    }
+
+    /**
+     * @return the wire transfer associated with this document
+     */
+    public PaymentSourceWireTransfer getWireTransfer() {
+        return wireTransfer;
+    }
+
+    /**
+     * Sets the wire transfer associated with this document
+     * @param wireTransfer the wire transfer for this document
+     */
+    public void setWireTransfer(PaymentSourceWireTransfer wireTransfer) {
+        this.wireTransfer = wireTransfer;
+    }
 
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#initiateDocument()
@@ -82,6 +115,10 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
             calendar.add(Calendar.DAY_OF_MONTH, 2);
             setTripEnd(new Timestamp(calendar.getTimeInMillis()));
         }
+
+        // initiate payment and wire transfer
+        this.travelPayment = new TravelPayment();
+        this.wireTransfer = new PaymentSourceWireTransfer();
     }
 
     /**

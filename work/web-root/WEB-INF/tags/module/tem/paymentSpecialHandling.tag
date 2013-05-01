@@ -17,7 +17,7 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<kul:tab tabTitle="Special Handling" defaultOpen="true" tabErrorKey="${KFSConstants.DV_SPECHAND_TAB_ERRORS}">
+<kul:tab tabTitle="Special Handling" defaultOpen="true" tabErrorKey="${KFSConstants.TRVL_SPECHAND_TAB_ERRORS}">
 	<c:set var="travelPaymentAttributes" value="${DataDictionary.TravelPayment.attributes}" />
     <div class="tab-container" align=center > 
 <h3>Send Check To</h3>

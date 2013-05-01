@@ -26,6 +26,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
@@ -261,4 +262,13 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
     public void setCanUnmask(boolean canUnmask) {
         this.canUnmask = canUnmask;
     }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getTravelPaymentFormAction()
+     */
+    @Override
+    public String getTravelPaymentFormAction() {
+        return TemConstants.TRAVEL_REIMBURESMENT_ACTION_NAME;
+    }
+
 }

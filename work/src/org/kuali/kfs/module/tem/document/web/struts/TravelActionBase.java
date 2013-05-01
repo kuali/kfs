@@ -28,8 +28,8 @@ import static org.kuali.kfs.module.tem.TemConstants.TRAVEL_ARRANGER_TEST_ATTRIBU
 import static org.kuali.kfs.module.tem.TemConstants.TRAVEL_MANAGER_TEST_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.EMPLOYEE_CERTIFICATION_STATEMENT;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_CERTIFICATION_STATEMENT;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND;
+import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRIP_INFO_UPDATE_TRIP_DTL;
 
 import java.io.ByteArrayOutputStream;
@@ -1516,5 +1516,48 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         catch (WorkflowException ex) {
             ex.printStackTrace();
         }
+    }
+
+    /**
+     * Opens a secondary window with the travel payment information in it
+     * @param mapping the map of all mappings configured in the KFS struts context
+     * @param form the TravelDocumentForm
+     * @param request the http request to be fulfilled
+     * @param response the http response which is being sent in response to the request
+     * @return the forward to the jsp page to render
+     * @throws Exception thrown if, you know, practically anything goes wrong
+     */
+    public ActionForward paymentInformationOpen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TravelFormBase travelForm = (TravelFormBase)form;
+        travelForm.setOpenPaymentInformationWindow(true);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * The initial method to open the travel payment
+     * @param mapping the map of all mappings configured in the KFS struts context
+     * @param form the TravelDocumentForm
+     * @param request the http request to be fulfilled
+     * @param response the http response which is being sent in response to the request
+     * @return the forward to the jsp page to render
+     * @throws Exception thrown if, you know, practically anything goes wrong
+     */
+    public ActionForward paymentInformationStart(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(TemConstants.MAPPING_TRAVEL_PAYMENT);
+    }
+
+    /**
+     * Forwards to a page which will close the secondary payment information window
+     * @param mapping the map of all mappings configured in the KFS struts context
+     * @param form the TravelDocumentForm
+     * @param request the http request to be fulfilled
+     * @param response the http response which is being sent in response to the request
+     * @return the forward to the jsp page to render
+     * @throws Exception thrown if, you know, practically anything goes wrong
+     */
+    public ActionForward paymentInformationClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // the magic of this method is the automatic repopulation - all the fields from the payment information will be set
+        // on the document
+        return mapping.findForward(TemConstants.MAPPING_TRAVEL_PAYMENT_CLOSE);
     }
 }

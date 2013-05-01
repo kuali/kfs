@@ -20,6 +20,12 @@
 <c:set var="fullEntryMode" value="${KualiForm.editingMode['fullEntry']}" scope="request" />
 <c:set var="documentTitle" value="${'TravelRelocationDocument'}" />
 
+<c:if test="${KualiForm.openPaymentInformationWindow}">
+	<script type="text/javascript">
+		window.open("${ConfigProperties.application.url}/${KualiForm.travelPaymentFormAction}.do?methodToCall=paymentInformationOpen");
+	</script>
+</c:if>
+
 <kul:documentPage showDocumentInfo="true"
     documentTypeName="TravelRelocationDocument"
     htmlFormAction="temTravelRelocation" renderMultipart="true"

@@ -789,7 +789,9 @@
 			scope="request" parameter="methodToCall" validate="true"
 			attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
-			<forward name="basic" path="/jsp/module/tem/{1}.jsp" />		
+			<forward name="basic" path="/jsp/module/tem/{1}.jsp" />
+			<forward name="travelPayment" path="/jsp/module/tem/TravelPaymentInformation.jsp"/>
+			<forward name="travelPaymentClose" path="/jsp/module/tem/TravelPaymentInformationClose.jsp"/>
 		</action>
 		<action path="/temDV" name="TravelDisbursementVoucherForm"
 			input="/jsp/fp/DisbursementVoucher.jsp"

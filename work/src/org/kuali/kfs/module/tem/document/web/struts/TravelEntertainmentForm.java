@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,7 +36,7 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 public class TravelEntertainmentForm extends TravelFormBase implements TravelEntertainmentMvcWrapperBean {
 
     public static Logger LOG = Logger.getLogger(TravelEntertainmentForm.class);
-    
+
     private Date startDate;
     private Date endDate;
     private boolean canPrintHostCertification;
@@ -113,14 +113,14 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
     public List<ExtraButton> getExtraButtons() {
         super.getExtraButtons();
         final Map<String, ExtraButton> buttonsMap = createButtonsMap();
-        
+
         LOG.debug("Creating button map");
         if (!SpringContext.getBean(TravelDocumentService.class).isUnsuccessful(this.getTravelDocument())) {
             if (getEntertainmentDocument().canPayDVToVendor()) {
-                extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.payDVToVendor"));
+                extraButtons.add(buttonsMap.get("methodToCall.payDVToVendor"));
             }
             if (getEntertainmentDocument().canCreateREQSForVendor()) {
-                extraButtons.add((ExtraButton) buttonsMap.get("methodToCall.createREQSForVendor"));
+                extraButtons.add(buttonsMap.get("methodToCall.createREQSForVendor"));
             }
         }
         return extraButtons;
@@ -133,10 +133,10 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
     public void setCanUnmask(boolean canUnmask) {
         this.canUnmask = canUnmask;
     }
-    
+
     /**
      * disable calculate on ENT doc
-     * 
+     *
      * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#canCalculate()
      */
     @Override
@@ -186,6 +186,14 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
 
     public void setDisplayNonEmployeeCheckBox(boolean displayNonEmployeeCheckBox) {
         this.displayNonEmployeeCheckBox = displayNonEmployeeCheckBox;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getTravelPaymentFormAction()
+     */
+    @Override
+    public String getTravelPaymentFormAction() {
+        return TemConstants.ENTERTAINMENT_ACTION_NAME;
     }
 
 }

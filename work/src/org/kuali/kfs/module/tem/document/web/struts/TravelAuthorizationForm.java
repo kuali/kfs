@@ -561,4 +561,12 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         return false;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getTravelPaymentFormAction()
+     */
+    @Override
+    public String getTravelPaymentFormAction() {
+        return TemConstants.TRAVEL_AUTHORIZATION_ACTION_NAME;
+    }
+
 }

@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<kul:tab tabTitle="Foreign Draft" defaultOpen="false" tabErrorKey="${KFSConstants.DV_FOREIGNDRAFTS_TAB_ERRORS}">
+<kul:tab tabTitle="Foreign Draft" defaultOpen="false" tabErrorKey="${KFSConstants.FOREIGNDRAFTS_TAB_ERRORS}">
 	<c:set var="wireTransAttributes" value="${DataDictionary.PaymentSourceWireTransfer.attributes}" />
     <div class="tab-container" align=center>
       <h3>Foreign Draft</h3>
@@ -26,20 +26,20 @@
                        <strong>
                             <c:if test="${!fullEntryMode&&!frnEntryMode}">
                               <c:if test="${KualiForm.document.wireTransfer.foreignCurrencyTypeCode=='C'}">
-                                DV amount is stated in U.S. dollars; convert to foreign currency
+                                Payment amount is stated in U.S. dollars; convert to foreign currency
                               </c:if>  
                               <c:if test="${KualiForm.document.wireTransfer.foreignCurrencyTypeCode=='F'}">
-                                DV amount is stated in foreign currency
+                                Payment amount is stated in foreign currency
                               </c:if> 
                             </c:if>
                            
                             <c:if test="${fullEntryMode||frnEntryMode}">
                             <html:radio property="document.wireTransfer.foreignCurrencyTypeCode" value="C"/>
-                            DV amount is stated in U.S. dollars; convert to foreign currency </label>
+                            Payment amount is stated in U.S. dollars; convert to foreign currency </label>
                             <br/>
                             <br/>
                             <html:radio property="document.wireTransfer.foreignCurrencyTypeCode" value="F"/>
-                            DV amount is stated in foreign currency <br/>
+                            Payment amount is stated in foreign currency <br/>
                            </c:if>
                            
                         <br/>

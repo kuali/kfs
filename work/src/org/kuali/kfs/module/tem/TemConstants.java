@@ -438,6 +438,14 @@ public class TemConstants {
         public static final String HIDE_BUTTONS = "Hide Buttons TA";
     }
 
+    public static final String TRVL_SPECHAND_TAB_ERRORS = "DVSpecialHandlingErrors,document.travelPayment.specialHandlingPersonName,document.travelPayment.specialHandlingCityName,document.travelPayment.specialHandlingLine1Addr,document.travelPayment.specialHandlingStateCode," + "document.travelPayment.specialHandlingLine2Addr,document.travelPayment.specialHandlingZipCode,document.travelPayment.specialHandlingCountryName";
+    public static final String MAPPING_TRAVEL_PAYMENT = "travelPayment";
+    public static final String MAPPING_TRAVEL_PAYMENT_CLOSE = "travelPaymentClose";
+    public static final String TRAVEL_AUTHORIZATION_ACTION_NAME = "temTravelAuthorization";
+    public static final String TRAVEL_REIMBURESMENT_ACTION_NAME = "temTravelReimbursement";
+    public static final String TRAVEL_RELOCATION_ACTION_NAME = "temTravelRelocation";
+    public static final String ENTERTAINMENT_ACTION_NAME = "temTravelEntertainment";
+
     public static final String DATE_CHANGED_MESSAGE = "The trip begin/end dates have been changed from %s - %s to %s - %s";
     public static final String TA_CANCELLED_MESSAGE = "Travel Authorization cancelled.";
 

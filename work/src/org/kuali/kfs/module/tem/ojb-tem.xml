@@ -613,6 +613,12 @@
 		<reference-descriptor name="purpose" class-ref="org.kuali.kfs.module.tem.businessobject.Purpose" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="purposeCode"/>
         </reference-descriptor>
+        <reference-descriptor name="travelPayment" class-ref="org.kuali.kfs.module.tem.businessobject.TravelPayment" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<foreignkey field-ref="documentNumber"/>
+        </reference-descriptor>
+        <reference-descriptor name="wireTransfer" class-ref="org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<foreignkey field-ref="documentNumber"/>
+        </reference-descriptor>
 		<collection-descriptor name="actualExpenses" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.ActualExpense" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="documentLineNumber" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />
@@ -717,6 +723,12 @@
         <reference-descriptor name="primaryDestination" class-ref="org.kuali.kfs.module.tem.businessobject.PrimaryDestination" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="primaryDestinationId"/>
         </reference-descriptor>
+        <reference-descriptor name="travelPayment" class-ref="org.kuali.kfs.module.tem.businessobject.TravelPayment" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<foreignkey field-ref="documentNumber"/>
+        </reference-descriptor>
+        <reference-descriptor name="wireTransfer" class-ref="org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<foreignkey field-ref="documentNumber"/>
+        </reference-descriptor>
                 
         <collection-descriptor name="perDiemExpenses" element-class-ref="org.kuali.kfs.module.tem.businessobject.PerDiemExpense" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
             <orderby name="mileageDate" sort="ASC" />
@@ -799,6 +811,12 @@
         </reference-descriptor>
         <reference-descriptor name="tripType" class-ref="org.kuali.kfs.module.tem.businessobject.TripType" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="tripTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="travelPayment" class-ref="org.kuali.kfs.module.tem.businessobject.TravelPayment" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<foreignkey field-ref="documentNumber"/>
+        </reference-descriptor>
+        <reference-descriptor name="wireTransfer" class-ref="org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<foreignkey field-ref="documentNumber"/>
         </reference-descriptor>
         <collection-descriptor name="perDiemExpenses" element-class-ref="org.kuali.kfs.module.tem.businessobject.PerDiemExpense" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
             <orderby name="mileageDate" sort="ASC" />

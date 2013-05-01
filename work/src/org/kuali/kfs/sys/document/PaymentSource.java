@@ -15,8 +15,11 @@
  */
 package org.kuali.kfs.sys.document;
 
-import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
+import java.sql.Date;
+
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Information needed by PDP to pay out from a given document
@@ -26,6 +29,17 @@ public interface PaymentSource extends GeneralLedgerPostingDocument, GeneralLedg
      * @return the wire transfer associated with this payment source
      */
     public abstract PaymentSourceWireTransfer getWireTransfer();
+
+    /**
+     * @return a PDP PaymentGroup which would act to pay out this payment
+     */
+    public abstract PaymentGroup generatePaymentGroup(Date processRunDate);
+
+    /**
+     * Marks the payment source as extracted upon the extraction date
+     * @param extractionDate the date when this payment source was extracted
+     */
+    public abstract void markAsExtracted(java.sql.Date extractionDate);
 
     /**
      * Marks the payment source as paid upon the processing date
@@ -49,9 +63,24 @@ public interface PaymentSource extends GeneralLedgerPostingDocument, GeneralLedg
      */
     public abstract java.sql.Date getCancelDate();
 
-    public abstract boolean isDisbVchrAttachmentCode();
+    /**
+     * @return true if this payment has an attachment with it (which would prevent it from being used as part of a wire transfer)
+     */
+    public abstract boolean hasAttachment();
 
-    public abstract String getDisbVchrPaymentMethodCode();
+    /**
+     * @return the method to pay out this payment
+     */
+    public abstract String getPaymentMethodCode();
 
-    public abstract DisbursementVoucherPayeeDetail getDvPayeeDetail();
+    /**
+     * @return the amount of this payment
+     */
+    public abstract KualiDecimal getPaymentAmount();
+
+    /**
+     * @return the code identifier of the campus most associated with this campus
+     */
+    public abstract String getCampusCode();
+
 }

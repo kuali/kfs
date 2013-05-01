@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -44,10 +43,9 @@ public class PaymentSourceWireTransferValidation extends GenericValidation {
         boolean isValid = true;
 
         PaymentSource document = (PaymentSource) accountingDocumentForValidation;
-        DisbursementVoucherPayeeDetail payeeDetail = document.getDvPayeeDetail();
         PaymentSourceWireTransfer wireTransfer = document.getWireTransfer();
 
-        if (!KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE.equals(document.getDisbVchrPaymentMethodCode())) {
+        if (!KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE.equals(document.getPaymentMethodCode())) {
             return isValid;
         }
 
@@ -68,7 +66,7 @@ public class PaymentSourceWireTransferValidation extends GenericValidation {
         }
 
         /* cannot have attachment checked for wire transfer */
-        if (document.isDisbVchrAttachmentCode()) {
+        if (document.hasAttachment()) {
             errors.putErrorWithoutFullErrorPath(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DISB_VCHR_ATTACHMENT_CODE, KFSKeyConstants.ERROR_PAYMENT_SOURCE_WIRE_ATTACHMENT);
             isValid = false;
         }

@@ -148,6 +148,10 @@
 	<bean id="disbursementVoucherExtractionHelperService-parentBean" class="org.kuali.kfs.fp.document.service.impl.DisbursementVoucherExtractionHelperServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService"/>
+		<property name="parameterService" ref="parameterService"/>
+		<property name="parameterEvaluatorService" ref="parameterEvaluatorService"/>
+		<property name="vendorService" ref="vendorService"/>
+		<property name="paymentSourceExtractionService" ref="paymentSourceExtractService"/>
 		<property name="disbursementVoucherDao" ref="disbursementVoucherDao"/>
 	</bean>
 	

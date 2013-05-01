@@ -1122,6 +1122,7 @@
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="paymentFileEmailService" ref="pdpEmailService"/>
+		<property name="documentService" ref="documentService"/>
 	</bean>
     
 	<bean id="velocityEngine" parent="velocityEngine-parentBean" />

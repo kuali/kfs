@@ -15,7 +15,10 @@
  */
 package org.kuali.kfs.fp.document.service;
 
+import java.sql.Date;
+
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 
 /**
  * Service methods which support PDP processing on DisbursementVoucher documents
@@ -28,4 +31,12 @@ public interface DisbursementVoucherPaymentService {
      * @param cancelDate the date of cancellation for the document
      */
     public abstract void cancelDisbursementVoucher(DisbursementVoucherDocument dv, java.sql.Date cancelDate);
+
+    /**
+     * Creates a PDP PaymentGroup for a given DisbursementVoucher
+     * @param dv the DisbursementVoucher to pay out
+     * @param processRunDate the date when the payment was processed
+     * @return a PDP payment group to pay out the given DisbursementVoucher
+     */
+    public abstract PaymentGroup createPaymentGroupForDisbursementVoucher(DisbursementVoucherDocument dv, Date processRunDate);
 }

@@ -44,6 +44,7 @@ import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -335,9 +336,17 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      *
      * @return Returns the disbVchrAttachmentCode
      */
-    @Override
     public boolean isDisbVchrAttachmentCode() {
         return disbVchrAttachmentCode;
+    }
+
+    /**
+     * Returns the value of disbVchrAttachmentCode
+     * @see org.kuali.kfs.sys.document.PaymentSource#hasAttachment()
+     */
+    @Override
+    public boolean hasAttachment() {
+        return isDisbVchrAttachmentCode();
     }
 
 
@@ -376,6 +385,15 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     public KualiDecimal getDisbVchrCheckTotalAmount() {
         return disbVchrCheckTotalAmount;
+    }
+
+    /**
+     * Returns the value of disbVchrCheckTotalAmount
+     * @see org.kuali.kfs.sys.document.PaymentSource#getPaymentAmount()
+     */
+    @Override
+    public KualiDecimal getPaymentAmount() {
+        return getDisbVchrCheckTotalAmount();
     }
 
 
@@ -585,9 +603,17 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      *
      * @return Returns the disbVchrPaymentMethodCode
      */
-    @Override
     public String getDisbVchrPaymentMethodCode() {
         return disbVchrPaymentMethodCode;
+    }
+
+    /**
+     * Returns the disbVchrPaymentMethodCode
+     * @see org.kuali.kfs.sys.document.PaymentSource#getPaymentMethodCode()
+     */
+    @Override
+    public String getPaymentMethodCode() {
+        return getDisbVchrPaymentMethodCode();
     }
 
 
@@ -674,7 +700,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     /**
      * @return Returns the dvPayeeDetail.
      */
-    @Override
     public DisbursementVoucherPayeeDetail getDvPayeeDetail() {
         return dvPayeeDetail;
     }
@@ -767,6 +792,15 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
+     * Sets the extractDate to the passed in extractionDate
+     * @see org.kuali.kfs.sys.document.PaymentSource#markAsExtracted(java.sql.Date)
+     */
+    @Override
+    public void markAsExtracted(Date extractionDate) {
+        setExtractDate(extractionDate);
+    }
+
+    /**
      * Gets the paidDate attribute.
      *
      * @return Returns the paidDate.
@@ -805,6 +839,16 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED);
         setPaidDate(null);
     }
+
+    /**
+     * Has the DisbursementVoucherPaymentService implementation generate a PaymentGroup for this DisbursementVoucher
+     * @see org.kuali.kfs.sys.document.PaymentSource#generatePaymentGroup()
+     */
+    @Override
+    public PaymentGroup generatePaymentGroup(Date processRunDate) {
+        return getDisbursementVoucherPaymentService().createPaymentGroupForDisbursementVoucher(this, processRunDate);
+    }
+
 
     /**
      * Based on which pdp dates are present (extract, paid, canceled), determines a String for the status

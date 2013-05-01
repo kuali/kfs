@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.batch.service;
 
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.document.PaymentSource;
 
 /**
@@ -60,5 +59,13 @@ public interface PaymentSourceExtractionService {
      * Creates a batch payment for a single disbursement voucher
      * @param disbursementVoucher the voucher to immediately extract
      */
-    public abstract void extractSingleImmediatePayment(DisbursementVoucherDocument disbursementVoucher);
+    public abstract void extractSingleImmediatePayment(PaymentSource paymentSource);
+
+    /**
+     * Utility method to chop words up in payment methods
+     * @param word the String to chop up
+     * @param limit the length of the line
+     * @return the chopped up String
+     */
+    public abstract String[] chopWord(String word, int limit);
 }

@@ -41,7 +41,7 @@ public class PaymentSourceForeignDraftValidation extends GenericValidation {
         boolean isValid = true;
 
         PaymentSource document = (PaymentSource) accountingDocumentForValidation;
-        if (!KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_DRAFT.equals(document.getDisbVchrPaymentMethodCode())) {
+        if (!KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_DRAFT.equals(document.getPaymentMethodCode())) {
             return true;
         }
 

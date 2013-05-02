@@ -880,4 +880,8 @@ public class TemConstants {
     public static final String CTS_CARD_APPLICATION = "TemCTSCardApplicaton";
     public static final String CORP_CARD_APPLICATION = "TemCorporateCardApplication";
     public static final String CARD_EXISTS_QUESTION = "Card Exists Question";
+
+    public static class EditModes {
+        public static final String CHECK_AMOUNT_ENTRY = "checkAmountEntry";
+    }
 }

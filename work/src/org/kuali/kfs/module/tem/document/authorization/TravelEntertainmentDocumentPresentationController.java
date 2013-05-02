@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.document.authorization;
 
 import java.util.Set;
 
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TEMRoleNames;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
@@ -33,6 +34,7 @@ public class TravelEntertainmentDocumentPresentationController extends TravelDoc
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
         addFullEntryEditMode(document, editModes);
+        editModes.remove(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);  // the check amount cannot be edited on entertainment documents
         return editModes;
     }
 

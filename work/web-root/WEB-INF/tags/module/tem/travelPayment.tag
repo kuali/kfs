@@ -16,7 +16,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <c:set var="travelPaymentAttributes" value="${DataDictionary.TravelPayment.attributes}" />
-<c:set var="paymentReasonEditMode" value="true" />
+<c:set var="checkAmountEntry" value="${KualiForm.editingMode['checkAmountEntry']}" />
 
 <kul:tab tabTitle="Payment Information" defaultOpen="true" tabErrorKey="${KFSConstants.DV_PAYMENT_TAB_ERRORS},document.disbVchrPaymentMethodCode,${KFSConstants.DV_PAYEE_TAB_ERRORS},document.dvPayeeDetail.disbursementVoucherPayeeTypeCode">
     <div class="tab-container" align=center > 
@@ -27,7 +27,7 @@
               	<div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.checkTotalAmount}"/></div>
               </th>
               <td width="30%"  class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.checkTotalAmount}" property="document.travelPayment.checkTotalAmount" readOnly="${!fullEntryMode&&!frnEntryMode&&!taxEntryMode&&!travelEntryMode&&!wireEntryMode}"/>
+                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.checkTotalAmount}" property="document.travelPayment.checkTotalAmount" readOnly="${!fullEntry&&!checkAmountEntry}"/>
               </td>
               <th width="20%"  class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.dueDate}"/></div></th>
               <td width="30%"  class="datacell">

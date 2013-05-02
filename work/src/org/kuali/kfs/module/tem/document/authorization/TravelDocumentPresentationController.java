@@ -56,6 +56,8 @@ public class TravelDocumentPresentationController extends FinancialSystemTransac
         if (paramService.getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DISPLAY_EMERGENCY_CONTACT_IND)) {
             editModes.add(TemConstants.DISPLAY_EMERGENCY_CONTACT_TAB);
         }
+
+        editModes.add(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);
         return editModes;
     }
 

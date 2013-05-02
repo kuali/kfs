@@ -351,28 +351,9 @@ are intended for use only by Kuali Foundation developers.
 	</target>
 
 	<target name="remove-distribution-portions-of-build-file" depends="init-properties">
-		<groovy><![CDATA[
-			inputFile = new File( "${properties['all.temp.directory']}/kfs/build-foundation.xml" );
-			outputFile = new File( "${properties['all.temp.directory']}/kfs/build-foundation.tmp" );
-			skip = false
-
-			outputFile.withWriter { writer ->
-
-				inputFile.eachLine { line ->
-					if ( !skip && line =~ "REMOVE FROM DISTRIBUTION" ) {
-						println "Starting Exclusion: " + line
-						skip = true;
-					} else if ( skip && line =~ "END REMOVE FROM DISTRIBUTION" ) {
-						println "Ending Exclusion: " + line
-						skip = false;
-					} else {
-						if ( !skip ) {
-							writer.writeLine( line );
-						}
-					}
-				}
-			}
-		]]></groovy>
+		<groovy src="build/groovy/distribution.groovy"/>
+		<move file="${all.temp.directory}/kfs/build-foundation.tmp" 
+			tofile="${all.temp.directory}/kfs/build-foundation.xml"/>
 	</target>
 
 	<target name="replace-foundation-references" depends="init-additional-properties">

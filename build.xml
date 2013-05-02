@@ -1560,9 +1560,16 @@ Admin Password = $${impex.admin.password} (not shown)
 					file to override the defaults in the project.
 			    - save your changes
 
-			2. Run the refresh-db Ant target
+			2. Copy your JDBC driver(s) into the ${basedir.safe}/work/db/kfs-db/db-impex/drivers directory 
+				or set the drivers.directory property to a directory where you have your drivers.
+			
+			3. Run the refresh-db Ant target
 				This will use the information in your configuration files to
 				log into the database and install the tables.
+				- The default impex database setup which will be used is in ${basedir.safe}/build/properties/database.properties,
+					in particular the *impex* properties.
+				-- You can copy any properties from there to your kfs-build.properties file to override 
+					the defaults in the project.
 			
 			3. Run the dist-local Ant target
 				This reads the above configuration files and builds the "final"

@@ -21,6 +21,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
@@ -40,6 +41,11 @@ import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
+import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
+import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
+import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
+import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.kfs.sys.util.TransactionalServiceUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -209,4 +215,51 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
 
         return returnResult == null ? null : (Date)returnResult[0];
     }
+
+    /**
+     * @see org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao#getReimbursementDocumentsByHeaderStatus(java.lang.String, boolean)
+     */
+    @Override
+    public Collection<? extends TEMReimbursementDocument> getReimbursementDocumentsByHeaderStatus(String statusCode, boolean immediatesOnly) {
+        return getReimbursableDocumentsByHeaderStatus(TravelReimbursementDocument.class, statusCode, immediatesOnly);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao#getRelocationDocumentsByHeaderStatus(java.lang.String, boolean)
+     */
+    @Override
+    public Collection<? extends TEMReimbursementDocument> getRelocationDocumentsByHeaderStatus(String statusCode, boolean immediatesOnly) {
+        return getReimbursableDocumentsByHeaderStatus(TravelRelocationDocument.class, statusCode, immediatesOnly);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao#getEntertainmentDocumentsByHeaderStatus(java.lang.String, boolean)
+     */
+    @Override
+    public Collection<? extends TEMReimbursementDocument> getEntertainmentDocumentsByHeaderStatus(String statusCode, boolean immediatesOnly) {
+        return getReimbursableDocumentsByHeaderStatus(TravelEntertainmentDocument.class, statusCode, immediatesOnly);
+    }
+
+    /**
+     * Do a lookup of reimbursable documents of the given class with the given financial system document header status code and a payment method of "check" (ie, PDP will pay out)
+     * @param documentClazz the class of the document to look up
+     * @param statusCode the status code of the documents to look up
+     * @param immediatesOnly true if only those reimbursable documents
+     * @return a Collection of qualifying documents
+     */
+    protected Collection<? extends TEMReimbursementDocument> getReimbursableDocumentsByHeaderStatus(Class<? extends TEMReimbursementDocument> documentClazz, String statusCode, boolean immediatesOnly) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getReimbursableDocumentsByHeaderStatus() started");
+        }
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("documentHeader.financialDocumentStatusCode", statusCode);
+        criteria.addEqualTo("travelPayment.paymentMethodCode", KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK);
+        if (immediatesOnly) {
+            criteria.addEqualTo("travelPayment.immediatePaymentIndicator", Boolean.TRUE);
+        }
+
+        return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(documentClazz, criteria));
+    }
+
 }

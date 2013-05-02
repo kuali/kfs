@@ -21,7 +21,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -870,7 +869,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Checks the payee type code for customer type
      */
     public boolean isCustomer() {
-        return DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER.equals(getDisbursementVoucherPayeeTypeCode());
+        return KFSConstants.PaymentPayeeTypes.CUSTOMER.equals(getDisbursementVoucherPayeeTypeCode());
     }
 
     /**

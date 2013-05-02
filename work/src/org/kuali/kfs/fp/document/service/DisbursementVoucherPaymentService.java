@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.fp.document.service;
 
-import java.sql.Date;
-
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 
@@ -38,5 +36,5 @@ public interface DisbursementVoucherPaymentService {
      * @param processRunDate the date when the payment was processed
      * @return a PDP payment group to pay out the given DisbursementVoucher
      */
-    public abstract PaymentGroup createPaymentGroupForDisbursementVoucher(DisbursementVoucherDocument dv, Date processRunDate);
+    public abstract PaymentGroup createPaymentGroupForDisbursementVoucher(DisbursementVoucherDocument dv, java.sql.Date processRunDate);
 }

@@ -16021,8 +16021,6 @@
 		<column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
 		<column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
 		<column name="CHK_TOT_AMT" scale="2" size="19" type="DECIMAL"/>
-		<column name="CNTCT_PRSN_NM" size="123" type="VARCHAR"/>
-		<column name="CNTCT_PHN_NBR" size="20" type="VARCHAR"/>
 		<column name="DUE_DT" type="DATE"/>
 		<column name="ATTCH_IND" size="1" type="CHAR"/>
 		<column name="SPCL_HANDLG_IND" size="1" type="CHAR"/>
@@ -16034,12 +16032,6 @@
 		<column name="DOC_LOC_CD" size="2" type="VARCHAR"/>
 		<column name="PMT_MTHD_CD" size="1" type="VARCHAR"/>
 		<column name="ALIEN_PMT_IND" size="1" type="CHAR"/>
-		<column name="PAYEE_PRSN_NM" size="123" type="VARCHAR"/>
-		<column name="PAYEE_LN1_ADDR" size="45" type="VARCHAR"/>
-		<column name="PAYEE_LN2_ADDR" size="45" type="VARCHAR"/>
-		<column name="PAYEE_CTY_NM" size="37" type="VARCHAR"/>
-		<column name="PAYEE_ST_CD" size="2" type="VARCHAR"/>
-		<column name="PAYEE_ZIP_CD" size="20" type="VARCHAR"/>
 		<column name="RMT_PRSN_NM" size="123" type="VARCHAR"/>
 		<column name="RMT_LN1_ADDR" size="45" type="VARCHAR"/>
 		<column name="RMT_LN2_ADDR" size="45" type="VARCHAR"/>

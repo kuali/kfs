@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -35,16 +36,40 @@ public interface DisbursementVoucherConstants {
     public static final String DOCUMENT_TYPE_CODE = "DV";
 
     // Text limits
+    /**
+     * Deprecated, please use KFSConstants.MAX_NOTE_LINE_SIZE
+     */
+    @Deprecated
     public static final int MAX_NOTE_LINE_SIZE = 90;
 
     // payee types
+    /**
+     * Deprecated, please use KFSConstants.PaymentPayeeTypes.EMPLOYEE
+     */
+    @Deprecated
     public static final String DV_PAYEE_TYPE_EMPLOYEE = "E";
+    /**
+     * Deprecated, please use KFSConstants.PaymentPayeeTypes.VENDOR
+     */
+    @Deprecated
     public static final String DV_PAYEE_TYPE_VENDOR = "V";
+    /**
+     * Deprecated, please use KFSConstants.PaymentPayeeTypes.CUSTOMER
+     */
+    @Deprecated
     public static final String DV_PAYEE_TYPE_CUSTOMER = "C";
+    /**
+     * Deprecated, please use KFSConstants.PaymentPayeeTypes.SUBJECT_PAYMENT_VENDOR
+     */
+    @Deprecated
     public static final String DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR = "VSP";
+    /**
+     * Deprecated, please use KFSConstants.PaymentPayeeTypes.REVOLVING_FUND_VENDOR
+     */
+    @Deprecated
     public static final String DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR = "VRF";
 
-    public static final List<String> VENDOR_PAYEE_TYPE_CODES = Arrays.asList(DV_PAYEE_TYPE_VENDOR, DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR, DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR);
+    public static final List<String> VENDOR_PAYEE_TYPE_CODES = Arrays.asList(KFSConstants.PaymentPayeeTypes.VENDOR, KFSConstants.PaymentPayeeTypes.SUBJECT_PAYMENT_VENDOR, KFSConstants.PaymentPayeeTypes.REVOLVING_FUND_VENDOR);
 
     // document location
     public static final String NO_DOCUMENTATION_LOCATION = "N";
@@ -53,13 +78,20 @@ public interface DisbursementVoucherConstants {
     public static final String TAX_CONTROL_CODE_BEGIN_WITHHOLDING = "B";
     public static final String TAX_CONTROL_CODE_HOLD_PAYMENT = "H";
 
+    /**
+     * Use KFSConstants.DocumentStatusCodes instead of these
+     */
+    @Deprecated
     public static class DocumentStatusCodes {
         public static final String APPROVED = "A";
         public static final String EXTRACTED = "E";
     }
 
-
-     public static class DvPdpExtractGroup {
+    /**
+     * Please favor KFSParameterKeyConstants.PdpExtractBatchParameters instead of this
+     */
+    @Deprecated
+    public static class DvPdpExtractGroup {
         public static final String DV_PDP_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
         public static final String DV_PDP_SBUNT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
     }

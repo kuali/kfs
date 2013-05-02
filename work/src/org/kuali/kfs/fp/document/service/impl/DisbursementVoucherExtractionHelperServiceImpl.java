@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.WordUtils;
 import org.kuali.kfs.fp.batch.DvToPdpExtractStep;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
@@ -47,7 +46,6 @@ import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
@@ -68,6 +66,7 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
     static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherExtractionHelperServiceImpl.class);
 
     protected BusinessObjectService businessObjectService;
+    protected DocumentService documentService;
     protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     protected ParameterService parameterService;
     protected ParameterEvaluatorService parameterEvaluatorService;
@@ -112,7 +111,7 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
                 // set the financial document status to canceled
                 dv.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
                 // save the document
-                SpringContext.getBean(DocumentService.class).saveDocument(dv, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+                getDocumentService().saveDocument(dv, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
             }
             catch (WorkflowException we) {
                 LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: " + dv.getDocumentNumber() + " " + we);
@@ -157,7 +156,7 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
 
         Map<String, List<? extends PaymentSource>> documentsByCampus = new HashMap<String, List<? extends PaymentSource>>();
 
-        Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(DisbursementVoucherConstants.DocumentStatusCodes.APPROVED, false);
+        Collection<DisbursementVoucherDocument> docs = disbursementVoucherDao.getDocumentsByHeaderStatus(KFSConstants.DocumentStatusCodes.APPROVED, false);
         for (DisbursementVoucherDocument element : docs) {
             String dvdCampusCode = element.getCampusCode();
             if (StringUtils.isNotBlank(dvdCampusCode)) {
@@ -190,12 +189,12 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
         DisbursementVoucherPayeeDetail pd = document.getDvPayeeDetail();
         String rc = pd.getDisbVchrPaymentReasonCode();
 
-        if (DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER.equals(document.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode())) {
+        if (KFSConstants.PaymentPayeeTypes.CUSTOMER.equals(document.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode())) {
             pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.CUSTOMER);
             pg.setTaxablePayment(Boolean.FALSE);
         }
         // If the payee is an employee, set these flags accordingly
-        else if ((document.getDvPayeeDetail().isVendor() && SpringContext.getBean(VendorService.class).isVendorInstitutionEmployee(pd.getDisbVchrVendorHeaderIdNumberAsInteger())) || document.getDvPayeeDetail().isEmployee()) {
+        else if ((document.getDvPayeeDetail().isVendor() && getVendorService().isVendorInstitutionEmployee(pd.getDisbVchrVendorHeaderIdNumberAsInteger())) || document.getDvPayeeDetail().isEmployee()) {
             pg.setEmployeeIndicator(Boolean.TRUE);
             pg.setPayeeIdTypeCd(PdpConstants.PayeeIdTypeCodes.EMPLOYEE);
             pg.setTaxablePayment(
@@ -207,7 +206,7 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
         else {
 
             // These are taxable
-            VendorDetail vendDetail = SpringContext.getBean(VendorService.class).getVendorDetail(pd.getDisbVchrVendorHeaderIdNumberAsInteger(), pd.getDisbVchrVendorDetailAssignedIdNumberAsInteger());
+            VendorDetail vendDetail = getVendorService().getVendorDetail(pd.getDisbVchrVendorHeaderIdNumberAsInteger(), pd.getDisbVchrVendorDetailAssignedIdNumberAsInteger());
             String vendorOwnerCode = vendDetail.getVendorHeader().getVendorOwnershipCode();
             String vendorOwnerCategoryCode = vendDetail.getVendorHeader().getVendorOwnershipCategoryCode();
             String payReasonCode = pd.getDisbVchrPaymentReasonCode();
@@ -226,7 +225,7 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
             }
             else if (getParameterService().getParameterValueAsString(DvToPdpExtractStep.class, PdpParameterConstants.CORPORATION_OWNERSHIP_TYPE_PARAMETER_NAME).equals("CP") &&
                       StringUtils.isEmpty(vendorOwnerCategoryCode) &&
-                      /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DvToPdpExtractStep.class, PdpParameterConstants.TAXABLE_PAYMENT_REASON_CODES_FOR_BLANK_CORPORATION_OWNERSHIP_TYPE_CATEGORIES_PARAMETER_NAME, payReasonCode).evaluationSucceeds()) {
+                      /*REFACTORME*/getParameterEvaluatorService().getParameterEvaluator(DvToPdpExtractStep.class, PdpParameterConstants.TAXABLE_PAYMENT_REASON_CODES_FOR_BLANK_CORPORATION_OWNERSHIP_TYPE_CATEGORIES_PARAMETER_NAME, payReasonCode).evaluationSucceeds()) {
                 pg.setTaxablePayment(Boolean.TRUE);
             }
             else if (getParameterService().getParameterValueAsString(DvToPdpExtractStep.class, PdpParameterConstants.CORPORATION_OWNERSHIP_TYPE_PARAMETER_NAME).equals("CP")
@@ -245,9 +244,7 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
         pg.setState(pd.getDisbVchrPayeeStateCode());
         pg.setZipCd(pd.getDisbVchrPayeeZipCode());
         pg.setPaymentDate(document.getDisbursementVoucherDueDate());
-
-        // It doesn't look like the DV has a way to do immediate processes
-        pg.setProcessImmediate(Boolean.FALSE);
+        pg.setProcessImmediate(document.isImmediatePaymentIndicator());
         pg.setPymtAttachment(document.isDisbVchrAttachmentCode());
         pg.setPymtSpecialHandling(document.isDisbVchrSpecialHandlingCode());
         pg.setNraPayment(pd.isDisbVchrAlienPaymentCode());
@@ -469,54 +466,14 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
         }
 
         // Get the original, raw form, note text from the DV document.
-        String text = document.getDisbVchrCheckStubText();
-        if (text != null && text.length() > 0) {
-
-            // The WordUtils should be sufficient for the majority of cases.  This method will
-            // word wrap the whole string based on the MAX_NOTE_LINE_SIZE, separating each wrapped
-            // word by a newline character.  The 'wrap' method adds line feeds to the end causing
-            // the character length to exceed the max length by 1, hence the need for the replace
-            // method before splitting.
-            String   wrappedText = WordUtils.wrap(text, DisbursementVoucherConstants.MAX_NOTE_LINE_SIZE);
-            String[] noteLines   = wrappedText.replaceAll("[\r]", "").split("\\n");
-
-            // Loop through all the note lines.
-            for (String noteLine : noteLines) {
-                if (line < (maxNoteLines - 3) && !StringUtils.isEmpty(noteLine)) {
-
-                    // This should only happen if we encounter a word that is greater than the max length.
-                    // The only concern I have for this occurring is with URLs/email addresses.
-                    if (noteLine.length() > DisbursementVoucherConstants.MAX_NOTE_LINE_SIZE) {
-                        for (String choppedWord : getPaymentSourceExtractionService().chopWord(noteLine, DisbursementVoucherConstants.MAX_NOTE_LINE_SIZE)) {
-
-                            // Make sure we're still under the maximum number of note lines.
-                            if (line < (maxNoteLines - 3) && !StringUtils.isEmpty(choppedWord)) {
-                                pnt = new PaymentNoteText();
-                                pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
-                                pnt.setCustomerNoteText(choppedWord.replaceAll("\\n", "").trim());
-                            }
-                            // We can't add any additional note lines, or we'll exceed the maximum, therefore
-                            // just break out of the loop early - there's nothing left to do.
-                            else {
-                                break;
-                            }
-                        }
-                    }
-                    // This should be the most common case.  Simply create a new PaymentNoteText,
-                    // add the line at the correct line location.
-                    else {
-                        pnt = new PaymentNoteText();
-                        pnt.setCustomerNoteLineNbr(new KualiInteger(line++));
-                        pnt.setCustomerNoteText(noteLine.replaceAll("\\n", "").trim());
-                    }
-
-                    // Logging...
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Creating check stub text note: " + pnt.getCustomerNoteText());
-                    }
-                    pd.addNote(pnt);
-                }
+        final String text = document.getDisbVchrCheckStubText();
+        if (!StringUtils.isBlank(text)) {
+            pnt = this.getPaymentSourceExtractionService().buildNoteForCheckStubText(text, line);
+            // Logging...
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Creating check stub text note: " + pnt.getCustomerNoteText());
             }
+            pd.addNote(pnt);
         }
 
         return pd;
@@ -619,6 +576,21 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
      */
     public void setPaymentSourceExtractionService(PaymentSourceExtractionService paymentSourceExtractionService) {
         this.paymentSourceExtractionService = paymentSourceExtractionService;
+    }
+
+    /**
+     * @return an implementation of the DocumentService
+     */
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    /**
+     * Sets the implementation of the DocumentService for this service to use
+     * @param parameterService an implementation of DocumentService
+     */
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 
 }

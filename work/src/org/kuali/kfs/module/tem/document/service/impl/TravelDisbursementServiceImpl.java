@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.DisburseType;
@@ -113,11 +112,11 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
 
         //if traveler has is an employee data, default to use DV Payee Employee type and employee Id, otherwise use Customer type and customer number
         if (travelerService.isEmployee(document.getTraveler())){
-            disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE);
+            disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(KFSConstants.PaymentPayeeTypes.EMPLOYEE);
             document.setProfileId(document.getTemProfileId());
             disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeIdNumber(document.getTemProfile().getEmployeeId());
         }else{
-            disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER);
+            disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(KFSConstants.PaymentPayeeTypes.CUSTOMER);
             disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeIdNumber(document.getTraveler().getCustomerNumber());
         }
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeePersonName(document.getTraveler().getFirstName() + " " + document.getTraveler().getLastName());
@@ -208,7 +207,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
         }
         setDVDocNextDueDay(disbursementVoucherDocument);
 
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
+        disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(KFSConstants.PaymentPayeeTypes.VENDOR);
         disbursementVoucherDocument.getDocumentHeader().setDocumentDescription(document.getDocumentHeader().getDocumentDescription());
         disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(document.getTravelDocumentIdentifier());
 

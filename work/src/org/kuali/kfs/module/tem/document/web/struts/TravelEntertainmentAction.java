@@ -50,6 +50,7 @@ import org.kuali.kfs.module.tem.report.service.TravelEntertainmentHostCertificat
 import org.kuali.kfs.module.tem.report.util.BarcodeHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -207,6 +208,14 @@ public class TravelEntertainmentAction extends TravelActionBase {
         request.setAttribute(SHOW_REPORTS_ATTRIBUTE, !document.getDocumentHeader().getWorkflowDocument().isInitiated());
 
         entForm.setCanPrintHostCertification(document.canShowHostCertification());
+
+        final KualiDecimal reimbursableTotal = document.getReimbursableTotal();
+        if (reimbursableTotal != null && !ObjectUtils.isNull(document.getTravelPayment())) {
+            document.getTravelPayment().setCheckTotalAmount(reimbursableTotal);
+        }
+
+        // just turn on edit payment info for now
+        entForm.setCanOpenPaymentInformation(true);
 
         return retval;
     }

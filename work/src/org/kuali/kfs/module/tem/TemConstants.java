@@ -204,7 +204,7 @@ public class TemConstants {
         public static final String DISPLAY_EMERGENCY_CONTACT_IND = "DISPLAY_EMERGENCY_CONTACT_IND";
         public static final String CUSTOMER_TYPE_CODE = "CUSTOMER_TYPE_CODE";
 
-        public static final String GENERATE_INVOICE_FOR_TRAVEL_ADVANCE_IND = "GENERATE_INVOICE_FOR_TRAVEL_ADVANCE_IND";
+        public static final String GENERATE_INVOICE_FOR_TRAVEL_ADVANCE_IND = "GENERATE_INVOICE_INV_FOR_TRAVL_ADVANCE_IND";
         public static final String FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE = "FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE";
         public static final String DUE_DATE_DAYS = "DUE_DATE_DAYS";
         public static final String TRAVEL_ADVANCE_INVOICE_ITEM_CODE = "TRAVEL_ADVANCE_INVOICE_ITEM_CODE";

@@ -9,8 +9,6 @@
 		<property name="attributes">
 		<list>
 			<ref bean="TravelPayment-checkTotalAmount" />
-			<ref bean="TravelPayment-contactPersonName" />
-			<ref bean="TravelPayment-contactPhoneNumber" />
 			<ref bean="TravelPayment-attachmentCode" />
 			<ref bean="TravelPayment-specialHandlingCode" />
 			<ref bean="TravelPayment-checkStubText" />
@@ -22,12 +20,6 @@
 			<ref bean="TravelPayment-paidDate" />
 			<ref bean="TravelPayment-cancelDate" />
 			<ref bean="TravelPayment-alienPaymentCode" />
-			<ref bean="TravelPayment-payeeLine1Addr" />
-			<ref bean="TravelPayment-payeeLine2Addr" />
-			<ref bean="TravelPayment-payeeCityName" />
-			<ref bean="TravelPayment-payeeStateCode" />
-			<ref bean="TravelPayment-payeeZipCode" />
-			<ref bean="TravelPayment-payeeCountryCode" />
 			<ref bean="TravelPayment-specialHandlingPersonName" />
 			<ref bean="TravelPayment-specialHandlingLine1Addr" />
 			<ref bean="TravelPayment-specialHandlingLine2Addr" />
@@ -56,24 +48,6 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="8"/>
 		</property>
-	</bean>
-	
-	<bean id="TravelPayment-contactPersonName" parent="TravelPayment-contactPersonName-parentBean"/>
-	<bean id="TravelPayment-contactPersonName-parentBean" abstract="true" parent="PersonImpl-name">
-		<property name="name" value="contactPersonName"/>
-		<property name="label" value="Contact Name"/>
-		<property name="shortLabel" value="Cont. Nm"/>
-		<property name="required" value="true"/>
-		<property name="forceUppercase" value="false"/>
-		<property name="control">
-			<ref bean="StandardNameTextControl" />
-		</property>
-	</bean>
-
-	<bean id="TravelPayment-contactPhoneNumber" parent="TravelPayment-contactPhoneNumber-parentBean"/>
-	<bean id="TravelPayment-contactPhoneNumber-parentBean" abstract="true" parent="GenericAttributes-phoneNumberWithValidation">
-		<property name="name" value="contactPhoneNumber"/>
-		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="TravelPayment-attachmentCode" parent="TravelPayment-attachmentCode-parentBean"/>
@@ -205,49 +179,6 @@
 	<bean id="TravelPayment-alienPaymentCode-parentBean" abstract="true" parent="VendorHeader-vendorForeignIndicator">
 		<property name="name" value="alienPaymentCode"/>
 		<property name="label" value="Is this a foreign payee"/>
-	</bean>
-	
-	<bean id="TravelPayment-payeeLine1Addr" parent="TravelPayment-payeeLine1Addr-parentBean"/>
-	<bean id="TravelPayment-payeeLine1Addr-parentBean" abstract="true" parent="VendorAddress-vendorLine1Address">
-		<property name="name" value="payeeLine1Addr"/>
-		<property name="maxLength" value="40"/>
-		<property name="control">
-			<ref bean="StandardNameTextControl" />
-		</property>
-	</bean>
-	
-	<bean id="TravelPayment-payeeLine2Addr" parent="TravelPayment-payeeLine2Addr-parentBean"/>
-	<bean id="TravelPayment-payeeLine2Addr-parentBean" abstract="true" parent="VendorAddress-vendorLine2Address">
-		<property name="name" value="payeeLine2Addr"/>
-		<property name="maxLength" value="40"/>
-		<property name="control">
-			<ref bean="StandardNameTextControl" />
-		</property>
-	</bean>
-	
-	<bean id="TravelPayment-payeeCityName" parent="TravelPayment-payeeCityName-parentBean"/>
-	<bean id="TravelPayment-payeeCityName-parentBean" abstract="true" parent="VendorAddress-vendorCityName">
-		<property name="name" value="payeeCityName"/>
-		<property name="required" value="true"/>
-	</bean>
-	
-	<bean id="TravelPayment-payeeStateCode" parent="TravelPayment-payeeStateCode-parentBean"/>
-	<bean id="TravelPayment-payeeStateCode-parentBean" abstract="true" parent="VendorAddress-vendorStateCode">
-		<property name="name" value="payeeStateCode"/>
-		<property name="forceUppercase" value="true"/>
-		<property name="required" value="false"/>
-	</bean>
-	
-	<bean id="TravelPayment-payeeZipCode" parent="TravelPayment-payeeZipCode-parentBean"/>
-	<bean id="TravelPayment-payeeZipCode-parentBean" abstract="true" parent="VendorAddress-vendorZipCode">
-		<property name="name" value="payeeZipCode"/>
-		<property name="required" value="false"/>
-	</bean>
-	
-	<bean id="TravelPayment-payeeCountryCode" parent="TravelPayment-payeeCountryCode-parentBean"/>
-	<bean id="TravelPayment-payeeCountryCode-parentBean" abstract="true" parent="VendorAddress-vendorCountryCode">
-		<property name="name" value="payeeCountryCode"/>
-		<property name="required" value="false"/>
 	</bean>
 	
 	<bean id="TravelPayment-specialHandlingPersonName" parent="TravelPayment-specialHandlingPersonName-parentBean"/>

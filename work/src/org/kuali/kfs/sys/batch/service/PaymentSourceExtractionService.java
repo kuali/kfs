@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.batch.service;
 
+import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
 import org.kuali.kfs.sys.document.PaymentSource;
 
 /**
@@ -62,10 +63,10 @@ public interface PaymentSourceExtractionService {
     public abstract void extractSingleImmediatePayment(PaymentSource paymentSource);
 
     /**
-     * Utility method to chop words up in payment methods
-     * @param word the String to chop up
-     * @param limit the length of the line
-     * @return the chopped up String
+     * Builds a note for the check stub text, wrapping words appropriately
+     * @param checkStubText the text for the check note
+     * @param previousLineCount the number of lines already on this document
+     * @return a PDP PaymentNoteText with the check stub text well-formatted
      */
-    public abstract String[] chopWord(String word, int limit);
+    public abstract PaymentNoteText buildNoteForCheckStubText(String checkStubText, int previousLineCount);
 }

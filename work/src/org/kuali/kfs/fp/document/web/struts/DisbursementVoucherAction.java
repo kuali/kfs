@@ -699,7 +699,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         if (person != null) {
             ((DisbursementVoucherDocument) dvForm.getDocument()).templateEmployee(person);
             dvForm.setTempPayeeIdNumber(payeeIdNumber);
-            dvForm.setOldPayeeType(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE);
+            dvForm.setOldPayeeType(KFSConstants.PaymentPayeeTypes.EMPLOYEE);
 
         }
         else {
@@ -721,7 +721,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
                 vendorAddress.setVendorAddressGeneratedIdentifier(new Integer(payeeAddressIdentifier));
                 vendorAddress = (VendorAddress) SpringContext.getBean(BusinessObjectService.class).retrieve(vendorAddress);
                 dvForm.setTempPayeeIdNumber(payeeIdNumber);
-                dvForm.setOldPayeeType(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
+                dvForm.setOldPayeeType(KFSConstants.PaymentPayeeTypes.VENDOR);
 
             }
             catch (Exception e) {
@@ -781,7 +781,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         }
 
         dvForm.setTempPayeeIdNumber(payeeIdNumber);
-        dvForm.setOldPayeeType(DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER);
+        dvForm.setOldPayeeType(KFSConstants.PaymentPayeeTypes.CUSTOMER);
 
         ((DisbursementVoucherDocument) dvForm.getDocument()).templateCustomer(customer, customerAddress);
     }

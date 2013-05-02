@@ -489,6 +489,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      *
      * @return Returns the campusCode
      */
+    @Override
     public String getCampusCode() {
         return campusCode;
     }
@@ -980,7 +981,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             return;
         }
 
-        this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
+        this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(KFSConstants.PaymentPayeeTypes.VENDOR);
         this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(vendor.getVendorNumber());
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(vendor.getVendorName());
 
@@ -1045,7 +1046,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             return;
         }
 
-        this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE);
+        this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(KFSConstants.PaymentPayeeTypes.EMPLOYEE);
         this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(employee.getEmployeeId());
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(employee.getName());
 
@@ -1121,7 +1122,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             return;
         }
 
-        this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER);
+        this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(KFSConstants.PaymentPayeeTypes.CUSTOMER);
         this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(customer.getCustomerNumber());
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(customer.getCustomerName());
         this.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
@@ -1892,7 +1893,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @return true if the payee is a purchase order vendor and therefore should receive vendor review, false otherwise
      */
     protected boolean isPayeePurchaseOrderVendor() {
-        if (!this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR)) {
+        if (!this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(KFSConstants.PaymentPayeeTypes.VENDOR)) {
             return false;
         }
 
@@ -1918,15 +1919,15 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         }
 
         String payeeTypeCode = this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode();
-        if (payeeTypeCode.equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE)) {
+        if (payeeTypeCode.equals(KFSConstants.PaymentPayeeTypes.EMPLOYEE)) {
             return false;
-        } else if (payeeTypeCode.equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR)) {
+        } else if (payeeTypeCode.equals(KFSConstants.PaymentPayeeTypes.VENDOR)) {
             if(vendorService.isVendorInstitutionEmployee(this.getDvPayeeDetail().getDisbVchrVendorHeaderIdNumberAsInteger())){
                 return true;
             }
         }
 
-        if (payeeTypeCode.equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR) && this.getVendorService().isVendorForeign(getDvPayeeDetail().getDisbVchrVendorHeaderIdNumberAsInteger())) {
+        if (payeeTypeCode.equals(KFSConstants.PaymentPayeeTypes.VENDOR) && this.getVendorService().isVendorForeign(getDvPayeeDetail().getDisbVchrVendorHeaderIdNumberAsInteger())) {
             return true;
         }
 
@@ -1955,7 +1956,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      * @return true if the payee is a vendor and has withholding dates therefore should receive tax review, false otherwise
      */
     protected boolean isPayeePurchaseOrderVendorHasWithholding() {
-        if (!this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR)) {
+        if (!this.getDvPayeeDetail().getDisbursementVoucherPayeeTypeCode().equals(KFSConstants.PaymentPayeeTypes.VENDOR)) {
             return false;
         }
 

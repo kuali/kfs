@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.sys.KFSConstants;
@@ -161,7 +160,7 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements Mu
         disbursementPayee.setPayeeName(person.getName());
         disbursementPayee.setTaxNumber(KFSConstants.BLANK_SPACE);
 
-        disbursementPayee.setPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE);
+        disbursementPayee.setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.EMPLOYEE);
 
         String personAddress = MessageFormat.format(addressPattern, person.getAddressLine1(), person.getAddressCity(), person.getAddressStateProvinceCode(), person.getAddressCountryCode());
         disbursementPayee.setAddress(personAddress);
@@ -184,7 +183,7 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements Mu
         disbursementPayee.setPayeeName(customer.getCustomerName());
         disbursementPayee.setTaxNumber(customer.getCustomerTaxNbr());
 
-        disbursementPayee.setPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER);
+        disbursementPayee.setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.CUSTOMER);
 
         String vendorAddress = MessageFormat.format(addressPattern, customer.getPrimaryAddress().getCustomerLine1StreetAddress(),
                 customer.getPrimaryAddress().getCustomerCityName(), customer.getPrimaryAddress().getCustomerStateCode(), customer.getPrimaryAddress().getCustomerCountryCode());
@@ -467,10 +466,10 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements Mu
     private static Map<String, String> getVendorPayeeTypeCodeMapping() {
         Map<String, String> payeeVendorTypeCodeMapping = new HashMap<String, String>();
 
-        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.PURCHASE_ORDER, DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
-        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.DISBURSEMENT_VOUCHER, DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
-        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.REVOLVING_FUND, DisbursementVoucherConstants.DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR);
-        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.SUBJECT_PAYMENT, DisbursementVoucherConstants.DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR);
+        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.PURCHASE_ORDER, KFSConstants.PaymentPayeeTypes.VENDOR);
+        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.DISBURSEMENT_VOUCHER, KFSConstants.PaymentPayeeTypes.VENDOR);
+        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.REVOLVING_FUND, KFSConstants.PaymentPayeeTypes.REVOLVING_FUND_VENDOR);
+        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.SUBJECT_PAYMENT, KFSConstants.PaymentPayeeTypes.SUBJECT_PAYMENT_VENDOR);
 
         return payeeVendorTypeCodeMapping;
     }

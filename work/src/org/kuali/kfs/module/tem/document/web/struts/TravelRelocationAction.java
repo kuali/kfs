@@ -169,6 +169,11 @@ public class TravelRelocationAction extends TravelActionBase {
 
         request.setAttribute(SHOW_REPORTS_ATTRIBUTE, !document.getDocumentHeader().getWorkflowDocument().isInitiated());
 
+        final KualiDecimal reimbursableTotal = document.getReimbursableTotal();
+        if (reimbursableTotal != null && !ObjectUtils.isNull(document.getTravelPayment())) {
+            document.getTravelPayment().setCheckTotalAmount(reimbursableTotal);
+        }
+
         return retval;
     }
 
@@ -183,6 +188,9 @@ public class TravelRelocationAction extends TravelActionBase {
     protected void setButtonPermissions(TravelRelocationForm form) {
         final TravelRelocationAuthorizer authorizer = getDocumentAuthorizer(form);
         form.setCanCertify(authorizer.canCertify(form.getTravelRelocationDocument(), GlobalVariables.getUserSession().getPerson()));
+
+        // just turn on edit payment info for now
+        form.setCanOpenPaymentInformation(true);
     }
 
     protected void setTaxSelectable(final TravelRelocationForm form) {

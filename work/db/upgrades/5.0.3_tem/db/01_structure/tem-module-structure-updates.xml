@@ -1075,6 +1075,36 @@
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 		</createTable>
+		<createTable tableName="TEM_TRVL_PMT_T">
+			<column name="FDOC_NBR" type="VARCHAR2(14)"/>
+			<column name="OBJ_ID" required="true" type="VARCHAR2(36)"/>
+			<column name="VER_NBR" required="true" type="DECIMAL(8,0)" defaultValueNumeric="1"/>
+			<column name="CHK_TOT_AMT" type="DECIMAL(19,2)"/>
+			<column name="DUE_DT" type="DATE"/>
+			<column name="ATTCH_IND" type="CHAR(1)" defaultValue="N"/>
+			<column name="SPCL_HANDLG_IND" type="CHAR(1)" defaultValue="N"/>
+			<column name="CHK_STUB_TXT" type="VARCHAR2(1400)"/>
+			<column name="IMD_PMT_IND" type="VARCHAR2(1)" defaultValue="N"/>
+			<column name="EXTRT_DT" type="DATE"/>
+			<column name="PAID_DT" type="DATE"/>
+			<column name="CNCL_DT" type="DATE"/>
+			<column name="DOC_LOC_CD" type="VARCHAR2(2)"/>
+			<column name="PMT_MTHD_CD" type="VARCHAR2(1)"/>
+			<column name="ALIEN_PMT_IND" type="CHAR(1)" defaultValue="N"/>
+			<column name="RMT_PRSN_NM" type="VARCHAR2(123)"/>
+			<column name="RMT_LN1_ADDR" type="VARCHAR2(45)"/>
+			<column name="RMT_LN2_ADDR" type="VARCHAR2(45)"/>
+			<column name="RMT_CTY_NM" type="VARCHAR2(37)"/>
+			<column name="RMT_ST_CD" type="VARCHAR2(2)"/>
+			<column name="RMT_ZIP_CD" type="VARCHAR2(20)"/>
+			<column name="W9_CMPLT_IND" type="CHAR(1)" defaultValue="N"/>
+			<column name="PAYEE_TYP_CD" type="VARCHAR2(1)"/>
+			<column default="N" name="EXCPT_IND" required="true" type="VARCHAR2(1)"/>
+			<foreign-key foreignTable="FS_PMT_DOC_LOC_T" name="TEM_TRVL_PMT_TR1">
+				<reference foreign="PMT_DOC_LOC_CD" local="DOC_LOC_CD"/>
+			</foreign-key>
+		</table>
+		<addPrimaryKey tableName="TEM_TRVL_PMT_T" constraintName="TEM_TRVL_PMT_TP1" columnNames="FDOC_NBR" />
 		<createSequence sequenceName="TEM_ACCT_DOC_REL_ID_SEQ"
 			startValue="1" />
 		<createSequence sequenceName="TEM_ACCT_LINES_ID_SEQ"

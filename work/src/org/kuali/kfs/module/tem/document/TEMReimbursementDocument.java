@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.document;
 
 import static org.kuali.kfs.module.tem.TemConstants.DISBURSEMENT_VOUCHER_DOCTYPE;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,6 +36,8 @@ import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelPayment;
+import org.kuali.kfs.module.tem.document.service.ReimbursableDocumentPaymentService;
+import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -42,17 +45,23 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.springframework.beans.BeanUtils;
 
-public abstract class TEMReimbursementDocument extends TravelDocumentBase {
+public abstract class TEMReimbursementDocument extends TravelDocumentBase implements PaymentSource {
 
     private String paymentMethod = DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE;
     private TravelPayment travelPayment;
     private PaymentSourceWireTransfer wireTransfer;
+    private volatile transient Person initiator;
+
+    protected static transient volatile ReimbursableDocumentPaymentService reimbursableDocumentPaymentService;
 
     @Column(name = "PAYMENT_METHOD", nullable = true, length = 15)
     public String getPaymentMethod() {
@@ -81,6 +90,7 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
     /**
      * @return the wire transfer associated with this document
      */
+    @Override
     public PaymentSourceWireTransfer getWireTransfer() {
         return wireTransfer;
     }
@@ -119,6 +129,10 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
         // initiate payment and wire transfer
         this.travelPayment = new TravelPayment();
         this.wireTransfer = new PaymentSourceWireTransfer();
+        // set due date to the next day
+        calendar = getDateTimeService().getCurrentCalendar();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        travelPayment.setDueDate(new java.sql.Date(calendar.getTimeInMillis()));
     }
 
     /**
@@ -306,4 +320,113 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
     public String getExpenseTypeCode() {
         return TemConstants.ACTUAL_EXPENSE;
     }
+
+    /**
+     * Defers to the ReimbursableDocumentExtractionHelperServiceImpl to generate a PaymentGroup
+     * @see org.kuali.kfs.sys.document.PaymentSource#generatePaymentGroup(java.sql.Date)
+     */
+    @Override
+    public PaymentGroup generatePaymentGroup(Date processRunDate) {
+        return getReimbursableDocumentPaymentService().createPaymentGroupForReimbursable(this, processRunDate);
+    }
+
+    /**
+     * Sets the extracted date on the TravelPayment
+     * @see org.kuali.kfs.sys.document.PaymentSource#markAsExtracted(java.sql.Date)
+     */
+    @Override
+    public void markAsExtracted(Date extractionDate) {
+        getTravelPayment().setExtractDate(extractionDate);
+    }
+
+    /**
+     * Sets the canceled date on the TravelPayment
+     * @see org.kuali.kfs.sys.document.PaymentSource#markAsPaid(java.sql.Date)
+     */
+    @Override
+    public void markAsPaid(Date processDate) {
+        getTravelPayment().setPaidDate(processDate);
+    }
+
+    /**
+     * Defers to the ReimbursableDocumentExtractionHelperServiceImpl to cancel the document
+     * @see org.kuali.kfs.sys.document.PaymentSource#cancelPayment(java.sql.Date)
+     */
+    @Override
+    public void cancelPayment(Date cancelDate) {
+        getReimbursableDocumentPaymentService().cancelReimbursableDocument(this, cancelDate);
+    }
+
+    /**
+     * Resets the extraction date and paid date to null; resets the document's financial status code to approved
+     * @see org.kuali.kfs.sys.document.PaymentSource#resetFromExtraction()
+     */
+    @Override
+    public void resetFromExtraction() {
+        getTravelPayment().setExtractDate(null);
+        // reset the status to APPROVED so DV will be extracted to PDP again
+        getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
+        getTravelPayment().setPaidDate(null);
+    }
+
+    /**
+     * @return the date when the reimbursement payment was canceled
+     */
+    @Override
+    public Date getCancelDate() {
+        return getTravelPayment().getCancelDate();
+    }
+
+    /**
+     * @return the value of the travelPayment's attachmentCode
+     */
+    @Override
+    public boolean hasAttachment() {
+        return getTravelPayment().isAttachmentCode();
+    }
+
+    /**
+     * @return the payment method code from the travelPayment
+     */
+    @Override
+    public String getPaymentMethodCode() {
+        return getTravelPayment().getPaymentMethodCode();
+    }
+
+    @Override
+    public KualiDecimal getPaymentAmount() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * Returns the campus code of the initiator
+     * @see org.kuali.kfs.sys.document.PaymentSource#getCampusCode()
+     */
+    @Override
+    public String getCampusCode() {
+        return getInitiator().getCampusCode();
+    }
+
+    /**
+     * Caches and returns the Person record of the initiator of this document
+     * @return a Person record for the initiator of this document
+     */
+    protected Person getInitiator() {
+        if (initiator == null) {
+            initiator = SpringContext.getBean(PersonService.class).getPerson(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        }
+        return initiator;
+    }
+
+    /**
+     * @return the default implementation of the ReimbursableDocumentPaymentService
+     */
+    public static ReimbursableDocumentPaymentService getReimbursableDocumentPaymentService() {
+        if (reimbursableDocumentPaymentService == null) {
+            reimbursableDocumentPaymentService = SpringContext.getBean(ReimbursableDocumentPaymentService.class);
+        }
+        return reimbursableDocumentPaymentService;
+    }
+
 }

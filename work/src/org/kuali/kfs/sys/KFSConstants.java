@@ -601,6 +601,10 @@ public class KFSConstants {
 
             // when the CMDoc is finalized, the CRs of its Deposits change to status "approved"
         }
+
+        public static class Payments {
+            public static final String EXTRACTED = "E";
+        }
     }
 
     public static class AuxiliaryVoucher {
@@ -1399,4 +1403,13 @@ public class KFSConstants {
         public static String PAYMENT_METHOD_DRAFT = "F";
     }
 
+    public static final int MAX_NOTE_LINE_SIZE = 90;
+
+    public static class PaymentPayeeTypes {
+        public static final String EMPLOYEE = "E";
+        public static final String VENDOR = "V";
+        public static final String CUSTOMER = "C";
+        public static final String SUBJECT_PAYMENT_VENDOR = "VSP";
+        public static final String REVOLVING_FUND_VENDOR = "VRF";
+    }
 }

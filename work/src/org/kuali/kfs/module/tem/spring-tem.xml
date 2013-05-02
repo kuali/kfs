@@ -1347,6 +1347,15 @@
 			<ref bean="temProfileAccountLookupHelperService" />
 		</property>
 	</bean>
+	
+	<bean id="temReimbursableDocumentExtractionHelperService" class="org.kuali.kfs.module.tem.document.service.impl.ReimbursableDocumentExtractionHelperServiceImpl">
+		<property name="documentService" ref="documentService"/>
+		<property name="travelerService" ref="travelerService"/>
+		<property name="paymentSourceExtractionService" ref="paymentSourceExtractService"/>
+		<property name="personService" ref="personService"/>
+		<property name="workflowDocumentService" ref="workflowDocumentService"/>
+		<property name="travelDocumentDao" ref="travelDocumentDao"/>
+	</bean>
 
     <import resource="spring-tem-bus-exports.xml"/>
 	

@@ -21,66 +21,7 @@
 <kul:tab tabTitle="Payment Information" defaultOpen="true" tabErrorKey="${KFSConstants.DV_PAYMENT_TAB_ERRORS},document.disbVchrPaymentMethodCode,${KFSConstants.DV_PAYEE_TAB_ERRORS},document.dvPayeeDetail.disbursementVoucherPayeeTypeCode">
     <div class="tab-container" align=center > 
         <h3>Payment Information</h3>
-		<table cellpadding=0 class="datatable" summary="Payment Section">			            
-            
-			<%--
-            <tr>
-              <th class="bord-l-b">
-              	<div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.disbVchrPayeeLine1Addr}"/></div>
-              </th>
-              <td class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.disbVchrPayeeLine1Addr}" property="document.travelPayment.payeeLine1Addr" readOnly="${!fullEntryMode && !payeeEntryMode}"/>  
-              </td>
-              
-              <th class="bord-l-b">
-              	<div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.disbVchrPayeeLine2Addr}"/></div>
-              </th>
-              <td class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.disbVchrPayeeLine2Addr}" property="document.travelPayment.payeeLine2Addr" readOnly="${!fullEntryMode && !payeeEntryMode}"/>  
-              </td>
-            </tr>
-            
-            <tr>
-			  <th class="bord-l-b">
-			  	<div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.disbVchrPayeeCityName}"/></div>
-              </th>
-              <td class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.disbVchrPayeeCityName}" property="document.travelPayment.payeeCityName" readOnly="${!fullEntryMode && !payeeEntryMode}"/>
-              </td> 
-                           
-			  <th class="bord-l-b">
-			  	<div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.disbVchrPayeeStateCode}"/></div>
-              </th>
-              <td class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.disbVchrPayeeStateCode}" property="document.travelPayment.payeeStateCode" readOnly="${!fullEntryMode && !payeeEntryMode}"/>
-                <c:if test="${fullEntryMode || payeeEntryMode}">
-              		<kul:lookup boClassName="org.kuali.rice.location.framework.state.StateEbo" fieldConversions="countryCode:document.travelPayment.payeeCountryCode,code:document.travelPayment.payeeStateCode" 
-              		lookupParameters="document.travelPayment.payeeCountryCode:countryCode" />
-              	</c:if>
-              </td>
-            </tr>            
-            
-            <tr>
-              <th class="bord-l-b">
-              	<div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.disbVchrPayeeCountryCode}"/></div>
-              </th>
-              <td class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.disbVchrPayeeCountryCode}" property="document.travelPayment.payeeCountryCode" readOnly="${!fullEntryMode && !payeeEntryMode}"/>  
-              </td>
-                          
-              <th class="bord-l-b">
-              	<div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.disbVchrPayeeZipCode}"/></div>            	
-              </th>
-              <td class="datacell">	 
-                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.disbVchrPayeeZipCode}" property="document.travelPayment.payeeZipCode" readOnly="${!fullEntryMode && !payeeEntryMode}"/>
-                <c:if test="${fullEntryMode || payeeEntryMode}">
-              		<kul:lookup boClassName="org.kuali.rice.location.framework.postalcode.PostalCodeEbo" fieldConversions="code:document.travelPayment.payeeZipCode,countryCode:document.travelPayment.payeeCountryCode,stateCode:document.travelPayment.payeeStateCode,cityName:document.travelPayment.payeeCityName" 
-              		lookupParameters="document.travelPayment.payeeCountryCode:countryCode,document.travelPayment.payeeZipCode:code,document.travelPayment.payeeStateCode:stateCode,document.travelPayment.payeeCityName:cityName" />
-              	</c:if>
-              </td>              
-            </tr>
-			--%>
-            
+		<table cellpadding=0 class="datatable" summary="Payment Section">
             <tr>
               <th width="20%"  class="bord-l-b">
               	<div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.checkTotalAmount}"/></div>

@@ -22,7 +22,7 @@
 
 <c:if test="${KualiForm.openPaymentInformationWindow}">
 	<script type="text/javascript">
-		window.open("${ConfigProperties.application.url}/${KualiForm.travelPaymentFormAction}.do?methodToCall=paymentInformationOpen");
+		window.open("${ConfigProperties.application.url}/${KualiForm.travelPaymentFormAction}.do?methodToCall=paymentInformationStart","_blank");
 	</script>
 </c:if>
 

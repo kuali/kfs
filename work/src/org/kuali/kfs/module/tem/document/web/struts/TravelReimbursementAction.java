@@ -211,6 +211,9 @@ public class TravelReimbursementAction extends TravelActionBase {
         //certify
         form.setCanCertify(authorizer.canCertify(form.getTravelReimbursementDocument(), GlobalVariables.getUserSession().getPerson()));
         setCanCalculate(form);
+
+        // just turn on edit payment info for now
+        form.setCanOpenPaymentInformation(true);
     }
 
     /**
@@ -604,6 +607,11 @@ public class TravelReimbursementAction extends TravelActionBase {
         }
 
         getTravelDocumentService().showNoTravelAuthorizationError(document);
+
+        final KualiDecimal reimbursableTotal = document.getReimbursableTotal();
+        if (reimbursableTotal != null && !ObjectUtils.isNull(document.getTravelPayment())) {
+            document.getTravelPayment().setCheckTotalAmount(reimbursableTotal);
+        }
         return retval;
     }
 

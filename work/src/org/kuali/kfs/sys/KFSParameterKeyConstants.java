@@ -60,5 +60,9 @@ public class KFSParameterKeyConstants {
     public static class InvalidSubFundsByObjCdParameterConstant {
         public static final String INVALID_SUBFUND_GROUP_BY_OBJ_TYPE = "INVALID_SUBFUND_GROUP_BY_OBJ_TYPE";
     }
- 
+
+    public static class PdpExtractBatchParameters {
+        public static final String PDP_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
+        public static final String PDP_SBUNT_CODE = "PRE_DISBURSEMENT_EXTRACT_SUB_UNIT";
+    }
 }

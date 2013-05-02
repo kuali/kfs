@@ -22,22 +22,27 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
 import org.kuali.kfs.pdp.service.CustomerProfileService;
 import org.kuali.kfs.pdp.service.PaymentFileService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
@@ -197,21 +202,24 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
 
         final java.sql.Date sqlProcessRunDate = new java.sql.Date(processRunDate.getTime());
         PaymentGroup pg = document.generatePaymentGroup(sqlProcessRunDate);
-        if (immediate) {
-            pg.setProcessImmediate(Boolean.TRUE);
-        }
-
-        this.businessObjectService.save(pg);
-
-        if (!testMode) {
-            try {
-                document.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(DisbursementVoucherConstants.DocumentStatusCodes.EXTRACTED);
-                document.markAsExtracted(sqlProcessRunDate);
-                getDocumentService().saveDocument(document, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+        if (pg != null) { // the payment source returned null instead of a PaymentGroup?  I guess it didn't want to be paid for some reason (for instance, a 0 amount document)
+            pg.setBatch(batch);
+            if (immediate) {
+                pg.setProcessImmediate(Boolean.TRUE);
             }
-            catch (WorkflowException we) {
-                LOG.error("Could not save disbursement voucher document #" + document.getDocumentNumber() + ": " + we);
-                throw new RuntimeException(we);
+
+            this.businessObjectService.save(pg);
+
+            if (!testMode) {
+                try {
+                    document.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.Payments.EXTRACTED);
+                    document.markAsExtracted(sqlProcessRunDate);
+                    getDocumentService().saveDocument(document, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+                }
+                catch (WorkflowException we) {
+                    LOG.error("Could not save disbursement voucher document #" + document.getDocumentNumber() + ": " + we);
+                    throw new RuntimeException(we);
+                }
             }
         }
     }
@@ -234,8 +242,7 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
      * @param limit Number of character that should represent a chopped word
      * @return String [] of chopped words
      */
-    @Override
-    public String[] chopWord(String word, int limit) {
+    protected String[] chopWord(String word, int limit) {
         StringBuilder builder = new StringBuilder();
         if (word != null && word.trim().length() > 0) {
 
@@ -272,8 +279,8 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
      * @return A fully populated batch instance.
      */
     protected Batch createBatch(String campusCode, String principalId, Date processRunDate) {
-        String orgCode = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DvPdpExtractGroup.DV_PDP_ORG_CODE);
-        String subUnitCode = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
+        final String orgCode = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, KFSParameterKeyConstants.PdpExtractBatchParameters.PDP_ORG_CODE);
+        final String subUnitCode = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, KFSParameterKeyConstants.PdpExtractBatchParameters.PDP_SBUNT_CODE);
         CustomerProfile customer = customerProfileService.get(campusCode, orgCode, subUnitCode);
         if (customer == null) {
             throw new IllegalArgumentException("Unable to find customer profile for " + campusCode + "/" + orgCode + "/" + subUnitCode);
@@ -411,6 +418,65 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
             // TODO should check this!!!
             paymentFileEmailService.sendDisbursementVoucherImmediateExtractEmail((DisbursementVoucherDocument)paymentSource);
         }
+    }
+
+    /**
+     *
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService#buildNoteForCheckStubText(java.lang.String)
+     */
+    @Override
+    public PaymentNoteText buildNoteForCheckStubText(String text, int previousLineCount) {
+        PaymentNoteText pnt = null;
+        final String maxNoteLinesParam = parameterService.getParameterValueAsString(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
+
+        int maxNoteLines;
+        try {
+            maxNoteLines = Integer.parseInt(maxNoteLinesParam);
+        }
+        catch (NumberFormatException nfe) {
+            throw new IllegalArgumentException("Invalid Max Notes Lines parameter, value: "+maxNoteLinesParam+" cannot be converted to an integer");
+        }
+
+        // The WordUtils should be sufficient for the majority of cases.  This method will
+        // word wrap the whole string based on the MAX_NOTE_LINE_SIZE, separating each wrapped
+        // word by a newline character.  The 'wrap' method adds line feeds to the end causing
+        // the character length to exceed the max length by 1, hence the need for the replace
+        // method before splitting.
+        String   wrappedText = WordUtils.wrap(text, KFSConstants.MAX_NOTE_LINE_SIZE);
+        String[] noteLines   = wrappedText.replaceAll("[\r]", "").split("\\n");
+
+        // Loop through all the note lines.
+        for (String noteLine : noteLines) {
+            if (previousLineCount < (maxNoteLines - 3) && !StringUtils.isEmpty(noteLine)) {
+
+                // This should only happen if we encounter a word that is greater than the max length.
+                // The only concern I have for this occurring is with URLs/email addresses.
+                if (noteLine.length() >KFSConstants.MAX_NOTE_LINE_SIZE) {
+                    for (String choppedWord : chopWord(noteLine, KFSConstants.MAX_NOTE_LINE_SIZE)) {
+
+                        // Make sure we're still under the maximum number of note lines.
+                        if (previousLineCount < (maxNoteLines - 3) && !StringUtils.isEmpty(choppedWord)) {
+                            pnt = new PaymentNoteText();
+                            pnt.setCustomerNoteLineNbr(new KualiInteger(previousLineCount++));
+                            pnt.setCustomerNoteText(choppedWord.replaceAll("\\n", "").trim());
+                        }
+                        // We can't add any additional note lines, or we'll exceed the maximum, therefore
+                        // just break out of the loop early - there's nothing left to do.
+                        else {
+                            break;
+                        }
+                    }
+                }
+                // This should be the most common case.  Simply create a new PaymentNoteText,
+                // add the line at the correct line location.
+                else {
+                    pnt = new PaymentNoteText();
+                    pnt.setCustomerNoteLineNbr(new KualiInteger(previousLineCount++));
+                    pnt.setCustomerNoteText(noteLine.replaceAll("\\n", "").trim());
+                }
+            }
+        }
+        return pnt;
     }
 
     /**

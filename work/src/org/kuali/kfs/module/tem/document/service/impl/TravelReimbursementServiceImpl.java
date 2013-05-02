@@ -16,8 +16,8 @@
 package org.kuali.kfs.module.tem.document.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.DATE_CHANGED_MESSAGE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.TRAVEL_COVERSHEET_INSTRUCTIONS;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENTATION_LOCATION_CODE;
+import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.TRAVEL_COVERSHEET_INSTRUCTIONS;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_TR_LODGING_ALREADY_CLAIMED;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_TR_MEAL_ALREADY_CLAIMED;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.AIRFARE_EXPENSE_DISABLED;
@@ -36,14 +36,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.service.ObjectCodeService;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerCreditMemo;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.DisburseType;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
@@ -405,10 +403,6 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
 
             //set the reimbursable amount in the TR doc
             reimbursement.setReimbursableAmount(reimbursableTotal.subtract(invoicesTotal));
-            DisbursementVoucherDocument disbursementVoucherDocument = travelDisbursementService.createAndApproveDisbursementVoucherDocument(DisburseType.reimbursable, reimbursement);
-
-            String relationDescription = reimbursement.getDocumentHeader().getWorkflowDocument().getDocumentTypeName() + " - DV";
-            accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(reimbursement.getDocumentNumber(), disbursementVoucherDocument.getDocumentNumber(), relationDescription));
         }
         //reimbursable < invoice (owe more than reimbursable, then all will go into owed invoice)
         else{

@@ -333,9 +333,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
 
             // for some reason when it goes to final it never updates to the last status
             updateAppDocStatus(EntertainmentStatusCodeKeys.ENT_MANAGER_APPROVED);
-            if (getDocumentGrandTotal() != null && getDocumentGrandTotal().isGreaterThan(KualiDecimal.ZERO)) {
-                getTravelDisbursementService().processTEMReimbursementDV(this);
-            }
 
             // If the hold new fiscal year encumbrance indicator is true and the trip end date
             // is after the current fiscal year end date then mark all the gl pending entries

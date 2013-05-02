@@ -269,11 +269,6 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
 
             LOG.debug("New route status is: " + statusChangeEvent.getNewRouteStatus());
             updateAppDocStatus(TravelRelocationStatusCodeKeys.RELO_MANAGER_APPROVED);
-            if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
-                if (getDocumentGrandTotal().isGreaterThan(KualiDecimal.ZERO)) {
-                    getTravelDisbursementService().processTEMReimbursementDV(this);
-                }
-            }
         }
     }
 

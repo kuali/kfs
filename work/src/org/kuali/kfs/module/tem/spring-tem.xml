@@ -47,7 +47,6 @@
 		</property>
 		<property name="jobNames">
 			<list>
-              	<!-- value>webappWatchJob</value -->
 			  	<value>perDiemLoadJob</value>
 			  	<value>taxableRamificationNotificationJob</value>
 				<value>agencyDataImportJob</value>
@@ -55,11 +54,11 @@
 				<value>agencyReconciliationMatchJob</value>
 				<value>travelImportedExpenseNotificationJob</value>
 			  	<value>temProfileExportJob</value>
+			  	<value>travelPreDisbursementProcessorExtractJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
 			<list>
-				<!-- value>webappWatchTrigger</value -->
 				<value>perDiemLoadTrigger</value>
 			</list>
 		</property>
@@ -1257,6 +1256,25 @@
 	<bean id="travelImportedExpenseNotificationStep" class="org.kuali.kfs.module.tem.batch.TravelImportedExpenseNotificationStep" parent="step">
 		<property name="travelImportedExpenseNotificationService" ref="travelImportedExpenseNotificationService"/>
 	</bean>     
+	
+	<bean id="travelPreDisbursementProcessorExtractJob" parent="travelPreDisbursementProcessorExtractJob-parentBean"/>
+	<bean id="travelPreDisbursementProcessorExtractJob-parentBean" parent="scheduledJobDescriptor" abstract="true">
+		<property name="steps">
+			<list>
+				<ref bean="travelReimbursementsPreDisbursementProcessorExtractStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="travelReimbursementsPreDisbursementProcessorExtractStep" parent="travelReimbursementsPreDisbursementProcessorExtractStep-parentBean" />
+	<bean id="travelReimbursementsPreDisbursementProcessorExtractStep-parentBean" parent="paymentSourceToPdpExtractStep" abstract="true">
+		<property name="paymentSourceExtractionService" ref="travelReimbursementsExtractService" />
+	</bean>
+	
+	<bean id="travelReimbursementsExtractService"  parent="travelReimbursementsExtractService-parentBean"/>
+	<bean id="travelReimbursementsExtractService-parentBean" parent="paymentSourceExtractService-parentBean" abstract="true">
+		<property name="paymentSourceToExtractService" ref="temReimbursableDocumentExtractionHelperService"/>
+	</bean>
     
 	<import resource="document/validation/configuration/TEMValidatorDefinitions.xml" /> 
 	
@@ -1348,7 +1366,8 @@
 		</property>
 	</bean>
 	
-	<bean id="temReimbursableDocumentExtractionHelperService" class="org.kuali.kfs.module.tem.document.service.impl.ReimbursableDocumentExtractionHelperServiceImpl">
+	<bean id="temReimbursableDocumentExtractionHelperService" parent="temReimbursableDocumentExtractionHelperService-parentBean"/>
+	<bean id="temReimbursableDocumentExtractionHelperService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.ReimbursableDocumentExtractionHelperServiceImpl" abstract="true">
 		<property name="documentService" ref="documentService"/>
 		<property name="travelerService" ref="travelerService"/>
 		<property name="paymentSourceExtractionService" ref="paymentSourceExtractService"/>

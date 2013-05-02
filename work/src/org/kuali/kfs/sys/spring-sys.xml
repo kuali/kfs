@@ -1124,6 +1124,9 @@
 		<property name="paymentFileEmailService" ref="pdpEmailService"/>
 		<property name="documentService" ref="documentService"/>
 	</bean>
+	
+	<bean id="paymentSourceToPdpExtractStep" parent="paymentSourceToPdpExtractStep-parentBean"/>
+	<bean id="paymentSourceToPdpExtractStep-parentBean" class="org.kuali.kfs.sys.batch.PaymentSourceToPdpExtractStep" parent="step" abstract="true"/>
     
 	<bean id="velocityEngine" parent="velocityEngine-parentBean" />
 	<bean id="velocityEngine-parentBean" abstract="true" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">

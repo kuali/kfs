@@ -284,7 +284,7 @@
 	</bean>
 
 	<bean id="disbursementVoucherPreDisbursementProcessorExtractStep" class="org.kuali.kfs.fp.batch.DvToPdpExtractStep" parent="step">
-		<property name="disbursementVoucherExtractService" ref="disbursementVoucherExtractService" />
+		<property name="paymentSourceExtractionService" ref="disbursementVoucherExtractService" />
 	</bean>
 	
 	<bean id="disbursementVoucherExtractService"  parent="disbursementVoucherExtractService-parentBean"/>

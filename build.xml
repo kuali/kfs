@@ -223,6 +223,9 @@
 		<property name="rice.server.datasource.driver.class" value="${datasource.driver.class}" />
 		<property name="rice.server.datasource.url" value="${datasource.url}" />
 		<condition property="rice.server.datasource.platform" value="${mysql.server.datasource.platform}" else="${oracle.server.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<pathconvert property="drivers.path" dirsep="/" pathsep=";">
+			<path location="${drivers.directory}" />
+		</pathconvert>
 	</target>
 
 	<target name="init-spring-properties" depends="init-property-files">
@@ -1265,6 +1268,8 @@ Admin Password = $${rice.server.impex.admin.password} (not shown)
 			import.admin.password=${rice.server.impex.admin.password}
 			
 			oracle.usermaint.user=${oracle.impex.tool.schema}
+			
+			drivers.directory=${drivers.path}
 		</echo>
 		<!-- run import tool for Rice tables/objects -->
 		<!-- Due to CloverETL issues with execution directory, we need to run Ant
@@ -1332,6 +1337,8 @@ Admin Password = $${impex.admin.password} (not shown)
 			import.admin.password=${impex.admin.password}
 			
 			oracle.usermaint.user=${oracle.impex.tool.schema}
+			
+			drivers.directory=${drivers.path}
 		</echo>
 		<!-- run import tool for KFS tables/objects -->
 		<!-- Due to CloverETL issues with execution directory, we need to run Ant
@@ -1560,7 +1567,7 @@ Admin Password = $${impex.admin.password} (not shown)
 					file to override the defaults in the project.
 			    - save your changes
 
-			2. Copy your JDBC driver(s) into the ${basedir.safe}/work/db/kfs-db/db-impex/drivers directory 
+			2. Copy your JDBC driver(s) into the ${basedir.safe}/build/drivers directory 
 				or set the drivers.directory property to a directory where you have your drivers.
 			
 			3. Run the refresh-db Ant target
@@ -1571,16 +1578,16 @@ Admin Password = $${impex.admin.password} (not shown)
 				-- You can copy any properties from there to your kfs-build.properties file to override 
 					the defaults in the project.
 			
-			3. Run the dist-local Ant target
+			4. Run the dist-local Ant target
 				This reads the above configuration files and builds the "final"
 				configuration files used by the application.  Some files are
 				placed into work/src and others are placed into ${external.config.directory}
 
-			4. Run the run-dev Ant target
+			5. Run the run-dev Ant target
 
-			5. Wait.  The process will take from 1-3 minutes depending on your system's speed.
+			6. Wait.  The process will take from 1-3 minutes depending on your system's speed.
 			
-			6. Launch a browser and access ${application.url}
+			7. Launch a browser and access ${application.url}
 
 	You can override the default log4j settings for your local deployments by copying
 		${basedir.safe}/${build.external.directory}/${log4j.file} to

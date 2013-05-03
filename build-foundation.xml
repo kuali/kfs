@@ -337,6 +337,8 @@ are intended for use only by Kuali Foundation developers.
 		</delete>
 		<!-- Incomplete Maven Build Files -->
 		<delete dir="${all.temp.directory}/kfs/m2" />
+		<!-- Groovy script for packaging -->
+		<delete dir="${all.temp.directory}/kfs/build/groovy" />
 		<!-- Development database contents -->
 		<delete dir="${all.temp.directory}/kfs/work/db/kfs-db/development" />
 		<!-- Remove all the instance build files *except* for a few examples. -->
@@ -362,6 +364,7 @@ are intended for use only by Kuali Foundation developers.
 			<include name="**/*.properties" />
 			<include name="**/*.txt" />
 			<include name="**/*.sh" />
+			<include name="**/*.xml" />
 			<!-- SVN -->
       		<replacefilter token="https://svn.kuali.org/repos/" value="" />
       		<replacefilter token="https://svn.kuali.org/repos" value="" />

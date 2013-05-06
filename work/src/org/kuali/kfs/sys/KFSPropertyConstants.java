@@ -460,8 +460,9 @@ public class KFSPropertyConstants {
     public static final String DISBURSEMENT_VOUCHER_CHECK_DATE = "disbursementVoucherCheckDate";
     public static final String DISBURSEMENT_VOUCHER_CHECK_NBR = "disbursementVoucherCheckNbr";
     public static final String DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_ADDRESS = "disbursementVoucherDocumentationLocationAddress";
-    public static final String DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE = "disbursementVoucherDocumentationLocationCode";
+    public static final String DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE = "paymentDocumentationLocationCode";
     public static final String DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_NAME = "disbursementVoucherDocumentationLocationName";
+    public static final String PAYMENT_DOCUMENTATION_LOCATION_NAME = "paymentDocumentationLocationName";
     public static final String DISBURSEMENT_VOUCHER_DUE_DATE = "disbursementVoucherDueDate";
     public static final String DISBURSEMENT_VOUCHER_PAYEE_ACCOUNT_NAME = "disbursementVoucherPayeeAccountName";
     public static final String DISBURSEMENT_VOUCHER_PAYEE_ACCOUNT_TYPE_CODE = "disbursementVoucherPayeeAccountTypeCode";

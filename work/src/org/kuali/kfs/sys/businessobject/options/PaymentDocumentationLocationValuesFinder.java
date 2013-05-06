@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,8 +34,9 @@ public class PaymentDocumentationLocationValuesFinder extends KeyValuesBase {
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List getKeyValues() {
-        List<PaymentDocumentationLocation> boList = (List<PaymentDocumentationLocation>) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(PaymentDocumentationLocation.class, KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_NAME, true);
+        List<PaymentDocumentationLocation> boList = (List<PaymentDocumentationLocation>) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(PaymentDocumentationLocation.class, KFSPropertyConstants.PAYMENT_DOCUMENTATION_LOCATION_NAME, true);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (PaymentDocumentationLocation element : boList) {
             if(element.isActive()) {

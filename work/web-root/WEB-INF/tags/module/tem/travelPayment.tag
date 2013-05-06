@@ -124,7 +124,7 @@
               </td>
               <th  class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.paymentDocumentationLocationCode}"/></div></th>
               <td  class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.paymentDocumentationLocationCode}" property="document.disbursementVoucherDocumentationLocationCode" extraReadOnlyProperty="document.travelPayment.paymentDocumentationLocationName" onchange="documentationMessage(this.value);" readOnly="${!fullEntryMode}"/>
+                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.paymentDocumentationLocationCode}" property="document.paymentDocumentationLocationCode" extraReadOnlyProperty="document.travelPayment.paymentDocumentationLocationName" onchange="documentationMessage(this.value);" readOnly="${!fullEntryMode}"/>
                 <c:if test="${fullEntryMode}">
               		<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation" fieldConversions="paymentDocumentationLocationCode:document.travelPayment.paymentDocumentationLocationCode" 
               		lookupParameters="document.travelPayment.paymentDocumentationLocationCode:paymentDocumentationLocationCode" />

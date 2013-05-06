@@ -494,7 +494,7 @@ public class KFSConstants {
     // disbursement voucher error fields
     public static final String DV_PAYEE_TAB_ERRORS = "DVPayeeErrors,document.dvPayeeDetail.disbVchrPayeeIdNumber,document.dvPayeeDetail.disbVchrPayeeCityName,document.dvPayeeDetail.disbVchrPayeePersonName," + "document.dvPayeeDetail.disbVchrPayeeStateCode,document.dvPayeeDetail.disbVchrPayeeLine1Addr,document.dvPayeeDetail.disbVchrPayeeZipCode,document.dvPayeeDetail.disbVchrPayeeLine2Addr,document.dvPayeeDetail.disbVchrPayeeCountryCode,document.dvPayeeDetail.disbursementVoucherPayeeTypeCode,";
     public static final String DV_PAYEE_INIT_TAB_ERRORS = "DVPayeeErrors,payeeIdNumber,payeePersonName,payeeTypeCode";
-    public static final String DV_PAYMENT_TAB_ERRORS = "DVPaymentErrors,document.dvPayeeDetail.disbVchrPaymentReasonCode,document.disbVchrCheckTotalAmount,document.disbursementVoucherDueDate,document.dvPayeeDetail.disbVchrAlienPaymentCode," + "document.dvPayeeDetail.disbVchrPayeeEmployeeCode,document.disbVchrAttachmentCode,document.disbVchrSpecialHandlingCode,document.disbVchrPayeeW9CompleteCode" + "document.disbVchrPaymentMethodCode,document.disbursementVoucherDocumentationLocationCode,document.disbVchrCheckStubText";
+    public static final String DV_PAYMENT_TAB_ERRORS = "DVPaymentErrors,document.dvPayeeDetail.disbVchrPaymentReasonCode,document.disbVchrCheckTotalAmount,document.disbursementVoucherDueDate,document.dvPayeeDetail.disbVchrAlienPaymentCode," + "document.dvPayeeDetail.disbVchrPayeeEmployeeCode,document.disbVchrAttachmentCode,document.disbVchrSpecialHandlingCode,document.disbVchrPayeeW9CompleteCode" + "document.disbVchrPaymentMethodCode,document.paymentDocumentationLocationCode,document.disbVchrCheckStubText";
     public static final String DV_NRATAX_TAB_ERRORS = "DVNRATaxErrors,document.dvNonResidentAlienTax.incomeClassCode,document.dvNonResidentAlienTax.incomeTaxTreatyExemptCode,document.dvNonResidentAlienTax.federalIncomeTaxPercent," + "document.dvNonResidentAlienTax.foreignSourceIncomeCode,document.dvNonResidentAlienTax.stateIncomeTaxPercent,document.dvNonResidentAlienTax.incomeTaxGrossUpCode,document.dvNonResidentAlienTax.postalCountryCode," + "document.dvNonResidentAlienTax.referenceFinancialDocumentNumber";
     public static final String FOREIGNDRAFTS_TAB_ERRORS = "DVForeignDraftErrors,document.wireTransfer.foreignCurrencyTypeCode,document.wireTransfer.foreignCurrencyTypeName";
     public static final String DV_CONTACT_TAB_ERRORS = "DVContactErrors,document.disbVchrContact*";
@@ -801,7 +801,7 @@ public class KFSConstants {
     public static final String REQUEST_SEARCH_RESULTS_SIZE = "reqSearchResultsSize";
     public static final String GL_COLLECTOR_STAGING_DIRECTORY = "collector.staging.directory";
 
-    public static final String DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE_PROPERTY_NAME = "disbursementVoucherDocumentationLocationCode";
+    public static final String DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE_PROPERTY_NAME = "paymentDocumentationLocationCode";
     public static final String FUND_GROUP_CODE_PROPERTY_NAME = "code";
     public static final String SUB_FUND_GROUP_CODE_PROPERTY_NAME = "subFundGroupCode";
 

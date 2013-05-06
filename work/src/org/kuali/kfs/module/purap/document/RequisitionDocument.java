@@ -323,7 +323,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             Date allowedCopyDate = c.getTime();
             Date currentDate = dateTimeService.getCurrentDate();
             // Return true if the current time is before the allowed copy date.
-            allowsCopy = (dateTimeService.dateDiff(currentDate, allowedCopyDate, false) > 0);
+            allowsCopy = currentDate.before(allowedCopyDate);
         }
 
         return allowsCopy;

@@ -123,11 +123,11 @@
 
           <c:catch var="sa">
               <c:set var="badSubAccount"
-                value="${!empty KualiForm.document.subAccountName}"
+                value="${empty KualiForm.document.subAccount.subAccountName}"
                 scope="page" />
           </c:catch>
           <c:if test="${sa!=null}">
-              <c:set var="badSubAccount" value="false" scope="page" />
+              <c:set var="badSubAccount" value="true" scope="page" />
           </c:if>
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute

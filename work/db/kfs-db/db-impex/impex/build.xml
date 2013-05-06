@@ -116,9 +116,9 @@ Note: Due to java native library classloader issues, the export routine (and pos
 				<include name="lib/*.jar" />
 			    <include name="impex/lib/*.jar" />
 				<include name="clover/lib/*.jar" />
-				<include name="drivers/*.jar" />
 				<include name="clover/plugins/**/*.jar" />
 		    </fileset>
+			<fileset dir="${drivers.directory}" includes="*.jar" />			
 		</path>
 		<!--
 		The default.properties file will map old properties to the new ones along
@@ -624,7 +624,7 @@ Please place the jar file for this class in the lib directory and try again.
 			<fileset dir="lib" includes="*.jar" />
 			<fileset dir="../lib" includes="*.jar" />
 			<fileset dir="../clover/lib" includes="*.jar" />
-			<fileset dir="../drivers" includes="*.jar" />
+			<fileset dir="${drivers.directory}" includes="*.jar" />
 		</path>
 
 	</target>
@@ -1112,9 +1112,7 @@ END;
     		<sequential>
     			<!-- need to keep back-slashes out of the path -->
     			<path id="driver.classpath.for.liquibase">
-    				<fileset dir="../drivers">
-    					<include name="*.jar" />
-    				</fileset>
+    				<fileset dir="${drivers.directory}" includes="*.jar" />
     			</path>
     			<pathconvert refid="driver.classpath.for.liquibase"
     						 property="driver.classpath.for.liquibase.string" />

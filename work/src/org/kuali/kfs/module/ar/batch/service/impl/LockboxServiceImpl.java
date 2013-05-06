@@ -81,8 +81,7 @@ import com.lowagie.text.pdf.PdfWriter;
  * there will be one Cash-Control document. Each record within this set will create one Application document.
  *
  */
-
-
+@Transactional
 public class LockboxServiceImpl implements LockboxService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(LockboxServiceImpl.class);;
 
@@ -168,14 +167,12 @@ public class LockboxServiceImpl implements LockboxService {
 
     }
 
-    @Transactional
     protected Collection<Lockbox> getAllLockboxes() {
         Collection<Lockbox> itr = lockboxDao.getAllLockboxes();
         return itr;
     }
 
     @Override
-    @Transactional
     public void processLockbox(Lockbox lockbox, com.lowagie.text.Document pdfdoc) {
         anyRecordsFound = true;
         LOG.info("LOCKBOX: '" + lockbox.getLockboxNumber() + "'");

@@ -28,50 +28,6 @@
 		</delete>
 	</changeSet>
 
-	<!--  Removing the adhoc routing completion permission from the roles
-	<changeSet id="KFSMI-8967" author="KFS502">
-		<comment>Fix adhoc router completion permission</comment>
-		<update tableName="KRIM_PERM_T">
-			<column name="PERM_TMPL_ID" value="9" />
-			<where>PERM_ID='KFSMI9071-PRM1'</where>
-		</update>
-		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSMI9071-RLPRM1" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
-			<column name="VER_NBR" value="1" />
-			<column name="ROLE_ID" value="54" />
-			<column name="PERM_ID" value="KFSMI9071-PRM1" />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
-		<modifySql dbms='mysql'>
-			<replace replace="sys_guid()" with="uuid()" />
-		</modifySql>
-	</changeSet>
-
-	<changeSet id="KFSMI-9302" author="KFS502">
-		<comment>Re-Enable adhoc routing completion</comment>
-		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSMI9302-RLPRM1" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
-			<column name="VER_NBR" value="1" />
-			<column name="ROLE_ID" value="66" />
-			<column name="PERM_ID" value="848" />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
-		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFSMI9302-RLPRM2" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
-			<column name="VER_NBR" value="1" />
-			<column name="ROLE_ID" value="66" />
-			<column name="PERM_ID" value="KR1000" />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
-		<modifySql dbms='mysql'>
-			<replace replace="sys_guid()" with="uuid()" />
-		</modifySql>
-	</changeSet>
-	-->
-
 	<changeSet author="KFS502" id="KFSMI9562_ADD_NEW_DEFAULT_ROLE_TYPE_FOR_FO_DELEGATION">
 		<insert tableName="KRIM_TYP_T">
 			<column name="KIM_TYP_ID" value="KFSMI9562-TYP"/>

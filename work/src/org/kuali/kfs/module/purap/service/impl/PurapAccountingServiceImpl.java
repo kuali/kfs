@@ -807,17 +807,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             return;
         }
 
-        // Recalculate if the account distribution method code is equal to "S" sequential ON REQ or POs..
+        //No recalculate if the account distribution method code is equal to "S" sequential ON REQ or POs..
         if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             for (PurApItem item : document.getItems()) {
                 boolean rulePassed = true;
                 // check any business rules
                 rulePassed &= kualiRuleService.applyRules(new PurchasingAccountsPayableItemPreCalculateEvent(document, item));
 
-                // Calculate the amount on account line.
-                if (rulePassed) {
-                    updatePreqProportionalItemAccountAmounts(item);
-                }
                 return;
             }
         }

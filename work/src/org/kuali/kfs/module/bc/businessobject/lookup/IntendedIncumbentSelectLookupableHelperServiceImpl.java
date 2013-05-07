@@ -44,7 +44,7 @@ public class IntendedIncumbentSelectLookupableHelperServiceImpl extends SelectLo
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.INCUMBENT_SALARY_SETTING_METHOD);
 
-        String[] universityFiscalYear = (String[]) super.getParameters().get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        String[] universityFiscalYear = super.getParameters().get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear[0]);
 
         parameters.put(KFSPropertyConstants.EMPLID, intendedIncumbentSelect.getEmplid());
@@ -54,9 +54,9 @@ public class IntendedIncumbentSelectLookupableHelperServiceImpl extends SelectLo
         String href = UrlFactory.parameterizeUrl(BCConstants.INCUMBENT_SALARY_SETTING_ACTION, parameters);
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, BCConstants.INCUMBENT_SALARY_SETTING_METHOD, "Incmbnt Salset");
-        anchorHtmlData.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
+        anchorHtmlData.setTarget(BCConstants.SECOND_WINDOW_TARGET_NAME);
         anchorHtmlDataList.add(anchorHtmlData);
-        
+
         return anchorHtmlDataList;
     }
 

@@ -61,7 +61,7 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
     }
 
     /***
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrlHref(org.kuali.rice.krad.bo.BusinessObject, java.lang.String, java.util.List)
      */
     @Override
@@ -123,7 +123,7 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
             parameters.put(BCPropertyConstants.ADD_LINE, "false");
         }
 
-        String[] universityFiscalYear = (String[]) super.getParameters().get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        String[] universityFiscalYear = super.getParameters().get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear[0]);
 
         if (requestParameters.containsKey(KRADConstants.DOC_FORM_KEY)) {
@@ -164,7 +164,7 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
             String[] requestParm = (String[]) requestParameters.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
             parameters.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, requestParm[0]);
         }
-        
+
         if (requestParameters.containsKey(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE)) {
             String[] requestParm = (String[]) requestParameters.get(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE);
             parameters.put(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE, requestParm[0]);
@@ -195,14 +195,14 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
      */
     public List<HtmlData> getSalarySettingByIncumbentUrls(BusinessObject businessObject) {
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
-        
+
         Properties parameters = getSalarySettingByIncumbentParameters(businessObject);
         String href = UrlFactory.parameterizeUrl(BCConstants.INCUMBENT_SALARY_SETTING_ACTION, parameters);
         AnchorHtmlData urlData1 =
             new AnchorHtmlData(href, BCConstants.INCUMBENT_SALARY_SETTING_METHOD, "Incmbnt Salset");
-        
+
         Map requestParameters = super.getParameters();
-        
+
         boolean linkToNewWindow = true;
         if (requestParameters.containsKey(BCPropertyConstants.ADD_LINE)) {
             String[] requestParm = (String[]) requestParameters.get(BCPropertyConstants.ADD_LINE);
@@ -212,9 +212,9 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
             }
         }
         if (linkToNewWindow) {
-            urlData1.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
+            urlData1.setTarget(BCConstants.SECOND_WINDOW_TARGET_NAME);
         }
-        
+
         anchorHtmlDataList.add(urlData1);
 
         // now add refresh url if feed from payroll is on
@@ -231,7 +231,7 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
             anchorHtmlDataList.add(urlData2);
             anchorHtmlDataList.get(anchorHtmlDataList.lastIndexOf(urlData2)).setPrependDisplayText("<br />");
         }
-        
+
         return anchorHtmlDataList;
     }
 

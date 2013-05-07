@@ -21,7 +21,7 @@
     <property name="drivers.dir" location="../drivers" />
 	
 	<pathconvert property="checkout.dir" dirsep="/" pathsep=";">
-		<path location="${checkout}" />
+		<path location="checkout" />
 	</pathconvert>
 
    	<pathconvert property="temp.dir" dirsep="/" pathsep=";">

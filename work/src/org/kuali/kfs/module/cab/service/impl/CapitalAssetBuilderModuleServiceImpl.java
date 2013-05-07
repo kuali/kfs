@@ -438,7 +438,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument purapDocument = (org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument) accountingDocument;
         for (PurApItem item : purapDocument.getItems()) {
             if (item.getItemType().isLineItemIndicator() && item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
-              
+
                 if(!ObjectUtils.isNull(item.getItemUnitPrice())){
                 List<PurApAccountingLine> accounts = item.getSourceAccountingLines();
                 BigDecimal unitPrice = item.getItemUnitPrice();
@@ -1110,27 +1110,51 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         String alternativeItemTypeStr = null;
         String capitalAssetSubtypeRequiredText = null;
 
-        if (quantityBasedItem) {
-            String capitalAssetQuantitySubtypeRequiredText = capitalAssetTransactionType.getCapitalAssetQuantitySubtypeRequiredText();
-            itemTypeStr = PurapConstants.ITEM_TYPE_QTY;
-            alternativeItemTypeStr = PurapConstants.ITEM_TYPE_NO_QTY;
-            capitalAssetSubtypeRequiredText = capitalAssetQuantitySubtypeRequiredText;
-            if (capitalAssetQuantitySubtypeRequiredText != null) {
-                objectCodeSubTypes = StringUtils.split(capitalAssetQuantitySubtypeRequiredText, ";");
+        if (isCapitalAssetObjectCode(objectCode)) {
+            if (quantityBasedItem) {
+                String capitalAssetQuantitySubtypeRequiredText = capitalAssetTransactionType.getCapitalAssetQuantitySubtypeRequiredText();
+                itemTypeStr = PurapConstants.ITEM_TYPE_QTY;
+                alternativeItemTypeStr = PurapConstants.ITEM_TYPE_NO_QTY;
+                capitalAssetSubtypeRequiredText = capitalAssetQuantitySubtypeRequiredText;
+                if (capitalAssetQuantitySubtypeRequiredText != null) {
+                    objectCodeSubTypes = StringUtils.split(capitalAssetQuantitySubtypeRequiredText, ";");
+                }
             }
-        }
-        else {
-            String capitalAssetNonquantitySubtypeRequiredText = capitalAssetTransactionType.getCapitalAssetNonquantitySubtypeRequiredText();
-            itemTypeStr = PurapConstants.ITEM_TYPE_NO_QTY;
-            alternativeItemTypeStr = PurapConstants.ITEM_TYPE_QTY;
-            capitalAssetSubtypeRequiredText = capitalAssetNonquantitySubtypeRequiredText;
-            if (capitalAssetNonquantitySubtypeRequiredText != null) {
-                objectCodeSubTypes = StringUtils.split(capitalAssetNonquantitySubtypeRequiredText, ";");
+            else {
+                String capitalAssetNonquantitySubtypeRequiredText = capitalAssetTransactionType.getCapitalAssetNonquantitySubtypeRequiredText();
+                itemTypeStr = PurapConstants.ITEM_TYPE_NO_QTY;
+                alternativeItemTypeStr = PurapConstants.ITEM_TYPE_QTY;
+                capitalAssetSubtypeRequiredText = capitalAssetNonquantitySubtypeRequiredText;
+                if (capitalAssetNonquantitySubtypeRequiredText != null) {
+                    objectCodeSubTypes = StringUtils.split(capitalAssetNonquantitySubtypeRequiredText, ";");
+                }
+            }
+
+            boolean found = false;
+            for (String subType : objectCodeSubTypes) {
+                if (StringUtils.equals(subType, objectCode.getFinancialObjectSubTypeCode())) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                List<String> errorPath = GlobalVariables.getMessageMap().getErrorPath();
+                if (errorPath != null && errorPath.isEmpty()) {
+                    String errorPathPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + PurapPropertyConstants.ITEM;
+                    GlobalVariables.getMessageMap().addToErrorPath(errorPathPrefix);
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE, itemIdentifier, itemTypeStr, capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(), objectCode.getFinancialObjectCodeName(), capitalAssetSubtypeRequiredText, alternativeItemTypeStr);
+                    GlobalVariables.getMessageMap().removeFromErrorPath(errorPathPrefix);
+                }
+                else {
+                    GlobalVariables.getMessageMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, CabKeyConstants.ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE, itemIdentifier, itemTypeStr, capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(), objectCode.getFinancialObjectCodeName(), capitalAssetSubtypeRequiredText, alternativeItemTypeStr);
+                }
+                valid &= false;
             }
         }
 
         return valid;
-    
+
     }
 
     /**

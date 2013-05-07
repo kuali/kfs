@@ -341,6 +341,15 @@ are intended for use only by Kuali Foundation developers.
 		<delete dir="${all.temp.directory}/kfs/build/groovy" />
 		<!-- Development database contents -->
 		<delete dir="${all.temp.directory}/kfs/work/db/kfs-db/development" />
+		<!-- Development impex files -->
+		<delete verbose="true">
+			<fileset dir="${all.temp.directory}/kfs/db">
+				<include name="export-rice*" />
+				<exclude name="impex-local*"/>
+				<exclude name="refresh-local*"/>
+				<exclude name="rice_db_cleanup.sql"/>
+			</fileset>
+		</delete>
 		<!-- Remove all the instance build files *except* for a few examples. -->
 		<delete verbose="true">
 			<fileset dir="${all.temp.directory}/kfs">

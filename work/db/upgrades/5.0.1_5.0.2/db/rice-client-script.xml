@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+
+	<changeSet author="RICE213" id="RICE_CLIENT_UPDATES_oracle" dbms="oracle">
+		<sqlFile path="rice_213_client_final_oracle.sql" />
+	</changeSet>
+	<changeSet author="RICE213" id="RICE_CLIENT_UPDATES_mysql" dbms="mysql">
+		<sqlFile path="rice_213_client_final_mysql.sql" />
+	</changeSet>
+	
+</databaseChangeLog>

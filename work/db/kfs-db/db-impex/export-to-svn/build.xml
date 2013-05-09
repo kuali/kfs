@@ -9,10 +9,10 @@
 	</taskdef>
     <typedef resource="org/tigris/subversion/svnant/svnantlib.xml">
         <classpath>
-			<fileset dir="../lib" includes="antlr*.jar" />
-			<fileset dir="../lib" includes="sequence*.jar" />
-			<fileset dir="../lib" includes="sqljet*.jar" />
-            <fileset dir="../lib" includes="svn*.jar" />
+			<fileset dir="lib" includes="antlr*.jar" />
+			<fileset dir="lib" includes="sequence*.jar" />
+			<fileset dir="lib" includes="sqljet*.jar" />
+            <fileset dir="lib" includes="svn*.jar" />
         </classpath>
     </typedef>
 	

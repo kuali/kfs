@@ -350,6 +350,7 @@ are intended for use only by Kuali Foundation developers.
 				<exclude name="rice_db_cleanup.sql"/>
 			</fileset>
 		</delete>
+		<delete dir="${all.temp.directory}/kfs/work/db/kfs-db/db-impex/export-to-svn" />
 		<!-- Remove all the instance build files *except* for a few examples. -->
 		<delete verbose="true">
 			<fileset dir="${all.temp.directory}/kfs">

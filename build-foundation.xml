@@ -243,8 +243,8 @@ are intended for use only by Kuali Foundation developers.
 			<property name="svn.base" value="${svn.info.url}"/>
 			<property name="data.svn.path" value="demo"/>
 		</ant>
-		<delete dir="${database.directory}/new_export" />
-		<delete file="${database.directory}/merge.complete" />
+		<delete dir="${database.directory}/kfs-db/new_export" />
+		<delete file="${database.directory}/kfs-db/merge.complete" />
 		-->
 	</target>
 
@@ -284,8 +284,8 @@ are intended for use only by Kuali Foundation developers.
 			<property name="svn.base" value="${svn.info.url}"/>
 			<property name="data.svn.path" value="bootstrap"/>
 		</ant>
-		<delete dir="${database.directory}/new_export" />
-		<delete file="${database.directory}/merge.complete" />
+		<delete dir="${database.directory}/kfs-db/new_export" />
+		<delete file="${database.directory}/kfs-db/merge.complete" />
 	</target>
 		
 	<target name="remove-distribution-dataset-dirs" depends="init-additional-properties">
@@ -343,7 +343,7 @@ are intended for use only by Kuali Foundation developers.
 		<delete dir="${all.temp.directory}/kfs/work/db/kfs-db/development" />
 		<!-- Development impex files -->
 		<delete verbose="true">
-			<fileset dir="${all.temp.directory}/kfs/db">
+			<fileset dir="${all.temp.directory}/kfs/work/db">
 				<include name="export-rice*" />
 				<exclude name="impex-local*"/>
 				<exclude name="refresh-local*"/>

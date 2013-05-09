@@ -33,11 +33,11 @@
 <h3><a name="Acknowledgements-"></a><font color="maroon">Acknowledgments</font></h3>
 
 <p><img src="http://opensource.org/trademarks/osi-certified/web/osi-certified-60x50.png" align="right" border="0" /><br/>
-Copyright 2005-${ConfigProperties.current.year}  The Kuali Foundation.  All rights reserved.  Kuali is licensed for use pursuant to the Educational Community License v. 1.0.  Portions of Kuali are copyrighted by other parties,   including the parties listed below.  You should refer to the licenses directory for complete copyright and licensing information.  Questions about licensing should be directed to <span class="nobr"><a href="mailto:${ConfigProperties.licensing.contact.email}" title="Send mail to ${ConfigProperties.licensing.contact.email}" rel="nofollow">${ConfigProperties.licensing.contact.email}</a></span></p>
+Copyright 2005-${ConfigProperties.current.year}  The Kuali Foundation.  All rights reserved.  Kuali is licensed for use pursuant to the Educational Community License v. 2.0. Portions of Kuali are copyrighted by other parties, including the parties listed below. You should refer to the licenses directory for complete copyright and licensing information. Questions about licensing should be directed to <span class="nobr"><a href="mailto:${ConfigProperties.licensing.contact.email}" title="Send mail to ${ConfigProperties.licensing.contact.email}" rel="nofollow">${ConfigProperties.licensing.contact.email}</a>.</span></p>
 
 <h3><a name="Acknowledgements-ThirdPartyContributions"></a>Third Party Contributions</h3>
 
-<p>Portions of Kuali were developed by Indiana University, Cornell University, University of Hawaii, Michigan State University, University of Arizona, San Joaquin Delta Community College, University of California, University of Southern California, and <a href="http://www.rsmart.com/">The rSmart Group.</a> (<span class="nobr"><a href="http://www.kuali.org/" title="kuali" rel="nofollow">http://www.kuali.org/</a></span>).</p>
+<p>Portions of Kuali were developed by Indiana University, Cornell University, University of Hawaii, Michigan State University, University of Arizona, San Joaquin Delta Community College, University of California, University of Southern California, Colorado State University, University of Maryland and <a href="http://www.rsmart.com/">The rSmart Group.</a> (<span class="nobr"><a href="http://www.kuali.org/" title="kuali" rel="nofollow">http://www.kuali.org/</a></span>).</p>
 
 <p>This product includes software developed by the Apache Software Foundation (<span class="nobr"><a href="http://www.apache.org" title="apache" rel="nofollow">http://www.apache.org</a></span>).</p>
 
@@ -59,17 +59,15 @@ Copyright 2005-${ConfigProperties.current.year}  The Kuali Foundation.  All righ
 
 <p>This product includes software developed by the Working-Dogs.com (<span class="nobr"><a href="http://www.Working-Dogs.com/" title="Working-Dogs" rel="nofollow">http://www.Working-Dogs.com/</a></span>).</p>
 
-<p>This product includes software copyrighted under the Lesser General Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/lgpl-license.php" title="LGPL" rel="nofollow">http://www.opensource.org/licenses/lgpl-license.php</a></span>).</p>
+<p>This product includes software licensed under GNU Lesser General Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/lgpl-license.php" title="LGPL" rel="nofollow">http://www.opensource.org/licenses/lgpl-license.php</a></span>).</p>
 
-<p>This product includes software copyrighted under the Common Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/cpl1.0.php" title="CPL" rel="nofollow">http://www.opensource.org/licenses/cpl1.0.php</a></span>).</p>
+<p>This product includes software licensed under Common Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/cpl1.0.php" title="CPL" rel="nofollow">http://www.opensource.org/licenses/cpl1.0.php</a></span>).</p>
 
 <p>This product includes software licensed under the Mozilla Public License (<span class="nobr"><a href="http://www.mozilla.org/MPL/" title="MPL" rel="nofollow">http://www.mozilla.org/MPL/</a></span>).</p>
 
-<p>This product includes the Kuali Rice module licensed under the Kuali Foundation ECL (<span class="nobr"><a href="https://wiki.kuali.org/display/KULRICE/Licensing+and+Acknowledgments+%282.0%29" title="Rice Acknowledgments" rel="nofollow">https://wiki.kuali.org/display/KULRICE/Licensing+and+Acknowledgments+%282.0%29</a></span>).</p>
+<p>This product includes the Kuali Rice module licensed under the Kuali Foundation ECL (<span class="nobr"><a href="https://wiki.kuali.org/x/OwC1Eg" title="Rice Acknowledgments" rel="nofollow">Licensing and Acknowledgments (2.0)</a></span>).</p>
 
-<p>This product includes the Kuali Enterprise Workflow module licensed under the Kuali Foundation ECL (<span class="nobr"><a href="https://wiki.kuali.org/display/KULDOC/KEW+Acknowledgments" title="KEW Acknowledgments" rel="nofollow">https://wiki.kuali.org/display/KULDOC/KEW+Acknowledgments</a></span>).</p>
-
-<p>The original concept and code base for P6Spy was conceived and developed by Andy Martin, Ph.D. who generously contributed the first complete release to the public under this license.&nbsp; This product was due to the pioneering work of Andy that began in December of 1995 developing applications that could seamlessly be deployed with minimal effort but with dramatic results.&nbsp; This code is maintained and extended by Jeff Goke and with the ideas and contributions of other P6Spy contributors. (<span class="nobr"><a href="http://www.p6spy.com" title="p6spy" rel="nofollow">http://www.p6spy.com</a></span>).</p>
+<p>The original concept and code base for P6Spy was conceived and developed by Andy Martin, Ph.D. who generously contributed the first complete release to the public under this license.&nbsp; This product was due to the pioneering work of Andy that began in December of 1995 developing applications that could seamlessly be deployed with minimal effort but with dramatic results.&nbsp; This code is maintained and extended by Jeff Goke and with the ideas and contributions of other P6Spy contributors. (<span class="nobr"><a href="http://www.p6spy.com" title="p6spy" rel="nofollow">http://www.p6spy.com</a></span>)</p>
 
 <p>Portions Copyright (c) 2000-2005 INRIA, France Telecom. All Rights Reserved.</p>
 
@@ -79,7 +77,7 @@ Copyright 2005-${ConfigProperties.current.year}  The Kuali Foundation.  All righ
 
 <p>Portions Copyright (c) 2002, 2003 Mihai Bazon. All Rights Reserved.  Licensed under GNU Lesser General Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/lgpl-license.php" title="LGPL" rel="nofollow">http://www.opensource.org/licenses/lgpl-license.php</a></span>).</p>
 
-<p>Portions Copyright (c) 2005 Envoi Solutions LLC. All Rights Reserved. (<span class="nobr"><a href="http://xfire.codehaus.org" title="xfire" rel="nofollow">http://xfire.codehaus.org</a></span>)</p>
+<p>Portions Copyright (c) 2005 Envoi Solutions LLC. All Rights Reserved. (<span class="nobr"><a href="http://xfire.codehaus.org" title="xfire" rel="nofollow">http://xfire.codehaus.org/</a></span>)</p>
 
 <p>Portions Copyright (c) 2003-2006 The Werken Company. All Rights Reserved. (<span class="nobr"><a href="http://jaxen.codehaus.org/" title="jaxen" rel="nofollow">http://jaxen.codehaus.org/</a></span>)</p>
 

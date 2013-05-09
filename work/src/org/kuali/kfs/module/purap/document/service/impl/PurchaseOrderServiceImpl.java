@@ -1678,7 +1678,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
             if(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT.equalsIgnoreCase(currentDocumentTypeName)){
                 String poInitiator =po.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-                 po.appSpecificRouteDocumentToUser(po.getDocumentHeader().getWorkflowDocument(), poInitiator, "Notification of PurchaseOrder Initiator" + KFSConstants.BLANK_SPACE + req.getPurapDocumentIdentifier() + KFSConstants.BLANK_SPACE + "(document Id " + req.getDocumentNumber() + ")", "PurchaseOrder Routed By User");
+                 po.appSpecificRouteDocumentToUser(po.getDocumentHeader().getWorkflowDocument(), poInitiator, "Notification of PurchaseOrder Initiator" + KFSConstants.BLANK_SPACE + po.getPurapDocumentIdentifier() + KFSConstants.BLANK_SPACE + "(document Id " + po.getDocumentNumber() + ")", "PurchaseOrder Routed By User");
 
             }
 

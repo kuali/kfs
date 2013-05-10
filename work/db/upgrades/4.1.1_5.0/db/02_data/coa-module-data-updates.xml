@@ -86,7 +86,7 @@ INSERT INTO CA_A21_ICR_ACCT_SEQ VALUES (@a21_acct_seq);
  the new ICR collection tables
  1) CA_ACCOUNT_T -> CA_ICR_ACCT_T
  2) CA_A21_SUB_ACCT_T -> CA_A21_ICR_ACCT_T
- 3) TODO? Prior year account
+ 3) TODO? Prior year account - Per KFSMI-6956 "No data conversion script is needed as the prior year account tables is wiped each year."
 
   CA_ICR_ACCT_T
 -->

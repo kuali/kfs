@@ -30,6 +30,7 @@ are intended for use only by Kuali Foundation developers.
 	<target name="build-eclipse-classpath" />
 	<target name="extract-rice-libraries" />
 	<target name="refresh-kfs-db" />
+	<target name="make-javadoc" />
 
 	<target name="init-additional-properties" depends="init-properties">
 		<echo message="Reading Properties: ${properties.directory}/build-foundation.properties" />
@@ -415,11 +416,11 @@ Date   : ${svn.info.kfs.lastDate}
 
 	<target name="add-javadoc" depends="init-additional-properties, make-javadoc">
 		<!-- create javadoc zip -->
-		<zip destfile="kfs-javadoc.zip" basedir="${build.doc.directory}" compress="true" />
+		<zip destfile="kfs-javadoc.zip" basedir="${doc.directory}" compress="true" />
 		<!-- move javadoc zip -->
 		<move file="kfs-javadoc.zip" todir="${all.temp.directory}/kfs"/>
 		<!-- cleanup doc directory -->
-		<delete dir="${build.doc.directory}" />
+		<delete dir="${doc.directory}" />
 	</target>
 	
 	<target name="zip-package" depends="init-additional-properties">

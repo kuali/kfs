@@ -535,6 +535,7 @@
 				<include name="*.war" />
 				<include name="*.zip" />
 				<include name="workflow.xml"/>
+				<exclude name="kfs-javadoc.zip" />
 			</fileset>
 		</delete>
 		<delete verbose="true" includeemptydirs="true" failonerror="false">

@@ -30,6 +30,7 @@ are intended for use only by Kuali Foundation developers.
 	<target name="build-eclipse-classpath" />
 	<target name="extract-rice-libraries" />
 	<target name="refresh-kfs-db" />
+	<target name="make-javadoc" />
 
 	<target name="init-additional-properties" depends="init-properties">
 		<echo message="Reading Properties: ${properties.directory}/build-foundation.properties" />
@@ -149,12 +150,17 @@ are intended for use only by Kuali Foundation developers.
 	 </typedef>
 
 	<target name="prep-temp-dir" depends="init-properties">
+		<if>
+			<available file="${all.temp.directory}" type="dir" />
+			<then>
 		<echo>Deleting contents of temp directory: ${all.temp.directory}</echo>
     	<delete>
     		<fileset dir="${all.temp.directory}">
     			<include name="**/*" />
     		</fileset>
     	</delete>
+			</then>
+		</if>
 	</target>
 	
 	<target name="export-to-temp" depends="clean-all,prep-temp-dir">
@@ -243,8 +249,8 @@ are intended for use only by Kuali Foundation developers.
 			<property name="svn.base" value="${svn.info.url}"/>
 			<property name="data.svn.path" value="demo"/>
 		</ant>
-		<delete dir="${database.directory}/new_export" />
-		<delete file="${database.directory}/merge.complete" />
+		<delete dir="${database.directory}/kfs-db/new_export" />
+		<delete file="${database.directory}/kfs-db/merge.complete" />
 		-->
 	</target>
 
@@ -284,8 +290,8 @@ are intended for use only by Kuali Foundation developers.
 			<property name="svn.base" value="${svn.info.url}"/>
 			<property name="data.svn.path" value="bootstrap"/>
 		</ant>
-		<delete dir="${database.directory}/new_export" />
-		<delete file="${database.directory}/merge.complete" />
+		<delete dir="${database.directory}/kfs-db/new_export" />
+		<delete file="${database.directory}/kfs-db/merge.complete" />
 	</target>
 		
 	<target name="remove-distribution-dataset-dirs" depends="init-additional-properties">
@@ -318,7 +324,7 @@ are intended for use only by Kuali Foundation developers.
 	
 	<target name="build-distribution-datasets" depends="set-temp-export-db-properties,remove-distribution-dataset-dirs,prepare-dataset-paths,export-dev-db-to-temp,create-and-export-demo-dataset,create-and-export-bootstrap-dataset,commit-distribution-dataset-dirs" />
 	
-	<target name="package" depends="prep-temp-dir,export-to-temp,delete-nondistribution-files,replace-foundation-references,remove-distribution-portions-of-build-file,add-doc-files,zip-package"
+	<target name="package" depends="prep-temp-dir,export-to-temp,delete-nondistribution-files,replace-foundation-references,remove-distribution-portions-of-build-file,add-doc-files,add-javadoc,zip-package"
 			description="Cleans up the project, manipulates the contents slightly, and packs it up for distribution on the Kuali web site.">
     	<delete dir="${all.temp.directory}" verbose="false" />
 	</target>
@@ -341,6 +347,16 @@ are intended for use only by Kuali Foundation developers.
 		<delete dir="${all.temp.directory}/kfs/build/groovy" />
 		<!-- Development database contents -->
 		<delete dir="${all.temp.directory}/kfs/work/db/kfs-db/development" />
+		<!-- Development impex files -->
+		<delete verbose="true">
+			<fileset dir="${all.temp.directory}/kfs/work/db">
+				<include name="export-rice*" />
+				<exclude name="impex-local*"/>
+				<exclude name="refresh-local*"/>
+				<exclude name="rice_db_cleanup.sql"/>
+			</fileset>
+		</delete>
+		<delete dir="${all.temp.directory}/kfs/work/db/kfs-db/db-impex/export-to-svn" />
 		<!-- Remove all the instance build files *except* for a few examples. -->
 		<delete verbose="true">
 			<fileset dir="${all.temp.directory}/kfs">
@@ -396,6 +412,15 @@ are intended for use only by Kuali Foundation developers.
 KFS URL: ${svn.info.kfs.url} (@${svn.info.kfs.lastRev})
 Date   : ${svn.info.kfs.lastDate}
     	</echo>	
+	</target>
+
+	<target name="add-javadoc" depends="init-additional-properties, make-javadoc">
+		<!-- create javadoc zip -->
+		<zip destfile="kfs-javadoc.zip" basedir="${doc.directory}" compress="true" />
+		<!-- move javadoc zip -->
+		<move file="kfs-javadoc.zip" todir="${all.temp.directory}/kfs"/>
+		<!-- cleanup doc directory -->
+		<delete dir="${doc.directory}" />
 	</target>
 	
 	<target name="zip-package" depends="init-additional-properties">

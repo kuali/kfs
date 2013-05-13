@@ -52,9 +52,9 @@ public class PositionSelectLookupableHelperServiceImpl extends SelectLookupableH
         String href = UrlFactory.parameterizeUrl(BCConstants.POSITION_SALARY_SETTING_ACTION, parameters);
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
         AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, BCConstants.POSITION_SALARY_SETTING_METHOD, "Posn Salset");
-        anchorHtmlData.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
+        anchorHtmlData.setTarget(BCConstants.SECOND_WINDOW_TARGET_NAME);
         anchorHtmlDataList.add(anchorHtmlData);
-        
+
         return anchorHtmlDataList;
     }
 }

@@ -57,12 +57,6 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
         budgetConstructionReportThresholdSettings = new BudgetConstructionReportThresholdSettings();
     }
 
-    @Override
-    public void populate(HttpServletRequest request) {
-
-        super.populate(request);
-    }
-
     /**
      * Gets the subFundPickList
      *

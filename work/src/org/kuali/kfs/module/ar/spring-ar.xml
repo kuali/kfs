@@ -465,8 +465,8 @@
 		</property>
 	</bean>
 
-	<bean id="lockboxLoadService"
-		class="org.kuali.kfs.module.ar.batch.service.impl.LockboxLoadServiceImpl">
+	<bean id="lockboxLoadService"  parent="lockboxLoadService-parentBean"/>
+	<bean id="lockboxLoadService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.LockboxLoadServiceImpl" abstract="true">
 		<property name="batchInputFileService">
 			<ref bean="batchInputFileService" />
 		</property>
@@ -565,7 +565,7 @@
 	</bean>
 	
 	<bean id="invoiceRecurrenceJobTrigger" parent="invoiceRecurrenceJobTrigger-parentBean"/>
-    <bean id="invoiceRecurrenceJobTrigger-parentBean" parent="cronTrigger">
+    <bean id="invoiceRecurrenceJobTrigger-parentBean" parent="cronTrigger" abstract="true">
     	<property name="jobName" value="invoiceRecurrenceJob" />
 		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />
 	</bean>

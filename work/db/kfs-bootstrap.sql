@@ -1,3 +1,18 @@
+--
+-- Copyright 2009-2013 The Kuali Foundation
+--
+-- Licensed under the Educational Community License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+-- http://www.opensource.org/licenses/ecl2.php
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+--
 /* Disable constraints for the duration of this script */
 DECLARE 
    CURSOR constraint_cursor IS 
@@ -62,6 +77,8 @@ DECLARE
 	, 'CM_AST_CONDITION_T'
 	, 'CM_AST_DEPR_MTHD_T'
 	, 'CM_AST_LOC_TYP_T'
+	, 'CM_AST_PMT_DST_CD_T'
+	, 'CM_AST_PMT_DOC_TYP_T'
 	, 'CM_AST_STATUS_T'
 	, 'CM_ACQ_TYPE_T'
 	, 'CM_RETIRE_REAS_T'
@@ -85,6 +102,7 @@ DECLARE
 	, 'LD_BCN_AF_RSN_CD_T'
 	, 'LD_BCN_DURATION_T'
 	, 'LD_BENEFITS_TYPE_T'
+	, 'LD_LBR_BFT_RT_CAT_T'
 	, 'LD_POS_OBJ_GRP_T'
 	, 'PDP_ACCTG_CHG_CD_T'
 	, 'PDP_ACH_TRANS_CD_T'

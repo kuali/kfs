@@ -79,7 +79,7 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
     }
 
     /***
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrlHref(org.kuali.rice.krad.bo.BusinessObject, java.lang.String, java.util.List)
      */
     @Override
@@ -166,7 +166,7 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
             String[] requestParm = (String[]) requestParameters.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
             parameters.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, requestParm[0]);
         }
-        
+
         if (requestParameters.containsKey(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE)) {
             String[] requestParm = (String[]) requestParameters.get(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE);
             parameters.put(BCPropertyConstants.BUDGET_BY_ACCOUNT_MODE, requestParm[0]);
@@ -196,14 +196,14 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
      */
     public List<HtmlData> getSalarySettingByPositionUrls(BusinessObject businessObject) {
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
-        
+
         Properties parameters = getSalarySettingByPositionParameters(businessObject);
         String href = UrlFactory.parameterizeUrl(BCConstants.POSITION_SALARY_SETTING_ACTION, parameters);
         AnchorHtmlData urlData1 =
             new AnchorHtmlData(href, BCConstants.POSITION_SALARY_SETTING_METHOD, "Posn Salset");
-        
+
         Map requestParameters = super.getParameters();
-        
+
         boolean linkToNewWindow = true;
         if (requestParameters.containsKey(BCPropertyConstants.ADD_LINE)) {
             String[] requestParm = (String[]) requestParameters.get(BCPropertyConstants.ADD_LINE);
@@ -213,9 +213,9 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
             }
         }
         if (linkToNewWindow) {
-            urlData1.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
+            urlData1.setTarget(BCConstants.SECOND_WINDOW_TARGET_NAME);
         }
-        
+
         anchorHtmlDataList.add(urlData1);
 
         // now add refresh url if feed from payroll is on
@@ -230,7 +230,7 @@ public class PositionLookupableHelperServiceImpl extends SelectLookupableHelperS
             if (linkToNewWindow) {
                 urlData2.setTarget(KFSConstants.NEW_WINDOW_URL_TARGET);
             }
-            
+
             anchorHtmlDataList.add(urlData2);
             anchorHtmlDataList.get(anchorHtmlDataList.lastIndexOf(urlData2)).setPrependDisplayText("<br />");
         }

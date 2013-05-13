@@ -77,7 +77,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This class provides default implementation of {@link BatchExtractService}
  */
-
+@Transactional
 public class BatchExtractServiceImpl implements BatchExtractService {
 
     protected static final Logger LOG = Logger.getLogger(BatchExtractServiceImpl.class);
@@ -90,7 +90,6 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     protected PurchasingAccountsPayableItemAssetDao purchasingAccountsPayableItemAssetDao;
 
     @Override
-    @Transactional
     public void performExtract(ExtractProcessLog processLog) {
 
         Collection<Entry> elgibleGLEntries = findElgibleGLEntries(processLog);
@@ -321,7 +320,6 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#saveFPLines(java.util.List)
      */
     @Override
-    @Transactional
     public void saveFPLines(List<Entry> fpLines, ExtractProcessLog processLog) {
         for (Entry fpLine : fpLines) {
             // If entry is not duplicate, non-null and non-zero, then insert into CAB
@@ -344,7 +342,6 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#savePOLines(java.util.List)
      */
-    @Transactional
     @Override
     public HashSet<PurchasingAccountsPayableDocument> savePOLines(List<Entry> poLines, ExtractProcessLog processLog) {
         HashSet<PurchasingAccountsPayableDocument> purApDocuments = new HashSet<PurchasingAccountsPayableDocument>();
@@ -856,7 +853,6 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#savePreTagLines(java.util.Collection)
      */
     @Override
-    @Transactional
     public void savePreTagLines(Collection<PurchaseOrderAccount> preTaggablePOAccounts) {
         HashSet<String> savedLines = new HashSet<String>();
         for (PurchaseOrderAccount purchaseOrderAccount : preTaggablePOAccounts) {

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,6 +32,7 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderTabIdentifierService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
@@ -332,6 +334,11 @@ public class PurchaseOrderTabIdentifierServiceImpl implements PurchaseOrderTabId
                 if (res1 instanceof String && StringUtils.isEmpty(String.valueOf(res1))) {
                     res1 = null;
                 }
+
+                if(res1 !=null && res1 instanceof BigDecimal){
+                    res1 =  ((BigDecimal)res1).setScale(KualiDecimal.SCALE);
+
+                }
             }
             catch (Exception e) {
                 LOG.error(e);
@@ -343,6 +350,10 @@ public class PurchaseOrderTabIdentifierServiceImpl implements PurchaseOrderTabId
 
                 if (res2 instanceof String && StringUtils.isEmpty(String.valueOf(res2))) {
                     res2 = null;
+                }
+                if(res2 !=null && res2 instanceof BigDecimal){
+                    res2 = ((BigDecimal)res2).setScale(KualiDecimal.SCALE);
+
                 }
 
             }

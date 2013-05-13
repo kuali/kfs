@@ -113,7 +113,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * This class provides services of use to a payment request document
  */
-
+@Transactional
 public class PaymentRequestServiceImpl implements PaymentRequestService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestServiceImpl.class);
 
@@ -307,7 +307,6 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     @Override
-    @Transactional
     public boolean autoApprovePaymentRequest(PaymentRequestDocument doc, KualiDecimal defaultMinimumLimit) {
         if (isEligibleForAutoApproval(doc, defaultMinimumLimit)) {
             try {

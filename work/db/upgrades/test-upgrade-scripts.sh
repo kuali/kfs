@@ -1,3 +1,19 @@
+#
+# Copyright 2012 The Kuali Foundation
+# 
+# Licensed under the Educational Community License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+# http://www.opensource.org/licenses/ecl2.php
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# DO NOT add comments before the blank line below, or they will disappear.
+
 # Control Variables for Testing Parts of Scripts
 IMPORT_OLD_PROJECT=${IMPORT_OLD_PROJECT:-true}
 RUN_UPGRADE_SCRIPTS=${RUN_UPGRADE_SCRIPTS:-true}
@@ -129,12 +145,12 @@ EOF
 	) > $TEMP_DIR/liquibase.properties
 	pushd $UPGRADE_SCRIPT_DIR/db
 
-	# java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=rice-client-script.xml updateSQL > $WORKSPACE/upgrade.sql
+	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=rice-client-script.xml updateSQL > $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=master-structure-script.xml updateSQL >> $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=master-data-script.xml updateSQL >> $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=master-constraint-script.xml updateSQL >> $WORKSPACE/upgrade.sql
 
-	# java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=rice-client-script.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=rice-client-script.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=master-structure-script.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=master-data-script.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=master-constraint-script.xml update

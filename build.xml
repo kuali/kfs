@@ -487,8 +487,8 @@
 	</target>
 	
 	<target name="make-javadoc" depends="init-make-references">
-		<mkdir dir="${build.doc.directory}"/>
-		<javadoc destdir="${build.doc.directory}" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="${javadoc.max.memory}">
+		<mkdir dir="${doc.directory}"/>
+		<javadoc destdir="${doc.directory}" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="${javadoc.max.memory}">
 			<sourcepath><pathelement location="${source.directory}"/></sourcepath>
 			<classpath refid="compile.source.classpath"/>
 		</javadoc>
@@ -541,6 +541,7 @@
 				<include name="*.war" />
 				<include name="*.zip" />
 				<include name="workflow.xml"/>
+				<exclude name="kfs-javadoc.zip" />
 			</fileset>
 		</delete>
 		<delete verbose="true" includeemptydirs="true" failonerror="false">
@@ -1572,9 +1573,10 @@ Admin Password = $${impex.admin.password} (not shown)
 				to
 					${user.home.safe}
 			    - If desired, add your email address to the notification addresses.			
-			    - The default database setup which will be used is in ${basedir.safe}/dev-build.properties.
+			    - The default database setup which will be used is in ${basedir.safe}/build/properties/database.properties
+		          and some are overridden by ${basedir.safe}/dev-build.properties.
 				-- You can copy any properties from there (or any other property file) to your kfs-build.properties
-					file to override the defaults in the project.
+				   file to override the defaults in the project.
 			    - save your changes
 
 			2. Copy your JDBC driver(s) into the ${basedir.safe}/build/drivers directory 

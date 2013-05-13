@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    Copyright 2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog'
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
@@ -51,125 +66,128 @@
 	<changeSet author="KFS50" id="KFSMI7058_ASSET_PMT_DOC_SAMPLE_DATA">
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="1" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="AA" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="2" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="MPAY" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="3" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="AD" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="4" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="CR" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="5" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="CCR" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="6" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="DI" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="7" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="DV" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="8" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="GEC" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="9" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="IB" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="10" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="JV" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="11" />
-			<column name="OBJ_ID" valueNumeric="sys_guid()" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="SB" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="12" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="YEDI" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="13" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="YEGE" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="14" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="PCDO" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="15" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="PREQ" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="16" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="CM" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="17" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID" />
 			<column name="VER_NBR" value="1" />
 			<column name="DOC_TYP_NM" value="ND" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
-		<modifySql dbms='mysql'>
-			<replace replace="sys_guid" with="uuid" />
+		<modifySql dbms="mysql">
+			<replace replace="SYS_GUID" with="uuid()" />
+		</modifySql>
+		<modifySql dbms="oracle">
+			<replace replace="SYS_GUID" with="sys_guid()" />
 		</modifySql>
 	</changeSet>
 

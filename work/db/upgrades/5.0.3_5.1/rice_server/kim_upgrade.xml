@@ -752,5 +752,27 @@
 		<modifySql dbms='mysql'>
 	      <replace replace="SYS_GUID()" with="UUID()" />
 	    </modifySql>
-	</changeSet>					
+	</changeSet>	
+	<changeSet id="KFSCNTRB-720 KIM_UPDATE" author="KFS52">
+		<comment>Fixing  KIM data for the Rice Responsibility , Attributes and Actions which are used for PurchaseOrder Amendment Routing.</comment>
+
+	<update tableName="KRIM_ROLE_RSP_T">
+	    <column name="ROLE_ID" value="41"/> 
+	    <where>ROLE_RSP_ID='KFSCNTRB720-RLRSP6'</where> 
+	 </update>
+	 
+	 <update tableName="KRIM_RSP_ATTR_DATA_T">
+	    <column name="ATTR_VAL" value="true"/> 
+	    <where>ATTR_DATA_ID='KFSCNTRB720-RSPATT23'</where> 
+	 </update>
+	 
+	 <update tableName="KRIM_ROLE_RSP_T">
+	    <column name="ROLE_ID" value="23"/> 
+	    <where>ROLE_RSP_ID='KFSCNTRB720-RLRSP5'</where> 
+	 </update>
+	 
+	 	<modifySql dbms='mysql'>
+	      <replace replace="SYS_GUID()" with="UUID()" />
+	    </modifySql>
+	</changeSet>				
 </databaseChangeLog>

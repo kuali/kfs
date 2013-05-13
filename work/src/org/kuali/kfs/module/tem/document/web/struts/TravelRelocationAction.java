@@ -25,7 +25,6 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT_NUMBER;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -37,7 +36,6 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.fp.businessobject.WireCharge;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.web.struts.DisbursementVoucherForm;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
@@ -55,16 +53,12 @@ import org.kuali.kfs.module.tem.report.service.NonEmployeeCertificationReportSer
 import org.kuali.kfs.module.tem.report.service.SummaryByDayReportService;
 import org.kuali.kfs.module.tem.report.util.BarcodeHelper;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -188,9 +182,6 @@ public class TravelRelocationAction extends TravelActionBase {
     protected void setButtonPermissions(TravelRelocationForm form) {
         final TravelRelocationAuthorizer authorizer = getDocumentAuthorizer(form);
         form.setCanCertify(authorizer.canCertify(form.getTravelRelocationDocument(), GlobalVariables.getUserSession().getPerson()));
-
-        // just turn on edit payment info for now
-        form.setCanOpenPaymentInformation(true);
     }
 
     protected void setTaxSelectable(final TravelRelocationForm form) {
@@ -226,17 +217,6 @@ public class TravelRelocationAction extends TravelActionBase {
 
         // set wire charge message in form
         ((DisbursementVoucherForm) kualiDocumentFormBase).setWireChargeMessage(retrieveWireChargeMessage());
-    }
-
-    protected String retrieveWireChargeMessage() {
-        String message = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.MESSAGE_DV_WIRE_CHARGE);
-        WireCharge wireCharge = new WireCharge();
-        wireCharge.setUniversityFiscalYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
-
-        wireCharge = (WireCharge) SpringContext.getBean(BusinessObjectService.class).retrieve(wireCharge);
-        Object[] args = { wireCharge.getDomesticChargeAmt(), wireCharge.getForeignChargeAmt() };
-
-        return MessageFormat.format(message, args);
     }
 
     /**

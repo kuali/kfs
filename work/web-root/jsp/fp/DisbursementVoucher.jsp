@@ -55,8 +55,8 @@
 	<fp:dvContact />
     <fp:dvSpecialHandling />
 	<fp:dvNRATax />
-	<sys:wireTransfer />
-	<sys:foreignDraft />
+	<fp:wireTransfer />
+	<fp:foreignDraft />
 	<fp:dvNonEmployeeTravel />
 	<fp:dvPrePaidTravel />
     <fp:dvPDPStatus />

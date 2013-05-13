@@ -214,9 +214,6 @@ public class TravelEntertainmentAction extends TravelActionBase {
             document.getTravelPayment().setCheckTotalAmount(reimbursableTotal);
         }
 
-        // just turn on edit payment info for now
-        entForm.setCanOpenPaymentInformation(true);
-
         return retval;
     }
 

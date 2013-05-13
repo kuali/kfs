@@ -21,12 +21,6 @@
 
 <c:set var="fullEntryMode" value="${KualiForm.editingMode['fullEntry']}" scope="request" />
 
-<c:if test="${KualiForm.openPaymentInformationWindow}">
-	<script type="text/javascript">
-		window.open("${ConfigProperties.application.url}/${KualiForm.travelPaymentFormAction}.do?methodToCall=paymentInformationStart","_blank");
-	</script>
-</c:if>
-
 <kul:documentPage showDocumentInfo="true"
     documentTypeName="TravelReimbursementDocument"
     htmlFormAction="temTravelReimbursement" renderMultipart="true"
@@ -59,6 +53,7 @@
     
     <tem:assignAccounts />
     <tem:accountingLines />
+	<tem:travelPayment/>
     <gl:generalLedgerPendingEntries />
     <tem:relatedDocuments />
 

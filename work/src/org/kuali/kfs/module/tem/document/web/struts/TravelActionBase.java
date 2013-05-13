@@ -39,6 +39,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -58,6 +59,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.fp.businessobject.WireCharge;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
@@ -105,8 +107,10 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
@@ -372,6 +376,9 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
                 }
             }
         }
+
+        // set wire charge message in form
+        ((TravelFormBase)form).setWireChargeMessage(retrieveWireChargeMessage());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -1518,46 +1525,15 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         }
     }
 
-    /**
-     * Opens a secondary window with the travel payment information in it
-     * @param mapping the map of all mappings configured in the KFS struts context
-     * @param form the TravelDocumentForm
-     * @param request the http request to be fulfilled
-     * @param response the http response which is being sent in response to the request
-     * @return the forward to the jsp page to render
-     * @throws Exception thrown if, you know, practically anything goes wrong
-     */
-    public ActionForward paymentInformationOpen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TravelFormBase travelForm = (TravelFormBase)form;
-        travelForm.setOpenPaymentInformationWindow(true);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
 
-    /**
-     * The initial method to open the travel payment
-     * @param mapping the map of all mappings configured in the KFS struts context
-     * @param form the TravelDocumentForm
-     * @param request the http request to be fulfilled
-     * @param response the http response which is being sent in response to the request
-     * @return the forward to the jsp page to render
-     * @throws Exception thrown if, you know, practically anything goes wrong
-     */
-    public ActionForward paymentInformationStart(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(TemConstants.MAPPING_TRAVEL_PAYMENT);
-    }
+    protected String retrieveWireChargeMessage() {
+        String message = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.MESSAGE_DV_WIRE_CHARGE);
+        WireCharge wireCharge = new WireCharge();
+        wireCharge.setUniversityFiscalYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 
-    /**
-     * Forwards to a page which will close the secondary payment information window
-     * @param mapping the map of all mappings configured in the KFS struts context
-     * @param form the TravelDocumentForm
-     * @param request the http request to be fulfilled
-     * @param response the http response which is being sent in response to the request
-     * @return the forward to the jsp page to render
-     * @throws Exception thrown if, you know, practically anything goes wrong
-     */
-    public ActionForward paymentInformationClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // the magic of this method is the automatic repopulation - all the fields from the payment information will be set
-        // on the document
-        return mapping.findForward(TemConstants.MAPPING_TRAVEL_PAYMENT_CLOSE);
+        wireCharge = (WireCharge) SpringContext.getBean(BusinessObjectService.class).retrieve(wireCharge);
+        Object[] args = { wireCharge.getDomesticChargeAmt(), wireCharge.getForeignChargeAmt() };
+
+        return MessageFormat.format(message, args);
     }
 }

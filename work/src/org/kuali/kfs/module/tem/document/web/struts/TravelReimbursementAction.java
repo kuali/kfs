@@ -211,9 +211,6 @@ public class TravelReimbursementAction extends TravelActionBase {
         //certify
         form.setCanCertify(authorizer.canCertify(form.getTravelReimbursementDocument(), GlobalVariables.getUserSession().getPerson()));
         setCanCalculate(form);
-
-        // just turn on edit payment info for now
-        form.setCanOpenPaymentInformation(true);
     }
 
     /**

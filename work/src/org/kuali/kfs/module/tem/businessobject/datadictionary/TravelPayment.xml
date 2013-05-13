@@ -20,6 +20,7 @@
 			<ref bean="TravelPayment-paidDate" />
 			<ref bean="TravelPayment-cancelDate" />
 			<ref bean="TravelPayment-alienPaymentCode" />
+			<ref bean="TravelPayment-payeeW9CompleteCode"/>
 			<ref bean="TravelPayment-specialHandlingPersonName" />
 			<ref bean="TravelPayment-specialHandlingLine1Addr" />
 			<ref bean="TravelPayment-specialHandlingLine2Addr" />
@@ -28,6 +29,8 @@
 			<ref bean="TravelPayment-specialHandlingZipCode" />
 			<ref bean="TravelPayment-specialHandlingCountryCode" />
 			<ref bean="TravelPayment-paymentPdpStatus"/>
+			<ref bean="TravelPayment-payeeTypeCode" />
+			<ref bean="TravelPayment-exceptionAttachedIndicator"/>
 			<ref bean="TravelPayment-versionNumber" />
 		</list>
 		</property>

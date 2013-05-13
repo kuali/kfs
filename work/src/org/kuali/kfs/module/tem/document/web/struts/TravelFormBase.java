@@ -89,6 +89,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     private boolean displayNonEmployeeForm = false;
     private boolean openPaymentInformationWindow = false;
     private boolean canOpenPaymentInformation = false;
+    private String wireChargeMessage;
     private Observable observable;
     private AccountingDocumentRelationship newAccountingDocumentRelationship;
 
@@ -431,21 +432,6 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     }
 
     /**
-     * @return whether the payment information screen can be opened or not
-     */
-    public boolean canOpenPaymentInformation() {
-        return this.canOpenPaymentInformation;
-    }
-
-    /**
-     * Sets whether the payment information screen can be opened or not
-     * @param canOpenPaymentInformation true if the payment information screen can be opened, false if it cannot be; defaults to false
-     */
-    public void setCanOpenPaymentInformation(boolean canOpenPaymentInformation) {
-        this.canOpenPaymentInformation = canOpenPaymentInformation;
-    }
-
-    /**
      * Gets the canImportExpenses attribute.
      * @return Returns the canImportExpenses.
      */
@@ -595,9 +581,6 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         extraButtons.clear();
         String appExternalImageURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
 
-        if (canOpenPaymentInformation()) {
-            addExtraButton("methodToCall.paymentInformationOpen",appExternalImageURL+"buttonsmall_additionalpaymentinfo.gif","Open Payment Information");
-        }
         if (canReturn()) {
             addExtraButton("methodToCall.returnToFiscalOfficer", appExternalImageURL + "buttonsmall_return_to_fo.gif", "Return to Fiscal Officer");
         }
@@ -1075,6 +1058,20 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      */
     public void setOpenPaymentInformationWindow(boolean openPaymentInformationWindow) {
         this.openPaymentInformationWindow = openPaymentInformationWindow;
+    }
+
+    /**
+     * @return Returns the wireChargeMessage.
+     */
+    public String getWireChargeMessage() {
+        return wireChargeMessage;
+    }
+
+    /**
+     * @param wireChargeMessage The wireChargeMessage to set.
+     */
+    public void setWireChargeMessage(String wireChargeMessage) {
+        this.wireChargeMessage = wireChargeMessage;
     }
 
     /**

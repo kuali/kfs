@@ -108,8 +108,8 @@
       </policies>	  
 			<routePaths>
 				<routePath>
-					<start name="AdHoc" nextNode="RequiresItemsApproval" />
-					<split name="HasNewUnorderedItems" nextNode="Account">
+					<start name="AdHoc" nextNode="HasNewUnorderedItems" />
+					<split name="HasNewUnorderedItems" nextNode="RequiresItemsApproval">
 						<branch name="True">
 							<requests name="NewUnorderedItems" nextNode="JoinOrderedItems" />
 						</branch>

@@ -17,14 +17,30 @@
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
 
 	<changeSet author="RICE213" id="RICE_CLIENT_UPDATES_oracle" dbms="oracle">
-		<sqlFile path="rice_213_client_final_oracle.sql" />
+		<sql><![CDATA[
+--
+-- KULRICE-8573: Add session id to locks and delete these locks when session is destroyed.
+--
+
+ALTER TABLE KRNS_PESSIMISTIC_LOCK_T ADD SESN_ID VARCHAR2(40) DEFAULT '' NOT NULL;
+		]]></sql>
 	</changeSet>
+
 	<changeSet author="RICE213" id="RICE_CLIENT_UPDATES_mysql" dbms="mysql">
 		<sqlFile path="rice_213_client_final_mysql.sql" />
 	</changeSet>
 
 	<changeSet author="RICE216" id="RICE_CLIENT_UPDATES_oracle" dbms="oracle">
-		<sqlFile path="rice_216_client_final_oracle.sql" />
+		<sql><![CDATA[
+		--
+-- KULRICE-9288  - Column 'SESN_ID' cannot be null causes issues
+--
+
+UPDATE KRNS_PESSIMISTIC_LOCK_T SET SESN_ID = 'undefined' WHERE SESN_ID IS NULL OR SESN_ID = '';
+
+ALTER TABLE KRNS_PESSIMISTIC_LOCK_T MODIFY (SESN_ID DEFAULT 'undefined');
+
+		]]></sql>		
 	</changeSet>
 	<changeSet author="RICE216" id="RICE_CLIENT_UPDATES_mysql" dbms="mysql">
 		<sqlFile path="rice_216_client_final_mysql.sql" />

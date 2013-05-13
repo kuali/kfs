@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KFSDocumentSearchCustomizer</name>
+      <label>KFS Document Search Customizer</label>
+      <className>{http://kfs.kuali.org/kfs/v5_0}KFSDocumentSearchCustomizer</className>
+      <type>DocumentSearchCustomizer</type>
+      <applicationId>KFS</applicationId>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>FinancialSystemSearchableAttribute</name>
+      <className>{http://kfs.kuali.org/kfs/v5_0}FinancialSystemSearchableAttribute</className>
+      <label>Financial System Searchable Attribute</label>
+      <description>Financial System Searchable Attribute</description>
+      <type>SearchableAttribute</type>
+      <applicationId>KFS</applicationId>
+    </ruleAttribute>
+  </ruleAttributes>
+</data>

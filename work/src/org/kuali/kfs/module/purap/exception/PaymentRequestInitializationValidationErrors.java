@@ -1,6 +1,17 @@
 /*
- * Created on Apr 14, 2005
+ * Copyright 2005-2011 The Kuali Foundation.
  *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kfs.module.purap.exception;
 
@@ -22,27 +33,27 @@ public class PaymentRequestInitializationValidationErrors implements Serializabl
     private List closedAccounts = new ArrayList();
     private Integer purchaseOrderNumberToUse;
     public boolean canAutoClosePO = false;
-    
+
     private List<PREQCreationFailure> PREQCreationFailures = new ArrayList<PREQCreationFailure>();
 
     public void addPREQCreationFailure(String rejectReasonCode,
                                        String extraDescription){
-        
+
         PREQCreationFailure rejectReason = new PREQCreationFailure();
         rejectReason.setRejectReasonCode(rejectReasonCode);
         rejectReason.setExtraDescription(extraDescription);
         PREQCreationFailures.add(rejectReason);
     }
-    
+
     public PREQCreationFailure[] getPREQCreationFailures(){
         if (PREQCreationFailures.size() > 0){
-            PREQCreationFailure[] rejectReasons = new PREQCreationFailure[this.PREQCreationFailures.size()]; 
+            PREQCreationFailure[] rejectReasons = new PREQCreationFailure[this.PREQCreationFailures.size()];
             return this.PREQCreationFailures.toArray(rejectReasons);
         }else {
             return null;
         }
     }
-    
+
     public void addExpiredAccount(Account expiredAccount) {
         expiredAccounts.add(new AccountContinuation(expiredAccount));
     }
@@ -58,7 +69,7 @@ public class PaymentRequestInitializationValidationErrors implements Serializabl
     public void addClosedAccount(AccountContinuation closedAccount) {
         closedAccounts.add(closedAccount);
     }
-    
+
     public boolean isClosedAccountsValid() {
         return this.isListMembersValid(closedAccounts);
     }
@@ -94,7 +105,7 @@ public class PaymentRequestInitializationValidationErrors implements Serializabl
     }
 
     public class AccountContinuation implements Serializable {
-        
+
         private String accountFinancialChartOfAccountsCode;
         private String accountAccountNumber;
         private String replacementFinancialChartOfAccountsCode;
@@ -148,12 +159,12 @@ public class PaymentRequestInitializationValidationErrors implements Serializabl
             this.replacementAccountValid = replacementAccountValid;
         }
     }
-    
+
     public final class PREQCreationFailure {
-        
+
         private String rejectReasonCode;
         private String extraDescription;
-        
+
         public String getExtraDescription() {
             return extraDescription;
         }
@@ -166,6 +177,6 @@ public class PaymentRequestInitializationValidationErrors implements Serializabl
         public void setRejectReasonCode(String rejectReasonCode) {
             this.rejectReasonCode = rejectReasonCode;
         }
-        
+
     }
 }

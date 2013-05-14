@@ -94,7 +94,7 @@
 			</bean>
 			</list>
 		</property>
-		
+		<property name="maxDictionaryValidationDepth" value="0"/>
 	</bean>
 	<bean id="TravelEntertainmentDocument-travelDocumentNumber" parent="TravelEntertainmentDocument-travelDocumentNumber-parentBean" />
 	<bean id="TravelEntertainmentDocument-travelDocumentNumber-parentBean" parent="AttributeDefinition">

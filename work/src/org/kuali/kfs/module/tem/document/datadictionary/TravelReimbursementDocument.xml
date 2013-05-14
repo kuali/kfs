@@ -114,6 +114,7 @@
             </bean>
 			</list>
 		</property>
+		<property name="maxDictionaryValidationDepth" value="0"/>
 	</bean>
 	<bean id="TravelReimbursementDocument-travelDocumentNumber" parent="TravelReimbursementDocument-travelDocumentNumber-parentBean" />
 	<bean id="TravelReimbursementDocument-travelDocumentNumber-parentBean" parent="AttributeDefinition">

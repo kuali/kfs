@@ -16038,6 +16038,7 @@
 		<column name="RMT_CTY_NM" size="37" type="VARCHAR"/>
 		<column name="RMT_ST_CD" size="2" type="VARCHAR"/>
 		<column name="RMT_ZIP_CD" size="20" type="VARCHAR"/>
+		<column name="RMT_CNTRY_CD" size="2" type="VARCHAR"/>
 		<column name="W9_CMPLT_IND" size="1" type="CHAR"/>
 		<column name="PAYEE_TYP_CD" size="1" type="VARCHAR"/>
 		<column default="N" name="EXCPT_IND" required="true" size="1" type="VARCHAR"/>

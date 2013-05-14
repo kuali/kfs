@@ -26,7 +26,10 @@
     htmlFormAction="temTravelReimbursement" renderMultipart="true"
     showTabButtons="true">
        
-    <sys:documentOverview editingMode="${KualiForm.editingMode}" />
+    <sys:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
+	  bankProperty="document.financialDocumentBankCode" 
+	  bankObjectProperty="document.bank"
+	  disbursementOnly="true" />
 
     <c:if test="${showReports}">
         <tem-tr:reports />

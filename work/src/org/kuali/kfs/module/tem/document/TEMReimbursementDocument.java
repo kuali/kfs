@@ -420,6 +420,22 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     }
 
     /**
+     * Overridden to set document number on travel payment and wire transfer
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#prepareForSave()
+     */
+    @Override
+    public void prepareForSave() {
+        super.prepareForSave();
+
+        if (wireTransfer != null) {
+            wireTransfer.setDocumentNumber(this.documentNumber);
+        }
+        if (travelPayment != null) {
+            travelPayment.setDocumentNumber(this.documentNumber);
+        }
+    }
+
+    /**
      * @return the default implementation of the ReimbursableDocumentPaymentService
      */
     public static ReimbursableDocumentPaymentService getReimbursableDocumentPaymentService() {

@@ -123,6 +123,7 @@
                 </bean>
             </list>
         </property>
+        <property name="maxDictionaryValidationDepth" value="0"/>
     </bean>
 
     <bean id="TravelRelocationDocument-travelDocumentNumber" parent="TravelRelocationDocument-travelDocumentNumber-parentBean" />

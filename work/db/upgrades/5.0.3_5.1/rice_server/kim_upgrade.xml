@@ -774,5 +774,25 @@
 	 	<modifySql dbms='mysql'>
 	      <replace replace="SYS_GUID()" with="UUID()" />
 	    </modifySql>
-	</changeSet>				
+	</changeSet>	
+	
+	
+	<changeSet id="KFSCNTRB-720 KIM_UPDATE_NODE_NAMES" author="KFS52">
+	<comment>Fixing  Node names for PurchaseOrder Amendment Routing.</comment>
+
+	 
+	 <update tableName="KRIM_RSP_ATTR_DATA_T">
+	    <column name="ATTR_VAL" value="Account"/> 
+	    <where>RSP_ID='KFSCNTRB720-RSP6'</where> 
+	 </update>
+	 
+	 <update tableName="KRIM_RSP_ATTR_DATA_T">
+	    <column name="ATTR_VAL" value="AccountNonItem"/> 
+	    <where>RSP_ID='107'</where> 
+	 </update>
+	 
+	 	<modifySql dbms='mysql'>
+	      <replace replace="SYS_GUID()" with="UUID()" />
+	    </modifySql>
+	</changeSet>					
 </databaseChangeLog>

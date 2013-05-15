@@ -505,8 +505,8 @@
       </routeNodes>
     </documentType>
 	
-	<documentType>
-      <name>
+	 <documentType>
+	 <name>
         POA
       </name>
       <parent>
@@ -527,9 +527,8 @@
       <routingVersion>
         2
       </routingVersion>
-        <validApplicationStatuses>	  
-	  	<!--  Incomplete status start -->
-	  	<category name="INCOMPLETE STATUSES">
+        <validApplicationStatuses>
+        <category name="INCOMPLETE STATUSES">
 	  	  <status>In Process</status>
 		  <status>Awaiting Fiscal Officer Review</status>
 		  <status>Awaiting New Unordered Item Review</status>
@@ -549,8 +548,7 @@
 		  <status>Waiting for Department</status>
 		  <status>Waiting for Vendor</status>
 		</category>
-		<!--  Incomplete status end -->
-		<!--  complete status start -->
+	
 		<category name="COMPLETE STATUSES">
 		  <status>Cancelled</status>
 		  <status>Cancelled Change</status>
@@ -573,7 +571,7 @@
 		  <status>Retired Version</status>
 		  <status>Void</status>
 		</category>
-		<!--  complete status end -->
+		
 	  </validApplicationStatuses>
       <policies>
         <policy>
@@ -581,10 +579,10 @@
               <stringValue>app</stringValue>
         </policy>
       </policies>	  
-      <routePaths>
+			<routePaths>
 				<routePath>
-					<start name="AdHoc" nextNode="RequiresItemsApproval" />
-					<split name="HasNewUnorderedItems" nextNode="Account">
+					<start name="AdHoc" nextNode="HasNewUnorderedItems" />
+					<split name="HasNewUnorderedItems" nextNode="RequiresItemsApproval">
 						<branch name="True">
 							<requests name="NewUnorderedItems" nextNode="JoinOrderedItems" />
 						</branch>
@@ -595,7 +593,7 @@
 					</split>
 					<split name="RequiresItemsApproval">
 						<branch name="True">					
-						<requests name="AccountReview" nextNode="RequiresContractManagementReview" />
+						<requests name="Account" nextNode="RequiresContractManagementReview" />
 							<split name="RequiresContractManagementReview" nextNode="Commodity">
 								<branch name="True">
 									<requests name="ContractManagement" nextNode="JoinRequiresContractManagementReview" />
@@ -638,7 +636,7 @@
 						<branch name="False">
 							<split name="RequiresItemsNonItem">
 								<branch name="True">
-							<requests name="Account" nextNode="RequiresContractManagementNonItem" />
+							<requests name="AccountNonItem" nextNode="RequiresContractManagementNonItem" />
 							<split name="RequiresContractManagementNonItem" nextNode="CommodityNonItem">
 								<branch name="True">
 									<requests name="ContractManagementNonItem" nextNode="JoinRequiresContractManagementNonItem" />
@@ -742,11 +740,11 @@
 		          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 		          <activationType>P</activationType>
 		        </role>
-		        <role name="Account">
+		        <role name="AccountNonItem">
 		          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 		          <activationType>P</activationType>
 		        </role>
-		        <role name="AccountReview">
+		        <role name="Account">
 		          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 		          <activationType>P</activationType>
 		        </role>
@@ -852,8 +850,7 @@
 				<join name="JoinRequiresContractManagementReview" />
 				<join name="JoinRequiresContractManagementNonItem" />
 			</routeNodes>
-    </documentType>
-	
+		</documentType>
 	 <documentType>
       <name>
         POC

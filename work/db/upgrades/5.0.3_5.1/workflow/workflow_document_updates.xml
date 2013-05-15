@@ -120,7 +120,7 @@
 					</split>
 					<split name="RequiresItemsApproval">
 						<branch name="True">					
-						<requests name="AccountReview" nextNode="RequiresContractManagementReview" />
+						<requests name="Account" nextNode="RequiresContractManagementReview" />
 							<split name="RequiresContractManagementReview" nextNode="Commodity">
 								<branch name="True">
 									<requests name="ContractManagement" nextNode="JoinRequiresContractManagementReview" />
@@ -163,7 +163,7 @@
 						<branch name="False">
 							<split name="RequiresItemsNonItem">
 								<branch name="True">
-							<requests name="Account" nextNode="RequiresContractManagementNonItem" />
+							<requests name="AccountNonItem" nextNode="RequiresContractManagementNonItem" />
 							<split name="RequiresContractManagementNonItem" nextNode="CommodityNonItem">
 								<branch name="True">
 									<requests name="ContractManagementNonItem" nextNode="JoinRequiresContractManagementNonItem" />
@@ -267,11 +267,11 @@
 		          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 		          <activationType>P</activationType>
 		        </role>
-		        <role name="Account">
+		        <role name="AccountNonItem">
 		          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 		          <activationType>P</activationType>
 		        </role>
-		        <role name="AccountReview">
+		        <role name="Account">
 		          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 		          <activationType>P</activationType>
 		        </role>

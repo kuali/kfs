@@ -198,7 +198,7 @@
 	<bean id="TravelPayment-specialHandlingValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelPaymentSpecialHandlingValidation" abstract="true" />
 	
 	<bean id="TravelPayment-requiredNotesValidation" parent="TravelPayment-requiredNotesValidation-parentBean" scope="prototype"/>
-	<bean id="TravelPayment-requiredNotesValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelPaymentSpecialHandlingValidation" abstract="true" />
+	<bean id="TravelPayment-requiredNotesValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelPaymentRequiredNotesValidation" abstract="true" />
 	
 	<bean id="TravelPayment-dataDictionaryValidation" parent="TravelPayment-dataDictionaryValidation-parentBean" scope="prototype"/>
 	<bean id="TravelPayment-dataDictionaryValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelPaymentDataDictionaryValidation" abstract="true">

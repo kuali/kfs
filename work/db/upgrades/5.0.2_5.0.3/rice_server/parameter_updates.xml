@@ -78,4 +78,24 @@
 	    </modifySql>
 	</changeSet>
 	
+	<changeSet author="KFS503" id="KFSCNTRB-1380">
+		<comment>KFSCNTRB-1380 Payment Terms table misused for Payment calculation resulting in incorrect Terms being printed on PO and being sent to supplier.</comment>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="CMPNT_CD" value="PaymentRequest" />
+			<column name="PARM_NM" value="NUMBER_OF_DAYS_USED_TO_DECREASE_CALCULATED_PAY_DATE" />
+			<column name="VAL" value="Y" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
+			<column name="VER_NBR" valueNumeric="2" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Indicates the number of days that should be subtracted from the calculated pay date to ensure payment is made on time. This parameter can be used to manipulate pay date to ensure payments to vendors meet discount requirements or to account for holidays that may interfere with payment schedules. " />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+
+		<modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
+	</changeSet>
+	
 </databaseChangeLog>

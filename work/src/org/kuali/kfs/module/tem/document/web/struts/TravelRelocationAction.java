@@ -32,12 +32,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.web.struts.DisbursementVoucherForm;
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
@@ -58,6 +60,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -225,7 +228,24 @@ public class TravelRelocationAction extends TravelActionBase {
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        final String refreshCaller = ((KualiForm)form).getRefreshCaller();
+        if (!StringUtils.isBlank(refreshCaller)) {
+            final TravelRelocationDocument document = (TravelRelocationDocument)((KualiDocumentFormBase)form).getDocument();
+
+            if (TemConstants.TEM_PROFILE_LOOKUPABLE.equals(refreshCaller)) {
+                performRequesterRefresh(document);
+            }
+        }
+
         return super.refresh(mapping, form, request, response);
+    }
+
+    /**
+     * Performs necessary updates after the requester on the relocation document was updated, such as updating the payee type
+     * @param document the document to update
+     */
+    protected void performRequesterRefresh(TravelRelocationDocument document) {
+        updatePayeeTypeForReimbursable(document);
     }
 
     protected TravelRelocationService getTravelRelocationService() {

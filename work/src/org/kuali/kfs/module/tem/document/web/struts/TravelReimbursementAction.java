@@ -420,6 +420,8 @@ public class TravelReimbursementAction extends TravelActionBase {
             document.getTraveler().setTravelerTypeCode(travelerTypeCode);
         }
         document.getTraveler().refreshReferenceObject(TemPropertyConstants.TRAVELER_TYPE);
+
+        updatePayeeTypeForReimbursable(document);
         return null;
     }
 

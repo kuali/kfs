@@ -176,12 +176,9 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
         pg.setLine1Address(reimbursableDoc.getTraveler().getStreetAddressLine1());
         pg.setLine2Address(reimbursableDoc.getTraveler().getStreetAddressLine2());
         pg.setPayeeName(reimbursableDoc.getTraveler().getFirstName() + " " + reimbursableDoc.getTraveler().getLastName());
-        if (travelerService.isEmployee(reimbursableDoc.getTraveler())){
-            reimbursableDoc.getTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.EMPLOYEE); // TODO THIS SHOULD PROBABLY BE SOMEWHERE ELSE, LIKE THE REFRESH FROM TRAVELER LOOKUP
-            reimbursableDoc.setProfileId(reimbursableDoc.getTemProfileId());
+        if (getTravelerService().isEmployee(reimbursableDoc.getTraveler())){
             pg.setPayeeId(reimbursableDoc.getTemProfile().getEmployeeId());
         }else{
-            reimbursableDoc.getTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.CUSTOMER); // TODO THIS SHOULD PROBABLY BE SOMEWHERE ELSE, LIKE THE REFRESH FROM TRAVELER LOOKUP
             pg.setPayeeId(reimbursableDoc.getTraveler().getCustomerNumber());
         }
         pg.setState(reimbursableDoc.getTraveler().getStateCode());

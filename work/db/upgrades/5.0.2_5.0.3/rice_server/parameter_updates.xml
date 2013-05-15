@@ -84,9 +84,9 @@
 			<column name="NMSPC_CD" value="KFS-PURAP" />
 			<column name="CMPNT_CD" value="PaymentRequest" />
 			<column name="PARM_NM" value="NUMBER_OF_DAYS_USED_TO_DECREASE_CALCULATED_PAY_DATE" />
-			<column name="VAL" value="Y" />
+			<column name="VAL" value="2" />
 			<column name="OBJ_ID" valueNumeric="sys_guid()" />
-			<column name="VER_NBR" valueNumeric="2" />
+			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT" value="Indicates the number of days that should be subtracted from the calculated pay date to ensure payment is made on time. This parameter can be used to manipulate pay date to ensure payments to vendors meet discount requirements or to account for holidays that may interfere with payment schedules. " />
 			<column name="EVAL_OPRTR_CD" value="A" />

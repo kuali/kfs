@@ -27,9 +27,7 @@
     showTabButtons="true">
      
     <sys:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
-	  bankProperty="document.financialDocumentBankCode" 
-	  bankObjectProperty="document.bank"
-	  disbursementOnly="true" />
+	  bankProperty="document.financialDocumentBankCode" bankObjectProperty="document.bank" disbursementOnly="true" />
     <tem-ent:reports/>
     <tem-ent:entertainmentOverview />
     <tem-ent:attendees attendeeAttributes="${DataDictionary.Attendee.attributes}" entertainmentAttributes="${DataDictionary.TravelEntertainmentDocument.attributes}"/>

@@ -23,6 +23,8 @@
     <bean id="CompositeValidation" abstract="true" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation" />
     
     <bean id="CollectionValidation" abstract="true" class="org.kuali.kfs.sys.document.validation.impl.CollectionValidation" />
+    
+    <bean id="NodeSpecificValidation" abstract="true" class="org.kuali.kfs.sys.document.validation.impl.NodeSpecificValidation" />
 
 	<bean id="validationFieldConversion" abstract="true" class="org.kuali.kfs.sys.document.validation.impl.ValidationFieldConversion" />
 	

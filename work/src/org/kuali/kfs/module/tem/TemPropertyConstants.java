@@ -354,4 +354,11 @@ public class TemPropertyConstants {
 
     public static final String EXPENSE_TYPE_CODE = "expenseTypeCode";
     public static final String NAME = "name";
+
+    public static final String TRAVEL_PAYMENT = "travelPayment";
+    public class TravelPaymentProperties {
+        public static final String SPECIAL_HANDLING_PERSON_NAME = "specialHandlingPersonName";
+        public static final String SPECIAL_HANDLING_STATE_CODE = "specialHandlingStateCode";
+
+    }
 }

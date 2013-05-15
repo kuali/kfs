@@ -32,7 +32,59 @@
    			<bean parent="TravelModule-expensesValidation" scope="prototype" />
             <bean parent="TravelModule-perDiemExpenseValidation" scope="prototype" />
    			<bean parent="TravelModule-expenseTotalsValidation" scope="prototype" />
-   			<bean parent="TravelModule-accountingTotalsValidation" scope="prototype" />  			  			
+   			<bean parent="TravelModule-accountingTotalsValidation" scope="prototype" />  	
+   			<bean parent="PaymentSource-wireTransferValidation" scope="prototype">
+				<property name="parameterProperties">
+					<list>
+						<bean parent="accountingDocumentFieldConversion" />
+					</list>
+				</property>
+			</bean>
+			<bean parent="PaymentSource-foreignDraftValidation" scope="prototype">
+				<property name="parameterProperties">
+					<list>
+						<bean parent="accountingDocumentFieldConversion" />
+					</list>
+				</property>
+			</bean>
+			<bean parent="TravelPayment-specialHandlingStateCodeValidation" scope="prototype">
+				<property name="parameterProperties">
+					<list>
+						<bean parent="reimbursableTravelPaymentFieldConversion" />
+					</list>
+				</property>
+			</bean>
+			<bean parent="TravelPayment-specialHandlingValidation" scope="prototype">
+				<property name="parameterProperties">
+					<list>
+						<bean parent="reimbursableTravelPaymentFieldConversion" />
+					</list>
+				</property>
+			</bean>
+			<bean parent="TravelPayment-requiredNotesValidation" scope="prototype">
+				<property name="parameterProperties">
+					<list>
+						<bean parent="travelDocumentFieldConversion" />
+						<bean parent="reimbursableTravelPaymentFieldConversion" />
+					</list>
+				</property>
+			</bean>
+			<bean parent="NodeSpecificValidation" scope="prototype">
+				<property name="validation">
+					<bean parent="TravelPayment-dataDictionaryValidation" scope="prototype">
+						<property name="parameterProperties">
+							<list>
+								<bean parent="reimbursableTravelPaymentFieldConversion" />
+							</list>
+						</property>
+					</bean>
+				</property>
+				<property name="validationNodes">
+					<list>
+						<value>MovingAndRelocationManager</value>
+					</list>
+				</property>
+			</bean>
    		</list>
    	</property>
    	</bean>

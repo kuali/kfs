@@ -26,9 +26,7 @@
     showTabButtons="true">
        
     <sys:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
-	  bankProperty="document.financialDocumentBankCode" 
-	  bankObjectProperty="document.bank"
-	  disbursementOnly="true" />
+	  bankProperty="document.financialDocumentBankCode" bankObjectProperty="document.bank" disbursementOnly="true" />
     <c:if test="${showReports}">
     	<tem-relo:reports/>
    	</c:if>

@@ -438,7 +438,7 @@ public class TemConstants {
         public static final String HIDE_BUTTONS = "Hide Buttons TA";
     }
 
-    public static final String TRVL_SPECHAND_TAB_ERRORS = "DVSpecialHandlingErrors,document.travelPayment.specialHandlingPersonName,document.travelPayment.specialHandlingCityName,document.travelPayment.specialHandlingLine1Addr,document.travelPayment.specialHandlingStateCode," + "document.travelPayment.specialHandlingLine2Addr,document.travelPayment.specialHandlingZipCode,document.travelPayment.specialHandlingCountryName";
+    public static final String TRVL_SPECHAND_TAB_ERRORS = "TravelPaymentSpecialHandlingErrors,document.travelPayment.specialHandlingPersonName,document.travelPayment.specialHandlingCityName,document.travelPayment.specialHandlingLine1Addr,document.travelPayment.specialHandlingStateCode," + "document.travelPayment.specialHandlingLine2Addr,document.travelPayment.specialHandlingZipCode,document.travelPayment.specialHandlingCountryName";
     public static final String MAPPING_TRAVEL_PAYMENT_CLOSE = "travelPaymentClose";
     public static final String TRAVEL_AUTHORIZATION_ACTION_NAME = "temTravelAuthorization";
     public static final String TRAVEL_REIMBURESMENT_ACTION_NAME = "temTravelReimbursement";
@@ -883,4 +883,7 @@ public class TemConstants {
     public static class EditModes {
         public static final String CHECK_AMOUNT_ENTRY = "checkAmountEntry";
     }
+
+    public static final String TRAVEL_PAYMENT_TAB_ERRORS = "TravelPaymentErrors,document.travelPayment.checkTotalAmount,document.travelPayment.dueDate,document.dvPayeeDetail.travelPayment.alienPaymentCode," + "document.dvPayeeDetail.travelPayment.payeeEmployeeCode,document.travelPayment.attachmentCode,document.travelPayment.specialHandlingCode,document.travelPayment.payeeW9CompleteCode" + "document.travelPayment.paymentMethodCode,document.travelPayment.paymentDocumentationLocationCode,document.travelPayment.checkStubText";
+    public static final String GENERAL_TRAVEL_PAYMENT_TAB_KEY = "TravelPaymentErrors";
 }

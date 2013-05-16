@@ -520,6 +520,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         final TravelReimbursementDocument document = (TravelReimbursementDocument) travelForm.getDocument();
         getTravelReimbursementService().addListenersTo(document);
         document.addContactInformation();
+        document.setDefaultBankCode();
     }
 
     @Override

@@ -272,6 +272,8 @@ public class TravelEntertainmentAction extends TravelActionBase {
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
+        TravelEntertainmentDocument document = ((TravelEntertainmentForm)kualiDocumentFormBase).getEntertainmentDocument();
+        document.setDefaultBankCode();
     }
 
     /**

@@ -208,6 +208,7 @@ public class TravelRelocationAction extends TravelActionBase {
         final TravelRelocationForm travelForm = (TravelRelocationForm) kualiDocumentFormBase;
         final TravelRelocationDocument document = (TravelRelocationDocument) travelForm.getDocument();
         getTravelRelocationService().addListenersTo(document);
+        document.setDefaultBankCode();
     }
 
     protected void createDVDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {

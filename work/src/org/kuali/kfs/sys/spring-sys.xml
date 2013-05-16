@@ -1123,6 +1123,7 @@
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="paymentFileEmailService" ref="pdpEmailService"/>
 		<property name="documentService" ref="documentService"/>
+		<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService"/>
 	</bean>
 	
 	<bean id="paymentSourceToPdpExtractStep" parent="paymentSourceToPdpExtractStep-parentBean"/>

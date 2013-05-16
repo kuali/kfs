@@ -25,7 +25,7 @@
 			<ref bean="WireCharge-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="wireChargeViewer" />
-		<property name="objectLabel" value="Disbursement Voucher Wire Charge" />
+		<property name="objectLabel" value="Wire Charge" />
 		<property name="attributes">
 			<list>
 				<ref bean="WireCharge-wireChargeViewer" />

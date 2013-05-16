@@ -144,7 +144,7 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
         if (reimbursableDoc.getTravelPayment().getCancelDate() == null) {
             try {
                 reimbursableDoc.getTravelPayment().setCancelDate(cancelDate);
-                // TODO REVERSE THE GLPE ENTRIES!!!
+                getPaymentSourceExtractionService().handleEntryCancellation(reimbursableDoc);
                 reimbursableDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
                 // save the document
                 getDocumentService().saveDocument(reimbursableDoc, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);

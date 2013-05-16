@@ -235,5 +235,25 @@
         2
       </routingVersion>
     </documentType>
+    <documentType>
+      <name>
+        DVWT
+      </name>
+      <parent>
+        FSSM
+      </parent>
+      <label>
+        Wire Charge
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fdisbursementvoucherwirecharge.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
   </documentTypes>
 </data>

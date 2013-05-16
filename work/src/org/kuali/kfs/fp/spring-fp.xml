@@ -442,7 +442,7 @@
 	</bean>
 	
     <bean id="wireChargeFiscalYearMaker" parent="FiscalYearMaker">
-		<property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.WireCharge" /> 
+		<property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.WireCharge" /> 
 		<property name="parentClasses">
 		  <set>
 		    <value>org.kuali.kfs.coa.businessobject.ObjectCode</value>

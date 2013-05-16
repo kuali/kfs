@@ -1964,6 +1964,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCTS).processExpense(this);
         getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCorpCard).processExpense(this);
+
         return true;
     }
 

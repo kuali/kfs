@@ -1127,6 +1127,15 @@
 	
 	<bean id="paymentSourceToPdpExtractStep" parent="paymentSourceToPdpExtractStep-parentBean"/>
 	<bean id="paymentSourceToPdpExtractStep-parentBean" class="org.kuali.kfs.sys.batch.PaymentSourceToPdpExtractStep" parent="step" abstract="true"/>
+	
+	<bean id="paymentSourceHelperService" parent="paymentSourceHelpService-parentBean"/>
+	<bean id="paymentSourceHelpService-parentBean" class="org.kuali.kfs.sys.document.service.impl.PaymentSourceHelperServiceImpl" abstract="true">
+		<property name="universityDateService" ref="universityDateService"/>
+		<property name="bankService" ref="bankService"/>
+		<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="accountingDocumentRuleHelperService" ref="accountingDocumentRuleHelperService"/>
+	</bean>
     
 	<bean id="velocityEngine" parent="velocityEngine-parentBean" />
 	<bean id="velocityEngine-parentBean" abstract="true" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">

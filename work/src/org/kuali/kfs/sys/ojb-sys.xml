@@ -700,7 +700,6 @@
 	    <field-descriptor name="foreignCurrencyTypeCode" column="FCRNCY_TYP_CD" jdbc-type="VARCHAR" />
 	</class-descriptor>
 	
-	<!--  DISBURSEMENT VOUCHER  DOCUMENT MAPPINGS -->
 	<class-descriptor class="org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation" table="FS_PMT_DOC_LOC_T">
 	    <field-descriptor name="paymentDocumentationLocationCode" column="PMT_DOC_LOC_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
 	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -708,6 +707,44 @@
 	    <field-descriptor name="paymentDocumentationLocationName" column="PMT_DOC_LOC_NM" jdbc-type="VARCHAR" />
 	    <field-descriptor name="paymentDocumentationLocationAddress" column="PMT_DOC_LOC_ADDR" jdbc-type="VARCHAR" />
 	    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kfs.sys.businessobject.WireCharge" table="FS_WIRE_CHRG_T">
+	    <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
+	    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+	    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" />
+	    <field-descriptor name="incomeFinancialObjectCode" column="INC_FIN_OBJ_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="expenseFinancialObjectCode" column="EXP_FIN_OBJ_CD" jdbc-type="VARCHAR" />
+	    <field-descriptor name="domesticChargeAmt" column="DOMSTC_CHG_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+	    <field-descriptor name="foreignChargeAmt" column="FRGN_CHRG_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+	
+	    <reference-descriptor name="fiscalYear" class-ref="org.kuali.kfs.sys.businessobject.SystemOptions" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	        <foreignkey field-ref="universityFiscalYear" />
+	    </reference-descriptor>
+	
+	    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	        <foreignkey field-ref="chartOfAccountsCode" />
+	    </reference-descriptor>
+	
+	    <reference-descriptor name="incomeFinancialObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	        <foreignkey field-ref="universityFiscalYear" />
+	        <foreignkey field-ref="chartOfAccountsCode" />
+	        <foreignkey field-ref="incomeFinancialObjectCode" />
+	    </reference-descriptor>
+	
+	    <reference-descriptor name="expenseFinancialObject" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	        <foreignkey field-ref="universityFiscalYear" />
+	        <foreignkey field-ref="chartOfAccountsCode" />
+	        <foreignkey field-ref="expenseFinancialObjectCode" />
+	    </reference-descriptor>
+	
+	    <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	        <foreignkey field-ref="chartOfAccountsCode" />
+	        <foreignkey field-ref="accountNumber" />
+	    </reference-descriptor>
+	
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kfs.sys.businessobject.UniversityDate" table="SH_UNIV_DATE_T">

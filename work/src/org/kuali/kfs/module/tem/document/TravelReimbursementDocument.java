@@ -558,6 +558,24 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         return getReimbursableTotal();
     }
 
+    /**
+     * Returns TRCA
+     * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#getAchCheckDocumentType()
+     */
+    @Override
+    protected String getAchCheckDocumentType() {
+        return TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_CHECK_ACH_DOCUMENT;
+    }
+
+    /**
+     * Returns TRWF
+     * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#getWireTransferOrForeignDraftDocumentType()
+     */
+    @Override
+    protected String getWireTransferOrForeignDraftDocumentType() {
+        return TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_WIRE_OR_FOREIGN_DRAFT_DOCUMENT;
+    }
+
     protected PersonService getPersonService() {
         return SpringContext.getBean(PersonService.class);
     }

@@ -7348,7 +7348,7 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="FP_DV_WIRE_CHRG_T">
+    <table name="FS_WIRE_CHRG_T">
         <column name="UNIV_FISCAL_YR" primaryKey="true" size="4" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -7356,29 +7356,29 @@
         <column name="ACCOUNT_NBR" size="7" type="VARCHAR"/>
         <column name="INC_FIN_OBJ_CD" size="4" type="VARCHAR"/>
         <column name="EXP_FIN_OBJ_CD" size="4" type="VARCHAR"/>
-        <column name="DV_DOMSTC_CHG_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="DV_FRGN_CHRG_AMT" scale="2" size="19" type="DECIMAL"/>
-        <foreign-key foreignTable="FS_OPTION_T" name="FP_DV_WIRE_CHRG_TR1">
+        <column name="DOMSTC_CHG_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="FRGN_CHRG_AMT" scale="2" size="19" type="DECIMAL"/>
+        <foreign-key foreignTable="FS_OPTION_T" name="FS_WIRE_CHRG_TR1">
             <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
         </foreign-key>
-        <foreign-key foreignTable="CA_CHART_T" name="FP_DV_WIRE_CHRG_TR2">
+        <foreign-key foreignTable="CA_CHART_T" name="FS_WIRE_CHRG_TR2">
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="CA_OBJECT_CODE_T" name="FP_DV_WIRE_CHRG_TR3">
+        <foreign-key foreignTable="CA_OBJECT_CODE_T" name="FS_WIRE_CHRG_TR3">
             <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
             <reference foreign="FIN_OBJECT_CD" local="INC_FIN_OBJ_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="CA_OBJECT_CODE_T" name="FP_DV_WIRE_CHRG_TR4">
+        <foreign-key foreignTable="CA_OBJECT_CODE_T" name="FS_WIRE_CHRG_TR4">
             <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
             <reference foreign="FIN_OBJECT_CD" local="EXP_FIN_OBJ_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="CA_ACCOUNT_T" name="FP_DV_WIRE_CHRG_TR5">
+        <foreign-key foreignTable="CA_ACCOUNT_T" name="FS_WIRE_CHRG_TR5">
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
             <reference foreign="ACCOUNT_NBR" local="ACCOUNT_NBR"/>
         </foreign-key>
-        <unique name="FP_DV_WIRE_CHRG_TC0">
+        <unique name="FS_WIRE_CHRG_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>

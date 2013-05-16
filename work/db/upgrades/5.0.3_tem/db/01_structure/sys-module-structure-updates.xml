@@ -29,6 +29,31 @@
 		<renameColumn tableName="FS_PMT_DOC_LOC_T" oldColumnName="DV_DOC_LOC_NM" newColumnName="PMT_DOC_LOC_NM"/>
 		<renameColumn tableName="FS_PMT_DOC_LOC_T" oldColumnName="DV_DOC_LOC_ADDR" newColumnName="PMT_DOC_LOC_ADDR"/>
 		<addUniqueConstraint tableName="FS_PMT_DOC_LOC_T" constraintName="FS_PMT_DOC_LOC_TC0" columnNames="OBJ_ID"/>
+		<dropUniqueConstraint tableName="FP_DV_WIRE_CHRG_T" constraintName="FP_DV_WIRE_CHRG_TC0"/>
+		<dropForeignKeyConstraint baseTableName="FP_DV_WIRE_CHRG_T" constraintName="FP_DV_WIRE_CHRG_TR1"/>
+		<dropForeignKeyConstraint baseTableName="FP_DV_WIRE_CHRG_T" constraintName="FP_DV_WIRE_CHRG_TR2"/>
+		<dropForeignKeyConstraint baseTableName="FP_DV_WIRE_CHRG_T" constraintName="FP_DV_WIRE_CHRG_TR3"/>
+		<dropForeignKeyConstraint baseTableName="FP_DV_WIRE_CHRG_T" constraintName="FP_DV_WIRE_CHRG_TR4"/>
+		<dropForeignKeyConstraint baseTableName="FP_DV_WIRE_CHRG_T" constraintName="FP_DV_WIRE_CHRG_TR5"/>
+		<renameTable oldTableName="FP_DV_WIRE_CHRG_T" newTableName="FS_WIRE_CHRG_T"/>
+		<renameColumn tableName="FS_WIRE_CHRG_T" oldColumnName="DV_DOMSTC_CHG_AMT" newColumnName="DOMSTC_CHG_AMT"/>
+		<renameColumn tableName="FS_WIRE_CHRG_T" oldColumnName="DV_FRGN_CHRG_AMT" newColumnName="FRGN_CHRG_AMT"/>
+		<addUniqueConstraint tableName="FS_WIRE_CHRG_T" constraintName="FS_WIRE_CHRG_TC0" columnNames="OBJ_ID"/>
+		<addForeignKeyConstraint constraintName="FS_WIRE_CHRG_TR1"
+			baseTableName="FS_WIRE_CHRG_T" baseColumnNames="UNIV_FISCAL_YR"
+			referencedTableName="FS_OPTION_T" referencedColumnNames="UNIV_FISCAL_YR" />
+		<addForeignKeyConstraint constraintName="FS_WIRE_CHRG_TR2"
+			baseTableName="FS_WIRE_CHRG_T" baseColumnNames="FIN_COA_CD"
+			referencedTableName="CA_CHART_T" referencedColumnNames="FIN_COA_CD" />
+		<addForeignKeyConstraint constraintName="FS_WIRE_CHRG_TR3"
+			baseTableName="FS_WIRE_CHRG_T" baseColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,INC_FIN_OBJ_CD"
+			referencedTableName="CA_OBJECT_CODE_T" referencedColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,FIN_OBJECT_CD" />
+		<addForeignKeyConstraint constraintName="FS_WIRE_CHRG_TR4"
+			baseTableName="FS_WIRE_CHRG_T" baseColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,EXP_FIN_OBJ_CD"
+			referencedTableName="CA_OBJECT_CODE_T" referencedColumnNames="UNIV_FISCAL_YR,FIN_COA_CD,FIN_OBJECT_CD" />
+		<addForeignKeyConstraint constraintName="FS_WIRE_CHRG_TR5"
+			baseTableName="FS_WIRE_CHRG_T" baseColumnNames="FIN_COA_CD,ACCOUNT_NBR"
+			referencedTableName="CA_ACCOUNT_T" referencedColumnNames="FIN_COA_CD,ACCOUNT_NBR" />
 	</changeSet>
 </databaseChangeLog>
 	

@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package org.kuali.kfs.fp.businessobject;
+package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 

@@ -126,6 +126,14 @@ public class TemConstants {
         public static final String TRAVEL_ENTERTAINMENT_DOCUMENT = "ENT";
         public static final String TRAVEL_ARRANGER_DOCUMENT = "TTA";
         public static final String TRAVEL_PROFILE_DOCUMENT = "TTP";
+        public static final String TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT = "TACA";
+        public static final String TRAVEL_AUTHORIZATION_WIRE_OR_FOREIGN_DRAFT_DOCUMENT = "TAWF";
+        public static final String TRAVEL_REIMBURSEMENT_CHECK_ACH_DOCUMENT = "TRCA";
+        public static final String TRAVEL_REIMBURSEMENT_WIRE_OR_FOREIGN_DRAFT_DOCUMENT = "TRWF";
+        public static final String ENTERTAINMENT_CHECK_ACH_DOCUMENT = "ENCA";
+        public static final String ENTERTAINMENT_WIRE_OR_FOREIGN_DRAFT_DOCUMENT = "ENWF";
+        public static final String RELOCATION_CHECK_ACH_DOCUMENT = "RECA";
+        public static final String RELOCATION_WIRE_OR_FOREIGN_DRAFT_DOCUMENT = "REWF";
 
         public static List<String> getAuthorizationDocTypes(){
             List<String> authorizationDocTypes = new ArrayList<String>();

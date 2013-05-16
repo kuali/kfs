@@ -794,5 +794,60 @@
 	 	<modifySql dbms='mysql'>
 	      <replace replace="SYS_GUID()" with="UUID()" />
 	    </modifySql>
+	</changeSet>
+	<changeSet id="KFSCNTRB-737" author="KFS51">	
+	<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSCNTRB-737-PRM1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" value="16" />
+			<column name="NMSPC_CD" value="KFS-COA" />
+			<column name="NM" value="Edit Document CATR AdHoc R" />
+			<column name="DESC_TXT" value="Authorizes users to edit COA Transactional document at the AdHoc route node." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB-737-PRMATT1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="KFSCNTRB-737-PRM1" />
+			<column name="KIM_TYP_ID" value="8" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="CATR" />
+		</insert>
+		
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB-737-PRMATT2" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="KFSCNTRB-737-PRM1" />
+			<column name="KIM_TYP_ID" value="8" />
+			<column name="KIM_ATTR_DEFN_ID" value="16" />
+			<column name="ATTR_VAL" value="AdHoc" />
+		</insert>
+		
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB-737-PRMATT3" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="KFSCNTRB-737-PRM1" />
+			<column name="KIM_TYP_ID" value="8" />
+			<column name="KIM_ATTR_DEFN_ID" value="15" />
+			<column name="ATTR_VAL" value="R" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSCNTRB-737-RLPRM1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="59" />
+			<column name="PERM_ID" value="KFSCNTRB-737-PRM1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		
+		<modifySql dbms='mysql'>
+	      <replace replace="SYS_GUID()" with="UUID()" />
+	    </modifySql>
 	</changeSet>					
 </databaseChangeLog>

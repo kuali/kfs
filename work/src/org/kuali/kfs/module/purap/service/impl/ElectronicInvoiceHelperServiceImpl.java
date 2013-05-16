@@ -121,7 +121,7 @@ import org.w3c.dom.Node;
  * This is a helper service to parse electronic invoice file, match it with a PO and create PREQs based on the eInvoice. Also, it
  * provides helper methods to the reject document to match it with a PO and create PREQ.
  */
-@Transactional
+
 public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase implements ElectronicInvoiceHelperService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceHelperServiceImpl.class);
 
@@ -476,7 +476,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
      * @return boolean where true means there has been some type of reject
      */
 
-
+    @Transactional
     protected boolean processElectronicInvoice(ElectronicInvoiceLoad eInvoiceLoad,
                                              File invoiceFile,
                                              byte[] xmlAsBytes) {

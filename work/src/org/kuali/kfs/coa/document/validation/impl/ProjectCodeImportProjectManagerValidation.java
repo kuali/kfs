@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
- * GenericValidation to check if the required number of accounting lines in a given accounting line group has been met
+ * GenericValidation to validate project manager information
  */
 public class ProjectCodeImportProjectManagerValidation extends GenericValidation {
     private MassImportLineBase importedLineForValidation;
@@ -36,6 +36,11 @@ public class ProjectCodeImportProjectManagerValidation extends GenericValidation
      */
     @Override
     public boolean validate(AttributedDocumentEvent event) {
+        return validateProjectManager();
+    }
+
+
+    private boolean validateProjectManager() {
         boolean valid = true;
         ProjectCodeImportDetail projectCodeImportDetail = (ProjectCodeImportDetail) importedLineForValidation;
         String errorPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.ProjectCodeImport.PROJECT_CODE_IMPORT_DETAILS + "[" + importedLineForValidation.getSequenceNumber() == null ? String.valueOf(0) : String.valueOf(importedLineForValidation.getSequenceNumber().intValue() - 1) + "].";
@@ -44,7 +49,6 @@ public class ProjectCodeImportProjectManagerValidation extends GenericValidation
             GlobalVariables.getMessageMap().putError(errorPrefix + KFSPropertyConstants.ProjectCodeImport.PROJECT_MANAGER_PRINCIPAL_NAME, KFSKeyConstants.ERROR_PROJECTCODEIMPORT_PROJECTMANAGER_INVALID, new String[] { importedLineForValidation.getSequenceNumber() == null ? "" : importedLineForValidation.getSequenceNumber().toString(), projectCodeImportDetail.getProjectManagerPrincipalName()});
             valid = false;
         }
-
         return valid;
     }
 

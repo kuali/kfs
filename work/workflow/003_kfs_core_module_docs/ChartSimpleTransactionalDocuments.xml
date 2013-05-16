@@ -1,8 +1,14 @@
 <data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
+			<name>COAT</name>
+			<parent>KFST</parent>
+			<description>Please contact EBSP Support for any questions you may have.</description>
+			<label>COA Transactional Document</label>
+		</documentType>
+		<documentType>
 			<name>SAIP</name>
-			<parent>COA</parent>
+			<parent>COAT</parent>
 			<label>Sub-Account Import</label>
 			<docHandler>${kfs.url}/coaSubAccountImport.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
@@ -10,7 +16,7 @@
 		</documentType>
 		<documentType>
 			<name>SOIP</name>
-			<parent>COA</parent>
+			<parent>COAT</parent>
 			<label>Sub-Object Code Import</label>
 			<docHandler>${kfs.url}/coaSubObjectCodeImport.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
@@ -18,7 +24,7 @@
 		</documentType>
 		<documentType>
 			<name>PCIP</name>
-			<parent>COA</parent>
+			<parent>COAT</parent>
 			<label>Project Code Import</label>
 			<docHandler>${kfs.url}/coaProjectCodeImport.do?methodToCall=docHandler</docHandler>
 			<active>true</active>

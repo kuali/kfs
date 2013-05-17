@@ -305,3 +305,4 @@ KFSMI8906-PRM,KFSMI8906-PRM,"1","41","KFS-PURAP","Modify Acct Lines PO Pur Proce
 "KFSMI9598-PRM3","KFSMI9598-PRM3",1,"KR1002","KFS-SYS","Super User Disapprove Document KFS","Allows users to super user disapprove documents on the super user tab for KFS Documents.","Y"
 "KFSCNTRB1343-PRM1","KFSCNTRB1343-PRM1",1,"33","KFS-AR","Upload Batch Input File(s) lockboxInputFileType","Allow access to the AR Lockbox file Upload screen.","Y"
 "PREQ_SU_DISAPPROVE","PREQ_SU_DISAPPROVE",1,"KR1002","KFS-PURAP","Super User Disapprove PREQ Document","Allow super-user disapproval of Payment Request documents.","Y"
+"KFSCNTRB-1558-PRM1","KFSCNTRB-1558-PRM1",1,"9","KFS-SYS","Ad Hoc Review Document KFS C","Authorizes users to take the Complete action on KFS documents Ad Hoc routed to them.","Y"

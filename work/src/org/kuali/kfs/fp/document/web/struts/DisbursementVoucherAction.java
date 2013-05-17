@@ -84,14 +84,17 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
         // do not execute the further refreshing logic if a payee is not selected
         String payeeIdNumber = dvDoc.getDvPayeeDetail().getDisbVchrPayeeIdNumber();
+        //check null because complete adhoc allows null value in all the fields
+        if (StringUtils.isNotBlank(payeeIdNumber)) {
 
-        Entity entity = KimApiServiceLocator.getIdentityService().getEntityByEmployeeId(payeeIdNumber);
+            Entity entity = KimApiServiceLocator.getIdentityService().getEntityByEmployeeId(payeeIdNumber);
 
-        //KFSMI-8935: When an employee is inactive, the Payment Type field on DV documents should display the message "Is this payee an employee" = No
-        if (entity != null && entity.isActive()) {
-            dvDoc.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
-        } else {
-            dvDoc.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(false);
+            //KFSMI-8935: When an employee is inactive, the Payment Type field on DV documents should display the message "Is this payee an employee" = No
+            if (entity != null && entity.isActive()) {
+                dvDoc.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(true);
+            } else {
+                dvDoc.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(false);
+            }
         }
     }
 

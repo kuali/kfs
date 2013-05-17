@@ -1821,6 +1821,15 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         getDisbursementVoucherPaymentService().cancelDisbursementVoucher(this, cancelDate);
     }
 
+    /**
+     * Returns DVCA
+     * @see org.kuali.kfs.sys.document.PaymentSource#getAchCheckDocumentType()
+     */
+    @Override
+    public String getAchCheckDocumentType() {
+        return DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH;
+    }
+
 
     /**
      * Determines if the campus this DV is related to is taxed (and should get tax review routing) for moving reimbursements

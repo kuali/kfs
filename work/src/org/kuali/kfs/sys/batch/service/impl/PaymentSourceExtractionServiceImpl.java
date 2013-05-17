@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
@@ -75,6 +76,7 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
     protected PaymentSourceToExtractService paymentSourceToExtractService;
     protected DocumentService documentService;
     protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    protected Set<String> checkAchFsloDocTypes;
 
     // This should only be set to true when testing this system. Setting this to true will run the code but
     // won't set the doc status to extracted
@@ -534,6 +536,24 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
             }
             paymentSource.setGeneralLedgerPendingEntries(newGLPEs);
         }
+    }
+
+
+    /**
+     * Returns the document types for the DV, TR, RELO, ENT, and TA check/ach fslo doc types
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService#getPaymentSourceCheckACHDocumentTypes()
+     */
+    @Override
+    public Set<String> getPaymentSourceCheckACHDocumentTypes() {
+        return checkAchFsloDocTypes;
+    }
+
+    /**
+     * Sets the document types which PaymentSourceExtractionService can pay out or cancel
+     * @param checkAchFsloDocTypes a Set of document type names
+     */
+    public void setPaymentSourceCheckACHDocumentTypes(Set<String> checkAchFsloDocTypes) {
+        this.checkAchFsloDocTypes = checkAchFsloDocTypes;
     }
 
     /**

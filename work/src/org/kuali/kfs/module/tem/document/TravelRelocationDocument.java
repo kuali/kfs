@@ -424,7 +424,7 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
      * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#getAchCheckDocumentType()
      */
     @Override
-    protected String getAchCheckDocumentType() {
+    public String getAchCheckDocumentType() {
         return TemConstants.TravelDocTypes.RELOCATION_CHECK_ACH_DOCUMENT;
     }
 
@@ -433,7 +433,7 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
      * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#getWireTransferOrForeignDraftDocumentType()
      */
     @Override
-    protected String getWireTransferOrForeignDraftDocumentType() {
+    public String getWireTransferOrForeignDraftDocumentType() {
         return TemConstants.TravelDocTypes.RELOCATION_WIRE_OR_FOREIGN_DRAFT_DOCUMENT;
     }
 

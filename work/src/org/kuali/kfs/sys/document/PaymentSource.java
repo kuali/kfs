@@ -89,4 +89,9 @@ public interface PaymentSource extends GeneralLedgerPostingDocument, GeneralLedg
      */
     public abstract Bank getBank();
 
+    /**
+     * @return the FSLO document type associated with ach/check entries for this document type
+     */
+    public abstract String getAchCheckDocumentType();
+
 }

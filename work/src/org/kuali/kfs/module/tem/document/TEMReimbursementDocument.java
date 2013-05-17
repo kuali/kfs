@@ -232,12 +232,13 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     /**
      * @return the FSLO document type associated with ach/check entries for this document type
      */
-    protected abstract String getAchCheckDocumentType();
+    @Override
+    public abstract String getAchCheckDocumentType();
 
     /**
      * @return the FSLO document type associated with wire transfer or foreign draft entries for this document type
      */
-    protected abstract String getWireTransferOrForeignDraftDocumentType();
+    public abstract String getWireTransferOrForeignDraftDocumentType();
 
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getReimbursableTotal()

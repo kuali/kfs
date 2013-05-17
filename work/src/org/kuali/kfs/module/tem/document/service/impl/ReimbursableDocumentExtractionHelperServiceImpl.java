@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.ReimbursableDocumentPaymentService;
@@ -224,7 +223,7 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
         pd.setInvTotShipAmount(KualiDecimal.ZERO);
         pd.setNetPaymentAmount(document.getTravelPayment().getCheckTotalAmount());
         pd.setPrimaryCancelledPayment(Boolean.FALSE);
-        pd.setFinancialDocumentTypeCode(DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH);
+        pd.setFinancialDocumentTypeCode(document.getAchCheckDocumentType());
         pd.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
 
         // Handle accounts

@@ -505,7 +505,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
      * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#getAchCheckDocumentType()
      */
     @Override
-    protected String getAchCheckDocumentType() {
+    public String getAchCheckDocumentType() {
         return TemConstants.TravelDocTypes.ENTERTAINMENT_CHECK_ACH_DOCUMENT;
     }
 
@@ -516,7 +516,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
      * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#getWireTransferOrForeignDraftDocumentType()
      */
     @Override
-    protected String getWireTransferOrForeignDraftDocumentType() {
+    public String getWireTransferOrForeignDraftDocumentType() {
         return TemConstants.TravelDocTypes.ENTERTAINMENT_WIRE_OR_FOREIGN_DRAFT_DOCUMENT;
     }
 

@@ -172,7 +172,7 @@
     		    <!-- no qualifiers for HasNewUnorderedItems -->
     			<entry key="AccountNonItem" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account"/>
     			
-    		    <entry key="AccountReview" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account"/>
+    		    <entry key="Account" value-ref="RoutingType-PurchasingAccountsPayableDocument-Account"/>
     			<entry key="Commodity" value-ref="RoutingType-PurchasingDocument-Commodity"/>
     			<entry key="Award" value-ref="RoutingType-PurchasingDocument-Award"/>
                 <entry key="Budget" value-ref="RoutingType-PurchaseOrderDocument-Budget"/>

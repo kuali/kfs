@@ -6,7 +6,7 @@
 		<comment>KFSCNTRB-1343 Create permission to access Lockbox upload and grant to KFS-AR Manager and KFS-SYS Manager</comment>
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSCNTRB1343-PRM1" />
-			<column name="OBJ_ID" valueNumeric="sys_guid()"/>
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" valueNumeric="33" />
 			<column name="NMSPC_CD" value="KFS-AR" />
@@ -17,7 +17,7 @@
 		
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSCNTRB1343-RLPRM1-1" />
-			<column name="OBJ_ID" valueNumeric="sys_guid()"/>
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
 			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-AR' and role_nm = 'Manager') " />
 			<column name="PERM_ID" value="KFSCNTRB1343-PRM1" />
@@ -26,7 +26,7 @@
 		
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSCNTRB1343-RLPRM1-2" />
-			<column name="OBJ_ID" valueNumeric="sys_guid()"/>
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
 			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-SYS' and role_nm = 'Manager') " />
 			<column name="PERM_ID" value="KFSCNTRB1343-PRM1"/>
@@ -34,7 +34,7 @@
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB1343-PRMATTR1" />
-			<column name="OBJ_ID" valueNumeric="sys_guid()" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB1343-PRM1" />
 			<column name="KIM_TYP_ID" value="15" />
@@ -56,7 +56,7 @@
 
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSMI9071-RLPRM1" />
-			<column name="OBJ_ID" valueNumeric="sys_guid()"/>
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
 			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-SYS' and role_nm = 'User') " />
 			<column name="PERM_ID" value="KFSMI9071-PRM1"/>
@@ -65,7 +65,7 @@
 		
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSCNTRB-1558-PRM1" />
-			<column name="OBJ_ID" valueNumeric="sys_guid()"/>
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_TMPL_ID" valueNumeric="9" />
 			<column name="NMSPC_CD" value="KFS-SYS" />
@@ -76,7 +76,7 @@
 		
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB-1558-PRMATTR1" />
-			<column name="OBJ_ID" valueNumeric="sys_guid()" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB-1558-PRM1" />
 			<column name="KIM_TYP_ID" value="5" />
@@ -86,7 +86,7 @@
 		
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB-1558-PRMATTR2" />
-			<column name="OBJ_ID" valueNumeric="sys_guid()" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB-1558-PRM1" />
 			<column name="KIM_TYP_ID" value="5" />
@@ -96,7 +96,7 @@
 		
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSCNTRB-1558-RLPRM1" />
-			<column name="OBJ_ID" valueNumeric="sys_guid()"/>
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
 			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-SYS' and role_nm = 'User') " />
 			<column name="PERM_ID" value="KFSCNTRB-1558-PRM1"/>

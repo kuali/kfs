@@ -136,6 +136,9 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
         calendar = getDateTimeService().getCurrentCalendar();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         travelPayment.setDueDate(new java.sql.Date(calendar.getTimeInMillis()));
+
+        // set up the default bank
+        setDefaultBankCode();
     }
 
     /**

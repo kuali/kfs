@@ -28,7 +28,10 @@
 <script language="javascript" src="scripts/module/tem/common.js"></script>
 
 	<tem-ta:dvNotFinalizedMessage/>
-    <sys:documentOverview editingMode="${KualiForm.editingMode}" />
+    <sys:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
+	  bankProperty="document.financialDocumentBankCode" 
+	  bankObjectProperty="document.bank"
+	  disbursementOnly="true" />
     <tem-ta:tripOverview/>
     <tem-ta:travelAdvances/>
     <c:if test="${KualiForm.editingMode['displayEmergencyContactTab']}">

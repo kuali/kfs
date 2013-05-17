@@ -22,6 +22,9 @@ import javax.persistence.Table;
 
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.document.Document;
@@ -52,6 +55,18 @@ public class TravelAuthorizationAmendmentDocument extends TravelAuthorizationDoc
                 }
             }
             getTravelEncumbranceService().adjustEncumbranceForAmendment(this);
+        }
+    }
+
+    /**
+     * Sets the bank code for a new document - but it uses the TA as the doc type
+     */
+    @Override
+    public void setDefaultBankCode() {
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(TravelAuthorizationDocument.class);
+        if (defaultBank != null) {
+            setFinancialDocumentBankCode(defaultBank.getBankCode());
+            setBank(defaultBank);
         }
     }
 }

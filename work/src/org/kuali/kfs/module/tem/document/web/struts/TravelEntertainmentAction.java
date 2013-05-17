@@ -54,7 +54,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
@@ -267,13 +266,6 @@ public class TravelEntertainmentAction extends TravelActionBase {
                 GlobalVariables.getMessageMap().putWarning(TemPropertyConstants.EntertainmentFields.HOST_NAME, TemKeyConstants.HOST_CERTIFICATION_REQUIRED_IND);
             }
         }
-    }
-
-    @Override
-    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        super.createDocument(kualiDocumentFormBase);
-        TravelEntertainmentDocument document = ((TravelEntertainmentForm)kualiDocumentFormBase).getEntertainmentDocument();
-        document.setDefaultBankCode();
     }
 
     /**

@@ -120,39 +120,39 @@
 					</split>
 					<split name="RequiresItemsApproval">
 						<branch name="True">					
-						<requests name="Account" nextNode="RequiresContractManagementReview" />
+						<requests name="Account" nextNode="RequiresContractManagementReview"  nextAppDocStatus="Awaiting Purchasing Approval" />
 							<split name="RequiresContractManagementReview" nextNode="Commodity">
 								<branch name="True">
-									<requests name="ContractManagement" nextNode="JoinRequiresContractManagementReview" />
+									<requests name="ContractManagement" nextNode="JoinRequiresContractManagementReview" nextAppDocStatus="Awaiting Commodity Code Approval" />
 								</branch>
 								<branch name="False">
 									<requests name="NoOpRequiresContractManagementReview"
-										nextNode="JoinRequiresContractManagementReview" />
+										nextNode="JoinRequiresContractManagementReview" nextAppDocStatus="Awaiting Commodity Code Approval" />
 								</branch>
 								<join name="JoinRequiresContractManagementReview" />
 							</split>
-							<requests name="Commodity" nextNode="RequiresAwardReview" />
+							<requests name="Commodity" nextNode="RequiresAwardReview"  nextAppDocStatus="Awaiting C and G Approval"/>
 							<split name="RequiresAwardReview" nextNode="RequiresBudgetReview">
 								<branch name="True">
-									<requests name="Award" nextNode="JoinRequiresAwardReview" />
+									<requests name="Award" nextNode="JoinRequiresAwardReview" nextAppDocStatus="Awaiting Budget Approval" />
 								</branch>
 								<branch name="False">
-									<requests name="NoOpRequiresAwardReview" nextNode="JoinRequiresAwardReview" />
+									<requests name="NoOpRequiresAwardReview" nextNode="JoinRequiresAwardReview" nextAppDocStatus="Awaiting Budget Approval" />
 								</branch>
 								<join name="JoinRequiresAwardReview" />
 							</split>
 							<split name="RequiresBudgetReview" nextNode="VendorIsEmployeeOrNonResidentAlien">
 								<branch name="True">
-									<requests name="Budget" nextNode="JoinRequiresBudgetReview" />
+									<requests name="Budget" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Tax Approval" />
 								</branch>
 								<branch name="False">
-									<simple name="NoOpBudget" nextNode="JoinRequiresBudgetReview" />
+									<simple name="NoOpBudget" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Tax Approval"/>
 								</branch>
 								<join name="JoinRequiresBudgetReview" />
 							</split>
 							<split name="VendorIsEmployeeOrNonResidentAlien">
 								<branch name="True">
-									<requests name="Tax" nextNode="Join" />
+									<requests name="Tax" nextNode="Join" nextAppDocStatus="Awaiting Tax Approval"/>
 								</branch>
 								<branch name="False">
 									<simple name="NoOpVendorIsEmployeeOrNonResidentAlien"

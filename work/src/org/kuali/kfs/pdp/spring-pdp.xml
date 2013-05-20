@@ -721,8 +721,8 @@
         <property name="countryService" ref="countryService"/>
         <property name="researchParticipantPaymentValidationService" ref="researchParticipantPaymentValidationService"/>
 	</bean>	
-	
-    <bean id="researchParticipantPaymentValidationService" class="org.kuali.kfs.pdp.service.impl.ResearchParticipantPaymentValidationServiceImpl">
+	<bean id="researchParticipantPaymentValidationService" parent="researchParticipantPaymentValidationService-parentBean" />
+    <bean id="researchParticipantPaymentValidationService-parentBean" class="org.kuali.kfs.pdp.service.impl.ResearchParticipantPaymentValidationServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="parameterService" ref="parameterService" />
 	</bean>	

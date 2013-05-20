@@ -3,7 +3,7 @@
   <Global>
     <Property fileURL="workspace.prm" id="WorkspaceParameters" />
     <Connection dbConfig="${DATABASE}" id="TargetDB" type="JDBC" />
-    <Metadata id="OutputFileFormat" fileURL="${FORMAT_DIR}/fp_dv_doc_loc_t.fmt.xml" />
+    <Metadata id="OutputFileFormat" fileURL="${FORMAT_DIR}/fs_pmt_doc_loc_t.fmt.xml" />
   </Global>
    <Phase number="0">
      <Node id="DATABASE_RUN"

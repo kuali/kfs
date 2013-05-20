@@ -14747,6 +14747,7 @@
     <sequence name="AP_PMT_RQST_ITM_USE_TAX_ID_SEQ" nextval="1000"/>
     <sequence name="AP_PUR_DOC_LNK_ID" nextval="21"/>
     <sequence name="AP_SUM_ACCT_T_SEQ" nextval="1"/>
+    <sequence name="AR_LOCKBOX_T_SEQ" nextval="20"/>
     <sequence name="CA_A21_ICR_ACCT_SEQ" nextval="10020"/>
     <sequence name="CA_ACCT_AUTODEF_ICR_SEQ" nextval="10000"/>
     <sequence name="CA_ACCT_AUTO_CREATE_DFLT_SEQ" nextval="1"/>

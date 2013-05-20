@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -43,9 +44,9 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase implemen
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 
         LinkedHashMap m = new LinkedHashMap();
-        m.put("proposalNumber", proposalNumber);
+        m.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         m.put("researchRiskTypeCode", researchRiskTypeCode);
-        m.put("active", Boolean.toString(active));
+        m.put(KFSPropertyConstants.ACTIVE, Boolean.toString(active));
 
         return m;
     }

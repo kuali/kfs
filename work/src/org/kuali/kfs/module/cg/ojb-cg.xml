@@ -1,521 +1,1025 @@
-<!--
- Copyright 2005-2008 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<!-- Copyright 2005-2008 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
 <descriptor-repository version="1.0">
 
-<!-- 
+	<!-- AGENCY -->
 
- 
- AGENCY
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.Agency" table="CG_AGENCY_T">
+		<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="reportingName" column="CG_AGENCY_RPT_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="fullName" column="CG_AGENCY_FULL_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="indirectAmount" column="CG_AGNCY_INDR_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="active" column="CG_AGENCY_HIST_IND" jdbc-type="VARCHAR"
+			conversion="org.kuali.kfs.sys.dataaccess.OjbCharBooleanFieldInverseConversion" />
+		<field-descriptor name="inStateIndicator" column="CG_AGNCY_IN_ST_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="agencyTypeCode" column="CG_AGENCY_TYP_CD" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="reportsToAgencyNumber" column="CG_RPTTO_AGNCY_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="cageNumber" column="CAGE_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="dodacNumber" column="DODAC_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="dunAndBradstreetNumber" column="DUN_AND_BRADSTREET_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="dunsPlusFourNumber" column="DUNS_PLUS_FOUR_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="agencyFrequencyCode" column="CG_AGENCY_BILL_FREQ_CD" jdbc-type="VARCHAR" /><!-- Billing Frequency Link -->
+		<field-descriptor name="agencyFinancialReportCode" column="CG_AGENCY_FIN_FORM_TYP_CD" jdbc-type="VARCHAR" />   <!-- Financial Form Type Link -->
+		<field-descriptor name="agencyInvoiceTemplateCode" column="CG_AGENCY_INV_TYP_CD" jdbc-type="VARCHAR" /><!-- Invoice Type 
+			Link -->
+		<field-descriptor name="agencyFinancialReportFreqCode" column="FIN_RPT_FREQ_CD" jdbc-type="VARCHAR" /><!-- Financial Report Frequency 
+			Link -->
+		<field-descriptor name="agencyExpirationDate" column="AGCY_EXP_DT" jdbc-type="DATE" />
+		<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="customerTypeCode" column="CUST_TYP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="customerCreated" column="CUST_CRTD" jdbc-type="VARCHAR" />
+		<field-descriptor name="sponsorCode" column="SPNSR_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="dunningCampaign" column="CMPGN_ID" jdbc-type="VARCHAR" />
+		
+		<field-descriptor name="collectionStatus" column="CLCTN_STATUS_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="bankruptcyType" column="BNKRPTCY_TYPE_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="bankruptcyDate" column="BNKRPTCY_DT" jdbc-type="DATE" />
+		<field-descriptor name="bankruptcyReviewDate" column="BNKRPTCY_REVIEW_DT" jdbc-type="DATE" />
+		<field-descriptor name="stopWork" column="STOP_WRK_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="stateAgency" column="STATE_AGENCY_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="stopWorkReason" column="STOP_WRK_REASON_TXT" jdbc-type="VARCHAR" />
+		<field-descriptor name="notes" column="NTE_TXT" jdbc-type="VARCHAR" />
+		 
+		<reference-descriptor name="agencyType" class-ref="org.kuali.kfs.module.cg.businessobject.AgencyType" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="agencyTypeCode" />
+		</reference-descriptor>
+		<reference-descriptor name="reportsToAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="reportsToAgencyNumber" />
+		</reference-descriptor>
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.Agency" table="CG_AGENCY_T">
-    <field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="reportingName" column="CG_AGENCY_RPT_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="fullName" column="CG_AGENCY_FULL_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="indirectAmount" column="CG_AGNCY_INDR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="active" column="CG_AGENCY_HIST_IND" jdbc-type="VARCHAR" conversion="org.kuali.kfs.sys.dataaccess.OjbCharBooleanFieldInverseConversion" />
-    <field-descriptor name="inStateIndicator" column="CG_AGNCY_IN_ST_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <field-descriptor name="agencyTypeCode" column="CG_AGENCY_TYP_CD" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="reportsToAgencyNumber" column="CG_RPTTO_AGNCY_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <reference-descriptor name="agencyType" class-ref="org.kuali.kfs.module.cg.businessobject.AgencyType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="agencyTypeCode" />
-    </reference-descriptor>
-    <reference-descriptor name="reportsToAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="reportsToAgencyNumber" />
-    </reference-descriptor>
-</class-descriptor>
+		<!-- Billing Frequency Link -->
+		<reference-descriptor name="agencybillingFrequency" class-ref="org.kuali.kfs.module.cg.businessobject.BillingFrequency"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+			<foreignkey field-ref="agencyFrequencyCode" />
+		</reference-descriptor>
+		<!-- Financial Form Type Link -->
+		<reference-descriptor name="agencyFinancialReportType" class-ref="org.kuali.kfs.module.cg.businessobject.FinancialFormTemplate"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+			<foreignkey field-ref="agencyFinancialReportCode" />
+		</reference-descriptor>
+		<!-- Invoice Type Link -->
+		<reference-descriptor name="agencyInvoiceTemplate" class-ref="org.kuali.kfs.module.cg.businessobject.InvoiceTemplate"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+			<foreignkey field-ref="agencyInvoiceTemplateCode" />
+		</reference-descriptor>
+		<!-- Financial Report Frequency Link -->
+		<reference-descriptor name="agencyFinancialReportFreq" class-ref="org.kuali.kfs.module.cg.businessobject.FinancialReportFrequencies"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+			<foreignkey field-ref="agencyFinancialReportFreqCode" />
+		</reference-descriptor>
 
-<!-- 
- 
- AGENCY TYPE
+		<collection-descriptor name="agencyAddresses" element-class-ref="org.kuali.kfs.module.cg.businessobject.AgencyAddress"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+			<orderby name="agencyAddressIdentifier" sort="ASC" />
+			<inverse-foreignkey field-ref="agencyNumber" />
+		</collection-descriptor>
+		
+		<collection-descriptor name="agencyNotes" element-class-ref="org.kuali.kfs.module.cg.businessobject.AgencyNote"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+			<orderby name="noteIdentifier" sort="ASC" />
+			<inverse-foreignkey field-ref="agencyNumber" />
+		</collection-descriptor>
+		
+	</class-descriptor>
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AgencyType" table="CG_AGENCY_TYP_T">
-    <field-descriptor name="code" column="CG_AGENCY_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="name" column="CG_AGENCY_TYP_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-</class-descriptor>
+	<!-- AGENCY TYPE -->
 
-<!-- 
- 
- SUBCONTRACTOR
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AgencyType" table="CG_AGENCY_TYP_T">
+		<field-descriptor name="code" column="CG_AGENCY_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="name" column="CG_AGENCY_TYP_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.SubContractor" table="CG_SUBCNR_T">
-    <field-descriptor name="subcontractorNumber" column="CG_SUBCNR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="subcontractorName" column="CG_SUBCNR_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="subcontractorAddressLine1" column="CG_SUBCNR_LN1_ADDR" jdbc-type="VARCHAR" />
-    <field-descriptor name="subcontractorAddressLine2" column="CG_SUBCNR_LN2_ADDR" jdbc-type="VARCHAR" />
-    <field-descriptor name="subcontractorCity" column="CG_SUBCNR_CITY_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="subcontractorStateCode" column="CG_SUBCNR_ST_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="subcontractorZipCode" column="CG_SUBCNR_ZIP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="subcontractorCountryCode" column="CGSUBCNR_CNTRY_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-</class-descriptor>
+	<!-- AGENCY ADDRESS TYPE -->
 
-<!-- 
- 
- PROPOSAL RESEARCH RISK
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AgencyAddressType" table="CG_AGENCY_ADDR_TYP_T">
+		<field-descriptor name="agencyAddressTypeCode" column="CG_AGENCY_ADDR_TYPE_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="agencyAddressTypeDescription" column="CG_AGENCY_ADDR_TYP_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk" table="CG_PRPSL_RSRCH_RSK_T">
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-	<field-descriptor name="researchRiskTypeCode" column="RSRCH_RSK_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="active" column="RSRCH_RSK_TYP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <reference-descriptor name="proposal" class-ref="org.kuali.kfs.module.cg.businessobject.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="proposalNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="researchRiskType" class-ref="org.kuali.kfs.module.cg.businessobject.ResearchRiskType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="researchRiskTypeCode" />
-    </reference-descriptor>
-</class-descriptor>
+	<!-- AGENCY ADDRESS -->
 
-<!-- 
- 
- LETTER OF CREDIT FUND GROUP
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AgencyAddress" table="CG_AGENCY_ADDR_T">
+		<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="agencyAddressIdentifier" column="CG_AGENCY_ADDR_ID" jdbc-type="BIGINT" primarykey="true" index="true"
+			autoincrement="true" sequence-name="AGENCY_ADDR_ID_SEQ" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="agencyAddressName" column="CG_AGENCY_ADDR_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyContactName" column="CNTCT_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyPhoneNumber" column="PH_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyFaxNumber" column="FAX_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyLine1StreetAddress" column="CG_AGENCY_LINE_1_ADDR" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyLine2StreetAddress" column="CG_AGENCY_LINE_2_ADDR" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyLine3StreetAddress" column="CG_AGENCY_LINE_3_ADDR" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyLine4StreetAddress" column="CG_AGENCY_LINE_4_ADDR" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyCityName" column="CG_AGENCY_CITY_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyStateCode" column="CG_AGENCY_STATE_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyZipCode" column="CG_AGENCY_ZIP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyCountryCode" column="CG_AGENCY_CNTRY_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyAddressInternationalProvinceName" column="CG_AGENCY_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyInternationalMailCode" column="CG_AGENCY_INTL_MAIL_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyContactEmailAddress" column="AGENCY_CNTCT_EMAIL_ADDR" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyInvoiceEmailAddress" column="AGENCY_INV_EMAIL_ADDR" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyAddressTypeCode" column="CG_AGENCY_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyAddressEndDate" column="CG_AGENCY_ADDR_END_DT" jdbc-type="DATE" />
+		<field-descriptor name="agencyInvoiceTemplateCode" column="INV_TYP_CD" jdbc-type="VARCHAR" /><!-- Invoice Type Link -->
+		<field-descriptor name="invoiceIndicatorCode" column="INV_IND_CD" jdbc-type="VARCHAR" /><!-- Invoice Indicator Link -->
+		<field-descriptor name="agencyCopiesToPrint" column="CP_TO_PRNT" jdbc-type="VARCHAR" />
+		<field-descriptor name="agencyPrintEnvelopesNumber" column="PRNT_ENV_NBR" jdbc-type="VARCHAR" />
+		<reference-descriptor name="agencyAddressType" class-ref="org.kuali.kfs.module.cg.businessobject.AgencyAddressType"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+			<foreignkey field-ref="agencyAddressTypeCode" />
+		</reference-descriptor>
+		<reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none"
+			auto-delete="none" proxy="true">
+			<foreignkey field-ref="agencyNumber" />
+		</reference-descriptor>
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup" table="CG_LTRCR_FNDGRP_T">
-    <field-descriptor name="letterOfCreditFundGroupCode" column="CG_LTRCR_FNDGRP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="letterOfCreditFundGroupDescription" column="LTRCR_FNDGRP_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-</class-descriptor>
+		<!-- Invoice Type Link -->
+		<reference-descriptor name="agencyInvoiceTemplate" class-ref="org.kuali.kfs.module.cg.businessobject.InvoiceTemplate"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+			<foreignkey field-ref="agencyInvoiceTemplateCode" />
+		</reference-descriptor>
+		<!-- Invoice Invoice Indicator Link -->
+		<reference-descriptor name="invoiceIndicator" class-ref="org.kuali.kfs.module.cg.businessobject.InvoiceIndicator"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+			<foreignkey field-ref="invoiceIndicatorCode" />
+		</reference-descriptor>
+	</class-descriptor>
+	
+	<!-- Agency Notes -->
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AgencyNote" table="CG_AGENCY_NTE_T">
+		<field-descriptor name="noteIdentifier" column="AGENCY_NTE_ID" jdbc-type="INTEGER" primarykey="true" index="true"
+		 	autoincrement="true" sequence-name="AGENCY_NTE_SEQ" />
+		<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="noteText" column="NTE_TXT" jdbc-type="VARCHAR" />
+		<field-descriptor name="notePostedDate" column="POST_TS" jdbc-type="DATE" />
+		<field-descriptor name="authorPrincipalId" column="AUTH_PRNCPL_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+	</class-descriptor>
 
-<!-- 
- 
- GRANT DESCRIPTION
+	<!-- SUBCONTRACTOR -->
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.GrantDescription" table="CG_GRANT_DESC_T">
-    <field-descriptor name="grantDescriptionCode" column="CG_GRANT_DESC_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="grantDescription" column="CG_GRANT_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="CG_GRNT_DESC_ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.kfs.sys.dataaccess.OjbCharBooleanFieldAIConversion" />
-</class-descriptor>
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.SubContractor" table="CG_SUBCNR_T">
+		<field-descriptor name="subcontractorNumber" column="CG_SUBCNR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="subcontractorName" column="CG_SUBCNR_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="subcontractorAddressLine1" column="CG_SUBCNR_LN1_ADDR" jdbc-type="VARCHAR" />
+		<field-descriptor name="subcontractorAddressLine2" column="CG_SUBCNR_LN2_ADDR" jdbc-type="VARCHAR" />
+		<field-descriptor name="subcontractorCity" column="CG_SUBCNR_CITY_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="subcontractorStateCode" column="CG_SUBCNR_ST_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="subcontractorZipCode" column="CG_SUBCNR_ZIP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="subcontractorCountryCode" column="CGSUBCNR_CNTRY_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
 
-<!-- 
- 
- CATALOG OF FEDERAL DOMESTIC ASSISTANCE REFERENCE (CFDA)
+	<!-- PROPOSAL RESEARCH RISK -->
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.CFDA" table="CG_CFDA_REF_T">
-    <field-descriptor name="cfdaNumber" column="CG_CFDA_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="cfdaProgramTitleName" column="CG_CFDA_PGM_TTL_NM" jdbc-type="VARCHAR" />
-    <!--field-descriptor name="cfdaStatusCode" column="CG_CFDA_STAT_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanFieldAIConversion"/-->
-    <field-descriptor name="cfdaMaintenanceTypeId" column="CG_CFDA_MAINT_TYP_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-</class-descriptor>
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk" table="CG_PRPSL_RSRCH_RSK_T">
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="researchRiskTypeCode" column="RSRCH_RSK_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="active" column="RSRCH_RSK_TYP_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<reference-descriptor name="proposal" class-ref="org.kuali.kfs.module.cg.businessobject.Proposal" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="proposalNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="researchRiskType" class-ref="org.kuali.kfs.module.cg.businessobject.ResearchRiskType"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="researchRiskTypeCode" />
+		</reference-descriptor>
+	</class-descriptor>
 
-<!-- 
- 
- PROPOSAL
+	<!-- LETTER OF CREDIT FUND GROUP -->
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.Proposal" table="CG_PRPSL_T">
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="proposalBeginningDate" column="CGPRPSL_BEG_DT" jdbc-type="DATE" />
-    <field-descriptor name="proposalEndingDate" column="CGPRPSL_END_DT" jdbc-type="DATE" />
-    <field-descriptor name="proposalTotalAmount" column="CGPRPSL_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="proposalDirectCostAmount" column="CGPRPSL_DRCTCS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="proposalIndirectCostAmount" column="CGPRPSL_INDRCS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="proposalRejectedDate" column="CGPRPSL_REJECTD_DT" jdbc-type="DATE" />
-    <field-descriptor name="proposalLastUpdateDate" column="CGPRPSL_LSTUPDT_DT" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="proposalDueDate" column="CGPRPSL_DUE_DT" jdbc-type="DATE" />
-    <field-descriptor name="proposalTotalProjectAmount" column="CGPRPSL_TOTPRJ_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="proposalSubmissionDate" column="CGPRPSL_SUBMSSN_DT" jdbc-type="DATE" />
-    <field-descriptor name="proposalFederalPassThroughIndicator" column="CGPRPSL_FEDPT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <field-descriptor name="oldProposalNumber" column="CG_OLD_PRPSL_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="grantNumber" column="CG_GRANT_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="proposalClosingDate" column="CGPRPSL_CLOSING_DT" jdbc-type="DATE" />
-    <field-descriptor name="proposalAwardTypeCode" column="CGPRPSL_AWD_TYP_CD" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="proposalStatusCode" column="CGPRPSL_STAT_CD" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="federalPassThroughAgencyNumber" column="CG_FEDPT_AGNCY_NBR" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="cfdaNumber" column="CG_CFDA_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="proposalFellowName" column="CGPRPSL_FELLOW_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="proposalPurposeCode" column="CGPRPSL_PURPOSE_CD" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="proposalProjectTitle" column="CGPRPSL_PROJ_TTL" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="proposalNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="proposalAwardType" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalAwardType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="proposalAwardTypeCode" />
-    </reference-descriptor>
-    <reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="agencyNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="proposalStatus" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="proposalStatusCode" />
-    </reference-descriptor>
-    <reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="federalPassThroughAgencyNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="proposalPurpose" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalPurpose" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="proposalPurposeCode" />
-    </reference-descriptor>
-    <reference-descriptor name="cfda" class-ref="org.kuali.kfs.module.cg.businessobject.CFDA" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="cfdaNumber" />
-    </reference-descriptor>
-    <collection-descriptor name="proposalSubcontractors" element-class-ref="org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="proposalSubcontractorNumber" sort="ASC" />
-        <orderby name="subcontractorNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="proposalOrganizations" element-class-ref="org.kuali.kfs.module.cg.businessobject.ProposalOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="organizationCode" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="proposalProjectDirectors" element-class-ref="org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="principalId" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="proposalResearchRisks" element-class-ref="org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="researchRiskType.researchRiskTypeSortNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-</class-descriptor>
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup" table="CG_LTRCR_FNDGRP_T">
+		<field-descriptor name="letterOfCreditFundGroupCode" column="CG_LTRCR_FNDGRP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="letterOfCreditFundGroupDescription" column="LTRCR_FNDGRP_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
 
-<!-- 
- 
- PROPOSAL AWARD TYPE
+	<!-- LETTER OF CREDIT -->
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalAwardType" table="CG_PRPSL_AWD_TYP_T">
-    <field-descriptor name="proposalAwardTypeCode" column="CGPRPSL_AWD_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="proposalAwardTypeDescription" column="PRPSL_AWD_TYP_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-</class-descriptor>
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFund" table="CG_LTRCR_FND_T">
+		<field-descriptor name="letterOfCreditFundCode" column="CG_LTRCR_FND_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="fundDescription" column="CG_LTRCR_FND_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="letterOfCreditFundGroupCode" column="CG_LTRCR_FNDGRP_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="letterOfCreditFundAmount" column="CG_LTRCR_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="letterOfCreditFundStartDate" column="CG_LTRCR_START_DATE" jdbc-type="DATE" />
+		<field-descriptor name="letterOfCreditFundExpirationDate" column="CG_LTRCR_EXPIRATION_DATE" jdbc-type="DATE" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<reference-descriptor name="letterOfCreditFundGroup" class-ref="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="letterOfCreditFundGroupCode" />
+		</reference-descriptor>
+	</class-descriptor>
 
-<!-- 
- 
- PROPOSAL PURPOSE
+	<!-- GRANT DESCRIPTION -->
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalPurpose" table="CG_PRPSL_PURPOSE_T">
-    <field-descriptor name="proposalPurposeCode" column="CGPRPSL_PURPOSE_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="proposalPurposeDescription" column="PRPSL_PURPOSE_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-</class-descriptor>
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.GrantDescription" table="CG_GRANT_DESC_T">
+		<field-descriptor name="grantDescriptionCode" column="CG_GRANT_DESC_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="grantDescription" column="CG_GRANT_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="CG_GRNT_DESC_ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanFieldAIConversion" />
+	</class-descriptor>
 
-<!-- 
- 
- PROPOSAL STATUS
+	<!-- CATALOG OF FEDERAL DOMESTIC ASSISTANCE REFERENCE (CFDA) -->
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalStatus" table="CG_PRPSL_STAT_T">
-    <field-descriptor name="proposalStatusCode" column="CGPRPSL_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="proposalStatusDescription" column="CGPRPSL_STAT_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-</class-descriptor>
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.CFDA" table="CG_CFDA_REF_T">
+		<field-descriptor name="cfdaNumber" column="CG_CFDA_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="cfdaProgramTitleName" column="CG_CFDA_PGM_TTL_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="cfdaMaintenanceTypeId" column="CG_CFDA_MAINT_TYP_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
 
-<!-- 
- 
- PROPOSAL SUBCONTRACTOR
+	<!-- PROPOSAL -->
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor" table="CG_PRPSL_SUBCN_T">
-    <field-descriptor name="proposalSubcontractorNumber" column="CGPRPSL_SUBCN_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"  readonly="true"/>
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-    <field-descriptor name="subcontractorNumber" column="CG_SUBCNR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="proposalSubcontractorAmount" column="CGPRPSL_SUBCN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="proposalSubcontractorDescription" column="CGPRPSL_SUBCN_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <reference-descriptor name="subcontractor" class-ref="org.kuali.kfs.module.cg.businessobject.SubContractor" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="subcontractorNumber" />
-    </reference-descriptor>
-</class-descriptor>
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.Proposal" table="CG_PRPSL_T">
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="proposalBeginningDate" column="CGPRPSL_BEG_DT" jdbc-type="DATE" />
+		<field-descriptor name="proposalEndingDate" column="CGPRPSL_END_DT" jdbc-type="DATE" />
+		<field-descriptor name="proposalTotalAmount" column="CGPRPSL_TOT_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="proposalDirectCostAmount" column="CGPRPSL_DRCTCS_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="proposalIndirectCostAmount" column="CGPRPSL_INDRCS_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="proposalRejectedDate" column="CGPRPSL_REJECTD_DT" jdbc-type="DATE" />
+		<field-descriptor name="proposalLastUpdateDate" column="CGPRPSL_LSTUPDT_DT" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="proposalDueDate" column="CGPRPSL_DUE_DT" jdbc-type="DATE" />
+		<field-descriptor name="proposalTotalProjectAmount" column="CGPRPSL_TOTPRJ_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="proposalSubmissionDate" column="CGPRPSL_SUBMSSN_DT" jdbc-type="DATE" />
+		<field-descriptor name="proposalFederalPassThroughIndicator" column="CGPRPSL_FEDPT_IND" jdbc-type="VARCHAR"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="oldProposalNumber" column="CG_OLD_PRPSL_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="grantNumber" column="CG_GRANT_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="proposalClosingDate" column="CGPRPSL_CLOSING_DT" jdbc-type="DATE" />
+		<field-descriptor name="proposalAwardTypeCode" column="CGPRPSL_AWD_TYP_CD" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="proposalStatusCode" column="CGPRPSL_STAT_CD" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="federalPassThroughAgencyNumber" column="CG_FEDPT_AGNCY_NBR" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="cfdaNumber" column="CG_CFDA_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="proposalFellowName" column="CGPRPSL_FELLOW_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="proposalPurposeCode" column="CGPRPSL_PURPOSE_CD" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="proposalProjectTitle" column="CGPRPSL_PROJ_TTL" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none"
+			auto-delete="none" proxy="true">
+			<foreignkey field-ref="proposalNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="proposalAwardType" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalAwardType"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="proposalAwardTypeCode" />
+		</reference-descriptor>
+		<reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none"
+			auto-delete="none" proxy="true">
+			<foreignkey field-ref="agencyNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="proposalStatus" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalStatus" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="proposalStatusCode" />
+		</reference-descriptor>
+		<reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="federalPassThroughAgencyNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="proposalPurpose" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalPurpose" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="proposalPurposeCode" />
+		</reference-descriptor>
+		<reference-descriptor name="cfda" class-ref="org.kuali.kfs.module.cg.businessobject.CFDA" auto-retrieve="true" auto-update="none"
+			auto-delete="none" proxy="true">
+			<foreignkey field-ref="cfdaNumber" />
+		</reference-descriptor>
+		<collection-descriptor name="proposalSubcontractors" element-class-ref="org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="proposalSubcontractorNumber" sort="ASC" />
+			<orderby name="subcontractorNumber" sort="ASC" />
+			<inverse-foreignkey field-ref="proposalNumber" />
+		</collection-descriptor>
+		<collection-descriptor name="proposalOrganizations" element-class-ref="org.kuali.kfs.module.cg.businessobject.ProposalOrganization"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="chartOfAccountsCode" sort="ASC" />
+			<orderby name="organizationCode" sort="ASC" />
+			<inverse-foreignkey field-ref="proposalNumber" />
+		</collection-descriptor>
+		<collection-descriptor name="proposalProjectDirectors" element-class-ref="org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="principalId" sort="ASC" />
+			<inverse-foreignkey field-ref="proposalNumber" />
+		</collection-descriptor>
+		<collection-descriptor name="proposalResearchRisks" element-class-ref="org.kuali.kfs.module.cg.businessobject.ProposalResearchRisk"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="researchRiskType.researchRiskTypeSortNumber" sort="ASC" />
+			<inverse-foreignkey field-ref="proposalNumber" />
+		</collection-descriptor>
+	</class-descriptor>
 
-<!-- 
- 
- PROPOSAL ORGANIZATION
+	<!-- PROPOSAL AWARD TYPE -->
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalOrganization" table="CG_PRPSL_ORG_T">
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="proposalPrimaryOrganizationIndicator" column="CGPRPSL_PRMORG_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Organization" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="organizationCode" />
-    </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-</class-descriptor>
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalAwardType" table="CG_PRPSL_AWD_TYP_T">
+		<field-descriptor name="proposalAwardTypeCode" column="CGPRPSL_AWD_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="proposalAwardTypeDescription" column="PRPSL_AWD_TYP_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
 
-<!-- 
- 
- PROPSOSAL PROJECT DIRECTOR
+	<!-- PROPOSAL PURPOSE -->
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector" table="CG_PRPSL_PRJDR_T">
-    <field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="proposalPrimaryProjectDirectorIndicator" column="PRPSL_PRMPRJDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <field-descriptor name="proposalProjectDirectorProjectTitle" column="PRPSL_PRJDRPRJ_TTL" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-</class-descriptor>
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalPurpose" table="CG_PRPSL_PURPOSE_T">
+		<field-descriptor name="proposalPurposeCode" column="CGPRPSL_PURPOSE_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="proposalPurposeDescription" column="PRPSL_PURPOSE_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
 
-<!-- 
- 
- CLOSE
+	<!-- PROPOSAL STATUS -->
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument" table="CG_PRPSL_CLOSE_T">
-    <field-descriptor name="documentNumber" column="CG_PRPSL_CLOSE_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="closeOnOrBeforeDate" column="CG_LAST_CLOSED_DT" jdbc-type="DATE" />
-    <field-descriptor name="awardClosedCount" column="CGAWD_CLOSED_CNT" jdbc-type="BIGINT" />
-    <field-descriptor name="proposalClosedCount" column="CGPRPSL_CLOSED_CNT" jdbc-type="BIGINT" />
-    <field-descriptor name="principalName" column="PERSON_USER_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="userInitiatedCloseDate" column="CG_USR_INITIATE_DT" jdbc-type="DATE" />
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalStatus" table="CG_PRPSL_STAT_T">
+		<field-descriptor name="proposalStatusCode" column="CGPRPSL_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="proposalStatusDescription" column="CGPRPSL_STAT_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
 
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true" >
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
+	<!-- PROPOSAL SUBCONTRACTOR -->
 
-</class-descriptor>
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor" table="CG_PRPSL_SUBCN_T">
+		<field-descriptor name="proposalSubcontractorNumber" column="CGPRPSL_SUBCN_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"
+			readonly="true" />
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="subcontractorNumber" column="CG_SUBCNR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="proposalSubcontractorAmount" column="CGPRPSL_SUBCN_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="proposalSubcontractorDescription" column="CGPRPSL_SUBCN_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<reference-descriptor name="subcontractor" class-ref="org.kuali.kfs.module.cg.businessobject.SubContractor" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="subcontractorNumber" />
+		</reference-descriptor>
+	</class-descriptor>
 
-<!-- 
- 
- AWARD
+	<!-- PROPOSAL ORGANIZATION -->
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.Award" table="CG_AWD_T">
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="awardBeginningDate" column="CGAWD_BEG_DT" jdbc-type="DATE" />
-    <field-descriptor name="awardEndingDate" column="CGAWD_END_DT" jdbc-type="DATE" />
-    <field-descriptor name="awardTotalAmount" column="CGAWD_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="awardAddendumNumber" column="CGAWD_ADDENDUM_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardAllocatedUniversityComputingServicesAmount" column="CGAWD_ALOC_UCS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="federalPassThroughFundedAmount" column="CG_FEDPT_FND_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="awardEntryDate" column="CGAWD_ENTRY_DT" jdbc-type="DATE" />
-    <field-descriptor name="agencyFuture1Amount" column="CG_AGENCY_FUT1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="agencyFuture2Amount" column="CG_AGENCY_FUT2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="agencyFuture3Amount" column="CG_AGENCY_FUT3_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="awardDocumentNumber" column="CGAWD_DOC_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardLastUpdateDate" column="CGAWD_LST_UPDT_DT" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="federalPassThroughIndicator" column="CG_FEDPT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <field-descriptor name="oldProposalNumber" column="CG_OLD_PRPSL_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardDirectCostAmount" column="CGAWD_DRCT_CST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="awardIndirectCostAmount" column="CGAWD_INDR_CST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="federalFundedAmount" column="CG_FED_FNDED_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="awardCreateTimestamp" column="CGAWD_CREATE_TS" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="awardClosingDate" column="CGAWD_CLOSING_DT" jdbc-type="DATE" />
-    <field-descriptor name="proposalAwardTypeCode" column="CGPRPSL_AWD_TYP_CD" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="awardStatusCode" column="CGAWD_STAT_CD" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="letterOfCreditFundGroupCode" column="CG_LTRCR_FNDGRP_CD" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="grantDescriptionCode" column="CG_GRANT_DESC_CD" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="federalPassThroughAgencyNumber" column="CG_FEDPT_AGNCY_NBR" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="agencyAnalystName" column="CG_AGNCY_ANALST_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="analystTelephoneNumber" column="CG_ANALYST_PHN_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardProjectTitle" column="CGAWD_PROJ_TTL" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardCommentText" column="CGAWD_COMMENT_TXT" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardPurposeCode" column="CGAWD_PURPOSE_CD" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <reference-descriptor name="proposal" class-ref="org.kuali.kfs.module.cg.businessobject.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="proposalNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="proposalAwardType" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalAwardType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="proposalAwardTypeCode" />
-    </reference-descriptor>
-    <reference-descriptor name="awardStatus" class-ref="org.kuali.kfs.module.cg.businessobject.AwardStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="awardStatusCode" />
-    </reference-descriptor>
-    <reference-descriptor name="letterOfCreditFundGroup" class-ref="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="letterOfCreditFundGroupCode" />
-    </reference-descriptor>
-    <reference-descriptor name="grantDescription" class-ref="org.kuali.kfs.module.cg.businessobject.GrantDescription" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="grantDescriptionCode" />
-    </reference-descriptor>
-    <reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="agencyNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="federalPassThroughAgencyNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="awardPurpose" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalPurpose" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="awardPurposeCode" />
-    </reference-descriptor>
-    <collection-descriptor name="awardProjectDirectors" element-class-ref="org.kuali.kfs.module.cg.businessobject.AwardProjectDirector" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="principalId" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="awardAccounts" element-class-ref="org.kuali.kfs.module.cg.businessobject.AwardAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="accountNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="awardSubcontractors" element-class-ref="org.kuali.kfs.module.cg.businessobject.AwardSubcontractor" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="awardSubcontractorAmendmentNumber" sort="ASC" />
-        <orderby name="awardSubcontractorNumber" sort="ASC" />
-        <orderby name="subcontractorNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="awardOrganizations" element-class-ref="org.kuali.kfs.module.cg.businessobject.AwardOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="organizationCode" sort="ASC" />
-        <inverse-foreignkey field-ref="proposalNumber" />
-    </collection-descriptor>
-</class-descriptor>
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalOrganization" table="CG_PRPSL_ORG_T">
+		<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="proposalPrimaryOrganizationIndicator" column="CGPRPSL_PRMORG_IND" jdbc-type="VARCHAR"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Organization" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+			<foreignkey field-ref="organizationCode" />
+		</reference-descriptor>
+		<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+		</reference-descriptor>
+	</class-descriptor>
 
-<!-- 
- 
- AWARD STATUS
+	<!-- PROPSOSAL PROJECT DIRECTOR -->
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AwardStatus" table="CG_AWD_STAT_T">
-    <field-descriptor name="awardStatusCode" column="CGAWD_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="awardStatusDescription" column="CGAWD_STAT_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-</class-descriptor>
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector" table="CG_PRPSL_PRJDR_T">
+		<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="proposalPrimaryProjectDirectorIndicator" column="PRPSL_PRMPRJDR_IND" jdbc-type="VARCHAR"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="proposalProjectDirectorProjectTitle" column="PRPSL_PRJDRPRJ_TTL" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
 
-<!-- 
- 
- AWARD PROJECT DIRECTOR
+	<!-- CLOSE -->
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AwardProjectDirector" table="CG_AWD_PRJDR_T">
-    <field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="awardPrimaryProjectDirectorIndicator" column="CGAWD_PRMPRJDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <field-descriptor name="awardProjectDirectorProjectTitle" column="CGAWD_PRJDRPRJ_TTL" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-</class-descriptor>
+	<class-descriptor class="org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument" table="CG_PRPSL_CLOSE_T">
+		<field-descriptor name="documentNumber" column="CG_PRPSL_CLOSE_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="closeOnOrBeforeDate" column="CG_LAST_CLOSED_DT" jdbc-type="DATE" />
+		<field-descriptor name="awardClosedCount" column="CGAWD_CLOSED_CNT" jdbc-type="BIGINT" />
+		<field-descriptor name="proposalClosedCount" column="CGPRPSL_CLOSED_CNT" jdbc-type="BIGINT" />
+		<field-descriptor name="principalName" column="PERSON_USER_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="userInitiatedCloseDate" column="CG_USR_INITIATE_DT" jdbc-type="DATE" />
 
-<!-- 
- 
- AWARD ACCOUNT
+		<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader"
+			auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+			<foreignkey field-ref="documentNumber" />
+		</reference-descriptor>
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AwardAccount" table="CG_AWD_ACCT_T">
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="proposalNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="accountNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-</class-descriptor>
+	</class-descriptor>
 
-<!-- 
- 
- AWARD ORGANIZATION
+	<!-- AWARD -->
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AwardOrganization" table="CG_AWD_ORG_T">
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="awardPrimaryOrganizationIndicator" column="CGAWD_PRM_ORG_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-    <reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Organization" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="organizationCode" />
-    </reference-descriptor>
-</class-descriptor>
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.Award" table="CG_AWD_T">
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="awardId" column="AWD_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="awardBeginningDate" column="CGAWD_BEG_DT" jdbc-type="DATE" />
+		<field-descriptor name="awardEndingDate" column="CGAWD_END_DT" jdbc-type="DATE" />
+		<field-descriptor name="lastBilledDate" column="LST_BLD_DT" jdbc-type="DATE" />
+		<field-descriptor name="awardTotalAmount" column="CGAWD_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="awardAddendumNumber" column="CGAWD_ADDENDUM_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardAllocatedUniversityComputingServicesAmount" column="CGAWD_ALOC_UCS_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="federalPassThroughFundedAmount" column="CG_FEDPT_FND_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="awardEntryDate" column="CGAWD_ENTRY_DT" jdbc-type="DATE" />
+		<field-descriptor name="agencyFuture1Amount" column="CG_AGENCY_FUT1_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="agencyFuture2Amount" column="CG_AGENCY_FUT2_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="agencyFuture3Amount" column="CG_AGENCY_FUT3_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="awardDocumentNumber" column="CGAWD_DOC_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardLastUpdateDate" column="CGAWD_LST_UPDT_DT" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="federalPassThroughIndicator" column="CG_FEDPT_IND" jdbc-type="VARCHAR"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="oldProposalNumber" column="CG_OLD_PRPSL_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardDirectCostAmount" column="CGAWD_DRCT_CST_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="awardIndirectCostAmount" column="CGAWD_INDR_CST_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="federalFundedAmount" column="CG_FED_FNDED_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="awardCreateTimestamp" column="CGAWD_CREATE_TS" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="awardClosingDate" column="CGAWD_CLOSING_DT" jdbc-type="DATE" />
+		<field-descriptor name="proposalAwardTypeCode" column="CGPRPSL_AWD_TYP_CD" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="awardStatusCode" column="CGAWD_STAT_CD" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="letterOfCreditFundGroupCode" column="CG_LTRCR_FNDGRP_CD" jdbc-type="VARCHAR" index="true" />		
+		<field-descriptor name="letterOfCreditFundCode" column="CG_LTRCR_FND_CD" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="grantDescriptionCode" column="CG_GRANT_DESC_CD" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="federalPassThroughAgencyNumber" column="CG_FEDPT_AGNCY_NBR" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="agencyAnalystName" column="CG_AGNCY_ANALST_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="analystTelephoneNumber" column="CG_ANALYST_PHN_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardProjectTitle" column="CGAWD_PROJ_TTL" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardCommentText" column="CGAWD_COMMENT_TXT" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardPurposeCode" column="CGAWD_PURPOSE_CD" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="minInvoiceAmount" column="CG_MIN_INV_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="invoicingOptions" column="CG_INV_OPT" jdbc-type="VARCHAR" />
+		<field-descriptor name="locCreationType" column="LOC_CRTN_TYP" jdbc-type="VARCHAR" />
+		<field-descriptor name="autoApprove" column="AUTO_APP" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+				<field-descriptor name="preferredBillingFrequency" column="PRFRD_BILL_FREQ_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="preferredReportFrequency" column="PRFRD_RPRT_FREQ" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardsourceOfFundsCode" column="AWRD_SRC_OF_FNDS" jdbc-type="VARCHAR" />
+		<field-descriptor name="preferredReportTemplate" column="PRFRD_RPRT_TYP" jdbc-type="VARCHAR" />
+		<field-descriptor name="stateTransfer" column="STATE_TRNSFR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="suspendInvoicing" column="SUSPND_INVCNG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="suspensionReason" column="SUSP_REASON" jdbc-type="VARCHAR" />
+		<field-descriptor name="additionalFormsRequired" column="ADDTNL_FRMS_RQRD" jdbc-type="VARCHAR"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="additionalFormsDescription" column="ADDTNL_FRM_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="contractGrantType" column="CNTRCT_GRNT_TYP" jdbc-type="VARCHAR" />
+		<field-descriptor name="fundingExpirationDate" column="FUNDING_EXP_DT" jdbc-type="DATE" />
+		<field-descriptor name="drawNumber" column="DRAW_NBR" jdbc-type="VARCHAR" />
+		<field-descriptor name="commentText" column="COMMENT_TXT" jdbc-type="VARCHAR" />
+		<field-descriptor name="dunningCampaign" column="CMPGN_ID" jdbc-type="VARCHAR" />
+		<field-descriptor name="stopWork" column="STOP_WRK_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<reference-descriptor name="proposal" class-ref="org.kuali.kfs.module.cg.businessobject.Proposal" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="proposalNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="proposalAwardType" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalAwardType"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="proposalAwardTypeCode" />
+		</reference-descriptor>
+		<reference-descriptor name="awardStatus" class-ref="org.kuali.kfs.module.cg.businessobject.AwardStatus" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="awardStatusCode" />
+		</reference-descriptor>
+		<reference-descriptor name="letterOfCreditFundGroup" class-ref="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="letterOfCreditFundGroupCode" />
+		</reference-descriptor>
+		<reference-descriptor name="letterOfCreditFund" class-ref="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFund"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+			<foreignkey field-ref="letterOfCreditFundCode" />
+		</reference-descriptor>
+		<reference-descriptor name="grantDescription" class-ref="org.kuali.kfs.module.cg.businessobject.GrantDescription"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="grantDescriptionCode" />
+		</reference-descriptor>
+		<reference-descriptor name="agency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true" auto-update="none"
+			auto-delete="none" proxy="true">
+			<foreignkey field-ref="agencyNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.kfs.module.cg.businessobject.Agency" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="federalPassThroughAgencyNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="awardPurpose" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalPurpose" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="awardPurposeCode" />
+		</reference-descriptor>
+		
+		<!-- Billing Frequency Link -->
+		<reference-descriptor name="billingFrequency" class-ref="org.kuali.kfs.module.cg.businessobject.BillingFrequency"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+			<foreignkey field-ref="preferredBillingFrequency" />
+		</reference-descriptor>
+		
+		<!-- Financial Form Type Link -->
+		<reference-descriptor name="financialFormTemplate" class-ref="org.kuali.kfs.module.cg.businessobject.FinancialFormTemplate"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+			<foreignkey field-ref="preferredReportTemplate" />
+		</reference-descriptor>
+		
+		<!-- Financial Report Frequency Link -->
+		<reference-descriptor name="financialReportFrequencies" class-ref="org.kuali.kfs.module.cg.businessobject.FinancialReportFrequencies"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+			<foreignkey field-ref="preferredReportFrequency" />
+		</reference-descriptor>
 
-<!-- 
- 
- AWARD SUBCONTRACTOR
+		<!-- Source of Funds Link -->
+		<reference-descriptor name="sourceOfFunds" class-ref="org.kuali.kfs.module.cg.businessobject.SourceOfFunds" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="false">
+			<foreignkey field-ref="awardsourceOfFundsCode" />
+		</reference-descriptor>
+		<collection-descriptor name="awardProjectDirectors" element-class-ref="org.kuali.kfs.module.cg.businessobject.AwardProjectDirector"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="principalId" sort="ASC" />
+			<inverse-foreignkey field-ref="proposalNumber" />
+		</collection-descriptor>
+		<collection-descriptor name="awardFundManagers" element-class-ref="org.kuali.kfs.module.cg.businessobject.AwardFundManager"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="principalId" sort="ASC" />
+			<inverse-foreignkey field-ref="proposalNumber" />
+		</collection-descriptor>
+		<collection-descriptor name="awardAccounts" element-class-ref="org.kuali.kfs.module.cg.businessobject.AwardAccount"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="chartOfAccountsCode" sort="ASC" />
+			<orderby name="accountNumber" sort="ASC" />
+			<inverse-foreignkey field-ref="proposalNumber" />
+		</collection-descriptor>
+		<collection-descriptor name="awardInvoiceAccounts" element-class-ref="org.kuali.kfs.module.cg.businessobject.AwardInvoiceAccount"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="chartOfAccountsCode" sort="ASC" />
+			<orderby name="accountNumber" sort="ASC" />
+			<inverse-foreignkey field-ref="proposalNumber" />
+		</collection-descriptor>
+		<collection-descriptor name="awardSubcontractors" element-class-ref="org.kuali.kfs.module.cg.businessobject.AwardSubcontractor"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="awardSubcontractorAmendmentNumber" sort="ASC" />
+			<orderby name="awardSubcontractorNumber" sort="ASC" />
+			<orderby name="subcontractorNumber" sort="ASC" />
+			<inverse-foreignkey field-ref="proposalNumber" />
+		</collection-descriptor>
+		<collection-descriptor name="awardOrganizations" element-class-ref="org.kuali.kfs.module.cg.businessobject.AwardOrganization"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="chartOfAccountsCode" sort="ASC" />
+			<orderby name="organizationCode" sort="ASC" />
+			<inverse-foreignkey field-ref="proposalNumber" />
+		</collection-descriptor>
+		<collection-descriptor name="milestones" element-class-ref="org.kuali.kfs.module.cg.businessobject.Milestone"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+			<orderby name="milestoneIdentifier" sort="ASC" />
+			<inverse-foreignkey field-ref="proposalNumber" />
+		</collection-descriptor>
+		<collection-descriptor name="bills" element-class-ref="org.kuali.kfs.module.cg.businessobject.Bill" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+			auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+			<orderby name="billIdentifier" sort="ASC" />
+			<inverse-foreignkey field-ref="proposalNumber" />
+		</collection-descriptor>
+	</class-descriptor>
 
--->
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AwardSubcontractor" table="CG_AWD_SUBCN_T">
-    <field-descriptor name="awardSubcontractorAmendmentNumber" column="AWD_SUBCN_AMND_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"  readonly="true" />
-    <field-descriptor name="awardSubcontractorNumber" column="CGAWD_SUBCN_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"  readonly="true" />
-    <field-descriptor name="subcontractorNumber" column="CG_SUBCNR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="subcontractorAmount" column="CG_SUBCN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="subcontractorContactFirstName" column="SUBCNR_CNTCT_F_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="subcontractorContactLastName" column="SUBCNR_CNTCT_L_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="subcontractorAuditHistoryText" column="SUBCN_AUDTHIST_TXT" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardSubcontractorDescription" column="CGAWD_SUBCN_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-    <reference-descriptor name="subcontractor" class-ref="org.kuali.kfs.module.cg.businessobject.SubContractor" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
-        <foreignkey field-ref="subcontractorNumber" />
-    </reference-descriptor>
-</class-descriptor>
+	<!-- AWARD STATUS -->
 
-<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ResearchRiskType" table="ER_RSRCH_RSK_TYP_T">
-	<field-descriptor name="researchRiskTypeCode" column="RSRCH_RSK_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-	<field-descriptor name="researchRiskTypeDescription" column="RSRCH_RSK_TYP_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="researchRiskTypeSortNumber" column="RSRCH_RSK_TYP_SORT_NBR" jdbc-type="INTEGER"/>
-	<field-descriptor name="researchRiskTypeNotificationValue" column="RSRCH_RSK_TYP_NTFCTN_VAL" jdbc-type="VARCHAR"/>
-</class-descriptor>
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AwardStatus" table="CG_AWD_STAT_T">
+		<field-descriptor name="awardStatusCode" column="CGAWD_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="awardStatusDescription" column="CGAWD_STAT_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
 
+	<!-- AWARD PROJECT DIRECTOR -->
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AwardProjectDirector" table="CG_AWD_PRJDR_T">
+		<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="awardPrimaryProjectDirectorIndicator" column="CGAWD_PRMPRJDR_IND" jdbc-type="VARCHAR"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="awardProjectDirectorProjectTitle" column="CGAWD_PRJDRPRJ_TTL" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
+
+	<!-- AWARD FUND MANAGER -->
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AwardFundManager" table="CG_AWD_FNDMGR_T">
+		<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="awardPrimaryFundManagerIndicator" column="CGAWD_PRM_FNDMGR_IND" jdbc-type="VARCHAR"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="awardFundManagerProjectTitle" column="CGAWD_FNDMGR_PRJ_TTL" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
+
+	<!-- AWARD ACCOUNT -->
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AwardAccount" table="CG_AWD_ACCT_T">
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="principalId" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="finalBilled" column="FINAL_BILLED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="amountToDraw" column="AMT_DRW" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="locReviewIndicator" column="LOC_RVW_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="currentLastBilledDate" column="CURR_LST_BLD_DT" jdbc-type="DATE" />
+		<field-descriptor name="previousLastBilledDate" column="PREV_LST_BLD_DT" jdbc-type="DATE" />
+		<field-descriptor name="invoiceDocumentStatus" column="INV_DOC_STS" jdbc-type="VARCHAR" index="true" />
+		<reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none"
+			auto-delete="none" proxy="true">
+			<foreignkey field-ref="proposalNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none"
+			auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+			<foreignkey field-ref="accountNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+		</reference-descriptor>
+
+
+	</class-descriptor>
+
+
+	<!-- AWARD INVOICE ACCOUNT -->
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AwardInvoiceAccount" table="CG_AWD_INV_ACCT_T">
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" index="true" />
+		<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="subObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="accountType" column="ACCT_TYP" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none"
+			auto-delete="none" proxy="true">
+			<foreignkey field-ref="proposalNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="account" class-ref="org.kuali.kfs.coa.businessobject.Account" auto-retrieve="true" auto-update="none"
+			auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+			<foreignkey field-ref="accountNumber" />
+		</reference-descriptor>
+		<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+		</reference-descriptor>
+
+		<reference-descriptor name="object" class-ref="org.kuali.kfs.coa.businessobject.ObjectCode" auto-retrieve="true" auto-update="none"
+			auto-delete="none" proxy="true">
+			<foreignkey field-ref="universityFiscalYear" />
+			<foreignkey field-ref="chartOfAccountsCode" />
+			<foreignkey field-ref="objectCode" />
+		</reference-descriptor>
+		<reference-descriptor name="subObject" class-ref="org.kuali.kfs.coa.businessobject.SubObjectCode" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="universityFiscalYear" />
+			<foreignkey field-ref="chartOfAccountsCode" />
+			<foreignkey field-ref="accountNumber" />
+			<foreignkey field-ref="objectCode" />
+			<foreignkey field-ref="subObjectCode" />
+		</reference-descriptor>
+		<reference-descriptor name="subAccount" class-ref="org.kuali.kfs.coa.businessobject.SubAccount" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+			<foreignkey field-ref="accountNumber" />
+			<foreignkey field-ref="subAccountNumber" />
+		</reference-descriptor>
+
+
+	</class-descriptor>
+
+	<!-- AWARD ORGANIZATION -->
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AwardOrganization" table="CG_AWD_ORG_T">
+		<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="awardPrimaryOrganizationIndicator" column="CGAWD_PRM_ORG_IND" jdbc-type="VARCHAR"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+		</reference-descriptor>
+		<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Organization" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+			<foreignkey field-ref="organizationCode" />
+		</reference-descriptor>
+	</class-descriptor>
+
+	<!-- AWARD SUBCONTRACTOR -->
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AwardSubcontractor" table="CG_AWD_SUBCN_T">
+		<field-descriptor name="awardSubcontractorAmendmentNumber" column="AWD_SUBCN_AMND_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"
+			readonly="true" />
+		<field-descriptor name="awardSubcontractorNumber" column="CGAWD_SUBCN_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"
+			readonly="true" />
+		<field-descriptor name="subcontractorNumber" column="CG_SUBCNR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="subcontractorAmount" column="CG_SUBCN_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="subcontractorContactFirstName" column="SUBCNR_CNTCT_F_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="subcontractorContactLastName" column="SUBCNR_CNTCT_L_NM" jdbc-type="VARCHAR" />
+		<field-descriptor name="subcontractorAuditHistoryText" column="SUBCN_AUDTHIST_TXT" jdbc-type="VARCHAR" />
+		<field-descriptor name="awardSubcontractorDescription" column="CGAWD_SUBCN_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<reference-descriptor name="subcontractor" class-ref="org.kuali.kfs.module.cg.businessobject.SubContractor" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="subcontractorNumber" />
+		</reference-descriptor>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ResearchRiskType" table="ER_RSRCH_RSK_TYP_T">
+		<field-descriptor name="researchRiskTypeCode" column="RSRCH_RSK_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="researchRiskTypeDescription" column="RSRCH_RSK_TYP_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="researchRiskTypeSortNumber" column="RSRCH_RSK_TYP_SORT_NBR" jdbc-type="INTEGER" />
+		<field-descriptor name="researchRiskTypeNotificationValue" column="RSRCH_RSK_TYP_NTFCTN_VAL" jdbc-type="VARCHAR" />
+	</class-descriptor>
+
+	<!-- FINANCIAL FORM TEMPLATE -->
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.FinancialFormTemplate" table="CG_FIN_FORM_TYP_T">
+		<field-descriptor name="financialFormTemplateCode" column="FIN_FORM_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="financialFormTemplateDescription" column="FIN_FORM_TYP_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
+
+	<!-- CONTRACT OR GRANT TYPE -->
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ContractGrantType" table="CG_CNTRCT_GRNT_TYP_T">
+		<field-descriptor name="contractGrantTypeCode" column="CNTRCT_GRNT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="contractGrantTypeDescription" column="CNTRCT_GRNT_TYP_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
+
+	<!-- INVOICE TEMPLATE -->
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.InvoiceTemplate" table="CG_INV_TYP_T">
+		<field-descriptor name="invoiceTemplateCode" column="INV_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="invoiceTemplateDescription" column="INV_TYP_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="filename" column="FILENAME" jdbc-type="VARCHAR" locking="false" />
+		<field-descriptor name="filepath" column="FILEPATH" jdbc-type="VARCHAR" locking="false" />
+		<field-descriptor name="accessRestricted" column="ACCESS_RSTRCTD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="date" column="UPLOAD_DATE" jdbc-type="VARCHAR" locking="false" />
+		<field-descriptor name="billByChartOfAccountCode" column="BILL_BY_COA_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="billedByOrganizationCode" column="BILL_BY_ORG_CD" jdbc-type="VARCHAR" />
+		<reference-descriptor name="billByChartOfAccount" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="billByChartOfAccountCode" />
+		</reference-descriptor>
+		<reference-descriptor name="billedByOrganization" class-ref="org.kuali.kfs.coa.businessobject.Organization" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="billByChartOfAccountCode" />
+			<foreignkey field-ref="billedByOrganizationCode" />
+		</reference-descriptor>
+	</class-descriptor>
+
+
+
+	<!-- FINANCIAL REPORT FREQUENCIES -->
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.FinancialReportFrequencies" table="CG_FIN_RPT_FREQ_T">
+		<field-descriptor name="reportFrequency" column="FIN_RPT_FREQ_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="reportFrequencyDescription" column="FIN_RPT_FREQ_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
+
+	<!-- BILLING FREQUENCY -->
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.BillingFrequency" table="CG_BILL_FREQ_T">
+		<field-descriptor name="frequency" column="BILL_FREQ_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="frequencyDescription" column="BILL_FREQ_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="gracePeriodDays" column="GRACE_PERIOD" jdbc-type="VARCHAR" nullable="false" />
+		<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
+
+	<!-- SOURCE OF FUNDs -->
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.SourceOfFunds" table="CG_SRC_OF_FNDS_T">
+		<field-descriptor name="sourceOfFunds" column="SRC_OF_FNDS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="sourceOfFundDescription" column="SRC_OF_FNDS_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
+
+	<!-- AGENCY ACTIVITY -->
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.AgencyActivity" table="CG_AGENCY_ACTVTY_T">
+		<field-descriptor name="agencyActivity" column="AGENCY_ACT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="activityDescription" column="AGENCY_ACT_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
+
+
+
+	<!-- MILESTONES -->
+
+
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.Milestone" table="CG_MLSTN_T">
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="milestoneNumber" column="MLSTN_NBR" jdbc-type="BIGINT" />
+		<field-descriptor name="milestoneIdentifier" column="MLSTN_ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true"
+			sequence-name="MLSTN_ID_SEQ" />
+		<field-descriptor name="milestoneDescription" column="MLSTN_DESC" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="milestoneAmount" column="MLSTN_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="milestoneExpectedCompletionDate" column="MLSTN_EXPCTD_COMPLTN_DT" jdbc-type="DATE" />
+		<field-descriptor name="milestoneActualCompletionDate" column="MLSTN_COMPLTN_DT" jdbc-type="DATE" />
+		<field-descriptor name="isItBilled" column="IS_IT_BLD" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+
+		<reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none"
+			auto-delete="none" proxy="true">
+			<foreignkey field-ref="proposalNumber" />
+		</reference-descriptor>
+
+	</class-descriptor>
+
+
+	<!-- MILESTONE SCHEDULE -->
+
+
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.MilestoneSchedule" table="CG_MLSTN_SCHDL_T">
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="totalAmountScheduled" column="TOT_AMT_SCHDL" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="totalAmountRemaining" column="TOT_AWD_REMNG" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+
+		<reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none"
+			auto-delete="none" proxy="true">
+			<foreignkey field-ref="proposalNumber" />
+		</reference-descriptor>
+
+
+
+		<collection-descriptor name="milestones" element-class-ref="org.kuali.kfs.module.cg.businessobject.Milestone"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+
+			<orderby name="milestoneIdentifier" sort="ASC" />
+
+			<inverse-foreignkey field-ref="proposalNumber" />
+		</collection-descriptor>
+
+	</class-descriptor>
+
+
+
+	<!-- BILLS -->
+
+
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.Bill" table="CG_BILL_T">
+
+		<field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="billNumber" column="BILL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+		<field-descriptor name="billDescription" column="BILL_DESC" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="billIdentifier" column="BILL_ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true"
+			sequence-name="BILL_ID_SEQ" />
+		<field-descriptor name="billDate" column="BILL_DT" jdbc-type="DATE" index="true" />
+		<field-descriptor name="estimatedAmount" column="EST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="isItBilled" column="IS_IT_BLD" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<reference-descriptor name="award" class-ref="org.kuali.kfs.module.cg.businessobject.Award" auto-retrieve="true" auto-update="none"
+			auto-delete="none" proxy="true">
+			<foreignkey field-ref="proposalNumber" />
+		</reference-descriptor>
+
+	</class-descriptor>
+
+
+	<!-- INVOICE INDICATORS -->
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.InvoiceIndicator" table="CG_INV_IND_T">
+		<field-descriptor name="invoiceIndicator" column="INV_IND_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="invoiceIndicatorDescription" column="INV_IND_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	</class-descriptor>
+
+	<!-- PROPOSAL DEFAULTS -->
+
+	<class-descriptor class="org.kuali.kfs.module.cg.businessobject.ProposalAutoCreateDefaults" table="CG_PRPSL_CRT_DFLT_T">
+		<field-descriptor name="proposalDefaultId" column="PRPSL_DFLT_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true"
+			sequence-name="CG_PRPSL_CRT_DFLT_SEQ" />
+		<field-descriptor name="kcUnit" column="KC_UNIT" jdbc-type="VARCHAR" />
+		<field-descriptor name="proposalIndirectCostAmount" column="PRPSL_INDRCS_AMT" jdbc-type="DECIMAL"
+			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="proposalAwardTypeCode" column="CGPRPSL_AWD_TYP_CD" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="proposalPurposeCode" column="CGPRPSL_PURPOSE_CD" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="principalId" column="PRPSL_PRJ_DRTR_ID" jdbc-type="VARCHAR" index="true" />
+		<reference-descriptor name="organization" class-ref="org.kuali.kfs.coa.businessobject.Organization" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+			<foreignkey field-ref="organizationCode" />
+		</reference-descriptor>
+		<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="chartOfAccountsCode" />
+		</reference-descriptor>
+		<reference-descriptor name="proposalAwardType" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalAwardType"
+			auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="proposalAwardTypeCode" />
+		</reference-descriptor>
+		<reference-descriptor name="proposalPurpose" class-ref="org.kuali.kfs.module.cg.businessobject.ProposalPurpose" auto-retrieve="true"
+			auto-update="none" auto-delete="none" proxy="true">
+			<foreignkey field-ref="proposalPurposeCode" />
+		</reference-descriptor>
+		
+	</class-descriptor>
 
 
 </descriptor-repository>
-

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,8 +15,13 @@
  */
 package org.kuali.kfs.module.ar;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class ArConstants {
+import org.kuali.rice.core.util.JSTLConstants;
+
+public class ArConstants extends JSTLConstants {
+
 
     public static final String AR_NAMESPACE_CODE = "KFS-AR";
 
@@ -25,7 +30,7 @@ public class ArConstants {
     public static final String PAYMENT_DOC_TYPE = "Payment";
     public static final String WRITEOFF_DOC_TYPE = "Writeoff";
 
-    //System Parameters
+    // System Parameters
     public static final String INSTITUTION_NAME = "INSTITUTION_NAME";
     public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD = "GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD";
     public static final String GLPE_WRITEOFF_GENERATION_METHOD = "GLPE_WRITEOFF_GENERATION_METHOD";
@@ -45,7 +50,16 @@ public class ArConstants {
     public static final String DUE_DATE_DAYS = "DUE_DATE_DAYS";
     public static final String INCLUDE_ZERO_BALANCE_CUSTOMERS = "INCLUDE_ZERO_BALANCE_CUSTOMERS";
 
-    //Valid number of days the invoice due date can be more than invoice creation date.
+    public static final String DEFAULT_PREFERRED_BILLING_FREQUENCY_PARAMETER = "DEFAULT_PREFERRED_BILLING_FREQUENCY";
+    public static final String CG_INVOICE_FROM_EMAIL_ADDRESS = "CG_INVOICE_FROM_EMAIL_ADDRESS";
+    public static final String CG_INVOICE_EMAIL_SUBJECT = "CG_INVOICE_EMAIL_SUBJECT";
+    public static final String BASIS_OF_ACCOUNTING = "DEFAULT_BASIS_OF_ACCOUNTING_FOR_BILLING";
+    public static final String BASIS_OF_ACCOUNTING_CASH = "1";
+    public static final String BASIS_OF_ACCOUNTING_ACCRUAL = "2";
+    public static final String CG_INVOICE_EMAIL_BODY = "CG_INVOICE_EMAIL_BODY";
+    public static final String LETTER_TEMPLATE_UPLOAD = "document.letterTemplateUpload";
+
+    // Valid number of days the invoice due date can be more than invoice creation date.
     public static final int VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE = 90;
 
     public static final String NEW_CUSTOMER_INVOICE_DETAIL_ERROR_PATH_PREFIX = "newCustomerInvoiceDetail";
@@ -53,7 +67,7 @@ public class ArConstants {
 
     public static final String CUSTOMER_INVOICE_DOCUMENT_GL_POSTING_HELPER_BEAN_ID = "customerInvoiceDocumentGeneralLedgerPostingHelper";
 
-    public static final String CUSTOMER_INVOICE_DETAIL_UOM_DEFAULT = "EA"; //TODO: System parameter?
+    public static final String CUSTOMER_INVOICE_DETAIL_UOM_DEFAULT = "EA"; // TODO: System parameter?
 
     public static final String LOOKUP_CUSTOMER_NAME = "customerName";
     public static final String LOOKUP_CUSTOMER_NUMBER = "customerNumber";
@@ -69,10 +83,19 @@ public class ArConstants {
 
     public static final String CUSTOMER_INVOICE_DETAIL_DEFAULT_DISCOUNT_DESCRIPTION_PREFIX = "LINE ITEM DISCOUNT";
 
+    public static final String INV_DOCUMENT_TYPE = "INV";
+    public static final String INV_DOCUMENT_DESCRIPTION = "Customer Invoice Document";
+    public static final String DEFAULT_PROCESSING_CHART = "DEFAULT_PROCESSING_CHART";
+    public static final String DEFAULT_PROCESSING_ORG = "DEFAULT_PROCESSING_ORG";
+
+    public static final String NEW_COLLECTION_ACTIVITY_EVENT_ERROR_PATH_PREFIX = "newEvent";
+
+
     public static class PaymentMediumCode {
         public static final String CASH = "CA";
         public static final String CHECK = "CK";
         public static final String WIRE_TRANSFER = "WT";
+        public static final String LOC_WIRE = "LW";
         public static final String CREDIT_CARD = "CR";
     }
 
@@ -88,6 +111,11 @@ public class ArConstants {
         public static final String TOTAL_91_TO_SYSPR = "total90toSYSPR";
         public static final String TOTAL_SYSPR_PLUS_1_OR_MORE = "totalSYSPRplus1orMore";
         public static final String TOTAL_AMOUNT_DUE = "totalAmountDue";
+
+
+        public static final String AGENCY_SHORT_NAME = "Agency Short Name";
+        public static final String UNAPPLIED_PAYMENTS = "Unapplied Payments";
+        public static final String TOTAL_WRITEOFF = "Total Write-Off";
     }
 
     public static class OrganizationAccountingOptionsConstants {
@@ -154,12 +182,14 @@ public class ArConstants {
     public static final String LOCKBOX_REMITTANCE_FOR_CLOSED_INVOICE_NUMBER = "Lockbox: Remittance for CLOSED invoice number ";
     public static final String LOCKBOX_REMITTANCE_FOR_INVOICE_NUMBER = "Lockbox: Remittance for invoice number ";
 
+    // Probably refactor these two constants out to pull them from a service, system parameter or something.
+    public static final String ACTUALS_BALANCE_TYPE_CODE = "AC";
     public static final String PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE = "APP";
     public static final String INVOICE_WRITEOFF_DOCUMENT_TYPE_CODE = "INVW";
 
     // Organization Options Section Ids
     public static class OrganizationOptionsSections {
-        public static final String  EDIT_ORGANIZATION_REMIT_TO_ADDRESS = "Edit Organization Remit To Address";
+        public static final String EDIT_ORGANIZATION_REMIT_TO_ADDRESS = "Edit Organization Remit To Address";
     }
 
     // Customer Billing Statement

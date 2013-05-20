@@ -30,47 +30,44 @@
 <c:set var="editBankCode"
 	value="${!empty KualiForm.editingMode['editBankCode']}" />
 <c:set var="showBankCode"
-	value="${!empty KualiForm.editingMode['showBankCode']}" />	
-	
+	value="${!empty KualiForm.editingMode['showBankCode']}" />
+
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="CashControlDocument"
 	htmlFormAction="arCashControlDocument" renderMultipart="true"
 	showTabButtons="true">
 
-    <c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}">
-        <c:set var="fullEntryMode" value="true" scope="request" />
-    </c:if>
+	<c:if
+		test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}">
+		<c:set var="fullEntryMode" value="true" scope="request" />
+	</c:if>
 
 	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
-	
+
 	<sys:hiddenDocumentFields isFinancialDocument="false" />
-	
-    <ar:cashControl
-        documentAttributes="${DataDictionary.CashControlDocument.attributes}"
-        readOnly="${readOnly}"
-        showGenerateButton = "${showGenerateButton}"
-        editPaymentMedium= "${editPaymentMedium}"
-        editBankCode = "${editBankCode}"
-        showBankCode = "${showBankCode}"
-        editRefDocNbr = "${editRefDocNbr}" />
-        
-    <ar:cashControlDetails
-        documentAttributes="${DataDictionary.CashControlDocument.attributes}"
-        cashControlDetailAttributes="${DataDictionary.CashControlDetail.attributes}"
-        readOnly="${readOnly}"
-        editDetails = "${editDetails}"
-        editPaymentAppDoc = "${editPaymentAppDoc}"/>  
-        
-    <gl:generalLedgerPendingEntries />
-                
-	<kul:notes /> 
-	
+
+	<ar:cashControl
+		documentAttributes="${DataDictionary.CashControlDocument.attributes}"
+		readOnly="${readOnly}" showGenerateButton="${showGenerateButton}"
+		editPaymentMedium="${editPaymentMedium}"
+		editBankCode="${editBankCode}" showBankCode="${showBankCode}"
+		editRefDocNbr="${editRefDocNbr}" />
+
+	<ar:cashControlDetails
+		documentAttributes="${DataDictionary.CashControlDocument.attributes}"
+		cashControlDetailAttributes="${DataDictionary.CashControlDetail.attributes}"
+		readOnly="${readOnly}" editDetails="${editDetails}"
+		editPaymentAppDoc="${editPaymentAppDoc}" />
+
+	<gl:generalLedgerPendingEntries />
+
+	<kul:notes />
+
 	<kul:routeLog />
-
-	<kul:superUserActions />
-
+<kul:superUserActions />
 	<kul:panelFooter />
 
-	<sys:documentControls transactionalDocument="true" />
+	<sys:documentControls transactionalDocument="true"
+		extraButtons="${KualiForm.extraButtons}" />
 
 </kul:documentPage>

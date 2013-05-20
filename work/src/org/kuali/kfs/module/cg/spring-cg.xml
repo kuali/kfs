@@ -31,16 +31,18 @@
     <bean id="cgModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
     	<property name="namespaceCode" value="KFS-CG" />
 		<property name="initializeDataDictionary" value="true" />
-        <property name="packagePrefixes">
-            <list>
-                <value>org.kuali.kfs.module.cg</value>
-                <value>org.kuali.kfs.integration.cg</value>
-            </list>
-        </property>
+		<property name="packagePrefixes">
+			<list>
+				<value>org.kuali.kfs.module.cg</value>
+				<value>org.kuali.kfs.integration.cg</value>
+			</list>
+		</property>
 		<property name="dataDictionaryPackages">
 			<list>
-                <value>org/kuali/kfs/module/cg/businessobject/datadictionary</value>
-                <value>org/kuali/kfs/module/cg/document/datadictionary</value>
+				<value>org/kuali/kfs/module/cg/businessobject/datadictionary</value>
+				<value>org/kuali/kfs/module/cg/document/datadictionary</value>
+				<value>org/kuali/kfs/integration/cg/businessobject/datadictionary/UnitDTO.xml
+				</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">
@@ -57,6 +59,7 @@
 			<list>
 				<value>closeJob</value>
 				<value>cfdaJob</value>
+				<value>upcomingMilestoneNotificationJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -65,33 +68,63 @@
 			</list>
 		</property>
 		<property name="externalizableBusinessObjectImplementations">
-            <map>
-                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.module.cg.businessobject.CFDA" />
-                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
-                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.module.cg.businessobject.Award" />
-                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
-                <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.module.cg.businessobject.Proposal" />
-                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.module.cg.businessobject.Agency" />
-	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="org.kuali.kfs.integration.cg.businessobject.UnitDTO" /> 
-       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO" />                                
-            </map>
-        </property>
-        <property name="batchFileDirectories">
-          	<list>
-            	<value>${reports.directory}/cg</value>
-          	</list>
-        </property>
+			<map>
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.module.cg.businessobject.CFDA" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation" value="org.kuali.kfs.module.cg.businessobject.AwardInvoiceAccount" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.module.cg.businessobject.Award" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward" value="org.kuali.kfs.module.cg.businessobject.Award" />
+				<entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.module.cg.businessobject.Proposal" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency" value="org.kuali.kfs.module.cg.businessobject.Agency" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.module.cg.businessobject.Agency" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsMilestone" value="org.kuali.kfs.module.cg.businessobject.Milestone" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBill" value="org.kuali.kfs.module.cg.businessobject.Bill" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup" value="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFundGroup" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund" value="org.kuali.kfs.module.cg.businessobject.LetterOfCreditFund" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress" value="org.kuali.kfs.module.cg.businessobject.AgencyAddress" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddressType" value="org.kuali.kfs.module.cg.businessobject.AgencyAddressType" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency" value="org.kuali.kfs.module.cg.businessobject.BillingFrequency" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsContractGrantType" value="org.kuali.kfs.module.cg.businessobject.ContractGrantType" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager" value="org.kuali.kfs.module.cg.businessobject.AwardFundManager" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsInvoiceIndicator" value="org.kuali.kfs.module.cg.businessobject.InvoiceIndicator" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsInvoiceTemplate" value="org.kuali.kfs.module.cg.businessobject.InvoiceTemplate" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization" value="org.kuali.kfs.module.cg.businessobject.AwardOrganization" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsProjectDirector" value="org.kuali.kfs.module.cg.businessobject.AwardProjectDirector" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="org.kuali.kfs.integration.cg.businessobject.UnitDTO" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO" />
+			</map>
+		</property>
+		<property name="batchFileDirectories">
+			<list>
+				<value>${reports.directory}/cg</value>
+			</list>
+		</property>
+		<property name="templateFileDirectories">
+			<map>
+				<entry key="templates.directory">
+					<value>${templates.directory}/cg</value>
+				</entry>
+			</map>
+		</property>
 	</bean>
 
-    <bean id="cgModuleService" parent="cgModuleService-parentBean"/>
+	<bean id="cgModuleService" parent="cgModuleService-parentBean" />
 
-    <bean id="cgModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
+	<bean id="cgModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="cgModuleConfiguration" />
 	</bean>
 
     <bean id="contractsAndGrantsModuleService"  parent="contractsAndGrantsModuleService-parentBean"/>
     <bean id="contractsAndGrantsModuleService-parentBean" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleServiceImpl" abstract="true" />
 
+	<bean id="contractsAndGrantsModuleUpdateService" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleUpdateServiceImpl">
+		<property name="awardService" ref="awardService" />
+		<property name="billDao" ref="billDao" />
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="milestoneDao" ref="milestoneDao" />
+	</bean>
+	
 	<bean id="CGConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
 		<property name="constantClass" value="org.kuali.kfs.module.cg.CGConstants" />
 	</bean>
@@ -104,17 +137,23 @@
 		</property>
 	</bean>
 
-	
+	<bean id="contractsAndGrantsModuleRetrieveService" class="org.kuali.kfs.module.cg.service.impl.ContractsAndGrantsModuleRetrieveServiceImpl" />
+
 	<!-- DAOs -->
 	<bean id="awardDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.AwardDaoOjb" />
 
 	<bean id="proposalDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.ProposalDaoOjb" />
-	
+
 	<bean id="closeDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.CloseDaoOjb" />
-	
+
+	<bean id="agencyAddressDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.AgencyAddressDaoOjb" />
+
+	<bean id="milestoneDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.MilestoneDaoOjb" />
+
+	<bean id="billDao" parent="platformAwareDao" class="org.kuali.kfs.module.cg.dataaccess.impl.BillDaoOjb" />
+
 	<!-- Services -->
-	<bean id="closeService"  parent="closeService-parentBean"/>
-	<bean id="closeService-parentBean" class="org.kuali.kfs.module.cg.service.impl.CloseServiceImpl" abstract="true">
+	<bean id="closeService" class="org.kuali.kfs.module.cg.service.impl.CloseServiceImpl">
 		<property name="awardDao">
 			<ref bean="awardDao" />
 		</property>
@@ -127,12 +166,6 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>		
-		<property name="documentService">
-			<ref bean="documentService" />
-		</property>			
 	</bean>
 	
 	<bean id="proposalLookupableHelperService" parent="proposalLookupableHelperService-parentBean" scope="prototype" />
@@ -210,11 +243,49 @@
         </property>
     </bean>
 
-    <bean id="closeJob" parent="scheduledJobDescriptor">
+	<bean id="closeJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="closeBatchStep" />
 			</list>
+		</property>
+	</bean>
+
+	<bean id="routingFormResearchRiskService" class="org.kuali.kfs.module.cg.document.service.impl.RoutingFormResearchRiskServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<bean id="researchRiskReviewRoleTypeService" class="org.kuali.kfs.module.cg.identity.ResearchRiskReviewRoleTypeServiceImpl" />
+	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+		<property name="serviceDefinition">
+			<bean parent="kfsService" p:service-ref="researchRiskReviewRoleTypeService" p:localServiceName="researchRiskReviewRoleTypeService" />
+		</property>
+	</bean>
+
+	<bean id="agencyAddressService" class="org.kuali.kfs.module.cg.document.service.impl.AgencyAddressServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="sequenceAccessorService">
+			<ref bean="sequenceAccessorService" />
+		</property>
+		<property name="agencyAddressDao">
+			<ref bean="agencyAddressDao" />
+		</property>
+	</bean>
+
+
+	<bean id="letterOfCreditFundService" class="org.kuali.kfs.module.cg.service.impl.LetterOfCreditFundServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<bean id="awardService" class="org.kuali.kfs.module.cg.service.impl.AwardServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 	

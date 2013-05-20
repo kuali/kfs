@@ -33,54 +33,54 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  */
 public class OrganizationAccountingDefault extends PersistableBusinessObjectBase implements FiscalYearBasedBusinessObject {
 
-	protected Integer universityFiscalYear;
-	protected String chartOfAccountsCode;
-	protected String organizationCode;
-	protected String organizationLateChargeObjectCode;
-	protected String defaultInvoiceChartOfAccountsCode;
-	protected String defaultInvoiceAccountNumber;
-	protected String defaultInvoiceSubAccountNumber;
-	protected String defaultInvoiceFinancialObjectCode;
-	protected String defaultInvoiceFinancialSubObjectCode;
-	protected String defaultInvoiceProjectCode;
-	protected String defaultInvoiceOrganizationReferenceIdentifier;
-	protected String defaultPaymentChartOfAccountsCode;
-	protected String defaultPaymentAccountNumber;
-	protected String defaultPaymentSubAccountNumber;
-    protected String defaultPaymentFinancialObjectCode;
-    protected String defaultPaymentFinancialSubObjectCode;
-    protected String defaultPaymentProjectCode;
-	protected String defaultPaymentOrganizationReferenceIdentifier;
-    protected String writeoffChartOfAccountsCode;
-    protected String writeoffAccountNumber;
-    protected String writeoffSubAccountNumber;
-    protected String writeoffFinancialObjectCode;
-    protected String writeoffFinancialSubObjectCode;
-    protected String writeoffProjectCode;
-    protected String writeoffOrganizationReferenceIdentifier;
+	private Integer universityFiscalYear;
+	private String chartOfAccountsCode;
+	private String organizationCode;
+	private String organizationLateChargeObjectCode;
+	private String defaultInvoiceChartOfAccountsCode;
+	private String defaultInvoiceAccountNumber;
+	private String defaultInvoiceSubAccountNumber;
+	private String defaultInvoiceFinancialObjectCode;
+	private String defaultInvoiceFinancialSubObjectCode;
+	private String defaultInvoiceProjectCode;
+	private String defaultInvoiceOrganizationReferenceIdentifier;
+	private String defaultPaymentChartOfAccountsCode;
+	private String defaultPaymentAccountNumber;
+	private String defaultPaymentSubAccountNumber;
+    private String defaultPaymentFinancialObjectCode;
+    private String defaultPaymentFinancialSubObjectCode;
+    private String defaultPaymentProjectCode;
+	private String defaultPaymentOrganizationReferenceIdentifier;
+    private String writeoffChartOfAccountsCode;
+    private String writeoffAccountNumber;
+    private String writeoffSubAccountNumber;
+    private String writeoffFinancialObjectCode;
+    private String writeoffFinancialSubObjectCode;
+    private String writeoffProjectCode;
+    private String writeoffOrganizationReferenceIdentifier;
    
-    protected ObjectCode defaultInvoiceFinancialObject;
-	protected SubObjectCode defaultInvoiceFinancialSubObject;
-	protected ObjectCode organizationLateChargeObject;
-	protected Chart chartOfAccounts;
-	protected Organization organization;
-	protected Chart defaultInvoiceChartOfAccounts;
-	protected SubAccount defaultInvoiceSubAccount;
-	protected Account defaultInvoiceAccount;
-	protected ProjectCode defaultInvoiceProject;
-	protected Account defaultPaymentAccount;
-	protected Chart defaultPaymentChartOfAccounts;
-	protected SubAccount defaultPaymentSubAccount;
-	protected ProjectCode defaultPaymentProject;
-	protected transient SystemOptions universityFiscal;
-    protected ObjectCode defaultPaymentFinancialObject;
-    protected SubObjectCode defaultPaymentFinancialSubObject;
-    protected Chart writeoffChartOfAccounts;
-    protected Account writeoffAccount;
-    protected SubAccount writeoffSubAccount;
-    protected ObjectCode writeoffFinancialObject;
-    protected SubObjectCode writeoffFinancialSubObject;
-    protected ProjectCode writeoffProject;
+    private ObjectCode defaultInvoiceFinancialObject;
+	private SubObjectCode defaultInvoiceFinancialSubObject;
+	private ObjectCode organizationLateChargeObject;
+	private Chart chartOfAccounts;
+	private Organization organization;
+	private Chart defaultInvoiceChartOfAccounts;
+	private SubAccount defaultInvoiceSubAccount;
+	private Account defaultInvoiceAccount;
+	private ProjectCode defaultInvoiceProject;
+	private Account defaultPaymentAccount;
+	private Chart defaultPaymentChartOfAccounts;
+	private SubAccount defaultPaymentSubAccount;
+	private ProjectCode defaultPaymentProject;
+	private SystemOptions universityFiscal;
+    private ObjectCode defaultPaymentFinancialObject;
+    private SubObjectCode defaultPaymentFinancialSubObject;
+    private Chart writeoffChartOfAccounts;
+    private Account writeoffAccount;
+    private SubAccount writeoffSubAccount;
+    private ObjectCode writeoffFinancialObject;
+    private SubObjectCode writeoffFinancialSubObject;
+    private ProjectCode writeoffProject;
     
 	/**
 	 * Default constructor.
@@ -987,10 +987,10 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         if (this.universityFiscalYear != null) {
-            m.put("universityFiscalYear", this.universityFiscalYear.toString());
+            m.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, this.universityFiscalYear.toString());
         }
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("organizationCode", this.organizationCode);
+        m.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.chartOfAccountsCode);
+        m.put(KFSPropertyConstants.ORGANIZATION_CODE, this.organizationCode);
 	    return m;
     }
     

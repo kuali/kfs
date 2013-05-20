@@ -2,18 +2,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-	<!--
-		Copyright 2005-2008 The Kuali Foundation Licensed under the
-		Educational Community License, Version 2.0 (the "License"); you may
-		not use this file except in compliance with the License. You may
-		obtain a copy of the License at
-		http://www.opensource.org/licenses/ecl2.php Unless required by
-		applicable law or agreed to in writing, software distributed under the
-		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-		CONDITIONS OF ANY KIND, either express or implied. See the License for
-		the specific language governing permissions and limitations under the
-		License.
-	-->
+	<!-- Copyright 2005-2008 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
 	<bean id="Agency" parent="Agency-parentBean" />
 
 	<bean id="Agency-parentBean" abstract="true" parent="BusinessObjectEntry">
@@ -37,7 +34,57 @@
 				<ref bean="Agency-inStateIndicator" />
 				<ref bean="Agency-indirectAmount" />
 				<ref bean="Agency-reportsToAgencyNumber" />
+				<ref bean="Agency-cageNumber" />
+				<ref bean="Agency-dodacNumber" />
+				<ref bean="Agency-dunAndBradstreetNumber" />
+				<ref bean="Agency-dunsPlusFourNumber" />
+				<ref bean="Agency-agencyFrequencyCode" />
+				<ref bean="Agency-agencyFinancialReportCode" />
+				<ref bean="Agency-agencyInvoiceTemplateCode" />
+				<ref bean="Agency-agencyFinancialReportFreqCode" />
+				<ref bean="Agency-agencyExpirationDate" />
+				<ref bean="Agency-agencyAddresses.agencyAddressName" />
+				<ref bean="Agency-agencyAddresses.agencyLine1StreetAddress" />
+				<ref bean="Agency-agencyAddresses.agencyLine2StreetAddress" />
+				<ref bean="Agency-agencyAddresses.agencyLine3StreetAddress" />
+				<ref bean="Agency-agencyAddresses.agencyLine4StreetAddress" />
+				<ref bean="Agency-agencyAddresses.agencyContactName" />
+				<ref bean="Agency-agencyAddresses.agencyPhoneNumber" />
+				<ref bean="Agency-agencyAddresses.agencyFaxNumber" />
+				<ref bean="Agency-agencyAddresses.agencyCityName" />
+				<ref bean="Agency-agencyAddresses.agencyStateCode" />
+				<ref bean="Agency-agencyAddresses.agencyZipCode" />
+				<ref bean="Agency-agencyAddresses.agencyAddressInternationalProvinceName" />
+				<ref bean="Agency-agencyAddresses.agencyContactEmailAddress" />
+				<ref bean="Agency-agencyAddresses.agencyInvoiceEmailAddress" />
+				<ref bean="Agency-agencyAddresses.agencyInvoiceTemplateCode" />
+				<ref bean="Agency-agencyAddresses.invoiceIndicatorCode" />
+				<ref bean="Agency-agencyAddresses.agencyCopiesToPrint" />
+				<ref bean="Agency-agencyAddresses.agencyPrintEnvelopesNumber" />
 				<ref bean="Agency-active" />
+				<ref bean="Agency-customerCreated" />
+				<ref bean="Agency-customerNumber" />
+				<ref bean="Agency-customerTypeCode" />
+				<ref bean="Agency-sponsorCode" />
+				<ref bean="Agency-dunningCampaign" />
+				<ref bean="Agency-collectionStatus"/>
+				<ref bean="Agency-bankruptcyType"/>
+				<ref bean="Agency-bankruptcyDate"/>
+				<ref bean="Agency-bankruptcyReviewDate"/>
+				<ref bean="Agency-stopWork"/>
+				<ref bean="Agency-stopWorkReason"/>
+				<ref bean="Agency-notes"/>
+				<ref bean="Agency-stateAgency"/>
+			</list>
+		</property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition" p:name="agencyAddresses"
+					p:label="Agency Addresses" p:shortLabel="Agency Addresses"
+					p:elementLabel="Agency Address" />
+				<bean parent="CollectionDefinition" p:name="agencyNotes"
+					p:label="Agency Notes" p:shortLabel="Agency Notes"
+					p:elementLabel="Agency Note" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -57,6 +104,21 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="customer">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="customerNumber"
+								p:targetName="customerNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition"  p:objectAttributeName="collStatusObj">
+		          <property name="primitiveAttributes">
+		           	 <list>
+		              	<bean parent="PrimitiveAttributeDefinition" p:sourceName="collectionStatus" p:targetName="statusCode"/>
+		           	 </list>
+		          </property>
+		        </bean>
 			</list>
 		</property>
 	</bean>
@@ -166,6 +228,229 @@
 		<property name="label" value="Reports To Agency Number" />
 		<property name="shortLabel" value="Reports To Agency Number" />
 	</bean>
+	<bean id="Agency-cageNumber" parent="Agency-cageNumber-parentBean" />
+
+	<bean id="Agency-cageNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="cageNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="CAGE Number" />
+		<property name="shortLabel" value="CAGE Number" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+		<property name="summary" value="CAGE Number" />
+		<property name="description" value="CAGE Number" />
+	</bean>
+	<bean id="Agency-dodacNumber" parent="Agency-dodacNumber-parentBean" />
+
+	<bean id="Agency-dodacNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="dodacNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="DODAC Number" />
+		<property name="shortLabel" value="DODAC Number" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+		<property name="summary" value="DODAC Number" />
+		<property name="description" value="DODAC Number" />
+	</bean>
+	<bean id="Agency-dunAndBradstreetNumber" parent="Agency-dunAndBradstreetNumber-parentBean" />
+
+	<bean id="Agency-dunAndBradstreetNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="dunAndBradstreetNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="DUN And Bradstreet Number" />
+		<property name="shortLabel" value="DUN And Bradstreet Number" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+		<property name="summary" value="DUN And Bradstreet Number" />
+		<property name="description" value="DUN And Bradstreet Number" />
+	</bean>
+	<bean id="Agency-dunsPlusFourNumber" parent="Agency-dunsPlusFourNumber-parentBean" />
+
+	<bean id="Agency-dunsPlusFourNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="dunsPlusFourNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="DUNS Plus Four Number" />
+		<property name="shortLabel" value="DUNS Plus Four Number" />
+		<property name="maxLength" value="20" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+		<property name="summary" value="DUNS Plus Four Number" />
+		<property name="description" value="DUNS Plus Four Number" />
+	</bean>
+
+	<!-- Link to Billing Frequency -->
+	<bean id="Agency-agencyFrequencyCode" parent="Agency-agencyFrequencyCode-parentBean" />
+
+	<bean id="Agency-agencyFrequencyCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="agencyFrequencyCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Preferred Billing Frequency" />
+		<property name="shortLabel" value="BillType" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.AgencyBillingFrequencyValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+	<!-- -->
+
+	<!-- Link to Financial Report Type -->
+	<bean id="Agency-agencyFinancialReportCode" parent="Agency-agencyFinancialReportCode-parentBean" />
+
+	<bean id="Agency-agencyFinancialReportCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="agencyFinancialReportCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Preferred Financial Template" />
+		<property name="shortLabel" value="RptType" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.AgencyFinancialReportTemplateValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+	<!-- -->
+
+	<!-- Link to Invoice Template -->
+	<bean id="Agency-agencyInvoiceTemplateCode" parent="Agency-agencyInvoiceTemplateCode-parentBean" />
+
+	<bean id="Agency-agencyInvoiceTemplateCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="agencyInvoiceTemplateCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Preferred Invoice Template" />
+		<property name="shortLabel" value="InvType" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.AgencyInvoiceTemplateValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+	<!-- -->
+
+	<!-- Link to Financial Report Frequency -->
+	<bean id="Agency-agencyFinancialReportFreqCode" parent="Agency-agencyFinancialReportFreqCode-parentBean" />
+
+	<bean id="Agency-agencyFinancialReportFreqCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="agencyFinancialReportFreqCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Preferred Financial Report Frequency" />
+		<property name="shortLabel" value="FreqType" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.FinancialReportFrequencyValuesFinder"
+				p:includeKeyInLabel="true" />
+		</property>
+	</bean>
+	<!-- -->
+
+	<bean id="Agency-agencyExpirationDate" parent="Agency-agencyExpirationDate-parentBean" />
+
+	<bean id="Agency-agencyExpirationDate-parentBean" abstract="true"
+		parent="GenericAttributes-genericDate">
+		<property name="name" value="agencyExpirationDate" />
+		<property name="label" value="Expiration Date" />
+		<property name="shortLabel" value="Expiry" />
+	</bean>
+
+	<bean id="Agency-customerNumber" parent="Agency-customerNumber-parentBean" />
+
+	<bean id="Agency-customerNumber-parentBean" abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ar.AccountsReceivableCustomer"
+		p:sourceAttributeName="customerNumber">
+		<property name="name" value="customerNumber" />
+		<property name="label" value="Customer Number" />
+		<property name="shortLabel" value="Customer Number" />
+	</bean>
+
+	<bean id="Agency-customerTypeCode" parent="Agency-customerTypeCode-parentBean" />
+
+	<bean id="Agency-customerTypeCode-parentBean" abstract="true"
+		parent="GenericAttributes-customerTypeCode">
+		<property name="name" value="customerTypeCode" />
+		<property name="label" value="Customer Type" />
+		<property name="shortLabel" value="Customer Type" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.CustomerTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+	<bean id="Agency-customerCreated" parent="Agency-customerCreated-parentBean" />
+
+	<bean id="Agency-customerCreated-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="customerCreated" />
+		<property name="label" value="Customer Exists?" />
+		<property name="shortLabel" value="Customer Exists?" />
+		<property name="maxLength" value="4" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.CustomerCreationOptionsValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+	
+	<bean id="Agency-dunningCampaign" parent="Agency-dunningCampaign-parentBean" />
+
+	<bean id="Agency-dunningCampaign-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="dunningCampaign" />
+		<property name="label" value="Dunning Campaign" />
+		<property name="shortLabel" value="Dunning Campaign" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.DunningCampaignValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
 	<bean id="Agency-active" parent="Agency-active-parentBean" />
 
 	<bean id="Agency-active-parentBean" abstract="true"
@@ -173,7 +458,269 @@
 		<property name="name" value="active" />
 	</bean>
 
+	<bean id="Agency-agencyAddresses.agencyAddressName" parent="Agency-agencyAddresses.agencyAddressName-parentBean" />
 
+	<bean id="Agency-agencyAddresses.agencyAddressName-parentBean"
+		abstract="true" parent="AgencyAddress-agencyAddressName">
+		<property name="name" value="agencyAddresses.agencyAddressName" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.agencyContactName" parent="Agency-agencyAddresses.agencyContactName-parentBean" />
+
+	<bean id="Agency-agencyAddresses.agencyContactName-parentBean"
+		abstract="true" parent="AgencyAddress-agencyContactName">
+		<property name="name" value="agencyAddresses.agencyContactName" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.agencyLine1StreetAddress"
+		parent="Agency-agencyAddresses.agencyLine1StreetAddress-parentBean" />
+
+	<bean id="Agency-agencyAddresses.agencyLine1StreetAddress-parentBean"
+		abstract="true" parent="AgencyAddress-agencyLine1StreetAddress">
+		<property name="name" value="agencyAddresses.agencyLine1StreetAddress" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.agencyLine2StreetAddress"
+		parent="Agency-agencyAddresses.agencyLine2StreetAddress-parentBean" />
+
+	<bean id="Agency-agencyAddresses.agencyLine2StreetAddress-parentBean"
+		abstract="true" parent="AgencyAddress-agencyLine2StreetAddress">
+		<property name="name" value="agencyAddresses.agencyLine2StreetAddress" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.agencyLine3StreetAddress"
+		parent="Agency-agencyAddresses.agencyLine3StreetAddress-parentBean" />
+
+	<bean id="Agency-agencyAddresses.agencyLine3StreetAddress-parentBean"
+		abstract="true" parent="AgencyAddress-agencyLine3StreetAddress">
+		<property name="name" value="agencyAddresses.agencyLine3StreetAddress" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.agencyLine4StreetAddress"
+		parent="Agency-agencyAddresses.agencyLine4StreetAddress-parentBean" />
+
+	<bean id="Agency-agencyAddresses.agencyLine4StreetAddress-parentBean"
+		abstract="true" parent="AgencyAddress-agencyLine4StreetAddress">
+		<property name="name" value="agencyAddresses.agencyLine4StreetAddress" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.agencyCityName" parent="Agency-agencyAddresses.agencyCityName-parentBean" />
+
+	<bean id="Agency-agencyAddresses.agencyCityName-parentBean"
+		abstract="true" parent="AgencyAddress-agencyCityName">
+		<property name="name" value="agencyAddresses.agencyCityName" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.agencyStateCode" parent="Agency-agencyAddresses.agencyStateCode-parentBean" />
+
+	<bean id="Agency-agencyAddresses.agencyStateCode-parentBean"
+		abstract="true" parent="AgencyAddress-agencyStateCode">
+		<property name="name" value="agencyAddresses.agencyStateCode" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.agencyZipCode" parent="Agency-agencyAddresses.agencyZipCode-parentBean" />
+
+	<bean id="Agency-agencyAddresses.agencyZipCode-parentBean"
+		abstract="true" parent="AgencyAddress-agencyZipCode">
+		<property name="name" value="agencyAddresses.agencyZipCode" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.agencyAddressInternationalProvinceName"
+		parent="Agency-agencyAddresses.agencyAddressInternationalProvinceName-parentBean" />
+
+	<bean
+		id="Agency-agencyAddresses.agencyAddressInternationalProvinceName-parentBean"
+		abstract="true" parent="AgencyAddress-agencyAddressInternationalProvinceName">
+		<property name="name"
+			value="agencyAddresses.agencyAddressInternationalProvinceName" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.agencyPhoneNumber" parent="Agency-agencyAddresses.agencyPhoneNumber-parentBean" />
+
+	<bean id="Agency-agencyAddresses.agencyPhoneNumber-parentBean"
+		abstract="true" parent="AgencyAddress-agencyPhoneNumber">
+		<property name="name" value="agencyAddresses.agencyPhoneNumber" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.agencyFaxNumber" parent="Agency-agencyAddresses.agencyFaxNumber-parentBean" />
+
+	<bean id="Agency-agencyAddresses.agencyFaxNumber-parentBean"
+		abstract="true" parent="AgencyAddress-agencyFaxNumber">
+		<property name="name" value="agencyAddresses.agencyFaxNumber" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.agencyContactEmailAddress"
+		parent="Agency-agencyAddresses.agencyContactEmailAddress-parentBean" />
+
+	<bean id="Agency-agencyAddresses.agencyContactEmailAddress-parentBean"
+		abstract="true" parent="AgencyAddress-agencyContactEmailAddress">
+		<property name="name" value="agencyAddresses.agencyContactEmailAddress" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.agencyInvoiceEmailAddress"
+		parent="Agency-agencyAddresses.agencyInvoiceEmailAddress-parentBean" />
+
+	<bean id="Agency-agencyAddresses.agencyInvoiceEmailAddress-parentBean"
+		abstract="true" parent="AgencyAddress-agencyInvoiceEmailAddress">
+		<property name="name" value="agencyAddresses.agencyInvoiceEmailAddress" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.agencyInvoiceTemplateCode"
+		parent="Agency-agencyAddresses.agencyInvoiceTemplateCode-parentBean" />
+
+	<bean id="Agency-agencyAddresses.agencyInvoiceTemplateCode-parentBean"
+		abstract="true" parent="AgencyAddress-agencyInvoiceTemplateCode">
+		<property name="name" value="agencyAddresses.agencyInvoiceTemplateCode" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.invoiceIndicatorCode" parent="Agency-agencyAddresses.invoiceIndicatorCode-parentBean" />
+
+	<bean id="Agency-agencyAddresses.invoiceIndicatorCode-parentBean"
+		abstract="true" parent="AgencyAddress-invoiceIndicatorCode">
+		<property name="name" value="agencyAddresses.invoiceIndicatorCode" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.agencyCopiesToPrint" parent="Agency-agencyAddresses.agencyCopiesToPrint-parentBean" />
+
+	<bean id="Agency-agencyAddresses.agencyCopiesToPrint-parentBean"
+		abstract="true" parent="AgencyAddress-agencyCopiesToPrint">
+		<property name="name" value="agencyAddresses.agencyCopiesToPrint" />
+	</bean>
+
+	<bean id="Agency-agencyAddresses.agencyPrintEnvelopesNumber"
+		parent="Agency-agencyAddresses.agencyPrintEnvelopesNumber-parentBean" />
+
+	<bean id="Agency-agencyAddresses.agencyPrintEnvelopesNumber-parentBean"
+		abstract="true" parent="AgencyAddress-agencyPrintEnvelopesNumber">
+		<property name="name" value="agencyAddresses.agencyPrintEnvelopesNumber" />
+	</bean>
+
+	<bean id="Agency-sponsorCode" parent="Agency-sponsorCode-parentBean" />
+
+	<bean id="Agency-sponsorCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="sponsorCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Sponsor Code" />
+		<property name="shortLabel" value="Sponsor Code" />
+		<property name="maxLength" value="6" />
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+	</bean>
+	
+	<!--  Collections Maintenance tab fields-->
+	<bean id="Agency-collectionStatus" parent="Agency-collectionStatus-parentBean" />
+
+	<bean id="Agency-collectionStatus-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="collectionStatus" />
+		<property name="label" value="Collection Status" />
+		<property name="shortLabel" value="Collection Status" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.CollectionStatusValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+	
+	<bean id="Agency-bankruptcyType" parent="Agency-bankruptcyType-parentBean" />
+
+	<bean id="Agency-bankruptcyType-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="bankruptcyType" />
+		<property name="label" value="Bankruptcy Type" />
+		<property name="shortLabel" value="Bankruptcy Type" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.BankruptcyTypeOptionsValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+	<bean id="Agency-bankruptcyDate" parent="Agency-bankruptcyDate-parentBean" />
+
+	<bean id="Agency-bankruptcyDate-parentBean" abstract="true"
+		parent="GenericAttributes-genericDate">
+		<property name="name" value="bankruptcyDate" />
+		<property name="label" value="Bankruptcy Date" />
+		<property name="shortLabel" value="Bankruptcy Date" />
+	</bean>
+	
+	<bean id="Agency-bankruptcyReviewDate" parent="Agency-bankruptcyReviewDate-parentBean" />
+
+	<bean id="Agency-bankruptcyReviewDate-parentBean" abstract="true"
+		parent="GenericAttributes-genericDate">
+		<property name="name" value="bankruptcyReviewDate" />
+		<property name="label" value="Bankruptcy Review Date" />
+		<property name="shortLabel" value="Bankruptcy Review Date" />
+	</bean>
+	
+	<bean id="Agency-stopWork" parent="Agency-stopWork-parentBean" />
+
+	<bean id="Agency-stopWork-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="stopWork" />
+		<property name="label" value="Stop Work" />
+		<property name="shortLabel" value="Stop Work" />
+		<property name="maxLength" value="1" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+	</bean>
+	
+	
+  <bean id="Agency-stopWorkReason" parent="Agency-stopWorkReason-parentBean"/>
+
+  <bean id="Agency-stopWorkReason-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="stopWorkReason"/>
+    <property name="label" value="Stop Work Reason"/>
+    <property name="shortLabel" value="stopWorkReason"/>
+    <property name="maxLength" value="120"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
+    </property>
+  </bean>
+  
+  <bean id="Agency-notes" parent="Agency-notes-parentBean"/>
+
+  <bean id="Agency-notes-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Notes"/>
+    <property name="maxLength" value="800"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:cols="50" p:rows="3"/>
+    </property>
+    <property name="summary" value="&amp;nbsp;"/>
+    <property name="name" value="notes"/>
+    <property name="label" value="Notes"/>
+  </bean>
+  
+  	<bean id="Agency-stateAgency" parent="Agency-stateAgency-parentBean" />
+
+	<bean id="Agency-stateAgency-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="stateAgency" />
+		<property name="label" value="State Agency" />
+		<property name="shortLabel" value="State Agency" />
+		<property name="maxLength" value="1" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+	</bean>
+ 
 	<!-- Business Object Inquiry Definition -->
 
 
@@ -184,25 +731,98 @@
 		<property name="title" value="Agency Inquiry" />
 		<property name="inquirySections">
 			<list>
-				<ref bean="Agency-inquirySectionDefinition" />
-			</list>
-		</property>
-	</bean>
-	<bean id="Agency-inquirySectionDefinition" parent="Agency-inquirySectionDefinition-parentBean" />
-	<bean id="Agency-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition"
-		abstract="true">
-		<property name="title" value="Agency Details" />
-		<property name="numberOfColumns" value="1" />
-		<property name="inquiryFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="agencyNumber" />
-				<bean parent="FieldDefinition" p:attributeName="reportingName" />
-				<bean parent="FieldDefinition" p:attributeName="fullName" />
-				<bean parent="FieldDefinition" p:attributeName="agencyType.name" />
-				<bean parent="FieldDefinition" p:attributeName="inStateIndicator" />
-				<bean parent="FieldDefinition" p:attributeName="indirectAmount" />
-				<bean parent="FieldDefinition" p:attributeName="reportsToAgencyNumber" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Agency Details" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="agencyNumber" />
+							<bean parent="FieldDefinition" p:attributeName="reportingName" />
+							<bean parent="FieldDefinition" p:attributeName="fullName" />
+							<bean parent="FieldDefinition" p:attributeName="agencyType.name" />
+							<bean parent="FieldDefinition" p:attributeName="inStateIndicator" />
+							<bean parent="FieldDefinition" p:attributeName="indirectAmount" />
+							<bean parent="FieldDefinition" p:attributeName="reportsToAgencyNumber" />
+							<bean parent="FieldDefinition" p:attributeName="cageNumber" />
+							<bean parent="FieldDefinition" p:attributeName="dodacNumber" />
+							<bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
+							<bean parent="FieldDefinition" p:attributeName="dunsPlusFourNumber" />
+							<bean parent="FieldDefinition" p:attributeName="agencyInvoiceTemplateCode" />
+							<bean parent="FieldDefinition" p:attributeName="agencyFrequencyCode" />
+							<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportCode" />
+							<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportFreqCode" />
+							<bean parent="FieldDefinition" p:attributeName="agencyExpirationDate" />
+							<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+							<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+
+					<property name="title" value="Address" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition">
+								<property name="attributeName" value="agencyAddresses" />
+								<property name="businessObjectClass"
+									value="org.kuali.kfs.module.cg.businessobject.AgencyAddress" />
+								<property name="numberOfColumns" value="1" />
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="agencyAddressTypeCode" />
+										<bean parent="FieldDefinition" p:attributeName="agencyAddressName" />
+										<bean parent="FieldDefinition" p:attributeName="agencyContactName" />
+										<bean parent="FieldDefinition" p:attributeName="agencyLine1StreetAddress" />
+										<bean parent="FieldDefinition" p:attributeName="agencyLine2StreetAddress" />
+										<bean parent="FieldDefinition" p:attributeName="agencyLine3StreetAddress" />
+										<bean parent="FieldDefinition" p:attributeName="agencyLine4StreetAddress" />
+										<bean parent="FieldDefinition" p:attributeName="agencyCityName" />
+										<bean parent="FieldDefinition" p:attributeName="agencyStateCode" />
+										<bean parent="FieldDefinition" p:attributeName="agencyZipCode" />
+										<bean parent="FieldDefinition" p:attributeName="agencyAddressInternationalProvinceName" />
+										<bean parent="FieldDefinition" p:attributeName="agencyInternationalMailCode" />
+										<bean parent="FieldDefinition" p:attributeName="agencyCountryCode" />
+										<bean parent="FieldDefinition" p:attributeName="agencyPhoneNumber" />
+										<bean parent="FieldDefinition" p:attributeName="agencyFaxNumber" />
+										<bean parent="FieldDefinition" p:attributeName="agencyContactEmailAddress" />
+										<bean parent="FieldDefinition" p:attributeName="agencyInvoiceEmailAddress" />
+										<bean parent="FieldDefinition" p:attributeName="agencyAddressEndDate" />
+										<bean parent="FieldDefinition" p:attributeName="agencyInvoiceTemplateCode" />
+										<bean parent="FieldDefinition" p:attributeName="invoiceIndicatorCode" />
+									</list>
+								</property>
+								<property name="summaryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="agencyAddressTypeCode" />
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+                    <property name="title" value="Agency Note"/>
+                    <property name="numberOfColumns" value="1"/>
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="InquiryCollectionDefinition">
+                                <property name="attributeName" value="agencyNotes"/>
+                                <property name="businessObjectClass" value="org.kuali.kfs.module.cg.businessobject.AgencyNote"/>
+                                <property name="numberOfColumns" value="1"/>
+                                <property name="inquiryFields">
+                                    <list>
+                                        <bean parent="FieldDefinition" p:attributeName="notePostedDate"/>
+                                        <bean parent="FieldDefinition" p:attributeName="authorUniversal.name"/>
+                                        <bean parent="FieldDefinition" p:attributeName="noteText"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+				
 			</list>
 		</property>
 	</bean>
@@ -215,7 +835,7 @@
 	<bean id="Agency-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
 		<property name="title" value="Agency Lookup" />
-
+		<property name="lookupableID" value="agencyLookupable" />
 		<property name="defaultSort">
 			<bean parent="SortDefinition">
 				<property name="attributeNames">
@@ -231,8 +851,37 @@
 				<bean parent="FieldDefinition" p:attributeName="reportingName" />
 				<bean parent="FieldDefinition" p:attributeName="fullName" />
 				<bean parent="FieldDefinition" p:attributeName="agencyTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="cageNumber" />
+				<bean parent="FieldDefinition" p:attributeName="dodacNumber" />
+				<bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
+				<bean parent="FieldDefinition" p:attributeName="dunsPlusFourNumber" />
+				<bean parent="FieldDefinition" p:attributeName="agencyInvoiceTemplateCode" />
+				<bean parent="FieldDefinition" p:attributeName="agencyFrequencyCode" />
+				<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportCode" />
+				<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportFreqCode" />
+				<bean parent="FieldDefinition" p:attributeName="agencyExpirationDate" />
+				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
+				<bean parent="FieldDefinition" p:attributeName="bankruptcyReviewDate" />
 				<bean parent="FieldDefinition" p:defaultValue="Y"
 					p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyAddressName" />
+				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyContactName" />
+				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyLine1StreetAddress" />
+				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyLine2StreetAddress" />
+				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyLine3StreetAddress" />
+				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyLine4StreetAddress" />
+				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyCityName" />
+				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyStateCode" />
+				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyZipCode" />
+				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyPhoneNumber" />
+				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyFaxNumber" />
+				<bean parent="FieldDefinition"
+					p:attributeName="agencyAddresses.agencyAddressInternationalProvinceName" />
+				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyContactEmailAddress" />
+				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyInvoiceEmailAddress" />
+				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.agencyInvoiceTemplateCode" />
+				<bean parent="FieldDefinition" p:attributeName="agencyAddresses.invoiceIndicatorCode" />
 			</list>
 		</property>
 		<property name="resultFields">
@@ -245,6 +894,16 @@
 				<bean parent="FieldDefinition" p:attributeName="inStateIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="indirectAmount" />
 				<bean parent="FieldDefinition" p:attributeName="reportsToAgencyNumber" />
+				<bean parent="FieldDefinition" p:attributeName="agencyInvoiceTemplateCode" />
+				<bean parent="FieldDefinition" p:attributeName="agencyFrequencyCode" />
+				<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportCode" />
+				<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportFreqCode" />
+				<bean parent="FieldDefinition" p:attributeName="agencyExpirationDate" />
+				<bean parent="FieldDefinition" p:attributeName="cageNumber" />
+				<bean parent="FieldDefinition" p:attributeName="dodacNumber" />
+				<bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
+				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

@@ -17,7 +17,9 @@ package org.kuali.kfs.module.cg.dataaccess;
 
 import java.util.Collection;
 
+import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.module.cg.businessobject.Award;
+import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 
 /**
@@ -33,8 +35,34 @@ public interface AwardDao {
      */
     public Collection<Award> getAwardsToClose(ProposalAwardCloseDocument c);
 
+
+    /**
+     * Retrieve all the accounts assigned to an award
+     * 
+     * @param award
+     * @return
+     */
+    public Collection<AwardAccount> getAccountsOfAward(Award award);
+
+
+    /**
+     * Save an {@link Award}.
+     * 
+     * @param award
+     */
+    public void save(Award award);
+
     /**
      * Delete all Awards.
      */
     public void deleteAll();
+
+
+    /**
+     * Get a {@link Collection} of {@link Award}s by criteria
+     * 
+     * @param criteria
+     * @return
+     */
+    public Collection<Award> getActiveAwardsByCriteria(Criteria criteria);
 }

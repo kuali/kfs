@@ -14,83 +14,86 @@
  limitations under the License.
 -->
 <data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-    <documentType>
-      <name>
-        AWRD
-      </name>
-      <parent>
-        CGM
-      </parent>
-      <label>
-        Award
-      </label>
-      <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Faward.htm
-      </helpDefinitionURL>
-      <active>
-        true
-      </active>
-      <routingVersion>
-        2
-      </routingVersion>
-      <routePaths>
-        <routePath>
-          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
-          <role name="OrganizationHierarchy"/>
-        </routePath>
-      </routePaths>
-      <routeNodes>
-        <start name="AdHoc"/>
-        <role name="OrganizationHierarchy">
-          <qualifierResolverClass>
-            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-          </qualifierResolverClass>
-          <activationType>
-            P
-          </activationType>
-        </role>
-      </routeNodes>
-    </documentType>
-    <documentType>
-      <name>
-        PRPL
-      </name>
-      <parent>
-        CGM
-      </parent>
-      <label>
-        Proposal
-      </label>
-      <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Fproposal.htm
-      </helpDefinitionURL>
-      <active>
-        true
-      </active>
-      <routingVersion>
-        2
-      </routingVersion>
-      <routePaths>
-        <routePath>
-          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
-          <role name="OrganizationHierarchy" nextNode="ResearchRisk"/>
-          <role name="ResearchRisk"/>
-        </routePath>
-      </routePaths>
-      <routeNodes>
-        <start name="AdHoc"/>
-        <role name="OrganizationHierarchy">
-          <qualifierResolverClass>
-            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-          </qualifierResolverClass>
-        </role>
-        <role name="ResearchRisk">
-          <qualifierResolverClass>
-            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-          </qualifierResolverClass>
-        </role>
-      </routeNodes>
-    </documentType>
-  </documentTypes>
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>
+				AWRD
+			</name>
+			<parent>
+				CGM
+			</parent>
+			<label>
+				Award
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Faward.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="OrganizationHierarchy" />
+					<role name="OrganizationHierarchy" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="OrganizationHierarchy">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>
+				PRPL
+			</name>
+			<parent>
+				CGM
+			</parent>
+			<label>
+				Proposal
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fproposal.htm
+			</helpDefinitionURL>
+			<docSearchHelpURL>
+				default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+			</docSearchHelpURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="OrganizationHierarchy" />
+					<role name="OrganizationHierarchy" nextNode="ResearchRisk" />
+					<role name="ResearchRisk" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="OrganizationHierarchy">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+				</role>
+				<role name="ResearchRisk">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+				</role>
+			</routeNodes>
+		</documentType>
+	</documentTypes>
 </data>

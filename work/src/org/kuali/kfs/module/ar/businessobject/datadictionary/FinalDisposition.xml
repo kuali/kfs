@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="FinalDisposition" parent="FinalDisposition-parentBean"/>
+
+  <bean id="FinalDisposition-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.FinalDisposition"/>
+    <property name="inquiryDefinition">
+      <ref bean="FinalDisposition-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="FinalDisposition-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="dispositionCode"/>
+    <property name="objectLabel" value="Final Disposition"/>
+    <property name="attributes">
+      <list>
+        <ref bean="FinalDisposition-dispositionCode"/>
+        <ref bean="FinalDisposition-dispositionDescription"/>
+        <ref bean="FinalDisposition-active"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Attribute Definitions -->
+  
+  <!--  Code -->
+ 	
+  <bean id="FinalDisposition-dispositionCode" parent="FinalDisposition-dispositionCode-parentBean"/>
+
+  <bean id="FinalDisposition-dispositionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dispositionCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Final Disposition Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <ref bean="FourCharacterTextControl" />
+    </property>
+  </bean>
+
+  <!--  Description field -->
+  <bean id="FinalDisposition-dispositionDescription" parent="FinalDisposition-dispositionDescription-parentBean"/>
+
+  <bean id="FinalDisposition-dispositionDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="dispositionDescription"/>
+    <property name="label" value="Description"/>
+    <property name="shortLabel" value="Type Desc"/>
+    <property name="maxLength" value="25"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
+    </property>
+  </bean>
+  
+  <!--  Active indicator field -->
+  <bean id="FinalDisposition-active" parent="FinalDisposition-active-parentBean"/>
+
+  <bean id="FinalDisposition-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+  
+  <!-- Business Object Inquiry Definition -->
+
+  <bean id="FinalDisposition-inquiryDefinition" parent="FinalDisposition-inquiryDefinition-parentBean"/>
+
+  <bean id="FinalDisposition-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Final Disposition Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Final Disposition"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="dispositionCode"/>
+              <bean parent="FieldDefinition" p:attributeName="dispositionDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+	<!-- Business Object Lookup Definition -->
+
+  <bean id="FinalDisposition-lookupDefinition" parent="FinalDisposition-lookupDefinition-parentBean"/>
+
+  <bean id="FinalDisposition-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Final Disposition Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="dispositionCode"/>
+        <bean parent="FieldDefinition" p:attributeName="dispositionDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="dispositionCode"/>
+        <bean parent="FieldDefinition" p:attributeName="dispositionDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+</beans>
+  

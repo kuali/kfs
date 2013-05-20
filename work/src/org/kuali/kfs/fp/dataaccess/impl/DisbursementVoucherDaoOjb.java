@@ -56,5 +56,34 @@ public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implement
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(DisbursementVoucherDocument.class, criteria));
     }
+
+    /* Start TEM REFUND Merge */
+    /**
+     * @see org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao#getNonARDocumentsByHeaderStatus(java.lang.String)
+     */
+    @Override
+    public Collection getNonARDocumentsByHeaderStatus(String statusCode) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("documentHeader.financialDocumentStatusCode", statusCode);
+        criteria.addEqualTo("disbVchrPaymentMethodCode", DisbursementVoucherConstants.PAYMENT_METHOD_CHECK);
+        criteria.addEqualTo("refundIndicator", false);
+
+        return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(DisbursementVoucherDocument.class, criteria));
+    }
+
+
+    /**
+     * @see org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao#getARDocumentsByHeaderStatus(java.lang.String)
+     */
+    @Override
+    public Collection getARDocumentsByHeaderStatus(String statusCode) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("documentHeader.financialDocumentStatusCode", statusCode);
+        criteria.addEqualTo("disbVchrPaymentMethodCode", DisbursementVoucherConstants.PAYMENT_METHOD_CHECK);
+        criteria.addEqualTo("refundIndicator", true);
+
+        return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(DisbursementVoucherDocument.class, criteria));
+    }
+    /* End TEM REFUND Merge */
 }
 

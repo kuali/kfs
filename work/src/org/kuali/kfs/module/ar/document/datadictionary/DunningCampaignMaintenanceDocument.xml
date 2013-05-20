@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+	<!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+
+	<bean id="DunningCampaignMaintenanceDocument" parent="DunningCampaignMaintenanceDocument-parentBean" />
+
+	<bean id="DunningCampaignMaintenanceDocument-parentBean" abstract="true"
+		parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.ar.businessobject.DunningCampaign" />
+		<property name="maintainableClass"
+			value="org.kuali.kfs.module.ar.document.DunningCampaignMaintainableImpl" />
+		<property name="maintainableSections">
+			<list>
+				<ref bean="DunningCampaignMaintenanceDocument-DunningCampaign" />
+				<ref bean="DunningCampaignMaintenanceDocument-DunningLetterDistribution" />
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>campaignID</value>
+			</list>
+		</property>
+		<property name="documentTypeName" value="DUNC" />
+		<property name="documentAuthorizerClass"
+			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+		<property name="workflowAttributes">
+			<ref bean="DunningCampaignMaintenanceDocument-workflowAttributes" />
+		</property>
+	</bean>
+
+	<!-- Maintenance Section Definitions -->
+
+	<bean id="DunningCampaignMaintenanceDocument-DunningCampaign"
+		parent="DunningCampaignMaintenanceDocument-DunningCampaign-parentBean" />
+
+	<bean id="DunningCampaignMaintenanceDocument-DunningCampaign-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Dunning Campaign" />
+		<property name="title" value="Dunning Campaign" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="campaignID"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="campaignDescription"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="active"
+					p:defaultValue="true" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="DunningCampaignMaintenanceDocument-DunningLetterDistribution"
+		parent="DunningCampaignMaintenanceDocument-DunningLetterDistribution-parentBean" />
+
+	<bean id="DunningCampaignMaintenanceDocument-DunningLetterDistribution-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Dunning Letter Distribution" />
+		<property name="defaultOpen" value="true" />
+		<property name="title" value="Dunning Letter Distribution Information" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableCollectionDefinition">
+					<property name="name" value="dunningLetterDistributions" />
+					<property name="businessObjectClass"
+						value="org.kuali.kfs.module.ar.businessobject.DunningLetterDistribution" />
+					<property name="summaryFields">
+						<list>
+							<bean parent="MaintainableFieldDefinition" p:name="daysPastDue" />
+							<bean parent="MaintainableFieldDefinition" p:name="sendDunningLetterIndicator" />
+							<bean parent="MaintainableFieldDefinition" p:name="dunningLetterTemplate" />
+							<bean parent="MaintainableFieldDefinition" p:name="activeIndicator" />
+						</list>
+					</property>
+					<property name="maintainableFields">
+						<list>
+							<bean parent="MaintainableFieldDefinition" p:name="daysPastDue" p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="sendDunningLetterIndicator" p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="dunningLetterTemplate" p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="activeIndicator" p:defaultValue="true" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- workflow attributes -->
+	<bean id="DunningCampaignMaintenanceDocument-workflowAttributes"
+		parent="DunningCampaignMaintenanceDocument-workflowAttributes-parentBean" />
+
+	<bean
+		id="DunningCampaignMaintenanceDocument-workflowAttributes-parentBean"
+		class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true" />
+</beans>

@@ -15,20 +15,24 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class defines all the service methods for Customer Open Item Report.
+ */
 public interface CustomerOpenItemReportService {
-    
+
     /**
      * This method populates CustomerOpenItemReportDetails (Customer History Report).
+     * 
      * @param customerNumber
      */
     public List getPopulatedReportDetails(String customerNumber);
-    
+
     /**
      * This method populates CustomerOpenItemReportDetails (Customer Open Item Report)
+     * 
      * @param urlParameters
      */
     public List getPopulatedReportDetails(Map urlParameters);

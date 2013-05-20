@@ -177,4 +177,19 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
             editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.SPECIAL_HANDLING_CHANGING_ENTRY);
         }
     }
+
+    /**
+     * For DVs that are refunds for payment application documents certain fields cannot be edited
+     *
+     * @param document - the disbursement voucher document authorization is being sought on
+     * @param editModes - the edit modes so far, which can be added to
+     */
+    protected void addRefundEntryMode(Document document, Set<String> editModes) {
+        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+
+        if (dvDocument.isRefundIndicator() && (workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isEnroute())) {
+            editModes.add(KfsAuthorizationConstants.DisbursementVoucherEditMode.REFUND_ENTRY);
+        }
+    }
 }

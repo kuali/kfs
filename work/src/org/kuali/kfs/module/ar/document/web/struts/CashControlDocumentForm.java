@@ -15,39 +15,87 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.ar.document.authorization.CashControlDocumentPresentationController;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.service.SessionDocumentService;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class CashControlDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocumentForm.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocumentForm.class);
 
     protected CashControlDetail newCashControlDetail;
     protected String processingChartOfAccCodeAndOrgCode;
-    
+
     protected boolean cashPaymentMediumSelected;
+    protected transient ConfigurationService configService;
 
     /**
      * Constructs a CashControlDocumentForm.java.
      */
     public CashControlDocumentForm() {
+
         super();
+
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase#getExtraButtons()
+     */
+    @Override
+    public List<ExtraButton> getExtraButtons() {
+        // clear extra buttons
+        extraButtons.clear();
+
+        // TODO check with presentation controller first
+        String buttonUrl = getConfigService().getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        CashControlDocument cashControlDocument = (CashControlDocument) getDocument();
+        CashControlDocumentPresentationController cashControlDocumentPresentationController = (CashControlDocumentPresentationController) KNSServiceLocator.getDocumentHelperService().getDocumentPresentationController(getDocument());
+
+        if (cashControlDocumentPresentationController.canErrorCorrect(cashControlDocument)) {
+            addExtraButton("methodToCall.correct", buttonUrl + "buttonsmall_correction.gif", "Correct");
+        }
+
+        return extraButtons;
+    }
+
+    /**
+     * @param property
+     * @param source
+     * @param altText
+     */
+    protected void addExtraButton(String property, String source, String altText) {
+
+        ExtraButton newButton = new ExtraButton();
+
+        newButton.setExtraButtonProperty(property);
+        newButton.setExtraButtonSource(source);
+        newButton.setExtraButtonAltText(altText);
+
+        extraButtons.add(newButton);
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#getDefaultDocumentTypeName()
+     */
     @Override
     protected String getDefaultDocumentTypeName() {
         return KFSConstants.FinancialDocumentTypeCodes.CASH_CONTROL;
     }
-    
+
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
@@ -55,7 +103,7 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
-        if (hasDocumentId()) {
+          if (hasDocumentId()) {
             CashControlDocument ccDoc = getCashControlDocument();
 
             // apply populate to PaymentApplicationDocuments
@@ -80,8 +128,8 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
                         LOG.warn("Error while instantiating workflowDoc: " + cashControlDetail.getReferenceFinancialDocumentNumber(), e);
                         throw new RuntimeException("error populating documentHeader.workflowDocument", e);
                     }
-                }
-            }
+}
+                     }
         }
     }
 
@@ -147,6 +195,16 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
      */
     public void setCashPaymentMediumSelected(boolean cashPaymentMediumSelected) {
         this.cashPaymentMediumSelected = cashPaymentMediumSelected;
+    }
+
+    /**
+     * @return
+     */
+    protected ConfigurationService getConfigService() {
+        if (configService == null) {
+            configService = SpringContext.getBean(ConfigurationService.class);
+        }
+        return configService;
     }
 
 }

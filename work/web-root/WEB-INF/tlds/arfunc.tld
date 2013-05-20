@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+
+	<description>Kuali functions library</description>
+	<display-name>Kuali functions</display-name>
+	<tlib-version>1.0</tlib-version>
+	<short-name>arfunc</short-name>
+	<uri>http://www.kuali.org/jsp/jstl/functions</uri>
+
+	<function>
+		<description>Returns boolean for ability to reverse the Payment Application on this Cash Control Detail</description>
+		<name>canCorrectDetail</name>
+		<function-class>org.kuali.kfs.module.ar.util.AccountsReceivableUtils</function-class>
+        <function-signature>boolean canCorrectDetail(org.kuali.kfs.module.ar.businessobject.CashControlDetail)</function-signature>
+		<example>&lt;c:out value="${arfunc:canCorrectDetail(cashControlDetail)}"></example>
+	</function>
+
+</taglib>

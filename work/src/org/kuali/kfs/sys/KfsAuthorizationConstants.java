@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,14 +15,16 @@
  */
 package org.kuali.kfs.sys;
 
+import org.kuali.rice.core.util.JSTLConstants;
+import org.kuali.rice.krad.authorization.AuthorizationConstants.EditMode;
 
-public class KfsAuthorizationConstants  {
+public class KfsAuthorizationConstants extends JSTLConstants {
 
-    public static class TransactionalEditMode {
+    public static class TransactionalEditMode extends EditMode {
         public static final String EXPENSE_ENTRY = "expenseEntry";
     }
 
-    public static class DisbursementVoucherEditMode {
+    public static class DisbursementVoucherEditMode extends TransactionalEditMode {
         public static final String PAYEE_ENTRY = "payeeEntry";
         public static final String TAX_ENTRY = "taxEntry";
         public static final String FRN_ENTRY = "frnEntry";

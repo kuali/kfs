@@ -1,12 +1,12 @@
 /*
  * Copyright 2005 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,8 +16,6 @@
 
 package org.kuali.kfs.fp.businessobject;
 
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
-import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * This class is used to represent a payment reason code.
@@ -25,6 +23,7 @@ import org.kuali.rice.krad.bo.KualiCodeBase;
 public class PaymentReasonCode extends KualiCodeBase implements MutableInactivatable {
 
     private String description;
+    private boolean arRefundIndicator;
 
     /**
      * Default no-arg constructor.
@@ -47,4 +46,13 @@ public class PaymentReasonCode extends KualiCodeBase implements MutableInactivat
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public boolean isArRefundIndicator() {
+        return arRefundIndicator;
+    }
+
+    public void setArRefundIndicator(boolean arRefundIndicator) {
+        this.arRefundIndicator = arRefundIndicator;
+    }
+
 }

@@ -1,25 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-	<!--
-		Copyright 2006-2008 The Kuali Foundation Licensed under the
-		Educational Community License, Version 2.0 (the "License"); you may
-		not use this file except in compliance with the License. You may
-		obtain a copy of the License at
-		http://www.opensource.org/licenses/ecl2.php Unless required by
-		applicable law or agreed to in writing, software distributed under the
-		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-		CONDITIONS OF ANY KIND, either express or implied. See the License for
-		the specific language governing permissions and limitations under the
-		License.
-	-->
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
 	<bean id="PaymentReasonCode" parent="PaymentReasonCode-parentBean" />
 
-	<bean id="PaymentReasonCode-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kfs.fp.businessobject.PaymentReasonCode" />
+	<bean id="PaymentReasonCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.fp.businessobject.PaymentReasonCode" />
 		<property name="inquiryDefinition">
 			<ref bean="PaymentReasonCode-inquiryDefinition" />
 		</property>
@@ -33,6 +32,7 @@
 				<ref bean="PaymentReasonCode-code" />
 				<ref bean="PaymentReasonCode-name" />
 				<ref bean="PaymentReasonCode-description" />
+				<ref bean="PaymentReasonCode-arRefundIndicator" />
 				<ref bean="PaymentReasonCode-active" />
 			</list>
 		</property>
@@ -43,8 +43,7 @@
 
 	<bean id="PaymentReasonCode-code" parent="PaymentReasonCode-code-parentBean" />
 
-	<bean id="PaymentReasonCode-code-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="PaymentReasonCode-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="code" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Payment Reason Code" />
@@ -60,8 +59,7 @@
 	</bean>
 	<bean id="PaymentReasonCode-name" parent="PaymentReasonCode-name-parentBean" />
 
-	<bean id="PaymentReasonCode-name-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="PaymentReasonCode-name-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="name" />
 		<property name="label" value="Payment Reason Name" />
 		<property name="shortLabel" value="Name" />
@@ -76,8 +74,7 @@
 	</bean>
 	<bean id="PaymentReasonCode-description" parent="PaymentReasonCode-description-parentBean" />
 
-	<bean id="PaymentReasonCode-description-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="PaymentReasonCode-description-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="description" />
 		<property name="label" value="Payment Reason Description" />
 		<property name="shortLabel" value="Description" />
@@ -92,9 +89,16 @@
 	</bean>
 	<bean id="PaymentReasonCode-active" parent="PaymentReasonCode-active-parentBean" />
 
-	<bean id="PaymentReasonCode-active-parentBean" abstract="true"
-		parent="GenericAttributes-activeIndicator">
+	<bean id="PaymentReasonCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
 		<property name="name" value="active" />
+	</bean>
+
+	<bean id="PaymentReasonCode-arRefundIndicator" parent="PaymentReasonCode-arRefundIndicator-parentBean" />
+
+	<bean id="PaymentReasonCode-arRefundIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="arRefundIndicator" />
+		<property name="label" value="Accounts Recievable" />
+		<property name="shortLabel" value="AR" />
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
@@ -102,8 +106,7 @@
 
 	<bean id="PaymentReasonCode-inquiryDefinition" parent="PaymentReasonCode-inquiryDefinition-parentBean" />
 
-	<bean id="PaymentReasonCode-inquiryDefinition-parentBean"
-		abstract="true" parent="InquiryDefinition">
+	<bean id="PaymentReasonCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Disbursement Voucher Payment Reason Inquiry" />
 		<property name="inquirySections">
 			<list>
@@ -123,6 +126,7 @@
 				<bean parent="FieldDefinition" p:attributeName="code" />
 				<bean parent="FieldDefinition" p:attributeName="name" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
+				<bean parent="FieldDefinition" p:attributeName="arRefundIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
@@ -133,8 +137,7 @@
 
 	<bean id="PaymentReasonCode-lookupDefinition" parent="PaymentReasonCode-lookupDefinition-parentBean" />
 
-	<bean id="PaymentReasonCode-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition">
+	<bean id="PaymentReasonCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Disbursement Voucher Payment Reason Lookup" />
 
 		<property name="defaultSort">
@@ -152,6 +155,7 @@
 				<bean parent="FieldDefinition" p:attributeName="code" />
 				<bean parent="FieldDefinition" p:attributeName="name" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
+				<bean parent="FieldDefinition" p:attributeName="arRefundIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
@@ -160,6 +164,7 @@
 				<bean parent="FieldDefinition" p:attributeName="code" />
 				<bean parent="FieldDefinition" p:attributeName="name" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
+				<bean parent="FieldDefinition" p:attributeName="arRefundIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

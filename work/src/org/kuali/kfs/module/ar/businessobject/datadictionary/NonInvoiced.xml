@@ -1,25 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:dd="http://rice.kuali.org/dd"
-	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
-	<!--
-		Copyright 2008-2009 The Kuali Foundation Licensed under the
-		Educational Community License, Version 2.0 (the "License"); you may
-		not use this file except in compliance with the License. You may
-		obtain a copy of the License at
-		http://www.opensource.org/licenses/ecl2.php Unless required by
-		applicable law or agreed to in writing, software distributed under the
-		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-		CONDITIONS OF ANY KIND, either express or implied. See the License for
-		the specific language governing permissions and limitations under the
-		License.
-	-->
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
 	<bean id="NonInvoiced" parent="NonInvoiced-parentBean" />
 
 	<bean id="NonInvoiced-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.ar.businessobject.NonInvoiced" />
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.NonInvoiced" />
 		<property name="inquiryDefinition">
 			<ref bean="NonInvoiced-inquiryDefinition" />
 		</property>
@@ -40,33 +39,28 @@
 				<ref bean="NonInvoiced-financialSubObjectCode" />
 				<ref bean="NonInvoiced-projectCode" />
 				<ref bean="NonInvoiced-subAccountNumber" />
+				<ref bean="NonInvoiced-refundIndicator" />
 			</list>
 		</property>
 		<property name="relationships">
 			<list>
 				<dd:relationship objectAttribute="account">
-					<dd:primitiveAttribute source="accountNumber"
-						target="accountNumber" />
+					<dd:primitiveAttribute source="accountNumber" target="accountNumber" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="subAccount">
-					<dd:primitiveAttribute source="subAccountNumber"
-						target="subAccountNumber" />
+					<dd:primitiveAttribute source="subAccountNumber" target="subAccountNumber" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="financialObject">
-					<dd:primitiveAttribute source="financialObjectCode"
-						target="financialObjectCode" />
+					<dd:primitiveAttribute source="financialObjectCode" target="financialObjectCode" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="financialSubObject">
-					<dd:primitiveAttribute source="financialSubObjectCode"
-						target="financialSubObjectCode" />
+					<dd:primitiveAttribute source="financialSubObjectCode" target="financialSubObjectCode" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="project">
-					<dd:primitiveAttribute source="projectCode"
-						target="projectDescription" />
+					<dd:primitiveAttribute source="projectCode" target="projectDescription" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="chartOfAccounts">
-					<dd:primitiveAttribute source="chartOfAccountsCode"
-						target="chartOfAccountsCode" />
+					<dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
 				</dd:relationship>
 			</list>
 		</property>
@@ -77,14 +71,12 @@
 
 	<bean id="NonInvoiced-accountNumber" parent="NonInvoiced-accountNumber-parentBean" />
 
-	<bean id="NonInvoiced-accountNumber-parentBean" abstract="true"
-		parent="Account-accountNumber">
+	<bean id="NonInvoiced-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
 	</bean>
 
 	<bean id="NonInvoiced-chartOfAccountsCode" parent="NonInvoiced-chartOfAccountsCode-parentBean" />
 
-	<bean id="NonInvoiced-chartOfAccountsCode-parentBean" abstract="true"
-		parent="Chart-chartOfAccountsCode">
+	<bean id="NonInvoiced-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
 		<property name="control">
 			<ref bean="ChartSimpleSelectControl" />
 		</property>
@@ -92,8 +84,7 @@
 
 	<bean id="NonInvoiced-documentNumber" parent="NonInvoiced-documentNumber-parentBean" />
 
-	<bean id="NonInvoiced-documentNumber-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="NonInvoiced-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="documentNumber" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Document Number" />
@@ -109,16 +100,14 @@
 
 	<bean id="NonInvoiced-financialDocumentLineAmount" parent="NonInvoiced-financialDocumentLineAmount-parentBean" />
 
-	<bean id="NonInvoiced-financialDocumentLineAmount-parentBean"
-		abstract="true" parent="GenericAttributes-genericAmount">
+	<bean id="NonInvoiced-financialDocumentLineAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="financialDocumentLineAmount" />
 		<property name="label" value="Financial Document Line Amount" />
 		<property name="shortLabel" value="Amount" />
 	</bean>
 	<bean id="NonInvoiced-financialDocumentLineNumber" parent="NonInvoiced-financialDocumentLineNumber-parentBean" />
 
-	<bean id="NonInvoiced-financialDocumentLineNumber-parentBean"
-		abstract="true" parent="AttributeDefinition">
+	<bean id="NonInvoiced-financialDocumentLineNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="financialDocumentLineNumber" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Financial Document Line Number" />
@@ -128,14 +117,12 @@
 			<ref bean="NumericValidation" />
 		</property>
 		<property name="control">
-			<bean parent="CurrencyControlDefinition" p:formattedMaxLength="26"
-				p:size="10" />
+			<bean parent="CurrencyControlDefinition" p:formattedMaxLength="26" p:size="10" />
 		</property>
 	</bean>
 	<bean id="NonInvoiced-financialDocumentOverrideCode" parent="NonInvoiced-financialDocumentOverrideCode-parentBean" />
 
-	<bean id="NonInvoiced-financialDocumentOverrideCode-parentBean"
-		abstract="true" parent="AttributeDefinition">
+	<bean id="NonInvoiced-financialDocumentOverrideCode-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="financialDocumentOverrideCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Financial Document Override Code" />
@@ -150,8 +137,7 @@
 	</bean>
 	<bean id="NonInvoiced-financialDocumentPostingYear" parent="NonInvoiced-financialDocumentPostingYear-parentBean" />
 
-	<bean id="NonInvoiced-financialDocumentPostingYear-parentBean"
-		abstract="true" parent="AttributeDefinition">
+	<bean id="NonInvoiced-financialDocumentPostingYear-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="financialDocumentPostingYear" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Financial Document Posting Year" />
@@ -167,30 +153,35 @@
 
 	<bean id="NonInvoiced-financialObjectCode" parent="NonInvoiced-financialObjectCode-parentBean" />
 
-	<bean id="NonInvoiced-financialObjectCode-parentBean" abstract="true"
-		parent="ObjectCode-financialObjectCode">
+	<bean id="NonInvoiced-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
 	</bean>
 
 	<bean id="NonInvoiced-financialSubObjectCode" parent="NonInvoiced-financialSubObjectCode-parentBean" />
 
-	<bean id="NonInvoiced-financialSubObjectCode-parentBean" abstract="true"
-		parent="SubObjectCode-financialSubObjectCode">
+	<bean id="NonInvoiced-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
 		<property name="required" value="false" />
 	</bean>
 
 	<bean id="NonInvoiced-projectCode" parent="NonInvoiced-projectCode-parentBean" />
 
-	<bean id="NonInvoiced-projectCode-parentBean" abstract="true"
-		parent="ProjectCode-code">
+	<bean id="NonInvoiced-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
 		<property name="name" value="projectCode" />
 		<property name="required" value="false" />
 	</bean>
 
 	<bean id="NonInvoiced-subAccountNumber" parent="NonInvoiced-subAccountNumber-parentBean" />
 
-	<bean id="NonInvoiced-subAccountNumber-parentBean" abstract="true"
-		parent="SubAccount-subAccountNumber">
+	<bean id="NonInvoiced-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
 		<property name="required" value="false" />
+	</bean>
+
+	<bean id="NonInvoiced-refundIndicator" parent="NonInvoiced-refundIndicator-parentBean" />
+
+	<bean id="NonInvoiced-refundIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="refundIndicator" />
+		<property name="required" value="false" />
+		<property name="label" value="Refund" />
+		<property name="shortLabel" value="Refund" />
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
@@ -198,8 +189,7 @@
 
 	<bean id="NonInvoiced-inquiryDefinition" parent="NonInvoiced-inquiryDefinition-parentBean" />
 
-	<bean id="NonInvoiced-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition">
+	<bean id="NonInvoiced-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Non-Invoiced Inquiry" />
 		<property name="inquirySections">
 			<list>
@@ -234,8 +224,7 @@
 
 	<bean id="NonInvoiced-lookupDefinition" parent="NonInvoiced-lookupDefinition-parentBean" />
 
-	<bean id="NonInvoiced-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition">
+	<bean id="NonInvoiced-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Non-Invoiced Lookup" />
 
 		<property name="defaultSort">

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="CollectionActivityDocument" parent="CollectionActivityDocument-parentBean" />
+
+	<bean id="CollectionActivityDocument-parentBean" abstract="true"
+		parent="TransactionalDocumentEntry">
+
+		<property name="documentTypeName" value="CATD" />
+		<property name="documentClass"
+			value="org.kuali.kfs.module.ar.document.CollectionActivityDocument" />
+		<property name="businessRulesClass"
+			value="org.kuali.kfs.module.ar.document.validation.impl.CollectionActivityDocumentRule" />
+		<property name="documentAuthorizerClass"
+			value="org.kuali.kfs.module.ar.document.authorization.CollectionActivityDocumentAuthorizer" />
+		<property name="documentPresentationControllerClass"
+			value="org.kuali.kfs.module.ar.document.authorization.CollectionActivityDocumentPresentationController" />
+		<property name="attributes">
+			<list>
+				<ref bean="CollectionActivityDocument-proposalNumber" />
+			</list>
+		</property>
+
+	</bean>
+	
+	<bean id="CollectionActivityDocument-proposalNumber" parent="CollectionActivityDocument-proposalNumber-parentBean" />
+
+	<bean id="CollectionActivityDocument-proposalNumber-parentBean"
+		abstract="true" parent="GenericAttributes-proposalNumber">
+		<property name="name" value="proposalNumber" />
+		<property name="label" value="Proposal Number" />
+		<property name="shortLabel" value="Proposal Number" />
+	</bean>
+	
+	<bean id="CollectionActivityDocument-validations" parent="CollectionActivityDocument-validations-parentBean" />
+	<bean id="CollectionActivityDocument-validations-parentBean"
+		class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+				<entry>
+					<key>
+						<value>org.kuali.kfs.sys.document.validation.event.AttributedSaveDocumentEvent
+						</value>
+					</key>
+					<value>CollectionActivity-saveDocumentValidation</value>
+				</entry>
+				<entry>
+					<key>
+						<value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent
+						</value>
+					</key>
+					<value>CollectionActivity-routeDocumentValidation</value>
+				</entry>
+				<entry>
+					<key>
+						<value>org.kuali.kfs.sys.document.validation.event.AttributedApproveDocumentEvent
+						</value>
+					</key>
+					<value>CollectionActivity-approveDocumentValidation</value>
+				</entry>
+				<entry>
+					<key>
+						<value>org.kuali.kfs.sys.document.validation.event.AttributedBlanketApproveDocumentEvent
+						</value>
+					</key>
+					<value>CollectionActivity-blanketApproveDocumentValidation</value>
+				</entry>
+				<entry>
+					<key>
+						<value>org.kuali.kfs.module.ar.document.validation.event.AddCollectionActivityDetailEvent
+						</value>
+					</key>
+					<value>CollectionActivity-addCollectionActivityDetailValidation</value>
+				</entry>
+			</map>
+		</property>
+	</bean>	
+
+</beans>

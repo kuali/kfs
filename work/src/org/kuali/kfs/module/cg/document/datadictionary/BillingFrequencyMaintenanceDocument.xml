@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+	<!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+
+	<bean id="BillingFrequencyMaintenanceDocument" parent="BillingFrequencyMaintenanceDocument-parentBean" />
+
+	<bean id="BillingFrequencyMaintenanceDocument-parentBean"
+		abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.cg.businessobject.BillingFrequency" />
+		<property name="maintainableClass"
+			value="org.kuali.kfs.sys.document.FinancialSystemMaintainable" />
+		<property name="maintainableSections">
+			<list>
+				<ref bean="BillingFrequencyMaintenanceDocument-EditBillingFrequency" />
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>frequency</value>
+			</list>
+		</property>
+
+
+
+		<property name="documentTypeName" value="CGBF" />
+		<property name="documentAuthorizerClass"
+			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+		<property name="workflowAttributes">
+			<ref bean="BillingFrequencyMaintenanceDocument-workflowAttributes" />
+		</property>
+	</bean>
+
+	<!-- Maintenance Section Definitions -->
+
+	<bean id="BillingFrequencyMaintenanceDocument-EditBillingFrequency"
+		parent="BillingFrequencyMaintenanceDocument-EditBillingFrequency-parentBean" />
+
+	<bean
+		id="BillingFrequencyMaintenanceDocument-EditBillingFrequency-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Edit Billing Frequency" />
+		<property name="title" value="Edit Billing Frequency" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="frequency"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="frequencyDescription"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="gracePeriodDays"
+					p:required="true" p:defaultValue="0" />
+				<bean parent="MaintainableFieldDefinition" p:name="active"
+					p:defaultValue="true" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- workflow attributes -->
+	<bean id="BillingFrequencyMaintenanceDocument-workflowAttributes"
+		parent="BillingFrequencyMaintenanceDocument-workflowAttributes-parentBean" />
+
+	<bean
+		id="BillingFrequencyMaintenanceDocument-workflowAttributes-parentBean"
+		class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true" />
+</beans>

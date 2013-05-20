@@ -26,65 +26,59 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
+/**
+ * Service methods for Payment Application Document.
+ */
 public interface PaymentApplicationDocumentService {
-    
+
     /**
-     * 
      * Retrieves the CashControlDetail line associated with the passed-in PaymentApplication Document.
      * 
      * @param document A valid PaymentApplication Document
      * @return The associated CashControlDetail, if exists, or null if not.
      */
     public CashControlDetail getCashControlDetailForPaymentApplicationDocument(PaymentApplicationDocument document);
-    
+
     /**
-     * 
      * Retrieves the CashControlDetail line associated with the passed-in PaymentApplication Document number.
      * 
      * @param payAppDocNumber A valid PaymentApplication Document Number
      * @return The associated CashControlDetail, if exists, or null if not.
      */
     public CashControlDetail getCashControlDetailForPayAppDocNumber(String payAppDocNumber);
-    
+
     /**
-     * 
      * Retrieves the CashControlDocument associated with the passed-in PaymentApplication Document.
      * 
      * @param document A valid PaymentApplication Document
      * @return The associated CashControlDocument, if exists, or null if not.
      */
     public CashControlDocument getCashControlDocumentForPaymentApplicationDocument(PaymentApplicationDocument document);
-    
+
     /**
-     * 
      * Retrieves the CashControlDocument associated with the passed-in PaymentApplication Document number.
+     * 
      * @param payAppDocNumber A valid PaymentApplication Document number
      * @return The associated CashControlDocument, if exists, or null if not.
      */
     public CashControlDocument getCashControlDocumentForPayAppDocNumber(String payAppDocNumber);
-    
+
     /**
-     * 
-     * Creates PaidApplieds for all the invoice lines on the passed in InvoiceDocument, on the passed in 
-     * PaymentApplicationDocument.
-     * 
-     * This method will overwrite any existing PaidApplieds on the document, it assumes an empty 
-     * PayApp doc with no paidapplieds.
-     * 
-     * This method does no checking to prevent over or under applying, it assumes that the documents have 
-     * been setup such that it will work correctly.  So if this method is used to over or under apply, then 
-     * the resulting PaymentApplicationDocument will fail business rules validation.
+     * Creates PaidApplieds for all the invoice lines on the passed in InvoiceDocument, on the passed in PaymentApplicationDocument.
+     * This method will overwrite any existing PaidApplieds on the document, it assumes an empty PayApp doc with no paidapplieds.
+     * This method does no checking to prevent over or under applying, it assumes that the documents have been setup such that it
+     * will work correctly. So if this method is used to over or under apply, then the resulting PaymentApplicationDocument will
+     * fail business rules validation.
      * 
      * @param customerInvoiceDocument
      * @param paymentApplicationDocument
      * @return
      */
     public PaymentApplicationDocument createInvoicePaidAppliedsForEntireInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument, PaymentApplicationDocument paymentApplicationDocument);
-    
+
     /**
-     * This method creates an invoice paid applied for the given customer invoice detail. 
-     * 
-     * This method assumes that no existing paidApplieds are already on the document.
+     * This method creates an invoice paid applied for the given customer invoice detail. This method assumes that no existing
+     * paidApplieds are already on the document.
      * 
      * @param customerInvoiceDetail the customer invoice detail for which we want to create the invoice paid applied
      * @param applicationDocNbr the payment application document number

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="CollectionActivityType" parent="CollectionActivityType-parentBean"/>
+
+  <bean id="CollectionActivityType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.CollectionActivityType"/>
+    <property name="inquiryDefinition">
+      <ref bean="CollectionActivityType-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="CollectionActivityType-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="activityCode"/>
+    <property name="objectLabel" value="Collection Activity Type"/>
+    <property name="attributes">
+      <list>
+        <ref bean="CollectionActivityType-activityCode"/>
+        <ref bean="CollectionActivityType-activityDescription"/>
+        <ref bean="CollectionActivityType-referralIndicator"/>
+        <ref bean="CollectionActivityType-dunningProcessIndicator"/>
+        <ref bean="CollectionActivityType-active"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="CollectionActivityType-activityCode" parent="CollectionActivityType-activityCode-parentBean"/>
+
+  <bean id="CollectionActivityType-activityCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="activityCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Activity Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="6"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <ref bean="FourCharacterTextControl" />
+    </property>
+  </bean>
+
+  <bean id="CollectionActivityType-activityDescription" parent="CollectionActivityType-activityDescription-parentBean"/>
+
+  <bean id="CollectionActivityType-activityDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="activityDescription"/>
+    <property name="label" value="Activity Description"/>
+    <property name="shortLabel" value="Type Desc"/>
+    <property name="maxLength" value="120"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="32"/>
+    </property>
+  </bean>
+  
+  <bean id="CollectionActivityType-referralIndicator" parent="CollectionActivityType-referralIndicator-parentBean"/>
+
+  <bean id="CollectionActivityType-referralIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="referralIndicator"/>
+    <property name="label" value="Referral Indicator"/>
+    <property name="shortLabel" value="Ref Ind"/>
+  </bean>
+  
+  <bean id="CollectionActivityType-dunningProcessIndicator" parent="CollectionActivityType-dunningProcessIndicator-parentBean"/>
+
+  <bean id="CollectionActivityType-dunningProcessIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="dunningProcessIndicator"/>
+    <property name="label" value="Dunning Process Indicator"/>
+    <property name="shortLabel" value="Dun Proc Ind"/>
+  </bean>
+  
+  <bean id="CollectionActivityType-active" parent="CollectionActivityType-active-parentBean"/>
+
+  <bean id="CollectionActivityType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+  
+  <!-- Business Object Inquiry Definition -->
+
+
+  <bean id="CollectionActivityType-inquiryDefinition" parent="CollectionActivityType-inquiryDefinition-parentBean"/>
+
+  <bean id="CollectionActivityType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Collection Activity Type Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Collection Activity Type"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="activityCode"/>
+              <bean parent="FieldDefinition" p:attributeName="activityDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="referralIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="dunningProcessIndicator"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="CollectionActivityType-lookupDefinition" parent="CollectionActivityType-lookupDefinition-parentBean"/>
+
+  <bean id="CollectionActivityType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Collection Activity Type Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="activityCode"/>
+        <bean parent="FieldDefinition" p:attributeName="activityDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="activityCode"/>
+        <bean parent="FieldDefinition" p:attributeName="activityDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="referralIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="dunningProcessIndicator"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+</beans>
+  

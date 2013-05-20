@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+	<bean id="InvoiceDetailAccountObjectCode" parent="InvoiceDetailAccountObjectCode-parentBean" />
+
+	<bean id="InvoiceDetailAccountObjectCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode" />
+		<property name="inquiryDefinition">
+			<ref bean="InvoiceDetailAccountObjectCode-inquiryDefinition" />
+		</property>
+		<property name="objectLabel" value="Invoice Detail Account Object Code" />
+		<property name="attributes">
+			<list>
+				<ref bean="InvoiceDetailAccountObjectCode-documentNumber" />
+				<ref bean="InvoiceDetailAccountObjectCode-proposalNumber" />
+				<ref bean="InvoiceDetailAccountObjectCode-chartOfAccountsCode" />
+				<ref bean="InvoiceDetailAccountObjectCode-accountNumber" /><!-- <ref bean="InvoiceDetailAccountObjectCode-financialObjectCode"/> -->
+				<ref bean="InvoiceDetailAccountObjectCode-currentExpenditures" />
+				<ref bean="InvoiceDetailAccountObjectCode-cumulativeExpenditures" />
+				<ref bean="InvoiceDetailAccountObjectCode-totalBilled" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+	<bean id="InvoiceDetailAccountObjectCode-documentNumber" parent="InvoiceDetailAccountObjectCode-documentNumber-parentBean" />
+	<bean id="InvoiceDetailAccountObjectCode-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+		<property name="forceUppercase" value="true" />
+	</bean>
+
+	<bean id="InvoiceDetailAccountObjectCode-proposalNumber" parent="InvoiceDetailAccountObjectCode-proposalNumber-parentBean" />
+	<bean id="InvoiceDetailAccountObjectCode-proposalNumber-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="proposalNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Proposal Number" />
+		<property name="shortLabel" value="Prop Num" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="14" />
+		</property>
+	</bean>
+
+
+	<bean id="InvoiceDetailAccountObjectCode-chartOfAccountsCode" parent="InvoiceDetailAccountObjectCode-chartOfAccountsCode-parentBean" />
+	<bean id="InvoiceDetailAccountObjectCode-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-SelectControl">
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="InvoiceDetailAccountObjectCode-accountNumber" parent="InvoiceDetailAccountObjectCode-accountNumber-parentBean" />
+	<bean id="InvoiceDetailAccountObjectCode-accountNumber-parentBean" abstract="true" parent="AccountAttribute" />
+
+	<bean id="InvoiceDetailAccountObjectCode-totalBilled" parent="InvoiceDetailAccountObjectCode-totalBilled-parentBean" />
+	<bean id="InvoiceDetailAccountObjectCode-totalBilled-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="totalBilled" />
+		<property name="label" value="Total Billed" />
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
+	</bean>
+
+
+	<bean id="InvoiceDetailAccountObjectCode-currentExpenditures" parent="InvoiceDetailAccountObjectCode-currentExpenditures-parentBean" />
+	<bean id="InvoiceDetailAccountObjectCode-currentExpenditures-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="currentExpenditures" />
+		<property name="required" value="false" />
+		<property name="label" value="Current Expenditures" />
+		<property name="shortLabel" value="Current Expenditures" />
+	</bean>
+
+	<bean id="InvoiceDetailAccountObjectCode-cumulativeExpenditures" parent="InvoiceDetailAccountObjectCode-cumulativeExpenditures-parentBean" />
+	<bean id="InvoiceDetailAccountObjectCode-cumulativeExpenditures-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="cumulativeExpenditures" />
+		<property name="required" value="false" />
+		<property name="label" value="Cumulative Expenditures" />
+		<property name="shortLabel" value="Cumulative Expenditures" />
+	</bean>
+
+
+	<!-- Business Object Inquiry Definition -->
+
+
+	<bean id="InvoiceDetailAccountObjectCode-inquiryDefinition" parent="InvoiceDetailAccountObjectCode-inquiryDefinition-parentBean" />
+
+	<bean id="InvoiceDetailAccountObjectCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Invoice Detail Account Object Code Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+							<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
+							<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+							<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+							<bean parent="FieldDefinition" p:attributeName="currentExpenditures" />
+							<bean parent="FieldDefinition" p:attributeName="cumulativeExpenditures" />
+							<bean parent="FieldDefinition" p:attributeName="totalBilled" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

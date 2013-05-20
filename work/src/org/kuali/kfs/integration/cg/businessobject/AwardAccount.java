@@ -16,21 +16,123 @@
 
 package org.kuali.kfs.integration.cg.businessobject;
 
+import java.sql.Date;
+
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class represents an association between an award and an account. It's like a reference to the account from the award. This
  * way an award can maintain a collection of these references instead of owning accounts directly.
  */
-public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
+public class AwardAccount implements ContractsAndGrantsAccountAwardInformation, ContractsAndGrantsCGBAwardAccount {
 
     private Long proposalNumber;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String principalId;
+    private Date currentLastBilledDate;
+    private Date previousLastBilledDate;
+    private boolean finalBilled;
+    private KualiDecimal amountToDraw = KualiDecimal.ZERO;
+    private boolean locReviewIndicator;
     private boolean active = true;
+    private String invoiceDocumentStatus;
+
+
+    /**
+     * Gets the amountToDraw attribute.
+     * 
+     * @return Returns the amountToDraw.
+     */
+    public KualiDecimal getAmountToDraw() {
+        return amountToDraw;
+    }
+
+    /**
+     * Sets the amountToDraw attribute value.
+     * 
+     * @param amountToDraw The amountToDraw to set.
+     */
+    public void setAmountToDraw(KualiDecimal amountToDraw) {
+        this.amountToDraw = amountToDraw;
+    }
+
+    /**
+     * Gets the locReviewIndicator attribute.
+     * 
+     * @return Returns the locReviewIndicator.
+     */
+    public boolean isLocReviewIndicator() {
+        return locReviewIndicator;
+    }
+
+    /**
+     * Sets the locReviewIndicator attribute value.
+     * 
+     * @param locReviewIndicator The locReviewIndicator to set.
+     */
+    public void setLocReviewIndicator(boolean locReviewIndicator) {
+        this.locReviewIndicator = locReviewIndicator;
+    }
+
+
+    /**
+     * Gets the finalBilled attribute.
+     * 
+     * @return Returns the finalBilled.
+     */
+    public boolean isFinalBilled() {
+        return finalBilled;
+    }
+
+    /**
+     * Sets the finalBilled attribute value.
+     * 
+     * @param finalBilled The finalBilled to set.
+     */
+    public void setFinalBilled(boolean finalBilled) {
+        this.finalBilled = finalBilled;
+    }
+
+    /**
+     * Gets the currentLastBilledDate attribute.
+     * 
+     * @return Returns the currentLastBilledDate.
+     */
+    public Date getCurrentLastBilledDate() {
+        return currentLastBilledDate;
+    }
+
+    /**
+     * Sets the currentLastBilledDate attribute value.
+     * 
+     * @param currentLastBilledDate The currentLastBilledDate to set.
+     */
+    public void setCurrentLastBilledDate(Date currentLastBilledDate) {
+        this.currentLastBilledDate = currentLastBilledDate;
+    }
+
+    /**
+     * Gets the previousLastBilledDate attribute.
+     * 
+     * @return Returns the previousLastBilledDate.
+     */
+    public Date getPreviousLastBilledDate() {
+        return previousLastBilledDate;
+    }
+
+    /**
+     * Sets the previousLastBilledDate attribute value.
+     * 
+     * @param previousLastBilledDate The previousLastBilledDate to set.
+     */
+    public void setPreviousLastBilledDate(Date previousLastBilledDate) {
+        this.previousLastBilledDate = previousLastBilledDate;
+    }
 
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getProposalNumber()
@@ -124,17 +226,30 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
         return null;
     }
 
-//KFSMI-861 : Removing this method as it's been removed from the Interface.    
-//    public ContractsAndGrantsAward getAward() {
-//        return null;
-//    }
+    // KFSMI-861 : Removing this method as it's been removed from the Interface.
+    // public ContractsAndGrantsAward getAward() {
+    // return null;
+    // }
 
     public Chart getChartOfAccounts() {
         return null;
     }
 
-    public void prepareForWorkflow() {}
+    public void prepareForWorkflow() {
+    }
 
-    public void refresh() {}
+    public void refresh() {
+    }
+
+
+    public String getInvoiceDocumentStatus() {
+        return invoiceDocumentStatus;
+    }
+
+
+    public void setInvoiceDocumentStatus(String invoiceDocumentStatus) {
+        this.invoiceDocumentStatus = invoiceDocumentStatus;
+    }
+
+
 }
-

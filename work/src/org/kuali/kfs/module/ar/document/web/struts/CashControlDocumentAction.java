@@ -35,26 +35,21 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeader
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.module.ar.document.validation.event.AddCashControlDetailEvent;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.exception.UnknownDocumentIdException;
-import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.service.KualiRuleService;
-import org.kuali.rice.krad.service.SessionDocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
-
-import com.lowagie.text.Document;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
 public class CashControlDocumentAction extends FinancialSystemTransactionalDocumentActionBase {
 
@@ -63,8 +58,8 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
      */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+
         super.loadDocument(kualiDocumentFormBase);
-        
         CashControlDocumentForm ccForm = (CashControlDocumentForm) kualiDocumentFormBase;
         CashControlDocument cashControlDocument = ccForm.getCashControlDocument();
 
@@ -88,7 +83,8 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
                 // KualiDocumentFormBase.populate() needs this updated in the session
                 SpringContext.getBean(SessionDocumentService.class).addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDoc);
             }
-        }
+       }
+
     }
 
     /**
@@ -139,6 +135,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
         accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
         document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
+
     }
 
     /**
@@ -328,6 +325,11 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         if (!success) {
             GlobalVariables.getMessageMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_GLPES_NOT_CREATED);
         }
+
+        if (cashControlDocument.getDocumentHeader().getFinancialDocumentInErrorNumber() != null) {
+            reverseDebitCreditForCorrectionDocument(cashControlDocument);
+        }
+
         // approve the GLPEs
         cashControlDocument.changeGeneralLedgerPendingEntriesApprovedStatusCode();
 
@@ -342,6 +344,21 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }
+
+    /**
+     * Reverse credit and debit code for Correction document
+     */
+    private void reverseDebitCreditForCorrectionDocument(CashControlDocument cashControlDocument) {
+        for (GeneralLedgerPendingEntry generalLedgerPendingEntry : cashControlDocument.getGeneralLedgerPendingEntries()) {
+            if (KFSConstants.GL_CREDIT_CODE.equals(generalLedgerPendingEntry.getTransactionDebitCreditCode())) {
+                generalLedgerPendingEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+            }
+            else if (KFSConstants.GL_DEBIT_CODE.equals(generalLedgerPendingEntry.getTransactionDebitCreditCode())) {
+                generalLedgerPendingEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+            }
+        }
+    }
+
 
     /**
      * Recalculates the cash control total since user could have changed it during their update.

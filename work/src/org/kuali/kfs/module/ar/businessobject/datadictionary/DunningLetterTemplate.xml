@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+	
+	<!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+
+
+	<bean id="DunningLetterTemplate" parent="DunningLetterTemplate-parentBean" />
+
+	<bean id="DunningLetterTemplate-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate" />
+		<property name="inquiryDefinition">
+			<ref bean="DunningLetterTemplate-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="DunningLetterTemplate-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="letterTemplateCode" />
+		<property name="objectLabel" value="Dunning Letter Templates" />
+		<property name="attributes">
+			<list>
+				<ref bean="DunningLetterTemplate-letterTemplateCode" />
+				<ref bean="DunningLetterTemplate-letterTemplateDescription" />
+				<ref bean="DunningLetterTemplate-filename" />
+				<ref bean="DunningLetterTemplate-active" />
+				<ref bean="DunningLetterTemplate-accessRestricted" />
+				<ref bean="DunningLetterTemplate-billByChartOfAccountCode" />
+				<ref bean="DunningLetterTemplate-billedByOrganizationCode" />
+				<ref bean="DunningLetterTemplate-date" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+
+	<bean id="DunningLetterTemplate-letterTemplateCode" parent="DunningLetterTemplate-letterTemplateCode-parentBean" />
+
+	<bean id="DunningLetterTemplate-letterTemplateCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="letterTemplateCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Letter Template" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+	</bean>
+
+	<bean id="DunningLetterTemplate-letterTemplateDescription" parent="DunningLetterTemplate-letterTemplateDescription-parentBean" />
+
+	<bean id="DunningLetterTemplate-letterTemplateDescription-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="letterTemplateDescription" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Letter Description" />
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="45" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="47" />
+		</property>
+	</bean>
+
+	<bean id="DunningLetterTemplate-active" parent="DunningLetterTemplate-active-parentBean" />
+
+	<bean id="DunningLetterTemplate-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+	<bean id="DunningLetterTemplate-filename" parent="DunningLetterTemplate-filename-parentBean" />
+
+	<bean id="DunningLetterTemplate-filename-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="filename" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="File Name" />
+		<property name="shortLabel" value="File Name" />
+		<property name="maxLength" value="45" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="47" />
+		</property>
+	</bean>
+
+	<bean id="DunningLetterTemplate-date" parent="DunningLetterTemplate-date-parentBean" />
+
+	<bean id="DunningLetterTemplate-date-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="date" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Template Upload Date" />
+		<property name="shortLabel" value="Template Upload Date" />
+		<property name="maxLength" value="25" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="25" />
+		</property>
+	</bean>
+
+	<bean id="DunningLetterTemplate-accessRestricted" parent="DunningLetterTemplate-accessRestricted-parentBean" />
+
+	<bean id="DunningLetterTemplate-accessRestricted-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="accessRestricted" />
+		<property name="label" value="Access Restricted" />
+		<property name="shortLabel" value="Access Restricted" />
+		<property name="maxLength" value="1" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.core.web.format.BooleanFormatter" />
+	</bean>
+
+	<bean id="DunningLetterTemplate-billByChartOfAccountCode" parent="DunningLetterTemplate-billByChartOfAccountCode-parentBean" />
+
+	<bean id="DunningLetterTemplate-billByChartOfAccountCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="name" value="billByChartOfAccountCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Billing Chart Code" />
+		<property name="shortLabel" value="Billing Chart" />
+		<property name="control">
+			<ref bean="ChartSelectControl" />
+		</property>
+	</bean>
+
+	<bean id="DunningLetterTemplate-billedByOrganizationCode" parent="DunningLetterTemplate-billedByOrganizationCode-parentBean" />
+
+	<bean id="DunningLetterTemplate-billedByOrganizationCode-parentBean"
+		abstract="true" parent="Organization-organizationCode">
+		<property name="name" value="billedByOrganizationCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Billing Organization Code" />
+		<property name="shortLabel" value="Billing Org Code" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+
+
+	<bean id="DunningLetterTemplate-inquiryDefinition" parent="DunningLetterTemplate-inquiryDefinition-parentBean" />
+
+	<bean id="DunningLetterTemplate-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="title" value="Dunning Letter Templates Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Letter Template Information" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="letterTemplateCode" />
+							<bean parent="FieldDefinition" p:attributeName="letterTemplateDescription" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+							<bean parent="FieldDefinition" p:attributeName="accessRestricted" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Organization" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="billByChartOfAccountCode" />
+							<bean parent="FieldDefinition" p:attributeName="billedByOrganizationCode" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Letter Template file Information" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="filename" />
+							<bean parent="FieldDefinition" p:attributeName="date" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="DunningLetterTemplate-lookupDefinition" parent="DunningLetterTemplate-lookupDefinition-parentBean" />
+
+	<bean id="DunningLetterTemplate-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="title" value="Dunning Letter Templates Lookup" />
+		<property name="lookupableID" value="letterTemplateLookupable" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="letterTemplateCode" />
+				<bean parent="FieldDefinition" p:attributeName="letterTemplateDescription" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="letterTemplateCode" />
+				<bean parent="FieldDefinition" p:attributeName="letterTemplateDescription" />
+				<bean parent="FieldDefinition" p:attributeName="filename" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+</beans>

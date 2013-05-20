@@ -18,9 +18,10 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -177,7 +178,7 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase impleme
         LinkedHashMap m = new LinkedHashMap();
         m.put("proposalSubcontractorNumber", this.proposalSubcontractorNumber);
         if (this.proposalNumber != null) {
-            m.put("proposalNumber", this.proposalNumber.toString());
+            m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber.toString());
         }
         m.put("subcontractorNumber", this.subcontractorNumber);
         return m;

@@ -13,107 +13,289 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-    <documentType>
-      <name>
-        CATY
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>
+				CATY
       </name>
-      <parent>
-        ARSM
+			<parent>
+				ARSM
       </parent>
-      <label>
-        Customer Address Type
+			<label>
+				Customer Address Type
       </label>
-      <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Fcustomeraddresstype.htm
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcustomeraddresstype.htm
       </helpDefinitionURL>
-      <active>
-        true
+			<active>
+				true
       </active>
-      <routingVersion>
-        2
+			<routingVersion>
+				2
       </routingVersion>
-    </documentType>
-    <documentType>
-      <name>
-        IICO
+		</documentType>
+		<documentType>
+			<name>
+				IICO
       </name>
-      <parent>
-        ARSM
+			<parent>
+				ARSM
       </parent>
-      <label>
-        Customer Invoice Item Code
+			<label>
+				Customer Invoice Item Code
       </label>
-      <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Fcustomerinvoiceitemcode.htm
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcustomerinvoiceitemcode.htm
       </helpDefinitionURL>
-      <active>
-        true
+			<active>
+				true
       </active>
-      <routingVersion>
-        2
+			<routingVersion>
+				2
       </routingVersion>
-    </documentType>
-    <documentType>
-      <name>
-        CTY
+		</documentType>
+		<documentType>
+			<name>
+				CTY
       </name>
-      <parent>
-        ARSM
+			<parent>
+				ARSM
       </parent>
-      <label>
-        Customer Type
+			<label>
+				Customer Type
       </label>
-      <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Fcustomertype.htm
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcustomertype.htm
       </helpDefinitionURL>
-      <active>
-        true
+			<active>
+				true
       </active>
-      <routingVersion>
-        2
+			<routingVersion>
+				2
       </routingVersion>
-    </documentType>
-    <documentType>
-      <name>
-        PMED
+		</documentType>
+		<documentType>
+			<name>
+				CATP
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Collection Activity Type
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcollectionactivitytype.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CSTS
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Collection Status
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcollectionstatus.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				DLTS
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Dunning Letter Templates
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fdunninglettertemplates.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				DUNC
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Dunning Campaign
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2FdunningCampaign.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>		
+		<documentType>
+			<name>
+				PMED
       </name>
-      <parent>
-        ARSM
+			<parent>
+				ARSM
       </parent>
-      <label>
-        Payment Medium
+			<label>
+				Payment Medium
       </label>
-      <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Fpaymentmedium.htm
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fpaymentmedium.htm
       </helpDefinitionURL>
-      <active>
-        true
+			<active>
+				true
       </active>
-      <routingVersion>
-        2
+			<routingVersion>
+				2
       </routingVersion>
-    </documentType>
-    <documentType>
-      <name>
-        ARSI
+		</documentType>
+		<documentType>
+			<name>
+				ARSI
       </name>
-      <parent>
-        ARSM
+			<parent>
+				ARSM
       </parent>
-      <label>
-        System Information
+			<label>
+				System Information
       </label>
-      <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Fsysteminformation.htm
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fsysteminformation.htm
       </helpDefinitionURL>
-      <active>
-        true
+			<active>
+				true
       </active>
-      <routingVersion>
-        2
+			<routingVersion>
+				2
       </routingVersion>
-    </documentType>
-  </documentTypes>
+		</documentType>
+		<documentType>
+			<name>
+				CGCT
+      </name>
+			<parent>
+				ARSM
+      </parent>
+			<label>
+				Category
+      </label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcategoryhelp.htm
+      </helpDefinitionURL>
+			<active>
+				true
+      </active>
+			<routingVersion>
+				2
+      </routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CGSC
+      </name>
+			<parent>
+				ARSM
+      </parent>
+			<label>
+				Suspension Category
+      </label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fsuspensioncategory.htm
+      </helpDefinitionURL>
+			<active>
+				true
+      </active>
+			<routingVersion>
+				2
+      </routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				CLHR
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Collector Hierarchy
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fcollectorhierarchy.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				FDSP
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Final Disposition
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2FfinalDisposition.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+		<documentType>
+			<name>
+				RFTY
+			</name>
+			<parent>
+				ARSM
+			</parent>
+			<label>
+				Referral Type
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2FreferralType.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+		</documentType>
+	</documentTypes>
 </data>

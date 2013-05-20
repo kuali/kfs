@@ -16,19 +16,27 @@
 
 package org.kuali.kfs.module.cg.businessobject;
 
+import java.sql.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.kuali.kfs.integration.ar.AccountsReceivableCollectionStatus;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import java.util.ArrayList;
 
 /**
  * This class defines an agency as it is used and referenced within the Contracts and Grants portion of a college or university
  * financial system.
  */
-public class Agency extends PersistableBusinessObjectBase implements ContractsAndGrantsAgency, MutableInactivatable {
+public class Agency extends PersistableBusinessObjectBase implements ContractsAndGrantsCGBAgency, MutableInactivatable, ContractsAndGrantsAgency {
 
     private String agencyNumber;
     private String reportingName;
@@ -40,9 +48,273 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     private Agency reportsToAgency;
     private AgencyType agencyType;
     private boolean active;
-    
-    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "Agency";
-    
+
+    private String sponsorCode;
+
+    // Contracts and Grants fields
+    private String cageNumber;
+    private String dodacNumber;
+    private String dunAndBradstreetNumber;
+    private String dunsPlusFourNumber;
+
+
+    // Billing Frequency link
+
+    private String agencyFrequencyCode;
+    private BillingFrequency agencybillingFrequency;
+
+    // Invoice Types link
+
+    private String agencyInvoiceTemplateCode;
+    private InvoiceTemplate agencyInvoiceTemplate;
+
+    // Financial Report Type link
+
+    private String agencyFinancialReportCode;
+    private FinancialFormTemplate agencyFinancialReportType;
+
+    // Financial Report Frequency
+
+    private String agencyFinancialReportFreqCode;
+    private FinancialReportFrequencies agencyFinancialReportFreq;
+
+    private Date agencyExpirationDate;
+
+    private List<AgencyAddress> agencyAddresses;
+    private List<AgencyNote> agencyNotes;
+
+    // Collections Maintenance
+    private String collectionStatus;
+    private String bankruptcyType;
+    private Date bankruptcyDate;
+    private Date bankruptcyReviewDate;
+    private boolean stopWork;
+    private String stopWorkReason;
+    private String notes;
+    private boolean stateAgency;
+
+    private AccountsReceivableCollectionStatus collStatusObj;
+
+    // Creating Customer from Agency
+    private AccountsReceivableCustomer customer;
+    private String customerCreated;
+    private String customerNumber;
+    private String customerTypeCode;
+    private String dunningCampaign;
+
+    /**
+     * Default no-arg constructor.
+     */
+    public Agency() {
+        agencyAddresses = new ArrayList<AgencyAddress>();
+        agencyNotes = new ArrayList<AgencyNote>();
+    }
+
+    /**
+     * Gets the collStatusObj attribute.
+     * 
+     * @return Returns the collStatusObj.
+     */
+    public AccountsReceivableCollectionStatus getCollStatusObj() {
+        return collStatusObj;
+    }
+
+    /**
+     * Sets the collStatusObj attribute value.
+     * 
+     * @param collStatusObj The collStatusObj to set.
+     */
+    public void setCollStatusObj(AccountsReceivableCollectionStatus collStatusObj) {
+        this.collStatusObj = collStatusObj;
+    }
+
+    /**
+     * Gets the sponsorCode attribute.
+     * 
+     * @return Returns the sponsorCode.
+     */
+    public String getSponsorCode() {
+        return sponsorCode;
+    }
+
+    /**
+     * Sets the sponsorCode attribute value.
+     * 
+     * @param sponsorCode The sponsorCode to set.
+     */
+    public void setSponsorCode(String sponsorCode) {
+        this.sponsorCode = sponsorCode;
+    }
+
+    // Getters and setters for Billing frequency
+    /**
+     * Gets the agencyFrequencyCode attribute.
+     * 
+     * @return Returns the agencyFrequencyCode.
+     */
+    public String getAgencyFrequencyCode() {
+        return agencyFrequencyCode;
+    }
+
+    /**
+     * Sets the agencyFrequencyCode attribute value.
+     * 
+     * @param agencyFrequencyCode The agencyFrequencyCode to set.
+     */
+    public void setAgencyFrequencyCode(String agencyFrequencyCode) {
+        this.agencyFrequencyCode = agencyFrequencyCode;
+    }
+
+    /**
+     * Gets the agencybillingFrequency attribute.
+     * 
+     * @return Returns the agencybillingFrequency.
+     */
+    public BillingFrequency getAgencybillingFrequency() {
+        return agencybillingFrequency;
+    }
+
+    /**
+     * Sets the agencybillingFrequency attribute value.
+     * 
+     * @param agencybillingFrequency The agencybillingFrequency to set.
+     */
+    public void setAgencybillingFrequency(BillingFrequency agencybillingFrequency) {
+        this.agencybillingFrequency = agencybillingFrequency;
+    }
+
+
+    // Getters and setters for Invoice Types
+    /**
+     * Gets the agencyInvoiceTemplateCode attribute.
+     * 
+     * @return Returns the agencyInvoiceTemplateCode.
+     */
+    public String getAgencyInvoiceTemplateCode() {
+        return agencyInvoiceTemplateCode;
+    }
+
+    /**
+     * Sets the agencyInvoiceTemplateCode attribute value.
+     * 
+     * @param agencyInvoiceTemplateCode The agencyInvoiceTemplateCode to set.
+     */
+    public void setAgencyInvoiceTemplateCode(String agencyInvoiceTemplateCode) {
+
+        this.agencyInvoiceTemplateCode = agencyInvoiceTemplateCode;
+    }
+
+    /**
+     * Gets the agencyInvoiceTemplate attribute.
+     * 
+     * @return Returns the agencyInvoiceTemplate.
+     */
+    public InvoiceTemplate getAgencyInvoiceTemplate() {
+        return agencyInvoiceTemplate;
+    }
+
+    /**
+     * Sets the agencyInvoiceTemplate attribute value.
+     * 
+     * @param agencyInvoiceTemplate The agencyInvoiceTemplate to set.
+     */
+    public void setAgencyInvoiceTemplate(InvoiceTemplate agencyInvoiceTemplate) {
+        this.agencyInvoiceTemplate = agencyInvoiceTemplate;
+    }
+
+
+    // Getters and setters for Financial Report Type
+    /**
+     * Gets the agencyFinancialReportCode attribute.
+     * 
+     * @return Returns the agencyFinancialReportCode.
+     */
+    public String getAgencyFinancialReportCode() {
+        return agencyFinancialReportCode;
+    }
+
+    /**
+     * Sets the agencyFinancialReportCode attribute value.
+     * 
+     * @param agencyFinancialReportCode The agencyFinancialReportCode to set.
+     */
+    public void setAgencyFinancialReportCode(String agencyFinancialReportCode) {
+        this.agencyFinancialReportCode = agencyFinancialReportCode;
+    }
+
+    /**
+     * Gets the agencyFinancialReportType attribute.
+     * 
+     * @return Returns the agencyFinancialReportType.
+     */
+    public FinancialFormTemplate getAgencyFinancialReportType() {
+        return agencyFinancialReportType;
+    }
+
+    /**
+     * Sets the agencyFinancialReportType attribute value.
+     * 
+     * @param agencyFinancialReportType The agencyFinancialReportType to set.
+     */
+    public void setAgencyFinancialReportType(FinancialFormTemplate agencyFinancialReportType) {
+        this.agencyFinancialReportType = agencyFinancialReportType;
+    }
+
+
+    /**
+     * Gets the agencyFinancialReportFreqCode attribute.
+     * 
+     * @return Returns the agencyFinancialReportFreqCode.
+     */
+    public String getAgencyFinancialReportFreqCode() {
+        return agencyFinancialReportFreqCode;
+    }
+
+    /**
+     * Sets the agencyFinancialReportFreqCode attribute value.
+     * 
+     * @param agencyFinancialReportFreqCode The agencyFinancialReportFreqCode to set.
+     */
+    public void setAgencyFinancialReportFreqCode(String agencyFinancialReportFreqCode) {
+        this.agencyFinancialReportFreqCode = agencyFinancialReportFreqCode;
+    }
+
+    /**
+     * Gets the agencyFinancialReportFreq attribute.
+     * 
+     * @return Returns the agencyFinancialReportFreq.
+     */
+    public FinancialReportFrequencies getAgencyFinancialReportFreq() {
+        return agencyFinancialReportFreq;
+    }
+
+    /**
+     * Sets the agencyFinancialReportFreq attribute value.
+     * 
+     * @param agencyFinancialReportFreq The agencyFinancialReportFreq to set.
+     */
+    public void setAgencyFinancialReportFreq(FinancialReportFrequencies agencyFinancialReportFreq) {
+        this.agencyFinancialReportFreq = agencyFinancialReportFreq;
+    }
+
+    /**
+     * Gets the agencyExpirationDate attribute.
+     * 
+     * @return Returns the agencyExpirationDate.
+     */
+    public Date getAgencyExpirationDate() {
+        return agencyExpirationDate;
+    }
+
+    /**
+     * Sets the agencyExpirationDate attribute value.
+     * 
+     * @param agencyExpirationDate The agencyExpirationDate to set.
+     */
+    public void setAgencyExpirationDate(Date agencyExpirationDate) {
+        this.agencyExpirationDate = agencyExpirationDate;
+    }
+
     /**
      * Gets the agencyTypeCode attribute.
      * 
@@ -77,13 +349,6 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
      */
     public void setReportsToAgencyNumber(String reportsToAgencyNumber) {
         this.reportsToAgencyNumber = reportsToAgencyNumber;
-    }
-
-    /**
-     * Default no-arg constructor.
-     */
-    public Agency() {
-
     }
 
     /**
@@ -222,7 +487,7 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
-        m.put("agencyNumber", getAgencyNumber());
+        m.put(KFSPropertyConstants.AGENCY_NUMBER, getAgencyNumber());
         return m;
     }
 
@@ -238,7 +503,8 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
     }
 
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
+     * 
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -247,10 +513,357 @@ public class Agency extends PersistableBusinessObjectBase implements ContractsAn
 
     /**
      * Sets the active attribute value.
+     * 
      * @param active The active to set.
      */
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    /**
+     * Gets the cageNumber attribute.
+     * 
+     * @return Returns the cageNumber.
+     */
+    public String getCageNumber() {
+        return cageNumber;
+    }
+
+    /**
+     * Sets the cageNumber attribute value.
+     * 
+     * @param cageNumber The cageNumber to set.
+     */
+    public void setCageNumber(String cageNumber) {
+        this.cageNumber = cageNumber;
+    }
+
+    /**
+     * Gets the dodacNumber attribute.
+     * 
+     * @return Returns the dodacNumber.
+     */
+    public String getDodacNumber() {
+        return dodacNumber;
+    }
+
+    /**
+     * Sets the dodacNumber attribute value.
+     * 
+     * @param dodacNumber The dodacNumber to set.
+     */
+    public void setDodacNumber(String dodacNumber) {
+        this.dodacNumber = dodacNumber;
+    }
+
+    /**
+     * Gets the dunAndBradstreetNumber attribute.
+     * 
+     * @return Returns the dunAndBradstreetNumber.
+     */
+    public String getDunAndBradstreetNumber() {
+        return dunAndBradstreetNumber;
+    }
+
+    /**
+     * Sets the dunAndBradstreetNumber attribute value.
+     * 
+     * @param dunAndBradstreetNumber The dunAndBradstreetNumber to set.
+     */
+    public void setDunAndBradstreetNumber(String dunAndBradstreetNumber) {
+        this.dunAndBradstreetNumber = dunAndBradstreetNumber;
+    }
+
+    /**
+     * Gets the dunsPlusFourNumber attribute.
+     * 
+     * @return Returns the dunsPlusFourNumber.
+     */
+    public String getDunsPlusFourNumber() {
+        return dunsPlusFourNumber;
+    }
+
+    /**
+     * Sets the dunsPlusFourNumber attribute value.
+     * 
+     * @param dunsPlusFourNumber The dunsPlusFourNumber to set.
+     */
+    public void setDunsPlusFourNumber(String dunsPlusFourNumber) {
+        this.dunsPlusFourNumber = dunsPlusFourNumber;
+    }
+
+    /**
+     * This method gets agencyAddresses
+     * 
+     * @return agencyAddresses
+     */
+    public List<AgencyAddress> getAgencyAddresses() {
+        return agencyAddresses;
+    }
+
+    /**
+     * This method sets agencyAddresses
+     * 
+     * @param agencyAddresses
+     */
+    public void setAgencyAddresses(List<AgencyAddress> agencyAddresses) {
+        this.agencyAddresses = agencyAddresses;
+    }
+
+
+    /**
+     * Gets the customerNumber attribute.
+     * 
+     * @return Returns the customerNumber.
+     */
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    /**
+     * Sets the customerNumber attribute value.
+     * 
+     * @param customerNumber The customerNumber to set.
+     */
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
+    }
+
+
+    /**
+     * Gets the customer attribute.
+     * 
+     * @return Returns the customer.
+     */
+    public AccountsReceivableCustomer getCustomer() {
+        return customer = (AccountsReceivableCustomer) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableCustomer.class).retrieveExternalizableBusinessObjectIfNecessary(this, customer, "customer");
+    }
+
+    /**
+     * Sets the customer attribute value.
+     * 
+     * @param customer The customer to set.
+     */
+    public void setCustomer(AccountsReceivableCustomer customer) {
+        this.customer = customer;
+    }
+
+    /**
+     * Gets the customerCreated attribute.
+     * 
+     * @return Returns the customerCreated.
+     */
+    public String getCustomerCreated() {
+        return customerCreated;
+    }
+
+    /**
+     * Sets the customerCreated attribute value.
+     * 
+     * @param customerCreated The customerCreated to set.
+     */
+    public void setCustomerCreated(String customerCreated) {
+        this.customerCreated = customerCreated;
+    }
+
+    /**
+     * Gets the customerTypeCode attribute.
+     * 
+     * @return Returns the customerTypeCode.
+     */
+    public String getCustomerTypeCode() {
+        return customerTypeCode;
+    }
+
+    /**
+     * Sets the customerTypeCode attribute value.
+     * 
+     * @param customerTypeCode The customerTypeCode to set.
+     */
+    public void setCustomerTypeCode(String customerTypeCode) {
+        this.customerTypeCode = customerTypeCode;
+    }
+
+    /**
+     * Gets the dunningCampaign attribute.
+     * 
+     * @return Returns the dunningCampaign.
+     */
+    public String getDunningCampaign() {
+        return dunningCampaign;
+    }
+
+    /**
+     * Sets the dunningCampaign attribute value.
+     * 
+     * @param dunningCampaign The dunningCampaign to set.
+     */
+    public void setDunningCampaign(String dunningCampaign) {
+        this.dunningCampaign = dunningCampaign;
+    }
+
+
+    /**
+     * Gets the collectionStatus attribute.
+     * 
+     * @return Returns the collectionStatus.
+     */
+    public String getCollectionStatus() {
+        return collectionStatus;
+    }
+
+    /**
+     * Sets the collectionStatus attribute value.
+     * 
+     * @param collectionStatus The collectionStatus to set.
+     */
+    public void setCollectionStatus(String collectionStatus) {
+        this.collectionStatus = collectionStatus;
+    }
+
+    /**
+     * Gets the bankruptcyType attribute.
+     * 
+     * @return Returns the bankruptcyType.
+     */
+    public String getBankruptcyType() {
+        return bankruptcyType;
+    }
+
+    /**
+     * Sets the bankruptcyType attribute value.
+     * 
+     * @param bankruptcyType The bankruptcyType to set.
+     */
+    public void setBankruptcyType(String bankruptcyType) {
+        this.bankruptcyType = bankruptcyType;
+    }
+
+    /**
+     * Gets the bankruptcyDate attribute.
+     * 
+     * @return Returns the bankruptcyDate.
+     */
+    public Date getBankruptcyDate() {
+        return bankruptcyDate;
+    }
+
+    /**
+     * Sets the bankruptcyDate attribute value.
+     * 
+     * @param bankruptcyDate The bankruptcyDate to set.
+     */
+    public void setBankruptcyDate(Date bankruptcyDate) {
+        this.bankruptcyDate = bankruptcyDate;
+    }
+
+    /**
+     * Gets the bankruptcyReviewDate attribute.
+     * 
+     * @return Returns the bankruptcyReviewDate.
+     */
+    public Date getBankruptcyReviewDate() {
+        return bankruptcyReviewDate;
+    }
+
+    /**
+     * Sets the bankruptcyReviewDate attribute value.
+     * 
+     * @param reviewDate The bankruptcyReviewDate to set.
+     */
+    public void setBankruptcyReviewDate(Date bankruptcyReviewDate) {
+        this.bankruptcyReviewDate = bankruptcyReviewDate;
+    }
+
+    /**
+     * Gets the stopWork attribute.
+     * 
+     * @return Returns the stopWork.
+     */
+    public boolean isStopWork() {
+        return stopWork;
+    }
+
+    /**
+     * Sets the stopWork attribute value.
+     * 
+     * @param stopWork The stopWork to set.
+     */
+    public void setStopWork(boolean stopWork) {
+        this.stopWork = stopWork;
+    }
+
+    /**
+     * Gets the stopWorkReason attribute.
+     * 
+     * @return Returns the stopWorkReason.
+     */
+    public String getStopWorkReason() {
+        return stopWorkReason;
+    }
+
+    /**
+     * Sets the stopWorkReason attribute value.
+     * 
+     * @param stopWorkReason The stopWorkReason to set.
+     */
+    public void setStopWorkReason(String stopWorkReason) {
+        this.stopWorkReason = stopWorkReason;
+    }
+
+    /**
+     * Gets the notes attribute.
+     * 
+     * @return Returns the notes.
+     */
+    public String getNotes() {
+        return notes;
+    }
+
+    /**
+     * Sets the notes attribute value.
+     * 
+     * @param notes The notes to set.
+     */
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    /**
+     * Gets the agencyNotes attribute.
+     * 
+     * @return Returns the agencyNotes.
+     */
+    public List<AgencyNote> getAgencyNotes() {
+        return agencyNotes;
+    }
+
+    /**
+     * Sets the agencyNotes attribute.
+     * 
+     * @param agencyNotes The agencyNotes to set.
+     */
+    public void setAgencyNotes(List<AgencyNote> agencyNotes) {
+        this.agencyNotes = agencyNotes;
+    }
+
+    /**
+     * Gets the stateAgency attribute.
+     * 
+     * @return Returns the stateAgency.
+     */
+    public boolean isStateAgency() {
+        return stateAgency;
+    }
+
+    /**
+     * Sets the stateAgency attribute value.
+     * 
+     * @param stateAgency The stateAgency to set.
+     */
+    public void setStateAgency(boolean stateAgency) {
+        this.stateAgency = stateAgency;
+    }
+
 
 }

@@ -159,43 +159,39 @@
 		</property>
 		<property name="reportsDirectory">
 			<value>${reports.directory}</value>
-		</property>		
+		</property>
 		<property name="boService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="customerService">
-			<ref bean="customerService"/>	
-		</property>
 	</bean>
-	
-	<bean id="customerInvoiceDetailService" parent="customerInvoiceDetailService-parentBean"/> 
 
-	<bean id="customerInvoiceDetailService-parentBean" abstract="true" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl">
+	<bean id="customerInvoiceDetailService" parent="customerInvoiceDetailService-parentBean" />
+
+	<bean id="customerInvoiceDetailService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDetailServiceImpl">
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
-		</property>		
+		</property>
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
-		</property>			
+		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>		
+		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
 		<property name="invoicePaidAppliedService">
-			<ref bean="invoicePaidAppliedService"/>
+			<ref bean="invoicePaidAppliedService" />
 		</property>
 		<property name="taxService">
-			<ref bean="taxService"/>
+			<ref bean="taxService" />
 		</property>
 		<property name="accountsReceivableTaxService">
-			<ref bean="accountsReceivableTaxService"/>
-		</property>				
+			<ref bean="accountsReceivableTaxService" />
+		</property>
 	</bean>
-	
-	<bean id="nonAppliedHoldingService"  parent="nonAppliedHoldingService-parentBean"/>
-	<bean id="nonAppliedHoldingService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.NonAppliedHoldingServiceImpl" abstract="true">
+
+	<bean id="nonAppliedHoldingService" class="org.kuali.kfs.module.ar.document.service.impl.NonAppliedHoldingServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -203,57 +199,51 @@
 			<ref bean="nonAppliedHoldingDao" />
 		</property>
 	</bean>
-	
-	<bean id="customerCreditMemoDetailService"  parent="customerCreditMemoDetailService-parentBean"/>
-	<bean id="customerCreditMemoDetailService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerCreditMemoDetailServiceImpl" abstract="true"/>
-	
-	<bean id="customerCreditMemoDocumentService"  parent="customerCreditMemoDocumentService-parentBean"/>
-	<bean id="customerCreditMemoDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerCreditMemoDocumentServiceImpl" abstract="true">
+
+	<bean id="customerCreditMemoDetailService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerCreditMemoDetailServiceImpl" />
+
+	<bean id="customerCreditMemoDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerCreditMemoDocumentServiceImpl">
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
-		</property>			
+		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>		
+		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
-		</property>			
+		</property>
 		<property name="paidAppliedService">
 			<ref bean="invoicePaidAppliedService" />
-		</property>		
+		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
-		</property>		
+		</property>
 	</bean>
-	
-	<bean id="ocrLineService"  parent="ocrLineService-parentBean"/>
-	<bean id="ocrLineService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.OCRLineServiceImpl" abstract="true"/>
-	
-	<bean id="invoicePaidAppliedService"  parent="invoicePaidAppliedService-parentBean"/>
-	<bean id="invoicePaidAppliedService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.InvoicePaidAppliedServiceImpl" abstract="true">
+
+	<bean id="ocrLineService" class="org.kuali.kfs.module.ar.report.service.impl.OCRLineServiceImpl" />
+
+	<bean id="invoicePaidAppliedService" class="org.kuali.kfs.module.ar.document.service.impl.InvoicePaidAppliedServiceImpl">
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
-		</property>			
+		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>		
-	</bean>		
-	
-	<bean id="accountsReceivableDocumentHeaderService"  parent="accountsReceivableDocumentHeaderService-parentBean"/>
-	<bean id="accountsReceivableDocumentHeaderService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.AccountsReceivableDocumentHeaderServiceImpl" abstract="true">
+		</property>
+	</bean>
+
+	<bean id="accountsReceivableDocumentHeaderService" class="org.kuali.kfs.module.ar.document.service.impl.AccountsReceivableDocumentHeaderServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>				
+		</property>
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
 		<property name="sysInfoService">
 			<ref bean="systemInformationService" />
 		</property>
-	</bean>	
-	
-	<bean id="invoiceRecurrenceService"  parent="invoiceRecurrenceService-parentBean"/>
-	<bean id="invoiceRecurrenceService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.InvoiceRecurrenceServiceImpl" abstract="true">
+	</bean>
+
+	<bean id="invoiceRecurrenceService" class="org.kuali.kfs.module.ar.batch.service.impl.InvoiceRecurrenceServiceImpl">
 		<property name="invoiceRecurrenceDao">
 			<ref bean="invoiceRecurrenceDao" />
 		</property>
@@ -265,38 +255,38 @@
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>		
+		</property>
 	</bean>
-	
-	<bean id="customerAgingReportService"  parent="customerAgingReportService-parentBean"/>
-	<bean id="customerAgingReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.CustomerAgingReportServiceImpl" abstract="true">
+
+	<bean id="customerAgingReportService" class="org.kuali.kfs.module.ar.report.service.impl.CustomerAgingReportServiceImpl">
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
 	</bean>
-	
+
 	<!-- Used for DWR call to get Customer Name -->
-	<bean id="customerService"  parent="customerService-parentBean"/>
-	<bean id="customerService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerServiceImpl" abstract="true">
+	<bean id="customerService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerServiceImpl">
 		<property name="customerDao">
 			<ref bean="customerDao" />
 		</property>
-	    <property name="sequenceAccessorService">
+		<property name="sequenceAccessorService">
 			<ref bean="sequenceAccessorService" />
-		</property>
-	    <property name="businessObjectService">
-			<ref bean="businessObjectService" />
 		</property>
 		<property name="customerInvoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
-		</property>				
+		</property>
 		<property name="noteService">
 			<ref bean="noteService" />
-		</property>						
+		</property>
 	</bean>
 	
-    <bean id="customerInvoiceDocumentService"  parent="customerInvoiceDocumentService-parentBean"/>
-    <bean id="customerInvoiceDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDocumentServiceImpl" abstract="true">
+	<bean id="customerCollectorService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerCollectorServiceImpl">
+		<property name="customerCollectorDao">
+			<ref bean="customerCollectorDao" />
+		</property>
+	</bean>
+
+	<bean id="customerInvoiceDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceDocumentServiceImpl">
 		<property name="documentDao">
 			<ref bean="documentDao" />
 		</property>
@@ -305,24 +295,24 @@
 		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
-		</property>				
+		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 		<property name="receivableAccountingLineService">
 			<ref bean="receivableAccountingLineService" />
-		</property>	
+		</property>
 		<property name="accountsReceivableDocumentHeaderService">
 			<ref bean="accountsReceivableDocumentHeaderService" />
-		</property>		
+		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
-		</property>				
+		</property>
 		<property name="customerAddressService">
 			<ref bean="customerAddressService" />
-		</property>									
+		</property>
 		<property name="invoicePaidAppliedService">
-			<ref bean="invoicePaidAppliedService"/>
+			<ref bean="invoicePaidAppliedService" />
 		</property>
 		<property name="customerInvoiceDetailService">
 			<ref bean="customerInvoiceDetailService" />
@@ -330,268 +320,186 @@
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
-	</bean>	
-	
-	<bean id="customerInvoiceWriteoffDocumentService" parent="customerInvoiceWriteoffDocumentService-parentBean"/>
-	
-	<bean id="customerInvoiceWriteoffDocumentService-parentBean" abstract="true"  class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceWriteoffDocumentServiceImpl">		
+	</bean>
+
+	<bean id="customerInvoiceWriteoffDocumentService" parent="customerInvoiceWriteoffDocumentService-parentBean" />
+
+	<bean id="customerInvoiceWriteoffDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceWriteoffDocumentServiceImpl">
 		<property name="accountsReceivableDocumentHeaderService">
 			<ref bean="accountsReceivableDocumentHeaderService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>		
+		</property>
 		<property name="parameterService">
 			<ref bean="parameterService" />
-		</property>	
+		</property>
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
-		</property>		
+		</property>
 		<property name="customerInvoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
-		</property>	
+		</property>
 		<property name="customerService">
 			<ref bean="customerService" />
 		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
-		</property>		
+		</property>
 		<property name="invoiceWriteoffBatchService">
 			<ref bean="customerInvoiceWriteoffBatchService" />
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
-		<property name="financialSystemUserService">
-			<ref bean="financialSystemUserService" />
-		</property>
-		<property name="objectCodeService">
-			<ref bean="objectCodeService" />
-		</property>
 		<property name="paidAppliedService">
 			<ref bean="invoicePaidAppliedService" />
 		</property>
-	</bean>		
-	
-	<bean id="customerInvoiceGLPEService"  parent="customerInvoiceGLPEService-parentBean"/>
-	<bean id="customerInvoiceGLPEService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceGLPEServiceImpl" abstract="true">
+	</bean>
+
+	<bean id="customerInvoiceGLPEService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerInvoiceGLPEServiceImpl">
 		<property name="generalLedgerPendingEntryService">
 			<ref bean="generalLedgerPendingEntryService" />
 		</property>
-	</bean>	
-	
-	
-	<bean id="nonInvoicedDistributionService"  parent="nonInvoicedDistributionService-parentBean"/>
-	<bean id="nonInvoicedDistributionService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.NonInvoicedDistributionServiceImpl" abstract="true">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService"/>
+	</bean>
+
+
+	<bean id="nonInvoicedDistributionService" class="org.kuali.kfs.module.ar.document.service.impl.NonInvoicedDistributionServiceImpl">
+		<property name="nonInvoicedDistributionDao">
+			<ref bean="nonInvoicedDistributionDao" />
 		</property>
 	</bean>
-	
-    <bean id="customerAddressService"  parent="customerAddressService-parentBean"/>
-    <bean id="customerAddressService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerAddressServiceImpl" abstract="true">
+
+	<bean id="nonInvoicedDistributionDao" class="org.kuali.kfs.module.ar.dataaccess.impl.NonInvoicedDistributionDaoOjb">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>	
+		</property>
+	</bean>
+
+	<bean id="customerAddressService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerAddressServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
 		<property name="sequenceAccessorService">
 			<ref bean="sequenceAccessorService" />
 		</property>
-        <property name="customerAddressDao">
+		<property name="customerAddressDao">
 			<ref bean="customerAddressDao" />
-		</property>		
-	</bean>		
+		</property>
+	</bean>
+
+	<bean id="customerNoteService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerNoteServiceImpl">
+		<property name="sequenceAccessorService">
+			<ref bean="sequenceAccessorService" />
+		</property>
+	</bean>
 	
-    <bean id="receivableAccountingLineService"  parent="receivableAccountingLineService-parentBean"/>
-    <bean id="receivableAccountingLineService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.ReceivableAccountingLineServiceImpl" abstract="true">
+	<bean id="receivableAccountingLineService" class="org.kuali.kfs.module.ar.document.service.impl.ReceivableAccountingLineServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
-		</property>	
-	</bean>	
-	
-	<bean id="paymentApplicationDocumentService"  parent="paymentApplicationDocumentService-parentBean"/>
-	<bean id="paymentApplicationDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.PaymentApplicationDocumentServiceImpl" abstract="true">
+		</property>
+	</bean>
+
+	<bean id="paymentApplicationDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.PaymentApplicationDocumentServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-	    <property name="nonAppliedHoldingService">
+		<property name="nonAppliedHoldingService">
 			<ref bean="nonAppliedHoldingService" />
 		</property>
-        <property name="documentService">
-            <ref bean="documentService" />
-        </property>
-        <property name="invoicePaidAppliedService">
-        	<ref bean="invoicePaidAppliedService" />
-        </property>
-        <property name="universityDateService">
-        	<ref bean="universityDateService"/>
-        </property>
-        <property name="cashControlDetailDao">
-        	<ref bean="cashControlDetailDao" />
-        </property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="invoicePaidAppliedService">
+			<ref bean="invoicePaidAppliedService" />
+		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+		<property name="cashControlDetailDao">
+			<ref bean="cashControlDetailDao" />
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="systemInformationService">
+			<ref bean="systemInformationService" />
+		</property>
+		<property name="customerAddressService">
+			<ref bean="customerAddressService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+	</bean>
+
+	<bean id="collectionActivityDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CollectionActivityDocumentServiceImpl">
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
 	</bean>
 	
-	<bean id="cashControlDocumentService"  parent="cashControlDocumentService-parentBean"/>
-	<bean id="cashControlDocumentService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CashControlDocumentServiceImpl" abstract="true">
+	<bean id="cashControlDocumentService" class="org.kuali.kfs.module.ar.document.service.impl.CashControlDocumentServiceImpl">
 		<property name="accountsReceivableDocumentHeaderService">
 			<ref bean="accountsReceivableDocumentHeaderService" />
 		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
-		</property>		
+		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="glpeService" ref="generalLedgerPendingEntryService"/>
+		<property name="glpeService" ref="generalLedgerPendingEntryService" />
 		<property name="optionsService">
 			<ref bean="optionsService" />
 		</property>
 		<property name="systemInformationService">
 			<ref bean="systemInformationService" />
 		</property>
-	    <property name="dataDictionaryService">
+		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
-        <property name="chartService">
+		<property name="chartService">
 			<ref bean="chartService" />
 		</property>
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
-		</property>	
+		</property>
 	</bean>
-	
+
 	<bean id="lockboxJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="lockboxJob" />
 		<property name="cronExpression" value="0 30 4 * * ?" />
 	</bean>
-	
+
 	<bean id="lockboxStep" class="org.kuali.kfs.module.ar.batch.LockboxStep" parent="step">
 		<property name="lockboxService">
 			<ref bean="lockboxService" />
 		</property>
 	</bean>
-	
-	<bean id="lockboxLoadStep" class="org.kuali.kfs.module.ar.batch.LockboxLoadStep"
-		parent="step">
-		<property name="lockboxLoadService">
-			<ref bean="lockboxLoadService" />
-		</property>
-	</bean>
 
-	<bean id="lockboxLoadService"  parent="lockboxLoadService-parentBean"/>
-	<bean id="lockboxLoadService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.LockboxLoadServiceImpl" abstract="true">
-		<property name="batchInputFileService">
-			<ref bean="batchInputFileService" />
-		</property>
-		<property name="batchInputFileType">
-			<ref bean="lockboxInputFileType" />
-		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="dateTimeService" ref="dateTimeService" />
-		<property name="reportsDirectory">
-			<value>${reports.directory}</value>
-		</property>
-		<property name="parameterService" ref="parameterService" />
-		<property name="mailService" ref="mailService" />
-	</bean>
-
-	<bean id="lockboxInputFileType" parent="FlatFileParser">
-		<property name="flatFileSpecification">
-			<bean parent="FixedWidthFlatFileSpecification">
-				<property name="objectSpecifications">
-					<list>
-						<bean parent="FlatFilePrefixObjectSpecification" p:linePrefix="BATCH-AR LOCKBOX"
-							p:businessObjectClass="org.kuali.kfs.module.ar.businessobject.Lockbox">
-							<property name="parseProperties">
-								<list>
-									<bean parent="FixedWidthFlatFilePropertySpecification"
-										p:propertyName="lockboxNumber" p:start="17" p:end="27" />
-									<bean parent="FixedWidthFlatFilePropertySpecification"
-										p:propertyName="scannedInvoiceDate" p:start="28" p:end="38"
-										p:formatterClass="org.kuali.rice.core.web.format.DateFormatter" />
-									<bean parent="FixedWidthFlatFilePropertySpecification"
-										p:propertyName="headerTransactionBatchTotal" p:start="48" p:end="63"
-										p:formatterClass="org.kuali.kfs.sys.businessobject.format.ExplicitKualiDecimalFormatter" />
-									<bean parent="FixedWidthFlatFilePropertySpecification"
-										p:propertyName="headerTransactionBatchCount" p:start="64" p:end="69"
-										p:formatterClass="org.kuali.rice.core.web.format.IntegerFormatter" />
-								</list>
-							</property>
-						</bean>
-						<bean parent="FlatFilePrefixObjectSpecification" 
-						    p:businessObjectClass="org.kuali.kfs.module.ar.businessobject.LockboxDetail"
-						    p:parentBusinessObjectClass="org.kuali.kfs.module.ar.businessobject.Lockbox"
-						    p:parentTargetProperty="lockboxDetails">
-							<property name="parseProperties">
-								<list>
-									<bean parent="FixedWidthFlatFilePropertySpecification"
-										p:propertyName="customerNumber" p:start="6" p:end="15"/>
-									<bean parent="FixedWidthFlatFilePropertySpecification"
-										p:propertyName="financialDocumentReferenceInvoiceNumber"
-										p:start="17" p:end="26" />
-									<bean parent="FixedWidthFlatFilePropertySpecification"
-										p:propertyName="billingDate" p:start="26" p:end="36"
-										p:formatterClass="org.kuali.rice.core.web.format.DateFormatter" />
-									<bean parent="FixedWidthFlatFilePropertySpecification"
-										p:propertyName="invoiceTotalAmount" p:start="36" p:end="51"
-										p:formatterClass="org.kuali.kfs.sys.businessobject.format.ExplicitKualiDecimalFormatter" />
-									<bean parent="FixedWidthFlatFilePropertySpecification"
-										p:propertyName="invoicePaidOrAppliedAmount" p:start="51" p:end="66"
-										p:formatterClass="org.kuali.kfs.sys.businessobject.format.ExplicitKualiDecimalFormatter" />
-									<bean parent="FixedWidthFlatFilePropertySpecification"
-										p:propertyName="customerPaymentMediumCode" p:start="66" p:end="67" />
-								</list>
-							</property>
-						</bean>
-					</list>
-				</property>
-				<property name="defaultBusinessObjectClass"
-					value="org.kuali.kfs.module.ar.businessobject.LockboxDetail" />
-			</bean>
-		</property>
-		<property name="directoryPath">
-			<value>${staging.directory}/ar/lockbox</value>
-		</property>
-		<property name="fileExtension">
-			<value>txt</value>
-		</property>
-		<property name="fileNamePrefix" value="arlockbox" />
-		<property name="fileTypeIdentifier" value="lockboxInputFileType" />
-		<property name="titleKey" value="message.batchUpload.title.lockboxLoad" />
-		<property name="processor" ref="lockboxLoadService" />
-	</bean>
-	
 	<bean id="lockboxJob" parent="scheduledJobDescriptor">
-        <property name="steps">
+		<property name="steps">
 			<list>
-				<ref bean="lockboxLoadStep" />
 				<ref bean="lockboxStep" />
 			</list>
 		</property>
-		<property name="dependencies">
-			<map>
-				<entry key="nightlyOutJob" value="hardDependency"/>
-			</map>
-		</property>
 	</bean>
-	
-	<bean id="invoiceRecurrenceJobTrigger" parent="invoiceRecurrenceJobTrigger-parentBean"/>
-    <bean id="invoiceRecurrenceJobTrigger-parentBean" parent="cronTrigger" abstract="true">
-    	<property name="jobName" value="invoiceRecurrenceJob" />
+
+	<bean id="invoiceRecurrenceJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="lockboxJob" />
 		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />
 	</bean>
-	
-	<bean id="invoiceRecurrenceStep"  parent="invoiceRecurrenceStep-parentBean"/>
-	<bean id="invoiceRecurrenceStep-parentBean" class="org.kuali.kfs.module.ar.batch.InvoiceRecurrenceStep" parent="step" abstract="true">
+
+	<bean id="invoiceRecurrenceStep" class="org.kuali.kfs.module.ar.batch.InvoiceRecurrenceStep" parent="step">
 		<property name="invoiceRecurrenceService">
 			<ref bean="invoiceRecurrenceService" />
 		</property>
 	</bean>
-	
+
 	<bean id="invoiceRecurrenceJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -599,18 +507,25 @@
 			</list>
 		</property>
 	</bean>
-		
-	<bean id="cashControlElectronicPaymentClaimingDocumentHelper"  parent="cashControlElectronicPaymentClaimingDocumentHelper-parentBean"/>
-	<bean id="cashControlElectronicPaymentClaimingDocumentHelper-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CashControlElectronicPaymentClaimingHelperImpl" abstract="true">
-		<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
-		<property name="documentService"><ref bean="documentService" /></property>
-		<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
-		<property name="cashControlDocumentService"><ref bean="cashControlDocumentService" /></property>
-		<property name="configurationService">
+
+	<bean id="cashControlElectronicPaymentClaimingDocumentHelper" class="org.kuali.kfs.module.ar.document.service.impl.CashControlElectronicPaymentClaimingHelperImpl">
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="electronicPaymentClaimingService">
+			<ref bean="electronicPaymentClaimingService" />
+		</property>
+		<property name="cashControlDocumentService">
+			<ref bean="cashControlDocumentService" />
+		</property>
+		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
-	
+
 	<bean id="customerLoadJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -618,17 +533,14 @@
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="customerLoadStep"  parent="customerLoadStep-parentBean"/>
-	<bean id="customerLoadStep-parentBean" class="org.kuali.kfs.module.ar.batch.CustomerLoadStep" parent="step" abstract="true">
+
+	<bean id="customerLoadStep" class="org.kuali.kfs.module.ar.batch.CustomerLoadStep" parent="step">
 		<property name="batchService">
 			<ref bean="customerLoadService" />
-		</property>					
-    	<property name="batchInputFileType" ref="customerLoadInputFileType"/>
+		</property>
 	</bean>
-	
-	<bean id="customerLoadService"  parent="customerLoadService-parentBean"/>
-	<bean id="customerLoadService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.CustomerLoadServiceImpl" abstract="true">
+
+	<bean id="customerLoadService" class="org.kuali.kfs.module.ar.batch.service.impl.CustomerLoadServiceImpl">
 		<property name="batchInputFileService">
 			<ref bean="batchInputFileService" />
 		</property>
@@ -653,12 +565,9 @@
 		<property name="boService">
 			<ref bean="businessObjectService" />
 		</property>
-    <property name="batchInputFileTypes">
-      <list>
-        <ref bean="customerLoadInputFileType" />
-        <ref bean="customerLoadCSVInputFileType" />
-      </list>
-    </property>
+		<property name="batchInputFileType">
+			<ref bean="customerLoadInputFileType" />
+		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
@@ -666,9 +575,8 @@
 			<value>${reports.directory}</value>
 		</property>
 	</bean>
-	
-	<bean id="customerLoadInputFileType"  parent="customerLoadInputFileType-parentBean"/>
-	<bean id="customerLoadInputFileType-parentBean" class="org.kuali.kfs.module.ar.batch.CustomerLoadInputFileType" abstract="true">
+
+	<bean id="customerLoadInputFileType" class="org.kuali.kfs.module.ar.batch.CustomerLoadInputFileType">
 		<property name="directoryPath">
 			<value>${staging.directory}/ar/customer</value>
 		</property>
@@ -681,27 +589,14 @@
 		<property name="schemaLocation">
 			<value>${externalizable.static.content.url}/xsd/ar/customer.xsd</value>
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
 		<property name="customerLoadService">
 			<ref bean="customerLoadService" />
-		</property>					
+		</property>
 	</bean>
-      
-  <bean id="customerLoadCSVInputFileType"  parent="customerLoadCSVInputFileType-parentBean"/>
-  <bean id="customerLoadCSVInputFileType-parentBean" class="org.kuali.kfs.module.ar.batch.CustomerLoadCSVInputFileType" abstract="true">
-    <property name="directoryPath">
-      <value>${staging.directory}/ar/customer</value>
-    </property>
-    <property name="fileExtension">
-      <value>csv</value>
-    </property>
-    <property name="csvEnumClass">
-      <value>org.kuali.kfs.module.ar.batch.vo.CustomerAddressCSV</value>
-    </property>         
-    <property name="customerLoadService">
-      <ref bean="customerLoadService" />
-    </property>         
-  </bean>
-    
+
 	<bean id="customerInvoiceWriteoffBatchJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -709,38 +604,35 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="customerInvoiceWriteoffBatchStep" class="org.kuali.kfs.module.ar.batch.CustomerInvoiceWriteoffBatchStep" parent="step">
 		<property name="batchService">
 			<ref bean="customerInvoiceWriteoffBatchService" />
 		</property>
-    <property name="batchInputFileType" ref="customerInvoiceWriteoffBatchInputFileType"/>					
 	</bean>
-	
-	<bean id="customerInvoiceWriteoffBatchService"  parent="customerInvoiceWriteoffBatchService-parentBean"/>
-	<bean id="customerInvoiceWriteoffBatchService-parentBean" class="org.kuali.kfs.module.ar.batch.service.impl.CustomerInvoiceWriteoffBatchServiceImpl" abstract="true">
+
+	<bean id="customerInvoiceWriteoffBatchService" class="org.kuali.kfs.module.ar.batch.service.impl.CustomerInvoiceWriteoffBatchServiceImpl">
 		<property name="batchInputFileService">
 			<ref bean="batchInputFileService" />
-		</property>					
+		</property>
 		<property name="batchInputFileType">
 			<ref bean="customerInvoiceWriteoffBatchInputFileType" />
 		</property>
 		<property name="reportsDirectory">
 			<value>${reports.directory}</value>
-		</property>		
+		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
-		</property>			
+		</property>
 		<property name="customerService">
 			<ref bean="customerService" />
-		</property>					
+		</property>
 		<property name="invoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
 		</property>
 	</bean>
-	
-	<bean id="customerInvoiceWriteoffBatchInputFileType"  parent="customerInvoiceWriteoffBatchInputFileType-parentBean"/>
-	<bean id="customerInvoiceWriteoffBatchInputFileType-parentBean" class="org.kuali.kfs.module.ar.batch.CustomerInvoiceWriteoffBatchInputFileType" abstract="true">
+
+	<bean id="customerInvoiceWriteoffBatchInputFileType" class="org.kuali.kfs.module.ar.batch.CustomerInvoiceWriteoffBatchInputFileType">
 		<property name="directoryPath">
 			<value>${staging.directory}/ar/invoiceWriteoff</value>
 		</property>
@@ -755,7 +647,7 @@
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
-		</property>					
+		</property>
 	</bean>
 
 	<bean id="customerInvoiceDocumentBatchStep" class="org.kuali.kfs.module.ar.batch.CustomerInvoiceDocumentBatchStep" parent="step">
@@ -764,49 +656,46 @@
 		</property>
 		<property name="customerInvoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
-		</property>		
+		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
-		</property>		
+		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
-		</property>					
+		</property>
 	</bean>
-		
+
 	<!-- Workflow Lookupables -->
-	
-	<bean id="customerLookupHelperService" scope="prototype" parent="customerLookupHelperService-parentBean" />
-	<bean id="customerLookupHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
-	
-    <bean id="customerLookupable"  parent="customerLookupable-parentBean" scope="prototype"/>
-    <bean id="customerLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+
+	<bean id="customerLookupHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerLookupableHelperServiceImpl" scope="prototype"
+		parent="lookupableHelperService" />
+
+	<bean id="customerLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="customerLookupHelperService" />
 		</property>
 	</bean>
-	
-    <bean id="accountsReceivablesDocumentHeaderLookupable"  parent="accountsReceivablesDocumentHeaderLookupable-parentBean" scope="prototype"/>
-    <bean id="accountsReceivablesDocumentHeaderLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"  abstract="true">
+
+	<bean id="accountsReceivablesDocumentHeaderLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="accountsReceivablesDocumentHeaderLookupHelperService" />
 		</property>
 	</bean>
-	
-	
-	<bean id="accountsReceivablesDocumentHeaderLookupHelperService" scope="prototype"  parent="accountsReceivablesDocumentHeaderLookupHelperService-parentBean"/>
-	<bean id="accountsReceivablesDocumentHeaderLookupHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ar.businessobject.lookup.AccountsReceivablesDocumentHeaderLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
+
+
+	<bean id="accountsReceivablesDocumentHeaderLookupHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.AccountsReceivablesDocumentHeaderLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService">
 		<property name="lookupService">
 			<ref bean="lookupService" />
 		</property>
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
-		</property>		
+		</property>
 	</bean>
-	
-	<!-- Report Service  -->
-	
-	<bean id="CustomerCreditMemoReportService"  parent="CustomerCreditMemoReportService-parentBean"/>
-	<bean id="CustomerCreditMemoReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.CustomerCreditMemoReportServiceImpl" abstract="true">
+
+	<!-- Report Service -->
+
+	<bean id="CustomerCreditMemoReportService" class="org.kuali.kfs.module.ar.report.service.impl.CustomerCreditMemoReportServiceImpl">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -820,9 +709,8 @@
 			<ref bean="customerCreditMemoReportInfoNoTax" />
 		</property>
 	</bean>
-	
-	<bean id="customerCreditMemoReportInfo"  parent="customerCreditMemoReportInfo-parentBean"/>
-	<bean id="customerCreditMemoReportInfo-parentBean" class="org.kuali.kfs.sys.report.ReportInfoHolder" abstract="true">
+
+	<bean id="customerCreditMemoReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Customer Credit Memo Report" />
 		<property name="reportFileName" value="customer_credit_memo" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -832,13 +720,12 @@
 		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
 		<property name="subReports">
 			<map>
-				<entry key="creditMemoDetails" value="CreditMemoDetails"/>
+				<entry key="creditMemoDetails" value="CreditMemoDetails" />
 			</map>
 		</property>
-	</bean>	
-	
-	<bean id="customerCreditMemoReportInfoNoTax"  parent="customerCreditMemoReportInfoNoTax-parentBean"/>
-	<bean id="customerCreditMemoReportInfoNoTax-parentBean" class="org.kuali.kfs.sys.report.ReportInfoHolder" abstract="true">
+	</bean>
+
+	<bean id="customerCreditMemoReportInfoNoTax" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Customer Credit Memo Report" />
 		<property name="reportFileName" value="customer_credit_memo" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -848,13 +735,12 @@
 		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
 		<property name="subReports">
 			<map>
-				<entry key="creditMemoDetailsNoTax" value="CreditMemoDetailsNoTax"/>
+				<entry key="creditMemoDetailsNoTax" value="CreditMemoDetailsNoTax" />
 			</map>
 		</property>
-	</bean>		
-	
-	<bean id="CustomerInvoiceReportService"  parent="CustomerInvoiceReportService-parentBean"/>
-	<bean id="CustomerInvoiceReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.CustomerInvoiceReportServiceImpl" abstract="true">
+	</bean>
+
+	<bean id="CustomerInvoiceReportService" class="org.kuali.kfs.module.ar.report.service.impl.CustomerInvoiceReportServiceImpl">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
@@ -868,9 +754,8 @@
 			<ref bean="customerInvoiceReportInfoNoTax" />
 		</property>
 	</bean>
-	
-	<bean id="customerInvoiceReportInfo"  parent="customerInvoiceReportInfo-parentBean"/>
-	<bean id="customerInvoiceReportInfo-parentBean" class="org.kuali.kfs.sys.report.ReportInfoHolder"  abstract="true">
+
+	<bean id="customerInvoiceReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Customer Invoice Report" />
 		<property name="reportFileName" value="customer_invoice" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -880,13 +765,12 @@
 		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
 		<property name="subReports">
 			<map>
-				<entry key="invoiceDetails" value="InvoiceDetails"/>
+				<entry key="invoiceDetails" value="InvoiceDetails" />
 			</map>
 		</property>
-	</bean>	
-	
-	<bean id="customerInvoiceReportInfoNoTax"  parent="customerInvoiceReportInfoNoTax-parentBean"/>
-	<bean id="customerInvoiceReportInfoNoTax-parentBean" class="org.kuali.kfs.sys.report.ReportInfoHolder" abstract="true">
+	</bean>
+
+	<bean id="customerInvoiceReportInfoNoTax" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Customer Invoice Report" />
 		<property name="reportFileName" value="customer_invoice" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -896,41 +780,21 @@
 		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
 		<property name="subReports">
 			<map>
-				<entry key="invoiceDetailsNoTax" value="InvoiceDetailsNoTax"/>
+				<entry key="invoiceDetailsNoTax" value="InvoiceDetailsNoTax" />
 			</map>
 		</property>
-	</bean>	
-	
-	<bean id="CustomerStatementReportService"  parent="CustomerStatementReportService-parentBean"/>
-	<bean id="CustomerStatementReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.CustomerStatementReportServiceImpl" abstract="true">
+	</bean>
+
+	<bean id="CustomerStatementReportService" class="org.kuali.kfs.module.ar.report.service.impl.CustomerStatementReportServiceImpl">
 		<property name="reportGenerationService">
 			<ref bean="reportGenerationService" />
 		</property>
 		<property name="customerStatementReportInfo">
 			<ref bean="customerStatementReportInfo" />
 		</property>
-		<property name="customerDetailStatementReportInfo">
-			<ref bean="customerDetailStatementReportInfo" />
-		</property>
 	</bean>
-	
-	<bean id="customerStatementReportInfo"  parent="customerStatementReportInfo-parentBean">
-		<property name="reportTemplateName" value="SummaryStatement" />
-		<property name="subReports">
-			<map>
-				<entry key="statementDetails" value="SubSummaryStatement"/>
-			</map>
-		</property>
-	</bean>
-	<bean id="customerDetailStatementReportInfo"  parent="customerStatementReportInfo-parentBean">
-		<property name="reportTemplateName" value="DetailStatement" />
-		<property name="subReports">
-			<map>
-				<entry key="subDetailStatement" value="SubDetailStatement"/>
-			</map>
-		</property>
-	</bean>
-	<bean id="customerStatementReportInfo-parentBean" class="org.kuali.kfs.sys.report.ReportInfoHolder" abstract="true">
+
+	<bean id="customerStatementReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Customer Statement Report" />
 		<property name="reportFileName" value="customer_statement" />
 		<property name="reportsDirectory" value="${reports.directory}/ar/" />
@@ -940,26 +804,24 @@
 		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
 		<property name="subReports">
 			<map>
-				<entry key="statementDetails" value="StatementDetails"/>
+				<entry key="statementDetails" value="StatementDetails" />
 			</map>
 		</property>
-	</bean>	
-	
-	<bean id="accountsReceivableReportService"  parent="accountsReceivableReportService-parentBean"/>
-	<bean id="accountsReceivableReportService-parentBean" class="org.kuali.kfs.module.ar.report.service.impl.AccountsReceivableReportServiceImpl" abstract="true">
+	</bean>
+
+	<bean id="accountsReceivableReportService" class="org.kuali.kfs.module.ar.report.service.impl.AccountsReceivableReportServiceImpl">
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-	</bean>	
-	
-	<bean id="arCustomerAgingReportLookupableHelperService" parent="arCustomerAgingReportLookupableHelperService-parentBean" scope="prototype"/>
-	<bean id="arCustomerAgingReportLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerAgingReportLookupableHelperServiceImpl" scope="prototype">
+	</bean>
+
+
+
+	<bean id="arCustomerAgingReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerAgingReportLookupableHelperServiceImpl"
+		scope="prototype">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -975,9 +837,7 @@
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService" />
 		</property>
-		<!--property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-			</property-->
+		<!--property name="dictionaryValidationService"> <ref bean="dictionaryValidationService" /> </property -->
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
@@ -985,17 +845,15 @@
 			<ref bean="dateTimeService" />
 		</property>
 	</bean>
-	
-<!-- 	<bean id="arCustomerAgingReportLookupable"  parent="arCustomerAgingReportLookupable-parentBean"/>  -->
-	<bean id="arCustomerAgingReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" >
+
+	<bean id="arCustomerAgingReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="arCustomerAgingReportLookupableHelperService" />
 		</property>
 	</bean>
-	
-	<bean id="arCustomerOpenItemReportLookupableHelperService"  parent="arCustomerOpenItemReportLookupableHelperService-parentBean" scope="prototype" />
-	<bean id="arCustomerOpenItemReportLookupableHelperService-parentBean" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerOpenItemReportLookupableHelperServiceImpl" scope="prototype"
-				abstract="true">
+
+	<bean id="arCustomerOpenItemReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerOpenItemReportLookupableHelperServiceImpl"
+		scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -1008,25 +866,20 @@
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService" />
 		</property>
-		<!--property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-			</property-->
+		<!--property name="dictionaryValidationService"> <ref bean="dictionaryValidationService" /> </property -->
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
 	</bean>
-	
-	<bean id="arCustomerOpenItemReportLookupable"  parent="arCustomerOpenItemReportLookupable-parentBean" scope="prototype"/>
-	<bean id="arCustomerOpenItemReportLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"  abstract="true">
+
+	<bean id="arCustomerOpenItemReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="arCustomerOpenItemReportLookupableHelperService" />
 		</property>
 	</bean>
-	
-	<bean id="customerInvoiceWriteoffLookupResultLookupableHelperService"  parent="customerInvoiceWriteoffLookupResultLookupableHelperService-parentBean" scope="prototype"/>
-	<bean id="customerInvoiceWriteoffLookupResultLookupableHelperService-parentBean" 
-				class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl" 
-				 abstract="true">
+
+	<bean id="customerInvoiceWriteoffLookupResultLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CustomerInvoiceWriteoffLookupResultLookupableHelperServiceImpl"
+		scope="prototype">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -1047,29 +900,26 @@
 		</property>
 		<property name="customerInvoiceWriteoffDocumentService">
 			<ref bean="customerInvoiceWriteoffDocumentService" />
-		</property>		
+		</property>
 	</bean>
-	
-	<bean id="customerInvoiceWriteoffLookupResultLookupable"  parent="customerInvoiceWriteoffLookupResultLookupable-parentBean" scope="prototype"/>
-	<bean id="customerInvoiceWriteoffLookupResultLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"  abstract="true">
+
+	<bean id="customerInvoiceWriteoffLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService">
 			<ref bean="customerInvoiceWriteoffLookupResultLookupableHelperService" />
 		</property>
 	</bean>
-	
-	<bean id="customerOpenItemReportService"  parent="customerOpenItemReportService-parentBean"/>
-	<bean id="customerOpenItemReportService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.CustomerOpenItemReportServiceImpl" abstract="true">
+	<bean id="customerOpenItemReportService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerOpenItemReportServiceImpl">
 		<property name="accountsReceivableDocumentHeaderDao">
 			<ref bean="accountsReceivableDocumentHeaderDao" />
 		</property>
 		<property name="workflowDocumentService">
-			<ref bean="rice.kew.workflowDocumentService" />
+			<ref bean="workflowDocumentService" />
 		</property>
 		<property name="customerInvoiceDocumentService">
 			<ref bean="customerInvoiceDocumentService" />
 		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
+		<property name="financialSystemDocumentHeaderDao">
+			<ref bean="documentHeaderDao" />
 		</property>
 		<property name="documentService">
 			<ref bean="documentService" />

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,12 +27,14 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
+import javax.swing.text.DateFormatter;
+
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.dataaccess.CustomerAgingReportDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
@@ -41,29 +43,6 @@ import org.kuali.kfs.module.ar.web.struts.CustomerAgingReportForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.core.web.format.BooleanFormatter;
-import org.kuali.rice.core.web.format.CollectionFormatter;
-import org.kuali.rice.core.web.format.DateFormatter;
-import org.kuali.rice.core.web.format.Formatter;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
-import org.kuali.rice.kns.web.ui.Column;
-import org.kuali.rice.kns.web.ui.ResultRow;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 
 public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
@@ -105,13 +84,13 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Get the search results that meet the input search criteria.
-     * 
+     *
      * @param fieldValues - Map containing prop name keys and search values
      * @return a List of found business objects
-     * 
+     *
      * KRAD Conversion: Lookupable performs customization of the results by adding to
      * search results from list of CustomerAgingReportDetail records.
-     * 
+     *
      * Fields are in data dictionary for bo CustomerAgingReportDetail.
      */
     @Override
@@ -121,11 +100,11 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
-        reportOption = (String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
-        accountNumber = (String) fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
-        processingOrBillingChartCode = (String) fieldValues.get("processingOrBillingChartOfAccountsCode");
-        accountChartCode = (String) fieldValues.get("accountChartOfAccountsCode");
-        orgCode = (String) fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
+        reportOption = fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
+        accountNumber = fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
+        processingOrBillingChartCode = fieldValues.get("processingOrBillingChartOfAccountsCode");
+        accountChartCode = fieldValues.get("accountChartOfAccountsCode");
+        orgCode = fieldValues.get(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
 
 
         total0to30 = KualiDecimal.ZERO;
@@ -137,7 +116,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
         Date today = getDateTimeService().getCurrentDate();
         try {
-            reportRunDate = dateFormat.parse((String) fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
+            reportRunDate = dateFormat.parse(fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE));
         }
         catch (ParseException e) {
             reportRunDate = today;
@@ -280,15 +259,15 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
      * @param bounded
      * @return
-     * 
+     *
      * KRAD Conversion: Lookupable performs customization of the display results.
-     * 
+     *
      * No use of data dictionary.
      */
     @Override
@@ -339,8 +318,9 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                         if (propClass == null) {
                             try {
                                 propClass = ObjectUtils.getPropertyType(element, col.getPropertyName(),    getPersistenceStructureService());
-                                if (propClass != null)
+                                if (propClass != null) {
                                     propertyTypes.put(col.getPropertyName(), propClass);
+                                }
                             } catch (Exception e) {
                                 propClass = null;
                                 LOG.warn("Failed to find property type class for "+col.getPropertyName());
@@ -439,6 +419,65 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         cutoffdate90Label = getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(CustomerAgingReportDetail.class.getName()).getAttributeDefinition(KFSConstants.CustomerAgingReport.UNPAID_BALANCE_61_TO_90).getLabel();
     }
 
+    /**
+     * This method returns the url for the paid invoice of the customer
+     *
+     * @param bo
+     * @param columnTitle
+     * @return Returns the url for the Payment Application search.
+     */
+    private String getPaymentApplicationSearchUrl(BusinessObject bo, String columnTitle) {
+        Properties params = new Properties();
+        CustomerAgingReportDetail detail = (CustomerAgingReportDetail) bo;
+        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
+        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
+        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        params.put(KFSConstants.DOCUMENT_TYPE_FULL_NAME, "APP");
+        params.put("invoiceAppliedCustomerNumber", detail.getCustomerNumber());
+        return UrlFactory.parameterizeUrl(KFSConstants.LOOKUP_ACTION, params);
+    }
+
+    /**
+     * This method returns the url for the customer write off doc search
+     *
+     * @param bo
+     * @param columnTitle
+     * @return Returns the Url for the customer write off doc search
+     */
+    private String getCustomerWriteoffSearchUrl(BusinessObject bo, String columnTitle) {
+        Properties params = new Properties();
+        CustomerAgingReportDetail detail = (CustomerAgingReportDetail) bo;
+        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
+        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
+        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        params.put(KFSConstants.DOCUMENT_TYPE_FULL_NAME, "INVW");
+        params.put(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER, detail.getCustomerNumber());
+        return UrlFactory.parameterizeUrl(KFSConstants.LOOKUP_ACTION, params);
+    }
+
+    /**
+     * This method returns the customer lookup url
+     *
+     * @param bo business object
+     * @param columnTitle
+     * @return Returns the url for the customer lookup
+     */
+    private String getCustomerLookupUrl(BusinessObject bo, String columnTitle) {
+        Properties params = new Properties();
+        CustomerAgingReportDetail detail = (CustomerAgingReportDetail) bo;
+        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, Customer.class.getName());
+        params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
+        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
+        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        params.put(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER, detail.getCustomerNumber());
+        params.put(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NAME, detail.getCustomerName());
+        return UrlFactory.parameterizeUrl(KFSConstants.LOOKUP_ACTION, params);
+    }
+
+
     private String getCustomerOpenItemReportUrl(BusinessObject bo, String columnTitle) {
 
         CustomerAgingReportDetail detail = (CustomerAgingReportDetail) bo;
@@ -489,7 +528,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * This method...
-     * 
+     *
      * @return
      */
     public DateTimeService getDateTimeService() {
@@ -501,7 +540,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * This method...
-     * 
+     *
      * @param dateTimeService
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -510,7 +549,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Gets the total0to30 attribute.
-     * 
+     *
      * @return Returns the total0to30.
      */
     public KualiDecimal getTotal0to30() {
@@ -519,7 +558,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Sets the total0to30 attribute value.
-     * 
+     *
      * @param total0to30 The total0to30 to set.
      */
     public void setTotal0to30(KualiDecimal total0to30) {
@@ -528,7 +567,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Gets the total31to60 attribute.
-     * 
+     *
      * @return Returns the total31to60.
      */
     public KualiDecimal getTotal31to60() {
@@ -537,7 +576,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Sets the total31to60 attribute value.
-     * 
+     *
      * @param total31to60 The total31to60 to set.
      */
     public void setTotal31to60(KualiDecimal total31to60) {
@@ -546,7 +585,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Gets the total61to90 attribute.
-     * 
+     *
      * @return Returns the total61to90.
      */
     public KualiDecimal getTotal61to90() {
@@ -555,7 +594,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Sets the total61to90 attribute value.
-     * 
+     *
      * @param total61to90 The total61to90 to set.
      */
     public void setTotal61to90(KualiDecimal total61to90) {
@@ -564,7 +603,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Gets the total91toSYSPR attribute.
-     * 
+     *
      * @return Returns the total91toSYSPR.
      */
     public KualiDecimal getTotal91toSYSPR() {
@@ -573,7 +612,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Sets the total91toSYSPR attribute value.
-     * 
+     *
      * @param total91toSYSPR The total91toSYSPR to set.
      */
     public void setTotal91toSYSPR(KualiDecimal total91toSYSPR) {
@@ -582,7 +621,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Gets the totalSYSPRplus1orMore attribute.
-     * 
+     *
      * @return Returns the totalSYSPRplus1orMore.
      */
     public KualiDecimal getTotalSYSPRplus1orMore() {
@@ -591,7 +630,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     /**
      * Sets the totalSYSPRplus1orMore attribute value.
-     * 
+     *
      * @param totalSYSPRplus1orMore The totalSYSPRplus1orMore to set.
      */
     public void setTotalSYSPRplus1orMore(KualiDecimal totalSYSPRplus1orMore) {
@@ -599,7 +638,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param agingReportDao
      * @param begin
@@ -620,7 +659,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param agingReportDao
      * @param begin
@@ -641,7 +680,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param agingReportDao
      * @param begin
@@ -662,7 +701,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param agingReportDao
      * @param begin
@@ -683,7 +722,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param agingReportDao
      * @param begin
@@ -704,7 +743,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param agingReportDao
      * @param begin
@@ -725,7 +764,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param agingReportDao
      * @param begin
@@ -746,7 +785,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param agingReportDao
      * @param begin
@@ -767,7 +806,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param agingReportDao
      * @param begin
@@ -788,7 +827,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param agingReportDao
      * @param begin
@@ -809,7 +848,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param agingReportDao
      * @param begin
@@ -830,7 +869,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param agingReportDao
      * @param begin
@@ -851,7 +890,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param agingReportDao
      * @param begin
@@ -872,7 +911,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param agingReportDao
      * @param begin
@@ -893,7 +932,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param agingReportDao
      * @param begin
@@ -914,7 +953,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param knownCustomers
      * @param customer
@@ -932,7 +971,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     }
 
     /**
-     * 
+     *
      * This method...
      * @param amountMap
      * @param customer
@@ -940,6 +979,52 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
      */
     private KualiDecimal replaceNull(HashMap<String, KualiDecimal> amountMap, String customer) {
         return amountMap.get(customer) != null ? amountMap.get(customer) : KualiDecimal.ZERO;
+    }
+
+    /**
+     * This method calculates the total amount for customer
+     *
+     * @param customerInvoiceDocuments
+     * @return Returns invoice total amount for customer
+     */
+    private KualiDecimal getCustomerTotalAmount(List<CustomerInvoiceDocument> customerInvoiceDocuments) {
+        KualiDecimal customerTotalAmount = KualiDecimal.ZERO;
+        for (CustomerInvoiceDocument customerInvoiceDocument : customerInvoiceDocuments) {
+            customerTotalAmount = customerTotalAmount.add(customerInvoiceDocument.getSourceTotal());
+        }
+        return customerTotalAmount;
+    }
+
+    /**
+     * This method calculates the total paid amount for customer
+     *
+     * @param customerInvoiceDocuments
+     * @return Returns invoice total paid amount for customer
+     */
+    private KualiDecimal getCustomerTotalPaidAmount(List<CustomerInvoiceDocument> customerInvoiceDocuments) {
+        KualiDecimal customerTotalAmount = KualiDecimal.ZERO;
+        for (CustomerInvoiceDocument customerInvoiceDocument : customerInvoiceDocuments) {
+            // fetch paid amount for customer
+            Collection<InvoicePaidApplied> invoiceApplied = invoicePaidAppliedService.getInvoicePaidAppliedsForInvoice(customerInvoiceDocument);
+            if (ObjectUtils.isNotNull(invoiceApplied) && !invoiceApplied.isEmpty()) {
+                for (InvoicePaidApplied invoicePaidApplied : invoiceApplied) {
+                    customerTotalAmount = customerTotalAmount.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
+                }
+            }
+        }
+        return customerTotalAmount;
+    }
+
+    /**
+     * This method retrives the agecy for particular customer
+     *
+     * @param customerNumber
+     * @return Returns the agency for the customer
+     */
+    private ContractsAndGrantsCGBAgency getAgencyByCustomer(String customerNumber) {
+        Map args = new HashMap();
+        args.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
+        return (ContractsAndGrantsCGBAgency) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAgency.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAgency.class, args);
     }
 
 }

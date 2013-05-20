@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+        
+  <!--  This is the data dictionary file which provides the  lookup, inquiry, attribute and property definition for Suspension Category -->
+
+	<bean id="SuspensionCategory" parent="SuspensionCategory-parentBean" />
+
+	<bean id="SuspensionCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.SuspensionCategory" />
+		<property name="inquiryDefinition">
+			<ref bean="SuspensionCategory-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="SuspensionCategory-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="suspensionCategory" />
+		<property name="objectLabel" value="Suspension Category" />
+		<property name="attributes">
+			<list>
+				<ref bean="SuspensionCategory-suspensionCategoryCode" />
+				<ref bean="SuspensionCategory-suspensionCategoryDescription" />
+				<ref bean="SuspensionCategory-active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+
+	<bean id="SuspensionCategory-suspensionCategoryCode" parent="SuspensionCategory-suspensionCategoryCode-parentBean" />
+
+	<bean id="SuspensionCategory-suspensionCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="suspensionCategoryCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Suspension Category Code" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+	</bean>
+
+	<bean id="SuspensionCategory-suspensionCategoryDescription" parent="SuspensionCategory-suspensionCategoryDescription-parentBean" />
+
+	<bean id="SuspensionCategory-suspensionCategoryDescription-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="suspensionCategoryDescription" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Suspension Category Description" />
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="200" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextareaControlDefinition" p:rows="2" p:cols="100"/>
+		</property>
+	</bean>
+
+	<bean id="SuspensionCategory-active" parent="SuspensionCategory-active-parentBean" />
+
+	<bean id="SuspensionCategory-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+
+	<bean id="SuspensionCategory-inquiryDefinition" parent="SuspensionCategory-inquiryDefinition-parentBean" />
+
+	<bean id="SuspensionCategory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Suspension Category Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="Suspension Category Inquiry" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="suspensionCategoryCode" />
+							<bean parent="FieldDefinition" p:attributeName="suspensionCategoryDescription" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="SuspensionCategory-lookupDefinition" parent="SuspensionCategory-lookupDefinition-parentBean" />
+
+	<bean id="SuspensionCategory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Suspension Category Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="suspensionCategoryCode" />
+				<bean parent="FieldDefinition" p:attributeName="suspensionCategoryDescription" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="suspensionCategoryCode" />
+				<bean parent="FieldDefinition" p:attributeName="suspensionCategoryDescription" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+</beans>

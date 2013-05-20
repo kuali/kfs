@@ -2,18 +2,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-	<!--
-		Copyright 2006-2009 The Kuali Foundation Licensed under the
-		Educational Community License, Version 2.0 (the "License"); you may
-		not use this file except in compliance with the License. You may
-		obtain a copy of the License at
-		http://www.opensource.org/licenses/ecl2.php Unless required by
-		applicable law or agreed to in writing, software distributed under the
-		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-		CONDITIONS OF ANY KIND, either express or implied. See the License for
-		the specific language governing permissions and limitations under the
-		License.
-	-->
+	
+	<!-- Copyright 2006-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
 	<bean id="AwardAccount" parent="AwardAccount-parentBean" />
 
 	<bean id="AwardAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
@@ -36,6 +34,9 @@
 				<ref bean="AwardAccount-chartOfAccountsCode" />
 				<ref bean="AwardAccount-accountNumber" />
 				<ref bean="AwardAccount-account.accountName" />
+				<ref bean="AwardAccount-account.accountExpirationDate" />
+				<ref bean="AwardAccount-currentLastBilledDate" />
+				<ref bean="AwardAccount-finalBilled" />
 				<ref bean="AwardAccount-award.proposal.federalPassThroughAgencyNumber" />
 				<ref
 					bean="AwardAccount-award.proposal.proposalFederalPassThroughIndicator" />
@@ -122,6 +123,38 @@
 		parent="Account-accountName">
 		<property name="name" value="account.accountName" />
 	</bean>
+
+	<bean id="AwardAccount-account.accountExpirationDate" parent="AwardAccount-account.accountExpirationDate-parentBean" />
+
+	<bean id="AwardAccount-account.accountExpirationDate-parentBean"
+		abstract="true" parent="Account-accountExpirationDate">
+		<property name="name" value="account.accountExpirationDate" />
+	</bean>
+
+	<bean id="AwardAccount-currentLastBilledDate" parent="AwardAccount-currentLastBilledDate-parentBean" />
+
+	<bean id="AwardAccount-currentLastBilledDate-parentBean" abstract="true"
+		parent="GenericAttributes-genericDate">
+		<property name="name" value="currentLastBilledDate" />
+		<property name="label" value="Last Billed Date" />
+		<property name="shortLabel" value="last billed" />
+	</bean>
+
+	<bean id="AwardAccount-finalBilled" parent="AwardAccount-finalBilled-parentBean" />
+
+	<bean id="AwardAccount-finalBilled-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="finalBilled" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Final Billed" />
+		<property name="shortLabel" value="FinalBilled" />
+		<property name="maxLength" value="1" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+	</bean>
+
 	<bean id="AwardAccount-award.proposal.federalPassThroughAgencyNumber"
 		parent="AwardAccount-award.proposal.federalPassThroughAgencyNumber-parentBean" />
 

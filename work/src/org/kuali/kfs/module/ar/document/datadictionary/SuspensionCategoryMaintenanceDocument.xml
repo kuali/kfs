@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+	<!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="SuspensionCategoryMaintenanceDocument" parent="SuspensionCategoryMaintenanceDocument-parentBean" />
+
+	<bean id="SuspensionCategoryMaintenanceDocument-parentBean"
+		abstract="true" parent="MaintenanceDocumentEntry"
+		p:businessObjectClass="org.kuali.kfs.module.ar.businessobject.SuspensionCategory"
+		p:maintainableClass="org.kuali.kfs.sys.document.FinancialSystemMaintainable">
+		<property name="maintainableSections">
+			<list>
+				<ref bean="SuspensionCategoryMaintenanceDocument-Edit" />
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>suspensionCategoryCode</value>
+			</list>
+		</property>
+
+		<property name="documentTypeName" value="SUSPCAT" />
+		<property name="documentAuthorizerClass"
+			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+		<property name="workflowAttributes"
+			ref="SuspensionCategoryMaintenanceDocument-workflowAttributes" />
+	</bean>
+
+	<!-- Maintenance Section Definitions -->
+	<bean id="SuspensionCategoryMaintenanceDocument-Edit" parent="SuspensionCategoryMaintenanceDocument-Edit-parentBean" />
+
+	<bean id="SuspensionCategoryMaintenanceDocument-Edit-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Edit Suspension Category" />
+		<property name="title" value="Edit Suspension Category" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="suspensionCategoryCode"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="suspensionCategoryDescription"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="active"
+					p:defaultValue="true" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- workflow attributes -->
+	<bean id="SuspensionCategoryMaintenanceDocument-workflowAttributes"
+		parent="SuspensionCategoryMaintenanceDocument-workflowAttributes-parentBean" />
+
+	<bean
+		id="SuspensionCategoryMaintenanceDocument-workflowAttributes-parentBean"
+		class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true" />
+
+</beans>

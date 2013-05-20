@@ -42,6 +42,8 @@ function onblur_subcontractorNumber( subcontractorNumberField ) {
 
 function onblur_agencyNumber( agencyNumberField ) {
     singleKeyLookup( AgencyService.getByPrimaryId, agencyNumberField, "agency", "fullName" );
+    singleKeyLookup( AgencyService.getByPrimaryId, agencyNumberField, "agency", "dunningCampaign" );
+    
 }
 
 function onblur_federalPassThroughAgencyNumber( federalPassThroughAgencyNumberField ) {

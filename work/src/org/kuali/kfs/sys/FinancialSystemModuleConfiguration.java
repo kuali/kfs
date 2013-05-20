@@ -17,7 +17,9 @@ package org.kuali.kfs.sys;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMaker;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
@@ -28,15 +30,53 @@ import org.kuali.rice.krad.bo.ModuleConfiguration;
 public class FinancialSystemModuleConfiguration extends ModuleConfiguration {
     protected List<FiscalYearMaker> fiscalYearMakers;
     protected List<String> batchFileDirectories;
-    
+    protected Map<String, String> templateFileDirectories;
+
+    /**
+     * Gets the templateFileDirectories attribute.
+     * 
+     * @return Returns the templateFileDirectories.
+     */
+    public Map<String, String> getTemplateFileDirectories() {
+        return templateFileDirectories;
+    }
+
+    /**
+     * Sets the templateFileDirectories attribute value.
+     * 
+     * @param templateFileDirectories The templateFileDirectories to set.
+     */
+    public void setTemplateFileDirectories(Map<String, String> templateFileDirectories) {
+        if (templateFileDirectories == null) {
+            this.templateFileDirectories = new HashMap<String, String>();
+        }
+        else {
+            this.templateFileDirectories = templateFileDirectories;
+            for (String templateFileDirectory : this.templateFileDirectories.values()) {
+                File directory = new File(templateFileDirectory);
+                if (!directory.exists()) {
+                    if (!directory.mkdirs()) {
+                        throw new RuntimeException(templateFileDirectory + " does not exist and the server was unable to create it.");
+                    }
+                }
+                else {
+                    if (!directory.isDirectory()) {
+                        throw new RuntimeException(templateFileDirectory + " exists but is not a directory.");
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Constructs a FinancialSystemModuleConfiguration.java.
      */
     public FinancialSystemModuleConfiguration() {
         super();
-        
+
         fiscalYearMakers = new ArrayList<FiscalYearMaker>();
         batchFileDirectories = new ArrayList<String>();
+        templateFileDirectories = new HashMap<String, String>();
     }
 
     /**
@@ -56,23 +96,28 @@ public class FinancialSystemModuleConfiguration extends ModuleConfiguration {
     public void setFiscalYearMakers(List<FiscalYearMaker> fiscalYearMakers) {
         this.fiscalYearMakers = fiscalYearMakers;
     }
-    
+
     public List<String> getBatchFileDirectories() {
         return batchFileDirectories;
     }
-    
+
+    /**
+     * @param batchFileDirectories
+     */
     public void setBatchFileDirectories(List<String> batchFileDirectories) {
         if (batchFileDirectories == null) {
             this.batchFileDirectories = new ArrayList<String>();
-        } else {
+        }
+        else {
             this.batchFileDirectories = batchFileDirectories;
             for (String batchFileDirectory : this.batchFileDirectories) {
                 File directory = new File(batchFileDirectory);
-                if ( !directory.exists() ) {
-                    if ( !directory.mkdirs() ) {
-                        throw new RuntimeException( batchFileDirectory + " does not exist and the server was unable to create it." );
+                if (!directory.exists()) {
+                    if (!directory.mkdirs()) {
+                        throw new RuntimeException(batchFileDirectory + " does not exist and the server was unable to create it.");
                     }
-                } else {
+                }
+                else {
                     if (!directory.isDirectory()) {
                         throw new RuntimeException(batchFileDirectory + " exists but is not a directory.");
                     }

@@ -28,7 +28,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectTypeService;
@@ -79,32 +78,9 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.action.ActionTaken;
-import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.identity.address.EntityAddress;
-import org.kuali.rice.kim.api.identity.entity.Entity;
-import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.document.Copyable;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This is the business object that represents the DisbursementVoucher document in Kuali.
@@ -1329,6 +1305,36 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
+     * Clears information that might have been entered for sub tables, but because of changes to the document is longer needed and
+     * should not be persisted.
+     */
+    protected void cleanDocumentData() {
+        // TODO: warren: this method ain't called!!! maybe this should be called by prepare for save above
+        if (!DisbursementVoucherConstants.PAYMENT_METHOD_WIRE.equals(this.getDisbVchrPaymentMethodCode()) && !DisbursementVoucherConstants.PAYMENT_METHOD_DRAFT.equals(this.getDisbVchrPaymentMethodCode())) {
+            getBusinessObjectService().delete(dvWireTransfer);
+            dvWireTransfer = null;
+        }
+
+        if (!dvPayeeDetail.isDisbVchrAlienPaymentCode()) {
+            getBusinessObjectService().delete(dvNonResidentAlienTax);
+            dvNonResidentAlienTax = null;
+        }
+
+        DisbursementVoucherPaymentReasonService paymentReasonService = SpringContext.getBean(DisbursementVoucherPaymentReasonService.class);
+        String paymentReasonCode = this.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
+        if (!paymentReasonService.isNonEmployeeTravelPaymentReason(paymentReasonCode)) {
+            getBusinessObjectService().delete(dvNonEmployeeTravel);
+            dvNonEmployeeTravel = null;
+        }
+
+        if (!paymentReasonService.isPrepaidTravelPaymentReason(paymentReasonCode)) {
+            getBusinessObjectService().delete(dvPreConferenceDetail);
+            dvPreConferenceDetail = null;
+        }
+    }
+
+
+    /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#toCopy()
      */
     @Override
@@ -1744,6 +1750,16 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         this.disbVchrPdpBankCode = disbVchrPdpBankCode;
     }
 
+    /* Start TEM REFUND Merge */
+    public boolean isRefundIndicator() {
+        return refundIndicator;
+    }
+
+    public void setRefundIndicator(boolean refundIndicator) {
+        this.refundIndicator = refundIndicator;
+    }
+    /* End TEM REFUND Merge */
+
     /**
      * @return whether this document should be paid out immediately from PDP
      */
@@ -2026,6 +2042,14 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             vendorService = SpringContext.getBean(VendorService.class);
         }
         return vendorService;
+    }
+
+    @Override
+    protected BusinessObjectService getBusinessObjectService() {
+        if ( businessObjectService == null ) {
+            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return businessObjectService;
     }
 
     /**

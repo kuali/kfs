@@ -787,7 +787,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
 
     /**
      * Gets the disbVchrPayeeCountry attribute.
-     *
      * @return Returns the disbVchrPayeeCountry.
      */
     public CountryEbo getDisbVchrPayeeCountry() {

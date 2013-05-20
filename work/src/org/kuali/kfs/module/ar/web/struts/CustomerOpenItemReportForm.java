@@ -17,6 +17,35 @@ package org.kuali.kfs.module.ar.web.struts;
 
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
+/**
+ * Form class for Customer open item Report.
+ */
 public class CustomerOpenItemReportForm extends LookupForm {
 
+    protected String htmlFormAction;
+
+    /**
+     * Gets the htmlFormAction.
+     * 
+     * @return Returns the htmlFormAction.
+     */
+    public String getHtmlFormAction() {
+        return htmlFormAction;
+    }
+
+    /**
+     * Sets the htmlFormAction.
+     * 
+     * @param htmlFormAction The htmlFormAction.
+     */
+    public void setHtmlFormAction(String htmlFormAction) {
+        this.htmlFormAction = htmlFormAction;
+    }
+
+    /**
+     * Default constructor.
+     */
+    public CustomerOpenItemReportForm() {
+        setHtmlFormAction("arCustomerOpenItemReportLookup");
+    }
 }

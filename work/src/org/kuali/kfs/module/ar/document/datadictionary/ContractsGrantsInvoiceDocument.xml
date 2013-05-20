@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!-- Copyright 2008-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="ContractsGrantsInvoiceDocument" parent="ContractsGrantsInvoiceDocument-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-parentBean" abstract="true"
+		parent="TransactionalDocumentEntry">
+
+
+		<property name="documentTypeName" value="CGIN" />
+		<property name="documentClass"
+			value="org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument" />
+		<property name="businessRulesClass"
+			value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase" />
+		<property name="documentAuthorizerClass"
+			value="org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceDocumentAuthorizer" />
+		<property name="documentPresentationControllerClass"
+			value="org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceDocumentPresentationController" />
+		<property name="allowsCopy" value="true" />
+
+		<property name="accountingLineGroups">
+			<map>
+				<entry>
+					<key>
+						<value>source</value>
+					</key>
+					<ref bean="ContractsGrantsInvoiceDocument-sourceAccountingLineGroup"
+						parent="CustomerInvoiceDocument-sourceAccountingLineGroup" />
+				</entry>
+			</map>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref
+					bean="ContractsGrantsInvoiceDocument-documentHeader.documentDescription" />
+				<ref bean="ContractsGrantsInvoiceDocument-proposalNumber" />
+				<ref bean="ContractsGrantsInvoiceDocument-documentNumber" />
+				<ref bean="ContractsGrantsInvoiceDocument-invoiceHeaderText" />
+				<ref bean="ContractsGrantsInvoiceDocument-invoiceAttentionLineText" />
+				<ref bean="ContractsGrantsInvoiceDocument-invoiceDueDate" />
+				<ref bean="ContractsGrantsInvoiceDocument-billingDate" />
+				<ref bean="ContractsGrantsInvoiceDocument-printDate" />
+				<ref bean="ContractsGrantsInvoiceDocument-invoiceTermsText" />
+				<ref bean="ContractsGrantsInvoiceDocument-organizationInvoiceNumber" />
+				<ref bean="ContractsGrantsInvoiceDocument-parentInvoiceNumber" />
+				<ref bean="ContractsGrantsInvoiceDocument-customerPurchaseOrderNumber" />
+				<ref bean="ContractsGrantsInvoiceDocument-printInvoiceIndicator" />
+				<ref bean="ContractsGrantsInvoiceDocument-customerPurchaseOrderDate" />
+				<ref bean="ContractsGrantsInvoiceDocument-billByChartOfAccountCode" />
+				<ref bean="ContractsGrantsInvoiceDocument-billedByOrganizationCode" />
+				<ref
+					bean="ContractsGrantsInvoiceDocument-customerShipToAddressIdentifier" />
+				<ref
+					bean="ContractsGrantsInvoiceDocument-customerBillToAddressIdentifier" />
+				<ref bean="ContractsGrantsInvoiceDocument-customerSpecialProcessingCode" />
+				<ref
+					bean="ContractsGrantsInvoiceDocument-customerRecordAttachmentIndicator" />
+				<ref bean="ContractsGrantsInvoiceDocument-openInvoiceIndicator" />
+				<ref bean="ContractsGrantsInvoiceDocument-sourceTotal" />
+				<ref bean="ContractsGrantsInvoiceDocument-paymentChartOfAccountsCode" />
+				<ref bean="ContractsGrantsInvoiceDocument-paymentFinancialObjectCode" />
+				<ref bean="ContractsGrantsInvoiceDocument-paymentAccountNumber" />
+				<ref
+					bean="ContractsGrantsInvoiceDocument-paymentOrganizationReferenceIdentifier" />
+				<ref bean="ContractsGrantsInvoiceDocument-paymentSubAccountNumber" />
+				<ref bean="ContractsGrantsInvoiceDocument-paymentProjectCode" />
+				<ref bean="ContractsGrantsInvoiceDocument-paymentFinancialSubObjectCode" />
+				<ref bean="ContractsGrantsInvoiceDocument-billingDateForDisplay" />
+				<ref bean="ContractsGrantsInvoiceDocument-versionNumber" />
+				<ref bean="ContractsGrantsInvoiceDocument-openAmount" />
+				<ref bean="ContractsGrantsInvoiceDocument-age" />
+				<ref bean="ContractsGrantsInvoiceDocument-customerName" />
+				<ref bean="ContractsGrantsInvoiceDocument-billingAddressName" />
+				<ref bean="ContractsGrantsInvoiceDocument-billingCityName" />
+				<ref bean="ContractsGrantsInvoiceDocument-billingStateCode" />
+				<ref bean="ContractsGrantsInvoiceDocument-billingZipCode" />
+				<ref bean="ContractsGrantsInvoiceDocument-billingCountryCode" />
+				<ref
+					bean="ContractsGrantsInvoiceDocument-billingAddressInternationalProvinceName" />
+				<ref bean="ContractsGrantsInvoiceDocument-billingInternationalMailCode" />
+				<ref bean="ContractsGrantsInvoiceDocument-billingEmailAddress" />
+				<ref bean="ContractsGrantsInvoiceDocument-billingAddressTypeCode" />
+				<ref bean="ContractsGrantsInvoiceDocument-shippingAddressName" />
+				<ref bean="ContractsGrantsInvoiceDocument-shippingCityName" />
+				<ref bean="ContractsGrantsInvoiceDocument-shippingStateCode" />
+				<ref bean="ContractsGrantsInvoiceDocument-shippingZipCode" />
+				<ref bean="ContractsGrantsInvoiceDocument-shippingCountryCode" />
+				<ref
+					bean="ContractsGrantsInvoiceDocument-shippingAddressInternationalProvinceName" />
+				<ref bean="ContractsGrantsInvoiceDocument-shippingInternationalMailCode" />
+				<ref bean="ContractsGrantsInvoiceDocument-shippingEmailAddress" />
+				<ref bean="ContractsGrantsInvoiceDocument-shippingAddressTypeCode" />
+				<ref bean="ContractsGrantsInvoiceDocument-billingLine1StreetAddress" />
+				<ref bean="ContractsGrantsInvoiceDocument-billingLine2StreetAddress" />
+				<ref bean="ContractsGrantsInvoiceDocument-shippingLine1StreetAddress" />
+				<ref bean="ContractsGrantsInvoiceDocument-shippingLine2StreetAddress" />
+				<ref bean="ContractsGrantsInvoiceDocument-recurredInvoiceIndicator" />
+				<ref bean="ContractsGrantsInvoiceDocument-referralTypeCode" />
+				<ref bean="ContractsGrantsInvoiceDocument-finalDispositionCode" />
+			</list>
+		</property>
+		<property name="validationMap" ref="ContractsGrantsInvoiceDocument-validations" />
+		<property name="workflowAttributes">
+			<ref bean="ContractsGrantsInvoiceDocument-workflowAttributes" />
+		</property>
+	</bean>
+
+
+	<!-- Attribute Definitions -->
+	<bean id="ContractsGrantsInvoiceDocument-sourceAccountingLineGroup"
+		parent="ContractsGrantsInvoiceDocument-sourceAccountingLineGroup-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-sourceAccountingLineGroup-parentBean"
+		parent="CustomerInvoiceDocument-sourceAccountingLineGroup" abstract="true">
+		<property name="accountingLineView"
+			ref="AccountsReceivable-CustomerInvoice-accountingLineView" />
+		<property name="accountingLineClass"
+			value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail" />
+		<property name="groupLabel" value="Source" />
+		<property name="accountingLineAuthorizerClass"
+			value="org.kuali.kfs.module.ar.document.authorization.CustomerInvoiceDocumentSourceLinesAuthorizer" />
+		<property name="importedLinePropertyPrefix" value="source" />
+		<property name="totals" ref="AccountingDocument-sourceGroupTotals" />
+		<property name="errorKey"
+			value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*" /> <!-- note people copying this: AV and JV have extra things that belong here -->
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceDocument-documentNumber"
+		parent="ContractsGrantsInvoiceDocument-documentNumber-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-documentNumber-parentBean"
+		abstract="true" parent="DocumentHeader-documentNumber" >
+		<property name="maxLength" value="14"/>
+		</bean>
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-documentHeader.documentDescription"
+		parent="ContractsGrantsInvoiceDocument-documentHeader.documentDescription-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-documentHeader.documentDescription-parentBean"
+		abstract="true" parent="DocumentHeader-documentDescription">
+		<property name="name" value="documentHeader.documentDescription" />
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-proposalNumber"
+		parent="ContractsGrantsInvoiceDocument-proposalNumber-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-proposalNumber-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="proposalNumber" />
+		<property name="label" value="Proposal Number" />
+		<property name="shortLabel" value="Proposal Number" />
+		<property name="maxLength" value="10" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="12" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceDocument-invoiceHeaderText"
+		parent="ContractsGrantsInvoiceDocument-invoiceHeaderText-parentBean" />
+	<bean id="ContractsGrantsInvoiceDocument-invoiceHeaderText-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="invoiceHeaderText" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Header Text" />
+		<property name="shortLabel" value="Header" />
+		<property name="maxLength" value="120" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceDocument-age" parent="ContractsGrantsInvoiceDocument-age-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-age-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="age" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Age" />
+		<property name="shortLabel" value="Age" />
+		<property name="maxLength" value="5" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="5" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceDocument-invoiceAttentionLineText"
+		parent="ContractsGrantsInvoiceDocument-invoiceAttentionLineText-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-invoiceAttentionLineText-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="invoiceAttentionLineText" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Attention Line Text" />
+		<property name="shortLabel" value="Attention Line" />
+		<property name="maxLength" value="80" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="80" />
+		</property>
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-invoiceDueDate"
+		parent="ContractsGrantsInvoiceDocument-invoiceDueDate-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-invoiceDueDate-parentBean"
+		abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="invoiceDueDate" />
+		<property name="label" value="Due Date" />
+		<property name="shortLabel" value="Due Date" />
+		<property name="required" value="true" />
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-billingDate" parent="ContractsGrantsInvoiceDocument-billingDate-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-billingDate-parentBean"
+		abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="billingDate" />
+		<property name="label" value="Billing Date" />
+		<property name="shortLabel" value="Billing Date" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-printDate" parent="ContractsGrantsInvoiceDocument-printDate-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-printDate-parentBean"
+		abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="printDate" />
+		<property name="label" value="Print Date" />
+		<property name="shortLabel" value="Print Date" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-invoiceTermsText"
+		parent="ContractsGrantsInvoiceDocument-invoiceTermsText-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-invoiceTermsText-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="invoiceTermsText" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Terms" />
+		<property name="shortLabel" value="Terms" />
+		<property name="maxLength" value="40" />
+		<property name="required" value="false" />
+		<property name="control">
+			<ref bean="StandardNameTextControl" />
+		</property>
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-organizationInvoiceNumber"
+		parent="ContractsGrantsInvoiceDocument-organizationInvoiceNumber-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-organizationInvoiceNumber-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="organizationInvoiceNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Organization Invoice Number" />
+		<property name="shortLabel" value="Invoice Number" />
+		<property name="maxLength" value="9" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="9" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceDocument-parentInvoiceNumber"
+		parent="ContractsGrantsInvoiceDocument-parentInvoiceNumber-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-parentInvoiceNumber-parentBean"
+		abstract="true" parent="DocumentHeader-documentTemplateNumber">
+		<property name="name" value="parentInvoiceNumber" />
+		<property name="label" value="Parent Invoice Number" />
+		<property name="shortLabel" value="Parent Invoice Number" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="14" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceDocument-customerPurchaseOrderNumber"
+		parent="ContractsGrantsInvoiceDocument-customerPurchaseOrderNumber-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-customerPurchaseOrderNumber-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="customerPurchaseOrderNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Customer Purchase Order Number" />
+		<property name="shortLabel" value="P.O. Number" />
+		<property name="maxLength" value="25" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="25" />
+		</property>
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-printInvoiceIndicator"
+		parent="ContractsGrantsInvoiceDocument-printInvoiceIndicator-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-printInvoiceIndicator-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="printInvoiceIndicator" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Print Invoice Indicator" />
+		<property name="shortLabel" value="Print Inv Ind" />
+		<property name="maxLength" value="1" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.PrintInvoiceOptionsValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceDocument-customerPurchaseOrderDate"
+		parent="ContractsGrantsInvoiceDocument-customerPurchaseOrderDate-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-customerPurchaseOrderDate-parentBean"
+		abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="customerPurchaseOrderDate" />
+		<property name="label" value="Customer Purchase Order Date" />
+		<property name="shortLabel" value="P.O. Date" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-billByChartOfAccountCode"
+		parent="ContractsGrantsInvoiceDocument-billByChartOfAccountCode-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-billByChartOfAccountCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="name" value="billByChartOfAccountCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Billing Chart Code" />
+		<property name="shortLabel" value="Billing Chart" />
+		<property name="control">
+			<ref bean="ChartSelectControl" />
+		</property>
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-billedByOrganizationCode"
+		parent="ContractsGrantsInvoiceDocument-billedByOrganizationCode-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-billedByOrganizationCode-parentBean"
+		abstract="true" parent="Organization-organizationCode">
+		<property name="name" value="billedByOrganizationCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Billing Organization Code" />
+		<property name="shortLabel" value="Billing Org Code" />
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-customerShipToAddressIdentifier"
+		parent="ContractsGrantsInvoiceDocument-customerShipToAddressIdentifier-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-customerShipToAddressIdentifier-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="customerShipToAddressIdentifier" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Ship To Address Identifier" />
+		<property name="shortLabel" value="Ship To Add Id" />
+		<property name="maxLength" value="5" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="7" />
+		</property>
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-customerBillToAddressIdentifier"
+		parent="ContractsGrantsInvoiceDocument-customerBillToAddressIdentifier-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-customerBillToAddressIdentifier-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="customerBillToAddressIdentifier" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Bill To Address Identifier" />
+		<property name="shortLabel" value="Bill To Add Id" />
+		<property name="maxLength" value="5" />
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="7" />
+		</property>
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-customerSpecialProcessingCode"
+		parent="ContractsGrantsInvoiceDocument-customerSpecialProcessingCode-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-customerSpecialProcessingCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="customerSpecialProcessingCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Special Processing Code" />
+		<property name="shortLabel" value="Special Processing" />
+		<property name="maxLength" value="2" />
+		<property name="required" value="false" />
+		<property name="control">
+			<ref bean="TwoCharacterTextControl" />
+		</property>
+	</bean>
+	<bean
+		id="ContractsGrantsInvoiceDocument-customerRecordAttachmentIndicator"
+		parent="ContractsGrantsInvoiceDocument-customerRecordAttachmentIndicator-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-customerRecordAttachmentIndicator-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="customerRecordAttachmentIndicator" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Record Attachment Indicator" />
+		<property name="shortLabel" value="Attachment" />
+		<property name="maxLength" value="1" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-openInvoiceIndicator"
+		parent="ContractsGrantsInvoiceDocument-openInvoiceIndicator-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-openInvoiceIndicator-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="openInvoiceIndicator" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Open Invoice Indicator" />
+		<property name="shortLabel" value="Open Invoice" />
+		<property name="maxLength" value="1" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-sourceTotal" parent="ContractsGrantsInvoiceDocument-sourceTotal-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-sourceTotal-parentBean"
+		abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="sourceTotal" />
+		<property name="label" value="Invoice Total Amount" />
+		<property name="shortLabel" value="Invoice Total Amount" />
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-paymentChartOfAccountsCode"
+		parent="ContractsGrantsInvoiceDocument-paymentChartOfAccountsCode-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-paymentChartOfAccountsCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="name" value="paymentChartOfAccountsCode" />
+		<property name="required" value="false" />
+		<property name="control">
+			<ref bean="ChartSimpleSelectControl" />
+		</property>
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-paymentFinancialObjectCode"
+		parent="ContractsGrantsInvoiceDocument-paymentFinancialObjectCode-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-paymentFinancialObjectCode-parentBean"
+		abstract="true" parent="ObjectCode-financialObjectCode">
+		<property name="name" value="paymentFinancialObjectCode" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-paymentAccountNumber"
+		parent="ContractsGrantsInvoiceDocument-paymentAccountNumber-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-paymentAccountNumber-parentBean"
+		abstract="true" parent="Account-accountNumber">
+		<property name="name" value="paymentAccountNumber" />
+		<property name="required" value="false" />
+	</bean>
+	<bean
+		id="ContractsGrantsInvoiceDocument-paymentOrganizationReferenceIdentifier"
+		parent="ContractsGrantsInvoiceDocument-paymentOrganizationReferenceIdentifier-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-paymentOrganizationReferenceIdentifier-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="paymentOrganizationReferenceIdentifier" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Organization Reference Id" />
+		<property name="shortLabel" value="Org Ref Id" />
+		<property name="maxLength" value="8" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<ref bean="TenCharacterTextControl" />
+		</property>
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-paymentSubAccountNumber"
+		parent="ContractsGrantsInvoiceDocument-paymentSubAccountNumber-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-paymentSubAccountNumber-parentBean"
+		abstract="true" parent="SubAccount-subAccountNumber">
+		<property name="name" value="paymentSubAccountNumber" />
+		<property name="label" value="Sub-Account Code" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-paymentProjectCode"
+		parent="ContractsGrantsInvoiceDocument-paymentProjectCode-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-paymentProjectCode-parentBean"
+		abstract="true" parent="ProjectCode-code">
+		<property name="name" value="paymentProjectCode" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-paymentFinancialSubObjectCode"
+		parent="ContractsGrantsInvoiceDocument-paymentFinancialSubObjectCode-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-paymentFinancialSubObjectCode-parentBean"
+		abstract="true" parent="SubObjectCode-financialSubObjectCode">
+		<property name="name" value="paymentFinancialSubObjectCode" />
+		<property name="label" value="Sub Object Code" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-billingDateForDisplay"
+		parent="ContractsGrantsInvoiceDocument-billingDateForDisplay-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-billingDateForDisplay-parentBean"
+		abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="billingDateForDisplay" />
+		<property name="label" value="Billing Date" />
+		<property name="shortLabel" value="Billing Date" />
+		<property name="required" value="false" />
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-versionNumber" parent="ContractsGrantsInvoiceDocument-versionNumber-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-versionNumber-parentBean"
+		abstract="true" parent="GenericAttributes-versionNumber">
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceDocument-openAmount" parent="ContractsGrantsInvoiceDocument-openAmount-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-openAmount-parentBean"
+		abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="openAmount" />
+		<property name="label" value="Open Amount" />
+		<property name="shortLabel" value="Open Amount" />
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceDocument-customerName" parent="ContractsGrantsInvoiceDocument-customerName-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-customerName-parentBean"
+		abstract="true" parent="Customer-customerName" />
+
+
+	<bean id="ContractsGrantsInvoiceDocument-billingAddressName"
+		parent="ContractsGrantsInvoiceDocument-billingAddressName-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-billingAddressName-parentBean"
+		abstract="true" parent="CustomerAddress-customerAddressName">
+		<property name="name" value="billingAddressName" />
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-billingCityName"
+		parent="ContractsGrantsInvoiceDocument-billingCityName-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-billingCityName-parentBean"
+		abstract="true" parent="CustomerAddress-customerCityName">
+		<property name="name" value="billingCityName" />
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-billingStateCode"
+		parent="ContractsGrantsInvoiceDocument-billingStateCode-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-billingStateCode-parentBean"
+		abstract="true" parent="CustomerAddress-customerStateCode">
+		<property name="name" value="billingStateCode" />
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-billingZipCode"
+		parent="ContractsGrantsInvoiceDocument-billingZipCode-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-billingZipCode-parentBean"
+		abstract="true" parent="CustomerAddress-customerZipCode">
+		<property name="name" value="billingZipCode" />
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-billingCountryCode"
+		parent="ContractsGrantsInvoiceDocument-billingCountryCode-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-billingCountryCode-parentBean"
+		abstract="true" parent="CustomerAddress-customerCountryCode">
+		<property name="name" value="billingCountryCode" />
+	</bean>
+
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-billingAddressInternationalProvinceName"
+		parent="ContractsGrantsInvoiceDocument-billingAddressInternationalProvinceName-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-billingAddressInternationalProvinceName-parentBean"
+		abstract="true" parent="CustomerAddress-customerAddressInternationalProvinceName">
+		<property name="name" value="billingAddressInternationalProvinceName" />
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-billingInternationalMailCode"
+		parent="ContractsGrantsInvoiceDocument-billingInternationalMailCode-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-billingInternationalMailCode-parentBean"
+		abstract="true" parent="CustomerAddress-customerInternationalMailCode">
+		<property name="name" value="billingInternationalMailCode" />
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-billingEmailAddress"
+		parent="ContractsGrantsInvoiceDocument-billingEmailAddress-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-billingEmailAddress-parentBean"
+		abstract="true" parent="CustomerAddress-customerEmailAddress">
+		<property name="name" value="billingEmailAddress" />
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-billingAddressTypeCode"
+		parent="ContractsGrantsInvoiceDocument-billingAddressTypeCode-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-billingAddressTypeCode-parentBean"
+		abstract="true" parent="CustomerAddress-customerAddressTypeCode">
+		<property name="name" value="billingAddressTypeCode" />
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-shippingAddressName"
+		parent="ContractsGrantsInvoiceDocument-shippingAddressName-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-shippingAddressName-parentBean"
+		abstract="true" parent="CustomerAddress-customerAddressName">
+		<property name="name" value="shippingAddressName" />
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-shippingCityName"
+		parent="ContractsGrantsInvoiceDocument-shippingCityName-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-shippingCityName-parentBean"
+		abstract="true" parent="CustomerAddress-customerCityName">
+		<property name="name" value="shippingCityName" />
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-shippingStateCode"
+		parent="ContractsGrantsInvoiceDocument-shippingStateCode-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-shippingStateCode-parentBean"
+		abstract="true" parent="CustomerAddress-customerStateCode">
+		<property name="name" value="shippingStateCode" />
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-shippingZipCode"
+		parent="ContractsGrantsInvoiceDocument-shippingZipCode-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-shippingZipCode-parentBean"
+		abstract="true" parent="CustomerAddress-customerZipCode">
+		<property name="name" value="shippingZipCode" />
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-shippingCountryCode"
+		parent="ContractsGrantsInvoiceDocument-shippingCountryCode-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-shippingCountryCode-parentBean"
+		abstract="true" parent="CustomerAddress-customerCountryCode">
+		<property name="name" value="shippingCountryCode" />
+	</bean>
+
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-shippingAddressInternationalProvinceName"
+		parent="ContractsGrantsInvoiceDocument-shippingAddressInternationalProvinceName-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-shippingAddressInternationalProvinceName-parentBean"
+		abstract="true" parent="CustomerAddress-customerAddressInternationalProvinceName">
+		<property name="name" value="shippingAddressInternationalProvinceName" />
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-shippingInternationalMailCode"
+		parent="ContractsGrantsInvoiceDocument-shippingInternationalMailCode-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-shippingInternationalMailCode-parentBean"
+		abstract="true" parent="CustomerAddress-customerInternationalMailCode">
+		<property name="name" value="shippingInternationalMailCode" />
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-shippingEmailAddress"
+		parent="ContractsGrantsInvoiceDocument-shippingEmailAddress-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-shippingEmailAddress-parentBean"
+		abstract="true" parent="CustomerAddress-customerEmailAddress">
+		<property name="name" value="shippingEmailAddress" />
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-shippingAddressTypeCode"
+		parent="ContractsGrantsInvoiceDocument-shippingAddressTypeCode-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-shippingAddressTypeCode-parentBean"
+		abstract="true" parent="CustomerAddress-customerAddressTypeCode">
+		<property name="name" value="shippingAddressTypeCode" />
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceDocument-billingLine1StreetAddress"
+		parent="ContractsGrantsInvoiceDocument-billingLine1StreetAddress-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-billingLine1StreetAddress-parentBean"
+		abstract="true" parent="CustomerAddress-customerLine1StreetAddress">
+		<property name="name" value="billingLine1StreetAddress" />
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceDocument-billingLine2StreetAddress"
+		parent="ContractsGrantsInvoiceDocument-billingLine2StreetAddress-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-billingLine2StreetAddress-parentBean"
+		abstract="true" parent="CustomerAddress-customerLine2StreetAddress">
+		<property name="name" value="billingLine2StreetAddress" />
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceDocument-shippingLine1StreetAddress"
+		parent="ContractsGrantsInvoiceDocument-shippingLine1StreetAddress-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-shippingLine1StreetAddress-parentBean"
+		abstract="true" parent="CustomerAddress-customerLine1StreetAddress">
+		<property name="name" value="shippingLine1StreetAddress" />
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceDocument-shippingLine2StreetAddress"
+		parent="ContractsGrantsInvoiceDocument-shippingLine2StreetAddress-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-shippingLine2StreetAddress-parentBean"
+		abstract="true" parent="CustomerAddress-customerLine2StreetAddress">
+		<property name="name" value="shippingLine2StreetAddress" />
+	</bean>
+	<bean id="ContractsGrantsInvoiceDocument-recurredInvoiceIndicator"
+		parent="ContractsGrantsInvoiceDocument-recurredInvoiceIndicator-parentBean" />
+
+	<bean
+		id="ContractsGrantsInvoiceDocument-recurredInvoiceIndicator-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="recurredInvoiceIndicator" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Recurred Invoice Indicator" />
+		<property name="shortLabel" value="Recurred Inv Ind" />
+		<property name="maxLength" value="1" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceDocument-referralTypeCode" parent="ContractsGrantsInvoiceDocument-referralTypeCode-parentBean" />
+	<bean id="ContractsGrantsInvoiceDocument-referralTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="referralTypeCode"/>
+	    <property name="label" value="Referral Type"/>
+	    <property name="shortLabel" value="Referral Type"/>
+	    <property name="maxLength" value="6"/>
+	    <property name="validationPattern">
+	      <ref bean="AnyCharacterValidation" />
+	    </property>
+	    <property name="required" value="false"/>
+	    <property name="control">
+			<bean parent="SelectControlDefinition"
+				p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.ReferralTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+  <bean id="ContractsGrantsInvoiceDocument-finalDispositionCode" parent="ContractsGrantsInvoiceDocument-finalDispositionCode-parentBean"/>
+
+  <bean id="ContractsGrantsInvoiceDocument-finalDispositionCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="finalDispositionCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Final Disposition"/>
+    <property name="shortLabel" value="Final Disposition"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+		<bean parent="SelectControlDefinition"
+			p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.FinalDispositionTypeValuesFinder"
+			p:includeKeyInLabel="false" />
+	</property>
+  </bean>
+
+	<bean id="ContractsGrantsInvoiceDocument-validations" parent="ContractsGrantsInvoiceDocument-validations-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceDocument-validations-parentBean"
+		class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+			<entry>
+				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>ContractsGrantsInvoice-routeDocumentValidation</value>
+			</entry>
+			</map>
+		</property>
+	</bean>
+
+
+	<bean id="ContractsGrantsInvoiceDocument-workflowAttributes"
+		parent="ContractsGrantsInvoiceDocument-workflowAttributes-parentBean" />
+	<bean id="ContractsGrantsInvoiceDocument-workflowAttributes-parentBean"
+		abstract="true" parent="WorkflowAttributes">
+		<property name="searchingTypeDefinitions">
+			<list>
+				<ref bean="SearchingType-ContractsGrantsInvoiceDocument-proposalNumber" />
+				<ref bean="SearchingType-AccountsReceivableDocument-customerName" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="SearchingType-ContractsGrantsInvoiceDocument-proposalNumber"
+		class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+		<property name="searchingAttribute" ref="SearchingAttribute-proposalNumber" />
+		<property name="documentValues">
+			<list>
+				<value>proposalNumber</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="SearchingAttribute-proposalNumber" class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+		<property name="businessObjectClassName"
+			value="org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument" />
+		<property name="attributeName" value="proposalNumber" />
+		<property name="showAttributeInSearchCriteria" value="true" />
+		<property name="showAttributeInResultSet" value="true" />
+	</bean>
+
+</beans>

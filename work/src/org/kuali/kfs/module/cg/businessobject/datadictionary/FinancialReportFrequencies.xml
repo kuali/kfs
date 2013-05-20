@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+	<!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+
+		
+	<bean id="FinancialReportFrequencies" parent="FinancialReportFrequencies-parentBean" />
+
+	<bean id="FinancialReportFrequencies-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.cg.businessobject.FinancialReportFrequencies" />
+		<property name="inquiryDefinition">
+			<ref bean="FinancialReportFrequencies-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="FinancialReportFrequencies-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="reportFrequency" />
+		<property name="objectLabel" value="Report Frequency" />
+		<property name="attributes">
+			<list>
+				<ref bean="FinancialReportFrequencies-reportFrequency" />
+				<ref bean="FinancialReportFrequencies-reportFrequencyDescription" />
+				<ref bean="FinancialReportFrequencies-active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+
+	<bean id="FinancialReportFrequencies-reportFrequency" parent="FinancialReportFrequencies-reportFrequency-parentBean" />
+
+	<bean id="FinancialReportFrequencies-reportFrequency-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="reportFrequency" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Report Frequency" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+	</bean>
+	<bean id="FinancialReportFrequencies-reportFrequencyDescription"
+		parent="FinancialReportFrequencies-reportFrequencyDescription-parentBean" />
+
+	<bean
+		id="FinancialReportFrequencies-reportFrequencyDescription-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="reportFrequencyDescription" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Report Frequency Description" />
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="45" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="47" />
+		</property>
+	</bean>
+
+	<bean id="FinancialReportFrequencies-active" parent="FinancialReportFrequencies-active-parentBean" />
+
+	<bean id="FinancialReportFrequencies-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+
+
+	<bean id="FinancialReportFrequencies-inquiryDefinition" parent="FinancialReportFrequencies-inquiryDefinition-parentBean" />
+
+	<bean id="FinancialReportFrequencies-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Financial Report Frequency Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="reportFrequency" />
+							<bean parent="FieldDefinition" p:attributeName="reportFrequencyDescription" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="FinancialReportFrequencies-lookupDefinition" parent="FinancialReportFrequencies-lookupDefinition-parentBean" />
+
+	<bean id="FinancialReportFrequencies-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title" value="Financial Report Frequency Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="reportFrequency" />
+				<bean parent="FieldDefinition" p:attributeName="reportFrequencyDescription" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="reportFrequency" />
+				<bean parent="FieldDefinition" p:attributeName="reportFrequencyDescription" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+</beans>

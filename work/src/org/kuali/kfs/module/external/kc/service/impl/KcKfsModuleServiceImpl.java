@@ -22,16 +22,16 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
+import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
+public class KcKfsModuleServiceImpl extends KfsModuleServiceImpl  {
     
     protected static final Logger LOG = Logger.getLogger(KcKfsModuleServiceImpl.class);
 
@@ -68,6 +68,32 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
         
         return eboService;
     }
+    
+    /**
+     * Finds the business object service via the class to service mapping provided in the module configuration.
+     * 
+     * @param clazz
+     * @return
+     */
+    private List<ExternalizableBusinessObject> getExternalizableBusinessObjectServiceByMatching(Class clazz, Map<String, Object>fieldValues){
+        String serviceName = null;
+        ExternalizableBusinessObjectService eboService = null;
+        
+        Map<Class, String> externalizableBusinessObjectServices = ((KcFinancialSystemModuleConfiguration)getModuleConfiguration()).getExternalizableBusinessObjectServiceImplementations();
+        
+        if(ObjectUtils.isNotNull(externalizableBusinessObjectServices) && ObjectUtils.isNotNull(clazz)){
+            serviceName = (String)externalizableBusinessObjectServices.get(clazz);
+            if(ObjectUtils.isNotNull(serviceName)){
+                eboService = (ExternalizableBusinessObjectService)SpringContext.getService(serviceName);
+                return (List<ExternalizableBusinessObject>) eboService.findMatching(fieldValues);
+            }
+        }
+        
+        // used when EBO is not handled by a web service
+        return (List<ExternalizableBusinessObject>) getBusinessObjectService().findMatching(clazz, fieldValues);
+
+    }
+    
 
     /**
      * Gets primary key fields from the Datadictionary entries for the object.
@@ -75,6 +101,7 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
      * @see org.kuali.rice.krad.service.impl.ModuleServiceBase#listPrimaryKeyFieldNames(java.lang.Class)
      */
     public List listPrimaryKeyFieldNames(Class businessObjectInterfaceClass) {
+        List primaryKeys = null;
         Class clazz = getExternalizableBusinessObjectImplementation(businessObjectInterfaceClass);
         final org.kuali.rice.krad.datadictionary.BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(clazz.getName());        
         if (boEntry == null) {
@@ -122,10 +149,36 @@ public class KcKfsModuleServiceImpl  extends KfsModuleServiceImpl  {
             }
         }
         
-        urlParameters.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, kfsToKcInquiryUrlClassMapping.get(businessObjectClassAttribute));
-        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, 
-                KRADConstants.CONTINUE_WITH_INQUIRY_METHOD_TO_CALL);
-        return urlParameters;
+        if(kfsToKcInquiryUrlClassMapping.containsKey(businessObjectClassAttribute)){
+            urlParameters.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, kfsToKcInquiryUrlClassMapping.get(businessObjectClassAttribute));
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, 
+            		KRADConstants.CONTINUE_WITH_INQUIRY_METHOD_TO_CALL);
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.CONTINUE_WITH_INQUIRY_METHOD_TO_CALL);
+            return urlParameters;
+        } else {
+            return super.getUrlParameters(businessObjectClassAttribute, parameters);
+        }
+    }
+    
+    
+    protected List<ExternalizableBusinessObject> getExternalizableBusinessObjectsListForLookupCustom(Class businessObjectClass, Map<String, Object> fieldValues, boolean unbounded) {
+        Class<? extends ExternalizableBusinessObject> implementationClass = getExternalizableBusinessObjectImplementation(businessObjectClass);
+        String serviceName = null;
+        ExternalizableBusinessObjectService eboService = null;
+        
+        Map<Class, String> externalizableBusinessObjectServices = ((KcFinancialSystemModuleConfiguration)getModuleConfiguration()).getExternalizableBusinessObjectServiceImplementations();
+        
+        if(ObjectUtils.isNotNull(externalizableBusinessObjectServices) && ObjectUtils.isNotNull(implementationClass)){
+            serviceName = (String)externalizableBusinessObjectServices.get(implementationClass);
+            if(ObjectUtils.isNotNull(serviceName)){
+                eboService = (ExternalizableBusinessObjectService)SpringContext.getService(serviceName);
+                return (List<ExternalizableBusinessObject>) eboService.findMatching(fieldValues);
+            }
+        }
+        
+        // used when EBO is not handled by a web service
+        return super.getExternalizableBusinessObjectsListForLookup(businessObjectClass, fieldValues, unbounded);
+        
     }
         
 }

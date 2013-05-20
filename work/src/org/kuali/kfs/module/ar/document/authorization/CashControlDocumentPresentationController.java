@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,15 +23,22 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
+import org.kuali.kfs.module.ar.util.AccountsReceivableUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.kew.api.WorkflowDocument;
 
+/**
+ * Cash Control Document presentation Controller.
+ */
 public class CashControlDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
+    /**
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.krad.document.Document)
+     */
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
@@ -39,7 +46,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
         CashControlDocument cashControlDocument = (CashControlDocument) document;
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if ((workflowDocument.isInitiated() || workflowDocument.isSaved() || workflowDocument.isCompletionRequested()) && !(cashControlDocument.getElectronicPaymentClaims().size() > 0)) {
+        if ((workflowDocument.isInitiated() || workflowDocument.isSaved()) && !(cashControlDocument.getElectronicPaymentClaims().size() > 0)) {
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_DETAILS);
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_REF_DOC_NBR);
@@ -92,38 +99,73 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
         return editModes;
     }
 
+    /**
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.krad.document.Document)
+     */
     @Override
     public boolean canBlanketApprove(Document document) {
         return false;
     }
 
+    /**
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canDisapprove(org.kuali.rice.krad.document.Document)
+     */
     @Override
     public boolean canDisapprove(Document document) {
         return !hasAtLeastOneAppDocApproved((CashControlDocument) document);
     }
 
+    /**
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canApprove(org.kuali.rice.krad.document.Document)
+     */
     @Override
     public boolean canApprove(Document document) {
         return hasAllAppDocsApproved((CashControlDocument) document);
     }
 
+    /*
+     * Can correct if 1. there is at least one correctable cash control detail (payment application) 2. and cash control document is
+     * enroute or final
+     */
     @Override
     public boolean canErrorCorrect(FinancialSystemTransactionalDocument document) {
+        return (hasAtLeastOneCorrectableCashControlDetail((CashControlDocument) document) && (document.getDocumentHeader().getWorkflowDocument().isEnroute() || document.getDocumentHeader().getWorkflowDocument().isFinal()));
+    }
+
+    /**
+     * This method returns true if there is at least one correctable cash control detail.
+     * 
+     * @param cashControlDocument
+     * @return
+     */
+    protected boolean hasAtLeastOneCorrectableCashControlDetail(CashControlDocument cashControlDocument) {
+        for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
+            if (AccountsReceivableUtils.canCorrectDetail(cashControlDetail)) {
+                return true;
+            }
+        }
         return false;
     }
 
+    /**
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canCancel(org.kuali.rice.krad.document.Document)
+     */
     @Override
     public boolean canCancel(Document document) {
         return !hasAtLeastOneAppDocApproved((CashControlDocument) document);
     }
 
+    /**
+     * @param document
+     * @return
+     */
     protected boolean containsGLPEs(CashControlDocument document) {
         return !document.getGeneralLedgerPendingEntries().isEmpty();
     }
 
     /**
      * This method checks if the CashControlDocument has at least one application document that has been approved
-     *
+     * 
      * @param ccDoc the CashControlDocument
      * @return true if it has at least one application document approved, false otherwise
      */
@@ -144,7 +186,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
 
     /**
      * This method chech if all application document have been approved
-     *
+     * 
      * @param cashControlDocument the CashControlDocument
      * @return true if all application documents have been approved, false otherwise
      */

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	<!-- Copyright 2006-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="ProposalAutoCreateDefaults" parent="ProposalAutoCreateDefaults-parentBean" />
+
+	<bean id="ProposalAutoCreateDefaults-parentBean" parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.cg.businessobject.ProposalAutoCreateDefaults" />
+		<property name="inquiryDefinition" ref="ProposalAutoCreateDefaults-inquiryDefinition" />
+		<property name="lookupDefinition" ref="ProposalAutoCreateDefaults-lookupDefinition" />
+		<property name="titleAttribute" value="Proposal Auto-Create Default" />
+		<property name="objectLabel" value="ProposalAutoCreateDefaults" />
+		<property name="attributes">
+			<list>
+				<ref bean="ProposalAutoCreateDefaults-proposalDefaultId" />
+				<ref bean="ProposalAutoCreateDefaults-kcUnit" />
+				<ref bean="ProposalAutoCreateDefaults-kcUnitName" />
+				<ref bean="ProposalAutoCreateDefaults-proposalIndirectCostAmount" />
+				<bean parent="Proposal-proposalAwardTypeCode" />
+				<bean parent="Proposal-proposalPurposeCode" />
+				<bean parent="ProposalOrganization-chartOfAccountsCode" />
+				<bean parent="ProposalOrganization-organizationCode" />
+				<bean parent="ProposalOrganization-organization.organizationName" />
+				<ref bean="ProposalAutoCreateDefaults-active" />
+				<ref bean="ProposalAutoCreateDefaults-principalId" />
+				<bean parent="ProposalProjectDirector-projectDirector.principalName" />
+				<bean parent="ProposalProjectDirector-projectDirector.name" />
+				<ref bean="ProposalAutoCreateDefaults-userLookupRoleNamespaceCode" />
+				<ref bean="ProposalAutoCreateDefaults-userLookupRoleName" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<dd:relationship objectAttribute="unitDTO">
+					<dd:primitiveAttribute source="kcUnit"
+						target="unitNumber" />
+					<dd:supportAttribute source="kcUnitName"
+						target="unitName" />
+				</dd:relationship>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="projectDirector" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
+								p:targetName="principalId" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:sourceName="userLookupRoleNamespaceCode"
+								p:targetName="lookupRoleNamespaceCode" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="userLookupRoleName"
+								p:targetName="lookupRoleName" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+	<!-- Most attributes derived from Proposal; Define KC specific attributes 
+		here -->
+	<bean id="ProposalAutoCreateDefaults-proposalDefaultId" parent="ProposalAutoCreateDefaults-proposalDefaultId-parentBean" />
+	<bean id="ProposalAutoCreateDefaults-proposalDefaultId-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="proposalDefaultId" />
+		<property name="label" value="Proposal Default Id" />
+		<property name="shortLabel" value="Prpsl Deflt Id" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="16" />
+		</property>
+	</bean>
+
+	<bean id="ProposalAutoCreateDefaults-kcUnit" parent="ProposalAutoCreateDefaults-kcUnit-parentBean" />
+	<bean id="ProposalAutoCreateDefaults-kcUnit-parentBean" abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit"
+		p:sourceAttributeName="unitNumber">
+		<property name="name" value="kcUnit" />
+		<property name="label" value="KC Unit" />
+		<property name="shortLabel" value="KC Unit" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<ref bean="StandardNameTextControl" />
+		</property>
+	</bean>
+
+	<bean id="ProposalAutoCreateDefaults-kcUnitName" parent="ProposalAutoCreateDefaults-kcUnitName-parentBean" />
+	<bean id="ProposalAutoCreateDefaults-kcUnitName-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="kcUnitName" />
+		<property name="label" value="KC Unit Name" />
+		<property name="shortLabel" value="KC Unit Name" />
+		<property name="maxLength" value="42" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<ref bean="StandardNameTextControl" />
+		</property>
+	</bean>
+
+	<bean id="ProposalAutoCreateDefaults-proposalIndirectCostAmount"
+		parent="ProposalAutoCreateDefaults-proposalIndirectCostAmount-parentBean" />
+
+	<bean
+		id="ProposalAutoCreateDefaults-proposalIndirectCostAmount-parentBean"
+		abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="proposalIndirectCostAmount" />
+		<property name="label" value="Indirect Cost Amount" />
+		<property name="shortLabel" value="Indirect" />
+		<property name="formatterClass"
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
+		<property name="exclusiveMin" value="-0.001" />
+	</bean>
+
+	<bean id="ProposalAutoCreateDefaults-active" parent="ProposalAutoCreateDefaults-active-parentBean" />
+	<bean id="ProposalAutoCreateDefaults-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+	<bean id="ProposalAutoCreateDefaults-principalId" parent="ProposalAutoCreateDefaults-principalId-parentBean" />
+
+	<bean id="ProposalAutoCreateDefaults-principalId-parentBean"
+		abstract="true" parent="PersonImpl-principalId">
+		<property name="name" value="principalId" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Project Director ID" />
+		<property name="shortLabel" value="Proj Dir ID" />
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+
+	<bean id="ProposalAutoCreateDefaults-userLookupRoleNamespaceCode"
+		parent="AttributeDefinition">
+		<property name="name" value="userLookupRoleNamespaceCode" />
+		<property name="label" value="Role Namespace Code" />
+		<property name="required" value="false" />
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+
+	<bean id="ProposalAutoCreateDefaults-userLookupRoleName" parent="AttributeDefinition">
+		<property name="name" value="userLookupRoleName" />
+		<property name="label" value="Role Name" />
+		<property name="required" value="false" />
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="ProposalAutoCreateDefaults-inquiryDefinition" parent="ProposalAutoCreateDefaults-inquiryDefinition-parentBean" />
+
+	<bean id="ProposalAutoCreateDefaults-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Proposal Auto-Create Default Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition" p:title="Proposal Auto-Creation Defaults Details">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="proposalDefaultId" />
+							<bean parent="FieldDefinition" p:attributeName="principalId" />
+							<bean parent="FieldDefinition" p:attributeName="projectDirector.principalName" />
+							<bean parent="FieldDefinition" p:attributeName="projectDirector.name" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="ProposalAutoCreateDefaults-lookupDefinition" parent="ProposalAutoCreateDefaults-lookupDefinition-parentBean" />
+
+	<bean id="ProposalAutoCreateDefaults-lookupDefinition-parentBean"
+		abstract="true" parent="LookupDefinition">
+		<property name="title" value="Proposal Auto-Create Default Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+						<value>kcUnit</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="proposalDefaultId" />
+				<bean parent="FieldDefinition" p:attributeName="kcUnit" />
+				<bean parent="FieldDefinition" p:attributeName="proposalAwardTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="proposalPurposeCode" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="projectDirector.principalName" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="proposalDefaultId" />
+				<bean parent="FieldDefinition" p:attributeName="kcUnit" />
+				<bean parent="FieldDefinition" p:attributeName="proposalAwardTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="proposalPurposeCode" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
+				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="projectDirector.principalName" />
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!-- Copyright 2008-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="ContractsGrantsPaymentHistoryReport" parent="ContractsGrantsPaymentHistoryReport-parentBean" />
+
+	<bean id="ContractsGrantsPaymentHistoryReport-parentBean" abstract="true" parent="BusinessObjectEntry">
+
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsGrantsPaymentHistoryReport" />
+
+		<!-- <property name="inquiryDefinition"> <ref bean="ContractsGrantsPaymentHistoryReport-inquiryDefinition"/> </property> -->
+
+		<property name="lookupDefinition">
+			<ref bean="ContractsGrantsPaymentHistoryReport-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="ContractsGrantsPaymentHistoryReportInquiryTitle" />
+		<property name="objectLabel" value="ContractsGrantsPaymentHistoryReport" />
+
+		<property name="attributes">
+			<list>
+				<ref bean="ContractsGrantsPaymentHistoryReport-paymentNumber" />
+				<ref bean="ContractsGrantsPaymentHistoryReport-paymentDate" />
+				<ref bean="ContractsGrantsPaymentHistoryReport-customerNumber" />
+				<ref bean="ContractsGrantsPaymentHistoryReport-customerName" />
+				<ref bean="ContractsGrantsPaymentHistoryReport-paymentAmount" />
+				<ref bean="ContractsGrantsPaymentHistoryReport-invoiceNumber" />
+				<ref bean="ContractsGrantsPaymentHistoryReport-invoiceAmount" />
+				<ref bean="ContractsGrantsPaymentHistoryReport-awardNumber" />
+				<ref bean="ContractsGrantsPaymentHistoryReport-reversedIndicator" />
+				<ref bean="ContractsGrantsPaymentHistoryReport-appliedIndicator" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsPaymentHistoryReport-paymentNumber" parent="ContractsGrantsPaymentHistoryReport-paymentNumber-parentBean" />
+	<bean id="ContractsGrantsPaymentHistoryReport-paymentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="paymentNumber" />
+		<property name="label" value="Payment Number" />
+		<property name="shortLabel" value="Pmt nbr" />
+		<property name="required" value="false" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="16" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsPaymentHistoryReport-paymentDate" parent="ContractsGrantsPaymentHistoryReport-paymentDate-parentBean" />
+	<bean id="ContractsGrantsPaymentHistoryReport-paymentDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="paymentDate" />
+		<property name="label" value="Payment Date" />
+		<property name="shortLabel" value="Pmt Date" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="ContractsGrantsPaymentHistoryReport-customerNumber" parent="ContractsGrantsPaymentHistoryReport-customerNumber-parentBean" />
+	<bean id="ContractsGrantsPaymentHistoryReport-customerNumber-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="customerNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Customer Number" />
+		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="9" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="11" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsPaymentHistoryReport-customerName" parent="ContractsGrantsPaymentHistoryReport-customerName-parentBean" />
+	<bean id="ContractsGrantsPaymentHistoryReport-customerName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="customerName" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Customer Name" />
+		<property name="shortLabel" value="Name" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="62" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsPaymentHistoryReport-paymentAmount" parent="ContractsGrantsPaymentHistoryReport-paymentAmount-parentBean" />
+	<bean id="ContractsGrantsPaymentHistoryReport-paymentAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="paymentAmount" />
+		<property name="label" value="Payment Amount" />
+		<property name="shortLabel" value="Pmt Amt" />
+	</bean>
+
+	<bean id="ContractsGrantsPaymentHistoryReport-invoiceNumber" parent="ContractsGrantsPaymentHistoryReport-invoiceNumber-parentBean" />
+	<bean id="ContractsGrantsPaymentHistoryReport-invoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="invoiceNumber" />
+		<property name="label" value="Invoice Number" />
+		<property name="shortLabel" value="Inv nbr" />
+		<property name="required" value="false" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="16" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsPaymentHistoryReport-invoiceAmount" parent="ContractsGrantsPaymentHistoryReport-invoiceAmount-parentBean" />
+	<bean id="ContractsGrantsPaymentHistoryReport-invoiceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="invoiceAmount" />
+		<property name="label" value="Invoice Amount" />
+		<property name="shortLabel" value="Inv Amt" />
+	</bean>
+
+	<bean id="ContractsGrantsPaymentHistoryReport-awardNumber" parent="ContractsGrantsPaymentHistoryReport-awardNumber-parentBean" />
+	<bean id="ContractsGrantsPaymentHistoryReport-awardNumber-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="awardNumber" />
+		<property name="label" value="Award Number" />
+		<property name="shortLabel" value="Awd nbr" />
+		<property name="required" value="false" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="16" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsPaymentHistoryReport-reversedIndicator" parent="ContractsGrantsPaymentHistoryReport-reversedIndicator-parentBean" />
+	<bean id="ContractsGrantsPaymentHistoryReport-reversedIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="reversedIndicator" />
+		<property name="label" value="Reversed Indicator" />
+		<property name="shortLabel" value="Rev Ind" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="ContractsGrantsPaymentHistoryReport-appliedIndicator" parent="ContractsGrantsPaymentHistoryReport-appliedIndicator-parentBean" />
+	<bean id="ContractsGrantsPaymentHistoryReport-appliedIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="appliedIndicator" />
+		<property name="label" value="Applied Indicator" />
+		<property name="shortLabel" value="App Ind" />
+		<property name="required" value="false" />
+	</bean>
+
+
+	<!-- Business Object Lookup Definition -->
+
+	<bean id="ContractsGrantsPaymentHistoryReport-lookupDefinition" parent="ContractsGrantsPaymentHistoryReport-lookupDefinition-parentBean" />
+
+	<bean id="ContractsGrantsPaymentHistoryReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="ContractsGrantsPaymentHistoryReport Lookup" />
+		<property name="lookupableID" value="contractsGrantsPaymentHistoryReportLookupResultLookupable" />
+
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="paymentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="paymentDate" />
+				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:attributeName="customerName" />
+				<bean parent="FieldDefinition" p:attributeName="paymentAmount" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceNumber" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceAmount" />
+				<bean parent="FieldDefinition" p:attributeName="awardNumber" />
+				<bean parent="FieldDefinition" p:attributeName="reversedIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="appliedIndicator" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="paymentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="paymentDate" />
+				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:attributeName="customerName" />
+				<bean parent="FieldDefinition" p:attributeName="paymentAmount" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceNumber" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceAmount" />
+				<bean parent="FieldDefinition" p:attributeName="awardNumber" />
+				<bean parent="FieldDefinition" p:attributeName="reversedIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="appliedIndicator" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
+

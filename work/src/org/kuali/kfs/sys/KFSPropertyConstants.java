@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.sys;
 
-import org.kuali.rice.kim.impl.KIMPropertyConstants;
-import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 
 /**
@@ -113,6 +111,7 @@ public class KFSPropertyConstants {
     public static final String AGENCY_REQUEST_TOTAL_AMOUNT = "agencyRequestTotalAmount";
     public static final String AGENCY_REQUEST_TOTAL_AMOUNT_TASK = "agencyRequestTotalAmountTask";
     public static final String AGENCY_TO_BE_NAMED_INDICATOR = "agencyToBeNamedIndicator";
+    public static final String AGENCY_ADDRESSES = "agencyAddresses";
     public static final String AGENCY_TYPE = "agencyType";
     public static final String AGENCY_TYPE_CODE = "agencyTypeCode";
     public static final String ALIEN_PAYMENT_CODE = "alienPaymentCode";
@@ -147,6 +146,7 @@ public class KFSPropertyConstants {
     public static final String AWARD_ENDING_DATE = "awardEndingDate";
     public static final String AWARD_ENTRY_DATE = "awardEntryDate";
     public static final String AWARD_FEDERAL_PASS_THROUGH_INDICATOR = "awardFederalPassThroughIndicator";
+    public static final String AWARD_ID = "awardId";
     public static final String AWARD_INDR_COST_RCVY_ENTRY_NBR = "awardIndrCostRcvyEntryNbr";
     public static final String AWARD_INDR_COST_RCVY_RATE_PCT = "awardIndrCostRcvyRatePct";
     public static final String AWARD_ORGRANIZATIONS = "awardOrganizations";
@@ -155,6 +155,8 @@ public class KFSPropertyConstants {
     public static final String AWARD_PERIOD_END_MONTH = "awardPeriodEndMonth";
     public static final String AWARD_PERIOD_END_YEAR = "awardPeriodEndYear";
     public static final String AWARD_PROJECT_DIRECTORS = "awardProjectDirectors";
+    public static final String AWARD_INVOICE_ACCOUNTS = "awardInvoiceAccounts";
+    public static final String AWARD_FUND_MANAGERS = "awardFundManagers";
     public static final String AWARD_SUBCONTRACTORS = "awardSubcontractors";
     public static final String AWARD_THRESHOLD_AMOUNT = "awardThresholdAmount";
     public static final String AWARD_TOTAL_AMOUNT = "awardTotalAmount";
@@ -257,7 +259,7 @@ public class KFSPropertyConstants {
     public static final String BURSAR_USER = "bursarUser";
     public static final String CAB_USER = "cabUser";
     public static final String CAMPUS = KRADPropertyConstants.CAMPUS;
-    public static final String CAMPUS_CODE = "campusCode";
+    public static final String CAMPUS_CODE = KRADPropertyConstants.CAMPUS_CODE;
     public static final String CAMPUS_DESCRIPTION = "campusDescription";
     public static final String CAMPUS_LOCATION_CODE = "campusLocationCode";
     public static final String CAMPUS_MAXIMUM_PERIOD1_RATE = "campusMaximumPeriod1Rate";
@@ -347,6 +349,9 @@ public class KFSPropertyConstants {
     public static final String COST_SHARE_SOURCE_ACCOUNT_NUMBER = "costShareSourceAccountNumber";
     public static final String COST_SHARE_SOURCE_SUB_ACCOUNT = "costShareSourceSubAccount";
     public static final String COST_SHARE_SOURCE_SUB_ACCOUNT_NUMBER = "costShareSourceSubAccountNumber";
+    public static final String COST_SHARE_CHART_OF_ACCOUNT = "costShareChartOfAccount";
+    public static final String COST_SHARE_CHART_OF_ACCOUNT_CODE = "costShareChartOfAccountCode";
+    public static final String COST_SHARE_FIN_CHART_OF_ACCOUNT_CD = "costShareFinChartOfAccountCd";
     public static final String COST_SHARE_FRINGE_RATE_AMOUNT = "costShareFringeRateAmount";
     public static final String COST_SHARE_OPTION = "costShareOption";
     public static final String COST_SHARE_ORG_CD = "costShareOrgCd";
@@ -703,6 +708,7 @@ public class KFSPropertyConstants {
     public static final String FUND_BALANCE_INDICATOR = "fundBalanceIndicator";
     public static final String FUND_GROUP = "fundGroup";
     public static final String FUND_GROUP_CODE = "fundGroupCode";
+    public static final String FUND_MANAGER = "fundManager";
     public static final String GENERAL_LEDGER_PENDING_ENTRIES = "generalLedgerPendingEntries";
     public static final String GENERAL_LEDGER_PENDING_ENTRY = "generalLedgerPendingEntry";
     public static final String GENERAL_LEDGER_INPUT_TYPE_CODE = "inputTypeCode";
@@ -1014,7 +1020,7 @@ public class KFSPropertyConstants {
     public static final String PROCESSING_ORG = "processingOrg";
     public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
     public static final String CONTACT_DEPARTMENT_NAME = "contactDepartmentName";
-    public static final String CONTACT_MAILING_ADDRESS= "contactMailingAddress";
+    public static final String CONTACT_MAILING_ADDRESS = "contactMailingAddress";
     public static final String CONTACT_PERSON_PHONE_NUMBER = "contactPersonPhoneNumber";
     public static final String PROCUREMENT_CARD_HOLDER_LINE1_ADDRESS = "cardHolderLine1Address";
     public static final String PROCUREMENT_CARD_HOLDER_LINE2_ADDRESS = "cardHolderLine2Address";
@@ -1115,6 +1121,7 @@ public class KFSPropertyConstants {
     public static final String SUFFICIENT_FUNDS_OBJECT_CODE = "sufficientFundsObjectCode";
     public static final String SUM_TOTAL_AMOUNT = "sumTotalAmount";
     public static final String SUPERVISOR_USER = "supervisorUser";
+    public static final String SUSPENSION_REASON = "suspensionReason";
     public static final String TABLE_NAME = "tableName";
     public static final String TARGET_ACCOUNTING_LINE = "targetAccountingLine";
     public static final String TARGET_ACCOUNTING_LINES = "targetAccountingLines";

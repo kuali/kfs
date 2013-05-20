@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="ContractsAndGrantsAgingReport" parent="ContractsAndGrantsAgingReport-parentBean" />
+
+	<bean id="ContractsAndGrantsAgingReport-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.ar.businessobject.ContractsAndGrantsAgingReport" />
+		<property name="lookupDefinition">
+			<ref bean="ContractsAndGrantsAgingReport-lookupDefinition" />
+		</property>
+		<property name="objectLabel" value="Contracts And Grants Aging Report" />
+		<property name="attributes">
+			<list>
+				<ref bean="ContractsAndGrantsAgingReport-billingChartCode" />
+				<ref bean="ContractsAndGrantsAgingReport-organizationCode" />
+				<ref bean="ContractsAndGrantsAgingReport-principalId" />
+				<ref bean="ContractsAndGrantsAgingReport-collector.principalName" />
+				<ref bean="ContractsAndGrantsAgingReport-customerNumber" />
+				<ref bean="ContractsAndGrantsAgingReport-customerName" />
+				<ref bean="ContractsAndGrantsAgingReport-accountChartOfAccountsCode" />
+				<ref bean="ContractsAndGrantsAgingReport-accountNumber" />
+				<ref bean="ContractsAndGrantsAgingReport-fundManager" />
+				<ref
+					bean="ContractsAndGrantsAgingReport-lookupFundMgrPerson.principalName" />
+
+				<ref bean="ContractsAndGrantsAgingReport-proposalNumber" />
+				<ref bean="ContractsAndGrantsAgingReport-awardDocumentNumber" />
+				<ref bean="ContractsAndGrantsAgingReport-markedAsFinal" />
+				<ref bean="ContractsAndGrantsAgingReport-awardEndDate" />
+				<ref bean="ContractsAndGrantsAgingReport-invoiceAmountFrom" />
+				<ref bean="ContractsAndGrantsAgingReport-invoiceAmountTo" />
+				<ref bean="ContractsAndGrantsAgingReport-invoiceNumber" />
+				<ref bean="ContractsAndGrantsAgingReport-invoiceDate" />
+				<ref bean="ContractsAndGrantsAgingReport-reportRunDate" />
+
+				<ref bean="ContractsAndGrantsAgingReport-unpaidBalance0to30" />
+				<ref bean="ContractsAndGrantsAgingReport-unpaidBalance31to60" />
+				<ref bean="ContractsAndGrantsAgingReport-unpaidBalance61to90" />
+				<ref bean="ContractsAndGrantsAgingReport-unpaidBalance91toSYSPR" />
+				<ref bean="ContractsAndGrantsAgingReport-unpaidBalanceSYSPRplus1orMore" />
+
+				<ref bean="ContractsAndGrantsAgingReport-reportingName" />
+				<ref bean="ContractsAndGrantsAgingReport-totalOpenInvoices" />
+				<ref bean="ContractsAndGrantsAgingReport-totalCredits" />
+				<ref bean="ContractsAndGrantsAgingReport-totalWriteOff" />
+				<ref bean="ContractsAndGrantsAgingReport-contractsAndGrantsAccountResponsibilityId" />
+				<ref bean="ContractsAndGrantsAgingReport-processingOrganizationCode" />
+				<ref bean="ContractsAndGrantsAgingReport-processingChartOfAccountCode" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="collector" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
+								p:targetName="principalId" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:sourceName="collector.principalName"
+								p:targetName="principalName" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="userLookupRoleNamespaceCode"
+								p:targetName="lookupRoleNamespaceCode" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="userLookupRoleName"
+								p:targetName="lookupRoleName" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="lookupFundMgrPerson" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="fundManager"
+								p:targetName="principalId" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:sourceName="lookupFundMgrPerson.principalName"
+								p:targetName="principalName" />						
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="customer" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="customerNumber"
+								p:targetName="customerNumber" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:sourceName="customerNumber"
+								p:targetName="customerNumber" />						
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="account" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountNumber"
+								p:targetName="accountNumber" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:sourceName="accountNumber"
+								p:targetName="accountNumber" />						
+						</list>
+					</property>
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+	<bean id="ContractsAndGrantsAgingReport-customerNumber" parent="ContractsAndGrantsAgingReport-customerNumber-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-customerNumber-parentBean"
+		abstract="true" parent="Customer-customerNumber" />
+
+	<bean id="ContractsAndGrantsAgingReport-customerName" parent="ContractsAndGrantsAgingReport-customerName-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-customerName-parentBean"
+		abstract="true" parent="Customer-customerName" />
+
+	<bean id="ContractsAndGrantsAgingReport-accountChartOfAccountsCode"
+		parent="ContractsAndGrantsAgingReport-accountChartOfAccountsCode-parentBean" />
+	<bean
+		id="ContractsAndGrantsAgingReport-accountChartOfAccountsCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="name" value="accountChartOfAccountsCode" />
+		<property name="label" value="Account Chart Code" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-accountNumber" parent="ContractsAndGrantsAgingReport-accountNumber-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-accountNumber-parentBean"
+		abstract="true" parent="Account-accountNumber" />
+
+	<bean id="ContractsAndGrantsAgingReport-proposalNumber" parent="ContractsAndGrantsAgingReport-proposalNumber-parentBean">
+		<property name="forceUppercase" value="true" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-proposalNumber-parentBean"
+		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
+		p:sourceAttributeName="proposalNumber">
+		<property name="name" value="proposalNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Proposal Number" />
+		<property name="shortLabel" value="Prop Num" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="14" />
+		</property>
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-awardDocumentNumber"
+		parent="ContractsAndGrantsAgingReport-awardDocumentNumber-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-awardDocumentNumber-parentBean"
+		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
+		p:sourceAttributeName="awardDocumentNumber">
+		<property name="name" value="awardDocumentNumber" />
+		<property name="label" value="Award Document Number" />
+		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="14" />
+		</property>
+	</bean>
+
+
+	<bean id="ContractsAndGrantsAgingReport-markedAsFinal" parent="ContractsAndGrantsAgingReport-markedAsFinal-parentBean" />
+
+	<bean id="ContractsAndGrantsAgingReport-markedAsFinal-parentBean"
+		abstract="true" parent="GenericAttributes-genericBoolean">
+		<property name="name" value="markedAsFinal" />
+		<property name="label" value="Invoices Marked as Final" />
+		<property name="shortLabel" value="Invoices Marked as Final" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-collector" parent="ContractsAndGrantsAgingReport-collector-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-collector-parentBean"
+		abstract="true" parent="PersonImpl-principalId">
+		<property name="name" value="collector" />
+		<property name="label" value="Collector" />
+		<property name="shortLabel" value="Collector" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-invoiceNumber" parent="ContractsAndGrantsAgingReport-invoiceNumber-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-invoiceNumber-parentBean"
+		abstract="true" parent="CustomerInvoiceDocument-organizationInvoiceNumber">
+		<property name="name" value="invoiceNumber" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-reportRunDate" parent="ContractsAndGrantsAgingReport-reportRunDate-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-reportRunDate-parentBean"
+		abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="reportRunDate" />
+		<property name="label" value="Report Run Date" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:datePicker="true" p:size="10"
+				p:ranged="false" />
+		</property>
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-invoiceAmountFrom"
+		parent="ContractsAndGrantsAgingReport-invoiceAmountFrom-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-invoiceAmountFrom-parentBean"
+		abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="invoiceAmountFrom" />
+		<property name="label" value="Invoice Amount From" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-invoiceAmountTo"
+		parent="ContractsAndGrantsAgingReport-invoiceAmountTo-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-invoiceAmountTo-parentBean"
+		abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="invoiceAmountTo" />
+		<property name="label" value="Invoice Amount To" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-unpaidBalance0to30"
+		parent="ContractsAndGrantsAgingReport-unpaidBalance0to30-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-unpaidBalance0to30-parentBean"
+		abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="unpaidBalance0to30" />
+		<property name="label" value="0-30 days" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-unpaidBalance31to60"
+		parent="ContractsAndGrantsAgingReport-unpaidBalance31to60-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-unpaidBalance31to60-parentBean"
+		abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="unpaidBalance31to60" />
+		<property name="label" value="31-60 days" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-unpaidBalance61to90"
+		parent="ContractsAndGrantsAgingReport-unpaidBalance61to90-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-unpaidBalance61to90-parentBean"
+		abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="unpaidBalance61to90" />
+		<property name="label" value="61-90 days" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-unpaidBalance91toSYSPR"
+		parent="ContractsAndGrantsAgingReport-unpaidBalance91toSYSPR-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-unpaidBalance91toSYSPR-parentBean"
+		abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="unpaidBalance91toSYSPR" />
+		<property name="label" value="91-120 days" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-unpaidBalanceSYSPRplus1orMore"
+		parent="ContractsAndGrantsAgingReport-unpaidBalanceSYSPRplus1orMore-parentBean" />
+	<bean
+		id="ContractsAndGrantsAgingReport-unpaidBalanceSYSPRplus1orMore-parentBean"
+		abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="unpaidBalanceSYSPRplus1orMore" />
+		<property name="label" value="121+ days" />
+	</bean>
+
+
+	<bean id="ContractsAndGrantsAgingReport-reportingName" parent="ContractsAndGrantsAgingReport-reportingName-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-reportingName-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="reportingName" />
+		<property name="label" value="Agency Short Name" />
+		<property name="shortLabel" value="ReportingNm" />
+		<property name="maxLength" value="30" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+	</bean>
+	
+	<bean id="ContractsAndGrantsAgingReport-totalOpenInvoices"
+		parent="ContractsAndGrantsAgingReport-totalOpenInvoices-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-totalOpenInvoices-parentBean"
+		abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="totalOpenInvoices" />
+		<property name="label" value="Total Open Invoices" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-totalCredits" parent="ContractsAndGrantsAgingReport-totalCredits-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-totalCredits-parentBean"
+		abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="totalCredits" />
+		<property name="label" value="Total Credits" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-totalWriteOff" parent="ContractsAndGrantsAgingReport-totalWriteOff-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-totalWriteOff-parentBean"
+		abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="totalWriteOff" />
+		<property name="label" value="Total Write-Off" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-awardEndDate" parent="ContractsAndGrantsAgingReport-awardEndDate-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-awardEndDate-parentBean"
+		abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="awardEndDate" />
+		<property name="label" value="Award End Date" />
+	</bean>
+	
+	<!-- Collector entry -->
+
+	<bean id="ContractsAndGrantsAgingReport-collector.principalName"
+		parent="ContractsAndGrantsAgingReport-collector.principalName-parentBean" />
+
+	<bean
+		id="ContractsAndGrantsAgingReport-collector.principalName-parentBean"
+		abstract="true" parent="PersonImpl-principalName">
+		<property name="name" value="collector.principalName" />
+		<property name="label" value="Collector" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-principalId" parent="ContractsAndGrantsAgingReport-principalId-parentBean" />
+
+	<bean id="ContractsAndGrantsAgingReport-principalId-parentBean"
+		abstract="true" parent="PersonImpl-principalId">
+		<property name="name" value="principalId" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Collector" />
+		<property name="shortLabel" value="Collector" />
+		<property name="maxLength" value="40" />
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+
+
+	<bean id="ContractsAndGrantsAgingReport-billingChartCode"
+		parent="ContractsAndGrantsAgingReport-billingChartCode-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-billingChartCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="name" value="billingChartCode" />
+		<property name="label" value="Billing Chart Code" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-organizationCode"
+		parent="ContractsAndGrantsAgingReport-organizationCode-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-organizationCode-parentBean"
+		abstract="true" parent="Organization-organizationCode">
+		<property name="label" value="Billing Organization Code" />
+	</bean>
+
+<bean id="ContractsAndGrantsAgingReport-processingChartOfAccountCode"
+		parent="ContractsAndGrantsAgingReport-processingChartOfAccountCode-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-processingChartOfAccountCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="name" value="processingChartOfAccountCode" />
+		<property name="label" value="Processing Chart Code" />
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-processingOrganizationCode"
+		parent="ContractsAndGrantsAgingReport-processingOrganizationCode-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-processingOrganizationCode-parentBean"
+		abstract="true" parent="Organization-organizationCode">
+		<property name="name" value="processingOrganizationCode" />
+		<property name="label" value="Processing Organization Code" />
+	</bean>
+
+
+	<bean id="ContractsAndGrantsAgingReport-fundManager" parent="ContractsAndGrantsAgingReport-fundManager-parentBean" />
+
+	<bean id="ContractsAndGrantsAgingReport-fundManager-parentBean"
+		abstract="true" parent="PersonImpl-principalId">
+		<property name="name" value="fundManager" />
+		<property name="label" value="Fund Manager" />
+		<property name="shortLabel" value="FundMgr" />
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-lookupFundMgrPerson.principalName"
+		parent="ContractsAndGrantsAgingReport-lookupFundMgrPerson.principalName-parentBean" />
+
+	<bean
+		id="ContractsAndGrantsAgingReport-lookupFundMgrPerson.principalName-parentBean"
+		abstract="true" parent="PersonImpl-principalName">
+		<property name="name" value="lookupFundMgrPerson.principalName" />
+		<property name="label" value="Fund Manager" />
+		<property name="shortLabel" value="Fund Mgr" />
+		<property name="control">
+    		<bean parent="LookupReadonlyControlDefinition" p:size="20"/>
+    	</property>
+	</bean>
+
+	<bean id="ContractsAndGrantsAgingReport-invoiceDate" parent="ContractsAndGrantsAgingReport-invoiceDate-parentBean" />
+	<bean id="ContractsAndGrantsAgingReport-invoiceDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="invoiceDate" />
+		<property name="label" value="Invoice Date" />
+		<property name="shortLabel" value="Inv Date" />
+		<property name="required" value="false" />
+	</bean>
+	
+	<bean id="ContractsAndGrantsAgingReport-contractsAndGrantsAccountResponsibilityId" parent="ContractsAndGrantsAgingReport-contractsAndGrantsAccountResponsibilityId-parentBean"/>
+	  <bean id="ContractsAndGrantsAgingReport-contractsAndGrantsAccountResponsibilityId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="contractsAndGrantsAccountResponsibilityId"/>
+	    <property name="label" value="CG Account Responsibility Id"/>
+	    <property name="shortLabel" value="Responsibility Id"/>
+	    <property name="maxLength" value="4"/>
+	    <property name="validationPattern">
+	      <ref bean="NumericValidation" />
+	    </property>
+	    <property name="control">
+	      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.AccountResponsibilityIdFinder" p:includeKeyInLabel="false"/>
+	    </property>
+	    
+	    
+	  </bean>
+	<!-- Business Object Inquiry Definition -->
+
+	<bean id="ContractsAndGrantsAgingReport-inquiryDefinition"
+		parent="ContractsAndGrantsAgingReport-inquiryDefinition-parentBean" />
+
+	<bean id="ContractsAndGrantsAgingReport-inquiryDefinition-parentBean"
+		abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Balances By Consolidation" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="title" value="" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="customerName" />
+							<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+							<bean parent="FieldDefinition" p:attributeName="unpaidBalance0to30" />
+							<bean parent="FieldDefinition" p:attributeName="unpaidBalance31to60" />
+							<bean parent="FieldDefinition" p:attributeName="unpaidBalance61to90" />
+							<bean parent="FieldDefinition" p:attributeName="unpaidBalance91toSYSPR" />
+							<bean parent="FieldDefinition" p:attributeName="unpaidBalanceSYSPRplus1orMore" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="ContractsAndGrantsAgingReport-lookupDefinition"
+		parent="ContractsAndGrantsAgingReport-lookupDefinition-parentBean" />
+
+
+  <bean id="ContractsAndGrantsAgingReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Contracts And Grants Aging Report"/>
+    <property name="lookupableID" value="arContractsAndGrantsAgingReportLookupable"/>
+    
+    <property name="lookupFields">
+      <list>
+      	<bean parent="FieldDefinition" p:attributeName="organizationCode"/> 
+      	<bean parent="FieldDefinition" p:attributeName="billingChartCode"/> 
+      	<bean parent="FieldDefinition" p:attributeName="processingOrganizationCode" />
+		<bean parent="FieldDefinition" p:attributeName="processingChartOfAccountCode" />
+        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>  
+        <bean parent="FieldDefinition" p:attributeName="customerName"/>
+        <bean parent="FieldDefinition" p:attributeName="accountChartOfAccountsCode" />
+        <bean parent="FieldDefinition" p:attributeName="accountNumber" />
+        <bean parent="FieldDefinition" p:attributeName="fundManager"/>
+        <bean parent="FieldDefinition" p:attributeName="lookupFundMgrPerson.principalName"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="collector.principalName" />
+		<bean parent="FieldDefinition" p:attributeName="principalId" />
+        <bean parent="FieldDefinition" p:attributeName="awardDocumentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="markedAsFinal" p:defaultValue ="N"/>
+        <bean parent="FieldDefinition" p:attributeName="awardEndDate" />
+        <bean parent="FieldDefinition" p:attributeName="invoiceDate" />
+        <bean parent="FieldDefinition" p:attributeName="invoiceAmountFrom"/> 
+        <bean parent="FieldDefinition" p:attributeName="invoiceAmountTo"/> 
+        <bean parent="FieldDefinition" p:attributeName="invoiceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="contractsAndGrantsAccountResponsibilityId" />     
+        <bean parent="FieldDefinition" p:attributeName="reportRunDate" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+	    <bean parent="FieldDefinition" p:attributeName="customerName"/>
+        <bean parent="FieldDefinition" p:attributeName="customerNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="reportingName"/>
+        <bean parent="FieldDefinition" p:attributeName="unpaidBalance0to30"/>
+        <bean parent="FieldDefinition" p:attributeName="unpaidBalance31to60"/>
+        <bean parent="FieldDefinition" p:attributeName="unpaidBalance61to90"/>
+        <bean parent="FieldDefinition" p:attributeName="unpaidBalance91toSYSPR"/>
+        <bean parent="FieldDefinition" p:attributeName="unpaidBalanceSYSPRplus1orMore"/>
+        <bean parent="FieldDefinition" p:attributeName="totalOpenInvoices"/>
+        <bean parent="FieldDefinition" p:attributeName="totalCredits"/>
+        <bean parent="FieldDefinition" p:attributeName="totalWriteOff"/>
+
+      </list>
+    </property>
+  </bean>
+
+</beans>

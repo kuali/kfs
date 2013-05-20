@@ -1,188 +1,256 @@
-<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-<!--
- Copyright 2007-2009 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
 
-  <bean id="OrganizationOptionsMaintenanceDocument" parent="OrganizationOptionsMaintenanceDocument-parentBean"/>
+	<bean id="OrganizationOptionsMaintenanceDocument" parent="OrganizationOptionsMaintenanceDocument-parentBean" />
 
-  <bean id="OrganizationOptionsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.OrganizationOptions"/>
-    <property name="maintainableClass" value="org.kuali.kfs.module.ar.document.OrganizationOptionsMaintainableImpl"/>
-    <property name="maintainableSections">
-      <list>
-        <ref bean="OrganizationOptionsMaintenanceDocument-EditOrganizationOptions"/>
-        <ref bean="OrganizationOptionsMaintenanceDocument-EditOrganizationInvoiceInformation"/>
-        <ref bean="OrganizationOptionsMaintenanceDocument-EditOrganizationRemitToAddress"/>
-        <ref bean="OrganizationOptionsMaintenanceDocument-EditOrganizationPhone"/>
-      </list>
-    </property>
-    <property name="defaultExistenceChecks">
-      <list>
-        <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode"/>
-        <bean parent="ReferenceDefinition" p:attributeName="organization" p:attributeToHighlightOnFail="organizationCode"/>
-        <bean parent="ReferenceDefinition" p:attributeName="processingChartOfAccount" p:attributeToHighlightOnFail="processingChartOfAccountCode"/>
-        <bean parent="ReferenceDefinition" p:attributeName="processingOrganization" p:attributeToHighlightOnFail="processingOrganizationCode"/>
-        <bean parent="ReferenceDefinition" p:attributeName="orgPostalZipCode" p:attributeToHighlightOnFail="organizationPostalZipCode"/>
-        <bean parent="ReferenceDefinition" p:attributeName="orgRemitToZipCode" p:attributeToHighlightOnFail="organizationRemitToZipCode"/>
-      </list>
-    </property>
-    <property name="lockingKeys">
-      <list>
-        <value>chartOfAccountsCode</value>
-        <value>organizationCode</value>
-      </list>
-    </property>
-    
-    
-    <property name="documentTypeName" value="OOPT"/>
-    <property name="businessRulesClass" value="org.kuali.kfs.module.ar.document.validation.impl.OrganizationOptionsRule"/>
-    <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ar.document.authorization.OrganizationOptionsPresentationController"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ar.document.authorization.OrganizationOptionsMaintenanceDocumentAuthorizer"/>
-    <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.ar.document.validation.impl.OrganizationOptionsPreRules"/>
-    <property name="workflowAttributes">
-    	<ref bean="OrganizationOptionsMaintenanceDocument-workflowAttributes"/>
-    </property>
-  </bean>
-
-<!-- Maintenance Section Definitions -->
-
-
-  <bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationOptions" parent="OrganizationOptionsMaintenanceDocument-EditOrganizationOptions-parentBean"/>
-
-  <bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationOptions-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Organization Options"/>
-    <property name="title" value="Edit Organization Options"/>
-    <property name="maintainableItems">
-      <list>
-        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="processingChartOfAccountCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="processingOrganizationCode" p:required="true"/>
-      </list>
-    </property>
-  </bean>
-  <bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationInvoiceInformation" parent="OrganizationOptionsMaintenanceDocument-EditOrganizationInvoiceInformation-parentBean"/>
-
-  <bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationInvoiceInformation-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Organization Invoice Information"/>
-    <property name="title" value="Edit Organization Invoice Information"/>
-    <property name="maintainableItems">
-      <list>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationPostalZipCode"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationPostalCountryCode"/>      
-        <bean parent="MaintainableFieldDefinition" p:name="organizationCheckPayableToName" p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.InstitutionNameValueFinder"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationPaymentTermsText" p:defaultValue="NET 30 DAYS"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationMessageText"/>
-        <bean parent="MaintainableFieldDefinition" p:name="printInvoiceIndicator" p:defaultValue="Y"/>
-      </list>
-    </property>
-  </bean>
-  <bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationRemitToAddress" parent="OrganizationOptionsMaintenanceDocument-EditOrganizationRemitToAddress-parentBean"/>
-
-  <bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationRemitToAddress-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Organization Remit To Address"/>
-    <property name="title" value="Edit Organization Remit To Address"/>
-    <property name="maintainableItems">
-      <list>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationRemitToAddressName" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToAddressNameValueFinder"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationRemitToLine1StreetAddress" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToLine1AddressValueFinder"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationRemitToLine2StreetAddress" p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToLine2AddressValueFinder"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationRemitToCityName" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToCityNameValueFinder"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationRemitToStateCode" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToStateCodeValueFinder"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationRemitToZipCode" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToZipCodeValueFinder"/>
-      </list>
-    </property>
-  </bean>
-  <bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationPhone" parent="OrganizationOptionsMaintenanceDocument-EditOrganizationPhone-parentBean"/>
-
-  <bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationPhone-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit Organization Phone"/>
-    <property name="title" value="Edit Organization Phone"/>
-    <property name="maintainableItems">
-      <list>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationPhoneNumber" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationFaxNumber"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organization800PhoneNumber"/>
-      </list>
-    </property>
-  </bean>
-  
-<!-- Start - Workflow Attribute Beans -->
-  <bean id="OrganizationOptionsMaintenanceDocument-SearchingTypeDefinition-chartOfAccountsCode" parent="OrganizationOptionsMaintenanceDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean"/>
-  
-  <bean id="OrganizationOptionsMaintenanceDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" abstract="true" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
-	<property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode"/>
-	  <property name="documentValues">
-	  	<list>
-	  		<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
-	   	</list>
-	</property>
-  </bean>
-
-  <bean id="OrganizationOptionsMaintenanceDocument-SearchingTypeDefinition-organizationCode" parent="OrganizationOptionsMaintenanceDocument-SearchingTypeDefinition-organizationCode-parentBean"/>
-  
-  <bean id="OrganizationOptionsMaintenanceDocument-SearchingTypeDefinition-organizationCode-parentBean" abstract="true" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
-	<property name="searchingAttribute" ref="SearchingAttribute-organizationCode"/>
-	  <property name="documentValues">
-	  	<list>
-	  		<value>newMaintainableObject.businessObject.organizationCode</value>
-	   	</list>
-	</property>
-  </bean>   
-
-  <bean id="OrganizationOptionsMaintenanceDocument-DocumentValuePathGroup" parent="OrganizationOptionsMaintenanceDocument-DocumentValuePathGroup-parentBean"/>
-  
-  <bean id="OrganizationOptionsMaintenanceDocument-DocumentValuePathGroup-parentBean" abstract="true" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
-		<property name="documentValues">
+	<bean id="OrganizationOptionsMaintenanceDocument-parentBean"
+		abstract="true" parent="MaintenanceDocumentEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.module.ar.businessobject.OrganizationOptions" />
+		<property name="maintainableClass"
+			value="org.kuali.kfs.module.ar.document.OrganizationOptionsMaintainableImpl" />
+		<property name="maintainableSections">
 			<list>
-				<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
-				<value>newMaintainableObject.businessObject.organizationCode</value>	    					
+				<ref
+					bean="OrganizationOptionsMaintenanceDocument-EditOrganizationOptions" />
+				<ref
+					bean="OrganizationOptionsMaintenanceDocument-EditOrganizationInvoiceInformation" />
+				<ref
+					bean="OrganizationOptionsMaintenanceDocument-EditOrganizationRemitToAddress" />
+				<ref bean="OrganizationOptionsMaintenanceDocument-EditOrganizationPhone" />
 			</list>
 		</property>
-  </bean>
-  
-  <bean id="RoutingType-OrganizationOptionsMaintenanceDocument-OrganizationHierarchy" parent="RoutingType-OrganizationOptionsMaintenanceDocument-parentBean"/>  			
-  
-  <bean id="RoutingType-OrganizationOptionsMaintenanceDocument-parentBean" abstract="true" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
-    	<property name="routingAttributes">
-    		<list>
-		        <ref bean="RoutingAttribute-chartOfAccountsCode"/>
-		        <ref bean="RoutingAttribute-organizationCode"/>
-    		</list>
-    	</property>
-    	<property name="documentValuePathGroups">
-    		<list>
-    			<ref bean="OrganizationOptionsMaintenanceDocument-DocumentValuePathGroup"/>    			
-    		</list>
-    	</property>
-    </bean>
-    
-  
-  <bean id="OrganizationOptionsMaintenanceDocument-workflowAttributes" parent="OrganizationOptionsMaintenanceDocument-workflowAttributes-parentBean"/>
-	
-  <bean id="OrganizationOptionsMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-    	<property name="searchingTypeDefinitions">
-    		<list>
-    			<ref bean="OrganizationOptionsMaintenanceDocument-SearchingTypeDefinition-chartOfAccountsCode"/>
-    			<ref bean="OrganizationOptionsMaintenanceDocument-SearchingTypeDefinition-organizationCode"/>
-    		</list>
-    	</property>
-    	<property name="routingTypeDefinitions">
-    		<map>
-    			<entry key="OrganizationHierarchy" value-ref="RoutingType-OrganizationOptionsMaintenanceDocument-OrganizationHierarchy"/>
-    		</map>
-    	</property>
-  </bean>
+		<property name="defaultExistenceChecks">
+			<list>
+				<bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts"
+					p:attributeToHighlightOnFail="chartOfAccountsCode" />
+				<bean parent="ReferenceDefinition" p:attributeName="organization"
+					p:attributeToHighlightOnFail="organizationCode" />
+				<bean parent="ReferenceDefinition" p:attributeName="processingChartOfAccount"
+					p:attributeToHighlightOnFail="processingChartOfAccountCode" />
+				<bean parent="ReferenceDefinition" p:attributeName="processingOrganization"
+					p:attributeToHighlightOnFail="processingOrganizationCode" />
+				<bean parent="ReferenceDefinition" p:attributeName="orgPostalZipCode"
+					p:attributeToHighlightOnFail="organizationPostalZipCode" />
+				<bean parent="ReferenceDefinition" p:attributeName="orgRemitToZipCode"
+					p:attributeToHighlightOnFail="organizationRemitToZipCode" />
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>chartOfAccountsCode</value>
+				<value>organizationCode</value>
+			</list>
+		</property>
+
+
+		<property name="documentTypeName" value="OOPT" />
+		<property name="businessRulesClass"
+			value="org.kuali.kfs.module.ar.document.validation.impl.OrganizationOptionsRule" />
+		<property name="documentPresentationControllerClass"
+			value="org.kuali.kfs.module.ar.document.authorization.OrganizationOptionsPresentationController" />
+		<property name="documentAuthorizerClass"
+			value="org.kuali.kfs.module.ar.document.authorization.OrganizationOptionsMaintenanceDocumentAuthorizer" />
+		<property name="promptBeforeValidationClass"
+			value="org.kuali.kfs.module.ar.document.validation.impl.OrganizationOptionsPreRules" />
+		<property name="workflowAttributes">
+			<ref bean="OrganizationOptionsMaintenanceDocument-workflowAttributes" />
+		</property>
+	</bean>
+
+	<!-- Maintenance Section Definitions -->
+
+
+	<bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationOptions"
+		parent="OrganizationOptionsMaintenanceDocument-EditOrganizationOptions-parentBean" />
+
+	<bean
+		id="OrganizationOptionsMaintenanceDocument-EditOrganizationOptions-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Edit Organization Options" />
+		<property name="title" value="Edit Organization Options" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="organizationCode"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="processingChartOfAccountCode"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="processingOrganizationCode"
+					p:required="true" />
+			</list>
+		</property>
+	</bean>
+	<bean
+		id="OrganizationOptionsMaintenanceDocument-EditOrganizationInvoiceInformation"
+		parent="OrganizationOptionsMaintenanceDocument-EditOrganizationInvoiceInformation-parentBean" />
+
+	<bean
+		id="OrganizationOptionsMaintenanceDocument-EditOrganizationInvoiceInformation-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Edit Organization Invoice Information" />
+		<property name="title" value="Edit Organization Invoice Information" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="organizationPostalZipCode" />
+				<bean parent="MaintainableFieldDefinition" p:name="organizationPostalCountryCode" />
+				<bean parent="MaintainableFieldDefinition" p:name="organizationCheckPayableToName"
+					p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.InstitutionNameValueFinder" />
+				<bean parent="MaintainableFieldDefinition" p:name="organizationPaymentTermsText"
+					p:defaultValue="NET 30 DAYS" />
+				<bean parent="MaintainableFieldDefinition" p:name="organizationMessageText" />
+				<bean parent="MaintainableFieldDefinition" p:name="printInvoiceIndicator"
+					p:defaultValue="Y" />
+				<bean parent="MaintainableFieldDefinition" p:name="cgBiller" />
+			</list>
+		</property>
+	</bean>
+	<bean
+		id="OrganizationOptionsMaintenanceDocument-EditOrganizationRemitToAddress"
+		parent="OrganizationOptionsMaintenanceDocument-EditOrganizationRemitToAddress-parentBean" />
+
+	<bean
+		id="OrganizationOptionsMaintenanceDocument-EditOrganizationRemitToAddress-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Edit Organization Remit To Address" />
+		<property name="title" value="Edit Organization Remit To Address" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="organizationRemitToAddressName"
+					p:required="true"
+					p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToAddressNameValueFinder" />
+				<bean parent="MaintainableFieldDefinition" p:name="organizationRemitToLine1StreetAddress"
+					p:required="true"
+					p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToLine1AddressValueFinder" />
+				<bean parent="MaintainableFieldDefinition" p:name="organizationRemitToLine2StreetAddress"
+					p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToLine2AddressValueFinder" />
+				<bean parent="MaintainableFieldDefinition" p:name="organizationRemitToCityName"
+					p:required="true"
+					p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToCityNameValueFinder" />
+				<bean parent="MaintainableFieldDefinition" p:name="organizationRemitToStateCode"
+					p:required="true"
+					p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToStateCodeValueFinder" />
+				<bean parent="MaintainableFieldDefinition" p:name="organizationRemitToZipCode"
+					p:required="true"
+					p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.defaultvalue.OrganizationRemitToZipCodeValueFinder" />
+			</list>
+		</property>
+	</bean>
+	<bean id="OrganizationOptionsMaintenanceDocument-EditOrganizationPhone"
+		parent="OrganizationOptionsMaintenanceDocument-EditOrganizationPhone-parentBean" />
+
+	<bean
+		id="OrganizationOptionsMaintenanceDocument-EditOrganizationPhone-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="Edit Organization Phone" />
+		<property name="title" value="Edit Organization Phone" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="organizationPhoneNumber"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="organizationFaxNumber" />
+				<bean parent="MaintainableFieldDefinition" p:name="organization800PhoneNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Start - Workflow Attribute Beans -->
+	<bean
+		id="OrganizationOptionsMaintenanceDocument-SearchingTypeDefinition-chartOfAccountsCode"
+		parent="OrganizationOptionsMaintenanceDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean" />
+
+	<bean
+		id="OrganizationOptionsMaintenanceDocument-SearchingTypeDefinition-chartOfAccountsCode-parentBean"
+		abstract="true" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+		<property name="searchingAttribute" ref="SearchingAttribute-chartOfAccountsCode" />
+		<property name="documentValues">
+			<list>
+				<value>newMaintainableObject.businessObject.chartOfAccountsCode
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean
+		id="OrganizationOptionsMaintenanceDocument-SearchingTypeDefinition-organizationCode"
+		parent="OrganizationOptionsMaintenanceDocument-SearchingTypeDefinition-organizationCode-parentBean" />
+
+	<bean
+		id="OrganizationOptionsMaintenanceDocument-SearchingTypeDefinition-organizationCode-parentBean"
+		abstract="true" class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+		<property name="searchingAttribute" ref="SearchingAttribute-organizationCode" />
+		<property name="documentValues">
+			<list>
+				<value>newMaintainableObject.businessObject.organizationCode</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="OrganizationOptionsMaintenanceDocument-DocumentValuePathGroup"
+		parent="OrganizationOptionsMaintenanceDocument-DocumentValuePathGroup-parentBean" />
+
+	<bean
+		id="OrganizationOptionsMaintenanceDocument-DocumentValuePathGroup-parentBean"
+		abstract="true" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+			<list>
+				<value>newMaintainableObject.businessObject.chartOfAccountsCode
+				</value>
+				<value>newMaintainableObject.businessObject.organizationCode</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean
+		id="RoutingType-OrganizationOptionsMaintenanceDocument-OrganizationHierarchy"
+		parent="RoutingType-OrganizationOptionsMaintenanceDocument-parentBean" />
+
+	<bean id="RoutingType-OrganizationOptionsMaintenanceDocument-parentBean"
+		abstract="true" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+		<property name="routingAttributes">
+			<list>
+				<ref bean="RoutingAttribute-chartOfAccountsCode" />
+				<ref bean="RoutingAttribute-organizationCode" />
+			</list>
+		</property>
+		<property name="documentValuePathGroups">
+			<list>
+				<ref bean="OrganizationOptionsMaintenanceDocument-DocumentValuePathGroup" />
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="OrganizationOptionsMaintenanceDocument-workflowAttributes"
+		parent="OrganizationOptionsMaintenanceDocument-workflowAttributes-parentBean" />
+
+	<bean
+		id="OrganizationOptionsMaintenanceDocument-workflowAttributes-parentBean"
+		abstract="true" parent="WorkflowAttributes">
+		<property name="searchingTypeDefinitions">
+			<list>
+				<ref
+					bean="OrganizationOptionsMaintenanceDocument-SearchingTypeDefinition-chartOfAccountsCode" />
+				<ref
+					bean="OrganizationOptionsMaintenanceDocument-SearchingTypeDefinition-organizationCode" />
+			</list>
+		</property>
+		<property name="routingTypeDefinitions">
+			<map>
+				<entry key="OrganizationHierarchy"
+					value-ref="RoutingType-OrganizationOptionsMaintenanceDocument-OrganizationHierarchy" />
+			</map>
+		</property>
+	</bean>
 </beans>

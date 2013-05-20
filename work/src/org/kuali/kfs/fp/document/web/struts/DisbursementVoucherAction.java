@@ -1,12 +1,12 @@
 /*
  * Copyright 2005 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -65,11 +65,16 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.rice.kns.util.WebUtils;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
  * This class handles Actions for the DisbursementVoucher.
@@ -146,7 +151,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
     /**
      * Do initialization for a new disbursement voucher
-     *
+     * 
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
@@ -352,16 +357,9 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         }
         GlobalVariables.getMessageMap().removeFromErrorPath(KFSPropertyConstants.NEW_PREPAID_EXPENSE_LINE);
 
-        //KFSMI-9523
-        //no errors so go ahead and add the record to the list.  Need to set the document number
-        //and recalculate the next line number for the new record that is created after adding the
-        //current one.
-        if (!GlobalVariables.getMessageMap().hasErrors()) {
-            newExpenseLine.setDocumentNumber(dvDocument.getDocumentNumber());
+        if (GlobalVariables.getMessageMap().hasErrors()) {
             dvDocument.getDvNonEmployeeTravel().addDvPrePaidEmployeeExpenseLine(newExpenseLine);
-            DisbursementVoucherNonEmployeeExpense newNewNonEmployeeExpenseLine = new DisbursementVoucherNonEmployeeExpense();
-            newNewNonEmployeeExpenseLine.setFinancialDocumentLineNumber(newExpenseLine.getFinancialDocumentLineNumber() + 1);
-            dvForm.setNewPrePaidNonEmployeeExpenseLine(newNewNonEmployeeExpenseLine);
+            dvForm.setNewPrePaidNonEmployeeExpenseLine(new DisbursementVoucherNonEmployeeExpense());
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -477,7 +475,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
     /**
      * Builds the wire charge message for the current fiscal year.
-     *
+     * 
      * @return the wire charge message for the current fiscal year
      */
     protected String retrieveWireChargeMessage() {
@@ -634,17 +632,16 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         if (getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking()) {
             documentActions = getPessimisticLockService().getDocumentActions(document, user, documentActions);
         }
-
+        
         Set<String> editModes = documentPresentationController.getEditModes(document);
         editModes = documentAuthorizer.getEditModes(document, user, editModes);
-
+        
         return documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT) && editModes.contains("fullEntry");
     }
 
     /**
      * Hook into performLookup to switch the payee lookup based on the payee type selected.
      */
-    @Override
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
@@ -680,11 +677,11 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         props.put(KRADConstants.LOOKUP_AUTO_SEARCH, "Yes");
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
 
-        props.put(KRADConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(dvForm));
+        props.put(KRADConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(dvForm));
         props.put(KRADConstants.DOC_NUM, dvForm.getDocument().getDocumentNumber());
 
         // TODO: how should this forward be handled
-        String url = UrlFactory.parameterizeUrl(getApplicationBaseUrl() + "/kr/" + KRADConstants.LOOKUP_ACTION, props);
+        String url = UrlFactory.parameterizeUrl(getBasePath(request) + "/kr/" + KRADConstants.LOOKUP_ACTION, props);
 
         dvForm.registerEditableProperty("methodToCall");
 
@@ -695,7 +692,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
      * setup the payee as an employee with the given id number
      */
     protected void setupPayeeAsEmployee(DisbursementVoucherForm dvForm, String payeeIdNumber) {
-        Person person = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
+        Person person = (Person) SpringContext.getBean(PersonService.class).getPersonByEmployeeId(payeeIdNumber);
         if (person != null) {
             ((DisbursementVoucherDocument) dvForm.getDocument()).templateEmployee(person);
             dvForm.setTempPayeeIdNumber(payeeIdNumber);
@@ -810,4 +807,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
             GlobalVariables.getMessageMap().putWarning(tab.getDocumentPropertyKey(), tab.messageKey);
         }
     }
+    
+    
+
 }

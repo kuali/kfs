@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+	<!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="InvoiceTemplate" parent="InvoiceTemplate-parentBean" />
+
+	<bean id="InvoiceTemplate-parentBean" abstract="true"
+		parent="BusinessObjectEntry">
+		<property name="businessObjectClass"
+			value="org.kuali.kfs.integration.cg.businessobject.InvoiceTemplate" />
+		<property name="titleAttribute" value="invoiceTemplateCode" />
+		<property name="objectLabel" value="Invoice Templates" />
+		<property name="attributes">
+			<list>
+				<ref bean="InvoiceTemplate-invoiceTemplateCode" />
+				<ref bean="InvoiceTemplate-invoiceTemplateDescription" />
+				<ref bean="InvoiceTemplate-filename" />
+				<ref bean="InvoiceTemplate-active" />
+				<ref bean="InvoiceTemplate-accessRestricted" />
+				<ref bean="InvoiceTemplate-billByChartOfAccountCode" />
+				<ref bean="InvoiceTemplate-billedByOrganizationCode" />
+				<ref bean="InvoiceTemplate-date" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+
+	<bean id="InvoiceTemplate-invoiceTemplateCode" parent="InvoiceTemplate-invoiceTemplateCode-parentBean" />
+
+	<bean id="InvoiceTemplate-invoiceTemplateCode-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="invoiceTemplateCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Invoice Template" />
+		<property name="shortLabel" value="Code" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+	</bean>
+
+	<bean id="InvoiceTemplate-invoiceTemplateDescription" parent="InvoiceTemplate-invoiceTemplateDescription-parentBean" />
+
+	<bean id="InvoiceTemplate-invoiceTemplateDescription-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="invoiceTemplateDescription" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Invoice Description" />
+		<property name="shortLabel" value="Description" />
+		<property name="maxLength" value="45" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="47" />
+		</property>
+	</bean>
+
+	<bean id="InvoiceTemplate-active" parent="InvoiceTemplate-active-parentBean" />
+
+	<bean id="InvoiceTemplate-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+	<bean id="InvoiceTemplate-filename" parent="InvoiceTemplate-filename-parentBean" />
+
+	<bean id="InvoiceTemplate-filename-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="filename" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="File Name" />
+		<property name="shortLabel" value="File Name" />
+		<property name="maxLength" value="45" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="47" />
+		</property>
+	</bean>
+
+	<bean id="InvoiceTemplate-date" parent="InvoiceTemplate-date-parentBean" />
+
+	<bean id="InvoiceTemplate-date-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="date" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Template Upload Date" />
+		<property name="shortLabel" value="Template Upload Date" />
+		<property name="maxLength" value="25" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="25" />
+		</property>
+	</bean>
+
+	<bean id="InvoiceTemplate-accessRestricted" parent="InvoiceTemplate-accessRestricted-parentBean" />
+
+	<bean id="InvoiceTemplate-accessRestricted-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="accessRestricted" />
+		<property name="label" value="Access Restricted" />
+		<property name="shortLabel" value="Access Restricted" />
+		<property name="maxLength" value="1" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+		<property name="formatterClass"
+			value="org.kuali.rice.core.web.format.BooleanFormatter" />
+	</bean>
+
+	<bean id="InvoiceTemplate-billByChartOfAccountCode" parent="InvoiceTemplate-billByChartOfAccountCode-parentBean" />
+
+	<bean id="InvoiceTemplate-billByChartOfAccountCode-parentBean"
+		abstract="true" parent="Chart-chartOfAccountsCode">
+		<property name="name" value="billByChartOfAccountCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Billing Chart Code" />
+		<property name="shortLabel" value="Billing Chart" />
+		<property name="control">
+			<ref bean="ChartSelectControl" />
+		</property>
+	</bean>
+
+	<bean id="InvoiceTemplate-billedByOrganizationCode" parent="InvoiceTemplate-billedByOrganizationCode-parentBean" />
+
+	<bean id="InvoiceTemplate-billedByOrganizationCode-parentBean"
+		abstract="true" parent="Organization-organizationCode">
+		<property name="name" value="billedByOrganizationCode" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Billing Organization Code" />
+		<property name="shortLabel" value="Billing Org Code" />
+	</bean>
+
+</beans>

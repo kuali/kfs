@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,7 +24,6 @@ import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.NonInvoicedDistribution;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public interface CustomerInvoiceDocumentService {
 
@@ -32,14 +31,14 @@ public interface CustomerInvoiceDocumentService {
      * Converts discount lines on the customer invoice document to paidapplieds. This method is only intended to be used once the
      * document is at least in the Processed state, and will throw an error if used on a document in an earlier state. This method
      * is intended to be called from the CustomerInvoiceDocument.handleRouteStatusChange
-     * 
+     *
      * @param invoice A populated Invoice document that is at least PROCESSED.
      */
     public void convertDiscountsToPaidApplieds(CustomerInvoiceDocument invoice);
 
     /**
      * Retrieves all invoice documents that are Open with outstanding balances, including workflow headers.
-     * 
+     *
      * @return A collection of CustomerInvoiceDocument documents, or an empty list of no matches.
      */
     public Collection<CustomerInvoiceDocument> getAllOpenCustomerInvoiceDocuments();
@@ -47,14 +46,14 @@ public interface CustomerInvoiceDocumentService {
     /**
      * Retrieves all invoice documents that are Open with outstanding balances. Will NOT retrieve workflow headers, so results of
      * this are not suitable for using to route, save, or otherwise perform workflow operations upon.
-     * 
+     *
      * @return
      */
     public Collection<CustomerInvoiceDocument> getAllOpenCustomerInvoiceDocumentsWithoutWorkflow();
 
     /**
      * Gets invoices without workflow headers, retrieves the workflow headers and returns invoices with workflow headers.
-     * 
+     *
      * @return
      */
     public Collection<CustomerInvoiceDocument> attachWorkflowHeadersToTheInvoices(Collection<CustomerInvoiceDocument> invoices);
@@ -63,7 +62,7 @@ public interface CustomerInvoiceDocumentService {
      * Retrieves all Open Invoices for this given Customer Number. IMPORTANT - Workflow headers and status are not retrieved by this
      * method, only the raw Customer Invoice Document from the Database. If you need a full workflow document, you can do use
      * DocumentService to retrieve each by document number.
-     * 
+     *
      * @param customerNumber
      * @return
      */
@@ -74,7 +73,7 @@ public interface CustomerInvoiceDocumentService {
      * into a 'LIKE customerName*' query. IMPORTANT - Workflow headers and status are not retrieved by this method, only the raw
      * Customer Invoice Document from the Database. If you need a full workflow document, you can do use DocumentService to retrieve
      * each by document number.
-     * 
+     *
      * @param customerName
      * @param customerTypeCode
      * @return
@@ -86,7 +85,7 @@ public interface CustomerInvoiceDocumentService {
      * into the customerName field is turned into a 'LIKE customerName*' query. IMPORTANT - Workflow headers and status are not
      * retrieved by this method, only the raw Customer Invoice Document from the Database. If you need a full workflow document, you
      * can do use DocumentService to retrieve each by document number.
-     * 
+     *
      * @param customerName
      * @return
      */
@@ -96,7 +95,7 @@ public interface CustomerInvoiceDocumentService {
      * Retrieves all Open Invoices for the given Customer Type Code. IMPORTANT - Workflow headers and status are not retrieved by
      * this method, only the raw Customer Invoice Document from the Database. If you need a full workflow document, you can do use
      * DocumentService to retrieve each by document number.
-     * 
+     *
      * @param customerTypeCode
      * @return
      */
@@ -104,14 +103,14 @@ public interface CustomerInvoiceDocumentService {
 
     /**
      * This method sets up default values for customer invoice document on initiation.
-     * 
+     *
      * @param document
      */
     public void setupDefaultValuesForNewCustomerInvoiceDocument(CustomerInvoiceDocument document);
 
     /**
      * This method sets up default values for customer invoice document when copied.
-     * 
+     *
      * @param customerInvoiceDocument
      */
     public void setupDefaultValuesForCopiedCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
@@ -142,7 +141,7 @@ public interface CustomerInvoiceDocumentService {
 
     /**
      * Cached for better performance
-     * 
+     *
      * @param customerInvoiceDocument
      * @return
      */
@@ -223,14 +222,14 @@ public interface CustomerInvoiceDocumentService {
 
     /**
      * This method updates the open invoice indicator if amounts have been completely paid off
-     * 
+     *
      * @param invoice
      */
     public void closeCustomerInvoiceDocument(CustomerInvoiceDocument customerInvoiceDocument);
 
     /**
      * This method...
-     * 
+     *
      * @param customerInvoiceDocumentNumber
      * @return
      */
@@ -239,7 +238,7 @@ public interface CustomerInvoiceDocumentService {
 
     /**
      * This method...
-     * 
+     *
      * @param customerInvoiceDocumentNumber
      * @return
      */

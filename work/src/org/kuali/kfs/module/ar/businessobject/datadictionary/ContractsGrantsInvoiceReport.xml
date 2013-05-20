@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!-- Copyright 2008-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="ContractsGrantsInvoiceReport" parent="ContractsGrantsInvoiceReport-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceReport-parentBean" abstract="true" parent="BusinessObjectEntry">
+
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport" />
+
+		<!-- <property name="inquiryDefinition"> <ref bean="ContractsGrantsInvoiceReport-inquiryDefinition"/> </property> -->
+		<property name="inquiryDefinition" ref="ContractsGrantsInvoiceReport-inquiryDefinition" />
+		<property name="lookupDefinition">
+			<ref bean="ContractsGrantsInvoiceReport-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="contractsGrantsInvoiceReportInquiryTitle" />
+		<property name="objectLabel" value="ContractsGrantsInvoiceReport" />
+
+		<property name="attributes">
+			<list>
+				<ref bean="ContractsGrantsInvoiceReport-proposalNumber" />
+				<ref bean="ContractsGrantsInvoiceReport-documentNumber" />
+				<ref bean="ContractsGrantsInvoiceReport-invoiceType" />
+				<ref bean="ContractsGrantsInvoiceReport-invoiceDate" />
+				<ref bean="ContractsGrantsInvoiceReport-invoiceDueDate" />
+				<ref bean="ContractsGrantsInvoiceReport-openInvoiceIndicator" />
+				<ref bean="ContractsGrantsInvoiceReport-customerNumber" />
+				<ref bean="ContractsGrantsInvoiceReport-customerName" />
+				<ref bean="ContractsGrantsInvoiceReport-invoiceAmount" />
+				<ref bean="ContractsGrantsInvoiceReport-paymentAmount" />
+				<ref bean="ContractsGrantsInvoiceReport-remainingAmount" />
+				<ref bean="ContractsGrantsInvoiceReport-ageInDays" />
+				<ref bean="ContractsGrantsInvoiceReport-dummyBusinessObject.invoiceReportOption" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="proposal">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="proposalNumber" p:targetName="proposalNumber" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="customer">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="customerNumber" p:targetName="customerNumber" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceReport-proposalNumber" parent="ContractsGrantsInvoiceReport-proposalNumber-parentBean" />
+	<bean id="ContractsGrantsInvoiceReport-proposalNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" p:sourceAttributeName="proposalNumber">
+		<property name="name" value="proposalNumber" />
+		<property name="label" value="Proposal Number" />
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceReport-documentNumber" parent="ContractsGrantsInvoiceReport-documentNumber-parentBean" />
+	<bean id="ContractsGrantsInvoiceReport-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
+
+	<bean id="ContractsGrantsInvoiceReport-invoiceType" parent="ContractsGrantsInvoiceReport-invoiceType-parentBean" />
+	<bean id="ContractsGrantsInvoiceReport-invoiceType-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="forceUppercase" value="true" />
+		<property name="shortLabel" value="Inv Type" />
+		<property name="maxLength" value="10" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="summary" value="Invoice Type" />
+		<property name="name" value="invoiceType" />
+		<property name="label" value="Invoice Type" />
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceReport-invoiceDate" parent="ContractsGrantsInvoiceReport-invoiceDate-parentBean" />
+	<bean id="ContractsGrantsInvoiceReport-invoiceDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="invoiceDate" />
+		<property name="label" value="Invoice Date" />
+		<property name="shortLabel" value="Inv Date" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceReport-invoiceDueDate" parent="ContractsGrantsInvoiceReport-invoiceDueDate-parentBean" />
+	<bean id="ContractsGrantsInvoiceReport-invoiceDueDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="invoiceDueDate" />
+		<property name="label" value="Due Date" />
+		<property name="shortLabel" value="Due Date" />
+		<property name="required" value="true" />
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceReport-openInvoiceIndicator" parent="ContractsGrantsInvoiceReport-openInvoiceIndicator-parentBean" />
+	<bean id="ContractsGrantsInvoiceReport-openInvoiceIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="openInvoiceIndicator" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Open Invoice Indicator" />
+		<property name="shortLabel" value="Open Invoice" />
+		<property name="maxLength" value="1" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+	</bean>
+	<bean id="ContractsGrantsInvoiceReport-customerNumber" parent="ContractsGrantsInvoiceReport-customerNumber-parentBean" />
+	<bean id="ContractsGrantsInvoiceReport-customerNumber-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="customerNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Customer Number" />
+		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="9" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="11" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceReport-customerName" parent="ContractsGrantsInvoiceReport-customerName-parentBean" />
+	<bean id="ContractsGrantsInvoiceReport-customerName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="customerName" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Customer Name" />
+		<property name="shortLabel" value="Name" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="62" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceReport-invoiceAmount" parent="ContractsGrantsInvoiceReport-invoiceAmount-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceReport-invoiceAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="invoiceAmount" />
+		<property name="label" value="Invoice Amount" />
+		<property name="shortLabel" value="Invoice Amount" />
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceReport-paymentAmount" parent="ContractsGrantsInvoiceReport-paymentAmount-parentBean" />
+	<bean id="ContractsGrantsInvoiceReport-paymentAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="paymentAmount" />
+		<property name="label" value="Payment Amount" />
+		<property name="shortLabel" value="Payment Amount" />
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceReport-remainingAmount" parent="ContractsGrantsInvoiceReport-remainingAmount-parentBean" />
+	<bean id="ContractsGrantsInvoiceReport-remainingAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="remainingAmount" />
+		<property name="label" value="Remaining Amount" />
+		<property name="shortLabel" value="Remaining Amount" />
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceReport-ageInDays" parent="ContractsGrantsInvoiceReport-ageInDays-parentBean" />
+	<bean id="ContractsGrantsInvoiceReport-ageInDays-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="ageInDays" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Age In Days" />
+		<property name="shortLabel" value="Days" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="3" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsInvoiceReport-dummyBusinessObject.invoiceReportOption" parent="ContractsGrantsInvoiceReport-dummyBusinessObject.invoiceReportOption-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceReport-dummyBusinessObject.invoiceReportOption-parentBean" abstract="true"
+		parent="TransientContractsGrantsAttributes-invoiceReportOption">
+		<property name="name" value="dummyBusinessObject.invoiceReportOption" />
+	</bean>
+
+
+
+
+
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="ContractsGrantsInvoiceReport-inquiryDefinition" parent="ContractsGrantsInvoiceReport-inquiryDefinition-parentBean" />
+	<bean id="ContractsGrantsInvoiceReport-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Contracts Grants Invoice Report Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<!-- <property name="defaultOpen" value="false"/> -->
+					<property name="title" value="ContractsGrantsInvoiceReport" />
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+
+
+
+
+	<!-- Business Object Lookup Definition -->
+
+	<bean id="ContractsGrantsInvoiceReport-lookupDefinition" parent="ContractsGrantsInvoiceReport-lookupDefinition-parentBean" />
+
+	<bean id="ContractsGrantsInvoiceReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="ContractsGrantsInvoiceReport Lookup" />
+		<property name="lookupableID" value="contractsGrantsInvoiceReportLookupResultLookupable" />
+
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceType" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceDate" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceDueDate" />
+				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:attributeName="customerName" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceAmount" />
+				<bean parent="FieldDefinition" p:attributeName="paymentAmount" />
+				<bean parent="FieldDefinition" p:attributeName="remainingAmount" />
+				<bean parent="FieldDefinition" p:attributeName="ageInDays" />
+				<bean parent="FieldDefinition" p:attributeName="dummyBusinessObject.invoiceReportOption" p:defaultValueFinderClass="org.kuali.kfs.module.ar.businessobject.options.InvoiceReportOptionFinder" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="proposalNumber" />
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceType" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceDate" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceDueDate" />
+				<bean parent="FieldDefinition" p:attributeName="openInvoiceIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<bean parent="FieldDefinition" p:attributeName="customerName" />
+				<bean parent="FieldDefinition" p:attributeName="invoiceAmount" />
+				<bean parent="FieldDefinition" p:attributeName="paymentAmount" />
+				<bean parent="FieldDefinition" p:attributeName="remainingAmount" />
+				<bean parent="FieldDefinition" p:attributeName="ageInDays" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
+

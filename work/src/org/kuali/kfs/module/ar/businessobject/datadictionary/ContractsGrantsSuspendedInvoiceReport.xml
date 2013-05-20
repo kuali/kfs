@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!-- Copyright 2008-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+	<bean id="ContractsGrantsSuspendedInvoiceReport" parent="ContractsGrantsSuspendedInvoiceReport-parentBean" />
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-parentBean" abstract="true" parent="BusinessObjectEntry">
+
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceReport" />
+
+		<!-- <property name="inquiryDefinition"> <ref bean="ContractsGrantsSuspendedInvoiceReport-inquiryDefinition"/> </property> -->
+
+		<property name="lookupDefinition">
+			<ref bean="ContractsGrantsSuspendedInvoiceReport-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="ContractsGrantsSuspendedInvoiceReportInquiryTitle" />
+		<property name="objectLabel" value="ContractsGrantsSuspendedInvoiceReport" />
+
+		<property name="attributes">
+			<list>
+
+				<ref bean="ContractsGrantsSuspendedInvoiceReport-suspensionCategoryCode" />
+				<ref bean="ContractsGrantsSuspendedInvoiceReport-documentNumber" />
+				<ref bean="ContractsGrantsSuspendedInvoiceReport-letterOfCreditFundGroupCode" />
+				<!-- <ref bean="ContractsGrantsSuspendedInvoiceReport-fundManagerPrincipalId" /> -->
+				<ref bean="ContractsGrantsSuspendedInvoiceReport-fundManagerPrincipalName" />
+				<ref bean="ContractsGrantsSuspendedInvoiceReport-fundManagerPrincipalIdForSearching" />
+				<ref bean="ContractsGrantsSuspendedInvoiceReport-awardFundManager.name" />
+				<ref bean="ContractsGrantsSuspendedInvoiceReport-awardFundManager.principalName" />
+				<!-- <ref bean="ContractsGrantsSuspendedInvoiceReport-projectDirectorPrincipalId" /> -->
+				<ref bean="ContractsGrantsSuspendedInvoiceReport-projectDirectorPrincipalName" />
+
+				<ref bean="ContractsGrantsSuspendedInvoiceReport-projectDirectorPrincipalIdForSearching" />
+				<ref bean="ContractsGrantsSuspendedInvoiceReport-awardProjectDirector.name" />
+				<ref bean="ContractsGrantsSuspendedInvoiceReport-awardProjectDirector.principalName" />
+				<ref bean="ContractsGrantsSuspendedInvoiceReport-awardTotal" />
+			</list>
+		</property>
+
+		<property name="relationships">
+			<list>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="awardFundManager">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="fundManagerPrincipalId" p:targetName="principalId" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="awardFundManager.principalName" p:targetName="principalName" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="awardFundManager.name" p:targetName="name" />
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="RelationshipDefinition" p:objectAttributeName="awardProjectDirector">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="projectDirectorPrincipalId" p:targetName="principalId" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="awardProjectDirector.principalName" p:targetName="principalName" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="awardProjectDirector.name" p:targetName="name" />
+
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="letterOfCreditFundGroup">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="letterOfCreditFundGroupCode" p:targetName="letterOfCreditFundGroupCode" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition" p:objectAttributeName="suspensionCategory">
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="suspensionCategoryCode" p:targetName="suspensionCategoryCode" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+
+	</bean>
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-suspensionCategoryCode" parent="ContractsGrantsSuspendedInvoiceReport-suspensionCategoryCode-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceReport-suspensionCategoryCode-parentBean" abstract="true" parent="SuspensionCategory-suspensionCategoryCode">
+		<property name="name" value="suspensionCategoryCode" />
+	</bean>
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-documentNumber" parent="ContractsGrantsSuspendedInvoiceReport-documentNumber-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceReport-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-letterOfCreditFundGroupCode" parent="ContractsGrantsSuspendedInvoiceReport-letterOfCreditFundGroupCode-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceReport-letterOfCreditFundGroupCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup" p:sourceAttributeName="letterOfCreditFundGroupCode">
+		<property name="name" value="letterOfCreditFundGroupCode" />
+		<property name="label" value="Letter Of Credit Fund Group Code" />
+	</bean>
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-fundManagerPrincipalId" parent="ContractsGrantsSuspendedInvoiceReport-fundManagerPrincipalId-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceReport-fundManagerPrincipalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+		<property name="name" value="fundManagerPrincipalId" />
+		<property name="label" value="Fund Manager ID" />
+		<property name="shortLabel" value="Fund Mng ID" />
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+		<property name="displayLabelAttribute" value="awardFundManager.principalName" />
+	</bean>
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-fundManagerPrincipalIdForSearching" parent="ContractsGrantsSuspendedInvoiceReport-fundManagerPrincipalIdForSearching-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceReport-fundManagerPrincipalIdForSearching-parentBean" abstract="true" parent="PersonImpl-principalId">
+		<property name="name" value="fundManagerPrincipalIdForSearching" />
+		<property name="label" value="Fund Manager ID" />
+		<property name="shortLabel" value="Fund Manager ID" />
+		<property name="displayLabelAttribute" value="awardFundManager.principalName" />
+	</bean>
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-awardFundManager.name" parent="ContractsGrantsSuspendedInvoiceReport-awardFundManager.name-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceReport-awardFundManager.name-parentBean" abstract="true" parent="PersonImpl-name">
+		<property name="name" value="awardFundManager.name" />
+		<property name="label" value="Fund Manager Name" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-awardFundManager.principalName" parent="ContractsGrantsSuspendedInvoiceReport-awardFundManager.principalName-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceReport-awardFundManager.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+		<property name="name" value="awardFundManager.principalName" />
+		<property name="label" value="Fund Manager Name" />
+		<property name="shortLabel" value="FundManager Name" />
+		<property name="control">
+			<bean parent="KualiUserControlDefinition" p:personNameAttributeName="awardFundManager.name" p:universalIdAttributeName="fundManagerPrincipalId"
+				p:userIdAttributeName="awardFundManager.principalName" />
+		</property>
+	</bean>
+
+
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-fundManagerPrincipalName" parent="ContractsGrantsSuspendedInvoiceReport-fundManagerPrincipalName-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceReport-fundManagerPrincipalName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="fundManagerPrincipalName" />
+		<property name="label" value="Fund Manager Name" />
+		<property name="shortLabel" value="FundManager Name" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+	</bean>
+
+
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-projectDirectorPrincipalId" parent="ContractsGrantsSuspendedInvoiceReport-projectDirectorPrincipalId-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceReport-projectDirectorPrincipalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+		<property name="name" value="projectDirectorPrincipalId" />
+		<property name="label" value="Project Director ID" />
+		<property name="shortLabel" value="Proj Dir ID" />
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+		<property name="displayLabelAttribute" value="awardProjectDirector.principalName" />
+	</bean>
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-projectDirectorPrincipalIdForSearching" parent="ContractsGrantsSuspendedInvoiceReport-projectDirectorPrincipalIdForSearching-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceReport-projectDirectorPrincipalIdForSearching-parentBean" abstract="true" parent="PersonImpl-principalId">
+		<property name="name" value="projectDirectorPrincipalIdForSearching" />
+		<property name="label" value="Project Director ID" />
+		<property name="shortLabel" value="Proj Dir ID" />
+		<property name="displayLabelAttribute" value="awardProjectDirector.principalName" />
+	</bean>
+
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-awardProjectDirector.name" parent="ContractsGrantsSuspendedInvoiceReport-awardProjectDirector.name-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceReport-awardProjectDirector.name-parentBean" abstract="true" parent="PersonImpl-name">
+		<property name="name" value="awardProjectDirector.name" />
+		<property name="label" value="Project Director Name" />
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-awardProjectDirector.principalName" parent="ContractsGrantsSuspendedInvoiceReport-awardProjectDirector.principalName-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceReport-awardProjectDirector.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+		<property name="name" value="awardProjectDirector.principalName" />
+		<property name="label" value="Project Director Name" />
+		<property name="shortLabel" value="Proj Director Name" />
+		<property name="control">
+			<bean parent="KualiUserControlDefinition" p:personNameAttributeName="awardProjectDirector.name" p:universalIdAttributeName="projectDirectorPrincipalId"
+				p:userIdAttributeName="awardProjectDirector.principalName" />
+		</property>
+
+	</bean>
+
+
+
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-projectDirectorPrincipalName" parent="ContractsGrantsSuspendedInvoiceReport-projectDirectorPrincipalName-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceReport-projectDirectorPrincipalName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="projectDirectorPrincipalName" />
+		<property name="label" value="Project Director Name" />
+		<property name="shortLabel" value="ProjectDirector Name Name" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="30" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-awardTotal" parent="ContractsGrantsSuspendedInvoiceReport-awardTotal-parentBean" />
+	<bean id="ContractsGrantsSuspendedInvoiceReport-awardTotal-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="awardTotal" />
+		<property name="label" value="Award Total" />
+		<property name="shortLabel" value="Total" />
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-lookupDefinition" parent="ContractsGrantsSuspendedInvoiceReport-lookupDefinition-parentBean" />
+
+	<bean id="ContractsGrantsSuspendedInvoiceReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="ContractsGrantsSuspendedInvoiceReport Lookup" />
+		<property name="lookupableID" value="contractsGrantsSuspendedInvoiceReportLookupResultLookupable" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+
+				<bean parent="FieldDefinition" p:attributeName="suspensionCategoryCode" />
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundGroupCode" />
+				<bean parent="FieldDefinition" p:attributeName="awardFundManager.principalName" />
+				<bean parent="FieldDefinition" p:attributeName="awardProjectDirector.principalName" />
+				<bean parent="FieldDefinition" p:attributeName="awardTotal" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="suspensionCategoryCode" />
+				<bean parent="FieldDefinition" p:attributeName="documentNumber" />
+				<bean parent="FieldDefinition" p:attributeName="letterOfCreditFundGroupCode" />
+				<bean parent="FieldDefinition" p:attributeName="fundManagerPrincipalName" />
+				<bean parent="FieldDefinition" p:attributeName="projectDirectorPrincipalName" />
+				<bean parent="FieldDefinition" p:attributeName="awardTotal" />
+			</list>
+		</property>
+	</bean>
+</beans>
+

@@ -16,14 +16,16 @@
 
 package org.kuali.kfs.integration.cg.businessobject;
 
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class defines an agency as it is used and referenced within the Contracts and Grants portion of a college or university
  * financial system.
  */
-public class Agency implements ContractsAndGrantsAgency {
+public class Agency implements ContractsAndGrantsCGBAgency, ContractsAndGrantsAgency {
 
     private String agencyNumber;
     private String reportingName;
@@ -33,7 +35,13 @@ public class Agency implements ContractsAndGrantsAgency {
     private KualiDecimal indirectAmount;
     private boolean inStateIndicator;
     private Agency reportsToAgency;
+    private String customerNumber;
+    private String customerTypeCode;
+    private String dunsPlusFourNumber;
     private boolean active;
+    private AccountsReceivableCustomer customer;
+    private String collectionStatus;
+    private boolean stateAgency;
 
     /**
      * Gets the agencyTypeCode attribute.
@@ -75,7 +83,6 @@ public class Agency implements ContractsAndGrantsAgency {
      * Default no-arg constructor.
      */
     public Agency() {
-
     }
 
     /**
@@ -200,7 +207,8 @@ public class Agency implements ContractsAndGrantsAgency {
     }
 
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
+     * 
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -208,15 +216,127 @@ public class Agency implements ContractsAndGrantsAgency {
     }
 
     /**
+     * Gets the customerNumber attribute.
+     * 
+     * @return Returns the customerNumber.
+     */
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    /**
+     * Sets the customerNumber attribute value.
+     * 
+     * @param customerNumber The customerNumber to set.
+     */
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
+    }
+
+    /**
+     * Sets the customerTypeCode attribute value.
+     * 
+     * @param customerTypeCode The customerTypeCode to set.
+     */
+    public void setCustomerTypeCode(String customerTypeCode) {
+        this.customerTypeCode = customerTypeCode;
+    }
+
+    /**
+     * Gets the customerTypeCode attribute.
+     * 
+     * @return Returns the customerTypeCode.
+     */
+    public String getCustomerTypeCode() {
+        return customerTypeCode;
+    }
+
+    /**
+     * Gets the dunsPlusFourNumber attribute.
+     * 
+     * @return Returns the dunsPlusFourNumber.
+     */
+    public String getDunsPlusFourNumber() {
+        return dunsPlusFourNumber;
+    }
+
+    /**
+     * Sets the dunsPlusFourNumber attribute value.
+     * 
+     * @param dunsPlusFourNumber The dunsPlusFourNumber to set.
+     */
+    public void setDunsPlusFourNumber(String dunsPlusFourNumber) {
+        this.dunsPlusFourNumber = dunsPlusFourNumber;
+    }
+
+    /**
      * Sets the active attribute value.
+     * 
      * @param active The active to set.
      */
     public void setActive(boolean active) {
         this.active = active;
     }
 
-    public void prepareForWorkflow() {}
+    /**
+     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency#getCustomer()
+     */
+    public AccountsReceivableCustomer getCustomer() {
+        return customer;
+    }
 
-    public void refresh() {}
+    /**
+     * Sets the customer attribute.
+     * 
+     * @param customer The customer object to set.
+     */
+    public void setCustomer(AccountsReceivableCustomer customer) {
+        this.customer = customer;
+    }
 
+    /**
+     * @see org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency#getCollectionStatus()
+     */
+    public String getCollectionStatus() {
+        return collectionStatus;
+    }
+
+    /**
+     * Sets the collectionStatus attribute.
+     * 
+     * @param collectionStatus The collectionStatus to set.
+     */
+    public void setCollectionStatus(String collectionStatus) {
+        this.collectionStatus = collectionStatus;
+    }
+
+    /**
+     * Gets the stateAgency attribute.
+     * 
+     * @return Returns the stateAgency.
+     */
+    public boolean isStateAgency() {
+        return stateAgency;
+    }
+
+    /**
+     * Sets the stateAgency attribute value.
+     * 
+     * @param stateAgency The stateAgency to set.
+     */
+    public void setStateAgency(boolean stateAgency) {
+        this.stateAgency = stateAgency;
+    }
+
+    /**
+     * @see org.kuali.rice.krad.bo.BusinessObject#prepareForWorkflow()
+     */
+    public void prepareForWorkflow() {
+    }
+
+    /**
+     * @see org.kuali.rice.krad.bo.BusinessObject#refresh()
+     */
+    public void refresh() {
+    }
 }

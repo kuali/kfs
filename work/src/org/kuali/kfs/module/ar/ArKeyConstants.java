@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -168,10 +168,12 @@ public class ArKeyConstants {
     public static final String ERROR_INVALID_BANK_CODE = "error.ar.invalidBankCode";
     public static final String ERROR_BANK_NOT_ELIGIBLE_FOR_DEPOSIT_ACTIVITY = "error.ar.bankNotEligibleForDepositActivity";
     public static final String ERROR_BANK_CODE_REQUIRED = "error.ar.bankCodeRequired";
-
+    public static final String CASH_CTRL_DOC_CREATED_BY_BATCH = "message.ar.cashControlDocCreatedByLOC";
+    public static final String CASH_CTRL_DOC_CORRECTION = "message.ar.cashControlDocCorrection";
     public static final String CREATED_BY_CASH_CTRL_DOC = "message.ar.createdByCashControlDocument";
     public static final String DOCUMENT_DELETED_FROM_CASH_CTRL_DOC = "message.ar.documentDeletedFromCashControl";
     public static final String ELECTRONIC_PAYMENT_CLAIM = "message.ar.electronicPaymentClaim";
+    public static final String ERROR_CASH_CTRL_DTL_TO_REVERSE_NOT_SELECTED = "error.ar.cashControlDocToReverseNotSelected";
 
     // Customer Invoice Writeoff Document errors
     public static final String ERROR_CUSTOMER_INVOICE_WRITEOFF_CHART_WRITEOFF_OBJECT_DOESNT_EXIST = "error.document.customerInvoiceWriteoff.chartWriteoffObjectDoesntExist";
@@ -230,9 +232,74 @@ public class ArKeyConstants {
         public static final String CANNOT_QUICK_APPLY_ON_INVOICE_WITH_ZERO_OPEN_AMOUNT = "error.document.paymentApplication.cannotQuickApplyOnInvoiceWithZeroOpenAmount";
         public static final String ENTERED_INVOICE_CUSTOMER_NUMBER_INVALID = "error.document.paymentApplication.enteredInvoiceCustomerNumberInvalid";
         public static final String ENTERED_INVOICE_NUMBER_INVALID = "error.document.paymentApplication.enteredInvoiceNumberInvalid";
+        public static final String ERROR_DOCUMENT_PAYMENT_APPLICATION_MISSING_SYSTEM_INFORMATION = "error.document.paymentApplication.missing.system.information";
+        public static final String ERROR_SYSTEM_INFORMATION_IS_MISSING_REFUND_PAYMENT_REASON = "error.system.information.missing.refund.payment.reason";
+        public static final String ERROR_SYSTEM_INFORMATION_IS_MISSING_REFUND_DOCUMENTATION_LOCATION = "error.system.information.missing.refund.documentation.location";
     }
 
-    public static final class LockboxLoad {
+    public static class CollectionActivityDocumentErrors {
+        public static final String ERROR_FOLLOW_UP_DATE_REQUIRED = "error.collectionActivity.followupDateRequired";
+        public static final String ERROR_COMPLETED_DATE_REQUIRED = "error.collectionActivity.completedDateRequired";
+    }
+
+    public static class CollectionActivityDocumentConstants {
+        public static final String ENTERED_INVOICE_CUSTOMER_NUMBER_INVALID = "error.document.paymentApplication.enteredInvoiceCustomerNumberInvalid";
+        public static final String COLLECTION_ACTIVITY_TITLE_PROPERTY = "message.inquiry.collectionActivity.title";
+        public static final String CREATED_BY_COLLECTION_ACTIVITY_DOC = "message.ar.createdByCollectionActivityDocument";
+    }
+
+    // Contracts Grants Invoice constants and errors
+    public static class ContractsGrantsInvoiceConstants {
+        public static final String MESSAGE_CONTRACTS_GRANTS_INVOICE_BATCH_SENT = "message.document.contractsGrantsInvoiceOnDemand.batchSent";
+        public static final String WARNING_PRORATE_VALUE_IS_LESS_THAN_ELIGIBLE_FOR_BILLING = "warning.prorate.value.is.less.than.eligible.for.billing";
+        public static final String WARNING_PRORATE_VALUE_IS_MORE_THAN_ELIGIBLE_FOR_BILLING = "warning.prorate.value.is.more.than.eligible.for.billing";
+        public static final String ERROR_NO_AWARDS_RETRIEVED = "error.document.no.awards.retrieved";
+        public static final String ERROR_AWARDS_INVALID = "error.document.awards.invalid";
+        public static final String ERROR_TOTAL_AMOUNT_LESS_THAN_OR_EQUAL_TO_ZERO = "error.total.amount.less.than.equal.to.zero";
+        public static final String ERROR_DOCUMENT_GLPE_GENERATION_FAILED = "error.document.glpe.generation.failed";
+        public static final String ERROR_DOCUMENT_AMOUNT_TO_DRAW_INVALID = "error.document.amount.to.draw.invalid";
+    }
+
+    // Final Invoice Reversal Error
+    public static final String FINAL_INVOICE_REVERSAL_EDOC_ERROR_KEY = "error.custom";
+
+    /* Start TEM REFUND Merge */
+    // ar refunding
+    public static final String MESSAGE_REFUND_DV_DOCUMENT_DESCRIPTION = "message.document.refundDV.description";
+    public static final String MESSAGE_REFUND_DV_CHECK_STUB_TEXT = "message.document.refundDV.checkStubText";
+
+    /* End TEM REFUND Merge */
+
+    // Collection Activity Type errors
+    public static class CollectionActivityTypeConstants {
+        public static final String ERROR_COLLECTION_ACTIVITY_TYPE_DUPLICATE_VALUE = "error.document.collectionActivityType.duplicateValue";
+
+
+    }
+
+    public static class DunningCampaignConstantsAndErrors {
+        public static final String MESSAGE_DUNNING_CAMPAIGN_BATCH_NOT_SENT = "message.document.dunningCampaignOnDemand.batchNotSent";
+
+    }
+
+    public static class DunningLetterDistributionErrors {
+        public static final String ERROR_DAYS_PAST_DUE_DUPLICATE = "error.document.daysPastDue.duplicateValue";
+
+    }
+
+    public static class ReferralToCollectionsDocumentErrors {
+        public static final String ERROR_EMPTY_REQUIRED_FIELDS = "error.document.referralToCollections.emptyRequiredFields";
+    }
+
+    public static class CollectionHierarchyDocumentErrors {
+        public static final String ERROR_COLLINFO_SAME_AS_COLLHEAD = "error.document.collectorInformations.sameAsCollectorHead";
+        public static final String ERROR_DUPLICATE_COLL_INFO = "error.document.collectorInformations.duplicate";
+    }
+
+    public static final String ACTIONS_UPLOAD = "upload";
+    public static final String ACTIONS_DOWNLOAD = "download";
+    
+     public static final class LockboxLoad {
 
         public static final String ERROR_LOCKBOX_INVALID_FIRST_RECORD = "error.lockbox.invalid.first.record";
         public static final String ERROR_LOCKBOX_INVALID_HDR_TRANS_BATCH_TOT = "error.lockbox.invalid.hdr.trans.batch.tot";

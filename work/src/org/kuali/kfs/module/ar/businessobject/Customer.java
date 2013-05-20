@@ -60,15 +60,18 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
 
     private Customer customerParentCompany;
     private CustomerType customerType;
+    private CustomerCollector customerCollector;
     private List    boNotes;
 
     private List<CustomerAddress> customerAddresses;
+    private List<CustomerNote> customerNotes;
 
     /**
      * Default constructor.
      */
     public Customer() {
         customerAddresses = new ArrayList<CustomerAddress>();
+        customerNotes = new ArrayList<CustomerNote>();
     }
 
     /**
@@ -163,6 +166,7 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Sets the customerTypeDescription attribute value.
+     * 
      * @param customerTypeDescription The customerTypeDescription to set.
      */
     public void setCustomerTypeDescription(String customerTypeDescription) {

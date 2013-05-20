@@ -61,7 +61,6 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
      * Default constructor.
      */
     public CustomerAddress() {
-
     }
 
     /**
@@ -428,8 +427,8 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("customerNumber", this.customerNumber);
-        if (this.customerAddressIdentifier != null) {
+        m.put(KFSPropertyConstants.CUSTOMER_NUMBER, this.customerNumber);
+        if (ObjectUtils.isNotNull(this.customerAddressIdentifier)) {
             m.put("customerAddressIdentifier", this.customerAddressIdentifier.toString());
         }
         return m;

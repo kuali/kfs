@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.module.ar.document.web.struts;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,37 +33,50 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
+import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.Customer;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
+import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.validation.impl.PaymentApplicationDocumentRuleUtil;
+import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.springframework.util.CollectionUtils;
 
 public class PaymentApplicationDocumentAction extends FinancialSystemTransactionalDocumentActionBase {
 
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         doApplicationOfFunds((PaymentApplicationDocumentForm) form);
@@ -74,7 +87,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     protected BusinessObjectService businessObjectService;
     protected DocumentService documentService;
-    //protected WorkflowDocumentService workflowDocumentService;
+    protected WorkflowDocumentService workflowDocumentService;
     protected PaymentApplicationDocumentService paymentApplicationDocumentService;
     protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
     protected CustomerInvoiceDetailService customerInvoiceDetailService;
@@ -87,13 +100,17 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         super();
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         documentService = SpringContext.getBean(DocumentService.class);
-        //workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
+        workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
         paymentApplicationDocumentService = SpringContext.getBean(PaymentApplicationDocumentService.class);
         customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
         customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
         nonAppliedHoldingService = SpringContext.getBean(NonAppliedHoldingService.class);
     }
 
+    /**
+     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
+     *      javax.servlet.ServletRequest, javax.servlet.ServletResponse)
+     */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, ServletRequest request, ServletResponse response) throws Exception {
         PaymentApplicationDocumentForm payAppForm = (PaymentApplicationDocumentForm) form;
@@ -105,7 +122,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     /**
      * This is overridden in order to recalculate the invoice totals before doing the submit.
-     *
+     * 
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -115,6 +132,14 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return super.route(mapping, form, request, response);
     }
 
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteNonArLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
 
@@ -174,7 +199,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
     /**
      * Create an InvoicePaidApplied for a CustomerInvoiceDetail and validate it. If the validation succeeds the paidApplied is
      * returned. If the validation does succeed a null is returned.
-     *
+     * 
      * @param customerInvoiceDetail
      * @param paymentApplicationDocument
      * @param amount
@@ -195,11 +220,23 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return paidApplied;
     }
 
+    /**
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward applyAllAmounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         doApplicationOfFunds((PaymentApplicationDocumentForm) form);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * @param paymentApplicationDocumentForm
+     * @throws WorkflowException
+     */
     protected void doApplicationOfFunds(PaymentApplicationDocumentForm paymentApplicationDocumentForm) throws WorkflowException {
         PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
 
@@ -287,6 +324,10 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         }
     }
 
+    /**
+     * @param paymentApplicationDocumentForm
+     * @return
+     */
     protected List<InvoicePaidApplied> applyToIndividualCustomerInvoiceDetails(PaymentApplicationDocumentForm paymentApplicationDocumentForm) {
         PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
         String applicationDocNbr = paymentApplicationDocument.getDocumentNumber();
@@ -321,16 +362,12 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
                     continue;
                 }
 
-                if (containsIdentical(detailApplication.getInvoiceDetail(), invoicePaidApplieds)) {
-                    continue;
-                }
-
                 // generate and validate the paidApplied, and always add it to the list, even if
                 // it fails validation. Validation failures will stop routing.
                 LOG.debug("Generating paid applied for detail application " + detailApplication.getInvoiceDocumentNumber());
                 InvoicePaidApplied invoicePaidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName, paymentApplicationDocument);
                 GlobalVariables.getMessageMap().addToErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
-
+                InvoicePaidApplied invoicePaidApplied = generateAndValidateNewPaidApplied(detailApplication, fieldName, paymentApplicationDocument.getTotalFromControl());
                 GlobalVariables.getMessageMap().removeFromErrorPath(KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB);
                 invoicePaidApplieds.add(invoicePaidApplied);
                 paidAppliedsGenerated++;
@@ -340,10 +377,9 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return invoicePaidApplieds;
     }
 
-
     /**
-     * Provides a list consisting only of the Invoice Paid Applieds which do not match the current customer number
      * @param paymentApplicationDocumentForm
+     * @param appliedToIndividualDetails
      * @return
      */
     protected List<InvoicePaidApplied> filterTempInvoicePaidApplieds(PaymentApplicationDocumentForm paymentApplicationDocumentForm) {
@@ -487,6 +523,11 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return invoicePaidApplieds;
     }
 
+    /**
+     * @param payAppForm
+     * @return
+     * @throws WorkflowException
+     */
     protected NonInvoiced applyNonInvoiced(PaymentApplicationDocumentForm payAppForm) throws WorkflowException {
         PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) payAppForm.getDocument();
 
@@ -529,8 +570,14 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         return nonInvoiced;
     }
 
+    /**
+     * @param payAppForm
+     * @return
+     * @throws WorkflowException
+     */
     protected NonAppliedHolding applyUnapplied(PaymentApplicationDocumentForm payAppForm) throws WorkflowException {
         PaymentApplicationDocument payAppDoc = payAppForm.getPaymentApplicationDocument();
+        String customerNumber = payAppForm.getNonAppliedHoldingCustomerNumber();
         KualiDecimal amount = payAppForm.getNonAppliedHoldingAmount();
 
         // validate the customer number in the unapplied
@@ -583,7 +630,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method loads the invoices for currently selected customer
-     *
+     * 
      * @param applicationDocumentForm
      */
     protected void loadInvoices(PaymentApplicationDocumentForm payAppForm, String selectedInvoiceNumber) {
@@ -818,7 +865,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method updates the customer invoice details when a new invoice is selected
-     *
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -837,7 +884,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method updates customer invoice details when next invoice is selected
-     *
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -856,7 +903,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method updates customer invoice details when previous invoice is selected
-     *
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -875,7 +922,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     /**
      * Retrieve all invoices for the selected customer.
-     *
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -891,7 +938,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     /**
      * Cancel the document.
-     *
+     * 
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -932,7 +979,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     /**
      * Get an error to display in the UI for a certain field.
-     *
+     * 
      * @param propertyName
      * @param errorKey
      */
@@ -944,11 +991,31 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     /**
      * Get an error to display at the global level, for the whole document.
-     *
+     * 
      * @param errorKey
      */
     protected void addGlobalError(String errorKey) {
         GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.DOCUMENT_ERRORS, errorKey, "document.hiddenFieldForErrors");
     }
 
+    /**
+     * @see org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase#correct(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward correct(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentApplicationDocumentForm paymentApplicationDocumentForm = (PaymentApplicationDocumentForm) form;
+        PaymentApplicationDocument paymentApplicationDocument = paymentApplicationDocumentForm.getPaymentApplicationDocument();
+        CashControlDocument cashControlDocument = paymentApplicationDocument.getCashControlDocument();
+        if (cashControlDocument != null) {
+            for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
+                if (cashControlDetail.getReferenceFinancialDocumentNumber().equals(paymentApplicationDocument.getDocumentNumber())) {
+                    cashControlDetail.setToCorrectIndicator(true);
+                    break;
+                }
+            }
+            cashControlDocument.toErrorCorrection();
+        }
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 }

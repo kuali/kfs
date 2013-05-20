@@ -33,72 +33,81 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
 
-    private Long proposalNumber;    
+    private Long proposalNumber;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String principalId;
     private boolean active = true;
     private boolean newCollectionRecord;
     private boolean federalSponsor;
-    
     private Account account;
     private Chart chartOfAccounts;
     private Person projectDirector;
     private Award award;
-    
+
     /**
      * Default constructor.
      */
     public AwardAccount() {
         // Struts needs this instance to populate the secondary key, principalName.
         try {
-           // projectDirector = (Person)SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
-        } catch (Exception e) {}
+            projectDirector = (Person) SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
+        }
+        catch (Exception e) {
+        }
     }
 
-    public AwardAccount(ContractsAndGrantsAwardAccount awardAccountDTO, String accountNumber, String chartOfAccountsCode, String cfdaNumber){
+    /**
+     * @param awardAccountDTO
+     * @param accountNumber
+     * @param chartOfAccountsCode
+     * @param cfdaNumber
+     */
+    public AwardAccount(ContractsAndGrantsAwardAccount awardAccountDTO, String accountNumber, String chartOfAccountsCode, String cfdaNumber) {
         // Struts needs this instance to populate the secondary key, principalName.
         try {
-            projectDirector = (Person)SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
-        } catch (Exception e) {}
-        
+            projectDirector = (Person) SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
+        }
+        catch (Exception e) {
+        }
 
-        //setup this class from DTO        
+
+        // setup this class from DTO
         Proposal proposal = new Proposal();
         Award award = new Award();
         Agency agency = new Agency();
         Agency primeAgency = new Agency();
-        
-        this.setAccountNumber(accountNumber);        
+
+        this.setAccountNumber(accountNumber);
         this.setChartOfAccountsCode(chartOfAccountsCode);
         this.setPrincipalId(awardAccountDTO.getProjectDirector());
         this.setProposalNumber(awardAccountDTO.getAwardId());
         this.setActive(true);
         this.setFederalSponsor(awardAccountDTO.getFederalSponsor());
-        
-        award.setAwardNumber(awardAccountDTO.getProposalNumber());                       
+
+        award.setAwardNumber(awardAccountDTO.getProposalNumber());
         award.setProposalNumber(awardAccountDTO.getAwardId());
         award.setAgencyNumber(awardAccountDTO.getSponsorCode());
-        award.setAwardTitle(awardAccountDTO.getAwardTitle());        
+        award.setAwardTitle(awardAccountDTO.getAwardTitle());
         award.setGrantNumber(awardAccountDTO.getGrantNumber());
         award.setCfdaNumber(cfdaNumber);
-        
-        proposal.setFederalPassThroughAgencyNumber(awardAccountDTO.getProposalFederalPassThroughAgencyNumber());                
+
+        proposal.setFederalPassThroughAgencyNumber(awardAccountDTO.getProposalFederalPassThroughAgencyNumber());
         proposal.setProposalNumber(awardAccountDTO.getAwardId());
-                
+
         proposal.setAward(award);
         this.setAward(award);
         this.getAward().setProposal(proposal);
-                
+
         agency.setAgencyNumber(awardAccountDTO.getSponsorCode());
-        agency.setReportingName(awardAccountDTO.getSponsorName());                
+        agency.setReportingName(awardAccountDTO.getSponsorName());
         primeAgency.setAgencyNumber(awardAccountDTO.getPrimeSponsorCode());
         primeAgency.setReportingName(awardAccountDTO.getPrimeSponsorName());
-        this.getAward().setAgency(agency);        
+        this.getAward().setAgency(agency);
         this.getAward().setPrimeAgency(primeAgency);
     }
-    
-    /***
+
+    /**
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getProposalNumber()
      */
     public Long getProposalNumber() {
@@ -221,7 +230,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @SuppressWarnings("unchecked")    
+    @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.proposalNumber != null) {
@@ -229,6 +238,11 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
         }
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("accountNumber", this.accountNumber);
+        m.put("principalId", this.principalId);
+        m.put("active", this.active);
+        m.put("federalSponsor", this.federalSponsor);
+        m.put("newCollectionRecord", this.newCollectionRecord);
+
         return m;
     }
 
@@ -251,7 +265,7 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
-        this.active = active;
+        this.active = true;
     }
 
     /**
@@ -264,12 +278,16 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
         return null;
     }
 
-  //  @Override
+    /**
+     * @see org.kuali.rice.krad.bo.BusinessObject#prepareForWorkflow()
+     */
     public void prepareForWorkflow() {
-        
+
     }
 
-  //  @Override
+    /**
+     * @see org.kuali.rice.krad.bo.BusinessObject#refresh()
+     */
     public void refresh() {
     }
 
@@ -289,4 +307,3 @@ public class AwardAccount implements ContractsAndGrantsAccountAwardInformation {
         this.federalSponsor = federalSponsor;
     }
 }
-

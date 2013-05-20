@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License. 
+-->
+
+	<bean id="InvoiceGeneralDetail" parent="InvoiceGeneralDetail-parentBean" />
+
+	<bean id="InvoiceGeneralDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+
+		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail" />
+		<property name="objectLabel" value="Invoice General Detail" />
+		<property name="attributes">
+			<list>
+				<ref bean="InvoiceGeneralDetail-documentNumber" />
+				<ref bean="InvoiceGeneralDetail-comment" />
+				<ref bean="InvoiceGeneralDetail-awardDateRange" />
+				<ref bean="InvoiceGeneralDetail-billingFrequency" />
+				<ref bean="InvoiceGeneralDetail-finalBill" />
+				<ref bean="InvoiceGeneralDetail-billingPeriod" />
+				<ref bean="InvoiceGeneralDetail-contractGrantType" />
+				<ref bean="InvoiceGeneralDetail-awardTotal" />
+				<ref bean="InvoiceGeneralDetail-newTotalBilled" />
+				<ref bean="InvoiceGeneralDetail-amountRemainingToBill" />
+				<ref bean="InvoiceGeneralDetail-billedToDate" />
+				<ref bean="InvoiceGeneralDetail-costShareAmount" />
+				<ref bean="InvoiceGeneralDetail-lastBilledDate" />
+				<ref bean="InvoiceGeneralDetail-dunningLetterTemplateSentDate" />
+				<ref bean="InvoiceGeneralDetail-transferNumber" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+
+	<bean id="InvoiceGeneralDetail-documentNumber" parent="InvoiceGeneralDetail-documentNumber-parentBean" />
+
+	<bean id="InvoiceGeneralDetail-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+		<property name="forceUppercase" value="true" />
+	</bean>
+
+	<bean id="InvoiceGeneralDetail-comment" parent="InvoiceGeneralDetail-comment-parentBean" />
+
+	<bean id="InvoiceGeneralDetail-comment-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="comment" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Comment" />
+		<property name="shortLabel" value="Comment" />
+		<property name="maxLength" value="50" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+
+	<bean id="InvoiceGeneralDetail-awardDateRange" parent="InvoiceGeneralDetail-awardDateRange-parentBean" />
+
+	<bean id="InvoiceGeneralDetail-awardDateRange-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="awardDateRange" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Award Date Range" />
+		<property name="shortLabel" value="DateRange" />
+		<property name="maxLength" value="120" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+
+	<bean id="InvoiceGeneralDetail-billingFrequency" parent="InvoiceGeneralDetail-billingFrequency-parentBean" />
+
+	<bean id="InvoiceGeneralDetail-billingFrequency-parentBean" abstract="true" parent="GenericAttributes-billingFrequency">
+		<property name="name" value="billingFrequency" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Billing Frequency" />
+		<property name="shortLabel" value="BillingFrequency" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.AgencyBillingFrequencyValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+
+	<bean id="InvoiceGeneralDetail-finalBill" parent="InvoiceGeneralDetail-finalBill-parentBean" />
+
+	<bean id="InvoiceGeneralDetail-finalBill-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="finalBill" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Final Bill" />
+		<property name="shortLabel" value="FinalBill" />
+		<property name="maxLength" value="1" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="CheckboxControlDefinition" />
+		</property>
+	</bean>
+
+
+
+	<bean id="InvoiceGeneralDetail-billingPeriod" parent="InvoiceGeneralDetail-billingPeriod-parentBean" />
+
+	<bean id="InvoiceGeneralDetail-billingPeriod-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="billingPeriod" />
+		<property name="label" value="Billing Period" />
+		<property name="shortLabel" value="Billing Period" />
+		<property name="maxLength" value="50" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+
+
+	<bean id="InvoiceGeneralDetail-contractGrantType" parent="InvoiceGeneralDetail-contractGrantType-parentBean" />
+
+	<bean id="InvoiceGeneralDetail-contractGrantType-parentBean" abstract="true" parent="GenericAttributes-contractGrantTypeCode">
+		<property name="name" value="contractGrantType" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Instrument Type" />
+		<property name="shortLabel" value="Instrument Type" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.ar.businessobject.options.ContractGrantTypeValuesFinder"
+				p:includeKeyInLabel="false" />
+		</property>
+	</bean>
+
+
+	<bean id="InvoiceGeneralDetail-awardTotal" parent="InvoiceGeneralDetail-awardTotal-parentBean" />
+
+	<bean id="InvoiceGeneralDetail-awardTotal-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="awardTotal" />
+		<property name="label" value="Award Total" />
+		<property name="shortLabel" value="Award Total" />
+	</bean>
+
+	<bean id="InvoiceGeneralDetail-newTotalBilled" parent="InvoiceGeneralDetail-newTotalBilled-parentBean" />
+
+	<bean id="InvoiceGeneralDetail-newTotalBilled-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="newTotalBilled" />
+		<property name="label" value="New Total Billed" />
+		<property name="shortLabel" value="New Total Billed" />
+	</bean>
+
+	<bean id="InvoiceGeneralDetail-amountRemainingToBill" parent="InvoiceGeneralDetail-amountRemainingToBill-parentBean" />
+
+	<bean id="InvoiceGeneralDetail-amountRemainingToBill-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="amountRemainingToBill" />
+		<property name="label" value="Amount Remaining To Bill" />
+		<property name="shortLabel" value="Amount Remaining To Bill" />
+	</bean>
+
+	<bean id="InvoiceGeneralDetail-billedToDate" parent="InvoiceGeneralDetail-billedToDate-parentBean" />
+
+	<bean id="InvoiceGeneralDetail-billedToDate-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="billedToDate" />
+		<property name="label" value="Billed To Date" />
+		<property name="shortLabel" value="Billed To Date" />
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
+		<property name="exclusiveMin" value="-0.001" />
+	</bean>
+
+	<bean id="InvoiceGeneralDetail-costShareAmount" parent="InvoiceGeneralDetail-costShareAmount-parentBean" />
+
+	<bean id="InvoiceGeneralDetail-costShareAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+		<property name="name" value="costShareAmount" />
+		<property name="label" value="Cost Share Amount" />
+		<property name="shortLabel" value="Cost Share Amount" />
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
+		<property name="exclusiveMin" value="-0.001" />
+	</bean>
+
+	<bean id="InvoiceGeneralDetail-lastBilledDate" parent="InvoiceGeneralDetail-lastBilledDate-parentBean" />
+
+	<bean id="InvoiceGeneralDetail-lastBilledDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="lastBilledDate" />
+		<property name="label" value="Last Billed Date" />
+		<property name="shortLabel" value="Last Billed Date" />
+		<property name="required" value="false" />
+	</bean>
+
+
+	<bean id="InvoiceGeneralDetail-dunningLetterTemplateSentDate" parent="InvoiceGeneralDetail-dunningLetterTemplateSentDate-parentBean" />
+
+	<bean id="InvoiceGeneralDetail-dunningLetterTemplateSentDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+		<property name="name" value="dunningLetterTemplateSentDate" />
+		<property name="label" value="Last Dunning Letter Sent Date" />
+		<property name="shortLabel" value="Last Dunning Letter Sent Date" />
+		<property name="required" value="false" />
+		<property name="maxLength" value="15" />
+	</bean>
+	<bean id="InvoiceGeneralDetail-transferNumber" parent="InvoiceGeneralDetail-transferNumber-parentBean" />
+
+	<bean id="InvoiceGeneralDetail-transferNumber-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="transferNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="State Transfer Number" />
+		<property name="shortLabel" value="State Transfer Number" />
+		<property name="maxLength" value="15" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="16" />
+		</property>
+	</bean>    
+  
+</beans>

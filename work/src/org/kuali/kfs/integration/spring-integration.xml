@@ -18,6 +18,21 @@
 <beans>
 	<bean id="contractsAndGrantsModuleService"  parent="contractsAndGrantsModuleService-parentBean"/>
 	<bean id="contractsAndGrantsModuleService-parentBean" class="org.kuali.kfs.integration.cg.ContractsAndGrantsModuleServiceNoOp"  abstract="true"/>
+		
+		<bean id="kfsCgModuleService" parent="kfsCgModuleService-parentBean" />
+	<bean id="kfsCgModuleService-parentBean" class="org.kuali.kfs.integration.cg.KfsCgModuleServiceNoOp"
+		abstract="true" />
+				
+				<bean id="kcModuleService" parent="kcModuleService-parentBean" />
+	<bean id="kcModuleService-parentBean" class="org.kuali.kfs.integration.cg.KcModuleServiceNoOp"
+		abstract="true" />
+		
+		<bean id="contractsAndGrantsModuleUpdateService"
+		class="org.kuali.kfs.integration.cg.ContractsAndGrantsModuleUpdateServiceNoOp" />
+
+	<bean id="contractsAndGrantsModuleRetreiveService"
+		class="org.kuali.kfs.integration.cg.ContractsAndGrantsModuleRetrieveServiceNoOp" />
+				
 				
 	<bean id="ldModuleConfiguration"  parent="ldModuleConfiguration-parentBean"/>
 	<bean id="ldModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration" abstract="true">
@@ -74,13 +89,77 @@
         </property>
         <property name="externalizableBusinessObjectImplementations">
             <map>
-                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.integration.cg.businessobject.CfdaDTO" />
-                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.integration.cg.businessobject.AwardAccount" />
-                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.integration.cg.businessobject.Award" />
-                <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.integration.cg.businessobject.Proposal" />
-                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.integration.cg.businessobject.Agency" />
-	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="org.kuali.kfs.integration.cg.businessobject.UnitDTO" /> 
-       			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO" />                
+             <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda"
+					value="org.kuali.kfs.integration.cg.businessobject.CFDA" />
+				<entry
+					key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation"
+					value="org.kuali.kfs.integration.cg.businessobject.AwardAccount" />
+				<entry
+					key="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount"
+					value="org.kuali.kfs.integration.cg.businessobject.AwardAccount" />
+				<entry
+					key="org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation"
+					value="org.kuali.kfs.integration.cg.businessobject.AwardInvoiceAccount" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
+					value="org.kuali.kfs.integration.cg.businessobject.Award" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward"
+					value="org.kuali.kfs.integration.cg.businessobject.Award" />
+				<entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal"
+					value="org.kuali.kfs.integration.cg.businessobject.Proposal" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency"
+					value="org.kuali.kfs.integration.cg.businessobject.Agency" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency"
+					value="org.kuali.kfs.integration.cg.businessobject.Agency" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsMilestone"
+					value="org.kuali.kfs.integration.cg.businessobject.Milestone" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBill"
+					value="org.kuali.kfs.integration.cg.businessobject.Bill" />
+				<entry
+					key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFundGroup"
+					value="org.kuali.kfs.integration.cg.businessobject.LetterOfCreditFundGroup" />
+				<entry
+					key="org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund"
+					value="org.kuali.kfs.integration.cg.businessobject.LetterOfCreditFund" />
+				<entry
+					key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress"
+					value="org.kuali.kfs.integration.cg.businessobject.AgencyAddress" />
+				<entry
+					key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddressType"
+					value="org.kuali.kfs.integration.cg.businessobject.AgencyAddressType" />
+				<entry
+					key="org.kuali.kfs.integration.cg.ContractsAndGrantsBillingFrequency"
+					value="org.kuali.kfs.integration.cg.businessobject.BillingFrequency" />
+				<entry
+					key="org.kuali.kfs.integration.cg.ContractsAndGrantsContractGrantType"
+					value="org.kuali.kfs.integration.cg.businessobject.ContractGrantType" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsFundManager"
+					value="org.kuali.kfs.integration.cg.businessobject.AwardFundManager" />
+				<entry
+					key="org.kuali.kfs.integration.cg.ContractsAndGrantsInvoiceIndicator"
+					value="org.kuali.kfs.integration.cg.businessobject.InvoiceIndicator" />
+				<entry
+					key="org.kuali.kfs.integration.cg.ContractsAndGrantsInvoiceTemplate"
+					value="org.kuali.kfs.integration.cg.businessobject.InvoiceTemplate" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization"
+					value="org.kuali.kfs.integration.cg.businessobject.AwardOrganization" />
+				<entry
+					key="org.kuali.kfs.integration.cg.ContractsAndGrantsProjectDirector"
+					value="org.kuali.kfs.integration.cg.businessobject.AwardProjectDirector" />
+				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomer"
+					value="org.kuali.kfs.integration.ar.businessobject.Customer" />
+				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerType"
+					value="org.kuali.kfs.integration.ar.businessobject.CustomerType" />
+				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit"
+					value="org.kuali.kfs.integration.cg.businessobject.UnitDTO" />
+				<entry
+					key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory"
+					value="org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO" />
+				<entry 
+					key="org.kuali.kfs.integration.ar.AccountsReceivableDunningCampaign" 
+					value="org.kuali.kfs.module.ar.businessobject.DunningCampaign" />
+				<entry 
+					key="org.kuali.kfs.integration.ar.AccountsReceivableCollectionStatus" 
+					value="org.kuali.kfs.integration.ar.businessobject.CollectionStatus" />                
             </map>
         </property>
     </bean>

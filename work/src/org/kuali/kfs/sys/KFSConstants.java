@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- *
+ * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  * http://www.opensource.org/licenses/ecl2.php
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -87,6 +87,7 @@ public class KFSConstants {
     public static final String LOG4J_SETTINGS_FILE_KEY = "log4j.settings.file";
     public static final String LOG4J_RELOAD_MINUTES_KEY = "log4j.reload.minutes";
     public static final String APPLICATION_URL_KEY = "application.url";
+    public static final String TEMPLATES_DIRECTORY_KEY = "templates.directory";
     public static final String TEMP_DIRECTORY_KEY = "temp.directory";
     public static final String EXTERNALIZABLE_HELP_URL_KEY = KRADConstants.EXTERNALIZABLE_HELP_URL_KEY;
     public static final String EXTERNALIZABLE_IMAGES_URL_KEY = "externalizable.images.url";
@@ -115,9 +116,9 @@ public class KFSConstants {
     public static final String NON_ACTIVE_INDICATOR = "N";
     public static final String BLANK_SPACE = " ";
     public static final String BACK_LOCATION = "backLocation";
-    @Deprecated // Move to GL constants
+    @Deprecated
+    // Move to GL constants
     public static final String BALANCE_INQUIRY_REPORT_MENU_ACTION = "balanceInquiryReportMenu.do";
-    public static final String ASSET_INQUIRY_MENU_ACTION = "camsAssetPayment.do";
     @Deprecated
     public static final String BALANCE_TYPE_CURRENT_BUDGET = "CB";
     @Deprecated
@@ -181,6 +182,7 @@ public class KFSConstants {
     public static final String NEW_TARGET_ACCT_LINE_PROPERTY_NAME = KFSPropertyConstants.NEW_TARGET_LINE;
     public static final String DOCUMENT_PROPERTY_NAME = "document";
     public static final String DOCUMENT_TYPE_NAME = "docTypeName";
+    public static final String DOCUMENT_TYPE_FULL_NAME = "docTypeFullName";
     public static final String DASH = "-";
     public static final String EMPTY_STRING = "";
     public static final String ENCUMBRANCE = "Encumbrance";
@@ -196,13 +198,17 @@ public class KFSConstants {
     public static final String FROM = "From";
     public static final String GENERIC_CODE_PROPERTY_NAME = "code";
     public static final String GL_BALANCE_INQUIRY_FLAG = "inquiryFlag";
-    @Deprecated // Move to GL constants
+    @Deprecated
+    // Move to GL constants
     public static final String GL_ACCOUNT_BALANCE_BY_CONSOLIDATION_LOOKUP_ACTION = "glAccountBalanceByConsolidationLookup.do";
-    @Deprecated // Move to GL constants
+    @Deprecated
+    // Move to GL constants
     public static final String GL_BALANCE_INQUIRY_ACTION = "glBalanceInquiry.do";
-    @Deprecated // Move to GL constants
+    @Deprecated
+    // Move to GL constants
     public static final String GL_MODIFIED_INQUIRY_ACTION = "glModifiedInquiry.do";
-    @Deprecated // Move to GL constants
+    @Deprecated
+    // Move to GL constants
     public static final String GL_PE_OFFSET_STRING = "TP Generated Offset";
     @Deprecated
     public static final String SUB_OBJECT_CODE_PROPERTY_NAME = KFSPropertyConstants.SUB_OBJECT_CODE;
@@ -322,10 +328,12 @@ public class KFSConstants {
     public static final String INQUIRY_ACTION = "kr/inquiry.do";
     public static final String JOURNAL_VOUCHER_CHANGE_BALANCE_TYPE_QUESTION = "JournalVoucherChangeBalanceTypeQuestion";
     public static final String JOURNAL_VOUCHER_ROUTE_OUT_OF_BALANCE_DOCUMENT_QUESTION = "JournalVoucherRouteOutOfBalanceDocumentQuestion";
+    public static final String JOURNAL_VOUCHER_ENCUMBRANCE_UPDATE_CODE_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE = "R";
     public static final String JOURNAL_LINE_HELPER_PROPERTY_NAME = "journalLineHelper";
     public static final String AUXILIARY_LINE_HELPER_PROPERTY_NAME = "auxiliaryLineHelper";
     public static final String VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME = ".credit";
     public static final String VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME = ".debit";
+    public static final String KUALI_WORKFLOW_APPLICATION_CODE = "kuali";
     public static final String LOOKUP_ACTION = "kr/lookup.do";
     public static final String LOOKUP_RESULTS_SEQUENCE_NUMBER = "lookupResultsSequenceNumber";
     public static final String LOOKUP_RESULTS_BO_CLASS_NAME = "lookupResultsBOClassName";
@@ -337,6 +345,7 @@ public class KFSConstants {
     public static final String LOOKUPABLE_IMPL_ATTRIBUTE_NAME = "lookupableImplServiceName";
     public static final String LOOKUPABLE_SUFFIX = "Lookupable";
     public static final String KUALI_LOOKUPABLE_IMPL = "kualiLookupable";
+    public static final String KUALI_CUSTOMER_LOOKUPABLE_IMPL = "customerLookupable";
     public static final String KUALI_DISBURSEMENT_PAYEE_LOOKUPABLE_IMPL = "disbursementPayeeLookupable";
     public static final String KUALI_VENDOR_ADDRESS_LOOKUPABLE_IMPL = "vendorAddressLookupable";
     public static final String DOC_HANDLER_ACTION = "DocHandler.do";
@@ -432,6 +441,7 @@ public class KFSConstants {
     public static final int CORRECTION_RECENT_GROUPS_DAY = 10;
 
     public static final String GLOBAL_ERRORS = "GLOBAL_ERRORS";
+    public static final String INVOICE_TEMPLATE_UPLOAD = "document.invoiceTemplateUpload";
     public static final String GLOBAL_MESSAGES = "GlobalMessages";
     public static final String DOCUMENT_DOCUMENT_ERRORS = "document.document*";
     public static final String DOCUMENT_EXPLANATION_ERRORS = "document.explanation*";
@@ -607,6 +617,10 @@ public class KFSConstants {
         }
     }
 
+    public static class AdvanceDepositConstants {
+        public static final String CASH_RECEIPT_ADVANCE_DEPOSIT_COLUMN_TYPE_CODE = "R";
+    }
+
     public static class AuxiliaryVoucher {
         public static final String ADJUSTMENT_DOC_TYPE = "AVAD";
         public static final String ADJUSTMENT_DOC_TYPE_NAME = "Adjustment";
@@ -638,6 +652,10 @@ public class KFSConstants {
 
         public static final String DEPOSIT_WIZARD_CASHRECEIPT_ERROR = "cashReceiptErrors";
         public static final String DEPOSIT_WIZARD_DEPOSITHEADER_ERROR = "depositHeaderErrors";
+    }
+
+    public static class CreditCardReceiptConstants {
+        public static final String CASH_RECEIPT_CREDIT_CARD_RECEIPT_COLUMN_TYPE_CODE = "R";
     }
 
     public static class BudgetAdjustmentDocumentConstants {
@@ -767,6 +785,8 @@ public class KFSConstants {
     public static class ParameterValues {
         public static final String YES = "Y";
         public static final String NO = "N";
+        public static final String STRING_NO = "No";
+        public static final String STRING_YES = "Yes";
     }
 
     public static class Maintenance {
@@ -778,6 +798,7 @@ public class KFSConstants {
     public static class ObjectCodeConstants {
         public static final String INACTIVE_OBJECT_LEVEL_QUESTION_ID = "InactiveObjectLevelQuestion";
         public static final String SECTION_ID_RESEARCH_ADMIN_ATTRIBUTES = "researchAdminAttributes";
+        public static final String PARAMETER_KC_ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND = "ENABLE_RESEARCH_ADMIN_OBJECT_CODE_ATTRIBUTE_IND";
     }
 
     public static final String MONTH1 = "01";
@@ -877,9 +898,9 @@ public class KFSConstants {
     public static final String DONE_FILE_TYPE = "DONE_FILE";
 
     /**
-     * The base implementation of {@link org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatusBase} uses strings contained within
-     * ApplicationResources.properties to store the human-readable descriptions of each status object. The fully qualified class
-     * name is appended to the end of this key to generate the true key. For example,
+     * The base implementation of {@link org.kuali.kfs.gl.batch.service.impl.EnterpriseFeederStatusBase} uses strings contained
+     * within ApplicationResources.properties to store the human-readable descriptions of each status object. The fully qualified
+     * class name is appended to the end of this key to generate the true key. For example,
      * gl.EnterpriseFeeder.StatusDescriptionPrefix.org.kuali.kfs.gl.batch.service.impl.FileReconBadLoadAbortedStatus
      */
     public static final String ENTERPRISE_FEEDER_STATUS_DESCRIPTION_PREFIX = "gl.EnterpriseFeeder.StatusDescription.";
@@ -1018,6 +1039,7 @@ public class KFSConstants {
         public static final String NON_CHECK_DISBURSEMENT = "ND";
 
         // accounts receivable
+        public static final String PAYMENT_APPLICATION = "APP";
         public static final String CASH_CONTROL = "CTRL";
         public static final String CUSTOMER_CREDIT_MEMO = "CRM";
         public static final String CUSTOMER_INVOICE = "INV";
@@ -1070,6 +1092,16 @@ public class KFSConstants {
         public static final String SALES_TAX_BLOCK = "salesTaxInformation";
     }
 
+
+    // contracts grants module document type codes
+    public static final class ContractsGrantsModuleDocumentTypeCodes {
+        // contracts grants invoice
+        public static final String CONTRACTS_GRANTS_INVOICE = "CGIN";
+        public static final String AGENCY_PRIMARY_ADDRESSES_TYPE_CODE = "P";
+        public static final String AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE = "A";
+    }
+
+
     public static final class TaxRegionConstants {
         public static final String TAX_REGION_RATES = "taxRegionRates";
         public static final String TAX_REGION_COUNTIES = "taxRegionCounties";
@@ -1106,7 +1138,8 @@ public class KFSConstants {
         }
     }
 
-    @Deprecated // Move to AR
+    @Deprecated
+    // Move to AR
     public static final class CustomerOpenItemReport {
         public static final String CUSTOMER_NUMBER = "customerNumber";
         public static final String CUSTOMER_NAME = "customerName";
@@ -1132,7 +1165,8 @@ public class KFSConstants {
         public static final String PROCESSING_ORGANIZATION_CODE = "processingOrganizationCode";
     }
 
-    @Deprecated // Move to AR
+    @Deprecated
+    // Move to AR
     public static final class CustomerAgingReport {
         public static final String CUSTOMER_NAME = "customerName";
         public static final String UNPAID_BALANCE_0_TO_30 = "unpaidBalance0to30";
@@ -1184,6 +1218,7 @@ public class KFSConstants {
         public static final String ACCOUNTING_REVIEWER_ROLE_NAMESPACECODE = CoreModuleNamespaces.KFS;
         public static final String ACCOUNTING_REVIEWER_ROLE_NAME = "Accounting Reviewer";
         public static final String ORGANIZATION_REVIEWER_ROLE_NAME = "Organization Reviewer";
+        public static final String ACCOUNTS_RECEIVABLE_COLLECTOR = "CGB Collector";
         public static final String KFS_USER_ROLE_NAME = "User";
     }
 

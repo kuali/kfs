@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+	<bean id="ProposalAutoCreateDefaultsMaintenanceDocument"
+		parent="ProposalAutoCreateDefaultsMaintenanceDocument-parentBean" />
+
+	<bean id="ProposalAutoCreateDefaultsMaintenanceDocument-parentBean"
+		abstract="true" parent="MaintenanceDocumentEntry"
+		p:businessObjectClass="org.kuali.kfs.module.cg.businessobject.ProposalAutoCreateDefaults"
+		p:maintainableClass="org.kuali.kfs.sys.document.FinancialSystemMaintainable">
+		<property name="maintainableSections">
+			<list>
+				<ref
+					bean="ProposalAutoCreateDefaultsMaintenanceDocument-ProposalMaintenance" />
+			</list>
+		</property>
+		<property name="defaultExistenceChecks">
+			<list>
+				<bean parent="ReferenceDefinition" p:attributeName="organization"
+					p:attributeToHighlightOnFail="organizationCode" />
+			</list>
+		</property>
+		<property name="lockingKeys">
+			<list>
+				<value>kcUnit</value>
+			</list>
+		</property>
+		<property name="documentTypeName" value="PRPSLACD" />
+		<property name="businessRulesClass"
+			value="org.kuali.kfs.module.cg.document.validation.impl.ProposalAutoCreateDefaultsRule" />
+		<property name="documentAuthorizerClass"
+			value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase" />
+		<property name="webScriptFiles">
+			<list>
+				<value>../scripts/module/cg/proposalDocument.js</value>
+				<value>../dwr/interface/OrganizationService.js</value>
+			</list>
+		</property>
+		<property name="workflowAttributes"
+			ref="ProposalAutoCreateDefaultsMaintenanceDocument-workflowAttributes" />
+
+	</bean>
+
+	<!-- Maintenance Section Definitions -->
+	<bean
+		id="ProposalAutoCreateDefaultsMaintenanceDocument-ProposalMaintenance"
+		parent="ProposalAutoCreateDefaultsMaintenanceDocument-ProposalMaintenance-parentBean" />
+
+	<bean
+		id="ProposalAutoCreateDefaultsMaintenanceDocument-ProposalMaintenance-parentBean"
+		abstract="true" parent="MaintainableSectionDefinition">
+		<property name="title" value="ProposalAutoCreateDefault Maintenance" />
+		<property name="maintainableItems">
+			<list>
+				<bean parent="MaintainableFieldDefinition" p:name="kcUnit"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="kcUnitName"
+					p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="proposalIndirectCostAmount"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="proposalAwardTypeCode"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="proposalPurposeCode"
+					p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode"
+					p:required="true" p:webUILeaveFieldFunction="organizationNameLookup" />
+				<bean parent="MaintainableFieldDefinition" p:name="organizationCode"
+					p:required="true" p:webUILeaveFieldFunction="organizationNameLookup" />
+				<bean parent="MaintainableFieldDefinition" p:name="organization.organizationName"
+					p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="principalId"
+					p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="projectDirector.principalName"
+					p:required="true" p:webUILeaveFieldFunction="proposalDirectorIDLookup" />
+				<bean parent="MaintainableFieldDefinition" p:name="projectDirector.name"
+					p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="active"
+					p:defaultValue="true" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- workflow attributes -->
+	<bean
+		id="ProposalAutoCreateDefaultsMaintenanceDocument-workflowAttributes"
+		parent="ProposalAutoCreateDefaultsMaintenanceDocument-workflowAttributes-parentBean" />
+	<bean
+		id="ProposalAutoCreateDefaultsMaintenanceDocument-workflowAttributes-parentBean"
+		abstract="true" parent="WorkflowAttributes">
+	</bean>
+</beans>

@@ -15,21 +15,24 @@
  */
 package org.kuali.kfs.module.cg;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
+import org.kuali.rice.core.util.JSTLConstants;
 
 /**
  * Constants specific to the Contracts and Grants module.
  */
-public class CGConstants {
-    
+public class CGConstants extends JSTLConstants {
+
     public static final String CG_NAMESPACE_CODE = "KFS-CG";
 
     /**
      * The key for the document error map to grab errors for the close document.
      */
     public static final String CLOSE_DOCUMENT_TAB_ERRORS = "document.userInitiatedCloseDate";
-    
+
     public static final String SHORT_TIMESTAMP_FORMAT = "MM/dd/yyyy";
     public static final String LONG_TIMESTAMP_FORMAT = "MM/dd/yyyy HH:mm:ss";
 
@@ -39,12 +42,64 @@ public class CGConstants {
 
     public static final String DROPDOWN_LIST_SELECT = "select:";
 
-    
+    // System Parameters
+    public static final String ENABLE_CG_PRORATE_BILL_IND = "ENABLE_CG_PRORATE_BILL_IND";
+
+    public static final String RESULT_SUMMARY_TO_EMAIL_ADDRESSES = "RESULT_SUMMARY_TO_EMAIL_ADDRESSES";
+
+    public static final String SOURCE_URL_PARAMETER = "SOURCE_URL";
+
     public static final String MANUAL_BASE = "MN";
     public static final String MODIFIED_TOTAL_DIRECT_COST = "MT";
 
     public static final String ORG_REVIEW_NODE_NAME = "Org Review";
     public static final String ORG_REVIEW_TEMPLATE_NAME = "KualiResearchOrgReviewTemplate";
+    public static final String DEFAULT_PREFERRED_BILLING_FREQUENCY = "DEFAULT_PREFERRED_BILLING_FREQUENCY";
+
+    public static final String DEFAULT_PREFERRED_BILLING_FREQUENCY_PARAMETER = "DEFAULT_PREFERRED_BILLING_FREQUENCY";
+    public static final String DEFAULT_DUNNING_CAMPAIGN_PARAMETER = "DEFAULT_DUNNING_CAMPAIGN";
+    public static final String PARAMETER_DEFAULT_FUND_MANAGER_ID = "DEFAULT_FUND_MANAGER_ID";
+
+    // Agency
+    public static final String AGENCY_USE_EXISTING_CUSTOMER = "Use Existing Customer";
+    public static final String AGENCY_CREATE_NEW_CUSTOMER = "Create New Customer";
+    public static final String AGENCY_NO_CUSTOMER = "No Customer";
+    public static final String AGENCY_USE_EXISTING_CUSTOMER_CODE = "E";
+    public static final String AGENCY_CREATE_NEW_CUSTOMER_CODE = "C";
+    public static final String AGENCY_NO_CUSTOMER_CODE = "N";
+
+    // Agency Address
+    public static final String AGENCY_DETAIL_TYPE_CODE = "Agency";
+    public static final String AGENCY_PRIMARY_ADDRESSES_TYPE_CODE = "P";
+    public static final String AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE = "A";
+    public static final String DEFAULT_NUMBER_OF_COPIES_TO_PRINT = "DEFAULT_NUMBER_OF_COPIES_TO_PRINT";
+    
+    // Agency Collections Maitenance
+    public static final String CHAPTER7_CODE = "C7";
+    public static final String CHAPTER11_CODE = "C11";
+    public static final String CHAPTER13_CODE = "C13";
+    public static final String JUDGMENT_OBTAINED_CODE = "JO"; 
+
+    public static final String CHAPTER7  = "Chapter 7";
+    public static final String CHAPTER11 = "Chapter 11";
+    public static final String CHAPTER13 = "Chapter 13";
+    public static final String JUDGMENT_OBTAINED= "Judgment Obtained"; 
+
+    // Award
+    public static final String AWARD_DETAIL_TYPE_CODE = "Award";
+    public static final String LOC_BY_AWARD = "LOC By Award";
+    public static final String LOC_BY_LOC_FUND = "LOC By Letter of Credit Fund";
+    public static final String LOC_BY_LOC_FUND_GRP = "LOC By Letter of Credit Fund Group";
+    public static final String AWARD_MILESTONE_CHECK_LIMIT_DAYS = "AWARD_MILESTONE_CHECK_LIMIT_DAYS";
+
+
+    // Award Invoice
+    public static final String MINIMUM_INVOICE_AMOUNT = "MINIMUM_INVOICE_AMOUNT";
+    public static final String DEFAULT_INVOICE_TEMPLATE = "DEFAULT_INVOICE_TEMPLATE";
+    public static final String DEFAULT_INVOICING_OPTION_PARAMETER = "DEFAULT_INVOICING_OPTION";
+
+    //
+    public static final String DOCUMENT_STATUS_FINAL = "F";
 
     // Research Risk Types
     public static final String RESEARCH_RISK_TYPE_ALL_COLUMNS = "A";
@@ -70,15 +125,60 @@ public class CGConstants {
 
     public static final String MAXIMUM_ACCOUNT_RESPONSIBILITY_ID = "MAXIMUM_ACCOUNT_RESPONSIBILITY_ID";
 
-    public static class CGKimApiConstants{
+    // Parameter name for the CG and Billing Enhancements Indicator
+    public static final String ENABLE_CG_BILLING_ENHANCEMENTS_IND = "ENABLE_CG_BILLING_ENHANCEMENTS_IND";
+    public static final String AWARD = "AWRD";
+    public static final String CG_MILESTONE_SCHEDULE = "CGMS";
+
+
+    public static final String GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU = "3";
+
+    public static class TemplateUploadSystem {
+        static final public String EXTENSION = ".pdf";
+        static final public String TEMPLATE_MIME_TYPE = "application/pdf";
+    }
+
+    public static class BillingFrequency {
+        static final public String PREDETERMINED_SCHEDULE = "Predetermined Billing Schedule";
+    }
+
+    public static class CGEmailConstants {
+        static final public String AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT = "AWARD_MILESTONE_REMINDER_EMAIL_SUBJECT";
+    }
+
+    public static class CGKimApiConstants {
         public static final String AWARD_ROUTING_NODE_NAME = "Award";
         public static final String MANAGEMENT_ROUTING_NODE_NAME = "Management";
         public static final String UNPROCESSED_ROUTING_NODE_NAME = "Unprocessed";
-        
+
     }
-    
-    public static class SectionId{
+
+    public static class SectionId {
         public static final String PROPOSAL_RESEARCH_RISKS = "proposalResearchRisks";
     }
 
+    public static class ReportsConstants {
+        public static final List<String> awardBalancesReportSubtotalFieldsList = new ArrayList<String>();
+
+        static {
+            awardBalancesReportSubtotalFieldsList.add("agency.fullName");
+            awardBalancesReportSubtotalFieldsList.add("awardStatusCode");
+            awardBalancesReportSubtotalFieldsList.add("awardPrimaryProjectDirector.projectDirector.name");
+            awardBalancesReportSubtotalFieldsList.add("awardPrimaryFundManager.fundManager.name");
+        }
+
+        public static final List<String> reportSearchCriteriaExceptionList = new ArrayList<String>();
+
+        static {
+            reportSearchCriteriaExceptionList.add("backLocation");
+            reportSearchCriteriaExceptionList.add("docFormKey");
+            reportSearchCriteriaExceptionList.add("dummyBusinessObject.invoiceReportOption");
+        }
+    }
+
+    public static class AwardCreationDefaults {
+        public static final String CHART_OF_ACCOUNT_CODE = "chartOfAccountsCode";
+        public static final String ACCOUNT_NUMBER = "accountNumber";
+        public static final String KcUnit = "kcUnit";
+    }
 }

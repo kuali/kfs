@@ -21,8 +21,10 @@ import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
  * Methods which return information needed about Contracts and Grants agencies by other modules.
  */
 public interface ContractsAndGrantsAgency extends ExternalizableBusinessObject {
+    
     /**
      * Returns the agency number for this agency
+     * 
      * @return the agency number for the given agency
      */
     public abstract String getAgencyNumber();

@@ -33,7 +33,32 @@
         <create creator="spring" javascript="AgencyService">
             <param name="beanName" value="agencyService" />
             <include method="getByPrimaryId" />
-        </create>	    
+        </create>
+        <convert converter="bean" match="org.kuali.kfs.module.cg.businessobject.CFDA">
+            <param name="include" value="cfdaNumber,cfdaProgramTitleName" />
+        </convert>
+        <create creator="spring" javascript="CfdaService">
+            <param name="beanName" value="cfdaService" />
+            <include method="getByPrimaryId" />
+        </create>
+        <create creator="spring" javascript="AwardService">
+	    	<param name="beanName" value="awardService" />
+	    	<include method="getByPrimaryId" />
+	    </create>
+	    
+	    <convert converter="bean" match="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward">
+	   		<param name="include" value="proposalNumber,agency" />
+	   	</convert>
+	    <convert converter="bean" match="org.kuali.kfs.integration.cg.businessobject.Award">
+	   		<param name="include" value="proposalNumber,agency" />
+	   	</convert>
+	   	<convert converter="bean" match="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency">
+	   		<param name="include" value="agencyNumber,fullName,customerNumber,customer" />
+	   	</convert>
+	   	<convert converter="bean" match="org.kuali.kfs.integration.cg.businessobject.Agency">
+	   		<param name="include" value="agencyNumber,fullName,customerNumber,customer" />
+	   	</convert>
+	    
     </allow>
 </dwr>
 

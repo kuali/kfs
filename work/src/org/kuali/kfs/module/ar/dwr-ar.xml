@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN" "http://getahead.org/dwr/dwr30.dtd">
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN" "http://www.getahead.ltd.uk/dwr/dwr10.dtd">
 
 <dwr>
 	<init>
@@ -26,7 +26,11 @@
 	    <create creator="spring" javascript="CustomerService">
 	    	<param name="beanName" value="customerService" />
 	    	<include method="getByPrimaryKey" />
-	    </create>	    
+	    </create>
+	    
+	   	<convert converter="bean" match="org.kuali.kfs.integration.ar.AccountsReceivableCustomer">
+	   		<param name="include" value="customerNumber,customerName" />
+	   	</convert>
 
 	   	<convert converter="bean" match="org.kuali.kfs.module.ar.document.CustomerInvoiceDocument">
 	   		<param name="include" value="customer" />
@@ -42,6 +46,10 @@
 	    <create creator="spring" javascript="CustomerAddressService">
 	    	<param name="beanName" value="customerAddressService" />
 	    	<include method="getPrimaryAddress" />
+	    </create>
+	    <create creator="spring" javascript="CollectionActivityDocumentService">
+	    	<param name="beanName" value="collectionActivityDocumentService" />
+	    	<include method="retrieveAwardByProposalNumber" />
 	    </create>
 	</allow>
 </dwr>

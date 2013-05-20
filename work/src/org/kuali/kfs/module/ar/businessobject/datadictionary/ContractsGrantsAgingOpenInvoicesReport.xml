@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="ContractsGrantsAgingOpenInvoicesReport" parent="ContractsGrantsAgingOpenInvoicesReport-parentBean"/>
+
+  <bean id="ContractsGrantsAgingOpenInvoicesReport-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.ContractsGrantsAgingOpenInvoicesReport"/>
+    <property name="lookupDefinition">
+      <ref bean="ContractsGrantsAgingOpenInvoicesReport-lookupDefinition"/>
+    </property>
+    <property name="objectLabel" value="Contracts Grants Aging Open Invoices Report"/>
+    <property name="attributes">
+      <list>
+	<ref bean="ContractsGrantsAgingOpenInvoicesReport-documentType"/>          
+    <ref bean="ContractsGrantsAgingOpenInvoicesReport-documentNumber"/>
+	<ref bean="ContractsGrantsAgingOpenInvoicesReport-documentDescription"/>
+	<ref bean="ContractsGrantsAgingOpenInvoicesReport-billingDate"/>
+	<ref bean="ContractsGrantsAgingOpenInvoicesReport-dueApprovedDate"/>
+	<ref bean="ContractsGrantsAgingOpenInvoicesReport-documentPaymentAmount"/>
+	<ref bean="ContractsGrantsAgingOpenInvoicesReport-unpaidUnappliedAmount"/>
+	<ref bean="ContractsGrantsAgingOpenInvoicesReport-collectionActivityInquiryTitle"/>
+	 <ref bean="ContractsGrantsAgingOpenInvoicesReport-finalInvoice"/>
+        <ref bean="ContractsGrantsAgingOpenInvoicesReport-agencyNumber"/>
+        <ref bean="ContractsGrantsAgingOpenInvoicesReport-accountNumber"/>
+        <ref bean="ContractsGrantsAgingOpenInvoicesReport-proposalNumber"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+<bean id="ContractsGrantsAgingOpenInvoicesReport-documentType" parent="ContractsGrantsAgingOpenInvoicesReport-documentType-parentBean"/>
+<bean id="ContractsGrantsAgingOpenInvoicesReport-documentType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="documentType"/>
+    <property name="label" value="Document Type"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="shortLabel" value="Doc Nbr"/>
+    <property name="maxLength" value="10"/>
+    <property name="control">
+      <ref bean="StandardShortNameTextControl" />
+    </property>
+</bean>
+
+<bean id="ContractsGrantsAgingOpenInvoicesReport-documentNumber" parent="ContractsGrantsAgingOpenInvoicesReport-documentNumber-parentBean"/>
+<bean id="ContractsGrantsAgingOpenInvoicesReport-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber"/>
+
+<bean id="ContractsGrantsAgingOpenInvoicesReport-documentDescription" parent="ContractsGrantsAgingOpenInvoicesReport-documentDescription-parentBean"/>
+<bean id="ContractsGrantsAgingOpenInvoicesReport-documentDescription-parentBean" abstract="true" parent="DocumentHeader-documentDescription"/>
+
+<bean id="ContractsGrantsAgingOpenInvoicesReport-billingDate" parent="ContractsGrantsAgingOpenInvoicesReport-billingDate-parentBean"/>
+<bean id="ContractsGrantsAgingOpenInvoicesReport-billingDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="billingDate"/>
+    <property name="label" value="Billing Date"/>
+</bean>
+
+<bean id="ContractsGrantsAgingOpenInvoicesReport-dueApprovedDate" parent="ContractsGrantsAgingOpenInvoicesReport-dueApprovedDate-parentBean"/>
+<bean id="ContractsGrantsAgingOpenInvoicesReport-dueApprovedDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="dueApprovedDate"/>
+    <property name="label" value="Due/Approved Date"/>
+</bean>
+
+<bean id="ContractsGrantsAgingOpenInvoicesReport-documentPaymentAmount" parent="ContractsGrantsAgingOpenInvoicesReport-documentPaymentAmount-parentBean"/>
+<bean id="ContractsGrantsAgingOpenInvoicesReport-documentPaymentAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="documentPaymentAmount"/>
+    <property name="label" value="Original Document Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+</bean>
+
+<bean id="ContractsGrantsAgingOpenInvoicesReport-unpaidUnappliedAmount" parent="ContractsGrantsAgingOpenInvoicesReport-unpaidUnappliedAmount-parentBean"/>
+<bean id="ContractsGrantsAgingOpenInvoicesReport-unpaidUnappliedAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="unpaidUnappliedAmount"/>
+    <property name="label" value="Unpaid/Unapplied Amount"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+</bean>
+
+<bean id="ContractsGrantsAgingOpenInvoicesReport-collectionActivityInquiryTitle" parent="ContractsGrantsAgingOpenInvoicesReport-collectionActivityInquiryTitle-parentBean" />
+
+<bean id="ContractsGrantsAgingOpenInvoicesReport-collectionActivityInquiryTitle-parentBean" abstract="true"
+	parent="AttributeDefinition">
+	<property name="name" value="collectionActivityInquiryTitle" />
+	<property name="label" value="Actions" />
+	<property name="shortLabel" value="Actions" />
+	<property name="maxLength" value="255" />
+	<property name="control">
+		<bean parent="TextControlDefinition" p:size="5" />
+	</property>
+</bean>
+
+	<bean id="ContractsGrantsAgingOpenInvoicesReport-proposalNumber" parent="ContractsGrantsAgingOpenInvoicesReport-proposalNumber-parentBean">
+		<property name="forceUppercase" value="true" />
+	</bean>
+
+	<bean id="ContractsGrantsAgingOpenInvoicesReport-proposalNumber-parentBean"
+		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward"
+		p:sourceAttributeName="proposalNumber">
+		<property name="name" value="proposalNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Proposal Number" />
+		<property name="shortLabel" value="Prop Num" />
+		<property name="maxLength" value="12" />
+		<property name="validationPattern">
+			<ref bean="NumericValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="14" />
+		</property>
+	</bean>
+
+	<bean id="ContractsGrantsAgingOpenInvoicesReport-accountNumber" parent="ContractsGrantsAgingOpenInvoicesReport-accountNumber-parentBean" />
+	<bean id="ContractsGrantsAgingOpenInvoicesReport-accountNumber-parentBean"
+		abstract="true" parent="Account-accountNumber" />
+		
+		
+	<bean id="ContractsGrantsAgingOpenInvoicesReport-agencyNumber" parent="ContractsGrantsAgingOpenInvoicesReport-agencyNumber-parentBean" />
+
+	<bean id="ContractsGrantsAgingOpenInvoicesReport-agencyNumber-parentBean" abstract="true"
+		parent="ExternalizableAttributeDefinitionProxy"
+		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" p:sourceAttributeName="agencyNumber">
+		<property name="name" value="agencyNumber" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Agency Number" />
+		<property name="shortLabel" value="AgencyNbr" />
+		<property name="maxLength" value="5" />
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern" p:exactLength="5" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="5" />
+		</property>
+	</bean>
+	
+	<bean id="ContractsGrantsAgingOpenInvoicesReport-finalInvoice" parent="ContractsGrantsAgingOpenInvoicesReport-finalInvoice-parentBean"/>
+	<bean id="ContractsGrantsAgingOpenInvoicesReport-finalInvoice-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="finalInvoice"/>
+    	<property name="label" value="Final Invoice"/>
+    	<property name="forceUppercase" value="true"/>
+    	<property name="shortLabel" value="Final Invoice"/>
+    	<property name="maxLength" value="10"/>
+    	<property name="control">
+      		<ref bean="StandardShortNameTextControl" />
+    	</property>
+	</bean>
+
+<!-- Business Object Inquiry Definition -->
+  <bean id="ContractsGrantsAgingOpenInvoicesReport-inquiryDefinition" parent="ContractsGrantsAgingOpenInvoicesReport-inquiryDefinition-parentBean"/>
+
+  <bean id="ContractsGrantsAgingOpenInvoicesReport-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Contracts Grants Aging Open Invoices Report"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="documentType"/>
+              <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="documentDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="billingDate"/>
+              <bean parent="FieldDefinition" p:attributeName="dueApprovedDate"/>
+              <bean parent="FieldDefinition" p:attributeName="documentPaymentAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="unpaidUnappliedAmount"/>
+              <bean parent="FieldDefinition" p:attributeName="finalInvoice"/>
+        <bean parent="FieldDefinition" p:attributeName="agencyNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+              <bean parent="FieldDefinition" p:attributeName="collectionActivityInquiryTitle"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+  <bean id="ContractsGrantsAgingOpenInvoicesReport-lookupDefinition" parent="ContractsGrantsAgingOpenInvoicesReport-lookupDefinition-parentBean"/>
+  <bean id="ContractsGrantsAgingOpenInvoicesReport-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Contracts Grants Aging Open Invoices Report"/>
+    <property name="lookupableID" value="arContractsGrantsAgingOpenInvoicesReportLookupable"/>
+    
+    <property name="lookupFields">
+      <list/>	
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="documentType"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="documentDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="billingDate"/>
+        <bean parent="FieldDefinition" p:attributeName="dueApprovedDate"/>
+        <bean parent="FieldDefinition" p:attributeName="documentPaymentAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="unpaidUnappliedAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="finalInvoice"/>
+        <bean parent="FieldDefinition" p:attributeName="agencyNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="collectionActivityInquiryTitle"/>
+      </list>
+    </property>
+  </bean>
+</beans>

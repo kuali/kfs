@@ -29,16 +29,20 @@ function toggle(id) {
 }
 </script>
 <c:if test="${!accountingLineScriptsLoaded}">
-       <script type='text/javascript' src="dwr/interface/ChartService.js"></script>
-       <script type='text/javascript' src="dwr/interface/AccountService.js"></script>
-       <script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
-       <script type='text/javascript' src="dwr/interface/ObjectCodeService.js"></script>
-       <script type='text/javascript' src="dwr/interface/ObjectTypeService.js"></script>
-       <script type='text/javascript' src="dwr/interface/SubObjectCodeService.js"></script>
-       <script type='text/javascript' src="dwr/interface/ProjectCodeService.js"></script>
-       <script type='text/javascript' src="dwr/interface/OriginationCodeService.js"></script>
-       <script language="JavaScript" type="text/javascript" src="scripts/sys/objectInfo.js"></script>
-       <c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
+	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
+	<script type='text/javascript' src="dwr/interface/AccountService.js"></script>
+	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
+	<script type='text/javascript' src="dwr/interface/ObjectCodeService.js"></script>
+	<script type='text/javascript' src="dwr/interface/ObjectTypeService.js"></script>
+	<script type='text/javascript'
+		src="dwr/interface/SubObjectCodeService.js"></script>
+	<script type='text/javascript'
+		src="dwr/interface/ProjectCodeService.js"></script>
+	<script type='text/javascript'
+		src="dwr/interface/OriginationCodeService.js"></script>
+	<script language="JavaScript" type="text/javascript"
+		src="scripts/sys/objectInfo.js"></script>
+	<c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
 </c:if>
 
 <c:set var="accountsCanCrossCharts" value="<%=SpringContext.getBean(AccountService.class).accountsCanCrossCharts()%>" />
@@ -64,45 +68,50 @@ function toggle(id) {
 
 	<sys:documentOverview editingMode="${KualiForm.editingMode}" />
 
-    <ar:paymentApplicationControlInformation isCustomerSelected="${isCustomerSelected}"
-        hasRelatedCashControlDocument="${hasRelatedCashControlDocument}"
-        customerAttributes="${customerAttributes}"
-        customerInvoiceDetailAttributes="${customerInvoiceDetailAttributes}"
-        invoiceAttributes="${invoiceAttributes}" readOnly="${readOnly}" />
-
-	<ar:paymentApplicationSummaryOfAppliedFunds isCustomerSelected="${isCustomerSelected}"
-	   hasRelatedCashControlDocument="${hasRelatedCashControlDocument}" readOnly="${readOnly}" />
-
-	<ar:paymentApplicationQuickApplyToInvoice isCustomerSelected="${isCustomerSelected}"
-	   hasRelatedCashControlDocument="${hasRelatedCashControlDocument}"
-	   readOnly="${readOnly}" 
-	   customerInvoiceDetailAttributes="${customerInvoiceDetailAttributes}" 
-	   invoiceAttributes="${invoiceAttributes}" />
-	
-	<ar:paymentApplicationApplyToInvoiceDetail customerAttributes="${customerAttributes}"
+	<ar:paymentApplicationControlInformation
+		isCustomerSelected="${isCustomerSelected}"
+		hasRelatedCashControlDocument="${hasRelatedCashControlDocument}"
+		customerAttributes="${customerAttributes}"
 		customerInvoiceDetailAttributes="${customerInvoiceDetailAttributes}"
 		invoiceAttributes="${invoiceAttributes}" readOnly="${readOnly}" />
 
-    <ar:paymentApplicationNonAr customerAttributes="${customerAttributes}"
-        isCustomerSelected="${isCustomerSelected}"
-        hasRelatedCashControlDocument="${hasRelatedCashControlDocument}"
-        readOnly="${readOnly}"
-        accountsCanCrossCharts="${accountsCanCrossCharts}"/>
-    <ar:paymentApplicationUnappliedTab
-		isCustomerSelected="${isCustomerSelected}" readOnly="${readOnly}" 
+	<c:if test="${empty KualiForm.editingMode['errorCorrection']}">
+		<ar:paymentApplicationSummaryOfAppliedFunds
+			isCustomerSelected="${isCustomerSelected}"
+			hasRelatedCashControlDocument="${hasRelatedCashControlDocument}"
+			readOnly="${readOnly}" />
+
+		<ar:paymentApplicationQuickApplyToInvoice
+			isCustomerSelected="${isCustomerSelected}"
+			hasRelatedCashControlDocument="${hasRelatedCashControlDocument}"
+			readOnly="${readOnly}"
+			customerInvoiceDetailAttributes="${customerInvoiceDetailAttributes}"
+			invoiceAttributes="${invoiceAttributes}" />
+	</c:if>
+
+	<ar:paymentApplicationApplyToInvoiceDetail
+		customerAttributes="${customerAttributes}"
+		customerInvoiceDetailAttributes="${customerInvoiceDetailAttributes}"
+		invoiceAttributes="${invoiceAttributes}" readOnly="${readOnly}" />
+
+	<ar:paymentApplicationNonAr customerAttributes="${customerAttributes}"
+		isCustomerSelected="${isCustomerSelected}"
+		hasRelatedCashControlDocument="${hasRelatedCashControlDocument}"
+		readOnly="${readOnly}" />
+	<ar:paymentApplicationUnappliedTab
+		isCustomerSelected="${isCustomerSelected}" readOnly="${readOnly}"
 		hasRelatedCashControlDocument="${hasRelatedCashControlDocument}" />
-        
+
 	<gl:generalLedgerPendingEntries />
-		            
+
 	<kul:notes />
-		
+
 	<kul:adHocRecipients />
-	
+
 	<kul:routeLog />
-	
-	<kul:superUserActions />
-	
+
 	<kul:panelFooter />
-	
-	<sys:documentControls transactionalDocument="true" />
+
+	<sys:documentControls transactionalDocument="true"
+		extraButtons="${KualiForm.extraButtons}" />
 </kul:documentPage>

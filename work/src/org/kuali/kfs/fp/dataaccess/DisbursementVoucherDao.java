@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,8 +22,15 @@ import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 public interface DisbursementVoucherDao {
 
     /**
+     * Saves the Disbursement Voucher Document
+     *
+     * @param document
+     */
+    public void save(DisbursementVoucherDocument document);
+
+    /**
      * Returns a document by its document number
-     * 
+     *
      * @param fdocNbr
      * @return document
      */
@@ -31,11 +38,31 @@ public interface DisbursementVoucherDao {
 
     /**
      * Returns a list of disbursement voucher documents with a specific doc header status
-     * 
+     *
      * @param statusCode
      * @param immediatesOnly retrieve the only DV's marked for immediate payment
      * @return list of doc headers
      */
     public Collection getDocumentsByHeaderStatus(String statusCode, boolean immediatesOnly);
+
+    /* Start TEM REFUND Merge */
+    /**
+     * Returns a list of disbursement voucher documents with a specific doc header status that
+     * are not AR refunds
+     *
+     * @param statusCode
+     * @return list of doc headers
+     */
+    public Collection getNonARDocumentsByHeaderStatus(String statusCode);
+
+    /**
+     * Returns a list of disbursement voucher documents with a specific doc header status and
+     * are AR refunds
+     *
+     * @param statusCode
+     * @return list of doc headers
+     */
+    public Collection getARDocumentsByHeaderStatus(String statusCode);
+    /* End TEM REFUND Merge */
 }
 

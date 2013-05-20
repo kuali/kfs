@@ -31,7 +31,7 @@
   <!-- Validations -->
   <bean id="SubAccountImportDocument-validations" parent="SubAccountImportDocument-validations-parentBean"/>
   
-  <bean id="SubAccountImportDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+  <bean id="SubAccountImportDocument-validations-parentBean" abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
 		<map key-type="java.lang.Class">
 			<entry>

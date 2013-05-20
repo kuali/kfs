@@ -33,7 +33,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * GenericValidation to check if the required number of accounting lines in a given accounting line group has been met
+ * GenericValidation to check for duplicate Sub Object Code entries within the file and system
  */
 public class SubObjectCodeImportEntryDuplicateValidation extends GenericValidation {
     private static final Logger LOG = Logger.getLogger(SubObjectCodeImportEntryDuplicateValidation.class);
@@ -50,12 +50,22 @@ public class SubObjectCodeImportEntryDuplicateValidation extends GenericValidati
         SubObjectCodeImportDocument document = (SubObjectCodeImportDocument) event.getDocument();
         HashMap<String, Object> subObjectCodeMap = new HashMap<String, Object>();
         String mapKey = null;
-        Map<String, String> primaryKeys = new HashMap<String, String>();
 
         SubObjectCodeImportDetail validatingLine = (SubObjectCodeImportDetail) importedLineForValidation;
         String errorPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.SubObjectCodeImport.SUB_OBJECT_CODE_IMPORT_DETAILS + "[" + validatingLine.getSequenceNumber() == null ? String.valueOf(0) : String.valueOf(validatingLine.getSequenceNumber().intValue() - 1) + "].";
         String validatingKey = getSubObjectKeyInString(validatingLine);
 
+        valid &= checkDuplicatesInFile(document, subObjectCodeMap, validatingLine, errorPrefix, validatingKey);
+
+        valid &= checkDuplicatesInSystem(validatingLine, errorPrefix);
+
+
+        return valid;
+    }
+
+    private boolean checkDuplicatesInFile(SubObjectCodeImportDocument document, HashMap<String, Object> subObjectCodeMap, SubObjectCodeImportDetail validatingLine, String errorPrefix, String validatingKey) {
+        boolean valid = true;
+        String mapKey;
         // set up hash map for the sub-object code key and the first line sequence number
         for (SubObjectCodeImportDetail importedLine : document.getSubObjectCodeImportDetails()) {
             mapKey = getSubObjectKeyInString(importedLine);
@@ -69,7 +79,12 @@ public class SubObjectCodeImportEntryDuplicateValidation extends GenericValidati
                 break;
             }
         }
+        return valid;
+    }
 
+    private boolean checkDuplicatesInSystem(SubObjectCodeImportDetail validatingLine, String errorPrefix) {
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        boolean valid = true;
         // check duplicate in BO table
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, validatingLine.getUniversityFiscalYear().toString());
         primaryKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, validatingLine.getChartOfAccountsCode());
@@ -82,8 +97,6 @@ public class SubObjectCodeImportEntryDuplicateValidation extends GenericValidati
             GlobalVariables.getMessageMap().putError(errorPrefix + KFSPropertyConstants.SubObjectCodeImport.FIN_SUB_OBJECT_CODE, KFSKeyConstants.ERROR_MASSIMPORT_DUPLICATEENTRYINTABLE, new String[] { validatingLine.getSequenceNumber() == null ? "" : validatingLine.getSequenceNumber().toString(), KFSConstants.SubObjectCodeImportConstants.SUB_OBJECT_CODE });
             valid = false;
         }
-
-
         return valid;
     }
 

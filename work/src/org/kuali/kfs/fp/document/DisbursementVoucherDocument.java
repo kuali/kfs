@@ -16,9 +16,6 @@
 
 package org.kuali.kfs.fp.document;
 
-import static org.kuali.kfs.sys.KFSConstants.GL_CREDIT_CODE;
-import static org.kuali.kfs.sys.KFSConstants.GL_DEBIT_CODE;
-
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -29,7 +26,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonResidentAlienTax;
@@ -37,7 +33,6 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
-import org.kuali.kfs.fp.businessobject.WireCharge;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
@@ -47,7 +42,6 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -57,21 +51,17 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation;
 import org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer;
+import org.kuali.kfs.sys.businessobject.WireCharge;
 import org.kuali.kfs.sys.businessobject.options.PaymentDocumentationLocationValuesFinder;
 import org.kuali.kfs.sys.businessobject.options.PaymentMethodValuesFinder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.PaymentSource;
-import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
-import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
+import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
-import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.sys.service.HomeOriginationService;
-import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -81,6 +71,13 @@ import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This is the business object that represents the DisbursementVoucher document in Kuali.
@@ -112,6 +109,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected static transient IdentityManagementService identityManagementService;
     protected static transient PaymentSourceExtractionService paymentSourceExtractionService;
     protected static volatile transient DisbursementVoucherPaymentService disbursementVoucherPaymentService;
+    protected static volatile transient PaymentSourceHelperService paymentSourceHelperService;
 
     protected Integer finDocNextRegistrantLineNbr;
     protected String disbVchrContactPersonName;
@@ -932,6 +930,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      *
      * @return Returns the bank.
      */
+    @Override
     public Bank getBank() {
         return bank;
     }
@@ -1519,170 +1518,22 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             LOG.debug("generating wire charge gl pending entries.");
 
             // retrieve wire charge
-            WireCharge wireCharge = retrieveWireCharge();
+            WireCharge wireCharge = getPaymentSourceHelperService().retrieveCurrentYearWireCharge();
 
             // generate debits
-            GeneralLedgerPendingEntry chargeEntry = processWireChargeDebitEntries(sequenceHelper, wireCharge);
+            GeneralLedgerPendingEntry chargeEntry = getPaymentSourceHelperService().processWireChargeDebitEntries(this, sequenceHelper, wireCharge);
 
             // generate credits
-            processWireChargeCreditEntries(sequenceHelper, wireCharge, chargeEntry);
+            getPaymentSourceHelperService().processWireChargeCreditEntries(this, sequenceHelper, wireCharge, chargeEntry);
         }
 
         // for wire or drafts generate bank offset entry (if enabled), for ACH and checks offset will be generated by PDP
         if (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE.equals(getDisbVchrPaymentMethodCode()) || KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_DRAFT.equals(getDisbVchrPaymentMethodCode())) {
-            generateDocumentBankOffsetEntries(sequenceHelper);
+            getPaymentSourceHelperService().generateDocumentBankOffsetEntries(this, sequenceHelper, DisbursementVoucherConstants.DOCUMENT_TYPE_WTFD);
         }
 
         return true;
     }
-
-    /**
-     * Builds an explicit and offset for the wire charge debit. The account associated with the first accounting is used for the
-     * debit. The explicit and offset entries for the first accounting line and copied and customized for the wire charge.
-     *
-     * @param dvDocument submitted disbursement voucher document
-     * @param sequenceHelper helper class to keep track of GLPE sequence
-     * @param wireCharge wireCharge object from current fiscal year
-     * @return GeneralLedgerPendingEntry generated wire charge debit
-     */
-    protected GeneralLedgerPendingEntry processWireChargeDebitEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge) {
-        LOG.debug("processWireChargeDebitEntries started");
-
-        // grab the explicit entry for the first accounting line and adjust for wire charge entry
-        GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry(getGeneralLedgerPendingEntry(0));
-        explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
-        explicitEntry.setFinancialObjectCode(wireCharge.getExpenseFinancialObjectCode());
-        explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode());
-        explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
-
-        String objectTypeCode = SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getFinObjTypeExpenditureexpCd();
-        explicitEntry.setFinancialObjectTypeCode(objectTypeCode);
-
-        String originationCode = SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode();
-        explicitEntry.setFinancialSystemOriginationCode(originationCode);
-
-        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(getWireTransfer().getBankCountryCode())) {
-            explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getDomesticChargeAmt());
-        }
-        else {
-            explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getForeignChargeAmt());
-        }
-
-        explicitEntry.setTransactionLedgerEntryDescription("Automatic debit for wire transfer fee");
-
-        addPendingEntry(explicitEntry);
-        sequenceHelper.increment();
-
-        // handle the offset entry
-        GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
-        GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-        glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
-
-        addPendingEntry(offsetEntry);
-        sequenceHelper.increment();
-
-        return explicitEntry;
-    }
-
-    /**
-     * Builds an explicit and offset for the wire charge credit. The account and income object code found in the wire charge table
-     * is used for the entry.
-     *
-     * @param dvDocument submitted disbursement voucher document
-     * @param sequenceHelper helper class to keep track of GLPE sequence
-     * @param chargeEntry GLPE charge
-     * @param wireCharge wireCharge object from current fiscal year
-     */
-    protected void processWireChargeCreditEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge, GeneralLedgerPendingEntry chargeEntry) {
-        LOG.debug("processWireChargeCreditEntries started");
-
-        // copy the charge entry and adjust for credit
-        GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry(chargeEntry);
-        explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
-        explicitEntry.setChartOfAccountsCode(wireCharge.getChartOfAccountsCode());
-        explicitEntry.setAccountNumber(wireCharge.getAccountNumber());
-        explicitEntry.setFinancialObjectCode(wireCharge.getIncomeFinancialObjectCode());
-
-        // retrieve object type
-        ObjectCode objectCode = wireCharge.getIncomeFinancialObject();
-        explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
-
-        explicitEntry.setTransactionDebitCreditCode(GL_CREDIT_CODE);
-
-        explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode());
-        explicitEntry.setSubAccountNumber(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber());
-        explicitEntry.setProjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode());
-
-        explicitEntry.setTransactionLedgerEntryDescription("Automatic credit for wire transfer fee");
-
-        addPendingEntry(explicitEntry);
-        sequenceHelper.increment();
-
-        // handle the offset entry
-        GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
-        GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-        glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
-
-        addPendingEntry(offsetEntry);
-        sequenceHelper.increment();
-    }
-
-    /**
-     * If bank specification is enabled generates bank offsetting entries for the document amount
-     *
-     * @param sequenceHelper helper class to keep track of GLPE sequence
-     * @param paymentMethodCode the payment method of this DV
-     */
-    public boolean generateDocumentBankOffsetEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        boolean success = true;
-
-        if (!SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
-            return success;
-        }
-
-        this.refreshReferenceObject(KFSPropertyConstants.BANK);
-
-        GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-
-        final KualiDecimal bankOffsetAmount = glpeService.getOffsetToCashAmount(this).negated();
-        GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-        success &= glpeService.populateBankOffsetGeneralLedgerPendingEntry(getBank(), bankOffsetAmount, this, getPostingYear(), sequenceHelper, bankOffsetEntry, KRADConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.DISB_VCHR_BANK_CODE);
-
-        if (success) {
-            AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
-            bankOffsetEntry.setTransactionLedgerEntryDescription(accountingDocumentRuleUtil.formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET));
-            bankOffsetEntry.setFinancialDocumentTypeCode(DisbursementVoucherConstants.DOCUMENT_TYPE_WTFD);
-            addPendingEntry(bankOffsetEntry);
-            sequenceHelper.increment();
-
-            GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
-            success &= glpeService.populateOffsetGeneralLedgerPendingEntry(getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
-            bankOffsetEntry.setFinancialDocumentTypeCode(DisbursementVoucherConstants.DOCUMENT_TYPE_WTFD);
-            addPendingEntry(offsetEntry);
-            sequenceHelper.increment();
-        }
-
-        return success;
-    }
-
-    /**
-     * Retrieves the wire transfer information for the current fiscal year.
-     *
-     * @return <code>WireCharge</code>
-     */
-    protected WireCharge retrieveWireCharge() {
-        WireCharge wireCharge = new WireCharge();
-        wireCharge.setUniversityFiscalYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
-
-        wireCharge = (WireCharge) SpringContext.getBean(BusinessObjectService.class).retrieve(wireCharge);
-        if (wireCharge == null) {
-            LOG.error("Wire charge information not found for current fiscal year.");
-            throw new RuntimeException("Wire charge information not found for current fiscal year.");
-        }
-
-        return wireCharge;
-    }
-
 
     /**
      * Gets the payeeAssigned attribute. This method returns a flag that is used to indicate if the payee type and value has been
@@ -1994,6 +1845,15 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         getDisbursementVoucherPaymentService().cancelDisbursementVoucher(this, cancelDate);
     }
 
+    /**
+     * Returns DVCA
+     * @see org.kuali.kfs.sys.document.PaymentSource#getAchCheckDocumentType()
+     */
+    @Override
+    public String getAchCheckDocumentType() {
+        return DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH;
+    }
+
 
     /**
      * Determines if the campus this DV is related to is taxed (and should get tax review routing) for moving reimbursements
@@ -2092,6 +1952,16 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             paymentSourceExtractionService = SpringContext.getBean(PaymentSourceExtractionService.class);
         }
         return paymentSourceExtractionService;
+    }
+
+    /**
+     * @return the default implementation of the PaymentSourceHelperService
+     */
+    public static PaymentSourceHelperService getPaymentSourceHelperService() {
+        if (paymentSourceHelperService == null) {
+            paymentSourceHelperService = SpringContext.getBean(PaymentSourceHelperService.class);
+        }
+        return paymentSourceHelperService;
     }
 
     public static DisbursementVoucherPaymentService getDisbursementVoucherPaymentService() {

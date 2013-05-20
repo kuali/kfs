@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.ReimbursableDocumentPaymentService;
@@ -144,7 +143,7 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
         if (reimbursableDoc.getTravelPayment().getCancelDate() == null) {
             try {
                 reimbursableDoc.getTravelPayment().setCancelDate(cancelDate);
-                // TODO REVERSE THE GLPE ENTRIES!!!
+                getPaymentSourceExtractionService().handleEntryCancellation(reimbursableDoc);
                 reimbursableDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
                 // save the document
                 getDocumentService().saveDocument(reimbursableDoc, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
@@ -176,12 +175,9 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
         pg.setLine1Address(reimbursableDoc.getTraveler().getStreetAddressLine1());
         pg.setLine2Address(reimbursableDoc.getTraveler().getStreetAddressLine2());
         pg.setPayeeName(reimbursableDoc.getTraveler().getFirstName() + " " + reimbursableDoc.getTraveler().getLastName());
-        if (travelerService.isEmployee(reimbursableDoc.getTraveler())){
-            reimbursableDoc.getTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.EMPLOYEE); // TODO THIS SHOULD PROBABLY BE SOMEWHERE ELSE, LIKE THE REFRESH FROM TRAVELER LOOKUP
-            reimbursableDoc.setProfileId(reimbursableDoc.getTemProfileId());
+        if (getTravelerService().isEmployee(reimbursableDoc.getTraveler())){
             pg.setPayeeId(reimbursableDoc.getTemProfile().getEmployeeId());
         }else{
-            reimbursableDoc.getTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.CUSTOMER); // TODO THIS SHOULD PROBABLY BE SOMEWHERE ELSE, LIKE THE REFRESH FROM TRAVELER LOOKUP
             pg.setPayeeId(reimbursableDoc.getTraveler().getCustomerNumber());
         }
         pg.setState(reimbursableDoc.getTraveler().getStateCode());
@@ -227,7 +223,7 @@ public class ReimbursableDocumentExtractionHelperServiceImpl implements PaymentS
         pd.setInvTotShipAmount(KualiDecimal.ZERO);
         pd.setNetPaymentAmount(document.getTravelPayment().getCheckTotalAmount());
         pd.setPrimaryCancelledPayment(Boolean.FALSE);
-        pd.setFinancialDocumentTypeCode(DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH);
+        pd.setFinancialDocumentTypeCode(document.getAchCheckDocumentType());
         pd.setFinancialSystemOriginCode(KFSConstants.ORIGIN_CODE_KUALI);
 
         // Handle accounts

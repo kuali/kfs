@@ -120,39 +120,39 @@
 					</split>
 					<split name="RequiresItemsApproval">
 						<branch name="True">					
-						<requests name="AccountReview" nextNode="RequiresContractManagementReview" />
+						<requests name="Account" nextNode="RequiresContractManagementReview"  nextAppDocStatus="Awaiting Purchasing Approval" />
 							<split name="RequiresContractManagementReview" nextNode="Commodity">
 								<branch name="True">
-									<requests name="ContractManagement" nextNode="JoinRequiresContractManagementReview" />
+									<requests name="ContractManagement" nextNode="JoinRequiresContractManagementReview" nextAppDocStatus="Awaiting Commodity Code Approval" />
 								</branch>
 								<branch name="False">
 									<requests name="NoOpRequiresContractManagementReview"
-										nextNode="JoinRequiresContractManagementReview" />
+										nextNode="JoinRequiresContractManagementReview" nextAppDocStatus="Awaiting Commodity Code Approval" />
 								</branch>
 								<join name="JoinRequiresContractManagementReview" />
 							</split>
-							<requests name="Commodity" nextNode="RequiresAwardReview" />
+							<requests name="Commodity" nextNode="RequiresAwardReview"  nextAppDocStatus="Awaiting C and G Approval"/>
 							<split name="RequiresAwardReview" nextNode="RequiresBudgetReview">
 								<branch name="True">
-									<requests name="Award" nextNode="JoinRequiresAwardReview" />
+									<requests name="Award" nextNode="JoinRequiresAwardReview" nextAppDocStatus="Awaiting Budget Approval" />
 								</branch>
 								<branch name="False">
-									<requests name="NoOpRequiresAwardReview" nextNode="JoinRequiresAwardReview" />
+									<requests name="NoOpRequiresAwardReview" nextNode="JoinRequiresAwardReview" nextAppDocStatus="Awaiting Budget Approval" />
 								</branch>
 								<join name="JoinRequiresAwardReview" />
 							</split>
 							<split name="RequiresBudgetReview" nextNode="VendorIsEmployeeOrNonResidentAlien">
 								<branch name="True">
-									<requests name="Budget" nextNode="JoinRequiresBudgetReview" />
+									<requests name="Budget" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Tax Approval" />
 								</branch>
 								<branch name="False">
-									<simple name="NoOpBudget" nextNode="JoinRequiresBudgetReview" />
+									<simple name="NoOpBudget" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Tax Approval"/>
 								</branch>
 								<join name="JoinRequiresBudgetReview" />
 							</split>
 							<split name="VendorIsEmployeeOrNonResidentAlien">
 								<branch name="True">
-									<requests name="Tax" nextNode="Join" />
+									<requests name="Tax" nextNode="Join" nextAppDocStatus="Awaiting Tax Approval"/>
 								</branch>
 								<branch name="False">
 									<simple name="NoOpVendorIsEmployeeOrNonResidentAlien"
@@ -163,7 +163,7 @@
 						<branch name="False">
 							<split name="RequiresItemsNonItem">
 								<branch name="True">
-							<requests name="Account" nextNode="RequiresContractManagementNonItem" />
+							<requests name="AccountNonItem" nextNode="RequiresContractManagementNonItem" />
 							<split name="RequiresContractManagementNonItem" nextNode="CommodityNonItem">
 								<branch name="True">
 									<requests name="ContractManagementNonItem" nextNode="JoinRequiresContractManagementNonItem" />
@@ -267,11 +267,11 @@
 		          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 		          <activationType>P</activationType>
 		        </role>
-		        <role name="Account">
+		        <role name="AccountNonItem">
 		          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 		          <activationType>P</activationType>
 		        </role>
-		        <role name="AccountReview">
+		        <role name="Account">
 		          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
 		          <activationType>P</activationType>
 		        </role>
@@ -379,28 +379,30 @@
 			</routeNodes>
 		</documentType>
 		<documentType>
+			<name>CATR</name>
+			<parent>KFST</parent>
+			<label>COA Transactional Document</label>
+		</documentType>
+		<documentType>
 			<name>SAIP</name>
-			<parent>COA</parent>
+			<parent>CATR</parent>
 			<label>Sub-Account Import</label>
 			<docHandler>${kfs.url}/coaSubAccountImport.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
-			<routingVersion>2</routingVersion>
 		</documentType>
-	    <documentType>
-	      <name>SOIP</name>
-	      <parent>COA</parent>
-	      <label>Sub-Object Code Import</label>
-	      <docHandler>${kfs.url}/coaSubObjectCodeImport.do?methodToCall=docHandler</docHandler>
-	      <active>true</active>
-	      <routingVersion>2</routingVersion>
-	    </documentType>
-	    <documentType>
-	      <name>PCIP</name>
-	      <parent>COA</parent>
-	      <label>Project Code Import</label>
-	      <docHandler>${kfs.url}/coaProjectCodeImport.do?methodToCall=docHandler</docHandler>
-	      <active>true</active>
-	      <routingVersion>2</routingVersion>
-	    </documentType>
+		<documentType>
+			<name>SOIP</name>
+			<parent>CATR</parent>
+			<label>Sub-Object Code Import</label>
+			<docHandler>${kfs.url}/coaSubObjectCodeImport.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+		</documentType>
+		<documentType>
+			<name>PCIP</name>
+			<parent>CATR</parent>
+			<label>Project Code Import</label>
+			<docHandler>${kfs.url}/coaProjectCodeImport.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+		</documentType>
 	</documentTypes>
 </data>

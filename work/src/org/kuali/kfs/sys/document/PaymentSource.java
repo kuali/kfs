@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.document;
 import java.sql.Date;
 
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -82,5 +83,15 @@ public interface PaymentSource extends GeneralLedgerPostingDocument, GeneralLedg
      * @return the code identifier of the campus most associated with this campus
      */
     public abstract String getCampusCode();
+
+    /**
+     * @return the bank associated with this document
+     */
+    public abstract Bank getBank();
+
+    /**
+     * @return the FSLO document type associated with ach/check entries for this document type
+     */
+    public abstract String getAchCheckDocumentType();
 
 }

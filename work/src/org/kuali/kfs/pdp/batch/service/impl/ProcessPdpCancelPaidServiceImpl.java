@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.pdp.PdpConstants;
@@ -30,6 +29,7 @@ import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
+import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -82,9 +82,9 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
             if(purchasingAccountsPayableModuleService.isPurchasingBatchDocument(documentTypeCode)) {
                 purchasingAccountsPayableModuleService.handlePurchasingBatchCancels(documentNumber, documentTypeCode, primaryCancel, disbursedPayment);
             }
-            else if (DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH.equals(documentTypeCode)) {
+            else if (dvExtractService.getPaymentSourceCheckACHDocumentTypes().contains(documentTypeCode)) {
                 try {
-                    DisbursementVoucherDocument dv = (DisbursementVoucherDocument)getDocumentService().getByDocumentHeaderId(documentNumber);
+                    PaymentSource dv = (PaymentSource)getDocumentService().getByDocumentHeaderId(documentNumber);
                     if (dv != null) {
                         if (disbursedPayment || primaryCancel) {
                             dvExtractService.cancelExtractedPaymentSource(dv, processDate);
@@ -132,9 +132,9 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
             if(purchasingAccountsPayableModuleService.isPurchasingBatchDocument(documentTypeCode)) {
                 purchasingAccountsPayableModuleService.handlePurchasingBatchPaids(documentNumber, documentTypeCode, processDate);
             }
-            else if (DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH.equals(documentTypeCode)) {
+            else if (dvExtractService.getPaymentSourceCheckACHDocumentTypes().contains(documentTypeCode)) {
                 try {
-                    DisbursementVoucherDocument dv = (DisbursementVoucherDocument)getDocumentService().getByDocumentHeaderId(documentNumber);
+                    PaymentSource dv = (PaymentSource)getDocumentService().getByDocumentHeaderId(documentNumber);
                     dvExtractService.markPaymentSourceAsPaid(dv, processDate);
                 } catch (WorkflowException we) {
                     throw new RuntimeException("Could not retrieve document #"+documentNumber, we);

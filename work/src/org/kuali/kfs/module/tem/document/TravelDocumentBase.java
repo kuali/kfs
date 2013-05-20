@@ -88,6 +88,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -1768,6 +1769,17 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
 
     /**
+     * Sets the bank code for a new document to the setup default for the TEM document.
+     */
+    public void setDefaultBankCode() {
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(this.getClass());
+        if (defaultBank != null) {
+            this.financialDocumentBankCode = defaultBank.getBankCode();
+            this.bank = defaultBank;
+        }
+    }
+
+    /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getTransportationModes()
      */
     @Override
@@ -1952,6 +1964,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCTS).processExpense(this);
         getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCorpCard).processExpense(this);
+
         return true;
     }
 

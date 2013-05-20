@@ -292,7 +292,7 @@
 					<stringValue>app</stringValue>
 				</policy>
 			</policies>
-			<!-- routePaths>
+			<routePaths>
 				<routePath>
 					<start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review" />
 					<split name="TravelRequiresTravelerApproval" nextNode="TravelRequiresAccountApproval" nextAppDocStatus="Awaiting Traveler Review">
@@ -513,24 +513,6 @@
                     <activationType>P</activationType>
                 </role>
                 
-			</routeNodes-->
-			<!-- replacement until we can ingest full doc type -->
-			<routePaths>
-				<routePath>
-					<start name="AdHoc" nextNode="Account" nextAppDocStatus="Awaiting Fiscal Officer Review" />
-					<role name="Account" nextAppDocStatus="Open for Reimbursement" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="AdHoc" />
-				<role name="Account">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>
-						P
-                    </activationType>
-				</role>
 			</routeNodes>
 		</documentType>
 		<documentType>
@@ -613,7 +595,7 @@
                     <stringValue>app</stringValue>
                 </policy>
             </policies>
-            <!-- routePaths>
+            <routePaths>
                 <routePath>
                     <start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review"/>
                     <split name="TravelRequiresTravelerApproval" nextNode="TravelRequiresAccountApproval" nextAppDocStatus="Awaiting Traveler Review">
@@ -849,24 +831,7 @@
                     <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
                     <activationType>P</activationType>
                 </role>
-            </routeNodes-->
-            <routePaths>
-				<routePath>
-					<start name="AdHoc" nextNode="Account" nextAppDocStatus="Awaiting Fiscal Officer Review" />
-					<role name="Account" nextAppDocStatus="Department Approved" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="AdHoc" />
-				<role name="Account">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>
-						P
-                    </activationType>
-				</role>
-			</routeNodes>
+            </routeNodes>
         </documentType>
         <documentType>
 	      <name>TMCP</name>
@@ -971,7 +936,7 @@
                     <stringValue>app</stringValue>
                 </policy>
             </policies>
-            <!-- routePaths>
+            <routePaths>
                 <routePath>
                     <start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review" />
 					<split name="TravelRequiresTravelerApproval" nextNode="TravelRequiresAccountApproval" nextAppDocStatus="Awaiting Traveler Review">
@@ -1136,24 +1101,7 @@
                         P
                     </activationType>
                 </role>        
-            </routeNodes-->
-            <routePaths>
-				<routePath>
-					<start name="AdHoc" nextNode="Account" nextAppDocStatus="Awaiting Fiscal Officer Review" />
-					<role name="Account" nextAppDocStatus="Moving And Relocation Manager Approved" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="AdHoc" />
-				<role name="Account">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>
-						P
-                    </activationType>
-				</role>
-			</routeNodes>           
+            </routeNodes>          
         </documentType>
         <documentType>
 	      <name>
@@ -1238,7 +1186,7 @@
                     <stringValue>app</stringValue>
                 </policy>
             </policies>
-            <!-- routePaths>
+            <routePaths>
                 <routePath>
                 	<start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review"/>
                     <split name="TravelRequiresTravelerApproval" nextNode="Account" nextAppDocStatus="Awaiting Traveler Review">
@@ -1369,24 +1317,7 @@
                     </qualifierResolverClass>
                     <activationType>P</activationType>
                 </role>
-            </routeNodes-->
-            <routePaths>
-				<routePath>
-					<start name="AdHoc" nextNode="Account" nextAppDocStatus="Awaiting Fiscal Officer Review" />
-					<role name="Account" nextAppDocStatus="Entertainment Manager Approved" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="AdHoc" />
-				<role name="Account">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>
-						P
-                    </activationType>
-				</role>
-			</routeNodes>
+            </routeNodes>
         </documentType>
         <documentType>
 			<name>CTAP</name>
@@ -1485,5 +1416,149 @@
 				</role>
 			</routeNodes>
 		</documentType>
+		<documentType>
+      <name>
+        TACA
+      </name>
+      <parent>
+        FSLO
+      </parent>
+      <label>
+        Travel Authorization – Check/ACH
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>
+        TAWF
+      </name>
+      <parent>
+        FSLO
+      </parent>
+      <label>
+        Travel Authorization – WT/FD
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>
+        TRCA
+      </name>
+      <parent>
+        FSLO
+      </parent>
+      <label>
+        Travel Reimbursement – Check/ACH
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>
+        TRWF
+      </name>
+      <parent>
+        FSLO
+      </parent>
+      <label>
+        Travel Reimbursement – WT/FD
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>
+        ENCA
+      </name>
+      <parent>
+        FSLO
+      </parent>
+      <label>
+        Entertainment – Check/ACH
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>
+        ENWF
+      </name>
+      <parent>
+        FSLO
+      </parent>
+      <label>
+        Entertainment – WT/FD
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>
+        RECA
+      </name>
+      <parent>
+        FSLO
+      </parent>
+      <label>
+        Moving and Relocation – Check/ACH
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>
+        REWF
+      </name>
+      <parent>
+        FSLO
+      </parent>
+      <label>
+        Moving and Relocation – WT/FD
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
   </documentTypes>
 </data>

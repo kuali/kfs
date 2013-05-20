@@ -390,7 +390,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
 
         calendar.add(Calendar.DAY_OF_MONTH, 2);
         setTripEnd(new Timestamp(calendar.getTimeInMillis()));
-
+        setDefaultBankCode();
     }
 
     /**

@@ -33,7 +33,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * GenericValidation to check if the required number of accounting lines in a given accounting line group has been met
+ * GenericValidation to check for duplicate Project Codes entries in the file and system
  */
 public class ProjectCodeImportEntryDuplicateValidation extends GenericValidation {
     private static final Logger LOG = Logger.getLogger(ProjectCodeImportEntryDuplicateValidation.class);
@@ -55,6 +55,29 @@ public class ProjectCodeImportEntryDuplicateValidation extends GenericValidation
         String errorPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.ProjectCodeImport.PROJECT_CODE_IMPORT_DETAILS + "[" + validatingLine.getSequenceNumber() == null ? String.valueOf(0) : String.valueOf(validatingLine.getSequenceNumber().intValue() - 1) + "].";
         String validatingKey = getProjectCodeKeyString(validatingLine);
 
+        valid &= checkDuplicatesWithinFile(document, projectCodeMap, validatingLine, errorPrefix, validatingKey);
+
+        valid &= checkDuplicatesInSystem(primaryKeys, validatingLine, errorPrefix);
+
+        return valid;
+    }
+
+    private boolean checkDuplicatesInSystem(Map<String, String> primaryKeys, ProjectCodeImportDetail validatingLine, String errorPrefix) {
+        boolean valid = true;
+        // check duplicate in BO table
+        primaryKeys.put(KFSPropertyConstants.CODE, validatingLine.getProjectCode());
+        ProjectCode existingProjectCode = businessObjectService.findByPrimaryKey(ProjectCode.class, primaryKeys);
+
+        if (ObjectUtils.isNotNull(existingProjectCode)) {
+            GlobalVariables.getMessageMap().putError(errorPrefix + KFSPropertyConstants.ProjectCodeImport.PROJECT_CODE, KFSKeyConstants.ERROR_MASSIMPORT_DUPLICATEENTRYINTABLE, new String[] { validatingLine.getSequenceNumber() == null ? "" : validatingLine.getSequenceNumber().toString(), KFSConstants.ProjectCodeImportConstants.PROJECT_CODE });
+            valid = false;
+        }
+        return valid;
+    }
+
+    private boolean checkDuplicatesWithinFile(ProjectCodeImportDocument document, HashMap<String, Object> projectCodeMap, ProjectCodeImportDetail validatingLine, String errorPrefix, String validatingKey) {
+        boolean valid = true;
+        String mapKey;
         for (ProjectCodeImportDetail importedLine : document.getProjectCodeImportDetails()) {
             mapKey = getProjectCodeKeyString(importedLine);
             if (!projectCodeMap.containsKey(mapKey)) {
@@ -67,16 +90,6 @@ public class ProjectCodeImportEntryDuplicateValidation extends GenericValidation
                 break;
             }
         }
-
-        // check duplicate in BO table
-        primaryKeys.put(KFSPropertyConstants.CODE, validatingLine.getProjectCode());
-        ProjectCode existingProjectCode = businessObjectService.findByPrimaryKey(ProjectCode.class, primaryKeys);
-
-        if (ObjectUtils.isNotNull(existingProjectCode)) {
-            GlobalVariables.getMessageMap().putError(errorPrefix + KFSPropertyConstants.ProjectCodeImport.PROJECT_CODE, KFSKeyConstants.ERROR_MASSIMPORT_DUPLICATEENTRYINTABLE, new String[] { validatingLine.getSequenceNumber() == null ? "" : validatingLine.getSequenceNumber().toString(), KFSConstants.ProjectCodeImportConstants.PROJECT_CODE });
-            valid = false;
-        }
-
         return valid;
     }
 

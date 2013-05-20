@@ -18,7 +18,7 @@
 <c:set var="travelPaymentAttributes" value="${DataDictionary.TravelPayment.attributes}" />
 <c:set var="checkAmountEntry" value="${KualiForm.editingMode['checkAmountEntry']}" />
 
-<kul:tab tabTitle="Payment Information" defaultOpen="false" tabErrorKey="${KFSConstants.DV_PAYMENT_TAB_ERRORS},document.paymentMethodCode,${KFSConstants.DV_PAYEE_TAB_ERRORS},${KFSConstants.TRVL_SPECHAND_TAB_ERRORS},${KFSConstants.WIRETRANSFER_TAB_ERRORS},${KFSConstants.FOREIGNDRAFTS_TAB_ERRORS}">
+<kul:tab tabTitle="Payment Information" defaultOpen="false" tabErrorKey="${TemConstants.TRAVEL_PAYMENT_TAB_ERRORS},${TemConstants.TRVL_SPECHAND_TAB_ERRORS},${KFSConstants.WIRETRANSFER_TAB_ERRORS},${KFSConstants.FOREIGNDRAFTS_TAB_ERRORS}">
     <div class="tab-container" align=center > 
         <h3>Payment Information</h3>
 		<table cellpadding=0 class="datatable" summary="Payment Section">
@@ -39,7 +39,7 @@
               <th  class="bord-l-b"><div align="right">Payment Type:</div></th>
               <td valign="top"  class="datacell">
                 <c:if test="${taxEntryMode}">
-                  <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.lienPaymentCode}" property="document.travelPayment.alienPaymentCode"/>
+                  <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.alienPaymentCode}" property="document.travelPayment.alienPaymentCode"/>
                   <kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.alienPaymentCode}" noColon="true" />
                   <br><br>
                 </c:if>
@@ -49,7 +49,7 @@
                     <br><br>
                 </c:if>
 				<%--
-                <kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.disbVchrPayeeEmployeeCode}"/> <bean:write  name="KualiForm" property="document.travelPayment.payeeEmployeeCode" /><br><br>
+                <kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.payeeEmployeeCode}"/> <bean:write  name="KualiForm" property="document.travelPayment.payeeEmployeeCode" /><br><br>
 				<c:if test="${KualiForm.document.travelPayment.payeeTypeCode=='V'}">
                 	<kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.employeePaidOutsidePayrollCode}"/><bean:write  name="KualiForm" property="document.travelPayment.employeePaidOutsidePayrollCode" /><br><br>
                 </c:if>
@@ -127,7 +127,7 @@
               </td>
               <th  class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.documentationLocationCode}"/></div></th>
               <td  class="datacell">
-                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.documentationLocationCode}" property="document.travelPayment.documentationLocationCode" extraReadOnlyProperty="document.travelPayment.documentationLocationName" onchange="documentationMessage(this.value);" readOnly="${!fullEntryMode}"/>
+                <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.documentationLocationCode}" property="document.travelPayment.documentationLocationCode" extraReadOnlyProperty="document.travelPayment.paymentDocumentationLocationName" onchange="documentationMessage(this.value);" readOnly="${!fullEntryMode}"/>
                 <c:if test="${fullEntryMode}">
               		<kul:lookup boClassName="org.kuali.kfs.sys.businessobject.PaymentDocumentationLocation" fieldConversions="paymentDocumentationLocationCode:document.travelPayment.documentationLocationCode" 
               		lookupParameters="document.travelPayment.documentationLocationCode:paymentDocumentationLocationCode" />
@@ -141,43 +141,42 @@
         </table>
 		<%-- SPECIAL HANDLING --%>
 		<h3>Send Check To</h3>
-	<table cellpadding=0 class="datatable" summary="Special Handling Section">          
+		<table cellpadding=0 class="datatable" summary="Special Handling Section">          
             <tr>
-              <th class="bord-l-b">&nbsp;</th>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingCityName}"/></div></th>
-              <td align=left valign=middle class="datacell">
+              <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingCityName}"/></div></th>
+              <td align="left" valign="middle" class="datacell" colspan="3">
                 <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingCityName}" property="document.travelPayment.specialHandlingCityName" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) && !paymentHandlingEntryMode}"/>  
               </td>
             </tr>
             
             <tr>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingLine1Addr}"/></div></th>
-              <td align=left valign=middle class="datacell">
+              <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingLine1Addr}"/></div></th>
+              <td align="left" valign="middle" class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingLine1Addr}" property="document.travelPayment.specialHandlingLine1Addr" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) && !paymentHandlingEntryMode}"/>  
               </td>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingStateCode}"/></div></th>
-              <td align=left valign=middle class="datacell">
+              <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingStateCode}"/></div></th>
+              <td align="left" valign="middle" class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingStateCode}" property="document.travelPayment.specialHandlingStateCode" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) && !paymentHandlingEntryMode}"/>  
               </td>
             </tr>
             
             <tr>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingLine2Addr}"/></div></th>
-              <td align=left valign=middle class="datacell">
+              <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingLine2Addr}"/></div></th>
+              <td align="left" valign="middle" class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingLine2Addr}" property="document.travelPayment.specialHandlingLine2Addr" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) && !paymentHandlingEntryMode}"/>  
               </td>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingZipCode}"/></div></th>
-              <td align=left valign=middle class="datacell">
+              <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingZipCode}"/></div></th>
+              <td align="left" valign="middle" class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingZipCode}" property="document.travelPayment.specialHandlingZipCode" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) && !paymentHandlingEntryMode}"/>  
               </td>
             </tr>
             
             <tr>
-              <th align=right valign=middle class="bord-l-b"></th>
-              <td align=left valign=middle class="datacell">
+              <th align="right" valign="middle" class="bord-l-b"></th>
+              <td align="left" valign="middle" class="datacell">
               </td>
-              <th align=right valign=middle class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingCountryCode}"/></div></th>
-              <td align=left valign=middle class="datacell">
+              <th align="right" valign="middle" class="bord-l-b"><div align="right"><kul:htmlAttributeLabel attributeEntry="${travelPaymentAttributes.specialHandlingCountryCode}"/></div></th>
+              <td align="left" valign="middle" class="datacell">
                 <kul:htmlControlAttribute attributeEntry="${travelPaymentAttributes.specialHandlingCountryCode}" property="document.travelPayment.specialHandlingCountryCode" readOnly="${!(fullEntryMode || specialHandlingChangingEntryMode) && !paymentHandlingEntryMode}"/>  
               </td>
             </tr>

@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
@@ -38,10 +39,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.batch.service.PaymentSourceToExtractService;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -52,6 +56,7 @@ import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -70,6 +75,8 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
     protected PdpEmailService paymentFileEmailService;
     protected PaymentSourceToExtractService paymentSourceToExtractService;
     protected DocumentService documentService;
+    protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    protected Set<String> checkAchFsloDocTypes;
 
     // This should only be set to true when testing this system. Setting this to true will run the code but
     // won't set the doc status to extracted
@@ -480,6 +487,76 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
     }
 
     /**
+     * @see org.kuali.kfs.sys.document.service.PaymentSourceHelperService#oppositifyAndSaveEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    @Override
+    public void oppositifyAndSaveEntry(GeneralLedgerPendingEntry glpe, GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper) {
+        if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_CREDIT_CODE)) {
+            glpe.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+        }
+        else if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
+            glpe.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+        }
+        glpe.setTransactionLedgerEntrySequenceNumber(glpeSeqHelper.getSequenceCounter());
+        glpeSeqHelper.increment();
+        glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
+        businessObjectService.save(glpe);
+    }
+
+    /**
+     *
+     * @see org.kuali.kfs.sys.document.service.PaymentSourceHelperService#handleEntryCancellation(org.kuali.kfs.sys.document.PaymentSource)
+     */
+    @Override
+    public void handleEntryCancellation(PaymentSource paymentSource) {
+        if (ObjectUtils.isNull(paymentSource.getGeneralLedgerPendingEntries()) || paymentSource.getGeneralLedgerPendingEntries().size() == 0) {
+            // generate all the pending entries for the document
+            getGeneralLedgerPendingEntryService().generateGeneralLedgerPendingEntries(paymentSource);
+            // for each pending entry, opposite-ify it and reattach it to the document
+            GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper();
+            for (GeneralLedgerPendingEntry glpe : paymentSource.getGeneralLedgerPendingEntries()) {
+                oppositifyAndSaveEntry(glpe, glpeSeqHelper);
+            }
+        }
+        else {
+            List<GeneralLedgerPendingEntry> newGLPEs = new ArrayList<GeneralLedgerPendingEntry>();
+            GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper(paymentSource.getGeneralLedgerPendingEntries().size() + 1);
+            for (GeneralLedgerPendingEntry glpe : paymentSource.getGeneralLedgerPendingEntries()) {
+                glpe.refresh();
+                if (glpe.getFinancialDocumentApprovedCode().equals(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED)) {
+                    // damn! it got processed! well, make a copy, oppositify, and save
+                    GeneralLedgerPendingEntry undoer = new GeneralLedgerPendingEntry(glpe);
+                    oppositifyAndSaveEntry(undoer, glpeSeqHelper);
+                    newGLPEs.add(undoer);
+                }
+                else {
+                    // just delete the GLPE before anything happens to it
+                    businessObjectService.delete(glpe);
+                }
+            }
+            paymentSource.setGeneralLedgerPendingEntries(newGLPEs);
+        }
+    }
+
+
+    /**
+     * Returns the document types for the DV, TR, RELO, ENT, and TA check/ach fslo doc types
+     * @see org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService#getPaymentSourceCheckACHDocumentTypes()
+     */
+    @Override
+    public Set<String> getPaymentSourceCheckACHDocumentTypes() {
+        return checkAchFsloDocTypes;
+    }
+
+    /**
+     * Sets the document types which PaymentSourceExtractionService can pay out or cancel
+     * @param checkAchFsloDocTypes a Set of document type names
+     */
+    public void setPaymentSourceCheckACHDocumentTypes(Set<String> checkAchFsloDocTypes) {
+        this.checkAchFsloDocTypes = checkAchFsloDocTypes;
+    }
+
+    /**
      * This method sets the ParameterService instance.
      *
      * @param parameterService The ParameterService to be set.
@@ -564,5 +641,20 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    /**
+     * @return the implementation of the GeneralLedgerPendingEntryService to use
+     */
+    public GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
+        return generalLedgerPendingEntryService;
+    }
+
+    /**
+     * Sets the implementation of the GeneralLedgerPendingEntryService to use
+     * @param universityDateService the implementation of the GeneralLedgerPendingEntryService to use
+     */
+    public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
+        this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
     }
 }

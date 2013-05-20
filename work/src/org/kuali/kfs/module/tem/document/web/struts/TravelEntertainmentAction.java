@@ -27,6 +27,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -53,7 +54,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
@@ -268,11 +268,6 @@ public class TravelEntertainmentAction extends TravelActionBase {
         }
     }
 
-    @Override
-    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        super.createDocument(kualiDocumentFormBase);
-    }
-
     /**
      * Recalculates the Expenses Total Tab
      *
@@ -299,7 +294,25 @@ public class TravelEntertainmentAction extends TravelActionBase {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TravelEntertainmentForm entForm = (TravelEntertainmentForm) form;
+
+        final String refreshCaller = entForm.getRefreshCaller();
+        if (!StringUtils.isBlank(refreshCaller)) {
+            final TravelEntertainmentDocument document = entForm.getEntertainmentDocument();
+
+            if (TemConstants.TEM_PROFILE_LOOKUPABLE.equals(refreshCaller)) {
+                performRequesterRefresh(document);
+            }
+        }
+
         return super.refresh(mapping, form, request, response);
+    }
+
+    /**
+     * Performs necessary updates after the requester on the relocation document was updated, such as updating the payee type
+     * @param document the document to update
+     */
+    protected void performRequesterRefresh(TravelEntertainmentDocument document) {
+        updatePayeeTypeForReimbursable(document);
     }
 
     public ActionForward printCoversheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

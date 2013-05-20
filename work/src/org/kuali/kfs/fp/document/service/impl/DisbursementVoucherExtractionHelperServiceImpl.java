@@ -60,7 +60,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public class DisbursementVoucherExtractionHelperServiceImpl implements DisbursementVoucherPaymentService, PaymentSourceToExtractService {
     static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherExtractionHelperServiceImpl.class);
@@ -81,33 +80,7 @@ public class DisbursementVoucherExtractionHelperServiceImpl implements Disbursem
                 // set the canceled date
                 dv.setCancelDate(cancelDate);
                 dv.refreshReferenceObject("generalLedgerPendingEntries");
-                if (ObjectUtils.isNull(dv.getGeneralLedgerPendingEntries()) || dv.getGeneralLedgerPendingEntries().size() == 0) {
-                    // generate all the pending entries for the document
-                    getGeneralLedgerPendingEntryService().generateGeneralLedgerPendingEntries(dv);
-                    // for each pending entry, opposite-ify it and reattach it to the document
-                    GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper();
-                    for (GeneralLedgerPendingEntry glpe : dv.getGeneralLedgerPendingEntries()) {
-                        oppositifyEntry(glpe, getBusinessObjectService(), glpeSeqHelper);
-                    }
-                }
-                else {
-                    List<GeneralLedgerPendingEntry> newGLPEs = new ArrayList<GeneralLedgerPendingEntry>();
-                    GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper(dv.getGeneralLedgerPendingEntries().size() + 1);
-                    for (GeneralLedgerPendingEntry glpe : dv.getGeneralLedgerPendingEntries()) {
-                        glpe.refresh();
-                        if (glpe.getFinancialDocumentApprovedCode().equals(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED)) {
-                            // damn! it got processed! well, make a copy, oppositify, and save
-                            GeneralLedgerPendingEntry undoer = new GeneralLedgerPendingEntry(glpe);
-                            oppositifyEntry(undoer, getBusinessObjectService(), glpeSeqHelper);
-                            newGLPEs.add(undoer);
-                        }
-                        else {
-                            // just delete the GLPE before anything happens to it
-                            getBusinessObjectService().delete(glpe);
-                        }
-                    }
-                    dv.setGeneralLedgerPendingEntries(newGLPEs);
-                }
+                getPaymentSourceExtractionService().handleEntryCancellation(dv);
                 // set the financial document status to canceled
                 dv.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
                 // save the document

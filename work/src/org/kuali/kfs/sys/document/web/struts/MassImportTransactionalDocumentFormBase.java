@@ -2,6 +2,7 @@ package org.kuali.kfs.sys.document.web.struts;
 
 import org.apache.log4j.Logger;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kfs.sys.web.MassImportCSVFileParser;
 import org.kuali.kfs.sys.web.MassImportFileParser;
 
 /**
@@ -21,5 +22,7 @@ public abstract class MassImportTransactionalDocumentFormBase extends FinancialS
         this.importFile = importFile;
     }
 
-    public abstract MassImportFileParser getMassImportFileParser();
+    public MassImportFileParser getMassImportFileParser() {
+        return new MassImportCSVFileParser();
+    }
 }

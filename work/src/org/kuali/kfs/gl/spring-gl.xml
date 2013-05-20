@@ -2838,27 +2838,29 @@
 		
     </bean>
     
-    <bean id="trialBalanceDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.TrialBalanceDaoJdbc">
-	</bean>
-	
-    <bean id="trialBalanceService" class="org.kuali.kfs.gl.service.impl.TrialBalanceServiceImpl">
+ <bean id="trialBalanceDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.TrialBalanceDaoJdbc" />	
+	<bean id="trialBalanceService" parent="trialBalanceService-parentBean" />
+    <bean id="trialBalanceService-parentBean" abstract="true" class="org.kuali.kfs.gl.service.impl.TrialBalanceServiceImpl">
 		<property name="trialBalanceDao" ref="trialBalanceDao" />
 		<property name="glTrialBalanceReportInfo" ref="glTrialBalanceReportInfo" />
 		<property name="reportGenerationService" ref="reportGenerationService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
-    <bean id="glTrialBalanceLookupableHelperService" class="org.kuali.kfs.gl.businessobject.lookup.TrialBalanceLookupableHelperServiceImpl" scope="prototype">
+	<bean id="glTrialBalanceLookupableHelperService" parent="glTrialBalanceLookupableHelperService-parentBean" scope="prototype" />
+    <bean id="glTrialBalanceLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.gl.businessobject.lookup.TrialBalanceLookupableHelperServiceImpl">
     	<property name="trialBalanceService" ref="trialBalanceService" />
 	</bean>
 
-	<bean id="glTrialBalanceReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+	<bean id="glTrialBalanceReportLookupable" parent="glTrialBalanceReportLookupable-parentBean" scope="prototype" />
+	<bean id="glTrialBalanceReportLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
 		<property name="lookupableHelperService">
 			<ref bean="glTrialBalanceLookupableHelperService" />
 		</property>
 	</bean>
     
-	<bean id="glTrialBalanceReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
+    <bean id="glTrialBalanceReportInfo" parent="glTrialBalanceReportInfo-parentBean" /> 
+	<bean id="glTrialBalanceReportInfo-parentBean" abstract="true" class="org.kuali.kfs.sys.report.ReportInfoHolder" >
 		<property name="reportTitle" value="Trial Balance Report" />
 		<property name="reportFileName" value="gl_trial_balance_report" />
 		<property name="reportsDirectory" value="${reports.directory}/gl/" />

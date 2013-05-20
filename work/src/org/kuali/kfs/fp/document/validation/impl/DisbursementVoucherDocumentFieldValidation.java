@@ -67,7 +67,7 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
         /* special handling name & address required if special handling is indicated */
         if (document.isDisbVchrSpecialHandlingCode()) {
             if (StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrSpecialHandlingPersonName()) || StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrSpecialHandlingLine1Addr())) {
-                errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_SPECHAND_TAB_ERRORS, KFSKeyConstants.ERROR_DV_SPECIAL_HANDLING);
+                errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_SPECHAND_TAB_ERRORS, KFSKeyConstants.ERROR_SPECIAL_HANDLING);
                 isValid = false;
             }
         }
@@ -82,13 +82,13 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
 
         /* if special handling indicated, must be a note explaining why */
         if (document.isDisbVchrSpecialHandlingCode() && hasNoNotes) {
-            errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_PAYMENT_TAB_ERRORS, KFSKeyConstants.ERROR_DV_SPECIAL_HANDLING_NOTE_MISSING);
+            errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_PAYMENT_TAB_ERRORS, KFSKeyConstants.ERROR_SPECIAL_HANDLING_NOTE_MISSING);
             isValid = false;
         }
 
         /* if exception attached indicated, must be a note explaining why */
         if (document.isExceptionIndicator() && hasNoNotes) {
-            errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_PAYMENT_TAB_ERRORS, KFSKeyConstants.ERROR_DV_EXCEPTION_ATTACHED_NOTE_MISSING);
+            errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_PAYMENT_TAB_ERRORS, KFSKeyConstants.ERROR_EXCEPTION_ATTACHED_NOTE_MISSING);
             isValid = false;
         }
 

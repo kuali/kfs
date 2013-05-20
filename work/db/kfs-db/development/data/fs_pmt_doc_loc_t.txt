@@ -1,0 +1,30 @@
+pmt_doc_loc_cd|obj_id|ver_nbr|pmt_doc_loc_nm|pmt_doc_loc_addr|row_actv_ind|
+A|519DA571FE3562E1E0404F8189D85A64|1.0|East Campus|Purchasing Department 
+ WZ 101K 
+ EAST CAMPUS|Y|
+F|519DA571FE3662E1E0404F8189D85A64|1.0|FMS - Bloomington|Financial Management Support 
+ Poplars 526 
+ BLOOMINGTON CAMPUS|Y|
+I|519DA571FE3762E1E0404F8189D85A64|1.0|IUPUI Accounting|Accounting Records and Services 
+ Union Building 443 
+ INDIANAPOLIS CAMPUS|Y|
+K|519DA571FE3862E1E0404F8189D85A64|1.0|Kokomo Campus|Administration / Finance 
+ Room 125, Main Building 
+ KOKOMO CAMPUS|Y|
+N|519DA571FE3962E1E0404F8189D85A64|1.0|No Documentation||Y|
+O|519DA571FE3A62E1E0404F8189D85A64|1.0|Initiating Organization||Y|
+S|519DA571FE3B62E1E0404F8189D85A64|1.0|South Bend Campus|Accounting Services 
+ 245 administration Building 
+ SOUTH BEND CAMPUS|Y|
+T|519DA571FE3C62E1E0404F8189D85A64|1.0|Travel Management|Travel Management 
+ Poplars 120 
+ BLOOMINGTON CAMPUS|Y|
+W|519DA571FE3D62E1E0404F8189D85A64|1.0|North West Campus|Accounting Services 
+ 102 Hawthorne Hall 
+ NORTHWEST CAMPUS|Y|
+X|519DA571FE3E62E1E0404F8189D85A64|1.0|FMS Tax Area|FMS Tax Compliance 
+ Poplars 509 
+ BLOOMINGTON CAMPUS|Y|
+Z|519DA571FE3F62E1E0404F8189D85A64|1.0|South East Campus|Accounting Services 
+ Office of the Bursar 
+ SOUTHEAST CAMPUS|Y|

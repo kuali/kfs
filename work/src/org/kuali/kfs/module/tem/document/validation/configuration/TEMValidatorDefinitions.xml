@@ -178,9 +178,34 @@
 	<bean id="TravelModule-expenseTotalsValidation"
 		class="org.kuali.kfs.module.tem.document.validation.impl.TEMExpenseTotalsValidation"/>
 		
+	<!-- Travel Payment validations -->
+	<bean id="travelDocumentFieldConversion" abstract="true" parent="validationFieldConversion">
+		<property name="sourceEventProperty" value="document" />
+		<property name="targetValidationProperty" value="travelDocumentForValidation" /> 
+	</bean>
+	<bean id="reimbursableTravelPaymentFieldConversion" abstract="true" parent="validationFieldConversion">
+		<property name="sourceEventProperty" value="document.travelPayment" />
+		<property name="targetValidationProperty" value="travelPaymentForValidation" /> 
+	</bean>
+	
+	<bean id="TravelPayment-specialHandlingStateCodeValidation" parent="TravelPayment-specialHandlingStateCodeValidation-parentBean" scope="prototype"/>
+	<bean id="TravelPayment-specialHandlingStateCodeValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelPaymentSpecialHandlingStateCodeValidation" abstract="true">
+		<property name="stateService" ref="stateService"/>
+		<property name="dataDictionaryService" ref="dataDictionaryService"/>
+	</bean>
+	
+	<bean id="TravelPayment-specialHandlingValidation" parent="TravelPayment-specialHandlingValidation-parentBean" scope="prototype"/>
+	<bean id="TravelPayment-specialHandlingValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelPaymentSpecialHandlingValidation" abstract="true" />
+	
+	<bean id="TravelPayment-requiredNotesValidation" parent="TravelPayment-requiredNotesValidation-parentBean" scope="prototype"/>
+	<bean id="TravelPayment-requiredNotesValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelPaymentRequiredNotesValidation" abstract="true" />
+	
+	<bean id="TravelPayment-dataDictionaryValidation" parent="TravelPayment-dataDictionaryValidation-parentBean" scope="prototype"/>
+	<bean id="TravelPayment-dataDictionaryValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelPaymentDataDictionaryValidation" abstract="true">
+		<property name="dictionaryValidationService" ref="dictionaryValidationService"/>
+	</bean>
+		
     <import resource="AuthorizationValidatorDefinitions.xml" />
-
-
     <import resource="ReimbursementValidatorDefinitions.xml" />
     <import resource="RelocationValidatorDefinitions.xml" />
     <import resource="EntertainmentValidatorDefinitions.xml" />

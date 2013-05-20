@@ -59,7 +59,6 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.fp.businessobject.WireCharge;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
@@ -79,6 +78,7 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
+import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
@@ -105,6 +105,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.businessobject.WireCharge;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -1525,7 +1526,9 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         }
     }
 
-
+    /**
+     * @return the message associated with this wire charge
+     */
     protected String retrieveWireChargeMessage() {
         String message = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.MESSAGE_DV_WIRE_CHARGE);
         WireCharge wireCharge = new WireCharge();
@@ -1535,5 +1538,20 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         Object[] args = { wireCharge.getDomesticChargeAmt(), wireCharge.getForeignChargeAmt() };
 
         return MessageFormat.format(message, args);
+    }
+
+    /**
+     * For reimbursable documents, sets the proper payee type code and profile id after a profile lookup
+     * @param document the reimbursable document to update
+     */
+    protected void updatePayeeTypeForReimbursable(TEMReimbursementDocument document) {
+        if (!ObjectUtils.isNull(document.getTraveler()) && !ObjectUtils.isNull(document.getTravelPayment())) {
+            if (getTravelerService().isEmployee(document.getTraveler())){
+                document.getTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.EMPLOYEE);
+                document.setProfileId(document.getTemProfileId());
+            }else{
+                document.getTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.CUSTOMER);
+            }
+        }
     }
 }

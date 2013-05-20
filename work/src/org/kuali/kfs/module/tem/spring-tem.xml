@@ -1375,6 +1375,18 @@
 		<property name="workflowDocumentService" ref="workflowDocumentService"/>
 		<property name="travelDocumentDao" ref="travelDocumentDao"/>
 	</bean>
+	
+	<!-- add TEM payment sources to list of payment source FSLO document types -->
+	<bean id="paymentSourceCheckACHDocumentTypes-parentBean" parent="core-paymentSourceCheckACHDocumentTypes">
+		<property name="sourceSet">
+			<set merge="true">
+				<value>TACA</value>
+				<value>TRCA</value>
+				<value>RECA</value>
+				<value>ENCA</value>
+			</set>
+		</property>
+	</bean>
 
     <import resource="spring-tem-bus-exports.xml"/>
 	

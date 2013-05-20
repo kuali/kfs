@@ -7348,7 +7348,7 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
-    <table name="FP_DV_WIRE_CHRG_T">
+    <table name="FS_WIRE_CHRG_T">
         <column name="UNIV_FISCAL_YR" primaryKey="true" size="4" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
@@ -7356,29 +7356,29 @@
         <column name="ACCOUNT_NBR" size="7" type="VARCHAR"/>
         <column name="INC_FIN_OBJ_CD" size="4" type="VARCHAR"/>
         <column name="EXP_FIN_OBJ_CD" size="4" type="VARCHAR"/>
-        <column name="DV_DOMSTC_CHG_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="DV_FRGN_CHRG_AMT" scale="2" size="19" type="DECIMAL"/>
-        <foreign-key foreignTable="FS_OPTION_T" name="FP_DV_WIRE_CHRG_TR1">
+        <column name="DOMSTC_CHG_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="FRGN_CHRG_AMT" scale="2" size="19" type="DECIMAL"/>
+        <foreign-key foreignTable="FS_OPTION_T" name="FS_WIRE_CHRG_TR1">
             <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
         </foreign-key>
-        <foreign-key foreignTable="CA_CHART_T" name="FP_DV_WIRE_CHRG_TR2">
+        <foreign-key foreignTable="CA_CHART_T" name="FS_WIRE_CHRG_TR2">
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="CA_OBJECT_CODE_T" name="FP_DV_WIRE_CHRG_TR3">
+        <foreign-key foreignTable="CA_OBJECT_CODE_T" name="FS_WIRE_CHRG_TR3">
             <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
             <reference foreign="FIN_OBJECT_CD" local="INC_FIN_OBJ_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="CA_OBJECT_CODE_T" name="FP_DV_WIRE_CHRG_TR4">
+        <foreign-key foreignTable="CA_OBJECT_CODE_T" name="FS_WIRE_CHRG_TR4">
             <reference foreign="UNIV_FISCAL_YR" local="UNIV_FISCAL_YR"/>
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
             <reference foreign="FIN_OBJECT_CD" local="EXP_FIN_OBJ_CD"/>
         </foreign-key>
-        <foreign-key foreignTable="CA_ACCOUNT_T" name="FP_DV_WIRE_CHRG_TR5">
+        <foreign-key foreignTable="CA_ACCOUNT_T" name="FS_WIRE_CHRG_TR5">
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
             <reference foreign="ACCOUNT_NBR" local="ACCOUNT_NBR"/>
         </foreign-key>
-        <unique name="FP_DV_WIRE_CHRG_TC0">
+        <unique name="FS_WIRE_CHRG_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
@@ -8078,7 +8078,7 @@
         <column name="FDOC_TOTAL_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="FDOC_IN_ERR_NBR" size="14" type="VARCHAR"/>
         <column name="TEMP_DOC_FNL_DT" type="DATE"/>
-        <column name="SECURED_FIELD" size="255" type="VARCHAR"/>
+        <column name="SECURE_FIELD" size="255" type="VARCHAR"/>
         <index name="FS_DOC_HEADER_TI1">
             <index-column name="FDOC_IN_ERR_NBR"/>
         </index>
@@ -16038,6 +16038,7 @@
 		<column name="RMT_CTY_NM" size="37" type="VARCHAR"/>
 		<column name="RMT_ST_CD" size="2" type="VARCHAR"/>
 		<column name="RMT_ZIP_CD" size="20" type="VARCHAR"/>
+		<column name="RMT_CNTRY_CD" size="2" type="VARCHAR"/>
 		<column name="W9_CMPLT_IND" size="1" type="CHAR"/>
 		<column name="PAYEE_TYP_CD" size="1" type="VARCHAR"/>
 		<column default="N" name="EXCPT_IND" required="true" size="1" type="VARCHAR"/>
@@ -16084,6 +16085,7 @@
     <sequence name="AP_PMT_RQST_ITM_USE_TAX_ID_SEQ" nextval="1000"/>
     <sequence name="AP_PUR_DOC_LNK_ID" nextval="21"/>
     <sequence name="AP_SUM_ACCT_T_SEQ" nextval="1"/>
+    <sequence name="AR_LOCKBOX_T_SEQ" nextval="20"/>
     <sequence name="CA_A21_ICR_ACCT_SEQ" nextval="10020"/>
     <sequence name="CA_ACCT_AUTODEF_ICR_SEQ" nextval="10000"/>
     <sequence name="CA_ACCT_AUTO_CREATE_DFLT_SEQ" nextval="1"/>

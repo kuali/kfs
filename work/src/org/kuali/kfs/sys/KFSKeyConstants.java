@@ -358,10 +358,10 @@ public class KFSKeyConstants {
 
     public static final String ERROR_PAYEE_INITIATOR = "error.document.payeeinitiator";
 
-    public static final String ERROR_DV_SPECIAL_HANDLING = "error.document.specialHandling";
+    public static final String ERROR_SPECIAL_HANDLING = "error.document.specialHandling";
     public static final String ERROR_DV_NO_DOCUMENTATION_NOTE_MISSING = "error.document.noDocumentationNoteMissing";
-    public static final String ERROR_DV_SPECIAL_HANDLING_NOTE_MISSING = "error.document.specialHandlingNoteMissing";
-    public static final String ERROR_DV_EXCEPTION_ATTACHED_NOTE_MISSING = "error.document.exceptionAttachedNoteMissing";
+    public static final String ERROR_SPECIAL_HANDLING_NOTE_MISSING = "error.document.specialHandlingNoteMissing";
+    public static final String ERROR_EXCEPTION_ATTACHED_NOTE_MISSING = "error.document.exceptionAttachedNoteMissing";
     public static final String ERROR_DV_PAYEE_SELECTION_EMPTY = "error.document.payeeSelectionEmpty";
     public static final String ERROR_PAYMENT_SOURCE_CURRENCY_TYPE_CODE = "error.paymentSource.currencyTypeCode";
     public static final String ERROR_PAYMENT_SOURCE_CURRENCY_TYPE_NAME = "error.paymentSource.currencyTypeName";

@@ -15,7 +15,11 @@
  */
 package org.kuali.kfs.sys.batch.service;
 
+import java.util.Set;
+
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.document.PaymentSource;
 
 /**
@@ -69,4 +73,23 @@ public interface PaymentSourceExtractionService {
      * @return a PDP PaymentNoteText with the check stub text well-formatted
      */
     public abstract PaymentNoteText buildNoteForCheckStubText(String checkStubText, int previousLineCount);
+
+    /**
+     * When a payment source is cancelled, its entries need to be reversed under certain circumstances.  This method will reverse those entries
+     * @param paymentSource the cancelled payment source to reverse entries for
+     */
+    public abstract void handleEntryCancellation(PaymentSource paymentSource);
+
+    /**
+     * Updates the given general ledger pending entry so that it will have the opposite effect of what it was created to do; this,
+     * in effect, undoes the entries that were already posted for this document
+     *
+     * @param glpe the general ledger pending entry to undo
+     */
+    public abstract void oppositifyAndSaveEntry(GeneralLedgerPendingEntry glpe, GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper);
+
+    /**
+     * @return a List of all of the FSLO-parented document types which represent ACH or Checks created by PaymentSources
+     */
+    public abstract Set<String> getPaymentSourceCheckACHDocumentTypes();
 }

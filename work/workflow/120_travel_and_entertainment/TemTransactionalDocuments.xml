@@ -110,7 +110,7 @@
 					<stringValue>app</stringValue>
 				</policy>
 			</policies>
-			<!-- routePaths>
+			<routePaths>
 				<routePath>
 					<start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review" />
 					<split name="TravelRequiresTravelerApproval" nextNode="TravelRequiresAccountApproval" nextAppDocStatus="Awaiting Traveler Review">
@@ -331,24 +331,6 @@
                     <activationType>P</activationType>
                 </role>
                 
-			</routeNodes-->
-			<!-- replacement until we can ingest full doc type -->
-			<routePaths>
-				<routePath>
-					<start name="AdHoc" nextNode="Account" nextAppDocStatus="Awaiting Fiscal Officer Review" />
-					<role name="Account" nextAppDocStatus="Open for Reimbursement" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="AdHoc" />
-				<role name="Account">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>
-						P
-                    </activationType>
-				</role>
 			</routeNodes>
 		</documentType>
 		<documentType>
@@ -431,7 +413,7 @@
                     <stringValue>app</stringValue>
                 </policy>
             </policies>
-            <!-- routePaths>
+            <routePaths>
                 <routePath>
                     <start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review"/>
                     <split name="TravelRequiresTravelerApproval" nextNode="TravelRequiresAccountApproval" nextAppDocStatus="Awaiting Traveler Review">
@@ -667,24 +649,7 @@
                     <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
                     <activationType>P</activationType>
                 </role>
-            </routeNodes-->
-            <routePaths>
-				<routePath>
-					<start name="AdHoc" nextNode="Account" nextAppDocStatus="Awaiting Fiscal Officer Review" />
-					<role name="Account" nextAppDocStatus="Department Approved" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="AdHoc" />
-				<role name="Account">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>
-						P
-                    </activationType>
-				</role>
-			</routeNodes>
+            </routeNodes>
         </documentType>
         <documentType>
 	      <name>TMCP</name>
@@ -789,7 +754,7 @@
                     <stringValue>app</stringValue>
                 </policy>
             </policies>
-            <!-- routePaths>
+            <routePaths>
                 <routePath>
                     <start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review" />
 					<split name="TravelRequiresTravelerApproval" nextNode="TravelRequiresAccountApproval" nextAppDocStatus="Awaiting Traveler Review">
@@ -954,24 +919,7 @@
                         P
                     </activationType>
                 </role>        
-            </routeNodes-->
-            <routePaths>
-				<routePath>
-					<start name="AdHoc" nextNode="Account" nextAppDocStatus="Awaiting Fiscal Officer Review" />
-					<role name="Account" nextAppDocStatus="Moving And Relocation Manager Approved" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="AdHoc" />
-				<role name="Account">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>
-						P
-                    </activationType>
-				</role>
-			</routeNodes>           
+            </routeNodes>        
         </documentType>
         <documentType>
 	      <name>
@@ -1056,7 +1004,7 @@
                     <stringValue>app</stringValue>
                 </policy>
             </policies>
-            <!-- routePaths>
+            <routePaths>
                 <routePath>
                 	<start name="AdHoc" nextNode="TravelRequiresTravelerApproval" nextAppDocStatus="Awaiting Traveler Review"/>
                     <split name="TravelRequiresTravelerApproval" nextNode="Account" nextAppDocStatus="Awaiting Traveler Review">
@@ -1187,24 +1135,7 @@
                     </qualifierResolverClass>
                     <activationType>P</activationType>
                 </role>
-            </routeNodes-->
-            <routePaths>
-				<routePath>
-					<start name="AdHoc" nextNode="Account" nextAppDocStatus="Awaiting Fiscal Officer Review" />
-					<role name="Account" nextAppDocStatus="Entertainment Manager Approved" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="AdHoc" />
-				<role name="Account">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>
-						P
-                    </activationType>
-				</role>
-			</routeNodes>
+            </routeNodes>
         </documentType>
         <documentType>
 			<name>CTAP</name>

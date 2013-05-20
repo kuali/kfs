@@ -25,7 +25,7 @@
 			<ref bean="PaymentDocumentationLocation-lookupDefinition" />
 		</property>
 		<property name="titleAttribute" value="PaymentDocumentationLocationCode" />
-		<property name="objectLabel" value="Disbursement Voucher Documentation Location" />
+		<property name="objectLabel" value="Documentation Location" />
 		<property name="attributes">
 			<list>
 				<ref bean="PaymentDocumentationLocation-paymentDocumentationLocationCode" />

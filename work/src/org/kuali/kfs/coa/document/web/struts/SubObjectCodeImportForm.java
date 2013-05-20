@@ -15,10 +15,7 @@
  */
 package org.kuali.kfs.coa.document.web.struts;
 
-import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.document.web.struts.MassImportTransactionalDocumentFormBase;
-import org.kuali.kfs.sys.web.MassImportCSVFileParser;
-import org.kuali.kfs.sys.web.MassImportFileParser;
 
 /**
  * Mass upload sub-account, sub-object, project. This class is the Struts specific form object that works in conjunction with the
@@ -26,10 +23,4 @@ import org.kuali.kfs.sys.web.MassImportFileParser;
  */
 public class SubObjectCodeImportForm extends MassImportTransactionalDocumentFormBase {
 
-    private static final Logger Log = Logger.getLogger(SubObjectCodeImportForm.class);
-
-    @Override
-    public MassImportFileParser getMassImportFileParser() {
-        return new MassImportCSVFileParser();
-    }
 }

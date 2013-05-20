@@ -32,7 +32,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * GenericValidation to check if the required number of accounting lines in a given accounting line group has been met
+ * GenericValidation to check duplicate sub account entries within the file and system
  */
 public class SubAccountImportEntryDuplicateValidation extends GenericValidation {
     private BusinessObjectService businessObjectService;
@@ -51,7 +51,15 @@ public class SubAccountImportEntryDuplicateValidation extends GenericValidation 
         SubAccountImportDetail validatingLine = (SubAccountImportDetail) importedLineForValidation;
         String errorPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.SubAccountImport.SUB_ACCOUNT_IMPORT_DETAILS + "[" + validatingLine.getSequenceNumber() == null ? String.valueOf(0) : String.valueOf(validatingLine.getSequenceNumber().intValue() - 1) + "].";
         String validatingKey = getSubAccountKeyString(validatingLine);
+        valid &= checkDuplicatesInFile(document, subAccountsMap, validatingLine, errorPrefix, validatingKey);
+        valid &= checkDuplicatesInSystem(validatingLine, errorPrefix);
 
+        return valid;
+    }
+
+    private boolean checkDuplicatesInFile(SubAccountImportDocument document, HashMap<String, Object> subAccountsMap, SubAccountImportDetail validatingLine, String errorPrefix, String validatingKey) {
+        boolean valid = true;
+        String mapKey;
         // set up hash map for the sub-account key and the first line sequence number
         for (SubAccountImportDetail importedLine : document.getSubAccountImportDetails()) {
             mapKey = getSubAccountKeyString(importedLine);
@@ -65,8 +73,11 @@ public class SubAccountImportEntryDuplicateValidation extends GenericValidation 
                 break;
             }
         }
+        return valid;
+    }
 
-
+    private boolean checkDuplicatesInSystem(SubAccountImportDetail validatingLine, String errorPrefix) {
+        boolean valid = true;
         // check duplicate in BO table
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, validatingLine.getChartOfAccountsCode());
@@ -78,7 +89,6 @@ public class SubAccountImportEntryDuplicateValidation extends GenericValidation 
             GlobalVariables.getMessageMap().putError(errorPrefix + KFSPropertyConstants.SubAccountImport.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_MASSIMPORT_DUPLICATEENTRYINTABLE, new String[] { validatingLine.getSequenceNumber() == null ? "" : validatingLine.getSequenceNumber().toString(), KFSConstants.SubAccountImportConstants.SUB_ACCOUNT });
             valid = false;
         }
-
         return valid;
     }
 

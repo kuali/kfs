@@ -29,7 +29,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * A validation to have the data dictionary perform its validations upon a business object
+ * Generic validation to check existence of object code reference
  */
 public class SubAccountImportLineObjectExistenceValidation extends GenericValidation {
     private static final Logger LOG = Logger.getLogger(SubAccountImportLineObjectExistenceValidation.class);
@@ -37,9 +37,7 @@ public class SubAccountImportLineObjectExistenceValidation extends GenericValida
     private MassImportLineBase importedLineForValidation;
 
     /**
-     * Validates a business object against the data dictionary <strong>expects a business object to be the first parameter</strong>
-     *
-     * @see org.kuali.kfs.sys.document.validation.GenericValidation#validate(java.lang.Object[])
+     * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     @Override
     public boolean validate(AttributedDocumentEvent event) {

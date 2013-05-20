@@ -1625,7 +1625,7 @@
 	    <field-descriptor name="attachmentCode" column="ATTCH_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	    <field-descriptor name="specialHandlingCode" column="SPCL_HANDLG_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 	    <field-descriptor name="checkStubText" column="CHK_STUB_TXT" jdbc-type="VARCHAR" />
-	    <field-descriptor name="dDueDate" column="DUE_DT" jdbc-type="DATE" />
+	    <field-descriptor name="dueDate" column="DUE_DT" jdbc-type="DATE" />
 	    <field-descriptor name="documentationLocationCode" column="DOC_LOC_CD" jdbc-type="VARCHAR" />
 	    <field-descriptor name="paymentMethodCode" column="PMT_MTHD_CD" jdbc-type="VARCHAR" />
 	    <field-descriptor name="immediatePaymentIndicator" column="IMD_PMT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>

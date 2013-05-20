@@ -659,7 +659,7 @@
 			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP5" />
 			<column name="OBJ_ID" value="SYS_GUID() " />
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="ROLE_ID" value="39" />
+			<column name="ROLE_ID" value="23" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP5" />			
 			<column name="ACTV_IND" value="Y" />
 		</insert>
@@ -705,7 +705,7 @@
 		<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
 		<column name="KIM_TYP_ID" value="7" />
 		<column name="KIM_ATTR_DEFN_ID" value="16" />
-		<column name="ATTR_VAL" value="AccountReview" />
+		<column name="ATTR_VAL" value="Account" />
 	</insert>
 
 	<insert tableName="KRIM_RSP_ATTR_DATA_T">
@@ -715,7 +715,7 @@
 		<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
 		<column name="KIM_TYP_ID" value="7" />
 		<column name="KIM_ATTR_DEFN_ID" value="40" />
-		<column name="ATTR_VAL" value="false" />
+		<column name="ATTR_VAL" value="true" />
 	</insert>
 
 	<insert tableName="KRIM_RSP_ATTR_DATA_T">
@@ -732,7 +732,7 @@
 		<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP6" />
 		<column name="OBJ_ID" value="SYS_GUID() " />
 		<column name="VER_NBR" valueNumeric="1" />
-		<column name="ROLE_ID" value="39" />
+		<column name="ROLE_ID" value="41" />
 		<column name="RSP_ID" value="KFSCNTRB720-RSP6" />			
 		<column name="ACTV_IND" value="Y" />
 	</insert>
@@ -748,31 +748,72 @@
 		<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP6" />		
 		<column name="FRC_ACTN" value="Y" />
 	</insert>
+	
+	<update tableName="KRIM_RSP_ATTR_DATA_T">
+	    <column name="ATTR_VAL" value="AccountNonItem"/> 
+	    <where>RSP_ID='107' AND kim_attr_defn_id =16</where> 
+	 </update>
 
 		<modifySql dbms='mysql'>
 	      <replace replace="SYS_GUID()" with="UUID()" />
 	    </modifySql>
 	</changeSet>	
-	<changeSet id="KFSCNTRB-720 KIM_UPDATE" author="KFS52">
-		<comment>Fixing  KIM data for the Rice Responsibility , Attributes and Actions which are used for PurchaseOrder Amendment Routing.</comment>
+	
+	
+	
+	<changeSet id="KFSCNTRB-737" author="KFS51">	
+	<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSCNTRB-737-PRM1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" value="16" />
+			<column name="NMSPC_CD" value="KFS-COA" />
+			<column name="NM" value="Edit Document CATR AdHoc R" />
+			<column name="DESC_TXT" value="Authorizes users to edit COA Transactional document at the AdHoc route node." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
 
-	<update tableName="KRIM_ROLE_RSP_T">
-	    <column name="ROLE_ID" value="41"/> 
-	    <where>ROLE_RSP_ID='KFSCNTRB720-RLRSP6'</where> 
-	 </update>
-	 
-	 <update tableName="KRIM_RSP_ATTR_DATA_T">
-	    <column name="ATTR_VAL" value="true"/> 
-	    <where>ATTR_DATA_ID='KFSCNTRB720-RSPATT23'</where> 
-	 </update>
-	 
-	 <update tableName="KRIM_ROLE_RSP_T">
-	    <column name="ROLE_ID" value="23"/> 
-	    <where>ROLE_RSP_ID='KFSCNTRB720-RLRSP5'</where> 
-	 </update>
-	 
-	 	<modifySql dbms='mysql'>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB-737-PRMATT1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="KFSCNTRB-737-PRM1" />
+			<column name="KIM_TYP_ID" value="8" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="CATR" />
+		</insert>
+		
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB-737-PRMATT2" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="KFSCNTRB-737-PRM1" />
+			<column name="KIM_TYP_ID" value="8" />
+			<column name="KIM_ATTR_DEFN_ID" value="16" />
+			<column name="ATTR_VAL" value="AdHoc" />
+		</insert>
+		
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB-737-PRMATT3" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_ID" value="KFSCNTRB-737-PRM1" />
+			<column name="KIM_TYP_ID" value="8" />
+			<column name="KIM_ATTR_DEFN_ID" value="15" />
+			<column name="ATTR_VAL" value="R" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSCNTRB-737-RLPRM1" />
+			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="59" />
+			<column name="PERM_ID" value="KFSCNTRB-737-PRM1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		
+		<modifySql dbms='mysql'>
 	      <replace replace="SYS_GUID()" with="UUID()" />
 	    </modifySql>
-	</changeSet>				
+	</changeSet>					
 </databaseChangeLog>

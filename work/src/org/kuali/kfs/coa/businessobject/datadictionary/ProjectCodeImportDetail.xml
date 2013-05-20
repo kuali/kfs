@@ -54,21 +54,14 @@
 	</bean>
 
 	<bean id="ProjectCodeImportDetail-projectManagerUniversalId" parent="ProjectCodeImportDetail-projectManagerUniversalId-parentBean" />
-	<bean id="ProjectCodeImportDetail-projectManagerUniversalId-parentBean" abstract="true" parent="PersonImpl-principalId">
+	<bean id="ProjectCodeImportDetail-projectManagerUniversalId-parentBean" abstract="true" parent="ProjectCode-projectManagerUniversalId-parentBean">
 		<property name="name" value="projectManagerUniversalId"/>
-	    <property name="label" value="Project Manager Principal Name"/>
-	    <property name="shortLabel" value="Project Manager Name"/>
 	    <property name="required" value="false"/>
-	    <property name="control">
-	      <bean parent="HiddenControlDefinition"/>
-	    </property>
 	</bean>
 
 	<bean id="ProjectCodeImportDetail-projectManagerUniversal.principalName" parent="ProjectCodeImportDetail-projectManagerUniversal.principalName-parentBean" />
-	<bean id="ProjectCodeImportDetail-projectManagerUniversal.principalName-parentBean" abstract="true" parent="PersonImpl-principalName">
+	<bean id="ProjectCodeImportDetail-projectManagerUniversal.principalName-parentBean" abstract="true" parent="ProjectCode-projectManagerUniversal.principalName-parentBean">
 		<property name="name" value="projectManagerUniversal.principalName"/>
-	    <property name="label" value="Project Manager Principal Name"/>
-	    <property name="shortLabel" value="Principal Name"/>
 	    <property name="required" value="true"/>
 	    <property name="control">
 	      <bean parent="KualiUserControlDefinition" p:personNameAttributeName="projectManagerUniversal.name" p:universalIdAttributeName="projectManagerUniversalId" p:userIdAttributeName="projectManagerUniversal.principalName"/>
@@ -82,10 +75,8 @@
 	    <property name="shortLabel" value="Project Manager Principal Name"/>
 	</bean>
 	<bean id="ProjectCodeImportDetail-projectManagerUniversal.name" parent="ProjectCodeImportDetail-projectManagerUniversal.name-parentBean" />
-	<bean id="ProjectCodeImportDetail-projectManagerUniversal.name-parentBean" abstract="true" parent="PersonImpl-name">
+	<bean id="ProjectCodeImportDetail-projectManagerUniversal.name-parentBean" abstract="true" parent="ProjectCode-projectManagerUniversal.name-parentBean">
 	    <property name="name" value="projectManagerUniversal.name"/>
-	    <property name="label" value="Project Manager Name"/>
-	    <property name="shortLabel" value="Project Manager Name"/>
 	    <property name="required" value="false"/>
 	</bean>
 

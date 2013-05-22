@@ -379,7 +379,7 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ACTN_TYP_CD" value="F" />
-			<column name="PRIORITY_NBR" value="null" />			
+			<column name="PRIORITY_NBR" valueNumeric='1' />			
 			<column name="ACTN_PLCY_CD" value="F" />		
 			<column name="ROLE_MBR_ID" value="*" />		
 			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP1" />		
@@ -452,7 +452,7 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ACTN_TYP_CD" value="F" />
-			<column name="PRIORITY_NBR" value="null" />			
+			<column name="PRIORITY_NBR" valueNumeric='1' />			
 			<column name="ACTN_PLCY_CD" value="F" />		
 			<column name="ROLE_MBR_ID" value="*" />		
 			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP2" />		
@@ -525,7 +525,7 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ACTN_TYP_CD" value="F" />
-			<column name="PRIORITY_NBR" value="null" />			
+			<column name="PRIORITY_NBR" valueNumeric='1' />			
 			<column name="ACTN_PLCY_CD" value="F" />		
 			<column name="ROLE_MBR_ID" value="*" />		
 			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP3" />		
@@ -597,7 +597,7 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ACTN_TYP_CD" value="F" />
-			<column name="PRIORITY_NBR" value="null" />			
+			<column name="PRIORITY_NBR" valueNumeric='1' />			
 			<column name="ACTN_PLCY_CD" value="F" />		
 			<column name="ROLE_MBR_ID" value="*" />		
 			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP4" />		
@@ -669,7 +669,7 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ACTN_TYP_CD" value="F" />
-			<column name="PRIORITY_NBR" value="null" />			
+			<column name="PRIORITY_NBR" valueNumeric='1' />			
 			<column name="ACTN_PLCY_CD" value="F" />		
 			<column name="ROLE_MBR_ID" value="*" />		
 			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP5" />		
@@ -741,7 +741,7 @@
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ACTN_TYP_CD" value="A" />
-			<column name="PRIORITY_NBR" value="null" />			
+			<column name="PRIORITY_NBR" valueNumeric='1'/>			
 			<column name="ACTN_PLCY_CD" value="A" />		
 			<column name="ROLE_MBR_ID" value="*" />		
 			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP6" />		

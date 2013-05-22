@@ -191,7 +191,7 @@
 		<comment>KFSCNTRB-734:Secured Field in Overview Tab</comment> 
 		 <insert tableName="KRCR_PARM_T">
 		  <column name="NMSPC_CD" value="KR-NS"/> 
-		  <column name="CMPNT_CD" value="ALL"/> 
+		  <column name="CMPNT_CD" value="All"/> 
 		  <column name="PARM_NM" value="SECURE_FIELD_DATA_WARNING_IND"/> 
 		  <column name="VAL" value="Y"/>   
 		  <column name="OBJ_ID" valueComputed="SYS_GUID()"/>

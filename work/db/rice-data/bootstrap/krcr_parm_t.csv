@@ -472,6 +472,7 @@ If this parameter is left blank, then the program will assume the current system
 "KFS-GL","ScrubberStep","PLANT_INDEBTEDNESS_OBJECT_SUB_TYPES","KFS375","1","CONFG","PI","The object sub-type(s) that must be associated with transactions to generate a bond and note liability in the plant-indebtedness scrubber process.","A","KFS"
 "KFS-GL","ScrubberStep","PLANT_INDEBTEDNESS_OFFSET_CODE","KFS376","1","CONFG","","This overrides the Chart Fund Balance object code for Plant Indebtedness.","A","KFS"
 "KFS-GL","ScrubberStep","PLANT_INDEBTEDNESS_SUB_FUND_GROUPS","KFS377","1","CONFG","PFCMR;PFRI","The sub-fund group(s) that must be associated with transactions to generate a bond and note liability in the plant-indebtedness scrubber process.","A","KFS"
+"KFS-GL","ScrubberStep","TRANSACTION_DATE_BYPASS_ORIGINATIONS","KFSCNTRB764","1","02;","CONFG","Origination codes that will allow offset entry to have the same transaction date as the original.","A","KFS"
 "KFS-GL","SufficientFundsAccountUpdateStep","FISCAL_YEAR","KFS378","1","CONFG","2011","Fiscal Year for sufficient funds rebuilder","A","KFS"
 "KFS-LD","All","OLTP_LOCKOUT_ACTIVE_IND","KFSCNTRB65-11",1,"CONFG","N","Y/N indicator showing if the labor distribution module is currently unavailable for Online Transaction Processing (OLTP). Y means the module is currently locked and cannot be used. N means the module is unlocked and available for use.","A","KFS"
 "KFS-LD","Batch","FROM_EMAIL_ADDRESS","KFSMI6820_2","1","CONFG","","From email address used for messages sent by the system.","A","KFS"

@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,11 +23,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import junit.framework.Assert;
+
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.fp.businessobject.GECSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.GECTargetAccountingLine;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
@@ -37,9 +40,11 @@ import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class is used to test GeneralErrorCorrectionDocument.
@@ -69,7 +74,7 @@ public class YearEndGeneralErrorCorrectionDocumentTest extends KualiTestBase {
         // put accounting lines into document parameter for later
         final Integer postingYear = TestUtils.getFiscalYearForTesting();
         YearEndGeneralErrorCorrectionDocument document = (YearEndGeneralErrorCorrectionDocument) getDocumentParameterFixture();
-        document.setPostingYear(postingYear);
+        //document.setPostingYear(postingYear);
 
         // set accountinglines to document
         for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
@@ -117,12 +122,24 @@ public class YearEndGeneralErrorCorrectionDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class), SpringContext.getBean(AccountingPeriodService.class));
     }
 
+    /**
+     * In KFSCNTRB-1124, we needed to override the setAccountingPeriod method which sets
+     * the document's posting year to previous year and posting period code to 13.
+     * The setting of the posting year will cause the document no longer error-correctable
+     * according to the canErrorCorrect method in LedgerPostingDocumentPresentationControllerBase
+     * because previous fiscal year is obviously not equal to current fiscal year.
+     * Therefore we have to change the unit test to show that we can not error correct this
+     * document anymore now.
+     *
+     * @throws Exception
+     */
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
-    public final void testConvertIntoErrorCorrection() throws Exception {
+    public final void testCannotErrorCorrect() throws Exception {
         YearEndGeneralErrorCorrectionDocument document = buildDocument();
-        Set<String> persistedObjectCodes = YearEndObjectCodePersistenceUtils.persistPreviousYearObjectCodesForDocument(document);
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection(document, getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
-        YearEndObjectCodePersistenceUtils.removePreviousYearObjectCodes(persistedObjectCodes);
+        DocumentHelperService documentHelperService = SpringContext.getBean(DocumentHelperService.class);
+        final Set<String> documentActionsFromPresentationController = documentHelperService.getDocumentPresentationController(document).getDocumentActions(document);
+        final Set<String> documentActionsFromAuthorizer = documentHelperService.getDocumentAuthorizer(document).getDocumentActions(document, GlobalVariables.getUserSession().getPerson(), documentActionsFromPresentationController);
+        Assert.assertTrue ("Year End General Error Correction document cannot have error correction ", !documentActionsFromAuthorizer.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT));
     }
 
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)

@@ -327,7 +327,7 @@
 
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT1" />
-			<column name="OBJ_ID" value="SYS_GUID()" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP1" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -400,7 +400,7 @@
 		
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT5" />
-			<column name="OBJ_ID" value="SYS_GUID()" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP2" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -473,7 +473,7 @@
 
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT9" />
-			<column name="OBJ_ID" value="SYS_GUID()" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP3" />
 			<column name="KIM_TYP_ID" value="7" />

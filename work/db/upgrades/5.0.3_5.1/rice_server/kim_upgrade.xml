@@ -137,7 +137,7 @@
 		</insert>
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSCNTRB705-PRM7ATT" />
+			<column name="ATTR_DATA_ID" value="KFSCNTRB705-PRMATT7" />
 			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM4" />

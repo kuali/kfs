@@ -7,7 +7,7 @@
 
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSCNTRB705-PRM1" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" value="33" />
 			<column name="NMSPC_CD" value="KFS-PDP" />
@@ -18,7 +18,7 @@
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB705-PRMATT1" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM1" />
 			<column name="KIM_TYP_ID" value="15" />
@@ -28,7 +28,7 @@
 
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSCNTRB705-RLPRM1" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="20" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM1" />
@@ -37,7 +37,7 @@
 
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSCNTRB705-PRM2" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" value="27" />
 			<column name="NMSPC_CD" value="KFS-PDP" />
@@ -48,7 +48,7 @@
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB705-PRMATT2" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM2" />
 			<column name="KIM_TYP_ID" value="11" />
@@ -58,7 +58,7 @@
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB705-PRMATT3" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM2" />
 			<column name="KIM_TYP_ID" value="11" />
@@ -68,7 +68,7 @@
 
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSCNTRB705-RLPRM2" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="12" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM2" />
@@ -77,7 +77,7 @@
 
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSCNTRB705-PRM3" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" value="27" />
 			<column name="NMSPC_CD" value="KFS-PDP" />
@@ -88,7 +88,7 @@
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB705-PRMATT4" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM3" />
 			<column name="KIM_TYP_ID" value="11" />
@@ -98,7 +98,7 @@
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB705-PRMATT5" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM3" />
 			<column name="KIM_TYP_ID" value="11" />
@@ -108,7 +108,7 @@
 
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSCNTRB705-RLPRM3" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="12" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM3" />
@@ -117,7 +117,7 @@
 
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSCNTRB705-PRM4" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" value="27" />
 			<column name="NMSPC_CD" value="KFS-PDP" />
@@ -128,7 +128,7 @@
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB705-PRMATT6" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM4" />
 			<column name="KIM_TYP_ID" value="11" />
@@ -138,7 +138,7 @@
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB705-PRM7ATT" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM4" />
 			<column name="KIM_TYP_ID" value="11" />
@@ -148,7 +148,7 @@
 
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSCNTRB705-RLPRM4" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="12" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM4" />
@@ -157,7 +157,7 @@
 
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSCNTRB705-PRM5" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" value="27" />
 			<column name="NMSPC_CD" value="KFS-PDP" />
@@ -168,7 +168,7 @@
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB705-PRMATT8" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM5" />
 			<column name="KIM_TYP_ID" value="11" />
@@ -178,7 +178,7 @@
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB705-PRMATT9" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM5" />
 			<column name="KIM_TYP_ID" value="11" />
@@ -188,7 +188,7 @@
 
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSCNTRB705-RLPRM5" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="12" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM5" />
@@ -197,7 +197,7 @@
 
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSCNTRB705-PRM6" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" value="27" />
 			<column name="NMSPC_CD" value="KFS-PDP" />
@@ -208,7 +208,7 @@
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB705-PRMATT10" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM6" />
 			<column name="KIM_TYP_ID" value="11" />
@@ -218,7 +218,7 @@
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB705-PRMATT11" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM6" />
 			<column name="KIM_TYP_ID" value="11" />
@@ -228,7 +228,7 @@
 
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSCNTRB705-RLPRM6" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="12" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM6" />
@@ -237,7 +237,7 @@
 
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSCNTRB705-PRM7" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" value="50" />
 			<column name="NMSPC_CD" value="KFS-PDP" />
@@ -248,7 +248,7 @@
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB705-PRM7ATT1" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM7" />
 			<column name="KIM_TYP_ID" value="KFSCNTRB199-TYP1" />
@@ -258,7 +258,7 @@
 		
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB705-PRM7ATT2" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM7" />
 			<column name="KIM_TYP_ID" value="KFSCNTRB199-TYP1" />
@@ -268,7 +268,7 @@
 		
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSCNTRB705-RLPRM7" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="12" />
 			<column name="PERM_ID" value="KFSCNTRB705-PRM7" />
@@ -284,7 +284,7 @@
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSCNTRB-762-PRM1" />
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="PERM_TMPL_ID" value="29" />
 			<column name="NMSPC_CD" value="KFS-GL" />
 			<column name="NM" value="Use Trial Balance Screen" />
@@ -294,7 +294,7 @@
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB-762-PRM1-ATTR1" />		
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="PERM_ID" value="KFSCNTRB-762-PRM1" />
 			<column name="KIM_TYP_ID" value="12" />
 			<column name="KIM_ATTR_DEFN_ID" value="2" />
@@ -303,7 +303,7 @@
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSCNTRB-762-RLPRM1" />		
 			<column name="VER_NBR" valueNumeric="1" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="ROLE_ID" value="54" />
 			<column name="PERM_ID" value="KFSCNTRB-762-PRM1" />
 		</insert>
@@ -316,7 +316,7 @@
 
 		<insert tableName="KRIM_RSP_T">
 			<column name="RSP_ID" value="KFSCNTRB720-RSP1" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_TMPL_ID" value="1" />
 			<column name="NMSPC_CD" value="KFS-PURAP" />
@@ -337,7 +337,7 @@
 		
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT2" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP1" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -347,7 +347,7 @@
 		
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT3" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP1" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -357,7 +357,7 @@
 
           <insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT4" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP1" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -367,7 +367,7 @@
 		
 		<insert tableName="KRIM_ROLE_RSP_T">
 			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP1" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="79" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP1" />			
@@ -376,7 +376,7 @@
 		
 		<insert tableName="KRIM_ROLE_RSP_ACTN_T"> 
 			<column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB720-RLRSPACT1" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ACTN_TYP_CD" value="F" />
 			<column name="PRIORITY_NBR" value="null" />			
@@ -389,7 +389,7 @@
 		
 		<insert tableName="KRIM_RSP_T">
 			<column name="RSP_ID" value="KFSCNTRB720-RSP2" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_TMPL_ID" value="1" />
 			<column name="NMSPC_CD" value="KFS-PURAP" />
@@ -410,7 +410,7 @@
 
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT6" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP2" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -420,7 +420,7 @@
 
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT7" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP2" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -430,7 +430,7 @@
 
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT8" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP2" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -440,7 +440,7 @@
 
 		<insert tableName="KRIM_ROLE_RSP_T">
 			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP2" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="25" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP2" />			
@@ -449,7 +449,7 @@
 
 		<insert tableName="KRIM_ROLE_RSP_ACTN_T"> 
 			<column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB720-RLRSPACT2" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ACTN_TYP_CD" value="F" />
 			<column name="PRIORITY_NBR" value="null" />			
@@ -462,7 +462,7 @@
 	       
 	       <insert tableName="KRIM_RSP_T">
 			<column name="RSP_ID" value="KFSCNTRB720-RSP3" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_TMPL_ID" value="1" />
 			<column name="NMSPC_CD" value="KFS-PURAP" />
@@ -483,7 +483,7 @@
 
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT10" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP3" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -493,7 +493,7 @@
 
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT11" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP3" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -503,7 +503,7 @@
 
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT12" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP3" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -513,7 +513,7 @@
 
 		<insert tableName="KRIM_ROLE_RSP_T">
 			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP3" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="50" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP3" />			
@@ -522,7 +522,7 @@
 
 		<insert tableName="KRIM_ROLE_RSP_ACTN_T"> 
 			<column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB720-RLRSPACT3" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ACTN_TYP_CD" value="F" />
 			<column name="PRIORITY_NBR" value="null" />			
@@ -530,11 +530,11 @@
 			<column name="ROLE_MBR_ID" value="*" />		
 			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP3" />		
 			<column name="FRC_ACTN" value="Y" />
-	       </insert>
+	    </insert>
 	       
-               <insert tableName="KRIM_RSP_T">
+        <insert tableName="KRIM_RSP_T">
 			<column name="RSP_ID" value="KFSCNTRB720-RSP4" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_TMPL_ID" value="1" />
 			<column name="NMSPC_CD" value="KFS-PURAP" />
@@ -545,7 +545,7 @@
 
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT13" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP4" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -555,7 +555,7 @@
 
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT14" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP4" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -565,7 +565,7 @@
 
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT15" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP4" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -575,7 +575,7 @@
 
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT16" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP4" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -585,7 +585,7 @@
 
 		<insert tableName="KRIM_ROLE_RSP_T">
 			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP4" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="39" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP4" />			
@@ -594,7 +594,7 @@
 
 		<insert tableName="KRIM_ROLE_RSP_ACTN_T"> 
 			<column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB720-RLRSPACT4" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ACTN_TYP_CD" value="F" />
 			<column name="PRIORITY_NBR" value="null" />			
@@ -606,7 +606,7 @@
                 
                   <insert tableName="KRIM_RSP_T">
 			<column name="RSP_ID" value="KFSCNTRB720-RSP5" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_TMPL_ID" value="1" />
 			<column name="NMSPC_CD" value="KFS-PURAP" />
@@ -617,7 +617,7 @@
 
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT17" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP5" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -627,7 +627,7 @@
 
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT18" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP5" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -637,7 +637,7 @@
 
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT19" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP5" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -647,7 +647,7 @@
 
 		<insert tableName="KRIM_RSP_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT20" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP5" />
 			<column name="KIM_TYP_ID" value="7" />
@@ -657,7 +657,7 @@
 
 		<insert tableName="KRIM_ROLE_RSP_T">
 			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP5" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="23" />
 			<column name="RSP_ID" value="KFSCNTRB720-RSP5" />			
@@ -666,7 +666,7 @@
 
 		<insert tableName="KRIM_ROLE_RSP_ACTN_T"> 
 			<column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB720-RLRSPACT5" />
-			<column name="OBJ_ID" value="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ACTN_TYP_CD" value="F" />
 			<column name="PRIORITY_NBR" value="null" />			
@@ -676,95 +676,92 @@
 			<column name="FRC_ACTN" value="Y" />
 		</insert>
 		
-		
-		  <insert tableName="KRIM_RSP_T">
-		<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
-		<column name="OBJ_ID" value="SYS_GUID() " />
-		<column name="VER_NBR" valueNumeric="1" />
-		<column name="RSP_TMPL_ID" value="1" />
-		<column name="NMSPC_CD" value="KFS-PURAP" />
-		<column name="NM" value="Review POA Account Approval" />
-		<column name="DESC_TXT" value="null" />
-		<column name="ACTV_IND" value="Y" />
-	</insert>
+		<insert tableName="KRIM_RSP_T">
+			<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_TMPL_ID" value="1" />
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="NM" value="Review POA Account Approval" />
+			<column name="DESC_TXT" value="null" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
 
-	<insert tableName="KRIM_RSP_ATTR_DATA_T">
-		<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT21" />
-		<column name="OBJ_ID" value="SYS_GUID() " />
-		<column name="VER_NBR" valueNumeric="1" />
-		<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
-		<column name="KIM_TYP_ID" value="7" />
-		<column name="KIM_ATTR_DEFN_ID" value="13" />
-		<column name="ATTR_VAL" value="POA" />
-	</insert>
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT21" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="POA" />
+		</insert>
 
-	<insert tableName="KRIM_RSP_ATTR_DATA_T">
-		<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT22" />
-		<column name="OBJ_ID" value="SYS_GUID() " />
-		<column name="VER_NBR" valueNumeric="1" />
-		<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
-		<column name="KIM_TYP_ID" value="7" />
-		<column name="KIM_ATTR_DEFN_ID" value="16" />
-		<column name="ATTR_VAL" value="Account" />
-	</insert>
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT22" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="16" />
+			<column name="ATTR_VAL" value="Account" />
+		</insert>
 
-	<insert tableName="KRIM_RSP_ATTR_DATA_T">
-		<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT23" />
-		<column name="OBJ_ID" value="SYS_GUID() " />
-		<column name="VER_NBR" valueNumeric="1" />
-		<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
-		<column name="KIM_TYP_ID" value="7" />
-		<column name="KIM_ATTR_DEFN_ID" value="40" />
-		<column name="ATTR_VAL" value="true" />
-	</insert>
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT23" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="40" />
+			<column name="ATTR_VAL" value="true" />
+		</insert>
 
-	<insert tableName="KRIM_RSP_ATTR_DATA_T">
-		<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT24" />
-		<column name="OBJ_ID" value="SYS_GUID() " />
-		<column name="VER_NBR" valueNumeric="1" />
-		<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
-		<column name="KIM_TYP_ID" value="7" />
-		<column name="KIM_ATTR_DEFN_ID" value="41" />
-		<column name="ATTR_VAL" value="false" />
-	</insert>
-
-	<insert tableName="KRIM_ROLE_RSP_T">
-		<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP6" />
-		<column name="OBJ_ID" value="SYS_GUID() " />
-		<column name="VER_NBR" valueNumeric="1" />
-		<column name="ROLE_ID" value="41" />
-		<column name="RSP_ID" value="KFSCNTRB720-RSP6" />			
-		<column name="ACTV_IND" value="Y" />
-	</insert>
-
-	<insert tableName="KRIM_ROLE_RSP_ACTN_T"> 
-		<column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB720-RLRSPACT6" />
-		<column name="OBJ_ID" value="SYS_GUID() " />
-		<column name="VER_NBR" valueNumeric="1" />
-		<column name="ACTN_TYP_CD" value="A" />
-		<column name="PRIORITY_NBR" value="null" />			
-		<column name="ACTN_PLCY_CD" value="A" />		
-		<column name="ROLE_MBR_ID" value="*" />		
-		<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP6" />		
-		<column name="FRC_ACTN" value="Y" />
-	</insert>
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB720-RSPATT24" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP6" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="41" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
 	
-	<update tableName="KRIM_RSP_ATTR_DATA_T">
-	    <column name="ATTR_VAL" value="AccountNonItem"/> 
-	    <where>RSP_ID='107' AND kim_attr_defn_id =16</where> 
-	 </update>
+		<insert tableName="KRIM_ROLE_RSP_T">
+			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP6" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="41" />
+			<column name="RSP_ID" value="KFSCNTRB720-RSP6" />			
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	
+		<insert tableName="KRIM_ROLE_RSP_ACTN_T"> 
+			<column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB720-RLRSPACT6" />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ACTN_TYP_CD" value="A" />
+			<column name="PRIORITY_NBR" value="null" />			
+			<column name="ACTN_PLCY_CD" value="A" />		
+			<column name="ROLE_MBR_ID" value="*" />		
+			<column name="ROLE_RSP_ID" value="KFSCNTRB720-RLRSP6" />		
+			<column name="FRC_ACTN" value="Y" />
+		</insert>
+		
+		<update tableName="KRIM_RSP_ATTR_DATA_T">
+		    <column name="ATTR_VAL" value="AccountNonItem"/> 
+		    <where>RSP_ID='107' AND kim_attr_defn_id =16</where> 
+		</update>
 
 		<modifySql dbms='mysql'>
-	      <replace replace="SYS_GUID()" with="UUID()" />
+	      	<replace replace="SYS_GUID()" with="UUID()" />
 	    </modifySql>
 	</changeSet>	
 	
-	
-	
 	<changeSet id="KFSCNTRB-737" author="KFS51">	
-	<insert tableName="KRIM_PERM_T">
+		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSCNTRB-737-PRM1" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_TMPL_ID" value="16" />
 			<column name="NMSPC_CD" value="KFS-COA" />
@@ -775,7 +772,7 @@
 
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB-737-PRMATT1" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB-737-PRM1" />
 			<column name="KIM_TYP_ID" value="8" />
@@ -785,7 +782,7 @@
 		
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB-737-PRMATT2" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB-737-PRM1" />
 			<column name="KIM_TYP_ID" value="8" />
@@ -795,7 +792,7 @@
 		
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
 			<column name="ATTR_DATA_ID" value="KFSCNTRB-737-PRMATT3" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PERM_ID" value="KFSCNTRB-737-PRM1" />
 			<column name="KIM_TYP_ID" value="8" />
@@ -805,7 +802,7 @@
 
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSCNTRB-737-RLPRM1" />
-			<column name="OBJ_ID" valueNumeric="SYS_GUID() " />
+			<column name="OBJ_ID" valueComputed="SYS_GUID()" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="ROLE_ID" value="59" />
 			<column name="PERM_ID" value="KFSCNTRB-737-PRM1" />

@@ -74,7 +74,6 @@ public class YearEndGeneralErrorCorrectionDocumentTest extends KualiTestBase {
         // put accounting lines into document parameter for later
         final Integer postingYear = TestUtils.getFiscalYearForTesting();
         YearEndGeneralErrorCorrectionDocument document = (YearEndGeneralErrorCorrectionDocument) getDocumentParameterFixture();
-        //document.setPostingYear(postingYear);
 
         // set accountinglines to document
         for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {

@@ -525,6 +525,7 @@ If this parameter is left blank, then the program will assume the current system
 "KFS-PDP","Lookup","RESULTS_LIMIT","KFS422","1","CONFG","500","Maximum number of results returned in a look-up query.","A","KFS"
 "KFS-PDP","Lookup","RESULTS_PER_PAGE","KFS423","1","CONFG","50","Maximum number of results per page returned in a look-up query.","A","KFS"
 "KFS-PDP","PaymentDetail","DISBURSEMENT_CANCELLATION_DAYS","KFS424","1","VALID","30","Number of days past since a payment was disbursed before cancel or cancel and reissue is disallowed.","A","KFS"
+"KFS-PDP","PaymentDetail","RESEARCH_PARTICIPANT_UPLOAD_CUSTOMER_PROFILE","KFSCNTRB705",1,"CONFG","","The Customer Profile for Research Participant Accounting Office PDP Upload","A","KFS"
 "KFS-PDP","PaymentGroup","DEFAULT_SORT_GROUP_ID","KFS425","1","CONFG","4","Default priority sort order for pdp payment files.","A","KFS"
 "KFS-PDP","PaymentGroup","SORT_GROUP_SELECTION_1","KFS426","1","CONFG","processImmediate=true","Highest priority sort order for pdp payment files.","A","KFS"
 "KFS-PDP","PaymentGroup","SORT_GROUP_SELECTION_2","KFS427","1","CONFG","pymtAttachment=true","Second highest priority sort order for pdp payment files.","A","KFS"

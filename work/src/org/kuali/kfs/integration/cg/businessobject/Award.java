@@ -34,6 +34,10 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsProjectDirector;
 import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Defines a financial award object.
@@ -135,13 +139,15 @@ public class Award implements ContractsAndGrantsCGBAward, ContractsAndGrantsAwar
 
     /** Dummy value used to facilitate lookups */
     private transient String lookupPersonUniversalIdentifier;
-    private transient Person lookupPerson;
+//    private transient Person lookupPerson;
+    private transient Principal lookupPerson;
 
     private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
 
     private transient String lookupFundMgrPersonUniversalIdentifier;
-    private transient Person lookupFundMgrPerson;
+//    private transient Person lookupFundMgrPerson;
+    private transient Principal lookupFundMgrPerson;
 
 
     /**
@@ -1281,18 +1287,23 @@ public class Award implements ContractsAndGrantsCGBAward, ContractsAndGrantsAwar
      * @return Returns the lookupPerson.
      */
     @Override
-    public Person getLookupPerson() {
-        return lookupPerson;
-    }
-
+//    public Person getLookupPerson() {
+//        return lookupPerson;
+//    }
+    public Principal getLookupPerson() {
+      return lookupPerson;
+  }
     /**
      * Sets the lookupPerson attribute value.
      *
      * @param lookupPerson The lookupPerson to set.
      */
-    public void setLookupPerson(Person lookupPerson) {
-        this.lookupPerson = lookupPerson;
-    }
+//    public void setLookupPerson(Person lookupPerson) {
+//        this.lookupPerson = lookupPerson;
+//    }
+    public void setLookupPerson(Principal lookupPerson) {
+      this.lookupPerson = lookupPerson;
+ }
 
     /**
      * Gets the lookupFundMgrPersonUniversalIdentifier attribute.
@@ -1319,19 +1330,23 @@ public class Award implements ContractsAndGrantsCGBAward, ContractsAndGrantsAwar
      * @return Returns the lookupFundMgrPerson.
      */
     @Override
-    public Person getLookupFundMgrPerson() {
-        return lookupFundMgrPerson;
-    }
-
+//    public Person getLookupFundMgrPerson() {
+//        return lookupFundMgrPerson;
+//    }
+    public Principal getLookupFundMgrPerson() {
+      return lookupFundMgrPerson;
+  }
     /**
      * Sets the lookupFundMgrPerson attribute value.
      *
      * @param lookupFundMgrPerson The lookupFundMgrPerson to set.
      */
-    public void setLookupFundMgrPerson(Person lookupFundMgrPerson) {
+//    public void setLookupFundMgrPerson(Person lookupFundMgrPerson) {
+//        this.lookupFundMgrPerson = lookupFundMgrPerson;
+//    }
+    public void setLookupFundMgrPerson(Principal lookupFundMgrPerson) {
         this.lookupFundMgrPerson = lookupFundMgrPerson;
     }
-
     /**
      * Gets the userLookupRoleNamespaceCode attribute.
      *
@@ -1435,13 +1450,14 @@ public class Award implements ContractsAndGrantsCGBAward, ContractsAndGrantsAwar
      *
      * @see org.kuali.rice.krad.bo.BusinessObject#prepareForWorkflow()
      */
-    public void prepareForWorkflow() {
+    public void prepareForWorkflow1() {
     }
 
     /**
      *
      * @see org.kuali.rice.krad.bo.BusinessObject#refresh()
      */
+    @Override
     public void refresh() {
     }
 
@@ -1597,9 +1613,4 @@ public class Award implements ContractsAndGrantsCGBAward, ContractsAndGrantsAwar
     public void setDunningCampaign(String dunningCampaign) {
         this.dunningCampaign = dunningCampaign;
     }
-
-    public void prepareForWorkflow() {}
-
-
-    public void refresh() {}
 }

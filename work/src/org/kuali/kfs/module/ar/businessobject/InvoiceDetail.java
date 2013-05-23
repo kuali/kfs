@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
@@ -34,9 +32,9 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -62,7 +60,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the categoryCode attribute.
-     * 
+     *
      * @return Returns the categoryCode.
      */
     public String getCategoryCode() {
@@ -72,7 +70,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the categoryCode attribute value.
-     * 
+     *
      * @param categoryCode The categoryCode to set.
      */
     public void setCategoryCode(String categoryCode) {
@@ -82,7 +80,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the invoiceDetailIdentifier attribute.
-     * 
+     *
      * @return Returns the invoiceDetailIdentifier.
      */
     public Long getInvoiceDetailIdentifier() {
@@ -92,7 +90,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the invoiceDetailIdentifier attribute value.
-     * 
+     *
      * @param invoiceDetailIdentifier The invoiceDetailIdentifier to set.
      */
     public void setInvoiceDetailIdentifier(Long invoiceDetailIdentifier) {
@@ -101,7 +99,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -111,7 +109,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the documentNumber attribute value.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -121,7 +119,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the category attribute.
-     * 
+     *
      * @return Returns the category.
      */
     public String getCategory() {
@@ -131,7 +129,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the category attribute value.
-     * 
+     *
      * @param category The category to set.
      */
     public void setCategory(String category) {
@@ -141,7 +139,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the budget attribute.
-     * 
+     *
      * @return Returns the budget.
      */
     public KualiDecimal getBudget() {
@@ -150,7 +148,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the budget attribute value.
-     * 
+     *
      * @param budget The budget to set.
      */
     public void setBudget(KualiDecimal budget) {
@@ -159,7 +157,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the expenditures attribute.
-     * 
+     *
      * @return Returns the expenditures.
      */
     public KualiDecimal getExpenditures() {
@@ -168,7 +166,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the expenditures attribute value.
-     * 
+     *
      * @param expenditures The expenditures to set.
      */
     public void setExpenditures(KualiDecimal expenditures) {
@@ -177,7 +175,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the cumulative attribute.
-     * 
+     *
      * @return Returns the cumulative.
      */
     public KualiDecimal getCumulative() {
@@ -186,7 +184,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the cumulative attribute value.
-     * 
+     *
      * @param cumulative The cumulative to set.
      */
     public void setCumulative(KualiDecimal cumulative) {
@@ -195,7 +193,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the balance attribute.
-     * 
+     *
      * @return Returns the balance.
      */
     public KualiDecimal getBalance() {
@@ -207,7 +205,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the balance attribute value.
-     * 
+     *
      * @param balance The balance to set.
      */
     public void setBalance(KualiDecimal balance) {
@@ -216,7 +214,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the billed attribute.
-     * 
+     *
      * @return Returns the billed.
      */
     public KualiDecimal getBilled() {
@@ -225,7 +223,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the billed attribute value.
-     * 
+     *
      * @param billed The billed to set.
      */
     public void setBilled(KualiDecimal billed) {
@@ -235,7 +233,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the invoiceDocument attribute.
-     * 
+     *
      * @return Returns the invoiceDocument.
      */
     public ContractsGrantsInvoiceDocument getInvoiceDocument() {
@@ -245,7 +243,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the invoiceDocument attribute value.
-     * 
+     *
      * @param invoiceDocument The invoiceDocument to set.
      */
     public void setInvoiceDocument(ContractsGrantsInvoiceDocument invoiceDocument) {
@@ -254,7 +252,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the indirectCostIndicator attribute.
-     * 
+     *
      * @return Returns the indirectCostIndicator.
      */
     public boolean isIndirectCostIndicator() {
@@ -264,7 +262,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the indirectCostIndicator attribute value.
-     * 
+     *
      * @param indirectCostIndicator The indirectCostIndicator to set.
      */
     public void setIndirectCostIndicator(boolean indirectCostIndicator) {
@@ -274,7 +272,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the adjustedCumExpenditures attribute.
-     * 
+     *
      * @return Returns the adjustedCumExpenditures.
      */
     public KualiDecimal getAdjustedCumExpenditures() {
@@ -285,7 +283,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the adjustedCumExpenditures attribute value.
-     * 
+     *
      * @param adjustedCumExpenditures The adjustedCumExpenditures to set.
      */
     public void setAdjustedCumExpenditures(KualiDecimal adjustedCumExpenditures) {
@@ -295,7 +293,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the adjustedBalance attribute.
-     * 
+     *
      * @return Returns the adjustedBalance.
      */
     public KualiDecimal getAdjustedBalance() {
@@ -306,7 +304,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the adjustedBalance attribute value.
-     * 
+     *
      * @param adjustedBalance The adjustedBalance to set.
      */
     public void setAdjustedBalance(KualiDecimal adjustedBalance) {
@@ -317,7 +315,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
     /**
      * The budget calculations for individual Invoice Detail object are calculated here. Values are retrieved from GL Balance table
      * and manipulated.
-     * 
+     *
      * @param awardAccounts - accounts for a particular award.
      * @param objectCodes - set of object codes pertaining to a single category
      */
@@ -345,7 +343,7 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
                 balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
                 balanceKeys.put("balanceTypeCode", ArPropertyConstants.BUDGET_BALANCE_TYPE);
                 balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
-                glBalances.addAll((List<Balance>) SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
+                glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
             }
             Iterator<String> it = completeObjectCodeArrayForSingleCategory.iterator();
             while (it.hasNext()) {
@@ -399,12 +397,12 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
     /**
      * OJB calls this method as the first operation before this BO is inserted into the database. The field is read-only in the data
      * dictionary and so the value does not persist in the DB. So this method makes sure that the values are stored in the DB.
-     * 
+     *
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException Thrown by call to super.prePersist();
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
      */
-    
+
     @Override protected void prePersist() {
         super.prePersist();
         balance = getBalance();
@@ -416,13 +414,12 @@ public class InvoiceDetail extends PersistableBusinessObjectBase {
     /**
      * OJB calls this method as the first operation before this BO is updated to the database. The field is read-only in the data
      * dictionary and so the value does not persist in the DB. So this method makes sure that the values are stored in the DB.
-     * 
+     *
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException Thrown by call to super.preUpdate();
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
      */
-    @Override
-    @Override protected void preUpdate() {
+     @Override protected void preUpdate() {
         super.preUpdate();
         balance = getBalance();
 

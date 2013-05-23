@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,9 +18,8 @@ package org.kuali.kfs.module.ar;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.JSTLConstants;
 
-public class ArConstants extends JSTLConstants {
+public class ArConstants{
 
 
     public static final String AR_NAMESPACE_CODE = "KFS-AR";
@@ -216,5 +215,158 @@ public class ArConstants extends JSTLConstants {
         private ArNotificationOptions(String option){
             this.option = option;
         }
+    }
+
+    public static class BatchFileSystem {
+
+
+        static final public String EXTENSION = ".log";
+
+        static final public String CGINVOICE_VALIDATION_ERROR_OUTPUT_FILE = "cgin_batch_validation_err";
+        static final public String CGINVOICE_CREATION_ERROR_OUTPUT_FILE = "cgin_batch_create_doc_err";
+        static final public String ONDEMAND_VALIDATION_ERROR_OUTPUT_FILE = "cgin_onDemand_validation_err";
+        static final public String ONDEMAND_CREATION_ERROR_OUTPUT_FILE = "cgin_onDemand_create_doc_err";
+        static final public String LOC_REVIEW_VALIDATION_ERROR_OUTPUT_FILE = "cgin_locReview_validation_err";
+        static final public String LOC_REVIEW_CREATION_ERROR_OUTPUT_FILE = "cgin_locReview_create_doc_err";
+
+        static final public String LOC_CREATION_BY_AWARD_ERROR_OUTPUT_FILE = "cgin_loc_by_award_create_doc_err";
+        static final public String LOC_CREATION_BY_LOCF_ERROR_OUTPUT_FILE = "cgin_loc_by_loc_fund_create_doc_err";
+        static final public String INVOICE_REPORT_EMAIL_DELIVERY_ERROR_OUTPUT_FILE = "cgin_report_email_delivery_err";
+        static final public String LOC_CREATION_BY_LOCFG_ERROR_OUTPUT_FILE = "cgin_loc_by_loc_fund_group_create_doc_err";
+        static final public String LOC_CREATION_PMT_APP_ERROR_OUTPUT_FILE = "cgin_loc_pmt_app_create_doc_err";
+        static final public String EVT_CREATION_CLN_ACT_ERROR_OUTPUT_FILE = "catd_evt_cln_act_create_doc_err";
+        static final public String REFRL_TO_CLCTNS_ERROR_OUTPUT_FILE = "refrl_to_clctns_doc_err";
+
+        static final public String CGINVOICE_DOCUMENT_DESCRIPTION_OF_BATCH_PROCESS = "Auto-generated Invoice Document";
+
+        static final public String CGINVOICE_CREATION_AWARD_START_DATE_MISSING_ERROR = "Award start date is missing.";
+        static final public String CGINVOICE_CREATION_USER_SUSPENDED_ERROR = "Award Invoicing is suspended by user.";
+        static final public String CGINVOICE_CREATION_AWARD_INACTIVE_ERROR = "Award is inactive.";
+        static final public String CGINVOICE_CREATION_AWARD_CLOSED_ERROR = "Award is closed.";
+        static final public String CGINVOICE_CREATION_AWARD_PAST_STOP_DATE_ERROR = "Award is past the stop date.";
+        static final public String CGINVOICE_CREATION_INVOICING_OPTION_MISSING_ERROR = "Award invoicing option is missing.";
+        static final public String CGINVOICE_CREATION_BILLING_FREQUENCY_MISSING_ERROR = "Award preferred billing frequency is missing or invalid.";
+        static final public String CGINVOICE_CREATION_NO_ACCOUNT_ASSIGNED_ERROR = "Award has no active accounts assigned.";
+        static final public String CGINVOICE_CREATION_AWARD_FINAL_BILLED_ERROR = "Award has final invoice billed already.";
+        static final public String CGINVOICE_CREATION_CONAINS_EXPIRED_ACCOUNTS_ERROR = "Award contains expired accounts.";
+        static final public String CGINVOICE_CREATION_AWARD_TOO_STALE_ERROR = "Award is too stale to invoice.";
+        static final public String CGINVOICE_CREATION_SINGLE_ACCOUNT_ERROR = "Awards with Milestone or Predetermined Billing frequency must have only 1 account.";
+        static final public String LOC_CREATION_ERROR_INVOICE_NOT_FINAL = "Invoice is not FINAL.";
+        static final public String LOC_CREATION_ERROR__CSH_CTRL_IN_PROGRESS = "Cash Control/Payment Application document already exists";
+        static final public String CGINVOICE_CREATION_AWARD_INVALID_BILLING_PERIOD = "Award is not eligible to be invoiced in the current billing period.";
+        static final public String CGINVOICE_CREATION_AWARD_NO_VALID_MILESTONES = "Award has no valid Milestones to invoice.";
+        static final public String CGINVOICE_CREATION_AWARD_NO_VALID_BILLS = "Award has no valid Bills to invoice.";
+        static final public String CGINVOICE_CREATION_AWARD_NO_VALID_ACCOUNTS = "There are no billable accounts in the Award. They could have invoices in progress or zero balances.";
+        static final public String CGINVOICE_CREATION_AWARD_AGENCY_NO_CUSTOMER_RECORD = "Agency associated with the Award has no valid customer record.";
+        static final public String CGINVOICE_CREATION_SYS_INFO_OADF_NOT_SETUP = "System Information, Organization Options and Organization Accounting Default must be setup for the appropriate Chart and Org Code to Invoice.";
+        static final public String CGINVOICE_CREATION_AWARD_NO_AR_INV_ACCOUNT = "Award has no AR Invoice Account assigned when GLPE Receivable parameter is set to 3.";
+        static final public String CGINVOICE_CREATION_AWARD_INVOICES_IN_PROGRESS = "All the accounts in the Award have invoices in Progress.";
+        static final public String CGINVOICE_CREATION_AWARD_OFFSET_DEF_NOT_SETUP = "Offset Definition must be setup for the appropriate Chart when GLPE Receivable parameter is set to 3.";
+    }
+
+    // Award
+    public static final String LOC_BY_AWARD = "LOC By Award";
+    public static final String LOC_BY_LOC_FUND = "LOC By Letter of Credit Fund";
+    public static final String LOC_BY_LOC_FUND_GRP = "LOC By Letter of Credit Fund Group";
+    public static final String AWARD_MILESTONE_CHECK_LIMIT_DAYS = "AWARD_MILESTONE_CHECK_LIMIT_DAYS";
+
+    public static final String PRORATE_WARNING = "document.prorateWarning";
+    public static final String MINIMUM_INVOICE_AMOUNT = "MINIMUM_INVOICE_AMOUNT";
+
+    public static final String INVOICE_REPORT_OPTION = "dummyBusinessObject.invoiceReportOption";
+    public static final String OUTSTANDING_INVOICES = "Outstanding Invoices";
+    public static final String PAST_DUE_INVOICES = "Past Due Invoices";
+
+    public static final String QUATER1 = "q1";
+    public static final String QUATER2 = "q2";
+    public static final String QUATER3 = "q3";
+    public static final String QUATER4 = "q4";
+    public static final String SEMI_ANNUAL = "Sa";
+    public static final String ANNUAL = "An";
+    public static final String FINAL = "F";
+    public static final String ZERO = "0";
+
+    public static class ReportsConstants {
+        public static final List<String> awardBalancesReportSubtotalFieldsList = new ArrayList<String>();
+
+        static {
+            awardBalancesReportSubtotalFieldsList.add("agency.fullName");
+            awardBalancesReportSubtotalFieldsList.add("awardStatusCode");
+            awardBalancesReportSubtotalFieldsList.add("awardPrimaryProjectDirector.projectDirector.name");
+            awardBalancesReportSubtotalFieldsList.add("awardPrimaryFundManager.fundManager.name");
+        }
+
+        public static final List<String> reportSearchCriteriaExceptionList = new ArrayList<String>();
+
+        static {
+            reportSearchCriteriaExceptionList.add("backLocation");
+            reportSearchCriteriaExceptionList.add("docFormKey");
+            reportSearchCriteriaExceptionList.add("dummyBusinessObject.invoiceReportOption");
+        }
+
+        public static final List<String> cgInvoiceReportSubtotalFieldsList = new ArrayList<String>();
+
+        static {
+            cgInvoiceReportSubtotalFieldsList.add("proposalNumber");
+        }
+
+        public static final List<String> cgPaymentHistoryReportSubtotalFieldsList = new ArrayList<String>();
+
+        static {
+            cgPaymentHistoryReportSubtotalFieldsList.add("awardNumber");
+            cgPaymentHistoryReportSubtotalFieldsList.add("customerName");
+            cgPaymentHistoryReportSubtotalFieldsList.add("paymentNumber");
+            cgPaymentHistoryReportSubtotalFieldsList.add("paymentDate");
+        }
+
+        public static final List<String> cgLOCDrawDetailsReportSubtotalFieldsList = new ArrayList<String>();
+
+        public static final List<String> cgLOCAmountsNotDrawnReportSubtotalFieldsList = new ArrayList<String>();
+
+        public static final List<String> cgSuspendedInvoiceReportSubtotalFieldsList = new ArrayList<String>();
+
+        public static final String INVOICE_INDICATOR_OPEN = "Open";
+        public static final String INVOICE_INDICATOR_CLOSE = "Close";
+
+    }
+
+    // CG Invoice Document
+    public static final String CONTRACTS_AND_GRANTS_INVOICE_CATEGORIES = "CONTRACTS_AND_GRANTS_INVOICE_CATEGORIES";
+
+    public static final String CGIN_DOCUMENT_TYPE = "CGIN";
+    public static final String CGIN_DOCUMENT_DESCRIPTION = "Contracts Grants Invoice Document";
+    public static final String ACCOUNT = "Account";
+    public static final String CONTRACT_CONTROL_ACCOUNT = "Contract Control Account";
+    public static final String INV_RPT_PRCS_IN_PROGRESS = "IN PROGRESS";
+    public static final String INV_RPT_PRCS_SENT = "EMAILS SENT";
+
+    public static class DunningLetters {
+        public static final String DYS_PST_DUE_FINAL_PARM = "DUNNING_LETTERS_FINAL_DAYS_PAST_DUE";
+        public static final String DYS_PST_DUE_STATE_AGENCY_FINAL_PARM = "DUNNING_LETTERS_STATE_AGENCY_FINAL_DAYS_PAST_DUE";
+        public static final String DYS_PST_DUE_CURRENT = "Current";
+        public static final String DYS_PST_DUE_31_60 = "31-60";
+        public static final String DYS_PST_DUE_61_90 = "61-90";
+        public static final String DYS_PST_DUE_91_120 = "91-120";
+        public static final String DYS_PST_DUE_121 = "121+";
+        public static final String DYS_PST_DUE_FINAL = "FINAL";
+        public static final String DYS_PST_DUE_STATE_AGENCY_FINAL = "State Agency FINAL";
+        public static final String DUNNING_LETTER_SENT_TXT = "Dunning Letter has been sent to sponsor.";
+    }
+
+    public static class ContractsGrantsAgingReportFields {
+
+        public static final String TOTAL_0_TO_30 = "total0to30";
+        public static final String TOTAL_31_TO_60 = "total31to60";
+        public static final String TOTAL_61_TO_90 = "total61to90";
+        public static final String TOTAL_91_TO_SYSPR = "total90toSYSPR";
+        public static final String TOTAL_SYSPR_PLUS_1_OR_MORE = "totalSYSPRplus1orMore";
+        public static final String TOTAL_AMOUNT_DUE = "totalAmountDue";
+        public static final String OPEN_INVOCE_REPORT_NAME = "Contracts And Grants Open Invoices Report";
+
+
+        public static final String AGENCY_SHORT_NAME = "Agency Short Name";
+        public static final String UNAPPLIED_PAYMENTS = "Unapplied Payments";
+        public static final String TOTAL_WRITEOFF = "Total Write-Off";
+        public static final String TOTAL_CREDITS = "Total Credits";
     }
 }

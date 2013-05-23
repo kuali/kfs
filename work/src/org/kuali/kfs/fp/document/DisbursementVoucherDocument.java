@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
@@ -68,8 +69,23 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.address.EntityAddress;
+import org.kuali.rice.kim.api.identity.entity.Entity;
+import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -141,6 +157,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected boolean payeeAssigned = false;
     protected boolean editW9W8BENbox = false;
     protected boolean immediatePaymentIndicator = false;
+    protected boolean refundIndicator;
 
     protected DocumentHeader financialDocument;
     protected PaymentDocumentationLocation disbVchrDocumentationLoc;
@@ -1310,8 +1327,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     protected void cleanDocumentData() {
         // TODO: warren: this method ain't called!!! maybe this should be called by prepare for save above
         if (!DisbursementVoucherConstants.PAYMENT_METHOD_WIRE.equals(this.getDisbVchrPaymentMethodCode()) && !DisbursementVoucherConstants.PAYMENT_METHOD_DRAFT.equals(this.getDisbVchrPaymentMethodCode())) {
-            getBusinessObjectService().delete(dvWireTransfer);
-            dvWireTransfer = null;
+            getBusinessObjectService().delete(wireTransfer);
+            wireTransfer = null;
         }
 
         if (!dvPayeeDetail.isDisbVchrAlienPaymentCode()) {

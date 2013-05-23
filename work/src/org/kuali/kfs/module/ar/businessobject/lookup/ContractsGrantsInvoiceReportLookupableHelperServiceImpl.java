@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,12 +30,12 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Defines a custom lookup for the Contracts and Grants Invoice Report.
@@ -48,7 +48,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -65,7 +65,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
         Collection<ContractsGrantsInvoiceReport> displayList = new ArrayList<ContractsGrantsInvoiceReport>();
         Collection<ContractsGrantsInvoiceDocument> openCGInvoiceDocs = contractsGrantsInvoiceDocumentService.getAllOpenContractsGrantsInvoiceDocuments(true);
 
-        String invoiceReportOption = (String) lookupForm.getFields().get(ArConstants.INVOICE_REPORT_OPTION);
+        String invoiceReportOption = lookupForm.getFields().get(ArConstants.INVOICE_REPORT_OPTION);
 
         java.util.Date today = new java.util.Date();
         Date sqlToday = new java.sql.Date(today.getTime());
@@ -77,7 +77,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
                 continue;
             }
 
-            FinancialSystemDocumentHeader documentHeader = openCGInvoiceDoc.getDocumentHeader();
+            FinancialSystemDocumentHeader documentHeader = (FinancialSystemDocumentHeader) openCGInvoiceDoc.getDocumentHeader();
             ContractsGrantsInvoiceReport cgInvoiceReport = new ContractsGrantsInvoiceReport();
 
             try {
@@ -88,7 +88,7 @@ public class ContractsGrantsInvoiceReportLookupableHelperServiceImpl extends Con
                 cgInvoiceReport.setProposalNumber(openCGInvoiceDoc.getProposalNumber());
                 cgInvoiceReport.setInvoiceType(workflowDocument.getDocumentTypeName());
 
-                Date docCreateDate = new Date(workflowDocument.getDateCreated().getTime());
+                Date docCreateDate = (Date) workflowDocument.getDateCreated().toDate();
                 cgInvoiceReport.setInvoiceDate(docCreateDate);
                 cgInvoiceReport.setInvoiceDueDate(openCGInvoiceDoc.getInvoiceDueDate());
                 if (openCGInvoiceDoc.isOpenInvoiceIndicator()) {

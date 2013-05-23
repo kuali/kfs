@@ -1,12 +1,12 @@
 /*
 \ * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.service.impl;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,19 +42,20 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceAgencyAddressDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.service.AREmailService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.kew.mail.Mailer;
-import org.kuali.rice.kew.mail.service.impl.DefaultEmailService;
-import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.mail.Mailer;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.MailService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.core.web.format.CurrencyFormatter;
 
 
 /**
@@ -73,7 +73,7 @@ public class AREmailServiceImpl extends DefaultEmailService implements AREmailSe
 
     /**
      * This method is used to send emails to the agency
-     * 
+     *
      * @param invoices
      */
     public void sendInvoicesViaEmail(List<ContractsGrantsInvoiceDocument> invoices) throws AddressException, MessagingException {
@@ -96,7 +96,7 @@ public class AREmailServiceImpl extends DefaultEmailService implements AREmailSe
                         ContractsAndGrantsAgencyAddress address; // = agencyAddress.getAgencyAddress();
                         primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, agencyAddress.getAgencyNumber());
                         primaryKeys.put("agencyAddressIdentifier", agencyAddress.getAgencyAddressIdentifier());
-                        address = (ContractsAndGrantsAgencyAddress) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
+                        address = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
                         String recipients = address.getAgencyInvoiceEmailAddress();
                         if (StringUtils.isNotEmpty(recipients)) {
                             InternetAddress[] recipientAddress = { new InternetAddress(recipients) };
@@ -107,8 +107,8 @@ public class AREmailServiceImpl extends DefaultEmailService implements AREmailSe
                         }
 
                         // The Subject
-                        String subject = KNSServiceLocator.getParameterService().getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_EMAIL_SUBJECT);
-                        String bodyText = KNSServiceLocator.getParameterService().getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_EMAIL_BODY);
+                        String subject = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_EMAIL_SUBJECT);
+                        String bodyText = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_EMAIL_BODY);
                         Map<String, String> map = new HashMap<String, String>();
                         this.getEmailParameterList(map, invoice, address);
                         subject = replaceValuesInString(subject, map);
@@ -157,7 +157,7 @@ public class AREmailServiceImpl extends DefaultEmailService implements AREmailSe
         Map<String, Object> key = new HashMap<String, Object>();
         key.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode[0].trim());
         key.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, orgCode[1].trim());
-        Organization org = (Organization) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(Organization.class, key);
+        Organization org = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, key);
         primaryKeys.put("#grantNumber", returnProperStringValue(invoice.getAward().getProposal().getGrantNumber()));
         primaryKeys.put("#proposalNumber", returnProperStringValue(invoice.getProposalNumber()));
         primaryKeys.put("#invoiceNumber", returnProperStringValue(invoice.getDocumentNumber()));
@@ -166,8 +166,9 @@ public class AREmailServiceImpl extends DefaultEmailService implements AREmailSe
         primaryKeys.put("#name", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getName()));
         primaryKeys.put("#title", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getAwardFundManagerProjectTitle()));
         // primaryKeys.put("#school", invoice.getAward().getAwardPrimaryFundManager().getFundManager().get);
-        if (ObjectUtils.isNotNull(org))
+        if (ObjectUtils.isNotNull(org)) {
             primaryKeys.put("#department", returnProperStringValue(org.getOrganizationName()));
+        }
         primaryKeys.put("#phone", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getPhoneNumber()));
         primaryKeys.put("#email", returnProperStringValue(invoice.getAward().getAwardPrimaryFundManager().getFundManager().getEmailAddress()));
     }
@@ -192,17 +193,19 @@ public class AREmailServiceImpl extends DefaultEmailService implements AREmailSe
         // Scan for each word
         for (String key : keys) {
             String value = replacementList.get(key);
-            if (ObjectUtils.isNotNull(value))
+            if (ObjectUtils.isNotNull(value)) {
                 buffOriginal.append(value + " ");
-            else
+            }
+            else {
                 buffOriginal.append(key + " ");
+            }
         }
         return buffOriginal.toString();
     }
 
     /**
      * Sets the mailService attribute value.
-     * 
+     *
      * @param mailService The mailService to set.
      */
     public void setMailService(MailService mailService) {
@@ -211,7 +214,7 @@ public class AREmailServiceImpl extends DefaultEmailService implements AREmailSe
 
     /**
      * Sets the kualiConfigurationService attribute value.
-     * 
+     *
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setConfigurationService(ConfigurationService kualiConfigurationService) {
@@ -220,7 +223,7 @@ public class AREmailServiceImpl extends DefaultEmailService implements AREmailSe
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -229,7 +232,7 @@ public class AREmailServiceImpl extends DefaultEmailService implements AREmailSe
 
     /**
      * Sets the dataDictionaryService attribute value.
-     * 
+     *
      * @param dataDictionaryService The dataDictionaryService to set.
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {

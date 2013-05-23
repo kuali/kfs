@@ -26,10 +26,12 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.country.CountryEbo;
 

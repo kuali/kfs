@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,10 +21,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsInvoiceReport;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsSuspendedInvoiceReport;
 import org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory;
@@ -32,23 +33,23 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
-import org.kuali.rice.kns.web.ui.Column;
-import org.kuali.rice.kns.web.ui.ResultRow;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Defines a lookupable helper class for Suspended Contracts and Grants Invoices Report.
@@ -62,7 +63,7 @@ public class ContractsGrantsSuspendedInvoiceReportLookupableHelperServiceImpl ex
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -194,7 +195,7 @@ public class ContractsGrantsSuspendedInvoiceReportLookupableHelperServiceImpl ex
 
                 // Add url when property is documentNumber
                 if (col.getPropertyName().equals("documentNumber")) {
-                    String url = ConfigContext.getCurrentContextConfig().getKEWBaseURL() + "/" + KewApiConstants.DOC_HANDLER_REDIRECT_PAGE + "?" + KewApiConstants.COMMAND_PARAMETER + "=" + KewApiConstants.DOCSEARCH_COMMAND + "&" + KewApiConstants.ROUTEHEADER_ID_PARAMETER + "=" + propValue;
+                    String url = ConfigContext.getCurrentContextConfig().getKEWBaseURL() + "/" + KewApiConstants.DOC_HANDLER_REDIRECT_PAGE + "?" + KewApiConstants.COMMAND_PARAMETER + "=" + KewApiConstants.DOCSEARCH_COMMAND + "&" + KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + propValue;
 
                     Map<String, String> fieldList = new HashMap<String, String>();
                     fieldList.put(KFSPropertyConstants.DOCUMENT_NUMBER, propValue);
@@ -232,7 +233,7 @@ public class ContractsGrantsSuspendedInvoiceReportLookupableHelperServiceImpl ex
 
     /**
      * Gets the documentService attribute value.
-     * 
+     *
      * @return the documentService
      */
     public DocumentService getDocumentService() {
@@ -242,7 +243,7 @@ public class ContractsGrantsSuspendedInvoiceReportLookupableHelperServiceImpl ex
 
     /**
      * Sets the documentService attribute value.
-     * 
+     *
      * @param documentService
      */
     public void setDocumentService(DocumentService documentService) {

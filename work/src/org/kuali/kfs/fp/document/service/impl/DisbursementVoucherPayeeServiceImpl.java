@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.fp.document.service.impl;
 
+import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,29 +28,30 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.kfs.vnd.VendorConstants;
+import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorType;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.impl.KIMPropertyConstants;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService; import java.util.ArrayList;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * implementing the service methods defined in DisbursementVoucherPayeeService
- * 
+ *
  * @see DisbursementVoucherPayeeService
  */
 public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherPayeeService {
@@ -65,23 +68,21 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#getPayeeTypeDescription(java.lang.String)
      */
+    @Override
     public String getPayeeTypeDescription(String payeeTypeCode) {
         String payeeTypeDescription = StringUtils.EMPTY;
 
-        if (KFSConstants.PaymentPayeeTypes.EMPLOYEE.equals(payeeTypeCode)) {
+        if (DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE.equals(payeeTypeCode)) {
             payeeTypeDescription = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.NON_VENDOR_EMPLOYEE_PAYEE_TYPE_LABEL_PARM_NM);
         }
-        else if (KFSConstants.PaymentPayeeTypes.VENDOR.equals(payeeTypeCode)) {
+        else if (DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR.equals(payeeTypeCode)) {
             payeeTypeDescription = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.PO_AND_DV_PAYEE_TYPE_LABEL_PARM_NM);
         }
-        else if (KFSConstants.PaymentPayeeTypes.REVOLVING_FUND_VENDOR.equals(payeeTypeCode)) {
+        else if (DisbursementVoucherConstants.DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR.equals(payeeTypeCode)) {
             payeeTypeDescription = this.getVendorTypeDescription(VendorConstants.VendorTypes.REVOLVING_FUND);
         }
-        else if (KFSConstants.PaymentPayeeTypes.SUBJECT_PAYMENT_VENDOR.equals(payeeTypeCode)) {
+        else if (DisbursementVoucherConstants.DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR.equals(payeeTypeCode)) {
             payeeTypeDescription = this.getVendorTypeDescription(VendorConstants.VendorTypes.SUBJECT_PAYMENT);
-        }
-        else if (KFSConstants.PaymentPayeeTypes.CUSTOMER.equals(payeeTypeCode)) {
-            payeeTypeDescription = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.PAYEE_TYPE_NAME);
         }
 
         return payeeTypeDescription;
@@ -138,7 +139,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     public boolean isPayeeIndividualVendor(DisbursementVoucherPayeeDetail dvPayeeDetail) {
         return this.isVendor(dvPayeeDetail) ? this.isPayeeIndividualVendor(dvPayeeDetail.getDisbVchrPayeeIdNumber()) : false;
     }
-    
+
 	/* Start TEM Refund Merge */
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#isTaxReviewRequired(String)
@@ -146,18 +147,18 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     public boolean isTaxReviewRequired(String payeeTaxControlCode) {
         ParameterService paramService = SpringContext.getBean(ParameterService.class);
         List<String> taxControlCodes = new ArrayList<String>( paramService.getParameterValuesAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.TAX_CONTROL_CODES_REQUIRING_TAX_REVIEW_PARM_NM) );
-        
+
         return taxControlCodes != null && taxControlCodes.contains(payeeTaxControlCode);
     }
     /* End TEM Refund Merge */
-    
+
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#isPayeeIndividualVendor(org.kuali.kfs.fp.businessobject.DisbursementPayee)
      */
     public boolean isPayeeIndividualVendor(DisbursementPayee payee) {
         return this.isVendor(payee) ? this.isPayeeIndividualVendor(payee.getPayeeIdNumber()) : false;
     }
-    
+
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService#getVendorOwnershipTypeCode(org.kuali.kfs.fp.businessobject.DisbursementPayee)
      */
@@ -165,7 +166,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
         if(ObjectUtils.isNull(payee) || !this.isVendor(payee)) {
             return null;
         }
-        
+
         VendorDetail vendor = vendorService.getByVendorNumber(payee.getPayeeIdNumber());
         return vendor == null ? null : vendor.getVendorHeader().getVendorOwnershipCode();
     }
@@ -177,7 +178,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
         Map<String, String> pks = new HashMap<String, String>();
         pks.put("documentNumber", dvDoc.getDocumentNumber());
 
-        DisbursementVoucherDocument savedDv = (DisbursementVoucherDocument) businessObjectService.findByPrimaryKey(DisbursementVoucherDocument.class, pks);
+        DisbursementVoucherDocument savedDv = businessObjectService.findByPrimaryKey(DisbursementVoucherDocument.class, pks);
         DisbursementVoucherPayeeDetail newPayeeDetail = dvDoc.getDvPayeeDetail();
         DisbursementVoucherPayeeDetail oldPayeeDetail = savedDv.getDvPayeeDetail();
 
@@ -349,7 +350,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
 
     /**
      * This method...
-     * 
+     *
      * @param valueName
      * @param oldValue
      * @param newValue
@@ -372,7 +373,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
 
     /**
      * Creates FYI requests to previous approvers
-     * 
+     *
      * @param dvDoc the document where the payee address has changed
      * @param priorApprovers the previous approvers
      * @param initiatorUserId the id of the initiator
@@ -380,7 +381,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
     protected void setupFYIs(DisbursementVoucherDocument dvDoc, Set<Person> priorApprovers, String initiatorUserId) {
         List<AdHocRoutePerson> adHocRoutePersons = dvDoc.getAdHocRoutePersons();
         final FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = getDocumentAuthorizer(dvDoc);
-        
+
         // Add FYI for each approver who has already approved the document
         for (Person approver : priorApprovers) {
             if (documentAuthorizer.canReceiveAdHoc(dvDoc, approver, KewApiConstants.ACTION_REQUEST_FYI_REQ)) {
@@ -392,15 +393,15 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
         // Add FYI for initiator
         adHocRoutePersons.add(buildFyiRecipient(initiatorUserId));
     }
-    
+
     /**
      * Constructs a document authorizer for this class
      * @return the document authorizer for this class
      */
     protected FinancialSystemTransactionalDocumentAuthorizerBase getDocumentAuthorizer(DisbursementVoucherDocument dvDoc) {
         final String docTypeName = dataDictionaryService.getDocumentTypeNameByClass(dvDoc.getClass());
-        Class<? extends DocumentAuthorizer> documentAuthorizerClass = dataDictionaryService.getDataDictionary().getDocumentEntry(docTypeName).getDocumentAuthorizerClass();
-        
+        Class<? extends org.kuali.rice.krad.document.DocumentAuthorizer> documentAuthorizerClass = dataDictionaryService.getDataDictionary().getDocumentEntry(docTypeName).getDocumentAuthorizerClass();
+
         FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = null;
         try {
             documentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase)documentAuthorizerClass.newInstance();
@@ -411,13 +412,13 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
         catch (IllegalAccessException iae) {
             throw new RuntimeException("Could not construct document authorizer: "+documentAuthorizerClass.getName(), iae);
         }
-        
+
         return documentAuthorizer;
     }
 
     /**
      * This method...
-     * 
+     *
      * @param userId
      * @return
      */
@@ -433,7 +434,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(KFSPropertyConstants.VENDOR_TYPE_CODE, vendorTypeCode);
 
-        VendorType vendorType = (VendorType) businessObjectService.findByPrimaryKey(VendorType.class, primaryKeys);
+        VendorType vendorType = businessObjectService.findByPrimaryKey(VendorType.class, primaryKeys);
         return ObjectUtils.isNotNull(vendorType) ? vendorType.getVendorTypeDescription() : StringUtils.EMPTY;
     }
 
@@ -463,7 +464,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -472,7 +473,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
 
     /**
      * Sets the documentService attribute value.
-     * 
+     *
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {
@@ -481,7 +482,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
 
     /**
      * Sets the dataDictionaryService attribute value.
-     * 
+     *
      * @param dataDictionaryService The dataDictionaryService to set.
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
@@ -490,7 +491,7 @@ public class DisbursementVoucherPayeeServiceImpl implements DisbursementVoucherP
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {

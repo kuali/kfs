@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,23 +33,22 @@ import org.kuali.kfs.module.ar.businessobject.inquiry.ContractsGrantsInvoiceOnDe
 import org.kuali.kfs.module.ar.web.ui.ContractsGrantsInvoiceOnDemandResultRow;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.util.BeanPropertyComparator;
-import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Defines a lookupable helper service class for OnDemand Contracts and Grants Invoices.
@@ -61,7 +60,7 @@ public class ContractsGrantsInvoiceOnDemandLookupableHelperServiceImpl extends K
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -98,7 +97,7 @@ public class ContractsGrantsInvoiceOnDemandLookupableHelperServiceImpl extends K
                     subResultColumns.add(setupResultsColumn(award, propertyName, businessObjectRestrictions));
                 }
 
-                ResultRow subResultRow = new ResultRow((List<Column>) subResultColumns, "", "");
+                ResultRow subResultRow = new ResultRow(subResultColumns, "", "");
                 subResultRow.setObjectId(((PersistableBusinessObjectBase) award).getObjectId());
                 subResultRows.add(subResultRow);
             }
@@ -115,14 +114,14 @@ public class ContractsGrantsInvoiceOnDemandLookupableHelperServiceImpl extends K
 
     /**
      * overriding this method to convert the list of awards to a list of ContratcsGrantsInvoiceOnDemandLookupResult
-     * 
+     *
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResultsUnbounded(Map<String, String> fieldValues) {
         Collection searchResultsCollection;
         // Get the list of awards
-        searchResultsCollection = getSearchResultsHelper(LookupUtils.forceUppercase(getBusinessObjectClass(), fieldValues), true);
+        searchResultsCollection = getSearchResultsHelper(org.kuali.rice.krad.lookup.LookupUtils.forceUppercase(getBusinessObjectClass(), fieldValues), true);
         // Convert to suitable list
         searchResultsCollection = ContractsGrantsInvoiceOnDemandLookupUtil.getPopulatedContractsGrantsInvoiceOnDemandLookupResults(searchResultsCollection);
         return this.buildSearchResultList(searchResultsCollection, new Long(searchResultsCollection.size()));
@@ -131,7 +130,7 @@ public class ContractsGrantsInvoiceOnDemandLookupableHelperServiceImpl extends K
 
     /**
      * build the search result list from the given collection and the number of all qualified search results
-     * 
+     *
      * @param searchResultsCollection the given search results, which may be a subset of the qualified search results
      * @param actualSize the number of all qualified search results
      * @return the search result list with the given results and actual size
@@ -140,7 +139,7 @@ public class ContractsGrantsInvoiceOnDemandLookupableHelperServiceImpl extends K
         CollectionIncomplete results = new CollectionIncomplete(searchResultsCollection, actualSize);
 
         // Sort list if default sort column given
-        List searchResults = (List) results;
+        List searchResults = results;
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {
             Collections.sort(results, new BeanPropertyComparator(defaultSortColumns, true));
@@ -237,7 +236,7 @@ public class ContractsGrantsInvoiceOnDemandLookupableHelperServiceImpl extends K
 
     /**
      * Constructs the list of columns for the search results. All properties for the column objects come from the DataDictionary.
-     * 
+     *
      * @param bo
      * @return Collection<Column>
      */
@@ -252,7 +251,7 @@ public class ContractsGrantsInvoiceOnDemandLookupableHelperServiceImpl extends K
 
     /**
      * Since there aren't that many fields for inquiry, just deal with each of them one by one for this lookup
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject,
      *      java.lang.String)
      */

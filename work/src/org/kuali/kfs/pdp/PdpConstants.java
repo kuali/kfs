@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.pdp;
 
+import org.kuali.kfs.module.tem.TemConstants.EditModes;
+
 
 /**
  * Contains general PDP constants.
@@ -120,7 +122,7 @@ public class PdpConstants {
     public static final String MAPPING_CONTINUE = "continue";
     public static final String MAPPING_FINISHED = "finished";
     
-    public static class PDPEditMode extends EditMode {
+    public static class PDPEditMode extends EditModes {
         public static final String ENTRY = "entry";
     }
     

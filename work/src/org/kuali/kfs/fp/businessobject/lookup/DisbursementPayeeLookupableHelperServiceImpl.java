@@ -30,9 +30,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -97,7 +99,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends AbstractPayeeL
 
     // get the vendor name from the given field value map
     @Override
-    private String getVendorName(Map<String, String> vendorFieldValues) {
+    protected String getVendorName(Map<String, String> vendorFieldValues) {
         String firstName = vendorFieldValues.get(VendorPropertyConstants.VENDOR_FIRST_NAME);
         String lastName = vendorFieldValues.get(VendorPropertyConstants.VENDOR_LAST_NAME);
 

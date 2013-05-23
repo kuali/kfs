@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,21 +18,20 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.module.ar.document.service.CustomerNoteService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService; import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService; import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Defines notes/comments to a given customer’s record.
- * 
+ *
  * @author mpritmani
  */
 public class CustomerNote extends PersistableBusinessObjectBase implements Comparable<CustomerNote> {
@@ -75,7 +74,7 @@ public class CustomerNote extends PersistableBusinessObjectBase implements Compa
 
     /**
      * Gets the customerNumber attribute.
-     * 
+     *
      * @return Returns customerNumber.
      */
     public String getCustomerNumber() {
@@ -84,7 +83,7 @@ public class CustomerNote extends PersistableBusinessObjectBase implements Compa
 
     /**
      * Sets the customerNumber attribute.
-     * 
+     *
      * @param customerNumber The customerNumber to set.
      */
     public void setCustomerNumber(String customerNumber) {
@@ -93,7 +92,7 @@ public class CustomerNote extends PersistableBusinessObjectBase implements Compa
 
     /**
      * Gets the customerNoteIdentifier attribute.
-     * 
+     *
      * @return Returns customerNoteIdentifier.
      */
     public Integer getCustomerNoteIdentifier() {
@@ -102,7 +101,7 @@ public class CustomerNote extends PersistableBusinessObjectBase implements Compa
 
     /**
      * Sets the customerNoteIdentifier attribute.
-     * 
+     *
      * @param customerNoteIdentifier The customerNoteIdentifier to set.
      */
     public void setCustomerNoteIdentifier(Integer customerNoteIdentifier) {
@@ -111,7 +110,7 @@ public class CustomerNote extends PersistableBusinessObjectBase implements Compa
 
     /**
      * Gets the noteText attribute.
-     * 
+     *
      * @return Returns noteText.
      */
     public String getNoteText() {
@@ -120,7 +119,7 @@ public class CustomerNote extends PersistableBusinessObjectBase implements Compa
 
     /**
      * Sets the noteText attribute.
-     * 
+     *
      * @param noteText The noteText to set.
      */
     public void setNoteText(String noteText) {
@@ -129,7 +128,7 @@ public class CustomerNote extends PersistableBusinessObjectBase implements Compa
 
     /**
      * Gets the notePostedDate attribute.
-     * 
+     *
      * @return Returns the notePostedDate.
      */
     public Date getNotePostedDate() {
@@ -138,7 +137,7 @@ public class CustomerNote extends PersistableBusinessObjectBase implements Compa
 
     /**
      * Sets the notePostedDate attribute.
-     * 
+     *
      * @param notePostedDate The notePostedDate to set.
      */
     public void setNotePostedDate(Date notePostedDate) {
@@ -147,7 +146,7 @@ public class CustomerNote extends PersistableBusinessObjectBase implements Compa
 
     /**
      * Gets the authorPrincipalId attribute.
-     * 
+     *
      * @return Returns the authorPrincipalId.
      */
     public String getAuthorPrincipalId() {
@@ -156,7 +155,7 @@ public class CustomerNote extends PersistableBusinessObjectBase implements Compa
 
     /**
      * Sets the authorPrincipalId attribute.
-     * 
+     *
      * @param authorPrincipalId The authorPrincipalId to set.
      */
     public void setAuthorPrincipalId(String authorPrincipalId) {
@@ -165,7 +164,7 @@ public class CustomerNote extends PersistableBusinessObjectBase implements Compa
 
     /**
      * Gets the customer attribute.
-     * 
+     *
      * @return Returns the customer object.
      */
     public Customer getCustomer() {
@@ -174,7 +173,7 @@ public class CustomerNote extends PersistableBusinessObjectBase implements Compa
 
     /**
      * Sets the customer attribute.
-     * 
+     *
      * @param customer The customer object to set.
      */
     public void setCustomer(Customer customer) {
@@ -183,17 +182,17 @@ public class CustomerNote extends PersistableBusinessObjectBase implements Compa
 
     /**
      * Gets the authorUniversal attribute.
-     * 
+     *
      * @return Returns the authorUniversal.
      */
     public Person getAuthorUniversal() {
-        authorUniversal = org.kuali.rice.kim.service.SpringContext.getBean(PersonService.class).updatePersonIfNecessary(authorPrincipalId, authorUniversal);
+        authorUniversal = SpringContext.getBean(PersonService.class).updatePersonIfNecessary(authorPrincipalId, authorUniversal);
         return authorUniversal;
     }
 
     /**
      * Sets the authorUniversal attribute value.
-     * 
+     *
      * @param authorUniversal The authorUniversal to set.
      */
     public void setAuthorUniversal(Person authorUniversal) {
@@ -203,7 +202,7 @@ public class CustomerNote extends PersistableBusinessObjectBase implements Compa
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.CUSTOMER_NUMBER, this.customerNumber);
@@ -224,10 +223,9 @@ public class CustomerNote extends PersistableBusinessObjectBase implements Compa
 
     /**
      * This method sets the customerNoteIdentifier before inserting in database.
-     * 
+     *
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
      */
-    @Override
     @Override protected void prePersist() {
         super.prePersist();
         CustomerNoteService customerNoteService = SpringContext.getBean(CustomerNoteService.class);

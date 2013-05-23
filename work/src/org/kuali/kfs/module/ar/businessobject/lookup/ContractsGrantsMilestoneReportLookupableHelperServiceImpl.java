@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,18 +35,18 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
-import org.kuali.rice.kns.web.ui.Column;
-import org.kuali.rice.kns.web.ui.ResultRow;
 
 /**
  * Defines a custom lookup for a Milestone Reports.
@@ -59,7 +59,7 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -78,10 +78,10 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("isItBilled", "Yes");
-        milestones = (Collection<ContractsAndGrantsMilestone>) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsMilestone.class).getExternalizableBusinessObjectsList(ContractsAndGrantsMilestone.class, map);
+        milestones = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsMilestone.class).getExternalizableBusinessObjectsList(ContractsAndGrantsMilestone.class, map);
         map.clear();
         map.put("isItBilled", "No");
-        Collection<ContractsAndGrantsMilestone> notBilledMilestones = (Collection<ContractsAndGrantsMilestone>) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsMilestone.class).getExternalizableBusinessObjectsList(ContractsAndGrantsMilestone.class, map);
+        Collection<ContractsAndGrantsMilestone> notBilledMilestones = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsMilestone.class).getExternalizableBusinessObjectsList(ContractsAndGrantsMilestone.class, map);
 
         milestones.addAll(notBilledMilestones);
 
@@ -141,7 +141,7 @@ public class ContractsGrantsMilestoneReportLookupableHelperServiceImpl extends C
 
                 // add url when property is documentNumber
                 if (col.getPropertyName().equals("documentNumber")) {
-                    String url = ConfigContext.getCurrentContextConfig().getKEWBaseURL() + "/" + KewApiConstants.DOC_HANDLER_REDIRECT_PAGE + "?" + KewApiConstants.COMMAND_PARAMETER + "=" + KewApiConstants.DOCSEARCH_COMMAND + "&" + KewApiConstants.ROUTEHEADER_ID_PARAMETER + "=" + propValue;
+                    String url = ConfigContext.getCurrentContextConfig().getKEWBaseURL() + "/" + KewApiConstants.DOC_HANDLER_REDIRECT_PAGE + "?" + KewApiConstants.COMMAND_PARAMETER + "=" + KewApiConstants.DOCSEARCH_COMMAND + "&" + KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + propValue;
 
                     Map<String, String> fieldList = new HashMap<String, String>();
                     fieldList.put(KFSPropertyConstants.DOCUMENT_NUMBER, propValue);

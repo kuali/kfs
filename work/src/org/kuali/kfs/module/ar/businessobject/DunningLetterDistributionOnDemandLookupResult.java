@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,9 +27,9 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Business object for Dunning Letter Distribution On-Demand Lookup Result.
@@ -65,7 +65,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Gets the principalId attribute.
-     * 
+     *
      * @return Returns the principalId.
      */
     public String getPrincipalId() {
@@ -75,7 +75,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Sets the principalId attribute value.
-     * 
+     *
      * @param principalId The principalId to set.
      */
     public void setPrincipalId(String principalId) {
@@ -85,7 +85,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Gets the collector attribute.
-     * 
+     *
      * @return Returns the collector.
      */
     public Person getCollector() {
@@ -96,7 +96,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Sets the collector attribute value.
-     * 
+     *
      * @param collector The collector to set.
      */
     public void setCollector(Person collector) {
@@ -106,7 +106,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Gets the userLookupRoleNamespaceCode attribute.
-     * 
+     *
      * @return Returns the userLookupRoleNamespaceCode.
      */
     public String getUserLookupRoleNamespaceCode() {
@@ -116,7 +116,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Gets the userLookupRoleName attribute.
-     * 
+     *
      * @return Returns the userLookupRoleName.
      */
     public String getUserLookupRoleName() {
@@ -126,7 +126,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Gets the agingBucket attribute.
-     * 
+     *
      * @return Returns the agingBucket.
      */
     public String getAgingBucket() {
@@ -136,7 +136,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Sets the agingBucket attribute value.
-     * 
+     *
      * @param agingBucket The agingBucket to set.
      */
     public void setAgingBucket(String agingBucket) {
@@ -146,7 +146,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Gets the campaignID attribute.
-     * 
+     *
      * @return Returns the campaignID.
      */
     public String getCampaignID() {
@@ -156,7 +156,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Sets the campaignID attribute value.
-     * 
+     *
      * @param campaignID The campaignID to set.
      */
     public void setCampaignID(String campaignID) {
@@ -166,7 +166,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber.
      */
     public Long getProposalNumber() {
@@ -176,7 +176,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Sets the proposalNumber attribute value.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -186,7 +186,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * /** Gets the awardTotal attribute.
-     * 
+     *
      * @return Returns the awardTotal.
      */
     public KualiDecimal getAwardTotal() {
@@ -196,7 +196,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Sets the awardTotal attribute value.
-     * 
+     *
      * @param awardTotal The awardTotal to set.
      */
     public void setAwardTotal(KualiDecimal awardTotal) {
@@ -206,7 +206,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Gets the invoices attribute.
-     * 
+     *
      * @return Returns the invoices.
      */
     public Collection<ContractsGrantsInvoiceDocument> getInvoices() {
@@ -216,7 +216,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Sets the invoices attribute value.
-     * 
+     *
      * @param invoices The invoices to set.
      */
     public void setInvoices(Collection<ContractsGrantsInvoiceDocument> invoices) {
@@ -226,7 +226,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns the agencyNumber.
      */
     public String getAgencyNumber() {
@@ -236,7 +236,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Sets the agencyNumber attribute value.
-     * 
+     *
      * @param agencyNumber The agencyNumber to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -246,7 +246,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Gets the customerNumber attribute.
-     * 
+     *
      * @return Returns the customerNumber.
      */
     public String getCustomerNumber() {
@@ -256,7 +256,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Sets the customerNumber attribute value.
-     * 
+     *
      * @param customerNumber The customerNumber to set.
      */
     public void setCustomerNumber(String customerNumber) {
@@ -266,7 +266,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Gets the invoiceDocumentNumber attribute.
-     * 
+     *
      * @return Returns the invoiceDocumentNumber.
      */
     public String getInvoiceDocumentNumber() {
@@ -276,7 +276,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Sets the invoiceDocumentNumber attribute value.
-     * 
+     *
      * @param invoiceDocumentNumber The invoiceDocumentNumber to set.
      */
     public void setInvoiceDocumentNumber(String invoiceDocumentNumber) {
@@ -286,7 +286,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Gets the award attribute.
-     * 
+     *
      * @return Returns the award.
      */
     public ContractsAndGrantsAward getAward() {
@@ -296,7 +296,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Sets the award attribute value.
-     * 
+     *
      * @param award The award to set.
      */
     public void setAward(ContractsAndGrantsAward award) {
@@ -306,7 +306,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Gets the agency attribute.
-     * 
+     *
      * @return Returns the agency.
      */
     public ContractsAndGrantsAgency getAgency() {
@@ -316,7 +316,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Sets the agency attribute value.
-     * 
+     *
      * @param agency The agency to set.
      */
     public void setAgency(ContractsAndGrantsAgency agency) {
@@ -326,7 +326,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Gets the customer attribute.
-     * 
+     *
      * @return Returns the customer.
      */
     public Customer getCustomer() {
@@ -336,7 +336,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Sets the customer attribute value.
-     * 
+     *
      * @param customer The customer to set.
      */
     public void setCustomer(Customer customer) {
@@ -346,7 +346,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -356,7 +356,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
 
     /**
      * Sets the accountNumber attribute value.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -364,7 +364,7 @@ public class DunningLetterDistributionOnDemandLookupResult extends TransientBusi
     }
 
 
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.proposalNumber.toString());

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,13 +27,13 @@ import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCAmountsNotDrawnR
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReviewDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 
 /**
@@ -46,7 +46,7 @@ public class ContractsGrantsLOCAmountsNotDrawnReportLookupableHelperServiceImpl 
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -127,7 +127,7 @@ public class ContractsGrantsLOCAmountsNotDrawnReportLookupableHelperServiceImpl 
                 cgLOCAmountNotDrawnReport.setLetterOfCreditFundGroupCode(cgLOCReviewDoc.getLetterOfCreditFundGroupCode());
 
                 if (ObjectUtils.isNotNull(workflowDocument) && ObjectUtils.isNotNull(workflowDocument.getDateCreated())) {
-                    cgLOCAmountNotDrawnReport.setLetterOfCreditReviewCreateDate(new Date(workflowDocument.getDateCreated().getTime()));
+                    cgLOCAmountNotDrawnReport.setLetterOfCreditReviewCreateDate((Date) workflowDocument.getDateCreated().toDate());
                 }
                 cgLOCAmountNotDrawnReport.setAmountAvailableToDraw(totalAmountAvailableToDraw);
                 cgLOCAmountNotDrawnReport.setClaimOnCashBalance(totalClaimOnCashBalance);

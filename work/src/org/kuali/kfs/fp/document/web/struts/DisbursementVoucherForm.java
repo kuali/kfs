@@ -18,9 +18,11 @@ package org.kuali.kfs.fp.document.web.struts;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPayeeDetail;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
@@ -37,6 +39,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.web.format.SimpleBooleanFormatter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * This class is the action form for the Disbursement Voucher.
@@ -395,7 +404,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
         DisbursementVoucherDocument disbursementVoucherDocument = (DisbursementVoucherDocument) this.getDocument();
         return disbursementVoucherDocument.getDvPayeeDetail().isVendor();
     }
-    
+
     /**
      * determine whether the selected payee is a customer
      */

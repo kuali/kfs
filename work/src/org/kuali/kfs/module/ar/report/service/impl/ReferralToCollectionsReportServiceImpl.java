@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -48,6 +48,7 @@ import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -75,7 +76,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * Gets the refToCollReportInfo attribute.
-     * 
+     *
      * @return Returns the refToCollReportInfo.
      */
     public ReportInfo getRefToCollReportInfo() {
@@ -84,7 +85,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * Gets the refToCollReportInfo attribute.
-     * 
+     *
      * @return Returns the refToCollReportInfo.
      */
     public void setRefToCollReportInfo(ReportInfo refToCollReportInfo) {
@@ -93,7 +94,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -102,7 +103,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -111,7 +112,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * Gets the contractsGrantsInvoiceDocumentService attribute.
-     * 
+     *
      * @return Returns the contractsGrantsInvoiceDocumentService.
      */
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
@@ -120,7 +121,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * Sets the collectorHierarchyDao attribute value.
-     * 
+     *
      * @param collectorHierarchyDao The collectorHierarchyDao to set.
      */
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
@@ -129,7 +130,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * Gets the collectorHierarchyDao attribute.
-     * 
+     *
      * @return Returns the collectorHierarchyDao.
      */
     public CollectorHierarchyDao getCollectorHierarchyDao() {
@@ -138,7 +139,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * Sets the collectorHierarchyDao attribute value.
-     * 
+     *
      * @param collectorHierarchyDao The collectorHierarchyDao to set.
      */
     public void setCollectorHierarchyDao(CollectorHierarchyDao collectorHierarchyDao) {
@@ -147,7 +148,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * Gets the customerCollectorDao attribute.
-     * 
+     *
      * @return Returns the customerCollectorDao.
      */
     public CustomerCollectorDao getCustomerCollectorDao() {
@@ -156,7 +157,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * Sets the customerCollectorDao attribute value.
-     * 
+     *
      * @param customerCollectorDao The customerCollectorDao to set.
      */
     public void setCustomerCollectorDao(CustomerCollectorDao customerCollectorDao) {
@@ -166,7 +167,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * Gets the referralToCollectionsDao attribute.
-     * 
+     *
      * @return Returns the referralToCollectionsDao.
      */
     public ReferralToCollectionsDao getReferralToCollectionsDao() {
@@ -175,7 +176,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * Sets the referralToCollectionsDao attribute value.
-     * 
+     *
      * @param referralToCollectionsDao The referralToCollectionsDao to set.
      */
     public void setReferralToCollectionsDao(ReferralToCollectionsDao referralToCollectionsDao) {
@@ -184,7 +185,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * Gets the documentService attribute.
-     * 
+     *
      * @return Returns the documentService.
      */
     public DocumentService getDocumentService() {
@@ -193,7 +194,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * Sets the documentService attribute value.
-     * 
+     *
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {
@@ -336,7 +337,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * This method filters invoices according to collectors
-     * 
+     *
      * @param contractsGrantsInvoiceDocuments
      * @param customerNumbers
      * @return Returns the list of ContractsGrantsInvoiceDocument.
@@ -355,7 +356,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * This method checks that the given customer is found in list of customers found in customer collectors
-     * 
+     *
      * @param customerNumber
      * @param customerNumbers
      * @return Returns true if customer found in the list otherwise false
@@ -378,13 +379,13 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * This method prepares the ReferralToCollectionsReport from ReferralToCollectionsDoc.
-     * 
+     *
      * @param referralToCollectionsDocument
      * @return Returns the Object of ReferralToCollectionsReport.
      */
     private ReferralToCollectionsReport convertReferralToCollectionsDocumentToReport(ReferralToCollectionsDocument referralToCollectionsDocument, ReferralToCollectionsReport referralToCollectionsReport) {
         referralToCollectionsReport.setDocumentNumber(referralToCollectionsDocument.getDocumentNumber());
-        referralToCollectionsReport.setDocumentDate(referralToCollectionsDocument.getDocumentHeader().getWorkflowDocument().getDateCreated());
+        referralToCollectionsReport.setDocumentDate(referralToCollectionsDocument.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate());
         referralToCollectionsReport.setAgencyNumber(referralToCollectionsDocument.getAgencyNumber());
         referralToCollectionsReport.setAgencyName(referralToCollectionsDocument.getAgencyFullName());
         referralToCollectionsReport.setCustomerNumber(referralToCollectionsDocument.getCustomerNumber());
@@ -394,7 +395,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
         if (ObjectUtils.isNotNull(customerType)) {
             Map<String, String> map = new HashMap<String, String>();
             map.put(ArPropertyConstants.CustomerTypeFields.CUSTOMER_TYPE_CODE, customerType);
-            CustomerType customerTypeObj = (CustomerType) businessObjectService.findByPrimaryKey(CustomerType.class, map);
+            CustomerType customerTypeObj = businessObjectService.findByPrimaryKey(CustomerType.class, map);
             if (ObjectUtils.isNotNull(customerTypeObj)) {
                 referralToCollectionsReport.setCustomerType(customerTypeObj.getCustomerTypeDescription());
             }
@@ -417,7 +418,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
         if (ObjectUtils.isNotNull(statusCode)) {
             Map<String, String> map = new HashMap<String, String>();
             map.put(ArPropertyConstants.CollectionStatusFields.COLLECTION_STATUS_CODE, statusCode);
-            CollectionStatus collectionStatus = (CollectionStatus) businessObjectService.findByPrimaryKey(CollectionStatus.class, map);
+            CollectionStatus collectionStatus = businessObjectService.findByPrimaryKey(CollectionStatus.class, map);
             if (ObjectUtils.isNotNull(collectionStatus)) {
                 referralToCollectionsReport.setCollectionStatus(collectionStatus.getStatusDescription());
             }
@@ -427,7 +428,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * This method prepares the List of ReferralToCollectionDetails from ReferralToCollectionsDoc.
-     * 
+     *
      * @param referralToCollectionsDocument
      * @return Returns the list of ReferralToCollectionsDetails.
      */
@@ -441,7 +442,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
                 if (isValidReferralToCollectionsDetail(refDetail)) {
                     ReferralToCollectionsReport referralToCollectionsReport = new ReferralToCollectionsReport();
                     referralToCollectionsReport.setDocumentNumber(referralToCollectionsDocument.getDocumentNumber());
-                    referralToCollectionsReport.setDocumentDate(referralToCollectionsDocument.getDocumentHeader().getWorkflowDocument().getDateCreated());
+                    referralToCollectionsReport.setDocumentDate(referralToCollectionsDocument.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate());
                     referralToCollectionsReport.setAgencyNumber(referralToCollectionsDocument.getAgencyNumber());
                     referralToCollectionsReport.setAgencyName(referralToCollectionsDocument.getAgencyFullName());
                     referralToCollectionsReport.setCustomerNumber(referralToCollectionsDocument.getCustomerNumber());
@@ -470,7 +471,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
                     if (ObjectUtils.isNotNull(finalDisposition)) {
                         Map<String, String> map = new HashMap<String, String>();
                         map.put(ArPropertyConstants.FinalDispositionFields.FINAL_DISPOSITION_CODE, finalDisposition);
-                        FinalDisposition finalDispositionObj = (FinalDisposition) businessObjectService.findByPrimaryKey(FinalDisposition.class, map);
+                        FinalDisposition finalDispositionObj = businessObjectService.findByPrimaryKey(FinalDisposition.class, map);
                         if (ObjectUtils.isNotNull(finalDispositionObj)) {
                             referralToCollectionsReport.setFinalDisposition(finalDispositionObj.getDispositionDescription());
                         }
@@ -484,7 +485,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * This method is used to generate workflow headers for ReferralToCollectionsDocument.
-     * 
+     *
      * @param refDocs
      * @return Returns the collections of ReferralToCollectionsDocs with their workflow headers.
      */
@@ -502,7 +503,9 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
         Collection<ReferralToCollectionsDocument> docs = new ArrayList<ReferralToCollectionsDocument>();
         if (CollectionUtils.isNotEmpty(documentHeaderIds)) {
             try {
-                docs = documentService.getDocumentsByListOfDocumentHeaderIds(ReferralToCollectionsDocument.class, documentHeaderIds);
+                for (Document doc : documentService.getDocumentsByListOfDocumentHeaderIds(ReferralToCollectionsDocument.class, documentHeaderIds)) {
+                    docs.add((ReferralToCollectionsDocument) doc );
+                }
             }
             catch (WorkflowException e) {
                 throw new InfrastructureException("Unable to retrieve Referral To Collections Documents", e);
@@ -513,7 +516,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * This method is used to filter ReferralToCollectionsDetails according to search criteria.
-     * 
+     *
      * @param refDetail
      * @return Returns the flag true if doc specifies the search criterias.
      */
@@ -525,14 +528,17 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
         boolean isValidIN = true;
         boolean isValidAN = true;
 
-        if (considerProposalNumber)
+        if (considerProposalNumber) {
             isValidPN = refDetail.getProposalNumber().toString().equals(proposalNumber);
+        }
 
-        if (considerinvoiceNumber)
+        if (considerinvoiceNumber) {
             isValidIN = refDetail.getInvoiceNumber().toString().equals(invoiceNumber);
+        }
 
-        if (considerAccountNumber)
+        if (considerAccountNumber) {
             isValidAN = refDetail.getAccountNumber().toString().equals(accountNumber);
+        }
 
         valid = isValidPN && isValidIN && isValidAN;
 
@@ -541,7 +547,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
 
     /**
      * Retrieve the referral typde desc from the refTypeCode
-     * 
+     *
      * @param refTypeCode Primary key for the ReferralType Business Object.
      * @return Returns the description for the referraltypecode.
      */
@@ -549,7 +555,7 @@ public class ReferralToCollectionsReportServiceImpl extends ContractsGrantsRepor
         String refTypeDesc = null;
         Map<String, String> map = new HashMap<String, String>();
         map.put(ArPropertyConstants.ReferralTypeFields.REFERRAL_TYPE_CODE, refTypeCode);
-        ReferralType refTtpe = (ReferralType) businessObjectService.findByPrimaryKey(ReferralType.class, map);
+        ReferralType refTtpe = businessObjectService.findByPrimaryKey(ReferralType.class, map);
         if (ObjectUtils.isNotNull(refTtpe)) {
             refTypeDesc = refTtpe.getDescription();
         }

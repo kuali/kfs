@@ -38,7 +38,7 @@ public interface ContractsAndGrantsModuleService {
      * @return true if the given account is funded by a federal agency or associated with federal pass through indicator; otherwise,
      *         false
      */
-    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, Collection<String> federalAgencyTypeCodes);
+    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes);
 
     /**
      * get all possible account responsibility ids on contracts & grants Accounts

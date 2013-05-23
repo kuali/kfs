@@ -16,6 +16,9 @@
 
 package org.kuali.kfs.fp.businessobject;
 
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.KualiCodeBase;
+
 
 /**
  * This class is used to represent a payment reason code.

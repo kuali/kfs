@@ -20,12 +20,19 @@ import java.util.Collection;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implements DisbursementVoucherDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDaoOjb.class);
+
+    public void save(DisbursementVoucherDocument document) {
+        LOG.debug("save() started");
+
+        getPersistenceBrokerTemplate().store(document);
+    }
 
     /**
      * @see org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao#getDocument(java.lang.String)
@@ -41,7 +48,7 @@ public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implement
     }
 
     /**
-     * @see org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao#getDocumentsByHeaderStatus(java.lang.String, boolean)
+     * @see org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao#getDocumentsByHeaderStatus(java.lang.String)
      */
     @Override
     public Collection getDocumentsByHeaderStatus(String statusCode, boolean immediatesOnly) {
@@ -71,7 +78,6 @@ public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implement
         return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(DisbursementVoucherDocument.class, criteria));
     }
 
-
     /**
      * @see org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao#getARDocumentsByHeaderStatus(java.lang.String)
      */
@@ -86,4 +92,3 @@ public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implement
     }
     /* End TEM REFUND Merge */
 }
-

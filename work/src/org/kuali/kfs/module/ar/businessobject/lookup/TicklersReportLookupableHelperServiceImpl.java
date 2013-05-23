@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -45,17 +44,17 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Helper class for Tickler Reports.
@@ -64,7 +63,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -128,7 +127,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
 
                 if (ObjectUtils.isNotNull(event.getFollowupDate())) {
                     try {
-                        valid = ContractsGrantsReportUtils.isDateFieldInRange(dateFromFieldValues, dateToFieldValues, (Date) event.getFollowupDate(), propertyName.toString());
+                        valid = ContractsGrantsReportUtils.isDateFieldInRange(dateFromFieldValues, dateToFieldValues, event.getFollowupDate(), propertyName.toString());
                     }
                     catch (Exception e) {
                         // do nothing
@@ -262,7 +261,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
 
                 // Add url when property is invoiceNumber or proposalNumber
                 if (col.getPropertyName().equals(ArPropertyConstants.TicklersReportFields.INVOICE_NUMBER)) {
-                    String url = ConfigContext.getCurrentContextConfig().getKEWBaseURL() + "/" + KewApiConstants.DOC_HANDLER_REDIRECT_PAGE + "?" + KewApiConstants.COMMAND_PARAMETER + "=" + KewApiConstants.DOCSEARCH_COMMAND + "&" + KewApiConstants.ROUTEHEADER_ID_PARAMETER + "=" + propValue;
+                    String url = ConfigContext.getCurrentContextConfig().getKEWBaseURL() + "/" + KewApiConstants.DOC_HANDLER_REDIRECT_PAGE + "?" + KewApiConstants.COMMAND_PARAMETER + "=" + KewApiConstants.DOCSEARCH_COMMAND + "&" + KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + propValue;
 
                     Map<String, String> fieldList = new HashMap<String, String>();
                     fieldList.put(ArPropertyConstants.TicklersReportFields.INVOICE_NUMBER, propValue);
@@ -310,7 +309,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
 
     /**
      * Gets the award lookup url on given proposal number.
-     * 
+     *
      * @param proposalNumber Proposal number for lookup on award.
      * @return Returns the url string.
      */
@@ -327,7 +326,7 @@ public class TicklersReportLookupableHelperServiceImpl extends ContractsGrantsRe
 
     /**
      * This method returns the Collection Activity create url
-     * 
+     *
      * @param bo business object
      * @param columnTitle
      * @return Returns the url for the Collection Activity creation

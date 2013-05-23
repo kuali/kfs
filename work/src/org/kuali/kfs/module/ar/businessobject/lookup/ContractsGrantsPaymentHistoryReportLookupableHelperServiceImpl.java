@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.ar.businessobject.lookup;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,10 +34,10 @@ import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportUtils;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Defines a custom lookup for the Payment History Report.
@@ -43,12 +45,13 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl extends ContractsGrantsReportLookupableHelperServiceImplBase {
 
     private BusinessObjectService businessObjectService;
+    private DateTimeService dateTimeService;
 
     private static final Log LOG = LogFactory.getLog(ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl.class);
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -99,17 +102,24 @@ public class ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl exte
                         ContractsGrantsPaymentHistoryReport cgPaymentHistoryReport = new ContractsGrantsPaymentHistoryReport();
 
                         cgPaymentHistoryReport.setPaymentNumber(paymentApplicationDoc.getDocumentNumber());
-                        cgPaymentHistoryReport.setPaymentDate(DateUtils.convertToSqlDate(paymentApplicationDoc.getDocumentHeader().getWorkflowDocument().getDateFinalized().getTime()));
+                        Timestamp ts = new Timestamp(paymentApplicationDoc.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis());
+                        try {
+                            cgPaymentHistoryReport.setPaymentDate(dateTimeService.convertToSqlDate(ts));
+                        }
+                        catch (ParseException ex) {
+                            // TODO Auto-generated catch block
+                            ex.printStackTrace();
+                        }
 
                         cgPaymentHistoryReport.setCustomerNumber(cashControlDetail.getCustomerNumber());
-                        cgPaymentHistoryReport.setCustomerName(cashControlDetail.getCustomer().getCustomerName()); 
+                        cgPaymentHistoryReport.setCustomerName(cashControlDetail.getCustomer().getCustomerName());
                         cgPaymentHistoryReport.setPaymentAmount(appliedPayment.getInvoiceItemAppliedAmount());
                         cgPaymentHistoryReport.setInvoiceNumber(appliedPayment.getFinancialDocumentReferenceInvoiceNumber());
-                        cgPaymentHistoryReport.setInvoiceAmount(appliedPayment.getCustomerInvoiceDocument().getTotalDollarAmount()); 
+                        cgPaymentHistoryReport.setInvoiceAmount(appliedPayment.getCustomerInvoiceDocument().getTotalDollarAmount());
 
                         criteria.clear();
                         criteria.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, cgPaymentHistoryReport.getInvoiceNumber());
-                        ContractsGrantsInvoiceDocument cgInvoiceDocument = (ContractsGrantsInvoiceDocument) businessObjectService.findByPrimaryKey(ContractsGrantsInvoiceDocument.class, criteria);
+                        ContractsGrantsInvoiceDocument cgInvoiceDocument = businessObjectService.findByPrimaryKey(ContractsGrantsInvoiceDocument.class, criteria);
 
                         cgPaymentHistoryReport.setAwardNumber(cgInvoiceDocument.getProposalNumber().toString());
                         cgPaymentHistoryReport.setReversedIndicator(appliedPayment.getCustomerInvoiceDocument().isInvoiceReversal());

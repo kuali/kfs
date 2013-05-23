@@ -27,11 +27,13 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.swing.text.DateFormatter;
-
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.kuali.kfs.integration.ar.businessobject.Customer;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
+import org.kuali.kfs.module.ar.businessobject.AppliedPayment;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
@@ -39,11 +41,37 @@ import org.kuali.kfs.module.ar.dataaccess.CustomerAgingReportDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
+import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
+import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.web.struts.CustomerAgingReportForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.BooleanFormatter;
+import org.kuali.rice.core.web.format.CollectionFormatter;
+import org.kuali.rice.core.web.format.DateFormatter;
+import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -56,7 +84,9 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
     private CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
     private CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
+    private CustomerInvoiceWriteoffDocumentService customerInvoiceWriteoffDocumentService = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
     private BusinessObjectService businessObjectService;
+    private InvoicePaidAppliedService<AppliedPayment> invoicePaidAppliedService = SpringContext.getBean(InvoicePaidAppliedService.class);
 
     private String customerNameLabel;
     private String customerNumberLabel;
@@ -97,8 +127,8 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         CustomerAgingReportDao agingReportDao = SpringContext.getBean(CustomerAgingReportDao.class);
 
-        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         reportOption = fieldValues.get(ArPropertyConstants.CustomerAgingReportFields.REPORT_OPTION);
         accountNumber = fieldValues.get(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
@@ -1024,7 +1054,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private ContractsAndGrantsCGBAgency getAgencyByCustomer(String customerNumber) {
         Map args = new HashMap();
         args.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
-        return (ContractsAndGrantsCGBAgency) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAgency.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAgency.class, args);
+        return SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAgency.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAgency.class, args);
     }
 
 }

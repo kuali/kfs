@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,18 +26,18 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.util.KfsDateUtils;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.TypeUtils;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.PersistenceStructureService;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.core.api.util.type.TypeUtils;
 
 /**
  * Defines a utility class used by Contracts and Grants Invoice Reports. *
@@ -51,7 +51,7 @@ public class ContractsGrantsReportUtils {
      * @return
      */
     public static boolean doesMatchLookupFields(Map fieldsForLookup, BusinessObject bo, String className) {
-        BusinessObjectEntry boe = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(className);
+        BusinessObjectEntry boe = (BusinessObjectEntry) SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(className);
         List<String> lookupResultFields = boe.getLookupDefinition().getResultFieldNames();
 
 
@@ -81,7 +81,7 @@ public class ContractsGrantsReportUtils {
 
     /**
      * Checks if the date field is in range.
-     * 
+     *
      * @param fieldsForLookup
      * @param dateData
      * @param fieldName
@@ -92,10 +92,10 @@ public class ContractsGrantsReportUtils {
 
         Date dateFrom;
         Date dateTo;
-        
+
         // Clearing time field for date only comparison
-        propertyValue = DateUtils.clearTimeFields(propertyValue);
-        
+        propertyValue = KfsDateUtils.clearTimeFields(propertyValue);
+
         try {
             // Both are blank or null
             if (dateToFieldValues.trim().equals("") && dateFromFieldValues.trim().equals("")) {
@@ -108,8 +108,9 @@ public class ContractsGrantsReportUtils {
                 if (propertyValue.after(dateFrom) || propertyValue.equals(dateFrom)) {
                     return true;
                 }
-                else
+                else {
                     return false;
+                }
             }
 
             // Only set Date to
@@ -118,8 +119,9 @@ public class ContractsGrantsReportUtils {
                 if (propertyValue.before(dateTo) || propertyValue.equals(dateTo)) {
                     return true;
                 }
-                else
+                else {
                     return false;
+                }
             }
 
             dateTo = new Date(format.parse(dateToFieldValues).getTime());
@@ -127,8 +129,9 @@ public class ContractsGrantsReportUtils {
             if ((propertyValue.after(dateFrom) || propertyValue.equals(dateFrom)) && (propertyValue.before(dateTo) || propertyValue.equals(dateTo))) {
                 return true;
             }
-            else
+            else {
                 return false;
+            }
         }
         catch (ParseException ex) {
             throw new RuntimeException();
@@ -179,11 +182,11 @@ public class ContractsGrantsReportUtils {
     private static boolean compareField(Map fieldsForLookup, String propertyName, Object propertyValue, String lookupFieldValue, Class propertyType, boolean caseInsensitive, boolean treatWildcardsAndOperatorsAsLiteral) {
         boolean valid = true;
 
-        if (!treatWildcardsAndOperatorsAsLiteral && StringUtils.contains(lookupFieldValue, KRADConstants.OR_LOGICAL_OPERATOR)) {
+        if (!treatWildcardsAndOperatorsAsLiteral && StringUtils.contains(lookupFieldValue, "|")) {
             return checkOrOperator(fieldsForLookup, propertyName, propertyValue, lookupFieldValue, propertyType, caseInsensitive);
         }
 
-        if (!treatWildcardsAndOperatorsAsLiteral && StringUtils.contains(lookupFieldValue, KRADConstants.AND_LOGICAL_OPERATOR)) {
+        if (!treatWildcardsAndOperatorsAsLiteral && StringUtils.contains(lookupFieldValue, "&&")) {
             return checkAndOperator(fieldsForLookup, propertyName, propertyValue, lookupFieldValue, propertyType, caseInsensitive);
         }
 
@@ -191,13 +194,13 @@ public class ContractsGrantsReportUtils {
             if (caseInsensitive) {
                 lookupFieldValue = lookupFieldValue.toUpperCase();
             }
-            if (!treatWildcardsAndOperatorsAsLiteral && StringUtils.contains(lookupFieldValue, KRADConstants.NOT_LOGICAL_OPERATOR)) {
+            if (!treatWildcardsAndOperatorsAsLiteral && StringUtils.contains(lookupFieldValue, "!")) {
                 valid = checkNotOperator(propertyName, propertyValue, lookupFieldValue, propertyType, caseInsensitive);
                 if (!valid) {
                     return false;
                 }
             }
-            else if (!treatWildcardsAndOperatorsAsLiteral && propertyValue != null && (StringUtils.contains(lookupFieldValue, KRADConstants.BETWEEN_OPERATOR) || lookupFieldValue.startsWith(">") || lookupFieldValue.startsWith("<"))) {
+            else if (!treatWildcardsAndOperatorsAsLiteral && propertyValue != null && (StringUtils.contains(lookupFieldValue, "..") || lookupFieldValue.startsWith(">") || lookupFieldValue.startsWith("<"))) {
                 valid = checkStringRange(propertyName, propertyValue, lookupFieldValue, treatWildcardsAndOperatorsAsLiteral);
                 if (!valid) {
                     return false;
@@ -235,11 +238,11 @@ public class ContractsGrantsReportUtils {
 
 
     private static boolean checkOrOperator(Map fieldsForLookup, String propertyName, Object propertyValue, String lookupFieldValue, Class propertyType, boolean caseInsensitive) {
-        return checkLogicalOperator(fieldsForLookup, propertyName, propertyValue, lookupFieldValue, propertyType, caseInsensitive, KRADConstants.OR_LOGICAL_OPERATOR);
+        return checkLogicalOperator(fieldsForLookup, propertyName, propertyValue, lookupFieldValue, propertyType, caseInsensitive, "|");
     }
 
     private static boolean checkAndOperator(Map fieldsForLookup, String propertyName, Object propertyValue, String lookupFieldValue, Class propertyType, boolean caseInsensitive) {
-        return checkLogicalOperator(fieldsForLookup, propertyName, propertyValue, lookupFieldValue, propertyType, caseInsensitive, KRADConstants.AND_LOGICAL_OPERATOR);
+        return checkLogicalOperator(fieldsForLookup, propertyName, propertyValue, lookupFieldValue, propertyType, caseInsensitive, "&&");
     }
 
     /**
@@ -254,22 +257,22 @@ public class ContractsGrantsReportUtils {
         for (int i = 0; i < splitPropVal.length; i++) {
             // first comparison should not be with logical
             if (i == 0) {
-                if (splitValue == KRADConstants.OR_LOGICAL_OPERATOR) {
+                if (splitValue == "|") {
                     valid = compareField(fieldsForLookup, propertyName, propertyValue, splitPropVal[i], propertyType, caseInsensitive, false);
                 }
-                if (splitValue == KRADConstants.AND_LOGICAL_OPERATOR) {
+                if (splitValue == "&&") {
                     valid = compareField(fieldsForLookup, propertyName, propertyValue, splitPropVal[i], propertyType, caseInsensitive, false);
                 }
 
             }
             else {
-                if (splitValue == KRADConstants.OR_LOGICAL_OPERATOR) {
+                if (splitValue == "|") {
                     valid |= compareField(fieldsForLookup, propertyName, propertyValue, splitPropVal[i], propertyType, caseInsensitive, false);
                     if (!valid) {
                         return false;
                     }
                 }
-                if (splitValue == KRADConstants.AND_LOGICAL_OPERATOR) {
+                if (splitValue == "&&") {
                     valid &= compareField(fieldsForLookup, propertyName, propertyValue, splitPropVal[i], propertyType, caseInsensitive, false);
                     if (!valid) {
                         return false;
@@ -282,7 +285,7 @@ public class ContractsGrantsReportUtils {
 
     private static boolean checkNotOperator(String propertyName, Object propertyValue, String lookupFieldValue, Class propertyType, boolean caseInsensitive) {
 
-        String[] splitPropVal = StringUtils.split(lookupFieldValue, KRADConstants.NOT_LOGICAL_OPERATOR);
+        String[] splitPropVal = StringUtils.split(lookupFieldValue, "!");
 
         int strLength = splitPropVal.length;
 
@@ -298,8 +301,8 @@ public class ContractsGrantsReportUtils {
 
     private static boolean checkStringRange(String propertyName, Object propertyValue, String lookupFieldValue, boolean treatWildcardsAndOperatorsAsLiteral) {
 
-        if (StringUtils.contains(lookupFieldValue, KRADConstants.BETWEEN_OPERATOR)) {
-            String[] rangeValues = StringUtils.split(lookupFieldValue, KRADConstants.BETWEEN_OPERATOR);
+        if (StringUtils.contains(lookupFieldValue, "..")) {
+            String[] rangeValues = StringUtils.split(lookupFieldValue, "..");
             return rangeValues[0].compareTo(propertyValue.toString()) < 0 && rangeValues[1].compareTo(propertyValue.toString()) > 0;
 
         }
@@ -326,33 +329,38 @@ public class ContractsGrantsReportUtils {
 
     private static boolean checkNumericRange(String propertyName, Object propertyValue, String lookupFieldValue, boolean treatWildcardsAndOperatorsAsLiteral) {
 
-        if (StringUtils.contains(lookupFieldValue, KRADConstants.BETWEEN_OPERATOR)) {
-            if (treatWildcardsAndOperatorsAsLiteral)
+        if (StringUtils.contains(lookupFieldValue, "..")) {
+            if (treatWildcardsAndOperatorsAsLiteral) {
                 throw new RuntimeException("Cannot use wildcards and operators on numeric field " + propertyName);
-            String[] rangeValues = StringUtils.split(lookupFieldValue, KRADConstants.BETWEEN_OPERATOR);
+            }
+            String[] rangeValues = StringUtils.split(lookupFieldValue, "..");
 
             return (cleanNumeric(rangeValues[0]).compareTo(cleanNumeric(propertyValue.toString())) < 0 && cleanNumeric(rangeValues[1]).compareTo(cleanNumeric(propertyValue.toString())) > 0);
 
         }
         else if (lookupFieldValue.startsWith(">=")) {
-            if (treatWildcardsAndOperatorsAsLiteral)
+            if (treatWildcardsAndOperatorsAsLiteral) {
                 throw new RuntimeException("Cannot use wildcards and operators on numeric field " + propertyName);
+            }
             return cleanNumeric(propertyValue.toString()).compareTo(cleanNumeric(lookupFieldValue)) >= 0;
 
         }
         else if (lookupFieldValue.startsWith("<=")) {
-            if (treatWildcardsAndOperatorsAsLiteral)
+            if (treatWildcardsAndOperatorsAsLiteral) {
                 throw new RuntimeException("Cannot use wildcards and operators on numeric field " + propertyName);
+            }
             return cleanNumeric(propertyValue.toString()).compareTo(cleanNumeric(lookupFieldValue)) <= 0;
         }
         else if (lookupFieldValue.startsWith(">")) {
-            if (treatWildcardsAndOperatorsAsLiteral)
+            if (treatWildcardsAndOperatorsAsLiteral) {
                 throw new RuntimeException("Cannot use wildcards and operators on numeric field " + propertyName);
+            }
             return cleanNumeric(propertyValue.toString()).compareTo(cleanNumeric(lookupFieldValue)) > 0;
         }
         else if (lookupFieldValue.startsWith("<")) {
-            if (treatWildcardsAndOperatorsAsLiteral)
+            if (treatWildcardsAndOperatorsAsLiteral) {
                 throw new RuntimeException("Cannot use wildcards and operators on numeric field " + propertyName);
+            }
             return cleanNumeric(propertyValue.toString()).compareTo(cleanNumeric(lookupFieldValue)) < 0;
         }
         else {

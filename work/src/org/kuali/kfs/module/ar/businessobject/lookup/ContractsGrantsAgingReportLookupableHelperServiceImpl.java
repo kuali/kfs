@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -54,32 +54,31 @@ import org.kuali.kfs.module.ar.web.struts.ContractsGrantsAgingReportForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.util.UrlFactory;
-import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.core.web.format.CollectionFormatter;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Lookupable Helper Service class for ContractsGrantsAgingReport.
@@ -146,7 +145,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * Get the search results that meet the input search criteria.
-     * 
+     *
      * @param fieldValues - Map containing prop name keys and search values
      * @return a List of found business objects
      */
@@ -252,7 +251,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * Get the search results that meet the input search criteria.
-     * 
+     *
      * @param fieldValues - Map containing prop name keys and search values
      * @return a List of found business objects
      */
@@ -407,7 +406,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -577,7 +576,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
         if (ObjectUtils.isNotNull(fieldsMap) && !fieldsMap.isEmpty()) {
             for (String key : fieldsMap.keySet()) {
-                String val = (String) fieldsMap.get(key);
+                String val = fieldsMap.get(key);
                 // put if val is not blank or null
                 if (ObjectUtils.isNotNull(val) && StringUtils.isNotEmpty(val)) {
                     parameters.put(key.toString(), fieldsMap.get(key).toString());
@@ -634,7 +633,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * This method returns the url for the paid invoice of the customer
-     * 
+     *
      * @param bo
      * @param columnTitle
      * @return Returns the url for the Payment Application search.
@@ -653,7 +652,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * This method returns the url for the customer write off doc search
-     * 
+     *
      * @param bo
      * @param columnTitle
      * @return Returns the Url for the customer write off doc search
@@ -672,7 +671,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * This method returns the customer lookup url
-     * 
+     *
      * @param bo business object
      * @param columnTitle
      * @return Returns the url for the customer lookup
@@ -692,7 +691,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * This method returns the Agency inquiry url
-     * 
+     *
      * @param bo business object
      * @param columnTitle
      * @return Returns the url for the Agency Inquiry
@@ -725,7 +724,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * This method gets dateTimeService attribute.
-     * 
+     *
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -737,7 +736,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * This method sets the dateTimeService attribute.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -746,7 +745,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * Gets the total0to30 attribute.
-     * 
+     *
      * @return Returns the total0to30.
      */
     public KualiDecimal getTotal0to30() {
@@ -755,7 +754,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * Sets the total0to30 attribute value.
-     * 
+     *
      * @param total0to30 The total0to30 to set.
      */
     public void setTotal0to30(KualiDecimal total0to30) {
@@ -764,7 +763,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * Gets the total31to60 attribute.
-     * 
+     *
      * @return Returns the total31to60.
      */
     public KualiDecimal getTotal31to60() {
@@ -773,7 +772,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * Sets the total31to60 attribute value.
-     * 
+     *
      * @param total31to60 The total31to60 to set.
      */
     public void setTotal31to60(KualiDecimal total31to60) {
@@ -782,7 +781,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * Gets the total61to90 attribute.
-     * 
+     *
      * @return Returns the total61to90.
      */
     public KualiDecimal getTotal61to90() {
@@ -791,7 +790,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * Sets the total61to90 attribute value.
-     * 
+     *
      * @param total61to90 The total61to90 to set.
      */
     public void setTotal61to90(KualiDecimal total61to90) {
@@ -800,7 +799,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * Gets the total91toSYSPR attribute.
-     * 
+     *
      * @return Returns the total91toSYSPR.
      */
     public KualiDecimal getTotal91toSYSPR() {
@@ -809,7 +808,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * Sets the total91toSYSPR attribute value.
-     * 
+     *
      * @param total91toSYSPR The total91toSYSPR to set.
      */
     public void setTotal91toSYSPR(KualiDecimal total91toSYSPR) {
@@ -818,7 +817,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * Gets the totalSYSPRplus1orMore attribute.
-     * 
+     *
      * @return Returns the totalSYSPRplus1orMore.
      */
     public KualiDecimal getTotalSYSPRplus1orMore() {
@@ -827,7 +826,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * Sets the totalSYSPRplus1orMore attribute value.
-     * 
+     *
      * @param totalSYSPRplus1orMore The totalSYSPRplus1orMore to set.
      */
     public void setTotalSYSPRplus1orMore(KualiDecimal totalSYSPRplus1orMore) {
@@ -837,7 +836,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * This method...
-     * 
+     *
      * @param agingReportDao
      * @param begin
      * @param end
@@ -855,7 +854,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * This method...
-     * 
+     *
      * @param agingReportDao
      * @param begin
      * @param end
@@ -874,7 +873,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * This method...
-     * 
+     *
      * @param agingReportDao
      * @param begin
      * @param end
@@ -893,7 +892,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * This method...
-     * 
+     *
      * @param agingReportDao
      * @param begin
      * @param end
@@ -912,7 +911,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * This method...
-     * 
+     *
      * @param agingReportDao
      * @param begin
      * @param end
@@ -931,7 +930,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * This method...
-     * 
+     *
      * @param knownCustomers
      * @param customer
      * @return
@@ -949,19 +948,19 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * This method retrives the agecy for particular customer
-     * 
+     *
      * @param customerNumber
      * @return Returns the agency for the customer
      */
     private ContractsAndGrantsCGBAgency getAgencyByCustomer(String customerNumber) {
         Map args = new HashMap();
         args.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
-        return (ContractsAndGrantsCGBAgency) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAgency.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAgency.class, args);
+        return SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAgency.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAgency.class, args);
     }
 
     /**
      * This method calculates the total invoice amount for the customers.
-     * 
+     *
      * @param cgDocs
      * @param begin
      * @param end
@@ -990,7 +989,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * This method calculates the payment amount for the customers.
-     * 
+     *
      * @param cgDocs
      * @param begin
      * @param end
@@ -1019,7 +1018,7 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
 
     /**
      * This method calculates the total credits for the customers.
-     * 
+     *
      * @param cgMapByCustomer
      * @param knownCustomers
      */

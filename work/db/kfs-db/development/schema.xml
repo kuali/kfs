@@ -13716,6 +13716,7 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="REQS_SRC_DESC" required="true" size="45" type="VARCHAR"/>
         <column name="DOBJ_MAINT_CD_ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="9999" name="ALLOW_COPY_DAYS" required="true" size="4" type="DECIMAL"/>
         <unique name="PUR_REQS_SRC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

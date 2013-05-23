@@ -30,6 +30,33 @@
     <c:if test="${showReports}">
     	<tem-relo:reports/>
    	</c:if>
+	
+	<script type="text/javascript">
+		function clearSpecialHandlingTab() {
+		var prefix = "document.travelPayment.";
+		var ctrl;
+		
+		ctrl = kualiElements[prefix + "specialHandlingCityName"]
+		ctrl.value = "";
+		
+		ctrl = kualiElements[prefix + "specialHandlingLine1Addr"];
+		ctrl.value = "";
+		
+		ctrl = kualiElements[prefix + "specialHandlingStateCode"];
+		ctrl.value = "";
+		
+		ctrl = kualiElements[prefix + "specialHandlingLine2Addr"];
+		ctrl.value = "";
+		
+		ctrl = kualiElements[prefix + "specialHandlingZipCode"];
+		ctrl.value = "";
+		
+		ctrl = kualiElements[prefix + "specialHandlingCountryCode"];
+		ctrl.value = "";
+	   }
+	</script>
+	<sys:paymentMessages />
+	
     <tem-relo:movAndReloOverview/>
     <tem:specialCircumstances />
     <tem:expenses />

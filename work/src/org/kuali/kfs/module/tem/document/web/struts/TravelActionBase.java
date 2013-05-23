@@ -1530,7 +1530,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      * @return the message associated with this wire charge
      */
     protected String retrieveWireChargeMessage() {
-        String message = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.MESSAGE_DV_WIRE_CHARGE);
+        String message = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.MESSAGE_PAYMENT_WIRE_CHARGE);
         WireCharge wireCharge = new WireCharge();
         wireCharge.setUniversityFiscalYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
 

@@ -19,57 +19,28 @@
 <script type="text/javascript">
   function paymentMethodMessages(selectedMethod) {
     if (selectedMethod == 'W') {
-		alert('<bean:message key="message.dv.feewarning"/>');
-<%-- KULFDBCK-892
-		alert('<bean:message key="message.dv.wirescreen"/>');
---%>
+		alert('<bean:message key="message.payment.feewarning"/>');
     }
 		  
     if (selectedMethod == 'F') {
-		alert('<bean:message key="message.dv.foreigndraft"/>');
+		alert('<bean:message key="message.payment.foreigndraft"/>');
     }
    }
 		
    function exceptionMessage(exceptionIndicator) {
 	 if (exceptionIndicator.checked == true) {
-		alert('<bean:message key="message.dv.exception"/>');
+		alert('<bean:message key="message.payment.exception"/>');
      } 
    }
 		
    function specialHandlingMessage(specialHandlingIndicator) {
      if (specialHandlingIndicator.checked == true) {
-		alert('<bean:message key="message.dv.specialhandling"/>');
+		alert('<bean:message key="message.payment.specialhandling"/>');
      } else {
 		<c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && KualiForm.editingMode['specialHandlingChangingEntry']}">
 			clearSpecialHandlingTab();
 		</c:if>
 	 }
-   }
-   
-   function clearSpecialHandlingTab() {
-	var prefix = "document.dvPayeeDetail.";
-	var ctrl;
-	
-	ctrl = kualiElements[prefix+"disbVchrSpecialHandlingPersonName"];
-	ctrl.value = "";
-	
-	ctrl = kualiElements[prefix + "disbVchrSpecialHandlingCityName"]
-	ctrl.value = "";
-	
-	ctrl = kualiElements[prefix + "disbVchrSpecialHandlingLine1Addr"];
-	ctrl.value = "";
-	
-	ctrl = kualiElements[prefix + "disbVchrSpecialHandlingStateCode"];
-	ctrl.value = "";
-	
-	ctrl = kualiElements[prefix + "disbVchrSpecialHandlingLine2Addr"];
-	ctrl.value = "";
-	
-	ctrl = kualiElements[prefix + "disbVchrSpecialHandlingZipCode"];
-	ctrl.value = "";
-	
-	ctrl = kualiElements[prefix + "disbVchrSpecialHandlingCountryCode"];
-	ctrl.value = "";
    }
 		
    function documentationMessage(selectedDocumentationLocation) {

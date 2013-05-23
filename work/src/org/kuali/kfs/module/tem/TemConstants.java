@@ -263,14 +263,12 @@ public class TemConstants {
     public static class TravelRelocationParameters {
         public static final String DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND = "DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND";
         public static final String DEFAULT_CHART = "DEFAULT_CHART";
-        public static final String DOCUMENTATION_LOCATION_CODE = "DOCUMENTATION_LOCATION_CODE";
         public static final String PAYMENT_REASON_CODE = "PAYMENT_REASON_CODE";
     }
 
     public static class TravelEntertainmentParameters {
         public static final String HOST_CERTIFICATION_REQUIRED_IND = "HOST_CERTIFICATION_REQUIRED_IND";
         public static final String PAYMENT_REASON_CODE = "PAYMENT_REASON_CODE";
-        public static final String DOCUMENT_LOCATION_CODE = "DOCUMENT_LOCATION_CODE";
         public static final String DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND = "DISPLAY_ACCOUNTING_DISTRIBUTION_TAB_IND";
     }
 

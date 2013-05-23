@@ -415,7 +415,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
      */
     @Override
     public void processTravelAdvanceDV(TravelAuthorizationDocument document){
-        processTravelDocumentDV(document);
+        //processTravelDocumentDV(document);
     }
 
     /**

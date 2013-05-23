@@ -421,10 +421,7 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
         batch.setPaymentTotalAmount(totalAmount);
 
         businessObjectService.save(batch);
-        if (paymentSource instanceof DisbursementVoucherDocument) {
-            // TODO should check this!!!
-            paymentFileEmailService.sendDisbursementVoucherImmediateExtractEmail((DisbursementVoucherDocument)paymentSource);
-        }
+        paymentFileEmailService.sendPaymentSourceImmediateExtractEmail(paymentSource);
     }
 
     /**

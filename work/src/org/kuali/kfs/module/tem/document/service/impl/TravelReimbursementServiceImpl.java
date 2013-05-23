@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.tem.document.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.DATE_CHANGED_MESSAGE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENTATION_LOCATION_CODE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.TRAVEL_COVERSHEET_INSTRUCTIONS;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_TR_LODGING_ALREADY_CLAIMED;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_TR_MEAL_ALREADY_CLAIMED;
@@ -148,7 +147,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         final String docNumber = document.getDocumentNumber();
         final String initiatorId = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         final String instructions = parameterService.getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TRAVEL_COVERSHEET_INSTRUCTIONS);
-        final String mailTo = travelDocumentService.retrieveAddressFromLocationCode(parameterService.getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, DOCUMENTATION_LOCATION_CODE));
+        final String mailTo = travelDocumentService.retrieveAddressFromLocationCode(document.getTravelPayment().getDocumentationLocationCode());
         final String destination  = document.getPrimaryDestination().getPrimaryDestinationName();
 
         final String directory = ConfigurationService.getPropertyValueAsString(EXTERNALIZABLE_HELP_URL_KEY);

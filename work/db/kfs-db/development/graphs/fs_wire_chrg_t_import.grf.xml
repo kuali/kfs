@@ -25,8 +25,8 @@
         $0.account_nbr := replace(nvl($account_nbr, ""), "~!~", "|" );
         $0.inc_fin_obj_cd := replace(nvl($inc_fin_obj_cd, ""), "~!~", "|" );
         $0.exp_fin_obj_cd := replace(nvl($exp_fin_obj_cd, ""), "~!~", "|" );
-        $0.domstc_chg_amt := $dv_domstc_chg_amt;
-        $0.frgn_chrg_amt := $dv_frgn_chrg_amt;
+        $0.domstc_chg_amt := $domstc_chg_amt;
+        $0.frgn_chrg_amt := $frgn_chrg_amt;
    }
       ]]></attr>
     </Node>

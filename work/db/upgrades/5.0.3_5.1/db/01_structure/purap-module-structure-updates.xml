@@ -10,14 +10,6 @@
 		  <constraints nullable="false" />
 		 </column>
 		</addColumn>
-		<sql><![CDATA[
-			UPDATE pur_reqs_src_t t2
-  			SET t2.allow_copy_days =
-		       (SELECT t1.val
-		          FROM krcr_parm_t t1
-		         WHERE t1.parm_nm = 'B2B_ALLOW_COPY_DAYS')
- 			WHERE t2.reqs_src_cd = 'B2B';
-		]]></sql>		
 		<modifySql dbms="mysql">
 			<replace replace="NUMBER" with="DECIMAL" />
 		</modifySql>

@@ -96,6 +96,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     /* Start TEM REFUND Merge */
     private PaymentReasonCode refundPaymentReason;
     private ObjectCode refundObjectCode;
+//    private DisbursementVoucherDocumentationLocation refundDocumentationLocation;
     /* End TEM REFUND Merge */
     /* Start TEM REFUND Merge */
     private String refundPaymentReasonCode;

@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,8 +30,8 @@ import org.kuali.kfs.module.ar.businessobject.ReferralToCollectionsDetail;
 import org.kuali.kfs.module.ar.businessobject.ReferralType;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -64,7 +64,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns the agency number.
      */
     public String getAgencyNumber() {
@@ -73,7 +73,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Sets the agencyNumber attribute.
-     * 
+     *
      * @param agencyNumber The ageny number to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -82,7 +82,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Gets the agencyFullName attribute.
-     * 
+     *
      * @return Returns the agency full name.
      */
     public String getAgencyFullName() {
@@ -91,7 +91,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Sets the agencyFullName attribute.
-     * 
+     *
      * @param agencyFullName The agency full name to set.
      */
     public void setAgencyFullName(String agencyFullName) {
@@ -100,7 +100,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Gets the customerNumber attribute.
-     * 
+     *
      * @return Returns the customerNumber.
      */
     public String getCustomerNumber() {
@@ -109,7 +109,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Sets the customerNumber attribute.
-     * 
+     *
      * @param customerNumber The customerNumber to set.
      */
     public void setCustomerNumber(String customerNumber) {
@@ -118,7 +118,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Gets the customerName attribute.
-     * 
+     *
      * @return Returns the customerName.
      */
     public String getCustomerName() {
@@ -127,7 +127,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Sets the customerName attribute.
-     * 
+     *
      * @param customerName The customerName to set.
      */
     public void setCustomerName(String customerName) {
@@ -136,7 +136,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Gets the customerTypeCode attribute.
-     * 
+     *
      * @return Returns the customerTypeCode.
      */
     public String getCustomerTypeCode() {
@@ -145,7 +145,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Sets the customerTypeCode attribute.
-     * 
+     *
      * @param customerTypeCode The customerTypeCode to set.
      */
     public void setCustomerTypeCode(String customerTypeCode) {
@@ -154,7 +154,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Gets the collectionStatusCode attribute.
-     * 
+     *
      * @return Returns the collectionStatusCode.
      */
     public String getCollectionStatusCode() {
@@ -163,7 +163,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Sets the collectionStatusCode attribute.
-     * 
+     *
      * @param collectionStatusCode The collectionStatusCode to set.
      */
     public void setCollectionStatusCode(String collectionStatusCode) {
@@ -172,7 +172,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Gets the referralTypeCode attribute.
-     * 
+     *
      * @return Returns the referralTypeCode attribute.
      */
     public String getReferralTypeCode() {
@@ -181,7 +181,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Sets the referralTypeCode attribute.
-     * 
+     *
      * @param referralTypeCode The referral type to set.
      */
     public void setReferralTypeCode(String referralTypeCode) {
@@ -190,7 +190,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Gets the list of ReferralToCollectionsDetail object.
-     * 
+     *
      * @return Returns the referralToCollectionsDetails list.
      */
     public List<ReferralToCollectionsDetail> getReferralToCollectionsDetails() {
@@ -199,7 +199,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Sets the referralToCollectionsDetails list.
-     * 
+     *
      * @param referralToCollectionsDetails The referralToCollectionsDetails list to set.
      */
     public void setReferralToCollectionsDetails(List<ReferralToCollectionsDetail> referralToCollectionsDetails) {
@@ -208,7 +208,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Gets the object of ReferralToCollectionsDetail from list.
-     * 
+     *
      * @param index The index of object.
      * @return Returns the ReferralToCollectionsDetail object.
      */
@@ -223,7 +223,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Deletes the ReferralToCollectionsDetail from list.
-     * 
+     *
      * @param index The index of object to delete.
      */
     public void deleteReferralToCollectionsDetail(int index) {
@@ -247,8 +247,9 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
     /**
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
      */
-    
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         Person authorUniversal1 = GlobalVariables.getUserSession().getPerson();
 
@@ -304,7 +305,7 @@ public class ReferralToCollectionsDocument extends FinancialSystemTransactionalD
 
     /**
      * Gets the number of final events in list.
-     * 
+     *
      * @param events The list of events.
      * @return Returns the number of final events.
      */

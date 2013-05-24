@@ -60,11 +60,12 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -138,6 +139,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      *
      * @return Returns the documentNumber
      */
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -147,6 +149,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      *
      * @param documentNumber The documentNumber to set.
      */
+    @Override
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
@@ -261,6 +264,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      * @param universityFiscalPeriod The universityFiscalPeriod to set.
      * @deprecated
      */
+    @Deprecated
     public void setUniversityFiscalPeriod(AccountingPeriod universityFiscalPeriod) {
         this.universityFiscalPeriod = universityFiscalPeriod;
     }
@@ -363,6 +367,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     /**
      * @see org.kuali.kfs.sys.document.AmountTotaling#getTotalDollarAmount()
      */
+    @Override
     public KualiDecimal getTotalDollarAmount() {
         return getCashControlTotalAmount();
     }
@@ -394,6 +399,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#addPendingEntry(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
+    @Override
     public void addPendingEntry(GeneralLedgerPendingEntry entry) {
         generalLedgerPendingEntries.add(entry);
 
@@ -402,6 +408,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#clearAnyGeneralLedgerPendingEntries()
      */
+    @Override
     public void clearAnyGeneralLedgerPendingEntries() {
         generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
 
@@ -458,6 +465,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
+    @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
         CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
@@ -480,6 +488,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
+    @Override
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {
         return postable.getAmount().abs();
     }
@@ -487,6 +496,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPostables()
      */
+    @Override
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         return new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
     }
@@ -498,6 +508,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
+    @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;
     }
@@ -505,6 +516,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#getPostingYear()
      */
+    @Override
     public Integer getPostingYear() {
         return SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
     }
@@ -512,6 +524,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
+    @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AccountingLine accountingLine = (AccountingLine) postable;
         return (accountingLine.getDebitCreditCode().equalsIgnoreCase(KFSConstants.GL_DEBIT_CODE));
@@ -522,6 +535,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      *
      * @return a list of glpes
      */
+    @Override
     public List<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntries() {
         return generalLedgerPendingEntries;
     }
@@ -531,6 +545,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      *
      * @param generalLedgerPendingEntries
      */
+    @Override
     public void setGeneralLedgerPendingEntries(List<GeneralLedgerPendingEntry> generalLedgerPendingEntries) {
         this.generalLedgerPendingEntries = generalLedgerPendingEntries;
     }
@@ -538,6 +553,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     /**
      * This method set glpes status to approved
      */
+    @Override
     public void changeGeneralLedgerPendingEntriesApprovedStatusCode() {
         for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
             glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
@@ -550,6 +566,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      * @param index the glpe index
      * @return the glpe
      */
+    @Override
     public GeneralLedgerPendingEntry getGeneralLedgerPendingEntry(int index) {
         while (generalLedgerPendingEntries.size() <= index) {
             generalLedgerPendingEntries.add(new GeneralLedgerPendingEntry());
@@ -583,6 +600,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     /**
      * @see org.kuali.kfs.sys.document.ElectronicPaymentClaiming#declaimElectronicPaymentClaims()
      */
+    @Override
     public void declaimElectronicPaymentClaims() {
         SpringContext.getBean(ElectronicPaymentClaimingService.class).declaimElectronicPaymentClaimsForDocument(this);
     }
@@ -602,6 +620,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      * @param electronicPaymentClaims
      * @deprecated
      */
+    @Deprecated
     public void setElectronicPaymentClaims(List<ElectronicPaymentClaim> electronicPaymentClaims) {
         this.electronicPaymentClaims = electronicPaymentClaims;
     }
@@ -609,6 +628,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     /**
      * @see org.kuali.kfs.sys.document.LedgerPostingDocumentBase#getFinancialDocumentTypeCode()
      */
+    @Override
     public String getFinancialDocumentTypeCode() {
         // TODO Auto-generated method stub
         return null;
@@ -971,7 +991,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
             CashControlDocument cashControlDoc = (CashControlDocument) documentService.getNewDocument(CashControlDocument.class);
 
             cashControlDoc.getDocumentHeader().setDocumentDescription(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArKeyConstants.CASH_CTRL_DOC_CORRECTION));
-            cashControlDoc.getDocumentHeader().setFinancialDocumentInErrorNumber(getDocumentNumber());
+            cashControlDoc.getFinancialSystemDocumentHeader().setFinancialDocumentInErrorNumber(getDocumentNumber());
 
             AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
             accountsReceivableDocumentHeader.setDocumentNumber(cashControlDoc.getDocumentNumber());
@@ -990,7 +1010,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
             documentService.saveDocument(cashControlDoc);
 
-            DocumentRouteHeaderValue documentRouteHeaderValue = SpringContext.getBean(RouteHeaderService.class).getRouteHeader(Long.parseLong(cashControlDoc.getDocumentNumber()));
+            DocumentRouteHeaderValue documentRouteHeaderValue = SpringContext.getBean(RouteHeaderService.class).getRouteHeader(cashControlDoc.getDocumentNumber());
             KEWServiceLocator.getWorkflowDocumentService().approveDocument(GlobalVariables.getUserSession().getPrincipalId(), documentRouteHeaderValue, "auto enroute error-correction Document");
 
 

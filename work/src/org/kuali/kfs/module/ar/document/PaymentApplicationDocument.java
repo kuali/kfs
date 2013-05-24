@@ -54,7 +54,11 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.BlanketApproveDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
@@ -68,12 +72,9 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.rule.event.ApproveDocumentEvent;
-import org.kuali.rice.krad.rule.event.BlanketApproveDocumentEvent;
-import org.kuali.rice.krad.rule.event.KualiDocumentEvent;
-import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
@@ -1034,11 +1035,11 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @see org.kuali.rice.krad.document.DocumentBase#getWorkflowEngineDocumentIdsToLock()
      */
     @Override
-    public List<Long> getWorkflowEngineDocumentIdsToLock() {
+    public List<String> getWorkflowEngineDocumentIdsToLock() {
         if (this.isPaymentApplicationCorrection()) {
-            if (StringUtils.isNotBlank(getDocumentHeader().getFinancialDocumentInErrorNumber())) {
-                List<Long> documentIds = new ArrayList<Long>();
-                documentIds.add(new Long(getDocumentHeader().getFinancialDocumentInErrorNumber()));
+            if (StringUtils.isNotBlank(getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber())) {
+                List<String> documentIds = new ArrayList<String>();
+                documentIds.add(getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
                 return documentIds;
             }
         }
@@ -1046,11 +1047,12 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         if (docIdStrings == null || docIdStrings.isEmpty()) {
             return null;
         }
-        List<Long> docIds = new ArrayList<Long>();
-        for (int i = 0; i < docIdStrings.size(); i++) { // damn I miss ruby sometimes
-            docIds.add(new Long(docIdStrings.get(i)));
-        }
-        return docIds;
+        return docIdStrings;
+//        List<Long> docIds = new ArrayList<Long>();
+//        for (int i = 0; i < docIdStrings.size(); i++) { // damn I miss ruby sometimes
+//            docIds.add(new Long(docIdStrings.get(i)));
+//        }
+//        return docIds;
     }
 
     /**
@@ -1059,7 +1061,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @return
      */
     public boolean isPaymentApplicationCorrection() {
-        return ObjectUtils.isNotNull(getDocumentHeader().getFinancialDocumentInErrorNumber());
+        return ObjectUtils.isNotNull(getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
     }
 
     /**
@@ -1072,7 +1074,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         // handle a Correction/Reversal document
         if (this.isPaymentApplicationCorrection() && getDocumentHeader().getWorkflowDocument().isSaved()) {
             if (cashControlDetail != null) {
-                cashControlDetail.setCustomerPaymentDescription("This Cash Control Detail corrects document number " + this.getDocumentHeader().getFinancialDocumentInErrorNumber());
+                cashControlDetail.setCustomerPaymentDescription("This Cash Control Detail corrects document number " + this.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
                 cashControlDetail.setFinancialDocumentLineAmount(cashControlDetail.getFinancialDocumentLineAmount().negated());
                 saveCashControlDetail(cashControlDetail);
             }
@@ -1656,7 +1658,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
         if (StringUtils.isNotBlank(refundDocumentNumber)) {
             WorkflowDocument workflowDocument = null;
             try {
-                workflowDocument = KNSServiceLocator.getWorkflowDocumentService().createWorkflowDocument(Long.valueOf(refundDocumentNumber), GlobalVariables.getUserSession().getPerson());
+                workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(refundDocumentNumber), GlobalVariables.getUserSession().getPerson());
             }
             catch (NumberFormatException ex) {
                 // just swallow exception and return empty string
@@ -1789,7 +1791,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     // save AccountsReceivableDocumentHeader
     private void saveARDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
-        KNSServiceLocator.getBusinessObjectService().save(accountsReceivableDocumentHeader);
+        SpringContext.getBean(BusinessObjectService.class).save(accountsReceivableDocumentHeader);
     }
 
     /**
@@ -1806,7 +1808,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      *
      */
     private void saveCashControlDetail(CashControlDetail cashControlDetail) {
-        KNSServiceLocator.getBusinessObjectService().save(cashControlDetail);
+       SpringContext.getBean(BusinessObjectService.class).save(cashControlDetail);
     }
 
     /**

@@ -32,14 +32,13 @@ import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.docsearch.service.SearchableAttributeProcessingService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowDocumentActions;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.edl.impl.components.WorkflowDocumentActions;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -123,7 +122,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
         workflowDocumentActions.indexDocument(new Long(colActDoc.getDocumentNumber()));
 
         SpringContext.getBean(BusinessObjectService.class).save(event);
-        final searchableAttributeProcessingService searchableAttributeProcessingService = SpringContext.getBean(SearchableAttributeProcessingService.class);
+        final SearchableAttributeProcessingService searchableAttributeProcessingService = SpringContext.getBean(SearchableAttributeProcessingService.class);
         searchableAttributeProcessingService.indexDocument(new Long(colActDoc.getDocumentNumber()));
     }
 

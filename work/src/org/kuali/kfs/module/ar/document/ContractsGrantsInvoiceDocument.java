@@ -79,8 +79,10 @@ import org.kuali.rice.krad.bo.Attachment;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.AttachmentService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -169,7 +171,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      * @return is Error Correction Document
      */
     public boolean isCorrectionDocument() {
-        return !StringUtils.isEmpty(this.getDocumentHeader().getFinancialDocumentInErrorNumber());
+        return !StringUtils.isEmpty(this.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
     }
 
     /**
@@ -290,13 +292,13 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                     note.setNotePostedTimestampToCurrent();
                     note.setNoteText("Auto-generated invoice for Agency Address-" + this.getDocumentNumber() + "-" + invoiceAgencyAddressDetail.getAgencyAddressName());
                     note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-                    note = SpringContext.getBean(NoteService.class).createNote(note, this);
+                    note = SpringContext.getBean(NoteService.class).createNote(note, this, null);
                     Attachment attachment = SpringContext.getBean(AttachmentService.class).createAttachment(note, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, reportStream.length, new ByteArrayInputStream(reportStream), "");
                     // adding attachment to the note
                     note.setAttachment(attachment);
-                    KNSServiceLocator.getNoteService().save(note);
+                    SpringContext.getBean(NoteService.class).save(note);
                     attachment.setNoteIdentifier(note.getNoteIdentifier());
-                    KNSServiceLocator.getBusinessObjectService().save(attachment);
+                    SpringContext.getBean(BusinessObjectService.class).save(attachment);
                     this.getDocumentHeader().addNote(note);
 
                     // generating Copy invoice
@@ -306,14 +308,14 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                     Note copyNote = new Note();
                     copyNote.setNotePostedTimestampToCurrent();
                     copyNote.setNoteText("Auto-generated invoice (Copy) for Agency Address-" + this.getDocumentNumber() + "-" + invoiceAgencyAddressDetail.getAgencyAddressName());
-                    copyNote.setNoteTypeCode(KRADConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-                    copyNote = KNSServiceLocator.getNoteService().createNote(copyNote, this);
-                    Attachment copyAttachment = KNSServiceLocator.getAttachmentService().createAttachment(copyNote, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, copyReportStream.length, new ByteArrayInputStream(copyReportStream), "");
+                    copyNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+                    copyNote = SpringContext.getBean(NoteService.class).createNote(copyNote, this, null);
+                    Attachment copyAttachment = SpringContext.getBean(AttachmentService.class).createAttachment(copyNote, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, copyReportStream.length, new ByteArrayInputStream(copyReportStream), "");
                     // adding attachment to the note
                     copyNote.setAttachment(copyAttachment);
-                    KNSServiceLocator.getNoteService().save(copyNote);
+                    SpringContext.getBean(NoteService.class).save(copyNote);
                     copyAttachment.setNoteIdentifier(copyNote.getNoteIdentifier());
-                    KNSServiceLocator.getBusinessObjectService().save(copyAttachment);
+                    SpringContext.getBean(BusinessObjectService.class).save(copyAttachment);
                     this.getDocumentHeader().addNote(copyNote);
                     invoiceAgencyAddressDetail.setNoteId(note.getNoteIdentifier());
                     // saving the note to the document header
@@ -370,7 +372,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             if (this.isInvoiceReversal()) { // Invoice correction process when corrected invoice goes to FINAL
                 try {
                     this.getInvoiceGeneralDetail().setFinalBill(false);
-                    ContractsGrantsInvoiceDocument invoice = (ContractsGrantsInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getDocumentHeader().getFinancialDocumentInErrorNumber());
+                    ContractsGrantsInvoiceDocument invoice = (ContractsGrantsInvoiceDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
                     if (ObjectUtils.isNotNull(invoice)) {
                         invoice.setInvoiceDueDate(new java.sql.Date(new Date().getTime()));
                         invoice.getInvoiceGeneralDetail().setFinalBill(false);
@@ -546,8 +548,8 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             if (ObjectUtils.isNotNull(this.getDocumentHeader().getWorkflowDocument().getDateCreated())) {
                 parameterMap.put("#date", returnProperStringValue(FILE_NAME_TIMESTAMP.format(this.getDocumentHeader().getWorkflowDocument().getDateCreated())));
             }
-            if (ObjectUtils.isNotNull(this.getDocumentHeader().getWorkflowDocument().getDateFinalized().getTime())) {
-                parameterMap.put("#finalStatusDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(this.getDocumentHeader().getWorkflowDocument().getDateFinalized().getTime())));
+            if (ObjectUtils.isNotNull(new Date(this.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()))) {
+                parameterMap.put("#finalStatusDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(new Date(this.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()))));
             }
             parameterMap.put("#proposalNumber", returnProperStringValue(proposalNumber));
             parameterMap.put("#payee.name", returnProperStringValue(this.getBillingAddressName()));

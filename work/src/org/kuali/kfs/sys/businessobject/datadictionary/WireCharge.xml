@@ -113,7 +113,7 @@
 
 	<bean id="WireCharge-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition">
-		<property name="title" value="Disbursement Voucher Wire Charge Inquiry" />
+		<property name="title" value="Wire Charge Inquiry" />
 		<property name="inquirySections">
 			<list>
 				<ref bean="WireCharge-inquirySectionDefinition" />
@@ -146,7 +146,7 @@
 
 	<bean id="WireCharge-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
-		<property name="title" value="Disbursement Voucher Wire Charge Lookup" />
+		<property name="title" value="Wire Charge Lookup" />
 
 		<property name="defaultSort">
 			<bean parent="SortDefinition">

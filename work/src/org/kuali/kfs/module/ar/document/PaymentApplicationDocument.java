@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -61,7 +61,6 @@ import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -85,6 +84,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 
 /**
  * Payment Application Document.
@@ -130,7 +130,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * Returns the PaymentMediumIdentifier on the associated CashControlDetail, if one exists, otherwise returns null.
-     * 
+     *
      * @return CustomerPaymentMediumIdentifier from the associated CashControlDetail if one exists, otherwise null.
      */
     public String getPaymentNumber() {
@@ -183,7 +183,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * This method calculates the total amount available to be applied on this document.
-     * 
+     *
      * @return The total from the cash control detail if this is a cash-control based payapp. Otherwise, it just returns the total
      *         available to be applied from previously unapplied holdings.
      */
@@ -198,7 +198,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * This method calculates the total amount available to be applied from previously unapplied funds for the associated customer.
-     * 
+     *
      * @return The total amount of previously NonApplied funds available to apply to invoices and other applications on this
      *         document.
      */
@@ -273,7 +273,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * This method returns the total amount allocated against the cash control total.
-     * 
+     *
      * @return
      */
     public KualiDecimal getTotalApplied() {
@@ -288,7 +288,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * This method subtracts the sum of the invoice paid applieds, non-ar and unapplied totals from the outstanding amount received
      * via the cash control document. NOTE this method is not useful for a non-cash control PayApp, as it doesnt have access to the
      * control documents until it is saved. Use the same named method on the Form instead.
-     * 
+     *
      * @return
      * @throws WorkflowException
      */
@@ -328,7 +328,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * This method is very specialized for a specific use. It retrieves the list of invoices that have been paid-applied by this
      * PayApp document. It is only used to retrieve what invoices were applied to it, when the document is being viewed in Final
      * state.
-     * 
+     *
      * @return
      */
     public List<CustomerInvoiceDocument> getInvoicesPaidAgainst() {
@@ -347,7 +347,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
         // attempt to retrieve all the invoices paid applied against
         try {
-            invoices.addAll(getDocService().getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, invoiceDocNumbers));
+            for (Document doc : getDocService().getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceDocument.class, invoiceDocNumbers)) {
+                invoices.add((CustomerInvoiceDocument) doc);
+            }
         }
         catch (WorkflowException e) {
             throw new RuntimeException("A WorkflowException was thrown while trying to retrieve documents.", e);
@@ -358,7 +360,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     /**
      * This is a very specialized method, that is only intended to be used once the document is in a Final/Approved state. It
      * retrieves the PaymentApplication documents that were used as a control source for this document, if any, or none, if none.
-     * 
+     *
      * @return
      */
     public List<PaymentApplicationDocument> getPaymentApplicationDocumentsUsedAsControlDocuments() {
@@ -391,7 +393,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
         // attempt to retrieve all the invoices paid applied against
         try {
-            payApps.addAll(getDocService().getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, payAppDocNumbers));
+            for (Document doc : getDocService().getDocumentsByListOfDocumentHeaderIds(PaymentApplicationDocument.class, payAppDocNumbers)) {
+                payApps.add((PaymentApplicationDocument) doc);
+            }
         }
         catch (WorkflowException e) {
             throw new RuntimeException("A WorkflowException was thrown while trying to retrieve documents.", e);
@@ -518,7 +522,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * This method retrieves a specific applied payment from the list, by array index
-     * 
+     *
      * @param index the index of the applied payment to retrieve
      * @return an InvoicePaidApplied
      */
@@ -529,7 +533,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * This method retrieves a specific non invoiced payment from the list, by array index
-     * 
+     *
      * @param index the index of the non invoiced payment to retrieve
      * @return an NonInvoiced
      */
@@ -539,7 +543,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * This method gets an ObjectCode from an invoice document.
-     * 
+     *
      * @param invoicePaidApplied
      * @return
      * @throws WorkflowException
@@ -962,6 +966,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
+    @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         try {
             List<GeneralLedgerPendingEntry> entries = createPendingEntries(sequenceHelper);
@@ -981,6 +986,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
+    @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;
     }
@@ -988,6 +994,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPendingEntryAmountForDetail(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
+    @Override
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail) {
         return null;
     }
@@ -995,6 +1002,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPendingEntrySourceDetails()
      */
+    @Override
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         return new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
     }
@@ -1002,6 +1010,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
+    @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         return false;
     }
@@ -1010,7 +1019,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * This method is used ONLY for handleRouteStatus change and other postProcessor related tasks (like
      * getWorkflowEngineDocumentIdsToLock()) and should not otherwise be used. The reason this is its own method is to make sure
      * that handleRouteStatusChange and getWorkflowEngineDocumentIdsToLock use the same method to retrieve what invoices to update.
-     * 
+     *
      * @return
      */
     protected List<String> getInvoiceNumbersToUpdateOnFinal() {
@@ -1046,7 +1055,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * This method returns true if this document is a reversal for another document
-     * 
+     *
      * @return
      */
     public boolean isPaymentApplicationCorrection() {
@@ -1057,7 +1066,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
         // handle a Correction/Reversal document
@@ -1261,7 +1270,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * should not be relied upon. The data is never persisted to the database, so will always be null/empty when retrieved fresh. It
      * is only populated while the document is live from the website, or while its in flight in workflow, due to the fact that it
      * has been serialized. You should probably not be using this method unless you are sure you know what you are doing.
-     * 
+     *
      * @return
      */
     public Collection<NonAppliedHolding> getNonAppliedHoldingsForCustomer() {
@@ -1272,7 +1281,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * Warning, this property is not ever persisted to the database, and is only used during workflow processing (since its been
      * serialized) and during presentation of the document on the webapp. You should probably not be using this method unless you
      * are sure you know what you are doing.
-     * 
+     *
      * @param nonApplieds
      */
     public void setNonAppliedHoldingsForCustomer(ArrayList<NonAppliedHolding> nonApplieds) {
@@ -1284,7 +1293,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * when the document has gone to final, to show what control documents were issued what funds. The return value is a
      * Map<String,KualiDecimal> where the key is the NonAppliedHolding's ReferenceFinancialDocumentNumber and the value is the
      * Amount to be applied.
-     * 
+     *
      * @return
      */
     public Map<String, KualiDecimal> getDistributionsFromControlDocuments() {
@@ -1478,7 +1487,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * This method is defined to assist in the custom search implementation.
-     * 
+     *
      * @return
      */
     public String getUnappliedCustomerNumber() {
@@ -1490,7 +1499,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * This method is defined to assist in the custom search implementation.
-     * 
+     *
      * @return
      */
     public String getUnappliedCustomerName() {
@@ -1502,7 +1511,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * This method is defined to assist in the custom search implementation.
-     * 
+     *
      * @return
      */
     public String getInvoiceAppliedCustomerNumber() {
@@ -1511,7 +1520,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * This method is defined to assist in the custom search implementation.
-     * 
+     *
      * @return
      */
     public String getInvoiceAppliedCustomerName() {
@@ -1520,7 +1529,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * Gets the invoiceDocumentType attribute.
-     * 
+     *
      * @return Returns the invoiceDocumentType.
      */
     public String getInvoiceDocumentType() {
@@ -1529,7 +1538,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * Sets the invoiceDocumentType attribute value.
-     * 
+     *
      * @param invoiceDocumentType The invoiceDocumentType to set.
      */
     public void setInvoiceDocumentType(String invoiceDocumentType) {
@@ -1538,7 +1547,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * Gets the locCreationType attribute.
-     * 
+     *
      * @return Returns the locCreationType.
      */
     public String getLocCreationType() {
@@ -1547,7 +1556,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * Sets the locCreationType attribute value.
-     * 
+     *
      * @param locCreationType The locCreationType to set.
      */
     public void setLocCreationType(String locCreationType) {
@@ -1556,7 +1565,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber.
      */
     public Long getProposalNumber() {
@@ -1565,7 +1574,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * Sets the proposalNumber attribute value.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -1574,7 +1583,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * Gets the letterOfCreditFundGroupCode attribute.
-     * 
+     *
      * @return Returns the letterOfCreditFundGroupCode.
      */
     public String getLetterOfCreditFundGroupCode() {
@@ -1583,7 +1592,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * Sets the letterOfCreditFundGroupCode attribute value.
-     * 
+     *
      * @param letterOfCreditFundGroupCode The letterOfCreditFundGroupCode to set.
      */
     public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
@@ -1592,7 +1601,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * Gets the letterOfCreditFundCode attribute.
-     * 
+     *
      * @return Returns the letterOfCreditFundCode.
      */
     public String getLetterOfCreditFundCode() {
@@ -1601,7 +1610,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
     /**
      * Sets the letterOfCreditFundCode attribute value.
-     * 
+     *
      * @param letterOfCreditFundCode The letterOfCreditFundCode to set.
      */
     public void setLetterOfCreditFundCode(String letterOfCreditFundCode) {
@@ -1723,7 +1732,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
      * from org.kuali.rice.krad.util.ObjectUtils
      */
     /**
-     * 
+     *
      */
     private void setObjectPropertyDeep(Object bo, String propertyName, Class type, Object propertyValue) throws FormatException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 
@@ -1749,7 +1758,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
                 Object nestedBo = ObjectUtils.getPropertyValue(bo, propertyDescriptor.getName());
                 if (nestedBo instanceof BusinessObject) {
                     if (!"cashControlDocument".equals(propertyDescriptor.getName())) {
-                        setObjectPropertyDeep((BusinessObject) nestedBo, propertyName, type, propertyValue);
+                        setObjectPropertyDeep(nestedBo, propertyName, type, propertyValue);
                     }
                 }
             }
@@ -1773,8 +1782,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     @Override
     public void validateBusinessRules(KualiDocumentEvent event) {
         // override for payment reversal, we don't need to check at this point. Fields should be uneditable.
-        if (!isPaymentApplicationCorrection())
+        if (!isPaymentApplicationCorrection()) {
             super.validateBusinessRules(event);
+        }
     }
 
     // save AccountsReceivableDocumentHeader
@@ -1793,7 +1803,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     /**
-     * 
+     *
      */
     private void saveCashControlDetail(CashControlDetail cashControlDetail) {
         KNSServiceLocator.getBusinessObjectService().save(cashControlDetail);
@@ -1819,7 +1829,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     /**
-     * 
+     *
      */
     // Reduce the Cash Control Total Amount by removing the total from Refunds for error Correction Documents.
     private void reduceCashControlTotalByRefundAmount() {
@@ -1834,7 +1844,7 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
     }
 
     /**
-     * 
+     *
      */
     private void negateDocumentValues() {
         for (InvoicePaidApplied invoicePaidApplied : getInvoicePaidApplieds()) {

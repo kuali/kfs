@@ -23,6 +23,8 @@ public class ArConstants{
 
 
     public static final String AR_NAMESPACE_CODE = "KFS-AR";
+    public static final String CG_NAMESPACE_CODE = "KFS-CG";
+    public static final String ENABLE_CG_PRORATE_BILL_IND = "ENABLE_CG_PRORATE_BILL_IND";
 
     public static final String INVOICE_DOC_TYPE = "Invoice";
     public static final String CREDIT_MEMO_DOC_TYPE = "Credit Memo";
@@ -89,6 +91,53 @@ public class ArConstants{
 
     public static final String NEW_COLLECTION_ACTIVITY_EVENT_ERROR_PATH_PREFIX = "newEvent";
 
+    // Category Codes for Total fields.
+
+    public static final String TOTAL_DIRECT_COST = "Total Direct Cost";
+    public static final String TOTAL_DIRECT_COST_CD = "TDC";
+    public static final String TOTAL_IN_DIRECT_COST = "Total Indirect Cost";
+    public static final String TOTAL_IN_DIRECT_COST_CD = "TIDC";
+    public static final String TOTAL_COST = "Total Cost";
+    public static final String TOTAL_COST_CD = "TC";
+
+    public static final String DOCUMENT_STATUS_FINAL = "F";
+    // Agency Address
+    public static final String AGENCY_DETAIL_TYPE_CODE = "Agency";
+    public static final String AGENCY_PRIMARY_ADDRESSES_TYPE_CODE = "P";
+    public static final String AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE = "A";
+    public static final String DEFAULT_NUMBER_OF_COPIES_TO_PRINT = "DEFAULT_NUMBER_OF_COPIES_TO_PRINT";
+
+    /* Start TEM REFUND Merge */
+    public static class ArRefunding {
+        public static final String DV_ROUTE_PARAMETER_NAME = "DV_DOCUMENT_ROUTE_ACTION";
+        public static final String DV_ROUTE_SAVE = "SAVE";
+        public static final String DV_ROUTE_ROUTE = "ROUTE";
+        public static final String DV_ROUTE_BLANKETAPPROVE = "BLANKETAPPROVE";
+    }
+
+    public static class SuspensionCategories {
+        public static final String BILL_DATE_EXCEEDS_THE_AWARD_STOP_DATE = "1";
+        public static final String NEW_TOTAL_BILLED_AMOUNT_EXCEEDS_AWARD_TOTAL = "2";
+        public static final String INVOICE_AMOUNT_IS_LESS_THAN_INVOICE_MINIMUM_REQUIREMENT = "3";
+        public static final String REPORTS_ARE_REQUIRED_TO_BE_ATTACHED = "4";
+
+        public static final String AGENCY_PRIMARY_ADDRESS_NOT_COMPLETE = "5";
+        public static final String AGENCY_ALTERNATE_ADDRESS_NOT_COMPLETE = "6";
+        public static final String INVOICE_NOT_FINAL_AND_EXPIRATION_DATE_REACHED = "7";
+        public static final String OBJECT_CODE_FOR_AN_ACCOUNT_MAY_BE_MISSING_FROM_CGB_CATEGORY_CODE = "8";
+        public static final String LOC_REMAINING_AMOUNT_IS_NOT_SUFFICIENT = "9";
+
+        public static final String AWARD_HAS_ACTIVE_BUT_EXPIRED_ACCOUNT = "10";
+        public static final String AWARD_SUSPENDED_BY_USER = "11";
+        public static final String INVOICE_TYPE_IS_MISSING = "12";
+        public static final String AWARD_HAS_CLOSED_ACCOUNT_WITH_CURRENT_EXPENDITURES = "13";
+        public static final String AWARD_HAS_STOP_WORK_MARKED = "14";
+    }
+
+    public static class TemplateUploadSystem {
+        static final public String EXTENSION = ".pdf";
+        static final public String TEMPLATE_MIME_TYPE = "application/pdf";
+    }
 
     public static class PaymentMediumCode {
         public static final String CASH = "CA";
@@ -264,28 +313,6 @@ public class ArConstants{
         static final public String CGINVOICE_CREATION_AWARD_OFFSET_DEF_NOT_SETUP = "Offset Definition must be setup for the appropriate Chart when GLPE Receivable parameter is set to 3.";
     }
 
-    // Award
-    public static final String LOC_BY_AWARD = "LOC By Award";
-    public static final String LOC_BY_LOC_FUND = "LOC By Letter of Credit Fund";
-    public static final String LOC_BY_LOC_FUND_GRP = "LOC By Letter of Credit Fund Group";
-    public static final String AWARD_MILESTONE_CHECK_LIMIT_DAYS = "AWARD_MILESTONE_CHECK_LIMIT_DAYS";
-
-    public static final String PRORATE_WARNING = "document.prorateWarning";
-    public static final String MINIMUM_INVOICE_AMOUNT = "MINIMUM_INVOICE_AMOUNT";
-
-    public static final String INVOICE_REPORT_OPTION = "dummyBusinessObject.invoiceReportOption";
-    public static final String OUTSTANDING_INVOICES = "Outstanding Invoices";
-    public static final String PAST_DUE_INVOICES = "Past Due Invoices";
-
-    public static final String QUATER1 = "q1";
-    public static final String QUATER2 = "q2";
-    public static final String QUATER3 = "q3";
-    public static final String QUATER4 = "q4";
-    public static final String SEMI_ANNUAL = "Sa";
-    public static final String ANNUAL = "An";
-    public static final String FINAL = "F";
-    public static final String ZERO = "0";
-
     public static class ReportsConstants {
         public static final List<String> awardBalancesReportSubtotalFieldsList = new ArrayList<String>();
 
@@ -330,16 +357,6 @@ public class ArConstants{
 
     }
 
-    // CG Invoice Document
-    public static final String CONTRACTS_AND_GRANTS_INVOICE_CATEGORIES = "CONTRACTS_AND_GRANTS_INVOICE_CATEGORIES";
-
-    public static final String CGIN_DOCUMENT_TYPE = "CGIN";
-    public static final String CGIN_DOCUMENT_DESCRIPTION = "Contracts Grants Invoice Document";
-    public static final String ACCOUNT = "Account";
-    public static final String CONTRACT_CONTROL_ACCOUNT = "Contract Control Account";
-    public static final String INV_RPT_PRCS_IN_PROGRESS = "IN PROGRESS";
-    public static final String INV_RPT_PRCS_SENT = "EMAILS SENT";
-
     public static class InvoiceIndicator {
         static final public String MAIL = "MAIL";
         static final public String EMAIL = "EMAIL";
@@ -378,4 +395,48 @@ public class ArConstants{
         public static final String TOTAL_WRITEOFF = "Total Write-Off";
         public static final String TOTAL_CREDITS = "Total Credits";
     }
+
+    public static class InvoiceIndicator {
+        static final public String MAIL = "MAIL";
+        static final public String EMAIL = "EMAIL";
+        static final public String S2S = "S2S";
+        static final public String PAY_WEB = "PayWeb";
+        static final public String WAWF = "WAWF";
+        static final public String VIPERS = "Vipers";
+    }
+
+
+
+    // Award
+    public static final String LOC_BY_AWARD = "LOC By Award";
+    public static final String LOC_BY_LOC_FUND = "LOC By Letter of Credit Fund";
+    public static final String LOC_BY_LOC_FUND_GRP = "LOC By Letter of Credit Fund Group";
+    public static final String AWARD_MILESTONE_CHECK_LIMIT_DAYS = "AWARD_MILESTONE_CHECK_LIMIT_DAYS";
+
+    public static final String PRORATE_WARNING = "document.prorateWarning";
+    public static final String MINIMUM_INVOICE_AMOUNT = "MINIMUM_INVOICE_AMOUNT";
+
+    public static final String INVOICE_REPORT_OPTION = "dummyBusinessObject.invoiceReportOption";
+    public static final String OUTSTANDING_INVOICES = "Outstanding Invoices";
+    public static final String PAST_DUE_INVOICES = "Past Due Invoices";
+
+    public static final String QUATER1 = "q1";
+    public static final String QUATER2 = "q2";
+    public static final String QUATER3 = "q3";
+    public static final String QUATER4 = "q4";
+    public static final String SEMI_ANNUAL = "Sa";
+    public static final String ANNUAL = "An";
+    public static final String FINAL = "F";
+    public static final String ZERO = "0";
+
+    // CG Invoice Document
+    public static final String CONTRACTS_AND_GRANTS_INVOICE_CATEGORIES = "CONTRACTS_AND_GRANTS_INVOICE_CATEGORIES";
+
+    public static final String CGIN_DOCUMENT_TYPE = "CGIN";
+    public static final String CGIN_DOCUMENT_DESCRIPTION = "Contracts Grants Invoice Document";
+    public static final String ACCOUNT = "Account";
+    public static final String CONTRACT_CONTROL_ACCOUNT = "Contract Control Account";
+    public static final String INV_RPT_PRCS_IN_PROGRESS = "IN PROGRESS";
+    public static final String INV_RPT_PRCS_SENT = "EMAILS SENT";
+
 }

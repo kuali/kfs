@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,6 +35,7 @@ public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
     /**
      * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#deleteAll()
      */
+    @Override
     public void deleteAll() {
         getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(Award.class, new Criteria()));
     }
@@ -42,6 +43,7 @@ public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
     /**
      * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#getAwardsToClose(org.kuali.kfs.module.cg.businessobject.Close)
      */
+    @Override
     public Collection<Award> getAwardsToClose(ProposalAwardCloseDocument close) {
 
         Criteria criteria = new Criteria();
@@ -49,91 +51,36 @@ public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
         criteria.addLessOrEqualThan("awardEntryDate", close.getCloseOnOrBeforeDate());
         criteria.addNotEqualTo("awardStatusCode", "U");
 
-        return (Collection<Award>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, criteria));
+        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, criteria));
     }
 
     /**
      * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#save(org.kuali.kfs.module.cg.businessobject.Award)
      */
+    @Override
     public void save(Award award) {
         getPersistenceBrokerTemplate().store(award);
-    }
-
-
-    /**
-     * Retrieve all the accounts assigned to an award
-     * 
-     * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#getAccountsOfAward(org.kuali.kfs.module.cg.businessobject.Award)
-     */
-    public Collection<AwardAccount> getAccountsOfAward(Award award) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber().toString());
-        criteria.addEqualTo("active", CGConstants.DATABASE_TRUE_VALUE);
-        return (Collection<AwardAccount>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AwardAccount.class, criteria));
     }
 
     /**
      * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#getAwardsToClose(org.kuali.kfs.module.cg.businessobject.Close)
      */
+    @Override
     public Collection<Award> getActiveAwardsByCriteria(Criteria criteria) {
 
-        return (Collection<Award>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, criteria));
+        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, criteria));
     }
-
-    /**
-     * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#save(org.kuali.kfs.module.cg.businessobject.Award)
-     */
-    public void save(Award award) {
-        getPersistenceBrokerTemplate().store(award);
-    }
-
 
     /**
      * Retrieve all the accounts assigned to an award
-     * 
+     *
      * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#getAccountsOfAward(org.kuali.kfs.module.cg.businessobject.Award)
      */
+    @Override
     public Collection<AwardAccount> getAccountsOfAward(Award award) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber().toString());
         criteria.addEqualTo("active", CGConstants.DATABASE_TRUE_VALUE);
-        return (Collection<AwardAccount>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AwardAccount.class, criteria));
+        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AwardAccount.class, criteria));
     }
-
-    /**
-     * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#getAwardsToClose(org.kuali.kfs.module.cg.businessobject.Close)
-     */
-    public Collection<Award> getActiveAwardsByCriteria(Criteria criteria) {
-
-        return (Collection<Award>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, criteria));
-    }
-
-    /**
-     * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#save(org.kuali.kfs.module.cg.businessobject.Award)
-     */
-    public void save(Award award) {
-        getPersistenceBrokerTemplate().store(award);
-    }
-
-
-    /**
-     * Retrieve all the accounts assigned to an award
-     * 
-     * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#getAccountsOfAward(org.kuali.kfs.module.cg.businessobject.Award)
-     */
-    public Collection<AwardAccount> getAccountsOfAward(Award award) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber().toString());
-        criteria.addEqualTo("active", CGConstants.DATABASE_TRUE_VALUE);
-        return (Collection<AwardAccount>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AwardAccount.class, criteria));
-    }
-
-    /**
-     * @see org.kuali.kfs.module.cg.dataaccess.AwardDao#getAwardsToClose(org.kuali.kfs.module.cg.businessobject.Close)
-     */
-    public Collection<Award> getActiveAwardsByCriteria(Criteria criteria) {
-
-        return (Collection<Award>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, criteria));
-    }
-
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,21 +33,20 @@ import org.kuali.kfs.module.cg.businessobject.AgencyType;
 import org.kuali.kfs.module.cg.businessobject.defaultvalue.NextAgencyNumberFinder;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.util.KcUtils;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.bo.CountryImpl;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.DocumentAuthorizer;
+import org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.service.MaintenanceDocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -65,6 +64,7 @@ public class AgencyCreationServiceImpl implements AgencyCreationService {
     /**
      * @see org.kuali.kfs.integration.cg.service.AgencyCreationService#createAgency(org.kuali.kfs.integration.cg.dto.AgencyParametersDTO)
      */
+    @Override
     public AgencyCreationStatusDTO createAgency(AgencyParametersDTO agencyParameters) {
 
         AgencyCreationStatusDTO agencyCreationStatus = new AgencyCreationStatusDTO();
@@ -88,20 +88,21 @@ public class AgencyCreationServiceImpl implements AgencyCreationService {
         return agencyCreationStatus;
     }
 
-    
+
     private MaintenanceDocumentService maintenanceDocumentService;
 
     protected boolean isAgencyExist(AgencyParametersDTO agencyParameters){
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("sponsorCode", agencyParameters.getSponsorCode());
-        
-        return (!KNSServiceLocator.getBusinessObjectService().findMatching(Agency.class, criteria).isEmpty());
+
+        return (!SpringContext.getBean(BusinessObjectService.class).findMatching(Agency.class, criteria).isEmpty());
     }
-    
-    
+
+
     /**
      * @see org.kuali.kfs.integration.cg.service.AgencyCreationService#updateAgency(org.kuali.kfs.integration.cg.dto.AgencyParametersDTO)
      */
+    @Override
     public AgencyCreationStatusDTO updateAgency(AgencyParametersDTO agencyParameters) {
         AgencyCreationStatusDTO agencyCreationStatus = new AgencyCreationStatusDTO();
         agencyCreationStatus.setErrorMessages(new ArrayList<String>());
@@ -121,18 +122,20 @@ public class AgencyCreationServiceImpl implements AgencyCreationService {
 
     /**
      * This method check to see if the user can create the agency maintenance document and set the user session
-     * 
+     *
      * @param String principalId
      * @return boolean
      */
     protected boolean isValidUser(String principalId) {
 
         PersonService personService = SpringContext.getBean(PersonService.class);
-        if (principalId == null)
+        if (principalId == null) {
             return false;
+        }
         Person user = personService.getPerson(principalId);
-        if (user == null)
+        if (user == null) {
             return false;
+        }
         DocumentAuthorizer documentAuthorizer = new MaintenanceDocumentAuthorizerBase();
         if (documentAuthorizer.canInitiate(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Agency.class), user)) {
             // set the user session so that the user name can be displayed in the saved document
@@ -156,7 +159,7 @@ public class AgencyCreationServiceImpl implements AgencyCreationService {
 
     /**
      * Created Agency object from the parameters.
-     * 
+     *
      * @param agencyParameters
      * @return
      */
@@ -167,23 +170,23 @@ public class AgencyCreationServiceImpl implements AgencyCreationService {
         agency.setSponsorCode(agencyParameters.getSponsorCode());
         agency.setReportingName(agencyParameters.getReportingName());
         agency.setFullName(agencyParameters.getFullName());
-        
+
         setAgencyTypeCode(agency, agencyParameters.getAgencyTypeCode());
-        
+
         agency.setActive(agencyParameters.isActive());
         agency.setInStateIndicator(agencyParameters.isInState());
-        
+
         // set address
         List<AgencyAddress> agencyAddresses = new ArrayList<AgencyAddress>();
         agencyAddresses.add(createAgencyAddressFromParameter(agencyParameters));
         agency.setAgencyAddresses(agencyAddresses);
-        
+
         return agency;
     }
-    
+
     /**
      * This method will check if the agency type code exist before setting it.  If it doesn't exist it will set it to the default value specified by the parameter
-     * 
+     *
      * @param agency
      * @param agencyTypeCode
      */
@@ -191,12 +194,12 @@ public class AgencyCreationServiceImpl implements AgencyCreationService {
         if(isAgencyTypeCodeExist(agencyTypeCode)){
             agency.setAgencyTypeCode(agencyTypeCode);
         } else {
-            agency.setAgencyTypeCode(KNSServiceLocator.getParameterService().getParameterValueAsString(CGConstants.CG_NAMESPACE_CODE, ContractsAndGrantsConstants.AgencyCreationService.PARAMETER_COMPONENT_AGENCY_TYPE, ContractsAndGrantsConstants.AgencyCreationService.PARAMETER_DEFAULT_AGENCY_TYPE_CODE));
+            agency.setAgencyTypeCode(SpringContext.getBean(ParameterService.class).getParameterValueAsString(CGConstants.CG_NAMESPACE_CODE, ContractsAndGrantsConstants.AgencyCreationService.PARAMETER_COMPONENT_AGENCY_TYPE, ContractsAndGrantsConstants.AgencyCreationService.PARAMETER_DEFAULT_AGENCY_TYPE_CODE));
         }
     }
-    
+
     protected boolean isAgencyTypeCodeExist(String agencyTypeCode){
-        AgencyType agencyType = (AgencyType)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(AgencyType.class, agencyTypeCode);
+        AgencyType agencyType = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(AgencyType.class, agencyTypeCode);
         if(ObjectUtils.isNull(agencyType)){
             return false;
         } else {
@@ -206,13 +209,13 @@ public class AgencyCreationServiceImpl implements AgencyCreationService {
 
     /**
      * Create and populate AgencyAddress from the parameters
-     * 
+     *
      * @param agencyParameters
      * @return
      */
     protected AgencyAddress createAgencyAddressFromParameter(AgencyParametersDTO agencyParameters){
         // set address
-        AgencyAddress agencyAddress = new AgencyAddress(); 
+        AgencyAddress agencyAddress = new AgencyAddress();
         agencyAddress.setAgencyAddressTypeCode(CGConstants.AGENCY_PRIMARY_ADDRESSES_TYPE_CODE);
         agencyAddress.setAgencyAddressName(agencyParameters.getAddressName());
         agencyAddress.setAgencyContactName(agencyParameters.getContactName());
@@ -223,14 +226,14 @@ public class AgencyCreationServiceImpl implements AgencyCreationService {
         agencyAddress.setAgencyCityName(agencyParameters.getCityName());
         agencyAddress.setAgencyStateCode(agencyParameters.getStateCode());
         agencyAddress.setAgencyZipCode(agencyParameters.getZipCode());
-        agencyAddress.setAgencyCountryCode(getCountryCode(agencyParameters.getCountryCode()));  
+        agencyAddress.setAgencyCountryCode(getCountryCode(agencyParameters.getCountryCode()));
         agencyAddress.setAgencyPhoneNumber(agencyParameters.getPhoneNumber());
         agencyAddress.setAgencyFaxNumber(agencyParameters.getFaxNumber());
         agencyAddress.setAgencyContactEmailAddress(agencyParameters.getContactEmailAddress());
-        
+
         return agencyAddress;
     }
-    
+
     /**
      * @param agency
      * @param agencyCreationStatus
@@ -270,7 +273,7 @@ public class AgencyCreationServiceImpl implements AgencyCreationService {
     /**
      * This method will use the DocumentService to create a new document. The documentTypeName is gathered by using
      * MaintenanceDocumentDictionaryService which uses Agency class to get the document type name.
-     * 
+     *
      * @param AgencyCreationStatusDTO
      * @return document returns a new document for the account document type or null if there is an exception thrown.
      */
@@ -309,7 +312,7 @@ public class AgencyCreationServiceImpl implements AgencyCreationService {
     protected void updateRouteAutomaticCGAgencyMaintenanceDocument(AgencyParametersDTO agencyParameters, AgencyCreationStatusDTO agencyCreationStatus) {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("sponsorCode", agencyParameters.getSponsorCode());
-        
+
         try {
             Collection<Agency> agencies = businessObjectService.findMatching(Agency.class, criteria);
             if(agencies==null || agencies.isEmpty()){
@@ -347,12 +350,12 @@ public class AgencyCreationServiceImpl implements AgencyCreationService {
     protected void updateAgencyObject(Agency agency, AgencyParametersDTO agencyParameters) {
         agency.setReportingName(agencyParameters.getReportingName());
         agency.setFullName(agencyParameters.getFullName());
-        
+
         setAgencyTypeCode(agency, agencyParameters.getAgencyTypeCode());
-        
+
         agency.setActive(agencyParameters.isActive());
         agency.setInStateIndicator(agencyParameters.isInState());
-        
+
         // update address
         List<AgencyAddress> agencyAddresses = new ArrayList<AgencyAddress>();
         agencyAddresses.add(createAgencyAddressFromParameter(agencyParameters));
@@ -361,9 +364,9 @@ public class AgencyCreationServiceImpl implements AgencyCreationService {
 
 
     /**
-     * country code given may be the alternate 3 digit code.  
+     * country code given may be the alternate 3 digit code.
      * This method will return the 2 digit country code from the country table.
-     * 
+     *
      * @param countryCode
      * @return
      */
@@ -379,15 +382,15 @@ public class AgencyCreationServiceImpl implements AgencyCreationService {
                 }
             }
         }
-        
+
         return result;
     }
-    
-    
+
+
 
     /**
      * Checks whether the Agency is currently locked.
-     * 
+     *
      * @param document The MaintenanceDocument containing the vendor.
      * @return boolean true if the Agency is currently locked and false otherwise.
      */
@@ -404,7 +407,7 @@ public class AgencyCreationServiceImpl implements AgencyCreationService {
 
     /**
      * Gets the documentService attribute.
-     * 
+     *
      * @return Current value of documentService.
      */
     protected DocumentService getDocumentService() {
@@ -413,7 +416,7 @@ public class AgencyCreationServiceImpl implements AgencyCreationService {
 
     /**
      * Sets the documentService attribute value.
-     * 
+     *
      * @param documentService
      */
     public void setDocumentService(DocumentService documentService) {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,24 +18,18 @@ package org.kuali.kfs.module.ar.web.struts;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -53,23 +47,15 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
-
-import com.lowagie.text.pdf.PdfCopy;
-import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.SimpleBookmark;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Action class for Invoice Report Delivery.
@@ -138,7 +124,7 @@ public class InvoiceReportDeliveryAction extends KualiAction {
 
     /**
      * This method forwards the print request according to the selections.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -172,7 +158,7 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                 irdForm.setMessage(NO_MATCHING_INVOICE);
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
-        } 
+        }
         if (ObjectUtils.isNotNull(irdForm.getInvoiceAmount())) {
             try{
                 KualiDecimal invoiceAmount =  new KualiDecimal(irdForm.getInvoiceAmount());
@@ -181,12 +167,12 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                 irdForm.setMessage(NO_MATCHING_INVOICE);
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
-        } 
+        }
         if (StringUtils.isEmpty(deliveryType)) {
             irdForm.setMessage(NO_DELIVERY_TYPE_SELECTED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-       
+
         // Fetch the invoices with the input parameters
         Collection<ContractsGrantsInvoiceDocument> list = this.getInvoicesByParametersFromRequest(irdForm);
 
@@ -201,8 +187,8 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                                 mailSet.add(invoice);
                             }
                         }
-                        
-                       
+
+
                     }
                 }
                 mailList.addAll(mailSet);
@@ -214,7 +200,7 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                     response.setHeader("Expires", "0");
                     response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
                     response.setHeader("Pragma", "public");
-                    response.setContentLength((int) baos.size());
+                    response.setContentLength(baos.size());
                     ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
                     IOUtils.copy(bais, response.getOutputStream());
                     response.getOutputStream().flush();
@@ -241,8 +227,8 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                                 emailSet.add(invoice);
                             }
                         }
-                        
-                        
+
+
                     }
                 }
                 emailList.addAll(emailSet);
@@ -261,7 +247,7 @@ public class InvoiceReportDeliveryAction extends KualiAction {
 
     /**
      * Returns the list of invoices that match the search criteria.
-     * 
+     *
      * @param form
      * @return collections of Contracts and Grants Invoice Document
      * @throws WorkflowException
@@ -281,20 +267,26 @@ public class InvoiceReportDeliveryAction extends KualiAction {
         String user = form.getUserId();
         ContractsGrantsInvoiceDocumentService invoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
         Criteria criteria = new Criteria();
-        if (StringUtils.isNotEmpty(form.getProposalNumber()))
+        if (StringUtils.isNotEmpty(form.getProposalNumber())) {
             criteria.addEqualTo("proposalNumber", form.getProposalNumber());
-        if (StringUtils.isNotEmpty(form.getDocumentNumber()))
+        }
+        if (StringUtils.isNotEmpty(form.getDocumentNumber())) {
             criteria.addEqualTo("documentNumber", form.getDocumentNumber());
-        if (ObjectUtils.isNotNull(form.getInvoiceAmount()))
+        }
+        if (ObjectUtils.isNotNull(form.getInvoiceAmount())) {
             criteria.addEqualTo("documentHeader.financialDocumentTotalAmount", new KualiDecimal(form.getInvoiceAmount()));
-        if (StringUtils.isNotEmpty(form.getChartCode()))
+        }
+        if (StringUtils.isNotEmpty(form.getChartCode())) {
             criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.BILL_BY_CHART_OF_ACCOUNT_CODE, form.getChartCode());
-        if (StringUtils.isNotEmpty(form.getOrgCode()))
+        }
+        if (StringUtils.isNotEmpty(form.getOrgCode())) {
             criteria.addEqualTo(ArPropertyConstants.CustomerInvoiceDocumentFields.BILLED_BY_ORGANIZATION_CODE, form.getOrgCode());
+        }
         Collection<ContractsGrantsInvoiceDocument> list = invoiceDocumentService.retrieveAllCGInvoicesByCriteria(criteria);
         Collection<ContractsGrantsInvoiceDocument> finalList = new ArrayList<ContractsGrantsInvoiceDocument>();
-        if (CollectionUtils.isEmpty(list))
+        if (CollectionUtils.isEmpty(list)) {
             return null;
+        }
         for (ContractsGrantsInvoiceDocument item : list) {
             Document document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(item.getDocumentNumber());
             if (ArConstants.CGIN_DOCUMENT_TYPE.equals(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName())) {
@@ -302,9 +294,10 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                 if (invoice.getDocumentHeader().getWorkflowDocument().isFinal()) {
                     if (StringUtils.isNotEmpty(user)) {
                         Person person = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(user);
-                        if (person == null)
+                        if (person == null) {
                             throw new IllegalArgumentException("The parameter value for initiatorPrincipalName [" + user + "] passed in does not map to a person.");
-                        if (invoice.getDocumentHeader().getWorkflowDocument().userIsInitiator(person)){
+                        }
+                        if (invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId().equals(person.getPrincipalId())){
                             if (this.isInvoiceBetween(invoice, fromDate, toDate)) {
                                 if (ObjectUtils.isNull(invoice.getDateReportProcessed()) || ObjectUtils.isNull(invoice.getMarkedForProcessing())){
                                     finalList.add(invoice);
@@ -325,7 +318,7 @@ public class InvoiceReportDeliveryAction extends KualiAction {
 
     /**
      * Checks whether invoice is between the dates provided.
-     * 
+     *
      * @param invoice
      * @param fromDate
      * @param toDate
@@ -333,12 +326,12 @@ public class InvoiceReportDeliveryAction extends KualiAction {
      */
     private boolean isInvoiceBetween(ContractsGrantsInvoiceDocument invoice, Timestamp fromDate, Timestamp toDate) {
         if (ObjectUtils.isNotNull(fromDate)){
-            if (fromDate.after(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated())){
+            if (fromDate.after(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate())){
                 return false;
             }
         }
         if (ObjectUtils.isNotNull(toDate)){
-            if (toDate.before(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated())){
+            if (toDate.before(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate())){
                 return false;
             }
         }
@@ -347,7 +340,7 @@ public class InvoiceReportDeliveryAction extends KualiAction {
 
     /**
      * Marks the invoices for email delivery.
-     * 
+     *
      * @param mapping
      * @param irdForm
      * @param list
@@ -365,7 +358,7 @@ public class InvoiceReportDeliveryAction extends KualiAction {
 
     /**
      * This method generates the actual pdf files to print.
-     * 
+     *
      * @param mapping
      * @param form
      * @param list

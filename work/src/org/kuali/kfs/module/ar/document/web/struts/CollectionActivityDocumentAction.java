@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -104,7 +104,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method updates the customer invoice details when a new invoice is selected
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -120,7 +120,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method updates customer invoice details when next invoice is selected
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -136,7 +136,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method updates customer invoice details when previous invoice is selected
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -152,7 +152,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * Retrieve all invoices for the selected customer.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -170,7 +170,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method loads the invoices for currently selected customer
-     * 
+     *
      * @param applicationDocumentForm
      */
     @SuppressWarnings("unused")
@@ -203,7 +203,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method loads the events for selected invoice number.
-     * 
+     *
      * @param colActForm The form object of Collection Activity.
      * @param currentInvoiceNumber The invoice number of which, events are to be loaded.
      */
@@ -230,7 +230,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * Get an error to display in the UI for a certain field.
-     * 
+     *
      * @param propertyName
      * @param errorKey
      */
@@ -242,7 +242,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * Get an error to display at the global level, for the whole document.
-     * 
+     *
      * @param errorKey
      */
     protected void addGlobalError(String errorKey) {
@@ -251,7 +251,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method adds a new event.
-     * 
+     *
      * @param mapping action mapping
      * @param form action form
      * @param request
@@ -291,7 +291,7 @@ public class CollectionActivityDocumentAction extends FinancialSystemTransaction
 
     /**
      * This method adds a new event
-     * 
+     *
      * @param mapping action mapping
      * @param form action form
      * @param request

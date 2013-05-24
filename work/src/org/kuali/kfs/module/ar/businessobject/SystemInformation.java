@@ -26,6 +26,8 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
+import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
@@ -91,6 +93,15 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     protected Person financialDocumentInitiator;
     protected SystemOptions universityFiscal;
     protected PostalCodeEbo orgRemitToZipCode;
+    /* Start TEM REFUND Merge */
+    private PaymentReasonCode refundPaymentReason;
+    private ObjectCode refundObjectCode;
+    /* End TEM REFUND Merge */
+    /* Start TEM REFUND Merge */
+    private String refundPaymentReasonCode;
+    private String refundFinancialObjectCode;
+    private String refundDocumentationLocationCode;
+/* End TEM REFUND Merge */
 
 	public Person getFinancialDocumentInitiator() {
 	    financialDocumentInitiator = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(financialDocumentInitiatorIdentifier, financialDocumentInitiator);
@@ -99,6 +110,30 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 
     public void setFinancialDocumentInitiator(Person financialDocumentInitiator) {
         this.financialDocumentInitiator = financialDocumentInitiator;
+    }
+
+    public String getRefundPaymentReasonCode() {
+        return refundPaymentReasonCode;
+    }
+
+    public void setRefundPaymentReasonCode(String refundPaymentReasonCode) {
+        this.refundPaymentReasonCode = refundPaymentReasonCode;
+    }
+
+    public String getRefundFinancialObjectCode() {
+        return refundFinancialObjectCode;
+    }
+
+    public void setRefundFinancialObjectCode(String refundFinancialObjectCode) {
+        this.refundFinancialObjectCode = refundFinancialObjectCode;
+    }
+
+    public String getRefundDocumentationLocationCode() {
+        return refundDocumentationLocationCode;
+    }
+
+    public void setRefundDocumentationLocationCode(String refundDocumentationLocationCode) {
+        this.refundDocumentationLocationCode = refundDocumentationLocationCode;
     }
 
     /**
@@ -903,6 +938,22 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 //    public void setWireSubObject(SubObjectCode wireSubObject) {
 //        this.wireSubObject = wireSubObject;
 //    }
+
+    public PaymentReasonCode getRefundPaymentReason() {
+        return refundPaymentReason;
+    }
+
+    public void setRefundPaymentReason(PaymentReasonCode refundPaymentReason) {
+        this.refundPaymentReason = refundPaymentReason;
+    }
+
+    public ObjectCode getRefundObjectCode() {
+        return refundObjectCode;
+    }
+
+    public void setRefundObjectCode(ObjectCode refundObjectCode) {
+        this.refundObjectCode = refundObjectCode;
+    }
 
     /**
 	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()

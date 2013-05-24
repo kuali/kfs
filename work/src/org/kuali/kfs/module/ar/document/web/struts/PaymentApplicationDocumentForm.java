@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -49,6 +52,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimApiConstants;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -192,6 +196,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
             }
         }
     }
+    }
 
     /**
      * @param payAppDocNumber
@@ -248,7 +253,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     /**
      * This method gets the payment application document
-     * 
+     *
      * @return the payment application document
      */
     public PaymentApplicationDocument getPaymentApplicationDocument() {
@@ -360,6 +365,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
          * Compares two Objects based on their creation date
          * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
          */
+        @Override
         public int compare(EntryHolder rosencrantz, EntryHolder guildenstern) {
              return rosencrantz.getDate().compareTo(guildenstern.getDate());
       }
@@ -411,7 +417,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     /**
      * This special casing for negative applieds is a display issue. We basically dont want to ever display that they applied a
      * negative amount, even while they may have an unsaved document with negative applications that are failing validations.
-     * 
+     *
      * @return
      */
     public KualiDecimal getTotalApplied() {
@@ -430,7 +436,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     /**
      * Returns the control total available for this document, whether its a cash-control style payapp, or a nonapplied style payapp.
-     * 
+     *
      * @return
      */
     public KualiDecimal getTotalFromControl() {
@@ -445,7 +451,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     /**
      * This method retrieves a specific customer invoice detail from the list, by array index
-     * 
+     *
      * @param index the index of the customer invoice detail to retrieve
      * @return a CustomerInvoiceDetail
      */
@@ -456,7 +462,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     /**
      * This method retrieves a specific customer invoice from the list, by array index
-     * 
+     *
      * @param index the index of the customer invoice to retrieve
      * @return a CustomerInvoiceDocument
      */
@@ -501,7 +507,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     /**
      * This method gets the previous invoice document number
-     * 
+     *
      * @return the previous invoice document number
      */
     public String getPreviousInvoiceDocumentNumber() {
@@ -538,7 +544,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     /**
      * This method gets the next invoice document number
-     * 
+     *
      * @return the next invoice document number
      */
     public String getNextInvoiceDocumentNumber() {
@@ -570,7 +576,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     /**
      * This method gets the Cash Control document for the payment application document
-     * 
+     *
      * @return the cash control document
      */
     public CashControlDocument getCashControlDocument() {
@@ -669,7 +675,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     /**
      * Returns the total amount of previously NonApplied funds available to apply to invoices and other applications on this
      * document.
-     * 
+     *
      * @return
      */
     public KualiDecimal getNonAppliedControlAvailableUnappliedAmount() {
@@ -702,7 +708,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     /**
      * Used for when the doc is final, to show the control docs section.
-     * 
+     *
      * @return
      */
     public Map<String, KualiDecimal> getDistributionsFromControlDocs() {
@@ -714,7 +720,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     /**
      * Used for when the doc is live, to show the control docs section.
-     * 
+     *
      * @return
      */
     public Map<String, KualiDecimal> getNonAppliedControlAllocations() {
@@ -749,10 +755,10 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
             final String[] checkboxesToReset = request.getParameterValues("checkboxToReset");
             if(checkboxesToReset != null && checkboxesToReset.length > 0) {
                 for (int i = 0; i < checkboxesToReset.length; i++) {
-                    String propertyName = (String) checkboxesToReset[i];
+                    String propertyName = checkboxesToReset[i];
                     if (!StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) == null) {
                         try {
-                            populateForProperty(propertyName, KimApiConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
+                            populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
                         }
                         catch (RuntimeException ex) {
 
@@ -760,7 +766,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
                     }
                     else if (!StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) != null && parameterMap.get(propertyName).length >= 1 && parameterMap.get(propertyName)[0].equalsIgnoreCase("on")) {
                         try {
-                            populateForProperty(propertyName, KimApiConstants.KIM_ATTRIBUTE_BOOLEAN_TRUE_STR_VALUE_DISPLAY, parameterMap);
+                            populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_TRUE_STR_VALUE_DISPLAY, parameterMap);
                         }
                         catch (RuntimeException ex) {
 

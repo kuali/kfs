@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,9 +21,8 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -40,10 +39,10 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
 
     private Person projectDirector;
 
-    
+
     private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
-    
+
     /**
      * Default constructor.
      */
@@ -53,6 +52,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getPrincipalId()
      */
+    @Override
     public String getPrincipalId() {
         return principalId;
     }
@@ -60,6 +60,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setPrincipalId(java.lang.String)
      */
+    @Override
     public void setPrincipalId(String principalId) {
         this.principalId = principalId;
     }
@@ -67,6 +68,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getProposalNumber()
      */
+    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
@@ -74,6 +76,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setProposalNumber(java.lang.Long)
      */
+    @Override
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
@@ -81,7 +84,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
 
     /**
      * Gets the proposalPrimaryProjectDirectorIndicator attribute.
-     * 
+     *
      * @return Returns the proposalPrimaryProjectDirectorIndicator
      */
     public boolean isProposalPrimaryProjectDirectorIndicator() {
@@ -91,13 +94,14 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     /**
      * @see Primaryable#isPrimary()
      */
+    @Override
     public boolean isPrimary() {
         return isProposalPrimaryProjectDirectorIndicator();
     }
 
     /**
      * Sets the proposalPrimaryProjectDirectorIndicator attribute.
-     * 
+     *
      * @param proposalPrimaryProjectDirectorIndicator The proposalPrimaryProjectDirectorIndicator to set.
      */
     public void setProposalPrimaryProjectDirectorIndicator(boolean proposalPrimaryProjectDirectorIndicator) {
@@ -107,7 +111,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
 
     /**
      * Gets the proposalProjectDirectorProjectTitle attribute.
-     * 
+     *
      * @return Returns the proposalProjectDirectorProjectTitle
      */
     public String getProposalProjectDirectorProjectTitle() {
@@ -116,7 +120,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
 
     /**
      * Sets the proposalProjectDirectorProjectTitle attribute.
-     * 
+     *
      * @param proposalProjectDirectorProjectTitle The proposalProjectDirectorProjectTitle to set.
      */
     public void setProposalProjectDirectorProjectTitle(String proposalProjectDirectorProjectTitle) {
@@ -125,18 +129,20 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -144,6 +150,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getProjectDirector()
      */
+    @Override
     public Person getProjectDirector() {
         if (principalId != null) {
             projectDirector = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(principalId, projectDirector);
@@ -154,6 +161,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     /**
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#setProjectDirector(org.kuali.kfs.module.cg.businessobject.ProjectDirector)
      */
+    @Override
     public void setProjectDirector(Person projectDirector) {
         this.projectDirector = projectDirector;
     }
@@ -172,7 +180,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
 
     /**
      * This can be displayed by Proposal.xml lookup results.
-     * 
+     *
      * @see Object#toString()
      */
     @Override
@@ -184,7 +192,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     }
 
     /**
-     * Gets the userLookupRoleNamespaceCode attribute. 
+     * Gets the userLookupRoleNamespaceCode attribute.
      * @return Returns the userLookupRoleNamespaceCode.
      */
     public String getUserLookupRoleNamespaceCode() {
@@ -192,7 +200,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     }
 
     /**
-     * Gets the userLookupRoleName attribute. 
+     * Gets the userLookupRoleName attribute.
      * @return Returns the userLookupRoleName.
      */
     public String getUserLookupRoleName() {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,6 @@ import java.util.Map;
 import org.kuali.kfs.module.cg.businessobject.LetterOfCreditFund;
 import org.kuali.kfs.module.cg.service.LetterOfCreditFundService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.kns.util.spring.Cached;
 
 /**
  * Implementation of the LetterOfCreditFundService
@@ -33,9 +32,9 @@ public class LetterOfCreditFundServiceImpl implements LetterOfCreditFundService 
     /**
      * @see org.kuali.kfs.module.cg.service.LetterOfCreditFundService#getByPrimaryId(java.lang.String)
      */
-    @Cached
+    @Override
     public LetterOfCreditFund getByPrimaryId(String letterOfCreditFundCode) {
-        return (LetterOfCreditFund) businessObjectService.findByPrimaryKey(LetterOfCreditFund.class, mapPrimaryKeys(letterOfCreditFundCode));
+        return businessObjectService.findByPrimaryKey(LetterOfCreditFund.class, mapPrimaryKeys(letterOfCreditFundCode));
     }
 
     protected Map<String, Object> mapPrimaryKeys(String letterOfCreditFundCode) {

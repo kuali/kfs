@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,15 +29,15 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.lookup.Lookupable;
-import org.kuali.rice.krad.service.BusinessObjectDictionaryService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.kns.lookup.Lookupable;
+import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.lookup.LookupUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 /**
@@ -98,9 +98,10 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Picks out business object name from the request to get retrieve a lookupable and set properties.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.form.LookupForm#populate(javax.servlet.http.HttpServletRequest)
      */
+    @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
         try {
@@ -228,7 +229,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Gets the awardInquiryTitle attribute.
-     * 
+     *
      * @return Returns the awardInquiryTitle.
      */
     public String getAwardInquiryTitle() {
@@ -237,7 +238,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Sets the awardInquiryTitle attribute value.
-     * 
+     *
      * @param awardInquiryTitle The awardInquiryTitle to set.
      */
     public void setAwardInquiryTitle(String awardInquiryTitle) {
@@ -247,6 +248,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @return Returns the lookupableImplServiceName.
      */
+    @Override
     public String getLookupableImplServiceName() {
         return lookupableImplServiceName;
     }
@@ -254,6 +256,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @param lookupableImplServiceName The lookupableImplServiceName to set.
      */
+    @Override
     public void setLookupableImplServiceName(String lookupableImplServiceName) {
         this.lookupableImplServiceName = lookupableImplServiceName;
     }
@@ -262,6 +265,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @return Returns the backLocation.
      */
+    @Override
     public String getBackLocation() {
         return backLocation;
     }
@@ -269,6 +273,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @param backLocation The backLocation to set.
      */
+    @Override
     public void setBackLocation(String backLocation) {
         this.backLocation = backLocation;
     }
@@ -276,6 +281,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @return Returns the formKey.
      */
+    @Override
     public String getFormKey() {
         return formKey;
     }
@@ -283,6 +289,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @param formKey The formKey to set.
      */
+    @Override
     public void setFormKey(String formKey) {
         this.formKey = formKey;
     }
@@ -290,6 +297,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @return Returns the fields.
      */
+    @Override
     public Map getFields() {
         return fields;
     }
@@ -297,6 +305,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @param fields The fields to set.
      */
+    @Override
     public void setFields(Map fields) {
         this.fields = fields;
     }
@@ -305,6 +314,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @return Returns the conversionFields.
      */
+    @Override
     public String getConversionFields() {
         return conversionFields;
     }
@@ -312,6 +322,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @param conversionFields The conversionFields to set.
      */
+    @Override
     public void setConversionFields(String conversionFields) {
         this.conversionFields = conversionFields;
     }
@@ -319,6 +330,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @return Returns the fieldConversions.
      */
+    @Override
     public Map getFieldConversions() {
         return fieldConversions;
     }
@@ -326,6 +338,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @param fieldConversions The fieldConversions to set.
      */
+    @Override
     public void setFieldConversions(Map fieldConversions) {
         this.fieldConversions = fieldConversions;
     }
@@ -333,6 +346,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @return Returns the businessObjectClassName.
      */
+    @Override
     public String getBusinessObjectClassName() {
         return businessObjectClassName;
     }
@@ -340,6 +354,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @param businessObjectClassName The businessObjectClassName to set.
      */
+    @Override
     public void setBusinessObjectClassName(String businessObjectClassName) {
         this.businessObjectClassName = businessObjectClassName;
     }
@@ -348,6 +363,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @return Returns the lookupable.
      */
+    @Override
     public Lookupable getLookupable() {
         return lookupable;
     }
@@ -356,6 +372,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @param lookupable The lookupable to set.
      */
+    @Override
     public void setLookupable(Lookupable lookupable) {
         this.lookupable = lookupable;
     }
@@ -364,6 +381,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @return Returns the hideReturnLink.
      */
+    @Override
     public boolean isHideReturnLink() {
         return hideReturnLink;
     }
@@ -372,6 +390,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
     /**
      * @param hideReturnLink The hideReturnLink to set.
      */
+    @Override
     public void setHideReturnLink(boolean hideReturnLink) {
         this.hideReturnLink = hideReturnLink;
     }
@@ -394,7 +413,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Gets the total0to30 attribute.
-     * 
+     *
      * @return Returns the total0to30.
      */
     public String getTotal0to30() {
@@ -403,7 +422,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Sets the total0to30 attribute value.
-     * 
+     *
      * @param total0to30 The total0to30 to set.
      */
     public void setTotal0to30(String total0to30) {
@@ -412,7 +431,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Gets the total31to60 attribute.
-     * 
+     *
      * @return Returns the total31to60.
      */
     public String getTotal31to60() {
@@ -421,7 +440,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Sets the total31to60 attribute value.
-     * 
+     *
      * @param total31to60 The total31to60 to set.
      */
     public void setTotal31to60(String total31to60) {
@@ -430,7 +449,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Gets the total61to90 attribute.
-     * 
+     *
      * @return Returns the total61to90.
      */
     public String getTotal61to90() {
@@ -439,7 +458,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Sets the total61to90 attribute value.
-     * 
+     *
      * @param total61to90 The total61to90 to set.
      */
     public void setTotal61to90(String total61to90) {
@@ -448,7 +467,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Gets the total91toSYSPR attribute.
-     * 
+     *
      * @return Returns the total91toSYSPR.
      */
     public String getTotal91toSYSPR() {
@@ -457,7 +476,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Sets the total91toSYSPR attribute value.
-     * 
+     *
      * @param total91toSYSPR The total91toSYSPR to set.
      */
     public void setTotal91toSYSPR(String total91toSYSPR) {
@@ -466,7 +485,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Gets the totalSYSPRplus1orMore attribute.
-     * 
+     *
      * @return Returns the totalSYSPRplus1orMore.
      */
     public String getTotalSYSPRplus1orMore() {
@@ -475,7 +494,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Sets the totalSYSPRplus1orMore attribute value.
-     * 
+     *
      * @param totalSYSPRplus1orMore The totalSYSPRplus1orMore to set.
      */
     public void setTotalSYSPRplus1orMore(String totalSYSPRplus1orMore) {
@@ -484,7 +503,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Gets the totalOpenInvoices attribute.
-     * 
+     *
      * @return Returns the totalOpenInvoices.
      */
     public String getTotalOpenInvoices() {
@@ -493,7 +512,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Sets the totalOpenInvoices attribute value.
-     * 
+     *
      * @param totalOpenInvoices The totalOpenInvoices to set.
      */
     public void setTotalOpenInvoices(String totalOpenInvoices) {
@@ -502,7 +521,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Gets the totalCredits attribute.
-     * 
+     *
      * @return Returns the totalCredits.
      */
     public String getTotalCredits() {
@@ -511,7 +530,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Sets the totalCredits attribute value.
-     * 
+     *
      * @param totalCredits The totalCredits to set.
      */
     public void setTotalCredits(String totalCredits) {
@@ -520,7 +539,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Gets the totalWriteOffs attribute.
-     * 
+     *
      * @return Returns the totalWriteOffs.
      */
     public String getTotalWriteOffs() {
@@ -529,7 +548,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Sets the totalWriteOffs attribute value.
-     * 
+     *
      * @param totalWriteOffs The totalWriteOffs to set.
      */
     public void setTotalWriteOffs(String totalWriteOffs) {
@@ -538,7 +557,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Gets the userLookupRoleNamespaceCode attribute.
-     * 
+     *
      * @return Returns the userLookupRoleNamespaceCode.
      */
     public String getUserLookupRoleNamespaceCode() {
@@ -547,7 +566,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
 
     /**
      * Gets the userLookupRoleName attribute.
-     * 
+     *
      * @return Returns the userLookupRoleName.
      */
     public String getUserLookupRoleName() {

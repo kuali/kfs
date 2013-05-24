@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,7 +31,7 @@ import org.kuali.kfs.module.ar.dataaccess.EventDao;
 import org.kuali.kfs.module.ar.document.CollectionActivityDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.docsearch.service.SearchableAttributeProcessingService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowDocumentActions;
@@ -53,7 +53,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
 
     /**
      * Gets the documentService attribute.
-     * 
+     *
      * @return Returns the documentService.
      */
     public DocumentService getDocumentService() {
@@ -62,7 +62,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
 
     /**
      * Sets the documentService attribute.
-     * 
+     *
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {
@@ -123,7 +123,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
         workflowDocumentActions.indexDocument(new Long(colActDoc.getDocumentNumber()));
 
         SpringContext.getBean(BusinessObjectService.class).save(event);
-        final SearchableAttributeProcessingService searchableAttributeProcessingService = SpringContext.getBean(SearchableAttributeProcessingService.class);
+        final searchableAttributeProcessingService searchableAttributeProcessingService = SpringContext.getBean(SearchableAttributeProcessingService.class);
         searchableAttributeProcessingService.indexDocument(new Long(colActDoc.getDocumentNumber()));
     }
 
@@ -165,12 +165,13 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
     /**
      * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#retrieveAwardByProposalNumber(java.lang.Long)
      */
+    @Override
     public ContractsAndGrantsCGBAward retrieveAwardByProposalNumber(Long proposalNumber) {
         ContractsAndGrantsCGBAward award = null;
         if (ObjectUtils.isNotNull(proposalNumber)) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(ArPropertyConstants.TicklersReportFields.PROPOSAL_NUMBER, proposalNumber);
-            award = (ContractsAndGrantsCGBAward) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
+            award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
         }
         return award;
     }
@@ -179,6 +180,7 @@ public class CollectionActivityDocumentServiceImpl implements CollectionActivity
      * @see org.kuali.kfs.module.ar.document.service.CollectionActivityDocumentService#validateInvoiceForSavedEvents(java.lang.String,
      *      java.lang.String)
      */
+    @Override
     public boolean validateInvoiceForSavedEvents(String invoiceNumber, String documentNumber) {
         boolean result = true;
         Criteria criteria = new Criteria();

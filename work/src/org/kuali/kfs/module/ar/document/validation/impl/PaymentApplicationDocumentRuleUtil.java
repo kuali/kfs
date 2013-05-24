@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -78,7 +78,7 @@ public class PaymentApplicationDocumentRuleUtil {
 
     /**
      * This method checks that an invoice paid applied is for a valid amount.
-     * 
+     *
      * @param invoicePaidApplied
      * @return
      */
@@ -125,7 +125,7 @@ public class PaymentApplicationDocumentRuleUtil {
 
     /**
      * The sum of invoice paid applied amounts cannot exceed the cash control total amount
-     * 
+     *
      * @param paymentApplicationDocument
      * @return
      * @throws WorkflowException
@@ -141,7 +141,7 @@ public class PaymentApplicationDocumentRuleUtil {
 
     /**
      * The sum of invoice paid applied amounts cannot be less than zero.
-     * 
+     *
      * @param paymentApplicationDocument
      * @return
      * @throws WorkflowException
@@ -157,7 +157,7 @@ public class PaymentApplicationDocumentRuleUtil {
 
     /**
      * The sum of non invoiceds must be less than or equal to the cash control total amount
-     * 
+     *
      * @param paymentApplicationDocument
      * @return
      * @throws WorkflowException
@@ -168,7 +168,7 @@ public class PaymentApplicationDocumentRuleUtil {
 
     /**
      * The unapplied amount can't be negative
-     * 
+     *
      * @param paymentApplicationDocument
      * @return
      * @throws WorkflowException
@@ -179,7 +179,7 @@ public class PaymentApplicationDocumentRuleUtil {
 
     /**
      * The unapplied amount must be less than or equal to the cash control total amount
-     * 
+     *
      * @param paymentApplicationDocument
      * @return
      * @throws WorkflowException
@@ -194,7 +194,7 @@ public class PaymentApplicationDocumentRuleUtil {
 
     /**
      * The unapplied amount can't be negative
-     * 
+     *
      * @param paymentApplicationDocument
      * @return
      * @throws WorkflowException
@@ -208,7 +208,7 @@ public class PaymentApplicationDocumentRuleUtil {
 
     /**
      * Validate non-ar/non-invoice line items on a PaymentApplicationDocument.
-     * 
+     *
      * @param nonInvoiced
      * @return
      */
@@ -232,7 +232,7 @@ public class PaymentApplicationDocumentRuleUtil {
         nonInvoiced.refreshReferenceObject("account");
         if ( ObjectUtils.isNull(nonInvoiced.getAccount())) {
             isValid &= false;
-            putError( ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_ACCOUNT,
+            errorMap.putError( ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_ACCOUNT,
                     ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_ACCOUNT_INVALID, nonInvoiced.getAccountNumber());
         }
         isValid &= validateNonInvoicedLineItem("chartOfAccountsCode", nonInvoiced.getChartOfAccountsCode(), Chart.class,
@@ -346,7 +346,7 @@ public class PaymentApplicationDocumentRuleUtil {
 
     /**
      * Checks account number restrictions, including restrictions in parameters table.
-     * 
+     *
      * @param FinancialDocument submitted financial document
      * @param accountingLine accounting line in submitted accounting document
      * @return true if account exists, falls within global function code restrictions, and account's sub fund is in permitted list
@@ -388,7 +388,7 @@ public class PaymentApplicationDocumentRuleUtil {
 
     /**
      * This method validates the provided non invoiced line value.
-     * 
+     *
      * @param attributeName The name of the attribute as it is defined within its parent business object (ie. financialObjectCode in
      *        ObjectCode.java)
      * @param value The value of the NonInvoiced line to be validated.
@@ -451,7 +451,7 @@ public class PaymentApplicationDocumentRuleUtil {
 
     /**
      * This method determines whether or not the amount to be applied to an invoice is acceptable.
-     * 
+     *
      * @param customerInvoiceDetails
      * @return
      */
@@ -510,7 +510,7 @@ public class PaymentApplicationDocumentRuleUtil {
 
     /**
      * This method validates the unapplied attribute of the document.
-     * 
+     *
      * @param document
      * @return
      * @throws WorkflowException
@@ -567,7 +567,7 @@ public class PaymentApplicationDocumentRuleUtil {
     /**
      * This method sums the amounts for a List of NonInvoiceds. This is used separately from
      * PaymentApplicationDocument.getTotalUnapplied()
-     * 
+     *
      * @return
      */
     private static KualiDecimal getSumOfNonInvoiceds(List<NonInvoiced> nonInvoiceds) {

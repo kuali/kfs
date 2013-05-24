@@ -41,6 +41,10 @@ public class KFSConstants {
 
     public static final String KFS_CORE_SERVICE_NAMESPACE = "http://kfs.kuali.org/core/v5_0";
 
+    public final static String REPORT_TITLE = "reportTitle";
+
+    public static final String ERROR_CORRECTION_EDITING_MODE = "errorCorrection";
+
     @Deprecated // Please switch all references to KFSConstants.CoreModuleNamespaces
     public static class ParameterNamespaces {
         public static final String KFS = "KFS-SYS";
@@ -1272,7 +1276,6 @@ public class KFSConstants {
     public static final String KFS_ACTION_CAN_VIEW_SECURED_FIELD = "canViewSecuredField";
     public static final String SECURED_FIELD_MASK = "********";
 
-    public final static String REPORT_TITLE = "reportTitle";
     public static final String AMOUNT_TOTALING_EDITING_MODE = "amountTotaling";
     public static final String BANK_ENTRY_VIEWABLE_EDITING_MODE = "bankEntryViewable";
     public static final String BANK_ENTRY_EDITABLE_EDITING_MODE = "bankEntry";
@@ -1447,4 +1450,5 @@ public class KFSConstants {
         public static final String SUBJECT_PAYMENT_VENDOR = "VSP";
         public static final String REVOLVING_FUND_VENDOR = "VRF";
     }
+
 }

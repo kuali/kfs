@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,27 +18,24 @@ package org.kuali.kfs.module.ar.web.struts;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.document.web.struts.CustomerInvoiceDocumentForm;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.authorization.ContractsGrantsInvoiceDocumentPresentationController;
+import org.kuali.kfs.module.ar.document.web.struts.CustomerInvoiceDocumentForm;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.krad.service.DocumentHelperService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Form Class for Contracts and Grants Invoice Document.
  */
 public class ContractsGrantsInvoiceDocumentForm extends CustomerInvoiceDocumentForm {
     private KualiDecimal currentTotal = KualiDecimal.ZERO;
-    
+
     /**
      * @see org.kuali.kfs.module.ar.document.web.struts.CustomerInvoiceDocumentForm#getExtraButtons()
      */
@@ -47,7 +44,7 @@ public class ContractsGrantsInvoiceDocumentForm extends CustomerInvoiceDocumentF
         // clear extra buttons
         extraButtons.clear();
         // path to externalizable images
-        String buttonUrl = getConfigService().getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        String buttonUrl = getConfigService().getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
         // get the presentation controller class
         ContractsGrantsInvoiceDocument cgInvoiceDocument = (ContractsGrantsInvoiceDocument) getDocument();
         DocumentHelperService docHelperService = SpringContext.getBean(DocumentHelperService.class);
@@ -57,7 +54,7 @@ public class ContractsGrantsInvoiceDocumentForm extends CustomerInvoiceDocumentF
             addExtraButton("methodToCall.correct", buttonUrl + "buttonsmall_correction.gif", "Correct");
         }
         // add Prorate Button
-        if (getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT) && KRADConstants.YES_INDICATOR_VALUE.equals(KNSServiceLocator.getParameterService().getParameterValueAsString(ArConstants.CG_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.ENABLE_CG_PRORATE_BILL_IND)) 
+        if (getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT) && KRADConstants.YES_INDICATOR_VALUE.equals(SpringContext.getBean(ParameterService.class).getParameterValueAsString(ArConstants.CG_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.ENABLE_CG_PRORATE_BILL_IND))
                 && !presoController.isBillingFrequencyMilestone(cgInvoiceDocument) && !presoController.isBillingFrequencyPredeterminedBillingSchedule(cgInvoiceDocument) && !cgInvoiceDocument.isCorrectionDocument()) {
             addExtraButton("methodToCall.prorateBill", buttonUrl + "buttonsmall_prorate.gif", "Prorate Bill");
         }
@@ -95,7 +92,7 @@ public class ContractsGrantsInvoiceDocumentForm extends CustomerInvoiceDocumentF
     public void setCurrentTotal(KualiDecimal currentTotal) {
         this.currentTotal = currentTotal;
     }
-    
-    
+
+
 
 }

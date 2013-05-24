@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,7 +51,7 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
 
     /**
      * Gets the contractsGrantsAgingReportService attribute.
-     * 
+     *
      * @return Returns the contractsGrantsAgingReportService.
      */
     public ContractsGrantsAgingReportService getContractsGrantsAgingReportService() {
@@ -60,7 +60,7 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
 
     /**
      * Sets the contractsGrantsAgingReportService attribute value.
-     * 
+     *
      * @param contractsGrantsAgingReportService The contractsGrantsAgingReportService to set.
      */
     public void setContractsGrantsAgingReportService(ContractsGrantsAgingReportService contractsGrantsAgingReportService) {
@@ -69,7 +69,7 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
 
     /**
      * Gets the customerInvoiceDocumentService attribute.
-     * 
+     *
      * @return Returns the customerInvoiceDocumentService.
      */
     public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
@@ -78,7 +78,7 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
 
     /**
      * Sets the customerInvoiceDocumentService attribute value.
-     * 
+     *
      * @param customerInvoiceDocumentService The customerInvoiceDocumentService to set.
      */
     public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
@@ -87,9 +87,10 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
 
     /**
      * This method populates ContractsGrantsAgingOpenInvoicesReportDetails (Contracts Grants Open Invoices Report)
-     * 
+     *
      * @param urlParameters
      */
+    @Override
     public List getPopulatedReportDetails(Map urlParameters) {
         List results = new ArrayList();
         String customerNumber = ((String[]) urlParameters.get(KFSPropertyConstants.CUSTOMER_NUMBER))[0];
@@ -120,11 +121,13 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
             }
 
             Map<String, List<ContractsGrantsInvoiceDocument>> map = contractsGrantsAgingReportService.filterContractsGrantsAgingReport(fieldValueMap, startDate, endDate);
-            if (ObjectUtils.isNotNull(map) && !map.isEmpty())
+            if (ObjectUtils.isNotNull(map) && !map.isEmpty()) {
                 selectedInvoices = map.get(customerNumber + "-" + customerName);
+            }
 
-            if (selectedInvoices.size() == 0)
+            if (selectedInvoices.size() == 0) {
                 return results;
+            }
 
         }
         catch (ParseException ex) {
@@ -138,7 +141,7 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
 
     /**
      * This method prepare the report model object to display on jsp page.
-     * 
+     *
      * @param invoices
      * @param results
      */
@@ -151,16 +154,18 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
             detail.setDocumentNumber(invoice.getDocumentNumber());
             // Document Description
             String documentDescription = invoice.getDocumentHeader().getDocumentDescription();
-            if (ObjectUtils.isNotNull(documentDescription))
+            if (ObjectUtils.isNotNull(documentDescription)) {
                 detail.setDocumentDescription(documentDescription);
-            else
+            }
+            else {
                 detail.setDocumentDescription("");
+            }
             // Billing Date
             detail.setBillingDate(invoice.getBillingDate());
             // Due Date
             detail.setDueApprovedDate(invoice.getInvoiceDueDate());
             // Document Payment Amount
-            detail.setDocumentPaymentAmount(invoice.getDocumentHeader().getFinancialDocumentTotalAmount());
+            detail.setDocumentPaymentAmount(invoice.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount());
             // Unpaid/Unapplied Amount
             detail.setUnpaidUnappliedAmount(customerInvoiceDocumentService.getOpenAmountForCustomerInvoiceDocument(invoice));
             detail.setFinalInvoice(invoice.getInvoiceGeneralDetail().isFinalBill() ? KFSConstants.ParameterValues.STRING_YES : KFSConstants.ParameterValues.STRING_NO);
@@ -184,13 +189,13 @@ public class ContractsGrantsAgingOpenInvoicesReportServiceImpl implements Contra
 
     /**
      * This method retrives the agecy for particular customer
-     * 
+     *
      * @param customerNumber
      * @return Returns the agency for the customer
      */
     private ContractsAndGrantsCGBAgency getAgencyByCustomer(String customerNumber) {
         Map args = new HashMap();
         args.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
-        return (ContractsAndGrantsCGBAgency) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAgency.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAgency.class, args);
+        return SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAgency.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAgency.class, args);
     }
 }

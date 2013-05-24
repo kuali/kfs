@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,10 +46,8 @@ import org.kuali.kfs.module.cg.businessobject.ProposalPurpose;
 import org.kuali.kfs.module.cg.service.ProposalCreationService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.util.KcUtils;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService; import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.kew.dto.DocumentSearchCriteriaDTO;
-import org.kuali.rice.kew.dto.DocumentSearchResultDTO;
-import org.kuali.rice.kew.dto.DocumentSearchResultRowDTO;
+import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService; import org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -58,13 +56,14 @@ import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.id
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.DocumentAuthorizer;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService; import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.service.MaintenanceDocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -88,48 +87,49 @@ public class AwardCreationServiceImpl implements AwardCreationService {
     /**
      * @see org.kuali.kfs.integration.cg.service.AwardCreationService#createAward(org.kuali.kfs.integration.cg.dto.AwardParametersDTO)
      */
+    @Override
     public AwardCreationStatusDTO createAward(AwardParametersDTO awardParameters) {
 
         AwardCreationStatusDTO awardCreationStatus = new AwardCreationStatusDTO();
         awardCreationStatus.setErrorMessages(new ArrayList<String>());
         awardCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS);
 
-        
+
         // check to see if the user has the permission to create award
         String principalId = awardParameters.getPrincipalId();
         if(!isValidUser(principalId)) {
             this.setFailStatus(awardCreationStatus, KcUtils.getErrorMessage(ContractsAndGrantsConstants.AwardCreationService.ERROR_KC_DOCUMENT_INVALID_USER, new String[] {principalId} ));
             return awardCreationStatus;
         }
-        
+
         // check to see if agency exist
         String sponsorCode = awardParameters.getSponsorCode();
         if(!isValidSponsorCode(sponsorCode)){
             this.setFailStatus(awardCreationStatus, KcUtils.getErrorMessage(ContractsAndGrantsConstants.AwardCreationService.ERROR_SPONSOR_CODE_DOES_NOT_EXIST, new String[] {sponsorCode} ));
             return awardCreationStatus;
         }
-        
+
         String accountNumber = awardParameters.getAccountNumber();
         String chartCode = awardParameters.getChartCode();
-        
+
         // if accountNumber is not provided or does not exist in KFS then return with fail message
         if(StringUtils.isBlank(accountNumber) || StringUtils.isBlank(chartCode)){
             this.setFailStatus(awardCreationStatus, ContractsAndGrantsConstants.AwardCreationService.ACCOUNT_NUMBER_AND_CHART_CODE_CANNOT_BE_BLANK);
             return awardCreationStatus;
         }
-        
+
         // if account does not exist, return with fail message
-        Account account = accountService.getByPrimaryId(chartCode, accountNumber); 
+        Account account = accountService.getByPrimaryId(chartCode, accountNumber);
         if( account==null ) {
             this.setFailStatus(awardCreationStatus, KcUtils.getErrorMessage(ContractsAndGrantsConstants.AwardCreationService.ACCOUNT_NUMBER_AND_CHART_CODE_CANNOT_DOES_NOT_EXIST, new String[]{accountNumber, chartCode}));
             return awardCreationStatus;
         }
-        
-        // if award exists and is not finalize, we cannot edit the award, 
+
+        // if award exists and is not finalize, we cannot edit the award,
         try {
             String unfinalizedDocumentNumber = "";
             unfinalizedDocumentNumber = getAwardDocumentNumberNotFinal(awardParameters.getAwardId());
-            
+
             if(StringUtils.isNotBlank(unfinalizedDocumentNumber)) {
                 this.setFailStatus(awardCreationStatus, KcUtils.getErrorMessage(ContractsAndGrantsConstants.AwardCreationService.ERROR_CG_AWARD_TO_UPDATE_NOT_YET_FINAL, new String[]{unfinalizedDocumentNumber} ));
                 return awardCreationStatus;
@@ -138,22 +138,22 @@ public class AwardCreationServiceImpl implements AwardCreationService {
         catch (WorkflowException ex) {
             LOG.error("Error while retrieving results from document search.");
             ex.printStackTrace();
-        } 
+        }
 
         // if awardId already exist, then update award instead.
-        if(isAwardExists(awardParameters.getAwardId())) {  
+        if(isAwardExists(awardParameters.getAwardId())) {
             return updateAward(awardParameters);
        } else {
             // create proposal first
             ProposalParametersDTO proposalParameters = getProposalCreationService().getProposalParametersDtoFromAwardParametersDto(awardParameters, getAgencyNumberFromSponsorCode(sponsorCode));
             ProposalCreationStatusDTO proposalCreationStatusDTO = getProposalCreationService().createProposal(proposalParameters);
             Proposal proposal = (Proposal) proposalCreationStatusDTO.getProposal();
-    
+
             if(proposal==null){
                 this.setFailStatus(awardCreationStatus, KcUtils.getErrorMessage(ContractsAndGrantsConstants.AwardCreationService.ERROR_CG_PROPOSAL_CREATION_FAILED, null));
                 return awardCreationStatus;
             }
-            
+
             Award award = createAwardObject(awardParameters, proposal, account);
             createAutomaticCGAwardMaintenanceDocument(award, awardCreationStatus);
             return awardCreationStatus;
@@ -163,6 +163,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
     /**
      * @see org.kuali.kfs.integration.cg.service.AwardCreationService#updateAward(org.kuali.kfs.integration.cg.dto.AwardParametersDTO)
      */
+    @Override
     public AwardCreationStatusDTO updateAward(AwardParametersDTO awardParameters) {
         AwardCreationStatusDTO awardCreationStatus = new AwardCreationStatusDTO();
         awardCreationStatus.setErrorMessages(new ArrayList<String>());
@@ -187,7 +188,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("awardId", awardParameters.getAwardId());
 
-        Collection<Award> oldAwards = (Collection<Award>) businessObjectService.findMatching(Award.class, criteria);
+        Collection<Award> oldAwards = businessObjectService.findMatching(Award.class, criteria);
         Award oldAward = null;
         if (oldAwards != null && oldAwards.iterator().hasNext()) {
             oldAward = oldAwards.iterator().next();
@@ -265,18 +266,20 @@ public class AwardCreationServiceImpl implements AwardCreationService {
 
     /**
      * This method check to see if the user can create the award maintenance document and set the user session
-     * 
+     *
      * @param String principalId
      * @return boolean
      */
     protected boolean isValidUser(String principalId) {
 
         PersonService personService = SpringContext.getBean(PersonService.class);
-        if (principalId == null)
+        if (principalId == null) {
             return false;
+        }
         Person user = personService.getPerson(principalId);
-        if (user == null)
+        if (user == null) {
             return false;
+        }
         DocumentAuthorizer documentAuthorizer = new MaintenanceDocumentAuthorizerBase();
         if (documentAuthorizer.canInitiate(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Award.class), user)) {
             // set the user session so that the user name can be displayed in the saved document
@@ -309,20 +312,20 @@ public class AwardCreationServiceImpl implements AwardCreationService {
 
         award.setProposalNumber(proposal.getProposalNumber());
         award.setAwardProjectTitle(awardParameters.getAwardProjectTitle());
-        
+
         // The following 3 fields have type mismatch between KC & KFS.  If these codes do not exist in KFS, then we will leave it blank.
         if( isAwardStatusCodeExist(awardParameters.getAwardStatusCode())){
             award.setAwardStatusCode(awardParameters.getAwardStatusCode());
         }
-        
+
         if(isProposalPurposeCodeExist(awardParameters.getAwardPurposeCode())){
             award.setAwardPurposeCode(awardParameters.getAwardPurposeCode());
         }
-        
+
         if(isProposalAwardTypeCodeExist(awardParameters.getProposalAwardTypeCode())){
             award.setProposalAwardTypeCode(awardParameters.getProposalAwardTypeCode());
         }
-        
+
         award.setAgencyNumber(getAgencyNumberFromSponsorCode(awardParameters.getSponsorCode()));
         award.setAwardBeginningDate(new java.sql.Date(awardParameters.getProjectStartDate().getTime()));
         award.setAwardEndingDate(new java.sql.Date(awardParameters.getProjectEndDate().getTime()));
@@ -342,7 +345,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
         // set default Fund Manager
         AwardFundManager awardFundManager = new AwardFundManager();
 
-        String defaultFundManagerName = KNSServiceLocator.getParameterService().getParameterValueAsString(Award.class, CGConstants.PARAMETER_DEFAULT_FUND_MANAGER_ID);
+        String defaultFundManagerName = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Award.class, CGConstants.PARAMETER_DEFAULT_FUND_MANAGER_ID);
         Person awardFundManagerPerson = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(defaultFundManagerName);
 
         awardFundManager.setFundManager(awardFundManagerPerson);
@@ -375,7 +378,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
         AwardAccount awardAccount = createAwardAccountFromAccount(account, proposal.getProposalNumber());
         awardAccounts.add(awardAccount);
         award.setAwardAccounts(awardAccounts);
-        
+
         // Set amounts from proposal
         if (proposal != null) {
             award.setAwardDirectCostAmount(proposal.getProposalDirectCostAmount());
@@ -423,7 +426,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
     /**
      * This method will use the DocumentService to create a new document. The documentTypeName is gathered by using
      * MaintenanceDocumentDictionaryService which uses Award class to get the document type name.
-     * 
+     *
      * @param AwardCreationStatusDTO
      * @return document returns a new document for the Award document type or null if there is an exception thrown.
      */
@@ -454,7 +457,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
         }
     }
 
-    
+
     protected AwardAccount createAwardAccountFromAccount(Account account, Long proposalNumber) {
         AwardAccount awardAccount = new AwardAccount();
 
@@ -466,7 +469,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
 
         return awardAccount;
     }
-    
+
     private boolean isAwardExists(String awardId){
         Map<String, String> map = new HashMap<String, String>();
         map.put("awardId", awardId);
@@ -478,29 +481,29 @@ public class AwardCreationServiceImpl implements AwardCreationService {
             return false;
         }
     }
-    
+
     private String getAwardDocumentNumberNotFinal(String awardId) throws WorkflowException{
-        
-        DocumentSearchCriteriaDTO documentSearchCriteriaDTO = new DocumentSearchCriteriaDTO();
+
+        DocumentSearchCriteria documentSearchCriteriaDTO = new DocumentSearchCriteriaDTO();
         documentSearchCriteriaDTO.setDocTypeFullName(CGConstants.AWARD);
         documentSearchCriteriaDTO.setDocRouteStatus(KewApiConstants.ROUTE_HEADER_SAVED_CD);
-        
+
         // find documents in saved status
         DocumentSearchResultDTO results = KNSServiceLocator.SpringContext.getBean(WorkflowDocumentService.class).performDocumentSearch(documentSearchCriteriaDTO);
-        
-        String documentNumber = getDocumentNumberByMatchingAwardId(results, awardId); 
-        
+
+        String documentNumber = getDocumentNumberByMatchingAwardId(results, awardId);
+
         if(!documentNumber.isEmpty()){
             return documentNumber;
         }
-        
+
         // find documents still enroute
         documentSearchCriteriaDTO.setDocRouteStatus(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
         results = KNSServiceLocator.SpringContext.getBean(WorkflowDocumentService.class).performDocumentSearch(documentSearchCriteriaDTO);
-        
+
         return getDocumentNumberByMatchingAwardId(results, awardId);
     }
-    
+
     private String getDocumentNumberByMatchingAwardId(DocumentSearchResultDTO results, String awardId) throws WorkflowException{
         for (DocumentSearchResultRowDTO resultRow: results.getSearchResults()) {
             boolean isExist = false;
@@ -523,15 +526,15 @@ public class AwardCreationServiceImpl implements AwardCreationService {
         String agencyNumber = "";
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("sponsorCode", sponsorCode);
-        
-        List<Agency> agencies = (List<Agency>)KNSServiceLocator.getBusinessObjectService().findMatching(Agency.class, criteria); 
+
+        List<Agency> agencies = (List<Agency>)KNSServiceLocator.getBusinessObjectService().findMatching(Agency.class, criteria);
         if(agencies!=null && !agencies.isEmpty()){
             agencyNumber = agencies.get(0).getAgencyNumber();
         }
-        
+
         return agencyNumber;
     }
-    
+
     /**
      * Retrieves the document id out of the route document header
      * @param routeDocHeader the String representing an HTML link to the document
@@ -542,10 +545,10 @@ public class AwardCreationServiceImpl implements AwardCreationService {
         int leftBound = routeDocHeader.indexOf('<', rightBound);
         return routeDocHeader.substring(rightBound, leftBound);
     }
-    
+
     /**
      * Gets the documentService attribute.
-     * 
+     *
      * @return Current value of documentService.
      */
     protected DocumentService getDocumentService() {
@@ -554,7 +557,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
 
     /**
      * Sets the documentService attribute value.
-     * 
+     *
      * @param documentService
      */
     public void setDocumentService(DocumentService documentService) {
@@ -564,7 +567,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -573,7 +576,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     protected BusinessObjectService getBusinessObjectService() {
@@ -591,7 +594,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
 
     /**
      * Retrieve the Date Time Service
-     * 
+     *
      * @return Date Time Service
      */
     public DateTimeService getDateTimeService() {
@@ -600,7 +603,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
 
     /**
      * Assign the Date Time Service
-     * 
+     *
      * @param dateTimeService
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -609,7 +612,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
 
     /**
      * Checks whether the Award is currently locked.
-     * 
+     *
      * @param document The MaintenanceDocument containing the vendor.
      * @return boolean true if the Award is currently locked and false otherwise.
      */
@@ -617,17 +620,17 @@ public class AwardCreationServiceImpl implements AwardCreationService {
         String blockingDocId = maintenanceDocumentService.getLockingDocumentId(document);
         return (StringUtils.isNotBlank(blockingDocId));
     }
-    
+
     protected boolean isAwardStatusCodeExist(String awardStatusCode){
         AwardStatus awardStatus = (AwardStatus)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(AwardStatus.class, awardStatusCode);
         return (ObjectUtils.isNotNull(awardStatus));
     }
-    
+
     protected boolean isProposalPurposeCodeExist(String proposalPurposeCode){
         ProposalPurpose proposalPurpose = (ProposalPurpose)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(ProposalPurpose.class, proposalPurposeCode);
         return (ObjectUtils.isNotNull(proposalPurpose));
     }
-    
+
     protected boolean isProposalAwardTypeCodeExist(String proposalAwardTypeCode){
         ProposalAwardType proposalAwardType = (ProposalAwardType)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(ProposalAwardType.class, proposalAwardTypeCode);
         return (ObjectUtils.isNotNull(proposalAwardType));
@@ -636,7 +639,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
     protected boolean isValidSponsorCode(String sponsorCode){
         return (StringUtils.isNotBlank(getAgencyNumberFromSponsorCode(sponsorCode)));
     }
-    
+
     /**
      * @param maintenanceDocumentService
      */
@@ -651,6 +654,6 @@ public class AwardCreationServiceImpl implements AwardCreationService {
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
     }
-    
-    
+
+
 }

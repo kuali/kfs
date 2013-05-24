@@ -147,7 +147,7 @@ public class CustomerAgingReportForm extends LookupForm {
                     }
 
                     // force uppercase if necessary
-                    field.setPropertyValue(LookupUtils.forceUppercase(boClass, field.getPropertyName(), field.getPropertyValue()));
+                    field.setPropertyValue(org.kuali.rice.krad.lookup.LookupUtils.forceUppercase(boClass, field.getPropertyName(), field.getPropertyValue()));
 
                     fieldValues.put(field.getPropertyName(), field.getPropertyValue());
                 }

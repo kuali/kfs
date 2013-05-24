@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,14 +22,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ar.businessobject.FinalInvoiceReversalEntry;
-import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.FinalInvoiceReversalDocument;
 import org.kuali.kfs.module.ar.document.validation.impl.FinalInvoiceReversalValidation;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -40,7 +35,7 @@ public class FinalInvoiceReversalDocumentAction extends KualiTransactionalDocume
 
     /**
      * This method adds an entry to the list of entries.
-     * 
+     *
      * @param mapping
      * @param actionForm
      * @param request
@@ -61,7 +56,7 @@ public class FinalInvoiceReversalDocumentAction extends KualiTransactionalDocume
 
     /**
      * This method removes an entry to the list of entries.
-     * 
+     *
      * @param mapping
      * @param actionForm
      * @param request

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,18 +15,16 @@
  */
 package org.kuali.kfs.module.cg.businessobject;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import java.util.ArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 
 /**
@@ -54,7 +52,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase {
 
     /**
      * Constructs an Milestone Schedule with paramter Award
-     * 
+     *
      * @param proposal
      */
     public MilestoneSchedule(Award award) {
@@ -64,7 +62,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase {
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber.
      */
     public Long getProposalNumber() {
@@ -74,7 +72,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase {
 
     /**
      * Sets the proposalNumber attribute value.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -84,7 +82,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase {
 
     /**
      * Gets the totalAmountScheduled attribute.
-     * 
+     *
      * @return Returns the totalAmountScheduled.
      */
     public KualiDecimal getTotalAmountScheduled() {
@@ -100,7 +98,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase {
 
     /**
      * Sets the totalAmountScheduled attribute value.
-     * 
+     *
      * @param totalAmountScheduled The totalAmountScheduled to set.
      */
     @Deprecated
@@ -110,7 +108,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase {
 
     /**
      * Gets the totalAmountRemaining attribute.
-     * 
+     *
      * @return Returns the totalAmountRemaining.
      */
     public KualiDecimal getTotalAmountRemaining() {
@@ -123,7 +121,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase {
 
     /**
      * Sets the totalAmountRemaining attribute value.
-     * 
+     *
      * @param totalAmountRemaining The totalAmountRemaining to set.
      */
     @Deprecated
@@ -134,12 +132,12 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase {
     /**
      * OJB calls this method as the first operation before this BO is inserted into the database. The field is read-only in the data
      * dictionary and so the value does not persist in the DB. So this method makes sure that the values are stored in the DB.
-     * 
+     *
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException Thrown by call to super.prePersist();
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
      */
-    
+
     @Override protected void prePersist() {
         super.prePersist();
         totalAmountScheduled = getTotalAmountScheduled();
@@ -149,12 +147,11 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase {
     /**
      * OJB calls this method as the first operation before this BO is updated to the database. The field is read-only in the data
      * dictionary and so the value does not persist in the DB. So this method makes sure that the values are stored in the DB.
-     * 
+     *
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException Thrown by call to super.preUpdate();
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
      */
-    @Override
     @Override protected void preUpdate() {
         super.preUpdate();
         totalAmountScheduled = getTotalAmountScheduled();
@@ -164,7 +161,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase {
 
     /**
      * Gets the milestoneScheduleInquiryTitle attribute.
-     * 
+     *
      * @return Returns the milestoneScheduleInquiryTitle.
      */
     public String getMilestoneScheduleInquiryTitle() {
@@ -175,7 +172,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase {
 
     /**
      * Sets the milestoneScheduleInquiryTitle attribute value.
-     * 
+     *
      * @param milestoneScheduleInquiryTitle The milestoneScheduleInquiryTitle to set.
      */
     public void setMilestoneScheduleInquiryTitle(String milestoneScheduleInquiryTitle) {
@@ -185,7 +182,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase {
 
     /**
      * Gets the milestones attribute.
-     * 
+     *
      * @return Returns the milestones.
      */
     public List<Milestone> getMilestones() {
@@ -195,7 +192,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase {
 
     /**
      * Sets the milestones attribute value.
-     * 
+     *
      * @param milestones The milestones to set.
      */
     public void setMilestones(List<Milestone> milestones) {
@@ -205,7 +202,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase {
 
     /**
      * Gets the award attribute.
-     * 
+     *
      * @return Returns the award.
      */
     public Award getAward() {
@@ -215,7 +212,7 @@ public class MilestoneSchedule extends PersistableBusinessObjectBase {
 
     /**
      * Sets the award attribute value.
-     * 
+     *
      * @param award The award to set.
      */
     public void setAward(Award award) {

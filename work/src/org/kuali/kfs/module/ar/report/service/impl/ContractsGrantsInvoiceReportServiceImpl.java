@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ar.report.service.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -29,66 +28,52 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
-
-import net.sf.jasperreports.engine.JRParameter;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRateDetail;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.gl.businessobject.Balance;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgencyAddress;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
-import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReviewDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceAgencyAddressDetail;
+import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
+import org.kuali.kfs.module.ar.businessobject.SystemInformation;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsInvoiceDocumentServiceImpl;
 import org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.report.ReportInfo;
-import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.core.web.format.CurrencyFormatter;
 
-import com.lowagie.text.Chapter;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
-import com.lowagie.text.Section;
 import com.lowagie.text.pdf.AcroFields;
-import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfCopyFields;
-import com.lowagie.text.pdf.PdfImportedPage;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfReader;
@@ -112,6 +97,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateReport(org.kuali.kfs.module.ar.report.ContractsGrantsReportDataHolder,
      *      java.io.ByteArrayOutputStream)
      */
+    @Override
     public String generateReport(ContractsGrantsReportDataHolder reportDataHolder, ByteArrayOutputStream baos) {
         return generateReport(reportDataHolder, contractsGrantsInvoiceReportInfo, baos);
     }
@@ -133,6 +119,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateInvoice(org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument)
      */
+    @Override
     public byte[] generateInvoice(ContractsGrantsLOCReviewDocument document) {
         Date runDate = new Date();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -142,7 +129,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
 
     /**
      * this method generated the actual pdf for the Contracts and Grants LOC Review Document.
-     * 
+     *
      * @param os
      * @param LOCDocument
      */
@@ -160,10 +147,12 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
 
             // Lets write the header
             header.add(new Paragraph("Contracts and Grants Letter of Credit Review Document", titleFont));
-            if (StringUtils.isNotEmpty(LOCDocument.getLetterOfCreditFundGroupCode()))
+            if (StringUtils.isNotEmpty(LOCDocument.getLetterOfCreditFundGroupCode())) {
                 header.add(new Paragraph("Letter of Credit Fund Group: " + returnProperStringValue(LOCDocument.getLetterOfCreditFundGroupCode()), titleFont));
-            if (StringUtils.isNotEmpty(LOCDocument.getLetterOfCreditFundCode()))
+            }
+            if (StringUtils.isNotEmpty(LOCDocument.getLetterOfCreditFundCode())) {
                 header.add(new Paragraph("Letter of Credit Fund: " + returnProperStringValue(LOCDocument.getLetterOfCreditFundCode()), titleFont));
+            }
             header.add(new Paragraph(" "));
             header.setAlignment(Element.ALIGN_CENTER);
             title.add(new Paragraph("Document Number: " + returnProperStringValue(LOCDocument.getDocumentNumber()), headerFont));
@@ -246,7 +235,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
 
     /**
      * This method returns a proper String value for any given object.
-     * 
+     *
      * @param string
      * @return
      */
@@ -263,7 +252,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
 
     /**
      * This method is used to set the headers for the CG LOC review Document
-     * 
+     *
      * @param table
      */
     private void addAccountsHeaders(PdfPTable table) {
@@ -279,7 +268,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
 
     /**
      * This method is used to set the headers for the CG LOC review Document
-     * 
+     *
      * @param table
      */
     private void addAwardHeaders(PdfPTable table) {
@@ -300,6 +289,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateFederalFinancialForm(org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward,
      *      java.lang.String, java.lang.String, java.lang.String, org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency)
      */
+    @Override
     public File generateFederalFinancialForm(ContractsAndGrantsCGBAward award, String period, String year, String formType, ContractsAndGrantsCGBAgency agency) throws Exception {
         Date runDate = new Date();
         String reportFileName = contractsGrantsInvoiceReportInfo.getReportFileName();
@@ -323,7 +313,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
 
     /**
      * Gets the replacementList attribute.
-     * 
+     *
      * @return Returns the replacementList.
      */
     public Map<String, String> getReplacementList() {
@@ -332,7 +322,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
 
     /**
      * Sets the replacementList attribute value.
-     * 
+     *
      * @param replacementList The replacementList to set.
      */
     public void setReplacementList(Map<String, String> replacementList) {
@@ -351,10 +341,12 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         for(ContractsGrantsInvoiceDocument invoice: list){
             Map primaryKeys = new HashMap<String, Object>();
             primaryKeys.put("financialDocumentReferenceInvoiceNumber", invoice.getDocumentNumber());
-            List<InvoicePaidApplied> ipas = (List<InvoicePaidApplied>)KNSServiceLocator.getBusinessObjectService().findMatching(InvoicePaidApplied.class, primaryKeys);
-            if(ObjectUtils.isNotNull(ipas))
-                for(InvoicePaidApplied ipa : ipas)
+            List<InvoicePaidApplied> ipas = (List<InvoicePaidApplied>)SpringContext.getBean(BusinessObjectService.class).findMatching(InvoicePaidApplied.class, primaryKeys);
+            if(ObjectUtils.isNotNull(ipas)) {
+                for(InvoicePaidApplied ipa : ipas) {
                     cashReceipt = cashReceipt.add(ipa.getInvoiceItemAppliedAmount());
+                }
+            }
         }
         return cashReceipt;
     }
@@ -362,7 +354,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     /**
      * This method is used to populate the replacement list to replace values from pdf template to actual values for Federal Form
      * 425
-     * 
+     *
      * @param award
      * @param reportingPeriod
      * @param year
@@ -388,7 +380,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                 key.put("financialIcrSeriesIdentifier", awardAccount.getAccount().getFinancialIcrSeriesIdentifier());
                 key.put(KFSPropertyConstants.ACTIVE, true);
                 key.put("transactionDebitIndicator", KFSConstants.GL_DEBIT_CODE);
-                List<IndirectCostRecoveryRateDetail> icrDetail = (List<IndirectCostRecoveryRateDetail>) KNSServiceLocator.getBusinessObjectService().findMatchingOrderBy(IndirectCostRecoveryRateDetail.class, key, "awardIndrCostRcvyEntryNbr", false);
+                List<IndirectCostRecoveryRateDetail> icrDetail = (List<IndirectCostRecoveryRateDetail>) SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(IndirectCostRecoveryRateDetail.class, key, "awardIndrCostRcvyEntryNbr", false);
                 if (CollectionUtils.isNotEmpty(icrDetail)) {
                     KualiDecimal rate = new KualiDecimal(icrDetail.get(0).getAwardIndrCostRcvyRatePct());
                     if (ObjectUtils.isNotNull(rate)) {
@@ -407,20 +399,25 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
         primaryKeys.put("processingChartOfAccountCode", award.getPrimaryAwardOrganization().getChartOfAccountsCode());
         primaryKeys.put("processingOrganizationCode", award.getPrimaryAwardOrganization().getOrganizationCode());
-        SystemInformation sysInfo = (SystemInformation) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(SystemInformation.class, primaryKeys);
+        SystemInformation sysInfo = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, primaryKeys);
 
         if (ObjectUtils.isNotNull(sysInfo)) {
             String address = returnProperStringValue(sysInfo.getOrganizationRemitToAddressName());
-            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToLine1StreetAddress()))
+            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToLine1StreetAddress())) {
                 address += ", " + returnProperStringValue(sysInfo.getOrganizationRemitToLine1StreetAddress());
-            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToLine2StreetAddress()))
+            }
+            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToLine2StreetAddress())) {
                 address += ", " + returnProperStringValue(sysInfo.getOrganizationRemitToLine2StreetAddress());
-            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToCityName()))
+            }
+            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToCityName())) {
                 address += ", " + returnProperStringValue(sysInfo.getOrganizationRemitToCityName());
-            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToStateCode()))
+            }
+            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToStateCode())) {
                 address += " " + returnProperStringValue(sysInfo.getOrganizationRemitToStateCode());
-            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToZipCode()))
+            }
+            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToZipCode())) {
                 address += "-" + returnProperStringValue(sysInfo.getOrganizationRemitToZipCode());
+            }
 
             replacementList.put("Recipient Organization", returnProperStringValue(address));
             replacementList.put("EIN", returnProperStringValue(sysInfo.getUniversityFederalEmployerIdentificationNumber()));
@@ -428,10 +425,12 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         replacementList.put("Federal Agency", returnProperStringValue(returnProperStringValue(award.getAgency().getFullName())));
         replacementList.put("Federal Grant Number", returnProperStringValue(award.getAwardDocumentNumber()));
         replacementList.put("Recipient Account Number", returnProperStringValue(award.getActiveAwardAccounts().get(0).getAccountNumber()));
-        if (ObjectUtils.isNotNull(award.getAwardBeginningDate()))
+        if (ObjectUtils.isNotNull(award.getAwardBeginningDate())) {
             replacementList.put("Grant Period From", returnProperStringValue(formatter.format(award.getAwardBeginningDate())));
-        if (ObjectUtils.isNotNull(award.getAwardClosingDate()))
+        }
+        if (ObjectUtils.isNotNull(award.getAwardClosingDate())) {
             replacementList.put("Grant Period To", returnProperStringValue(formatter.format(award.getAwardClosingDate())));
+        }
         replacementList.put("Cash Receipts", returnProperStringValue(this.getCashReceipts(award)));
         replacementList.put("Total Federal Funds Authorized", returnProperStringValue(award.getAwardTotalAmount()));
 
@@ -453,25 +452,31 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         replacementList.put("Telephone", returnProperStringValue(null));
         replacementList.put("Email Address", returnProperStringValue(null));
         replacementList.put("Date Report Submitted", returnProperStringValue(formatter.format(new Date())));
-        if (ArConstants.QUATER1.equals(reportingPeriod) || ArConstants.QUATER2.equals(reportingPeriod) || ArConstants.QUATER3.equals(reportingPeriod) || ArConstants.QUATER4.equals(reportingPeriod))
+        if (ArConstants.QUATER1.equals(reportingPeriod) || ArConstants.QUATER2.equals(reportingPeriod) || ArConstants.QUATER3.equals(reportingPeriod) || ArConstants.QUATER4.equals(reportingPeriod)) {
             replacementList.put("Quaterly", "Yes");
-        if (ArConstants.SEMI_ANNUAL.equals(reportingPeriod))
+        }
+        if (ArConstants.SEMI_ANNUAL.equals(reportingPeriod)) {
             replacementList.put("Semi Annual", "Yes");
-        if (ArConstants.ANNUAL.equals(reportingPeriod))
+        }
+        if (ArConstants.ANNUAL.equals(reportingPeriod)) {
             replacementList.put("Annual", "Yes");
-        if (ArConstants.FINAL.equals(reportingPeriod))
+        }
+        if (ArConstants.FINAL.equals(reportingPeriod)) {
             replacementList.put("Final", "Yes");
+        }
         String accountingBasis = KNSServiceLocator.getParameterService().getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.BASIS_OF_ACCOUNTING);
-        if (ArConstants.BASIS_OF_ACCOUNTING_CASH.equals(accountingBasis))
+        if (ArConstants.BASIS_OF_ACCOUNTING_CASH.equals(accountingBasis)) {
             replacementList.put("Cash", "Yes");
-        if (ArConstants.BASIS_OF_ACCOUNTING_ACCRUAL.equals(accountingBasis))
+        }
+        if (ArConstants.BASIS_OF_ACCOUNTING_ACCRUAL.equals(accountingBasis)) {
             replacementList.put("Accrual", "Yes");
+        }
     }
 
     /**
      * This method is used to populate the replacement list to replace values from pdf template to actual values for Federal Form
      * 425A
-     * 
+     *
      * @param awards
      * @param reportingPeriod
      * @param year
@@ -482,43 +487,54 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         replacementList.clear();
         replacementList.put("Reporting Period End Date", returnProperStringValue(getReportingPeriodEndDate(reportingPeriod, year)));
         replacementList.put("Federal Agency", returnProperStringValue(returnProperStringValue(agency.getFullName())));
-        
+
         Map primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
         primaryKeys.put("processingChartOfAccountCode", awards.get(0).getPrimaryAwardOrganization().getChartOfAccountsCode());
         primaryKeys.put("processingOrganizationCode", awards.get(0).getPrimaryAwardOrganization().getOrganizationCode());
-        SystemInformation sysInfo = (SystemInformation) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(SystemInformation.class, primaryKeys);
+        SystemInformation sysInfo = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, primaryKeys);
 
         if (ObjectUtils.isNotNull(sysInfo)) {
             String address = returnProperStringValue(sysInfo.getOrganizationRemitToAddressName());
-            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToLine1StreetAddress()))
+            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToLine1StreetAddress())) {
                 address += ", " + returnProperStringValue(sysInfo.getOrganizationRemitToLine1StreetAddress());
-            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToLine2StreetAddress()))
+            }
+            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToLine2StreetAddress())) {
                 address += ", " + returnProperStringValue(sysInfo.getOrganizationRemitToLine2StreetAddress());
-            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToCityName()))
+            }
+            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToCityName())) {
                 address += ", " + returnProperStringValue(sysInfo.getOrganizationRemitToCityName());
-            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToStateCode()))
+            }
+            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToStateCode())) {
                 address += " " + returnProperStringValue(sysInfo.getOrganizationRemitToStateCode());
-            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToZipCode()))
+            }
+            if(StringUtils.isNotEmpty(sysInfo.getOrganizationRemitToZipCode())) {
                 address += "-" + returnProperStringValue(sysInfo.getOrganizationRemitToZipCode());
+            }
 
             replacementList.put("Recipient Organization", returnProperStringValue(address));
             replacementList.put("EIN", returnProperStringValue(sysInfo.getUniversityFederalEmployerIdentificationNumber()));
         }
-        
-        if (ArConstants.QUATER1.equals(reportingPeriod) || ArConstants.QUATER2.equals(reportingPeriod) || ArConstants.QUATER3.equals(reportingPeriod) || ArConstants.QUATER4.equals(reportingPeriod))
+
+        if (ArConstants.QUATER1.equals(reportingPeriod) || ArConstants.QUATER2.equals(reportingPeriod) || ArConstants.QUATER3.equals(reportingPeriod) || ArConstants.QUATER4.equals(reportingPeriod)) {
             replacementList.put("Quaterly", "Yes");
-        if (ArConstants.SEMI_ANNUAL.equals(reportingPeriod))
+        }
+        if (ArConstants.SEMI_ANNUAL.equals(reportingPeriod)) {
             replacementList.put("Semi Annual", "Yes");
-        if (ArConstants.ANNUAL.equals(reportingPeriod))
+        }
+        if (ArConstants.ANNUAL.equals(reportingPeriod)) {
             replacementList.put("Annual", "Yes");
-        if (ArConstants.FINAL.equals(reportingPeriod))
+        }
+        if (ArConstants.FINAL.equals(reportingPeriod)) {
             replacementList.put("Final", "Yes");
+        }
         String accountingBasis = KNSServiceLocator.getParameterService().getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.BASIS_OF_ACCOUNTING);
-        if (ArConstants.BASIS_OF_ACCOUNTING_CASH.equals(accountingBasis))
+        if (ArConstants.BASIS_OF_ACCOUNTING_CASH.equals(accountingBasis)) {
             replacementList.put("Cash", "Yes");
-        if (ArConstants.BASIS_OF_ACCOUNTING_ACCRUAL.equals(accountingBasis))
+        }
+        if (ArConstants.BASIS_OF_ACCOUNTING_ACCRUAL.equals(accountingBasis)) {
             replacementList.put("Accrual", "Yes");
+        }
         replacementList.put("Date Report Submitted", returnProperStringValue(formatter.format(new Date())));
         KualiDecimal totalCashControl = KualiDecimal.ZERO;
         KualiDecimal totalCashDisbursement = KualiDecimal.ZERO;
@@ -528,10 +544,11 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                 replacementList.put("Federal Grant Number " + (i + 1), returnProperStringValue(awards.get(i).getAwardDocumentNumber()));
                 replacementList.put("Recipient Acount Number " + (i + 1), returnProperStringValue(awards.get(i).getActiveAwardAccounts().get(0).getAccountNumber()));
                 replacementList.put("Federal Cash Disbursement " + (i + 1), returnProperStringValue(this.getCashReceipts(awards.get(i))));
-                totalCashControl = totalCashControl.add(this.getCashReceipts(awards.get(i)));    
-                
-                for (ContractsAndGrantsCGBAwardAccount awardAccount : awards.get(i).getActiveAwardAccounts()) 
+                totalCashControl = totalCashControl.add(this.getCashReceipts(awards.get(i)));
+
+                for (ContractsAndGrantsCGBAwardAccount awardAccount : awards.get(i).getActiveAwardAccounts()) {
                     totalCashDisbursement = totalCashDisbursement.add(service.getBudgetAndActualsForAwardAccount(awardAccount, ArPropertyConstants.ACTUAL_BALANCE_TYPE, awards.get(i).getAwardBeginningDate()));
+                }
             }
         }
         ArrayList<KualiDecimal> list = new ArrayList<KualiDecimal>();
@@ -542,25 +559,29 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
 
     /**
      * This method returns the last day of the given reporting period.
-     * 
+     *
      * @param reportingPeriod
      * @param year
      * @return
      */
     private String getReportingPeriodEndDate(String reportingPeriod, String year) {
-        if (ArConstants.QUATER1.equals(reportingPeriod))
+        if (ArConstants.QUATER1.equals(reportingPeriod)) {
             return "03/31/" + year;
-        else if (ArConstants.QUATER2.equals(reportingPeriod) || ArConstants.SEMI_ANNUAL.equals(reportingPeriod))
+        }
+        else if (ArConstants.QUATER2.equals(reportingPeriod) || ArConstants.SEMI_ANNUAL.equals(reportingPeriod)) {
             return "06/30/" + year;
-        else if (ArConstants.QUATER3.equals(reportingPeriod))
+        }
+        else if (ArConstants.QUATER3.equals(reportingPeriod)) {
             return "09/30/" + year;
-        else
+        }
+        else {
             return "12/31/" + year;
+        }
     }
 
     /**
      * Use iText <code>{@link PdfStamper}</code> to stamp information into field values on a PDF Form Template.
-     * 
+     *
      * @param award The award the values will be pulled from.
      * @param reportingPeriod
      * @param year
@@ -589,7 +610,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
 
     /**
      * Use iText <code>{@link PdfStamper}</code> to stamp information into field values on a PDF Form Template.
-     * 
+     *
      * @param agency The award the values will be pulled from.
      * @param reportingPeriod
      * @param year
@@ -603,11 +624,11 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             Map fieldValues = new HashMap<String, String>();
             fieldValues.put(KFSPropertyConstants.AGENCY_NUMBER, agency.getAgencyNumber());
             fieldValues.put(KFSPropertyConstants.ACTIVE, true);
-            List<ContractsAndGrantsCGBAward> awards = (List) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsCGBAward.class, fieldValues);
+            List<ContractsAndGrantsCGBAward> awards = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObjectsList(ContractsAndGrantsCGBAward.class, fieldValues);
             Integer pageNumber = 1, totalPages;
             totalPages = (awards.size() / 30) + 1;
             PdfCopyFields copy = new PdfCopyFields(returnStream);
-            
+
             // generate replacement list for FF425
             populateListByAgency(awards, reportingPeriod, year, agency);
             replacementList.put("totalPages", returnProperStringValue(totalPages + 1));
@@ -616,8 +637,9 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             while (pageNumber <= totalPages) {
                 List<ContractsAndGrantsCGBAward> awardsList = new ArrayList<ContractsAndGrantsCGBAward>();
                 for (int i = ((pageNumber - 1) * 30); i < (pageNumber * 30); i++) {
-                    if (i < awards.size())
+                    if (i < awards.size()) {
                         awardsList.add(awards.get(i));
+                    }
                 }
                 // generate replacement list for FF425
                 List<KualiDecimal> list = populateListByAgency(awardsList, reportingPeriod, year, agency);
@@ -637,7 +659,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                 pageNumber++;
             }
             replacementList.put("pageNumber", "1");
-            
+
             // add the FF425 form.
             copy.addDocument(new PdfReader(renameFieldsIn(federalReportTemplatePath + FF_425_TEMPLATE_NM + ".pdf", replacementList)));
             // Close the PdfCopyFields object
@@ -649,8 +671,8 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @param template the path to the original form
      * @param list the replacement list
      * @return
@@ -675,6 +697,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#sendEmailForListofInvoicesToAgency(java.util.Collection)
      */
+    @Override
     public void sendEmailForListofInvoicesToAgency(Collection<ContractsGrantsInvoiceDocument> list) {
         for (ContractsGrantsInvoiceDocument invoiceDocument : list) {
             invoiceDocument.setMarkedForProcessing(ArConstants.INV_RPT_PRCS_IN_PROGRESS);
@@ -685,6 +708,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateListOfInvoicesPdfToPrint(java.util.Collection)
      */
+    @Override
     public byte[] generateListOfInvoicesPdfToPrint(Collection<ContractsGrantsInvoiceDocument> list) throws DocumentException, IOException {
         Date runDate = new Date();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -695,6 +719,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateListOfInvoicesEnvelopesPdfToPrint(java.util.Collection)
      */
+    @Override
     public byte[] generateListOfInvoicesEnvelopesPdfToPrint(Collection<ContractsGrantsInvoiceDocument> list) throws DocumentException, IOException {
         Date runDate = new Date();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -704,7 +729,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
 
     /**
      * Generates the pdf file for printing the invoices.
-     * 
+     *
      * @param list
      * @param outputStream
      * @throws DocumentException
@@ -718,34 +743,37 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             // add a document
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoice.getDocumentNumber());
-            List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) KNSServiceLocator.getBusinessObjectService().findMatching(InvoiceAgencyAddressDetail.class, map);
+            List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(InvoiceAgencyAddressDetail.class, map);
             for (InvoiceAgencyAddressDetail agencyAddress : agencyAddresses) {
                 if (ArConstants.InvoiceIndicator.MAIL.equals(agencyAddress.getPreferredInvoiceIndicatorCode())) {
                     ContractsAndGrantsAgencyAddress address;
                     Map<String, Object> primaryKeys = new HashMap<String, Object>();
                     primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, agencyAddress.getAgencyNumber());
                     primaryKeys.put("agencyAddressIdentifier", agencyAddress.getAgencyAddressIdentifier());
-                    address = (ContractsAndGrantsAgencyAddress) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
+                    address = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
                     Note note = KNSServiceLocator.getNoteService().getNoteByNoteId(agencyAddress.getNoteId());
-                    for (int i = 0; i < Integer.parseInt(address.getAgencyCopiesToPrint()); i++)
+                    for (int i = 0; i < Integer.parseInt(address.getAgencyCopiesToPrint()); i++) {
                         if (ObjectUtils.isNotNull(note)) {
-                            if (!pageAdded)
+                            if (!pageAdded) {
                                 copy.open();
+                            }
                             pageAdded = true;
                             copy.addDocument(new PdfReader(note.getAttachment().getAttachmentContents()));
                         }
+                    }
                 }
             }
             invoice.setDateReportProcessed(new Date());
             SpringContext.getBean(DocumentService.class).updateDocument(invoice);
         }
-        if (pageAdded)
+        if (pageAdded) {
             copy.close();
+        }
     }
 
     /**
      * Generates the pdf file for printing the envelopes.
-     * 
+     *
      * @param list
      * @param outputStream
      * @throws DocumentException
@@ -762,18 +790,19 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             // add a document
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoice.getDocumentNumber());
-            List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) KNSServiceLocator.getBusinessObjectService().findMatching(InvoiceAgencyAddressDetail.class, map);
+            List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(InvoiceAgencyAddressDetail.class, map);
             for (InvoiceAgencyAddressDetail agencyAddress : agencyAddresses) {
                 if (ArConstants.InvoiceIndicator.MAIL.equals(agencyAddress.getPreferredInvoiceIndicatorCode())) {
                     ContractsAndGrantsAgencyAddress address;
                     Map<String, Object> primaryKeys = new HashMap<String, Object>();
                     primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, agencyAddress.getAgencyNumber());
                     primaryKeys.put("agencyAddressIdentifier", agencyAddress.getAgencyAddressIdentifier());
-                    address = (ContractsAndGrantsAgencyAddress) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
+                    address = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
                     for (int i = 0; i < Integer.parseInt(address.getAgencyPrintEnvelopesNumber()); i++) {
                         // if a page has not already been added then open the document.
-                        if (!pageAdded)
+                        if (!pageAdded) {
                             document.open();
+                        }
                         pageAdded = true;
                         document.newPage();
                         Paragraph sendTo = new Paragraph();
@@ -781,38 +810,50 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                         sentBy.setIndentationLeft(20);
                         // adding the send To address
                         sendTo.add(new Paragraph(address.getAgencyAddressName(), titleFont));
-                        if (StringUtils.isNotEmpty(address.getAgencyLine1StreetAddress()))
+                        if (StringUtils.isNotEmpty(address.getAgencyLine1StreetAddress())) {
                             sendTo.add(new Paragraph(address.getAgencyLine1StreetAddress(), titleFont));
-                        if (StringUtils.isNotEmpty(address.getAgencyLine2StreetAddress()))
+                        }
+                        if (StringUtils.isNotEmpty(address.getAgencyLine2StreetAddress())) {
                             sendTo.add(new Paragraph(address.getAgencyLine2StreetAddress(), titleFont));
+                        }
                         String string = "";
-                        if (StringUtils.isNotEmpty(address.getAgencyCityName()))
+                        if (StringUtils.isNotEmpty(address.getAgencyCityName())) {
                             string += address.getAgencyCityName();
-                        if (StringUtils.isNotEmpty(address.getAgencyStateCode()))
+                        }
+                        if (StringUtils.isNotEmpty(address.getAgencyStateCode())) {
                             string += ", " + address.getAgencyStateCode();
-                        if (StringUtils.isNotEmpty(address.getAgencyZipCode()))
+                        }
+                        if (StringUtils.isNotEmpty(address.getAgencyZipCode())) {
                             string += "-" + address.getAgencyZipCode();
-                        if (StringUtils.isNotEmpty(string))
+                        }
+                        if (StringUtils.isNotEmpty(string)) {
                             sendTo.add(new Paragraph(string, titleFont));
+                        }
                         sendTo.setAlignment(Element.ALIGN_CENTER);
                         sendTo.add(new Paragraph(" "));
 
                         // adding the sent From address
                         Organization org = invoice.getAward().getPrimaryAwardOrganization().getOrganization();
                         sentBy.add(new Paragraph(org.getOrganizationName(), smallFont));
-                        if (StringUtils.isNotEmpty(org.getOrganizationLine1Address()))
+                        if (StringUtils.isNotEmpty(org.getOrganizationLine1Address())) {
                             sentBy.add(new Paragraph(org.getOrganizationLine1Address(), smallFont));
-                        if (StringUtils.isNotEmpty(org.getOrganizationLine2Address()))
+                        }
+                        if (StringUtils.isNotEmpty(org.getOrganizationLine2Address())) {
                             sentBy.add(new Paragraph(org.getOrganizationLine2Address(), smallFont));
+                        }
                         string = "";
-                        if (StringUtils.isNotEmpty(address.getAgencyCityName()))
+                        if (StringUtils.isNotEmpty(address.getAgencyCityName())) {
                             string += org.getOrganizationCityName();
-                        if (StringUtils.isNotEmpty(address.getAgencyStateCode()))
+                        }
+                        if (StringUtils.isNotEmpty(address.getAgencyStateCode())) {
                             string += ", " + org.getOrganizationStateCode();
-                        if (StringUtils.isNotEmpty(address.getAgencyZipCode()))
+                        }
+                        if (StringUtils.isNotEmpty(address.getAgencyZipCode())) {
                             string += "-" + org.getOrganizationZipCode();
-                        if (StringUtils.isNotEmpty(string))
+                        }
+                        if (StringUtils.isNotEmpty(string)) {
                             sentBy.add(new Paragraph(string, smallFont));
+                        }
                         sentBy.setAlignment(Element.ALIGN_LEFT);
 
                         document.add(sentBy);
@@ -821,8 +862,9 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                 }
             }
         }
-        if (pageAdded)
+        if (pageAdded) {
             document.close();
+        }
         else { // in case the document is empty, no envelopes to print
             document.open();
             document.newPage();
@@ -837,6 +879,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
     /**
      * @see org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService#generateCSVToExport(org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument)
      */
+    @Override
     public byte[] generateCSVToExport(ContractsGrantsLOCReviewDocument LOCDocument) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();

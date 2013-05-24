@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,26 +42,26 @@ import org.kuali.kfs.module.external.kc.util.KcUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowDocument;
-import org.kuali.rice.kew.service.WorkflowDocumentActions;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.DocumentAuthorizer;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.rule.event.BlanketApproveDocumentEvent;
+import org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.krad.rules.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.edl.impl.components.WorkflowDocumentActions;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -77,6 +77,7 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
     /**
      * @see org.kuali.kfs.module.cg.service.ProposalCreationService#createProposal(org.kuali.kfs.integration.cg.dto.ProposalParametersDTO)
      */
+    @Override
     public ProposalCreationStatusDTO createProposal(ProposalParametersDTO proposalParameters) {
 
         ProposalCreationStatusDTO proposalCreationStatus = new ProposalCreationStatusDTO();
@@ -118,7 +119,7 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
 
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("kcUnit", unitNumber);
-        defaults = (ProposalAutoCreateDefaults) businessObjectService.findByPrimaryKey(ProposalAutoCreateDefaults.class, criteria);
+        defaults = businessObjectService.findByPrimaryKey(ProposalAutoCreateDefaults.class, criteria);
 
         // if the matching defaults is null, try the parents in the hierarchy
         if (defaults == null) {
@@ -136,9 +137,10 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
             if (parentUnits != null) {
                 for (String unit : parentUnits) {
                     criteria.put("kcUnit", unit);
-                    defaults = (ProposalAutoCreateDefaults) businessObjectService.findByPrimaryKey(ProposalAutoCreateDefaults.class, criteria);
-                    if (defaults != null)
+                    defaults = businessObjectService.findByPrimaryKey(ProposalAutoCreateDefaults.class, criteria);
+                    if (defaults != null) {
                         break;
+                    }
                 }
             }
         }
@@ -148,18 +150,20 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
 
     /**
      * This method check to see if the user can create the proposal maintenance document and set the user session
-     * 
+     *
      * @param String principalId
      * @return boolean
      */
     protected boolean isValidUser(String principalId) {
 
         PersonService personService = SpringContext.getBean(PersonService.class);
-        if (principalId == null)
+        if (principalId == null) {
             return false;
+        }
         Person user = personService.getPerson(principalId);
-        if (user == null)
+        if (user == null) {
             return false;
+        }
         DocumentAuthorizer documentAuthorizer = new MaintenanceDocumentAuthorizerBase();
         if (documentAuthorizer.canInitiate(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Proposal.class), user)) {
             // set the user session so that the user name can be displayed in the saved document
@@ -183,7 +187,7 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
 
     /**
      * This method created the proposal Object.
-     * 
+     *
      * @param proposalParameters
      * @param defaults
      * @return
@@ -203,11 +207,11 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
         // this value may be null, if so, then we will set it to default value below
         proposal.setProposalIndirectCostAmount(new KualiDecimal(proposalParameters.getProposalIndirectCostAmount()));
         proposal.setProposalSubmissionDate(new java.sql.Date(proposalParameters.getProposalSubmissionDate().getTime()));
-        
+
         // set these values if code exists in KFS, otherwise we will set default values later
         setProposalAwardTypeIfExist(proposal, proposalParameters.getProposalAwardTypeCode());
         setProposalPurposeCodeIfExist(proposal, proposalParameters.getProposalPurposeCode());
-        
+
         proposal.setActive(true);
 
         // set primary Project Director if specified in parameters and principal id is valid
@@ -218,10 +222,10 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
                 proposalProjectDirector.setProposalNumber(proposal.getProposalNumber());
                 proposalProjectDirector.setActive(true);
                 proposalProjectDirector.setProposalPrimaryProjectDirectorIndicator(true);
-    
+
                 List<ProposalProjectDirector> proposalProjectDirectors = new ArrayList<ProposalProjectDirector>();
                 proposalProjectDirectors.add(proposalProjectDirector);
-    
+
                 proposal.setProposalProjectDirectors(proposalProjectDirectors);
             }
         }
@@ -231,11 +235,11 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
             if(StringUtils.isEmpty(proposal.getProposalPurposeCode())){
                 proposal.setProposalPurposeCode(defaults.getProposalPurposeCode());
             }
-            
+
             if(StringUtils.isEmpty(proposal.getProposalAwardTypeCode())){
                 proposal.setProposalAwardTypeCode(defaults.getProposalAwardTypeCode());
             }
-            
+
             if (proposal.getProposalProjectDirectors().isEmpty()) {
                 // set primary Project Director if not already set from paramaters
                 ProposalProjectDirector proposalProjectDirector = new ProposalProjectDirector();
@@ -294,21 +298,21 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
 
             try {
                 boolean rulesPassed = SpringContext.getBean(KualiRuleService.class).applyRules(new BlanketApproveDocumentEvent(maintenanceProposalDocument));
-                
+
                 if( rulesPassed && GlobalVariables.getMessageMap().hasNoErrors()){
                     getDocumentService().blanketApproveDocument(maintenanceProposalDocument, "", null);
                 }else{
                     //get errors from apply rules invocation, also clears global variables
-                    proposalCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());                        
+                    proposalCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
                     try{
                         //save document, and catch VE's as we want to do this silently
                         getDocumentService().saveDocument(maintenanceProposalDocument);
                     }catch(ValidationException ve){}
-                    
-                    proposalCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS);                    
+
+                    proposalCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS);
                     LOG.error( KcUtils.getErrorMessage(ContractsAndGrantsConstants.ProposalCreationService.ERROR_KC_DOCUMENT_PROPOSAL_RULES_EXCEPTION, new String[]{maintenanceProposalDocument.getDocumentNumber()}));
                 }
-                
+
                 proposalCreationStatus.setDocumentNumber(maintenanceProposalDocument.getDocumentNumber());
             }
             catch (WorkflowException e) {
@@ -326,7 +330,7 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
     /**
      * This method will use the DocumentService to create a new document. The documentTypeName is gathered by using
      * MaintenanceDocumentDictionaryService which uses Proposal class to get the document type name.
-     * 
+     *
      * @param ProposalCreationStatusDTO
      * @return document returns a new document for the account document type or null if there is an exception thrown.
      */
@@ -334,7 +338,7 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
 
         boolean existingUserSession = false;
         String oldUserSessionPrinicpalName = null;
-        
+
         try {
             if (GlobalVariables.getUserSession() != null) {
                 existingUserSession = true;
@@ -342,7 +346,7 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
             oldUserSessionPrinicpalName = GlobalVariables.getUserSession().getPrincipalName();
             GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
             GlobalVariables.clear();
-            
+
             Document document = getDocumentService().getNewDocument(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Proposal.class));
             return document;
         }
@@ -363,13 +367,14 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
         }
     }
 
-    
+
     /**
      * This method takes an AwardParametersDTO and copies it into the ProposalParametersDTO.
-     * 
+     *
      * @param awardParameters
      * @return
      */
+    @Override
     public ProposalParametersDTO getProposalParametersDtoFromAwardParametersDto(AwardParametersDTO awardParameters, String agencyNumber) {
         ProposalParametersDTO proposalParametersDTO = new ProposalParametersDTO();
         proposalParametersDTO.setAgencyNumber(agencyNumber);
@@ -394,32 +399,32 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
             proposal.setProposalPurposeCode(proposalPurposeCode);
         }
     }
-    
+
     protected boolean isProposalPurposeCodeExist(String proposalPurposeCode){
-        ProposalPurpose proposalPurpose = (ProposalPurpose)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(ProposalPurpose.class, proposalPurposeCode);
+        ProposalPurpose proposalPurpose = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(ProposalPurpose.class, proposalPurposeCode);
         return (ObjectUtils.isNotNull(proposalPurpose));
-    }        
-    
-    
+    }
+
+
     protected void setProposalAwardTypeIfExist(Proposal proposal, String proposalAwardTypeCode){
         if(isProposalAwardTypeExist(proposalAwardTypeCode)){
             proposal.setProposalAwardTypeCode(proposalAwardTypeCode);
         }
     }
-    
+
     protected boolean isProposalAwardTypeExist(String proposalAwardTypeCode){
-        ProposalAwardType proposalAwardType = (ProposalAwardType)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(ProposalAwardType.class, proposalAwardTypeCode);
+        ProposalAwardType proposalAwardType = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(ProposalAwardType.class, proposalAwardTypeCode);
         return (ObjectUtils.isNotNull(proposalAwardType));
     }
-    
+
     protected boolean isValidPrincipalId(String principalId){
         return (ObjectUtils.isNotNull(SpringContext.getBean(PersonService.class).getPerson(principalId)));
-        
+
     }
-    
+
     /**
      * Gets the documentService attribute.
-     * 
+     *
      * @return Current value of documentService.
      */
     protected DocumentService getDocumentService() {
@@ -428,7 +433,7 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
 
     /**
      * Sets the documentService attribute value.
-     * 
+     *
      * @param documentService
      */
     public void setDocumentService(DocumentService documentService) {
@@ -437,7 +442,7 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -446,14 +451,14 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
-    
+
     protected WorkflowDocumentActions getWorkflowDocumentActions() {
         return workflowDocumentActions;
     }
@@ -461,7 +466,7 @@ public class ProposalCreationServiceImpl implements ProposalCreationService {
     public void setWorkflowDocumentActions(WorkflowDocumentActions workflowDocumentActions) {
         this.workflowDocumentActions = workflowDocumentActions;
     }
-    
-    
+
+
 
 }

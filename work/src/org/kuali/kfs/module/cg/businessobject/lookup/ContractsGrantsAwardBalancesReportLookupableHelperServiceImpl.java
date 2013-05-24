@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,6 @@ import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -57,7 +56,7 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
 
     /**
      * This method performs the lookup and returns a collection of lookup items
-     * 
+     *
      * @param lookupForm
      * @param kualiLookupable
      * @param resultTable
@@ -118,11 +117,12 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
 
     /**
      * This methods builds result table for the lookup results.
-     * 
+     *
      * @param lookupForm
      * @param displayList
      * @param resultTable
      */
+    @Override
     protected void buildResultTable(LookupForm lookupForm, Collection displayList, Collection resultTable) {
         Person user = GlobalVariables.getUserSession().getPerson();
         boolean hasReturnableRow = false;
@@ -177,10 +177,11 @@ public class ContractsGrantsAwardBalancesReportLookupableHelperServiceImpl exten
 
     /**
      * This method provides title text for the report
-     * 
+     *
      * @param boClass
      * @return
      */
+    @Override
     protected String createTitleText(Class<? extends BusinessObject> boClass) {
         String titleText = "";
 

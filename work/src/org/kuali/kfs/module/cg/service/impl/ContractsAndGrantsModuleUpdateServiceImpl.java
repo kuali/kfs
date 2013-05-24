@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.cg.service.impl;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -33,12 +34,11 @@ import org.kuali.kfs.module.cg.dataaccess.BillDao;
 import org.kuali.kfs.module.cg.dataaccess.MilestoneDao;
 import org.kuali.kfs.module.cg.service.AwardService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
-import java.util.ArrayList;
 
 /**
  * This Class provides implementation to the services required for inter module communication.
@@ -52,13 +52,14 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     /**
      * This method sets last Billed Date to award Account.
-     * 
+     *
      * @param criteria
      * @param invoiceStatus
      * @param lastBilledDate
      */
+    @Override
     public void setLastBilledDateToAwardAccount(Map<String, Object> criteria, String invoiceStatus, Date lastBilledDate) {
-        AwardAccount awardAccount = (AwardAccount) getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
+        AwardAccount awardAccount = getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
         // If the invoice is final, transpose current last billed date to previous and set invoice last billed date to current.
 
         if (invoiceStatus.equalsIgnoreCase("FINAL")) {
@@ -78,12 +79,13 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     /**
      * This method sets last billed Date to Award
-     * 
+     *
      * @param proposalNumber
      * @param lastBilledDate
      */
+    @Override
     public void setLastBilledDateToAward(Long proposalNumber, Date lastBilledDate) {
-        Award award = (Award) getBusinessObjectService().findBySinglePrimaryKey(Award.class, proposalNumber);
+        Award award = getBusinessObjectService().findBySinglePrimaryKey(Award.class, proposalNumber);
 
         award.setLastBilledDate(lastBilledDate);
         getBusinessObjectService().save(award);
@@ -92,9 +94,10 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     /**
      * This method updates value of isItBilled in Bill BO to Yes
-     * 
+     *
      * @param criteria
      */
+    @Override
     public void setBillsisItBilled(Criteria criteria, String value) {
         Collection<Bill> bills = getBillDao().getBillsByMatchingCriteria(criteria);
         for (Bill bill : bills) {
@@ -105,9 +108,10 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     /**
      * This method updates value of isItBilled in Milestone BO to Yes
-     * 
+     *
      * @param criteria
      */
+    @Override
     @SuppressWarnings("null")
     public void setMilestonesisItBilled(Long proposalNumber, List<Long> milestoneIds, String value) {
         Collection<Milestone> milestones = null;
@@ -126,12 +130,13 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     /**
      * This method sets value of LOC Creation Type to Award
-     * 
+     *
      * @param proposalNumber
      * @param locCreationType
      */
+    @Override
     public void setLOCCreationTypeToAward(Long proposalNumber, String locCreationType) {
-        Award award = (Award) getBusinessObjectService().findBySinglePrimaryKey(Award.class, proposalNumber);
+        Award award = getBusinessObjectService().findBySinglePrimaryKey(Award.class, proposalNumber);
 
         award.setLocCreationType(locCreationType);
         getBusinessObjectService().save(award);
@@ -139,48 +144,52 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     /**
      * This method sets amount to draw to award Account.
-     * 
+     *
      * @param criteria
      * @param amountToDraw
      */
+    @Override
     public void setAmountToDrawToAwardAccount(Map<String, Object> criteria, KualiDecimal amountToDraw) {
-        AwardAccount awardAccount = (AwardAccount) getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
+        AwardAccount awardAccount = getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
         awardAccount.setAmountToDraw(amountToDraw);
         getBusinessObjectService().save(awardAccount);
     }
 
     /**
      * This method sets loc review indicator to award Account.
-     * 
+     *
      * @param criteria
      * @param locReviewIndicator
      */
+    @Override
     public void setLOCReviewIndicatorToAwardAccount(Map<String, Object> criteria, boolean locReviewIndicator) {
-        AwardAccount awardAccount = (AwardAccount) getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
+        AwardAccount awardAccount = getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
         awardAccount.setLocReviewIndicator(locReviewIndicator);
         getBusinessObjectService().save(awardAccount);
     }
 
     /**
      * This method sets final billed to award Account.
-     * 
+     *
      * @param criteria
      * @param finalBilled
      */
+    @Override
     public void setFinalBilledToAwardAccount(Map<String, Object> criteria, boolean finalBilled) {
-        AwardAccount awardAccount = (AwardAccount) getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
+        AwardAccount awardAccount = getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
         awardAccount.setFinalBilled(finalBilled);
         getBusinessObjectService().save(awardAccount);
     }
 
     /**
      * This method sets invoice Document Status to award Account.
-     * 
+     *
      * @param criteria
      * @param invoiceDocumentStatus
      */
+    @Override
     public void setAwardAccountInvoiceDocumentStatus(Map<String, Object> criteria, String invoiceDocumentStatus) {
-        AwardAccount awardAccount = (AwardAccount) getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
+        AwardAccount awardAccount = getBusinessObjectService().findByPrimaryKey(AwardAccount.class, criteria);
         if(ObjectUtils.isNotNull(awardAccount)){
         awardAccount.setInvoiceDocumentStatus(invoiceDocumentStatus);
         getBusinessObjectService().save(awardAccount);
@@ -189,15 +198,16 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     /**
      * This method sets values to Award respective to junit testing
-     * 
+     *
      * @param proposalNumber
      * @param fieldValues
      */
+    @Override
     @SuppressWarnings("deprecation")
     public void setAwardAccountsToAward(Long proposalNumber, List<ContractsAndGrantsCGBAwardAccount> awardAccounts) {
 
         // Award and proposal is being saved
-        Proposal proposal = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Proposal.class, proposalNumber);
+        Proposal proposal = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(Proposal.class, proposalNumber);
         if (ObjectUtils.isNull(proposal)) {
             proposal = new Proposal();
             proposal.setProposalNumber(proposalNumber);
@@ -220,7 +230,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
             mapKey.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
             mapKey.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
             mapKey.put(KFSPropertyConstants.PROPOSAL_NUMBER, awardAccount.getProposalNumber());
-            AwardAccount awdAcct = (AwardAccount) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(AwardAccount.class, mapKey);
+            AwardAccount awdAcct = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AwardAccount.class, mapKey);
             if (ObjectUtils.isNull(awdAcct)) {
                 awdAcct = new AwardAccount();
                 awdAcct.setAccountNumber(awardAccount.getAccountNumber());
@@ -242,7 +252,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     /**
      * Gets the awardService attribute.
-     * 
+     *
      * @return Returns the awardService.
      */
     public AwardService getAwardService() {
@@ -251,7 +261,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     /**
      * Sets the awardService attribute value.
-     * 
+     *
      * @param awardService The awardService to set.
      */
     public void setAwardService(AwardService awardService) {
@@ -260,7 +270,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     /**
      * Gets the billDao attribute.
-     * 
+     *
      * @return Returns the billDao.
      */
     public BillDao getBillDao() {
@@ -269,7 +279,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     /**
      * Sets the billDao attribute value.
-     * 
+     *
      * @param billDao The billDao to set.
      */
     public void setBillDao(BillDao billDao) {
@@ -278,7 +288,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -287,7 +297,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -296,7 +306,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     /**
      * Gets the milestoneDao attribute.
-     * 
+     *
      * @return Returns the milestoneDao.
      */
     public MilestoneDao getMilestoneDao() {
@@ -305,7 +315,7 @@ public class ContractsAndGrantsModuleUpdateServiceImpl implements ContractsAndGr
 
     /**
      * Sets the milestoneDao attribute value.
-     * 
+     *
      * @param milestoneDao The milestoneDao to set.
      */
     public void setMilestoneDao(MilestoneDao milestoneDao) {

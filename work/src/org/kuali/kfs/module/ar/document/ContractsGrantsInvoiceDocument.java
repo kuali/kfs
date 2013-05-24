@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -73,8 +73,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.bo.Attachment;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -120,10 +120,10 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     protected String locCreationType;// To categorize the CG Invoices based on Award LOC Type
     protected String letterOfCreditFundGroupCode;
     protected String letterOfCreditFundCode;
-    
+
     private String referralTypeCode;
     private String finalDispositionCode;
-    
+
     private ReferralType referralType;
     private FinalDisposition finalDisposition;
 
@@ -153,28 +153,28 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the finalizable attribute.
-     * 
+     *
      * @return Returns the finalizable.
      */
     public boolean isFinalizable() {
         if (this == null) {
             return false;
         }
-        return this.getDocumentHeader().getWorkflowDocument().getDateCreated().after(this.getAward().getAwardEndingDate());
+        return this.getDocumentHeader().getWorkflowDocument().getDateCreated().isAfter(this.getAward().getAwardEndingDate().getTime());
     }
 
     /**
      * This method returns true if this is a correction document
-     * 
+     *
      * @return is Error Correction Document
      */
     public boolean isCorrectionDocument() {
         return !StringUtils.isEmpty(this.getDocumentHeader().getFinancialDocumentInErrorNumber());
     }
-    
+
     /**
      * Gets the markedForProcessing attribute.
-     * 
+     *
      * @return Returns the markedForProcessing.
      */
     public String getMarkedForProcessing() {
@@ -183,7 +183,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the markedForProcessing attribute value.
-     * 
+     *
      * @param markedForProcessing The markedForProcessing to set.
      */
 
@@ -193,7 +193,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the dateReportProcessed attribute.
-     * 
+     *
      * @return Returns the dateReportProcessed.
      */
     public java.util.Date getDateReportProcessed() {
@@ -202,7 +202,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the dateReportProcessed attribute value.
-     * 
+     *
      * @param dateReportProcessed The dateReportProcessed to set.
      */
     public void setDateReportProcessed(java.util.Date date) {
@@ -237,14 +237,14 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("invoiceTemplateCode", invoiceAgencyAddressDetail.getPreferredAgencyInvoiceTemplateCode());
-                invoiceTemplate = (ContractsAndGrantsInvoiceTemplate) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsInvoiceTemplate.class).getExternalizableBusinessObject(ContractsAndGrantsInvoiceTemplate.class, map);
+                invoiceTemplate = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsInvoiceTemplate.class).getExternalizableBusinessObject(ContractsAndGrantsInvoiceTemplate.class, map);
 
             }
             else if (ObjectUtils.isNotNull(invoiceAgencyAddressDetail.getAgencyInvoiceTemplateCode())) {
 
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("invoiceTemplateCode", invoiceAgencyAddressDetail.getAgencyInvoiceTemplateCode());
-                invoiceTemplate = (ContractsAndGrantsInvoiceTemplate) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsInvoiceTemplate.class).getExternalizableBusinessObject(ContractsAndGrantsInvoiceTemplate.class, map);
+                invoiceTemplate = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsInvoiceTemplate.class).getExternalizableBusinessObject(ContractsAndGrantsInvoiceTemplate.class, map);
             }
             else {
                 GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_FILE_UPLOAD_NO_PDF_FILE_SELECTED_FOR_SAVE, ACTIVE_INVOICE_TEMPLATE_ERROR);
@@ -263,29 +263,35 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                     Map<String, Object> primaryKeys = new HashMap<String, Object>();
                     primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, invoiceAgencyAddressDetail.getAgencyNumber());
                     primaryKeys.put("agencyAddressIdentifier", invoiceAgencyAddressDetail.getAgencyAddressIdentifier());
-                    address = (ContractsAndGrantsAgencyAddress) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
+                    address = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
                     String fullAddress = "";
-                    if (StringUtils.isNotEmpty(address.getAgencyLine1StreetAddress()))
+                    if (StringUtils.isNotEmpty(address.getAgencyLine1StreetAddress())) {
                         fullAddress += returnProperStringValue(address.getAgencyLine1StreetAddress()) + "\n";
-                    if (StringUtils.isNotEmpty(address.getAgencyLine2StreetAddress()))
+                    }
+                    if (StringUtils.isNotEmpty(address.getAgencyLine2StreetAddress())) {
                         fullAddress += returnProperStringValue(address.getAgencyLine2StreetAddress()) + "\n";
-                    if (StringUtils.isNotEmpty(address.getAgencyCityName()))
+                    }
+                    if (StringUtils.isNotEmpty(address.getAgencyCityName())) {
                         fullAddress += returnProperStringValue(address.getAgencyCityName());
-                    if (StringUtils.isNotEmpty(address.getAgencyStateCode()))
+                    }
+                    if (StringUtils.isNotEmpty(address.getAgencyStateCode())) {
                         fullAddress += " " + returnProperStringValue(address.getAgencyStateCode());
-                    if (StringUtils.isNotEmpty(address.getAgencyZipCode()))
+                    }
+                    if (StringUtils.isNotEmpty(address.getAgencyZipCode())) {
                         fullAddress += "-" + returnProperStringValue(address.getAgencyZipCode());
+                    }
                     replacementList.put("#agency.fullAddress", returnProperStringValue(fullAddress));
                     reportStream = PdfFormFillerUtil.populateTemplate(templateFile, replacementList, "");
                     // creating and saving the original note with an attachment
-                    if (ObjectUtils.isNotNull(this.getInvoiceGeneralDetail()) && this.getInvoiceGeneralDetail().isFinalBill())
+                    if (ObjectUtils.isNotNull(this.getInvoiceGeneralDetail()) && this.getInvoiceGeneralDetail().isFinalBill()) {
                         reportStream = PdfFormFillerUtil.createFinalmarkOnFile(reportStream, "FINAL INVOICE");
+                    }
                     Note note = new Note();
                     note.setNotePostedTimestampToCurrent();
                     note.setNoteText("Auto-generated invoice for Agency Address-" + this.getDocumentNumber() + "-" + invoiceAgencyAddressDetail.getAgencyAddressName());
-                    note.setNoteTypeCode(KRADConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
-                    note = KNSServiceLocator.getNoteService().createNote(note, this);
-                    Attachment attachment = KNSServiceLocator.getAttachmentService().createAttachment(note, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, reportStream.length, new ByteArrayInputStream(reportStream), "");
+                    note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+                    note = SpringContext.getBean(NoteService.class).createNote(note, this);
+                    Attachment attachment = SpringContext.getBean(AttachmentService.class).createAttachment(note, outputFileName, ArConstants.TemplateUploadSystem.TEMPLATE_MIME_TYPE, reportStream.length, new ByteArrayInputStream(reportStream), "");
                     // adding attachment to the note
                     note.setAttachment(attachment);
                     KNSServiceLocator.getNoteService().save(note);
@@ -329,7 +335,8 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     /**
      * @see org.kuali.kfs.module.ar.document.CustomerInvoiceDocument#prepareForSave()
      */
-    
+
+    @Override
     public void prepareForSave() {
         super.prepareForSave();
         // To do a recalculate of current expenditures in invoice details section so that the totals get affected properly.
@@ -350,7 +357,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
      */
     @SuppressWarnings("null")
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         // To set the status of the document to award account.
         setAwardAccountInvoiceDocumentStatus(this.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue());
@@ -412,7 +419,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     /**
      * This method sets the last billed date to Award and Award Account objects based on the status of the invoice. Final or
      * Corrected.
-     * 
+     *
      * @param invoiceStatus
      */
     public void updateLastBilledDate(String invoiceStatus) {
@@ -421,7 +428,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
         Iterator<InvoiceAccountDetail> iterator = accountDetails.iterator();
         while (iterator.hasNext()) {
-            InvoiceAccountDetail id = (InvoiceAccountDetail) iterator.next();
+            InvoiceAccountDetail id = iterator.next();
             this.calculateAwardAccountLastBilledDate(id, invoiceStatus, this.getInvoiceGeneralDetail().getLastBilledDate());
         }
 
@@ -429,7 +436,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         java.sql.Date awdLastBilledDate;
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, getProposalNumber());
-        ContractsAndGrantsCGBAward award = (ContractsAndGrantsCGBAward) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
+        ContractsAndGrantsCGBAward award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
         ContractsAndGrantsCGBAwardAccount awardAccount = award.getActiveAwardAccounts().get(0);
         awdLastBilledDate = award.getActiveAwardAccounts().get(0).getCurrentLastBilledDate();
         for (int i = 0; i < award.getActiveAwardAccounts().size(); i++) {
@@ -449,7 +456,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * This method updates the AwardAccount object's last billed Variable with the value provided
-     * 
+     *
      * @param id
      * @param value
      */
@@ -465,7 +472,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * This method updates the Bills and Milestone objects isItBilles Field.
-     * 
+     *
      * @param string
      */
     protected void updateBillsAndMilestones(String string) {
@@ -475,7 +482,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Update Milestone objects isItBilled value.
-     * 
+     *
      * @param string
      */
     protected void updateMilestonesIsItBilled(String string) {
@@ -503,7 +510,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Update Bill objects isItBilled value.
-     * 
+     *
      * @param string
      */
     protected void updateBillsIsItBilled(String string) {
@@ -524,7 +531,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * This method generated the template parameter list to populate the pdf invoices that are attached to the Document.
-     * 
+     *
      * @return
      */
     private Map<String, String> getTemplateParameterList() {
@@ -534,12 +541,14 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, accountingPeriod.getUniversityFiscalYear());
             primaryKeys.put("processingChartOfAccountCode", accountsReceivableDocumentHeader.getProcessingChartOfAccountCode());
             primaryKeys.put("processingOrganizationCode", accountsReceivableDocumentHeader.getProcessingOrganizationCode());
-            SystemInformation sysInfo = (SystemInformation) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(SystemInformation.class, primaryKeys);
+            SystemInformation sysInfo = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemInformation.class, primaryKeys);
             parameterMap.put("#documentNumber", returnProperStringValue(documentNumber));
-            if (ObjectUtils.isNotNull(this.getDocumentHeader().getWorkflowDocument().getDateCreated()))
+            if (ObjectUtils.isNotNull(this.getDocumentHeader().getWorkflowDocument().getDateCreated())) {
                 parameterMap.put("#date", returnProperStringValue(FILE_NAME_TIMESTAMP.format(this.getDocumentHeader().getWorkflowDocument().getDateCreated())));
-            if (ObjectUtils.isNotNull(this.getDocumentHeader().getWorkflowDocument().getDateFinalized().getTime()))
+            }
+            if (ObjectUtils.isNotNull(this.getDocumentHeader().getWorkflowDocument().getDateFinalized().getTime())) {
                 parameterMap.put("#finalStatusDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(this.getDocumentHeader().getWorkflowDocument().getDateFinalized().getTime())));
+            }
             parameterMap.put("#proposalNumber", returnProperStringValue(proposalNumber));
             parameterMap.put("#payee.name", returnProperStringValue(this.getBillingAddressName()));
             parameterMap.put("#payee.addressLine1", returnProperStringValue(this.getBillingLine1StreetAddress()));
@@ -569,7 +578,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                     parameterMap.put("#invoiceDetail[" + i + "].cumulative", returnProperStringValue(getInvoiceDetails().get(i).getCumulative()));
                     parameterMap.put("#invoiceDetail[" + i + "].balance", returnProperStringValue(getInvoiceDetails().get(i).getBalance()));
                     parameterMap.put("#invoiceDetail[" + i + "].billed", returnProperStringValue(getInvoiceDetails().get(i).getBilled()));
-                    parameterMap.put("#invoiceDetail[" + i + "].adjustedCumulativeExpenditures", returnProperStringValue(getInvoiceDetails().get(i).getAdjustedCumExpenditures())); 
+                    parameterMap.put("#invoiceDetail[" + i + "].adjustedCumulativeExpenditures", returnProperStringValue(getInvoiceDetails().get(i).getAdjustedCumExpenditures()));
                     parameterMap.put("#invoiceDetail[" + i + "].adjustedBalance", returnProperStringValue(getInvoiceDetails().get(0).getAdjustedBalance()));
                 }
             }
@@ -582,7 +591,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                 parameterMap.put("#directCostInvoiceDetail.cumulative", returnProperStringValue(getDirectCostInvoiceDetails().get(0).getCumulative()));
                 parameterMap.put("#directCostInvoiceDetail.balance", returnProperStringValue(getDirectCostInvoiceDetails().get(0).getBalance()));
                 parameterMap.put("#directCostInvoiceDetail.billed", returnProperStringValue(getDirectCostInvoiceDetails().get(0).getBilled()));
-                parameterMap.put("#directCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(getDirectCostInvoiceDetails().get(0).getAdjustedCumExpenditures())); 
+                parameterMap.put("#directCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(getDirectCostInvoiceDetails().get(0).getAdjustedCumExpenditures()));
                 parameterMap.put("#directCostInvoiceDetail.adjustedBalance", returnProperStringValue(getDirectCostInvoiceDetails().get(0).getAdjustedBalance()));
             }
             if (CollectionUtils.isNotEmpty(getInDirectCostInvoiceDetails())) {
@@ -594,7 +603,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                 parameterMap.put("#inDirectCostInvoiceDetail.cumulative", returnProperStringValue(getInDirectCostInvoiceDetails().get(0).getCumulative()));
                 parameterMap.put("#inDirectCostInvoiceDetail.balance", returnProperStringValue(getInDirectCostInvoiceDetails().get(0).getBalance()));
                 parameterMap.put("#inDirectCostInvoiceDetail.billed", returnProperStringValue(getInDirectCostInvoiceDetails().get(0).getBilled()));
-                parameterMap.put("#inDirectCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(getInDirectCostInvoiceDetails().get(0).getAdjustedCumExpenditures())); 
+                parameterMap.put("#inDirectCostInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(getInDirectCostInvoiceDetails().get(0).getAdjustedCumExpenditures()));
                 parameterMap.put("#inDirectCostInvoiceDetail.adjustedBalance", returnProperStringValue(getInDirectCostInvoiceDetails().get(0).getAdjustedBalance()));
             }
             if (CollectionUtils.isNotEmpty(getTotalInvoiceDetails())) {
@@ -607,7 +616,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                 parameterMap.put("#totalInvoiceDetail.balance", returnProperStringValue(getTotalInvoiceDetails().get(0).getBalance()));
                 parameterMap.put("#totalInvoiceDetail.billed", returnProperStringValue(getTotalInvoiceDetails().get(0).getBilled()));
                 parameterMap.put("#totalInvoiceDetail.estimatedCost", returnProperStringValue(getTotalInvoiceDetails().get(0).getBilled().add(getTotalInvoiceDetails().get(0).getExpenditures())));
-                parameterMap.put("#totalInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(getTotalInvoiceDetails().get(0).getAdjustedCumExpenditures())); 
+                parameterMap.put("#totalInvoiceDetail.adjustedCumulativeExpenditures", returnProperStringValue(getTotalInvoiceDetails().get(0).getAdjustedCumExpenditures()));
                 parameterMap.put("#totalInvoiceDetail.adjustedBalance", returnProperStringValue(getTotalInvoiceDetails().get(0).getAdjustedBalance()));
             }
             if (CollectionUtils.isNotEmpty(agencyAddressDetails)) {
@@ -634,9 +643,10 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                     Map map = new HashMap<String, Object>();
                     map.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountDetails.get(i).getAccountNumber());
                     map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, accountDetails.get(i).getChartOfAccountsCode());
-                    Account account = (Account) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(Account.class, map);
-                    if(ObjectUtils.isNotNull(account))
+                    Account account = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, map);
+                    if(ObjectUtils.isNotNull(account)) {
                         parameterMap.put("#accountDetails[" + i + "].account.responsibilityID", returnProperStringValue(account.getContractsAndGrantsAccountResponsibilityId()));
+                    }
                 }
             }
             if (CollectionUtils.isNotEmpty(invoiceMilestones)) {
@@ -657,10 +667,12 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                 parameterMap.put("#invoiceGeneralDetail.billingFrequency", returnProperStringValue(invoiceGeneralDetail.getBillingFrequency()));
                 parameterMap.put("#invoiceGeneralDetail.finalBill", convertBooleanValue(invoiceGeneralDetail.isFinalBill()));
                 parameterMap.put("#invoiceGeneralDetail.finalInvoice", convertBooleanValue(invoiceGeneralDetail.isFinalBill()));
-                if (invoiceGeneralDetail.isFinalBill())
-                                parameterMap.put("#invoiceGeneralDetail.finalInvoiceYesNo", "Yes");
-                else
-                                parameterMap.put("#invoiceGeneralDetail.finalInvoiceYesNo", "No");
+                if (invoiceGeneralDetail.isFinalBill()) {
+                    parameterMap.put("#invoiceGeneralDetail.finalInvoiceYesNo", "Yes");
+                }
+                else {
+                    parameterMap.put("#invoiceGeneralDetail.finalInvoiceYesNo", "No");
+                }
                 parameterMap.put("#invoiceGeneralDetail.billingPeriod", returnProperStringValue(invoiceGeneralDetail.getBillingPeriod()));
                 parameterMap.put("#invoiceGeneralDetail.contractGrantType", returnProperStringValue(invoiceGeneralDetail.getContractGrantType()));
                 parameterMap.put("#invoiceGeneralDetail.awardTotal", returnProperStringValue(invoiceGeneralDetail.getAwardTotal()));
@@ -670,8 +682,9 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                 parameterMap.put("#invoiceGeneralDetail.costShareAmount", returnProperStringValue(invoiceGeneralDetail.getCostShareAmount()));
                 parameterMap.put("#invoiceGeneralDetail.lastBilledDate", returnProperStringValue(invoiceGeneralDetail.getLastBilledDate()));
                 String strArray[] = invoiceGeneralDetail.getBillingPeriod().split(" to ");
-                if (ObjectUtils.isNotNull(strArray[0]))
+                if (ObjectUtils.isNotNull(strArray[0])) {
                     parameterMap.put("#invoiceGeneralDetail.invoicingPeriodStartDate", returnProperStringValue(strArray[0]));
+                }
                 if (ObjectUtils.isNotNull(strArray[1])){
                     parameterMap.put("#invoiceGeneralDetail.invoicingPeriodEndDate", returnProperStringValue(strArray[1]));
                     parameterMap.put("#award.cumulativePeriod", returnProperStringValue(award.getAwardBeginningDate().toString() + " to " + strArray[1]));
@@ -698,38 +711,45 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                 parameterMap.put("#award.receivables", returnProperStringValue(receivable));
                 parameterMap.put("#award.proposalNumber", returnProperStringValue(award.getProposalNumber()));
                 parameterMap.put("#award.awardId", returnProperStringValue(award.getAwardId()));
-                if (ObjectUtils.isNotNull(award.getAwardBeginningDate()))
+                if (ObjectUtils.isNotNull(award.getAwardBeginningDate())) {
                     parameterMap.put("#award.awardBeginningDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardBeginningDate())));
-                if (ObjectUtils.isNotNull(award.getAwardEndingDate()))
+                }
+                if (ObjectUtils.isNotNull(award.getAwardEndingDate())) {
                     parameterMap.put("#award.awardEndingDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardEndingDate())));
+                }
                 parameterMap.put("#award.awardTotalAmount", returnProperStringValue(award.getAwardTotalAmount()));
                 parameterMap.put("#award.awardAddendumNumber", returnProperStringValue(award.getAwardAddendumNumber()));
                 parameterMap.put("#award.awardAllocatedUniversityComputingServicesAmount", returnProperStringValue(award.getAwardAllocatedUniversityComputingServicesAmount()));
                 parameterMap.put("#award.federalPassThroughFundedAmount", returnProperStringValue(award.getFederalPassThroughFundedAmount()));
-                if (ObjectUtils.isNotNull(award.getAwardEntryDate()))
+                if (ObjectUtils.isNotNull(award.getAwardEntryDate())) {
                     parameterMap.put("#award.awardEntryDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardEntryDate())));
+                }
                 parameterMap.put("#award.agencyFuture1Amount", returnProperStringValue(award.getAgencyFuture1Amount()));
                 parameterMap.put("#award.agencyFuture2Amount", returnProperStringValue(award.getAgencyFuture2Amount()));
                 parameterMap.put("#award.agencyFuture3Amount", returnProperStringValue(award.getAgencyFuture3Amount()));
                 parameterMap.put("#award.awardDocumentNumber", returnProperStringValue(award.getAwardDocumentNumber()));
-                if (ObjectUtils.isNotNull(award.getAwardLastUpdateDate()))
+                if (ObjectUtils.isNotNull(award.getAwardLastUpdateDate())) {
                     parameterMap.put("#award.awardLastUpdateDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardLastUpdateDate())));
+                }
                 parameterMap.put("#award.federalPassthroughIndicator", convertBooleanValue(award.getFederalPassThroughIndicator()));
                 parameterMap.put("#award.oldProposalNumber", returnProperStringValue(award.getOldProposalNumber()));
                 parameterMap.put("#award.awardDirectCostAmount", returnProperStringValue(award.getAwardDirectCostAmount()));
                 parameterMap.put("#award.awardIndirectCostAmount", returnProperStringValue(award.getAwardIndirectCostAmount()));
                 parameterMap.put("#award.federalFundedAmount", returnProperStringValue(award.getFederalFundedAmount()));
                 parameterMap.put("#award.awardCreateTimestamp", returnProperStringValue(award.getAwardCreateTimestamp()));
-                if (ObjectUtils.isNotNull(award.getAwardClosingDate()))
+                if (ObjectUtils.isNotNull(award.getAwardClosingDate())) {
                     parameterMap.put("#award.awardClosingDate", returnProperStringValue(FILE_NAME_TIMESTAMP.format(award.getAwardClosingDate())));
+                }
                 parameterMap.put("#award.proposalAwardTypeCode", returnProperStringValue(award.getProposalAwardTypeCode()));
                 parameterMap.put("#award.awardStatusCode", returnProperStringValue(award.getAwardStatusCode()));
-                if (ObjectUtils.isNotNull(award.getLetterOfCreditFund()))
+                if (ObjectUtils.isNotNull(award.getLetterOfCreditFund())) {
                     parameterMap.put("#award.letterOfCreditFundGroupCode", returnProperStringValue(award.getLetterOfCreditFund().getLetterOfCreditFundGroupCode()));
+                }
                 parameterMap.put("#award.letterOfCreditFundCode", returnProperStringValue(award.getLetterOfCreditFundCode()));
                 parameterMap.put("#award.grantDescriptionCode", returnProperStringValue(award.getGrantDescriptionCode()));
-                if(ObjectUtils.isNotNull(award.getProposal()))
+                if(ObjectUtils.isNotNull(award.getProposal())) {
                     parameterMap.put("#award.grantNumber", returnProperStringValue(award.getProposal().getGrantNumber()));
+                }
                 parameterMap.put("#agencyNumber", returnProperStringValue(award.getAgencyNumber()));
                 parameterMap.put("#agency.fullName", returnProperStringValue(award.getAgency().getFullName()));
                 parameterMap.put("#award.federalPassThroughAgencyNumber", returnProperStringValue(award.getFederalPassThroughAgencyNumber()));
@@ -766,15 +786,16 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                     parameterMap.put("#award.primaryFundManager.email", returnProperStringValue(award.getAwardPrimaryFundManager().getFundManager().getEmailAddress()));
                     parameterMap.put("#award.primaryFundManager.phone", returnProperStringValue(award.getAwardPrimaryFundManager().getFundManager().getPhoneNumber()));
                 }
-                if (ObjectUtils.isNotNull(invoiceGeneralDetail))
+                if (ObjectUtils.isNotNull(invoiceGeneralDetail)) {
                     parameterMap.put("#totalAmountDue", returnProperStringValue(receivable.add(invoiceGeneralDetail.getNewTotalBilled())));
+                }
             }
             return parameterMap;
     }
 
     /**
      * returns proper contract control Account Number.
-     * 
+     *
      * @return
      */
     private String getRecipientAccountNumber() {
@@ -786,18 +807,19 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Returns true if the billing Frequency is Predetermined Billing.
-     * 
+     *
      * @return
      */
     private boolean isAdvance() {
-        if (ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equals(invoiceGeneralDetail.getBillingFrequency()))
+        if (ArPropertyConstants.PREDETERMINED_BILLING_SCHEDULE_CODE.equals(invoiceGeneralDetail.getBillingFrequency())) {
             return true;
+        }
         return false;
     }
 
     /**
      * Returns a proper String Value. Also returns proper value for currency (USD)
-     * 
+     *
      * @param string
      * @return
      */
@@ -814,19 +836,20 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * iText compatible boolean value converter.
-     * 
+     *
      * @param bool
      * @return
      */
     private String convertBooleanValue(boolean bool) {
-        if (bool)
+        if (bool) {
             return "Yes";
+        }
         return "Off";
     }
 
     /**
      * This method updates the ContractsAndGrantsCGBAwardAccount object's invoiceDocumentStatus Variable with the value provided
-     * 
+     *
      * @param id
      * @param value
      */
@@ -846,7 +869,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * This method updates the ContractsAndGrantsCGBAwardAccount object's FinalBilled Variable with the value provided
-     * 
+     *
      * @param id
      * @param value
      */
@@ -873,7 +896,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Make changes here to implement what needs to be done when correction button is clicked
-     * 
+     *
      * @see org.kuali.kfs.module.ar.document.CustomerInvoiceDocument#toErrorCorrection()
      */
     @Override
@@ -884,7 +907,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Corrects the Contracts and Grants Invoice Document.
-     * 
+     *
      * @throws WorkflowException
      */
     public void correctContractsGrantsInvoiceDocument() throws WorkflowException {
@@ -954,7 +977,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             // update the new total billed for the invoice.
             invoiceGeneralDetail.setNewTotalBilled(invoiceGeneralDetail.getNewTotalBilled().add(getTotalInvoiceDetails().get(0).getExpenditures()));
         }
-        
+
         //to set Marked for processing and Date report processed to null.
         this.setMarkedForProcessing(null);
         this.setDateReportProcessed(null);
@@ -963,7 +986,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * This method corrects the Maintenance Document for Predetermined Billing
-     * 
+     *
      * @throws WorkflowException
      */
     protected void correctBills() throws WorkflowException {
@@ -972,7 +995,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * This method corrects the Maintenance Document for milestones
-     * 
+     *
      * @throws WorkflowException
      */
     protected void correctMilestones() throws WorkflowException {
@@ -982,7 +1005,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     /**
      * This method takes all the applicable attributes from the associated award object and sets those attributes into their
      * corresponding invoice attributes.
-     * 
+     *
      * @param award The associated award that the invoice will be linked to.
      */
     public void populateInvoiceFromAward(ContractsAndGrantsCGBAward award, List<ContractsAndGrantsCGBAwardAccount> awardAccounts) {
@@ -990,8 +1013,8 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         List<ContractsAndGrantsBill> bills = new ArrayList<ContractsAndGrantsBill>();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
-        milestones = (List) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsMilestone.class).getExternalizableBusinessObjectsList(ContractsAndGrantsMilestone.class, map);
-        bills = (List) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBill.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBill.class, map);
+        milestones = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsMilestone.class).getExternalizableBusinessObjectsList(ContractsAndGrantsMilestone.class, map);
+        bills = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsBill.class).getExternalizableBusinessObjectsList(ContractsAndGrantsBill.class, map);
 
 
         if (ObjectUtils.isNotNull(award)) {
@@ -1027,7 +1050,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             List<ContractsAndGrantsAgencyAddress> agencyAddresses = new ArrayList<ContractsAndGrantsAgencyAddress>();
             Map<String, Object> mapKey = new HashMap<String, Object>();
             mapKey.put(KFSPropertyConstants.AGENCY_NUMBER, award.getAgency().getAgencyNumber());
-            agencyAddresses = (List) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, mapKey);
+            agencyAddresses = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObjectsList(ContractsAndGrantsAgencyAddress.class, mapKey);
             for (ContractsAndGrantsAgencyAddress agencyAddress : agencyAddresses) {
 
                 InvoiceAgencyAddressDetail invoiceAgencyAddressDetail = new InvoiceAgencyAddressDetail();
@@ -1164,7 +1187,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber());
         map.put(KFSPropertyConstants.ACTIVE, true);
-        awardInvoiceAccounts = (List) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsGrantsAwardInvoiceAccountInformation.class).getExternalizableBusinessObjectsList(ContractsGrantsAwardInvoiceAccountInformation.class, map);
+        awardInvoiceAccounts = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsGrantsAwardInvoiceAccountInformation.class).getExternalizableBusinessObjectsList(ContractsGrantsAwardInvoiceAccountInformation.class, map);
         if (isUsingReceivableFAU) {
             if (CollectionUtils.isNotEmpty(awardInvoiceAccounts)) {
                 for (ContractsGrantsAwardInvoiceAccountInformation awardInvoiceAccount : awardInvoiceAccounts) {
@@ -1256,7 +1279,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the invoiceDetails attribute.
-     * 
+     *
      * @return Returns the invoiceDetails.
      */
     public List<InvoiceDetail> getInvoiceDetails() {
@@ -1270,7 +1293,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
         return invDetails;
     }
-    
+
     public List<InvoiceDetail> getInvoiceDetailsWithIndirectCosts(){
      // To get the list of invoice Details without the Total fields
         List<InvoiceDetail> invDetails = new ArrayList<InvoiceDetail>();
@@ -1282,11 +1305,11 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
         return invDetails;
     }
-    
-    
+
+
     /**
-     * This method returns a list of invoice details which are indirect costs only.  
-     * These invoice details are not shown on the document and is different form the 
+     * This method returns a list of invoice details which are indirect costs only.
+     * These invoice details are not shown on the document and is different form the
      * other method getInDirectCostInvoiceDetails() because that method returns the total.
      */
     public List<InvoiceDetail> getInvoiceDetailsIndirectCostOnly(){
@@ -1296,13 +1319,13 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                invDetails.add(invD);
             }
         }
-        
+
         return invDetails;
     }
-    
+
     /**
      * Sets the invoiceDetails attribute value.
-     * 
+     *
      * @param invoiceDetails The invoiceDetails to set.
      */
     public void setInvoiceDetails(List<InvoiceDetail> invoiceDetails) {
@@ -1326,7 +1349,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the agencyAddressDetails attribute.
-     * 
+     *
      * @return Returns the agencyAddressDetails.
      */
     public List<InvoiceAgencyAddressDetail> getAgencyAddressDetails() {
@@ -1335,7 +1358,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the agencyAddressDetails attribute value.
-     * 
+     *
      * @param agencyAddressDetails The agencyAddressDetails to set.
      */
     public void setAgencyAddressDetails(List<InvoiceAgencyAddressDetail> agencyAddressDetails) {
@@ -1344,7 +1367,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the accountDetails attribute.
-     * 
+     *
      * @return Returns the accountDetails.
      */
     public List<InvoiceAccountDetail> getAccountDetails() {
@@ -1353,7 +1376,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the accountDetails attribute value.
-     * 
+     *
      * @param accountDetails The accountDetails to set.
      */
     public void setAccountDetails(List<InvoiceAccountDetail> accountDetails) {
@@ -1362,18 +1385,20 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
+    @Override
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
@@ -1382,6 +1407,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
+    @Override
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
@@ -1398,7 +1424,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     /**
      * This method takes a ContractsAndGrantsCategory, retrieves the specified object code or object code range. It then parses this
      * string, and returns all the possible object codes specified by this range.
-     * 
+     *
      * @param category
      * @return Set<String> objectCodes
      */
@@ -1487,7 +1513,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * This method returns the complete set of object codes for ALL ContractsAndGrantsCategories.
-     * 
+     *
      * @return Set<String> objectCodes
      */
     public Set<String> getObjectCodeArrayFromContractsAndGrantsCategories() {
@@ -1529,14 +1555,14 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
         for (ContractsAndGrantsCGBAwardAccount awardAccount : awardAccounts) {
             //Changes made to retrieve balances of previous years (useful when the award is billed for the first time and in case of fiscal year change)
             //1. If award is billed for the first time.
-            
-            
+
+
             Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getFiscalYear(award.getAwardBeginningDate());
-            
-            for(Integer i = fiscalYear; i<= currentYear; i++ ){                                
+
+            for(Integer i = fiscalYear; i<= currentYear; i++ ){
              fiscalYears.add(i);
             }
-            
+
             for(Integer eachFiscalYr: fiscalYears){
             Map<String, Object> balanceKeys = new HashMap<String, Object>();
             balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
@@ -1545,7 +1571,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
             balanceKeys.put("balanceTypeCode", ArPropertyConstants.ACTUAL_BALANCE_TYPE);
 
-            glBalances.addAll((List<Balance>) SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
+            glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
             }
         } // now you have a list of balances from all accounts;
 
@@ -1565,10 +1591,10 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                     invDtlKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
                     invDtlKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, bal.getChartOfAccountsCode());
                     invDtlKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, bal.getAccountNumber());
-                    invDtlKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, bal.getObjectCode());                    
-                    invDtlKeys.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentHeader().getDocumentNumber()); 
-                    invoiceDetailAccountObjectCode = (InvoiceDetailAccountObjectCode) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(InvoiceDetailAccountObjectCode.class, invDtlKeys);
-                    
+                    invDtlKeys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, bal.getObjectCode());
+                    invDtlKeys.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentHeader().getDocumentNumber());
+                    invoiceDetailAccountObjectCode = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(InvoiceDetailAccountObjectCode.class, invDtlKeys);
+
                     if(ObjectUtils.isNull(invoiceDetailAccountObjectCode)){
                     invoiceDetailAccountObjectCode = new InvoiceDetailAccountObjectCode();
                     invoiceDetailAccountObjectCode.setDocumentNumber(this.getDocumentHeader().getDocumentNumber());
@@ -1593,7 +1619,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
                     // add this single account object code item to the list in the Map
                     SpringContext.getBean(BusinessObjectService.class).save(invoiceDetailAccountObjectCode);
-                    
+
 
                     break; // found a match into which category, we can stop and move on to next balance entry
                 }
@@ -1643,7 +1669,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                         invoiceDetailAccountObjectCode.setCurrentExpenditures(invoiceDetailAccountObjectCode.getCumulativeExpenditures().subtract(invoiceDetailAccountObjectCode.getTotalBilled()));
 
                     }
-                
+
 
 
             }
@@ -1717,7 +1743,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
         while (o.hasNext()) {
 
-            InvoiceDetail invD = (InvoiceDetail) o.next();
+            InvoiceDetail invD = o.next();
             // To sum up values for indirect Cost Invoice Details
 
             if (invD.isIndirectCostIndicator()) {
@@ -1805,7 +1831,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     /**
      * This method returns a list of character strings that represent base 36 integers from start(non-inclusive) to limit
      * (inclusive).
-     * 
+     *
      * @param start the starting point of the list. This value is not included in the list.
      * @param limit the ending point of the list. This value is included in the list
      * @return the list of strings
@@ -1828,7 +1854,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the invoiceGeneralDetail attribute.
-     * 
+     *
      * @return Returns the invoiceGeneralDetail.
      */
     public InvoiceGeneralDetail getInvoiceGeneralDetail() {
@@ -1837,7 +1863,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the invoiceGeneralDetail attribute value.
-     * 
+     *
      * @param invoiceGeneralDetail The invoiceGeneralDetail to set.
      */
     public void setInvoiceGeneralDetail(InvoiceGeneralDetail invoiceGeneralDetail) {
@@ -1846,7 +1872,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber.
      */
     public Long getProposalNumber() {
@@ -1855,7 +1881,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the proposalNumber attribute value.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -1864,18 +1890,18 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the award attribute.
-     * 
+     *
      * @return Returns the award.
      */
     public ContractsAndGrantsCGBAward getAward() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, this.getProposalNumber());
-        return award = (ContractsAndGrantsCGBAward) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
+        return award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
     }
 
     /**
      * Sets the award attribute value.
-     * 
+     *
      * @param award The award to set.
      */
     public void setAward(ContractsAndGrantsCGBAward award) {
@@ -1885,7 +1911,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the invoiceMilestones attribute.
-     * 
+     *
      * @return Returns the invoiceMilestones.
      */
     public List<InvoiceMilestone> getInvoiceMilestones() {
@@ -1894,7 +1920,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the invoiceMilestones attribute value.
-     * 
+     *
      * @param invoiceMilestones The invoiceMilestones to set.
      */
     public void setInvoiceMilestones(List<InvoiceMilestone> invoiceMilestones) {
@@ -1903,7 +1929,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the invoiceBills attribute.
-     * 
+     *
      * @return Returns the invoiceBills.
      */
     public List<InvoiceBill> getInvoiceBills() {
@@ -1912,7 +1938,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the invoiceBills attribute value.
-     * 
+     *
      * @param invoiceBills The invoiceBills to set.
      */
     public void setInvoiceBills(List<InvoiceBill> invoiceBills) {
@@ -1921,7 +1947,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the locCreationType attribute.
-     * 
+     *
      * @return Returns the locCreationType.
      */
     public String getLocCreationType() {
@@ -1930,7 +1956,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the locCreationType attribute value.
-     * 
+     *
      * @param locCreationType The locCreationType to set.
      */
     public void setLocCreationType(String locCreationType) {
@@ -1939,7 +1965,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the letterOfCreditFundGroupCode attribute.
-     * 
+     *
      * @return Returns the letterOfCreditFundGroupCode.
      */
     public String getLetterOfCreditFundGroupCode() {
@@ -1948,7 +1974,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the letterOfCreditFundGroupCode attribute value.
-     * 
+     *
      * @param letterOfCreditFundGroupCode The letterOfCreditFundGroupCode to set.
      */
     public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
@@ -1957,7 +1983,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the letterOfCreditFundCode attribute.
-     * 
+     *
      * @return Returns the letterOfCreditFundCode.
      */
     public String getLetterOfCreditFundCode() {
@@ -1966,7 +1992,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the letterOfCreditFundCode attribute value.
-     * 
+     *
      * @param letterOfCreditFundCode The letterOfCreditFundCode to set.
      */
     public void setLetterOfCreditFundCode(String letterOfCreditFundCode) {
@@ -1975,7 +2001,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the directCostInvoiceDetails attribute.
-     * 
+     *
      * @return Returns the directCostInvoiceDetails.
      */
     public List<InvoiceDetail> getDirectCostInvoiceDetails() {
@@ -1992,7 +2018,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the directCostInvoiceDetails attribute value.
-     * 
+     *
      * @param directCostInvoiceDetails The directCostInvoiceDetails to set.
      */
     public void setDirectCostInvoiceDetails(List<InvoiceDetail> directCostInvoiceDetails) {
@@ -2001,7 +2027,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the list of Events.
-     * 
+     *
      * @return Returns the events.
      */
     public List<Event> getEvents() {
@@ -2010,7 +2036,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the list of Events.
-     * 
+     *
      * @param events The events to set.
      */
     public void setEvents(List<Event> events) {
@@ -2019,7 +2045,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the inDirectCostInvoiceDetails attribute.
-     * 
+     *
      * @return Returns the inDirectCostInvoiceDetails.
      */
     public List<InvoiceDetail> getInDirectCostInvoiceDetails() {
@@ -2036,7 +2062,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the inDirectCostInvoiceDetails attribute value.
-     * 
+     *
      * @param inDirectCostInvoiceDetails The inDirectCostInvoiceDetails to set.
      */
     public void setInDirectCostInvoiceDetails(List<InvoiceDetail> inDirectCostInvoiceDetails) {
@@ -2045,7 +2071,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the totalInvoiceDetails attribute.
-     * 
+     *
      * @return Returns the totalInvoiceDetails.
      */
     public List<InvoiceDetail> getTotalInvoiceDetails() {
@@ -2062,7 +2088,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the totalInvoiceDetails attribute value.
-     * 
+     *
      * @param totalInvoiceDetails The totalInvoiceDetails to set.
      */
     public void setTotalInvoiceDetails(List<InvoiceDetail> totalInvoiceDetails) {
@@ -2086,6 +2112,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     /**
      * @see org.kuali.kfs.module.ar.document.CustomerInvoiceDocument#answerSplitNodeQuestion(java.lang.String)
      */
+    @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
         if (nodeName.equals(REQUIRES_APPROVAL_SPLIT)) {
             return isRequiresFundingManagerApproval();
@@ -2129,7 +2156,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the finalDispositionCode attribute.
-     * 
+     *
      * @return Returns the finalDispositionCode.
      */
     public String getFinalDispositionCode() {
@@ -2138,7 +2165,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the finalDispositionCode attribute.
-     * 
+     *
      * @param finalDispositionCode The finalDispositionCode to set.
      */
     public void setFinalDispositionCode(String finalDispositionCode) {
@@ -2147,7 +2174,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the referralTypeCode attribute.
-     * 
+     *
      * @return Returns the referralTypeCode attribute.
      */
     public String getReferralTypeCode() {
@@ -2156,7 +2183,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the referralTypeCode attribute.
-     * 
+     *
      * @param referralTypeCode The referralTypeCode to set.
      */
     public void setReferralTypeCode(String referralTypeCode) {
@@ -2165,7 +2192,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the finalDisposition attribute.
-     * 
+     *
      * @return Returns the finalDisposition attribute.
      */
     public FinalDisposition getFinalDisposition() {
@@ -2174,8 +2201,8 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the finalDisposition attribute.
-     * 
-     * @param finalDisposition The finalDisposition to set. 
+     *
+     * @param finalDisposition The finalDisposition to set.
      */
     public void setFinalDisposition(FinalDisposition finalDisposition) {
         this.finalDisposition = finalDisposition;
@@ -2183,7 +2210,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the referralType attribute.
-     * 
+     *
      * @return Returns the referralType attribute.
      */
     public ReferralType getReferralType() {
@@ -2192,7 +2219,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the referralType attribute.
-     * 
+     *
      * @param referralType The referralType to set.
      */
     public void setReferralType(ReferralType referralType) {
@@ -2201,7 +2228,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Gets the showEvents attribute.
-     * 
+     *
      * @return Returns the showEvents attribute.
      */
     public boolean isShowEvents() {
@@ -2210,7 +2237,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
 
     /**
      * Sets the showEvents attribute.
-     * 
+     *
      * @param showEvents The showEvents to set.
      */
     public void setShowEvents(boolean showEvents) {

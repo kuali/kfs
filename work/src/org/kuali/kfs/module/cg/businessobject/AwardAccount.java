@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,11 +25,11 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -57,16 +57,17 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
 
     /**
      * Gets the finalBilled attribute.
-     * 
+     *
      * @return Returns the finalBilled.
      */
+    @Override
     public boolean isFinalBilled() {
         return finalBilled;
     }
 
     /**
      * Sets the finalBilled attribute value.
-     * 
+     *
      * @param finalBilled The finalBilled to set.
      */
     public void setFinalBilled(boolean finalBilled) {
@@ -79,7 +80,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     public AwardAccount() {
         // Struts needs this instance to populate the secondary key, principalName.
         try {
-            projectDirector = (Person) SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
+            projectDirector = SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
         }
         catch (Exception e) {
         }
@@ -88,15 +89,17 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getProposalNumber()
      */
+    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
 
     /**
      * Sets the proposalNumber attribute.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
+    @Override
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
@@ -105,13 +108,14 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getChartOfAccountsCode()
      */
+    @Override
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -122,13 +126,14 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getAccountNumber()
      */
+    @Override
     public String getAccountNumber() {
         return accountNumber;
     }
 
     /**
      * Sets the accountNumber attribute.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -138,15 +143,17 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getPrincipalId()
      */
+    @Override
     public String getPrincipalId() {
         return principalId;
     }
 
     /**
      * Sets the principalId attribute.
-     * 
+     *
      * @param principalId The principalId to set.
      */
+    @Override
     public void setPrincipalId(String principalId) {
         this.principalId = principalId;
     }
@@ -154,13 +161,14 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getAccount()
      */
+    @Override
     public Account getAccount() {
         return account;
     }
 
     /**
      * Sets the account attribute.
-     * 
+     *
      * @param account The account to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -173,13 +181,14 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getChartOfAccounts()
      */
+    @Override
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
     }
 
     /**
      * Sets the chartOfAccounts attribute.
-     * 
+     *
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -192,6 +201,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     /***
      * @see org.kuali.kfs.integration.businessobject.cg.ContractsAndGrantsAccountAwardInformation#getProjectDirector()
      */
+    @Override
     public Person getProjectDirector() {
         projectDirector = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(principalId, projectDirector);
         return projectDirector;
@@ -199,11 +209,12 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
 
     /**
      * Sets the project director attribute
-     * 
+     *
      * @param projectDirector The projectDirector to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
      */
+    @Override
     @Deprecated
     public void setProjectDirector(Person projectDirector) {
         this.projectDirector = projectDirector;
@@ -213,7 +224,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.proposalNumber != null) {
@@ -241,7 +252,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
 
     /**
      * This method sets the associated award to the value provided.
-     * 
+     *
      * @param award Value to be assigned to the associated Award object.
      */
     public void setAward(Award award) {
@@ -251,6 +262,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -258,40 +270,24 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
     /**
-     * Gets the amountToDraw attribute.
-     * 
-     * @return Returns the amountToDraw.
-     */
-    public KualiDecimal getAmountToDraw() {
-        return amountToDraw;
-    }
-
-    /**
-     * Sets the amountToDraw attribute value.
-     * 
-     * @param amountToDraw The amountToDraw to set.
-     */
-    public void setAmountToDraw(KualiDecimal amountToDraw) {
-        this.amountToDraw = amountToDraw;
-    }
-
-    /**
      * Gets the locReviewIndicator attribute.
-     * 
+     *
      * @return Returns the locReviewIndicator.
      */
+    @Override
     public boolean isLocReviewIndicator() {
         return locReviewIndicator;
     }
 
     /**
      * Sets the locReviewIndicator attribute value.
-     * 
+     *
      * @param locReviewIndicator The locReviewIndicator to set.
      */
     public void setLocReviewIndicator(boolean locReviewIndicator) {
@@ -299,8 +295,27 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     }
 
     /**
+     * Gets the amountToDraw attribute.
+     *
+     * @return Returns the amountToDraw.
+     */
+    @Override
+    public KualiDecimal getAmountToDraw() {
+        return amountToDraw;
+    }
+
+    /**
+     * Sets the amountToDraw attribute value.
+     *
+     * @param amountToDraw The amountToDraw to set.
+     */
+    public void setAmountToDraw(KualiDecimal amountToDraw) {
+        this.amountToDraw = amountToDraw;
+    }
+
+    /**
      * Gets the currentLastBilledDate attribute.
-     * 
+     *
      * @return Returns the currentLastBilledDate.
      */
     public Date getCurrentLastBilledDate() {
@@ -309,7 +324,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
 
     /**
      * Sets the currentLastBilledDate attribute value.
-     * 
+     *
      * @param currentLastBilledDate The currentLastBilledDate to set.
      */
     public void setCurrentLastBilledDate(Date currentLastBilledDate) {
@@ -318,7 +333,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
 
     /**
      * Gets the previousLastBilledDate attribute.
-     * 
+     *
      * @return Returns the previousLastBilledDate.
      */
     public Date getPreviousLastBilledDate() {
@@ -327,151 +342,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
 
     /**
      * Sets the previousLastBilledDate attribute value.
-     * 
-     * @param previousLastBilledDate The previousLastBilledDate to set.
-     */
-    public void setPreviousLastBilledDate(Date previousLastBilledDate) {
-        this.previousLastBilledDate = previousLastBilledDate;
-    }
-
-    /**
-     * Gets the amountToDraw attribute.
-     * 
-     * @return Returns the amountToDraw.
-     */
-    public KualiDecimal getAmountToDraw() {
-        return amountToDraw;
-    }
-
-    /**
-     * Sets the amountToDraw attribute value.
-     * 
-     * @param amountToDraw The amountToDraw to set.
-     */
-    public void setAmountToDraw(KualiDecimal amountToDraw) {
-        this.amountToDraw = amountToDraw;
-    }
-
-    /**
-     * Gets the locReviewIndicator attribute.
-     * 
-     * @return Returns the locReviewIndicator.
-     */
-    public boolean isLocReviewIndicator() {
-        return locReviewIndicator;
-    }
-
-    /**
-     * Sets the locReviewIndicator attribute value.
-     * 
-     * @param locReviewIndicator The locReviewIndicator to set.
-     */
-    public void setLocReviewIndicator(boolean locReviewIndicator) {
-        this.locReviewIndicator = locReviewIndicator;
-    }
-
-    /**
-     * Gets the currentLastBilledDate attribute.
-     * 
-     * @return Returns the currentLastBilledDate.
-     */
-    public Date getCurrentLastBilledDate() {
-        return currentLastBilledDate;
-    }
-
-    /**
-     * Sets the currentLastBilledDate attribute value.
-     * 
-     * @param currentLastBilledDate The currentLastBilledDate to set.
-     */
-    public void setCurrentLastBilledDate(Date currentLastBilledDate) {
-        this.currentLastBilledDate = currentLastBilledDate;
-    }
-
-    /**
-     * Gets the previousLastBilledDate attribute.
-     * 
-     * @return Returns the previousLastBilledDate.
-     */
-    public Date getPreviousLastBilledDate() {
-        return previousLastBilledDate;
-    }
-
-    /**
-     * Sets the previousLastBilledDate attribute value.
-     * 
-     * @param previousLastBilledDate The previousLastBilledDate to set.
-     */
-    public void setPreviousLastBilledDate(Date previousLastBilledDate) {
-        this.previousLastBilledDate = previousLastBilledDate;
-    }
-
-    /**
-     * Gets the amountToDraw attribute.
-     * 
-     * @return Returns the amountToDraw.
-     */
-    public KualiDecimal getAmountToDraw() {
-        return amountToDraw;
-    }
-
-    /**
-     * Sets the amountToDraw attribute value.
-     * 
-     * @param amountToDraw The amountToDraw to set.
-     */
-    public void setAmountToDraw(KualiDecimal amountToDraw) {
-        this.amountToDraw = amountToDraw;
-    }
-
-    /**
-     * Gets the locReviewIndicator attribute.
-     * 
-     * @return Returns the locReviewIndicator.
-     */
-    public boolean isLocReviewIndicator() {
-        return locReviewIndicator;
-    }
-
-    /**
-     * Sets the locReviewIndicator attribute value.
-     * 
-     * @param locReviewIndicator The locReviewIndicator to set.
-     */
-    public void setLocReviewIndicator(boolean locReviewIndicator) {
-        this.locReviewIndicator = locReviewIndicator;
-    }
-
-    /**
-     * Gets the currentLastBilledDate attribute.
-     * 
-     * @return Returns the currentLastBilledDate.
-     */
-    public Date getCurrentLastBilledDate() {
-        return currentLastBilledDate;
-    }
-
-    /**
-     * Sets the currentLastBilledDate attribute value.
-     * 
-     * @param currentLastBilledDate The currentLastBilledDate to set.
-     */
-    public void setCurrentLastBilledDate(Date currentLastBilledDate) {
-        this.currentLastBilledDate = currentLastBilledDate;
-    }
-
-    /**
-     * Gets the previousLastBilledDate attribute.
-     * 
-     * @return Returns the previousLastBilledDate.
-     */
-    public Date getPreviousLastBilledDate() {
-        return previousLastBilledDate;
-    }
-
-    /**
-     * Sets the previousLastBilledDate attribute value.
-     * 
+     *
      * @param previousLastBilledDate The previousLastBilledDate to set.
      */
     public void setPreviousLastBilledDate(Date previousLastBilledDate) {
@@ -481,6 +352,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation#getProjectDirectorName()
      */
+    @Override
     public String getProjectDirectorName() {
         if (!ObjectUtils.isNull(projectDirector)) {
             return projectDirector.getName();
@@ -491,6 +363,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     /**
      * @see org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount#getInvoiceDocumentStatus()
      */
+    @Override
     public String getInvoiceDocumentStatus() {
         return invoiceDocumentStatus;
     }

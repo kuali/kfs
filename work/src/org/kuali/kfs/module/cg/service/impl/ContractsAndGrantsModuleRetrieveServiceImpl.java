@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,7 +41,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.lookup.LookupResultsService;
-import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import java.util.ArrayList;
@@ -51,29 +51,30 @@ import java.util.ArrayList;
  */
 @NonTransactional
 public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAndGrantsModuleRetrieveService {
-    
+
     private AwardService awardService;
 
-    
+
     /**
      * This method would return list of business object - in this case Awards for CG Invoice On Demand functionality in AR.
      * @param fieldValues
      * @param unbounded
      * @return
      */
+    @Override
     public List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
      // call awardLookupableHelperService to find the awards according to the search criteria
         AwardLookupableHelperServiceImpl service = new AwardLookupableHelperServiceImpl();
         service.setBusinessObjectClass(Award.class);
         // Alter the map, convert the key's as per Award's lookup screen, might need to add more in the future
-        
+
         String value = fieldValues.remove("accountNumber");
         fieldValues.put("awardAccounts.account.accountNumber", value);
         value = fieldValues.remove("awardBillingFrequency");
         fieldValues.put("preferredBillingFrequency", value);
         value = fieldValues.remove("awardTotal");
         fieldValues.put("awardTotalAmount", value);
-        
+
         if(StringUtils.isNotEmpty(fieldValues.get("rangeLowerBoundKeyPrefix_awardBeginningDate")) && StringUtils.isNotEmpty(fieldValues.get("awardBeginningDate"))){
             String date = fieldValues.get("rangeLowerBoundKeyPrefix_awardBeginningDate") + ".." + fieldValues.remove("awardBeginningDate");
             fieldValues.put("awardBeginningDate", date);
@@ -86,7 +87,7 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
             String date = ">=" + fieldValues.get("rangeLowerBoundKeyPrefix_awardBeginningDate");
             fieldValues.put("awardBeginningDate", date);
         }
-        
+
         if(StringUtils.isNotEmpty(fieldValues.get("rangeLowerBoundKeyPrefix_awardEndingDate")) && StringUtils.isNotEmpty(fieldValues.get("awardEndingDate"))){
             String date = fieldValues.get("rangeLowerBoundKeyPrefix_awardEndingDate") + ".." + fieldValues.remove("awardEndingDate");
             fieldValues.put("awardEndingDate", date);
@@ -99,16 +100,17 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
             String date = ">=" + fieldValues.get("rangeLowerBoundKeyPrefix_awardEndingDate");
             fieldValues.put("awardEndingDate", date);
         }
-        
+
         return service.callGetSearchResultsHelper(LookupUtils.forceUppercase(Award.class, fieldValues), unbounded);
     }
-    
+
     /**
      * This method retrieves awards for Invoice On Demand in AR.
      * @param lookupResultsSequenceNumber
      * @param personId
      * @return
      */
+    @Override
     public Collection<ContractsAndGrantsCGBAward> getAwardsFromLookupResultsSequenceNumber(String lookupResultsSequenceNumber, String personId){
         Collection<ContractsAndGrantsCGBAward> intgAwards = new ArrayList<ContractsAndGrantsCGBAward>();
         Collection<Award> awards = new ArrayList<Award>();
@@ -123,11 +125,11 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
         intgAwards = new ArrayList<ContractsAndGrantsCGBAward>(awards);
         return intgAwards;
     }
-    
-    
+
+
     /**
      * Returns an implementation of the parameterService
-     * 
+     *
      * @return an implementation of the parameterService
      */
     public ParameterService getParameterService() {
@@ -136,7 +138,7 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
 
     /**
      * Returns the default implementation of the C&G AgencyService
-     * 
+     *
      * @return an implementation of AgencyService
      */
     public AgencyService getAgencyService() {
@@ -145,7 +147,7 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
 
     /**
      * Returns an implementation of the CfdaService
-     * 
+     *
      * @return an implementation of the CfdaService
      */
     public CfdaService getCfdaService() {
@@ -154,37 +156,39 @@ public class ContractsAndGrantsModuleRetrieveServiceImpl implements ContractsAnd
 
     /**
      * Returns an implementation of the BusinessObjectService
-     * 
+     *
      * @return an implementation of the BusinessObjectService
      */
     public BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
     }
-    
+
     /**
      * Returns an implementation of the BusinessObjectService
-     * 
+     *
      * @return an implementation of the BusinessObjectService
      */
     public AwardService getAwardService() {
         return SpringContext.getBean(AwardService.class);
     }
-    
+
     /**
      * Retrieve the boolean value for whether CG and Billing Enhancements are on from system parameter
      * @return true if parameter ENABLE_CG_BILLING_ENHANCEMENTS_IND is set to "Y"; otherwise false.
      */
+    @Override
     public boolean isContractsGrantsBillingEnhancementsActive() {
-        
+
         return getParameterService().getParameterValueAsBoolean(KfsParameterConstants.CONTRACTS_AND_GRANTS_ALL.class, CGConstants.ENABLE_CG_BILLING_ENHANCEMENTS_IND);
-    }    
-    
+    }
+
 
     /**
      * This method checks the Contract Control account set for Award Account based on award's invoicing option.
      * @return errorString
      */
-    public List<String> hasValidContractControlAccounts(Long proposalNumber){        
+    @Override
+    public List<String> hasValidContractControlAccounts(Long proposalNumber){
         Award award = getAwardService().getByPrimaryId(proposalNumber);
         return getAwardService().hasValidContractControlAccounts(award);
     }

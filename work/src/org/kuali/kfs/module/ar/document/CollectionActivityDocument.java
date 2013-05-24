@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,7 +34,7 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -73,7 +73,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber.
      */
     public Long getProposalNumber() {
@@ -82,7 +82,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the proposalNumber attribute.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -91,7 +91,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns the agency number.
      */
     public String getAgencyNumber() {
@@ -100,7 +100,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the agencyNumber attribute.
-     * 
+     *
      * @param agencyNumber The agency number to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -109,7 +109,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the agencyName attribute.
-     * 
+     *
      * @return Returns the agency name.
      */
     public String getAgencyName() {
@@ -118,7 +118,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the agencyName attribute.
-     * 
+     *
      * @param agencyName The agency name to set.
      */
     public void setAgencyName(String agencyName) {
@@ -127,7 +127,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the customerNumber attribute.
-     * 
+     *
      * @return Returns the customer number.
      */
     public String getCustomerNumber() {
@@ -136,7 +136,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the customerNumber attribute.
-     * 
+     *
      * @param customerNumber The customer number to set.
      */
     public void setCustomerNumber(String customerNumber) {
@@ -145,7 +145,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the customerName attribute.
-     * 
+     *
      * @return Returns the customer name.
      */
     public String getCustomerName() {
@@ -154,7 +154,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the customerName attribute.
-     * 
+     *
      * @param customerName The customerName attribute to set.
      */
     public void setCustomerName(String customerName) {
@@ -163,7 +163,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the customer attribute.
-     * 
+     *
      * @return Returns the customer.
      */
     public Customer getCustomer() {
@@ -172,7 +172,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the customer attribute.
-     * 
+     *
      * @param customer The customer to set.
      */
     public void setCustomer(Customer customer) {
@@ -181,7 +181,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the award attribute.
-     * 
+     *
      * @return Returns the award.
      */
     public ContractsAndGrantsCGBAward getAward() {
@@ -190,7 +190,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the award attribute.
-     * 
+     *
      * @param award The award to set.
      */
     public void setAward(ContractsAndGrantsCGBAward award) {
@@ -205,7 +205,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
     }
 
     /**
-     * 
+     *
      * @return Returns true if document is in Approved.
      */
     public boolean isApproved() {
@@ -214,7 +214,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the invoices attribute.
-     * 
+     *
      * @return Returns the invoices.
      */
     public List<ContractsGrantsInvoiceDocument> getInvoices() {
@@ -223,7 +223,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the invoices attribute.
-     * 
+     *
      * @param invoices The invoices to set.
      */
     public void setInvoices(List<ContractsGrantsInvoiceDocument> invoices) {
@@ -232,7 +232,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the events attribute.
-     * 
+     *
      * @return Returns the events.
      */
     public List<Event> getEvents() {
@@ -241,7 +241,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the events attribute.
-     * 
+     *
      * @param events The events to set.
      */
     public void setEvents(List<Event> events) {
@@ -250,7 +250,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the events from invoices list of this class.
-     * 
+     *
      * @param addOnlyFinalEvents True if final events are to be added from invoices. False if all the events are to be added
      *        irrespective of route state of event.
      */
@@ -268,7 +268,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the newEvent attribute.
-     * 
+     *
      * @return Returns the newEvent.
      */
     public Event getNewEvent() {
@@ -277,7 +277,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the newEvent attribute.
-     * 
+     *
      * @param newEvent The newEvent to set.
      */
     public void setNewEvent(Event newEvent) {
@@ -286,7 +286,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the selectedInvoiceDocumentNumber attribute.
-     * 
+     *
      * @return Returns the selectedInvoiceDocumentNumber.
      */
     public String getSelectedInvoiceDocumentNumber() {
@@ -295,7 +295,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the selectedInvoiceDocumentNumber attribute.
-     * 
+     *
      * @param selectedInvoiceDocumentNumber The selectedInvoiceDocumentNumber to set.
      */
     public void setSelectedInvoiceDocumentNumber(String selectedInvoiceDocumentNumber) {
@@ -323,7 +323,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the map of invoices with documentNumber as key.
-     * 
+     *
      * @return Returns the map of invoices with documentNumber as key.
      */
     public Map<String, ContractsGrantsInvoiceDocument> getInvoiceApplicationsByDocumentNumber() {
@@ -336,7 +336,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the events of selected invoice.
-     * 
+     *
      * @return Returns the events.
      */
     public List<Event> getSelectedInvoiceEvents() {
@@ -354,8 +354,9 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
     /**
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
      */
-    
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         if (getDocumentHeader().getWorkflowDocument().isFinal()) {
             BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
@@ -378,7 +379,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Gets the number of final events in list.
-     * 
+     *
      * @param events The list of events.
      * @return Returns the number of final events.
      */
@@ -396,7 +397,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Sets the invoices list for this class from given proposal number.
-     * 
+     *
      * @param proposalNumber The proposal number for which invoices list to be fetched.
      */
     public void setInvoiceListByProposalNumber(Long proposalNumber) {
@@ -426,7 +427,7 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
 
     /**
      * Validates the invoices based on the events which are under process.
-     * 
+     *
      * @param cgInvoices List of invoices to validate.
      * @return Returns list of invoices with value true or false based on state of events in invoices.
      */

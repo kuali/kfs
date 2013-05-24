@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,8 +41,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
+import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.krad.service.DocumentHelperService;
@@ -124,7 +124,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
     /**
      * This method checks the CashControlDetail line amount is not zero or negative.
-     * 
+     *
      * @param document the CashControldocument
      * @param detail the CashControlDetail
      * @return true is amount is valid, false otherwise
@@ -149,7 +149,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
     /**
      * This method checks if the CashControlDocument has any details to be processed.
-     * 
+     *
      * @param cashControlDocument the CashControlDocument
      * @return true if it has details, false otherwise
      */
@@ -170,7 +170,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
     /**
      * This method checks that payment medium has a valid value
-     * 
+     *
      * @param document
      * @return true if valid, false otherwise
      */
@@ -183,7 +183,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("customerPaymentMediumCode", paymentMediumCode);
 
-        PaymentMedium paymentMedium = (PaymentMedium) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentMedium.class, criteria);
+        PaymentMedium paymentMedium = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentMedium.class, criteria);
 
         if (paymentMedium == null) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_PAYMENT_MEDIUM_CODE, ArKeyConstants.ERROR_PAYMENT_MEDIUM_IS_NOT_VALID);
@@ -197,7 +197,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
     /**
      * This method checks that reference document number is not null when payment medium is Cash.
-     * 
+     *
      * @param document CashControlDocument
      * @return true if valid, false otherwise
      */
@@ -235,7 +235,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
     /**
      * This method checks that the GLPEs have been created
-     * 
+     *
      * @param document CashControlDocument
      * @return true if not null, false otherwise
      */
@@ -266,6 +266,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @see org.kuali.kfs.module.ar.document.validation.AddCashControlDetailRule#processAddCashControlDetailBusinessRules(org.kuali.rice.krad.document.TransactionalDocument,
      *      org.kuali.kfs.module.ar.businessobject.CashControlDetail)
      */
+    @Override
     public boolean processAddCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
 
         boolean success = true;
@@ -284,7 +285,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
     /**
      * This method validates CashControlDetail
-     * 
+     *
      * @param document CashControlDocument
      * @param cashControlDetail CashControlDetail
      * @return true if CashControlDetail is valid, false otherwise
@@ -317,7 +318,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
     /**
      * This method validates cash control document's details
-     * 
+     *
      * @param cashControlDocument CashControldocument
      * @return true if valid, false otherwise
      */
@@ -344,7 +345,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
     /**
      * This method checks that the customer number is valid and not an inactive customer when it is not empty
-     * 
+     *
      * @param cashControlDetail
      * @return true if valid, false otherwise
      */
@@ -356,7 +357,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
             Map<String, String> criteria = new HashMap<String, String>();
             criteria.put("customerNumber", customerNumber);
 
-            Customer customer = (Customer) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Customer.class, criteria);
+            Customer customer = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Customer.class, criteria);
 
             if (customer == null) {
                 GlobalVariables.getMessageMap().putError(ArPropertyConstants.CashControlDocumentFields.CUSTOMER_NUMBER, ArKeyConstants.ERROR_CUSTOMER_NUMBER_IS_NOT_VALID);
@@ -369,7 +370,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
     /**
      * This method checks if GLPEs have been already generated
-     * 
+     *
      * @param cashControlDocument the cash control document
      * @return true if it was not generated, false otherwise
      */
@@ -388,7 +389,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
     /**
      * This method checks if all application documents are in approved or in final state
-     * 
+     *
      * @param cashControlDocument
      * @return true if all application documents approved/final, false otherwise
      */
@@ -425,6 +426,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
      * @see org.kuali.kfs.module.ar.document.validation.DeleteCashControlDetailRule#processDeleteCashControlDetailBusinessRules(org.kuali.rice.krad.document.TransactionalDocument,
      *      org.kuali.kfs.module.ar.businessobject.CashControlDetail)
      */
+    @Override
     public boolean processDeleteCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
 
         boolean success = true;
@@ -436,6 +438,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     /**
      * @see org.kuali.kfs.module.ar.document.validation.GenerateReferenceDocumentRule#processGenerateReferenceDocumentBusinessRules(org.kuali.rice.krad.document.TransactionalDocument)
      */
+    @Override
     public boolean processGenerateReferenceDocumentBusinessRules(CashControlDocument transactionalDocument) {
 
         boolean success = true;
@@ -449,7 +452,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
     /**
      * validate bankCode
-     * 
+     *
      * @param document
      * @return
      */

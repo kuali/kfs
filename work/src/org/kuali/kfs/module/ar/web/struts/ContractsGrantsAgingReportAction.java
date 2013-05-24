@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -55,22 +55,22 @@ import org.kuali.kfs.module.ar.report.service.ContractsGrantsAgingReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.datadictionary.control.ControlDefinition;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.control.HiddenControlDefinition;
-import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.kns.web.ui.Row;
-import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.datadictionary.control.ControlDefinition;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 /**
@@ -93,13 +93,14 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
      * @see org.kuali.rice.kns.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
      * Search - sets the values of the data entered on the form on the jsp into a map and then searches for the results.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -107,6 +108,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
      * @return
      * @throws Exception
      */
+    @Override
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ContractsGrantsAgingReportForm lookupForm = (ContractsGrantsAgingReportForm) form;
         Lookupable lookupable = lookupForm.getLookupable();
@@ -128,7 +130,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
             if (request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY) != null) {
                 GlobalVariables.getUserSession().removeObject(request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY));
             }
-            request.setAttribute(KFSConstants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObject(resultTable));
+            request.setAttribute(KFSConstants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(resultTable));
 
             // set Total's table
             totalList[0] = lookupForm.getTotal0to30();
@@ -153,7 +155,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
 
     /**
      * Refresh - is called when one quickFinder returns to the previous one. Sets all the values and performs the new search.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -212,7 +214,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
 
     /**
      * Returns as if return with no value was selected.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -220,6 +222,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
      * @return
      * @throws Exception
      */
+    @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ContractsGrantsAgingReportForm lookupForm = (ContractsGrantsAgingReportForm) form;
         String backUrl = getBasePath(request) + "/portal.do?selectedTab=maintenance";
@@ -229,7 +232,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
 
     /**
      * Clears the values of all the fields on the jsp.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -238,6 +241,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
      * @throws IOException
      * @throws ServletException
      */
+    @Override
     public ActionForward clearValues(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         LookupForm lookupForm = (LookupForm) form;
         Lookupable lookupable = lookupForm.getLookupable();
@@ -260,7 +264,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
 
     /**
      * View results from balance inquiry action
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -268,6 +272,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
      * @return
      * @throws Exception
      */
+    @Override
     public ActionForward viewResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ContractsGrantsAgingReportForm lookupForm = (ContractsGrantsAgingReportForm) form;
         request.setAttribute(KFSConstants.SEARCH_LIST_REQUEST_KEY, request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY));
@@ -298,7 +303,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
 
     /**
      * Print the pdf file for all cginvoices by agency
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -453,7 +458,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
         reportDetail.setDocumentNumber(cgInvoiceReportEntry.getDocumentNumber());
 
         WorkflowDocument workflowDocument = cgInvoiceReportEntry.getDocumentHeader().getWorkflowDocument();
-        Date docCreateDate = new Date(workflowDocument.getDateCreated().getTime());
+        Date docCreateDate = new Date(workflowDocument.getDateCreated().toDate().getTime());
         reportDetail.setInvoiceDate(docCreateDate);
 
         // last event date
@@ -497,10 +502,11 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
 
     /**
      * This method is used to build pdf report search criteria for Collection activity report
-     * 
+     *
      * @param searchCriteria
      * @param fieldsForLookup
      */
+    @Override
     protected void buildReportForSearchCriteia(List<ContractsGrantsReportSearchCriteriaDataHolder> searchCriteria, Map fieldsForLookup) {
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         for (Object field : fieldsForLookup.keySet()) {
@@ -521,7 +527,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
 
     /**
      * This method is called when export button is clicked and export a csv file.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -639,7 +645,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
         response.setHeader("Expires", "0");
         response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
         response.setHeader("Pragma", "public");
-        response.setContentLength((int) report.length);
+        response.setContentLength(report.length);
         InputStream fis = new ByteArrayInputStream(report);
         IOUtils.copy(fis, response.getOutputStream());
         response.getOutputStream().flush();

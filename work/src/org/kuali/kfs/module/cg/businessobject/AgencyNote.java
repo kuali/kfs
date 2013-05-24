@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -58,7 +58,7 @@ public class AgencyNote extends PersistableBusinessObjectBase {
 
     /**
      * Sets the authorUniversal attribute.
-     * 
+     *
      * @param authorUniversal The authorUniversal to set.
      */
     public void setAuthorUniversalToCurrentUser() {
@@ -70,7 +70,7 @@ public class AgencyNote extends PersistableBusinessObjectBase {
 
     /**
      * Gets the noteIdentifier attribute.
-     * 
+     *
      * @return Returns noteIdentifier.
      */
     public Integer getNoteIdentifier() {
@@ -79,7 +79,7 @@ public class AgencyNote extends PersistableBusinessObjectBase {
 
     /**
      * Sets the noteIdentifier attribute.
-     * 
+     *
      * @param noteIdentifier The noteIdentifier to set.
      */
     public void setNoteIdentifier(Integer noteIdentifier) {
@@ -88,7 +88,7 @@ public class AgencyNote extends PersistableBusinessObjectBase {
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns agencyNumber.
      */
     public String getAgencyNumber() {
@@ -97,7 +97,7 @@ public class AgencyNote extends PersistableBusinessObjectBase {
 
     /**
      * Sets the agencyNumber attribute.
-     * 
+     *
      * @param agencyNumber The agencyNumber to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -106,7 +106,7 @@ public class AgencyNote extends PersistableBusinessObjectBase {
 
     /**
      * Gets the noteText attribute.
-     * 
+     *
      * @return Returns noteText.
      */
     public String getNoteText() {
@@ -115,7 +115,7 @@ public class AgencyNote extends PersistableBusinessObjectBase {
 
     /**
      * Sets the noteText attribute.
-     * 
+     *
      * @param noteText The noteText to set.
      */
     public void setNoteText(String noteText) {
@@ -124,7 +124,7 @@ public class AgencyNote extends PersistableBusinessObjectBase {
 
     /**
      * Gets the notePostedDate attribute.
-     * 
+     *
      * @return Returns the notePostedDate.
      */
     public Date getNotePostedDate() {
@@ -133,7 +133,7 @@ public class AgencyNote extends PersistableBusinessObjectBase {
 
     /**
      * Sets the notePostedDate attribute.
-     * 
+     *
      * @param notePostedDate The notePostedDate to set.
      */
     public void setNotePostedDate(Date notePostedDate) {
@@ -142,7 +142,7 @@ public class AgencyNote extends PersistableBusinessObjectBase {
 
     /**
      * Gets the authorPrincipalId attribute.
-     * 
+     *
      * @return Returns the authorPrincipalId.
      */
     public String getAuthorPrincipalId() {
@@ -151,7 +151,7 @@ public class AgencyNote extends PersistableBusinessObjectBase {
 
     /**
      * Sets the authorPrincipalId attribute.
-     * 
+     *
      * @param authorPrincipalId The authorPrincipalId to set.
      */
     public void setAuthorPrincipalId(String authorPrincipalId) {
@@ -160,17 +160,17 @@ public class AgencyNote extends PersistableBusinessObjectBase {
 
     /**
      * Gets the authorUniversal attribute.
-     * 
+     *
      * @return Returns the authorUniversal.
      */
     public Person getAuthorUniversal() {
-        authorUniversal = org.kuali.rice.kim.service.SpringContext.getBean(PersonService.class).updatePersonIfNecessary(authorPrincipalId, authorUniversal);
+        authorUniversal = SpringContext.getBean(PersonService.class).updatePersonIfNecessary(authorPrincipalId, authorUniversal);
         return authorUniversal;
     }
 
     /**
      * Sets the authorUniversal attribute value.
-     * 
+     *
      * @param authorUniversal The authorUniversal to set.
      */
     public void setAuthorUniversal(Person authorUniversal) {
@@ -180,7 +180,7 @@ public class AgencyNote extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.AGENCY_NUMBER, this.agencyNumber);

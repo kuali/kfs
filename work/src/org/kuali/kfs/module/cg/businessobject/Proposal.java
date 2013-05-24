@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,6 +19,7 @@ package org.kuali.kfs.module.cg.businessobject;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -31,6 +32,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -49,7 +51,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
     /**
      * This field is for write-only to the database via OJB, not the corresponding property of this BO. OJB uses reflection to read
      * it, so the compiler warns because it doesn't know.
-     * 
+     *
      * @see #getProposalTotalAmount
      * @see #setProposalTotalAmount
      */
@@ -100,7 +102,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
-    
+
     /**
      * Default constructor.
      */
@@ -116,16 +118,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the award awarded to a proposal instance.
-     * 
+     *
      * @return the award corresponding to a proposal instance if the proposal has been awarded.
      */
+    @Override
     public Award getAward() {
         return award;
     }
 
     /**
      * Sets the award awarding a proposal instance.
-     * 
+     *
      * @param award the award awarding a proposal instance
      */
     public void setAward(Award award) {
@@ -135,7 +138,8 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
     /**
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
-    
+
+    @Override
     public List buildListOfDeletionAwareLists() {
         List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add((List) getProposalSubcontractors());
@@ -147,16 +151,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber
      */
+    @Override
     public Long getProposalNumber() {
         return proposalNumber;
     }
 
     /**
      * Sets the proposalNumber attribute.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -165,16 +170,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalBeginningDate attribute.
-     * 
+     *
      * @return Returns the proposalBeginningDate
      */
+    @Override
     public Date getProposalBeginningDate() {
         return proposalBeginningDate;
     }
 
     /**
      * Sets the proposalBeginningDate attribute.
-     * 
+     *
      * @param proposalBeginningDate The proposalBeginningDate to set.
      */
     public void setProposalBeginningDate(Date proposalBeginningDate) {
@@ -183,16 +189,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalEndingDate attribute.
-     * 
+     *
      * @return Returns the proposalEndingDate
      */
+    @Override
     public Date getProposalEndingDate() {
         return proposalEndingDate;
     }
 
     /**
      * Sets the proposalEndingDate attribute.
-     * 
+     *
      * @param proposalEndingDate The proposalEndingDate to set.
      */
     public void setProposalEndingDate(Date proposalEndingDate) {
@@ -201,9 +208,10 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalTotalAmount attribute.
-     * 
+     *
      * @return Returns the proposalTotalAmount
      */
+    @Override
     public KualiDecimal getProposalTotalAmount() {
         KualiDecimal direct = getProposalDirectCostAmount();
         KualiDecimal indirect = getProposalIndirectCostAmount();
@@ -213,7 +221,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
     /**
      * Does nothing. This property is determined by the direct and indirect cost amounts. This setter is here only because without
      * it, the maintenance framework won't display this attribute.
-     * 
+     *
      * @param proposalTotalAmount The proposalTotalAmount to set.
      */
     public void setProposalTotalAmount(KualiDecimal proposalTotalAmount) {
@@ -224,11 +232,10 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
      * OJB calls this method as the first operation before this BO is inserted into the database. The database contains
      * CGPRPSL_TOT_AMT, a denormalized column that Kuali does not use but needs to maintain with this method because OJB bypasses
      * the getter.
-     * 
+     *
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException
      */
-    @Override
     @Override protected void prePersist() {
         super.prePersist();
         proposalTotalAmount = getProposalTotalAmount();
@@ -238,11 +245,10 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
      * OJB calls this method as the first operation before this BO is updated to the database. The database contains
      * CGPRPSL_TOT_AMT, a denormalized column that Kuali does not use but needs to maintain with this method because OJB bypasses
      * the getter.
-     * 
+     *
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException
      */
-    @Override
     @Override protected void preUpdate() {
         super.preUpdate();
         proposalTotalAmount = getProposalTotalAmount();
@@ -250,16 +256,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalDirectCostAmount attribute.
-     * 
+     *
      * @return Returns the proposalDirectCostAmount
      */
+    @Override
     public KualiDecimal getProposalDirectCostAmount() {
         return proposalDirectCostAmount;
     }
 
     /**
      * Sets the proposalDirectCostAmount attribute.
-     * 
+     *
      * @param proposalDirectCostAmount The proposalDirectCostAmount to set.
      */
     public void setProposalDirectCostAmount(KualiDecimal proposalDirectCostAmount) {
@@ -268,16 +275,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalIndirectCostAmount attribute.
-     * 
+     *
      * @return Returns the proposalIndirectCostAmount
      */
+    @Override
     public KualiDecimal getProposalIndirectCostAmount() {
         return proposalIndirectCostAmount;
     }
 
     /**
      * Sets the proposalIndirectCostAmount attribute.
-     * 
+     *
      * @param proposalIndirectCostAmount The proposalIndirectCostAmount to set.
      */
     public void setProposalIndirectCostAmount(KualiDecimal proposalIndirectCostAmount) {
@@ -286,16 +294,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalRejectedDate attribute.
-     * 
+     *
      * @return Returns the proposalRejectedDate
      */
+    @Override
     public Date getProposalRejectedDate() {
         return proposalRejectedDate;
     }
 
     /**
      * Sets the proposalRejectedDate attribute.
-     * 
+     *
      * @param proposalRejectedDate The proposalRejectedDate to set.
      */
     public void setProposalRejectedDate(Date proposalRejectedDate) {
@@ -304,16 +313,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalLastUpdateDate attribute.
-     * 
+     *
      * @return Returns the proposalLastUpdateDate
      */
+    @Override
     public Timestamp getProposalLastUpdateDate() {
         return proposalLastUpdateDate;
     }
 
     /**
      * Sets the proposalLastUpdateDate attribute.
-     * 
+     *
      * @param proposalLastUpdateDate The proposalLastUpdateDate to set.
      */
     public void setProposalLastUpdateDate(Timestamp proposalLastUpdateDate) {
@@ -322,16 +332,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalDueDate attribute.
-     * 
+     *
      * @return Returns the proposalDueDate
      */
+    @Override
     public Date getProposalDueDate() {
         return proposalDueDate;
     }
 
     /**
      * Sets the proposalDueDate attribute.
-     * 
+     *
      * @param proposalDueDate The proposalDueDate to set.
      */
     public void setProposalDueDate(Date proposalDueDate) {
@@ -340,16 +351,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalTotalProjectAmount attribute.
-     * 
+     *
      * @return Returns the proposalTotalProjectAmount
      */
+    @Override
     public KualiDecimal getProposalTotalProjectAmount() {
         return proposalTotalProjectAmount;
     }
 
     /**
      * Sets the proposalTotalProjectAmount attribute.
-     * 
+     *
      * @param proposalTotalProjectAmount The proposalTotalProjectAmount to set.
      */
     public void setProposalTotalProjectAmount(KualiDecimal proposalTotalProjectAmount) {
@@ -358,16 +370,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalSubmissionDate attribute.
-     * 
+     *
      * @return Returns the proposalSubmissionDate
      */
+    @Override
     public Date getProposalSubmissionDate() {
         return proposalSubmissionDate;
     }
 
     /**
      * Sets the proposalSubmissionDate attribute.
-     * 
+     *
      * @param proposalSubmissionDate The proposalSubmissionDate to set.
      */
     public void setProposalSubmissionDate(Date proposalSubmissionDate) {
@@ -376,16 +389,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalFederalPassThroughIndicator attribute.
-     * 
+     *
      * @return Returns the proposalFederalPassThroughIndicator
      */
+    @Override
     public boolean getProposalFederalPassThroughIndicator() {
         return proposalFederalPassThroughIndicator;
     }
 
     /**
      * Sets the proposalFederalPassThroughIndicator attribute.
-     * 
+     *
      * @param proposalFederalPassThroughIndicator The proposalFederalPassThroughIndicator to set.
      */
     public void setProposalFederalPassThroughIndicator(boolean proposalFederalPassThroughIndicator) {
@@ -394,16 +408,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the oldProposalNumber attribute.
-     * 
+     *
      * @return Returns the oldProposalNumber
      */
+    @Override
     public String getOldProposalNumber() {
         return oldProposalNumber;
     }
 
     /**
      * Sets the oldProposalNumber attribute.
-     * 
+     *
      * @param oldProposalNumber The oldProposalNumber to set.
      */
     public void setOldProposalNumber(String oldProposalNumber) {
@@ -412,16 +427,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the grantNumber attribute.
-     * 
+     *
      * @return Returns the grantNumber
      */
+    @Override
     public String getGrantNumber() {
         return grantNumber;
     }
 
     /**
      * Sets the grantNumber attribute.
-     * 
+     *
      * @param grantNumber The grantNumber to set.
      */
     public void setGrantNumber(String grantNumber) {
@@ -430,16 +446,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalClosingDate attribute.
-     * 
+     *
      * @return Returns the proposalClosingDate
      */
+    @Override
     public Date getProposalClosingDate() {
         return proposalClosingDate;
     }
 
     /**
      * Sets the proposalClosingDate attribute.
-     * 
+     *
      * @param proposalClosingDate The proposalClosingDate to set.
      */
     public void setProposalClosingDate(Date proposalClosingDate) {
@@ -448,16 +465,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalAwardTypeCode attribute.
-     * 
+     *
      * @return Returns the proposalAwardTypeCode
      */
+    @Override
     public String getProposalAwardTypeCode() {
         return proposalAwardTypeCode;
     }
 
     /**
      * Sets the proposalAwardTypeCode attribute.
-     * 
+     *
      * @param proposalAwardTypeCode The proposalAwardTypeCode to set.
      */
     public void setProposalAwardTypeCode(String proposalAwardTypeCode) {
@@ -466,16 +484,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns the agencyNumber
      */
+    @Override
     public String getAgencyNumber() {
         return agencyNumber;
     }
 
     /**
      * Sets the agencyNumber attribute.
-     * 
+     *
      * @param agencyNumber The agencyNumber to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -484,16 +503,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalStatusCode attribute.
-     * 
+     *
      * @return Returns the proposalStatusCode
      */
+    @Override
     public String getProposalStatusCode() {
         return proposalStatusCode;
     }
 
     /**
      * Sets the proposalStatusCode attribute.
-     * 
+     *
      * @param proposalStatusCode The proposalStatusCode to set.
      */
     public void setProposalStatusCode(String proposalStatusCode) {
@@ -502,16 +522,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the federalPassThroughAgencyNumber attribute.
-     * 
+     *
      * @return Returns the federalPassThroughAgencyNumber
      */
+    @Override
     public String getFederalPassThroughAgencyNumber() {
         return federalPassThroughAgencyNumber;
     }
 
     /**
      * Sets the federalPassThroughAgencyNumber attribute.
-     * 
+     *
      * @param federalPassThroughAgencyNumber The federalPassThroughAgencyNumber to set.
      */
     public void setFederalPassThroughAgencyNumber(String federalPassThroughAgencyNumber) {
@@ -520,16 +541,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the cfdaNumber attribute.
-     * 
+     *
      * @return Returns the cfdaNumber
      */
+    @Override
     public String getCfdaNumber() {
         return cfdaNumber;
     }
 
     /**
      * Sets the cfdaNumber attribute.
-     * 
+     *
      * @param cfdaNumber The cfdaNumber to set.
      */
     public void setCfdaNumber(String cfdaNumber) {
@@ -538,16 +560,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalFellowName attribute.
-     * 
+     *
      * @return Returns the proposalFellowName
      */
+    @Override
     public String getProposalFellowName() {
         return proposalFellowName;
     }
 
     /**
      * Sets the proposalFellowName attribute.
-     * 
+     *
      * @param proposalFellowName The proposalFellowName to set.
      */
     public void setProposalFellowName(String proposalFellowName) {
@@ -556,16 +579,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalPurposeCode attribute.
-     * 
+     *
      * @return Returns the proposalPurposeCode
      */
+    @Override
     public String getProposalPurposeCode() {
         return proposalPurposeCode;
     }
 
     /**
      * Sets the proposalPurposeCode attribute.
-     * 
+     *
      * @param proposalPurposeCode The proposalPurposeCode to set.
      */
     public void setProposalPurposeCode(String proposalPurposeCode) {
@@ -574,16 +598,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the proposalProjectTitle attribute.
-     * 
+     *
      * @return Returns the proposalProjectTitle
      */
+    @Override
     public String getProposalProjectTitle() {
         return proposalProjectTitle;
     }
 
     /**
      * Sets the proposalProjectTitle attribute.
-     * 
+     *
      * @param proposalProjectTitle The proposalProjectTitle to set.
      */
     public void setProposalProjectTitle(String proposalProjectTitle) {
@@ -592,25 +617,27 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
     /**
      * Gets the {@link ProposalAwardType} attribute.
-     * 
+     *
      * @return Returns the {@link ProposalAwardType}
      */
     public ProposalAwardType getProposalAwardType() {
@@ -619,17 +646,18 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Sets the {@link ProposalAwardType} attribute.
-     * 
+     *
      * @param proposalAwardType The {@link ProposalAwardType} to set.
      * @deprecated
      */
+    @Deprecated
     public void setProposalAwardType(ProposalAwardType proposalAwardType) {
         this.proposalAwardType = proposalAwardType;
     }
 
     /**
      * Gets the {@link Agency} attribute.
-     * 
+     *
      * @return Returns the {@link Agency}
      */
     public Agency getAgency() {
@@ -638,17 +666,18 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Sets the {@link Agency} attribute.
-     * 
+     *
      * @param agency The {@link Agency} to set.
      * @deprecated
      */
+    @Deprecated
     public void setAgency(Agency agency) {
         this.agency = agency;
     }
 
     /**
      * Gets the {@link ProposalStatus} attribute.
-     * 
+     *
      * @return Returns the {@link ProposalStatus}
      */
     public ProposalStatus getProposalStatus() {
@@ -657,17 +686,18 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Sets the {@link ProposalStatus} attribute.
-     * 
+     *
      * @param proposalStatus The {@link ProposalStatus} to set.
      * @deprecated
      */
+    @Deprecated
     public void setProposalStatus(ProposalStatus proposalStatus) {
         this.proposalStatus = proposalStatus;
     }
 
     /**
      * Gets the federalPassThroughAgency attribute.
-     * 
+     *
      * @return Returns the federalPassThroughAgency
      */
     public Agency getFederalPassThroughAgency() {
@@ -676,17 +706,18 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Sets the federalPassThrough {@link Agency} attribute.
-     * 
+     *
      * @param federalPassThroughAgency The federalPassThrough {@link Agency} to set.
      * @deprecated
      */
+    @Deprecated
     public void setFederalPassThroughAgency(Agency federalPassThroughAgency) {
         this.federalPassThroughAgency = federalPassThroughAgency;
     }
 
     /**
      * Gets the {@link ProposalPurpose} attribute.
-     * 
+     *
      * @return Returns the proposalPurpose
      */
     public ProposalPurpose getProposalPurpose() {
@@ -695,17 +726,18 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Sets the {@link ProposalPurpose} attribute.
-     * 
+     *
      * @param proposalPurpose The {@link ProposalPurpose} to set.
      * @deprecated
      */
+    @Deprecated
     public void setProposalPurpose(ProposalPurpose proposalPurpose) {
         this.proposalPurpose = proposalPurpose;
     }
 
     /**
      * Gets the {@link CFDA} attribute.
-     * 
+     *
      * @return Returns the {@link CFDA}
      */
     public CFDA getCfda() {
@@ -714,17 +746,18 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Sets the {@link CFDA} attribute.
-     * 
+     *
      * @param cfda The {@link CFDA} to set.
      * @deprecated
      */
+    @Deprecated
     public void setCfda(CFDA cfda) {
         this.cfda = cfda;
     }
 
     /**
      * Gets the {@link List} of {@link ProposalSubcontractor}s associated with a {@link Proposal} instance.
-     * 
+     *
      * @return Returns the proposalSubcontractors list
      */
     public List<ProposalSubcontractor> getProposalSubcontractors() {
@@ -733,7 +766,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Sets the {@link ProposalSubcontractor}s {@link List}.
-     * 
+     *
      * @param proposalSubcontractors The {@link ProposalSubcontractor}s {@link List} to set.
      */
     public void setProposalSubcontractors(List<ProposalSubcontractor> proposalSubcontractors) {
@@ -742,7 +775,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the {@link List} of {@link ProposalOrganization}s associated with a {@link Proposal} instance.
-     * 
+     *
      * @return Returns the {@link ProposalOrganization}s.
      */
     public List<ProposalOrganization> getProposalOrganizations() {
@@ -783,8 +816,9 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
     public List<ProposalResearchRisk> getActiveProposalResearchRisks() {
         List<ProposalResearchRisk> activeRisks = new ArrayList<ProposalResearchRisk>();
         for (ProposalResearchRisk risk : proposalResearchRisks) {
-            if (risk.isActive())
+            if (risk.isActive()) {
                 activeRisks.add(risk);
+            }
         }
         return activeRisks;
     }
@@ -810,7 +844,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the lookup {@link Person}.
-     * 
+     *
      * @return the lookup {@link Person}
      */
     public Person getLookupPerson() {
@@ -819,7 +853,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Sets the lookup {@link Person}
-     * 
+     *
      * @param lookupPerson
      */
     public void setLookupPerson(Person lookupPerson) {
@@ -828,17 +862,17 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the universal user id of the lookup person.
-     * 
+     *
      * @return the id of the lookup person
      */
     public String getLookupPersonUniversalIdentifier() {
-        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(lookupPersonUniversalIdentifier, lookupPerson); 
+        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(lookupPersonUniversalIdentifier, lookupPerson);
         return lookupPersonUniversalIdentifier;
     }
 
     /**
      * Sets the universal user id of the lookup person
-     * 
+     *
      * @param lookupPersonId the id of the lookup person
      */
     public void setLookupPersonUniversalIdentifier(String lookupPersonId) {
@@ -848,7 +882,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
     /**
      * I added this getter to the BO to resolve KULCG-300. I'm not sure if this is actually needed by the code, but the framework
      * breaks all lookups on the proposal maintenance doc without this getter.
-     * 
+     *
      * @return the {@link LookupService} used by the instance.
      */
     public LookupService getLookupService() {
@@ -858,7 +892,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the id of the routing {@link Chart}
-     * 
+     *
      * @return the id of the routing {@link Chart}
      */
     public String getRoutingChart() {
@@ -867,7 +901,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Sets the id of the routing {@link Chart}.
-     * 
+     *
      * @return the id of the routing {@link Chart}.
      */
     public void setRoutingChart(String routingChart) {
@@ -876,7 +910,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the id of the routing {@link Org}.
-     * 
+     *
      * @return the id of the routing {@link Org}
      */
     public String getRoutingOrg() {
@@ -885,7 +919,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Sets the id of the routing {@link Org}.
-     * 
+     *
      * @param the id of the routing {@link Org}
      */
     public void setRoutingOrg(String routingOrg) {
@@ -894,7 +928,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Gets the primary {@link ProposalOrganization} for a proposal.
-     * 
+     *
      * @return the primary {@link ProposalOrganization} for a proposal
      */
     public ProposalOrganization getPrimaryProposalOrganization() {
@@ -910,7 +944,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Sets the {@link LookupService}. For Spring compatibility.
-     * 
+     *
      * @param lookupService
      */
     public void setLookupService(LookupService lookupService) {
@@ -919,7 +953,7 @@ public class Proposal extends PersistableBusinessObjectBase implements MutableIn
 
     /**
      * Sets the primary {@link ProposalOrganization} for a proposal
-     * 
+     *
      * @param primaryProposalOrganization
      */
     public void setPrimaryProposalOrganization(ProposalOrganization primaryProposalOrganization) {

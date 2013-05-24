@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -59,7 +59,7 @@ import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
 import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.Document;
@@ -69,7 +69,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.util.GlobalVariables; import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 
@@ -135,7 +135,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
     public String getDocumentNumber() {
@@ -144,7 +144,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -154,7 +154,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Gets the referenceFinancialDocumentNumber attribute.
-     * 
+     *
      * @return Returns the referenceFinancialDocumentNumber
      */
     public String getReferenceFinancialDocumentNumber() {
@@ -163,7 +163,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the referenceFinancialDocumentNumber attribute.
-     * 
+     *
      * @param referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
      */
     public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
@@ -173,7 +173,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Gets the universityFiscalYear attribute.
-     * 
+     *
      * @return Returns the universityFiscalYear
      */
     public Integer getUniversityFiscalYear() {
@@ -182,7 +182,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the universityFiscalYear attribute.
-     * 
+     *
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -192,7 +192,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Gets the universityFiscalPeriodCode attribute.
-     * 
+     *
      * @return Returns the universityFiscalPeriodCode
      */
     public String getUniversityFiscalPeriodCode() {
@@ -201,7 +201,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the universityFiscalPeriodCode attribute.
-     * 
+     *
      * @param universityFiscalPeriodCode The universityFiscalPeriodCode to set.
      */
     public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
@@ -211,7 +211,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Gets the customerPaymentMediumCode attribute.
-     * 
+     *
      * @return Returns the customerPaymentMediumCode
      */
     public String getCustomerPaymentMediumCode() {
@@ -220,7 +220,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the customerPaymentMediumCode attribute.
-     * 
+     *
      * @param customerPaymentMediumCode The customerPaymentMediumCode to set.
      */
     public void setCustomerPaymentMediumCode(String customerPaymentMediumCode) {
@@ -230,7 +230,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Gets the cashControlTotalAmount attribute.
-     * 
+     *
      * @return Returns the cashControlTotalAmount
      */
     public KualiDecimal getCashControlTotalAmount() {
@@ -239,7 +239,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the cashControlTotalAmount attribute.
-     * 
+     *
      * @param cashControlTotalAmount The cashControlTotalAmount to set.
      */
     public void setCashControlTotalAmount(KualiDecimal cashControlTotalAmount) {
@@ -248,7 +248,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Gets the universityFiscalPeriod attribute.
-     * 
+     *
      * @return Returns the universityFiscalPeriod
      */
     public AccountingPeriod getUniversityFiscalPeriod() {
@@ -257,7 +257,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the universityFiscalPeriod attribute.
-     * 
+     *
      * @param universityFiscalPeriod The universityFiscalPeriod to set.
      * @deprecated
      */
@@ -267,7 +267,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Gets the accountsReceivableDocumentHeader attribute.
-     * 
+     *
      * @return Returns the accountsReceivableDocumentHeader.
      */
     public AccountsReceivableDocumentHeader getAccountsReceivableDocumentHeader() {
@@ -276,7 +276,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the accountsReceivableDocumentHeader attribute value.
-     * 
+     *
      * @param accountsReceivableDocumentHeader The accountsReceivableDocumentHeader to set.
      */
     public void setAccountsReceivableDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
@@ -285,7 +285,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Gets the cashControlDetails attribute.
-     * 
+     *
      * @return Returns the cashControlDetails.
      */
     public List<CashControlDetail> getCashControlDetails() {
@@ -294,7 +294,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the cashControlDetails attribute value.
-     * 
+     *
      * @param cashControlDetails The cashControlDetails to set.
      */
     public void setCashControlDetails(List<CashControlDetail> cashControlDetails) {
@@ -303,7 +303,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * This method adds a new cash control detail to the list
-     * 
+     *
      * @param cashControlDetail
      */
     public void addCashControlDetail(CashControlDetail cashControlDetail) {
@@ -316,7 +316,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * This method removes a cash control detail from the list
-     * 
+     *
      * @param index
      */
     public void deleteCashControlDetail(int index) {
@@ -344,7 +344,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Gets the customerPaymentMedium attribute.
-     * 
+     *
      * @return Returns the customerPaymentMedium
      */
     public PaymentMedium getCustomerPaymentMedium() {
@@ -353,7 +353,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the customerPaymentMedium attribute value.
-     * 
+     *
      * @param customerPaymentMedium The customerPaymentMedium to set.
      */
     public void setCustomerPaymentMedium(PaymentMedium customerPaymentMedium) {
@@ -369,7 +369,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * This method returns the advance deposit total amount as a currency formatted string.
-     * 
+     *
      * @return String
      */
     public String getCurrencyFormattedTotalCashControlAmount() {
@@ -378,7 +378,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Retrieves a specific cash control detail from the list, by array index
-     * 
+     *
      * @param index the index of the cash control details to retrieve the cash control detail from
      * @return a CashControlDetail
      */
@@ -428,7 +428,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     /**
      * Builds an appropriately formatted string to be used for the <code>transactionLedgerEntryDescription</code>. It is built using
      * information from the <code>{@link AccountingLine}</code>. Format is "01-12345: blah blah blah".
-     * 
+     *
      * @param line accounting line
      * @param transactionalDocument submitted accounting document
      * @return String formatted string to be used for transaction ledger entry description
@@ -494,7 +494,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * The Cash Control document doesn't generate general ledger pending entries based off of the accounting lines on the document
-     * 
+     *
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
@@ -519,7 +519,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * This method gets the glpes
-     * 
+     *
      * @return a list of glpes
      */
     public List<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntries() {
@@ -528,7 +528,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * This method sets the glpes
-     * 
+     *
      * @param generalLedgerPendingEntries
      */
     public void setGeneralLedgerPendingEntries(List<GeneralLedgerPendingEntry> generalLedgerPendingEntries) {
@@ -546,7 +546,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * This method gets an glpe by it's index in the list of glpes
-     * 
+     *
      * @param index the glpe index
      * @return the glpe
      */
@@ -559,7 +559,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Retrieve lockBox Number
-     * 
+     *
      * @return
      */
     public String getLockboxNumber() {
@@ -589,7 +589,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * This method gets electronicPaymentClaims
-     * 
+     *
      * @return electronicPaymentClaims
      */
     public List<ElectronicPaymentClaim> getElectronicPaymentClaims() {
@@ -598,7 +598,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * This method sets electronicPaymentClaims
-     * 
+     *
      * @param electronicPaymentClaims
      * @deprecated
      */
@@ -631,7 +631,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Gets the bankCode attribute.
-     * 
+     *
      * @return Returns the bankCode.
      */
     public String getBankCode() {
@@ -640,7 +640,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the bankCode attribute value.
-     * 
+     *
      * @param bankCode The bankCode to set.
      */
     public void setBankCode(String bankCode) {
@@ -650,7 +650,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Answers true when document payment medium is WIRE transfer
-     * 
+     *
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     @Override
@@ -669,7 +669,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     /**
      * This is a helper method added to support workflow attribute configuration. This method helps to avoid attribute name mismatch
      * between ProcessingChartOfAccountCode and chartOfAccountsCode
-     * 
+     *
      * @return ProcessingChartOfAccountCode
      */
     public String getChartOfAccountsCode() {
@@ -682,7 +682,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     /**
      * This is a helper method added to support workflow attribute configuration. This method helps to avoid attribute name mismatch
      * between ProcessingOrganizationCode and organizationCode
-     * 
+     *
      * @return ProcessingOrganizationCode
      */
     public String getOrganizationCode() {
@@ -707,7 +707,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     }
 
     /**
-     * 
+     *
      */
     public void recalculateTotals() {
         KualiDecimal total = KualiDecimal.ZERO;
@@ -733,7 +733,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     }
 
     /**
-     * 
+     *
      */
     protected void deleteCashControlDetailsFromDB() {
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
@@ -744,7 +744,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * This is a method to check the count of gl entries according to the input fields and values
-     * 
+     *
      * @return totalGLRecordsCreated returns the count of the gl entries
      */
     public Integer getGeneralLedgerEntriesPostedCount() {
@@ -761,7 +761,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Gets the invoiceDocumentType attribute.
-     * 
+     *
      * @return Returns the invoiceDocumentType.
      */
     public String getInvoiceDocumentType() {
@@ -770,7 +770,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the invoiceDocumentType attribute value.
-     * 
+     *
      * @param invoiceDocumentType The invoiceDocumentType to set.
      */
     public void setInvoiceDocumentType(String invoiceDocumentType) {
@@ -779,7 +779,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Gets the locCreationType attribute.
-     * 
+     *
      * @return Returns the locCreationType.
      */
     public String getLocCreationType() {
@@ -788,7 +788,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the locCreationType attribute value.
-     * 
+     *
      * @param locCreationType The locCreationType to set.
      */
     public void setLocCreationType(String locCreationType) {
@@ -797,7 +797,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Gets the proposalNumber attribute.
-     * 
+     *
      * @return Returns the proposalNumber.
      */
     public Long getProposalNumber() {
@@ -806,7 +806,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the proposalNumber attribute value.
-     * 
+     *
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -815,7 +815,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Gets the letterOfCreditFundGroupCode attribute.
-     * 
+     *
      * @return Returns the letterOfCreditFundGroupCode.
      */
     public String getLetterOfCreditFundGroupCode() {
@@ -824,7 +824,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the letterOfCreditFundGroupCode attribute value.
-     * 
+     *
      * @param letterOfCreditFundGroupCode The letterOfCreditFundGroupCode to set.
      */
     public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
@@ -833,7 +833,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Gets the letterOfCreditFundCode attribute.
-     * 
+     *
      * @return Returns the letterOfCreditFundCode.
      */
     public String getLetterOfCreditFundCode() {
@@ -842,7 +842,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
     /**
      * Sets the letterOfCreditFundCode attribute value.
-     * 
+     *
      * @param letterOfCreditFundCode The letterOfCreditFundCode to set.
      */
     public void setLetterOfCreditFundCode(String letterOfCreditFundCode) {
@@ -950,7 +950,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
     }
 
     /**
-     * 
+     *
      */
     protected void resetCorrectionCheckboxes() {
         for (CashControlDetail cashControlDetail : getCashControlDetails()) {
@@ -962,7 +962,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
      * This method creates a new Cash Control Document and makes it a correction document. The reason we need this is because the
      * toErrorCorrection method does not work right. Manually copy over stuff, set the headers, save it to database and return the
      * object.
-     * 
+     *
      * @return
      */
     protected CashControlDocument createCashControlDocumentCorrection() {
@@ -990,7 +990,7 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
 
             documentService.saveDocument(cashControlDoc);
 
-            DocumentRouteHeaderValue documentRouteHeaderValue = KEWServiceLocator.getRouteHeaderService().getRouteHeader(Long.parseLong(cashControlDoc.getDocumentNumber()));
+            DocumentRouteHeaderValue documentRouteHeaderValue = SpringContext.getBean(RouteHeaderService.class).getRouteHeader(Long.parseLong(cashControlDoc.getDocumentNumber()));
             KEWServiceLocator.getWorkflowDocumentService().approveDocument(GlobalVariables.getUserSession().getPrincipalId(), documentRouteHeaderValue, "auto enroute error-correction Document");
 
 

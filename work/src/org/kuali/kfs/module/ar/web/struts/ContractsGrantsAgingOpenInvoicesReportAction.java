@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,12 +29,12 @@ import org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsAgingOpenInv
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.Lookupable;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 /**
@@ -47,7 +47,7 @@ public class ContractsGrantsAgingOpenInvoicesReportAction extends KualiAction {
 
     /**
      * Search - sets the values of the data entered on the form on the jsp into a map and then searches for the results.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -75,10 +75,11 @@ public class ContractsGrantsAgingOpenInvoicesReportAction extends KualiAction {
             request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, totalSize);
             request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
 
-            if (request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY) != null)
+            if (request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY) != null) {
                 GlobalVariables.getUserSession().removeObject(request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY));
+            }
 
-            request.setAttribute(KFSConstants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObject(resultTable));
+            request.setAttribute(KFSConstants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(resultTable));
         }
         catch (NumberFormatException e) {
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSKeyConstants.ERROR_CUSTOM, new String[] { "Fiscal Year must be a four-digit number" });
@@ -92,7 +93,7 @@ public class ContractsGrantsAgingOpenInvoicesReportAction extends KualiAction {
 
     /**
      * View results from balance inquiry action
-     * 
+     *
      * @param mapping
      * @param form
      * @param request

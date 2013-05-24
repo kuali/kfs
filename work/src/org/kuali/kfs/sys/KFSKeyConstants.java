@@ -1071,4 +1071,6 @@ public class KFSKeyConstants {
     }
 
     public static final String ERROR_INVALID_INCOME_OBJCODE_SUB_FUND = "error.invalid.income.objCode.subFund";
+
+    public static final String MESSAGE_CORRECTION_DOCUMENT_HAS_BEEN_CREATED = "message.correction.document.has.been.created";
 }

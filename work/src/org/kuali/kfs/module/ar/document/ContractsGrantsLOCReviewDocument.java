@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsLetterOfCreditFund;
@@ -41,7 +42,7 @@ import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.KualiModuleService;
@@ -54,6 +55,8 @@ import java.util.ArrayList;
  * Contracts Grants LOC Review Document.
  */
 public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransactionalDocumentBase {
+
+    private static final Logger LOG = Logger.getLogger(ContractsGrantsLOCReviewDocument.class);
 
     protected String statusCode;
     private String letterOfCreditFundCode;
@@ -70,7 +73,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
     /**
      * Gets the statusCode attribute.
-     * 
+     *
      * @return Returns the statusCode.
      */
     public String getStatusCode() {
@@ -79,7 +82,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
     /**
      * Sets the statusCode attribute value.
-     * 
+     *
      * @param statusCode The statusCode to set.
      */
     public void setStatusCode(String statusCode) {
@@ -88,7 +91,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
     /**
      * Gets the letterOfCreditFundGroupCode attribute.
-     * 
+     *
      * @return Returns the letterOfCreditFundGroupCode.
      */
     public String getLetterOfCreditFundGroupCode() {
@@ -98,7 +101,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
     /**
      * Sets the letterOfCreditFundGroupCode attribute value.
-     * 
+     *
      * @param letterOfCreditFundGroupCode The letterOfCreditFundGroupCode to set.
      */
     public void setLetterOfCreditFundGroupCode(String letterOfCreditFundGroupCode) {
@@ -108,7 +111,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
     /**
      * Gets the letterOfCreditFundCode attribute.
-     * 
+     *
      * @return Returns the letterOfCreditFundCode.
      */
     public String getLetterOfCreditFundCode() {
@@ -117,7 +120,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
     /**
      * Sets the letterOfCreditFundCode attribute value.
-     * 
+     *
      * @param letterOfCreditFundCode The letterOfCreditFundCode to set.
      */
     public void setLetterOfCreditFundCode(String letterOfCreditFundCode) {
@@ -127,16 +130,16 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
     /**
      * Gets the letterOfCreditFund attribute.
-     * 
+     *
      * @return Returns the letterOfCreditFund.
      */
     public ContractsAndGrantsLetterOfCreditFund getLetterOfCreditFund() {
-        return letterOfCreditFund = (ContractsAndGrantsLetterOfCreditFund) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFund.class).retrieveExternalizableBusinessObjectIfNecessary(this, letterOfCreditFund, "letterOfCreditFund");
+        return letterOfCreditFund = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFund.class).retrieveExternalizableBusinessObjectIfNecessary(this, letterOfCreditFund, "letterOfCreditFund");
     }
 
     /**
      * Sets the letterOfCreditFund attribute value.
-     * 
+     *
      * @param letterOfCreditFund The letterOfCreditFund to set.
      */
     public void setLetterOfCreditFund(ContractsAndGrantsLetterOfCreditFund letterOfCreditFund) {
@@ -145,16 +148,16 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
     /**
      * Gets the letterOfCreditFundGroup attribute.
-     * 
+     *
      * @return Returns the letterOfCreditFundGroup.
      */
     public ContractsAndGrantsLetterOfCreditFundGroup getLetterOfCreditFundGroup() {
-        return letterOfCreditFundGroup = (ContractsAndGrantsLetterOfCreditFundGroup) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFundGroup.class).retrieveExternalizableBusinessObjectIfNecessary(this, letterOfCreditFundGroup, "letterOfCreditFundGroup");
+        return letterOfCreditFundGroup = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsLetterOfCreditFundGroup.class).retrieveExternalizableBusinessObjectIfNecessary(this, letterOfCreditFundGroup, "letterOfCreditFundGroup");
     }
 
     /**
      * Sets the letterOfCreditFundGroup attribute value.
-     * 
+     *
      * @param letterOfCreditFundGroup The letterOfCreditFundGroup to set.
      */
     public void setLetterOfCreditFundGroup(ContractsAndGrantsLetterOfCreditFundGroup letterOfCreditFundGroup) {
@@ -163,7 +166,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
     /**
      * Gets the CcaReviewDetails attribute.
-     * 
+     *
      * @return Returns the CcaReviewDetails.
      */
     public List<ContractsGrantsLOCReviewDetail> getHeaderReviewDetails() {
@@ -180,7 +183,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
     /**
      * Sets the CcaReviewDetails attribute value.
-     * 
+     *
      * @param CcaReviewDetails The CcaReviewDetails to set.
      */
     public void setHeaderReviewDetails(List<ContractsGrantsLOCReviewDetail> headerReviewDetails) {
@@ -189,7 +192,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
     /**
      * Gets the AccountReviewDetails attribute.
-     * 
+     *
      * @return Returns the AccountReviewDetails.
      */
     public List<ContractsGrantsLOCReviewDetail> getAccountReviewDetails() {
@@ -208,7 +211,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
     /**
      * Sets the AccountReviewDetails attribute value.
-     * 
+     *
      * @param AccountReviewDetails The AccountReviewDetails to set.
      */
     public void setAccountReviewDetails(List<ContractsGrantsLOCReviewDetail> accountReviewDetails) {
@@ -381,7 +384,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(KFSPropertyConstants.PROPOSAL_NUMBER, detail.getProposalNumber());
-            ContractsAndGrantsCGBAward award = (ContractsAndGrantsCGBAward) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
+            ContractsAndGrantsCGBAward award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
             // to set funds Not Drawn as a difference between amountToDraw and hiddenAmountToDraw.
 
 
@@ -456,7 +459,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         ContractsGrantsInvoiceCreateDocumentService contractsGrantsInvoiceCreateDocumentService = SpringContext.getBean(ContractsGrantsInvoiceCreateDocumentService.class);
         List<ContractsAndGrantsCGBAward> awards = new ArrayList<ContractsAndGrantsCGBAward>();
@@ -485,7 +488,7 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put(KFSPropertyConstants.PROPOSAL_NUMBER, iterator.next());
-                ContractsAndGrantsCGBAward awd = (ContractsAndGrantsCGBAward) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
+                ContractsAndGrantsCGBAward awd = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
                 awards.add(awd);
             }
             // To set the loc Creation Type to award based on the LOC Review document being retrieved.
@@ -512,9 +515,9 @@ public class ContractsGrantsLOCReviewDocument extends FinancialSystemTransaction
 
 
             contractsGrantsInvoiceCreateDocumentService.createCGInvoiceDocumentsByAwards(awards, errOutputFile2);
-            
+
             //To route the invoices automatically as the initator would be system user after a wait time.
-            
+
             try {
 
                 Thread.sleep(100);

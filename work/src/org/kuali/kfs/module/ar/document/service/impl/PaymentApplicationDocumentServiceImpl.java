@@ -48,6 +48,7 @@ import org.kuali.kfs.module.ar.document.service.InvoicePaidAppliedService;
 import org.kuali.kfs.module.ar.document.service.NonAppliedHoldingService;
 import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -56,10 +57,11 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.rule.event.BlanketApproveDocumentEvent;
-import org.kuali.rice.krad.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.BlanketApproveDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -384,7 +386,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
 
         try {
             if (blanketApproveDV) {
-                boolean isValid = KNSServiceLocator.getKualiRuleService().applyRules(new BlanketApproveDocumentEvent(disbursementVoucherDocument));
+                boolean isValid = SpringContext.getBean(KualiRuleService.class).applyRules(new BlanketApproveDocumentEvent(disbursementVoucherDocument));
                 if (isValid) {
                     documentService.blanketApproveDocument(disbursementVoucherDocument, "blanket approved for payment application refund", new ArrayList());
                 }
@@ -393,7 +395,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
                 }
             }
             else if (routeDV) {
-                boolean isValid = KNSServiceLocator.getKualiRuleService().applyRules(new RouteDocumentEvent(disbursementVoucherDocument));
+                boolean isValid = SpringContext.getBean(KualiRuleService.class).applyRules(new RouteDocumentEvent(disbursementVoucherDocument));
                 if (isValid) {
                     documentService.routeDocument(disbursementVoucherDocument, "routed for payment application refund", new ArrayList());
                 }
@@ -525,7 +527,7 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
             note.setNoteText(noteText);
             note.setRemoteObjectIdentifier(document.getObjectId());
             note.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPrincipalId());
-            note.setNoteTypeCode(KRADConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+            note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
 
             document.getDocumentHeader().addNote(note);
 
@@ -627,5 +629,5 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         Collection<PaymentApplicationDocument> payments = service.findMatching(PaymentApplicationDocument.class, fieldValues);
 
         return payments;
-
+    }
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -55,6 +55,7 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -79,6 +80,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
      * @see org.kuali.kfs.module.ar.document.service.DunningLetterDistributionOnDemandService#createDunningLetters(org.kuali.kfs.module.ar.businessobject.DunningLetterTemplate,
      *      org.kuali.kfs.module.ar.businessobject.DunningLetterDistributionOnDemandLookupResult)
      */
+    @Override
     public byte[] createDunningLetters(DunningLetterTemplate dunningLetterTemplate, DunningLetterDistributionOnDemandLookupResult dunningLetterDistributionOnDemandLookupResult) {
 
         List<ContractsGrantsInvoiceDocument> selectedInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
@@ -146,18 +148,23 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
                 Map<String, Object> primaryKeys = new HashMap<String, Object>();
                 primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, dunningLetterDistributionOnDemandLookupResult.getAgencyNumber());
                 primaryKeys.put("agencyAddressTypeCode", "P");
-                address = (ContractsAndGrantsAgencyAddress) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
+                address = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
                 String fullAddress = "";
-                if (StringUtils.isNotEmpty(address.getAgencyLine1StreetAddress()))
+                if (StringUtils.isNotEmpty(address.getAgencyLine1StreetAddress())) {
                     fullAddress += returnProperStringValue(address.getAgencyLine1StreetAddress()) + "\n";
-                if (StringUtils.isNotEmpty(address.getAgencyLine2StreetAddress()))
+                }
+                if (StringUtils.isNotEmpty(address.getAgencyLine2StreetAddress())) {
                     fullAddress += returnProperStringValue(address.getAgencyLine2StreetAddress()) + "\n";
-                if (StringUtils.isNotEmpty(address.getAgencyCityName()))
+                }
+                if (StringUtils.isNotEmpty(address.getAgencyCityName())) {
                     fullAddress += returnProperStringValue(address.getAgencyCityName());
-                if (StringUtils.isNotEmpty(address.getAgencyStateCode()))
+                }
+                if (StringUtils.isNotEmpty(address.getAgencyStateCode())) {
                     fullAddress += " " + returnProperStringValue(address.getAgencyStateCode());
-                if (StringUtils.isNotEmpty(address.getAgencyZipCode()))
+                }
+                if (StringUtils.isNotEmpty(address.getAgencyZipCode())) {
                     fullAddress += "-" + returnProperStringValue(address.getAgencyZipCode());
+                }
                 replacementList.put("#agency.fullAddressInline", returnProperStringValue(fullAddress));
                 replacementList.put("#agency.fullName", returnProperStringValue(address.getAgency().getFullName()));
                 replacementList.put("#agency.contactName", returnProperStringValue(address.getAgencyContactName()));
@@ -182,7 +189,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
 
     /**
      * Gets the number of final events in list.
-     * 
+     *
      * @param events The list of events.
      * @return Returns the number of final events.
      */
@@ -204,7 +211,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
 
     /**
      * This method generated the template parameter list to populate the pdf invoices that are attached to the Document.
-     * 
+     *
      * @return
      */
     private Map<String, String> getTemplateParameterList(List<ContractsGrantsInvoiceDocument> invoices) {
@@ -231,13 +238,14 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
 
     /**
      * This method generates the actual pdf files to print.
-     * 
+     *
      * @param mapping
      * @param form
      * @param list
      * @return
      * @throws Exception
      */
+    @Override
     public boolean createZipOfPDFs(byte[] report, ByteArrayOutputStream baos) throws IOException {
 
         ZipOutputStream zos = new ZipOutputStream(baos);
@@ -282,7 +290,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
 
     /**
      * Generates the pdf file for printing the invoices.
-     * 
+     *
      * @param list
      * @param outputStream
      * @throws DocumentException
@@ -296,14 +304,14 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
             // add a document
             Map<String, Object> map = new HashMap<String, Object>();
             map.put(ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER, invoice.getDocumentNumber());
-            List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) KNSServiceLocator.getBusinessObjectService().findMatching(InvoiceAgencyAddressDetail.class, map);
+            List<InvoiceAgencyAddressDetail> agencyAddresses = (List<InvoiceAgencyAddressDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(InvoiceAgencyAddressDetail.class, map);
             for (InvoiceAgencyAddressDetail agencyAddress : agencyAddresses) {
                 ContractsAndGrantsAgencyAddress address;
                 Map<String, Object> primaryKeys = new HashMap<String, Object>();
                 primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, agencyAddress.getAgencyNumber());
                 primaryKeys.put("agencyAddressTypeCode", "P");
-                address = (ContractsAndGrantsAgencyAddress) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
-                Note note = KNSServiceLocator.getNoteService().getNoteByNoteId(agencyAddress.getNoteId());
+                address = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
+                Note note = SpringContext.getBean(NoteService.class).getNoteByNoteId(agencyAddress.getNoteId());
                 if (ObjectUtils.isNotNull(note) && note.getAttachment().getAttachmentFileSize() > 0) {
                     copy.addDocument(new PdfReader(note.getAttachment().getAttachmentContents()));
                 }
@@ -314,7 +322,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
 
     /**
      * Returns a proper String Value. Also returns proper value for currency (USD)
-     * 
+     *
      * @param string
      * @return
      */
@@ -331,7 +339,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -340,7 +348,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -349,7 +357,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
 
     /**
      * Gets the contractsGrantsInvoiceDocumentDao attribute.
-     * 
+     *
      * @return Returns the contractsGrantsInvoiceDocumentDao.
      */
     public ContractsGrantsInvoiceDocumentDao getContractsGrantsInvoiceDocumentDao() {
@@ -358,7 +366,7 @@ public class DunningLetterDistributionOnDemandServiceImpl implements DunningLett
 
     /**
      * Sets the contractsGrantsInvoiceDocumentDao attribute value.
-     * 
+     *
      * @param contractsGrantsInvoiceDocumentDao The contractsGrantsInvoiceDocumentDao to set.
      */
     public void setContractsGrantsInvoiceDocumentDao(ContractsGrantsInvoiceDocumentDao contractsGrantsInvoiceDocumentDao) {

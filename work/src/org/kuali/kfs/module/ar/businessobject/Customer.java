@@ -74,6 +74,22 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
         customerNotes = new ArrayList<CustomerNote>();
     }
 
+    public CustomerCollector getCustomerCollector() {
+        return customerCollector;
+    }
+
+    public void setCustomerCollector(CustomerCollector customerCollector) {
+        this.customerCollector = customerCollector;
+    }
+
+    public List<CustomerNote> getCustomerNotes() {
+        return customerNotes;
+    }
+
+    public void setCustomerNotes(List<CustomerNote> customerNotes) {
+        this.customerNotes = customerNotes;
+    }
+
     /**
      * Gets the customerNumber attribute.
      *

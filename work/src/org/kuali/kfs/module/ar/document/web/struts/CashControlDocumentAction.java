@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,15 +35,18 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeader
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.module.ar.document.validation.event.AddCashControlDetailEvent;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
+import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.exception.UnknownDocumentIdException;
-import org.kuali.rice.krad.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.SessionDocumentService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -77,7 +80,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
                 if (doc == null) {
                     throw new UnknownDocumentIdException("Document " + docId + " no longer exists.  It may have been cancelled before being saved.");
                 }
-    
+
                 cashControlDetail.setReferenceFinancialDocument(doc);
                 WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
                 // KualiDocumentFormBase.populate() needs this updated in the session
@@ -89,7 +92,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
 
     /**
      * Adds handling for cash control detail amount updates.
-     * 
+     *
      * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
      *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -123,13 +126,13 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         CashControlDocument document = form.getCashControlDocument();
 
         //get the default bank code for the given document type, which is CTRL for this document.
-        
+
         document.setBankCode("");
         Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(form.getDocTypeName());
         if (defaultBank != null) {
             document.setBankCode(defaultBank.getBankCode());
         }
-        
+
         // set up the default values for the AR DOC Header (SHOULD PROBABLY MAKE THIS A SERVICE)
         AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
         AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
@@ -177,7 +180,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
 
     /**
      * This method cancels all linked Payment Application documents that are not already in approved status.
-     * 
+     *
      * @param cashControlDocument
      * @throws WorkflowException
      */
@@ -205,7 +208,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
 
     /**
      * This method adds a new cash control detail
-     * 
+     *
      * @param mapping action mapping
      * @param form action form
      * @param request
@@ -261,7 +264,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
 
     /**
      * This method deletes a cash control detail
-     * 
+     *
      * @param mapping action mapping
      * @param form action form
      * @param request
@@ -296,7 +299,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
 
     /**
      * This method generates the GLPEs.
-     * 
+     *
      * @param mapping action mapping
      * @param form action form
      * @param request
@@ -326,7 +329,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
             GlobalVariables.getMessageMap().putError(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, ArKeyConstants.ERROR_GLPES_NOT_CREATED);
         }
 
-        if (cashControlDocument.getDocumentHeader().getFinancialDocumentInErrorNumber() != null) {
+        if (cashControlDocument.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber() != null) {
             reverseDebitCreditForCorrectionDocument(cashControlDocument);
         }
 
@@ -362,7 +365,7 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
 
     /**
      * Recalculates the cash control total since user could have changed it during their update.
-     * 
+     *
      * @param cashControlDocument
      */
     protected KualiDecimal calculateCashControlTotal(CashControlDocument cashControlDocument) {

@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.sys.batch.service;
 
-import java.util.Set;
-
 import org.kuali.kfs.pdp.businessobject.PaymentNoteText;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -87,9 +85,4 @@ public interface PaymentSourceExtractionService {
      * @param glpe the general ledger pending entry to undo
      */
     public abstract void oppositifyAndSaveEntry(GeneralLedgerPendingEntry glpe, GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper);
-
-    /**
-     * @return a List of all of the FSLO-parented document types which represent ACH or Checks created by PaymentSources
-     */
-    public abstract Set<String> getPaymentSourceCheckACHDocumentTypes();
 }

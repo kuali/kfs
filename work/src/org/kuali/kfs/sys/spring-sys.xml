@@ -1124,17 +1124,6 @@
 		<property name="paymentFileEmailService" ref="pdpEmailService"/>
 		<property name="documentService" ref="documentService"/>
 		<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService"/>
-		<property name="paymentSourceCheckACHDocumentTypes" ref="paymentSourceCheckACHDocumentTypes"/>
-	</bean>
-	
-	<bean id="paymentSourceCheckACHDocumentTypes" parent="paymentSourceCheckACHDocumentTypes-parentBean"/>
-	<bean id="paymentSourceCheckACHDocumentTypes-parentBean" parent="core-paymentSourceCheckACHDocumentTypes"/>
-	<bean id="core-paymentSourceCheckACHDocumentTypes" class="org.springframework.beans.factory.config.SetFactoryBean" abstract="true">
-		<property name="sourceSet">
-			<set>
-				<value>DVCA</value>
-			</set>
-		</property>
 	</bean>
 	
 	<bean id="paymentSourceToPdpExtractStep" parent="paymentSourceToPdpExtractStep-parentBean"/>

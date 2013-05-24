@@ -537,6 +537,12 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
                     }
                     SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
                 }
+
+                //************************************************** FILL THIS IN!!!
+                // TODO WE NEED TO EXTRACT AN IMMEDIATE PAYMENT
+                // if there's a travel advance on this document
+                // and the payment information on this document is marked extract immediate
+                // SpringContext.getBean(PaymentSourceExtractionService.class).extractSingleImmediatePayment(this);
             }
         }
     }

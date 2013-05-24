@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,12 +19,10 @@ package org.kuali.kfs.module.cg;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.rice.core.util.JSTLConstants;
-
 /**
  * Property Constants for CG module
  */
-public class CGPropertyConstants extends JSTLConstants {
+public class CGPropertyConstants{
 
     // Common document values
     public static final String DOCUMENT = "document";
@@ -51,7 +49,7 @@ public class CGPropertyConstants extends JSTLConstants {
 
     public static final String AWARD_MAINTENANCE_SECTION = "Award Maintenance";
     public static final String AWARD_INVOICING_SECTION = "Invoicing";
-    
+
 
     public static final String INCOME_ACCOUNT = "Income";
     public static final String AR_ACCOUNT = "Accounts Receivable";
@@ -100,7 +98,7 @@ public class CGPropertyConstants extends JSTLConstants {
     public static final String CUSTOMER = "customer";
     public static final String CUSTOMER_NUMBER = "customerNumber";
     public static final String CUSTOMER_TYPE_CODE = "customerTypeCode";
-    
+
       // ProposalAwardCloseDocument
     public static final String PROPOSAL_AWARD_CLOSE_DOC_CLOSE_ON_OR_BEFORE_DATE = "closeOnOrBeforeDate";
     public static final String PROPOSAL_AWARD_CLOSE_DOC_USER_INITIATED_CLOSE_DATE = "userInitiatedCloseDate";

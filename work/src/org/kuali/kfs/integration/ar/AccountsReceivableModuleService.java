@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -70,6 +71,17 @@ public interface AccountsReceivableModuleService {
      * @return AccountsReceivableCustomerAddress instance with the customer address information
      */
     public AccountsReceivableCustomerAddress findCustomerAddress(String customerNumber, String customerAddressIdentifer);
+
+    /**
+     * This method Creates and Saves a customer when CG Agency document does to final.
+     *
+     * @param description
+     * @param agency
+     * @return customerNumber
+     * @throws WorkflowException
+     */
+    public String createAndSaveCustomer(String description, ContractsAndGrantsCGBAgency agency) throws WorkflowException;
+
 
     /**
      * get the open customer invoice document with the given document number
@@ -295,6 +307,14 @@ public interface AccountsReceivableModuleService {
      * @return
      */
     public AccountsReceivableCustomerCreditMemo populateCustomerCreditMemoDocumentDetails(AccountsReceivableCustomerCreditMemo crmDocument, String invoiceNumber, KualiDecimal creditAmount);
+
+    /**
+     * This method retrieves the value of the Parameter GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD
+     *
+     * @param parameterName
+     * @return
+     */
+    public String retrieveGLPEReceivableParameterValue();
 
 
 }

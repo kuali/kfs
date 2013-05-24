@@ -34,6 +34,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants.CustomerTypeFields;
 import org.kuali.kfs.module.ar.ArPropertyConstants.OrganizationOptionsFields;
@@ -53,6 +54,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.module.ar.document.service.impl.ReceivableAccountingLineService;
+import org.kuali.kfs.module.ar.service.CustomerDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -220,6 +222,10 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         return SpringContext.getBean(CustomerService.class).getNextCustomerNumber((Customer) customer);
     }
 
+    public String createAndSaveCustomer(String description, ContractsAndGrantsCGBAgency agency) throws WorkflowException {
+        return SpringContext.getBean(CustomerDocumentService.class).createAndSaveCustomer(description, agency);
+    }
+
     /**
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#saveCustomer(org.kuali.kfs.integration.ar.AccountsReceivableCustomer)
      */
@@ -228,7 +234,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         getBusinessObjectService().save((Customer) customer);
     }
 
-    /**
+    /*
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#findByCustomerTypeDescription(java.lang.String)
      */
     @Override
@@ -459,5 +465,19 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     @Override
     public Document blanketApproveCustomerCreditMemoDocument(AccountsReceivableCustomerCreditMemo creditMemoDocument, String annotation) throws WorkflowException {
         return getDocumentService().blanketApproveDocument((CustomerCreditMemoDocument)creditMemoDocument, annotation, null);
+    }
+
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#retrieveGLPEReceivableParameterValue() This method
+     *      retrieves the value of the Parameter GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD
+     * @param parameterName
+     * @return
+     */
+
+    public String retrieveGLPEReceivableParameterValue() {
+
+        String parameterValue = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        return parameterValue;
+
     }
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,12 +31,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.reference.impl.EmploymentStatusImpl;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -51,7 +50,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
     /**
      * Checks to see if the end date is after the begin date
-     * 
+     *
      * @param begin
      * @param end
      * @param propertyName
@@ -157,7 +156,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
         RoleService roleService = SpringContext.getBean(RoleService.class);
 
         List<String> roleId = new ArrayList<String>();
-        roleId.add(roleService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR));
+        roleId.add(roleService.getRoleIdByNamespaceCodeAndName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR));
 
         int i = 0;
         for (T pd : projectDirectors) {
@@ -176,7 +175,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
      * This method takes in a collection of {@link ProjectDirector}s and reviews them to see if any have invalid states for being
      * added to a {@link Proposal}. An example would be a status code of "D" which means "Deceased". Project Directors with a status
      * of "D" cannot be added to a {@link Proposal} or {@link Award}.
-     * 
+     *
      * @param projectDirectors Collection of project directors to be reviewed.
      * @param elementClass Type of object that the collection belongs to.
      * @param propertyName Name of field that error will be attached to.
@@ -204,7 +203,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     /**
      * This method checks to see if the two agency values passed in are the same {@link Agency}. The agency for a C&G document
      * cannot be the same as the Federal Pass Through Agency for that same document.
-     * 
+     *
      * @param agency
      * @param federalPassThroughAgency
      * @param agencyPropertyName
@@ -222,7 +221,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
     /**
      * Checks if the required federal pass through fields are filled in if the federal pass through indicator is yes.
-     * 
+     *
      * @return True if all the necessary rules regarding the federal pass through agency input fields are met, false otherwise.
      */
     protected boolean checkFederalPassThrough(boolean federalPassThroughIndicator, Agency primaryAgency, String federalPassThroughAgencyNumber, Class propertyClass, String federalPassThroughIndicatorFieldName) {

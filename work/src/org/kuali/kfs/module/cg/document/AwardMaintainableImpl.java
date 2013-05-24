@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,20 +51,21 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.document.MaintenanceLock;
-import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.krad.maintenance.MaintenanceLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import java.util.ArrayList;
-import org.kuali.rice.kns.web.ui.Section;
-import org.kuali.rice.kew.api.WorkflowDocument;
 
 /**
  * Methods for the Award maintenance document UI.
@@ -81,7 +82,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Constructs a AwardMaintainableImpl.
-     * 
+     *
      * @param award
      */
     public AwardMaintainableImpl(Award award) {
@@ -99,49 +100,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
         super.processAfterRetrieve();
     }
 
-    /**
-     * Setting the initial field value to that specified by the default invoice parameter and default billing frequency parameter,
-     * otherwise defaulting to invoice by account and monthly, respectively.
-     */
-    @Override
-    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
-        super.processAfterNew(document, parameters);
-        try {
-
-            // Retrieving Default Invoicing Option
-            String defaultInvoiceParm = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Award.class, CGConstants.DEFAULT_INVOICING_OPTION_PARAMETER);
-            String defaultInvoiceType = CGPropertyConstants.AwardInvoicingOption.invoicingCode.get(defaultInvoiceParm);
-
-
-            // Retrieving Default Billing Schedule
-            String defaultBillingScheduleParm = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Agency.class, CGConstants.DEFAULT_PREFERRED_BILLING_FREQUENCY_PARAMETER);
-
-            // Set Invoicing Option
-
-            if (ObjectUtils.isNotNull(defaultInvoiceType)) {
-                getAward().setInvoicingOptions(defaultInvoiceType);
-            }
-            else {
-                getAward().setInvoicingOptions(CGPropertyConstants.INV_ACCOUNT);
-            }
-
-
-            // Set Billing Schedule
-            if (ObjectUtils.isNotNull(defaultBillingScheduleParm)) {
-                getAward().setPreferredBillingFrequency(defaultBillingScheduleParm);
-            }
-            else {
-                getAward().setPreferredBillingFrequency(CGPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE);
-            }
-
-
-        }
-        catch (IllegalArgumentException e) {
-            getAward().setInvoicingOptions(CGPropertyConstants.INV_ACCOUNT);
-        }
-    }
-
-    /**
+     /**
      * Not to copy over the Accounts tab, Predetermined tab, Milestone schedule tab, award account tab and award budgets tab when
      * copying
      */
@@ -195,76 +154,6 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
         catch (IllegalArgumentException e) {
             getAward().setInvoicingOptions(CGPropertyConstants.INV_ACCOUNT);
         }
-    }
-
-    /**
-     * Not to copy over the Accounts tab, Predetermined tab, Milestone schedule tab, award account tab and award budgets tab when
-     * copying
-     */
-    @Override
-    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
-        super.processAfterCopy(document, parameters);
-        getAward().setAwardAccounts(new ArrayList<AwardAccount>());
-        getAward().setMilestones(new ArrayList<Milestone>());
-        getAward().setMilestoneSchedule(new MilestoneSchedule());
-        getAward().setBills(new ArrayList<Bill>());
-        getAward().setLastBilledDate(null);
-    }
-
-    /**
-     * Setting the initial field value to that specified by the default invoice parameter and default billing frequency parameter,
-     * otherwise defaulting to invoice by account and monthly, respectively.
-     */
-    @Override
-    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
-        super.processAfterNew(document, parameters);
-        try {
-
-            // Retrieving Default Invoicing Option
-            String defaultInvoiceParm = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Award.class, CGConstants.DEFAULT_INVOICING_OPTION_PARAMETER);
-            String defaultInvoiceType = CGPropertyConstants.AwardInvoicingOption.invoicingCode.get(defaultInvoiceParm);
-
-
-            // Retrieving Default Billing Schedule
-            String defaultBillingScheduleParm = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Agency.class, CGConstants.DEFAULT_PREFERRED_BILLING_FREQUENCY_PARAMETER);
-
-            // Set Invoicing Option
-
-            if (ObjectUtils.isNotNull(defaultInvoiceType)) {
-                getAward().setInvoicingOptions(defaultInvoiceType);
-            }
-            else {
-                getAward().setInvoicingOptions(CGPropertyConstants.INV_ACCOUNT);
-            }
-
-
-            // Set Billing Schedule
-            if (ObjectUtils.isNotNull(defaultBillingScheduleParm)) {
-                getAward().setPreferredBillingFrequency(defaultBillingScheduleParm);
-            }
-            else {
-                getAward().setPreferredBillingFrequency(CGPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE);
-            }
-
-
-        }
-        catch (IllegalArgumentException e) {
-            getAward().setInvoicingOptions(CGPropertyConstants.INV_ACCOUNT);
-        }
-    }
-
-    /**
-     * Not to copy over the Accounts tab, Predetermined tab, Milestone schedule tab, award account tab and award budgets tab when
-     * copying
-     */
-    @Override
-    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
-        super.processAfterCopy(document, parameters);
-        getAward().setAwardAccounts(new ArrayList<AwardAccount>());
-        getAward().setMilestones(new ArrayList<Milestone>());
-        getAward().setMilestoneSchedule(new MilestoneSchedule());
-        getAward().setBills(new ArrayList<Bill>());
-        getAward().setLastBilledDate(null);
     }
 
     /**
@@ -360,7 +249,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * This method is called for refreshing the Agency after a lookup to display its full name without AJAX.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
      *      org.kuali.rice.kns.document.MaintenanceDocument)
      */
@@ -401,7 +290,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Load related objects from the database as needed.
-     * 
+     *
      * @param refreshFromLookup
      */
     private void refreshAward(boolean refreshFromLookup) {
@@ -423,7 +312,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Refresh the collection of associated AwardProjectDirectors.
-     * 
+     *
      * @param refreshFromLookup a lookup returns only the primary key, so ignore the secondary key when true
      */
     private void refreshAwardProjectDirectors(boolean refreshFromLookup) {
@@ -449,49 +338,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Refresh the collection of associated AwardFundManagers.
-     * 
-     * @param refreshFromLookup a lookup returns only the primary key, so ignore the secondary key when true
-     */
-    private void refreshAwardFundManagers(boolean refreshFromLookup) {
-        if (refreshFromLookup) {
-            getNewCollectionLine(AWARD_FUND_MANAGERS).refreshNonUpdateableReferences();
-            refreshNonUpdateableReferences(getAward().getAwardFundManagers());
-
-            getNewCollectionLine(AWARD_ACCOUNTS).refreshNonUpdateableReferences();
-            refreshNonUpdateableReferences(getAward().getAwardAccounts());
-        }
-        else {
-            refreshWithSecondaryKey((AwardFundManager) getNewCollectionLine(AWARD_FUND_MANAGERS));
-            for (AwardFundManager fundManager : getAward().getAwardFundManagers()) {
-                refreshWithSecondaryKey(fundManager);
-            }
-        }
-    }
-
-    /**
-     * Refresh the collection of associated AwardFundManagers.
-     * 
-     * @param refreshFromLookup a lookup returns only the primary key, so ignore the secondary key when true
-     */
-    private void refreshAwardFundManagers(boolean refreshFromLookup) {
-        if (refreshFromLookup) {
-            getNewCollectionLine(AWARD_FUND_MANAGERS).refreshNonUpdateableReferences();
-            refreshNonUpdateableReferences(getAward().getAwardFundManagers());
-
-            getNewCollectionLine(AWARD_ACCOUNTS).refreshNonUpdateableReferences();
-            refreshNonUpdateableReferences(getAward().getAwardAccounts());
-        }
-        else {
-            refreshWithSecondaryKey((AwardFundManager) getNewCollectionLine(AWARD_FUND_MANAGERS));
-            for (AwardFundManager fundManager : getAward().getAwardFundManagers()) {
-                refreshWithSecondaryKey(fundManager);
-            }
-        }
-    }
-
-    /**
-     * Refresh the collection of associated AwardFundManagers.
-     * 
+     *
      * @param refreshFromLookup a lookup returns only the primary key, so ignore the secondary key when true
      */
     private void refreshAwardFundManagers(boolean refreshFromLookup) {
@@ -525,7 +372,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
      * current reference as it is, because it may be a nonexistent instance which is holding the secondary key (the username, i.e.,
      * principalName) so we can redisplay it to the user for correction. If it only has a primary key then use that, because it may
      * be coming from the database, without any user input.
-     * 
+     *
      * @param director the ProjectDirector to refresh
      */
     private static void refreshWithSecondaryKey(CGProjectDirector director) {
@@ -551,7 +398,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
      * current reference as it is, because it may be a nonexistent instance which is holding the secondary key (the username, i.e.,
      * principalName) so we can redisplay it to the user for correction. If it only has a primary key then use that, because it may
      * be coming from the database, without any user input.
-     * 
+     *
      * @param director the FundManager to refresh
      */
     private static void refreshWithSecondaryKey(CGFundManager fundManager) {
@@ -573,7 +420,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Gets the underlying Award.
-     * 
+     *
      * @return
      */
     public Award getAward() {
@@ -583,7 +430,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * Called for refreshing the {@link Subcontractor} on {@link ProposalSubcontractor} before adding to the proposalSubcontractors
      * collection on the proposal. this is to ensure that the summary fields are show correctly. i.e. {@link Subcontractor} name
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
      */
     @Override
@@ -594,8 +441,8 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Called to manipulate Billing Schedule and Milestone Schedule (hide/show) based on the value chosen in the Award Schedule drop
-     * down 
-     * 
+     * down
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.document.MaintenanceDocument,
      *      org.kuali.rice.kns.maintenance.Maintainable)
      */
@@ -651,7 +498,7 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * This method overrides the parent method to check the status of the award document and change the linked
      * {@link ProposalStatus} to A (Approved) if the {@link Award} is now in approved status.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override

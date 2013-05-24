@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,12 +19,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.kuali.rice.core.util.JSTLConstants;
-
 /**
  * Constants specific to the Contracts and Grants module.
  */
-public class CGConstants extends JSTLConstants {
+public class CGConstants{
 
     public static final String CG_NAMESPACE_CODE = "KFS-CG";
 
@@ -73,17 +71,17 @@ public class CGConstants extends JSTLConstants {
     public static final String AGENCY_PRIMARY_ADDRESSES_TYPE_CODE = "P";
     public static final String AGENCY_ALTERNATE_ADDRESSES_TYPE_CODE = "A";
     public static final String DEFAULT_NUMBER_OF_COPIES_TO_PRINT = "DEFAULT_NUMBER_OF_COPIES_TO_PRINT";
-    
+
     // Agency Collections Maitenance
     public static final String CHAPTER7_CODE = "C7";
     public static final String CHAPTER11_CODE = "C11";
     public static final String CHAPTER13_CODE = "C13";
-    public static final String JUDGMENT_OBTAINED_CODE = "JO"; 
+    public static final String JUDGMENT_OBTAINED_CODE = "JO";
 
     public static final String CHAPTER7  = "Chapter 7";
     public static final String CHAPTER11 = "Chapter 11";
     public static final String CHAPTER13 = "Chapter 13";
-    public static final String JUDGMENT_OBTAINED= "Judgment Obtained"; 
+    public static final String JUDGMENT_OBTAINED= "Judgment Obtained";
 
     // Award
     public static final String AWARD_DETAIL_TYPE_CODE = "Award";

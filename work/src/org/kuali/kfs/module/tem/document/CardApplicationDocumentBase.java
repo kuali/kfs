@@ -23,18 +23,18 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.dao.DocumentDao;
-import org.kuali.rice.krad.document.TransactionalDocumentBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
-public class CardApplicationDocumentBase extends TransactionalDocumentBase implements CardApplicationDocument {
+public class CardApplicationDocumentBase extends FinancialSystemTransactionalDocumentBase implements CardApplicationDocument {
     protected static Logger LOG = Logger.getLogger(CardApplicationDocumentBase.class);
     protected TEMProfile temProfile;
     protected Integer temProfileId;
@@ -105,10 +105,12 @@ public class CardApplicationDocumentBase extends TransactionalDocumentBase imple
         return SpringContext.getBean(WorkflowDocumentService.class);
     }
 
+    @Override
     protected ParameterService getParameterService() {
         return SpringContext.getBean(ParameterService.class);
     }
 
+    @Override
     protected BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
     }
@@ -125,6 +127,7 @@ public class CardApplicationDocumentBase extends TransactionalDocumentBase imple
         return SpringContext.getBean(DocumentDao.class);
     }
 
+    @Override
     public String getApplicationDocumentStatus() {
         String status = getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
         return StringUtils.defaultIfEmpty(status, TemConstants.TRAVEL_DOC_APP_DOC_STATUS_INIT);

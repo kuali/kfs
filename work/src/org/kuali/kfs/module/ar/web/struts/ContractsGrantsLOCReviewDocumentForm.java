@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,10 +31,10 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.rice.krad.document.authorization.TransactionalDocumentPresentationController;
-import org.kuali.rice.krad.service.DocumentHelperService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
+import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 
 /**
@@ -69,7 +69,7 @@ public class ContractsGrantsLOCReviewDocumentForm extends FinancialSystemTransac
 
     /**
      * Build additional document specific buttons and set extraButtons list.
-     * 
+     *
      * @return - list of extra buttons to be displayed to the user
      */
     @Override
@@ -100,7 +100,7 @@ public class ContractsGrantsLOCReviewDocumentForm extends FinancialSystemTransac
 
     /**
      * Adds a new button to the extra buttons collection.
-     * 
+     *
      * @param property - property for button
      * @param source - location of image
      * @param altText - alternate text for button if images don't appear
@@ -118,7 +118,7 @@ public class ContractsGrantsLOCReviewDocumentForm extends FinancialSystemTransac
 
     /**
      * Adds a new button to the extra buttons collection.
-     * 
+     *
      * @param property - property for button
      * @param source - location of image
      * @param altText - alternate text for button if images don't appear
@@ -138,7 +138,7 @@ public class ContractsGrantsLOCReviewDocumentForm extends FinancialSystemTransac
 
     /**
      * Gets the proposalNumbers attribute.
-     * 
+     *
      * @return Returns the proposalNumbers.
      */
     public List<Long> getProposalNumbers() {
@@ -157,7 +157,7 @@ public class ContractsGrantsLOCReviewDocumentForm extends FinancialSystemTransac
 
     /**
      * Sets the proposalNumbers attribute value.
-     * 
+     *
      * @param proposalNumbers The proposalNumbers to set.
      */
     public void setProposalNumbers(List<Long> proposalNumbers) {

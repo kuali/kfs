@@ -366,6 +366,15 @@ public class ArConstants{
         static final public String VIPERS = "Vipers";
     }
 
+    public static final String CG_NAMESPACE_CODE = "KFS-CG";
+    public static final String ENABLE_CG_PRORATE_BILL_IND = "ENABLE_CG_PRORATE_BILL_IND";
+
+
+    public static class TemplateUploadSystem {
+        static final public String EXTENSION = ".pdf";
+        static final public String TEMPLATE_MIME_TYPE = "application/pdf";
+    }
+
     public static class DunningLetters {
         public static final String DYS_PST_DUE_FINAL_PARM = "DUNNING_LETTERS_FINAL_DAYS_PAST_DUE";
         public static final String DYS_PST_DUE_STATE_AGENCY_FINAL_PARM = "DUNNING_LETTERS_STATE_AGENCY_FINAL_DAYS_PAST_DUE";

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +18,8 @@ package org.kuali.kfs.module.cg.service.impl;
 import java.text.MessageFormat;
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.CGKeyConstants;
@@ -26,19 +28,19 @@ import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.Milestone;
 import org.kuali.kfs.module.cg.service.CGEmailService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kew.mail.Mailer;
-import org.kuali.rice.kew.mail.service.impl.DefaultEmailService;
-import org.kuali.rice.krad.exception.InvalidAddressException;
-import org.kuali.rice.core.mail.MailMessage;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.krad.service.MailService;
+import org.kuali.rice.core.api.mail.MailMessage;
+import org.kuali.rice.core.api.mail.Mailer;
+import org.kuali.rice.core.mail.MailerImpl;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.exception.InvalidAddressException;
+import org.kuali.rice.krad.service.MailService;
 
 /**
  * This class implements the services in CGEmailservice.
  */
-public class CGEmailServiceImpl extends DefaultEmailService implements CGEmailService {
+public class CGEmailServiceImpl extends MailerImpl implements CGEmailService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CGEmailServiceImpl.class);
 
     protected MailService mailService;
@@ -49,7 +51,7 @@ public class CGEmailServiceImpl extends DefaultEmailService implements CGEmailSe
 
     /**
      * This method sends out emails for upcoming milestones.
-     * 
+     *
      * @see org.kuali.kfs.module.cg.service.CGEmailService#sendEmail(java.util.List, org.kuali.kfs.module.cg.businessobject.Award)
      */
     public void sendEmail(List<Milestone> milestones, Award award) {
@@ -94,15 +96,20 @@ public class CGEmailServiceImpl extends DefaultEmailService implements CGEmailSe
         try {
             mailService.sendMessage(message);
         }
-        catch (InvalidAddressException e) {
-            LOG.error("sendEmail() Invalid email address.  Message not sent", e);
+        catch (InvalidAddressException ex) {
+            // TODO Auto-generated catch block
+            ex.printStackTrace();
+        }
+        catch (MessagingException ex) {
+            // TODO Auto-generated catch block
+            ex.printStackTrace();
         }
     }
 
     /**
      * Retrieves the email subject text from system parameter then checks environment code and prepends to message if not
      * production.
-     * 
+     *
      * @param subjectParmaterName name of parameter giving the subject text
      * @return subject text
      */
@@ -120,7 +127,7 @@ public class CGEmailServiceImpl extends DefaultEmailService implements CGEmailSe
 
     /**
      * Sets the mailService attribute value.
-     * 
+     *
      * @param mailService The mailService to set.
      */
     public void setMailService(MailService mailService) {
@@ -129,7 +136,7 @@ public class CGEmailServiceImpl extends DefaultEmailService implements CGEmailSe
 
     /**
      * Sets the kualiConfigurationService attribute value.
-     * 
+     *
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setConfigurationService(ConfigurationService kualiConfigurationService) {
@@ -138,7 +145,7 @@ public class CGEmailServiceImpl extends DefaultEmailService implements CGEmailSe
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -147,7 +154,7 @@ public class CGEmailServiceImpl extends DefaultEmailService implements CGEmailSe
 
     /**
      * Sets the dataDictionaryService attribute value.
-     * 
+     *
      * @param dataDictionaryService The dataDictionaryService to set.
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {

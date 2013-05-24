@@ -23,8 +23,6 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAwardAccount;
@@ -32,14 +30,13 @@ import org.kuali.kfs.integration.cg.ContractsGrantsAwardInvoiceAccountInformatio
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
-import java.util.ArrayList;
 
 /**
  * Defines a financial award object.
@@ -148,13 +145,13 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /** Dummy value used to facilitate lookups */
     private transient String lookupPersonUniversalIdentifier;
-    private transient Person lookupPerson;
+    private transient Principal lookupPerson;
 
     private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
 
     private transient String lookupFundMgrPersonUniversalIdentifier;
-    private transient Person lookupFundMgrPerson;
+    private transient Principal lookupFundMgrPerson;
 
     /**
      * Default no-args constructor.
@@ -220,12 +217,12 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     @Override
     public List buildListOfDeletionAwareLists() {
         List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(getAwardAccounts());
-        managedLists.add(getAwardOrganizations());
-        managedLists.add(getAwardProjectDirectors());
-        managedLists.add(getAwardFundManagers());
-        managedLists.add(getAwardSubcontractors());
-        managedLists.add(getAwardInvoiceAccounts());
+        managedLists.add(ObjectUtils.isNull(getAwardAccounts()) ? new ArrayList() : new ArrayList(getAwardAccounts()));
+        managedLists.add(ObjectUtils.isNull(getAwardOrganizations()) ? new ArrayList() : new ArrayList(getAwardOrganizations()));
+        managedLists.add(ObjectUtils.isNull(getAwardProjectDirectors()) ? new ArrayList() : new ArrayList(getAwardProjectDirectors()));
+        managedLists.add(ObjectUtils.isNull(getAwardFundManagers()) ? new ArrayList() : new ArrayList(getAwardFundManagers()));
+        managedLists.add(ObjectUtils.isNull(getAwardSubcontractors()) ? new ArrayList() : new ArrayList(getAwardSubcontractors()));
+        managedLists.add(ObjectUtils.isNull(getAwardInvoiceAccounts()) ? new ArrayList() : new ArrayList(getAwardInvoiceAccounts()));
         return managedLists;
     }
 
@@ -438,7 +435,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      * @throws PersistenceBrokerException Thrown by call to super.prePersist();
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
      */
-    @Override
     @Override protected void prePersist() {
         super.prePersist();
         awardTotalAmount = getAwardTotalAmount();
@@ -452,7 +448,6 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      * @throws PersistenceBrokerException Thrown by call to super.preUpdate();
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
      */
-    @Override
     @Override protected void preUpdate() {
         super.preUpdate();
         awardTotalAmount = getAwardTotalAmount();
@@ -1373,7 +1368,8 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      * @return the lookup {@link Person}
      */
     @Override
-    public Person getLookupPerson() {
+    public Principal getLookupPerson() {
+
         return lookupPerson;
     }
 
@@ -1382,7 +1378,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @param lookupPerson
      */
-    public void setLookupPerson(Person lookupPerson) {
+    public void setLookupPerson(Principal lookupPerson) {
         this.lookupPerson = lookupPerson;
     }
 
@@ -1393,7 +1389,8 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      */
     @Override
     public String getLookupPersonUniversalIdentifier() {
-        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(lookupPersonUniversalIdentifier, lookupPerson);
+        // NOTE
+        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.api.identity.IdentityService.class).getPrincipal(lookupPersonUniversalIdentifier);
         return lookupPersonUniversalIdentifier;
     }
 
@@ -1880,8 +1877,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the lookupFundMgrPerson.
      */
-    @Override
-    public Person getLookupFundMgrPerson() {
+    public Principal getLookupFundMgrPerson() {
         return lookupFundMgrPerson;
     }
 
@@ -1890,7 +1886,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @param lookupFundMgrPerson The lookupFundMgrPerson to set.
      */
-    public void setLookupFundMgrPerson(Person lookupFundMgrPerson) {
+    public void setLookupFundMgrPerson(Principal lookupFundMgrPerson) {
         this.lookupFundMgrPerson = lookupFundMgrPerson;
     }
 
@@ -2066,9 +2062,9 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     /**
      * This method maps the proposal number into a hash map with "proposalNumber" as the identifier.
      *
+     *
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();

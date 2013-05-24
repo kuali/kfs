@@ -134,7 +134,7 @@ public class InvoiceReportDeliveryAction extends KualiAction {
      */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InvoiceReportDeliveryForm irdForm = (InvoiceReportDeliveryForm) form;
-        String basePath = getBasePath(request);
+        String basePath = getApplicationBaseUrl();
         String deliveryType = irdForm.getDeliveryType();
         //To validate the input fields before fetching invoices.
         if (ObjectUtils.isNotNull(irdForm.getFromDate())) {
@@ -297,6 +297,9 @@ public class InvoiceReportDeliveryAction extends KualiAction {
                         if (person == null) {
                             throw new IllegalArgumentException("The parameter value for initiatorPrincipalName [" + user + "] passed in does not map to a person.");
                         }
+                        if(StringUtils.equalsIgnoreCase( invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId(), person.getPrincipalId())){
+//                        if (invoice.getDocumentHeader().getWorkflowDocument().userIsInitiator(person)){
+                        }
                         if (invoice.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId().equals(person.getPrincipalId())){
                             if (this.isInvoiceBetween(invoice, fromDate, toDate)) {
                                 if (ObjectUtils.isNull(invoice.getDateReportProcessed()) || ObjectUtils.isNull(invoice.getMarkedForProcessing())){
@@ -326,12 +329,12 @@ public class InvoiceReportDeliveryAction extends KualiAction {
      */
     private boolean isInvoiceBetween(ContractsGrantsInvoiceDocument invoice, Timestamp fromDate, Timestamp toDate) {
         if (ObjectUtils.isNotNull(fromDate)){
-            if (fromDate.after(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate())){
+            if (fromDate.after(new Timestamp(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis()))){
                 return false;
             }
         }
         if (ObjectUtils.isNotNull(toDate)){
-            if (toDate.before(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate())){
+            if (toDate.before(new Timestamp(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis()))){
                 return false;
             }
         }

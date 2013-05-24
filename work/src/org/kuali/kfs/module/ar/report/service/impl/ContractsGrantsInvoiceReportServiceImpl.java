@@ -56,13 +56,14 @@ import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -158,9 +159,9 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
             title.add(new Paragraph("Document Number: " + returnProperStringValue(LOCDocument.getDocumentNumber()), headerFont));
             Person person = SpringContext.getBean(PersonService.class).getPerson(LOCDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
             // writing the Document details
-            title.add(new Paragraph("Document Status: " + returnProperStringValue(LOCDocument.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue()), headerFont));
+            title.add(new Paragraph("Document Status: " + returnProperStringValue(LOCDocument.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus()), headerFont));
             title.add(new Paragraph("Document Initiator: " + returnProperStringValue(person.getName()), headerFont));
-            title.add(new Paragraph("Document Creation Date: " + returnProperStringValue(LOCDocument.getDocumentHeader().getWorkflowDocument().getDateCreated().toLocaleString()), headerFont));
+            title.add(new Paragraph("Document Creation Date: " + returnProperStringValue(LOCDocument.getDocumentHeader().getWorkflowDocument().getDateCreated().toLocalDate().toString()), headerFont));
 
             title.add(new Paragraph(" "));
             title.setAlignment(Element.ALIGN_RIGHT);
@@ -464,7 +465,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         if (ArConstants.FINAL.equals(reportingPeriod)) {
             replacementList.put("Final", "Yes");
         }
-        String accountingBasis = KNSServiceLocator.getParameterService().getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.BASIS_OF_ACCOUNTING);
+        String accountingBasis = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.BASIS_OF_ACCOUNTING);
         if (ArConstants.BASIS_OF_ACCOUNTING_CASH.equals(accountingBasis)) {
             replacementList.put("Cash", "Yes");
         }
@@ -528,7 +529,7 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
         if (ArConstants.FINAL.equals(reportingPeriod)) {
             replacementList.put("Final", "Yes");
         }
-        String accountingBasis = KNSServiceLocator.getParameterService().getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.BASIS_OF_ACCOUNTING);
+        String accountingBasis = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ArConstants.AR_NAMESPACE_CODE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, ArConstants.BASIS_OF_ACCOUNTING);
         if (ArConstants.BASIS_OF_ACCOUNTING_CASH.equals(accountingBasis)) {
             replacementList.put("Cash", "Yes");
         }
@@ -751,8 +752,9 @@ public class ContractsGrantsInvoiceReportServiceImpl extends ContractsGrantsRepo
                     primaryKeys.put(KFSPropertyConstants.AGENCY_NUMBER, agencyAddress.getAgencyNumber());
                     primaryKeys.put("agencyAddressIdentifier", agencyAddress.getAgencyAddressIdentifier());
                     address = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgencyAddress.class).getExternalizableBusinessObject(ContractsAndGrantsAgencyAddress.class, primaryKeys);
-                    Note note = KNSServiceLocator.getNoteService().getNoteByNoteId(agencyAddress.getNoteId());
+                    Note note = SpringContext.getBean(NoteService.class).getNoteByNoteId(agencyAddress.getNoteId());
                     for (int i = 0; i < Integer.parseInt(address.getAgencyCopiesToPrint()); i++) {
+
                         if (ObjectUtils.isNotNull(note)) {
                             if (!pageAdded) {
                                 copy.open();

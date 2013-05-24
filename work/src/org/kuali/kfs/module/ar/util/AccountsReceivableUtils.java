@@ -4,10 +4,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * Utility class for Accounts Receivables.
@@ -18,7 +19,7 @@ public class AccountsReceivableUtils {
      * This method returns true if the CashControlDetail is correctable. Correctable is defined as 1. Payment Application must be
      * final 2. and Not a correction document itself 3. and has not already been corrected 4. and there is actually values to
      * correct (excluding refunded amount).
-     * 
+     *
      * @param cashControlDetail
      * @return
      */
@@ -30,7 +31,7 @@ public class AccountsReceivableUtils {
             WorkflowDocument workflowDocument = paymentApplicationDocument.getDocumentHeader().getWorkflowDocument();
 
             // if state is final and not a payment reversal and hasn't been corrected yet
-            if (workflowDocument.isFinal() && !paymentApplicationDocument.isPaymentApplicationCorrection() && StringUtils.isBlank(paymentApplicationDocument.getDocumentHeader().getCorrectedByDocumentId()) && hasDataValuesToCorrect(paymentApplicationDocument)) {
+            if (workflowDocument.isFinal() && !paymentApplicationDocument.isPaymentApplicationCorrection() && StringUtils.isBlank(paymentApplicationDocument.getFinancialSystemDocumentHeader().getCorrectedByDocumentId()) && hasDataValuesToCorrect(paymentApplicationDocument)) {
                 return true;
             }
 
@@ -44,7 +45,7 @@ public class AccountsReceivableUtils {
     /**
      * This method returns true if there is something in the paymentApplicationDocument that can be corrected. Basically, if there
      * exist a value in the payment application (not including refunds).
-     * 
+     *
      * @param paymentApplicationDocument
      * @return
      */

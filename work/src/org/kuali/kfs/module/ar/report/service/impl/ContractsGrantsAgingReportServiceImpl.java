@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,12 +49,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.report.ReportInfo;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.core.web.format.CurrencyFormatter;
 
 /**
  * This class is used to get the services for PDF generation and other services for CG Aging report.
@@ -69,7 +69,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * Gets the cgAgingReportInfo attribute.
-     * 
+     *
      * @return Returns the cgAgingReportInfo.
      */
     public ReportInfo getCgAgingReportInfo() {
@@ -78,7 +78,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * Sets the cgAgingReportInfo attribute value.
-     * 
+     *
      * @param cgAgingReportInfo The cgAgingReportInfo to set.
      */
     public void setCgAgingReportInfo(ReportInfo cgAgingReportInfo) {
@@ -87,7 +87,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -96,7 +96,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -105,7 +105,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * Gets the contractsGrantsInvoiceDocumentService attribute.
-     * 
+     *
      * @return Returns the contractsGrantsInvoiceDocumentService.
      */
     public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
@@ -114,7 +114,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * Sets the collectorHierarchyDao attribute value.
-     * 
+     *
      * @param collectorHierarchyDao The collectorHierarchyDao to set.
      */
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
@@ -123,7 +123,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * Gets the collectorHierarchyDao attribute.
-     * 
+     *
      * @return Returns the collectorHierarchyDao.
      */
     public CollectorHierarchyDao getCollectorHierarchyDao() {
@@ -132,7 +132,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * Sets the collectorHierarchyDao attribute value.
-     * 
+     *
      * @param collectorHierarchyDao The collectorHierarchyDao to set.
      */
     public void setCollectorHierarchyDao(CollectorHierarchyDao collectorHierarchyDao) {
@@ -141,7 +141,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * Gets the customerCollectorDao attribute.
-     * 
+     *
      * @return Returns the customerCollectorDao.
      */
     public CustomerCollectorDao getCustomerCollectorDao() {
@@ -150,7 +150,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * Sets the customerCollectorDao attribute value.
-     * 
+     *
      * @param customerCollectorDao The customerCollectorDao to set.
      */
     public void setCustomerCollectorDao(CustomerCollectorDao customerCollectorDao) {
@@ -318,7 +318,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
                         Map<String, String> orgCriteria = new HashMap<String, String>();
                         orgCriteria.put(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CODE, document.getBilledByOrganizationCode());
                         // retrive Organization
-                        OrganizationOptions orgOp = (OrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, orgCriteria);
+                        OrganizationOptions orgOp = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, orgCriteria);
                         if (orgOp != null) {
                             isBiller = orgOp.isCgBiller();
                             billerOrgMap.put(org, isBiller);
@@ -490,7 +490,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * This method filters the Contracts Grants Invoice doc by Award related details
-     * 
+     *
      * @param contractsGrantsInvoiceDocs
      * @param awardDocumentNumber
      * @param awardEndDate
@@ -520,7 +520,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * This method calculates if given invoice has award end date within the given award date range.
-     * 
+     *
      * @param awardDate
      * @param awardStartDate
      * @param awardEndDate
@@ -544,7 +544,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * This method filters invoices according to the amount
-     * 
+     *
      * @param contractsGrantsInvoiceDocuments
      * @param includeFromAmt
      * @param includeToAmt
@@ -575,7 +575,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * This method is used to get the Invoice Details by account number and chart code
-     * 
+     *
      * @param accountChartCode
      * @param accountNumber
      * @return a List of the CustomerInvoiceDetails associated with a given Account Number
@@ -594,7 +594,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * This method filters invoices according to collectors
-     * 
+     *
      * @param contractsGrantsInvoiceDocuments
      * @param customerNumbers
      * @return Returns the list of ContractsGrantsInvoiceDocument.
@@ -613,7 +613,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * This method checks that the given customer is found in list of customers found in customer collectors
-     * 
+     *
      * @param customerNumber
      * @param customerNumbers
      * @return Returns true if customer found in the list otherwise false
@@ -636,7 +636,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * This method filters invoices according to the Invoice date
-     * 
+     *
      * @param contractsGrantsInvoiceDocuments
      * @param includeFromAmt
      * @param includeToAmt
@@ -646,7 +646,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
         List<ContractsGrantsInvoiceDocument> filteredInvoices = new ArrayList<ContractsGrantsInvoiceDocument>();
         Date docInvoiceDate = null;
         for (ContractsGrantsInvoiceDocument doc : contractsGrantsInvoiceDocuments) {
-            docInvoiceDate = new Date(doc.getDocumentHeader().getWorkflowDocument().getDateCreated().getTime());
+            docInvoiceDate = new Date(doc.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
             if (ContractsGrantsReportUtils.isDateFieldInRange(invoiceFromDateString, invoiceToDateString, docInvoiceDate, ArPropertyConstants.ContractsGrantsAgingReportFields.INVOICE_DATE_TO)) {
                 filteredInvoices.add(doc);
             }
@@ -765,7 +765,7 @@ public class ContractsGrantsAgingReportServiceImpl extends ContractsGrantsReport
 
     /**
      * This method returns a proper String value for any given object.
-     * 
+     *
      * @param string
      * @return
      */

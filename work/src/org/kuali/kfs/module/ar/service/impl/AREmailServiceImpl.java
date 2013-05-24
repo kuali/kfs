@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.activation.DataHandler;
 import javax.mail.Message;
@@ -43,13 +44,14 @@ import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.service.AREmailService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.mail.Mailer;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.mail.MailerImpl;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -61,7 +63,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Defines methods for sending AR emails.
  */
-public class AREmailServiceImpl extends DefaultEmailService implements AREmailService {
+public class AREmailServiceImpl extends MailerImpl implements AREmailService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AREmailServiceImpl.class);
 
     protected MailService mailService;
@@ -70,7 +72,6 @@ public class AREmailServiceImpl extends DefaultEmailService implements AREmailSe
     private DataDictionaryService dataDictionaryService;
     private Mailer mailer;
 
-
     /**
      * This method is used to send emails to the agency
      *
@@ -78,18 +79,35 @@ public class AREmailServiceImpl extends DefaultEmailService implements AREmailSe
      */
     public void sendInvoicesViaEmail(List<ContractsGrantsInvoiceDocument> invoices) throws AddressException, MessagingException {
         LOG.debug("sendInvoicesViaEmail() starting.");
-        mailer = this.createMailer();
-        Session session = mailer.getCurrentSession();
+
+        Properties props = getConfigProperties();
+//        String host = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(MbpKeyConstants.EMAIL.RELAY_SERVER);
+        // Setup mail server
+        // props.put("mail.sender", fromAddress);
+//        String sender = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_FROM_EMAIL_ADDRESS);
+//        props.put("mail.sender", sender);
+//        props.put("mail.smtp.host", host);
+//        props.put("mail.smtp.starttls.enable", "true");
+//        props.put("mail.smtp.ssl.enable", "true");
+//        props.put("mail.smtp.port", "25");
+//        props.put("mail.debug", "true");
+//        props.put("mail.smtp.auth", "false");
+//        props.put("mail.smtp.socketFactory.port", "25");
+
+
+        // Get session
+        Session session = Session.getInstance(props, null);
         for (ContractsGrantsInvoiceDocument invoice : invoices) {
             List<InvoiceAgencyAddressDetail> agencyAddresses = invoice.getAgencyAddressDetails();
             for (InvoiceAgencyAddressDetail agencyAddress : agencyAddresses) {
                 if (ArConstants.InvoiceIndicator.EMAIL.equals(agencyAddress.getPreferredInvoiceIndicatorCode())) {
-                    Note note = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Note.class, agencyAddress.getNoteId());
+                    Note note = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(Note.class, agencyAddress.getNoteId());
                     if (ObjectUtils.isNotNull(note)) {
+
                         MimeMessage message = new MimeMessage(session);
 
                         // From Address
-                        String sender = KNSServiceLocator.getParameterService().getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_FROM_EMAIL_ADDRESS);
+                        String sender = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ContractsGrantsInvoiceEmailReportsBatchStep.class, ArConstants.CG_INVOICE_FROM_EMAIL_ADDRESS);
                         message.setFrom(new InternetAddress(sender));
                         // To Address
                         Map<String, Object> primaryKeys = new HashMap<String, Object>();
@@ -237,6 +255,16 @@ public class AREmailServiceImpl extends DefaultEmailService implements AREmailSe
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+
+    /**
+     * Retrieves the Properties used to configure the Mailer. The property names configured in the Workflow configuration should
+     * match those of Java Mail.
+     *
+     * @return
+     */
+    private Properties getConfigProperties() {
+        return ConfigContext.getCurrentContextConfig().getProperties();
     }
 
 }

@@ -48,7 +48,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.KEWPropertyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -75,7 +74,7 @@ import org.springframework.util.CollectionUtils;
 public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements ContractsGrantsInvoiceCreateDocumentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractsGrantsInvoiceCreateDocumentServiceImpl.class);
 
-    public static final String WORKFLOW_SEARCH_RESULT_KEY = KEWPropertyConstants.DOC_SEARCH_RESULT_PROPERTY_NAME_ROUTE_HEADER_ID;
+    public static final String WORKFLOW_SEARCH_RESULT_KEY = "routeHeaderId";
 
 
     private AccountingPeriodService accountingPeriodService;

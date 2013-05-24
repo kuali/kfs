@@ -61,6 +61,7 @@ import org.kuali.rice.core.web.format.CollectionFormatter;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -641,7 +642,9 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
     private String getCreditMemoDocSearchUrl(BusinessObject bo, String columnTitle) {
         Properties params = new Properties();
         ContractsAndGrantsAgingReport detail = (ContractsAndGrantsAgingReport) bo;
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
+//      Note
+//      params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
+        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentSearchCriteriaBo.class.getName());
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
@@ -660,7 +663,9 @@ public class ContractsGrantsAgingReportLookupableHelperServiceImpl extends Kuali
     private String getCustomerWriteoffSearchUrl(BusinessObject bo, String columnTitle) {
         Properties params = new Properties();
         ContractsAndGrantsAgingReport detail = (ContractsAndGrantsAgingReport) bo;
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
+//        Note
+//        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
+        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentSearchCriteriaBo.class.getName());
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");

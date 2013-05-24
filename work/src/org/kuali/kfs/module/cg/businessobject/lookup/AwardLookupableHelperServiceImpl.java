@@ -26,13 +26,15 @@ import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
+import org.kuali.rice.kew.impl.document.search.DocumentSearchCriteriaBo;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
@@ -103,7 +105,7 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
     /**
      * This method adds a link to the look up FOR the invoices associated with a given Award.
-     * 
+     *
      * @param bo
      * @return
      */
@@ -116,7 +118,9 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
         params.put("docTypeFullName", "CGIN");
         params.put(KFSPropertyConstants.PROPOSAL_NUMBER, award.getProposalNumber().toString());
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
+//        Note
+//        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
+        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentSearchCriteriaBo.class.getName());
         String url = UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
         return new AnchorHtmlData(url, KFSConstants.SEARCH_METHOD, "View Invoices");
     }
@@ -125,14 +129,15 @@ public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServi
      * @return Returns the personService.
      */
     protected PersonService getPersonService() {
-        if (personService == null)
+        if (personService == null) {
             personService = SpringContext.getBean(PersonService.class);
+        }
         return personService;
     }
 
     /**
      * This is a intermediate method to call the getSearchResultsHelper() as its protected.
-     * 
+     *
      * @param fieldValues
      * @param unbounded
      * @return

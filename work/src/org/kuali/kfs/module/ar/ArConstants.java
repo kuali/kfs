@@ -340,6 +340,15 @@ public class ArConstants{
     public static final String INV_RPT_PRCS_IN_PROGRESS = "IN PROGRESS";
     public static final String INV_RPT_PRCS_SENT = "EMAILS SENT";
 
+    public static class InvoiceIndicator {
+        static final public String MAIL = "MAIL";
+        static final public String EMAIL = "EMAIL";
+        static final public String S2S = "S2S";
+        static final public String PAY_WEB = "PayWeb";
+        static final public String WAWF = "WAWF";
+        static final public String VIPERS = "Vipers";
+    }
+
     public static class DunningLetters {
         public static final String DYS_PST_DUE_FINAL_PARM = "DUNNING_LETTERS_FINAL_DAYS_PAST_DUE";
         public static final String DYS_PST_DUE_STATE_AGENCY_FINAL_PARM = "DUNNING_LETTERS_STATE_AGENCY_FINAL_DAYS_PAST_DUE";

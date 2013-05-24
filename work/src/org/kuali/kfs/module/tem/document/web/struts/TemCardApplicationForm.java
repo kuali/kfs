@@ -161,10 +161,10 @@ public class TemCardApplicationForm extends FinancialSystemTransactionalDocument
 
     public boolean isAppliedToBank() {
         CardApplicationDocument document = (CardApplicationDocument) this.getDocument();
-        if(document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus().equals(TemWorkflowConstants.RouteNodeNames.APPLIED_TO_BANK)
-                || document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus().equals(TemWorkflowConstants.RouteNodeNames.APPROVED)
-                ||document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus().equals(TemWorkflowConstants.RouteNodeNames.APPROVED_BY_BANK)
-                ||document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus().equals(TemWorkflowConstants.RouteNodeNames.DECLINED)){
+        if(TemWorkflowConstants.RouteNodeNames.APPLIED_TO_BANK.equals(document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())
+                || TemWorkflowConstants.RouteNodeNames.APPROVED.equals(document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())
+                || TemWorkflowConstants.RouteNodeNames.APPROVED_BY_BANK.equals(document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())
+                || TemWorkflowConstants.RouteNodeNames.DECLINED.equals(document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())){
             setAppliedToBank(true);
         }
         return appliedToBank;

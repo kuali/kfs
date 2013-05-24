@@ -34,7 +34,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
-public class CardApplicationDocumentBase extends FinancialSystemTransactionalDocumentBase implements CardApplicationDocument {
+public abstract class CardApplicationDocumentBase extends FinancialSystemTransactionalDocumentBase implements CardApplicationDocument {
     protected static Logger LOG = Logger.getLogger(CardApplicationDocumentBase.class);
     protected TEMProfile temProfile;
     protected Integer temProfileId;
@@ -134,11 +134,6 @@ public class CardApplicationDocumentBase extends FinancialSystemTransactionalDoc
     }
 
     @Override
-    public void applyToBank() {
-        // TODO Auto-generated method stub
-
-    }
-    @Override
     public void sendAcknowledgement() {
         getTravelDocumentService().addAdHocRecipient(this, getTemProfile().getPrincipalId(), KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ);
         try {
@@ -150,11 +145,13 @@ public class CardApplicationDocumentBase extends FinancialSystemTransactionalDoc
         }
 
     }
-    @Override
-    public void approvedByBank() {
-        // TODO Auto-generated method stub
 
-    }
+    /**
+     * Default: do nothing
+     * @see org.kuali.kfs.module.tem.document.CardApplicationDocument#approvedByBank()
+     */
+    @Override
+    public void approvedByBank() {}
 
     @Override
     public boolean saveAppDocStatus() {

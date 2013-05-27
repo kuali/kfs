@@ -114,11 +114,18 @@
 	<bean id="lockboxDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.LockboxDaoOjb" />
 	<bean id="customerInvoiceDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CustomerInvoiceDocumentDaoOjb" />
 	<bean id="accountsReceivableDocumentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.AccountsReceivableDocumentHeaderDaoOjb" />
-	<bean id="customerInvoiceDetailDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CustomerInvoiceDetailDaoOjb" />	
+	<bean id="customerInvoiceDetailDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CustomerInvoiceDetailDaoOjb" />
 	<bean id="invoiceRecurrenceDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.InvoiceRecurrenceDaoOjb" />
 	<bean id="cashControlDetailDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CashControlDetailDaoOjb" />
 	<bean id="nonAppliedHoldingDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.NonAppliedHoldingDaoOjb" />
 	<bean id="customerAgingReportDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerAgingReportDaoOjb" />
+	<bean id="contractsGrantsInvoiceDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.ContractsGrantsInvoiceDocumentDaoOjb" />
+	<bean id="eventDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.EventDaoOjb" />
+	<bean id="awardAccountObjectCodeTotalBilledDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.AwardAccountObjectCodeTotalBilledDaoOjb" />
+	<bean id="cashControlDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CashControlDocumentDaoOjb" />
+	<bean id="collectorHierarchyDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CollectorHierarchyDaoOjb" />
+	<bean id="customerCollectorDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerCollectorDaoOjb" />
+	<bean id="referralToCollectionsDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.ReferralToCollectionsDaoOjb" />
 	
 	<!--  AR Services  -->
 	<bean id="systemInformationService"  parent="systemInformationService-parentBean"/>
@@ -365,15 +372,6 @@
 
 
 	<bean id="nonInvoicedDistributionService" class="org.kuali.kfs.module.ar.document.service.impl.NonInvoicedDistributionServiceImpl">
-		<property name="nonInvoicedDistributionDao">
-			<ref bean="nonInvoicedDistributionDao" />
-		</property>
-	</bean>
-
-	<bean id="nonInvoicedDistributionDao" class="org.kuali.kfs.module.ar.dataaccess.impl.NonInvoicedDistributionDaoOjb">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
 	</bean>
 
 	<bean id="customerAddressService" class="org.kuali.kfs.module.ar.document.service.impl.CustomerAddressServiceImpl">
@@ -565,9 +563,6 @@
 		<property name="boService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="batchInputFileType">
-			<ref bean="customerLoadInputFileType" />
-		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
@@ -588,9 +583,6 @@
 		</property>
 		<property name="schemaLocation">
 			<value>${externalizable.static.content.url}/xsd/ar/customer.xsd</value>
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
 		</property>
 		<property name="customerLoadService">
 			<ref bean="customerLoadService" />

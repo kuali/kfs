@@ -1,12 +1,12 @@
  /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,6 +33,7 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.OrganizationService;
@@ -69,6 +70,7 @@ import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -86,7 +88,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
     private static final String MAX_RECORDS_PARM_NAME = "MAX_NUMBER_OF_RECORDS_PER_DOCUMENT";
     private static final String NA = "-- N/A --";
     private static final String WORKFLOW_DOC_ID_PREFIX = " - WITH WORKFLOW DOCID: ";
-    
+
     private BatchInputFileService batchInputFileService;
     private CustomerService customerService;
     private ConfigurationService configService;
@@ -96,43 +98,43 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
     private SystemInformationService sysInfoService;
     private BusinessObjectService boService;
     private DateTimeService dateTimeService;
-    
+
     private List<BatchInputFileType> batchInputFileTypes;
     private CustomerDigesterAdapter adapter;
     private String reportsDirectory;
-    
+
     public CustomerLoadServiceImpl() {
     }
-    
+
     /**
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#loadFiles()
      */
     public boolean loadFiles() {
-        
+
         LOG.info("Beginning processing of all available files for AR Customer Batch Upload.");
-        
+
         boolean result = true;
         List<CustomerLoadFileResult> fileResults = new ArrayList<CustomerLoadFileResult>();
         CustomerLoadFileResult reporter = null;
-        
-        // moved these two lists from loadFile() as comment indicated from svn-17753 which can possibly be used for report/log output 
+
+        // moved these two lists from loadFile() as comment indicated from svn-17753 which can possibly be used for report/log output
         List<String> routedDocumentNumbers = new ArrayList<String>();
         List<String> failedDocumentNumbers = new ArrayList<String>();
-        
+
         //  create a list of the files to process
          Map<String, BatchInputFileType> fileNamesToLoad = getListOfFilesToProcess();
         LOG.info("Found " + fileNamesToLoad.size() + " file(s) to process.");
-        
+
         //  process each file in turn
         List<String> processedFiles = new ArrayList<String>();
         for (String inputFileName : fileNamesToLoad.keySet()) {
-            
+
             LOG.info("Beginning processing of filename: " + inputFileName + ".");
-            
+
             //  setup the results reporting
             reporter = new CustomerLoadFileResult(inputFileName);
             fileResults.add(reporter);
-            
+
             if (loadFile(inputFileName,  reporter, fileNamesToLoad.get(inputFileName), routedDocumentNumbers, failedDocumentNumbers)) {
                 result &= true;
                 reporter.addFileInfoMessage("File successfully completed processing.");
@@ -146,16 +148,16 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
 
         //  remove done files
         removeDoneFiles(processedFiles);
-        
+
         //  write report PDF
         writeReportPDF(fileResults);
-        
+
         return result;
     }
-    
+
     /**
      * Create a collection of the files to process with the mapped value of the BatchInputFileType
-     * 
+     *
      * @return
      */
     protected Map<String, BatchInputFileType> getListOfFilesToProcess() {
@@ -184,10 +186,10 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
 
         return inputFileTypeMap;
     }
-    
+
     /**
      * Clears out associated .done files for the processed data files.
-     * 
+     *
      * @param dataFileNames
      */
     protected void removeDoneFiles(List<String> dataFileNames) {
@@ -202,12 +204,12 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
     /**
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#loadFile(java.lang.String, org.kuali.kfs.module.ar.batch.report.CustomerLoadFileResult, org.kuali.kfs.sys.batch.BatchInputFileType, java.util.List, java.util.List)
      */
-    public boolean loadFile(String fileName, CustomerLoadFileResult reporter, BatchInputFileType batchInputFileType, 
+    public boolean loadFile(String fileName, CustomerLoadFileResult reporter, BatchInputFileType batchInputFileType,
             List<String> routedDocumentNumbers, List<String> failedDocumentNumbers) {
-        
+
         boolean result = true;
-        
-        //  load up the file into a byte array 
+
+        //  load up the file into a byte array
         byte[] fileByteContent = safelyLoadFileBytes(fileName);
 
         //  parse the file against the XSD schema and load it into an object
@@ -222,28 +224,28 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             LOG.error(errorMessage, e);
             throw new RuntimeException(errorMessage);
         }
-        
+
         //  make sure we got the type we expected, then cast it
         if (!(parsedObject instanceof List)) {
             String errorMessage = "Parsed file was not of the expected type.  Expected [" + List.class + "] but got [" + parsedObject.getClass() + "].";
             reporter.addFileErrorMessage(errorMessage);
             criticalError(errorMessage);
         }
-        
+
         //  prepare a list for the regular validate() method
         List<CustomerDigesterVO> customerVOs = (List<CustomerDigesterVO>) parsedObject;
-        
+
         List<MaintenanceDocument> readyTransientDocs = new ArrayList<MaintenanceDocument>();
         LOG.info("Beginning validation and preparation of batch file.");
         result = validateCustomers(customerVOs, readyTransientDocs, reporter, false);
-        
+
         //  send the readyDocs into workflow
         result &= sendDocumentsIntoWorkflow(readyTransientDocs, routedDocumentNumbers, failedDocumentNumbers, reporter);
-        
+
         return result;
     }
 
-    protected boolean sendDocumentsIntoWorkflow(List<MaintenanceDocument> readyTransientDocs, List<String> routedDocumentNumbers, 
+    protected boolean sendDocumentsIntoWorkflow(List<MaintenanceDocument> readyTransientDocs, List<String> routedDocumentNumbers,
             List<String> failedDocumentNumbers, CustomerLoadFileResult reporter) {
         boolean result = true;
         for (MaintenanceDocument readyTransientDoc : readyTransientDocs) {
@@ -251,13 +253,13 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         }
         return result;
     }
-    
-    protected boolean sendDocumentIntoWorkflow(MaintenanceDocument readyTransientDoc, List<String> routedDocumentNumbers, 
+
+    protected boolean sendDocumentIntoWorkflow(MaintenanceDocument readyTransientDoc, List<String> routedDocumentNumbers,
             List<String> failedDocumentNumbers, CustomerLoadFileResult reporter) {
         boolean result = true;
-        
+
         String customerName = ((Customer) readyTransientDoc.getNewMaintainableObject().getBusinessObject()).getCustomerName();
-        
+
         //  create a real workflow document
         MaintenanceDocument realMaintDoc;
         try {
@@ -267,15 +269,15 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             LOG.error("WorkflowException occurred while trying to create a new MaintenanceDocument.", e);
             throw new RuntimeException("WorkflowException occurred while trying to create a new MaintenanceDocument.", e);
         }
-        
+
         realMaintDoc.getNewMaintainableObject().setBusinessObject(readyTransientDoc.getNewMaintainableObject().getBusinessObject());
         realMaintDoc.getOldMaintainableObject().setBusinessObject(readyTransientDoc.getOldMaintainableObject().getBusinessObject());
         realMaintDoc.getNewMaintainableObject().setMaintenanceAction(readyTransientDoc.getNewMaintainableObject().getMaintenanceAction());
         realMaintDoc.getDocumentHeader().setDocumentDescription(readyTransientDoc.getDocumentHeader().getDocumentDescription());
-        
+
         Customer customer = (Customer) realMaintDoc.getNewMaintainableObject().getBusinessObject();
         LOG.info("Routing Customer Maintenance document for [" + customer.getCustomerNumber() + "] " + customer.getCustomerName());
-        
+
         try {
             docService.routeDocument(realMaintDoc, "Routed Edit/Update Customer Maintenance from CustomerLoad Batch Process", null);
         }
@@ -284,7 +286,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             reporter.addCustomerErrorMessage(customerName, "WorkflowException occurred while trying to route a new MaintenanceDocument: " + e.getMessage());
             result = false;
         }
-        
+
         if (result == true) {
             reporter.setCustomerSuccessResult(customerName);
             reporter.setCustomerWorkflowDocId(customerName, realMaintDoc.getDocumentNumber());
@@ -296,41 +298,41 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         }
         return result;
     }
-    
+
     protected String getCustomerMaintenanceDocumentTypeName() {
         return "CUS";
     }
-    
+
     protected void addError(CustomerLoadBatchErrors batchErrors, String customerName, String propertyName, Class<?> propertyClass, String origValue, String description) {
         batchErrors.addError(customerName, propertyName, propertyClass, origValue, description);
     }
-    
+
     protected void addBatchErrorsToGlobalVariables(CustomerLoadBatchErrors batchErrors) {
         Set<String> errorMessages = batchErrors.getErrorStrings();
         for (String errorMessage : errorMessages) {
-            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, 
+            GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS,
                     KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, errorMessage);
         }
     }
-    
+
     protected void addBatchErrorstoCustomerLoadResult(CustomerLoadBatchErrors batchErrors, CustomerLoadResult result) {
         Set<String> errorMessages = batchErrors.getErrorStrings();
         for (String errorMessage : errorMessages) {
             result.addErrorMessage(errorMessage);
         }
     }
-    
+
     /**
-     * 
+     *
      * Accepts a file name and returns a byte-array of the file name contents, if possible.
-     * 
+     *
      * Throws RuntimeExceptions if FileNotFound or IOExceptions occur.
-     * 
+     *
      * @param fileName String containing valid path & filename (relative or absolute) of file to load.
      * @return A Byte Array of the contents of the file.
      */
     protected byte[] safelyLoadFileBytes(String fileName) {
-        
+
         InputStream fileContents;
         byte[] fileByteContent;
         try {
@@ -349,38 +351,38 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         }
         return fileByteContent;
     }
-    
+
     /**
      * The results of this method follow the same rules as the batch step result rules:
-     * 
+     *
      * The execution of this method may have 3 possible outcomes:
-     * 
-     * 1. returns true, meaning that everything has succeeded, and dependent steps can continue running. No 
+     *
+     * 1. returns true, meaning that everything has succeeded, and dependent steps can continue running. No
      * errors should be added to GlobalVariables.getMessageMap().
-     * 
-     * 2. returns false, meaning that some (but not necessarily all) steps have succeeded, and dependent 
+     *
+     * 2. returns false, meaning that some (but not necessarily all) steps have succeeded, and dependent
      * steps can continue running.  Details can be found in the GlobalVariables.getMessageMap().
-     * 
-     * 3. throws an exception, meaning that the step has failed, that the rest of the steps in a job should 
+     *
+     * 3. throws an exception, meaning that the step has failed, that the rest of the steps in a job should
      * not be run, and that the job has failed.  There may be errors in the GlobalVariables.getMessageMap().
-     * 
+     *
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#validate(java.util.List)
-     */    
+     */
     public boolean validate(List<CustomerDigesterVO> customerUploads) {
         return validateAndPrepare(customerUploads, new ArrayList<MaintenanceDocument>(), true);
     }
-    
+
     /**
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#validateAndPrepare(java.util.List, java.util.List, boolean)
      */
     public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, boolean useGlobalMessageMap) {
         return validateCustomers(customerUploads, customerMaintDocs, new CustomerLoadFileResult(), useGlobalMessageMap);
     }
-    
+
     /**
-     * 
+     *
      * Validate the customers lists
-     * 
+     *
      * @param customerUploads
      * @param customerMaintDocs
      * @param reporter
@@ -388,7 +390,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
      * @return
      */
     protected boolean validateCustomers(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, CustomerLoadFileResult reporter, boolean useGlobalMessageMap) {
-        
+
         //  fail if empty or null list
         if (customerUploads == null) {
             LOG.error("Null list of Customer upload objects.  This should never happen.");
@@ -404,7 +406,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
 
         boolean groupSucceeded = true;
         boolean docSucceeded = true;
-        
+
         //  check to make sure the input file doesnt have more docs than we allow in one batch file
         String maxRecordsString = parameterService.getParameterValueAsString(CustomerLoadStep.class, MAX_RECORDS_PARM_NAME);
         if (StringUtils.isBlank(maxRecordsString) || !StringUtils.isNumeric(maxRecordsString)) {
@@ -419,30 +421,32 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             }
             return false;
         }
-        
-        //  we have to create one real maint doc for the whole thing to pass the maintainable.checkAuthorizationRestrictions 
+
+        //  we have to create one real maint doc for the whole thing to pass the maintainable.checkAuthorizationRestrictions
         MaintenanceDocument oneRealMaintDoc = null;
-        
+
         Customer customer = null;
         CustomerLoadBatchErrors fileBatchErrors = new CustomerLoadBatchErrors();
         CustomerLoadBatchErrors customerBatchErrors;
         String customerName;
-        if (adapter == null) adapter = new CustomerDigesterAdapter();
+        if (adapter == null) {
+            adapter = new CustomerDigesterAdapter();
+        }
         for (CustomerDigesterVO customerDigesterVO : customerUploads) {
-            
+
             docSucceeded = true;
             customerName = customerDigesterVO.getCustomerName();
-            
+
             //  setup logging and reporting
             LOG.info("Beginning conversion and validation for [" + customerName + "].");
             reporter.addCustomerInfoMessage(customerName, "Beginning conversion and validation.");
             CustomerLoadResult result = reporter.getCustomer(customerName);
             customerBatchErrors = new CustomerLoadBatchErrors();
-            
+
             //  convert the VO to a BO
             LOG.info("Beginning conversion from VO to BO.");
             customer = adapter.convert(customerDigesterVO, customerBatchErrors);
-            
+
             //  if any errors were generated, add them to the GlobalVariables, and return false
             if (!customerBatchErrors.isEmpty()) {
                 LOG.info("The customer [" + customerName + "] was not processed due to errors in uploading and conversion.");
@@ -458,21 +462,21 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             Customer existingCustomer = customerAlreadyExists(customer);
             boolean isNew = (existingCustomer == null);
             boolean isUpdate = !isNew;
-            
+
             //  do some housekeeping
             processBeforeValidating(customer, existingCustomer, isUpdate);
-            
+
             //  create the transient maint doc
             MaintenanceDocument transientMaintDoc = createTransientMaintDoc();
-            
+
             //  make sure we have the one real maint doc (to steal its document id)
             oneRealMaintDoc = createRealMaintDoc(oneRealMaintDoc);
-            
+
             //  steal the doc id from the real doc
             transientMaintDoc.setDocumentNumber(oneRealMaintDoc.getDocumentNumber());
             transientMaintDoc.setDocumentHeader(oneRealMaintDoc.getDocumentHeader());
             transientMaintDoc.getDocumentHeader().setDocumentDescription("AR Customer Load Batch Transient");
-            
+
             //  set the old and new
             transientMaintDoc.getNewMaintainableObject().setBusinessObject(customer);
             transientMaintDoc.getOldMaintainableObject().setBusinessObject((existingCustomer == null ? new Customer() : existingCustomer ));
@@ -492,7 +496,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             else {
                 reporter.addCustomerInfoMessage(customerName, "Customer record batched is an Update to an existing Customer.");
             }
-            
+
             //  validate the batched customer
             if (!validateSingle(transientMaintDoc, customerBatchErrors, customerName)) {
                 groupSucceeded &= false;
@@ -500,7 +504,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
                 reporter.setCustomerFailureResult(customerName);
             }
             addBatchErrorstoCustomerLoadResult(customerBatchErrors, result);
-            
+
             //  if the doc succeeded then add it to the list to be routed, and report it as successful
             if (docSucceeded) {
                 customerMaintDocs.add(transientMaintDoc);
@@ -509,10 +513,10 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
                 reporter.addCustomerInfoMessage(customerName, "Customer Name is:   " + customer2.getCustomerName());
                 reporter.setCustomerSuccessResult(customerName);
             }
-            
+
             fileBatchErrors.addAll(customerBatchErrors);
         }
-        
+
         //  put any errors back in global vars
         if (useGlobalMessageMap) {
             addBatchErrorsToGlobalVariables(fileBatchErrors);
@@ -522,8 +526,8 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
     }
 
     /**
-     * pre-processing for existing and new customer 
-     * 
+     * pre-processing for existing and new customer
+     *
      * @param customer
      * @param existingCustomer
      * @param isUpdate
@@ -536,10 +540,10 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             if (StringUtils.isBlank(customer.getCustomerNumber())) {
                 customer.setCustomerNumber(existingCustomer.getCustomerNumber());
             }
-            
+
             //  carry forward the version number
             customer.setVersionNumber(existingCustomer.getVersionNumber());
-        
+
             //  don't let the batch zero out certain key fields on an update
             dontBlankOutFieldsOnUpdate(customer, existingCustomer, "customerTypeCode");
             dontBlankOutFieldsOnUpdate(customer, existingCustomer, "customerTaxTypeCode");
@@ -554,10 +558,10 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             dontBlankOutFieldsOnUpdate(customer, existingCustomer, "customerFaxNumber");
             dontBlankOutFieldsOnUpdate(customer, existingCustomer, "customerBirthDate");
         }
-        
+
         //  upper case important fields
         upperCaseKeyFields(customer);
-        
+
         //NOTE: What's the reason for determining primary address?? address isn't used afterward
         //  determine whether the batch has a primary address, and which one it is
         boolean batchHasPrimaryAddress = false;
@@ -573,13 +577,13 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         if (isUpdate) {
             boolean addressInBatchCustomer = false;
             List<CustomerAddress> newCusomterAddresses = customer.getCustomerAddresses();
-            
-            // populate a stub address list (with empty addresses) base on the new customer address list size 
+
+            // populate a stub address list (with empty addresses) base on the new customer address list size
             List<CustomerAddress> stubAddresses = new ArrayList<CustomerAddress>();
             for (CustomerAddress batchAddress : newCusomterAddresses) {
                 stubAddresses.add(new CustomerAddress());
             }
-            
+
             for (CustomerAddress existingAddress : existingCustomer.getCustomerAddresses()) {
                 addressInBatchCustomer = false;
                 for (CustomerAddress batchAddress : newCusomterAddresses) {
@@ -587,9 +591,9 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
                         addressInBatchCustomer = true;
                     }
                 }
-                
+
                 if (!addressInBatchCustomer) {
-                    
+
                     //clone the address to avoid changing the existingAddress's type code
                     CustomerAddress clonedExistingAddress = cloneCustomerAddress(existingAddress);
                     //  make sure we don't add a second Primary address, if the batch specifies a primary address, it wins
@@ -602,23 +606,23 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
                     stubAddresses.remove(0);
                 }
             }
-            
+
             //append existing list to the stub list in order to have matching number of address for display, so the merged address from existing list is matched up
             stubAddresses.addAll(existingCustomer.getCustomerAddresses());
             // reset existing customer's address to the stub address list
             existingCustomer.setCustomerAddresses(stubAddresses);
         }
-        
+
         //  set parent customer number to null if blank (otherwise foreign key rule fails)
         if (StringUtils.isBlank(customer.getCustomerParentCompanyNumber())) {
             customer.setCustomerParentCompanyNumber(null);
         }
-        
+
     }
-    
+
     /**
      * Clone the address object
-     * 
+     *
      * @param address
      * @return
      */
@@ -634,120 +638,122 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
     }
 
     protected void upperCaseKeyFields(Customer customer) {
-        
+
         //  customer name
-        if (StringUtils.isNotBlank(customer.getCustomerName())) { 
+        if (StringUtils.isNotBlank(customer.getCustomerName())) {
             customer.setCustomerName(customer.getCustomerName().toUpperCase());
         }
-        
+
         //  customer number
-        if (StringUtils.isNotBlank(customer.getCustomerNumber())) { 
+        if (StringUtils.isNotBlank(customer.getCustomerNumber())) {
             customer.setCustomerNumber(customer.getCustomerNumber().toUpperCase());
         }
-        
+
         //  parent company number
-        if (StringUtils.isNotBlank(customer.getCustomerParentCompanyNumber())) { 
+        if (StringUtils.isNotBlank(customer.getCustomerParentCompanyNumber())) {
             customer.setCustomerParentCompanyNumber(customer.getCustomerParentCompanyNumber().toUpperCase());
         }
-        
+
         //  customer tax type code
-        if (StringUtils.isNotBlank(customer.getCustomerTaxTypeCode())) { 
+        if (StringUtils.isNotBlank(customer.getCustomerTaxTypeCode())) {
             customer.setCustomerTaxTypeCode(customer.getCustomerTaxTypeCode().toUpperCase());
         }
-        
+
         //  customer tax number
-        if (StringUtils.isNotBlank(customer.getCustomerTaxNbr())) { 
+        if (StringUtils.isNotBlank(customer.getCustomerTaxNbr())) {
             customer.setCustomerTaxNbr(customer.getCustomerTaxNbr().toUpperCase());
         }
-        
+
         //  customer contact name
-        if (StringUtils.isNotBlank(customer.getCustomerContactName())) { 
+        if (StringUtils.isNotBlank(customer.getCustomerContactName())) {
             customer.setCustomerContactName(customer.getCustomerContactName().toUpperCase());
         }
-        
+
         //  customer credit approved by name
-        if (StringUtils.isNotBlank(customer.getCustomerCreditApprovedByName())) { 
+        if (StringUtils.isNotBlank(customer.getCustomerCreditApprovedByName())) {
             customer.setCustomerCreditApprovedByName(customer.getCustomerCreditApprovedByName().toUpperCase());
         }
-        
+
         //  customer email address
-        if (StringUtils.isNotBlank(customer.getCustomerEmailAddress())) { 
+        if (StringUtils.isNotBlank(customer.getCustomerEmailAddress())) {
             customer.setCustomerEmailAddress(customer.getCustomerEmailAddress().toUpperCase());
         }
-        
+
         for (CustomerAddress address : customer.getCustomerAddresses()) {
-            
-            if (address == null) continue;
-            
+
+            if (address == null) {
+                continue;
+            }
+
             //  customer number
             if (StringUtils.isNotBlank(address.getCustomerNumber())) {
                 address.setCustomerNumber(address.getCustomerNumber().toUpperCase());
             }
-            
+
             //  customer address name
             if (StringUtils.isNotBlank(address.getCustomerAddressName())) {
                 address.setCustomerAddressName(address.getCustomerAddressName().toUpperCase());
             }
-            
+
             //  customerLine1StreetAddress
             if (StringUtils.isNotBlank(address.getCustomerLine1StreetAddress())) {
                 address.setCustomerLine1StreetAddress(address.getCustomerLine1StreetAddress().toUpperCase());
             }
-            
+
             //  customerLine2StreetAddress
             if (StringUtils.isNotBlank(address.getCustomerLine2StreetAddress())) {
                 address.setCustomerLine2StreetAddress(address.getCustomerLine2StreetAddress().toUpperCase());
             }
-            
+
             //  customerCityName
             if (StringUtils.isNotBlank(address.getCustomerCityName())) {
                 address.setCustomerCityName(address.getCustomerCityName().toUpperCase());
             }
-            
+
             //  customerStateCode
             if (StringUtils.isNotBlank(address.getCustomerStateCode())) {
                 address.setCustomerStateCode(address.getCustomerStateCode().toUpperCase());
             }
-            
+
             //  customerZipCode
             if (StringUtils.isNotBlank(address.getCustomerZipCode())) {
                 address.setCustomerZipCode(address.getCustomerZipCode().toUpperCase());
             }
-            
+
             //  customerCountryCode
             if (StringUtils.isNotBlank(address.getCustomerNumber())) {
                 address.setCustomerNumber(address.getCustomerNumber().toUpperCase());
             }
-            
+
             //  customerAddressInternationalProvinceName
             if (StringUtils.isNotBlank(address.getCustomerAddressInternationalProvinceName())) {
                 address.setCustomerAddressInternationalProvinceName(address.getCustomerAddressInternationalProvinceName().toUpperCase());
             }
-            
+
             //  customerInternationalMailCode
             if (StringUtils.isNotBlank(address.getCustomerInternationalMailCode())) {
                 address.setCustomerInternationalMailCode(address.getCustomerInternationalMailCode().toUpperCase());
             }
-            
+
             //  customerEmailAddress
             if (StringUtils.isNotBlank(address.getCustomerEmailAddress())) {
                 address.setCustomerEmailAddress(address.getCustomerEmailAddress().toUpperCase());
             }
-            
+
             //  customerAddressTypeCode
             if (StringUtils.isNotBlank(address.getCustomerAddressTypeCode())) {
                 address.setCustomerAddressTypeCode(address.getCustomerAddressTypeCode().toUpperCase());
             }
-            
+
         }
     }
-    
+
     /**
-     * 
-     * This messy thing attempts to compare a property on the batch customer (new) and existing customer, and if 
-     * the new is blank, but the old is there, to overwrite the new-value with the old-value, thus preventing 
+     *
+     * This messy thing attempts to compare a property on the batch customer (new) and existing customer, and if
+     * the new is blank, but the old is there, to overwrite the new-value with the old-value, thus preventing
      * batch uploads from blanking out certain fields.
-     * 
+     *
      * @param batchCustomer
      * @param existingCustomer
      * @param propertyName
@@ -756,7 +762,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         String batchValue;
         String existingValue;
         Class<?> propertyClass = null;
-        
+
         //  try to retrieve the property type to see if it exists at all
         try {
             propertyClass = PropertyUtils.getPropertyType(batchCustomer, propertyName);
@@ -764,12 +770,12 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         catch (Exception e) {
             throw new RuntimeException("Could not access properties on the Customer object.", e);
         }
-        
+
         //  if the property doesnt exist, then throw an exception
         if (propertyClass == null) {
             throw new IllegalArgumentException("The propertyName specified [" + propertyName + "] doesnt exist on the Customer object.");
         }
-        
+
         //  get the String values of both batch and existing, to compare
         try {
             batchValue = BeanUtils.getSimpleProperty(batchCustomer, propertyName);
@@ -778,11 +784,11 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         catch (Exception e) {
             throw new RuntimeException("Could not access properties on the Customer object.", e);
         }
-        
+
         //  if the existing is non-blank, and the new is blank, then over-write the new with the existing value
         if (StringUtils.isBlank(batchValue) && StringUtils.isNotBlank(existingValue)) {
 
-            //  get the real typed value, and then try to set the property value 
+            //  get the real typed value, and then try to set the property value
             try {
                 Object typedValue = PropertyUtils.getProperty(existingCustomer, propertyName);
                 BeanUtils.setProperty(batchCustomer, propertyName, typedValue);
@@ -792,24 +798,24 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             }
         }
     }
-    
+
     protected boolean validateSingle(MaintenanceDocument maintDoc, CustomerLoadBatchErrors batchErrors, String customerName) {
         boolean result = true;
-        
-        //  get an instance of the business rule 
+
+        //  get an instance of the business rule
         CustomerRule rule = new CustomerRule();
-        
+
         //  run the business rules
         result &= rule.processRouteDocument(maintDoc);
-        
+
         extractGlobalVariableErrors(batchErrors, customerName);
-        
+
         return result;
     }
-    
+
     protected boolean extractGlobalVariableErrors(CustomerLoadBatchErrors batchErrors, String customerName) {
         boolean result = true;
-        
+
         MessageMap messageMap = GlobalVariables.getMessageMap();
 
         Set<String> errorKeys = messageMap.getAllPropertiesWithErrors();
@@ -817,14 +823,14 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         Object[] messageParams;
         String errorKeyString;
         String errorString;
-        
+
         for (String errorProperty : errorKeys) {
-            errorMessages = (List<ErrorMessage>) messageMap.getErrorMessagesForProperty(errorProperty);
+            errorMessages = messageMap.getErrorMessagesForProperty(errorProperty);
             for (ErrorMessage errorMessage : errorMessages) {
-                errorKeyString = configService.getPropertyValueAsString(errorMessage.getErrorKey()); 
+                errorKeyString = configService.getPropertyValueAsString(errorMessage.getErrorKey());
                 messageParams = errorMessage.getMessageParameters();
-                
-                // MessageFormat.format only seems to replace one 
+
+                // MessageFormat.format only seems to replace one
                 // per pass, so I just keep beating on it until all are gone.
                 if (StringUtils.isBlank(errorKeyString)) {
                     errorString = errorMessage.getErrorKey();
@@ -839,17 +845,17 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
                 result = false;
             }
         }
-        
+
         //  clear the stuff out of globalvars, as we need to reformat it and put it back
         GlobalVariables.getMessageMap().clearErrorMessages();
         return result;
     }
-    
+
     protected MaintenanceDocument createTransientMaintDoc() {
         MaintenanceDocument maintDoc = new MaintenanceDocumentBase(getCustomerMaintenanceDocumentTypeName());
         return maintDoc;
     }
-    
+
     protected MaintenanceDocument createRealMaintDoc(MaintenanceDocument document) {
         if (document == null) {
             try {
@@ -861,13 +867,13 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         }
         return document;
     }
-    
+
     /**
      */
     protected Customer customerAlreadyExists(Customer customer) {
-        
+
         Customer existingCustomer = null;
-        
+
         //  test existence by customerNumber, if one is passed in
         if (StringUtils.isNotBlank(customer.getCustomerNumber())) {
             existingCustomer = customerService.getByPrimaryKey(customer.getCustomerNumber());
@@ -875,7 +881,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
                 return existingCustomer;
             }
         }
-        
+
         //  test existence by TaxNumber, if one is passed in
         if (StringUtils.isNotBlank(customer.getCustomerTaxNbr())) {
             existingCustomer = customerService.getByTaxNumber(customer.getCustomerTaxNbr());
@@ -883,7 +889,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
                 return existingCustomer;
             }
         }
-        
+
         //  test existence by Customer Name.  this is looking for an exact match, so isnt terribly effective
         if (StringUtils.isNotBlank(customer.getCustomerName())) {
             existingCustomer = customerService.getCustomerByName(customer.getCustomerName());
@@ -891,70 +897,70 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
                 return existingCustomer;
             }
         }
-        
+
         //  return a null Customer if no matches were found
         return existingCustomer;
     }
-    
+
     protected void writeReportPDF(List<CustomerLoadFileResult> fileResults) {
-        
+
         if (fileResults.isEmpty()) {
             return;
         }
-        
+
         //  setup the PDF business
         Document pdfDoc = new Document(PageSize.LETTER, 54, 54, 72, 72);
         getPdfWriter(pdfDoc);
         pdfDoc.open();
-        
+
         if (fileResults.isEmpty()) {
             writeFileNameSectionTitle(pdfDoc, "NO DOCUMENTS FOUND TO PROCESS");
             return;
         }
-        
+
         CustomerLoadResult result;
         String customerResultLine;
-        for (CustomerLoadFileResult fileResult : fileResults) { 
-            
+        for (CustomerLoadFileResult fileResult : fileResults) {
+
             //  file name title
             String fileNameOnly = fileResult.getFilename().toUpperCase();
             fileNameOnly = fileNameOnly.substring(fileNameOnly.lastIndexOf("\\") + 1);
             writeFileNameSectionTitle(pdfDoc, fileNameOnly);
-            
+
             //  write any file-general messages
             writeMessageEntryLines(pdfDoc, fileResult.getMessages());
-            
+
             //  walk through each customer included in this file
             for (String customerName : fileResult.getCustomerNames()) {
                 result = fileResult.getCustomer(customerName);
-                
+
                 //  write the customer title
                 writeCustomerSectionTitle(pdfDoc, customerName.toUpperCase());
-                
+
                 //  write a success/failure results line for this customer
                 customerResultLine = result.getResultString() + (ResultCode.SUCCESS.equals(result.getResult()) ? WORKFLOW_DOC_ID_PREFIX + result.getWorkflowDocId() : "");
                 writeCustomerSectionResult(pdfDoc, customerResultLine);
-                
-                //  write any customer messages 
+
+                //  write any customer messages
                 writeMessageEntryLines(pdfDoc, result.getMessages());
             }
         }
-        
+
         pdfDoc.close();
     }
-    
+
     protected void writeFileNameSectionTitle(Document pdfDoc, String filenameLine) {
         Font font = FontFactory.getFont(FontFactory.COURIER, 10, Font.BOLD);
-        
+
         Paragraph paragraph = new Paragraph();
         paragraph.setAlignment(Element.ALIGN_LEFT);
         Chunk chunk = new Chunk(filenameLine, font);
         chunk.setBackground(Color.LIGHT_GRAY, 5, 5, 5, 5);
         paragraph.add(chunk);
-        
+
         //  blank line
         paragraph.add(new Chunk("", font));
-        
+
         try {
             pdfDoc.add(paragraph);
         }
@@ -963,17 +969,17 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             throw new RuntimeException("iText DocumentException thrown when trying to write content.", e);
         }
     }
-    
+
     protected void writeCustomerSectionTitle(Document pdfDoc, String customerNameLine) {
         Font font = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD + Font.UNDERLINE);
-        
+
         Paragraph paragraph = new Paragraph();
         paragraph.setAlignment(Element.ALIGN_LEFT);
         paragraph.add(new Chunk(customerNameLine, font));
 
         //  blank line
         paragraph.add(new Chunk("", font));
-        
+
         try {
             pdfDoc.add(paragraph);
         }
@@ -982,17 +988,17 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             throw new RuntimeException("iText DocumentException thrown when trying to write content.", e);
         }
     }
-    
+
     protected void writeCustomerSectionResult(Document pdfDoc, String resultLine) {
         Font font = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
-        
+
         Paragraph paragraph = new Paragraph();
         paragraph.setAlignment(Element.ALIGN_LEFT);
         paragraph.add(new Chunk(resultLine, font));
 
         //  blank line
         paragraph.add(new Chunk("", font));
-        
+
         try {
             pdfDoc.add(paragraph);
         }
@@ -1001,10 +1007,10 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             throw new RuntimeException("iText DocumentException thrown when trying to write content.", e);
         }
     }
-    
+
     protected void writeMessageEntryLines(Document pdfDoc, List<String[]> messageLines) {
         Font font = FontFactory.getFont(FontFactory.COURIER, 8, Font.NORMAL);
-        
+
         Paragraph paragraph;
         String messageEntry;
         for (String[] messageLine : messageLines) {
@@ -1015,7 +1021,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
 
             //  blank line
             paragraph.add(new Chunk("", font));
-            
+
             try {
                 pdfDoc.add(paragraph);
             }
@@ -1025,13 +1031,13 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             }
         }
     }
-    
+
     protected void getPdfWriter(Document pdfDoc) {
-        
+
         String reportDropFolder = reportsDirectory + "/" + ArConstants.CustomerLoad.CUSTOMER_LOAD_REPORT_SUBFOLDER + "/";
-        String fileName = ArConstants.CustomerLoad.BATCH_REPORT_BASENAME + "_" +  
+        String fileName = ArConstants.CustomerLoad.BATCH_REPORT_BASENAME + "_" +
             new SimpleDateFormat("yyyyMMdd_HHmmssSSS").format(dateTimeService.getCurrentDate()) + ".pdf";
-       
+
         //  setup the writer
         File reportFile = new File(reportDropFolder + fileName);
         FileOutputStream fileOutStream;
@@ -1043,7 +1049,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             throw new RuntimeException("IOException thrown when trying to open the FileOutputStream.", e);
         }
         BufferedOutputStream buffOutStream = new BufferedOutputStream(fileOutStream);
-        
+
         try {
             PdfWriter.getInstance(pdfDoc, buffOutStream);
         }
@@ -1051,7 +1057,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
             LOG.error("iText DocumentException thrown when trying to start a new instance of the PdfWriter.", e);
             throw new RuntimeException("iText DocumentException thrown when trying to start a new instance of the PdfWriter.", e);
         }
-        
+
     }
 
     public void setBatchInputFileService(BatchInputFileService batchInputFileService) {
@@ -1069,7 +1075,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
     public void setDocService(DocumentService docService) {
         this.docService = docService;
     }
-    
+
     public void setBatchInputFileTypes(List<BatchInputFileType> batchInputFileType) {
         this.batchInputFileTypes = batchInputFileType;
     }
@@ -1100,7 +1106,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
 
     /**
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#getFileName()
-     * 
+     *
      * this is abstracted from the CustomerLoadInputFileType
      */
     @Override
@@ -1108,15 +1114,15 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
 
         //  start with the batch-job-prefix
         StringBuilder fileName = new StringBuilder(delim);
-        
+
         //  add the logged-in user name if there is one, otherwise use a sensible default
         fileName.append(delim + principalName);
-        
+
         //  if the user specified an identifying lable, then use it
         if (StringUtils.isNotBlank(fileUserIdentifer)) {
             fileName.append(delim + fileUserIdentifer);
         }
-        
+
         //  stick a timestamp on the end
         fileName.append(delim + dateTimeService.toString(dateTimeService.getCurrentTimestamp(), "yyyyMMdd_HHmmss"));
 
@@ -1126,25 +1132,27 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
 
     /**
      * LOG error and throw RunTimeException
-     * 
+     *
      * @param errorMessage
      */
     private void criticalError(String errorMessage){
         LOG.error(errorMessage);
         throw new RuntimeException(errorMessage);
     }
-    
+
     /**
      * @see org.kuali.kfs.sys.batch.InitiateDirectoryBase#getRequiredDirectoryNames()
      */
     @Override
     public List<String> getRequiredDirectoryNames() {
         List<String> directoryNames = new ArrayList<String>();
-        for (BatchInputFileType batchInputFileType : batchInputFileTypes){
-            directoryNames.add(batchInputFileType.getDirectoryPath());
+        if(ObjectUtils.isNotNull(batchInputFileTypes) && !CollectionUtils.isEmpty(batchInputFileTypes)) {
+            for (BatchInputFileType batchInputFileType : batchInputFileTypes){
+                directoryNames.add(batchInputFileType.getDirectoryPath());
+            }
         }
         return directoryNames;
     }
-    
+
 }
 

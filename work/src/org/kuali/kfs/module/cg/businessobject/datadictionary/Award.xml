@@ -951,29 +951,6 @@
 		</property>
 	</bean>
 
-	<bean id="Award-letterOfCreditFundCode" parent="Award-letterOfCreditFundCode-parentBean" />
-
-	<bean id="Award-letterOfCreditFundCode-parentBean" abstract="true"
-		parent="LetterOfCreditFund-letterOfCreditFundCode">
-		<property name="label" value="Invoicing Letter Of Credit Fund" />
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.LetterOfCreditFundValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
-
-	<bean id="Award-letterOfCreditFundCode" parent="Award-letterOfCreditFundCode-parentBean" />
-
-	<bean id="Award-letterOfCreditFundCode-parentBean" abstract="true"
-		parent="LetterOfCreditFund-letterOfCreditFundCode">
-		<property name="label" value="Invoicing Letter Of Credit Fund" />
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.kfs.module.cg.businessobject.options.LetterOfCreditFundValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
-	</bean>
 	<bean id="Award-oldProposalNumber" parent="Award-oldProposalNumber-parentBean" />
 
 	<bean id="Award-oldProposalNumber-parentBean" abstract="true"

@@ -301,7 +301,7 @@
   </bean>
   <bean id="OrganizationOptions-organizationRemitToStateCode" parent="OrganizationOptions-organizationRemitToStateCode-parentBean"/>
 
-  <bean id="OrganizationOptions-organizationRemitToStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.State" p:sourceAttributeName="stateCode">
+  <bean id="OrganizationOptions-organizationRemitToStateCode-parentBean" abstract="true" parent="State-code">
     <property name="name" value="organizationRemitToStateCode"/>
     <property name="control">
         <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.StateCodeValuesFinder" p:includeKeyInLabel="false"/>
@@ -309,7 +309,7 @@
   </bean>
   <bean id="OrganizationOptions-organizationRemitToZipCode" parent="OrganizationOptions-organizationRemitToZipCode-parentBean"/>
 
-  <bean id="OrganizationOptions-organizationRemitToZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode" p:sourceAttributeName="postalCode">
+  <bean id="OrganizationOptions-organizationRemitToZipCode-parentBean" abstract="true" parent="PostalCode-code">
     <property name="name" value="organizationRemitToZipCode"/>
     <property name="required" value="true"/>
   </bean>
@@ -357,23 +357,27 @@
     </property>
   </bean>
   
-  <bean id="OrganizationOptions-organizationPostalZipCode" parent="OrganizationOptions-organizationPostalZipCode-parentBean"/>
-  
-  <bean id="OrganizationOptions-organizationPostalZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode" p:sourceAttributeName="postalCode">
-    <property name="name" value="organizationPostalZipCode"/>
-    <property name="label" value="Organization Postal Code"/>
-    <property name="shortLabel" value="Org Postal Cd"/>
-    <property name="required" value="false"/>
-  </bean>
+  <bean id="OrganizationOptions-organizationPostalZipCode"
+		parent="OrganizationOptions-organizationPostalZipCode-parentBean" />
 
-  <bean id="OrganizationOptions-organizationPostalCountryCode" parent="OrganizationOptions-organizationPostalCountryCode-parentBean"/>
-  
-  <bean id="OrganizationOptions-organizationPostalCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.krad.bo.PostalCode" p:sourceAttributeName="postalCountryCode">
-    <property name="name" value="organizationPostalCountryCode"/>
-    <property name="label" value="Organization Postal Country Code"/>
-    <property name="shortLabel" value="Org Country Cd"/>
-    <property name="required" value="false"/>
-  </bean>
+	<bean id="OrganizationOptions-organizationPostalZipCode-parentBean"
+		abstract="true" parent="PostalCode-code">
+		<property name="name" value="organizationPostalZipCode" />
+		<property name="label" value="Organization Postal Code" />
+		<property name="shortLabel" value="Org Postal Cd" />
+		<property name="required" value="false" />
+	</bean>
+
+<bean id="OrganizationOptions-organizationPostalCountryCode"
+		parent="OrganizationOptions-organizationPostalCountryCode-parentBean" />
+
+	<bean id="OrganizationOptions-organizationPostalCountryCode-parentBean"
+		abstract="true" parent="Country-code">
+		<property name="name" value="organizationPostalCountryCode" />
+		<property name="label" value="Organization Postal Country Code" />
+		<property name="shortLabel" value="Org Country Cd" />
+		<property name="required" value="false" />
+	</bean>
   
 <!-- Business Object Inquiry Definition -->
 	<bean id="OrganizationOptions-inquiryDefinition" parent="OrganizationOptions-inquiryDefinition-parentBean"/>

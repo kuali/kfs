@@ -251,18 +251,11 @@
 		</property>
 	</bean>
 
-	<bean id="routingFormResearchRiskService" class="org.kuali.kfs.module.cg.document.service.impl.RoutingFormResearchRiskServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-	</bean>
-
-	<bean id="researchRiskReviewRoleTypeService" class="org.kuali.kfs.module.cg.identity.ResearchRiskReviewRoleTypeServiceImpl" />
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<!-- <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfsService" p:service-ref="researchRiskReviewRoleTypeService" p:localServiceName="researchRiskReviewRoleTypeService" />
 		</property>
-	</bean>
+	</bean> -->
 
 	<bean id="agencyAddressService" class="org.kuali.kfs.module.cg.document.service.impl.AgencyAddressServiceImpl">
 		<property name="businessObjectService">

@@ -43,7 +43,7 @@
 
 <!-- Attribute Definitions -->
 
-
+<bean id="CashControlDetail-customerNumber" parent="CashControlDetail-customerNumber-parentBean"/>
 	<bean id="CashControlDetail-customerNumber-parentBean" abstract="true"
 		parent="Customer-customerNumber">
 		<property name="shortLabel" value="Customer #" />
@@ -127,12 +127,6 @@
 		<property name="label" value="Status" />
 		<property name="shortLabel" value="Status" />
 	</bean>
-
-  <bean id="CashControlDetail-status-parentBean" abstract="true" parent="GenericAttributes-financialDocumentStatusName">
-    <property name="name" value="status"/>
-    <property name="label" value="Status"/>
-    <property name="shortLabel" value="Status"/>
-  </bean>
   
   <bean id="CashControlDetail-toCorrectIndicator" parent="CashControlDetail-toCorrectIndicator-parentBean"/>
 
@@ -142,7 +136,9 @@
     <property name="label" value="To Correct Indicator"/>
     <property name="shortLabel" value="To Correct Indicator"/>
     <property name="maxLength" value="1"/>
-    <property name="control" ref="CheckboxControl" />
+    <property name="control">
+			<bean parent="CheckboxControlDefinition" />
+	</property>
     <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   </bean>
   

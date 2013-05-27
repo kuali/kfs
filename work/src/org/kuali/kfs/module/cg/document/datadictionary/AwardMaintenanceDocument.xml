@@ -181,7 +181,7 @@
 								p:unconditionallyReadOnly="true" />
 							<bean parent="MaintainableFieldDefinition" p:name="projectDirector.principalName"
 								p:required="true" p:overrideFieldConversions="principalId:principalId"
-								p:overrideLookupClass="org.kuali.rice.kim.bo.impl.PersonImpl"
+								p:overrideLookupClass="org.kuali.rice.kim.api.identity.Person"
 								p:webUILeaveFieldFunction="proposalDirectorIDLookup" />
 							<bean parent="MaintainableFieldDefinition" p:name="projectDirector.name"
 								p:unconditionallyReadOnly="true" />

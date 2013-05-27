@@ -252,19 +252,13 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
-		</property>
 		<property name="cashManagementDao">
 			<ref bean="cashManagementDao" />
 		</property>
 		<property name="cashDrawerService">
 			<ref bean="cashDrawerService" />
 		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
-					</property>
-			<property name="dataDictionaryService">
+		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
 		<property name="dictionaryValidationService" ref="dictionaryValidationService" />

@@ -96,7 +96,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
     /* Start TEM REFUND Merge */
     private PaymentReasonCode refundPaymentReason;
     private ObjectCode refundObjectCode;
-//    private DisbursementVoucherDocumentationLocation refundDocumentationLocation;
+    private DisbursementVoucherDocumentationLocation refundDocumentationLocation;
     /* End TEM REFUND Merge */
     /* Start TEM REFUND Merge */
     private String refundPaymentReasonCode;
@@ -107,6 +107,14 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
 	public Person getFinancialDocumentInitiator() {
 	    financialDocumentInitiator = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(financialDocumentInitiatorIdentifier, financialDocumentInitiator);
         return financialDocumentInitiator;
+    }
+
+    public DisbursementVoucherDocumentationLocation getRefundDocumentationLocation() {
+        return refundDocumentationLocation;
+    }
+
+    public void setRefundDocumentationLocation(DisbursementVoucherDocumentationLocation refundDocumentationLocation) {
+        this.refundDocumentationLocation = refundDocumentationLocation;
     }
 
     public void setFinancialDocumentInitiator(Person financialDocumentInitiator) {

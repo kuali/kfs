@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cg.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,12 +50,18 @@ import org.kuali.kfs.module.external.kc.util.KcUtils;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService; import org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.DocumentAuthorizer;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -473,7 +480,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
     private boolean isAwardExists(String awardId){
         Map<String, String> map = new HashMap<String, String>();
         map.put("awardId", awardId);
-        Collection<Award> awards = (Collection<Award>)KNSServiceLocator.getBusinessObjectService().findMatching(Award.class, map);
+        Collection<Award> awards = SpringContext.getBean(BusinessObjectService.class).findMatching(Award.class, map);
         if(awards!=null && !awards.isEmpty()){
             return true;
         }
@@ -484,12 +491,12 @@ public class AwardCreationServiceImpl implements AwardCreationService {
 
     private String getAwardDocumentNumberNotFinal(String awardId) throws WorkflowException{
 
-        DocumentSearchCriteria documentSearchCriteriaDTO = new DocumentSearchCriteriaDTO();
-        documentSearchCriteriaDTO.setDocTypeFullName(CGConstants.AWARD);
-        documentSearchCriteriaDTO.setDocRouteStatus(KewApiConstants.ROUTE_HEADER_SAVED_CD);
+        DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
+        criteria.setSaveName(CGConstants.AWARD);
+        criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.SAVED));
 
         // find documents in saved status
-        DocumentSearchResultDTO results = KNSServiceLocator.SpringContext.getBean(WorkflowDocumentService.class).performDocumentSearch(documentSearchCriteriaDTO);
+        DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(GlobalVariables.getUserSession().getPrincipalId(), criteria.build());
 
         String documentNumber = getDocumentNumberByMatchingAwardId(results, awardId);
 
@@ -498,14 +505,14 @@ public class AwardCreationServiceImpl implements AwardCreationService {
         }
 
         // find documents still enroute
-        documentSearchCriteriaDTO.setDocRouteStatus(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
-        results = KNSServiceLocator.SpringContext.getBean(WorkflowDocumentService.class).performDocumentSearch(documentSearchCriteriaDTO);
+        criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.ENROUTE));
+        results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(GlobalVariables.getUserSession().getPrincipalId(), criteria);
 
         return getDocumentNumberByMatchingAwardId(results, awardId);
     }
 
-    private String getDocumentNumberByMatchingAwardId(DocumentSearchResultDTO results, String awardId) throws WorkflowException{
-        for (DocumentSearchResultRowDTO resultRow: results.getSearchResults()) {
+    private String getDocumentNumberByMatchingAwardId(DocumentSearchResults results, String awardId) throws WorkflowException{
+        for (DocumentSearchResult resultRow: results.getSearchResults()) {
             boolean isExist = false;
             String documentNumber = "";
             for (KeyValue field : resultRow.getFieldValues()) {
@@ -527,7 +534,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("sponsorCode", sponsorCode);
 
-        List<Agency> agencies = (List<Agency>)KNSServiceLocator.getBusinessObjectService().findMatching(Agency.class, criteria);
+        List<Agency> agencies = (List<Agency>)SpringContext.getBean(BusinessObjectService.class).findMatching(Agency.class, criteria);
         if(agencies!=null && !agencies.isEmpty()){
             agencyNumber = agencies.get(0).getAgencyNumber();
         }
@@ -622,17 +629,17 @@ public class AwardCreationServiceImpl implements AwardCreationService {
     }
 
     protected boolean isAwardStatusCodeExist(String awardStatusCode){
-        AwardStatus awardStatus = (AwardStatus)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(AwardStatus.class, awardStatusCode);
+        AwardStatus awardStatus = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(AwardStatus.class, awardStatusCode);
         return (ObjectUtils.isNotNull(awardStatus));
     }
 
     protected boolean isProposalPurposeCodeExist(String proposalPurposeCode){
-        ProposalPurpose proposalPurpose = (ProposalPurpose)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(ProposalPurpose.class, proposalPurposeCode);
+        ProposalPurpose proposalPurpose = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(ProposalPurpose.class, proposalPurposeCode);
         return (ObjectUtils.isNotNull(proposalPurpose));
     }
 
     protected boolean isProposalAwardTypeCodeExist(String proposalAwardTypeCode){
-        ProposalAwardType proposalAwardType = (ProposalAwardType)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(ProposalAwardType.class, proposalAwardTypeCode);
+        ProposalAwardType proposalAwardType = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(ProposalAwardType.class, proposalAwardTypeCode);
         return (ObjectUtils.isNotNull(proposalAwardType));
     }
 

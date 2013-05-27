@@ -523,13 +523,12 @@ public class PaymentApplicationDocumentServiceImpl implements PaymentApplication
         if (documents != null && !documents.isEmpty()) {
             PaymentApplicationDocument document = documents.get(0);
 
-            Note note = new Note();
-            note.setNoteText(noteText);
+            Note note = documentService.createNoteFromDocument(document, noteText);
             note.setRemoteObjectIdentifier(document.getObjectId());
             note.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPrincipalId());
             note.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
 
-            document.getDocumentHeader().addNote(note);
+            document.addNote(note);
 
             businessObjectService.save(document);
         }

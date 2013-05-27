@@ -52,7 +52,7 @@ public class FundsManagerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServi
         List<RoleMembership> roleMembers = super.getRoleMembersFromDerivedRole(namespaceCode, roleName, qualification);
 
         if (ObjectUtils.isNotNull(qualification) && !qualification.isEmpty()) {
-            String documentNumber = qualification.get(DOCUMENT_NUMBER);
+            String documentNumber = qualification.get("documentNumber");
             if (StringUtils.isNotBlank(documentNumber)) {
                 ContractsGrantsInvoiceDocument contractsGrantsInvoiceDocument = (ContractsGrantsInvoiceDocument) getDocument(documentNumber);
                 ContractsAndGrantsCGBAward award = contractsGrantsInvoiceDocument.getAward();

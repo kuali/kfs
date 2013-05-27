@@ -310,5 +310,21 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
         return null;
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getAwardBilledToDateByProposalNumber(java.lang.Long)
+     */
+    public KualiDecimal getAwardBilledToDateByProposalNumber(Long proposalNumber) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return null;
+    }
+
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#calculateTotalPaymentsToDateByAward(java.lang.Long)
+     */
+    public KualiDecimal calculateTotalPaymentsToDateByAward(Long proposalNumber) {
+        LOG.warn("Using No-Op " + getClass().getSimpleName() + " service.");
+        return null;
+
+    }
 
 }

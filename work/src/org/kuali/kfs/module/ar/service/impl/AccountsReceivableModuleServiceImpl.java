@@ -49,6 +49,7 @@ import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
@@ -79,7 +80,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 @SuppressWarnings("deprecation")
 public class AccountsReceivableModuleServiceImpl implements AccountsReceivableModuleService {
     protected static final String CASH_CONTROL_ELECTRONIC_PAYMENT_CLAIMING_DOCUMENT_GENERATION_STRATEGY_BEAN_NAME = "cashControlElectronicPaymentClaimingDocumentHelper";
-
+    private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
     protected Lookupable customerLookupable;
 
     public void setCustomerLookupable(Lookupable customerLookupable) {
@@ -98,6 +99,23 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         return SpringContext.getBean(DocumentService.class);
     }
 
+    /**
+     * Gets the contractsGrantsInvoiceDocumentService attribute.
+     *
+     * @return Returns the contractsGrantsInvoiceDocumentService.
+     */
+    public ContractsGrantsInvoiceDocumentService getContractsGrantsInvoiceDocumentService() {
+        return SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
+    }
+
+    /**
+     * Sets the contractsGrantsInvoiceDocumentService attribute value.
+     *
+     * @param contractsGrantsInvoiceDocumentService The contractsGrantsInvoiceDocumentService to set.
+     */
+    public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {
+        this.contractsGrantsInvoiceDocumentService = contractsGrantsInvoiceDocumentService;
+    }
     /**
      * @see org.kuali.kfs.integration.service.AccountsReceivableModuleService#getAccountsReceivablePaymentClaimingStrategy()
      */

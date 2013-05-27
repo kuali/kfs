@@ -190,10 +190,10 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
             HashMap<String, String> criteria = new HashMap<String, String>();
             criteria.put("code", pdEmplStatusCode);
             if (StringUtils.isBlank(pdEmplStatusCode) || Arrays.asList(PROJECT_DIRECTOR_INVALID_STATUSES).contains(pdEmplStatusCode)) {
-                EmploymentStatusImpl empStatus = (EmploymentStatusImpl) getBoService().findByPrimaryKey(EmploymentStatusImpl.class, criteria);
-                String pdEmplStatusName = (empStatus != null) ? empStatus.getName() : "INVALID STATUS CODE " + pdEmplStatusCode;
-                String[] errors = { pd.getProjectDirector().getName(), pdEmplStatusCode + " - " + pdEmplStatusName };
-                putFieldError(propertyName, KFSKeyConstants.ERROR_INVALID_PROJECT_DIRECTOR_STATUS, errors);
+//                EmploymentStatusImpl empStatus = (EmploymentStatusImpl) getBoService().findByPrimaryKey(EmploymentStatusImpl.class, criteria);
+//                String pdEmplStatusName = (empStatus != null) ? empStatus.getName() : "INVALID STATUS CODE " + pdEmplStatusCode;
+//                String[] errors = { pd.getProjectDirector().getName(), pdEmplStatusCode + " - " + pdEmplStatusName };
+//                putFieldError(propertyName, KFSKeyConstants.ERROR_INVALID_PROJECT_DIRECTOR_STATUS, errors);
                 success = false;
             }
         }

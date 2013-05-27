@@ -120,7 +120,7 @@ public class FinalInvoiceReversalValidation {
      * @return
      */
     public static boolean entryValidations(ContractsGrantsInvoiceDocument document) {
-        if (!document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(ArConstants.DOCUMENT_STATUS_FINAL)) {
+        if (!document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus().equals(ArConstants.DOCUMENT_STATUS_FINAL)) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_INVOICE_REVERSAL_ENTRIES_PROPERTY_PATH, ArKeyConstants.FINAL_INVOICE_REVERSAL_EDOC_ERROR_KEY, INVOICE_NOT_FINALIZED_ERROR_MESSAGE);
             return false;
         }

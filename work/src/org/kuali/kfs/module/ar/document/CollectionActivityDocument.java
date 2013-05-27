@@ -34,11 +34,12 @@ import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentSe
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.ModuleConfiguration;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -453,5 +454,9 @@ public class CollectionActivityDocument extends FinancialSystemTransactionalDocu
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         return m;
+    }
+
+    public String getFinancialDocumentTypeCode() {
+        return SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
     }
 }

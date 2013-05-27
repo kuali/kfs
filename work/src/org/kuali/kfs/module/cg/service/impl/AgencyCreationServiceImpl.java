@@ -375,10 +375,10 @@ public class AgencyCreationServiceImpl implements AgencyCreationService {
             if(countryCode.length()>2){
                 Map<String, String> criteria = new HashMap<String, String>();
                 criteria.put("alternatePostalCountryCode", countryCode);
-                Collection<CountryImpl> countries = getBusinessObjectService().findMatching(CountryImpl.class, criteria );
-                if(countries!=null && !countries.isEmpty()){
-                    return countries.iterator().next().getPostalCountryCode();
-                }
+//                Collection<CountryImpl> countries = getBusinessObjectService().findMatching(CountryImpl.class, criteria );
+//                if(countries!=null && !countries.isEmpty()){
+//                    return countries.iterator().next().getPostalCountryCode();
+//                }
             }
         }
 

@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Business Object Property Constants for KFS-AR.
@@ -243,6 +242,8 @@ public class ArPropertyConstants{
         public static final String LOCKBOX_NUMBER = "lockboxNumber";
         public static final String ORGANIZATION_REMIT_TO_STATE_CODE = "organizationRemitToStateCode";
         public static final String ORGANIZATION_REMIT_TO_ZIP_CODE = "organizationRemitToZipCode";
+        public static final String ACTIVE = "active";
+        public static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
     }
 
     // CustomerInvoiceItemCodes

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,9 +33,10 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This Class provides implementation to the services required for inter module communication.
@@ -67,7 +68,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#getProjectDirectorForAccount(org.kuali.kfs.coa.businessobject.Account)
      */
     public Person getProjectDirectorForAccount(Account account) {
-        
+
         if (ObjectUtils.isNotNull(account)) {
             account.refreshNonUpdateableReferences();
             String chartOfAccountsCode = account.getChartOfAccountsCode();
@@ -97,7 +98,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
 
     /**
      * get the primary award account for the given account
-     * 
+     *
      * @param account the given account
      * @return the primary award account for the given account
      */
@@ -151,7 +152,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
 
     /**
      * retieve the maxium account responsiblity id from system parameter
-     * 
+     *
      * @return the maxium account responsiblity id from system parameter
      */
     protected int getMaxiumAccountResponsibilityId() {
@@ -161,7 +162,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
 
     /**
      * Returns an implementation of the parameterService
-     * 
+     *
      * @return an implementation of the parameterService
      */
     public ParameterService getParameterService() {
@@ -170,7 +171,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
 
     /**
      * Returns the default implementation of the C&G AgencyService
-     * 
+     *
      * @return an implementation of AgencyService
      */
     public AgencyService getAgencyService() {
@@ -179,7 +180,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
 
     /**
      * Returns an implementation of the CfdaService
-     * 
+     *
      * @return an implementation of the CfdaService
      */
     public CfdaService getCfdaService() {
@@ -188,7 +189,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
 
     /**
      * Returns an implementation of the BusinessObjectService
-     * 
+     *
      * @return an implementation of the BusinessObjectService
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -226,22 +227,32 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
     }
 
     /**
-     * Gets the parameterService attribute.
-     * 
-     * @return Returns the parameterService.
-     */
-    public ParameterService getParameterService() {
-        return SpringContext.getBean(ParameterService.class);
-    }
-
-    /**
      * Gets the awardService attribute.
-     * 
+     *
      * @return Returns the awardService.
      */
     public AwardService getAwardService() {
         return SpringContext.getBean(AwardService.class);
     }
+
+    /**
+     * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#isAwardedByFederalAgency(java.lang.String,
+     *      java.lang.String, java.util.List)
+     */
+    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes) {
+        AwardAccount primaryAward = getPrimaryAwardAccount(chartOfAccountsCode, accountNumber);
+        if (primaryAward == null) {
+            return false;
+        }
+
+        String agencyTypeCode = primaryAward.getAward().getAgency().getAgencyTypeCode();
+        if (federalAgencyTypeCodes.contains(agencyTypeCode) || primaryAward.getAward().getFederalPassThroughIndicator()) {
+            return true;
+        }
+
+        return false;
+    }
+
 
 
 }

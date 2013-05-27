@@ -33,7 +33,6 @@ import org.kuali.kfs.integration.cg.dto.ProposalParametersDTO;
 import org.kuali.kfs.integration.cg.service.AwardCreationService;
 import org.kuali.kfs.module.cg.CGConstants;
 import org.kuali.kfs.module.cg.businessobject.Agency;
-import org.kuali.kfs.module.cg.businessobject.AgencyType;
 import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.module.cg.businessobject.AwardAccount;
 import org.kuali.kfs.module.cg.businessobject.AwardFundManager;
@@ -47,31 +46,25 @@ import org.kuali.kfs.module.cg.businessobject.ProposalPurpose;
 import org.kuali.kfs.module.cg.service.ProposalCreationService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.util.KcUtils;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService; import org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.DocumentAuthorizer;
-import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kim.api.identity.PersonService; import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.service.MaintenanceDocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -506,7 +499,7 @@ public class AwardCreationServiceImpl implements AwardCreationService {
 
         // find documents still enroute
         criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.ENROUTE));
-        results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(GlobalVariables.getUserSession().getPrincipalId(), criteria);
+        results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(GlobalVariables.getUserSession().getPrincipalId(), criteria.build());
 
         return getDocumentNumberByMatchingAwardId(results, awardId);
     }
@@ -515,16 +508,23 @@ public class AwardCreationServiceImpl implements AwardCreationService {
         for (DocumentSearchResult resultRow: results.getSearchResults()) {
             boolean isExist = false;
             String documentNumber = "";
-            for (KeyValue field : resultRow.getFieldValues()) {
-                if(field.getKey() == "routeHeaderId"){
-                    documentNumber = parseDocumentIdFromRouteDocHeader(field.getValue());
-                    MaintenanceDocument maintenanceDocument = (MaintenanceDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
-                    Award award = (Award)maintenanceDocument.getDocumentBusinessObject();
-                    if(awardId.equals(award.getAwardId())){
-                        return documentNumber;
-                    }
+//            for (KeyValue field : resultRow.getFieldValues()) {
+//                if(field.getKey() == "routeHeaderId"){
+//                    documentNumber = parseDocumentIdFromRouteDocHeader(field.getValue());
+//                    MaintenanceDocument maintenanceDocument = (MaintenanceDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
+//                    Award award = (Award)maintenanceDocument.getDocumentBusinessObject();
+//                    if(awardId.equals(award.getAwardId())){
+//                        return documentNumber;
+//                    }
+//                }
+//            }
+                documentNumber = resultRow.getDocument().getDocumentId();
+                MaintenanceDocument maintenanceDocument = (MaintenanceDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
+                Award award = (Award)maintenanceDocument.getDocumentBusinessObject();
+                if(awardId.equals(award.getAwardId())){
+                    return documentNumber;
                 }
-            }
+               LOG.debug(resultRow.getDocument().getDocumentId());
         }
         return "";
     }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,11 +27,11 @@ import java.util.regex.Pattern;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -47,30 +47,30 @@ public class ContractsGrantsReportUtils {
      * @return
      */
     public static boolean doesMatchLookupFields(Map fieldsForLookup, BusinessObject bo, String className) {
-        BusinessObjectEntry boe = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(className);
+        org.kuali.rice.kns.datadictionary.BusinessObjectEntry boe = (org.kuali.rice.kns.datadictionary.BusinessObjectEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(className);
         List<String> lookupResultFields = boe.getLookupDefinition().getResultFieldNames();
         Set invalidKeySet = new HashSet<Object>();
-       //to filter the fields for lookup if its value is null. 
+       //to filter the fields for lookup if its value is null.
         for(Object propNm: fieldsForLookup.keySet()){
             if(fieldsForLookup.get(propNm).toString().equals("")){
                 invalidKeySet.add(propNm);
             }
         }
-        
+
         for(Object invalidKey: invalidKeySet){
             fieldsForLookup.remove(invalidKey);
         }
         //also remove the back location and docformkey vlaues, so we have the list empty for now.
         fieldsForLookup.remove(KRADConstants.BACK_LOCATION);
         fieldsForLookup.remove(KRADConstants.DOC_FORM_KEY);
-        
-        
+
+
         //To return true if none of the lookup fields are filled in.
         if(CollectionUtils.isEmpty(fieldsForLookup)){
             return true;
         }
-        
-        
+
+
         boolean returnBoolean = true;
         for (Object propertyName : fieldsForLookup.keySet()) {
 
@@ -106,7 +106,7 @@ public class ContractsGrantsReportUtils {
                     else {
                         return false;
                     }
-                    
+
                 }
                 else {
                     if (ObjectUtils.isNotNull(propertyValueObject) && isDateFieldInRange(fieldsForLookup, (Date) propertyValueObject, propertyName.toString())) {
@@ -147,7 +147,7 @@ public class ContractsGrantsReportUtils {
 
     /**
      * Checks if the date field is in range.
-     * 
+     *
      * @param fieldsForLookup
      * @param dateData
      * @param fieldName
@@ -172,8 +172,9 @@ public class ContractsGrantsReportUtils {
                 if (dateData.after(dateFrom) || dateData.equals(dateFrom)) {
                     return true;
                 }
-                else
+                else {
                     return false;
+                }
             }
 
             // Only set Date to
@@ -182,8 +183,9 @@ public class ContractsGrantsReportUtils {
                 if (dateData.before(dateTo) || dateData.equals(dateTo)) {
                     return true;
                 }
-                else
+                else {
                     return false;
+                }
             }
 
             dateTo = new Date(format.parse(dateToFieldValues).getTime());
@@ -191,8 +193,9 @@ public class ContractsGrantsReportUtils {
             if ((dateData.after(dateFrom) || dateData.equals(dateFrom)) && (dateData.before(dateTo) || dateData.equals(dateTo))) {
                 return true;
             }
-            else
+            else {
                 return false;
+            }
         }
         catch (ParseException ex) {
             throw new RuntimeException();
@@ -200,7 +203,7 @@ public class ContractsGrantsReportUtils {
     }
 
     /**
-     * 
+     *
      * @param wildcard
      * @return
      */
@@ -239,5 +242,5 @@ public class ContractsGrantsReportUtils {
         s.append('$');
         return (s.toString());
     }
-    
+
 }

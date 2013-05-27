@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
@@ -298,4 +299,16 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
         // TODO Auto-generated method stub
         return null;
     }
+
+    public String createAndSaveCustomer(String description, ContractsAndGrantsCGBAgency agency) throws WorkflowException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String retrieveGLPEReceivableParameterValue() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
 }

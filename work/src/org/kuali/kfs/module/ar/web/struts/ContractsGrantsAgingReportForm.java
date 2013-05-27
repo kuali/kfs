@@ -36,6 +36,7 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -151,7 +152,7 @@ public class ContractsGrantsAgingReportForm extends LookupForm {
             }
 
             // init lookupable with bo class
-            getLookupable().setBusinessObjectClass(Class.forName(getBusinessObjectClassName()));
+            getLookupable().setBusinessObjectClass((Class<? extends BusinessObject>) Class.forName(getBusinessObjectClassName()));
             if (null != getPendingEntryLookupable()) {
                 getPendingEntryLookupable().setBusinessObjectClass(GeneralLedgerPendingEntry.class);
             }

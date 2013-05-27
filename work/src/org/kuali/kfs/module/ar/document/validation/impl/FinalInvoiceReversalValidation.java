@@ -27,7 +27,6 @@ import org.kuali.kfs.module.ar.document.FinalInvoiceReversalDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -97,7 +96,7 @@ public class FinalInvoiceReversalValidation {
         try {
             if (SpringContext.getBean(DocumentService.class).documentExists(docNumber)) {
                 testDocument = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docNumber);
-                if (!(testDocument.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(KFSConstants.ContractsGrantsModuleDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE))) {
+                if (!(testDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(KFSConstants.ContractsGrantsModuleDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE))) {
                     GlobalVariables.getMessageMap().putError(ArPropertyConstants.FINAL_INVOICE_REVERSAL_ENTRIES_PROPERTY_PATH, ArKeyConstants.FINAL_INVOICE_REVERSAL_EDOC_ERROR_KEY, INVALID_INVOICE_ERROR_MESSAGE);
                     return false;
                 }

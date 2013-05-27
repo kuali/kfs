@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,7 +35,7 @@ public class DunningCampaign implements MutableInactivatable, AccountsReceivable
 
     /**
      * Gets the campaignID attribute.
-     * 
+     *
      * @return Returns the campaignID.
      */
     public String getCampaignID() {
@@ -44,7 +44,7 @@ public class DunningCampaign implements MutableInactivatable, AccountsReceivable
 
     /**
      * Sets the campaignID attribute value.
-     * 
+     *
      * @param campaignID The campaignID to set.
      */
     public void setCampaignID(String campaignID) {
@@ -53,7 +53,7 @@ public class DunningCampaign implements MutableInactivatable, AccountsReceivable
 
     /**
      * Gets the campaignDescription attribute.
-     * 
+     *
      * @return Returns the campaignDescription.
      */
     public String getCampaignDescription() {
@@ -62,7 +62,7 @@ public class DunningCampaign implements MutableInactivatable, AccountsReceivable
 
     /**
      * Sets the campaignDescription attribute value.
-     * 
+     *
      * @param campaignDescription The campaignDescription to set.
      */
     public void setCampaignDescription(String campaignDescription) {
@@ -71,7 +71,7 @@ public class DunningCampaign implements MutableInactivatable, AccountsReceivable
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -80,7 +80,7 @@ public class DunningCampaign implements MutableInactivatable, AccountsReceivable
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
     public void setActive(boolean active) {
@@ -90,7 +90,6 @@ public class DunningCampaign implements MutableInactivatable, AccountsReceivable
     /**
      * @see org.kuali.rice.krad.bo.BusinessObject#prepareForWorkflow()
      */
-    @Override
     public void prepareForWorkflow() {
     }
 

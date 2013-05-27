@@ -61,7 +61,6 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceDetailAccountObjectCode;
 import org.kuali.kfs.module.ar.businessobject.InvoiceGeneralDetail;
 import org.kuali.kfs.module.ar.businessobject.InvoiceMilestone;
-import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.InvoiceSuspensionCategory;
 import org.kuali.kfs.module.ar.businessobject.ReferralType;
 import org.kuali.kfs.module.ar.businessobject.SystemInformation;
@@ -71,25 +70,23 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.PdfFormFillerUtil;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.bo.Attachment;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.AttachmentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.AttachmentService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.NoteService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.ObjectUtils;
-import java.util.ArrayList;
-import org.kuali.rice.core.web.format.CurrencyFormatter;
 
 /**
  * Contracts Grants Invoice document extending Customer Invoice document.
@@ -299,7 +296,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                     SpringContext.getBean(NoteService.class).save(note);
                     attachment.setNoteIdentifier(note.getNoteIdentifier());
                     SpringContext.getBean(BusinessObjectService.class).save(attachment);
-                    this.getDocumentHeader().addNote(note);
+                    this.addNote(note);
 
                     // generating Copy invoice
                     outputFileName = this.getDocumentNumber() + "_" + invoiceAgencyAddressDetail.getAgencyAddressName() + FILE_NAME_TIMESTAMP.format(new Date()) + "_COPY" + ArConstants.TemplateUploadSystem.EXTENSION;
@@ -316,7 +313,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                     SpringContext.getBean(NoteService.class).save(copyNote);
                     copyAttachment.setNoteIdentifier(copyNote.getNoteIdentifier());
                     SpringContext.getBean(BusinessObjectService.class).save(copyAttachment);
-                    this.getDocumentHeader().addNote(copyNote);
+                    this.addNote(copyNote);
                     invoiceAgencyAddressDetail.setNoteId(note.getNoteIdentifier());
                     // saving the note to the document header
                     SpringContext.getBean(DocumentService.class).updateDocument(this);
@@ -362,7 +359,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         // To set the status of the document to award account.
-        setAwardAccountInvoiceDocumentStatus(this.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue());
+        setAwardAccountInvoiceDocumentStatus(this.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus());
         // performed only when document is in final state
         if (getDocumentHeader().getWorkflowDocument().isFinal()) {
 

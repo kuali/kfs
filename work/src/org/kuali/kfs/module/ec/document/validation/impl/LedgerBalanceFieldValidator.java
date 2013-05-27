@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ec.document.validation.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,7 @@ public class LedgerBalanceFieldValidator {
 
     /**
      * check if the given ledger balance has an account qualified for effort reporting
-     * 
+     *
      * @param ledgerBalance the given ledger balance
      * @return null if the given ledger balance has an account qualified for effort reporting; otherwise, a message
      */
@@ -56,7 +57,7 @@ public class LedgerBalanceFieldValidator {
 
     /**
      * detetermine if the fund group code associated with the given ledger balance is in the given fund group codes
-     * 
+     *
      * @param ledgerBalance the given ledger balance
      * @param fundGroupCodes the given fund group codes
      * @return null if the fund group code associated with the given ledger balance is in the given fund group codes; otherwise, a
@@ -73,7 +74,7 @@ public class LedgerBalanceFieldValidator {
 
     /**
      * detetermine if the sub fund group code associated with the given ledger balance is in the given sub fund group codes
-     * 
+     *
      * @param ledgerBalance the given ledger balance
      * @param subFundGroupCodes the given sub fund group codes
      * @return null if the sub fund group code associated with the given ledger balance is in the given sub fund group codes;
@@ -90,7 +91,7 @@ public class LedgerBalanceFieldValidator {
 
     /**
      * determine if the total amount within the specified periods of the given ledger balance is ZERO
-     * 
+     *
      * @param ledgerBalance the given ledger balance
      * @param reportPeriods the specified periods
      * @return null the total amount within the specified periods of the given ledger balance is NOT ZERO; otherwise, a message
@@ -107,7 +108,7 @@ public class LedgerBalanceFieldValidator {
 
     /**
      * determine if the total amount within the specified periods of the given ledger balances is positive
-     * 
+     *
      * @param ledgerBalance the given ledger balance
      * @param reportPeriods the specified periods
      * @return null the total amount within the specified periods of the given ledger balance is positive; otherwise, a message
@@ -126,7 +127,7 @@ public class LedgerBalanceFieldValidator {
      * check if there is at least one account of the given ledger balances that has a fund group code or subfund group code that is
      * in the specifed group codes. If fundGroupDenotesCGIndictor is ture, only examine the fund group code associated with the
      * ledger balances; otherwise, the sub fund group code.
-     * 
+     *
      * @param ledgerBalances the given ledger balances
      * @return null if one of the group codes associated with the ledger balances is in the specified codes; otherwise, a message
      *         message
@@ -144,7 +145,7 @@ public class LedgerBalanceFieldValidator {
     /**
      * determine whether there is at least one account of the given ledger balances that is funded by a federal grant. The award
      * associated with the account must be one of the given federal agency types or have an enabled federal pass through flag.
-     * 
+     *
      * @param the given labor ledger balances
      * @param federalAgencyTypeCodes the given federal agency type codes
      * @return null if there is at least one account with federal funding; otherwise, a message
@@ -152,7 +153,7 @@ public class LedgerBalanceFieldValidator {
     public static Message hasFederalFunds(Collection<LaborLedgerBalance> ledgerBalances, Collection<String> federalAgencyTypeCodes) {
         for (LaborLedgerBalance balance : ledgerBalances) {
             Account account = balance.getAccount();
-            if (SpringContext.getBean(ContractsAndGrantsModuleService.class).isAwardedByFederalAgency(account.getChartOfAccountsCode(), account.getAccountNumber(), federalAgencyTypeCodes)) {
+            if (SpringContext.getBean(ContractsAndGrantsModuleService.class).isAwardedByFederalAgency(account.getChartOfAccountsCode(), account.getAccountNumber(),new ArrayList<String>(federalAgencyTypeCodes))) {
                 return null;
             }
         }
@@ -161,7 +162,7 @@ public class LedgerBalanceFieldValidator {
 
     /**
      * determine if the given ledger balances have the accounts that belong to multiple organizations
-     * 
+     *
      * @param ledgerBalance the given ledger balance
      * @return null if the given ledger balances have the accounts that belong to a single organization; otherwise, a message
      */
@@ -186,7 +187,7 @@ public class LedgerBalanceFieldValidator {
 
     /**
      * get the sub fund group associated with the given ledger balance
-     * 
+     *
      * @param ledgerBalance the given ledger balance
      * @return the sub fund group associated with the given ledger balance
      */

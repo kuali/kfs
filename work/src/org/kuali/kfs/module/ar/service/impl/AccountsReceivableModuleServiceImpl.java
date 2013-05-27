@@ -35,6 +35,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants.CustomerTypeFields;
 import org.kuali.kfs.module.ar.ArPropertyConstants.OrganizationOptionsFields;
@@ -478,6 +479,32 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
 
         String parameterValue = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         return parameterValue;
+
+    }
+
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getAwardBilledToDateByProposalNumber(java.lang.Long) This
+     *      method gets the award billed to date using ContractsGrantsInvoiceDocumentService
+     * @param roposalNumber
+     * @return
+     */
+    public KualiDecimal getAwardBilledToDateByProposalNumber(Long proposalNumber) {
+        return contractsGrantsInvoiceDocumentService.getAwardBilledToDateByProposalNumber(proposalNumber);
+    }
+
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#calculateTotalPaymentsToDateByAward(java.lang.Long) This
+     *      method calculates total payments to date by Award using ContractsGrantsInvoiceDocumentService
+     * @param proposalNumber
+     * @return
+     */
+    public KualiDecimal calculateTotalPaymentsToDateByAward(Long proposalNumber) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+
+        ContractsAndGrantsCGBAward award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
+
+        return contractsGrantsInvoiceDocumentService.calculateTotalPaymentsToDateByAward(award);
 
     }
 }

@@ -487,7 +487,7 @@ public class CustomerInvoiceDocumentDaoOjb extends PlatformAwareDaoBaseOjb imple
         Criteria criteria = this.getAllAgingInvoiceDocumentsCriteria(StringUtils.EMPTY, invoiceBillingDateFrom, invoiceBillingDateTo);
 
         if(ObjectUtils.isNotNull(customerTypes)){
-            criteria.addIn(ArPropertyConstants.CustomerInvoiceDocumentFields.CUSTOMER_TYPE_CODE, customerTypes);
+            criteria.addIn(ArPropertyConstants.CustomerTypeFields.CUSTOMER_TYPE_CODE, customerTypes);
         }
 
         Query query = QueryFactory.newQuery(CustomerInvoiceDocument.class, criteria);

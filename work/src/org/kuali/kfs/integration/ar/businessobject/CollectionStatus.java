@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,7 +35,7 @@ public class CollectionStatus implements MutableInactivatable, AccountsReceivabl
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the statusCode.
      */
     public String getStatusCode() {
@@ -44,7 +44,7 @@ public class CollectionStatus implements MutableInactivatable, AccountsReceivabl
 
     /**
      * Sets the statusCode attribute value.
-     * 
+     *
      * @param statusCode The active to set.
      */
     public void setStatusCode(String statusCode) {
@@ -53,7 +53,7 @@ public class CollectionStatus implements MutableInactivatable, AccountsReceivabl
 
     /**
      * Gets the statusDescription attribute.
-     * 
+     *
      * @return Returns the statusDescription.
      */
     public String getStatusDescription() {
@@ -62,7 +62,7 @@ public class CollectionStatus implements MutableInactivatable, AccountsReceivabl
 
     /**
      * Sets the statusDescription attribute value.
-     * 
+     *
      * @param statusDescription The statusDescription to set.
      */
     public void setStatusDescription(String statusDescription) {
@@ -88,7 +88,6 @@ public class CollectionStatus implements MutableInactivatable, AccountsReceivabl
     /**
      * @see org.kuali.rice.krad.bo.BusinessObject#prepareForWorkflow()
      */
-    @Override
     public void prepareForWorkflow() {
     }
 

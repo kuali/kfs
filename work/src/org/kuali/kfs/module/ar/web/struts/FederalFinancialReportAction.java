@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,21 +30,16 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService;
-
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAgency;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsCGBAward;
-import org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kns.web.struts.action.KualiAction;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.pdf.PdfCopy;
@@ -118,7 +113,7 @@ public class FederalFinancialReportAction extends KualiAction {
 
     /**
      * This method receives the print action and forwards it accordingly.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -130,7 +125,7 @@ public class FederalFinancialReportAction extends KualiAction {
         FederalFinancialReportForm ffrForm = (FederalFinancialReportForm) form;
         String message = this.validate(ffrForm);
         if (StringUtils.isEmpty(message)) {
-            String basePath = getBasePath(request);
+            String basePath = getApplicationBaseUrl();
             String docId = ffrForm.getProposalNumber();
             String agencyNumber = ffrForm.getAgencyNumber();
             String formType = ffrForm.getFederalForm();
@@ -154,22 +149,24 @@ public class FederalFinancialReportAction extends KualiAction {
 
     /**
      * Validates the user input.
-     * 
+     *
      * @param form
      * @return
      */
     private String validate(FederalFinancialReportForm form) {
         if (StringUtils.isNotEmpty(form.getFederalForm())) {
             if (FEDERAL_FORM_425.equals(form.getFederalForm()) && ObjectUtils.isNotNull(form.getProposalNumber())) {
-                if (StringUtils.isEmpty(form.getFiscalYear()) || StringUtils.isEmpty(form.getReportingPeriod()))
+                if (StringUtils.isEmpty(form.getFiscalYear()) || StringUtils.isEmpty(form.getReportingPeriod())) {
                     return FISCAL_YEAR_AND_PERIOD_REQUIRED;
+                }
             }
             else if (FEDERAL_FORM_425.equals(form.getFederalForm()) && ObjectUtils.isNull(form.getProposalNumber())) {
                 return PROPOSAL_NUMBER_REQUIRED;
             }
             else if (FEDERAL_FORM_425A.equals(form.getFederalForm()) && ObjectUtils.isNotNull(form.getAgencyNumber())) {
-                if (StringUtils.isEmpty(form.getFiscalYear()) || StringUtils.isEmpty(form.getReportingPeriod()))
+                if (StringUtils.isEmpty(form.getFiscalYear()) || StringUtils.isEmpty(form.getReportingPeriod())) {
                     return FISCAL_YEAR_AND_PERIOD_REQUIRED;
+                }
             }
             else if (FEDERAL_FORM_425A.equals(form.getFederalForm()) && ObjectUtils.isNull(form.getAgencyNumber())) {
                 return AGENCY_REQUIRED;
@@ -181,7 +178,7 @@ public class FederalFinancialReportAction extends KualiAction {
 
     /**
      * This method generates the pdf file and provides it to the user to Print it.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -197,10 +194,10 @@ public class FederalFinancialReportAction extends KualiAction {
         String agencyNumber = request.getParameter(KFSPropertyConstants.AGENCY_NUMBER);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-        ContractsAndGrantsCGBAward award = (ContractsAndGrantsCGBAward) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
+        ContractsAndGrantsCGBAward award = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAward.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAward.class, map);
         map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.AGENCY_NUMBER, agencyNumber);
-        ContractsAndGrantsCGBAgency agency = (ContractsAndGrantsCGBAgency) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAgency.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAgency.class, map);
+        ContractsAndGrantsCGBAgency agency = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCGBAgency.class).getExternalizableBusinessObject(ContractsAndGrantsCGBAgency.class, map);
 
         // get directory of template
         String directory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY);
@@ -304,7 +301,7 @@ public class FederalFinancialReportAction extends KualiAction {
 
     /**
      * Creates a URL to be used in printing the federal forms.
-     * 
+     *
      * @param basePath String: The base path of the current URL
      * @param docId String: The document ID of the document to be printed
      * @param methodToCall String: The name of the method that will be invoked to do this particular print

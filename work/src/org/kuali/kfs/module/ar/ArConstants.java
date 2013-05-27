@@ -366,15 +366,6 @@ public class ArConstants{
         static final public String VIPERS = "Vipers";
     }
 
-    public static final String CG_NAMESPACE_CODE = "KFS-CG";
-    public static final String ENABLE_CG_PRORATE_BILL_IND = "ENABLE_CG_PRORATE_BILL_IND";
-
-
-    public static class TemplateUploadSystem {
-        static final public String EXTENSION = ".pdf";
-        static final public String TEMPLATE_MIME_TYPE = "application/pdf";
-    }
-
     public static class DunningLetters {
         public static final String DYS_PST_DUE_FINAL_PARM = "DUNNING_LETTERS_FINAL_DAYS_PAST_DUE";
         public static final String DYS_PST_DUE_STATE_AGENCY_FINAL_PARM = "DUNNING_LETTERS_STATE_AGENCY_FINAL_DAYS_PAST_DUE";
@@ -404,17 +395,6 @@ public class ArConstants{
         public static final String TOTAL_WRITEOFF = "Total Write-Off";
         public static final String TOTAL_CREDITS = "Total Credits";
     }
-
-    public static class InvoiceIndicator {
-        static final public String MAIL = "MAIL";
-        static final public String EMAIL = "EMAIL";
-        static final public String S2S = "S2S";
-        static final public String PAY_WEB = "PayWeb";
-        static final public String WAWF = "WAWF";
-        static final public String VIPERS = "Vipers";
-    }
-
-
 
     // Award
     public static final String LOC_BY_AWARD = "LOC By Award";

@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,10 +46,10 @@ public class CustomerCollector extends PersistableBusinessObjectBase implements 
 
     /**
      * Gets the principalId.
-     * 
+     *
      * @see org.kuali.kfs.module.ar.businessobject.ARCollector#getPrincipalId()
      */
-    
+
     public String getPrincipalId() {
         collector = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(principalId, collector);
         return principalId;
@@ -57,7 +57,7 @@ public class CustomerCollector extends PersistableBusinessObjectBase implements 
 
     /**
      * Sets the principalId.
-     * 
+     *
      * @see org.kuali.kfs.module.ar.businessobject.ARCollector#setPrincipalId(java.lang.String)
      */
     @Override
@@ -67,7 +67,7 @@ public class CustomerCollector extends PersistableBusinessObjectBase implements 
 
     /**
      * Gets the customerNumber.
-     * 
+     *
      * @see org.kuali.kfs.module.ar.businessobject.ARCollector#getCustomerNumber()
      */
     @Override
@@ -77,7 +77,7 @@ public class CustomerCollector extends PersistableBusinessObjectBase implements 
 
     /**
      * Sets the customerNumber.
-     * 
+     *
      * @see org.kuali.kfs.module.ar.businessobject.ARCollector#setCustomerNumber(java.lang.String)
      */
     @Override
@@ -87,7 +87,7 @@ public class CustomerCollector extends PersistableBusinessObjectBase implements 
 
     /**
      * Gets the collector object.
-     * 
+     *
      * @see org.kuali.kfs.module.ar.businessobject.ARCollector#getCollector()
      */
     @Override
@@ -100,7 +100,7 @@ public class CustomerCollector extends PersistableBusinessObjectBase implements 
 
     /**
      * Sets the collector object.
-     * 
+     *
      * @see org.kuali.kfs.module.ar.businessobject.ARCollector#setCollector(org.kuali.rice.kim.api.identity.Person)
      */
     @Override
@@ -110,7 +110,7 @@ public class CustomerCollector extends PersistableBusinessObjectBase implements 
 
     /**
      * Gets the customer object.
-     * 
+     *
      * @return Returns customer object
      */
     public Customer getCustomer() {
@@ -119,7 +119,7 @@ public class CustomerCollector extends PersistableBusinessObjectBase implements 
 
     /**
      * Sets the customer object.
-     * 
+     *
      * @param customer Customer object to set.
      */
     public void setCustomer(Customer customer) {
@@ -128,7 +128,7 @@ public class CustomerCollector extends PersistableBusinessObjectBase implements 
 
     /**
      * Gets the userLookupRoleNamespaceCode attribute.
-     * 
+     *
      * @return Returns userLookupRoleNamespaceCode attribute
      */
     public String getUserLookupRoleNamespaceCode() {
@@ -137,7 +137,7 @@ public class CustomerCollector extends PersistableBusinessObjectBase implements 
 
     /**
      * Gets the userLookupRoleName attribute.
-     * 
+     *
      * @return Returns userLookupRoleName attribute.
      */
     public String getUserLookupRoleName() {
@@ -147,7 +147,7 @@ public class CustomerCollector extends PersistableBusinessObjectBase implements 
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
+    @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("principalId", this.principalId);

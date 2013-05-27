@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -66,7 +66,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerNumber attribute.
-     * 
+     *
      * @return Returns the customerNumber
      */
     public String getCustomerNumber() {
@@ -75,7 +75,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerNumber attribute.
-     * 
+     *
      * @param customerNumber The customerNumber to set.
      */
     public void setCustomerNumber(String customerNumber) {
@@ -85,7 +85,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerName attribute.
-     * 
+     *
      * @return Returns the customerName
      */
     public String getCustomerName() {
@@ -94,7 +94,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerName attribute.
-     * 
+     *
      * @param customerName The customerName to set.
      */
     public void setCustomerName(String customerName) {
@@ -104,7 +104,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerParentCompanyNumber attribute.
-     * 
+     *
      * @return Returns the customerParentCompanyNumber
      */
     public String getCustomerParentCompanyNumber() {
@@ -113,7 +113,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerParentCompanyNumber attribute.
-     * 
+     *
      * @param customerParentCompanyNumber The customerParentCompanyNumber to set.
      */
     public void setCustomerParentCompanyNumber(String customerParentCompanyNumber) {
@@ -123,7 +123,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerTypeCode attribute.
-     * 
+     *
      * @return Returns the customerTypeCode
      */
     public String getCustomerTypeCode() {
@@ -132,7 +132,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerTypeCode attribute.
-     * 
+     *
      * @param customerTypeCode The customerTypeCode to set.
      */
     public void setCustomerTypeCode(String customerTypeCode) {
@@ -142,7 +142,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerTypeDescription attribute.
-     * 
+     *
      * @return Returns the customerTypeDescription.
      */
     public String getCustomerTypeDescription() {
@@ -151,7 +151,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerTypeDescription attribute value.
-     * 
+     *
      * @param customerTypeDescription The customerTypeDescription to set.
      */
     public void setCustomerTypeDescription(String customerTypeDescription) {
@@ -160,7 +160,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerAddressChangeDate attribute.
-     * 
+     *
      * @return Returns the customerAddressChangeDate
      */
     public Date getCustomerAddressChangeDate() {
@@ -169,7 +169,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerAddressChangeDate attribute.
-     * 
+     *
      * @param customerAddressChangeDate The customerAddressChangeDate to set.
      */
     public void setCustomerAddressChangeDate(Date customerAddressChangeDate) {
@@ -179,7 +179,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerRecordAddDate attribute.
-     * 
+     *
      * @return Returns the customerRecordAddDate
      */
     public Date getCustomerRecordAddDate() {
@@ -188,7 +188,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerRecordAddDate attribute.
-     * 
+     *
      * @param customerRecordAddDate The customerRecordAddDate to set.
      */
     public void setCustomerRecordAddDate(Date customerRecordAddDate) {
@@ -198,7 +198,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerLastActivityDate attribute.
-     * 
+     *
      * @return Returns the customerLastActivityDate
      */
     public Date getCustomerLastActivityDate() {
@@ -207,7 +207,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerLastActivityDate attribute.
-     * 
+     *
      * @param customerLastActivityDate The customerLastActivityDate to set.
      */
     public void setCustomerLastActivityDate(Date customerLastActivityDate) {
@@ -217,7 +217,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active
      */
     public boolean isActive() {
@@ -226,7 +226,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the active attribute.
-     * 
+     *
      * @param active The active to set.
      */
     public void setActive(boolean active) {
@@ -236,7 +236,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerPhoneNumber attribute.
-     * 
+     *
      * @return Returns the customerPhoneNumber
      */
     public String getCustomerPhoneNumber() {
@@ -245,7 +245,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerPhoneNumber attribute.
-     * 
+     *
      * @param customerPhoneNumber The customerPhoneNumber to set.
      */
     public void setCustomerPhoneNumber(String customerPhoneNumber) {
@@ -255,7 +255,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customer800PhoneNumber attribute.
-     * 
+     *
      * @return Returns the customer800PhoneNumber
      */
     public String getCustomer800PhoneNumber() {
@@ -264,7 +264,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customer800PhoneNumber attribute.
-     * 
+     *
      * @param customer800PhoneNumber The customer800PhoneNumber to set.
      */
     public void setCustomer800PhoneNumber(String customer800PhoneNumber) {
@@ -274,7 +274,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerContactName attribute.
-     * 
+     *
      * @return Returns the customerContactName
      */
     public String getCustomerContactName() {
@@ -283,7 +283,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerContactName attribute.
-     * 
+     *
      * @param customerContactName The customerContactName to set.
      */
     public void setCustomerContactName(String customerContactName) {
@@ -293,7 +293,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerContactPhoneNumber attribute.
-     * 
+     *
      * @return Returns the customerContactPhoneNumber
      */
     public String getCustomerContactPhoneNumber() {
@@ -302,7 +302,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerContactPhoneNumber attribute.
-     * 
+     *
      * @param customerContactPhoneNumber The customerContactPhoneNumber to set.
      */
     public void setCustomerContactPhoneNumber(String customerContactPhoneNumber) {
@@ -312,7 +312,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerFaxNumber attribute.
-     * 
+     *
      * @return Returns the customerFaxNumber
      */
     public String getCustomerFaxNumber() {
@@ -321,7 +321,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerFaxNumber attribute.
-     * 
+     *
      * @param customerFaxNumber The customerFaxNumber to set.
      */
     public void setCustomerFaxNumber(String customerFaxNumber) {
@@ -331,7 +331,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerBirthDate attribute.
-     * 
+     *
      * @return Returns the customerBirthDate
      */
     public Date getCustomerBirthDate() {
@@ -340,7 +340,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerBirthDate attribute.
-     * 
+     *
      * @param customerBirthDate The customerBirthDate to set.
      */
     public void setCustomerBirthDate(Date customerBirthDate) {
@@ -350,7 +350,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerCreditLimitAmount attribute.
-     * 
+     *
      * @return Returns the customerCreditLimitAmount
      */
     public KualiDecimal getCustomerCreditLimitAmount() {
@@ -359,7 +359,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerCreditLimitAmount attribute.
-     * 
+     *
      * @param customerCreditLimitAmount The customerCreditLimitAmount to set.
      */
     public void setCustomerCreditLimitAmount(KualiDecimal customerCreditLimitAmount) {
@@ -369,7 +369,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerCreditApprovedByName attribute.
-     * 
+     *
      * @return Returns the customerCreditApprovedByName
      */
     public String getCustomerCreditApprovedByName() {
@@ -378,7 +378,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerCreditApprovedByName attribute.
-     * 
+     *
      * @param customerCreditApprovedByName The customerCreditApprovedByName to set.
      */
     public void setCustomerCreditApprovedByName(String customerCreditApprovedByName) {
@@ -388,7 +388,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerEmailAddress attribute.
-     * 
+     *
      * @return Returns the customerEmailAddress
      */
     public String getCustomerEmailAddress() {
@@ -397,7 +397,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerEmailAddress attribute.
-     * 
+     *
      * @param customerEmailAddress The customerEmailAddress to set.
      */
     public void setCustomerEmailAddress(String customerEmailAddress) {
@@ -406,7 +406,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerParentCompany attribute.
-     * 
+     *
      * @return Returns the customerParentCompany
      */
     public Customer getCustomerParentCompany() {
@@ -415,7 +415,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerParentCompany attribute.
-     * 
+     *
      * @param customerParentCompany The customerParentCompany to set.
      * @deprecated
      */
@@ -435,7 +435,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerAddresses attribute.
-     * 
+     *
      * @return Returns the customerAddresses.
      */
     public List<AccountsReceivableCustomerAddress> getCustomerAddresses() {
@@ -444,7 +444,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerAddresses attribute value.
-     * 
+     *
      * @param customerAddresses The customerAddresses to set.
      */
     public void setCustomerAddresses(List<AccountsReceivableCustomerAddress> customerAddresses) {
@@ -469,7 +469,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /* Start TEM REFUND merge */
     public AccountsReceivableCustomerAddress getPrimaryAddress() {
-        return (AccountsReceivableCustomerAddress) SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(getCustomerNumber());
+        return SpringContext.getBean(CustomerAddressService.class).getPrimaryAddress(getCustomerNumber());
     }
 
     /* End TEM REFUND merge */
@@ -482,7 +482,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Gets the customerType attribute.
-     * 
+     *
      * @return Returns the customerType.
      */
     public AccountsReceivableCustomerType getCustomerType() {
@@ -491,7 +491,7 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     /**
      * Sets the customerType attribute value.
-     * 
+     *
      * @param customerType The customerType to set.
      */
     public void setCustomerType(AccountsReceivableCustomerType customerType) {
@@ -501,6 +501,17 @@ public class Customer implements MutableInactivatable, AccountsReceivableCustome
 
     public void refresh() {
 
+
+    }
+
+    // Note
+    public List<AccountsReceivableCustomerAddress> getAccountsReceivableCustomerAddresses() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public void setAccountsReceivableCustomerAddresses(List<AccountsReceivableCustomerAddress> customerAddresses) {
+        // TODO Auto-generated method stub
 
     }
 }

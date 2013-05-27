@@ -225,7 +225,7 @@ public class ContractsGrantsAgingReportAction extends ContractsGrantsReportLooku
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ContractsGrantsAgingReportForm lookupForm = (ContractsGrantsAgingReportForm) form;
-        String backUrl = getBasePath(request) + "/portal.do?selectedTab=maintenance";
+        String backUrl = getApplicationBaseUrl() + "/portal.do?selectedTab=maintenance";
         return new ActionForward(backUrl, true);
     }
 

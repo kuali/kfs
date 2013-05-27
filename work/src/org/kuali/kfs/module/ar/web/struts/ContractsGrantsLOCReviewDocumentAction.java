@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,11 +17,8 @@ package org.kuali.kfs.module.ar.web.struts;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
@@ -33,29 +30,20 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.kfs.sys.context.SpringContext; import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KualiRuleService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
-import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.kfs.module.ar.document.web.struts.CustomerInvoiceDocumentForm;
-import org.kuali.kfs.module.ar.report.service.AccountsReceivableReportService;
 import org.kuali.kfs.module.ar.businessobject.ContractsGrantsLOCReviewDetail;
 import org.kuali.kfs.module.ar.document.ContractsGrantsLOCReviewDocument;
 import org.kuali.kfs.module.ar.report.service.ContractsGrantsInvoiceReportService;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.pdf.PdfCopy;
@@ -74,7 +62,7 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
 
     /**
      * Do initialization for a new Contracts Grants LOC Review Document
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
@@ -86,7 +74,7 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
 
     /**
      * Clears out init tab.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -106,7 +94,7 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
     /**
      * Handles continue request. This request comes from the initial screen which gives Letter of Credit Fund Group and other
      * details Based on that, the contracts grants LOC Review document is initially populated.
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -138,7 +126,7 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
 
     /**
      * To recalculate the amount to Draw for every contract control account
-     * 
+     *
      * @param mapping An ActionMapping
      * @param form An ActionForm
      * @param request The HttpServletRequest
@@ -183,7 +171,7 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
 
     /**
      * This method is called when export button is clicked and export a csv file.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -218,7 +206,7 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
         response.setHeader("Expires", "0");
         response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
         response.setHeader("Pragma", "public");
-        response.setContentLength((int) report.length);
+        response.setContentLength(report.length);
         InputStream fis = new ByteArrayInputStream(report);
         IOUtils.copy(fis, response.getOutputStream());
         response.getOutputStream().flush();
@@ -227,7 +215,7 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
 
     /**
      * This method forward the action to printInvoicePDF after checking the JS compatibility with the browser.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -236,7 +224,7 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
      * @throws Exception
      */
     public ActionForward print(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String basePath = getBasePath(request);
+        String basePath = getApplicationBaseUrl();
         ContractsGrantsLOCReviewDocumentForm locForm = (ContractsGrantsLOCReviewDocumentForm) form;
         ContractsGrantsLOCReviewDocument document = (ContractsGrantsLOCReviewDocument) locForm.getDocument();
         String docId = document.getDocumentNumber();
@@ -265,7 +253,7 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
 
     /**
      * This method generates the invoice and provides it to the user to Print it.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -365,7 +353,7 @@ public class ContractsGrantsLOCReviewDocumentAction extends KualiTransactionalDo
 
     /**
      * Creates a URL to be used in printing the customer invoice document.
-     * 
+     *
      * @param basePath String: The base path of the current URL
      * @param docId String: The document ID of the document to be printed
      * @param methodToCall String: The name of the method that will be invoked to do this particular print

@@ -316,5 +316,19 @@ public interface AccountsReceivableModuleService {
      */
     public String retrieveGLPEReceivableParameterValue();
 
+    /**
+     * This method gets the award billed to date using ContractsGrantsInvoiceDocumentService
+     *
+     * @param roposalNumber
+     * @return
+     */
+    public KualiDecimal getAwardBilledToDateByProposalNumber(Long proposalNumber);
 
+    /**
+     * This method calculates total payments to date by Award using ContractsGrantsInvoiceDocumentService
+     *
+     * @param proposalNumber
+     * @return
+     */
+    public KualiDecimal calculateTotalPaymentsToDateByAward(Long proposalNumber);
 }

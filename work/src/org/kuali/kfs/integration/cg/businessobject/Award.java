@@ -36,6 +36,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -139,16 +140,12 @@ public class Award implements ContractsAndGrantsCGBAward, ContractsAndGrantsAwar
 
     /** Dummy value used to facilitate lookups */
     private transient String lookupPersonUniversalIdentifier;
-//    private transient Person lookupPerson;
-    private transient Principal lookupPerson;
-
+    private transient Person lookupPerson;
     private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
 
     private transient String lookupFundMgrPersonUniversalIdentifier;
-//    private transient Person lookupFundMgrPerson;
-    private transient Principal lookupFundMgrPerson;
-
+    private transient Person lookupFundMgrPerson;
 
     /**
      * Default no-args constructor.
@@ -1287,23 +1284,19 @@ public class Award implements ContractsAndGrantsCGBAward, ContractsAndGrantsAwar
      * @return Returns the lookupPerson.
      */
     @Override
-//    public Person getLookupPerson() {
-//        return lookupPerson;
-//    }
-    public Principal getLookupPerson() {
-      return lookupPerson;
-  }
+    public Person getLookupPerson() {
+        return lookupPerson;
+    }
+
     /**
      * Sets the lookupPerson attribute value.
      *
      * @param lookupPerson The lookupPerson to set.
      */
-//    public void setLookupPerson(Person lookupPerson) {
-//        this.lookupPerson = lookupPerson;
-//    }
-    public void setLookupPerson(Principal lookupPerson) {
-      this.lookupPerson = lookupPerson;
- }
+    public void setLookupPerson(Person lookupPerson) {
+        this.lookupPerson = lookupPerson;
+    }
+
 
     /**
      * Gets the lookupFundMgrPersonUniversalIdentifier attribute.
@@ -1330,23 +1323,19 @@ public class Award implements ContractsAndGrantsCGBAward, ContractsAndGrantsAwar
      * @return Returns the lookupFundMgrPerson.
      */
     @Override
-//    public Person getLookupFundMgrPerson() {
-//        return lookupFundMgrPerson;
-//    }
-    public Principal getLookupFundMgrPerson() {
-      return lookupFundMgrPerson;
-  }
+    public Person getLookupFundMgrPerson() {
+        return lookupFundMgrPerson;
+    }
+
     /**
      * Sets the lookupFundMgrPerson attribute value.
      *
      * @param lookupFundMgrPerson The lookupFundMgrPerson to set.
      */
-//    public void setLookupFundMgrPerson(Person lookupFundMgrPerson) {
-//        this.lookupFundMgrPerson = lookupFundMgrPerson;
-//    }
-    public void setLookupFundMgrPerson(Principal lookupFundMgrPerson) {
+    public void setLookupFundMgrPerson(Person lookupFundMgrPerson) {
         this.lookupFundMgrPerson = lookupFundMgrPerson;
     }
+
     /**
      * Gets the userLookupRoleNamespaceCode attribute.
      *

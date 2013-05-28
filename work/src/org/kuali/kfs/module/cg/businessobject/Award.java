@@ -33,6 +33,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -145,13 +147,13 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
     /** Dummy value used to facilitate lookups */
     private transient String lookupPersonUniversalIdentifier;
-    private transient Principal lookupPerson;
+    private transient Person lookupPerson;
 
     private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
     private final String userLookupRoleName = KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
 
     private transient String lookupFundMgrPersonUniversalIdentifier;
-    private transient Principal lookupFundMgrPerson;
+    private transient Person lookupFundMgrPerson;
 
     /**
      * Default no-args constructor.
@@ -1368,7 +1370,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      * @return the lookup {@link Person}
      */
     @Override
-    public Principal getLookupPerson() {
+    public Person getLookupPerson() {
 
         return lookupPerson;
     }
@@ -1378,7 +1380,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @param lookupPerson
      */
-    public void setLookupPerson(Principal lookupPerson) {
+    public void setLookupPerson(Person lookupPerson) {
         this.lookupPerson = lookupPerson;
     }
 
@@ -1390,7 +1392,8 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
     @Override
     public String getLookupPersonUniversalIdentifier() {
         // NOTE
-        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.api.identity.IdentityService.class).getPrincipal(lookupPersonUniversalIdentifier);
+        lookupPerson = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(lookupPersonUniversalIdentifier, lookupPerson);
+//        lookupPerson = SpringContext.getBean(PersonService.class).getPrincipal(lookupPersonUniversalIdentifier);
         return lookupPersonUniversalIdentifier;
     }
 
@@ -1877,7 +1880,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @return Returns the lookupFundMgrPerson.
      */
-    public Principal getLookupFundMgrPerson() {
+    public Person getLookupFundMgrPerson() {
         return lookupFundMgrPerson;
     }
 
@@ -1886,7 +1889,7 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
      *
      * @param lookupFundMgrPerson The lookupFundMgrPerson to set.
      */
-    public void setLookupFundMgrPerson(Principal lookupFundMgrPerson) {
+    public void setLookupFundMgrPerson(Person lookupFundMgrPerson) {
         this.lookupFundMgrPerson = lookupFundMgrPerson;
     }
 

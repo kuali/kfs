@@ -246,8 +246,8 @@
 					<property name="objectAttributeName" value="milestoneSchedule" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="primaryAwardOrganization.organizationCode"
-								p:targetName="organizationCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="milestoneSchedule.proposalNumber"
+								p:targetName="proposalNumber" />
 						</list>
 					</property>
 				</bean>

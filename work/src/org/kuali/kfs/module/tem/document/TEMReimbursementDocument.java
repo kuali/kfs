@@ -25,6 +25,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -223,7 +224,7 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
         }
 
         /* change document type based on payment method to pick up different offsets */
-        if (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK.equals(getTravelPayment().getPaymentMethodCode())) {
+        if (StringUtils.isBlank(getTravelPayment().getPaymentMethodCode()) || KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK.equals(getTravelPayment().getPaymentMethodCode())) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("changing doc type on pending entry " + explicitEntry.getTransactionLedgerEntrySequenceNumber() + " to " + getAchCheckDocumentType());
             }

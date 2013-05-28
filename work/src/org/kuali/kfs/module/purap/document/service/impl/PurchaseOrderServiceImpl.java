@@ -2350,7 +2350,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     /**
      * This method returns the document that can be used for comparison to determine the tabs that are edited
-     * @see edu.msu.ebsp.kfs.module.purap.document.service.PurchaseOrderService#getPurchaseOrderDocumentForComparison(java.lang.Integer)
+     *
      */
     @Override
     public PurchaseOrderDocument getPurchaseOrderDocumentForComparison(Integer id, String docNumber){
@@ -2368,7 +2368,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     }
                 }
                 catch (WorkflowException ex) {
-                    ex.printStackTrace();
+                    LOG.error("getPurchaseOrderDocumentForComparison " + ex.getMessage(), ex);
                 }
 
 

@@ -113,7 +113,7 @@
 							<requests name="NewUnorderedItems" nextNode="JoinOrderedItems" />
 						</branch>
 						<branch name="False">
-							<simple name="NoOp" nextNode="JoinOrderedItems" />
+							<simple name="NoOpNewUnorderedItems" nextNode="JoinOrderedItems" />
 						</branch>
 						<join name="JoinOrderedItems" />
 					</split>
@@ -353,7 +353,7 @@
 					<type>org.kuali.rice.kew.engine.node.NoOpNode
 					</type>
 				</simple>
-		        <simple name="NoOp">
+		        <simple name="NoOpNewUnorderedItems">
 		          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
 		        </simple>
 				<simple name="NoOpBudget">

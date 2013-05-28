@@ -23,7 +23,6 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 
 public class TemSourceAccountingLine extends SourceAccountingLine implements TemAccountingLine {
     private String cardType;
-    private Long id;
 
     /**
      * Gets the cardType attribute.
@@ -41,22 +40,6 @@ public class TemSourceAccountingLine extends SourceAccountingLine implements Tem
     @Override
     public void setCardType(String cardType) {
         this.cardType = cardType;
-    }
-
-    /**
-     * Gets the id attribute.
-     * @return Returns the id.
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * Sets the id attribute value.
-     * @param id The id to set.
-     */
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public TemSourceAccountingLine() {

@@ -1440,7 +1440,6 @@
     </class-descriptor>
       
     <class-descriptor class="org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine" table="TEM_ACCT_LINES_T">
-	    <field-descriptor name="id" column="ID" jdbc-type="BIGINT" primarykey="true" sequence-name="TEM_ACCT_LINES_ID_SEQ" autoincrement="true" />
 	    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
 	    <field-descriptor name="sequenceNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" />
 	    <field-descriptor name="financialDocumentLineTypeCode" column="FDOC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />

@@ -14741,7 +14741,6 @@
         </unique>
     </table>
     <table name="TEM_ACCT_LINES_T">
-        <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="FDOC_LINE_NBR" primaryKey="true" size="7" type="DECIMAL"/>
         <column name="FDOC_LN_TYP_CD" primaryKey="true" size="1" type="VARCHAR"/>

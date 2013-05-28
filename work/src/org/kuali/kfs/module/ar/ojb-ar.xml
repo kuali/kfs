@@ -1102,4 +1102,18 @@
     </reference-descriptor>
 
 </class-descriptor>
+
+ 	<class-descriptor class="org.kuali.kfs.module.ar.businessobject.DunningCampaign" table="AR_DUN_CMPGN_DOC_T">
+		<field-descriptor name="campaignID" column="CMPGN_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
+		<field-descriptor name="campaignDescription" column="CMPGN_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<collection-descriptor name="dunningLetterDistributions" proxy="true" element-class-ref="org.kuali.kfs.module.ar.businessobject.DunningLetterDistribution"
+			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<orderby name="dunningLetterDistributionID" sort="ASC" />
+			<inverse-foreignkey field-ref="campaignID" />
+		</collection-descriptor> 
+	</class-descriptor>
+	
 </descriptor-repository>

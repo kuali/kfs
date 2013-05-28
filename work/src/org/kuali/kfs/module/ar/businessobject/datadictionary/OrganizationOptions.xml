@@ -58,16 +58,16 @@
     <property name="relationships">
       <list>
         <dd:relationship objectAttribute="organizationRemitToState">
-            <dd:primitiveAttribute source="organizationRemitToStateCode" target="stateCode"/>
+            <dd:primitiveAttribute source="organizationRemitToStateCode" target="code"/>
         </dd:relationship>  
         <dd:relationship objectAttribute="orgRemitToZipCode">
-            <dd:primitiveAttribute source="organizationRemitToZipCode" target="postalCode"/>
+            <dd:primitiveAttribute source="organizationRemitToZipCode" target="code"/>
         </dd:relationship>       
         <dd:relationship objectAttribute="orgPostalZipCode">
-            <dd:primitiveAttribute source="organizationPostalZipCode" target="postalCode"/>
+            <dd:primitiveAttribute source="organizationPostalZipCode" target="code"/>
         </dd:relationship>    
         <dd:relationship objectAttribute="orgPostalCountryCode">
-            <dd:primitiveAttribute source="organizationPostalCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="organizationPostalCountryCode" target="code"/>
         </dd:relationship>   
    
       </list>

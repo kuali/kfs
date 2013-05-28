@@ -490,6 +490,7 @@
 		<property name="routingAttributes">
 			<list>
 				<ref bean="RoutingAttribute-financialDocumentTotalAmount" />
+				<ref bean="RoutingAttribute-chartOfAccountsCode" />
 				<ref bean="RoutingAttribute-financialObjectCode" />
 				<ref bean="RoutingAttribute-subFundGroupCode" />
 			</list>
@@ -506,6 +507,7 @@
 	   		<list>
 	   			<value>financialObjectCode</value>
 	   			<value>account.subFundGroupCode</value>
+	   			<value>account.chartOfAccountsCode</value>
 	   		</list>
    		</property>
    	</bean>    

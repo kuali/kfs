@@ -162,12 +162,7 @@
 	      <column name="VAL" value="ACLO;TF;YETF;AV;AVAC;AVAE;AVRC;IAA" /> 
 	      <where>NMSPC_CD='KFS-GL' AND PARM_NM='LIABILITY_DOCUMENT_TYPES' AND CMPNT_CD = 'ScrubberStep' AND APPL_ID = 'KFS'</where> 
 	  </update>
-	<!-- <insert tableName="KRCR_DRVD_CMPNT_T">
-	    <column name="NMSPC_CD" value="KFS-FP"/> 
-	    <column name="CMPNT_CD" value="IntraAccountAdjustment"/> 
-	    <column name="NM" value="Intra Account Adjustment"/> 
-	    <column name="CMPNT_SET_ID" value="DD:KFS" /> 
-	</insert> -->
+	
 	<modifySql dbms="mysql"><replace with="UUID()" replace="SYS_GUID()"/></modifySql>
 	</changeSet>
 	

@@ -7,8 +7,7 @@
 	 <documentType>
       <name>IAA</name>
       <label>Intra Account Adjustment</label>
-      <parent>FP</parent>
-      <!-- <helpDefinitionURL>default.htm?turl=WordDocuments%2Fiaadocument.htm</helpDefinitionURL> -->
+      <parent>FP</parent>      
       <docHandler>${kfs.url}/financialIntraAccountAdjustment.do?methodToCall=docHandler</docHandler>      
       <active>
         true

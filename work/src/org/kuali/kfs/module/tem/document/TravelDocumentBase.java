@@ -680,7 +680,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * @return the generated trip id for the trip
      */
     public String generateTripId() {
-        final String travelerType = (getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND) && getTraveler() != null && !StringUtils.isBlank(getTraveler().getTravelerTypeCode())) ?
+        final String travelerType = (getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND, Boolean.FALSE) && getTraveler() != null && !StringUtils.isBlank(getTraveler().getTravelerTypeCode())) ?
                 getTraveler().getTravelerTypeCode()+"-" :
                 "";
         return getTripIdPrefix() + travelerType + getSequenceForTripId();

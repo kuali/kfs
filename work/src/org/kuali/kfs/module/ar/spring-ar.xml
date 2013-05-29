@@ -48,6 +48,8 @@
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions" value="org.kuali.kfs.module.ar.businessobject.OrganizationOptions" />
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation" value="org.kuali.kfs.module.ar.businessobject.SystemInformation" />
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+                <entry key="org.kuali.kfs.integration.ar.AccountsReceivableDunningCampaign" value="org.kuali.kfs.module.ar.businessobject.DunningCampaign" />
+				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableCollectionStatus" value="org.kuali.kfs.module.ar.businessobject.CollectionStatus" />
             </map>
         </property>  
 		<property name="dataDictionaryPackages">

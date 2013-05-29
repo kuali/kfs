@@ -397,9 +397,7 @@
 	<bean id="Agency-customerNumber" parent="Agency-customerNumber-parentBean" />
 
 	<bean id="Agency-customerNumber-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ar.AccountsReceivableCustomer"
-		p:sourceAttributeName="customerNumber">
+		parent="Customer-customerNumber">
 		<property name="name" value="customerNumber" />
 		<property name="label" value="Customer Number" />
 		<property name="shortLabel" value="Customer Number" />

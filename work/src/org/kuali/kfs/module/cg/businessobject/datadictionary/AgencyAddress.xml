@@ -332,7 +332,7 @@
 		</property>
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder"
+				p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

@@ -79,11 +79,11 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      */
     public AwardAccount() {
         // Struts needs this instance to populate the secondary key, principalName.
-        try {
-            projectDirector = (Person) SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
-        }
-        catch (Exception e) {
-        }
+//        try {
+//            projectDirector = (Person) SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
+//        }
+//        catch (Exception e) {
+//        }
     }
 
     /***
@@ -203,7 +203,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      */
     @Override
     public Person getProjectDirector() {
-        projectDirector = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(principalId, projectDirector);
+        projectDirector = SpringContext.getBean(PersonService.class).updatePersonIfNecessary(principalId, projectDirector);
         return projectDirector;
     }
 

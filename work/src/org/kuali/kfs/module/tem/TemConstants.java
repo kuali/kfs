@@ -110,6 +110,12 @@ public class TemConstants {
     public static final String PERCENTAGE = "P";
     public static final String QUARTER = "Q";
 
+    public static class TripIdPrefix {
+        public static final String TRIP_PREFIX = "T-";
+        public static final String RELOCATION_PREFIX = "R-";
+        public static final String ENTERTAINMENT_PREFIX = "E-";
+    }
+
     public static interface Report {
         public static final String TEMPLATE_CLASSPATH = "org/kuali/kfs/module/tem/report/";
         public static final String TEMPLATE_PATH_FORMAT = TEMPLATE_CLASSPATH + "%s";
@@ -201,6 +207,7 @@ public class TemConstants {
 
         public static final String VENDOR_PAYMENT_REASON_CODE = "VENDOR_PAYMENT_REASON_CODE";
         public static final String INCLUDE_ARRANGER_EXPENSE_IN_IMPORTED_EXPENSE_IND = "INCLUDE_ARRANGER_EXPENSE_IN_IMPORTED_EXPENSE_IND";
+        public static final String INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND = "INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND";
     }
 
     public static class TravelAuthorizationParameters {

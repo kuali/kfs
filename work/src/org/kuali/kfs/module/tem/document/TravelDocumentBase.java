@@ -646,17 +646,8 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             // need retrieve the next available TR id to save in GL entries (only do if travel request id is null which should be on
             // first
             // save)
-            SequenceAccessorService sas = getSequenceAccessorService();
-            Long trSequenceNumber = sas.getNextAvailableSequenceNumber("TRVL_ID_SEQ", this.getClass());
 
-            String docId = "T-";
-            if(this instanceof TravelEntertainmentDocument) {
-            	docId = "E-";
-            } else if (this instanceof TravelRelocationDocument) {
-            	docId = "M-";
-            }
-
-            setTravelDocumentIdentifier(docId + trSequenceNumber.toString());
+            setTravelDocumentIdentifier(generateTripId());
             this.getDocumentHeader().setOrganizationDocumentNumber(getTravelDocumentIdentifier());
         }
 
@@ -664,6 +655,35 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         getDocumentHeader().setDocumentDescription(generateDescription());
 
         super.prepareForSave(event);
+    }
+
+    /**
+     * @return the next sequence id in the TRVL_ID_SEQ
+     */
+    protected String getSequenceForTripId() {
+        SequenceAccessorService sas = getSequenceAccessorService();
+        final Long trSequenceNumber = sas.getNextAvailableSequenceNumber("TRVL_ID_SEQ", this.getClass());
+        return trSequenceNumber.toString();
+    }
+
+    /**
+     * @return the trip id prefix associated with this document type
+     */
+    protected String getTripIdPrefix() {
+        return TemConstants.TripIdPrefix.TRIP_PREFIX;
+    }
+
+    /**
+     * Generates a trip id for a trip.  It is based on document prefix + a unique sequence.  If the KFS-TEM / Document / INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND
+     * is set to on, then a traveler type ("NON" for non-employee or "EMP" for employee) will be inserted into the prefix between the trip id and the sequence number.
+     * If a completely different scheme is needed to generate trip id's appropriate to your institution, this is the single method to override
+     * @return the generated trip id for the trip
+     */
+    public String generateTripId() {
+        final String travelerType = (getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND) && getTraveler() != null && !StringUtils.isBlank(getTraveler().getTravelerTypeCode())) ?
+                getTraveler().getTravelerTypeCode()+"-" :
+                "";
+        return getTripIdPrefix() + travelerType + getSequenceForTripId();
     }
 
     /**

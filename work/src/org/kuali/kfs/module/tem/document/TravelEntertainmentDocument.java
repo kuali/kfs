@@ -523,4 +523,12 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         return TemConstants.TravelDocTypes.ENTERTAINMENT_WIRE_OR_FOREIGN_DRAFT_DOCUMENT;
     }
 
+    /**
+     * Returns "E-"
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getTripIdPrefix()
+     */
+    @Override
+    protected String getTripIdPrefix() {
+        return TemConstants.TripIdPrefix.ENTERTAINMENT_PREFIX;
+    }
 }

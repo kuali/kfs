@@ -66,6 +66,18 @@
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsInvoiceTemplate" value="org.kuali.kfs.module.cg.businessobject.InvoiceTemplate" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsOrganization" value="org.kuali.kfs.module.cg.businessobject.AwardOrganization" />
 				<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsProjectDirector" value="org.kuali.kfs.module.cg.businessobject.AwardProjectDirector" />
+
+				<!-- from spring-ar.xml -->
+                <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress" value="org.kuali.kfs.module.ar.businessobject.CustomerAddress" />
+                <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomer" value="org.kuali.kfs.module.ar.businessobject.Customer" />
+                <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType" value="org.kuali.kfs.module.ar.businessobject.CustomerAddressType" />
+                <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail" />
+                <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerType" value="org.kuali.kfs.module.ar.businessobject.CustomerType" />
+                <entry key="org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions" value="org.kuali.kfs.module.ar.businessobject.OrganizationOptions" />
+                <entry key="org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation" value="org.kuali.kfs.module.ar.businessobject.SystemInformation" />
+                <entry key="org.kuali.kfs.integration.ar.AccountsReceivableDocumentHeader" value="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" />
+				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableDunningCampaign" value="org.kuali.kfs.module.ar.businessobject.DunningCampaign" />
+				<entry key="org.kuali.kfs.integration.ar.AccountsReceivableCollectionStatus" value="org.kuali.kfs.module.ar.businessobject.CollectionStatus" />
 			</map>
 		</property>
 		<property name="externalizableBusinessObjectServiceImplementations">

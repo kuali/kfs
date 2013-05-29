@@ -63,7 +63,7 @@
 				<ref bean="Agency-agencyAddresses.agencyPrintEnvelopesNumber" />
 				<ref bean="Agency-active" />
 				<ref bean="Agency-customerCreated" />
-				<ref bean="Agency-customerNumber" />
+				<!-- <ref bean="Agency-customerNumber" /> -->
 				<ref bean="Agency-customerTypeCode" />
 				<ref bean="Agency-sponsorCode" />
 				<ref bean="Agency-dunningCampaign" />
@@ -104,7 +104,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="RelationshipDefinition" p:objectAttributeName="customer">
+<!-- 				<bean parent="RelationshipDefinition" p:objectAttributeName="customer">
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="customerNumber"
@@ -112,7 +112,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="RelationshipDefinition"  p:objectAttributeName="collStatusObj">
+ -->				<bean parent="RelationshipDefinition"  p:objectAttributeName="collStatusObj">
 		          <property name="primitiveAttributes">
 		           	 <list>
 		              	<bean parent="PrimitiveAttributeDefinition" p:sourceName="collectionStatus" p:targetName="statusCode"/>
@@ -394,7 +394,7 @@
 		<property name="shortLabel" value="Expiry" />
 	</bean>
 
-	<bean id="Agency-customerNumber" parent="Agency-customerNumber-parentBean" />
+<!-- 	<bean id="Agency-customerNumber" parent="Agency-customerNumber-parentBean" />
 
 	<bean id="Agency-customerNumber-parentBean" abstract="true"
 		parent="Customer-customerNumber">
@@ -402,7 +402,7 @@
 		<property name="label" value="Customer Number" />
 		<property name="shortLabel" value="Customer Number" />
 	</bean>
-
+ -->
 	<bean id="Agency-customerTypeCode" parent="Agency-customerTypeCode-parentBean" />
 
 	<bean id="Agency-customerTypeCode-parentBean" abstract="true"
@@ -750,7 +750,7 @@
 							<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportCode" />
 							<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportFreqCode" />
 							<bean parent="FieldDefinition" p:attributeName="agencyExpirationDate" />
-							<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+							<!-- <bean parent="FieldDefinition" p:attributeName="customerNumber" /> -->
 							<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
@@ -858,7 +858,7 @@
 				<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportCode" />
 				<bean parent="FieldDefinition" p:attributeName="agencyFinancialReportFreqCode" />
 				<bean parent="FieldDefinition" p:attributeName="agencyExpirationDate" />
-				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<!-- <bean parent="FieldDefinition" p:attributeName="customerNumber" /> -->
 				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
 				<bean parent="FieldDefinition" p:attributeName="bankruptcyReviewDate" />
 				<bean parent="FieldDefinition" p:defaultValue="Y"
@@ -900,7 +900,7 @@
 				<bean parent="FieldDefinition" p:attributeName="cageNumber" />
 				<bean parent="FieldDefinition" p:attributeName="dodacNumber" />
 				<bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
-				<bean parent="FieldDefinition" p:attributeName="customerNumber" />
+				<!-- <bean parent="FieldDefinition" p:attributeName="customerNumber" /> -->
 				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>

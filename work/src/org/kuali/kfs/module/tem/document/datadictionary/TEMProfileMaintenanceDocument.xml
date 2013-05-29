@@ -190,7 +190,7 @@
 				</bean>
 				<bean parent="MaintainableSubSectionHeaderDefinition" p:name="Profile Status"/>
                 <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" p:unconditionallyReadOnly="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="customerNumber" p:required="true" p:unconditionallyReadOnly="true" />
+                <!-- <bean parent="MaintainableFieldDefinition" p:name="customerNumber" p:required="true" p:unconditionallyReadOnly="true" /> -->
                 <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" />
 			</list>
 		</property>

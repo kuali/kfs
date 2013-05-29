@@ -79,11 +79,11 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      */
     public AwardAccount() {
         // Struts needs this instance to populate the secondary key, principalName.
-        try {
+//        try {
 //            projectDirector = (Person) SpringContext.getBean(PersonService.class).getPersonImplementationClass().newInstance();
-        }
-        catch (Exception e) {
-        }
+//        }
+//        catch (Exception e) {
+//        }
     }
 
     /***
@@ -318,7 +318,6 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      *
      * @return Returns the currentLastBilledDate.
      */
-    @Override
     public Date getCurrentLastBilledDate() {
         return currentLastBilledDate;
     }
@@ -337,7 +336,6 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      *
      * @return Returns the previousLastBilledDate.
      */
-    @Override
     public Date getPreviousLastBilledDate() {
         return previousLastBilledDate;
     }

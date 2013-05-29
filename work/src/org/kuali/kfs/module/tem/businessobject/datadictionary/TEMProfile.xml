@@ -143,7 +143,7 @@
 						</list>
 					</property>
 				</bean>
-<!-- 				<bean parent="RelationshipDefinition">
+ 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="customer" />
 					<property name="primitiveAttributes">
 						<list>
@@ -152,7 +152,7 @@
 						</list>
 					</property>
 				</bean>
- -->				<bean parent="RelationshipDefinition">
+				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="homeDeptOrg" />
 					<property name="primitiveAttributes">
 						<list>
@@ -185,12 +185,12 @@
 
 	<!-- <bean id="TEMProfile-customerNumber" parent="TEMProfile-customerNumber-parentBean" />
 	<bean id="TEMProfile-customerNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" 
-	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ar.AccountsReceivableCustomer" p:sourceAttributeName="customerNumber">
+	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ar.AccountsReceivableCustomer" p:sourceAttributeName="customerNumber"> -->
 	<bean id="TEMProfile-customerNumber" parent="TEMProfile-customerNumber-parentBean" />
 	<bean id="TEMProfile-customerNumber-parentBean" abstract="true" parent="Customer-customerNumber">
 		<property name="name" value="customerNumber" />
 		<property name="label" value="AR Customer Id" />
-	</bean> -->
+	</bean>
 
 	<bean id="TEMProfile-driversLicenseNumber" parent="TEMProfile-driversLicenseNumber-parentBean" />
 	<bean id="TEMProfile-driversLicenseNumber-parentBean" parent="AttributeDefinition">

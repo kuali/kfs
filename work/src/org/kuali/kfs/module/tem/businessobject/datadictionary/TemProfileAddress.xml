@@ -31,13 +31,10 @@
 	</bean>
 	
 	<bean id="TemProfileAddress-customerNumber" parent="TemProfileAddress-customerNumber-parentBean" />
-	<!-- <bean id="TemProfileAddress-customerNumber-parentBean" parent="TEMProfile-customerNumber"> -->
-	<bean id="TemProfileAddress-customerNumber-parentBean" parent="AttributeDefinition">
+	<bean id="TemProfileAddress-customerNumber-parentBean" parent="TEMProfile-customerNumber">
 		<property name="control">
 			<ref bean="HiddenControl" />
 		</property>
-		<property name="name" value="customerNumber" />
-		<property name="label" value="AR Customer Id" />
 	</bean>
 	
 	<bean id="TemProfileAddress-profileId" parent="TemProfileAddress-profileId-parentBean" />

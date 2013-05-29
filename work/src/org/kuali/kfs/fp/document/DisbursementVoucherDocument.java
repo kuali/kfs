@@ -43,6 +43,7 @@ import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.AdHocPaymentIndicator;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -1871,6 +1872,25 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         return DisbursementVoucherConstants.DOCUMENT_TYPE_CHECKACH;
     }
 
+    /**
+     * Returns the value of the KFS-FP / Disbursement Voucher / IMMEDIATE_EXTRACT_NOTIFICATION_FROM_EMAIL_ADDRESS parameter
+     * @see org.kuali.kfs.sys.document.PaymentSource#getImmediateExtractEMailFromAddress()
+     */
+    @Override
+    public String getImmediateExtractEMailFromAddress() {
+        return getParameterService().getParameterValueAsString(DisbursementVoucherDocument.class, KFSParameterKeyConstants.PdpExtractBatchParameters.IMMEDIATE_EXTRACT_FROM_ADDRESS_PARM_NM);
+    }
+
+    /**
+     * Returns the value of the KFS-FP / Disbursement Voucher / IMMEDIATE_EXTRACT_NOTIFICATION_TO_EMAIL_ADDRESSES parameter
+     * @see org.kuali.kfs.sys.document.PaymentSource#getImmediateExtractEmailToAddresses()
+     */
+    @Override
+    public List<String> getImmediateExtractEmailToAddresses() {
+        List<String> toAddresses = new ArrayList<String>();
+        toAddresses.addAll(getParameterService().getParameterValuesAsString(DisbursementVoucherDocument.class, KFSParameterKeyConstants.PdpExtractBatchParameters.IMMEDIATE_EXTRACT_TO_ADDRESSES_PARM_NM));
+        return toAddresses;
+    }
 
     /**
      * Determines if the campus this DV is related to is taxed (and should get tax review routing) for moving reimbursements

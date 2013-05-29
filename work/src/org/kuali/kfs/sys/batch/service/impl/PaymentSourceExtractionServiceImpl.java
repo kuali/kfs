@@ -421,10 +421,7 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
         batch.setPaymentTotalAmount(totalAmount);
 
         businessObjectService.save(batch);
-        if (paymentSource instanceof DisbursementVoucherDocument) {
-            // TODO should check this!!!
-            paymentFileEmailService.sendDisbursementVoucherImmediateExtractEmail((DisbursementVoucherDocument)paymentSource);
-        }
+        paymentFileEmailService.sendPaymentSourceImmediateExtractEmail(paymentSource);
     }
 
     /**
@@ -536,24 +533,6 @@ public class PaymentSourceExtractionServiceImpl implements PaymentSourceExtracti
             }
             paymentSource.setGeneralLedgerPendingEntries(newGLPEs);
         }
-    }
-
-
-    /**
-     * Returns the document types for the DV, TR, RELO, ENT, and TA check/ach fslo doc types
-     * @see org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService#getPaymentSourceCheckACHDocumentTypes()
-     */
-    @Override
-    public Set<String> getPaymentSourceCheckACHDocumentTypes() {
-        return checkAchFsloDocTypes;
-    }
-
-    /**
-     * Sets the document types which PaymentSourceExtractionService can pay out or cancel
-     * @param checkAchFsloDocTypes a Set of document type names
-     */
-    public void setPaymentSourceCheckACHDocumentTypes(Set<String> checkAchFsloDocTypes) {
-        this.checkAchFsloDocTypes = checkAchFsloDocTypes;
     }
 
     /**

@@ -111,7 +111,7 @@ public class TravelReimbursementAction extends TravelActionBase {
 
         final String identifierStr = request.getParameter(TRVL_IDENTIFIER_PROPERTY);
 
-        if (identifierStr != null) {
+        if (!StringUtils.isBlank(identifierStr)) {
             LOG.debug("Creating reimbursement for document number "+ identifierStr);
             document.setTravelDocumentIdentifier(identifierStr);
             TravelAuthorizationDocument authorization = (TravelAuthorizationDocument) getTravelDocumentService().findCurrentTravelAuthorization(document);
@@ -746,9 +746,9 @@ public class TravelReimbursementAction extends TravelActionBase {
             TravelReimbursementForm travelReimbursementForm = (TravelReimbursementForm) form;
             TravelReimbursementDocument travelReimbursementDocument = travelReimbursementForm.getTravelReimbursementDocument();
 
-            String value = getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND);
+            Boolean value = getParameterService().getParameterValueAsBoolean(TravelReimbursementDocument.class, TemConstants.TravelReimbursementParameters.PRETRIP_REIMBURSEMENT_IND);
 
-            if (value.equalsIgnoreCase("Y")){
+            if (value != null && value.booleanValue()){
                 String description = travelReimbursementDocument.getDocumentHeader().getDocumentDescription();
                 travelReimbursementDocument.getDocumentHeader().setDocumentDescription(description + " (Pre-Trip)");
             }

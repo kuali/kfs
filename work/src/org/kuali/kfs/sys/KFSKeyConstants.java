@@ -418,7 +418,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DV_PREPAID_EXPENSE_AMOUNT = "error.dv.prepaidExpenseAmountIsBlank";
     public static final String ERROR_DV_PREPAID_CHECK_TOTAL = "error.dv.prepaidCheckTotal";
     public static final String WARNING_DV_PAYEE_NONEXISTANT_CLEARED = "message.dv.payee.nonexistant.cleared";
-    public static final String MESSAGE_DV_WIRE_CHARGE = "message.dv.wireCharge";
+    public static final String MESSAGE_PAYMENT_WIRE_CHARGE = "message.payment.wireCharge";
     public static final String ERROR_DV_EMPLOYEE_PAID_OUTSIDE_PAYROLL = "error.dv.emplPaidOutsidePayroll";
     public static final String ERROR_DV_MOVING_PAYMENT_PAYEE = "error.dv.movingPaymentPayee";
     public static final String ERROR_DV_RESEARCH_PAYMENT_PAYEE = "error.dv.researchPaymentPayee";
@@ -426,8 +426,8 @@ public class KFSKeyConstants {
     public static final String ERROR_DV_REVOLVING_PAYMENT_REASON = "error.dv.revolvingPaymentReason";
     public static final String ERROR_DV_CHECK_TOTAL_CHANGE = "error.dv.checkTotalChange";
     public static final String ERROR_DV_CAMPUS_TURNED_OFF_SPECIAL_HANDLING_WITHOUT_EXPLANATORY_NOTE = "error.dv.campusTurnedOffSpecialHandlingWithoutExplanatoryNote";
-    public static final String MESSAGE_DV_IMMEDIATE_EXTRACT_EMAIL_SUBJECT = "message.dv.immediateExtractEmail.subject";
-    public static final String MESSAGE_DV_IMMEDIATE_EXTRACT_EMAIL_BODY = "message.dv.immediateExtractEmail.body";
+    public static final String MESSAGE_PAYMENT_SOURCE_IMMEDIATE_EXTRACT_EMAIL_SUBJECT = "message.paymentSource.immediateExtractEmail.subject";
+    public static final String MESSAGE_PAYMENT_SOURCE_IMMEDIATE_EXTRACT_EMAIL_BODY = "message.paymentSource.immediateExtractEmail.body";
 
     public static final String ERROR_BA_AMOUNT_ZERO = "error.document.ba.amount.zero";
     public static final String ERROR_BA_AMOUNT_NEGATIVE = "error.document.ba.amount.negative";

@@ -87,59 +87,29 @@
 	</c:if>
 
 	<strong>Financial Processing</strong><br />
-	<ul class="chan">
-		<li><portal:portalLink displayTitle="true"
-				title="Advance Deposit"
-				url="financialAdvanceDeposit.do?methodToCall=docHandler&command=initiate&docTypeName=AD" /></li>
-		<li><portal:portalLink displayTitle="true"
-				title="Auxiliary Voucher"
-				url="financialAuxiliaryVoucher.do?methodToCall=docHandler&command=initiate&docTypeName=AV" /></li>
-		<li><portal:portalLink displayTitle="true"
-				title="Budget Adjustment"
-				url="financialBudgetAdjustment.do?methodToCall=docHandler&command=initiate&docTypeName=BA" /></li>
-		<li><portal:portalLink displayTitle="true" title="Cash Receipt"
-				url="financialCashReceipt.do?methodToCall=docHandler&command=initiate&docTypeName=CR" /></li>
-		<li><portal:portalLink displayTitle="true"
-				title="Credit Card Receipt"
-				url="financialCreditCardReceipt.do?methodToCall=docHandler&command=initiate&docTypeName=CCR" /></li>
-		<li><portal:portalLink displayTitle="true"
-				title="Disbursement Voucher"
-				url="financialDisbursementVoucher.do?methodToCall=docHandler&command=initiate&docTypeName=DV" /></li>
-		<li><portal:portalLink displayTitle="true"
-				title="Distribution of Income and Expense"
-				url="financialDistributionOfIncomeAndExpense.do?methodToCall=docHandler&command=initiate&docTypeName=DI" /></li>
-		<li><portal:portalLink displayTitle="true"
-				title="General Error Correction"
-				url="financialGeneralErrorCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=GEC" /></li>
-		<li><portal:portalLink displayTitle="true"
-				title="Indirect Cost Adjustment"
-				url="financialIndirectCostAdjustment.do?methodToCall=docHandler&command=initiate&docTypeName=ICA" /></li>
-		<li><portal:portalLink displayTitle="true"
-				title="Internal Billing"
-				url="financialInternalBilling.do?methodToCall=docHandler&command=initiate&docTypeName=IB" /></li>
-		<li><portal:portalLink displayTitle="true"
-				title="Pre-Encumbrance"
-				url="financialPreEncumbrance.do?methodToCall=docHandler&command=initiate&docTypeName=PE" /></li>
-		<li><portal:portalLink displayTitle="true"
-				title="Transfer of Funds"
-				url="financialTransferOfFunds.do?methodToCall=docHandler&command=initiate&docTypeName=TF" /></li>
-		<li><portal:portalLink displayTitle="true"
-				title="Intra Account Adjustment"
-				url="financialIntraAccountAdjustment.do?methodToCall=docHandler&command=initiate&docTypeName=IAA" /></li>
-	</ul>
-
-	<c:if
-		test="${ConfigProperties.module.labor.distribution.enabled == 'true'}">
-		<strong>Labor Distribution</strong>
-		<br />
-		<ul class="chan">
-			<li><portal:portalLink displayTitle="true"
-					title="Benefit Expense Transfer"
-					url="laborBenefitExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=BT" /></li>
-			<li><portal:portalLink displayTitle="true"
-					title="Salary Expense Transfer"
-					url="laborSalaryExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=ST" /></li>
-		</ul>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Advance Deposit" url="financialAdvanceDeposit.do?methodToCall=docHandler&command=initiate&docTypeName=AD" /></li>
+		<li><portal:portalLink displayTitle="true" title="Auxiliary Voucher" url="financialAuxiliaryVoucher.do?methodToCall=docHandler&command=initiate&docTypeName=AV" /></li>
+        <li><portal:portalLink displayTitle="true" title="Budget Adjustment" url="financialBudgetAdjustment.do?methodToCall=docHandler&command=initiate&docTypeName=BA" /></li>
+        <li><portal:portalLink displayTitle="true" title="Cash Receipt" url="financialCashReceipt.do?methodToCall=docHandler&command=initiate&docTypeName=CR" /></li>
+        <li><portal:portalLink displayTitle="true" title="Credit Card Receipt" url="financialCreditCardReceipt.do?methodToCall=docHandler&command=initiate&docTypeName=CCR" /></li>
+        <li><portal:portalLink displayTitle="true" title="Disbursement Voucher" url="financialDisbursementVoucher.do?methodToCall=docHandler&command=initiate&docTypeName=DV" /></li>
+        <li><portal:portalLink displayTitle="true" title="Distribution of Income and Expense" url="financialDistributionOfIncomeAndExpense.do?methodToCall=docHandler&command=initiate&docTypeName=DI" /></li>
+		<li><portal:portalLink displayTitle="true" title="General Error Correction" url="financialGeneralErrorCorrection.do?methodToCall=docHandler&command=initiate&docTypeName=GEC" /></li>
+		<li><portal:portalLink displayTitle="true" title="Indirect Cost Adjustment" url="financialIndirectCostAdjustment.do?methodToCall=docHandler&command=initiate&docTypeName=ICA" /></li>
+		<li><portal:portalLink displayTitle="true" title="Internal Billing" url="financialInternalBilling.do?methodToCall=docHandler&command=initiate&docTypeName=IB" /></li>
+		<li><portal:portalLink displayTitle="true" title="Intra Account Adjustment" url="financialIntraAccountAdjustment.do?methodToCall=docHandler&command=initiate&docTypeName=IAA" /></li>	
+		<li><portal:portalLink displayTitle="true" title="Pre-Encumbrance" url="financialPreEncumbrance.do?methodToCall=docHandler&command=initiate&docTypeName=PE" /></li>
+		<li><portal:portalLink displayTitle="true" title="Transfer of Funds" url="financialTransferOfFunds.do?methodToCall=docHandler&command=initiate&docTypeName=TF" /></li>
+		
+    </ul>
+    
+    <c:if test="${ConfigProperties.module.labor.distribution.enabled == 'true'}">
+	    <strong>Labor Distribution</strong><br />
+	    <ul class="chan">
+	        <li><portal:portalLink displayTitle="true" title="Benefit Expense Transfer" url="laborBenefitExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=BT" /></li>	            
+			<li><portal:portalLink displayTitle="true" title="Salary Expense Transfer" url="laborSalaryExpenseTransfer.do?methodToCall=docHandler&command=initiate&docTypeName=ST" /></li>	
+	    </ul>
 	</c:if>
 
 	<c:if test="${ConfigProperties.module.purchasing.enabled == 'true'}">

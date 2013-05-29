@@ -66,35 +66,33 @@ public class TravelDocumentNotificationServiceImpl implements TravelDocumentNoti
     public void sendNotificationOnChange(TravelDocument travelDocument, DocumentRouteStatusChange statusChangeDTO) {
         String documentTypeCode = travelDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
         NotificationPreference preference = null;
-        TEMProfile travelProfile = this.getTravelProfile(travelDocument);
-        String newRouteStatus = statusChangeDTO.getNewRouteStatus();
+        if (this.isNotificationEnabled()) {
+            TEMProfile travelProfile = this.getTravelProfile(travelDocument);
+            String newRouteStatus = statusChangeDTO.getNewRouteStatus();
 
-        if (!this.isNotificationEnabled()) {
-            return;
-        }
-
-        if (travelProfile == null) {
-            LOG.error("travelProfile is null.");
-            return;
-        }
-
-        if (travelDocument instanceof TravelAuthorizationDocument) {
-            if (!verifyDocumentTypeCodes(documentTypeCode, this.getEligibleTravelAuthorizationDocumentTypeCodes())) {
+            if (travelProfile == null) {
+                LOG.error("travelProfile is null.");
                 return;
             }
 
-            preference = getEmailNotificationPreference(preference, newRouteStatus, travelProfile.getNotifyTAFinal(), travelProfile.getNotifyTAStatusChange());
-        }
-        else {
-            // TR/ENT/RELO
-            if (!verifyDocumentTypeCodes(documentTypeCode, this.getEligibleTravelExpenseDocumentTypeCodes())) {
-                return;
+            if (travelDocument instanceof TravelAuthorizationDocument) {
+                if (!verifyDocumentTypeCodes(documentTypeCode, this.getEligibleTravelAuthorizationDocumentTypeCodes())) {
+                    return;
+                }
+
+                preference = getEmailNotificationPreference(preference, newRouteStatus, travelProfile.getNotifyTAFinal(), travelProfile.getNotifyTAStatusChange());
+            }
+            else {
+                // TR/ENT/RELO
+                if (!verifyDocumentTypeCodes(documentTypeCode, this.getEligibleTravelExpenseDocumentTypeCodes())) {
+                    return;
+                }
+
+                preference = getEmailNotificationPreference(preference, newRouteStatus, travelProfile.getNotifyTERFinal(), travelProfile.getNotifyTERStatusChange());
             }
 
-            preference = getEmailNotificationPreference(preference, newRouteStatus, travelProfile.getNotifyTERFinal(), travelProfile.getNotifyTERStatusChange());
+            this.sendNotificationByPreference(travelDocument, statusChangeDTO, preference);
         }
-
-        this.sendNotificationByPreference(travelDocument, statusChangeDTO, preference);
     }
 
     private boolean verifyDocumentTypeCodes(String documentTypeCode, Collection<String> eligibleDocumentTypeCodes) {
@@ -122,8 +120,10 @@ public class TravelDocumentNotificationServiceImpl implements TravelDocumentNoti
      */
     protected TEMProfile getTravelProfile(TravelDocument travelDocument) {
         Integer travelProfileId = travelDocument.getProfileId();
-
-        return this.getBusinessObjectService().findBySinglePrimaryKey(TEMProfile.class, travelProfileId);
+        if (travelProfileId != null) {
+            return this.getBusinessObjectService().findBySinglePrimaryKey(TEMProfile.class, travelProfileId);
+        }
+        return null;
     }
 
     /**

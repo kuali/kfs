@@ -399,7 +399,7 @@
         <securityAttribute class="org.kuali.kfs.module.tem.document.workflow.TEMSecurityAttribute"/>
       </security -->
       <routingVersion>
-        1
+        2
       </routingVersion>
     </documentType>
   </documentTypes>

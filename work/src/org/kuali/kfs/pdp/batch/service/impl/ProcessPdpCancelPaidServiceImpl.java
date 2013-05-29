@@ -17,12 +17,16 @@ package org.kuali.kfs.pdp.batch.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.pdp.PdpConstants;
+import org.kuali.kfs.pdp.PdpParameterConstants;
+import org.kuali.kfs.pdp.batch.ProcessPdPCancelsAndPaidStep;
 import org.kuali.kfs.pdp.batch.service.ProcessPdpCancelPaidService;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
@@ -51,6 +55,8 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     protected PurchasingAccountsPayableModuleService purchasingAccountsPayableModuleService;
     protected PaymentSourceExtractionService dvExtractService;
     protected DocumentService documentService;
+
+    protected volatile Set<String> paymentSourceCheckACHDocumentTypes;
 
     /**
      * @see org.kuali.kfs.module.purap.service.ProcessPdpCancelPaidService#processPdpCancels()
@@ -82,7 +88,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
             if(purchasingAccountsPayableModuleService.isPurchasingBatchDocument(documentTypeCode)) {
                 purchasingAccountsPayableModuleService.handlePurchasingBatchCancels(documentNumber, documentTypeCode, primaryCancel, disbursedPayment);
             }
-            else if (dvExtractService.getPaymentSourceCheckACHDocumentTypes().contains(documentTypeCode)) {
+            else if (getPaymentSourceCheckACHDocumentTypes().contains(documentTypeCode)) {
                 try {
                     PaymentSource dv = (PaymentSource)getDocumentService().getByDocumentHeaderId(documentNumber);
                     if (dv != null) {
@@ -132,7 +138,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
             if(purchasingAccountsPayableModuleService.isPurchasingBatchDocument(documentTypeCode)) {
                 purchasingAccountsPayableModuleService.handlePurchasingBatchPaids(documentNumber, documentTypeCode, processDate);
             }
-            else if (dvExtractService.getPaymentSourceCheckACHDocumentTypes().contains(documentTypeCode)) {
+            else if (getPaymentSourceCheckACHDocumentTypes().contains(documentTypeCode)) {
                 try {
                     PaymentSource dv = (PaymentSource)getDocumentService().getByDocumentHeaderId(documentNumber);
                     dvExtractService.markPaymentSourceAsPaid(dv, processDate);
@@ -158,6 +164,16 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
 
         processPdpCancels();
         processPdpPaids();
+    }
+
+    /**
+     * @return a List of all of the FSLO-parented document types which represent ACH or Checks created by PaymentSources
+     */
+    public Set<String> getPaymentSourceCheckACHDocumentTypes() {
+        if (paymentSourceCheckACHDocumentTypes == null) {
+            paymentSourceCheckACHDocumentTypes = new HashSet<String>(parameterService.getParameterValuesAsString(ProcessPdPCancelsAndPaidStep.class, PdpParameterConstants.PAYMENT_SOURCE_DOCUMENT_TYPES));
+        }
+        return paymentSourceCheckACHDocumentTypes;
     }
 
     public void setPaymentDetailService(PaymentDetailService paymentDetailService) {

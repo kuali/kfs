@@ -2838,7 +2838,8 @@
 		
     </bean>
     
- <bean id="trialBalanceDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.TrialBalanceDaoJdbc" />	
+    <bean id="trialBalanceDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.gl.dataaccess.impl.TrialBalanceDaoJdbc" />
+    	
 	<bean id="trialBalanceService" parent="trialBalanceService-parentBean" />
     <bean id="trialBalanceService-parentBean" abstract="true" class="org.kuali.kfs.gl.service.impl.TrialBalanceServiceImpl">
 		<property name="trialBalanceDao" ref="trialBalanceDao" />

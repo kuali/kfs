@@ -25,6 +25,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -32,6 +33,7 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.DisbursementVoucherPaymentMethods;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
@@ -39,6 +41,8 @@ import org.kuali.kfs.module.tem.businessobject.TravelPayment;
 import org.kuali.kfs.module.tem.document.service.ReimbursableDocumentPaymentService;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
+import org.kuali.kfs.sys.batch.service.PaymentSourceExtractionService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -50,6 +54,7 @@ import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.document.service.PaymentSourceHelperService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.document.Document;
@@ -65,6 +70,7 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
 
     protected static transient volatile ReimbursableDocumentPaymentService reimbursableDocumentPaymentService;
     protected static transient volatile PaymentSourceHelperService paymentSourceHelperService;
+    protected static transient volatile PaymentSourceExtractionService paymentSourceExtractionService;
 
     @Column(name = "PAYMENT_METHOD", nullable = true, length = 15)
     public String getPaymentMethod() {
@@ -218,7 +224,7 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
         }
 
         /* change document type based on payment method to pick up different offsets */
-        if (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK.equals(getTravelPayment().getPaymentMethodCode())) {
+        if (StringUtils.isBlank(getTravelPayment().getPaymentMethodCode()) || KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK.equals(getTravelPayment().getPaymentMethodCode())) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("changing doc type on pending entry " + explicitEntry.getTransactionLedgerEntrySequenceNumber() + " to " + getAchCheckDocumentType());
             }
@@ -242,6 +248,26 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
      * @return the FSLO document type associated with wire transfer or foreign draft entries for this document type
      */
     public abstract String getWireTransferOrForeignDraftDocumentType();
+
+    /**
+     * Returns the value of the KFS-TEM / Document / IMMEDIATE_EXTRACT_NOTIFICATION_FROM_EMAIL_ADDRESS parameter
+     * @see org.kuali.kfs.sys.document.PaymentSource#getImmediateExtractEMailFromAddress()
+     */
+    @Override
+    public String getImmediateExtractEMailFromAddress() {
+        return getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, KFSParameterKeyConstants.PdpExtractBatchParameters.IMMEDIATE_EXTRACT_FROM_ADDRESS_PARM_NM);
+    }
+
+    /**
+     * Returns the value of the KFS-TEM / Document / IMMEDIATE_EXTRACT_NOTIFICATION_TO_EMAIL_ADDRESSES parameter
+     * @see org.kuali.kfs.sys.document.PaymentSource#getImmediateExtractEmailToAddresses()
+     */
+    @Override
+    public List<String> getImmediateExtractEmailToAddresses() {
+        List<String> toAddresses = new ArrayList<String>();
+        toAddresses.addAll(getParameterService().getParameterValuesAsString(TemParameterConstants.TEM_DOCUMENT.class, KFSParameterKeyConstants.PdpExtractBatchParameters.IMMEDIATE_EXTRACT_TO_ADDRESSES_PARM_NM));
+        return toAddresses;
+    }
 
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getReimbursableTotal()
@@ -444,8 +470,11 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
 
     @Override
     public KualiDecimal getPaymentAmount() {
-        // TODO Auto-generated method stub
-        return null;
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+        for (SourceAccountingLine line : getReimbursableSourceAccountingLines()) {
+            totalAmount = totalAmount.add(line.getAmount());
+        }
+        return totalAmount;
     }
 
     /**
@@ -485,6 +514,20 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     }
 
     /**
+     * Overridden to extract immediate payment if necerssary
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
+     */
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
+            if (getTravelPayment().isImmediatePaymentIndicator()) {
+                getPaymentSourceExtractionService().extractSingleImmediatePayment(this);
+            }
+        }
+    }
+
+    /**
      * @return the default implementation of the ReimbursableDocumentPaymentService
      */
     public static ReimbursableDocumentPaymentService getReimbursableDocumentPaymentService() {
@@ -503,5 +546,16 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
        }
        return paymentSourceHelperService;
     }
+
+    /**
+     * @return the default implementation of the PaymentSourceHelperService
+     */
+    public static PaymentSourceExtractionService getPaymentSourceExtractionService() {
+        if (paymentSourceExtractionService == null) {
+            paymentSourceExtractionService = SpringContext.getBean(PaymentSourceExtractionService.class);
+        }
+        return paymentSourceExtractionService;
+    }
+
 
 }

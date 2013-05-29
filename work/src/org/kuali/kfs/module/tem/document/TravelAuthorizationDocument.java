@@ -391,6 +391,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         calendar.add(Calendar.DAY_OF_MONTH, 2);
         setTripEnd(new Timestamp(calendar.getTimeInMillis()));
         setDefaultBankCode();
+        /* TODO FIX SETTING DOCUMENTATION LOCATION CODE */
+        //getTravelPayment().setDocumentationLocationCode(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE,
+        //        getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE)));
     }
 
     /**
@@ -534,6 +537,12 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
                     }
                     SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
                 }
+
+                //************************************************** FILL THIS IN!!!
+                // TODO WE NEED TO EXTRACT AN IMMEDIATE PAYMENT
+                // if there's a travel advance on this document
+                // and the payment information on this document is marked extract immediate
+                // SpringContext.getBean(PaymentSourceExtractionService.class).extractSingleImmediatePayment(this);
             }
         }
     }
@@ -768,7 +777,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     @Override
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateVendorPayment(disbursementVoucherDocument);
-        String locationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE);
+        String locationCode = getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE, getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE));
         String startDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripBegin());
         String endDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripEnd());
         String checkStubText = this.getTravelDocumentIdentifier() + ", " + this.getPrimaryDestinationName() + ", " + startDate + " - " + endDate;

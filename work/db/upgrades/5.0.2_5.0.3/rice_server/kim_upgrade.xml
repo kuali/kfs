@@ -49,11 +49,6 @@
 	<changeSet id="KFSCNTRB-1558" author="KFS503">
 		<comment>KFSCNTRB-1558 Document not editable when person routed to for completion opens from the action list </comment>
 
-		<update tableName="KRIM_PERM_T">
-			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Send Ad Hoc Request') " />
-			<where>PERM_ID='KFSMI9071-PRM1'</where>
-		</update>
-
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSMI9071-RLPRM1" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>

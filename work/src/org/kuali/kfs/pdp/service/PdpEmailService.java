@@ -19,12 +19,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.pdp.businessobject.Batch;
 import org.kuali.kfs.pdp.businessobject.CustomerProfile;
 import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
+import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.MessageMap;
@@ -110,8 +110,8 @@ public interface PdpEmailService {
 
     /**
      * Sends notification e-mail that an immediate extract Disbursement Voucher has been extracted
-     * @param disbursementVoucher the disbursement voucher which was immediately extracted
+     * @param paymentSource the disbursement voucher which was immediately extracted
      * @param user the current extracting user
      */
-    public void sendDisbursementVoucherImmediateExtractEmail(DisbursementVoucherDocument disbursementVoucher);
+    public void sendPaymentSourceImmediateExtractEmail(PaymentSource paymentSource);
 }

@@ -27,7 +27,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.PdpParameterConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
@@ -47,6 +46,7 @@ import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.document.PaymentSource;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -814,14 +814,14 @@ public class PdpEmailServiceImpl implements PdpEmailService {
      * @param user the current extracting user
      */
     @Override
-    public void sendDisbursementVoucherImmediateExtractEmail(DisbursementVoucherDocument disbursementVoucher) {
+    public void sendPaymentSourceImmediateExtractEmail(PaymentSource paymentSource) {
         MailMessage message = new MailMessage();
 
-        final String fromAddress = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.IMMEDIATE_EXTRACT_FROM_ADDRESS_PARM_NM);
-        final Collection<String> toAddresses = parameterService.getParameterValuesAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.IMMEDIATE_EXTRACT_TO_ADDRESSES_PARM_NM);
+        final String fromAddress = paymentSource.getImmediateExtractEMailFromAddress();
+        final Collection<String> toAddresses = paymentSource.getImmediateExtractEmailToAddresses();
         final String disbursementVoucherDocumentLabel = dataDictionaryService.getDocumentLabelByTypeName(DisbursementVoucherConstants.DOCUMENT_TYPE_CODE);
-        final String subject = getMessage(KFSKeyConstants.MESSAGE_DV_IMMEDIATE_EXTRACT_EMAIL_SUBJECT, disbursementVoucherDocumentLabel, disbursementVoucher.getCampusCode());
-        final String body = getMessage(KFSKeyConstants.MESSAGE_DV_IMMEDIATE_EXTRACT_EMAIL_BODY, disbursementVoucherDocumentLabel, disbursementVoucher.getCampusCode(), disbursementVoucher.getDocumentNumber());
+        final String subject = getMessage(KFSKeyConstants.MESSAGE_PAYMENT_SOURCE_IMMEDIATE_EXTRACT_EMAIL_SUBJECT, disbursementVoucherDocumentLabel, paymentSource.getCampusCode());
+        final String body = getMessage(KFSKeyConstants.MESSAGE_PAYMENT_SOURCE_IMMEDIATE_EXTRACT_EMAIL_BODY, disbursementVoucherDocumentLabel, paymentSource.getCampusCode(), paymentSource.getDocumentNumber());
 
         message.setFromAddress(fromAddress);
         for (String toAddress : toAddresses) {

@@ -27,7 +27,6 @@
 		<addPrimaryKey tableName="TEM_ACCT_DOC_REL_T"
 			constraintName="TEM_ACCT_DOC_REL_TP1" columnNames="ID" />
 		<createTable tableName="TEM_ACCT_LINES_T">
-			<column name="ID" type="NUMBER(22,0)" />
 			<column name="FDOC_NBR" type="VARCHAR2(14)" />
 			<column name="FDOC_LINE_NBR" type="NUMBER(7,0)" />
 			<column name="FDOC_LN_TYP_CD" type="VARCHAR2(1)" />
@@ -53,7 +52,7 @@
 			<column name="CARD_TYPE" type="VARCHAR2(40)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_ACCT_LINES_T"
-			constraintName="TEM_ACCT_LINES_TP1" columnNames="ID,FDOC_NBR,FDOC_LINE_NBR,FDOC_LN_TYP_CD" />
+			constraintName="TEM_ACCT_LINES_TP1" columnNames="FDOC_NBR,FDOC_LINE_NBR,FDOC_LN_TYP_CD" />
 		<createTable tableName="TEM_ADV_PMNT_RSN_T">
 			<column name="CODE" type="VARCHAR2(2)" />
 			<column name="DESCRIPTION" type="VARCHAR2(100)" />

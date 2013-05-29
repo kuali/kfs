@@ -21,7 +21,34 @@
 	renderMultipart="true" showTabButtons="true">
 	
 	<fp:dvPrintCoverSheet />
-	<fp:dvMessages />
+	<script type="text/javascript">
+		function clearSpecialHandlingTab() {
+		var prefix = "document.dvPayeeDetail.";
+		var ctrl;
+		
+		ctrl = kualiElements[prefix+"disbVchrSpecialHandlingPersonName"];
+		ctrl.value = "";
+		
+		ctrl = kualiElements[prefix + "disbVchrSpecialHandlingCityName"]
+		ctrl.value = "";
+		
+		ctrl = kualiElements[prefix + "disbVchrSpecialHandlingLine1Addr"];
+		ctrl.value = "";
+		
+		ctrl = kualiElements[prefix + "disbVchrSpecialHandlingStateCode"];
+		ctrl.value = "";
+		
+		ctrl = kualiElements[prefix + "disbVchrSpecialHandlingLine2Addr"];
+		ctrl.value = "";
+		
+		ctrl = kualiElements[prefix + "disbVchrSpecialHandlingZipCode"];
+		ctrl.value = "";
+		
+		ctrl = kualiElements[prefix + "disbVchrSpecialHandlingCountryCode"];
+		ctrl.value = "";
+	   }
+	</script>
+	<sys:paymentMessages />
 	
 	<c:set var="canEdit" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" scope="request" />
 	<c:set var="fullEntryMode" value="${canEdit && KualiForm.editingMode['fullEntry']}" scope="request" />

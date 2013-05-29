@@ -29,6 +29,33 @@
     <sys:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
 	  bankProperty="document.financialDocumentBankCode" bankObjectProperty="document.bank" disbursementOnly="true" />
     <tem-ent:reports/>
+	
+	<script type="text/javascript">
+		function clearSpecialHandlingTab() {
+		var prefix = "document.travelPayment.";
+		var ctrl;
+		
+		ctrl = kualiElements[prefix + "specialHandlingCityName"]
+		ctrl.value = "";
+		
+		ctrl = kualiElements[prefix + "specialHandlingLine1Addr"];
+		ctrl.value = "";
+		
+		ctrl = kualiElements[prefix + "specialHandlingStateCode"];
+		ctrl.value = "";
+		
+		ctrl = kualiElements[prefix + "specialHandlingLine2Addr"];
+		ctrl.value = "";
+		
+		ctrl = kualiElements[prefix + "specialHandlingZipCode"];
+		ctrl.value = "";
+		
+		ctrl = kualiElements[prefix + "specialHandlingCountryCode"];
+		ctrl.value = "";
+	   }
+	</script>
+	<sys:paymentMessages />
+	
     <tem-ent:entertainmentOverview />
     <tem-ent:attendees attendeeAttributes="${DataDictionary.Attendee.attributes}" entertainmentAttributes="${DataDictionary.TravelEntertainmentDocument.attributes}"/>
     <tem:expenses />

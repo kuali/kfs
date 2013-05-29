@@ -29,8 +29,10 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.JobClassification;
 import org.kuali.kfs.module.tem.businessobject.RelocationReason;
@@ -255,6 +257,8 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
     public void initiateDocument() {
         super.initiateDocument();
         setAppDocStatus(TravelRelocationStatusCodeKeys.IN_PROCESS);
+        getTravelPayment().setDocumentationLocationCode(getParameterService().getParameterValueAsString(TravelRelocationDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE,
+                getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE)));
     }
 
     /**
@@ -358,7 +362,7 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         final String paymentReasonCode = getParameterService().getParameterValueAsString(TravelRelocationDocument.class, TravelRelocationParameters.PAYMENT_REASON_CODE);
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
 
-        final String paymentLocationCode = getParameterService().getParameterValueAsString(TravelRelocationDocument.class,TravelRelocationParameters.DOCUMENTATION_LOCATION_CODE);
+        final String paymentLocationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TemConstants.TravelParameters.DOCUMENTATION_LOCATION_CODE);
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(paymentLocationCode);
     }
 
@@ -391,7 +395,7 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateVendorPayment(disbursementVoucherDocument);
 
-        String locationCode = getParameterService().getParameterValueAsString(TravelRelocationDocument.class, TravelRelocationParameters.DOCUMENTATION_LOCATION_CODE);
+        String locationCode = getParameterService().getParameterValueAsString(TravelRelocationDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE, getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE));
         String startDate = new SimpleDateFormat("MM/dd/yyyy").format(getTripBegin());
         String endDate = new SimpleDateFormat("MM/dd/yyyy").format(getTripEnd());
         String checkStubText = getTravelDocumentIdentifier() + ", " + startDate + " - " + endDate + ", " + getToCity() + ", " + getToStateCode();

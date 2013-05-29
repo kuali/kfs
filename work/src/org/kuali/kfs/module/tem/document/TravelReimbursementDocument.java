@@ -292,6 +292,8 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     public void initiateDocument() {
         super.initiateDocument();
         setAppDocStatus(TravelReimbursementStatusCodeKeys.IN_PROCESS);
+        getTravelPayment().setDocumentationLocationCode(getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE,
+                getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE)));
     }
 
     /**
@@ -464,6 +466,18 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     }
 
     /**
+     * Overridden to respect reimbursable amount logic
+     * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#getPaymentAmount()
+     */
+    @Override
+    public KualiDecimal getPaymentAmount() {
+        if (!getReimbursableTotal().equals(getReimbursableAmount())){
+            return getReimbursableAmount();
+        }
+        return super.getPaymentAmount();
+    }
+
+    /**
      *
      * @return
      */
@@ -532,7 +546,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     @Override
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateVendorPayment(disbursementVoucherDocument);
-        String locationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE);
+        String locationCode = getParameterService().getParameterValueAsString(TravelReimbursementDocument.class, TravelParameters.DOCUMENTATION_LOCATION_CODE, getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE));
         String startDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripBegin());
         String endDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripEnd());
         String checkStubText = this.getTravelDocumentIdentifier() + ", " + this.getPrimaryDestinationName() + ", " + startDate + " - " + endDate;

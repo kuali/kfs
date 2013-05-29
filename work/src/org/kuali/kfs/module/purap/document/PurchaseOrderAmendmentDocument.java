@@ -258,12 +258,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         return false;
     }
 
-       /*public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(PurapWorkflowConstants.HAS_NEW_UNORDERED_ITEMS)) {
-            return isNewUnorderedItem();
-        }
-        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
-    }*/
+
 
 
     @Override

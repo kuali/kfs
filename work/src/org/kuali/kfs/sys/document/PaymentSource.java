@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.document;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -94,4 +95,13 @@ public interface PaymentSource extends GeneralLedgerPostingDocument, GeneralLedg
      */
     public abstract String getAchCheckDocumentType();
 
+    /**
+     * @return the e-mail address that a notification e-mail, explaining that this payment source has been extracted in the immediate extract process, should be from
+     */
+    public abstract String getImmediateExtractEMailFromAddress();
+
+    /**
+     * @return the e-mail addresses that a notification e-mail, explaining that this payment source has been extracted in the immediate extract process, should be sent to
+     */
+    public abstract List<String> getImmediateExtractEmailToAddresses();
 }

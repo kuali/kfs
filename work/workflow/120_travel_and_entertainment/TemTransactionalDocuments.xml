@@ -936,7 +936,7 @@
 	        true
 	      </active>
 	      <routingVersion>
-	        1
+	        2
 	      </routingVersion>
 	      <routePaths>
 	        <routePath>
@@ -1143,7 +1143,7 @@
 			<label>CTS Card Application</label>
 			<docHandler>${application.url}/temCTSCardApplication.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
-			<routingVersion>1</routingVersion>
+			<routingVersion>2</routingVersion>
 			<validApplicationStatuses>
 				<status>Application</status>
 				<status>Account Review</status>
@@ -1192,7 +1192,7 @@
 			<label>Corporate Card Application</label>
 			<docHandler>${application.url}/temCorporateCardApplication.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
-			<routingVersion>1</routingVersion>
+			<routingVersion>2</routingVersion>
 			<validApplicationStatuses>
 				<status>Application</status>
 				<status>Fiscal Officer Review</status>

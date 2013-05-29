@@ -73,7 +73,7 @@ public class AccountingLineParserBaseTest extends KualiTestBase {
      */
     public void testParseTargetAccountingLine_failure_notANumber() {
         try {
-            parser.parseTargetAccountingLine(accountingDocument, "BL,4631672, , ,KUL, , , b");
+            parser.parseTargetAccountingLine(accountingDocument, "BL,4631672, , ,KUL, , , , b");
             fail("didn't throw AccountingLineParserException");
         }
         catch (AccountingLineParserException e) {
@@ -143,6 +143,7 @@ public class AccountingLineParserBaseTest extends KualiTestBase {
         String chartOfAccountsCode = "BL";
         String accountNumber = "463172";
         String projectCode = "KUL";
+        String description = "test target accounting line";
         String amount = "12.31";
 
         StringBuffer sb = new StringBuffer();
@@ -152,6 +153,8 @@ public class AccountingLineParserBaseTest extends KualiTestBase {
         sb.append(",,,,");
         sb.append(projectCode);
         sb.append(",,");
+        sb.append(description);
+        sb.append(",");
         sb.append(amount);
         TargetAccountingLine result = parser.parseTargetAccountingLine(accountingDocument, sb.toString());
 
@@ -170,6 +173,7 @@ public class AccountingLineParserBaseTest extends KualiTestBase {
         String chartOfAccountsCode = "bl";
         String accountNumber = "463172";
         String projectCode = "kul";
+        String description = "test target accounting line";
         String amount = "12.31";
 
         StringBuffer sb = new StringBuffer();
@@ -179,6 +183,8 @@ public class AccountingLineParserBaseTest extends KualiTestBase {
         sb.append(",,,,");
         sb.append(projectCode);
         sb.append(",,");
+        sb.append(description);
+        sb.append(",");
         sb.append(amount);
         TargetAccountingLine result = parser.parseTargetAccountingLine(accountingDocument, sb.toString());
 

@@ -232,7 +232,9 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
-	<bean id="responsibilityCenterService" class="org.kuali.kfs.coa.service.impl.ResponsibilityCenterServiceImpl">
+	<bean id="responsibilityCenterService" parent="responsibilityCenterService-parentBean"/>
+	
+	<bean id="responsibilityCenterService-parentBean" class="org.kuali.kfs.coa.service.impl.ResponsibilityCenterServiceImpl" abstract="true">
         <property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 

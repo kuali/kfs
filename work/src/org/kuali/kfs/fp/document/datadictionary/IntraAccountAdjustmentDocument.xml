@@ -35,7 +35,7 @@
 	 
 	 <bean id="IntraAccountAdjustmentDocument-validations" parent="IntraAccountAdjustmentDocument-validations-parentBean"/>
 	 
-	 <bean id="IntraAccountAdjustmentDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean">
+	 <bean id="IntraAccountAdjustmentDocument-validations-parentBean" class="org.springframework.beans.factory.config.MapFactoryBean" abstract="true">
 	 	<property name="sourceMap">
 		<map key-type="java.lang.Class">
 			<entry>

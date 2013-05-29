@@ -24,6 +24,7 @@
     <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.YearEndTransferOfFundsDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.YearEndTransferOfFundsDocumentPresentationController"/>
     <property name="sessionDocument" value="true"/>
     <property name="allowsCopy" value="true"/>
     <property name="accountingLineGroups">

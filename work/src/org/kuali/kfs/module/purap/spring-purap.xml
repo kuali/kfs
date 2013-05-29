@@ -744,8 +744,9 @@
 	<bean id="purchaseOrderParameters" parent="PurchaseOrderParameters-parentBean" scope="prototype"/>	
 	<bean id="PurchaseOrderParameters-parentBean" class="org.kuali.kfs.module.purap.pdf.PurchaseOrderTransmitParameters" scope="prototype" abstract="true" />
 	
+	<bean id="purchaseOrderTabIdentifierService" parent="purchaseOrderTabIdentifierService-parentBean" />
 	
-	<bean id="purchaseOrderTabIdentifierService" class="org.kuali.kfs.module.purap.document.service.impl.PurchaseOrderTabIdentifierServiceImpl">
+	<bean id="purchaseOrderTabIdentifierService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.PurchaseOrderTabIdentifierServiceImpl" abstract="true">
 	 <property name="vendorAttributes">
       <list>
         <value>purchaseOrderVendorChoiceCode</value>

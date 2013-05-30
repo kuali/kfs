@@ -40,8 +40,8 @@
         </property>
         <property name="externalizableBusinessObjectImplementations">
             <map>
-                <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress" value="org.kuali.kfs.module.ar.businessobject.CustomerAddress" />
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomer" value="org.kuali.kfs.module.ar.businessobject.Customer" />
+                <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress" value="org.kuali.kfs.module.ar.businessobject.CustomerAddress" />
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddressType" value="org.kuali.kfs.module.ar.businessobject.CustomerAddressType" />
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail" value="org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail" />
                 <entry key="org.kuali.kfs.integration.ar.AccountsReceivableCustomerType" value="org.kuali.kfs.module.ar.businessobject.CustomerType" />
@@ -112,12 +112,133 @@
 		<property name="contractsGrantsInvoiceDocumentService" ref="contractsGrantsInvoiceDocumentService" />
     </bean>
 
-	<bean id="customerDocumentService" class="org.kuali.kfs.module.ar.service.impl.CustomerDocumentServiceImpl">
+	<bean id="letterTemplateLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterTemplateLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService">
+	</bean>
+
+	<bean id="letterTemplateLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="letterTemplateLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="collectorHierarchyLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CollectorHierarchyLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService">
+	</bean>
+
+	<bean id="collectorHierarchyLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="collectorHierarchyLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<!--  AR DAOs  -->
+	<bean id="customerDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerDaoOjb" />
+	<bean id="customerAddressDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerAddressDaoOjb" />
+	<bean id="systemInformationDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.SystemInformationDaoOjb" />
+	<bean id="lockboxDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.LockboxDaoOjb" />
+	<bean id="customerInvoiceDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CustomerInvoiceDocumentDaoOjb" />
+	<bean id="accountsReceivableDocumentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.AccountsReceivableDocumentHeaderDaoOjb" />
+	<bean id="customerInvoiceDetailDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CustomerInvoiceDetailDaoOjb" />
+	<bean id="invoiceRecurrenceDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.InvoiceRecurrenceDaoOjb" />
+	<bean id="cashControlDetailDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CashControlDetailDaoOjb" />
+	<bean id="nonAppliedHoldingDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.NonAppliedHoldingDaoOjb" />
+	<bean id="customerAgingReportDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerAgingReportDaoOjb" />
+	<bean id="contractsGrantsInvoiceDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.ContractsGrantsInvoiceDocumentDaoOjb" />
+	<bean id="eventDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.EventDaoOjb" />
+	<bean id="awardAccountObjectCodeTotalBilledDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.AwardAccountObjectCodeTotalBilledDaoOjb" />
+	<bean id="cashControlDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CashControlDocumentDaoOjb" />
+	<bean id="collectorHierarchyDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CollectorHierarchyDaoOjb" />
+	<bean id="customerCollectorDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerCollectorDaoOjb" />
+	<bean id="referralToCollectionsDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.ReferralToCollectionsDaoOjb" />
+	
+	<bean id="contractsGrantsInvoiceCreateDocumentService" class="org.kuali.kfs.module.ar.batch.service.impl.ContractsGrantsInvoiceCreateDocumentServiceImpl">
+		<property name="accountingPeriodService">
+			<ref bean="accountingPeriodService" />
+		</property>
+		<property name="verifyBillingFrequency">
+			<ref bean="verifyBillingFrequency" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
 		<property name="workflowDocumentService">
 			<ref bean="workflowDocumentService" />
+		</property>
+		<property name="accountsReceivableDocumentHeaderService">
+			<ref bean="accountsReceivableDocumentHeaderService" />
+		</property>
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
+	</bean>
+
+	<bean id="dunningLetterDistributionJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="sendDunningLettersBatchStep" />
+			</list>
+		</property>
+	</bean>
+	<bean id="letterOfCreditJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="letterOfCreditByLOCFundBatchStep" />
+				<ref bean="letterOfCreditByLOCFundGroupBatchStep" />
+				<ref bean="letterOfCreditRouteDocumentsStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="invoiceReportEmailDeliveryJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="invoiceReportsEmailBatchStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="arEmailService" class="org.kuali.kfs.module.ar.service.impl.AREmailServiceImpl">
+		<property name="mailService" ref="mailService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+	</bean>
+
+	<bean id="sendDunningLettersBatchStep" class="org.kuali.kfs.module.ar.batch.SendDunningLettersBatchStep" parent="step">
+		<property name="cgInvoiceDocumentCreateService">
+			<ref bean="contractsGrantsInvoiceCreateDocumentService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
+	</bean>
+
+	<bean id="contractsGrantsInvoiceDocumentBatchStep" class="org.kuali.kfs.module.ar.batch.ContractsGrantsInvoiceDocumentBatchStep" parent="step">
+		<property name="cgInvoiceDocumentCreateService">
+			<ref bean="contractsGrantsInvoiceCreateDocumentService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
+	</bean>
+
+	<bean id="contractsGrantsInvoiceRouteDocumentsStep" class="org.kuali.kfs.module.ar.batch.ContractsGrantsInvoiceRouteDocumentsStep" parent="step">
+		<property name="cgInvoiceDocumentCreateService">
+			<ref bean="contractsGrantsInvoiceCreateDocumentService" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsInvoiceDocumentJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="contractsGrantsInvoiceDocumentBatchStep" />
+				<ref bean="contractsGrantsInvoiceRouteDocumentsStep" />
+			</list>
 		</property>
 	</bean>
 
@@ -160,26 +281,470 @@
 		</property>
 	</bean>
 
-	<!--  AR DAOs  -->
-	<bean id="customerDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerDaoOjb" />
-	<bean id="customerAddressDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerAddressDaoOjb" />
-	<bean id="systemInformationDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.SystemInformationDaoOjb" />
-	<bean id="lockboxDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.LockboxDaoOjb" />
-	<bean id="customerInvoiceDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CustomerInvoiceDocumentDaoOjb" />
-	<bean id="accountsReceivableDocumentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.AccountsReceivableDocumentHeaderDaoOjb" />
-	<bean id="customerInvoiceDetailDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CustomerInvoiceDetailDaoOjb" />
-	<bean id="invoiceRecurrenceDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.InvoiceRecurrenceDaoOjb" />
-	<bean id="cashControlDetailDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CashControlDetailDaoOjb" />
-	<bean id="nonAppliedHoldingDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.NonAppliedHoldingDaoOjb" />
-	<bean id="customerAgingReportDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerAgingReportDaoOjb" />
-	<bean id="contractsGrantsInvoiceDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.ContractsGrantsInvoiceDocumentDaoOjb" />
-	<bean id="eventDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.EventDaoOjb" />
-	<bean id="awardAccountObjectCodeTotalBilledDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.AwardAccountObjectCodeTotalBilledDaoOjb" />
-	<bean id="cashControlDocumentDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.document.dataaccess.impl.CashControlDocumentDaoOjb" />
-	<bean id="collectorHierarchyDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CollectorHierarchyDaoOjb" />
-	<bean id="customerCollectorDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.CustomerCollectorDaoOjb" />
-	<bean id="referralToCollectionsDao" parent="platformAwareDao" class="org.kuali.kfs.module.ar.dataaccess.impl.ReferralToCollectionsDaoOjb" />
+	<bean id="contractsGrantsInvoiceOnDemandLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceOnDemandLookupableHelperServiceImpl"
+		scope="prototype">
+	</bean>
+
+	<bean id="contractsGrantsInvoiceOnDemandLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="contractsGrantsInvoiceOnDemandLookupableHelperService" />
+		</property>
+	</bean>
 	
+	<bean id="dunningLetterDistributionOnDemandLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.DunningLetterDistributionOnDemandLookupableHelperServiceImpl"
+		scope="prototype">
+				<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
+	</bean>
+
+	<bean id="dunningLetterDistributionOnDemandLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="dunningLetterDistributionOnDemandLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="referralToCollectionsLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ReferralToCollectionsLookupableHelperServiceImpl"
+		scope="prototype">
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
+	</bean>
+
+	<bean id="referralToCollectionsLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="referralToCollectionsLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="letterOfCreditByLOCFundBatchStep" class="org.kuali.kfs.module.ar.batch.LetterOfCreditByLOCFundBatchStep" parent="step">
+		<property name="letterOfCreditCreateService">
+			<ref bean="letterOfCreditCreateService" />
+		</property>
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
+	</bean>
+
+	<bean id="letterOfCreditByLOCFundGroupBatchStep" class="org.kuali.kfs.module.ar.batch.LetterOfCreditByLOCFundGroupBatchStep" parent="step">
+		<property name="letterOfCreditCreateService">
+			<ref bean="letterOfCreditCreateService" />
+		</property>
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
+	</bean>
+	
+		<bean id="letterOfCreditRouteDocumentsStep" class="org.kuali.kfs.module.ar.batch.LetterOfCreditRouteDocumentsStep" parent="step">
+		<property name="letterOfCreditCreateService">
+			<ref bean="letterOfCreditCreateService" />
+		</property>
+	</bean>
+
+	<bean id="invoiceReportsEmailBatchStep" class="org.kuali.kfs.module.ar.batch.ContractsGrantsInvoiceEmailReportsBatchStep" parent="step">
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
+		<property name="arEmailService" ref="arEmailService" />
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="batchFileDirectoryName" value="${reports.directory}/ar" />
+	</bean>
+
+	<bean id="letterOfCreditCreateService" class="org.kuali.kfs.module.ar.batch.service.impl.LetterOfCreditCreateServiceImpl">
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="workflowDocumentService">
+			<ref bean="workflowDocumentService" />
+		</property>
+		<property name="cashControlDocumentService">
+			<ref bean="cashControlDocumentService" />
+		</property>
+		<property name="cashControlDocumentDao">
+			<ref bean="cashControlDocumentDao" />
+		</property>
+		<property name="cashControlDetailDao">
+			<ref bean="cashControlDetailDao" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsInvoiceReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceReportLookupableHelperServiceImpl"
+		scope="prototype">
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsInvoiceReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="contractsGrantsInvoiceReportLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsInvoiceReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+		<property name="reportTitle" value="Contracts Grants Invoice Report" />
+		<property name="reportFileName" value="cg_invoice_report" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="ContractsGrantsInvoiceReport" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="contractsGrantsInvoiceDetails" value="ContractsGrantsInvoiceDetails" />
+				<entry key="searchCriteria" value="SearchCriteria" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsInvoiceReportService" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsInvoiceReportServiceImpl">
+		<property name="reportGenerationService">
+			<ref bean="reportGenerationService" />
+		</property>
+		<property name="contractsGrantsInvoiceReportInfo">
+			<ref bean="contractsGrantsInvoiceReportInfo" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsPaymentHistoryReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="contractsGrantsPaymentHistoryReportLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsPaymentHistoryReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsPaymentHistoryReportLookupableHelperServiceImpl"
+		scope="prototype">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsPaymentHistoryReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+		<property name="reportTitle" value="Contracts Grants Payment History Report" />
+		<property name="reportFileName" value="cg_payment_history_report" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="ContractsGrantsPaymentHistoryReport" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="contractsGrantsPaymentHistoryDetails" value="ContractsGrantsPaymentHistoryDetails" />
+				<entry key="searchCriteria" value="SearchCriteria" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsPaymentHistoryReportService" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsPaymentHistoryReportServiceImpl">
+		<property name="reportGenerationService">
+			<ref bean="reportGenerationService" />
+		</property>
+		<property name="contractsGrantsPaymentHistoryReportInfo">
+			<ref bean="contractsGrantsPaymentHistoryReportInfo" />
+		</property>
+	</bean>
+
+
+	<bean id="contractsGrantsLOCDrawDetailsReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="contractsGrantsLOCDrawDetailsReportLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsLOCDrawDetailsReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsLOCDrawDetailsReportLookupableHelperServiceImpl"
+		scope="prototype">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsLOCDrawDetailsReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+		<property name="reportTitle" value="Contracts Grants LOC Draw Details Report" />
+		<property name="reportFileName" value="cg_loc_draw_details_report" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="ContractsGrantsLOCDrawDetailsReport" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="contractsGrantsLOCDrawDetailsDetails" value="ContractsGrantsLOCDrawDetails" />
+				<entry key="searchCriteria" value="SearchCriteria" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsLOCDrawDetailsReportService" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsLOCDrawDetailsReportServiceImpl">
+		<property name="reportGenerationService">
+			<ref bean="reportGenerationService" />
+		</property>
+		<property name="contractsGrantsLOCDrawDetailsReportInfo">
+			<ref bean="contractsGrantsLOCDrawDetailsReportInfo" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsLOCAmountsNotDrawnReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="contractsGrantsLOCAmountsNotDrawnReportLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsLOCAmountsNotDrawnReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsLOCAmountsNotDrawnReportLookupableHelperServiceImpl"
+		scope="prototype">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsLOCAmountsNotDrawnReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+		<property name="reportTitle" value="Contracts Grants LOC Amounts Not Drawn Report" />
+		<property name="reportFileName" value="cg_loc_amounts_not_drawn_report" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="ContractsGrantsLOCAmountsNotDrawnReport" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="contractsGrantsLOCAmountsNotDrawnDetails" value="ContractsGrantsLOCAmountsNotDrawnDetails" />
+				<entry key="searchCriteria" value="SearchCriteria" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsLOCAmountsNotDrawnReportService" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsLOCAmountsNotDrawnReportServiceImpl">
+		<property name="reportGenerationService">
+			<ref bean="reportGenerationService" />
+		</property>
+		<property name="contractsGrantsLOCAmountsNotDrawnReportInfo">
+			<ref bean="contractsGrantsLOCAmountsNotDrawnReportInfo" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsInvoiceSuspenseActivityReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="contractsGrantsInvoiceSuspenseActivityReportLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsInvoiceSuspenseActivityReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsInvoiceSuspenseActivityReportLookupableHelperServiceImpl"
+		scope="prototype">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsInvoiceSuspenseActivityReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+		<property name="reportTitle" value="Contracts Grants Invoice Suspense Activity Report" />
+		<property name="reportFileName" value="cg_invoice_suspense_activity_report" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="ContractsGrantsInvoiceSuspenseActivityReport" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="contractsGrantsInvoiceSuspenseActivityDetails" value="ContractsGrantsInvoiceSuspenseActivityDetails" />
+				<entry key="searchCriteria" value="SearchCriteria" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsInvoiceSuspenseActivityReportService" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsInvoiceSuspenseActivityReportServiceImpl">
+		<property name="reportGenerationService">
+			<ref bean="reportGenerationService" />
+		</property>
+		<property name="contractsGrantsInvoiceSuspenseActivityReportInfo">
+			<ref bean="contractsGrantsInvoiceSuspenseActivityReportInfo" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsSuspendedInvoiceReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="contractsGrantsSuspendedInvoiceReportLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsSuspendedInvoiceReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsSuspendedInvoiceReportLookupableHelperServiceImpl"
+		scope="prototype">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsSuspendedInvoiceReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+		<property name="reportTitle" value="Contracts Suspended Invoice Report" />
+		<property name="reportFileName" value="cg_suspended_invoice_report" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="ContractsGrantsSuspendedInvoiceReport" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="contractsGrantsSuspendedInvoiceDetails" value="ContractsGrantsSuspendedInvoiceDetails" />
+				<entry key="searchCriteria" value="SearchCriteria" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsSuspendedInvoiceReportService" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsSuspendedInvoiceReportServiceImpl">
+		<property name="reportGenerationService">
+			<ref bean="reportGenerationService" />
+		</property>
+		<property name="contractsGrantsSuspendedInvoiceReportInfo">
+			<ref bean="contractsGrantsSuspendedInvoiceReportInfo" />
+		</property>
+	</bean>
+
+	<bean id="ticklersReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.TicklersReportLookupableHelperServiceImpl"
+		scope="prototype">
+	</bean>
+
+	<bean id="ticklersReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="ticklersReportLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="ticklersReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+		<property name="reportTitle" value="Tickler Report" />
+		<property name="reportFileName" value="ar_tickler_report" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="TicklersReport" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+ 				<entry key="ticklersReportDetails" value="TicklersReportDetails" />
+				<entry key="searchCriteria" value="SearchCriteria" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="ticklersReportService" class="org.kuali.kfs.module.ar.report.service.impl.TicklersReportServiceImpl">
+		<property name="reportGenerationService">
+			<ref bean="reportGenerationService" />
+		</property>
+		<property name="ticklersReportInfo">
+			<ref bean="ticklersReportInfo" />
+		</property>
+	</bean>
+	
+	<bean id="cgAgingReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+		<property name="reportTitle" value="Contracts and Grants Aged Accounts Receivable Report" />
+		<property name="reportFileName" value="ar_cgb_aging_report" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="ContractsGrantsAgingReport" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+ 				<entry key="contractsGrantsAgingReportDetails" value="ContractsGrantsAgingReportDetails" />
+				<entry key="searchCriteria" value="SearchCriteria" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="contractsGrantsAgingReportService" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsAgingReportServiceImpl" >
+		<property name="reportGenerationService">
+			<ref bean="reportGenerationService" />
+		</property>
+		<property name="cgAgingReportInfo">
+			<ref bean="cgAgingReportInfo" />
+		</property>
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="collectorHierarchyDao">
+			<ref bean="collectorHierarchyDao" />
+		</property>
+		<property name="customerCollectorDao">
+			<ref bean="customerCollectorDao" />
+		</property>
+	</bean>
+	
+
+	<bean id="contractsGrantsMilestoneReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsMilestoneReportLookupableHelperServiceImpl"
+		scope="prototype">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsMilestoneReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="contractsGrantsMilestoneReportLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsMilestoneReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+		<property name="reportTitle" value="Contracts Grants Milestone Report" />
+		<property name="reportFileName" value="cg_milestone_report" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="ContractsGrantsMilestoneReport" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+				<entry key="contractsGrantsMilestoneReportDetails" value="ContractsGrantsMilestoneReportDetails" />
+				<entry key="searchCriteria" value="SearchCriteria" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="contractsGrantsMilestoneReportService" class="org.kuali.kfs.module.ar.report.service.impl.ContractsGrantsMilestoneReportServiceImpl">
+		<property name="reportGenerationService">
+			<ref bean="reportGenerationService" />
+		</property>
+		<property name="contractsGrantsMilestoneReportInfo">
+			<ref bean="contractsGrantsMilestoneReportInfo" />
+		</property>
+	</bean>
+
+
+	<import resource="document/validation/configuration/ContractsGrantsInvoiceValidation.xml" />
+
+	<bean id="customerDocumentService" class="org.kuali.kfs.module.ar.service.impl.CustomerDocumentServiceImpl">
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="workflowDocumentService">
+			<ref bean="workflowDocumentService" />
+		</property>
+	</bean>
+
 	<!--  AR Services  -->
 	<bean id="systemInformationService"  parent="systemInformationService-parentBean"/>
 	<bean id="systemInformationService-parentBean" class="org.kuali.kfs.module.ar.document.service.impl.SystemInformationServiceImpl" abstract="true">
@@ -1011,6 +1576,49 @@
     <bean id="invoiceRecurrenceDerivedRoleTypeService"  parent="invoiceRecurrenceDerivedRoleTypeService-parentBean"/>
     <bean id="invoiceRecurrenceDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.ar.identity.InvoiceRecurrenceDerivedRoleTypeServiceImpl" abstract="true"/>  
   
+  <bean id="refToCollReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+		<property name="reportTitle" value="Referral To Collections Report" />
+		<property name="reportFileName" value="ar_ref_coll_report" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="ReferralToCollectionsReport" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+ 				<entry key="referralToCollectionsReportDetails" value="ReferralToCollectionsReportDetails" />
+				<entry key="searchCriteria" value="SearchCriteria" />
+			</map>
+		</property>
+	</bean>
+	
+  	<bean id="referralToCollectionsReportService" class="org.kuali.kfs.module.ar.report.service.impl.ReferralToCollectionsReportServiceImpl" >
+		<property name="reportGenerationService">
+			<ref bean="reportGenerationService" />
+		</property>
+		<property name="refToCollReportInfo">
+			<ref bean="refToCollReportInfo" />
+		</property>
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="collectorHierarchyDao">
+			<ref bean="collectorHierarchyDao" />
+		</property>
+		<property name="customerCollectorDao">
+			<ref bean="customerCollectorDao" />
+		</property>
+		<property name="referralToCollectionsDao">
+			<ref bean="referralToCollectionsDao" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+	</bean>
+	
 	<bean id="systemInformationFiscalYearMaker" parent="FiscalYearMaker">
 		<property name="businessObjectClass" value="org.kuali.kfs.module.ar.businessobject.SystemInformation" /> 
 		<property name="parentClasses">
@@ -1060,5 +1668,104 @@
 	<import resource="document/validation/configuration/CashControlValidation.xml" />
 	<import resource="document/validation/configuration/PaymentApplicationValidation.xml" />
 	<import resource="spring-ar-bus-exports.xml"/>
+	
+	<!-- Funds Manager Derived Role -->
+	<bean id="fundsManagerDerivedRoleTypeService" class="org.kuali.kfs.module.ar.identity.FundsManagerDerivedRoleTypeServiceImpl" />
+	
+	<!--  for Contracts and grants aging report -->
+	<bean id="arContractsAndGrantsAgingReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsAgingReportLookupableHelperServiceImpl"
+		scope="prototype">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+
+	<bean id="arContractsAndGrantsAgingReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="arContractsAndGrantsAgingReportLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="collectionActivityReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.CollectionActivityReportLookupableHelperServiceImpl"
+		scope="prototype">
+	</bean>
+
+	<bean id="collectionActivityReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="collectionActivityReportLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="contractsGrantsAgingOpenInvoicesReportService" class="org.kuali.kfs.module.ar.document.service.impl.ContractsGrantsAgingOpenInvoicesReportServiceImpl">
+		<property name="customerInvoiceDocumentService">
+			<ref bean="customerInvoiceDocumentService" />
+		</property>
+		<property name="contractsGrantsAgingReportService">
+			<ref bean="contractsGrantsAgingReportService" />
+		</property>
+	</bean>
+	
+	<bean id="arContractsGrantsAgingOpenInvoicesReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ContractsGrantsAgingOpenInvoicesReportLookupableHelperServiceImpl"
+		scope="prototype">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>
+
+	<bean id="arContractsGrantsAgingOpenInvoicesReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="arContractsGrantsAgingOpenInvoicesReportLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="dunningLetterDistributionOnDemandService" class="org.kuali.kfs.module.ar.document.service.impl.DunningLetterDistributionOnDemandServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="contractsGrantsInvoiceDocumentDao">
+			<ref bean="contractsGrantsInvoiceDocumentDao" />
+		</property>
+	</bean>
+	
+	<bean id="referralToCollectionsReportLookupableHelperService" class="org.kuali.kfs.module.ar.businessobject.lookup.ReferralToCollectionsReportLookupableHelperServiceImpl"
+		scope="prototype">
+	</bean>
+
+	<bean id="referralToCollectionsReportLookupResultLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="referralToCollectionsReportLookupableHelperService" />
+		</property>
+	</bean>
+	
 </beans>
 

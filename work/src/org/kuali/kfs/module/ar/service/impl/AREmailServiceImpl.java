@@ -67,7 +67,6 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AREmailServiceImpl.class);
 
     protected MailService mailService;
-    private ConfigurationService kualiConfigurationService;
     protected ParameterService parameterService;
     private DataDictionaryService dataDictionaryService;
     private Mailer mailer;
@@ -228,15 +227,6 @@ public class AREmailServiceImpl extends MailerImpl implements AREmailService {
      */
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
-    }
-
-    /**
-     * Sets the kualiConfigurationService attribute value.
-     *
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
-    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
     }
 
     /**

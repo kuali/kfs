@@ -40,6 +40,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import au.com.bytecode.opencsv.CSVReader;
 
 public class MassImportCSVFileParser implements MassImportFileParser {
+    private static final String EXTN_CSV = ".csv";
     private static final Logger LOG = Logger.getLogger(MassImportCSVFileParser.class);
     private Integer lineNo = 0;
 
@@ -69,7 +70,7 @@ public class MassImportCSVFileParser implements MassImportFileParser {
      * @param itemClass the specified item import file
      */
     protected void checkImportFile(String fileName) {
-        if (StringUtils.isNotBlank(fileName) && !StringUtils.lowerCase(fileName).endsWith(".csv")) {
+        if (StringUtils.isNotBlank(fileName) && !StringUtils.lowerCase(fileName).endsWith(EXTN_CSV)) {
             throw new MassImportFileParserException("Unsupported item import file format: " + fileName, fileName);
         }
     }

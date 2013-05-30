@@ -81,7 +81,25 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class AccountsReceivableModuleServiceImpl implements AccountsReceivableModuleService {
     protected static final String CASH_CONTROL_ELECTRONIC_PAYMENT_CLAIMING_DOCUMENT_GENERATION_STRATEGY_BEAN_NAME = "cashControlElectronicPaymentClaimingDocumentHelper";
     private ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService;
+    private CustomerDocumentService customerDocumentService;
+    private ParameterService parameterService;
     protected Lookupable customerLookupable;
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public CustomerDocumentService getCustomerDocumentService() {
+        return customerDocumentService;
+    }
+
+    public void setCustomerDocumentService(CustomerDocumentService customerDocumentService) {
+        this.customerDocumentService = customerDocumentService;
+    }
 
     public void setCustomerLookupable(Lookupable customerLookupable) {
         this.customerLookupable = customerLookupable;
@@ -241,6 +259,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         return SpringContext.getBean(CustomerService.class).getNextCustomerNumber((Customer) customer);
     }
 
+    @Override
     public String createAndSaveCustomer(String description, ContractsAndGrantsCGBAgency agency) throws WorkflowException {
         return SpringContext.getBean(CustomerDocumentService.class).createAndSaveCustomer(description, agency);
     }
@@ -493,6 +512,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      * @return
      */
 
+    @Override
     public String retrieveGLPEReceivableParameterValue() {
 
         String parameterValue = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
@@ -506,6 +526,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      * @param roposalNumber
      * @return
      */
+    @Override
     public KualiDecimal getAwardBilledToDateByProposalNumber(Long proposalNumber) {
         return contractsGrantsInvoiceDocumentService.getAwardBilledToDateByProposalNumber(proposalNumber);
     }
@@ -516,6 +537,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      * @param proposalNumber
      * @return
      */
+    @Override
     public KualiDecimal calculateTotalPaymentsToDateByAward(Long proposalNumber) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);

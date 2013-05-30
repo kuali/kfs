@@ -129,7 +129,7 @@ public class EmployeeFundingLookupableHelperServiceImpl extends AbstractLookupab
         EmployeeFunding temp;
         for(EmployeeFunding empFunding : searchResultsCollection) {
             hashString = empFunding.getEmplid() + empFunding.getUniversityFiscalYear() + empFunding.getChartOfAccountsCode() + empFunding.getAccountNumber() +
-                    empFunding.getFinancialObjectCode() + empFunding.getPositionNumber();
+                    empFunding.getObjectCode() + empFunding.getPositionNumber();
             if (map.containsKey(hashString)) {
                 temp = ((EmployeeFunding)map.get(hashString));
                 if (temp.getCsfFullTimeEmploymentQuantity() != null && empFunding.getCsfFullTimeEmploymentQuantity() != null) {

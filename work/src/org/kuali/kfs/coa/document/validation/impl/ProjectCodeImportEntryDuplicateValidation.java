@@ -46,6 +46,19 @@ public class ProjectCodeImportEntryDuplicateValidation extends GenericValidation
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
+        valid &= checkDuplicatesWithinFile(event);
+        valid &= checkDuplicatesInSystem(event);
+        return valid;
+    }
+
+    /**
+     * Check for duplicate against existing data in the system
+     *
+     * @param event Document event
+     * @return true if no duplicates found
+     */
+    protected boolean checkDuplicatesInSystem(AttributedDocumentEvent event) {
+        boolean valid = true;
         ProjectCodeImportDocument document = (ProjectCodeImportDocument) event.getDocument();
         HashMap<String, Object> projectCodeMap = new HashMap<String, Object>();
         String mapKey = null;
@@ -54,16 +67,6 @@ public class ProjectCodeImportEntryDuplicateValidation extends GenericValidation
         ProjectCodeImportDetail validatingLine = (ProjectCodeImportDetail) importedLineForValidation;
         String errorPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.ProjectCodeImport.PROJECT_CODE_IMPORT_DETAILS + "[" + validatingLine.getSequenceNumber() == null ? String.valueOf(0) : String.valueOf(validatingLine.getSequenceNumber().intValue() - 1) + "].";
         String validatingKey = getProjectCodeKeyString(validatingLine);
-
-        valid &= checkDuplicatesWithinFile(document, projectCodeMap, validatingLine, errorPrefix, validatingKey);
-
-        valid &= checkDuplicatesInSystem(primaryKeys, validatingLine, errorPrefix);
-
-        return valid;
-    }
-
-    private boolean checkDuplicatesInSystem(Map<String, String> primaryKeys, ProjectCodeImportDetail validatingLine, String errorPrefix) {
-        boolean valid = true;
         // check duplicate in BO table
         primaryKeys.put(KFSPropertyConstants.CODE, validatingLine.getProjectCode());
         ProjectCode existingProjectCode = businessObjectService.findByPrimaryKey(ProjectCode.class, primaryKeys);
@@ -75,9 +78,21 @@ public class ProjectCodeImportEntryDuplicateValidation extends GenericValidation
         return valid;
     }
 
-    private boolean checkDuplicatesWithinFile(ProjectCodeImportDocument document, HashMap<String, Object> projectCodeMap, ProjectCodeImportDetail validatingLine, String errorPrefix, String validatingKey) {
+    /**
+     * Check for duplicated entries within the file
+     *
+     * @param event Document event
+     * @return true if no duplicates found
+     */
+    protected boolean checkDuplicatesWithinFile(AttributedDocumentEvent event) {
         boolean valid = true;
-        String mapKey;
+        ProjectCodeImportDocument document = (ProjectCodeImportDocument) event.getDocument();
+        HashMap<String, Object> projectCodeMap = new HashMap<String, Object>();
+        String mapKey = null;
+        ProjectCodeImportDetail validatingLine = (ProjectCodeImportDetail) importedLineForValidation;
+        String errorPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.ProjectCodeImport.PROJECT_CODE_IMPORT_DETAILS + "[" + validatingLine.getSequenceNumber() == null ? String.valueOf(0) : String.valueOf(validatingLine.getSequenceNumber().intValue() - 1) + "].";
+        String validatingKey = getProjectCodeKeyString(validatingLine);
+        // check duplicate in BO table
         for (ProjectCodeImportDetail importedLine : document.getProjectCodeImportDetails()) {
             mapKey = getProjectCodeKeyString(importedLine);
             if (!projectCodeMap.containsKey(mapKey)) {

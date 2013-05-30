@@ -42,9 +42,8 @@ public class SubAccountImportLineObjectExistenceValidation extends GenericValida
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-        SubAccountImportDetail subAccountLine = (SubAccountImportDetail) importedLineForValidation;
-        valid &= checkRefObjectExistence(subAccountLine);
-        valid &= checkForPartiallyEnteredReportingFields(subAccountLine);
+        valid &= checkRefObjectExistence();
+        valid &= checkForPartiallyEnteredReportingFields();
         return valid;
     }
 
@@ -52,35 +51,41 @@ public class SubAccountImportLineObjectExistenceValidation extends GenericValida
      * The method checks the user entered object existing in system
      *
      * @param subAccountLine
-     * @return
+     * @return true if reference is valid
      */
-    protected boolean checkRefObjectExistence(SubAccountImportDetail subAccountLine) {
+    protected boolean checkRefObjectExistence() {
         boolean valid = true;
+        SubAccountImportDetail subAccountLine = (SubAccountImportDetail) importedLineForValidation;
         subAccountLine.refresh();
 
         if (StringUtils.isNotBlank(subAccountLine.getChartOfAccountsCode()) && ObjectUtils.isNull(subAccountLine.getChart())) {
             String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(SubAccountImportDetail.class.getName()).getAttributeDefinition(KFSPropertyConstants.SubAccountImport.CHART_OF_ACCOUNTS_CODE).getLabel();
             GlobalVariables.getMessageMap().putError(KRADConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_MASSIMPORT_EXISTENCE, new String[] { subAccountLine.getSequenceNumber() == null ? "" : subAccountLine.getSequenceNumber().toString(), label });
+            valid = false;
         }
 
         if (StringUtils.isNotBlank(subAccountLine.getChartOfAccountsCode()) && StringUtils.isNotBlank(subAccountLine.getAccountNumber()) && ObjectUtils.isNull(subAccountLine.getAccount())) {
             String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(SubAccountImportDetail.class.getName()).getAttributeDefinition(KFSPropertyConstants.SubAccountImport.ACCOUNT_NUMBER).getLabel();
             GlobalVariables.getMessageMap().putError(KRADConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_MASSIMPORT_EXISTENCE, new String[] { subAccountLine.getSequenceNumber() == null ? "" : subAccountLine.getSequenceNumber().toString(), label });
+            valid = false;
         }
 
         if (StringUtils.isNotBlank(subAccountLine.getFinancialReportChartCode()) && ObjectUtils.isNull(subAccountLine.getFinancialReportChart())) {
             String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(SubAccountImportDetail.class.getName()).getAttributeDefinition(KFSPropertyConstants.SubAccountImport.FINANCIAL_REPORT_CHART_CODE).getLabel();
             GlobalVariables.getMessageMap().putError(KRADConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_MASSIMPORT_EXISTENCE, new String[] { subAccountLine.getSequenceNumber() == null ? "" : subAccountLine.getSequenceNumber().toString(), label });
+            valid = false;
         }
 
         if (StringUtils.isNotBlank(subAccountLine.getFinancialReportChartCode()) && StringUtils.isNotBlank(subAccountLine.getFinReportOrganizationCode()) && ObjectUtils.isNull(subAccountLine.getFinacialReportOrg())) {
             String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(SubAccountImportDetail.class.getName()).getAttributeDefinition(KFSPropertyConstants.SubAccountImport.FIN_REPORT_ORGANIZATION_CODE).getLabel();
             GlobalVariables.getMessageMap().putError(KRADConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_MASSIMPORT_EXISTENCE, new String[] { subAccountLine.getSequenceNumber() == null ? "" : subAccountLine.getSequenceNumber().toString(), label });
+            valid = false;
         }
 
         if (StringUtils.isNotBlank(subAccountLine.getFinancialReportChartCode()) && StringUtils.isNotBlank(subAccountLine.getFinReportOrganizationCode()) && StringUtils.isNotBlank(subAccountLine.getFinancialReportingCode()) && ObjectUtils.isNull(subAccountLine.getReportingCode())) {
             String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(SubAccountImportDetail.class.getName()).getAttributeDefinition(KFSPropertyConstants.SubAccountImport.FINANCIAL_REPORTING_CODE).getLabel();
             GlobalVariables.getMessageMap().putError(KRADConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_MASSIMPORT_EXISTENCE, new String[] { subAccountLine.getSequenceNumber() == null ? "" : subAccountLine.getSequenceNumber().toString(), label });
+            valid = false;
         }
         return valid;
     }
@@ -90,11 +95,11 @@ public class SubAccountImportLineObjectExistenceValidation extends GenericValida
      *
      * @return false if only one reporting field filled out and not all of them, true otherwise
      */
-    protected boolean checkForPartiallyEnteredReportingFields(SubAccountImportDetail subAccountLine) {
+    protected boolean checkForPartiallyEnteredReportingFields() {
 
         LOG.info("Entering checkExistenceAndActive()");
-
-        boolean success = true;
+        SubAccountImportDetail subAccountLine = (SubAccountImportDetail) importedLineForValidation;
+        boolean valid = true;
         boolean allReportingFieldsEntered = false;
         boolean anyReportingFieldsEntered = false;
 
@@ -112,10 +117,10 @@ public class SubAccountImportLineObjectExistenceValidation extends GenericValida
         // if any of the three are entered
         if (anyReportingFieldsEntered && !allReportingFieldsEntered) {
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_SUBACCOUNTIMPORT_PARTIALREPORTINGCODEFIELDSENTERED, new String[] { subAccountLine.getSequenceNumber() == null ? "" : subAccountLine.getSequenceNumber().toString() });
-            success = false;
+            valid = false;
         }
 
-        return success;
+        return valid;
     }
 
 

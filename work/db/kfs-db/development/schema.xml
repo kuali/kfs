@@ -6754,7 +6754,7 @@
         <column name="FDOC_LN_MO11_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="FDOC_LN_MO12_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="FRNG_BENE_IND" size="1" type="VARCHAR"/>
-        <column name="FDOC_LINE_DESC" size="40" type="VARCHAR" />
+        <column name="FDOC_LINE_DESC" size="40" type="VARCHAR"/>
         <foreign-key foreignTable="CA_ACCOUNT_T" name="FP_BDGT_ADJ_DTL_TR1">
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
             <reference foreign="ACCOUNT_NBR" local="ACCOUNT_NBR"/>

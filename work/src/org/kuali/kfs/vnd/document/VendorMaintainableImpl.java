@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -43,8 +44,10 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceLock;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -218,7 +221,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
      */
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-        PersistableBusinessObject oldBo = (PersistableBusinessObject) document.getOldMaintainableObject().getBusinessObject();
+        PersistableBusinessObject oldBo = document.getOldMaintainableObject().getBusinessObject();
         if (ObjectUtils.isNotNull(oldBo)) {
             oldBo.refreshNonUpdateableReferences();
         }
@@ -273,6 +276,17 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
             SpringContext.getBean(VendorService.class).saveVendorHeader(vendorDetail);
         }
         super.saveBusinessObject();
+        try {
+            Document document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(getDocumentNumber());
+            VendorDetail vndDetail = (VendorDetail) ((MaintenanceDocument) document).getNewMaintainableObject().getBusinessObject();
+            if (vndDetail.getVendorHeaderGeneratedIdentifier() == null
+                    || KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION.equals(getMaintenanceAction())) {
+                ((MaintenanceDocument) document).getNewMaintainableObject().setBusinessObject(vendorDetail);
+                SpringContext.getBean(DocumentService.class).saveDocument(document);
+            }
+        } catch (Exception e) {
+            LOG.debug("Vendor doc not saved successfully "+ e.getMessage());
+        }
     }
 
     /**

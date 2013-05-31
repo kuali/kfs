@@ -277,8 +277,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                 if (ObjectUtils.isNotNull(objectCode)) {
                     if (movableAsset) {
                         paymentSrcPlantAcct = assetPayment.getAccount().getOrganization().getOrganizationPlantAccount();
-                    }
-                    else {
+                    } else {
                         paymentSrcPlantAcct = assetPayment.getAccount().getOrganization().getCampusPlantAccount();
                     }
                     if (getAssetPaymentService().isPaymentEligibleForCapitalizationGLPosting(assetPayment)) {

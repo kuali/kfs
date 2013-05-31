@@ -14,6 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+	<bean id="Customer" parent="Customer-parentBean"/>
 	<bean id="Customer-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
 			value="org.kuali.kfs.module.ar.businessobject.Customer" />

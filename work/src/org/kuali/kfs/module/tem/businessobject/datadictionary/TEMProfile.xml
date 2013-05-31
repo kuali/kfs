@@ -15,7 +15,7 @@
 			<list>
 				<ref bean="TEMProfile-profileId" />
 				<ref bean="TEMProfile-principalId" />
-				<!-- <ref bean="TEMProfile-customerNumber" /> -->
+				<ref bean="TEMProfile-customerNumber" />
 				<ref bean="TEMProfile-driversLicenseNumber" />
 				<ref bean="TEMProfile-driversLicenseState" />
 				<ref bean="TEMProfile-driversLicenseExpDate" />
@@ -183,11 +183,9 @@
 		<property name="label" value="KIM Principal Id" />
 	</bean>
 
-	<!-- <bean id="TEMProfile-customerNumber" parent="TEMProfile-customerNumber-parentBean" />
-	<bean id="TEMProfile-customerNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" 
-	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ar.AccountsReceivableCustomer" p:sourceAttributeName="customerNumber"> -->
 	<bean id="TEMProfile-customerNumber" parent="TEMProfile-customerNumber-parentBean" />
-	<bean id="TEMProfile-customerNumber-parentBean" abstract="true" parent="Customer-customerNumber">
+	<bean id="TEMProfile-customerNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" 
+	p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.ar.AccountsReceivableCustomer" p:sourceAttributeName="customerNumber">
 		<property name="name" value="customerNumber" />
 		<property name="label" value="AR Customer Id" />
 	</bean>
@@ -639,7 +637,7 @@
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="profileId" />
 							<bean parent="FieldDefinition" p:attributeName="principalId" />
-							<!-- <bean parent="FieldDefinition" p:attributeName="customerNumber" /> -->
+							<bean parent="FieldDefinition" p:attributeName="customerNumber" />
 							<bean parent="FieldDefinition" p:attributeName="driversLicenseNumber" />
 							<bean parent="FieldDefinition" p:attributeName="driversLicenseState" />
 							<bean parent="FieldDefinition" p:attributeName="driversLicenseExpDate" />

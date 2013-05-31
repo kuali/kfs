@@ -276,6 +276,8 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
             SpringContext.getBean(VendorService.class).saveVendorHeader(vendorDetail);
         }
         super.saveBusinessObject();
+        // Populate generateid and detail assigned id in doc content after bo is persisted.
+
         try {
             Document document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(getDocumentNumber());
             VendorDetail vndDetail = (VendorDetail) ((MaintenanceDocument) document).getNewMaintainableObject().getBusinessObject();
@@ -285,7 +287,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
                 SpringContext.getBean(DocumentService.class).saveDocument(document);
             }
         } catch (Exception e) {
-            LOG.debug("Vendor doc not saved successfully "+ e.getMessage());
+            LOG.error("Vendor doc not saved successfully "+ e.getMessage());
         }
     }
 

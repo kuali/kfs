@@ -201,10 +201,6 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
                 currentFunds.setCsfFundingStatusCode(CSFTrackerAsEmployeeFunding.getCsfFundingStatusCode());
                 currentFunds.setCsfAmount(CSFTrackerAsEmployeeFunding.getCsfAmount());
                 currentFunds.setCsfFullTimeEmploymentQuantity(CSFTrackerAsEmployeeFunding.getCsfFullTimeEmploymentQuantity());
-            } else {
-                /*It is possible for a CSF item to exist on its own without being related to 
-                  a current funds record.*/
-                currentFundsCollection.add(CSFTrackerAsEmployeeFunding);
             }
         }
 

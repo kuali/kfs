@@ -223,18 +223,20 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
             explicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
         }
 
-        /* change document type based on payment method to pick up different offsets */
-        if (StringUtils.isBlank(getTravelPayment().getPaymentMethodCode()) || KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK.equals(getTravelPayment().getPaymentMethodCode())) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("changing doc type on pending entry " + explicitEntry.getTransactionLedgerEntrySequenceNumber() + " to " + getAchCheckDocumentType());
+        /* change document type based on payment method to pick up different offsets; if payment method code is blank, use the normal doc type name */
+        if (!StringUtils.isBlank(getTravelPayment().getPaymentMethodCode())) {
+            if (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK.equals(getTravelPayment().getPaymentMethodCode())) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("changing doc type on pending entry " + explicitEntry.getTransactionLedgerEntrySequenceNumber() + " to " + getAchCheckDocumentType());
+                }
+                explicitEntry.setFinancialDocumentTypeCode(getAchCheckDocumentType());
             }
-            explicitEntry.setFinancialDocumentTypeCode(getAchCheckDocumentType());
-        }
-        else {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("changing doc type on pending entry " + explicitEntry.getTransactionLedgerEntrySequenceNumber() + " to " + getWireTransferOrForeignDraftDocumentType());
+            else {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("changing doc type on pending entry " + explicitEntry.getTransactionLedgerEntrySequenceNumber() + " to " + getWireTransferOrForeignDraftDocumentType());
+                }
+                explicitEntry.setFinancialDocumentTypeCode(getWireTransferOrForeignDraftDocumentType());
             }
-            explicitEntry.setFinancialDocumentTypeCode(getWireTransferOrForeignDraftDocumentType());
         }
     }
 

@@ -441,4 +441,13 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         return TemConstants.TravelDocTypes.RELOCATION_WIRE_OR_FOREIGN_DRAFT_DOCUMENT;
     }
 
+    /**
+     * Returns "R-"
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getTripIdPrefix()
+     */
+    @Override
+    protected String getTripIdPrefix() {
+        return TemConstants.TripIdPrefix.RELOCATION_PREFIX;
+    }
+
 }

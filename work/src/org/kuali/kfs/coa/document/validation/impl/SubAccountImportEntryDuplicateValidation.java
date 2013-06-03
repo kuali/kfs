@@ -44,22 +44,26 @@ public class SubAccountImportEntryDuplicateValidation extends GenericValidation 
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-        SubAccountImportDocument document = (SubAccountImportDocument) event.getDocument();
-        HashMap<String, Object> subAccountsMap = new HashMap<String, Object>();
-        String mapKey = null;
-
-        SubAccountImportDetail validatingLine = (SubAccountImportDetail) importedLineForValidation;
-        String errorPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.SubAccountImport.SUB_ACCOUNT_IMPORT_DETAILS + "[" + validatingLine.getSequenceNumber() == null ? String.valueOf(0) : String.valueOf(validatingLine.getSequenceNumber().intValue() - 1) + "].";
-        String validatingKey = getSubAccountKeyString(validatingLine);
-        valid &= checkDuplicatesInFile(document, subAccountsMap, validatingLine, errorPrefix, validatingKey);
-        valid &= checkDuplicatesInSystem(validatingLine, errorPrefix);
-
+        valid &= checkDuplicatesInFile(event);
+        valid &= checkDuplicatesInSystem(event);
         return valid;
     }
 
-    private boolean checkDuplicatesInFile(SubAccountImportDocument document, HashMap<String, Object> subAccountsMap, SubAccountImportDetail validatingLine, String errorPrefix, String validatingKey) {
+    /**
+     * Check duplicates within the file uploaded
+     *
+     * @param event Document event
+     * @return true if no duplicates
+     */
+    protected boolean checkDuplicatesInFile(AttributedDocumentEvent event) {
         boolean valid = true;
-        String mapKey;
+        SubAccountImportDocument document = (SubAccountImportDocument) event.getDocument();
+        HashMap<String, Object> subAccountsMap = new HashMap<String, Object>();
+        String mapKey = null;
+        SubAccountImportDetail validatingLine = (SubAccountImportDetail) importedLineForValidation;
+        String errorPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.SubAccountImport.SUB_ACCOUNT_IMPORT_DETAILS + "[" + validatingLine.getSequenceNumber() == null ? String.valueOf(0) : String.valueOf(validatingLine.getSequenceNumber().intValue() - 1) + "].";
+        String validatingKey = getSubAccountKeyString(validatingLine);
+
         // set up hash map for the sub-account key and the first line sequence number
         for (SubAccountImportDetail importedLine : document.getSubAccountImportDetails()) {
             mapKey = getSubAccountKeyString(importedLine);
@@ -76,8 +80,17 @@ public class SubAccountImportEntryDuplicateValidation extends GenericValidation 
         return valid;
     }
 
-    private boolean checkDuplicatesInSystem(SubAccountImportDetail validatingLine, String errorPrefix) {
+    /**
+     * Check duplicates in the system
+     *
+     * @param event Document event
+     * @return true if no duplicates
+     */
+    protected boolean checkDuplicatesInSystem(AttributedDocumentEvent event) {
         boolean valid = true;
+        SubAccountImportDocument document = (SubAccountImportDocument) event.getDocument();
+        SubAccountImportDetail validatingLine = (SubAccountImportDetail) importedLineForValidation;
+        String errorPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.SubAccountImport.SUB_ACCOUNT_IMPORT_DETAILS + "[" + validatingLine.getSequenceNumber() == null ? String.valueOf(0) : String.valueOf(validatingLine.getSequenceNumber().intValue() - 1) + "].";
         // check duplicate in BO table
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, validatingLine.getChartOfAccountsCode());

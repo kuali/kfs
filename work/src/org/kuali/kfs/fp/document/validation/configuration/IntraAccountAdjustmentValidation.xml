@@ -274,13 +274,7 @@
     </bean>
 												
 
-	<bean id="IntraAccountAdjustment-reviewAccountingLineValidation" class="org.kuali.kfs.sys.document.validation.impl.CompositeValidation"
-										scope="prototype" >
-		
-		<property name="validations">
-			<list></list>
-		</property>
-	</bean>
+	
 	
 	
 	

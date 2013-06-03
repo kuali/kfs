@@ -72,7 +72,7 @@ public class MassImportTransactionalDocumentActionBase extends FinancialSystemTr
 
         try {
             checkUploadFile(importFile);
-            importedLines = importForm.getMassImportFileParser().importLines(importFile, importClass, importDocument, errorPathPrefix);
+            importedLines = importForm.getMassImportFileParser().importLines(importFile.getFileName(), importFile.getFileData(), importClass, importDocument, errorPathPrefix);
             importDocument.customizeImportedLines(importedLines);
 
             if (importedLines != null && !importedLines.isEmpty()) {

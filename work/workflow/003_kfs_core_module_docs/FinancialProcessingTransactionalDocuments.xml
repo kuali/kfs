@@ -1203,8 +1203,8 @@
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="Account"/>
-          <role name="Account" nextNode="Central Review" />
-          <role name="Central Review"/>
+          <role name="Account" />
+          
         </routePath>
       </routePaths>
       <routeNodes>
@@ -1212,11 +1212,7 @@
         <role name="Account">
           <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           <activationType>P</activationType>
-        </role>
-        <role name="Central Review">
-        	<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-        	<activationType>P</activationType>
-        </role>          
+        </role>               
       </routeNodes>
     </documentType>
   </documentTypes>

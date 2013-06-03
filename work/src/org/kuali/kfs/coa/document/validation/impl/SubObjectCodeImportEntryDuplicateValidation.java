@@ -47,6 +47,19 @@ public class SubObjectCodeImportEntryDuplicateValidation extends GenericValidati
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
+        valid &= checkDuplicatesInFile(event);
+        valid &= checkDuplicatesInSystem(event);
+        return valid;
+    }
+
+    /**
+     * Check duplicates in the file
+     *
+     * @param event Document event
+     * @return true if no duplicates
+     */
+    protected boolean checkDuplicatesInFile(AttributedDocumentEvent event) {
+        boolean valid = true;
         SubObjectCodeImportDocument document = (SubObjectCodeImportDocument) event.getDocument();
         HashMap<String, Object> subObjectCodeMap = new HashMap<String, Object>();
         String mapKey = null;
@@ -54,18 +67,6 @@ public class SubObjectCodeImportEntryDuplicateValidation extends GenericValidati
         SubObjectCodeImportDetail validatingLine = (SubObjectCodeImportDetail) importedLineForValidation;
         String errorPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.SubObjectCodeImport.SUB_OBJECT_CODE_IMPORT_DETAILS + "[" + validatingLine.getSequenceNumber() == null ? String.valueOf(0) : String.valueOf(validatingLine.getSequenceNumber().intValue() - 1) + "].";
         String validatingKey = getSubObjectKeyInString(validatingLine);
-
-        valid &= checkDuplicatesInFile(document, subObjectCodeMap, validatingLine, errorPrefix, validatingKey);
-
-        valid &= checkDuplicatesInSystem(validatingLine, errorPrefix);
-
-
-        return valid;
-    }
-
-    private boolean checkDuplicatesInFile(SubObjectCodeImportDocument document, HashMap<String, Object> subObjectCodeMap, SubObjectCodeImportDetail validatingLine, String errorPrefix, String validatingKey) {
-        boolean valid = true;
-        String mapKey;
         // set up hash map for the sub-object code key and the first line sequence number
         for (SubObjectCodeImportDetail importedLine : document.getSubObjectCodeImportDetails()) {
             mapKey = getSubObjectKeyInString(importedLine);
@@ -82,9 +83,19 @@ public class SubObjectCodeImportEntryDuplicateValidation extends GenericValidati
         return valid;
     }
 
-    private boolean checkDuplicatesInSystem(SubObjectCodeImportDetail validatingLine, String errorPrefix) {
+    /**
+     * Check duplicates in system
+     *
+     * @param event Document event
+     * @return true if no duplicates
+     */
+    protected boolean checkDuplicatesInSystem(AttributedDocumentEvent event) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         boolean valid = true;
+        SubObjectCodeImportDocument document = (SubObjectCodeImportDocument) event.getDocument();
+        SubObjectCodeImportDetail validatingLine = (SubObjectCodeImportDetail) importedLineForValidation;
+        String errorPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.SubObjectCodeImport.SUB_OBJECT_CODE_IMPORT_DETAILS + "[" + validatingLine.getSequenceNumber() == null ? String.valueOf(0) : String.valueOf(validatingLine.getSequenceNumber().intValue() - 1) + "].";
+        String validatingKey = getSubObjectKeyInString(validatingLine);
         // check duplicate in BO table
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, validatingLine.getUniversityFiscalYear().toString());
         primaryKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, validatingLine.getChartOfAccountsCode());

@@ -2531,7 +2531,7 @@
 	
 	    <!--  collections -->
 	    <!--  common collections -->
-	    <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.fp.businessobject.IntraAccountingAdjustmentSourceAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+	    <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.kfs.fp.businessobject.IntraAccountAdjustmentSourceAccountingLine" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 	        <orderby name="sequenceNumber" sort="ASC" />
 	        <inverse-foreignkey field-ref="documentNumber" />
 					<query-customizer class="org.kuali.kfs.sys.dataaccess.impl.OjbQueryCustomizer">
@@ -2560,7 +2560,7 @@
       
 	</class-descriptor>
 	
-	<class-descriptor class="org.kuali.kfs.fp.businessobject.IntraAccountingAdjustmentSourceAccountingLine" table="FP_ACCT_LINES_T">
+	<class-descriptor class="org.kuali.kfs.fp.businessobject.IntraAccountAdjustmentSourceAccountingLine" table="FP_ACCT_LINES_T">
 	    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
 	    <field-descriptor name="sequenceNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" />
 	    <field-descriptor name="financialDocumentLineTypeCode" column="FDOC_LN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" />

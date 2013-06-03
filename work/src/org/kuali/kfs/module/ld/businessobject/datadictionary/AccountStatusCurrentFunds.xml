@@ -264,6 +264,11 @@
 
 		<property name="defaultSort">
 			<bean parent="SortDefinition">
+				<property name="attributeNames">
+ 	 	 			<list>
+ 	 	 	    		<value>positionNumber</value>
+ 	 	 	    	</list>
+ 	 	 		</property>
 			</bean>
 		</property>
 		<property name="lookupFields">

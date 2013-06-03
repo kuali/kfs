@@ -140,7 +140,7 @@
 	<bean id="EmployeeFunding-outstandingEncumbrance-parentBean"
 		abstract="true" parent="GenericAttributes-genericAmount">
 		<property name="name" value="outstandingEncumbrance" />
-		<property name="label" value="Encumbrance Amount" />
+		<property name="label" value="Encumbance Amount" />
 		<property name="shortLabel" value="Encumb" />
 		<property name="formatterClass"
 			value="org.kuali.rice.core.web.format.CurrencyFormatter" />

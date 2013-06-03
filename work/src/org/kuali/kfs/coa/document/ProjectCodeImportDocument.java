@@ -55,13 +55,17 @@ public class ProjectCodeImportDocument extends FinancialSystemTransactionalDocum
     }
 
 
+    /**
+     * Saves the imported details into database when document is processed successfully
+     *
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
+     */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
         WorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
 
-        // Workflow Status of PROCESSED --> Kuali Doc Status of Verified
         if (workflowDocument.isProcessed()) {
             SpringContext.getBean(ProjectCodeImportService.class).saveProjectCodeDetails(projectCodeImportDetails);
         }

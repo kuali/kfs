@@ -36,17 +36,24 @@ public class ProjectCodeImportProjectManagerValidation extends GenericValidation
      */
     @Override
     public boolean validate(AttributedDocumentEvent event) {
-        return validateProjectManager();
+        boolean valid = true;
+        valid &= validateProjectManager();
+        return valid;
     }
 
 
-    private boolean validateProjectManager() {
+    /**
+     * Validates project manager information
+     *
+     * @return true if information is valid
+     */
+    protected boolean validateProjectManager() {
         boolean valid = true;
         ProjectCodeImportDetail projectCodeImportDetail = (ProjectCodeImportDetail) importedLineForValidation;
         String errorPrefix = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.ProjectCodeImport.PROJECT_CODE_IMPORT_DETAILS + "[" + importedLineForValidation.getSequenceNumber() == null ? String.valueOf(0) : String.valueOf(importedLineForValidation.getSequenceNumber().intValue() - 1) + "].";
 
         if (StringUtils.isBlank(projectCodeImportDetail.getProjectManagerUniversalId())) {
-            GlobalVariables.getMessageMap().putError(errorPrefix + KFSPropertyConstants.ProjectCodeImport.PROJECT_MANAGER_PRINCIPAL_NAME, KFSKeyConstants.ERROR_PROJECTCODEIMPORT_PROJECTMANAGER_INVALID, new String[] { importedLineForValidation.getSequenceNumber() == null ? "" : importedLineForValidation.getSequenceNumber().toString(), projectCodeImportDetail.getProjectManagerPrincipalName()});
+            GlobalVariables.getMessageMap().putError(errorPrefix + KFSPropertyConstants.ProjectCodeImport.PROJECT_MANAGER_PRINCIPAL_NAME, KFSKeyConstants.ERROR_PROJECTCODEIMPORT_PROJECTMANAGER_INVALID, new String[] { importedLineForValidation.getSequenceNumber() == null ? "" : importedLineForValidation.getSequenceNumber().toString(), projectCodeImportDetail.getProjectManagerPrincipalName() });
             valid = false;
         }
         return valid;

@@ -50,6 +50,11 @@ public class SubObjectCodeImportDocument extends FinancialSystemTransactionalDoc
     }
 
 
+    /**
+     * Saves the imported details into database when document is processed successfully
+     *
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
+     */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
 
@@ -57,9 +62,7 @@ public class SubObjectCodeImportDocument extends FinancialSystemTransactionalDoc
 
         WorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
 
-        // Workflow Status of PROCESSED --> Kuali Doc Status of Verified
         if (workflowDocument.isProcessed()) {
-            // persistent subObjectCode and notify SAP
             SpringContext.getBean(SubObjectCodeImportService.class).saveSubObjectCodeDetails(subObjectCodeImportDetails);
         }
 

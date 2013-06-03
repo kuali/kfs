@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.sys.web;
+package org.kuali.kfs.sys.service.impl;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,19 +25,22 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.MassImportLineBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.MassImportDocument;
 import org.kuali.kfs.sys.exception.MassImportFileParserException;
+import org.kuali.kfs.sys.service.MassImportFileParser;
 import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import au.com.bytecode.opencsv.CSVReader;
+
 public class MassImportCSVFileParser implements MassImportFileParser {
+    private static final String EXTN_CSV = ".csv";
     private static final Logger LOG = Logger.getLogger(MassImportCSVFileParser.class);
     private Integer lineNo = 0;
 
@@ -68,9 +69,8 @@ public class MassImportCSVFileParser implements MassImportFileParser {
      *
      * @param itemClass the specified item import file
      */
-    protected void checkImportFile(FormFile importFile) {
-        String fileName = importFile.getFileName();
-        if (StringUtils.isNotBlank(fileName) && !StringUtils.lowerCase(fileName).endsWith(".csv")) {
+    protected void checkImportFile(String fileName) {
+        if (StringUtils.isNotBlank(fileName) && !StringUtils.lowerCase(fileName).endsWith(EXTN_CSV)) {
             throw new MassImportFileParserException("Unsupported item import file format: " + fileName, fileName);
         }
     }
@@ -140,53 +140,34 @@ public class MassImportCSVFileParser implements MassImportFileParser {
 
 
     /**
-     * @see org.kuali.kfs.module.purap.util.ItemParser#parseItem(java.lang.String,java.lang.Class,java.lang.String)
-     */
-    public MassImportLineBase parseSingleLine(String importedLine, Class<? extends MassImportLineBase> lineClass, MassImportDocument document) {
-        Map<String, String> attributeValueMap = retrieveLineAttributes(importedLine, lineClass, document);
-        MassImportLineBase line = genSingleObjectWithRetrievedAttributes(attributeValueMap, lineClass, importedLine);
-        return line;
-    }
-
-    /**
      * @see org.kuali.kfs.module.purap.util.ItemParser#parseItem(org.apache.struts.upload.FormFile,java.lang.Class,java.lang.String)
      */
     @Override
-    public List<MassImportLineBase> importLines(FormFile importFile, Class<? extends MassImportLineBase> itemClass, MassImportDocument document, String errorPathPrefix) {
+    public List<MassImportLineBase> importLines(String fileName, byte[] data, Class<? extends MassImportLineBase> itemClass, MassImportDocument document, String errorPathPrefix) {
         // validate import file extension
         List<MassImportLineBase> importedLines = new ArrayList();
-        if (validateImportFile(importFile, itemClass, errorPathPrefix)) {
+        if (validateImportFile(fileName, itemClass, errorPathPrefix)) {
             // open input stream
-            BufferedReader br = null;
+            CSVReader csvReader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(data)));
             try {
-                InputStream is = importFile.getInputStream();
-                br = new BufferedReader(new InputStreamReader(is));
-                // parse line by line
-                lineNo = 0;
-                boolean failed = false;
-                String line = null;
-                while ((line = br.readLine()) != null) {
-                    lineNo++;
-                    if (StringUtils.isBlank(StringUtils.remove(StringUtils.deleteWhitespace(line), ","))) {
-                        continue;
+                String[] attributeNames = document.getOrderedFieldList();
+                List<String[]> dataList = csvReader.readAll();
+                for (String[] attributeValues : dataList) {
+                    if (attributeNames == null) {
+                        throw new MassImportFileParserException("wrong import line class " + itemClass.getName(), "", new String[] { itemClass.getName() });
                     }
-                    importedLines.add(parseSingleLine(line, itemClass, document));
+
+                    Map<String, String> attributeValueMap = new HashMap<String, String>();
+                    for (int i = 0; i < Math.min(attributeValues.length, attributeNames.length); i++) {
+                        attributeValueMap.put(attributeNames[i], attributeValues[i].trim());
+                    }
+                    importedLines.add(genSingleObjectWithRetrievedAttributes(attributeValueMap, itemClass, attributeValues.toString()));
                 }
+
             }
             catch (Exception e) {
                 LOG.error("Error occurred... ", e);
                 throw new MassImportFileParserException("", KFSKeyConstants.ERROR_MASSIMPORT_FILEUPLOAD_GENERAL, new String[] { e.getMessage() });
-            }
-            finally {
-                try {
-                    if (br != null) {
-                        br.close();
-                    }
-                }
-                catch (IOException e) {
-                    LOG.error("Error occurred... ", e);
-                    throw new RuntimeException("Unable to close BufferReader in ChartFileParserBase", e);
-                }
             }
 
         }
@@ -201,7 +182,7 @@ public class MassImportCSVFileParser implements MassImportFileParser {
      * @param errorPathPrefix
      * @return
      */
-    private boolean validateImportFile(FormFile importFile, Class<? extends MassImportLineBase> itemClass, String errorPathPrefix) {
+    private boolean validateImportFile(String importFile, Class<? extends MassImportLineBase> itemClass, String errorPathPrefix) {
         boolean valid = true;
         // check input parameters
         try {

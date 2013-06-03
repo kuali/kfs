@@ -42,19 +42,18 @@ public class ProjectCodeImportLineObjectExistenceValidation extends GenericValid
     @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
-        ProjectCodeImportDetail projectCdImpLine = (ProjectCodeImportDetail) importedLineForValidation;
-        valid &= checkRefObjectExistence(projectCdImpLine);
-        valid &= checkProjectCodeValid(projectCdImpLine);
+        valid &= checkRefObjectExistence();
+        valid &= checkProjectCodeValid();
         return valid;
     }
 
     /**
-     * Check project code valid
+     * Check project code is valid
      *
-     * @param projectCdImpLine
-     * @return
+     * @return true if project code is valid
      */
-    protected boolean checkProjectCodeValid(ProjectCodeImportDetail projectCdImpLine) {
+    protected boolean checkProjectCodeValid() {
+        ProjectCodeImportDetail projectCdImpLine = (ProjectCodeImportDetail) importedLineForValidation;
         boolean valid = true;
         // check project code can't have leading zero
         if (StringUtils.isNotBlank(projectCdImpLine.getProjectCode()) && projectCdImpLine.getProjectCode().startsWith("0")) {
@@ -68,22 +67,24 @@ public class ProjectCodeImportLineObjectExistenceValidation extends GenericValid
     /**
      * The method checks the user entered object existing in system
      *
-     * @param subAccountLine
-     * @return
+     * @return true if referenced object code exists in the system
      */
-    protected boolean checkRefObjectExistence(ProjectCodeImportDetail projectImpLine) {
+    protected boolean checkRefObjectExistence() {
         boolean valid = true;
+        ProjectCodeImportDetail projectImpLine = (ProjectCodeImportDetail) importedLineForValidation;
         projectImpLine.refresh();
 
         if (StringUtils.isNotBlank(projectImpLine.getChartOfAccountsCode()) && ObjectUtils.isNull(projectImpLine.getChartOfAccounts())) {
             String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(ProjectCodeImportDetail.class.getName()).getAttributeDefinition(KFSPropertyConstants.ProjectCodeImport.CHART_OF_ACCOUNTS_CODE).getLabel();
             GlobalVariables.getMessageMap().putError(KRADConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_MASSIMPORT_EXISTENCE, new String[] { projectImpLine.getSequenceNumber() == null ? "" : projectImpLine.getSequenceNumber().toString(), label });
+            valid = false;
         }
 
 
         if (StringUtils.isNotBlank(projectImpLine.getChartOfAccountsCode()) && StringUtils.isNotBlank(projectImpLine.getOrganizationCode()) && ObjectUtils.isNull(projectImpLine.getOrganization())) {
             String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(ProjectCodeImportDetail.class.getName()).getAttributeDefinition(KFSPropertyConstants.ProjectCodeImport.ORGANIZATION_CODE).getLabel();
             GlobalVariables.getMessageMap().putError(KRADConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_MASSIMPORT_EXISTENCE, new String[] { projectImpLine.getSequenceNumber() == null ? "" : projectImpLine.getSequenceNumber().toString(), label });
+            valid = false;
         }
 
         return valid;

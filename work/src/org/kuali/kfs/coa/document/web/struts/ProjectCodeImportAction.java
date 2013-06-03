@@ -31,6 +31,11 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class ProjectCodeImportAction extends MassImportTransactionalDocumentActionBase {
     private static final Logger LOG = Logger.getLogger(ProjectCodeImportAction.class);
 
+    /**
+     * Overrides the supper method so that project manager names can be pre-populated into the details
+     *
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     */
     @Override
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);

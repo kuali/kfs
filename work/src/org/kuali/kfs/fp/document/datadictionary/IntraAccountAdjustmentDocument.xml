@@ -65,11 +65,7 @@
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
 				<value>IntraAccountAdjustment-updateAccountingLineValidation</value>
-			</entry>
-			<entry>
-				<key><value>org.kuali.kfs.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
-				<value>IntraAccountAdjustment-reviewAccountingLineValidation</value>
-			</entry>
+			</entry>			
 	   	</map>
 	   </property>
 	 </bean>
@@ -78,7 +74,7 @@
 	 <bean id="IntraAccountAdjustmentDocument-sourceAccountingLineGroup" parent="IntraAccountAdjustmentDocument-sourceAccountingLineGroup-parentBean"/>  
 	 <bean id="IntraAccountAdjustmentDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
 	  <property name="accountingLineView" ref="IntraAccountAdjustmentDocument-accountingLineView"/>
-	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.IntraAccountingAdjustmentSourceAccountingLine"/>
+	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.IntraAccountAdjustmentSourceAccountingLine"/>
 	  <property name="groupLabel" value="From"/>
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
 	  <property name="importedLinePropertyPrefix" value="source"/>
@@ -134,8 +130,7 @@
 	   	
 	   	<property name="routingTypeDefinitions">
 	   		<map>
-	   			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account"/>
-	   			<entry key="Central Review" value-ref="RoutingType-AccountingDocument-CentralReview"/>
+	   			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account"/>	   			
 	   		</map>
 	   	</property>
 	</bean>

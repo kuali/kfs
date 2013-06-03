@@ -149,14 +149,17 @@ public class TravelAgencyAuditMaintainable extends FinancialSystemMaintainable {
 	@Override
 	public void saveBusinessObject() {
 	    AgencyStagingData agencyStaging = (AgencyStagingData) getBusinessObject();
-	    //since it is fixed an submitted, changing the status to OK
-	    agencyStaging.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
 
-	    //if the object is manual created - we should set the system fields
-	    if (agencyStaging.getManualCreated()){
-	        // processingTimestamp
-	        agencyStaging.setProcessingTimestamp(getDateTimeService().getCurrentTimestamp());
-	    }
+	    if (agencyStaging.isActive()) {
+    	    //since it is fixed an submitted, changing the status to OK
+    	    agencyStaging.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
+
+    	    //if the object is manual created - we should set the system fields
+    	    if (agencyStaging.getManualCreated()){
+    	        // processingTimestamp
+    	        agencyStaging.setProcessingTimestamp(getDateTimeService().getCurrentTimestamp());
+    	    }
+        }
 
         super.saveBusinessObject();
 	}

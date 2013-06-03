@@ -840,29 +840,27 @@
 		<property name="shortLabel" value="Version Number" />
 		<property name="summary" value="Version Number" />
 		<property name="description" value="Version Number" />
-	</bean>
-    <bean id="AgencyStagingData-active" parent="AgencyStagingData-active-parentBean" />
-    <bean id="AgencyStagingData-active-parentBean" parent="GenericAttributes-genericBoolean">
-        <property name="name" value="active" />
-        <property name="label" value="Active" />
-    </bean>
-    
+	</bean>    
     <bean id="AgencyStagingData-manualCreated" parent="AgencyStagingData-manualCreated-parentBean" />
     <bean id="AgencyStagingData-manualCreated-parentBean" parent="GenericAttributes-genericBoolean">
         <property name="name" value="manualCreated" />
-        <property name="label" value="Manual Created" />
-    </bean>
-    
+        <property name="label" value="Manually Created" />
+    </bean>    
     <bean id="AgencyStagingData-copiedFromId" parent="AgencyStagingData-copiedFromId-parentBean" />
     <bean id="AgencyStagingData-copiedFromId-parentBean" parent="AgencyStagingData-id">
         <property name="name" value="copiedFromId" />
         <property name="label" value="Copied From Id" />
         <property name="control"><bean parent="TextControlDefinition" p:size="40"/></property>
     </bean>
+    <bean id="AgencyStagingData-active" parent="AgencyStagingData-active-parentBean" />
+    <bean id="AgencyStagingData-active-parentBean" parent="GenericAttributes-genericBoolean">
+        <property name="name" value="active" />
+        <property name="label" value="Active" />
+    </bean>
     
 	<bean id="AgencyStagingData-inquiryDefinition" parent="AgencyStagingData-inquiryDefinition-parentBean" />
 	<bean id="AgencyStagingData-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Travel Agency Audit inquiry"/>
+		<property name="title" value="Travel Agency Audit Inquiry"/>
 		<property name="inquirySections">
 		<list>
             <bean parent="InquirySectionDefinition">
@@ -885,6 +883,9 @@
                         <bean parent="FieldDefinition" p:attributeName="tripInvoiceNumber" />
                         <bean parent="FieldDefinition" p:attributeName="tripTravelerTypeId" />
                         <bean parent="FieldDefinition" p:attributeName="otherAmount" />
+                        <bean parent="FieldDefinition" p:attributeName="manualCreated" />
+                        <bean parent="FieldDefinition" p:attributeName="copiedFromId" />
+                        <bean parent="FieldDefinition" p:attributeName="active" />
                     </list>
                 </property>
             </bean>
@@ -990,7 +991,7 @@
 	<bean id="AgencyStagingData-lookupDefinition" parent="AgencyStagingData-lookupDefinition-parentBean" />
 	<bean id="AgencyStagingData-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Travel Agency Audit Lookup" />
-		 <property name="lookupableID" value="agencyAuditLookupable"/>
+		<property name="lookupableID" value="agencyAuditLookupable"/>
 		<property name="defaultSort">
 		<bean parent="SortDefinition">
 			<property name="attributeNames"><list>
@@ -1016,6 +1017,7 @@
                 <bean parent="FieldDefinition" p:attributeName="copiedFromId" />
                 <bean parent="FieldDefinition" p:attributeName="stagingFileName" />
                 <bean parent="FieldDefinition" p:attributeName="processingTimestamp" />
+                <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 		</list>
 		</property>
 		<property name="resultFields">
@@ -1033,6 +1035,7 @@
                 <bean parent="FieldDefinition" p:attributeName="copiedFromId" />
                 <bean parent="FieldDefinition" p:attributeName="stagingFileName" />
                 <bean parent="FieldDefinition" p:attributeName="processingTimestamp" />
+                <bean parent="FieldDefinition" p:attributeName="active" />
 		</list>
 		</property>
 	</bean>

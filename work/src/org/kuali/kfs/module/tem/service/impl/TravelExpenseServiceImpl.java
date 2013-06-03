@@ -22,12 +22,12 @@ import java.util.Map;
 
 import org.kuali.kfs.fp.businessobject.TravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
 import org.kuali.kfs.module.tem.TemConstants.ReconciledCodes;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
@@ -238,6 +238,7 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
     public List<AgencyStagingData> retrieveValidAgencyData() {
         Map<String,String> criteria = new HashMap<String,String>(1);
         criteria.put(TemPropertyConstants.AGENCY_ERROR_CODE, AgencyStagingDataErrorCodes.AGENCY_NO_ERROR);
+        criteria.put(TemPropertyConstants.ACTIVE_IND, TemConstants.YES);
         List<AgencyStagingData> agencyData = (List<AgencyStagingData>) getBusinessObjectService().findMatching(AgencyStagingData.class, criteria);
         return agencyData;
     }

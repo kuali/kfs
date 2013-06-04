@@ -28,4 +28,4 @@ KFS10368,KFS-TEM-RSP-028,1,1,KFS-TEM,Review RELO Traveler,Responsible for review
 KFS10369,KFS-TEM-RSP-029,1,1,KFS-TEM,Review ENT SeparationOfDuties,Responsible for reviewing Entertainment Document on SeparationOfDuties route node.,Y,
 KFS10370,KFS-TEM-RSP-030,1,1,KFS-TEM,Review RELO SeparationOfDuties,Responsible for reviewing Moving and Relocation Document on SeparationOfDuties route node.,Y,
 KFS10371,KFS-TEM-RSP-031,1,1,KFS-TEM,Review RELO SpecialRequest,Responsible for reviewing Moving and Relocation Document on SpecialRequest route node.,Y,
-KFS10380,KFS-TEM-RSP-031,1,1,KFS-TEM,AccountNotification,Responsible for sending FYI to fiscal officer for Taxable Ramification Document if SEND_TAX_NOTIFICATION_FYI_TO_FISCAL_OFFICER_IND is set to ture.,Y,
+KFS10380,KFS-TEM-RSP-032,1,1,KFS-TEM,AccountNotification,Responsible for sending FYI to fiscal officer for Taxable Ramification Document if SEND_TAX_NOTIFICATION_FYI_TO_FISCAL_OFFICER_IND is set to ture.,Y,

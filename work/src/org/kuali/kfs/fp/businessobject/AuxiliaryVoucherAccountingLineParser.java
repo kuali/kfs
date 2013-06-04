@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.ACCOUNT_NUMBER;
 import static org.kuali.kfs.sys.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.CREDIT;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DEBIT;
+import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_DESCRIPTION;
 import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
@@ -40,7 +41,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
  * This class is used to parse an <code>AuxiliaryVocherDocument</code> accounting line.
  */
 public class AuxiliaryVoucherAccountingLineParser extends AccountingLineParserBase {
-    protected static final String[] AV_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, DEBIT, CREDIT };
+    protected static final String[] AV_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, FINANCIAL_DOCUMENT_LINE_DESCRIPTION, DEBIT, CREDIT };
 
     /**
      * Constructs a AuxiliaryVoucherAccountingLineParser.java.
@@ -51,7 +52,7 @@ public class AuxiliaryVoucherAccountingLineParser extends AccountingLineParserBa
 
     /**
      * Populates source accounting lines and sets debit and credit amounts and codes if they exist
-     * 
+     *
      * @see org.kuali.kfs.sys.businessobject.AccountingLineParserBase#performCustomSourceAccountingLinePopulation(java.util.Map, org.kuali.kfs.sys.businessobject.SourceAccountingLine, java.lang.String)
      */
     @Override

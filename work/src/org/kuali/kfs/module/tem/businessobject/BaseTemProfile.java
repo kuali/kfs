@@ -16,7 +16,9 @@
 package org.kuali.kfs.module.tem.businessobject;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -27,7 +29,11 @@ import javax.persistence.SequenceGenerator;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 
 public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
@@ -305,6 +311,7 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
      */
     @Column(name = "customer_num", length = 40, nullable = true)
     public String getCustomerNumber() {
+
         return customerNumber;
     }
 
@@ -322,6 +329,14 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
     }
 
     public AccountsReceivableCustomer getCustomer() {
+        ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(AccountsReceivableCustomer.class);
+        if ( moduleService != null ) {
+            Map<String,Object> keys = new HashMap<String, Object>(1);
+            keys.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
+            customer = moduleService.getExternalizableBusinessObject(AccountsReceivableCustomer.class, keys);
+        } else {
+            throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+        }
         return this.customer;
     }
 

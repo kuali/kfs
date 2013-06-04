@@ -59,6 +59,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
 
     public static Logger LOG = Logger.getLogger(TravelDocumentDaoOjb.class);
 
+
 	@Override
     public List<String> findDocumentNumbers(final Class<?> travelDocumentClass, final String travelDocumentNumber) {
         final Criteria c = new Criteria();
@@ -198,7 +199,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
      * @see org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao#findLatestTaxableRamificationNotificationDate()
      */
     @Override
-    public Date findLatestTaxableRamificationNotificationDate() {
+    public Object[] findLatestTaxableRamificationNotificationDate() {
         getPersistenceBrokerTemplate().clearCache();
 
         Criteria criteria = new Criteria();
@@ -211,9 +212,9 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
         query.setDistinct(true);
 
         Iterator<Object[]> iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-        Object[] returnResult = TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iterator);
+        return TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iterator);
 
-        return returnResult == null ? null : (Date)returnResult[0];
+
     }
 
     /**

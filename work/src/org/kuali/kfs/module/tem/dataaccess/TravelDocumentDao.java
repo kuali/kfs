@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.dataaccess;
 
-import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +67,7 @@ public interface TravelDocumentDao {
      *
      * @return the latest taxable ramification notification date
      */
-    Date findLatestTaxableRamificationNotificationDate();
+    Object[] findLatestTaxableRamificationNotificationDate();
 
     /**
      * Retrieves all Travel Reimbursement documents with the given financial system document header status

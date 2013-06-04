@@ -1,30 +1,31 @@
-RSP_ID,OBJ_ID,VER_NBR,RSP_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
-KFS10343,KFS-TEM-RSP-000,1,1,KFS-TEM,Review TA SpecialRequest,Responsible for reviewing Travel Authorization Document on SpecialRequest route node.,Y
-KFS10344,KFS-TEM-RSP-001,1,1,KFS-TEM,Review TA InternationalTravel,Responsible for reviewing Travel Authorization Document on InternationalTravel route node.,Y
-KFS10345,KFS-TEM-RSP-002,1,1,KFS-TEM,Review TA RiskManagement,Responsible for reviewing Travel Authorization Document on RiskManagement route node.,Y
-KFS10346,KFS-TEM-RSP-003,1,1,KFS-TEM,Review TA Travel,Responsible for reviewing Travel Authorization Document on Travel route node.,Y
-KFS10347,KFS-TEM-RSP-005,1,1,KFS-TEM,Review TA Division,Responsible for reviewing Travel Authorization Document on Division route node.,Y
-KFS10348,KFS-TEM-RSP-006,1,1,KFS-TEM,Review TR Traveler,Responsible for reviewing Travel Reimbursement Document on Traveler route node.,Y
-KFS10349,KFS-TEM-RSP-007,1,1,KFS-TEM,Review TTP Tax,Responsible for reviewing TEM Profile on Tax route node.,Y
-KFS10350,KFS-TEM-RSP-008,1,1,KFS-TEM,Review ENT EntertainmentManager,Responsible for reviewing Entertainment Document on EntertainmentManager route node.,Y
-KFS10351,KFS-TEM-RSP-009,1,1,KFS-TEM,Review ENT SpecialRequest,Responsible for reviewing Entertainment Document on SpecialRequest route node.,Y
-KFS10352,KFS-TEM-RSP-010,1,1,KFS-TEM,Review ENT Tax,Responsible for reviewing Entertainment Document on Tax route node.,Y
-KFS10353,KFS-TEM-RSP-011,1,1,KFS-TEM,Review RELO MovingAndRelocationManager,Responsible for reviewing Moving and Relocation Document on MovingAndRelocationManager route node.,Y
-KFS10354,KFS-TEM-RSP-012,1,1,KFS-TEM,Review RELO ExecutiveApproval,Responsible for reviewing Moving and Relocation Document on ExecutiveApproval route node.,Y
-KFS10355,KFS-TEM-RSP-013,1,1,KFS-TEM,Review RELO Tax,Responsible for reviewing Moving and Relocation Document on Tax route node.,Y
-KFS10356,KFS-TEM-RSP-014,1,1,KFS-TEM,Review TA SeparationOfDuties,Responsible for reviewing Travel Authorization Document on SeparationOfDuties route node.,Y
-KFS10357,KFS-TEM-RSP-015,1,1,KFS-TEM,Review TR SpecialRequest,Responsible for reviewing Travel Reimbursement Document on SpecialRequest route node.,Y
-KFS10358,KFS-TEM-RSP-016,1,1,KFS-TEM,Review TR Division,Responsible for reviewing Travel Reimbursement Document on Division route node.,Y
-KFS10359,KFS-TEM-RSP-017,1,1,KFS-TEM,Review TR Tax,Responsible for reviewing Travel Reimbursement Document on Tax route node.,Y
+RSP_ID,OBJ_ID,VER_NBR,RSP_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND,
+KFS10343,KFS-TEM-RSP-000,1,1,KFS-TEM,Review TA SpecialRequest,Responsible for reviewing Travel Authorization Document on SpecialRequest route node.,Y,
+KFS10344,KFS-TEM-RSP-001,1,1,KFS-TEM,Review TA InternationalTravel,Responsible for reviewing Travel Authorization Document on InternationalTravel route node.,Y,
+KFS10345,KFS-TEM-RSP-002,1,1,KFS-TEM,Review TA RiskManagement,Responsible for reviewing Travel Authorization Document on RiskManagement route node.,Y,
+KFS10346,KFS-TEM-RSP-003,1,1,KFS-TEM,Review TA Travel,Responsible for reviewing Travel Authorization Document on Travel route node.,Y,
+KFS10347,KFS-TEM-RSP-005,1,1,KFS-TEM,Review TA Division,Responsible for reviewing Travel Authorization Document on Division route node.,Y,
+KFS10348,KFS-TEM-RSP-006,1,1,KFS-TEM,Review TR Traveler,Responsible for reviewing Travel Reimbursement Document on Traveler route node.,Y,
+KFS10349,KFS-TEM-RSP-007,1,1,KFS-TEM,Review TTP Tax,Responsible for reviewing TEM Profile on Tax route node.,Y,
+KFS10350,KFS-TEM-RSP-008,1,1,KFS-TEM,Review ENT EntertainmentManager,Responsible for reviewing Entertainment Document on EntertainmentManager route node.,Y,
+KFS10351,KFS-TEM-RSP-009,1,1,KFS-TEM,Review ENT SpecialRequest,Responsible for reviewing Entertainment Document on SpecialRequest route node.,Y,
+KFS10352,KFS-TEM-RSP-010,1,1,KFS-TEM,Review ENT Tax,Responsible for reviewing Entertainment Document on Tax route node.,Y,
+KFS10353,KFS-TEM-RSP-011,1,1,KFS-TEM,Review RELO MovingAndRelocationManager,Responsible for reviewing Moving and Relocation Document on MovingAndRelocationManager route node.,Y,
+KFS10354,KFS-TEM-RSP-012,1,1,KFS-TEM,Review RELO ExecutiveApproval,Responsible for reviewing Moving and Relocation Document on ExecutiveApproval route node.,Y,
+KFS10355,KFS-TEM-RSP-013,1,1,KFS-TEM,Review RELO Tax,Responsible for reviewing Moving and Relocation Document on Tax route node.,Y,
+KFS10356,KFS-TEM-RSP-014,1,1,KFS-TEM,Review TA SeparationOfDuties,Responsible for reviewing Travel Authorization Document on SeparationOfDuties route node.,Y,
+KFS10357,KFS-TEM-RSP-015,1,1,KFS-TEM,Review TR SpecialRequest,Responsible for reviewing Travel Reimbursement Document on SpecialRequest route node.,Y,
+KFS10358,KFS-TEM-RSP-016,1,1,KFS-TEM,Review TR Division,Responsible for reviewing Travel Reimbursement Document on Division route node.,Y,
+KFS10359,KFS-TEM-RSP-017,1,1,KFS-TEM,Review TR Tax,Responsible for reviewing Travel Reimbursement Document on Tax route node.,Y,
 KFS10360,KFS-TEM-RSP-018,1,1,KFS-TEM,Review TR InternationalTravel,Responsible for reviewing Travel Reimbursement Document on InternationalTravel route node.,Y,Y
-KFS10361,KFS-TEM-RSP-019,1,1,KFS-TEM,Review TR Travel,Responsible for reviewing Travel Reimbursement Document on Travel route node.,Y
-KFS10362,KFS-TEM-RSP-020,1,1,KFS-TEM,Review TR SeparationOfDuties,Responsible for reviewing Travel Reimbursement Document on SeparationOfDuties route node.,Y
-KFS10363,KFS-TEM-RSP-021,1,1,KFS-TEM,Review TA Traveler,Responsible for reviewing Travel Authorization Document on Traveler route node.,Y
-KFS10364,KFS-TEM-RSP-022,1,1,KFS-TEM,Review TAA Traveler,Responsible for reviewing Travel Authorization Amendment Document on Traveler route node.,Y
-KFS10365,KFS-TEM-RSP-023,1,1,KFS-TEM,Review CTAP Travel,Responsible for reviewing CTS Card Application Document on Travel route node.,Y
-KFS10366,KFS-TEM-RSP-025,1,1,KFS-TEM,Review CCAP Travel,Responsible for reviewing Corporate Card Application Document on Travel route node.,Y
-KFS10367,KFS-TEM-RSP-027,1,1,KFS-TEM,Review ENT Traveler,Responsible for reviewing Entertainment Document on Traveler route node.,Y
-KFS10368,KFS-TEM-RSP-028,1,1,KFS-TEM,Review RELO Traveler,Responsible for reviewing Moving and Relocation Document on Traveler route node.,Y
-KFS10369,KFS-TEM-RSP-029,1,1,KFS-TEM,Review ENT SeparationOfDuties,Responsible for reviewing Entertainment Document on SeparationOfDuties route node.,Y
-KFS10370,KFS-TEM-RSP-030,1,1,KFS-TEM,Review RELO SeparationOfDuties,Responsible for reviewing Moving and Relocation Document on SeparationOfDuties route node.,Y
-KFS10371,KFS-TEM-RSP-031,1,1,KFS-TEM,Review RELO SpecialRequest,Responsible for reviewing Moving and Relocation Document on SpecialRequest route node.,Y
+KFS10361,KFS-TEM-RSP-019,1,1,KFS-TEM,Review TR Travel,Responsible for reviewing Travel Reimbursement Document on Travel route node.,Y,
+KFS10362,KFS-TEM-RSP-020,1,1,KFS-TEM,Review TR SeparationOfDuties,Responsible for reviewing Travel Reimbursement Document on SeparationOfDuties route node.,Y,
+KFS10363,KFS-TEM-RSP-021,1,1,KFS-TEM,Review TA Traveler,Responsible for reviewing Travel Authorization Document on Traveler route node.,Y,
+KFS10364,KFS-TEM-RSP-022,1,1,KFS-TEM,Review TAA Traveler,Responsible for reviewing Travel Authorization Amendment Document on Traveler route node.,Y,
+KFS10365,KFS-TEM-RSP-023,1,1,KFS-TEM,Review CTAP Travel,Responsible for reviewing CTS Card Application Document on Travel route node.,Y,
+KFS10366,KFS-TEM-RSP-025,1,1,KFS-TEM,Review CCAP Travel,Responsible for reviewing Corporate Card Application Document on Travel route node.,Y,
+KFS10367,KFS-TEM-RSP-027,1,1,KFS-TEM,Review ENT Traveler,Responsible for reviewing Entertainment Document on Traveler route node.,Y,
+KFS10368,KFS-TEM-RSP-028,1,1,KFS-TEM,Review RELO Traveler,Responsible for reviewing Moving and Relocation Document on Traveler route node.,Y,
+KFS10369,KFS-TEM-RSP-029,1,1,KFS-TEM,Review ENT SeparationOfDuties,Responsible for reviewing Entertainment Document on SeparationOfDuties route node.,Y,
+KFS10370,KFS-TEM-RSP-030,1,1,KFS-TEM,Review RELO SeparationOfDuties,Responsible for reviewing Moving and Relocation Document on SeparationOfDuties route node.,Y,
+KFS10371,KFS-TEM-RSP-031,1,1,KFS-TEM,Review RELO SpecialRequest,Responsible for reviewing Moving and Relocation Document on SpecialRequest route node.,Y,
+KFS10380,KFS-TEM-RSP-031,1,1,KFS-TEM,AccountNotification,Responsible for sending FYI to fiscal officer for Taxable Ramification Document if SEND_TAX_NOTIFICATION_FYI_TO_FISCAL_OFFICER_IND is set to ture.,Y,

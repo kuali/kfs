@@ -24,12 +24,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.batch.TaxableRamificationNotificationStep;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
@@ -166,15 +165,6 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
     protected Set<String> getAdhocRecipientsPrincipalIds(TaxableRamificationDocument taxRamificationDocument) {
         Set<String> adHocRecipients = new HashSet<String>();
 
-        if (this.willSendNotificationToFiscalOfficer()) {
-            Account account = taxRamificationDocument.getTravelAdvance().getAcct();
-            String fiscalOfficerPrincipalId = account.getAccountFiscalOfficerUser().getPrincipalId();
-
-            if (StringUtils.isNotEmpty(fiscalOfficerPrincipalId)) {
-                adHocRecipients.add(fiscalOfficerPrincipalId);
-            }
-        }
-
         TravelerDetail traveler = taxRamificationDocument.getTravelerDetail();
         String travelerPrincipalId = traveler.getPrincipalId();
         if (StringUtils.isNotEmpty(travelerPrincipalId)) {
@@ -270,12 +260,6 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
         return this.getParameterService().getParameterValueAsString(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.NOTIFICATION_TEXT_PARAM_NAME);
     }
 
-    /**
-     * get the indicator from an application parameter, which instructs whether to send notification to Fiscal Officer
-     */
-    protected boolean willSendNotificationToFiscalOfficer() {
-        return this.getParameterService().getParameterValueAsBoolean(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.SEND_FYI_TO_FISCAL_OFFICER_IND);
-    }
 
     /**
      * get the notification subject

@@ -921,7 +921,7 @@
                 </role>        
             </routeNodes>        
         </documentType>
-        <documentType>
+      <documentType>
       <name>TXRF</name>
       <parent>TT</parent>
       <description />
@@ -964,6 +964,7 @@
         </simple>
       </routeNodes>
     </documentType>
+    <documentType>
             <name>ENT</name>
             <parent>TT</parent>
             <docHandler>${application.url}/temTravelEntertainment.do?methodToCall=docHandler

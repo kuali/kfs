@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,24 +29,28 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 import org.kuali.kfs.sys.businessobject.AccountingLineParserBase;
 
 public class IntraAccountAdjustmentDocumentAccountingLineParser extends AccountingLineParserBase {
-    
-    private final String[] IAA_AL_FORMAT = new String[] {CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, 
-            FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, REFERENCE_NUMBER,FINANCIAL_DOCUMENT_LINE_DESCRIPTION, AMOUNT 
+
+    private final String[] IAA_AL_FORMAT = new String[] {CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE,
+            FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, REFERENCE_NUMBER,FINANCIAL_DOCUMENT_LINE_DESCRIPTION, AMOUNT
             };
-    
+
     /**
      * @return <code>SourceAccountingLine</code> attribute format
      */
+    @Override
     public String[] getSourceAccountingLineFormat() {
-        return IAA_AL_FORMAT;
+        return removeChartFromFormatIfNeeded(IAA_AL_FORMAT);
+
     }
 
     /**
      * @return <code>TargetAccountingLine</code> attribute format
      */
+    @Override
     public String[] getTargetAccountingLineFormat(){
-        return IAA_AL_FORMAT;
+        return removeChartFromFormatIfNeeded(IAA_AL_FORMAT);
+
     }
-    
-    
+
+
 }

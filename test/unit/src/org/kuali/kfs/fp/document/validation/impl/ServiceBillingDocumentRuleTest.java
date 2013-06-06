@@ -130,7 +130,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a positive asset
+     * tests false is returned for a positive asset
      *
      * @throws Exception
      */
@@ -142,7 +142,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative asset
+     * tests true is returned for a negative asset
      *
      * @throws Exception
      */
@@ -275,7 +275,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a positive asset
+     * tests true is returned for a positive asset
      *
      * @throws Exception
      */
@@ -287,7 +287,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative asset
+     * tests false is returned for a negative asset
      *
      * @throws Exception
      */
@@ -420,7 +420,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a positive asset
+     * tests false is returned for a positive asset
      *
      * @throws Exception
      */
@@ -432,7 +432,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative asset
+     * tests true is returned for a negative asset
      *
      * @throws Exception
      */
@@ -566,7 +566,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a positive asset
+     * tests true is returned for a positive asset
      *
      * @throws Exception
      */
@@ -578,7 +578,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative asset
+     * tests false is returned for a negative asset
      *
      * @throws Exception
      */

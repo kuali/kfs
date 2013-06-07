@@ -53,8 +53,6 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     // Not persisted to DB
     private boolean itemSelectedForRetransmitIndicator;
     private boolean movingToSplit;
-    private transient boolean canInactivateItem = false;
-    private transient boolean canInactivateItemSet = false;
 
     /**
      * Default constructor.
@@ -234,7 +232,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
 
-
+    @Override
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
@@ -247,7 +245,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     /**
      * @see org.kuali.kfs.module.purap.businessobject.PurApItem#getAccountingLineClass()
      */
-  
+    @Override
     public Class getAccountingLineClass() {
         return PurchaseOrderAccount.class;
     }
@@ -297,7 +295,8 @@ public class PurchaseOrderItem extends PurchasingItemBase {
      * @deprecated
      * @param amount - outstanding quantity
      */
-       public void setOutstandingQuantity(){
+    @Deprecated
+    public void setOutstandingQuantity(){
         // do nothing
     }
 
@@ -308,18 +307,14 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     }
 
     public boolean isCanInactivateItem() {
-        if(canInactivateItemSet && itemActiveIndicator){    //DTT:3980-POA Inactive Qty Lines Creating Incident Reports.
-            return canInactivateItem;
-        }
         if (versionNumber == null) {
             // don't allow newly added item to be inactivatable.
             return false;
         }
         else if (versionNumber != null && itemActiveIndicator && !getPurchaseOrder().getContainsUnpaidPaymentRequestsOrCreditMemos()) {
-            canInactivateItem=true;
+            return true;
         }
-        canInactivateItemSet=true;
-        return canInactivateItem;
+        return false;
     }
 
     /**
@@ -353,9 +348,4 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     public Class getUseTaxClass() {
         return PurchaseOrderItemUseTax.class;
     }
-
-
-      public void setCanInactivateItem(boolean canInactivateItem) {
-          this.canInactivateItem = canInactivateItem;
-      }
 }

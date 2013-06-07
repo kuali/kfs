@@ -18,6 +18,8 @@ package org.kuali.kfs.pdp.businessobject;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import org.kuali.kfs.sys.businessobject.TimestampedBusinessObjectBase;
+
 /*
  * This is a simple java bean class created for
  * Research Participant Upload. It
@@ -25,7 +27,7 @@ import java.sql.Timestamp;
  * part of the format that will appear in the spreadsheet
  * from the Accounting Office.
  */
-public class PaymentHeader extends Batch {
+public class PaymentHeader extends TimestampedBusinessObjectBase {
 
     private String chartOfAccountsCode;
     private String unit;

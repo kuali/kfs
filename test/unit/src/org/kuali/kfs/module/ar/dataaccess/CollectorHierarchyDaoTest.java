@@ -1,0 +1,60 @@
+/*
+ * Copyright 2012 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl2.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.kfs.module.ar.dataaccess;
+
+import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
+
+import java.util.Collection;
+
+import org.apache.ojb.broker.query.Criteria;
+import org.kuali.kfs.module.ar.businessobject.CollectorHierarchy;
+import org.kuali.kfs.module.ar.fixture.CollectorHierarchyFixture;
+import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
+
+/**
+ * This class tests the methods of CollectorHierarchyDao.
+ */
+@ConfigureContext(session = khuntley)
+public class CollectorHierarchyDaoTest extends KualiTestBase {
+
+    private CollectorHierarchyDao collectorHierarchyDao;
+
+    private static final String ACTIVE = "true";
+
+    /**
+     * @see junit.framework.TestCase#setUp()
+     */
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        collectorHierarchyDao = SpringContext.getBean(CollectorHierarchyDao.class);
+        CollectorHierarchyFixture.COLLECTORHIERARCHY1.createCollectorHead();
+    }
+
+    /**
+     * This method tests the method getCollectorHierarchyByCriteria() of CollectorHierarchyDao class.
+     */
+    public void testGetCollectorHierarchyByCriteria() {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(KFSPropertyConstants.ACTIVE, ACTIVE);
+        
+        Collection<CollectorHierarchy> collectorHierarchies = collectorHierarchyDao.getCollectorHierarchyByCriteria(criteria);
+        assertNotNull(collectorHierarchies);
+    }
+}

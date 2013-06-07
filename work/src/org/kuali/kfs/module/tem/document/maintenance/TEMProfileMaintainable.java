@@ -216,6 +216,12 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
             if (profile.getCustomer() == null){
                 if (StringUtils.isEmpty(profile.getCustomerNumber())){
                     profile.setCustomer(getAccountsReceivableModuleService().createCustomer());
+                    profile.getCustomer().setCustomerName(profile.getName());
+
+                    String newCustNumber = getAccountsReceivableModuleService().getNextCustomerNumber(profile.getCustomer());
+                    newCustNumber = newCustNumber.toUpperCase();
+                    profile.setCustomerNumber(newCustNumber);
+                    profile.getCustomer().setCustomerNumber(newCustNumber);
 
                     //Set to customer type code to travel and make the customer active
                     String customerTypeCode = "";
@@ -228,10 +234,7 @@ public class TEMProfileMaintainable extends FinancialSystemMaintainable {
                     profile.getCustomer().setActive(true);
 
                     getTravelerService().copyTEMProfileToCustomer(profile, profile.getCustomer());
-                    String newCustNumber = getAccountsReceivableModuleService().getNextCustomerNumber(profile.getCustomer());
-                    newCustNumber = newCustNumber.toUpperCase();
-                    profile.setCustomerNumber(newCustNumber);
-                    profile.getCustomer().setCustomerNumber(newCustNumber);
+
 
                     try {
                     	//Add note to indicate a customer has been generated for this profile to the document

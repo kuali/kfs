@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
 
@@ -333,7 +334,10 @@ public abstract class BaseTemProfile extends PersistableBusinessObjectBase {
         if ( moduleService != null ) {
             Map<String,Object> keys = new HashMap<String, Object>(1);
             keys.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
-            customer = moduleService.getExternalizableBusinessObject(AccountsReceivableCustomer.class, keys);
+            AccountsReceivableCustomer tmpCustomer = moduleService.getExternalizableBusinessObject(AccountsReceivableCustomer.class, keys);
+            if (ObjectUtils.isNotNull(tmpCustomer)) {
+                customer = tmpCustomer;
+            }
         } else {
             throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
         }

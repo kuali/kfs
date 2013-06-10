@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,20 +44,29 @@ public class AccountingLineServiceImpl implements AccountingLineService {
     /**
      * Retrieves an accounting line by its document header id. Will retrieve any object that extends AccountingLineBase (i.e. Source
      * and Target lines).
-     * 
+     *
      * @param Class The specific child class type to be retrieved.
      * @param Long
      */
+    @Override
     public List getByDocumentHeaderId(Class clazz, String documentHeaderId) {
         // retrieve the line
         return getAccountingLineDao().findByDocumentHeaderId(clazz, documentHeaderId);
     }
 
+    /**
+     * Calls AccountingLineDao#findByDocumentHeaderIdAndLineType to find the appropriate lines
+     * @see org.kuali.kfs.sys.service.AccountingLineService#getByDocumentHeaderIdAndLineType(java.lang.Class, java.lang.String, java.lang.String)
+     */
+    @Override
+    public List getByDocumentHeaderIdAndLineType(Class clazz, String documentHeaderId, String lineType) {
+        return getAccountingLineDao().findByDocumentHeaderIdAndLineType(clazz, documentHeaderId, lineType);
+    }
 
     // needed for Spring injection
     /**
      * Sets the data access object
-     * 
+     *
      * @param d
      */
     public void setAccountingLineDao(AccountingLineDao d) {

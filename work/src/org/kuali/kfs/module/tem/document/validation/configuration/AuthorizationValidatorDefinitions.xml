@@ -46,6 +46,11 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="TravelAuthorization-advanceAccountingLinesTotalValidation" parent="TravelAuthorization-advanceAccountingLinesTotalValidation-parentBean" scope="prototype"/>
+	<bean id="TravelAuthorization-advanceAccountingLinesTotalValidation-parentBean" class="org.kuali.kfs.module.tem.document.validation.impl.TravelAdvanceAccountingTotalsValidation" abstract="true">
+		<property name="debitDeterminerService" ref="debitDeterminerService"/>
+	</bean>
 
 	<bean id="TravelAuthorization-routeDocumentValidation" parent="TravelAuthorization-routeDocumentValidation-parentBean" />
 	<bean id="TravelAuthorization-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
@@ -67,7 +72,96 @@
     			<bean parent="TravelModule-travelerValidation" scope="prototype" />
     			<bean parent="TravelModule-tripInformationValidation" scope="prototype" />
     			<bean parent="TravelModule-tripDetailMealsAndIncidentalsValidation" scope="prototype" />
-    			<bean parent="TravelModule-emergencyContactRequiredValidation" scope="prototype" />    			
+    			<bean parent="TravelModule-emergencyContactRequiredValidation" scope="prototype" />
+    			<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion" p:sourceEventProperty="document.traveler" p:targetValidationProperty="businessObjectForValidation"/>
+					</property>
+				</bean>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion" p:sourceEventProperty="document.specialCircumstances[0]" p:targetValidationProperty="businessObjectForValidation"/>
+					</property>
+				</bean>
+				<bean parent="CollectionValidation" scope="prototype">
+					<property name="collectionProperty" value="document.groupTravelers" />
+					<property name="validations">
+						<list>
+							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="businessObjectForValidation"/>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="CollectionValidation" scope="prototype">
+					<property name="collectionProperty" value="document.actualExpenses" />
+					<property name="validations">
+						<list>
+							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="businessObjectForValidation"/>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="CollectionValidation" scope="prototype">
+					<property name="collectionProperty" value="document.importedExpenses" />
+					<property name="validations">
+						<list>
+							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="businessObjectForValidation"/>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="CollectionValidation" scope="prototype">
+					<property name="collectionProperty" value="document.perDiemExpenses" />
+					<property name="validations">
+						<list>
+							<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+								<property name="parameterProperties">
+									<list>
+										<bean parent="validationFieldConversion" p:sourceEventProperty="iterationSubject" p:targetValidationProperty="businessObjectForValidation"/>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="NodeSpecificValidation" scope="prototype">
+					<property name="validation">
+						<bean parent="CompositeValidation" scope="prototype">
+							<property name="validations">
+								<list>
+									<bean parent="TravelPayment-dataDictionaryValidation" scope="prototype">
+										<property name="parameterProperties">
+											<list>
+												<bean parent="validationFieldConversion" p:sourceEventProperty="document.advanceTravelPayment" p:targetValidationProperty="businessObjectForValidation"/>
+											</list>
+										</property>
+									</bean>
+									<bean parent="TravelAuthorization-advanceAccountingLinesTotalValidation" scope="prototype"/>
+								</list>
+							</property>
+						</bean>
+					</property>
+					<property name="validationNodes">
+						<list>
+							<value>Travel</value>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>

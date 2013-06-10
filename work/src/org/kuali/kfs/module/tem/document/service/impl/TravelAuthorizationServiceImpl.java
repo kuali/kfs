@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.tem.document.service.impl;
 
 import static org.kuali.kfs.module.tem.TemKeyConstants.TA_MESSAGE_CLOSE_DOCUMENT_TEXT;
-import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
+import static org.kuali.kfs.module.tem.TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER;
 
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
@@ -119,16 +119,10 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     public void createCustomerInvoice(TravelAuthorizationDocument travelAuthorizationDocument) {
 
         boolean enableInvoice = parameterService.getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.GENERATE_INVOICE_FOR_TRAVEL_ADVANCE_IND);
-        if (enableInvoice) {
-            KualiDecimal amount = KualiDecimal.ZERO;
+        if (enableInvoice && travelAuthorizationDocument.shouldProcessAdvanceForDocument()) {
+            KualiDecimal amount = travelAuthorizationDocument.getTravelAdvance().getTravelAdvanceRequested();
             List<TravelAdvance> advances = new ArrayList<TravelAdvance>();
-            for (TravelAdvance adv : travelAuthorizationDocument.getTravelAdvances()) {
-                if (StringUtils.isBlank(adv.getArInvoiceDocNumber()) && adv.getTravelAdvanceRequested().isGreaterThan(KualiDecimal.ZERO)) {
-                    advances.add(adv);
-                    amount = amount.add(adv.getTravelAdvanceRequested());
-                }
-            }
-            if (amount.isGreaterThan(KualiDecimal.ZERO)) {
+            if (KualiDecimal.ZERO.isLessThan(amount)) {
                 createCustomerInvoiceFromAdvances(travelAuthorizationDocument, advances, amount);
             }
         }
@@ -439,7 +433,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     @Override
     public Collection<TravelAuthorizationDocument> find(final String travelDocumentIdentifier) {
         final Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(TRVL_IDENTIFIER_PROPERTY, travelDocumentIdentifier);
+        criteria.put(TRAVEL_DOCUMENT_IDENTIFIER, travelDocumentIdentifier);
         return businessObjectService.findMatching(TravelAuthorizationDocument.class, criteria);
     }
 
@@ -456,27 +450,8 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     @Override
     public Collection<TravelAuthorizationAmendmentDocument> findAmendment(Integer travelDocumentIdentifier) {
         final Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(TRVL_IDENTIFIER_PROPERTY, travelDocumentIdentifier);
+        criteria.put(TRAVEL_DOCUMENT_IDENTIFIER, travelDocumentIdentifier);
         return businessObjectService.findMatching(TravelAuthorizationAmendmentDocument.class, criteria);
-    }
-
-    /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelAuthorizationService#createTravelAdvanceDVDocument(org.kuali.kfs.module.tem.document.TravelAuthorizationDocument)
-     */
-    @Override
-    public void createTravelAdvanceDVDocument(TravelAuthorizationDocument travelAuthorizationDocument) {
-        boolean enableDVAR = parameterService.getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.GENERATE_DV_FOR_TRAVEL_ADVANCE_IND);
-        if (enableDVAR) {
-            KualiDecimal amount = KualiDecimal.ZERO;
-            for (TravelAdvance adv : travelAuthorizationDocument.getTravelAdvances()) {
-                if (StringUtils.isBlank(adv.getArInvoiceDocNumber()) && adv.getTravelAdvanceRequested().isGreaterThan(KualiDecimal.ZERO)) {
-                    amount = amount.add(adv.getTravelAdvanceRequested());
-                }
-            }
-            if (amount.isGreaterThan(KualiDecimal.ZERO)) {
-                travelDisbursementService.processTravelAdvanceDV(travelAuthorizationDocument);
-            }
-        }
     }
 
     /**

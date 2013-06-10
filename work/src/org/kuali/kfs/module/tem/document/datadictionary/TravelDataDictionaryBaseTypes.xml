@@ -71,6 +71,18 @@
 	    <property name="accountingLineGroupClass" value="org.kuali.kfs.sys.document.web.CollectionAccountingLineGroupImpl"/>
     </bean>
     
+    <bean id="TravelAuthorization-travelAdvanceAccountingLineGroup" parent="TravelAuthorization-travelAdvanceAccountingLineGroup-parentBean" />
+	<bean id="TravelAuthorization-travelAdvanceAccountingLineGroup-parentBean" abstract="true" parent="AccountingLineGroup" >
+		<property name="accountingLineView" ref="TravelAuthorizationDocument-advanceAccountingLineView" />
+		<property name="accountingLineClass" value="org.kuali.kfs.sys.businessobject.SourceAccountingLine" />
+		<property name="groupLabel" value="Travel Advance Accounting Lines" />
+		<property name="accountingLineAuthorizerClass" value="org.kuali.kfs.module.tem.document.authorization.TravelAdvanceAccountingLineAuthorizer" />
+		<property name="accountingLineComparatorClass" value="org.kuali.kfs.sys.businessobject.AccountingLineComparator" />
+		<property name="importedLinePropertyPrefix" value="travelAdvance." />
+		<property name="totals" ref="AccountingDocument-sourceGroupTotals" />
+		<property name="errorKey" value="document.travelAdvance.accounting*,travelAdvance.accountingLines,newTravelAdvanceAccountingLine*" />
+	</bean>
+    
 	<bean id="TravelDocument-accountingLineView" parent="TravelDocument-accountingLineView-parent" />
 	<bean id="TravelDocument-accountingLineView-parent" abstract="true" parent="AccountingLineView">
 		<property name="elements">
@@ -148,7 +160,7 @@
 				<bean parent="AccountingLineView-actions" />
 			</list>
 		</property>
-	</bean>  
+	</bean>
 	
 	<bean id="TravelDocument-accountDistributionAccountingLineView" parent="TravelDocument-accountDistributionAccountingLineView-parent" />
 	<bean id="TravelDocument-accountDistributionAccountingLineView-parent" abstract="true" parent="AccountingLineView">
@@ -195,7 +207,74 @@
 				<bean parent="AccountingLineView-actions" />
 			</list>
 		</property>
-	</bean> 
+	</bean>
 	
-  	
+  	<bean id="TravelAuthorizationDocument-advanceAccountingLineView" parent="ravelAuthorizationDocument-advanceAccountingLineView-parent" />
+	<bean id="ravelAuthorizationDocument-advanceAccountingLineView-parent" abstract="true" parent="AccountingLineView">
+		<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-sequenceNumber" />
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<bean parent="AccountingLineView-line" abstract="true">
+								<property name="elementName" value="advanceAccountingInformation" />
+								<property name="fields">
+									<list>
+										<bean parent="AccountingLineView-field"
+											p:name="chartOfAccountsCode" p:required="true"
+											p:webUILeaveFieldFunction="loadChartInfo"
+											p:dynamicLabelProperty="chart.finChartOfAccountDescription" p:useShortLabel="true" />
+										<bean parent="AccountingLineView-field"
+											p:name="accountNumber" p:required="true"
+											p:webUILeaveFieldFunction="loadAccountInfo"
+											p:dynamicLabelProperty="account.accountName" p:useShortLabel="true">
+											<property name="overrideFields">
+												<list>
+													<bean
+														parent="AccountingLineView-overrideField"
+														p:name="accountExpiredOverride" />
+													<bean
+														parent="AccountingLineView-overrideField"
+														p:name="nonFringeAccountOverride" />
+												</list>
+											</property>
+										</bean>
+										<bean parent="AccountingLineView-field"
+											p:name="subAccountNumber"
+											p:webUILeaveFieldFunction="loadSubAccountInfo"
+											p:dynamicLabelProperty="subAccount.subAccountName" p:useShortLabel="true" />
+										<bean parent="AccountingLineView-field"
+											p:name="financialObjectCode" p:required="true"
+											p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator" p:useShortLabel="true">
+											<property name="overrideFields">
+												<list>
+													<bean
+														parent="AccountingLineView-overrideField"
+														p:name="objectBudgetOverride" />
+												</list>
+											</property>
+										</bean>
+										<bean parent="AccountingLineView-field"
+											p:name="financialSubObjectCode"
+											p:dynamicNameLabelGeneratorBeanName="subObjectCodeDynamicNameLabelGenerator" p:useShortLabel="true" />
+										<bean parent="AccountingLineView-field"
+											p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:useShortLabel="true"
+											p:dynamicLabelProperty="project.name" />
+										<bean parent="AccountingLineView-field"
+											p:name="organizationReferenceId"
+											p:useShortLabel="true" />
+										<bean parent="AccountingLineView-field" p:name="cardType" p:required="true" p:useShortLabel="true"/>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="amount"
+					p:required="true" />
+				<bean parent="AccountingLineView-actions" />
+			</list>
+		</property>
+	</bean>
 </beans>

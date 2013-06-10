@@ -1261,7 +1261,8 @@
 	<bean id="travelPreDisbursementProcessorExtractJob-parentBean" parent="scheduledJobDescriptor" abstract="true">
 		<property name="steps">
 			<list>
-				<ref bean="travelReimbursementsPreDisbursementProcessorExtractStep" />
+				<ref bean="travelAuthorizationsPreDisbursementProcessorExtractStep"/>
+				<ref bean="travelReimbursementsPreDisbursementProcessorExtractStep"/>
 			</list>
 		</property>
 	</bean>
@@ -1274,6 +1275,16 @@
 	<bean id="travelReimbursementsExtractService"  parent="travelReimbursementsExtractService-parentBean"/>
 	<bean id="travelReimbursementsExtractService-parentBean" parent="paymentSourceExtractService-parentBean" abstract="true">
 		<property name="paymentSourceToExtractService" ref="temReimbursableDocumentExtractionHelperService"/>
+	</bean>
+	
+	<bean id="travelAuthorizationsPreDisbursementProcessorExtractStep" parent="travelAuthorizationsPreDisbursementProcessorExtractStep-parentBean" />
+	<bean id="travelAuthorizationsPreDisbursementProcessorExtractStep-parentBean" parent="paymentSourceToPdpExtractStep" abstract="true">
+		<property name="paymentSourceExtractionService" ref="travelAuthorizationsExtractService" />
+	</bean>
+	
+	<bean id="travelAuthorizationsExtractService"  parent="travelAuthorizationsExtractService-parentBean"/>
+	<bean id="travelAuthorizationsExtractService-parentBean" parent="paymentSourceExtractService-parentBean" abstract="true">
+		<property name="paymentSourceToExtractService" ref="temAuthorizationDocumentExtractionHelperService"/>
 	</bean>
     
 	<import resource="document/validation/configuration/TEMValidatorDefinitions.xml" /> 
@@ -1366,14 +1377,29 @@
 		</property>
 	</bean>
 	
+	<bean id="travelPaymentsHelperService" parent="travelPaymentsHelperService-parentBean"/>
+	<bean id="travelPaymentsHelperService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.TravelPaymentsHelperServiceImpl" abstract="true">
+		<property name="personService" ref="personService"/>
+		<property name="workflowDocumentService" ref="workflowDocumentService"/>
+		<property name="paymentSourceExtractionService" ref="paymentSourceExtractService"/>
+	</bean>
+	
 	<bean id="temReimbursableDocumentExtractionHelperService" parent="temReimbursableDocumentExtractionHelperService-parentBean"/>
 	<bean id="temReimbursableDocumentExtractionHelperService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.ReimbursableDocumentExtractionHelperServiceImpl" abstract="true">
 		<property name="documentService" ref="documentService"/>
 		<property name="travelerService" ref="travelerService"/>
 		<property name="paymentSourceExtractionService" ref="paymentSourceExtractService"/>
-		<property name="personService" ref="personService"/>
-		<property name="workflowDocumentService" ref="workflowDocumentService"/>
 		<property name="travelDocumentDao" ref="travelDocumentDao"/>
+		<property name="travelPaymentsHelperService" ref="travelPaymentsHelperService"/>
+	</bean>
+	
+	<bean id="temAuthorizationDocumentExtractionHelperService" parent="temAuthorizationDocumentExtractionHelperService-parentBean"/>
+	<bean id="temAuthorizationDocumentExtractionHelperService-parentBean" class="org.kuali.kfs.module.tem.document.service.impl.TravelAuthorizationDocumentExtractionHelperServiceImpl" abstract="true">
+		<property name="documentService" ref="documentService"/>
+		<property name="travelerService" ref="travelerService"/>
+		<property name="paymentSourceExtractionService" ref="paymentSourceExtractService"/>
+		<property name="travelDocumentDao" ref="travelDocumentDao"/>
+		<property name="travelPaymentsHelperService" ref="travelPaymentsHelperService"/>
 	</bean>
 
     <import resource="spring-tem-bus-exports.xml"/>

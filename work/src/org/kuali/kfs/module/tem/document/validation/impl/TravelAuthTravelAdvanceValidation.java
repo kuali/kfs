@@ -30,7 +30,6 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
-import org.kuali.kfs.module.tem.document.validation.event.AddTravelAdvanceLineEvent;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -62,29 +61,18 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
         if (event instanceof AttributedRouteDocumentEvent
                 || event instanceof AttributedApproveDocumentEvent
                 || event instanceof AttributedBlanketApproveDocumentEvent){
-            for (int i=0;i<document.getTravelAdvances().size();i++){
-                TravelAdvance advance = document.getTravelAdvances().get(i);
-                success = isTravelAdvanceValid(document, advance,i);
+            if (document.shouldProcessAdvanceForDocument()) {
+                success = isTravelAdvanceValid(document, document.getTravelAdvance());
             }
-
-        }
-        else{
-            AddTravelAdvanceLineEvent travelEvent = (AddTravelAdvanceLineEvent)event;
-            TravelAdvance advance = travelEvent.getTravelAdvance();
-
-            success = isTravelAdvanceValid(document, advance, -1);
         }
 
         return success;
     }
 
-    private boolean isTravelAdvanceValid(TravelAuthorizationDocument document, TravelAdvance advance, int index){
+    private boolean isTravelAdvanceValid(TravelAuthorizationDocument document, TravelAdvance advance) {
         boolean success = true;
-        String temp = "";
-        if (index > -1){
-            GlobalVariables.getMessageMap().addToErrorPath(KRADPropertyConstants.DOCUMENT);
-            temp = TravelAuthorizationFields.TRVL_ADV + "[" + index + "].";
-        }
+
+        GlobalVariables.getMessageMap().addToErrorPath(KRADPropertyConstants.DOCUMENT+"."+TravelAuthorizationFields.TRVL_ADV + ".");
 
         if(advance.getTravelAdvanceRequested() != null) {
             KualiDecimal advReq = advance.getTravelAdvanceRequested();
@@ -97,7 +85,7 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
         }
 
         if(!success) {
-            GlobalVariables.getMessageMap().putError(temp+TravelAuthorizationFields.TRVL_ADV_REQUESTED, ERROR_TA_TRVL_REQ_GRTR_THAN_ZERO);
+            GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRVL_ADV_REQUESTED, ERROR_TA_TRVL_REQ_GRTR_THAN_ZERO);
         }
 
         if (advance.getDueDate() == null) {
@@ -119,7 +107,7 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
             success = false;
         }
         else if (advance.getDueDate() != null && advance.getDueDate().after(document.getTripEnd())) {
-            GlobalVariables.getMessageMap().putError(temp + TravelAuthorizationFields.TRVL_ADV_DUE_DATE, TemKeyConstants.ERROR_TA_TRVL_ADV_DUE_DATE_INVALID);
+            GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRVL_ADV_DUE_DATE, TemKeyConstants.ERROR_TA_TRVL_ADV_DUE_DATE_INVALID);
             success = false;
         }
 
@@ -137,7 +125,7 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
         if (checkPolicy){
             if (!advance.getTravelAdvancePolicy()){
                 success = false;
-                GlobalVariables.getMessageMap().putError(temp+TravelAuthorizationFields.TRVL_ADV_POLICY, TemKeyConstants.ERROR_TA_TRVL_ADV_POLICY);
+                GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRVL_ADV_POLICY, TemKeyConstants.ERROR_TA_TRVL_ADV_POLICY);
             }
         }
 
@@ -160,15 +148,14 @@ public class TravelAuthTravelAdvanceValidation extends GenericValidation {
                         if (StringUtils.isBlank(advance.getAdditionalJustification())){
                             success = false;
 
-                            GlobalVariables.getMessageMap().putError(temp+TravelAuthorizationFields.TRVL_ADV_ADD_JUST, TemKeyConstants.ERROR_TA_TRVL_ADV_ADD_JUST);
+                            GlobalVariables.getMessageMap().putError(TravelAuthorizationFields.TRVL_ADV_ADD_JUST, TemKeyConstants.ERROR_TA_TRVL_ADV_ADD_JUST);
                         }
                     }
                 }
             }
         }
-        if (index > -1){
-            GlobalVariables.getMessageMap().removeFromErrorPath("document");
-        }
+
+        GlobalVariables.getMessageMap().removeFromErrorPath(KRADPropertyConstants.DOCUMENT+"."+TravelAuthorizationFields.TRVL_ADV + ".");
 
         return success;
     }

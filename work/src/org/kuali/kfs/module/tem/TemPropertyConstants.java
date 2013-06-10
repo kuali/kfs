@@ -42,7 +42,10 @@ public class TemPropertyConstants {
     public static final String TRVL_RELATED_DOCUMENT_NUM = "relDocumentNumber";
     public static final String SPECIAL_CIRCUMSTANCES = "specialCircumstances";
     public static final String TRAVELER = "traveler";
-    public static final String TRVL_ADV = "travelAdvances";
+    public static final String TRVL_ADV = "travelAdvance";
+    public static final String TRAVEL_ADVANCES = "travelAdvances";
+    public static final String ADVANCE_ACCOUNTING_LINES = "advanceAccountingLines";
+    public static final String NEW_ADVANCE_ACCOUNTING_LINE = "newTravelAdvanceAccountingLine";
     public static final String TRAVELER_TYPE = "travelerType";
     public static final String CUSTOMER = "customer";
 
@@ -57,7 +60,7 @@ public class TemPropertyConstants {
     //TODO: this really should be named expenseDate in the PerDiem
     public static final String MILEAGE_DATE = "mileageDate";
 
-    public static final String TRVL_IDENTIFIER_PROPERTY = "travelDocumentIdentifier";
+    public static final String TRAVEL_DOCUMENT_IDENTIFIER = "travelDocumentIdentifier";
 
     public static final String TRVL_DOC_SEARCH_RESULT_PROPERTY_NAME_ACTIONS = "actions";
 
@@ -141,7 +144,7 @@ public class TemPropertyConstants {
         public static final String MODE_OF_TRANSPORT = "modeOfTransportation";
         public static final String TRAVEL_EXPENSE_NOTES = "notes";
         public static final String FIN_OBJ_CD = "financialObjectCode";
-        public static final String TRVL_ADV = "travelAdvances";
+        public static final String TRVL_ADV = "travelAdvance";
         public static final String TRVL_ADV_POLICY = "travelAdvancePolicy";
         public static final String TRVL_ADV_ADD_JUST = "additionalJustification";
         public static final String TRVL_ADV_PAY_RSN = "advancePaymentReasonCode";
@@ -340,7 +343,7 @@ public class TemPropertyConstants {
         return returnMap;
     }
 
-    public static final String TRAVEL_ADVANCE_ID = "travelAdvanceId";
+    public static final String TRAVEL_ADVANCE_DOCUMENT_NUMBER = "travelAdvanceDocumentNumber";
     public static final String ARRANGER_PROFILE_ID = "arrangerProfileId";
     public static final String AR_INVOICE_DOC_NUMBER = "arInvoiceDocNumber";
     public static final String TAXABLE_RAMIFICATION_NOTIFICATION_DATE = "taxRamificationNotificationDate";

@@ -27,8 +27,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.TaxableRamificationNotificationStep;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
@@ -124,7 +124,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
     @Override
     public boolean hasTaxableRamification(TravelAdvance travelAdvance) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(TemPropertyConstants.TRAVEL_ADVANCE_ID, travelAdvance.getId());
+        fieldValues.put(TemPropertyConstants.TRAVEL_ADVANCE_DOCUMENT_NUMBER, travelAdvance.getDocumentNumber());
 
         int count = this.getBusinessObjectService().countMatching(TaxableRamificationDocument.class, fieldValues);
 
@@ -180,7 +180,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
     protected void populateTaxRamificationDocument(TaxableRamificationDocument taxRamificationDocument, TravelAdvance travelAdvance) {
         taxRamificationDocument.setArInvoiceDocNumber(travelAdvance.getArInvoiceDocNumber());
 
-        taxRamificationDocument.setTravelAdvanceId(travelAdvance.getId());
+        taxRamificationDocument.setTravelAdvanceDocumentNumber(travelAdvance.getDocumentNumber());
         taxRamificationDocument.setTravelAdvance(travelAdvance);
 
         TravelAuthorizationDocument travelAuthorizationDocument = this.getTravelAuthorizationDocument(travelAdvance);

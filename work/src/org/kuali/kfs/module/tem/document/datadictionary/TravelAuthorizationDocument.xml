@@ -14,6 +14,7 @@
 		<property name="potentiallySensitive" value="true"/>
 		<property name="allowsErrorCorrection" value="false"/>
 		<property name="validationMap" ref="TravelAuthorizationDocument-validations"/>
+		<property name="maxDictionaryValidationDepth" value="0"/>
 
         <property name="workflowAttributes">
     	  <ref bean="TravelAuthorizationDocument-workflowAttributes"/>
@@ -21,6 +22,10 @@
      
 		<property name="accountingLineGroups">
 			<map>
+				<entry>
+                	<key><value>advance</value></key>
+                	<ref bean="TravelAuthorization-travelAdvanceAccountingLineGroup"/>
+                </entry>
 				<entry>
 					<key><value>source</value></key>
 					<ref bean="TravelDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>

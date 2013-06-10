@@ -31,6 +31,7 @@ public class TemKeyConstants {
     public static final String ERROR_TA_REASON_REQUIRED  = "error.travelAuthorization.reasonRequired";
     public static final String ERROR_TA_REASON_PASTLIMIT = "error.travelAuthorization.reason.pastLimit";
     public static final String ERROR_TAA_WITH_TR_ENROUTE = "error.travel.authorization.amendment.enroute.reimbursement";
+    public static final String ERROR_TA_ADVANCE_ACCOUNTING_LINES_ADVANCE_AMOUNT_REQUESTED_NOT_EQUAL = "error.travelAuthorization.advanceAccountingLines.travelAdvanceRequested.notEqual";
     public static final String TR_FISCAL_OFFICER_QUESTION = "travelAuthorization.fiscalOfficer.question.text";
     public static final String TA_MESSAGE_HOLD_DOCUMENT_TEXT = "travelAuthorization.message.hold.text";
     public static final String TA_MESSAGE_AMEND_DOCUMENT_TEXT = "travelAuthorization.message.amend.text";
@@ -129,6 +130,8 @@ public class TemKeyConstants {
     public static final String MESSAGE_DV_IN_ACTION_LIST       = "message.document.tem.dv.actionList";
     public static final String MESSAGE_RELO_DV_IN_ACTION_LIST = "message.document.tem.relo.dv.actionList";
     public static final String MESSAGE_TA_ADVANCE_POLICY = "message.document.tem.ta.advance.policy";
+    public static final String MESSAGE_TA_ADVANCE_PAYMENT_HOLD_TEXT = "message.document.tem.ta.advance.checkText.holdingText";
+    public static final String MESSAGE_TA_ADVANCE_PAYMENT_CHECK_TEXT_PREFIX = "message.document.tem.ta.advance.checkText.prefix";
 
     //Add any custom messages
     public static final String MESSAGE_GENERIC = "message.generic";

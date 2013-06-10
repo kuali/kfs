@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.tem.document.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.TRAVEL_COVERSHEET_INSTRUCTIONS;
-import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
+import static org.kuali.kfs.module.tem.TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER;
 import static org.kuali.kfs.sys.KFSConstants.EXTERNALIZABLE_HELP_URL_KEY;
 
 import java.beans.PropertyChangeListener;
@@ -64,7 +64,7 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
     @Override
     public Collection<TravelRelocationDocument> findByIdentifier(final String travelDocumentIdentifier) {
         final Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(TRVL_IDENTIFIER_PROPERTY, travelDocumentIdentifier);
+        criteria.put(TRAVEL_DOCUMENT_IDENTIFIER, travelDocumentIdentifier);
         return getBusinessObjectService().findMatching(TravelRelocationDocument.class, criteria);
     }
 

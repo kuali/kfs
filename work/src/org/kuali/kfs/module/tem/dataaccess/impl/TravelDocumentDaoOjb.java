@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.tem.dataaccess.impl;
 
-import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
+import static org.kuali.kfs.module.tem.TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -42,6 +42,9 @@ import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
@@ -63,7 +66,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
 	@Override
     public List<String> findDocumentNumbers(final Class<?> travelDocumentClass, final String travelDocumentNumber) {
         final Criteria c = new Criteria();
-        c.addEqualTo(TRVL_IDENTIFIER_PROPERTY, travelDocumentNumber);
+        c.addEqualTo(TRAVEL_DOCUMENT_IDENTIFIER, travelDocumentNumber);
 
         LOG.debug("Creating query for type "+ travelDocumentClass+ " using criteria "+ c);
 
@@ -222,7 +225,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
      */
     @Override
     public Collection<? extends TEMReimbursementDocument> getReimbursementDocumentsByHeaderStatus(String statusCode, boolean immediatesOnly) {
-        return getReimbursableDocumentsByHeaderStatus(TravelReimbursementDocument.class, statusCode, immediatesOnly);
+        return (Collection<? extends TEMReimbursementDocument>)getTravelDocumentsByHeaderStatus(TravelReimbursementDocument.class, statusCode, immediatesOnly);
     }
 
     /**
@@ -230,7 +233,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
      */
     @Override
     public Collection<? extends TEMReimbursementDocument> getRelocationDocumentsByHeaderStatus(String statusCode, boolean immediatesOnly) {
-        return getReimbursableDocumentsByHeaderStatus(TravelRelocationDocument.class, statusCode, immediatesOnly);
+        return (Collection<? extends TEMReimbursementDocument>)getTravelDocumentsByHeaderStatus(TravelRelocationDocument.class, statusCode, immediatesOnly);
     }
 
     /**
@@ -238,7 +241,18 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
      */
     @Override
     public Collection<? extends TEMReimbursementDocument> getEntertainmentDocumentsByHeaderStatus(String statusCode, boolean immediatesOnly) {
-        return getReimbursableDocumentsByHeaderStatus(TravelEntertainmentDocument.class, statusCode, immediatesOnly);
+        return (Collection<? extends TEMReimbursementDocument>)getTravelDocumentsByHeaderStatus(TravelEntertainmentDocument.class, statusCode, immediatesOnly);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao#getAuthorizationDocumentsByHeaderStatus(java.lang.String, boolean)
+     */
+    @Override
+    public Collection<? extends TravelAuthorizationDocument> getAuthorizationsAndAmendmentsByHeaderStatus(String statusCode, boolean immediatesOnly) {
+        List<TravelAuthorizationDocument> documents = new ArrayList<TravelAuthorizationDocument>();
+        documents.addAll((Collection<TravelAuthorizationDocument>)getTravelDocumentsByHeaderStatus(TravelAuthorizationDocument.class, statusCode, immediatesOnly));
+        documents.addAll((Collection<TravelAuthorizationAmendmentDocument>)getTravelDocumentsByHeaderStatus(TravelAuthorizationAmendmentDocument.class, statusCode, immediatesOnly));
+        return documents;
     }
 
     /**
@@ -248,7 +262,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
      * @param immediatesOnly true if only those reimbursable documents
      * @return a Collection of qualifying documents
      */
-    protected Collection<? extends TEMReimbursementDocument> getReimbursableDocumentsByHeaderStatus(Class<? extends TEMReimbursementDocument> documentClazz, String statusCode, boolean immediatesOnly) {
+    protected Collection<? extends TravelDocument> getTravelDocumentsByHeaderStatus(Class<? extends TravelDocument> documentClazz, String statusCode, boolean immediatesOnly) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("getReimbursableDocumentsByHeaderStatus() started");
         }

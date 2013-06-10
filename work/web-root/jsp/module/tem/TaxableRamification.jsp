@@ -45,11 +45,11 @@
 				</td>
 			</tr>
 			<tr>	
-				<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.travelAdvanceId}"
-					horizontal="true" width="20%"  labelFor="document.travelAdvanceId"/>
+				<kul:htmlAttributeHeaderCell attributeEntry="${documentAttributes.travelAdvanceDocumentNumber}"
+					horizontal="true" width="20%"  labelFor="document.travelAdvanceDocumentNumber"/>
 
 				<td class="datacell-nowrap">
-					<kul:htmlControlAttribute attributeEntry="${documentAttributes.travelAdvanceId}" property="document.travelAdvanceId" readOnly="${readOnly}" /> 
+					<kul:htmlControlAttribute attributeEntry="${documentAttributes.travelAdvanceDocumentNumber}" property="document.travelAdvanceDocumentNumber" readOnly="${readOnly}" /> 
 				</td>
 			</tr>
 			<tr>	

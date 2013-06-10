@@ -31,7 +31,7 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameter
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.DISPLAY_ENCUMBRANCE_IND;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.FOREIGN_CURRENCY_URL;
-import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
+import static org.kuali.kfs.module.tem.TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_FILE_EXTENSION;
 import static org.kuali.kfs.sys.KFSConstants.ReportGeneration.PDF_MIME_TYPE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT_NUMBER;
@@ -109,7 +109,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         // Refreshes all the collections if this is not initiation
         refreshCollectionsFor(document);
 
-        final String identifierStr = request.getParameter(TRVL_IDENTIFIER_PROPERTY);
+        final String identifierStr = request.getParameter(TRAVEL_DOCUMENT_IDENTIFIER);
 
         if (!StringUtils.isBlank(identifierStr)) {
             LOG.debug("Creating reimbursement for document number "+ identifierStr);
@@ -142,7 +142,6 @@ public class TravelReimbursementAction extends TravelActionBase {
             document.configureTraveler(authorization.getTemProfileId(), authorization.getTraveler());
             document.setExpenseLimit(authorization.getExpenseLimit());
             document.setPerDiemAdjustment(authorization.getPerDiemAdjustment());
-            document.setTravelAdvances(authorization.getTravelAdvances());
             document.getDocumentHeader().setOrganizationDocumentNumber(authorization.getDocumentHeader().getOrganizationDocumentNumber());
 
             if (document.getPrimaryDestinationId() != null && document.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
@@ -169,19 +168,6 @@ public class TravelReimbursementAction extends TravelActionBase {
                 }
             }
             //initializeSpecialCircumstances(document , authorization);
-        }else {
-            TravelAuthorizationDocument authorization = null;
-            try {
-                authorization = (TravelAuthorizationDocument) getTravelDocumentService().findCurrentTravelAuthorization(document);
-                addTravelAdvancesTo(reimbForm, authorization);
-                if (authorization != null) {
-                    document.setTravelAdvances(authorization.getTravelAdvances());
-                }
-            }
-            catch (WorkflowException ex) {
-                // TODO Auto-generated catch block
-                ex.printStackTrace();
-            }
         }
 
         return retval;
@@ -335,7 +321,7 @@ public class TravelReimbursementAction extends TravelActionBase {
      */
     protected void addTravelAdvancesTo(final TravelReimbursementForm form, final TravelAuthorizationDocument authorization) {
         if (authorization != null) {
-            form.getInvoices().addAll(authorization.getTravelAdvances());
+            form.getInvoices().add(authorization.getTravelAdvance());
         }
     }
 

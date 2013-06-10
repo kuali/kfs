@@ -441,8 +441,6 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
     @Override
     public void resetFromExtraction() {
         getTravelPayment().setExtractDate(null);
-        // reset the status to APPROVED so DV will be extracted to PDP again
-        getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         getTravelPayment().setPaidDate(null);
     }
 

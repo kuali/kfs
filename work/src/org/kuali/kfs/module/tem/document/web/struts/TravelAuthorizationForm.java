@@ -29,9 +29,9 @@ import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDistribution;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TransportationMode;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
-import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
@@ -51,7 +51,6 @@ import org.kuali.rice.krad.service.DataDictionaryService;
 
 public class TravelAuthorizationForm extends TravelFormBase implements TravelAuthorizationMvcWrapperBean{
     private TravelerDetailEmergencyContact newEmergencyContactLine;
-    private TravelAdvance newTravelAdvanceLine;
     private TravelerDetail newTraveler;
     private boolean canCloseTA;
     private boolean canAmend;
@@ -64,10 +63,11 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     private boolean allowIncidentals = true;
     private String policyURL = getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TravelAuthorizationParameters.TRAVEL_ADVANCES_POLICY_URL);
     private boolean multipleAdvances =getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.MULTIPLE_CASH_ADVANCES_ALLOWED_IND);
-    private boolean showPaymentMethods = getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TravelAuthorizationParameters.DISPLAY_PAYMENT_METHOD_DROPDOWN_IND);
     private boolean showPolicy;
     private boolean waitingOnTraveler;
     private boolean showCorporateCardTotal = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.AMOUNT_DUE_CORPORATE_CARD_TOTAL_LINE_IND);
+
+    private TemSourceAccountingLine newTravelAdvanceAccountingLine;
 
     // parameters that affect the UI
     private List<String> tempSelectedTransportationModes = new ArrayList<String>();
@@ -78,6 +78,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     public TravelAuthorizationForm() {
         super();
         this.setShowPerDiem(false);
+        newTravelAdvanceAccountingLine = new TemSourceAccountingLine();
     }
 
     /**
@@ -169,23 +170,18 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     }
 
     /**
-     * Gets the newTravelAdvanceLine attribute.
-     *
-     * @return Returns the newTravelAdvanceLine.
+     * @return new accounting line associated with travel advance
      */
-    @Override
-    public TravelAdvance getNewTravelAdvanceLine() {
-        return newTravelAdvanceLine;
+    public TemSourceAccountingLine getNewTravelAdvanceAccountingLine() {
+        return newTravelAdvanceAccountingLine;
     }
 
     /**
-     * Sets the newTravelAdvanceLine attribute value.
-     *
-     * @param newTravelAdvanceLine The newTravelAdvanceLine to set.
+     * Sets new accounting line associated with travel advance
+     * @param newTravelAdvanceAccountingLine new accounting line associated with travel advance
      */
-    @Override
-    public void setNewTravelAdvanceLine(TravelAdvance newTravelAdvanceLine) {
-        this.newTravelAdvanceLine = newTravelAdvanceLine;
+    public void setNewTravelAdvanceAccountingLine(TemSourceAccountingLine newTravelAdvanceAccountingLine) {
+        this.newTravelAdvanceAccountingLine = newTravelAdvanceAccountingLine;
     }
 
     /**
@@ -476,14 +472,6 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      */
     public boolean isMultipleAdvances() {
         return multipleAdvances;
-    }
-
-    /**
-     * Gets the showPaymentMethods attribute.
-     * @return Returns the showPaymentMethods.
-     */
-    public boolean isShowPaymentMethods() {
-        return showPaymentMethods;
     }
 
     /**

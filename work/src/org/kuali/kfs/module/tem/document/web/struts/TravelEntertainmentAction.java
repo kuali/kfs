@@ -17,7 +17,7 @@ package org.kuali.kfs.module.tem.document.web.struts;
 
 import static org.kuali.kfs.module.tem.TemConstants.COVERSHEET_FILENAME_FORMAT;
 import static org.kuali.kfs.module.tem.TemConstants.SHOW_REPORTS_ATTRIBUTE;
-import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
+import static org.kuali.kfs.module.tem.TemPropertyConstants.TRAVEL_DOCUMENT_IDENTIFIER;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT_NUMBER;
 
 import java.io.ByteArrayOutputStream;
@@ -86,7 +86,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
 
         initializeNewAttendeeLines(entForm.getNewAttendeeLines(), document.getAttendee());
         //initializeTemProfiles(document);
-        final String identifierStr = request.getParameter(TRVL_IDENTIFIER_PROPERTY);
+        final String identifierStr = request.getParameter(TRAVEL_DOCUMENT_IDENTIFIER);
         final String fromDocumentNumber = request.getParameter(KRADPropertyConstants.DOCUMENT_NUMBER);
         if (identifierStr != null){
             if (fromDocumentNumber != null){

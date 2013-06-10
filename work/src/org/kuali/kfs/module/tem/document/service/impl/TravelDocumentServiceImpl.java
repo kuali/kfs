@@ -51,14 +51,14 @@ import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
-import org.kuali.kfs.module.tem.TemParameterConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
@@ -1740,7 +1740,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 newTravelAdvance.setDocumentNumber(documentNumber);
                 newTravelAdvance.setVersionNumber(new Long(1));
                 newTravelAdvance.setObjectId(null);
-                newTravelAdvance.setId(null);
+                newTravelAdvance.setTravelDocumentIdentifier(travelAdvance.getTravelDocumentIdentifier());
                 newTravelAdvances.add(newTravelAdvance);
             }
         }
@@ -1826,8 +1826,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
         authorization.refreshReferenceObject(TemPropertyConstants.TRVL_ADV);
 
-        for (final TravelAdvance advance : authorization.getTravelAdvances()) {
-            retval = retval.add(advance.getTravelAdvanceRequested());
+        if (authorization.shouldProcessAdvanceForDocument()) {
+            retval = retval.add(authorization.getTravelAdvance().getTravelAdvanceRequested());
         }
         return retval;
     }

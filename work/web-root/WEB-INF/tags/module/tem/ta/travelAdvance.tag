@@ -23,7 +23,6 @@
 
 <table cellpadding="0" cellspacing="0" class="datatable"
 	summary="Travel Advance Section">
-	<tr><th colspan="2">Hello everyone!</th></tr>
 	<tr>
 		<th class="bord-l-b">
 			<div align="right">
@@ -75,20 +74,6 @@
 				readOnly="${!fullEntryMode}" />
 		</td>
 	</tr>
-	<c:if test="${KualiForm.showPaymentMethods}">
-		<tr>
-			<th class="bord-l-b">
-				<div align="right">
-					<kul:htmlAttributeLabel attributeEntry="${travelAdvanceAttributes.paymentMethod}" />
-				</div>
-			</th>
-			<td class="datacell"><kul:htmlControlAttribute
-					attributeEntry="${travelAdvanceAttributes.paymentMethod}"
-					property="${travelAdvanceProperty}.paymentMethod"
-					readOnly="${!fullEntryMode}" />
-			</td>
-		</tr>
-	</c:if>
 	<tr>
 		<th class="bord-l-b">
 			<div align="right">
@@ -128,13 +113,6 @@
 				attributeEntry="${travelAdvanceAttributes.additionalJustification}"
 				property="${travelAdvanceProperty}.additionalJustification"
 				readOnly="${!fullEntryMode}" />
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2" class="datacell">
-			<sys-java:accountingLines>
-				<sys-java:accountingLineGroup newLinePropertyName="newTravelAdvanceAccountingLine" collectionPropertyName="${travelAdvanceProperty}.accountingLines" collectionItemPropertyName="${travelAdvanceProperty}.accountingLine" attributeGroupName="advance" />
-			</sys-java:accountingLines>
 		</td>
 	</tr>
 </table>

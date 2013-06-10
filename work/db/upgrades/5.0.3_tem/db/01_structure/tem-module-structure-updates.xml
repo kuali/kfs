@@ -736,7 +736,7 @@
 			<column name="FDOC_NBR" type="VARCHAR2(14)" />
 			<column name="TRVL_ID" type="VARCHAR2(19)" />
 			<column name="TRVL_DTL_ID" type="NUMBER(22,0)" />
-			<column name="TRVL_ADV_ID" type="NUMBER(22,0)" />
+			<column name="TRVL_ADV_FDOC_NBR" type="VARCHAR(14)" />
 			<column name="AR_INV_DOC_NBR" rtype="VARCHAR2(14)" />
 			<column name="TAX_RAM_NTC" type="VARCHAR2(2000)" />
 			<column name="INV_AMT" type="NUMBER(22,0)" />
@@ -879,29 +879,22 @@
 		<addPrimaryKey tableName="TEM_TRP_ACCT_INFO_T"
 			constraintName="TEM_TRP_ACCT_INFO_TP1" columnNames="ID" />
 		<createTable tableName="TEM_TRVL_ADV_T">
-			<column name="ID" type="NUMBER(22,0)" />
-			<column name="FDOC_NBR" type="VARCHAR2(255)" />
-			<column name="FDOC_LINE_NBR" type="NUMBER(22,0)" />
-			<column name="TVL_ADV_REQ" type="NUMBER(19,2)"
-				defaultValueNumeric="0" />
+			<column name="FDOC_NBR" type="VARCHAR2(14)" />
+			<column name="TRVL_ID" type="VARCHAR2(19)" />
+			<column name="TVL_ADV_REQ" type="NUMBER(19,2)" defaultValueNumeric="0" />
 			<column name="AR_CUST_ID" type="VARCHAR2(255)" />
 			<column name="AR_INV_DOC_NBR" type="VARCHAR2(255)" />
 			<column name="DUE_DT" type="DATE" />
 			<column name="PYMT_MTHD" type="VARCHAR2(255)" />
-			<column name="ACCOUNT_NBR" type="VARCHAR2(7)" />
-			<column name="SUB_ACCT_NBR" type="VARCHAR2(5)" />
-			<column name="FIN_OBJECT_CD" type="VARCHAR2(4)" />
-			<column name="FIN_SUB_OBJ_CD" type="VARCHAR2(3)" />
 			<column name="ADV_PMNT_RSN_CD" type="VARCHAR2(2)" />
 			<column name="TRVL_ADV_PLCY" type="VARCHAR2(1)" />
 			<column name="ADD_JUST" type="VARCHAR2(100)" />
 			<column name="TAX_RAM_NTF_DT" type="DATE" />
-			<column name="FIN_COA_CD" type="VARCHAR2(2)" />
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1" />
 			<column name="OBJ_ID" type="VARCHAR2(36)" />
 		</createTable>
 		<addPrimaryKey tableName="TEM_TRVL_ADV_T"
-			constraintName="TEM_TRVL_ADV_TP1" columnNames="ID" />
+			constraintName="TEM_TRVL_ADV_TP1" columnNames="FDOC_NBR" />
 		<createTable tableName="TEM_TRVL_ARRANGER_DOC_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)" />
 			<column name="ARRANGER_ID" type="VARCHAR2(40)" />
@@ -1163,8 +1156,6 @@
 		<createSequence sequenceName="TEM_TRIP_DTL_EST_ID_SEQ"
 			startValue="1" />
 		<createSequence sequenceName="TEM_TRP_ACCT_INFO_ID_SEQ"
-			startValue="1" />
-		<createSequence sequenceName="TEM_TRVL_ADV_ID_SEQ"
 			startValue="1" />
 		<createSequence sequenceName="TEM_TRVL_EXP_ID_SEQ"
 			startValue="1" />

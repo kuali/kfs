@@ -231,7 +231,6 @@ public class TemConstants {
         public static final String TRAVEL_ADVANCES_POLICY_URL = "TRAVEL_ADVANCES_POLICY_URL";
         public static final String CASH_ADVANCE_CREDIT_CARD_TYPES = "CASH_ADVANCE_CREDIT_CARD_TYPES";
         public static final String CASH_ADVANCE_WARNING_IND = "CASH_ADVANCE_WARNING_IND";
-        public static final String DISPLAY_PAYMENT_METHOD_DROPDOWN_IND = "DISPLAY_PAYMENT_METHOD_DROPDOWN_IND";
         public static final String MULTIPLE_CASH_ADVANCES_ALLOWED_IND = "MULTIPLE_CASH_ADVANCES_ALLOWED_IND";
 
         public static final String VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND = "VENDOR_PAYMENT_ALLOWED_BEFORE_FINAL_APPROVAL_IND";
@@ -350,6 +349,7 @@ public class TemConstants {
             return disapprovedAppDocStatusMap;
         }
     }
+    public static final String TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE = "A";
 
     public static final Map<String, Class> uncopyableFieldsForTravelAuthorization() {
         Map<String, Class> returnMap = new HashMap<String, Class>();
@@ -882,6 +882,7 @@ public class TemConstants {
 
     public static class TravelEditMode extends TransactionalEditMode {
         public static final String FULL_ENTRY = "fullEntry";
+        public static final String ADVANCE_PAYMENT_ENTRY = "advancePaymentEntry";
     }
 
     public static final String GENERATE_CREDIT_CARD_NUMBER_IND = "GENERATE_CREDIT_CARD_NUMBER_IND";
@@ -897,6 +898,8 @@ public class TemConstants {
         public static final String CHECK_AMOUNT_ENTRY = "checkAmountEntry";
     }
 
-    public static final String TRAVEL_PAYMENT_TAB_ERRORS = "TravelPaymentErrors,document.travelPayment.checkTotalAmount,document.travelPayment.dueDate,document.dvPayeeDetail.travelPayment.alienPaymentCode," + "document.dvPayeeDetail.travelPayment.payeeEmployeeCode,document.travelPayment.attachmentCode,document.travelPayment.specialHandlingCode,document.travelPayment.payeeW9CompleteCode" + "document.travelPayment.paymentMethodCode,document.travelPayment.paymentDocumentationLocationCode,document.travelPayment.checkStubText";
+    public static final String TRAVEL_PAYMENT_TAB_ERRORS = "TravelPaymentErrors,document.travelPayment.checkTotalAmount,document.travelPayment.dueDate,document.travelPayment.alienPaymentCode," + "document.travelPayment.payeeEmployeeCode,document.travelPayment.attachmentCode,document.travelPayment.specialHandlingCode,document.travelPayment.payeeW9CompleteCode" + "document.travelPayment.paymentMethodCode,document.travelPayment.paymentDocumentationLocationCode,document.travelPayment.checkStubText";
+    public static final String ADVANCE_TRAVEL_PAYMENT_TAB_ERRORS = "TravelPaymentErrors,document.advanceTravelPayment.checkTotalAmount,document.advanceTravelPayment.dueDate,document.advanceTravelPayment.alienPaymentCode," + "document.advanceTravelPayment.payeeEmployeeCode,document.advanceTravelPayment.attachmentCode,document.advanceTravelPayment.specialHandlingCode,document.advanceTravelPayment.payeeW9CompleteCode" + "document.advanceTravelPayment.paymentMethodCode,document.advanceTravelPayment.paymentDocumentationLocationCode,document.travelPayment.checkStubText";
+    public static final String ADVANCE_TRVL_SPECHAND_TAB_ERRORS = "TravelPaymentSpecialHandlingErrors,document.advanceTravelPayment.specialHandlingPersonName,document.advanceTravelPayment.specialHandlingCityName,document.advanceTravelPayment.specialHandlingLine1Addr,document.advanceTravelPayment.specialHandlingStateCode," + "document.advanceTravelPayment.specialHandlingLine2Addr,document.advanceTravelPayment.specialHandlingZipCode,document.advanceTravelPayment.specialHandlingCountryName";
     public static final String GENERAL_TRAVEL_PAYMENT_TAB_KEY = "TravelPaymentErrors";
 }

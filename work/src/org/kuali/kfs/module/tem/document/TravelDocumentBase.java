@@ -63,7 +63,6 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
-import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerType;
 import org.kuali.kfs.module.tem.businessobject.TripType;
@@ -144,7 +143,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
 
     protected List<SpecialCircumstances> specialCircumstances = new ArrayList<SpecialCircumstances>();
     protected List<GroupTraveler> groupTravelers = new ArrayList<GroupTraveler>();
-    protected List<TravelAdvance> travelAdvances = new ArrayList<TravelAdvance>();
     protected List<PerDiemExpense> perDiemExpenses = new ArrayList<PerDiemExpense>();
     protected List<ActualExpense> actualExpenses = new ArrayList<ActualExpense>();
     protected List<ImportedExpense> importedExpenses = new ArrayList<ImportedExpense>();
@@ -680,7 +678,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * @return the generated trip id for the trip
      */
     public String generateTripId() {
-        final String travelerType = (getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND, Boolean.FALSE) && getTraveler() != null && !StringUtils.isBlank(getTraveler().getTravelerTypeCode())) ?
+        final String travelerType = (getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TemConstants.TravelParameters.INCLUDE_TRAVELER_TYPE_IN_TRIP_ID_IND, Boolean.FALSE) && !ObjectUtils.isNull(getTraveler()) && !StringUtils.isBlank(getTraveler().getTravelerTypeCode())) ?
                 getTraveler().getTravelerTypeCode()+"-" :
                 "";
         return getTripIdPrefix() + travelerType + getSequenceForTripId();
@@ -756,8 +754,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(getActualExpenses(), getDocumentNumber()));
         setImportedExpenses(new ArrayList<ImportedExpense>());
 
-        // Cleanup Travel Advances and notes
-        setTravelAdvances(new ArrayList<TravelAdvance>());
+        // Cleanup notes
         setNotes(new ArrayList<Note>());
 
         //set it to in-progress so it will be updated
@@ -1458,10 +1455,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * @return
      */
     protected boolean requiresDivisionApprovalRouting() {
-        if (getTravelDocumentService().getTotalAuthorizedEncumbrance(this).isGreaterEqual(new KualiDecimal(getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CUMULATIVE_REIMBURSABLE_AMOUNT_WITHOUT_DIVISION_APPROVAL)))) {
-            return true;
-        }
-        return false;
+        return (getTravelDocumentService().getTotalAuthorizedEncumbrance(this).isGreaterEqual(new KualiDecimal(getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CUMULATIVE_REIMBURSABLE_AMOUNT_WITHOUT_DIVISION_APPROVAL))));
     }
 
     /**
@@ -1601,37 +1595,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         line.setFinancialDocumentLineNumber(this.groupTravelers.size() + 1);
         line.setDocumentNumber(this.documentNumber);
         this.groupTravelers.add(line);
-    }
-
-    /**
-     * Gets the travelAdvances attribute.
-     *
-     * @return Returns the travelAdvances.
-     */
-    @Override
-    public List<TravelAdvance> getTravelAdvances() {
-        return travelAdvances;
-    }
-
-    /**
-     * Sets the travelAdvances attribute value.
-     *
-     * @param travelAdvances The travelAdvances to set.
-     */
-    @Override
-    public void setTravelAdvances(List<TravelAdvance> travelAdvances) {
-        this.travelAdvances = travelAdvances;
-    }
-
-    /**
-     * This method adds a new travel advance line
-     *
-     * @param line
-     */
-    public void addTravelAdvanceLine(TravelAdvance line) {
-        line.setFinancialDocumentLineNumber(this.travelAdvances.size()+1);
-        line.setDocumentNumber(this.documentNumber);
-        this.travelAdvances.add(line);
     }
 
     /**

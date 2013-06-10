@@ -15717,7 +15717,7 @@
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="TRVL_ID" size="19" type="VARCHAR"/>
         <column name="TRVL_DTL_ID" required="true" size="22" type="DECIMAL"/>
-        <column name="TRVL_ADV_ID" required="true" size="22" type="DECIMAL"/>
+        <column name="TRVL_ADV_FDOC_NBR" required="true" size="14" type="VARCHAR"/>
         <column name="AR_INV_DOC_NBR" required="true" size="14" type="VARCHAR"/>
         <column name="TAX_RAM_NTC" size="2000" type="VARCHAR"/>
         <column name="INV_AMT" required="true" size="22" type="DECIMAL"/>
@@ -15881,9 +15881,8 @@
         </unique>
     </table>
     <table name="TEM_TRVL_ADV_T">
-        <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
-        <column name="FDOC_NBR" size="255" type="VARCHAR"/>
-        <column name="FDOC_LINE_NBR" size="22" type="DECIMAL"/>
+        <column name="FDOC_NBR" primaryKey="true" size="255" type="VARCHAR"/>
+		<column name="TRVL_ID" size="19" type="VARCHAR"/>
         <column default="0" name="TVL_ADV_REQ" scale="2" size="19" type="DECIMAL"/>
         <column name="AR_CUST_ID" size="255" type="VARCHAR"/>
         <column name="AR_INV_DOC_NBR" size="255" type="VARCHAR"/>
@@ -15897,7 +15896,6 @@
         <column name="TRVL_ADV_PLCY" required="true" size="1" type="VARCHAR"/>
         <column name="ADD_JUST" size="100" type="VARCHAR"/>
         <column name="TAX_RAM_NTF_DT" type="DATE"/>
-        <column name="FIN_COA_CD" size="2" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <unique name="TEM_TRVL_ADV_TC0">
@@ -16425,7 +16423,6 @@
     <sequence name="TEM_TRAVELER_PROF_ID_SEQ" nextval="1"/>
     <sequence name="TEM_TRIP_DTL_EST_ID_SEQ" nextval="1"/>
     <sequence name="TEM_TRP_ACCT_INFO_ID_SEQ" nextval="1"/>
-    <sequence name="TEM_TRVL_ADV_ID_SEQ" nextval="1"/>
     <sequence name="TEM_TRVL_EXP_ID_SEQ" nextval="1"/>
     <sequence name="TRVL_ID_SEQ" nextval="1"/>
     <sequence name="VNDR_ADDR_GNRTD_ID" nextval="12105"/>

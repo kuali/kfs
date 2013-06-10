@@ -18,6 +18,7 @@
 <script language="javascript" src="scripts/module/tem/common.js"></script>
 
 <c:set var="fullEntryMode" value="${KualiForm.editingMode['fullEntry']}" scope="request" />
+<c:set var="advancePaymentMode" value="${KualiForm.editingMode['advancePaymentEntry']}" scope="request"/>
 <c:set var="documentTitle" value="${'TravelRelocationDocument'}" />
 
 <kul:documentPage showDocumentInfo="true"

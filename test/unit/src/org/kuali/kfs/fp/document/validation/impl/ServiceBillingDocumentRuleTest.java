@@ -130,7 +130,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a positive asset
+     * tests false is returned for a positive asset
      *
      * @throws Exception
      */
@@ -138,11 +138,11 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
         AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(SpringContext.getBean(DocumentService.class), ServiceBillingDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, SourceAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative asset
+     * tests true is returned for a negative asset
      *
      * @throws Exception
      */
@@ -150,7 +150,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
         AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(SpringContext.getBean(DocumentService.class), ServiceBillingDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     /**
@@ -275,7 +275,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a positive asset
+     * tests true is returned for a positive asset
      *
      * @throws Exception
      */
@@ -283,11 +283,11 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
         AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(SpringContext.getBean(DocumentService.class), ServiceBillingDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, TargetAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative asset
+     * tests false is returned for a negative asset
      *
      * @throws Exception
      */
@@ -295,7 +295,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
         AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(SpringContext.getBean(DocumentService.class), ServiceBillingDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, TargetAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     /**
@@ -420,7 +420,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a positive asset
+     * tests false is returned for a positive asset
      *
      * @throws Exception
      */
@@ -428,11 +428,11 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
         AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(SpringContext.getBean(DocumentService.class), ServiceBillingDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, SourceAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative asset
+     * tests true is returned for a negative asset
      *
      * @throws Exception
      */
@@ -440,7 +440,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
         AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(SpringContext.getBean(DocumentService.class), ServiceBillingDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     /**
@@ -566,7 +566,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a positive asset
+     * tests true is returned for a positive asset
      *
      * @throws Exception
      */
@@ -574,11 +574,11 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
         AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(SpringContext.getBean(DocumentService.class), ServiceBillingDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, TargetAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     /**
-     * tests an <code>IllegalStateException</code> is thrown for a negative asset
+     * tests false is returned for a negative asset
      *
      * @throws Exception
      */
@@ -586,7 +586,7 @@ public class ServiceBillingDocumentRuleTest extends KualiTestBase {
         AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(SpringContext.getBean(DocumentService.class), ServiceBillingDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, TargetAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(SpringContext.getBean(DataDictionaryService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
 
     /**

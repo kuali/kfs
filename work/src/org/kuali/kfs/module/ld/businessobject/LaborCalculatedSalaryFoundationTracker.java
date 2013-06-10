@@ -49,7 +49,6 @@ public class LaborCalculatedSalaryFoundationTracker extends PersistableBusinessO
     private String financialSubObjectCode;
     private String positionNumber;
     private String emplid;
-    private String name;
     private Timestamp csfCreateTimestamp;
     private String csfDeleteCode;
     private KualiDecimal csfAmount;
@@ -288,32 +287,15 @@ public class LaborCalculatedSalaryFoundationTracker extends PersistableBusinessO
      */
     public String getName() {
         /*
-        Person person = SpringContext.getBean(PersonService.class).getPersonByEmployeeId(getEmplid());
-        if (person == null) {
-            return LaborConstants.BalanceInquiries.UnknownPersonName;
-        }
-
-        return person.getName();
-        */
-
-        /*
-         * KFSCNTRB-1344
-         * Replace the above logic that uses PersonService with the following one that uses IdentityService, since the former is a lot slower.
+         * KFSCNTRB-1337
+         * Replace the old logic that got the name from the person retrieved using the PersonService with the
+         * following logic that uses IdentityService, since the former is a lot slower.
          */
         String name = SpringContext.getBean(FinancialSystemUserService.class).getPersonNameByEmployeeId(getEmplid());
         if (!StringUtils.isEmpty(name)) {
             return name;
         }
         return LaborConstants.BalanceInquiries.UnknownPersonName;
-    }
-
-    /**
-     * Sets the personName attribute value.
-     *
-     * @param personName The personName to set.
-     */
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**

@@ -921,33 +921,50 @@
                 </role>        
             </routeNodes>        
         </documentType>
-        <documentType>
-	      <name>
-	        TXRF
-	      </name>
-	      <parent>
-	        TT
-	      </parent>
-	      <label>Taxable Ramification</label>
-	      <docHandler>
-	        ${application.url}/temTaxableRamification.do?methodToCall=docHandler
-	      </docHandler>
-	      <active>
-	        true
-	      </active>
-	      <routingVersion>
-	        2
-	      </routingVersion>
-	      <routePaths>
-	        <routePath>
-	          <start name="AdHoc" />
-	        </routePath>
-	      </routePaths>
-	      <routeNodes>
-	        <start name="AdHoc"/>
-	      </routeNodes>
-	    </documentType>
-	    <documentType>
+      <documentType>
+      <name>TXRF</name>
+      <parent>TT</parent>
+      <description />
+      <label>Taxable Ramification</label>
+      <docHandler>${application.url}/temTaxableRamification.do?methodToCall=docHandler</docHandler>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RequireAccountNotification"/>
+		  <split name="RequireAccountNotification" >
+            <branch name="True">
+              <role name="AccountNotification" nextNode="JoinRequireAccountNotification"  />
+            </branch>
+            <branch name="False">
+              <simple name="NoOpRequireAccountNotification" nextNode="JoinRequireAccountNotification" />
+            </branch>
+            <join name="JoinRequireAccountNotification"/>
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc" />
+		<split name="RequireAccountNotification">
+          <type>
+            org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+		 <role name="AccountNotification">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+		 <join name="JoinRequireAccountNotification"/>
+        <simple name="NoOpRequireAccountNotification">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+      </routeNodes>
+    </documentType>
+    <documentType>
             <name>ENT</name>
             <parent>TT</parent>
             <docHandler>${application.url}/temTravelEntertainment.do?methodToCall=docHandler

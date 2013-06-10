@@ -62,10 +62,10 @@ public class AccountingLineObjectCodeRestrictionValidation extends GenericValida
             
             
             if(parameterService.parameterExists(accountingDocumentForValidation.getDocumentClassForAccountingLineValueAllowedValidation(), 
-                    KFSParameterKeyConstants.InvalidSubFundsByObjCdParameterConstant.INVALID_SUBFUND_GROUP_BY_OBJ_TYPE)){
+                    KFSParameterKeyConstants.InvalidSubFundsByObjCdParameterConstant.INVALID_SUBFUND_GROUPS_BY_OBJ_TYPE)){
                 
                 ParameterEvaluator incomeObjectEvaluator = parameterEvaluatorService.getParameterEvaluator(accountingDocumentForValidation.getDocumentClassForAccountingLineValueAllowedValidation(),
-                    KFSParameterKeyConstants.InvalidSubFundsByObjCdParameterConstant.INVALID_SUBFUND_GROUP_BY_OBJ_TYPE,
+                    KFSParameterKeyConstants.InvalidSubFundsByObjCdParameterConstant.INVALID_SUBFUND_GROUPS_BY_OBJ_TYPE,
                     objectTypeCode, subFundGroupCode);
                 
                 if(!incomeObjectEvaluator.evaluationSucceeds()){

@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,8 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.AMOUNT;
 import static org.kuali.kfs.sys.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.CREDIT;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DEBIT;
+import static org.kuali.kfs.sys.KFSPropertyConstants.ENCUMBRANCE_UPDATE_CODE;
+import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_DESCRIPTION;
 import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
 import static org.kuali.kfs.sys.KFSPropertyConstants.OBJECT_TYPE_CODE;
@@ -44,13 +46,13 @@ import org.kuali.kfs.sys.context.SpringContext;
  */
 public class JournalVoucherAccountingLineParser extends AuxiliaryVoucherAccountingLineParser {
     private String balanceTypeCode;
-    protected static final String[] NON_OFFSET_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, OBJECT_TYPE_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, AMOUNT };
-    protected static final String[] OFFSET_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, OBJECT_TYPE_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, DEBIT, CREDIT };
-    protected static final String[] ENCUMBRANCE_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, OBJECT_TYPE_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, REFERENCE_ORIGIN_CODE, REFERENCE_TYPE_CODE, REFERENCE_NUMBER, DEBIT, CREDIT };
+    protected static final String[] NON_OFFSET_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, OBJECT_TYPE_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, FINANCIAL_DOCUMENT_LINE_DESCRIPTION, ORGANIZATION_REFERENCE_ID, AMOUNT };
+    protected static final String[] OFFSET_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, OBJECT_TYPE_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, FINANCIAL_DOCUMENT_LINE_DESCRIPTION, ORGANIZATION_REFERENCE_ID, DEBIT, CREDIT };
+    protected static final String[] ENCUMBRANCE_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, OBJECT_TYPE_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, ENCUMBRANCE_UPDATE_CODE, FINANCIAL_DOCUMENT_LINE_DESCRIPTION, REFERENCE_ORIGIN_CODE, REFERENCE_TYPE_CODE, REFERENCE_NUMBER, DEBIT, CREDIT };
 
     /**
      * Constructs a JournalVoucherAccountingLineParser.java.
-     * 
+     *
      * @param balanceTypeCode
      */
     public JournalVoucherAccountingLineParser(String balanceTypeCode) {
@@ -82,7 +84,7 @@ public class JournalVoucherAccountingLineParser extends AuxiliaryVoucherAccounti
 
     /**
      * chooses line format based on balance type code
-     * 
+     *
      * @return String []
      */
     private String[] selectFormat() {

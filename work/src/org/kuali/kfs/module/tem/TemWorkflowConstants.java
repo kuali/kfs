@@ -63,6 +63,7 @@ public class TemWorkflowConstants {
         public static final String APPROVED_BY_BANK = "Approved By Bank";
         public static final String DECLINED = "Declined";
         public static final String APPROVED = "Approved";
+        public static final String REQUIRED_ACCOUNT_NOTIFICATION = "RequireAccountNotification";
     }
 
 }

@@ -17,7 +17,6 @@ package org.kuali.kfs.module.tem.businessobject.lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -30,10 +29,9 @@ import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -92,14 +90,7 @@ public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupabl
      */
     @Override
     public boolean allowsMaintenanceNewOrCopyAction() {
-        boolean allows = super.allowsMaintenanceNewOrCopyAction();
-
-        Person user = GlobalVariables.getUserSession().getPerson();
-        PermissionService permissionService = SpringContext.getBean(PermissionService.class);
-
-        //if user does not have the permission, do not allow the to creating new
-        allows &= permissionService.isAuthorized(user.getPrincipalId(), TemConstants.NAMESPACE, TemConstants.Permission.FULL_EDIT_AGENCY_DATA, new HashMap<String, String>());
-        return allows;
+        return super.allowsMaintenanceNewOrCopyAction();
     }
 
     /**

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,14 +25,14 @@ import org.kuali.rice.krad.util.KRADConstants;
 /**
  * Business rules validation for the Travel Agency Audit and Correction using the UCD method of importing
  * by traveler
- * 
+ *
  * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditValidationHelper {
     public static final String MAINTAINABLE_ERROR_PREFIX = KRADConstants.MAINTENANCE_NEW_MAINTAINABLE;
     public static final String DOCUMENT_ERROR_PREFIX = "document.";
     public static final String MAINTAINABLE_ERROR_PATH = DOCUMENT_ERROR_PREFIX + "newMaintainableObject";
-    
+
     protected ExpenseImportByTravelerService expenseImportByTravelerService;
 
     /**
@@ -42,7 +42,9 @@ public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditV
     public boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         boolean result = true;
         final AgencyStagingData data = (AgencyStagingData) document.getNewMaintainableObject().getBusinessObject();
-        result &= getExpenseImportByTravelerService().areMandatoryFieldsPresent(data);
+        if (data.isActive()) {
+            result &= getExpenseImportByTravelerService().areMandatoryFieldsPresent(data);
+        }
         return result;
     }
 
@@ -53,7 +55,9 @@ public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditV
     public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean result = true;
         final AgencyStagingData data = (AgencyStagingData) document.getNewMaintainableObject().getBusinessObject();
-        result &= getExpenseImportByTravelerService().areMandatoryFieldsPresent(data);
+        if (data.isActive()) {
+            result &= getExpenseImportByTravelerService().areMandatoryFieldsPresent(data);
+        }
         return result;
     }
 
@@ -66,7 +70,7 @@ public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditV
     }
 
     /**
-     * Gets the expenseImportByTravelerService attribute. 
+     * Gets the expenseImportByTravelerService attribute.
      * @return Returns the expenseImportByTravelerService.
      */
     public ExpenseImportByTravelerService getExpenseImportByTravelerService() {
@@ -80,7 +84,7 @@ public class TravelAgencyAuditValidationByTraveler implements TravelAgencyAuditV
     public void setExpenseImportByTravelerService(final ExpenseImportByTravelerService expenseImportByTravelerService) {
         this.expenseImportByTravelerService = expenseImportByTravelerService;
     }
-    
+
     /**
      *
      * This method is a convenience method to add a property-specific error to the global errors list. This method makes sure that

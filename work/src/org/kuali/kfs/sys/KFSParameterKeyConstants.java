@@ -58,7 +58,7 @@ public class KFSParameterKeyConstants {
     };
 
     public static class InvalidSubFundsByObjCdParameterConstant {
-        public static final String INVALID_SUBFUND_GROUP_BY_OBJ_TYPE = "INVALID_SUBFUND_GROUP_BY_OBJ_TYPE";
+        public static final String INVALID_SUBFUND_GROUPS_BY_OBJ_TYPE = "INVALID_SUBFUND_GROUPS_BY_OBJ_TYPE";
     }
 
     public static class PdpExtractBatchParameters {

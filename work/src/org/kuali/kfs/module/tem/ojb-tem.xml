@@ -298,6 +298,9 @@
         <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="documentNumber"/>
         </reference-descriptor>
+        <reference-descriptor name="temProfile" class-ref="org.kuali.kfs.module.tem.businessobject.TEMProfile" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="temProfileId"/>
+        </reference-descriptor>
         <reference-descriptor name="traveler" class-ref="org.kuali.kfs.module.tem.businessobject.TravelerDetail" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="travelerDetailId"/>
         </reference-descriptor>
@@ -1256,6 +1259,7 @@
 	    <field-descriptor name="searchAccountNumber" column="SRCH_ACCT_NBR" jdbc-type="VARCHAR" />
 	    <field-descriptor name="searchSubAccountNumber" column="SRCH_SUB_ACCT_NBR" jdbc-type="VARCHAR" />
         <field-descriptor name="stagingFileName" column="STAGING_FILE_NM" jdbc-type="VARCHAR"/>
+		<field-descriptor name="active" column="ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />        	    
         	    
 		<collection-descriptor name="tripAccountingInformation" element-class-ref="org.kuali.kfs.module.tem.businessobject.TripAccountingInformation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
 			<inverse-foreignkey field-ref="agencyStagingDataId"/>

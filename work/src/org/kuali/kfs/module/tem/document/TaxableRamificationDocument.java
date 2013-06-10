@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,11 @@
 package org.kuali.kfs.module.tem.document;
 
 import java.sql.Date;
+
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.batch.TaxableRamificationNotificationStep;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
@@ -34,7 +38,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     private KualiDecimal invoiceAmount;
     private KualiDecimal openAmount;
-    
+
     private String taxableRamificationNotice;
 
     private String travelDocumentIdentifier;
@@ -46,7 +50,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the arInvoiceDocNumber attribute.
-     * 
+     *
      * @return Returns the arInvoiceDocNumber.
      */
     public String getArInvoiceDocNumber() {
@@ -55,7 +59,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the arInvoiceDocNumber attribute value.
-     * 
+     *
      * @param arInvoiceDocNumber The arInvoiceDocNumber to set.
      */
     public void setArInvoiceDocNumber(String arInvoiceDocNumber) {
@@ -64,7 +68,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the dueDate attribute.
-     * 
+     *
      * @return Returns the dueDate.
      */
     public Date getDueDate() {
@@ -73,7 +77,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the dueDate attribute value.
-     * 
+     *
      * @param dueDate The dueDate to set.
      */
     public void setDueDate(Date dueDate) {
@@ -82,7 +86,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the invoiceAmount attribute.
-     * 
+     *
      * @return Returns the invoiceAmount.
      */
     public KualiDecimal getInvoiceAmount() {
@@ -91,7 +95,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the invoiceAmount attribute value.
-     * 
+     *
      * @param invoiceAmount The invoiceAmount to set.
      */
     public void setInvoiceAmount(KualiDecimal invoiceAmount) {
@@ -100,7 +104,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the openAmount attribute.
-     * 
+     *
      * @return Returns the openAmount.
      */
     public KualiDecimal getOpenAmount() {
@@ -109,7 +113,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the openAmount attribute value.
-     * 
+     *
      * @param openAmount The openAmount to set.
      */
     public void setOpenAmount(KualiDecimal openAmount) {
@@ -118,7 +122,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the travelerDetail attribute.
-     * 
+     *
      * @return Returns the travelerDetail.
      */
     public TravelerDetail getTravelerDetail() {
@@ -127,7 +131,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the travelerDetail attribute value.
-     * 
+     *
      * @param travelerDetail The travelerDetail to set.
      */
     public void setTravelerDetail(TravelerDetail travelerDetail) {
@@ -136,7 +140,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the travelAdvance attribute.
-     * 
+     *
      * @return Returns the travelAdvance.
      */
     public TravelAdvance getTravelAdvance() {
@@ -145,7 +149,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the travelAdvance attribute value.
-     * 
+     *
      * @param travelAdvance The travelAdvance to set.
      */
     public void setTravelAdvance(TravelAdvance travelAdvance) {
@@ -154,7 +158,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the travelDocumentIdentifier attribute.
-     * 
+     *
      * @return Returns the travelDocumentIdentifier.
      */
     public String getTravelDocumentIdentifier() {
@@ -163,7 +167,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the travelDocumentIdentifier attribute value.
-     * 
+     *
      * @param travelDocumentIdentifier The travelDocumentIdentifier to set.
      */
     public void setTravelDocumentIdentifier(String travelDocumentIdentifier) {
@@ -172,7 +176,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the travelerDetailId attribute.
-     * 
+     *
      * @return Returns the travelerDetailId.
      */
     public Integer getTravelerDetailId() {
@@ -181,7 +185,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the travelerDetailId attribute value.
-     * 
+     *
      * @param travelerDetailId The travelerDetailId to set.
      */
     public void setTravelerDetailId(Integer travelerDetailId) {
@@ -190,7 +194,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Gets the travelAdvanceId attribute.
-     * 
+     *
      * @return Returns the travelAdvanceId.
      */
     public Integer getTravelAdvanceId() {
@@ -199,7 +203,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
 
     /**
      * Sets the travelAdvanceId attribute value.
-     * 
+     *
      * @param travelAdvanceId The travelAdvanceId to set.
      */
     public void setTravelAdvanceId(Integer travelAdvanceId) {
@@ -207,7 +211,7 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
     }
 
     /**
-     * Gets the taxableRamificationNotice attribute. 
+     * Gets the taxableRamificationNotice attribute.
      * @return Returns the taxableRamificationNotice.
      */
     public String getTaxableRamificationNotice() {
@@ -220,5 +224,18 @@ public class TaxableRamificationDocument extends FinancialSystemTransactionalDoc
      */
     public void setTaxableRamificationNotice(String taxableRamificationNotice) {
         this.taxableRamificationNotice = taxableRamificationNotice;
+    }
+
+    @Override
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(TemWorkflowConstants.RouteNodeNames.REQUIRED_ACCOUNT_NOTIFICATION)) {
+            return requireFiscalOfficerFYI();
+        }
+
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
+    }
+
+    protected boolean requireFiscalOfficerFYI() {
+        return this.getParameterService().getParameterValueAsBoolean(TaxableRamificationNotificationStep.class, TemConstants.TaxRamificationParameter.SEND_FYI_TO_FISCAL_OFFICER_IND);
     }
 }

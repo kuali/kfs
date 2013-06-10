@@ -330,6 +330,7 @@ public class TemPropertyConstants {
     public static final String ITINERARY_NUMBER = "itineraryNumber";
     public static final String DISTRIBUTION_CODE = "diCode";
     public static final String IMPORT_BY = "importBy";
+    public static final String ACTIVE_IND = "active";
 
     // delinquent actions ranking
     public static final Map<String, Integer> delinquentActionsRank() {

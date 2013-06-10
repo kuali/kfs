@@ -155,7 +155,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
                 mailService.sendMessage(message);
             }
             catch (Exception e) {
-                LOG.error("sendErrorEmail() Invalid email address.  Message not sent", e);
+                LOG.error("sendErrorEmail() caught an exception while trying to sendMessage.  Message not sent", e);
             }
         }
     }

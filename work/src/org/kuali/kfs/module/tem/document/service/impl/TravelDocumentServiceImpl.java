@@ -51,14 +51,14 @@ import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
@@ -1129,20 +1129,20 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @param document
      * @return
      */
-     @Override
+    @Override
     public boolean isTravelAuthorizationProcessed(TravelAuthorizationDocument document){
         return isFinal(document) || isProcessed(document);
     }
 
-     /**
-      *
-      * @param document
-      * @return
-      */
-      @Override
-     public boolean isTravelAuthorizationOpened(TravelAuthorizationDocument document){
-         return isTravelAuthorizationProcessed(document) && isOpen(document);
-     }
+    /**
+     *
+     * @param document
+     * @return
+     */
+    @Override
+    public boolean isTravelAuthorizationOpened(TravelAuthorizationDocument document){
+        return isTravelAuthorizationProcessed(document) && isOpen(document);
+    }
 
     @Override
     public boolean isUnsuccessful(TravelDocument document) {
@@ -1362,7 +1362,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      */
     @Override
     public <T> List<T> importFile(final String fileContents, final Class<T> c, final String[] attributeNames, final Map<String,List<String>> defaultValues,
-                                  final Integer[] attributeMaxLength, final String tabErrorKey) {
+            final Integer[] attributeMaxLength, final String tabErrorKey) {
         if(attributeMaxLength != null && attributeNames.length != attributeMaxLength.length){
             throw new UploadParserException("Invalid parser configuration, the number of attribute names and attribute max length should be the same");
         }
@@ -1433,7 +1433,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @return
      */
     protected <T> T genObjectWithRetrievedAttributes(final Map<String, String> objectMap,
-                                                             final Class<T> c, final Integer lineNo, final String tabErrorKey) {
+            final Class<T> c, final Integer lineNo, final String tabErrorKey) {
         T object;
         try {
             object = c.newInstance();
@@ -1480,10 +1480,10 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @return
      */
     protected Map<String, String> retrieveObjectAttributes(String line,
-                                                           String[] attributeNames,
-                                                           Map<String, List<String>> defaultValues,
-                                                           Integer[] attributeMaxLength,
-                                                           Integer lineNo, String tabErrorKey) {
+            String[] attributeNames,
+            Map<String, List<String>> defaultValues,
+            Integer[] attributeMaxLength,
+            Integer lineNo, String tabErrorKey) {
         String[] attributeValues = StringUtils.splitPreserveAllTokens(line, ',');
         if (attributeNames.length != attributeValues.length) {
             String[] errorParams = { "" + attributeNames.length, "" + attributeValues.length, "" + lineNo };
@@ -1956,9 +1956,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return false;
     }
 
-	/**
-	 * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getOutstandingTravelAdvanceByInvoice(java.util.Set)
-	 */
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getOutstandingTravelAdvanceByInvoice(java.util.Set)
+     */
     @Override
     public List<TravelAdvance> getOutstandingTravelAdvanceByInvoice(Set<String> arInvoiceDocNumbers) {
         return travelDocumentDao.getOutstandingTravelAdvanceByInvoice(arInvoiceDocNumbers);
@@ -1970,7 +1970,15 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     @Transactional
     public Date findLatestTaxableRamificationNotificationDate() {
-        return travelDocumentDao.findLatestTaxableRamificationNotificationDate();
+        Object[] returnResult =  travelDocumentDao.findLatestTaxableRamificationNotificationDate();
+        Date date = null;
+        try {
+          date =  ObjectUtils.isNotNull(returnResult[0])? dateTimeService.convertToSqlDate((Timestamp)returnResult[0]): null;
+        }catch (java.text.ParseException ex) {
+            LOG.error("Invalid latest taxable ramification notification date " + returnResult[0]);
+        }
+
+        return date;
     }
 
     @Override
@@ -1995,19 +2003,19 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * whether or not to mark all the GLPEs as 'H' (Hold)
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#holdGLPEs(org.kuali.kfs.module.tem.document.TravelDocument)
      */
-	@Override
-	public boolean checkHoldGLPEs(TravelDocument document) {
-		if(getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND)) {
+    @Override
+    public boolean checkHoldGLPEs(TravelDocument document) {
+        if(getParameterService().getParameterValueAsBoolean(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.HOLD_NEW_FISCAL_YEAR_ENCUMBRANCES_IND)) {
 
             java.util.Date endDate = getUniversityDateService().getLastDateOfFiscalYear(getUniversityDateService().getCurrentFiscalYear());
             if (ObjectUtils.isNotNull(document.getTripBegin()) && document.getTripBegin().after(endDate)) {
-            	return true;
+                return true;
             }
 
         }
 
-		return false;
-	}
+        return false;
+    }
 
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#revertOriginalDocument(org.kuali.kfs.module.tem.document.TravelDocument, java.lang.String)

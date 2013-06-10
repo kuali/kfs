@@ -27,11 +27,11 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
-import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
-import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
+import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
 import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
@@ -301,52 +301,64 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
 
         LOG.info("Distributing expense for agency data: "+ agencyData.getId());
 
-        final HistoricalTravelExpense expense = travelExpenseService.createHistoricalTravelExpense(agencyData);
+        if (agencyData.isActive()) {
 
-        final List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
+            if (AgencyStagingDataErrorCodes.AGENCY_NO_ERROR.equals(agencyData.getErrorCode())) {
 
-        final List<TripAccountingInformation> accountingInfo = agencyData.getTripAccountingInformation();
+                final HistoricalTravelExpense expense = travelExpenseService.createHistoricalTravelExpense(agencyData);
 
-        // Need to split up the amounts if there are multiple accounts
-        KualiDecimal remainingAmount = agencyData.getTripExpenseAmount();
-        KualiDecimal numAccounts = new KualiDecimal(accountingInfo.size());
-        KualiDecimal currentAmount = agencyData.getTripExpenseAmount().divide(numAccounts);
+                final List<GeneralLedgerPendingEntry> entries = new ArrayList<GeneralLedgerPendingEntry>();
 
-        final String creditObjectCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_CLEARING_OBJECT_CODE);
+                final List<TripAccountingInformation> accountingInfo = agencyData.getTripAccountingInformation();
 
-        boolean allGlpesCreated = true;
+                // Need to split up the amounts if there are multiple accounts
+                KualiDecimal remainingAmount = agencyData.getTripExpenseAmount();
+                KualiDecimal numAccounts = new KualiDecimal(accountingInfo.size());
+                KualiDecimal currentAmount = agencyData.getTripExpenseAmount().divide(numAccounts);
 
-        for (int i = 0; i < accountingInfo.size(); i++) {
-            TripAccountingInformation info = accountingInfo.get(i);
+                final String creditObjectCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_ALL.class, AgencyMatchProcessParameter.TRAVEL_CREDIT_CARD_CLEARING_OBJECT_CODE);
 
-            // If its the last account, use the remainingAmount to resolve rounding
-            if (i < accountingInfo.size() - 1) {
-                remainingAmount = remainingAmount.subtract(currentAmount);
+                boolean allGlpesCreated = true;
+
+                for (int i = 0; i < accountingInfo.size(); i++) {
+                    TripAccountingInformation info = accountingInfo.get(i);
+
+                    // If its the last account, use the remainingAmount to resolve rounding
+                    if (i < accountingInfo.size() - 1) {
+                        remainingAmount = remainingAmount.subtract(currentAmount);
+                    }
+                    else {
+                        currentAmount = remainingAmount;
+                    }
+
+                    // set the amount on the accounting info for by documents pulling in imported expenses
+                    info.setAmount(currentAmount);
+
+                    final boolean generateOffset = true;
+                    List<GeneralLedgerPendingEntry> pendingEntries = importedExpensePendingEntryService.buildDebitPendingEntry(agencyData, info, sequenceHelper, info.getObjectCode(), currentAmount, generateOffset);
+                    allGlpesCreated = importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, false, generateOffset);
+
+                    pendingEntries = importedExpensePendingEntryService.buildCreditPendingEntry(agencyData, info, sequenceHelper, creditObjectCode, currentAmount, generateOffset);
+                    allGlpesCreated &= importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, true, generateOffset);
+                }
+
+                if (entries.size() > 0 && allGlpesCreated) {
+                    businessObjectService.save(expense);
+                    businessObjectService.save(entries);
+                    agencyData.setMoveToHistoryIndicator(true);
+                    agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_MOVED_TO_HISTORICAL);
+                }
+                else {
+                    LOG.error("An error occured while creating GLPEs for agency: "+ agencyData.getId()+ " travelerId"+ agencyData.getTravelerId()+ " Not creating historical expense for this agency record.");
+                    return false;
+                }
             }
             else {
-                currentAmount = remainingAmount;
+                LOG.info("Agency Data: "+ agencyData.getId() +"; expected errorCode="+ AgencyStagingDataErrorCodes.AGENCY_NO_ERROR +", received errorCode="+ agencyData.getErrorCode() +". Will not attempt to distribute expense.");
             }
-
-            // set the amount on the accounting info for by documents pulling in imported expenses
-            info.setAmount(currentAmount);
-
-            final boolean generateOffset = true;
-            List<GeneralLedgerPendingEntry> pendingEntries = importedExpensePendingEntryService.buildDebitPendingEntry(agencyData, info, sequenceHelper, info.getObjectCode(), currentAmount, generateOffset);
-            allGlpesCreated = importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, false, generateOffset);
-
-            pendingEntries = importedExpensePendingEntryService.buildCreditPendingEntry(agencyData, info, sequenceHelper, creditObjectCode, currentAmount, generateOffset);
-            allGlpesCreated &= importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, true, generateOffset);
-       }
-
-        if (entries.size() > 0 && allGlpesCreated) {
-            businessObjectService.save(expense);
-            businessObjectService.save(entries);
-            agencyData.setMoveToHistoryIndicator(true);
-            agencyData.setErrorCode(AgencyStagingDataErrorCodes.AGENCY_MOVED_TO_HISTORICAL);
         }
         else {
-            LOG.error("An errror occured while creating GLPEs for agency: "+ agencyData.getId()+ " travelerId"+ agencyData.getTravelerId()+ " Not creating historical expense for this agency record.");
-            return false;
+            LOG.info("Agency Data: "+ agencyData.getId() +", is not active. Will not distribute.");
         }
 
         LOG.info("Finished distributing expense for agency data: "+ agencyData.getId());

@@ -467,7 +467,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         KualiDecimal returnValue = new KualiDecimal(zero);
         try {
             for (ElectronicInvoiceRejectItem eiri : this.invoiceRejectItems) {
-                KualiDecimal toAddAmount = new KualiDecimal(eiri.getInvoiceItemUnitPrice());
+                KualiDecimal toAddAmount = new KualiDecimal(eiri.getInvoiceItemNetAmount());
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
                 }
@@ -483,11 +483,11 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
             if (this.getInvoiceItemShippingAmount() != null && zero.compareTo(this.getInvoiceItemShippingAmount()) != 0) {
                 returnValue = returnValue.add(new KualiDecimal(this.getInvoiceItemShippingAmount()));
             }
-            if (this.getInvoiceItemTaxAmount() != null && zero.compareTo(this.getInvoiceItemTaxAmount()) != 0) {
-                returnValue = returnValue.add(new KualiDecimal(this.getInvoiceItemTaxAmount()));
-            }
+            // if (this.getInvoiceItemTaxAmount() != null && zero.compareTo(this.getInvoiceItemTaxAmount()) != 0) {
+            // returnValue = returnValue.add(new KualiDecimal(this.getInvoiceItemTaxAmount()));
+            // }
             if (this.getInvoiceItemDiscountAmount() != null && zero.compareTo(this.getInvoiceItemDiscountAmount()) != 0) {
-                returnValue = returnValue.add(new KualiDecimal(this.getInvoiceItemDiscountAmount()));
+                returnValue = returnValue.subtract(new KualiDecimal(this.getInvoiceItemDiscountAmount()));
             }
             if (LOG.isDebugEnabled()) {
                 LOG.debug("getGrandTotalAmount() returning amount " + returnValue.doubleValue());
@@ -1384,6 +1384,14 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
         try {
             //if sales tax enabled, calculate total by totaling items
             if(enableSalesTaxInd){
+                for (ElectronicInvoiceRejectItem eiri : this.invoiceRejectItems) {
+                    BigDecimal toAddAmount = eiri.getInvoiceItemTaxAmount();
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("getTotalAmount() setting returnValue with arithmatic => '" + returnValue.doubleValue() + "' + '" + toAddAmount.doubleValue() + "'");
+                    }
+                    returnValue = returnValue.add(toAddAmount);
+                }
+            }else{ //else take the total, which should be the summary tax total
                 returnValue = returnValue.add(this.invoiceItemTaxAmount);
             }
 

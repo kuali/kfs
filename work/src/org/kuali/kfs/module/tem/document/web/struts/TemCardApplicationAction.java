@@ -37,9 +37,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -208,6 +210,15 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
         document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(TemWorkflowConstants.RouteNodeNames.PENDING_BANK_APPLICATION);
         document.saveAppDocStatus();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    @Override
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.createDocument(kualiDocumentFormBase);
+
+        TemCardApplicationForm applicationForm = (TemCardApplicationForm) kualiDocumentFormBase;
+        CardApplicationDocument document = (CardApplicationDocument)applicationForm.getDocument();
+        document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(TemWorkflowConstants.RouteNodeNames.APPLICATION);
     }
 
 }

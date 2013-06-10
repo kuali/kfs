@@ -264,7 +264,7 @@ public class TemCardApplicationForm extends FinancialSystemTransactionalDocument
         super.populateHeaderFields(workflowDocument);
         final CardApplicationDocument document = (CardApplicationDocument) getDocument();
 
-        String status = "Application";
+        String status = TemWorkflowConstants.RouteNodeNames.APPLICATION;
         String appDocStatus = document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
 
         getDocInfo().add(new HeaderField(getDataDictionaryAttributeName(getStatusCodeFieldName()), StringUtils.isBlank(appDocStatus)?status:appDocStatus));

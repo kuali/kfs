@@ -24,9 +24,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.gl.businessobject.Balance;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.ContractsGrantsInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.ContractsGrantsInvoiceDocumentService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -66,7 +68,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the universityFiscalYear attribute.
-     *
+     * 
      * @return Returns the universityFiscalYear.
      */
     public Integer getUniversityFiscalYear() {
@@ -75,7 +77,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the universityFiscalYear attribute value.
-     *
+     * 
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -84,7 +86,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the documentNumber attribute.
-     *
+     * 
      * @return Returns the documentNumber
      */
     public String getDocumentNumber() {
@@ -93,7 +95,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the documentNumber attribute.
-     *
+     * 
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -103,7 +105,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /***
      * Gets the proposalNumber attribute.
-     *
+     * 
      * @return Returns the proposalNumber
      */
     public Long getProposalNumber() {
@@ -112,7 +114,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the proposalNumber attribute.
-     *
+     * 
      * @param proposalNumber The proposalNumber to set.
      */
     public void setProposalNumber(Long proposalNumber) {
@@ -122,7 +124,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /***
      * Gets the chartOfAccountsCode attribute.
-     *
+     * 
      * @return Returns the chartOfAccountsCode
      */
     public String getChartOfAccountsCode() {
@@ -131,7 +133,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     *
+     * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -141,7 +143,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /***
      * Gets the accountNumber attribute.
-     *
+     * 
      * @return Returns the accountNumber
      */
     public String getAccountNumber() {
@@ -150,7 +152,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the accountNumber attribute.
-     *
+     * 
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -160,7 +162,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the contractControlAccountNumber attribute.
-     *
+     * 
      * @return Returns the contractControlAccountNumber.
      */
     public String getContractControlAccountNumber() {
@@ -170,7 +172,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the contractControlAccountNumber attribute value.
-     *
+     * 
      * @param contractControlAccountNumber The contractControlAccountNumber to set.
      */
     public void setContractControlAccountNumber(String contractControlAccountNumber) {
@@ -179,7 +181,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the budgetAmount attribute.
-     *
+     * 
      * @return Returns the budgetAmount.
      */
     public KualiDecimal getBudgetAmount() {
@@ -188,7 +190,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the budgetAmount attribute value.
-     *
+     * 
      * @param budgetAmount The budgetAmount to set.
      */
 
@@ -198,7 +200,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the expenditureAmount attribute.
-     *
+     * 
      * @return Returns the expenditureAmount.
      */
     public KualiDecimal getExpenditureAmount() {
@@ -207,7 +209,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the expenditureAmount attribute value.
-     *
+     * 
      * @param expenditureAmount The expenditureAmount to set.
      */
     public void setExpenditureAmount(KualiDecimal expenditureAmount) {
@@ -216,7 +218,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the cumulativeAmount attribute.
-     *
+     * 
      * @return Returns the cumulativeAmount.
      */
     public KualiDecimal getCumulativeAmount() {
@@ -225,7 +227,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the cumulativeAmount attribute value.
-     *
+     * 
      * @param cumulativeAmount The cumulativeAmount to set.
      */
 
@@ -235,7 +237,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the balanceAmount attribute.
-     *
+     * 
      * @return Returns the balanceAmount.
      */
     public KualiDecimal getBalanceAmount() {
@@ -246,7 +248,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the balanceAmount attribute value.
-     *
+     * 
      * @param balanceAmount The balanceAmount to set.
      */
     @Deprecated
@@ -257,7 +259,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the invoiceDocument attribute.
-     *
+     * 
      * @return Returns the invoiceDocument.
      */
     public ContractsGrantsInvoiceDocument getInvoiceDocument() {
@@ -266,7 +268,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the invoiceDocument attribute value.
-     *
+     * 
      * @param invoiceDocument The invoiceDocument to set.
      */
     public void setInvoiceDocument(ContractsGrantsInvoiceDocument invoiceDocument) {
@@ -295,12 +297,13 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
     /**
      * OJB calls this method as the first operation before this BO is inserted into the database. The field is read-only in the data
      * dictionary and so the value does not persist in the DB. So this method makes sure that the values are stored in the DB.
-     *
+     * 
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException Thrown by call to super.prePersist();
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
      */
-    @Override protected void prePersist() {
+    @Override
+    protected void prePersist() {
         super.prePersist();
 
         balanceAmount = getBalanceAmount();
@@ -311,12 +314,13 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
     /**
      * OJB calls this method as the first operation before this BO is updated to the database. The field is read-only in the data
      * dictionary and so the value does not persist in the DB. So this method makes sure that the values are stored in the DB.
-     *
+     * 
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException Thrown by call to super.preUpdate();
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
      */
-    @Override protected void preUpdate() {
+    @Override
+    protected void preUpdate() {
         super.preUpdate();
 
         balanceAmount = getBalanceAmount();
@@ -325,7 +329,7 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
     /**
      * This method will set Budgets and Cumulative Expenditure amounts for each invoice account detail.
-     *
+     * 
      * @param lastBilledDate
      */
     public void setBudgetsAndCumulatives(java.sql.Date lastBilledDate, String billingFrequency, java.sql.Date awardBeginningDate) {
@@ -340,43 +344,44 @@ public class InvoiceAccountDetail extends PersistableBusinessObjectBase {
 
         Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getFiscalYear(awardBeginningDate);
 
-        for(Integer i = fiscalYear; i<= currentYear; i++ ){
-         fiscalYears.add(i);
+        for (Integer i = fiscalYear; i <= currentYear; i++) {
+            fiscalYears.add(i);
         }
 
-        for(Integer eachFiscalYr: fiscalYears){
-        Map<String, Object> balanceKeys = new HashMap<String, Object>();
-        balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
-        balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, getAccountNumber());
-        balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-        balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
-        glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
+        for (Integer eachFiscalYr : fiscalYears) {
+            Map<String, Object> balanceKeys = new HashMap<String, Object>();
+            balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
+            balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, getAccountNumber());
+            balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
+            balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+            glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
         }
         KualiDecimal budAmt = KualiDecimal.ZERO;
         KualiDecimal balAmt = KualiDecimal.ZERO;
         KualiDecimal cumAmt = KualiDecimal.ZERO;
 
         for (Balance bal : glBalances) {
-            if (bal.getBalanceTypeCode().equalsIgnoreCase(ArPropertyConstants.BUDGET_BALANCE_TYPE)) {
-                balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
-                budAmt = budAmt.add(balAmt);
-            }
-            else if (bal.getBalanceTypeCode().equalsIgnoreCase(ArPropertyConstants.ACTUAL_BALANCE_TYPE)) {
-                if (billingFrequency.equalsIgnoreCase(ArPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArPropertyConstants.QUATERLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArPropertyConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArPropertyConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
-
-                    cumAmt = cumAmt.add(contractsGrantsInvoiceDocumentService.retrieveAccurateBalanceAmount(lastBilledDate, bal));
-                }
-                else if (billingFrequency.equalsIgnoreCase(ArPropertyConstants.BILLED_AT_TERM)) {
+            if (!StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
+                if (bal.getBalanceTypeCode().equalsIgnoreCase(ArPropertyConstants.BUDGET_BALANCE_TYPE)) {
                     balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
-                    cumAmt = cumAmt.add(balAmt);
+                    budAmt = budAmt.add(balAmt);
                 }
-                else {//For other billing frequencies
-                    balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
-                    cumAmt = cumAmt.add(balAmt);
+                else if (bal.getBalanceTypeCode().equalsIgnoreCase(ArPropertyConstants.ACTUAL_BALANCE_TYPE)) {
+                    if (billingFrequency.equalsIgnoreCase(ArPropertyConstants.MONTHLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArPropertyConstants.QUATERLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArPropertyConstants.SEMI_ANNUALLY_BILLING_SCHEDULE_CODE) || billingFrequency.equalsIgnoreCase(ArPropertyConstants.ANNUALLY_BILLING_SCHEDULE_CODE)) {
+
+                        cumAmt = cumAmt.add(contractsGrantsInvoiceDocumentService.retrieveAccurateBalanceAmount(lastBilledDate, bal));
+                    }
+                    else if (billingFrequency.equalsIgnoreCase(ArPropertyConstants.BILLED_AT_TERM)) {
+                        balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
+                        cumAmt = cumAmt.add(balAmt);
+                    }
+                    else {// For other billing frequencies
+                        balAmt = bal.getContractsGrantsBeginningBalanceAmount().add(bal.getAccountLineAnnualBalanceAmount());
+                        cumAmt = cumAmt.add(balAmt);
+                    }
                 }
+
             }
-
-
         }
         // To set Budgets and cumulative amounts
         setBudgetAmount(budAmt);

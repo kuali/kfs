@@ -1563,19 +1563,21 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
             }
 
             for(Integer eachFiscalYr: fiscalYears){
-            Map<String, Object> balanceKeys = new HashMap<String, Object>();
-            balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
-            balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
-            balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
-            balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
-            balanceKeys.put("balanceTypeCode", ArPropertyConstants.ACTUAL_BALANCE_TYPE);
-
-            glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
+                Map<String, Object> balanceKeys = new HashMap<String, Object>();
+                balanceKeys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, awardAccount.getChartOfAccountsCode());
+                balanceKeys.put(KFSPropertyConstants.ACCOUNT_NUMBER, awardAccount.getAccountNumber());
+                balanceKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, eachFiscalYr);
+                balanceKeys.put("objectTypeCode", ArPropertyConstants.EXPENSE_OBJECT_TYPE);
+                balanceKeys.put("balanceTypeCode", ArPropertyConstants.ACTUAL_BALANCE_TYPE);
+    
+                glBalances.addAll(SpringContext.getBean(BusinessObjectService.class).findMatching(Balance.class, balanceKeys));
             }
         } // now you have a list of balances from all accounts;
 
 
         for (Balance bal : glBalances) {
+           if(!StringUtils.equalsIgnoreCase(bal.getSubAccount().getA21SubAccount().getSubAccountTypeCode(),KFSConstants.SubAccountType.COST_SHARE)){ 
+            
             ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService = SpringContext.getBean(ContractsGrantsInvoiceDocumentService.class);
 
             for (ContractsAndGrantsCategories category : contractsAndGrantsCategories) {
@@ -1623,6 +1625,7 @@ public class ContractsGrantsInvoiceDocument extends CustomerInvoiceDocument {
                     break; // found a match into which category, we can stop and move on to next balance entry
                 }
             }
+        }
         }
 
         // Modifying the code to set invoiceDetailaccountobject codes calculation here checking with loc review indicator and also

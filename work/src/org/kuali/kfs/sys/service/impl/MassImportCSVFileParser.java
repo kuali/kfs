@@ -54,7 +54,7 @@ public class MassImportCSVFileParser implements MassImportFileParser {
 
     /**
      * Checks whether the specified item class is a subclass of PurApItem; throws exceptions if not.
-     *
+     * 
      * @param itemClass the specified item class
      */
     protected void checkImportLineClass(Class importLineClass) {
@@ -66,7 +66,7 @@ public class MassImportCSVFileParser implements MassImportFileParser {
     /**
      * Checks whether the specified item import file is not null and of a valid format; throws exceptions if conditions not
      * satisfied.
-     *
+     * 
      * @param itemClass the specified item import file
      */
     protected void checkImportFile(String fileName) {
@@ -77,7 +77,7 @@ public class MassImportCSVFileParser implements MassImportFileParser {
 
     /**
      * Parses a line of item data from a csv file and retrieves the attributes as key-value string pairs into a map.
-     *
+     * 
      * @param itemLine a string read from a line in the item import file
      * @return a map containing item attribute name-value string pairs
      */
@@ -97,7 +97,7 @@ public class MassImportCSVFileParser implements MassImportFileParser {
 
     /**
      * Generates an item instance and populates it with the specified attribute map.
-     *
+     * 
      * @param itemMap the specified attribute map from which attributes are populated
      * @param itemClass the class of which the new item instance shall be created
      * @return the populated item
@@ -157,8 +157,12 @@ public class MassImportCSVFileParser implements MassImportFileParser {
                         throw new MassImportFileParserException("wrong import line class " + itemClass.getName(), "", new String[] { itemClass.getName() });
                     }
 
+                    if (attributeValues.length != attributeNames.length) {
+                        throw new MassImportFileParserException("File format is not valid, expected column count is " + attributeNames.length, "", new String[] {});
+                    }
+
                     Map<String, String> attributeValueMap = new HashMap<String, String>();
-                    for (int i = 0; i < Math.min(attributeValues.length, attributeNames.length); i++) {
+                    for (int i = 0; i < attributeNames.length; i++) {
                         attributeValueMap.put(attributeNames[i], attributeValues[i].trim());
                     }
                     importedLines.add(genSingleObjectWithRetrievedAttributes(attributeValueMap, itemClass, attributeValues.toString()));
@@ -176,7 +180,7 @@ public class MassImportCSVFileParser implements MassImportFileParser {
 
     /**
      * validate the import file format
-     *
+     * 
      * @param importFile
      * @param itemClass
      * @param errorPathPrefix

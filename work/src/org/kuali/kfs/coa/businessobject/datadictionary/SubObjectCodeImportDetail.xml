@@ -38,6 +38,7 @@
 
 	<bean id="SubObjectCodeImportDetail-chartOfAccountsCode" parent="SubObjectCodeImportDetail-chartOfAccountsCode-parentBean" />
 	<bean id="SubObjectCodeImportDetail-chartOfAccountsCode-parentBean" abstract="true" parent="ObjectCode-chartOfAccountsCode">
+		<property name="required" value="false"></property>
 	</bean>
 
 	<bean id="SubObjectCodeImportDetail-accountNumber" parent="SubObjectCodeImportDetail-accountNumber-parentBean" />

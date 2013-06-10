@@ -404,7 +404,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
         // To test for all combinations of GLPE and Award Invoicing options
         // GLPE is 1.
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        parameterService.setParameterForTesting(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART);
+//        parameterService.setParameterForTesting(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_CHART);
 
         // To check if the source accounting lines are created as expected.
         CustomerInvoiceDetail customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_CHART_RECEIVABLE.createCustomerInvoiceDetail();
@@ -442,9 +442,9 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
 
         // GLPE is 2.
-        parameterService.setParameterForTesting(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND);
+//        parameterService.setParameterForTesting(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_SUBFUND);
         // Setting subfund based on the test account number 1031400.
-        parameterService.setParameterForTesting(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND, "GENFND=8110");
+//        parameterService.setParameterForTesting(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_OBJECT_CODE_BY_SUB_FUND, "GENFND=8110");
 
         // To check if the source accounting lines are created as expected.
         customerInvoiceDetail = CustomerInvoiceDetailFixture.CUSTOMER_INVOICE_DETAIL_SUBFUND_RECEIVABLE.createCustomerInvoiceDetail();
@@ -485,7 +485,7 @@ public class ContractsGrantsInvoiceDocumentServiceTest extends KualiTestBase {
 
 
         // GLPE is 3 - Using income Account.
-        parameterService.setParameterForTesting(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU);
+//        parameterService.setParameterForTesting(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU);
 
 
         // Use the same customer Invoice detail as Subfund.

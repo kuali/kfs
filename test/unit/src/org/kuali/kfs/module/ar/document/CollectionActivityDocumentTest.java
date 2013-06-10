@@ -80,7 +80,7 @@ public class CollectionActivityDocumentTest extends KualiTestBase {
         DocumentHeader documentHeader = cgInvoice.getDocumentHeader();
         WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
 
-        cgInvoice.getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
+        cgInvoice.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         cgInvoice.getAccountsReceivableDocumentHeader().setCustomerNumber(CUSTOMER_NUMBER);
         cgInvoice.getAccountsReceivableDocumentHeader().setDocumentHeader(documentHeader);
 

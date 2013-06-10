@@ -29,10 +29,11 @@ import org.kuali.kfs.module.ar.batch.CustomerInvoiceDocumentBatchStep;
 import org.kuali.kfs.module.ar.businessobject.CustomerAgingReportDetail;
 import org.kuali.kfs.module.ar.web.struts.CustomerAgingReportForm;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class tests the CustomerAgingReport lookup and totals calculations
@@ -52,25 +53,17 @@ public class CustomerAgingReportLookupableHelperServiceImplTest extends KualiTes
      */
     protected void setUp() throws Exception {
         super.setUp();
-        //customerInvoiceDocumentBatchStep = SpringContext.getBean(CustomerInvoiceDocumentBatchStep.class);
-        // customerAgingReportLookupableHelperServiceImpl =
-        // SpringContext.getBean(CustomerAgingReportLookupableHelperServiceImpl.class);
         customerAgingReportLookupableHelperServiceImpl = new CustomerAgingReportLookupableHelperServiceImpl();
         customerAgingReportLookupableHelperServiceImpl.setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
         fieldValues = new LinkedHashMap();
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-//        fieldValues.put("reportOption", "PROCESSING ORGANIZATION");
-//        fieldValues.put("chartOfAccountsCode", "UA");
-//        fieldValues.put("organizationCode", "VPIT");
         fieldValues.put("backLocation", null);
-        fieldValues.put("accountNumber", "1111111");
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, "1111111");
         fieldValues.put("reportRunDate", dateFormat.format(new Date()));
         fieldValues.put("reportOption", "Account");
-        fieldValues.put("chartOfAccountsCode", "");
-        fieldValues.put("organizationCode", "");
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "");
+        fieldValues.put(KFSPropertyConstants.ORGANIZATION_CODE, "");
         fieldValues.put("docFormKey", null);
-
-
     }
 
     /**
@@ -87,22 +80,14 @@ public class CustomerAgingReportLookupableHelperServiceImplTest extends KualiTes
      */
     public void testGetSearchResultsMap() {
         Collection<?> displayList;
-        // create set of customer invoices
-//        customerInvoiceDocumentBatchStep.createCustomerInvoiceDocumentForFunctionalTesting("EAT17609", new Date(), 1, new KualiDecimal(4), new BigDecimal(50.00), "1031400", "BL");
-//        customerInvoiceDocumentBatchStep.createCustomerInvoiceDocumentForFunctionalTesting("EAT17609", new Date(), 1, new KualiDecimal(1), new BigDecimal(25.00), "1031400", "BL");
-//        customerInvoiceDocumentBatchStep.createCustomerInvoiceDocumentForFunctionalTesting("HIL22195", new Date(), 2, new KualiDecimal(5), new BigDecimal(1), "2224601", "BA");  // $10 entries
-//        customerInvoiceDocumentBatchStep.createCustomerInvoiceDocumentForFunctionalTesting("IBM2655", new Date(), 2, new KualiDecimal(5), new BigDecimal(2), "2224601", "BA");  // $20 entries
-//        customerInvoiceDocumentBatchStep.createCustomerInvoiceDocumentForFunctionalTesting("JAS19572", new Date(), 2, new KualiDecimal(5), new BigDecimal(3), "2224601", "BA");  // $30 entries
 
         // run search
-
         KualiDecimal test0to30total = new KualiDecimal("0.00");
         KualiDecimal test31to60total = new KualiDecimal("0.00");
         KualiDecimal test61to90total = new KualiDecimal("0.00");
         KualiDecimal test91toSYSPRtotal = new KualiDecimal("0.00");
         KualiDecimal testSYSPRplus1orMoretotal = new KualiDecimal("0.00");
         assertNotNull("search results not null", displayList = customerAgingReportLookupableHelperServiceImpl.getSearchResults(fieldValues));
-
 
         // add all 0to30 totals
         for (Object aDisplayList : displayList) {
@@ -116,15 +101,8 @@ public class CustomerAgingReportLookupableHelperServiceImplTest extends KualiTes
         assertEquals(customerAgingReportLookupableHelperServiceImpl.getTotal0to30().toString(), test0to30total.toString());
         assertEquals(customerAgingReportLookupableHelperServiceImpl.getTotal31to60().toString(), test31to60total.toString());
         assertEquals(customerAgingReportLookupableHelperServiceImpl.getTotal61to90().toString(), test61to90total.toString());
-        LOG.info("\n\n\n\n***************************************************************************************\n" +
-                "\n\t\t testtotal0to30 = " + customerAgingReportLookupableHelperServiceImpl.getTotal0to30().toString() + "\t\t\t\t\tactualtotal0to30 = " + test0to30total.toString() +
-                "\n\t\t testtotal31to60 = " + customerAgingReportLookupableHelperServiceImpl.getTotal31to60().toString() + "\t\t\t\t\t\tactualtotal31to60 = " + test31to60total.toString() +
-                "\n\t\t testtotal61to90 = " + customerAgingReportLookupableHelperServiceImpl.getTotal61to90().toString() + "\t\t\t\t\t\tactualtotal61to90 = " + test61to90total.toString() +
-                "\n\t\t testtotal91toSYSPR = " + customerAgingReportLookupableHelperServiceImpl.getTotal91toSYSPR().toString() + "\t\t\t\t\tactualtotal91toSYSPR = " + test91toSYSPRtotal.toString() +
-                "\n\t\t testtotalSYSPRplus1orMore = " + customerAgingReportLookupableHelperServiceImpl.getTotalSYSPRplus1orMore().toString() + "\t\t\tactualtotalSYSPRplus1orMore = " + testSYSPRplus1orMoretotal.toString() +
-                "\n\n***************************************************************************************\n\n");
-
-
+        LOG.info("\n\n\n\n***************************************************************************************\n" + "\n\t\t testtotal0to30 = " + customerAgingReportLookupableHelperServiceImpl.getTotal0to30().toString() + "\t\t\t\t\tactualtotal0to30 = " + test0to30total.toString() + "\n\t\t testtotal31to60 = " + customerAgingReportLookupableHelperServiceImpl.getTotal31to60().toString() + "\t\t\t\t\t\tactualtotal31to60 = " + test31to60total.toString() + "\n\t\t testtotal61to90 = " + customerAgingReportLookupableHelperServiceImpl.getTotal61to90().toString() + "\t\t\t\t\t\tactualtotal61to90 = " + test61to90total.toString() + "\n\t\t testtotal91toSYSPR = " + customerAgingReportLookupableHelperServiceImpl.getTotal91toSYSPR().toString() + "\t\t\t\t\tactualtotal91toSYSPR = " + test91toSYSPRtotal.toString() + "\n\t\t testtotalSYSPRplus1orMore = " + customerAgingReportLookupableHelperServiceImpl.getTotalSYSPRplus1orMore().toString() + "\t\t\tactualtotalSYSPRplus1orMore = "
+                + testSYSPRplus1orMoretotal.toString() + "\n\n***************************************************************************************\n\n");
     }
 
     /**

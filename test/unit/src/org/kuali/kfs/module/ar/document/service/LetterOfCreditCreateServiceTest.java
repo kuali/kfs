@@ -144,7 +144,7 @@ public class LetterOfCreditCreateServiceTest extends KualiTestBase {
             cashControlDetail.setReferenceFinancialDocumentNumber(cashControlDoc.getDocumentNumber());
             cashControlDoc.getCashControlDetails().add(cashControlDetail);
             SpringContext.getBean(CashControlDocumentService.class).addNewCashControlDetail("JUNIT TEST", cashControlDoc, cashControlDetail);
-            cashControlDoc.getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
+            cashControlDoc.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
             SpringContext.getBean(DocumentService.class).saveDocument(cashControlDoc);
 
             // Set cashcontrol document to Cancelled and check.

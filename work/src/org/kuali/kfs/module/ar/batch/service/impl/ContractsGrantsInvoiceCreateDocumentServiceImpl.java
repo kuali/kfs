@@ -67,7 +67,7 @@ import org.springframework.util.CollectionUtils;
 
 /**
  * This is the default implementation of the ContractsGrantsInvoiceDocumentCreateService interface.
- *
+ * 
  * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceDocumentCreateService
  */
 @Transactional
@@ -92,7 +92,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     /**
      * The default implementation of this service retrieves a collection of qualified Awards and create Contracts Grants Invoice
      * Documents by Awards.
-     *
+     * 
      * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceDocumentCreateService#createCGInvoiceDocumentsByAwards(java.lang.String)
      */
     public boolean createCGInvoiceDocumentsByAwards(Collection<ContractsAndGrantsCGBAward> awards, String errOutputFileName) {
@@ -116,11 +116,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                             tmpAcctList1.clear();
                             // only one account is added into the list to create cgin
                             tmpAcctList1.add(awardAccount);
-                            coaCode = awardAccount.getAccount().getChartOfAccountsCode();
-                            orgCode = awardAccount.getAccount().getOrganizationCode();
-                         // To get valid award accounts of amounts > zero$ and pass it to the create invoices method
-                            if(!getValidAwardAccounts(tmpAcctList1, awd).containsAll(tmpAcctList1)){
-                                errLines.add("The account#"+ awardAccount.getAccountNumber() +" of the Award/Proposal# " + awd.getProposalNumber().toString() + " is not billable. It could have an invoice in progress or zero balances.");
+                            // coaCode = awardAccount.getAccount().getChartOfAccountsCode();
+                            // orgCode = awardAccount.getAccount().getOrganizationCode();
+                            coaCode = awd.getPrimaryAwardOrganization().getChartOfAccountsCode();
+                            orgCode = awd.getPrimaryAwardOrganization().getOrganizationCode();
+                            // To get valid award accounts of amounts > zero$ and pass it to the create invoices method
+                            if (!getValidAwardAccounts(tmpAcctList1, awd).containsAll(tmpAcctList1)) {
+                                errLines.add("The account#" + awardAccount.getAccountNumber() + " of the Award/Proposal# " + awd.getProposalNumber().toString() + " is not billable. It could have an invoice in progress or zero balances.");
                             }
 
                             cgInvoiceDocument = createCGInvoiceDocumentByAwardInfo(awd, getValidAwardAccounts(tmpAcctList1, awd), coaCode, orgCode);
@@ -192,11 +194,13 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                                     }
                                 }
 
-                                coaCode = controlAccount.getChartOfAccountsCode();
-                                orgCode = controlAccount.getOrganizationCode();
+                                // coaCode = controlAccount.getChartOfAccountsCode();
+                                // orgCode = controlAccount.getOrganizationCode();
+                                coaCode = awd.getPrimaryAwardOrganization().getChartOfAccountsCode();
+                                orgCode = awd.getPrimaryAwardOrganization().getOrganizationCode();
                                 // To get valid award accounts of amounts > zero$ and pass it to the create invoices method
-                                if(!getValidAwardAccounts(tmpAcctList1, awd).containsAll(tmpAcctList1)){
-                                    errLines.add("One or more accounts under the Contract Control Account#"+ controlAccount.getAccountNumber() +" of the Award/Proposal# " + awd.getProposalNumber().toString() + " are not billable. They could have invoices in progress or zero balances.");
+                                if (!getValidAwardAccounts(tmpAcctList1, awd).containsAll(tmpAcctList1)) {
+                                    errLines.add("One or more accounts under the Contract Control Account#" + controlAccount.getAccountNumber() + " of the Award/Proposal# " + awd.getProposalNumber().toString() + " are not billable. They could have invoices in progress or zero balances.");
                                 }
                                 cgInvoiceDocument = createCGInvoiceDocumentByAwardInfo(awd, getValidAwardAccounts(tmpAcctList1, awd), coaCode, orgCode);
                                 if (ObjectUtils.isNotNull(cgInvoiceDocument)) {
@@ -250,12 +254,14 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                             Account account;
                             for (ContractsAndGrantsCGBAwardAccount awardAccount : awd.getActiveAwardAccounts()) {
                                 account = awardAccount.getAccount();
-                                coaCode = account.getContractControlFinCoaCode();
-                                orgCode = account.getContractControlAccount().getOrganizationCode();
+                                // coaCode = account.getContractControlFinCoaCode();
+                                // orgCode = account.getContractControlAccount().getOrganizationCode();
+                                coaCode = awd.getPrimaryAwardOrganization().getChartOfAccountsCode();
+                                orgCode = awd.getPrimaryAwardOrganization().getOrganizationCode();
                             }
                             // To get valid award accounts of amounts > zero$ and pass it to the create invoices method
                             // To get valid award accounts of amounts > zero$ and pass it to the create invoices method
-                            if(!getValidAwardAccounts(awd.getActiveAwardAccounts(), awd).containsAll(awd.getActiveAwardAccounts())){
+                            if (!getValidAwardAccounts(awd.getActiveAwardAccounts(), awd).containsAll(awd.getActiveAwardAccounts())) {
                                 errLines.add("One or more accounts of the Award/Proposal# " + awd.getProposalNumber().toString() + " are not billable. They could have invoices in progress or zero balances.");
                             }
                             cgInvoiceDocument = createCGInvoiceDocumentByAwardInfo(awd, getValidAwardAccounts(awd.getActiveAwardAccounts(), awd), coaCode, orgCode);
@@ -311,7 +317,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * This method retrieves create a ContractsGrantsInvoiceDocument by Award * @param awd
-     *
+     * 
      * @return ContractsGrantsInvoiceDocument
      */
     public ContractsGrantsInvoiceDocument createCGInvoiceDocumentByAwardInfo(ContractsAndGrantsCGBAward awd, List<ContractsAndGrantsCGBAwardAccount> accounts, String chartOfAccountsCode, String organizationCode) {
@@ -329,7 +335,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     cgInvoiceDocument.setBilledByOrganizationCode(organizationCode);
 
                     // b) set processing org and chart code
-                   List<String> procCodes =  contractsGrantsInvoiceDocumentService.getProcessingFromBillingCodes(chartOfAccountsCode, organizationCode);
+                    List<String> procCodes = contractsGrantsInvoiceDocumentService.getProcessingFromBillingCodes(chartOfAccountsCode, organizationCode);
 
                     AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
                     accountsReceivableDocumentHeader.setDocumentNumber(cgInvoiceDocument.getDocumentNumber());
@@ -341,8 +347,8 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
                     cgInvoiceDocument.setAward(awd);
                     cgInvoiceDocument.populateInvoiceFromAward(awd, accounts);
                     contractsGrantsInvoiceDocumentService.createSourceAccountingLinesAndGLPEs(cgInvoiceDocument);
-                    if(ObjectUtils.isNotNull(cgInvoiceDocument.getAward())){
-                    contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(cgInvoiceDocument);
+                    if (ObjectUtils.isNotNull(cgInvoiceDocument.getAward())) {
+                        contractsGrantsInvoiceDocumentService.updateSuspensionCategoriesOnDocument(cgInvoiceDocument);
                     }
 
                     LOG.info("Created Contracts and Grants invoice document " + cgInvoiceDocument.getDocumentNumber());
@@ -379,7 +385,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * This method validates awards and output an error file including unqualified awards with reason stated.
-     *
+     * 
      * @param errOutputFile The name of the file recording unqualified awards with reason stated.
      * @return True if
      */
@@ -640,7 +646,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     /**
      * This method validate if two accounts present the same account by comparing their "account number" and
      * "chart of account code",which are primary key.
-     *
+     * 
      * @param obj1
      * @param obj2
      * @return True if these two accounts are the same
@@ -663,7 +669,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     /**
      * This method retrieves all the contracts grants invoice documents with a status of 'I' and routes them to the next step in the
      * routing path.
-     *
+     * 
      * @return True if the routing was performed successfully. A runtime exception will be thrown if any errors occur while routing.
      * @see org.kuali.kfs.module.ar.batch.service.ContractsGrantsInvoiceDocumentCreateService#routeContractsGrantsInvoiceDocuments()
      */
@@ -689,17 +695,17 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         for (String cgInvoiceDocId : documentIdList) {
             try {
                 ContractsGrantsInvoiceDocument cgInvoicDoc = (ContractsGrantsInvoiceDocument) documentService.getByDocumentHeaderId(cgInvoiceDocId);
-                //To route documents only if the user in the session is same as the initiator.
-                if(cgInvoicDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId().equals(GlobalVariables.getUserSession().getPerson().getPrincipalId())){
+                // To route documents only if the user in the session is same as the initiator.
+                if (cgInvoicDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId().equals(GlobalVariables.getUserSession().getPerson().getPrincipalId())) {
 
-                if (LOG.isInfoEnabled()) {
-                    LOG.info("Routing CGIN document # " + cgInvoiceDocId + ".");
+                    if (LOG.isInfoEnabled()) {
+                        LOG.info("Routing CGIN document # " + cgInvoiceDocId + ".");
+                    }
+                    documentService.prepareWorkflowDocument(cgInvoicDoc);
+
+                    // calling workflow service to bypass business rule checks
+                    workflowDocumentService.route(cgInvoicDoc.getDocumentHeader().getWorkflowDocument(), "", null);
                 }
-                documentService.prepareWorkflowDocument(cgInvoicDoc);
-
-                // calling workflow service to bypass business rule checks
-                workflowDocumentService.route(cgInvoicDoc.getDocumentHeader().getWorkflowDocument(), "", null);
-            }
             }
             catch (WorkflowException e) {
                 LOG.error("Error routing document # " + cgInvoiceDocId + " " + e.getMessage());
@@ -713,18 +719,20 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Returns a list of all initiated but not yet routed contracts grants invoice documents, using the KualiWorkflowInfo service.
-     *
+     * 
      * @return a list of contracts grants invoice documents to route
      */
     protected List<String> retrieveContractsGrantsInvoiceDocumentsToRoute(String statusCode) throws WorkflowException, RemoteException {
         List<String> documentIds = new ArrayList<String>();
 
-//        DocumentSearchCriteriaDTO criteria = new DocumentSearchCriteriaDTO();
+        // DocumentSearchCriteriaDTO criteria = new DocumentSearchCriteriaDTO();
         DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
         criteria.setDocumentTypeName(KFSConstants.ContractsGrantsModuleDocumentTypeCodes.CONTRACTS_GRANTS_INVOICE);
         criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.fromCode(statusCode)));
 
-//        DocumentSearchResultDTO results = SpringContext.getBean(KualiWorkflowInfo.class).performDocumentSearch(GlobalVariables.getUserSession().getPerson().getPrincipalId(), criteria);
+        // DocumentSearchResultDTO results =
+        // SpringContext.getBean(KualiWorkflowInfo.class).performDocumentSearch(GlobalVariables.getUserSession().getPerson().getPrincipalId(),
+        // criteria);
 
         DocumentSearchCriteria crit = criteria.build();
 
@@ -732,18 +740,17 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
         int iterations = SpringContext.getBean(FinancialSystemDocumentService.class).getFetchMoreIterationLimit();
 
         for (int i = 0; i < iterations; i++) {
-            LOG.debug("Fetch Iteration: "+ i);
+            LOG.debug("Fetch Iteration: " + i);
             criteria.setStartAtIndex(maxResults * i);
             crit = criteria.build();
-            LOG.debug("Max Results: "+criteria.getStartAtIndex());
-        DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                    GlobalVariables.getUserSession().getPrincipalId(), crit);
+            LOG.debug("Max Results: " + criteria.getStartAtIndex());
+            DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(GlobalVariables.getUserSession().getPrincipalId(), crit);
             if (results.getSearchResults().isEmpty()) {
                 break;
             }
-            for (DocumentSearchResult resultRow: results.getSearchResults()) {
+            for (DocumentSearchResult resultRow : results.getSearchResults()) {
                 documentIds.add(resultRow.getDocument().getDocumentId());
-                    LOG.debug(resultRow.getDocument().getDocumentId());
+                LOG.debug(resultRow.getDocument().getDocumentId());
             }
         }
         return documentIds;
@@ -751,7 +758,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Retrieves the document id out of the route document header
-     *
+     * 
      * @param routeDocHeader the String representing an HTML link to the document
      * @return the document id
      */
@@ -874,7 +881,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
     /**
      * This method would calulate the amounts to be invoiced for every award account and returns the valid award acccounts with
      * amounts > zero dollars
-     *
+     * 
      * @param awardAccounts
      * @return valid awardAccounts
      */
@@ -912,7 +919,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Sets the accountingPeriodService attribute value.
-     *
+     * 
      * @param accountingPeriodService The accountingPeriodService to set.
      */
     public void setAccountingPeriodService(AccountingPeriodService accountingPeriodService) {
@@ -922,7 +929,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Sets the verifyBillingFrequency attribute value.
-     *
+     * 
      * @param verifyBillingFrequency The verifyBillingFrequency to set.
      */
     public void setVerifyBillingFrequency(VerifyBillingFrequency verifyBillingFrequency) {
@@ -931,7 +938,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Sets the businessObjectService attribute value.
-     *
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -940,7 +947,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Sets the workflowDocumentService attribute value.
-     *
+     * 
      * @param workflowDocumentService The workflowDocumentService to set.
      */
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
@@ -950,7 +957,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Sets the documentService attribute value.
-     *
+     * 
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {
@@ -960,7 +967,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Sets the accountsReceivableDocumentHeaderService attribute value.
-     *
+     * 
      * @param accountsReceivableDocumentHeaderService The accountsReceivableDocumentHeaderService to set.
      */
     public void setAccountsReceivableDocumentHeaderService(AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService) {
@@ -969,7 +976,7 @@ public class ContractsGrantsInvoiceCreateDocumentServiceImpl implements Contract
 
     /**
      * Sets the contractsGrantsInvoiceDocumentService attribute value.
-     *
+     * 
      * @param contractsGrantsInvoiceDocumentService The contractsGrantsInvoiceDocumentService to set.
      */
     public void setContractsGrantsInvoiceDocumentService(ContractsGrantsInvoiceDocumentService contractsGrantsInvoiceDocumentService) {

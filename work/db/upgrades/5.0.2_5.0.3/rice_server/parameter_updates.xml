@@ -98,4 +98,12 @@
 	    </modifySql>
 	</changeSet>
 	
+	<changeSet author="KFS503" id="KFSCNTRB-1597">   
+    	<comment>KFSCNTRB-1597 ServiceBilling OBJECT_TYPES parameter should include value "AS" too</comment>
+    	<update tableName="KRCR_PARM_T">
+        	<column name="VAL" value="IN;EE;EX;LI;AS" />
+        	<where>NMSPC_CD='KFS-FP' AND CMPNT_CD='ServiceBilling' AND PARM_NM='OBJECT_TYPES' AND APPL_ID = 'KFS'</where>
+    	</update>
+	</changeSet>
+	
 </databaseChangeLog>

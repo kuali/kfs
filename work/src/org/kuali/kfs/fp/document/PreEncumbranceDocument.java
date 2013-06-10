@@ -99,8 +99,8 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
     }
 
     /**
-     * This method limits valid debits to only expense object type codes.  Additionally, an
-     * IllegalStateException will be thrown if the accounting line passed in is not an expense,
+     * This method limits valid debits to only income object type codes.  Additionally, an
+     * IllegalStateException will be thrown if the accounting line passed in is not an income,
      * is an error correction with a positive dollar amount or is not an error correction and
      * has a negative amount.
      *
@@ -115,7 +115,7 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
     @Override
      public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AccountingLine accountingLine = (AccountingLine)postable;
-        // if not expense, or positive amount on an error-correction, or negative amount on a non-error-correction, throw exception
+        
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
         
        

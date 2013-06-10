@@ -23,6 +23,7 @@ import java.util.List;
 import org.kuali.kfs.module.purap.businessobject.LineItemReceivingItem;
 import org.kuali.kfs.module.purap.fixture.LineItemReceivingDocumentFixture;
 import org.kuali.kfs.module.purap.fixture.PurchaseOrderDocumentFixture;
+import org.kuali.kfs.module.purap.fixture.RequisitionDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -59,8 +60,12 @@ public class LineItemReceivingDocumentTest extends KualiTestBase {
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public final void testRouteDocument() throws Exception {
         //create PO
-        PurchaseOrderDocument po = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        RequisitionDocument requisition =RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+        requisition.prepareForSave();
+        AccountingDocumentTestUtils.routeDocument(requisition, "saving copy source document", null, documentService);
+        PurchaseOrderDocument po = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
+        po.setRequisitionIdentifier(requisition.getPurapDocumentIdentifier());
         po.prepareForSave();
         AccountingDocumentTestUtils.routeDocument(po, "saving copy source document", null, documentService);
         WorkflowTestUtils.waitForDocumentApproval(po.getDocumentNumber());

@@ -30,14 +30,14 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+public class AgencyStagingDataLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
@@ -109,6 +109,8 @@ public class TravelAgencyAuditLookupableHelperServiceImpl extends KualiLookupabl
 
         if(isTravelManager) {
             anchorHtmlDataList.add(getViewUrl(agencyStagingData));
+
+
         }
         return anchorHtmlDataList;
     }

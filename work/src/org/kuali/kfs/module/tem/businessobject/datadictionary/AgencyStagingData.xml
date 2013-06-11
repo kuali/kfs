@@ -991,7 +991,7 @@
 	<bean id="AgencyStagingData-lookupDefinition" parent="AgencyStagingData-lookupDefinition-parentBean" />
 	<bean id="AgencyStagingData-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Travel Agency Audit Lookup" />
-		<property name="lookupableID" value="agencyAuditLookupable"/>
+		<property name="lookupableID" value="agencyStagingDataLookupable"/>
 		<property name="defaultSort">
 		<bean parent="SortDefinition">
 			<property name="attributeNames"><list>

@@ -830,6 +830,7 @@
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/module/tem/{1}CardApplicationDocument.jsp" />
             <forward name="cardApplicationError" path="/jsp/module/tem/CardApplicationError.jsp" />
+            <forward name="cardQuestion" path="/jsp/module/tem/CardApplicationQuestion.jsp" />
         </action>
 
 		<!-- These are VND items -->

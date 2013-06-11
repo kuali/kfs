@@ -36,7 +36,7 @@
 		<property name="label" value="Corporate Card Pseudo Number" />
 		<property name="shortLabel" value="Corp Card Pseudo Number" />
 		<property name="maxLength" value="16" />
-		<property name="required" value="true" />
+		<property name="required" value="false" />
 		<property name="summary" value="Corporate Card Pseudo Number" />
 		<property name="description" value="Corporate Card Pseudo Number" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="16"/></property>

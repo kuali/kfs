@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -130,7 +130,7 @@ public abstract class CardApplicationDocumentBase extends FinancialSystemTransac
     @Override
     public String getApplicationDocumentStatus() {
         String status = getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
-        return StringUtils.defaultIfEmpty(status, TemConstants.TRAVEL_DOC_APP_DOC_STATUS_INIT);
+        return StringUtils.defaultIfEmpty(status, TemWorkflowConstants.RouteNodeNames.APPLICATION);
     }
 
     @Override

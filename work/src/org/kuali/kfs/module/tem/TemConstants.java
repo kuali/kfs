@@ -140,6 +140,8 @@ public class TemConstants {
         public static final String ENTERTAINMENT_WIRE_OR_FOREIGN_DRAFT_DOCUMENT = "ENWF";
         public static final String RELOCATION_CHECK_ACH_DOCUMENT = "RECA";
         public static final String RELOCATION_WIRE_OR_FOREIGN_DRAFT_DOCUMENT = "REWF";
+        public static final String TRAVEL_CTS_CARD_DOCUMENT = "CTAP";
+        public static final String TRAVEL_CORP_CARD_DOCUMENT = "CCAP";
 
         public static List<String> getAuthorizationDocTypes(){
             List<String> authorizationDocTypes = new ArrayList<String>();
@@ -890,8 +892,8 @@ public class TemConstants {
     public static final String CENTRAL_TRAVEL_SYSTEM_CARD_CODE = "CENTRAL_TRAVEL_SYSTEM_CARD_CODE";
 
 
-    public static final String CTS_CARD_APPLICATION = "TemCTSCardApplicaton";
-    public static final String CORP_CARD_APPLICATION = "TemCorporateCardApplication";
+//    public static final String CTS_CARD_APPLICATION = "TemCTSCardApplication";
+//    public static final String CORP_CARD_APPLICATION = "TemCorporateCardApplication";
     public static final String CARD_EXISTS_QUESTION = "Card Exists Question";
 
     public static class EditModes {

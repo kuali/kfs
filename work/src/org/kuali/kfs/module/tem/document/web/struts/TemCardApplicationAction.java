@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.tem.document.web.struts;
 
+import java.util.Properties;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,13 +24,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
 import org.kuali.kfs.module.tem.document.CardApplicationDocument;
-import org.kuali.kfs.module.tem.document.TemCTSCardApplicationDocument;
 import org.kuali.kfs.module.tem.document.TemCorporateCardApplicationDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
@@ -39,93 +42,53 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class TemCardApplicationAction extends KualiTransactionalDocumentActionBase {
+
+    private final static String CTS_ACTION = "temCTSCardApplication.do";
+    private final static String CORP_ACTION = "temCorporateCardApplication.do";
+    private final static String QUESTION_FORWARD = "cardQuestion";
+    private final static String ERROR_FORWARD = "cardApplicationError";
+
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.docHandler(mapping, form, request, response);
-
-
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         TemCardApplicationForm applicationForm = (TemCardApplicationForm)form;
         TEMProfile profile = null;
+
+        ActionForward forward  = super.docHandler(mapping, form, request, response);
 
         CardApplicationDocument document = (CardApplicationDocument) applicationForm.getDocument();
         String command = applicationForm.getCommand();
         if (!StringUtils.equals(KewApiConstants.INITIATE_COMMAND,command)) {
             profile = document.getTemProfile();
             //If not the user's profile, check if they are the FO or Travel Manager.
-            if (!currentUser.getPrincipalId().equals(profile.getPrincipalId())){
-                boolean canView = false;
-                if (applicationForm.isTravelManager()){
-                    canView = true;
-                }
-                else if (applicationForm.isFiscalOfficer()){
-                    canView = true;
-                }
-
-                if (!canView){
+            if (!currentUser.getPrincipalId().equals(profile.getPrincipalId())) {
+                if (!applicationForm.isTravelManager() || !applicationForm.isFiscalOfficer()) {
                     throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "view",this.getClass().getSimpleName());
                 }
-
             }
-        }
-        else{
+        } else {
             profile = SpringContext.getBean(TemProfileService.class).findTemProfileByPrincipalId(currentUser.getPrincipalId());
             if (profile == null){
                 applicationForm.setEmptyProfile(true);
-                return mapping.findForward("cardApplicationError");
-            }
-            else{
+                return mapping.findForward(ERROR_FORWARD);
+            } else {
                 if (StringUtils.isEmpty(profile.getDefaultAccount())){
                     applicationForm.setEmptyAccount(true);
-                    return mapping.findForward("cardApplicationError");
+                    return mapping.findForward(ERROR_FORWARD);
                 }
             }
-
-            //Find any pre-existing cards
-            Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
-            Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
-            if (question != null) {
-                if (ConfirmationQuestion.NO.equals(buttonClicked)){
-                    return this.cancel(mapping, applicationForm, request, response);
-                }
-            }
-            else{
-                if (profile.getAccounts() != null && profile.getAccounts().size() > 0){
-                    boolean hasCardType = false;
-                    for (TEMProfileAccount account : profile.getAccounts()){
-                        if (account.getCreditCardAgency().getTravelCardTypeCode().equals(TemConstants.TRAVEL_TYPE_CTS) && document instanceof TemCTSCardApplicationDocument){
-                            hasCardType = true;
-                            break;
-                        }
-                        else if (account.getCreditCardAgency().getTravelCardTypeCode().equals(TemConstants.TRAVEL_TYPE_CORP) && document instanceof TemCorporateCardApplicationDocument){
-                            hasCardType = true;
-                            break;
-                        }
-                    }
-                    if (hasCardType){
-                        String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(TemKeyConstants.MESSAGE_CARD_EXISTS_PROMPT);
-                        return this.performQuestionWithoutInput(mapping, form, request, response, TemConstants.CARD_EXISTS_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.DOC_HANDLER_METHOD, "");
-                    }
-
-                }
-            }
-
-            document.setTemProfile(profile);
-            document.setTemProfileId(profile.getProfileId());
-            profile.getTravelerTypeCode();
-            applicationForm.setInitiator(true);
         }
 
         return forward;
     }
+
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -212,13 +175,99 @@ public class TemCardApplicationAction extends KualiTransactionalDocumentActionBa
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+
+
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
 
         TemCardApplicationForm applicationForm = (TemCardApplicationForm) kualiDocumentFormBase;
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
+        TEMProfile profile = SpringContext.getBean(TemProfileService.class).findTemProfileByPrincipalId(currentUser.getPrincipalId());
+
         CardApplicationDocument document = (CardApplicationDocument)applicationForm.getDocument();
         document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(TemWorkflowConstants.RouteNodeNames.APPLICATION);
+        document.setTemProfile(profile);
+        document.setTemProfileId(profile.getProfileId());
+        profile.getTravelerTypeCode();
+        applicationForm.setInitiator(true);
+
+    }
+
+
+    public ActionForward checkExistingCard(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = null;
+
+        TemCardApplicationForm applicationForm = (TemCardApplicationForm) form;
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
+        TEMProfile profile = SpringContext.getBean(TemProfileService.class).findTemProfileByPrincipalId(currentUser.getPrincipalId());
+
+        if (profile.getAccounts() != null && profile.getAccounts().size() > 0){
+            boolean hasCardType = false;
+            for (TEMProfileAccount account : profile.getAccounts()){
+                if (account.getCreditCardAgency().getTravelCardTypeCode().equals(TemConstants.TRAVEL_TYPE_CTS) && applicationForm.getDocTypeName().equals(TemConstants.TravelDocTypes.TRAVEL_CTS_CARD_DOCUMENT) ){
+                    hasCardType = true;
+                    break;
+                }
+                else if (account.getCreditCardAgency().getTravelCardTypeCode().equals(TemConstants.TRAVEL_TYPE_CORP) && applicationForm.getDocTypeName().equals(TemConstants.TravelDocTypes.TRAVEL_CORP_CARD_DOCUMENT)){
+                    hasCardType = true;
+                    break;
+                }
+            }
+            if (hasCardType){
+                ActionMessage message = new ActionMessage(TemKeyConstants.MESSAGE_CARD_EXISTS_PROMPT);
+                ActionMessages messages = new ActionMessages();
+                messages.add(ActionMessages.GLOBAL_MESSAGE, message);
+                saveMessages(request, messages);
+                forward = mapping.findForward("QUESTION_FORWARD");
+            }
+
+        }
+        if (forward == null) {
+            String basePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY);
+
+            Properties parameters = new Properties();
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.DOC_HANDLER_METHOD);
+            parameters.put(KFSConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
+            parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, applicationForm.getDocTypeName());
+
+            String action = applicationForm.getDocTypeName().equals(TemConstants.TravelDocTypes.TRAVEL_CTS_CARD_DOCUMENT) ? CTS_ACTION : CORP_ACTION;
+
+            String lookupUrl = UrlFactory.parameterizeUrl(basePath +"/"+ action, parameters);
+            forward = new ActionForward(lookupUrl, true);
+
+        }
+        return forward;
+
+    }
+
+    /**
+     * Returns the user to the index page.
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public ActionForward returnToIndex(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KFSConstants.MAPPING_PORTAL);
+    }
+
+    public ActionForward openNew(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TemCardApplicationForm applicationForm = (TemCardApplicationForm) form;
+        String basePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY);
+
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.DOC_HANDLER_METHOD);
+        parameters.put(KFSConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
+        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, applicationForm.getDocTypeName());
+
+        String action = applicationForm.getDocTypeName().equals(TemConstants.TravelDocTypes.TRAVEL_CTS_CARD_DOCUMENT) ? CTS_ACTION : CORP_ACTION;
+
+        String lookupUrl = UrlFactory.parameterizeUrl(basePath +"/"+ action, parameters);
+
+        return new ActionForward(lookupUrl, true);
     }
 
 }

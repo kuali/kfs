@@ -275,6 +275,18 @@
 		<!-- AR Module Bean Definitions -->
 		<form-bean name="AccountsReceivableLetterTemplateUploadForm"
 			type="org.kuali.kfs.module.ar.web.struts.AccountsReceivableLetterTemplateUploadForm" />
+			
+		<form-bean name="ContractsGrantsAgingReportForm"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsAgingReportForm" />
+			
+	    <form-bean name="ContractsGrantsAgingOpenInvoicesReportForm"
+			type="org.kuali.kfs.module.ar.web.struts.ContractsGrantsAgingOpenInvoicesReportForm" />
+			
+		<form-bean name="CollectionActivityReportForm"
+			type="org.kuali.kfs.module.ar.web.struts.CollectionActivityReportForm" />
+			
+		<form-bean name="ReferralToCollectionsReportForm"
+			type="org.kuali.kfs.module.ar.web.struts.ReferralToCollectionsReportForm" />			
 
 		<!-- PDP Module Bean Definitions -->
 		<form-bean name="PdpFormatForm" type="org.kuali.kfs.pdp.web.struts.FormatForm" />

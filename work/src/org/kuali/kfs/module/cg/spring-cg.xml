@@ -190,6 +190,25 @@
         </property>
     </bean>
 
+	<bean id="invoiceTemplateLookupableHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.InvoiceTemplateLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService">
+	</bean>
+
+	<bean id="invoiceTemplateLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="invoiceTemplateLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="agencyLookupHelperService" class="org.kuali.kfs.module.cg.businessobject.lookup.AgencyLookupableHelperServiceImpl" scope="prototype"
+		parent="lookupableHelperService" />
+
+	<bean id="agencyLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="agencyLookupHelperService" />
+		</property>
+	</bean>
+
     <bean id="subcontractorService"  parent="subcontractorService-parentBean"/>
     <bean id="subcontractorService-parentBean" class="org.kuali.kfs.module.cg.service.impl.SubcontractorServiceImpl" abstract="true">
         <property name="businessObjectService">

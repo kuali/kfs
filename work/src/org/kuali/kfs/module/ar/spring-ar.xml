@@ -1576,6 +1576,43 @@
     <bean id="invoiceRecurrenceDerivedRoleTypeService"  parent="invoiceRecurrenceDerivedRoleTypeService-parentBean"/>
     <bean id="invoiceRecurrenceDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.ar.identity.InvoiceRecurrenceDerivedRoleTypeServiceImpl" abstract="true"/>  
   
+	<bean id="collActReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
+		<property name="reportTitle" value="Collection Activity Report" />
+		<property name="reportFileName" value="ar_collection_act_report" />
+		<property name="reportsDirectory" value="${reports.directory}/ar/" />
+		<property name="resourceBundleBaseName" value="org/kuali/kfs/module/ar/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="reportTemplateName" value="CollectionActivityReport" />
+		<property name="subReportTemplateClassPath" value="org/kuali/kfs/module/ar/report/" />
+		<property name="subReports">
+			<map>
+ 				<entry key="collectionActivityReportDetails" value="CollectionActivityReportDetails" />
+				<entry key="searchCriteria" value="SearchCriteria" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="collectionActivityReportService" class="org.kuali.kfs.module.ar.report.service.impl.CollectionActivityReportServiceImpl" >
+		<property name="reportGenerationService">
+			<ref bean="reportGenerationService" />
+		</property>
+		<property name="collActReportInfo">
+			<ref bean="collActReportInfo" />
+		</property>
+		<property name="contractsGrantsInvoiceDocumentService">
+			<ref bean="contractsGrantsInvoiceDocumentService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="collectorHierarchyDao">
+			<ref bean="collectorHierarchyDao" />
+		</property>
+		<property name="customerCollectorDao">
+			<ref bean="customerCollectorDao" />
+		</property>
+	</bean>
+
   <bean id="refToCollReportInfo" class="org.kuali.kfs.sys.report.ReportInfoHolder">
 		<property name="reportTitle" value="Referral To Collections Report" />
 		<property name="reportFileName" value="ar_ref_coll_report" />

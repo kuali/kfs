@@ -210,5 +210,5 @@
     <import resource="RelocationValidatorDefinitions.xml" />
     <import resource="EntertainmentValidatorDefinitions.xml" />
     <import resource="ArrangerValidatorDefinitions.xml" />
-    <import resource="TravelAgencyAuditValidatorDefinitions.xml" />
+    <import resource="AgencystagingDataValidatorDefinitions.xml" />
 </beans>

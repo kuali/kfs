@@ -195,6 +195,38 @@ public class PaymentSourceHelperServiceImpl implements PaymentSourceHelperServic
     }
 
     /**
+     * @see org.kuali.kfs.sys.document.service.PaymentSourceHelperService#generateDocumentBankOffsetEntries(org.kuali.kfs.sys.document.PaymentSource, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper, java.lang.String, org.kuali.rice.core.api.util.type.KualiDecimal)
+     */
+    @Override
+    public boolean generateDocumentBankOffsetEntries(PaymentSource paymentSource, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String wireTransferOrForeignDraftEntryDocumentType, KualiDecimal bankOffsetAmount) {
+        boolean success = true;
+
+        if (!getBankService().isBankSpecificationEnabled()) {
+            return success;
+        }
+
+        paymentSource.refreshReferenceObject(KFSPropertyConstants.BANK);
+
+        GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
+        success &= getGeneralLedgerPendingEntryService().populateBankOffsetGeneralLedgerPendingEntry(paymentSource.getBank(), bankOffsetAmount, paymentSource, paymentSource.getPostingYear(), sequenceHelper, bankOffsetEntry, KRADConstants.DOCUMENT_PROPERTY_NAME + "." + KFSPropertyConstants.DISB_VCHR_BANK_CODE);
+
+        if (success) {
+            bankOffsetEntry.setTransactionLedgerEntryDescription(getAccountingDocumentRuleHelperService().formatProperty(KFSKeyConstants.Bank.DESCRIPTION_GLPE_BANK_OFFSET));
+            bankOffsetEntry.setFinancialDocumentTypeCode(wireTransferOrForeignDraftEntryDocumentType);
+            paymentSource.addPendingEntry(bankOffsetEntry);
+            sequenceHelper.increment();
+
+            GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(bankOffsetEntry);
+            success &= getGeneralLedgerPendingEntryService().populateOffsetGeneralLedgerPendingEntry(paymentSource.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
+            bankOffsetEntry.setFinancialDocumentTypeCode(wireTransferOrForeignDraftEntryDocumentType);
+            paymentSource.addPendingEntry(offsetEntry);
+            sequenceHelper.increment();
+        }
+
+        return success;
+    }
+
+    /**
      * @return the implementation of the UniversityDateService to use
      */
     public UniversityDateService getUniversityDateService() {

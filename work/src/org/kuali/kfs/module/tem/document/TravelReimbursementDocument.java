@@ -445,33 +445,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument, org.kuali.kfs.module.tem.document.TravelDocument)
-     */
-    @Override
-    public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
-        super.populateDisbursementVoucherFields(disbursementVoucherDocument);
-
-        final String paymentReasonCode = getParameterService().getParameterValueAsString(TravelReimbursementDocument.class,TravelReimbursementParameters.PAYMENT_REASON_CODE);
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
-        final String paymentLocationCode = getParameterService().getParameterValueAsString(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.DOCUMENTATION_LOCATION_CODE);
-        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(paymentLocationCode);
-
-        //check if the reimbursable total and the reimbursable amount (reduced by CRM) is different, which means we need to adjust the DV's accounting line amounts
-        if (!getReimbursableTotal().equals(getReimbursableAmount())){
-            //change the DV's total to the reimbursable amount set previously
-            disbursementVoucherDocument.setDisbVchrCheckTotalAmount(getReimbursableAmount());
-
-            //Distribute the DV accounting line to the reimbursable amount
-            if (getReimbursableSourceAccountingLines().size() > 1){
-                getTravelDisbursementService().redistributeDisbursementAccountingLine(disbursementVoucherDocument, getReimbursableSourceAccountingLines());
-            }else{
-                //there is only one reimbursable source line, go ahead and assign the reimbursable amount to it directly
-                disbursementVoucherDocument.getSourceAccountingLine(0).setAmount(getReimbursableAmount());
-            }
-        }
-    }
-
-    /**
      * Overridden to respect reimbursable amount logic
      * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#getPaymentAmount()
      */

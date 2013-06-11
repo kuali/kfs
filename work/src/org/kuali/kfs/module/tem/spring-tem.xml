@@ -235,10 +235,11 @@
 		<property name="travelerDao" ref="travelerDao" />
 		<property name="accountsReceivableModuleService" ref="accountsReceivableModuleService" />		
 	</bean>
-	<bean id="agencyAuditLookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.TravelAgencyAuditLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
-    <bean id="agencyAuditLookupable" parent="kualiLookupable">
+    
+    <bean id="agencyStagingDataLookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.AgencyStagingDataLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+    <bean id="agencyStagingDataLookupable" parent="kualiLookupable">
         <property name="lookupableHelperService">
-            <ref bean="agencyAuditLookupableHelperService" />
+            <ref bean="agencyStagingDataLookupableHelperService" />
         </property>
     </bean>
     

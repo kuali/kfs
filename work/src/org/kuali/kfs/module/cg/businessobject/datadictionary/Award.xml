@@ -200,40 +200,6 @@
 					</property>
 				</bean>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="lookupFundMgrPerson" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="lookupFundMgrPersonUniversalIdentifier"
-								p:targetName="principalId" />
-						</list>
-					</property>
-					<property name="supportAttributes">
-						<list>
-							<bean parent="SupportAttributeDefinition" p:sourceName="lookupFundMgrPerson.principalName"
-								p:targetName="principalName" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="lookupFundMgrPerson.name"
-								p:targetName="name" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="lookupFundMgrPerson" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="lookupFundMgrPersonUniversalIdentifier"
-								p:targetName="principalId" />
-						</list>
-					</property>
-					<property name="supportAttributes">
-						<list>
-							<bean parent="SupportAttributeDefinition" p:sourceName="lookupFundMgrPerson.principalName"
-								p:targetName="principalName" />
-							<bean parent="SupportAttributeDefinition" p:sourceName="lookupFundMgrPerson.name"
-								p:targetName="name" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="awardAccounts.account" />
 					<property name="primitiveAttributes">
 						<list>

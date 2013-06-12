@@ -9240,6 +9240,17 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
+	<table name="KRNS_LOOKUP_SEL_T">
+        <column name="LOOKUP_RSLT_ID" primaryKey="true" size="14" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="PRNCPL_ID" required="true" size="40" type="VARCHAR"/>
+        <column name="LOOKUP_DT" required="true" type="DATE"/>
+        <column name="SEL_OBJ_IDS" type="CLOB"/>
+        <unique name="FS_LOOKUP_SELECTIONS_MTC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
     <table name="KRNS_MAINT_DOC_ATT_LST_T">
         <column name="ATT_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="DOC_HDR_ID" required="true" size="14" type="VARCHAR"/>
@@ -15936,6 +15947,7 @@
         <column name="RGN_FAMIL" size="255" type="VARCHAR"/>
         <column name="CTZN_CNTRY_CD" size="255" type="VARCHAR"/>
         <column name="FDOC_NXT_EXP_NBR" size="7" type="DECIMAL"/>
+		<column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_AMEND_DOC_TR1">
@@ -15971,6 +15983,7 @@
         <column name="RGN_FAMIL" size="255" type="VARCHAR"/>
         <column name="CTZN_CNTRY_CD" size="255" type="VARCHAR"/>
         <column name="FDOC_NXT_EXP_NBR" size="7" type="DECIMAL"/>
+		<column name="FDOC_BNK_CD" size="4" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <foreign-key foreignTable="TEM_TRAVELER_DTL_T" name="TEM_TRVL_AUTH_CLOSE_DOC_TR1">

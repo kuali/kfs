@@ -57,7 +57,6 @@
 		<property name="validations">
 			<list>
                 <bean parent="TravelAuthorization-oneSidedRequiredAccountingLinesCountValidation" scope="prototype" />
-				<bean parent="TravelModule-travelAdvanceValidation" scope="prototype" />
 				<bean parent="TravelModule-accommodationInfoRequiredValidation" scope="prototype" />
 				<bean parent="TravelModule-tripDetailEstimateGreaterThanZeroValidation" scope="prototype" />
    				<bean parent="TravelModule-expenseTotalsValidation" scope="prototype" />
@@ -139,26 +138,18 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="NodeSpecificValidation" scope="prototype">
-					<property name="validation">
-						<bean parent="CompositeValidation" scope="prototype">
-							<property name="validations">
-								<list>
-									<bean parent="TravelPayment-dataDictionaryValidation" scope="prototype">
-										<property name="parameterProperties">
-											<list>
-												<bean parent="validationFieldConversion" p:sourceEventProperty="document.advanceTravelPayment" p:targetValidationProperty="businessObjectForValidation"/>
-											</list>
-										</property>
-									</bean>
-									<bean parent="TravelAuthorization-advanceAccountingLinesTotalValidation" scope="prototype"/>
-								</list>
-							</property>
-						</bean>
+				<bean parent="TravelAuthorizationDocument-travelAdvanceBranchingValidation" scope="prototype">
+					<property name="branchMap">
+						<map>
+							<entry>
+								<key><value>validateTravelAdvance</value></key>
+								<bean parent="TravelAuthorizationDocument-travelAdvanceAndPamentValidation" scope="prototype" />
+							</entry>
+						</map>
 					</property>
-					<property name="validationNodes">
+					<property name="parameterProperties">
 						<list>
-							<value>Travel</value>
+							<bean parent="travelAuthorizationDocumentFieldConversion" />
 						</list>
 					</property>
 				</bean>

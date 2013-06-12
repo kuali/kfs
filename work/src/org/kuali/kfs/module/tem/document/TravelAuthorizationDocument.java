@@ -18,6 +18,7 @@ package org.kuali.kfs.module.tem.document;
 import java.beans.PropertyChangeEvent;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -571,8 +572,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     protected void customizeAdvanceExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
         explicitEntry.setFinancialDocumentTypeCode(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT);
-        //explicitEntry.setFinancialObjectTypeCode(getOptionsService().getCurrentYearOptions().getFinObjectTypeLiabilitiesCode());
-        // TODO finish customizing
+        final String description = MessageFormat.format(getConfigurationService().getPropertyValueAsString(TemKeyConstants.TA_MESSAGE_ADVANCE_ACCOUNTING_LINES_GLPE_DESCRIPTION), getDataDictionaryService().getDocumentTypeNameByClass(getClass()), getDocumentNumber());
+        final int maxLength = getDataDictionaryService().getAttributeMaxLength(GeneralLedgerPendingEntry.class, KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC);
+        explicitEntry.setTransactionLedgerEntryDescription(StringUtils.abbreviate(description, maxLength));
     }
 
     /**
@@ -631,8 +633,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      */
     public boolean customizeAdvanceOffsetGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         offsetEntry.setFinancialDocumentTypeCode(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CHECK_ACH_DOCUMENT);
-        //offsetEntry.setFinancialObjectTypeCode(getOptionsService().getCurrentYearOptions().getFinObjectTypeLiabilitiesCode());
-        // finish customizing
         return true;
     }
 
@@ -992,6 +992,18 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
     }
 
     /**
+     * If the line is for an advance, always returns true; otherwise, always returns false
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
+     */
+    @Override
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
+        if (postable instanceof AccountingLine && TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE.equals(((AccountingLine)postable).getFinancialDocumentLineTypeCode())) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Set the document number and the trip id on our travel advance
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#prepareForSave(org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent)
      */
@@ -1005,6 +1017,22 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             final String checkStubPrefix = getConfigurationService().getPropertyValueAsString(TemKeyConstants.MESSAGE_TA_ADVANCE_PAYMENT_CHECK_TEXT_PREFIX);
             getAdvanceTravelPayment().setCheckStubText(checkStubPrefix+" "+getDocumentHeader().getDocumentDescription());
             getAdvanceTravelPayment().setDueDate(getTravelAdvance().getDueDate());
+            updatePayeeTypeForAuthorization();
+        }
+    }
+
+    /**
+     * For reimbursable documents, sets the proper payee type code and profile id after a profile lookup
+     * @param document the reimbursable document to update
+     */
+    public void updatePayeeTypeForAuthorization() {
+        if (!ObjectUtils.isNull(getTraveler()) && !ObjectUtils.isNull(getAdvanceTravelPayment())) {
+            if (getTravelerService().isEmployee(getTraveler())){
+                getAdvanceTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.EMPLOYEE);
+                setProfileId(getTemProfileId());
+            }else{
+                getAdvanceTravelPayment().setPayeeTypeCode(KFSConstants.PaymentPayeeTypes.CUSTOMER);
+            }
         }
     }
 

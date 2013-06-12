@@ -572,7 +572,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
 
         LOG.debug("refresh call is: "+ refreshCaller);
         String groupTravelerId = request.getParameter("newGroupTravelerLine.groupTravelerEmpId");
-        TravelDocumentBase document = authForm.getTravelAuthorizationDocument();
+        TravelAuthorizationDocument document = authForm.getTravelAuthorizationDocument();
 
         boolean isTravelerLookupable = StringUtils.equals(refreshCaller, TEM_PROFILE_LOOKUPABLE);
 
@@ -597,6 +597,8 @@ public class TravelAuthorizationAction extends TravelActionBase {
             final String principalName = getPersonService().getPerson(document.getTraveler().getPrincipalId()).getPrincipalName();
             document.getTraveler().setPrincipalName(principalName);
         }
+
+        document.updatePayeeTypeForAuthorization();
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

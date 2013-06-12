@@ -37,6 +37,7 @@ public class TemKeyConstants {
     public static final String TA_MESSAGE_AMEND_DOCUMENT_TEXT = "travelAuthorization.message.amend.text";
     public static final String TA_MESSAGE_RETIRED_DOCUMENT_TEXT = "travelAuthorization.message.retired.text";
     public static final String TA_MESSAGE_CLOSE_DOCUMENT_TEXT = "travelAuthorization.message.close.text";
+    public static final String TA_MESSAGE_ADVANCE_ACCOUNTING_LINES_GLPE_DESCRIPTION = "travelAuthorization.message.advanceAccountingLines.glpeDescription";
 
     public static final String AGENCY_SITES_URL       = "url.document.travelRelocation.agencySites";
     public static final String ENABLE_AGENCY_SITES_URL  = "config.document.travelRelocation.agencySites.enable";
@@ -65,7 +66,7 @@ public class TemKeyConstants {
     public static final String WARNING_PERDIEM_EXPENSE_LODGING_ENTERED = "warning.document.tem.perdiemexpense.lodgingentered";
 
     // errors
-    public static final String TRVL_AUTH_TRVL_ADVANCE_ERRORS = "newTravelAdvanceLine.*,document.travelAdvances*";
+    public static final String TRVL_AUTH_TRVL_ADVANCE_ERRORS = "document.travelAdvance*,travelAdvance.*,advanceAccountingLines*,advanceTravelPayment.*,document.advanceTravelPayment.*,document.advanceAccountingLines*,newAdvanceAccountingLine*";
 
     public static final String TRVL_AUTH_TRIP_OVERVIEW_ERRORS = "tripInfoUpdateTripDetails.*,document.tripBegin,document.tripEnd,document.tripTypeCode,document.primaryDestinationName," +
                                                                 "document.travelerTypeCode,document.firstName,document.lastName,document.streetAddressLine1,"+

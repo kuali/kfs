@@ -35,6 +35,7 @@ public class TravelAuthorizationDocumentPresentationController extends TravelDoc
         addFullEntryEditMode(document, editModes);
         editModes.remove(TemConstants.EditModes.CHECK_AMOUNT_ENTRY);
         editModes.add(TemConstants.TravelEditMode.ADVANCE_PAYMENT_ENTRY);
+        editModes.add(TemConstants.TravelEditMode.ADVANCE_POLICY_ENTRY);
         return editModes;
     }
 }

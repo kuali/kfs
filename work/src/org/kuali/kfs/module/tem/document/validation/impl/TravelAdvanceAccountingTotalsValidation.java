@@ -17,9 +17,9 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -60,12 +60,12 @@ public class TravelAdvanceAccountingTotalsValidation extends GenericValidation {
      */
     protected KualiDecimal calculateAdvanceAccountingLineTotal(TravelAuthorizationDocument document) {
         KualiDecimal accountingLineTotal = KualiDecimal.ZERO;
-        for (SourceAccountingLine advanceAccountingLine : document.getAdvanceAccountingLines()) {
-            if (getDebitDeterminerService().isDebitConsideringType(document, advanceAccountingLine)) {
-                accountingLineTotal = accountingLineTotal.subtract(advanceAccountingLine.getAmount());
+        for (TemSourceAccountingLine advanceAccountingLine : document.getAdvanceAccountingLines()) {
+            if (document.isDebit(advanceAccountingLine)) {
+                accountingLineTotal = accountingLineTotal.add(advanceAccountingLine.getAmount()); // negate the debit, because the accounting lines are offsetting the actual advance
             }
             else {
-                accountingLineTotal = accountingLineTotal.add(advanceAccountingLine.getAmount());
+                accountingLineTotal = accountingLineTotal.subtract(advanceAccountingLine.getAmount());
             }
         }
         return accountingLineTotal;

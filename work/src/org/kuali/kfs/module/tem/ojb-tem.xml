@@ -272,6 +272,7 @@
         <field-descriptor name="regionFamiliarity" column="RGN_FAMIL" jdbc-type="VARCHAR"/>
         <field-descriptor name="citizenshipCountryCode" column="CTZN_CNTRY_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
+        <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
         
@@ -299,6 +300,9 @@
         <reference-descriptor name="wireTransfer" class-ref="org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber"/>
         </reference-descriptor>
+        <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	        <foreignkey field-ref="financialDocumentBankCode" />
+	    </reference-descriptor>
 
         <collection-descriptor name="transportationModes" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.TransportationModeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="transportationModeCode" sort="ASC" />
@@ -368,6 +372,7 @@
         <field-descriptor name="regionFamiliarity" column="RGN_FAMIL" jdbc-type="VARCHAR"/>
         <field-descriptor name="citizenshipCountryCode" column="CTZN_CNTRY_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
+        <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
         
@@ -392,6 +397,9 @@
         <reference-descriptor name="wireTransfer" class-ref="org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber"/>
         </reference-descriptor>
+        <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	        <foreignkey field-ref="financialDocumentBankCode" />
+	    </reference-descriptor>
                 
         <collection-descriptor name="transportationModes" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.TransportationModeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="transportationModeCode" sort="ASC" />
@@ -461,6 +469,7 @@
         <field-descriptor name="regionFamiliarity" column="RGN_FAMIL" jdbc-type="VARCHAR"/>
         <field-descriptor name="citizenshipCountryCode" column="CTZN_CNTRY_CD" jdbc-type="VARCHAR"/>
         <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
+        <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
         
@@ -476,6 +485,9 @@
         <reference-descriptor name="primaryDestination" class-ref="org.kuali.kfs.module.tem.businessobject.PrimaryDestination" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="primaryDestinationId"/>
         </reference-descriptor>
+        <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	        <foreignkey field-ref="financialDocumentBankCode" />
+	    </reference-descriptor>
                 
         <collection-descriptor name="transportationModes" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.TransportationModeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="transportationModeCode" sort="ASC" />
@@ -606,6 +618,7 @@
         <field-descriptor name="primaryDestinationCounty" column="PRIMARY_DEST_CNTY" jdbc-type="VARCHAR"/>
 		<field-descriptor name="attendeeListAttached" column="ATTENDEE_LIST_ATTACHED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
+		<field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
 		<reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -623,6 +636,9 @@
         <reference-descriptor name="wireTransfer" class-ref="org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber"/>
         </reference-descriptor>
+        <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	        <foreignkey field-ref="financialDocumentBankCode" />
+	    </reference-descriptor>
 		<collection-descriptor name="actualExpenses" proxy="true" element-class-ref="org.kuali.kfs.module.tem.businessobject.ActualExpense" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <orderby name="documentLineNumber" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />
@@ -714,6 +730,7 @@
         <field-descriptor name="travelAdvanceAmount" column="TVL_ADV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
+        <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" />
         
         <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="documentNumber"/>
@@ -733,6 +750,9 @@
         <reference-descriptor name="wireTransfer" class-ref="org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber"/>
         </reference-descriptor>
+        <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	        <foreignkey field-ref="financialDocumentBankCode" />
+	    </reference-descriptor>
                 
         <collection-descriptor name="perDiemExpenses" element-class-ref="org.kuali.kfs.module.tem.businessobject.PerDiemExpense" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
             <orderby name="mileageDate" sort="ASC" />
@@ -806,7 +826,8 @@
         <field-descriptor name="nextSourceLineNumber" column="FDOC_NXT_EXP_NBR" jdbc-type="INTEGER" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
-        <field-descriptor name="titleCode" column="TITLE_CD" jdbc-type="VARCHAR"/>        
+        <field-descriptor name="titleCode" column="TITLE_CD" jdbc-type="VARCHAR"/>       
+        <field-descriptor name="financialDocumentBankCode" column="FDOC_BNK_CD" jdbc-type="VARCHAR" /> 
         <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="documentNumber"/>
         </reference-descriptor>
@@ -822,6 +843,9 @@
         <reference-descriptor name="wireTransfer" class-ref="org.kuali.kfs.sys.businessobject.PaymentSourceWireTransfer" auto-retrieve="true" auto-update="object" auto-delete="object">
         	<foreignkey field-ref="documentNumber"/>
         </reference-descriptor>
+        <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
+	        <foreignkey field-ref="financialDocumentBankCode" />
+	    </reference-descriptor>
         <collection-descriptor name="perDiemExpenses" element-class-ref="org.kuali.kfs.module.tem.businessobject.PerDiemExpense" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="true">
             <orderby name="mileageDate" sort="ASC" />
             <inverse-foreignkey field-ref="documentNumber" />

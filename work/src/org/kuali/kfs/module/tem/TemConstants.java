@@ -885,6 +885,7 @@ public class TemConstants {
     public static class TravelEditMode extends TransactionalEditMode {
         public static final String FULL_ENTRY = "fullEntry";
         public static final String ADVANCE_PAYMENT_ENTRY = "advancePaymentEntry";
+        public static final String ADVANCE_POLICY_ENTRY = "advancePolicyEntry";
     }
 
     public static final String GENERATE_CREDIT_CARD_NUMBER_IND = "GENERATE_CREDIT_CARD_NUMBER_IND";

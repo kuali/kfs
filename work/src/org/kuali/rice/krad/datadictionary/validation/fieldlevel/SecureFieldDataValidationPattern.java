@@ -24,11 +24,11 @@ import org.kuali.rice.krad.util.KRADConstants;
 public class SecureFieldDataValidationPattern extends FieldLevelValidationPattern  {
     @Override
     protected String getPatternTypeName()  {
-      boolean warnForSensitiveData = CoreFrameworkServiceLocator.getParameterService().getParameterValueAsBoolean(
+      Boolean warnForSensitiveData = CoreFrameworkServiceLocator.getParameterService().getParameterValueAsBoolean(
                 KRADConstants.KNS_NAMESPACE, ParameterConstants.ALL_COMPONENT,
                 KFSConstants.SECURE_FIELD_DATA_WARNING_IND);
 
-      if(warnForSensitiveData){
+      if(warnForSensitiveData != null && warnForSensitiveData){
           return "secureFieldDataValidationPattern";
       }else{
           return "noSecureFieldDataValidationPattern";

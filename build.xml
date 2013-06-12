@@ -905,11 +905,9 @@ Excludes: ${tests.compile.excludes}
 				<fileset dir="${test.integration.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
 			</batchtest>
 			<!-- run institution tests if possible -->
-			<!--
 			<batchtest todir="${test.xml.results.directory}" if="institution.test.source.directory" haltonerror="false">
 				<fileset dir="${institution.test.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
 			</batchtest>
-			-->
 			<test name="org.kuali.kfs.sys.context.${tests.shutdown.class}" todir="${test.xml.results.directory}" />
 		</junit>
 		<mkdir dir="${test.html.results.directory}" />

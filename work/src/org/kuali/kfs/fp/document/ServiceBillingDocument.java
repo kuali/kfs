@@ -46,8 +46,7 @@ public class ServiceBillingDocument extends InternalBillingDocument implements C
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AccountingLine accountingLine = (AccountingLine) postable;
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
-
-        if (!isDebitUtils.isIncome(accountingLine) && !isDebitUtils.isExpenseOrAsset(accountingLine)) {
+        if (!isDebitUtils.isIncome(accountingLine) && !isDebitUtils.isExpense(accountingLine)) {
             if (accountingLine.getFinancialDocumentLineTypeCode().equals(KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) || !isDebitUtils.isLiability(accountingLine)) {
                 throw new IllegalStateException(isDebitUtils.getDebitCalculationIllegalStateExceptionMessage());
             }

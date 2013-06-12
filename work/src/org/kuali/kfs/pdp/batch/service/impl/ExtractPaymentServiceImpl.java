@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.batch.service.ExtractPaymentService;
@@ -50,11 +51,13 @@ import org.kuali.kfs.pdp.service.PdpEmailService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DataDictionaryService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
@@ -76,6 +79,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
     protected BusinessObjectService businessObjectService;
     protected ConfigurationService kualiConfigurationService;
     protected CountryService countryService;
+    protected DataDictionaryService dataDictionaryService;
 
     // Set this to true to run this process without updating the database. This
     // should stay false for production.
@@ -731,5 +735,37 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         return new ArrayList<String>() {{add(directoryName); }};
     }
 
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+
+    /**
+     * @see edu.msu.ebsp.kfs.pdp.batch.service.ExtractPaymentService#formatCheckNoteLines(java.lang.String)
+     *
+     * Long check stub note
+     */
+   @Override
+   public List<String> formatCheckNoteLines(String checkNote) {
+       List<String> formattedCheckNoteLines = new ArrayList<String>();
+
+       if (StringUtils.isBlank(checkNote)) {
+           return formattedCheckNoteLines;
+       }
+
+       String[] textLines = StringUtils.split(checkNote, BusinessObjectReportHelper.LINE_BREAK);
+       int maxLengthOfNoteLine = dataDictionaryService.getAttributeMaxLength(PaymentNoteText.class, "customerNoteText");
+       for (String textLine : textLines) {
+           String text = WordUtils.wrap(textLine, maxLengthOfNoteLine, BusinessObjectReportHelper.LINE_BREAK, true);
+           String[] wrappedTextLines = StringUtils.split(text, BusinessObjectReportHelper.LINE_BREAK);
+           for (String wrappedText : wrappedTextLines) {
+               formattedCheckNoteLines.add(wrappedText);
+           }
+       }
+       return formattedCheckNoteLines;
+   }
 
 }

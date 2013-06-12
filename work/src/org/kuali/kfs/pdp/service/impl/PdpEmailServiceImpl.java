@@ -156,6 +156,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
             }
             catch (Exception e) {
                 LOG.error("sendErrorEmail() caught an exception while trying to sendMessage.  Message not sent", e);
+                throw new RuntimeException (e);
             }
         }
     }

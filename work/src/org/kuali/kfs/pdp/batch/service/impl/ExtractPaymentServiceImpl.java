@@ -744,7 +744,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
     }
 
     /**
-     * @see edu.msu.ebsp.kfs.pdp.batch.service.ExtractPaymentService#formatCheckNoteLines(java.lang.String)
+     * @see org.kuali.kfs.pdp.batch.service.ExtractPaymentService#formatCheckNoteLines(java.lang.String)
      *
      * Long check stub note
      */

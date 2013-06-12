@@ -2376,6 +2376,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 }
                 catch (WorkflowException ex) {
                     LOG.error("getPurchaseOrderDocumentForComparison " + ex.getMessage(), ex);
+                    throw new RuntimeException("Exception encountered when performing getPurchaseOrderDocumentForComparison ",ex);
                 }
 
 

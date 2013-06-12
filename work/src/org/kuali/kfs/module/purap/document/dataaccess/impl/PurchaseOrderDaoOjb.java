@@ -17,12 +17,13 @@ package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.joda.time.DateTime;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.AutoClosePurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
@@ -31,6 +32,8 @@ import org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.Document;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -89,23 +92,31 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
      */
     public String getOldestPurchaseOrderDocumentNumber(Integer id) {
         Criteria criteria = new Criteria();
+        List<String> relatedPurchaseOrderDocNumForPO = new ArrayList<String>();
+        DateTime oldestDocumentsCreationDate = DateTime.now(); 
+        String oldestDocumentNumber = null;
+
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
-        ReportQueryByCriteria rqbc = QueryFactory.newReportQuery(PurchaseOrderDocument.class, criteria);
-        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
-        //the documents need to be sorted in descending order because we want the 
-        //the oldest document number to get the oldest purchase order
-        //because the notes remoteobjectid is set to the object id of the oldest
-        //purchase order document.
-        //KFSMI-8394
-        rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
-        
-        String oldestDocumentNumber = null;      
-        java.util.Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+        // we only need the document number, no need to get the entire document object
+        ReportQueryByCriteria query = new ReportQueryByCriteria(PurchaseOrderDocument.class, new String[]{PurapPropertyConstants.DOCUMENT_NUMBER}, criteria);
+        java.util.Iterator<Object[]> iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         while (iter.hasNext()) {
-            final Object[] results = (Object[]) iter.next();
-            oldestDocumentNumber = (String) results[0];    
-        }
-        
+            final Object[] res = (Object[])iter.next();
+            relatedPurchaseOrderDocNumForPO.add((String)res[0]);
+        }        
+        // We want the oldest purchase order because the notes remoteobjectid is set to the object id of the oldest purchase order document.
+        // KFSMI-8394
+        // later on changed for KFSCNTRB-1642
+        for(String docId : relatedPurchaseOrderDocNumForPO){
+            Document wd = KewApiServiceLocator.getWorkflowDocumentService().getDocument(docId);
+            if(wd != null){
+                DateTime createDate = wd.getDateCreated();
+                if(oldestDocumentsCreationDate.compareTo(createDate) >= 0){
+                    oldestDocumentsCreationDate = createDate;
+                    oldestDocumentNumber = docId;
+                }
+            }
+        }        
         return oldestDocumentNumber;
     }
 

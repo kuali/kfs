@@ -360,6 +360,7 @@ public class TemPropertyConstants {
     public static final String NAME = "name";
 
     public static final String TRAVEL_PAYMENT = "travelPayment";
+    public static final String ADVANCE_TRAVEL_PAYMENT = "advanceTravelPayment";
     public class TravelPaymentProperties {
         public static final String SPECIAL_HANDLING_PERSON_NAME = "specialHandlingPersonName";
         public static final String SPECIAL_HANDLING_STATE_CODE = "specialHandlingStateCode";

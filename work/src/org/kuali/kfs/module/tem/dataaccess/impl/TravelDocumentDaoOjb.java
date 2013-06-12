@@ -49,6 +49,7 @@ import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.kfs.sys.util.TransactionalServiceUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -225,7 +226,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
      */
     @Override
     public Collection<? extends TEMReimbursementDocument> getReimbursementDocumentsByHeaderStatus(String statusCode, boolean immediatesOnly) {
-        return (Collection<? extends TEMReimbursementDocument>)getTravelDocumentsByHeaderStatus(TravelReimbursementDocument.class, statusCode, immediatesOnly);
+        return (Collection<? extends TEMReimbursementDocument>)getTravelDocumentsByHeaderStatus(TravelReimbursementDocument.class, statusCode, immediatesOnly, TemPropertyConstants.TRAVEL_PAYMENT);
     }
 
     /**
@@ -233,7 +234,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
      */
     @Override
     public Collection<? extends TEMReimbursementDocument> getRelocationDocumentsByHeaderStatus(String statusCode, boolean immediatesOnly) {
-        return (Collection<? extends TEMReimbursementDocument>)getTravelDocumentsByHeaderStatus(TravelRelocationDocument.class, statusCode, immediatesOnly);
+        return (Collection<? extends TEMReimbursementDocument>)getTravelDocumentsByHeaderStatus(TravelRelocationDocument.class, statusCode, immediatesOnly, TemPropertyConstants.TRAVEL_PAYMENT);
     }
 
     /**
@@ -241,7 +242,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
      */
     @Override
     public Collection<? extends TEMReimbursementDocument> getEntertainmentDocumentsByHeaderStatus(String statusCode, boolean immediatesOnly) {
-        return (Collection<? extends TEMReimbursementDocument>)getTravelDocumentsByHeaderStatus(TravelEntertainmentDocument.class, statusCode, immediatesOnly);
+        return (Collection<? extends TEMReimbursementDocument>)getTravelDocumentsByHeaderStatus(TravelEntertainmentDocument.class, statusCode, immediatesOnly, TemPropertyConstants.TRAVEL_PAYMENT);
     }
 
     /**
@@ -250,8 +251,8 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
     @Override
     public Collection<? extends TravelAuthorizationDocument> getAuthorizationsAndAmendmentsByHeaderStatus(String statusCode, boolean immediatesOnly) {
         List<TravelAuthorizationDocument> documents = new ArrayList<TravelAuthorizationDocument>();
-        documents.addAll((Collection<TravelAuthorizationDocument>)getTravelDocumentsByHeaderStatus(TravelAuthorizationDocument.class, statusCode, immediatesOnly));
-        documents.addAll((Collection<TravelAuthorizationAmendmentDocument>)getTravelDocumentsByHeaderStatus(TravelAuthorizationAmendmentDocument.class, statusCode, immediatesOnly));
+        documents.addAll((Collection<TravelAuthorizationDocument>)getTravelDocumentsByHeaderStatus(TravelAuthorizationDocument.class, statusCode, immediatesOnly, TemPropertyConstants.ADVANCE_TRAVEL_PAYMENT));
+        documents.addAll((Collection<TravelAuthorizationAmendmentDocument>)getTravelDocumentsByHeaderStatus(TravelAuthorizationAmendmentDocument.class, statusCode, immediatesOnly, TemPropertyConstants.ADVANCE_TRAVEL_PAYMENT));
         return documents;
     }
 
@@ -262,16 +263,16 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
      * @param immediatesOnly true if only those reimbursable documents
      * @return a Collection of qualifying documents
      */
-    protected Collection<? extends TravelDocument> getTravelDocumentsByHeaderStatus(Class<? extends TravelDocument> documentClazz, String statusCode, boolean immediatesOnly) {
+    protected Collection<? extends TravelDocument> getTravelDocumentsByHeaderStatus(Class<? extends TravelDocument> documentClazz, String statusCode, boolean immediatesOnly, String travelPaymentProperty) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("getReimbursableDocumentsByHeaderStatus() started");
         }
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("documentHeader.financialDocumentStatusCode", statusCode);
-        criteria.addEqualTo("travelPayment.paymentMethodCode", KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK);
+        criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_HEADER+"."+KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, statusCode);
+        criteria.addEqualTo(travelPaymentProperty+".paymentMethodCode", KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_CHECK);
         if (immediatesOnly) {
-            criteria.addEqualTo("travelPayment.immediatePaymentIndicator", Boolean.TRUE);
+            criteria.addEqualTo(travelPaymentProperty+".immediatePaymentIndicator", Boolean.TRUE);
         }
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(documentClazz, criteria));

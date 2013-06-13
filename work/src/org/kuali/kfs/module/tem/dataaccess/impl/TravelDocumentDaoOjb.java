@@ -42,7 +42,6 @@ import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
-import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
@@ -251,8 +250,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
     @Override
     public Collection<? extends TravelAuthorizationDocument> getAuthorizationsAndAmendmentsByHeaderStatus(String statusCode, boolean immediatesOnly) {
         List<TravelAuthorizationDocument> documents = new ArrayList<TravelAuthorizationDocument>();
-        documents.addAll((Collection<TravelAuthorizationDocument>)getTravelDocumentsByHeaderStatus(TravelAuthorizationDocument.class, statusCode, immediatesOnly, TemPropertyConstants.ADVANCE_TRAVEL_PAYMENT));
-        documents.addAll((Collection<TravelAuthorizationAmendmentDocument>)getTravelDocumentsByHeaderStatus(TravelAuthorizationAmendmentDocument.class, statusCode, immediatesOnly, TemPropertyConstants.ADVANCE_TRAVEL_PAYMENT));
+        documents.addAll((Collection<TravelAuthorizationDocument>)getTravelDocumentsByHeaderStatus(TravelAuthorizationDocument.class, statusCode, immediatesOnly, TemPropertyConstants.ADVANCE_TRAVEL_PAYMENT)); // extents will get travel auth amendments
         return documents;
     }
 

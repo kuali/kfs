@@ -491,6 +491,25 @@
         <reference-descriptor name="primaryDestination" class-ref="org.kuali.kfs.module.tem.businessobject.PrimaryDestination" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="primaryDestinationId"/>
         </reference-descriptor>
+        <!--
+        	Student: Hey, wait, master.  A Travel Authorization Close can have neither travel advance nor payment on it.  Yet, even though travel advance is not mapped
+        		here, advanceTravelPayment is.  What is the cause of this?
+        	Master: Go thou and look at the mapping of Travel Authorization Document.
+        	Student: It looks pretty standard, master.
+        	Master: Did you notice the extent-class declarations?
+        	Student: That I did master.
+        	Master: And?
+        	Student: And that means that OJB queries done using the Travel Authorization Document class will also query Travel Authorization Amendment document and this, 
+        		Travel Authorization Close document.
+        	Master: Queries like that in org.kuali.kfs.module.tem.dataaccess.impl.TravelDocumentDaoOjb#getAuthorizationsAndAmendmentsByHeaderStatus?
+        	Student: Yes, queries like....  *gains enlightenment*
+         -->
+        <reference-descriptor name="advanceTravelPayment" class-ref="org.kuali.kfs.module.tem.businessobject.TravelPayment" auto-retrieve="true" auto-update="object" auto-delete="object">
+        	<foreignkey field-ref="documentNumber"/>
+        </reference-descriptor>
+        <!--
+        	Master: *sighs wistfully* 
+         -->
         <reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 	        <foreignkey field-ref="financialDocumentBankCode" />
 	    </reference-descriptor>

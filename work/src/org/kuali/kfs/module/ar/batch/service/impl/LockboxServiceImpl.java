@@ -98,16 +98,18 @@ public class LockboxServiceImpl implements LockboxService {
     private LockboxDao lockboxDao;
     private String reportsDirectory;
 
-    Lockbox ctrlLockbox = new Lockbox();
+    Lockbox ctrlLockbox;
     CashControlDocument cashControlDocument;
-    boolean anyRecordsFound = false;
+    boolean anyRecordsFound;
 
 
 
     @Override
     public boolean processLockboxes() throws WorkflowException {
 
+        ctrlLockbox = new Lockbox();
         cashControlDocument = null;
+        anyRecordsFound = false;
         //  create the pdf doc
         com.lowagie.text.Document pdfdoc = getPdfDoc();
 

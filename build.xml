@@ -859,7 +859,7 @@ Excludes: ${tests.compile.excludes}
                 <fileset dir="${institution.lib.directory}">
                     <include name="*.jar"/>
                 </fileset>
-                <fileset dir="${institution.test.lib.directory}">
+            	<fileset dir="${institution.test.lib.directory}" erroronmissingdir="false">
                     <include name="*.jar" />
                 </fileset>
             </classpath>
@@ -888,28 +888,53 @@ Excludes: ${tests.compile.excludes}
 			<classpath refid="cobertura.classpath" />
 			<test name="org.kuali.kfs.sys.context.${tests.startup.class}" todir="${test.xml.results.directory}" />
 		</junit>
-		<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${all.temp.directory}" >
-	        <sysproperty key="net.sourceforge.cobertura.datafile"
-		file="${test.directory}/cobertura.ser" />
-			<jvmarg value="-DKualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues" />
-			<jvmarg value="-Dorg.terracotta.quartz.skipUpdateCheck=true" />
-			<jvmarg value="-Xms${run.tests.min.memory}" />
-			<jvmarg value="-Xmx${run.tests.max.memory}" />
-			<jvmarg value="-XX:MaxPermSize=${run.tests.max.permsize}" />
-			<classpath refid="run.tests.classpath" />
-			<classpath refid="cobertura.classpath" />
-			<formatter type="xml" />
-			<batchtest todir="${test.xml.results.directory}">
-				<!-- use of the single "includes" attribute allows multiple comma-delimited patterns to be provided -->
-				<fileset dir="${test.unit.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
-				<fileset dir="${test.integration.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
-			</batchtest>
-			<!-- run institution tests if possible -->
-			<batchtest todir="${test.xml.results.directory}" if="institution.test.source.directory" haltonerror="false">
-				<fileset dir="${institution.test.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
-			</batchtest>
-			<test name="org.kuali.kfs.sys.context.${tests.shutdown.class}" todir="${test.xml.results.directory}" />
-		</junit>
+		<if>
+			<isset property="institution.test.source.directory" />
+            <then>
+				<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${all.temp.directory}" >
+			        <sysproperty key="net.sourceforge.cobertura.datafile"
+				file="${test.directory}/cobertura.ser" />
+					<jvmarg value="-DKualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues" />
+					<jvmarg value="-Dorg.terracotta.quartz.skipUpdateCheck=true" />
+					<jvmarg value="-Xms${run.tests.min.memory}" />
+					<jvmarg value="-Xmx${run.tests.max.memory}" />
+					<jvmarg value="-XX:MaxPermSize=${run.tests.max.permsize}" />
+					<classpath refid="run.tests.classpath" />
+					<classpath refid="cobertura.classpath" />
+					<formatter type="xml" />
+					<batchtest todir="${test.xml.results.directory}">
+						<!-- use of the single "includes" attribute allows multiple comma-delimited patterns to be provided -->
+						<fileset dir="${test.unit.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
+						<fileset dir="${test.integration.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
+					</batchtest>
+					<!-- run institution tests if possible -->
+					<batchtest todir="${test.xml.results.directory}" if="institution.test.source.directory" haltonerror="false">
+						<fileset dir="${institution.test.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
+					</batchtest>
+					<test name="org.kuali.kfs.sys.context.${tests.shutdown.class}" todir="${test.xml.results.directory}" />
+				</junit>
+			</then>
+			<else>
+				<junit showoutput="true" fork="true" forkmode="once" failureproperty="tests.failed" errorproperty="tests.errored" tempdir="${all.temp.directory}" >
+			        <sysproperty key="net.sourceforge.cobertura.datafile"
+				file="${test.directory}/cobertura.ser" />
+					<jvmarg value="-DKualiTestBase.skipOpenOrInProgressOrReopenedJiraIssues" />
+					<jvmarg value="-Dorg.terracotta.quartz.skipUpdateCheck=true" />
+					<jvmarg value="-Xms${run.tests.min.memory}" />
+					<jvmarg value="-Xmx${run.tests.max.memory}" />
+					<jvmarg value="-XX:MaxPermSize=${run.tests.max.permsize}" />
+					<classpath refid="run.tests.classpath" />
+					<classpath refid="cobertura.classpath" />
+					<formatter type="xml" />
+					<batchtest todir="${test.xml.results.directory}">
+						<!-- use of the single "includes" attribute allows multiple comma-delimited patterns to be provided -->
+						<fileset dir="${test.unit.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
+						<fileset dir="${test.integration.source.directory}" includes="${tests.includes}" excludes="${test.excludes}" />
+					</batchtest>
+					<test name="org.kuali.kfs.sys.context.${tests.shutdown.class}" todir="${test.xml.results.directory}" />
+				</junit>
+			</else>
+		</if>
 		<mkdir dir="${test.html.results.directory}" />
 		<junitreport todir="${test.html.results.directory}">
 			<fileset dir="${test.xml.results.directory}">

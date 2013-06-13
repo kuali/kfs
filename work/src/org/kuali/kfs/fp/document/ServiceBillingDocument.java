@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.fp.document;
 
+import java.util.Collection;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -22,6 +24,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This is the business object that represents the ServiceBillingDocument in Kuali. See
@@ -46,7 +49,8 @@ public class ServiceBillingDocument extends InternalBillingDocument implements C
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AccountingLine accountingLine = (AccountingLine) postable;
         DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
-        if (!isDebitUtils.isIncome(accountingLine) && !isDebitUtils.isExpense(accountingLine)) {
+        Collection<String> objectTypes = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(ServiceBillingDocument.class, "OBJECT_TYPES");
+        if (!objectTypes.contains(accountingLine.getObjectTypeCode())) {
             if (accountingLine.getFinancialDocumentLineTypeCode().equals(KFSConstants.TARGET_ACCT_LINE_TYPE_CODE) || !isDebitUtils.isLiability(accountingLine)) {
                 throw new IllegalStateException(isDebitUtils.getDebitCalculationIllegalStateExceptionMessage());
             }

@@ -62,3 +62,4 @@ KFS10342,KFS-TEM-PERM-066,1,10,KFS-TEM,Initiate Credit Card Imported Expense Cle
 KFS10372,KFS-TEM-PERM-067,1,4,KFS-AR,Blanket Approve Document INV,Authorizes users to blanket approve an Invoice document.,Y
 KFS10373,KFS-TEM-PERM-068,1,4,KFS-AR,Blanket Approve Document CRM,Authorizes users to blanket approve a Customer Credit Memo document.,Y
 KFS10387,KFS-TEM-PERM-069,1,31,KFS-TEM,Use Transactional Document TA advancePolicyEntry,An edit mode which provides the ability to select the Travel Advance policy checkbox.,Y
+KFS10391,KFS-TEM-PERM-070,1,40,KFS-TEM,Open Document TA,'The ability to open a Travel Authorization (or child) document.,Y

@@ -17,7 +17,7 @@ ROLE_ID,OBJ_ID,VER_NBR,ROLE_NM,NMSPC_CD,DESC_TXT,KIM_TYP_ID,ACTV_IND
 70,KFS70,1,Disbursement Method Reviewer,KFS-FP,Users who receive workflow action requests for Disbursement Vouchers with specified payment methods and can edit the accounting lines and Wire Transfer and Foreign Draft tabs.,46,Y
 96,KFS96,1,Financial Processing Manager,KFS-FP,Users that manage the KFS-FP module. This role has no inherent permissions or responsibilities.,1,Y
 13,KFS13,1,Service Bill Processor,KFS-FP,"Users authorized to use the Service Billing document and enter specified accounts on the ""Income"" side of the document.",26,Y
-15,KFS15,1,Travel Manager,KFS-FP,Users who receive workflow action requests for Disbursement Vouchers for travel payment reasons and can edit the accounting line and Non-Employee Travel Expense or Pre-Paid Travel Expenses tabs.,1,Y
+15,KFS15,1,Travel Manager,KFS-SYS,Users who receive workflow action requests for Disbursement Vouchers for travel payment reasons and can edit the accounting line and Non-Employee Travel Expense or Pre-Paid Travel Expenses tabs.,1,Y
 17,KFS17,1,Interdepartmental Billing Processor,KFS-GL,Users authorized to use the Collector Upload screen.,1,Y
 18,KFS18,1,Customer Contact,KFS-PDP,Users associated with PDP customers that can use the Payment File Batch Upload screen and have basic PDP inquiry access. ,32,Y
 19,KFS19,1,Manager,KFS-PDP,Users who can cancel or hold payments reset locked format processes and view unmasked bank routing and account numbers in PDP.,1,Y

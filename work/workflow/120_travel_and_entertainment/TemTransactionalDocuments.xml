@@ -34,14 +34,6 @@
         	<type>DocumentSecurityAttribute</type>
         	<applicationId>KFS</applicationId>
         </ruleAttribute>
-        <ruleAttribute>
-        	<name>TravelAuthorizationDocumentSecurityAttribute</name>
-        	<className>org.kuali.kfs.module.tem.document.workflow.TravelAuthorizationDocumentSecurityAttribute</className>
-        	<label>Travel Authorization Security Attribute</label>
-        	<description>Hides travel authorization documents unless user is an arranger.</description>
-        	<type>DocumentSecurityAttribute</type>
-        	<applicationId>KFS</applicationId>
-        </ruleAttribute>
     </ruleAttributes>
 	<documentTypes xmlns="ns:workflow/DocumentType"
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
@@ -63,7 +55,7 @@
 				true
             </active>
             <security>
-                <securityAttribute name="TravelAuthorizationDocumentSecurityAttribute"/>
+                <securityAttribute name="TemSecurityAttribute"/>
             </security>
 			<routingVersion>
 				2

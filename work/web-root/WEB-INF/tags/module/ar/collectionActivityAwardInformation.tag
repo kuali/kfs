@@ -32,6 +32,8 @@
 	value="${DataDictionary['InvoiceGeneralDetail'].attributes}" />
 <c:set var="awardAttributes"
 	value="${DataDictionary['Award'].attributes}" />
+<c:set var="agencyAttributes"
+	value="${DataDictionary['Agency'].attributes}" />
 <c:set var="eventAttributes"
 	value="${DataDictionary['Event'].attributes}" />
 
@@ -62,7 +64,7 @@
 				<kul:htmlAttributeHeaderCell literalLabel="Agency Number" horizontal="true" />
 				<td>
 				<div id="document.agencyNumber.div">
-					<kul:htmlControlAttribute readOnly="true" attributeEntry="${document.agencyNumber}" property="document.agencyNumber" />
+					<kul:htmlControlAttribute readOnly="true" attributeEntry="${awardAttributes.agencyNumber}" property="document.agencyNumber" />
 				</div>
 				</td>
 			</tr>
@@ -70,7 +72,7 @@
 				<kul:htmlAttributeHeaderCell literalLabel="Agency Name" horizontal="true" />
 				<td>
 				<div id="document.agencyName.div">
-					<kul:htmlControlAttribute readOnly="true" attributeEntry="${awardAttributes.agency.fullName}" property="document.agencyName" />
+					<kul:htmlControlAttribute readOnly="true" attributeEntry="${agencyAttributes.fullName}" property="document.agencyName" />
 				</div>				
 				</td>
 			</tr>

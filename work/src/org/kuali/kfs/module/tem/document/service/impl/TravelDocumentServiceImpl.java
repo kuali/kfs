@@ -1301,7 +1301,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         final Set<String> accountList = new HashSet<String>();
         for (AccountingLine line : lines) {
             try {
-                if (line != null && line.getAccount() != null) {
+                line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
+                if (line != null && !ObjectUtils.isNull(line.getAccount())) {
                     Person accountFiscalOfficerUser = line.getAccount().getAccountFiscalOfficerUser();
                     if (accountFiscalOfficerUser != null && accountFiscalOfficerUser.getPrincipalId().equals(principalId)) {
                         accountList.add(line.getAccountNumber());

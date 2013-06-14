@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.document.authorization;
 
 import java.util.List;
 
+import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -95,6 +96,30 @@ public class TravelAdvanceAccountingLineAuthorizer extends TEMAccountingLineAuth
             parameterService = SpringContext.getBean(ParameterService.class);
         }
         return parameterService;
+    }
+
+    /**
+     * Returns "advanceAccounting", the "infix" of the group
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getActionInfixForNewAccountingLine(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String)
+     */
+    @Override
+    protected String getActionInfixForNewAccountingLine(AccountingLine accountingLine, String accountingLinePropertyName) {
+        if (TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode())) {
+            return TemPropertyConstants.NEW_ADVANCE_ACCOUNTING_LINE_GROUP_NAME;
+        }
+        return super.getActionInfixForNewAccountingLine(accountingLine, accountingLinePropertyName);
+    }
+
+    /**
+     * Returns "advanceAccoutingLines", the "infix" of the existing lines
+     * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#getActionInfixForExtantAccountingLine(org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String)
+     */
+    @Override
+    protected String getActionInfixForExtantAccountingLine(AccountingLine accountingLine, String accountingLinePropertyName) {
+        if (TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode())) {
+            return TemPropertyConstants.NEW_ADVANCE_ACCOUNTING_LINE_GROUP_NAME;
+        }
+        return super.getActionInfixForExtantAccountingLine(accountingLine, accountingLinePropertyName);
     }
 
 }

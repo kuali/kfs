@@ -609,6 +609,7 @@ public class TemConstants {
     public static final String TRAVEL_TYPE_CORP = "CORP";
     public static final String ACTUAL_EXPENSE = "OUT OF POCKET";
     public static final String ENCUMBRANCE = "ENCUMBRANCE";
+    public static final String ADVANCE = "ADVANCE";
 
     //Expenses label
     public static final String ENCUMBRANCE_PREFIX = "Estimated ";

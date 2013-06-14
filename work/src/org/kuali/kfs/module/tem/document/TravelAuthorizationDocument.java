@@ -81,6 +81,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -463,7 +464,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             accountingLine.setChartOfAccountsCode(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_CHART));
             accountingLine.setAccountNumber(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_ACCOUNT));
             accountingLine.setFinancialObjectCode(getParameterService().getParameterValueAsString(TravelAuthorizationDocument.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_OBJECT_CODE));
-            accountingLine.setCardType("EXPENSE");
+            accountingLine.setCardType(TemConstants.ADVANCE);
             return accountingLine;
         }
         catch (InstantiationException ie) {
@@ -667,6 +668,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
             // generate entries for advance accounting lines
             for (TemSourceAccountingLine advanceAccountingLine : getAdvanceAccountingLines()) {
                 generateGeneralLedgerPendingEntries(advanceAccountingLine, sequenceHelper);
+                sequenceHelper.increment();
             }
         }
         return success;
@@ -789,24 +791,32 @@ public class TravelAuthorizationDocument extends TravelDocumentBase implements P
      * if you add more than one item to the list.
      */
     public TemSourceAccountingLine getAdvanceAccountingLine(int index) {
-        while (getSourceAccountingLines().size() <= index) {
-            try {
-                getSourceAccountingLines().add(getAdvanceAccountingLineClass().newInstance());
-            }
-            catch (InstantiationException e) {
-                throw new RuntimeException("Unable to get class");
-            }
-            catch (IllegalAccessException e) {
-                throw new RuntimeException("Unable to get class");
-            }
+        while (getAdvanceAccountingLines().size() <= index) {
+            getAdvanceAccountingLines().add(createNewAdvanceAccountingLine());
         }
         return getAdvanceAccountingLines().get(index);
     }
 
     /**
+     * Creates a new, properly-initiated accounting line of the advance accounting line class specified on the Travel Authorization document
+     * @return a new accounting line for travel advances
+     */
+    public TemSourceAccountingLine createNewAdvanceAccountingLine() {
+        try {
+            TemSourceAccountingLine accountingLine = getAdvanceAccountingLineClass().newInstance();
+            accountingLine.setFinancialDocumentLineTypeCode(TemConstants.TRAVEL_ADVANCE_ACCOUNTING_LINE_TYPE_CODE);
+            accountingLine.setCardType(TemConstants.ADVANCE); // really, card type is ignored but it is validated so we have to set something
+            return accountingLine;
+        }
+        catch (Exception e) {
+            throw new InfrastructureException("unable to create a new source accounting line", e);
+        }
+    }
+
+    /**
      * @return the class associated with advances accounting lines
      */
-    protected Class<? extends TemSourceAccountingLine> getAdvanceAccountingLineClass() {
+    public Class<? extends TemSourceAccountingLine> getAdvanceAccountingLineClass() {
         return TemSourceAccountingLine.class;
     }
 

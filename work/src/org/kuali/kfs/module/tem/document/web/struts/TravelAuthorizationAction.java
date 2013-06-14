@@ -58,7 +58,6 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
@@ -192,7 +191,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
     @Override
     protected void processAccountingLineOverrides(KualiAccountingDocumentFormBase transForm) {
         super.processAccountingLineOverrides(transForm);
-        processAccountingLineOverrides(((TravelAuthorizationForm)transForm).getNewTravelAdvanceAccountingLine());
+        processAccountingLineOverrides(((TravelAuthorizationForm)transForm).getNewAdvanceAccountingLine());
         if (transForm.hasDocumentId()) {
             TravelAuthorizationDocument authorizationDocument = (TravelAuthorizationDocument) transForm.getDocument();
             processAccountingLineOverrides(authorizationDocument,authorizationDocument.getAdvanceAccountingLines());
@@ -210,7 +209,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
      */
     public ActionForward insertAdvanceAccountingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TravelAuthorizationForm authorizationDocumentForm = (TravelAuthorizationForm) form;
-        TemSourceAccountingLine line = authorizationDocumentForm.getNewTravelAdvanceAccountingLine();
+        TemSourceAccountingLine line = authorizationDocumentForm.getNewAdvanceAccountingLine();
 
         boolean rulePassed = true;
         // check any business rules
@@ -220,7 +219,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
             SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(line);
             authorizationDocumentForm.setAnchor(TemConstants.SOURCE_ANCHOR);
             authorizationDocumentForm.getTravelAuthorizationDocument().addAdvanceAccountingLine(line);
-            authorizationDocumentForm.setNewSourceLine(null);
+            authorizationDocumentForm.setNewAdvanceAccountingLine(null);
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -242,7 +241,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
 
         int deleteIndex = getLineToDelete(request);
         String errorPath = KFSConstants.DOCUMENT_PROPERTY_NAME + "." + TemPropertyConstants.ADVANCE_ACCOUNTING_LINES + "[" + deleteIndex + "]";
-        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteAccountingLineEvent(errorPath, authorizationDocumentForm.getDocument(), ((AccountingDocument) authorizationDocumentForm.getDocument()).getSourceAccountingLine(deleteIndex), false));
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new DeleteAccountingLineEvent(errorPath, authorizationDocumentForm.getDocument(), authorizationDocumentForm.getTravelAuthorizationDocument().getAdvanceAccountingLine(deleteIndex), false));
 
         // if the rule evaluation passed, let's delete it
         if (rulePassed) {
@@ -255,6 +254,38 @@ public class TravelAuthorizationAction extends TravelActionBase {
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * Takes care of storing the action form in the User session and forwarding to the balance inquiry report menu action for an accounting line
+     * associated with a travel advance
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward performBalanceInquiryForAdvanceAccountingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TemSourceAccountingLine line = getAdvanceAccountingLine(form, request);
+        return performBalanceInquiryForAccountingLine(mapping, form, request, line);
+    }
+
+    /**
+     * This method is a helper method that will return a source accounting line. The reason we're making it protected in here is so
+     * that we can override this method in some of the modules. PurchasingActionBase is one of the subclasses that will be
+     * overriding this, because in PurchasingActionBase, we'll need to get the source accounting line using both an item index and
+     * an account index.
+     *
+     * @param form
+     * @param request
+     * @param isSource
+     * @return
+     */
+    protected TemSourceAccountingLine getAdvanceAccountingLine(ActionForm form, HttpServletRequest request) {
+        final int lineIndex = getSelectedLine(request);
+        TemSourceAccountingLine line = (TemSourceAccountingLine) ObjectUtils.deepCopy(((TravelAuthorizationForm) form).getTravelAuthorizationDocument().getAdvanceAccountingLine(lineIndex));
+        return line;
     }
 
     /**

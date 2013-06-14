@@ -67,7 +67,7 @@
 			<tem-ta:travelAdvance travelAdvanceProperty="document.travelAdvance" />
 			<kul:tab tabTitle="Travel Advance Accounting Lines" defaultOpen="true" tabErrorKey="${KFSConstants.ACCOUNTING_LINE_ERRORS}">
 				<sys-java:accountingLines>
-					<sys-java:accountingLineGroup newLinePropertyName="newTravelAdvanceAccountingLine" collectionPropertyName="document.advanceAccountingLines" collectionItemPropertyName="document.advanceAccountingLine" attributeGroupName="advance" />
+					<sys-java:accountingLineGroup newLinePropertyName="newAdvanceAccountingLine" collectionPropertyName="document.advanceAccountingLines" collectionItemPropertyName="document.advanceAccountingLine" attributeGroupName="advance" />
 				</sys-java:accountingLines>
 			</kul:tab>
 			<tem:travelPayment isForAdvance="true"/>

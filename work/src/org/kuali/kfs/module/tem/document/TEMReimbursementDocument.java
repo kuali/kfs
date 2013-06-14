@@ -186,6 +186,7 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase implem
             BeanUtils.copyProperties(sourceDetail, temSouceDetail);
 
             success &= super.generateGeneralLedgerPendingEntries(temSouceDetail, sequenceHelper);
+            sequenceHelper.increment();
         }
 
         if (KFSConstants.PaymentSourceConstants.PAYMENT_METHOD_WIRE.equals(getTravelPayment().getPaymentMethodCode()) && !getWireTransfer().isWireTransferFeeWaiverIndicator()) {

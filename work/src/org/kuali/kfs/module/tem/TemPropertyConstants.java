@@ -45,7 +45,8 @@ public class TemPropertyConstants {
     public static final String TRVL_ADV = "travelAdvance";
     public static final String TRAVEL_ADVANCES = "travelAdvances";
     public static final String ADVANCE_ACCOUNTING_LINES = "advanceAccountingLines";
-    public static final String NEW_ADVANCE_ACCOUNTING_LINE = "newTravelAdvanceAccountingLine";
+    public static final String NEW_ADVANCE_ACCOUNTING_LINE = "newAdvanceAccountingLine";
+    public static final String NEW_ADVANCE_ACCOUNTING_LINE_GROUP_NAME = "AdvanceAccounting";
     public static final String TRAVELER_TYPE = "travelerType";
     public static final String CUSTOMER = "customer";
 

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
@@ -67,7 +68,9 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     private boolean waitingOnTraveler;
     private boolean showCorporateCardTotal = getParameterService().getParameterValueAsBoolean(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.AMOUNT_DUE_CORPORATE_CARD_TOTAL_LINE_IND);
 
-    private TemSourceAccountingLine newTravelAdvanceAccountingLine;
+    protected transient FormFile advanceAccountingFile;
+
+    private TemSourceAccountingLine newAdvanceAccountingLine;
 
     // parameters that affect the UI
     private List<String> tempSelectedTransportationModes = new ArrayList<String>();
@@ -78,7 +81,6 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     public TravelAuthorizationForm() {
         super();
         this.setShowPerDiem(false);
-        newTravelAdvanceAccountingLine = new TemSourceAccountingLine();
     }
 
     /**
@@ -172,16 +174,22 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     /**
      * @return new accounting line associated with travel advance
      */
-    public TemSourceAccountingLine getNewTravelAdvanceAccountingLine() {
-        return newTravelAdvanceAccountingLine;
+    public TemSourceAccountingLine getNewAdvanceAccountingLine() {
+        if (getTravelAuthorizationDocument() == null) {
+            throw new IllegalArgumentException("TravelAuthorizationDocument cannot be null when creating new accounting line for advance");
+        }
+        if (newAdvanceAccountingLine == null) {
+            newAdvanceAccountingLine = getTravelAuthorizationDocument().createNewAdvanceAccountingLine();
+        }
+        return newAdvanceAccountingLine;
     }
 
     /**
      * Sets new accounting line associated with travel advance
      * @param newTravelAdvanceAccountingLine new accounting line associated with travel advance
      */
-    public void setNewTravelAdvanceAccountingLine(TemSourceAccountingLine newTravelAdvanceAccountingLine) {
-        this.newTravelAdvanceAccountingLine = newTravelAdvanceAccountingLine;
+    public void setNewAdvanceAccountingLine(TemSourceAccountingLine newTravelAdvanceAccountingLine) {
+        this.newAdvanceAccountingLine = newTravelAdvanceAccountingLine;
     }
 
     /**
@@ -557,4 +565,18 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         return TemConstants.TRAVEL_AUTHORIZATION_ACTION_NAME;
     }
 
+    /**
+     * @return the encapsulation of an uploaded file of accounting lines to associate with the travel advance
+     */
+    public FormFile getAdvanceAccountingFile() {
+        return advanceAccountingFile;
+    }
+
+    /**
+     * Sets the form file for advance accounting line uploads
+     * @param advanceFile a file of accounting lines to associate with paying for a travel advance
+     */
+    public void setAdvanceAccountingFile(FormFile advanceFile) {
+        this.advanceAccountingFile = advanceFile;
+    }
 }

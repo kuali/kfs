@@ -83,10 +83,7 @@ public class AccountsReceivableDocumentHeaderServiceImpl implements AccountsRece
     @Override
     public AccountsReceivableDocumentHeader getNewAccountsReceivableDocumentHeaderForCurrentUser() {
         ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
-        AccountsReceivableDocumentHeader arDocHeader = new AccountsReceivableDocumentHeader();
-        arDocHeader.setProcessingChartOfAccountCode(currentUser.getChartOfAccountsCode());
-        arDocHeader.setProcessingOrganizationCode(currentUser.getOrganizationCode());
-        return arDocHeader;
+        return getNewAccountsReceivableDocumentHeader(currentUser.getChartOfAccountsCode(), currentUser.getOrganizationCode());
     }
 
     public BusinessObjectService getBusinessObjectService() {
